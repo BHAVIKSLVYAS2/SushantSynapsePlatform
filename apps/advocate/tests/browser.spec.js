@@ -6,7 +6,7 @@ const path=require('node:path');
 let child,base,dir;
 const password='Browser test password 2026!';
 test.describe.configure({mode:'serial'});
-test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'chambers-browser-'));child=spawn(process.execPath,['server.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe']});await new Promise((resolve,reject)=>{let output='';child.stdout.on('data',chunk=>{output+=chunk;const m=output.match(/localhost:(\d+)/);if(m){base='http://127.0.0.1:'+m[1]+'/advocate';resolve();}});child.on('error',reject);child.once('exit',code=>reject(Error('Server exited '+code)));});});
+test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'chambers-browser-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe']});await new Promise((resolve,reject)=>{let output='';child.stdout.on('data',chunk=>{output+=chunk;const m=output.match(/localhost:(\d+)/);if(m){base='http://127.0.0.1:'+m[1]+'/advocate';resolve();}});child.on('error',reject);child.once('exit',code=>reject(Error('Server exited '+code)));});});
 test.afterAll(async()=>{if(child.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});fs.rmSync(dir,{recursive:true,force:true});});
 test('mobile owner setup, theme persistence, navigation and complete advocate workflows',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));

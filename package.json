@@ -3,14 +3,20 @@
   "version": "3.0.0",
   "private": true,
   "scripts": {
-    "start": "node server.js",
+    "start": "node server/index.js",
     "test": "node --test tests/*.test.js",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:advocate": "playwright test apps/advocate/tests",
+    "test:portal": "playwright test apps/portal/tests"
   },
   "engines": {
     "node": ">=22.13"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0"
-  }
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
 }

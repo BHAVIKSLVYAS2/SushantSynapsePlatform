@@ -22,9 +22,9 @@ const paths={
 const icon=name=>`<svg viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name]||paths.grid}</svg>`;
 const initials=name=>name.split(' ').filter(Boolean).slice(0,2).map(p=>p[0]).join('').toUpperCase();
 let state,section='apps',category='All',query='',authStatus;
-let theme=localStorage.getItem('synapse-theme')||localStorage.getItem('chambers-theme')||'system';
+let theme=SynapseTheme.read();
 const systemTheme=matchMedia('(prefers-color-scheme: dark)');
-function setTheme(value){theme=value;localStorage.setItem('synapse-theme',value);localStorage.setItem('chambers-theme',value);document.documentElement.dataset.theme=theme==='system'?(systemTheme.matches?'dark':'light'):theme;document.querySelectorAll('[data-theme-icon]').forEach(el=>el.innerHTML=icon(document.documentElement.dataset.theme==='dark'?'moon':'sun'));}
+function setTheme(value){theme=value;SynapseTheme.write(value);document.documentElement.dataset.theme=theme==='system'?(systemTheme.matches?'dark':'light'):theme;document.querySelectorAll('[data-theme-icon]').forEach(el=>el.innerHTML=icon(document.documentElement.dataset.theme==='dark'?'moon':'sun'));}
 setTheme(theme);systemTheme.addEventListener('change',()=>setTheme(theme));
 function themeControl(){return `<label class="theme-picker" title="Colour theme"><span data-theme-icon>${icon(document.documentElement.dataset.theme==='dark'?'moon':'sun')}</span><select aria-label="Colour theme" data-theme>${['system','light','dark'].map(t=>`<option value="${t}" ${t===theme?'selected':''}>${t[0].toUpperCase()+t.slice(1)}</option>`).join('')}</select></label>`;}
 function brand(){return `<a class="brand" href="/" aria-label="Sushant Synapse home"><img src="/platform-icon.svg" alt="" width="42" height="42"><span>Sushant Synapse<small>PLATFORM</small></span></a>`;}

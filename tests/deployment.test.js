@@ -10,7 +10,7 @@ function fetch(url,options={}){return new Promise((resolve,reject)=>{const req=h
 test('production origin enforcement, protected setup and secure session cookies',async()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-production-'));
  const token='Isolated-test-setup-token-2026';
- const child=spawn(process.execPath,['server.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir,NODE_ENV:'production',PUBLIC_ORIGIN:'https://apps.sushantsynapse.com',SETUP_TOKEN:token},stdio:['ignore','pipe','pipe']});
+ const child=spawn(process.execPath,['server/index.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir,NODE_ENV:'production',PUBLIC_ORIGIN:'https://apps.sushantsynapse.com',SETUP_TOKEN:token},stdio:['ignore','pipe','pipe']});
  try {
   const base=await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(Error('Startup timeout')),10000);child.stdout.on('data',c=>{const m=String(c).match(/localhost:(\d+)/);if(m){clearTimeout(timer);resolve('http://127.0.0.1:'+m[1]);}});child.once('error',reject);child.once('exit',code=>{clearTimeout(timer);reject(Error('Server exited '+code));});});
   const headers={Host:'apps.sushantsynapse.com',Origin:'https://apps.sushantsynapse.com','Content-Type':'application/json'};

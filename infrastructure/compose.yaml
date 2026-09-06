@@ -1,6 +1,9 @@
+name: sushantsynapseplatform
 services:
   platform:
-    build: .
+    build:
+      context: ..
+      dockerfile: infrastructure/Dockerfile
     restart: unless-stopped
     environment:
       NODE_ENV: production

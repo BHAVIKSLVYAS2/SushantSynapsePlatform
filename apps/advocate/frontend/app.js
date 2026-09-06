@@ -37,7 +37,7 @@ const icon = (name, cls='') => `<svg class="icon ${cls}" data-icon="${name}" vie
 const pages = {dashboard:'Overview',cases:'Casebook',clients:'Clients',hearings:'Hearing diary',tasks:'Tasks',documents:'Documents',notes:'Notes & calls',billing:'Fees & payments',reports:'Reports',activity:'Activity log',archive:'Archive',settings:'Settings',ledger:'Feature ledger'};
 const descriptions = {dashboard:'Every matter. Every next step. A little more clarity.',cases:'Your matters, from the first filing to the final order.',clients:'The people and organisations behind your practice.',hearings:'Court appearances and outcomes, organised in one diary.',tasks:'Keep your next steps and deadlines in sight.',documents:'Petitions, orders, evidence, and working documents.',notes:'A reliable record of conversations and case developments.',billing:'Professional fees, received payments, and practice expenses.',reports:'Understand your practice with figures from your own records.',activity:'A record of who changed what, and when.',archive:'Restore records while keeping their linked history intact.',settings:'Make Chambers work for your practice.',ledger:'Implementation status and a durable checkpoint for future sessions.'};
 let db, page='dashboard', query='', filter='All', billingTab='invoices', archiveKind='cases', calendarMonth=new Date().toISOString().slice(0,7), selectedDay='', hearingView='Upcoming', reportFrom='', reportTo='', ledgerText='', searchTimer;
-let theme = localStorage.getItem('synapse-theme') || localStorage.getItem('chambers-theme') || 'system';
+let theme = SynapseTheme.read();
 const scheme = matchMedia('(prefers-color-scheme: dark)');
 function applyTheme() { document.documentElement.dataset.theme = theme==='system'?(scheme.matches?'dark':'light'):theme; document.documentElement.style.colorScheme=document.documentElement.dataset.theme;document.querySelectorAll('[data-theme-icon]').forEach(el=>el.innerHTML=icon(document.documentElement.dataset.theme==='dark'?'moon':'sun')); }
 applyTheme();scheme.addEventListener('change',applyTheme);
@@ -202,7 +202,7 @@ document.addEventListener('click',async e=>{
   else if(action==='report-filter'){reportFrom=$('#report-from').value;reportTo=$('#report-to').value;$('#view').innerHTML=reports();}
   else if(action==='report-clear'){reportFrom='';reportTo='';$('#view').innerHTML=reports();}
   else if(action==='report-csv'){const rows=[['Type','Date','Description','Amount INR'],...active('payments').filter(inRange).map(p=>['Payment',p.date,label('invoices',p.invoiceId),p.amount]),...active('expenses').filter(inRange).map(p=>['Expense',p.date,p.description,-p.amount])];saveDownload('chambers-cash-report.csv','\uFEFF'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n'),'text/csv;charset=utf-8');}
-  else if(action==='theme'){theme=b.dataset.value;localStorage.setItem('chambers-theme',theme);localStorage.setItem('synapse-theme',theme);applyTheme();render();}
+  else if(action==='theme'){theme=b.dataset.value;SynapseTheme.write(theme);applyTheme();render();}
   else if(action==='team-add')teamForm();
   else if(action==='team-edit')teamForm(id);
   else if(action==='password')passwordForm();
@@ -217,7 +217,7 @@ document.addEventListener('click',async e=>{
  }catch(error){toast(error.message);}
 });
 document.addEventListener('change',async e=>{
- if(e.target.matches('[data-theme]')){theme=e.target.value;localStorage.setItem('chambers-theme',theme);localStorage.setItem('synapse-theme',theme);applyTheme();}
+ if(e.target.matches('[data-theme]')){theme=e.target.value;SynapseTheme.write(theme);applyTheme();}
  if(e.target.id==='archive-kind'){archiveKind=e.target.value;$('#view').innerHTML=archive();}
  if(e.target.dataset.task){const t=get('tasks',e.target.dataset.task);try{await api('tasks/'+t.id,'PATCH',{version:t.version,status:e.target.checked?'Done':'To do'});const wasOpen=$('#modal').open;await refresh();if(wasOpen)$('#modal').close();toast('Task updated');}catch(error){e.target.checked=!e.target.checked;toast(error.message);}}
 });

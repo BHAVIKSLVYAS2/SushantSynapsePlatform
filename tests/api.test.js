@@ -9,13 +9,19 @@ let child,base,cookie='',client,caseRecord;
 const dir=fs.mkdtempSync(path.join(os.tmpdir(),'chambers-api-'));
 const password='Reliable test password 2026!';
 const today=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Kolkata'}).format(new Date());
-async function start(){child=spawn(process.execPath,['server.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe']});await new Promise((resolve,reject)=>{let out='';const timeout=setTimeout(()=>reject(Error('Server startup timeout')),10000);child.stdout.on('data',chunk=>{out+=chunk;const match=out.match(/localhost:(\d+)/);if(match){base='http://127.0.0.1:'+match[1];clearTimeout(timeout);resolve();}});child.stderr.on('data',()=>{});child.once('error',reject);child.once('exit',code=>{clearTimeout(timeout);reject(Error('Server exited '+code));});});}
+async function start(){child=spawn(process.execPath,['server/index.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe']});await new Promise((resolve,reject)=>{let out='';const timeout=setTimeout(()=>reject(Error('Server startup timeout')),10000);child.stdout.on('data',chunk=>{out+=chunk;const match=out.match(/localhost:(\d+)/);if(match){base='http://127.0.0.1:'+match[1];clearTimeout(timeout);resolve();}});child.stderr.on('data',()=>{});child.once('error',reject);child.once('exit',code=>{clearTimeout(timeout);reject(Error('Server exited '+code));});});}
 async function stop(){if(child.exitCode!==null)return;await new Promise(resolve=>{child.once('exit',resolve);child.kill();});}
 async function request(route,method='GET',body,options={}){const r=await fetch(base+'/api/'+route,{method,headers:{'Content-Type':'application/json',Cookie:options.cookie??cookie,...options.headers},body:body?JSON.stringify(body):undefined});const set=r.headers.get('set-cookie');const data=await r.json();return {status:r.status,data,cookie:set?.split(';')[0],headers:r.headers};}
 async function state(){return (await request('state')).data;}
 async function create(kind,body){const r=await request(kind,'POST',body);assert.equal(r.status,201,JSON.stringify(r.data));return r.data;}
 async function patch(kind,record,body){return request(kind+'/'+record.id,'PATCH',{version:record.version,...body});}
 before(start);after(async()=>{await stop();fs.rmSync(dir,{recursive:true,force:true});});
+
+test('monorepo serves app assets and shared theme without exposing source or SQL',async()=>{
+ for(const asset of ['/','/advocate','/platform.js','/app.js','/shared/theme.js','/platform.css','/style.css'])assert.equal((await fetch(base+asset)).status,200,asset);
+ for(const source of ['/server/index.js','/apps/advocate/backend/routes.js','/packages/database/schema.sql','/data/chambers.sqlite'])assert.equal((await fetch(base+source)).status,404,source);
+ assert.match(await (await fetch(base+'/shared/theme.js')).text(),/SynapseTheme/);
+});
 
 test('owner setup, session cookie, authentication boundary and setup lock',async()=>{
  assert.equal((await request('state')).status,401);
@@ -154,5 +160,5 @@ test('password change revokes prior sessions, restart persists business data and
 test('legacy JSON migration preserves IDs, payments, documents and next hearing',()=>{
  const legacyDir=fs.mkdtempSync(path.join(os.tmpdir(),'chambers-legacy-'));
  fs.writeFileSync(path.join(legacyDir,'records.json'),JSON.stringify({clients:[{id:'p1',name:'Legacy client'}],cases:[{id:'c1',title:'Legacy case',client:'Legacy client',court:'Delhi',nextDate:'2099-01-01'}],hearings:[],tasks:[],invoices:[{id:'i1',client:'Legacy client',description:'Old fees',amount:500,due:'2026-01-01',status:'Paid'}],documents:[{id:'d1',caseId:'c1',name:'old.txt',content:'data:text/plain;base64,SGVsbG8='}]}));
- const {Store}=require('../lib/store');const s=new Store(legacyDir);const data=s.state();assert.equal(data.cases[0].clientId,'p1');assert.equal(data.cases[0].nextDate,'2099-01-01');assert.equal(data.invoices[0].balance,0);assert.equal(Buffer.from(s.file('d1').content).toString(),'Hello');assert.ok(fs.existsSync(path.join(legacyDir,'records.json')));s.sql.close();fs.rmSync(legacyDir,{recursive:true,force:true});
+ const {Store}=require('../apps/advocate/backend/store');const s=new Store(legacyDir);const data=s.state();assert.equal(data.cases[0].clientId,'p1');assert.equal(data.cases[0].nextDate,'2099-01-01');assert.equal(data.invoices[0].balance,0);assert.equal(Buffer.from(s.file('d1').content).toString(),'Hello');assert.ok(fs.existsSync(path.join(legacyDir,'records.json')));s.sql.close();fs.rmSync(legacyDir,{recursive:true,force:true});
 });

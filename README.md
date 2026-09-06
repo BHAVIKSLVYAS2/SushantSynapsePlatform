@@ -1,5 +1,24 @@
 # Sushant Synapse Platform
 
+## Repository structure
+
+```text
+apps/
+  portal/          # Platform frontend, backend and browser tests
+  advocate/        # Chambers frontend, backend, SQL and browser tests
+packages/
+  auth/            # Shared accounts, passwords and sessions
+  app-registry/    # Available and planned apps
+  database/        # Shared SQL schema and connection infrastructure
+  ui/              # Shared theme preferences
+server/            # Server entry point, routing and HTTP helpers
+infrastructure/    # Docker, Compose and HTTPS proxy
+docs/              # Architecture, deployment and functionality ledger
+tests/             # Cross-app API and production tests
+```
+
+This is an npm workspace monorepo. See [code ownership and adding apps](docs/ARCHITECTURE.md). Each app owns its functionality; shared packages provide common services. All commands below run from the repository root. The apps currently share one deployment and database.
+
 
 A mobile-first home for connected apps, intended for **apps.sushantsynapse.com**. Chambers is the available advocate application; Projects, Finance and Knowledge are roadmap previews only.
 
@@ -8,7 +27,7 @@ A mobile-first home for connected apps, intended for **apps.sushantsynapse.com**
 - SQLite stores accounts, app grants, preferences and Chambers records. Existing accounts receive Chambers access during migration; existing records are preserved.
 - This release serves one organisation with one Chambers workspace. It does not yet provide separate customer tenants or isolated databases per app.
 
-Run `npm.cmd start`, then open http://localhost:3000. For HTTPS hosting, persistent volumes and protected first-owner setup, follow [DEPLOYMENT.md](DEPLOYMENT.md). Deployment configuration is supplied; the public domain has not been deployed or verified.
+Run `npm.cmd start`, then open http://localhost:3000. For HTTPS hosting, persistent volumes and protected first-owner setup, follow [deployment guide](docs/DEPLOYMENT.md). Deployment configuration is supplied; the public domain has not been deployed or verified.
 
 ## Chambers advocate app
 A mobile-first case and practice management application for advocates and chamber staff in India. Light, dark, and system themes. SQLite persistence, authenticated accounts, and a saved functionality ledger for continuing development.
@@ -40,7 +59,7 @@ Open **http://localhost:3000**. On first use, create your owner account and cham
 - **Reports:** date-filtered receipts and expenses, net cash movement, current client balances, matter distribution, CSV and print output.
 - **Settings:** chambers profile, account password, owner/advocate/clerk administration, backups and theme choice.
 - **Activity:** the 500 most recent audit events in the app; the SQL database retains the complete log.
-- **Feature ledger:** displays the repository's `FUNCTIONALITY_LEDGER.md` directly in the app.
+- **Feature ledger:** displays the repository's `docs/FUNCTIONALITY_LEDGER.md` directly in the app.
 
 ## Access roles
 
@@ -54,7 +73,7 @@ All active users can see all records in this one chambers workspace. Owners cann
 
 ## SQL database and recovery
 
-- **Schema source:** [`database/schema.sql`](database/schema.sql).
+- **Schema sources:** [Chambers SQL](apps/advocate/database/schema.sql) and [shared platform SQL](packages/database/schema.sql).
 - **Live database:** `data/chambers.sqlite`, plus SQLite WAL/SHM files while running. These are not committed to source control.
 - **Business records:** a typed records table with validated JSON payloads, indexed references and SQL views. Accounts, sessions, document blobs, audit events, and settings have separate tables. Business references are enforced by the API; SQL views support direct reporting.
 - **Legacy file:** `data/records.json` is imported once. It remains unchanged as a migration source.
@@ -95,17 +114,18 @@ API integration tests run with built-in Node tooling and isolated temporary data
 
 | File | Purpose |
 |---|---|
-| `FUNCTIONALITY_LEDGER.md` | Implementation status, evidence, next steps and external dependencies |
+| `docs/FUNCTIONALITY_LEDGER.md` | Implementation status, evidence, next steps and external dependencies |
 | `AGENTS.md` | Rules for continuing development and preserving data |
-| `server.js` | HTTP routes, authentication, authorization, writes, exports and restore |
-| `lib/schema.js` | Shared field definitions and server validation |
-| `lib/store.js` | SQLite access, migration, snapshots, calculated state |
-| `database/schema.sql` | Tables, indexes and reporting views |
-| `public/app.js` | UI, forms, navigation, calendar, printing and CSV/calendar exports |
-| `public/style.css` | Mobile-first layouts and theme tokens |
-| `tests/` | API and real-browser workflow checks |
+| `server/index.js` | Server composition and routing; app handlers own business logic |
+| `apps/advocate/backend/schema.js` | Shared field definitions and server validation |
+| `apps/advocate/backend/store.js` | SQLite access, migration, snapshots, calculated state |
+| `apps/advocate/database/schema.sql` and `packages/database/schema.sql` | Tables, indexes and reporting views |
+| `apps/advocate/frontend/app.js` | UI, forms, navigation, calendar, printing and CSV/calendar exports |
+| `apps/advocate/frontend/style.css` | Mobile-first layouts and theme tokens |
+| `tests/` | Cross-app API and production configuration checks |
+| `apps/*/tests/` | Browser workflows owned by each app |
 
-Read the ledger first when resuming. A feature is only marked verified when the recorded test evidence supports it. `PORT` and `DATA_DIR` can override local defaults. `PORT=0` selects an available test port. Production uses `PUBLIC_ORIGIN`, secure cookies and a required `SETUP_TOKEN`; see `DEPLOYMENT.md`.
+Read the ledger first when resuming. A feature is only marked verified when the recorded test evidence supports it. `PORT` and `DATA_DIR` can override local defaults. `PORT=0` selects an available test port. Production uses `PUBLIC_ORIGIN`, secure cookies and a required `SETUP_TOKEN`; see `docs/DEPLOYMENT.md`.
 
 ## External scope
 

@@ -22,9 +22,9 @@ cp .env.example .env
 Generate a setup secret (`node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"`, or use a password manager), then enter it as `SETUP_TOKEN` in `.env`. Keep this file private and out of Git.
 
 ```sh
-docker compose up -d --build
-docker compose ps
-docker compose logs --tail=80 platform caddy
+docker compose --env-file .env -f infrastructure/compose.yaml up -d --build
+docker compose --env-file .env -f infrastructure/compose.yaml ps
+docker compose --env-file .env -f infrastructure/compose.yaml logs --tail=80 platform caddy
 ```
 
 Visit the HTTPS domain, enter the setup token and create the first owner account. The setup endpoint locks after an owner exists. There are no default credentials. Invite other people by creating platform accounts under **Team access**, then grant the relevant app access.
@@ -37,20 +37,20 @@ The public app port is not published by Compose; only Caddy's ports are exposed.
 
 ## Data and updates
 
-The named volume `platform_data` holds `/app/data/chambers.sqlite`, its WAL/SHM files, document blobs and local JSON snapshots. The existing database filename is retained to preserve upgrades. Caddy stores certificate state in its own volumes. Do not use `docker compose down -v` on a live installation unless deleting all persisted data is explicitly intended.
+The named volume `platform_data` holds `/app/data/chambers.sqlite`, its WAL/SHM files, document blobs and local JSON snapshots. The existing database filename is retained to preserve upgrades. Caddy stores certificate state in its own volumes. Do not use `docker compose --env-file .env -f infrastructure/compose.yaml down -v` on a live installation unless deleting all persisted data is explicitly intended.
 
 Before an update, download a full SQL export from Chambers Settings (includes accounts, app access and platform preferences) and keep a private off-server copy. JSON backups preserve Chambers business data but exclude platform accounts/preferences. After backing up:
 
 ```sh
 git pull --ff-only
-docker compose up -d --build
+docker compose --env-file .env -f infrastructure/compose.yaml up -d --build
 ```
 
 For the first transfer of an existing local workspace, stop the source app and securely copy its complete data directory into the platform volume before first use. Do not commit production database files to this repository. Verify the database and account access before directing users to the new host.
 
 ## Operational boundaries
 
-This is one private platform workspace with shared staff identities, not multi-tenant SaaS. App access is enforced by the server; Chambers roles are Owner/Advocate/Clerk. Future apps are explicitly marked Planned and have no launch route. Add future apps through `lib/apps.js`, dedicated storage/handlers, permission enforcement, tests and ledger updates.
+This is one private platform workspace with shared staff identities, not multi-tenant SaaS. App access is enforced by the server; Chambers roles are Owner/Advocate/Clerk. Future apps are explicitly marked Planned and have no launch route. Add future apps through `packages/app-registry/index.js`, dedicated storage/handlers, permission enforcement, tests and ledger updates.
 
 Backups are not encrypted by the application, local snapshots have no automatic retention deletion, and no email/SMS/court-data providers are configured. User accounts are owner-provisioned; no public registration or email password reset exists. Login attempt limits are per account and connection source; add appropriate edge rate limiting for a public installation. Choose monitoring, external backups and host patching procedures before real client data is used.
 

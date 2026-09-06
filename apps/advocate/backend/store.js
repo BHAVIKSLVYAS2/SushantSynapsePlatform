@@ -1,16 +1,12 @@
-const { DatabaseSync } = require('node:sqlite');
+const { PlatformDatabase } = require('../../../packages/database');
 const fs = require('node:fs');
 const path = require('node:path');
 const { randomUUID } = require('node:crypto');
 const { schemas, indiaToday } = require('./schema');
 
-class Store {
+class Store extends PlatformDatabase {
   constructor(root) {
-    this.root = root;
-    fs.mkdirSync(root, { recursive: true });
-    this.sql = new DatabaseSync(path.join(root, 'chambers.sqlite'));
-    this.sql.exec('PRAGMA journal_mode=WAL;');
-    this.sql.exec(fs.readFileSync(path.join(__dirname, '..', 'database', 'schema.sql'), 'utf8'));
+    super(root,{appSchema:path.join(__dirname,'../database/schema.sql')});
     if (!this.setting('firm')) this.setSetting('firm', { name: 'My Chambers', advocate: '', email: '', phone: '', address: '', barNumber: '', timezone: 'Asia/Kolkata' });
     if (!this.setting('migrated')) this.migrate();
     if (!this.setting('platform_migrated')) this.transaction(() => {
@@ -18,21 +14,10 @@ class Store {
       this.setSetting('platform_migrated', true);
     });
   }
-  transaction(fn) { this.sql.exec('BEGIN IMMEDIATE'); try { const result = fn(); this.sql.exec('COMMIT'); return result; } catch (e) { this.sql.exec('ROLLBACK'); throw e; } }
   all(kind) { return this.sql.prepare('SELECT data FROM records WHERE kind=? ORDER BY rowid DESC').all(kind).map(r => JSON.parse(r.data)); }
   get(kind, id) { if (kind === 'users') return this.user(id); const r = this.sql.prepare('SELECT data FROM records WHERE kind=? AND id=?').get(kind, id); return r ? JSON.parse(r.data) : null; }
   put(kind, record) { this.sql.prepare('INSERT INTO records(kind,id,data) VALUES(?,?,?) ON CONFLICT(kind,id) DO UPDATE SET data=excluded.data').run(kind, record.id, JSON.stringify(record)); return record; }
   create(kind, record) { const now = new Date().toISOString(); return this.put(kind, { ...record, id: record.id || randomUUID(), version: 1, archived: false, createdAt: now, updatedAt: now }); }
-  setting(id) { const r = this.sql.prepare('SELECT data FROM settings WHERE id=?').get(id); return r ? JSON.parse(r.data) : null; }
-  setSetting(id, data) { this.sql.prepare('INSERT INTO settings VALUES(?,?) ON CONFLICT(id) DO UPDATE SET data=excluded.data').run(id, JSON.stringify(data)); }
-  users() { return this.sql.prepare('SELECT id,name,email,role,active FROM users ORDER BY name').all().map(u => ({ ...u, active: !!u.active })); }
-  user(id) { return this.users().find(u => u.id === id); }
-  access(userId) { return this.sql.prepare('SELECT appId FROM app_access WHERE userId=?').all(userId).map(r=>r.appId); }
-  setAccess(userId, appIds) { this.sql.prepare('DELETE FROM app_access WHERE userId=?').run(userId);for(const id of appIds)this.sql.prepare('INSERT INTO app_access VALUES(?,?)').run(userId,id); }
-  preferences(userId) { const r=this.sql.prepare('SELECT data FROM platform_preferences WHERE userId=?').get(userId);return r?JSON.parse(r.data):{favorites:[],recent:[]}; }
-  setPreferences(userId, value) { this.sql.prepare('INSERT INTO platform_preferences VALUES(?,?) ON CONFLICT(userId) DO UPDATE SET data=excluded.data').run(userId,JSON.stringify(value)); }
-  audit(actor, action, kind, record) { this.sql.prepare('INSERT INTO audit(at,actor,action,kind,recordId,label) VALUES(?,?,?,?,?,?)').run(new Date().toISOString(), actor, action, kind, record.id || '', record.title || record.name || record.description || record.number || ''); }
-  activity() { return this.sql.prepare('SELECT * FROM audit ORDER BY id DESC LIMIT 500').all(); }
   file(id) { return this.sql.prepare('SELECT * FROM files WHERE id=?').get(id); }
   addFile(id, name, mime, content) { this.sql.prepare('INSERT INTO files VALUES(?,?,?,?) ON CONFLICT(id) DO UPDATE SET name=excluded.name,mime=excluded.mime,content=excluded.content').run(id, name, mime, content); }
   state() {
@@ -55,7 +40,7 @@ class Store {
   }
   exportSql() {
     const literal = value => value === null ? 'NULL' : value instanceof Uint8Array ? "X'" + Buffer.from(value).toString('hex') + "'" : typeof value === 'number' ? String(value) : "CAST(X'" + Buffer.from(String(value),'utf8').toString('hex') + "' AS TEXT)";
-    const lines = ['-- Chambers full SQLite export. Import into a NEW, empty database.', '-- Includes account password hashes, audit records and documents; excludes live sessions.', '-- Exported '+new Date().toISOString(), fs.readFileSync(path.join(__dirname, '..', 'database', 'schema.sql'), 'utf8'), 'BEGIN TRANSACTION;'];
+    const lines = ['-- Chambers full SQLite export. Import into a NEW, empty database.', '-- Includes account password hashes, audit records and documents; excludes live sessions.', '-- Exported '+new Date().toISOString(), this.schemaSql, 'BEGIN TRANSACTION;'];
     for (const table of ['users','app_access','platform_preferences','records','files','settings','audit']) {
       for (const row of this.sql.prepare(`SELECT * FROM ${table}`).all()) {
         lines.push(`INSERT INTO ${table} (${Object.keys(row).map(k=>'"'+k+'"').join(', ')}) VALUES (${Object.values(row).map(literal).join(', ')});`);

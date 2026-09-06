@@ -7,11 +7,13 @@ Last updated: **2026-09-06**. Target: **advocates and chamber staff in India**.
 1. Read this file, `AGENTS.md`, and `README.md` before changing the app.
 2. Inspect current files. Run `npm.cmd test` for the baseline; `npm.cmd run test:e2e` verifies browser workflows when Chrome and development dependencies are available.
 3. Preserve `data/chambers.sqlite`, its WAL/SHM files, and `data/records.json`. Do not reset the workspace or create demo accounts in the user's database for testing.
-4. Keep the SQL schema in `database/schema.sql`. Schema and SQL exports are an explicit user requirement.
+4. Keep the SQL schema in `apps/advocate/database/schema.sql` and `packages/database/schema.sql`. Schema and SQL exports are an explicit user requirement.
 5. Continue a specific pending item or new user request. Update this ledger with implementation, test evidence and unresolved issues before ending the session.
 6. The runtime server is started with `npm.cmd start` at http://localhost:3000. First-run owner setup is intentionally left for the user; no default credentials exist.
 
 ## Current checkpoint
+
+**Monorepo reorganisation verified (2026-09-06):** app frontends, backend handlers and browser tests now live under `apps/portal` and `apps/advocate`. Shared auth, database, catalogue and theme storage live under `packages/`. SQL ownership is split without changing stored tables or data. Infrastructure and documentation have dedicated folders. All 15 API/configuration tests and all 4 browser suites pass. App-specific test commands discover the expected suites. Repository: BHAVIKSLVYAS2/SushantSynapsePlatform, branch main. The local server runs from server/index.js; deployment remains pending.
 
 **Platform expansion verified (2026-09-06).** Sushant Synapse Platform lives at `/`; Chambers lives at `/advocate`. Shared sign-in/profile, app catalogue, search, favourites, recent launches, themes and owner-managed access are implemented. Existing SQLite records are preserved. Published to `BHAVIKSLVYAS2/SushantSynapsePlatform` on `main` (implementation commit `6c01f96`). HTTPS hosting and DNS have not been deployed.
 
@@ -27,6 +29,7 @@ Last updated: **2026-09-06**. Target: **advocates and chamber staff in India**.
 | P08 | apps.sushantsynapse.com deployment | External dependency | Follow DEPLOYMENT.md; needs host, DNS and deployment secret; public URL not verified |
 | P09 | Projects, Finance and Knowledge apps | Future scope | Catalogue previews only, clearly marked Planned with no launch routes |
 | P10 | Multi-tenant organisation isolation | Future scope | Current platform serves one organisation and one Chambers workspace |
+| P11 | npm workspace monorepo and app ownership | Verified | apps/portal and apps/advocate own frontend/backend/tests; shared packages, split SQL, server composition, infrastructure and architecture guide; 15 API/configuration tests and 4 browser suites pass |
 
 Latest platform evidence: **14 API/configuration tests passed across the API and production runs; all 4 browser suites passed after fixes.** Historical checkpoints below describe the earlier Chambers release.
 
@@ -70,7 +73,7 @@ For the earlier Chambers release, local implementation was complete. Further wor
 | F20 | Persistent ledger and continuation instructions | Verified | This file plus AGENTS.md; ledger API and app page; browser confirms ledger content |
 | F21 | API regression suite | Verified | `npm.cmd test` — 12 passing tests using isolated databases |
 | F22 | Real-browser workflows and responsive verification | Verified | `npm.cmd run test:e2e` — 3 passing suites; no page errors in primary mobile/desktop flows |
-| F23 | Versioned SQL schema and full SQL export | Verified | `database/schema.sql`; owner SQL download; import into empty SQLite restores records/accounts/files/views; integrity check passes |
+| F23 | Versioned SQL schema and full SQL export | Verified | `apps/advocate/database/schema.sql` and `packages/database/schema.sql`; owner SQL download; import into empty SQLite restores records/accounts/files/views; integrity check passes |
 | F24 | Calendar file export | Verified | Browser download verifies IST-to-UTC start time and valid UTC timestamp; one-hour duration is an estimate, not a court-supplied duration |
 | F25 | Legal visual identity and refined mobile UI | Verified | Scales/courthouse/briefcase/gavel/certified-document icons; readable type, mobile bottom sheets, accessible theme picker and touch navigation; screenshots reviewed and 3 browser suites pass |
 
@@ -102,10 +105,10 @@ For the earlier Chambers release, local implementation was complete. Further wor
 ## Architecture and recovery notes
 
 - Runtime: Node 22.13+, built-in HTTP/crypto/SQLite. Playwright is development-only. Node 22.17 emits the SQLite experimental-feature warning.
-- `server.js`: authentication, access controls, API writes, exports and restore.
-- `lib/schema.js`: shared form metadata and validation; `lib/store.js`: persistence, migration and derived state.
-- `database/schema.sql`: versioned SQL tables, indexes and reporting views. Business records have validated JSON payloads inside SQL; business references are API-enforced. Sessions have a SQL foreign key.
-- `public/app.js` / `public/style.css`: UI and themes. No external font/network dependency.
+- `server/index.js`: routing and composition; `packages/auth`: shared identity; app `backend/routes.js`: business handlers.
+- `apps/advocate/backend/schema.js`: shared form metadata and validation; `apps/advocate/backend/store.js`: persistence, migration and derived state.
+- `apps/advocate/database/schema.sql` and `packages/database/schema.sql`: versioned SQL tables, indexes and reporting views. Business records have validated JSON payloads inside SQL; business references are API-enforced. Sessions have a SQL foreign key.
+- `apps/advocate/frontend/app.js` / `apps/advocate/frontend/style.css`: UI and themes. No external font/network dependency.
 - JSON backups omit user credentials and retain existing users on restore. Full SQL exports include account password hashes and audit history, omit sessions, and must be imported into a new database. See README recovery instructions.
 - Concurrent editors must reload stale records. Backups change record versions so stale browser forms cannot overwrite restored records.
 - Archived parents retain linked history. New records cannot be linked to archived parents. Cases with linked invoices cannot be reassigned to another client.
