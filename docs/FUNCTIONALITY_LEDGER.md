@@ -13,6 +13,8 @@ Last updated: **2026-09-06**. Target: **advocates and chamber staff in India**.
 
 ## Current checkpoint
 
+**Platform logo updated (2026-09-06):** supplied Sushant Synapse PNG artwork replaces the platform placeholder in sign-in/header branding, the home illustration, favicon, touch icon and 192/512px manifest icons. All four supplied variants are preserved byte-for-byte in apps/portal/frontend. Portal browser suite passes; desktop light and mobile dark screenshots reviewed. Chambers retains its legal app icon.
+
 **Monorepo reorganisation verified (2026-09-06):** app frontends, backend handlers and browser tests now live under `apps/portal` and `apps/advocate`. Shared auth, database, catalogue and theme storage live under `packages/`. SQL ownership is split without changing stored tables or data. Infrastructure and documentation have dedicated folders. All 15 API/configuration tests and all 4 browser suites pass. App-specific test commands discover the expected suites. Repository: BHAVIKSLVYAS2/SushantSynapsePlatform, branch main. The local server runs from server/index.js; deployment remains pending.
 
 **Platform expansion verified (2026-09-06).** Sushant Synapse Platform lives at `/`; Chambers lives at `/advocate`. Shared sign-in/profile, app catalogue, search, favourites, recent launches, themes and owner-managed access are implemented. Existing SQLite records are preserved. Published to `BHAVIKSLVYAS2/SushantSynapsePlatform` on `main` (implementation commit `6c01f96`). HTTPS hosting and DNS have not been deployed.

@@ -4,6 +4,6 @@ const staticAssets={
  '/advocate':'apps/advocate/frontend/index.html',
  '/shared/theme.js':'packages/ui/theme.js',
 };
-for(const file of ['platform.js','platform.css','platform-icon.svg','manifest.webmanifest'])staticAssets['/'+file]='apps/portal/frontend/'+file;
+for(const file of ['platform.js','platform.css','manifest.webmanifest','logo-adaptive.png','logo-adaptive-192.png','logo-adaptive-512.png','logo-adaptive-uhd.png'])staticAssets['/'+file]='apps/portal/frontend/'+file;
 for(const file of ['app.js','style.css','icon.svg','advocate.webmanifest'])staticAssets['/'+file]='apps/advocate/frontend/'+file;
 module.exports={staticAssets};
