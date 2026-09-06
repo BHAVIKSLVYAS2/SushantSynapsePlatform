@@ -13,7 +13,7 @@ Last updated: **2026-09-06**. Target: **advocates and chamber staff in India**.
 
 ## Current checkpoint
 
-**Platform expansion verified (2026-09-06).** Sushant Synapse Platform lives at `/`; Chambers lives at `/advocate`. Shared sign-in/profile, app catalogue, search, favourites, recent launches, themes and owner-managed access are implemented. Existing SQLite records are preserved. GitHub publication is the remaining release action; HTTPS hosting and DNS have not been deployed.
+**Platform expansion verified (2026-09-06).** Sushant Synapse Platform lives at `/`; Chambers lives at `/advocate`. Shared sign-in/profile, app catalogue, search, favourites, recent launches, themes and owner-managed access are implemented. Existing SQLite records are preserved. Published to `BHAVIKSLVYAS2/SushantSynapsePlatform` on `main` (implementation commit `6c01f96`). HTTPS hosting and DNS have not been deployed.
 
 | ID | Platform functionality | Status | Evidence / boundary |
 |---|---|---|---|
@@ -23,7 +23,7 @@ Last updated: **2026-09-06**. Target: **advocates and chamber staff in India**.
 | P04 | Owner-managed team and app access | Verified | Staff grant/revoke and direct API/file denial; owner-only administration |
 | P05 | Chambers app and existing data migration | Verified | 13 API tests and 3 existing Chambers browser suites pass; platform browser suite also passes |
 | P06 | Production configuration | Configuration tested | Additional production test passes: public origin, setup token, Secure cookie; Docker/Caddy files provided, containers not run locally |
-| P07 | GitHub repository publication | Pending publication | Target BHAVIKSLVYAS2/SushantSynapsePlatform; exclude databases, secrets and local test artifacts |
+| P07 | GitHub repository publication | Verified | Pushed main to BHAVIKSLVYAS2/SushantSynapsePlatform; databases, secrets and local test artifacts excluded |
 | P08 | apps.sushantsynapse.com deployment | External dependency | Follow DEPLOYMENT.md; needs host, DNS and deployment secret; public URL not verified |
 | P09 | Projects, Finance and Knowledge apps | Future scope | Catalogue previews only, clearly marked Planned with no launch routes |
 | P10 | Multi-tenant organisation isolation | Future scope | Current platform serves one organisation and one Chambers workspace |
