@@ -1,0 +1,35 @@
+services:
+  platform:
+    build: .
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 3000
+      DATA_DIR: /app/data
+      PUBLIC_ORIGIN: https://apps.sushantsynapse.com
+      SETUP_TOKEN: ${SETUP_TOKEN:?Set SETUP_TOKEN in .env before starting}
+    volumes:
+      - platform_data:/app/data
+    expose:
+      - "3000"
+    security_opt:
+      - no-new-privileges:true
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      platform:
+        condition: service_healthy
+volumes:
+  platform_data:
+  caddy_data:
+  caddy_config:
