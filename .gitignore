@@ -16,3 +16,5 @@ playwright-report/
 *.db
 coverage/
 .publish/
+__pycache__/
+*.pyc

@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-06T20:26:19.519463+00:00",
+  "coverage": "Five PPFAS equity/hybrid schemes. Other AMCs are not yet supported.",
+  "funds": [
+    {
+      "id": "ppfas-conservative-hybrid",
+      "name": "Parag Parikh Conservative Hybrid Fund",
+      "amc": "PPFAS Mutual Fund",
+      "category": "Conservative Hybrid",
+      "portfolioDate": "2026-07-31",
+      "includedNavWeight": 10.65,
+      "holdingsCount": 11,
+      "holdingsPath": "/api/fund-overlap/holdings/ppfas-conservative-hybrid/2026-07-31-fe178b5ebbb4e8b1.json",
+      "sourceSha256": "966b8438f3a6496efa38bda65d3836545f4f9c74e3be212aaa71a18e76212035",
+      "snapshotSha256": "fe178b5ebbb4e8b1e0fc8b8cb090adcd6b2888c54fda1d8cee71f44d99ae9b31"
+    },
+    {
+      "id": "ppfas-dynamic-allocation",
+      "name": "Parag Parikh Dynamic Asset Allocation Fund",
+      "amc": "PPFAS Mutual Fund",
+      "category": "Dynamic Asset Allocation",
+      "portfolioDate": "2026-07-31",
+      "includedNavWeight": 26.59,
+      "holdingsCount": 30,
+      "holdingsPath": "/api/fund-overlap/holdings/ppfas-dynamic-allocation/2026-07-31-d444863b9fc627b0.json",
+      "sourceSha256": "43586f4bf50a095b45f0e1b111c0ad487ea067e8d7d21a26a4846338e603269a",
+      "snapshotSha256": "d444863b9fc627b0642983b27f16c7ac087b6d5a74ec32ca4ea0adabf5ecb453"
+    },
+    {
+      "id": "ppfas-elss",
+      "name": "Parag Parikh ELSS Tax Saver Fund",
+      "amc": "PPFAS Mutual Fund",
+      "category": "ELSS",
+      "portfolioDate": "2026-07-31",
+      "includedNavWeight": 91.42,
+      "holdingsCount": 41,
+      "holdingsPath": "/api/fund-overlap/holdings/ppfas-elss/2026-07-31-db685d7758c20898.json",
+      "sourceSha256": "a3e6581b0f17da1d88211edbac8aa760c07de97ae054adf29ddd33cfee2db21a",
+      "snapshotSha256": "db685d7758c20898541aba58388616b8a1bf9124ff115aa60ac893872c757288"
+    },
+    {
+      "id": "ppfas-flexi-cap",
+      "name": "Parag Parikh Flexi Cap Fund",
+      "amc": "PPFAS Mutual Fund",
+      "category": "Flexi Cap",
+      "portfolioDate": "2026-07-31",
+      "includedNavWeight": 83.29,
+      "holdingsCount": 62,
+      "holdingsPath": "/api/fund-overlap/holdings/ppfas-flexi-cap/2026-07-31-ac8b511eb9194b6a.json",
+      "sourceSha256": "d20d9c86c2d276a1747d6d49ae23c782fbf47f328aeedcd55a1777f006b3f831",
+      "snapshotSha256": "ac8b511eb9194b6a6ecd166409f43556175461dd7c7dd18080195eac2f22e420"
+    },
+    {
+      "id": "ppfas-large-cap",
+      "name": "Parag Parikh Large Cap Fund",
+      "amc": "PPFAS Mutual Fund",
+      "category": "Large Cap",
+      "portfolioDate": "2026-07-31",
+      "includedNavWeight": 84.55,
+      "holdingsCount": 55,
+      "holdingsPath": "/api/fund-overlap/holdings/ppfas-large-cap/2026-07-31-2b8b08f2323982fa.json",
+      "sourceSha256": "7557bd85627139ee1f9f522a151baa90379f58874c6a283b6eb5b86141a7cd3a",
+      "snapshotSha256": "2b8b08f2323982fa25beec2790002269ac731eb5fb92bf43ce3cb94b416ada6c"
+    }
+  ]
+}

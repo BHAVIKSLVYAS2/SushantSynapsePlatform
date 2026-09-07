@@ -20,14 +20,15 @@ tests/             # Cross-app API and production tests
 This is an npm workspace monorepo. See [code ownership and adding apps](docs/ARCHITECTURE.md). Each app owns its functionality; shared packages provide common services. All commands below run from the repository root. The apps currently share one deployment and database.
 
 
-A mobile-first home for connected apps, intended for **apps.sushantsynapse.com**. Chambers is the available advocate application; Projects, Finance and Knowledge are roadmap previews only.
+A mobile-first home for connected apps at **apps.sushantsynapse.com**. Chambers and Fund Lens are available; Projects, Finance and Knowledge are roadmap previews only.
 
 - `/`: shared sign-in, searchable app catalogue, favourites, recent launches, profile and owner-managed team access.
 - `/advocate`: the complete Chambers workspace described below, using the same account and theme.
+- `/fund-overlap`: Fund Lens compares mutual fund equity holdings, industry exposure and unique contributions using official PPFAS disclosures. See [coverage, methodology and refresh instructions](apps/fund-overlap/README.md).
 - SQLite stores accounts, app grants, preferences and Chambers records. Existing accounts receive Chambers access during migration; existing records are preserved.
 - This release serves one organisation with one Chambers workspace. It does not yet provide separate customer tenants or isolated databases per app.
 
-Run `npm.cmd start`, then open http://localhost:3000. For HTTPS hosting, persistent volumes and protected first-owner setup, follow [deployment guide](docs/DEPLOYMENT.md). Deployment configuration is supplied; the public domain has not been deployed or verified.
+Run `npm.cmd start`, then open http://localhost:3000. The public platform is served through the local Windows Cloudflare Tunnel. For its operational requirements and the alternative Docker deployment, follow the [deployment guide](docs/DEPLOYMENT.md).
 
 ## Chambers advocate app
 A mobile-first case and practice management application for advocates and chamber staff in India. Light, dark, and system themes. SQLite persistence, authenticated accounts, and a saved functionality ledger for continuing development.

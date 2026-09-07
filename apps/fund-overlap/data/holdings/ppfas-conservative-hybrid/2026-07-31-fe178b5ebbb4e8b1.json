@@ -1,0 +1,86 @@
+{
+  "schemeId": "ppfas-conservative-hybrid",
+  "name": "Parag Parikh Conservative Hybrid Fund",
+  "amc": "PPFAS Mutual Fund",
+  "category": "Conservative Hybrid",
+  "portfolioDate": "2026-07-31",
+  "includedNavWeight": 10.65,
+  "belowPrecisionCount": 0,
+  "policy": "Physical listed equities including foreign and arbitrage legs; excludes debt, cash, derivatives, fund units and REIT/InvIT units. No hedge netting.",
+  "source": {
+    "publisher": "PPFAS Mutual Fund",
+    "url": "https://amc.ppfas.com/downloads/portfolio-disclosure/2026/PPCHF_PPFAS_Monthly_Portfolio_Report_July_31_2026.xlsx?07082026",
+    "indexUrl": "https://amc.ppfas.com/downloads/portfolio-disclosure/index.php",
+    "fetchedAt": "2026-09-06T20:26:19.519463+00:00",
+    "sha256": "966b8438f3a6496efa38bda65d3836545f4f9c74e3be212aaa71a18e76212035",
+    "adapterVersion": 1
+  },
+  "holdings": [
+    {
+      "isin": "INE347G01014",
+      "name": "Petronet LNG Limited",
+      "sector": "Gas",
+      "weight": 2.05
+    },
+    {
+      "isin": "INE522F01014",
+      "name": "Coal India Limited",
+      "sector": "Consumable Fuels",
+      "weight": 2.01
+    },
+    {
+      "isin": "INE752E01010",
+      "name": "Power Grid Corporation of India Limited",
+      "sector": "Power",
+      "weight": 2.0
+    },
+    {
+      "isin": "INE154A01025",
+      "name": "ITC Limited",
+      "sector": "Diversified FMCG",
+      "weight": 1.99
+    },
+    {
+      "isin": "INE020B01018",
+      "name": "REC Limited",
+      "sector": "Finance",
+      "weight": 1.01
+    },
+    {
+      "isin": "INE277A01016",
+      "name": "Swaraj Engines Limited",
+      "sector": "Industrial Products",
+      "weight": 0.65
+    },
+    {
+      "isin": "INE296A01032",
+      "name": "Bajaj Finance Limited",
+      "sector": "Finance",
+      "weight": 0.54
+    },
+    {
+      "isin": "INE397D01024",
+      "name": "Bharti Airtel Limited",
+      "sector": "Telecom - Services",
+      "weight": 0.26
+    },
+    {
+      "isin": "INE121J01017",
+      "name": "Indus Towers Limited",
+      "sector": "Telecom - Services",
+      "weight": 0.07
+    },
+    {
+      "isin": "INE079A01024",
+      "name": "Ambuja Cements Limited",
+      "sector": "Cement & Cement Products",
+      "weight": 0.06
+    },
+    {
+      "isin": "INE066F01020",
+      "name": "Hindustan Aeronautics Limited",
+      "sector": "Aerospace & Defense",
+      "weight": 0.01
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+tunnel: f22e0bc1-8772-4168-b319-6c358da0f847
+credentials-file: C:\Users\Lenovo\.cloudflared\f22e0bc1-8772-4168-b319-6c358da0f847.json
+ingress:
+  - hostname: apps.sushantsynapse.com
+    service: http://127.0.0.1:3001
+  - service: http_status:404

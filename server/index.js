@@ -6,6 +6,7 @@ const {cleanSettings}=require('../apps/advocate/backend/settings');
 const {createAuth}=require('../packages/auth');
 const {createPortal}=require('../apps/portal/backend/routes');
 const {createAdvocate}=require('../apps/advocate/backend/routes');
+const {createFundOverlap}=require('../apps/fund-overlap/backend/routes');
 const {staticAssets}=require('./static-assets');
 const {fail}=require('./http');
 const ROOT=path.resolve(__dirname,'..');
@@ -17,6 +18,7 @@ const store=new Store(process.env.DATA_DIR||path.join(ROOT,'data'));
 const auth=createAuth({store,secureCookie:production||process.env.COOKIE_SECURE==='1',initializeWorkspace(input,user){store.setSetting('firm',cleanSettings({name:input.firmName||'My Chambers',advocate:user.name}));if(input.demo===true)store.demo();}});
 const portal=createPortal({store,auth});
 const advocate=createAdvocate({store,auth});
+const fundOverlap=createFundOverlap({auth});
 const server = http.createServer(async (req,res) => {
   const json = (code,data) => { res.writeHead(code, {'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'}); res.end(JSON.stringify(data)); };
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('X-Frame-Options','DENY');res.setHeader('Referrer-Policy','same-origin');
@@ -45,6 +47,7 @@ const server = http.createServer(async (req,res) => {
     if(!user)fail(401,'Please sign in');
     if(route==='ledger'&&method==='GET')return json(200,{markdown:fs.readFileSync(path.join(ROOT,'docs/FUNCTIONALITY_LEDGER.md'),'utf8')});
     if(route==='platform'||route.startsWith('platform/'))return await portal(context);
+    if(route==='fund-overlap'||route.startsWith('fund-overlap/'))return fundOverlap(context);
     return await advocate(context);
   } catch (error) {
     if(!res.headersSent)json(error.status||400,{error:error.message.includes('UNIQUE constraint')?'This record already exists':error.message});else res.end();

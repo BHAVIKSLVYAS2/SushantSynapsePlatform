@@ -13,6 +13,12 @@ apps/
     backend/           Business routes, validation, store and settings
     database/schema.sql
     tests/             Chambers browser workflows
+  fund-overlap/
+    frontend/          Fund Lens UI and pure browser comparison engine
+    backend/routes.js  Read-only authenticated reference-data serving
+    ingestion/         Official PPFAS XLSX source adapter and atomic publication
+    data/              Public, versioned reference snapshots and small fund index
+    tests/             Chrome workflows and official spreadsheet parser fixtures
 packages/
   auth/                Sessions, passwords, profiles and staff accounts
   app-registry/        Catalogue entries and available app paths
@@ -31,6 +37,8 @@ The server creates the database and app handlers. It injects the database and au
 `PlatformDatabase` owns identity, access, preferences, settings and audit storage. The advocate store extends it with Chambers data access, migration, backups and reporting. The server currently creates that combined store because Chambers is the first available app. New apps should use their own repositories over the shared connection; do not add their business methods to the advocate store.
 
 Shared UI currently contains theme preference storage. Each app retains its own styles and icons. Promote actual reused controls to `packages/ui` as needed; do not copy app-specific styles into shared packages merely to fill the folder.
+
+Fund Lens performs comparisons entirely in the browser. Its JSON artifacts are audited public reference data, not workspace business state, and need no SQL tables. It uses the shared SQLite identity, app grants and launch preferences. Its data routes enforce access before returning any bytes or conditional 304; private revalidation preserves access control. The supplied standalone plan's no-login/public-CDN assumptions were adapted to these existing platform conventions.
 
 ## SQL ownership
 

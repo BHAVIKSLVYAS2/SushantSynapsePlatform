@@ -31,6 +31,7 @@ Visit the HTTPS domain, enter the setup token and create the first owner account
 
 - `/` — platform app collection, favourites, recent apps, profile and access management.
 - `/advocate` — Chambers advocate app.
+- `/fund-overlap` — Fund Lens mutual fund overlap analyzer; shared sign-in and app grant required for disclosure data.
 - `/healthz` — anonymous health signal; no business data.
 
 The public app port is not published by Compose; only Caddy's ports are exposed. The app runs as a non-root user and requires an HTTPS `PUBLIC_ORIGIN` and setup token when `NODE_ENV=production`. Host and origin checks allow the configured domain. Session cookies are Secure in production.
@@ -47,6 +48,14 @@ docker compose --env-file .env -f infrastructure/compose.yaml up -d --build
 ```
 
 For the first transfer of an existing local workspace, stop the source app and securely copy its complete data directory into the platform volume before first use. Do not commit production database files to this repository. Verify the database and account access before directing users to the new host.
+
+## Local Windows tunnel (2026-09-06)
+
+The local deployment uses `infrastructure/start-tunnel-host.ps1` to run production Node on `127.0.0.1:3001` with the existing `data/chambers.sqlite`. An owner already exists; the launcher generates a private setup token on each run. The original development server may continue on port 3000.
+
+`infrastructure/cloudflared.local.yml` routes `apps.sushantsynapse.com` through tunnel `sushant-synapse-platform` (`f22e0bc1-8772-4168-b319-6c358da0f847`). Credentials stay outside the repository under the Windows user's `.cloudflared` directory. The target DNS record is a proxied CNAME named `apps` pointing to `f22e0bc1-8772-4168-b319-6c358da0f847.cfargotunnel.com`.
+
+Tunnel connections, public DNS and HTTPS were verified on 2026-09-06 after the user added the DNS record. `/`, `/advocate`, `/healthz` and `/api/auth/status` return HTTP 200 through the public hostname. The saved Cloudflare certificate only has access to another domain, so DNS was added by the user. Automatic Windows startup is not configured. The computer must remain awake, connected and running both processes to serve this deployment. Logs are in `data/public-server.log` and `data/tunnel.log`.
 
 ## Operational boundaries
 

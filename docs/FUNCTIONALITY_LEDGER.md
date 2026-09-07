@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-Last updated: **2026-09-06**. Target: **advocates and chamber staff in India**.
+Last updated: **2026-09-07**. Chambers target: **advocates and chamber staff in India**. Fund Lens provides Indian mutual fund equity comparison within the same platform.
 
 ## Resume instructions
 
@@ -12,6 +12,12 @@ Last updated: **2026-09-06**. Target: **advocates and chamber staff in India**.
 6. The runtime server is started with `npm.cmd start` at http://localhost:3000. First-run owner setup is intentionally left for the user; no default credentials exist.
 
 ## Current checkpoint
+
+**Fund Lens implemented and deployed (2026-09-07):** `/fund-overlap` is available in the platform catalogue with shared sign-in, themes and owner-managed access. Browser-side comparison supports 2–8 distinct schemes, weighted equity/NAV overlap, pair matrix, repeated/all-common/unique holdings, top-ten intersection, industry exposure, unique contribution, temporary exclusions, share fragments, CSV and print. The initial library contains five PPFAS equity/hybrid schemes with official **31 July 2026** snapshots. Coverage and excluded assets are explicit; no personal portfolio data is collected or saved. See `docs/FUND_OVERLAP_PLAN.md` and `apps/fund-overlap/README.md`.
+
+**Release evidence:** 21 API/calculation tests, 5 Python ingestion tests and all 6 Chrome browser tests pass. Live source refresh returned no changes and retained the existing index. Source fixtures verify exact equity counts/weights and source-failure preservation. Browser checks include 320/768/1440px widths, shared platform launch, both weight bases, filters, simulation, sharing, CSV, print and all themes. Desktop light and mobile dark screenshots reviewed. Public HTTPS returns 200 for Fund Lens, its scripts, platform home, Chambers and health; unauthenticated fund data returns 401. A consistent pre-release SQLite backup passed integrity check; all table counts matched after deployment (18 business records, 1 account, no document blobs; other tables unchanged).
+
+**Refresh boundary:** the scheduled GitHub Actions workflow generates a validated downloadable data artifact; its remote execution and automatic delivery to this Windows host are not verified or configured. Local `refresh:funds` works against official sources. No other AMCs, debt comparison, return/NAV performance analytics, derivative netting or personalized advice is claimed. The computer must remain running for the public deployment; Windows automatic startup remains unconfigured.
 
 **Platform logo updated (2026-09-06):** supplied Sushant Synapse PNG artwork replaces the platform placeholder in sign-in/header branding, the home illustration, favicon, touch icon and 192/512px manifest icons. All four supplied variants are preserved byte-for-byte in apps/portal/frontend. Portal browser suite passes; desktop light and mobile dark screenshots reviewed. Chambers retains its legal app icon.
 
@@ -28,10 +34,12 @@ Last updated: **2026-09-06**. Target: **advocates and chamber staff in India**.
 | P05 | Chambers app and existing data migration | Verified | 13 API tests and 3 existing Chambers browser suites pass; platform browser suite also passes |
 | P06 | Production configuration | Configuration tested | Additional production test passes: public origin, setup token, Secure cookie; Docker/Caddy files provided, containers not run locally |
 | P07 | GitHub repository publication | Verified | Pushed main to BHAVIKSLVYAS2/SushantSynapsePlatform; databases, secrets and local test artifacts excluded |
-| P08 | apps.sushantsynapse.com deployment | External dependency | Follow DEPLOYMENT.md; needs host, DNS and deployment secret; public URL not verified |
+| P08 | apps.sushantsynapse.com deployment | Verified, local host | HTTPS home, Chambers, health and auth-status routes return 200 through Cloudflare Tunnel on 2026-09-06; runs on this Windows computer, automatic startup not configured |
 | P09 | Projects, Finance and Knowledge apps | Future scope | Catalogue previews only, clearly marked Planned with no launch routes |
 | P10 | Multi-tenant organisation isolation | Future scope | Current platform serves one organisation and one Chambers workspace |
 | P11 | npm workspace monorepo and app ownership | Verified | apps/portal and apps/advocate own frontend/backend/tests; shared packages, split SQL, server composition, infrastructure and architecture guide; 15 API/configuration tests and 4 browser suites pass |
+| P12 | Fund Lens mutual fund equity overlap analyzer | Verified / deployed | Five real PPFAS snapshots; browser comparisons, industry view, provenance, simulator and exports; app access enforced before cached responses; 21 Node tests, 5 ingestion tests, 6 browser tests |
+| P13 | Fund holdings refresh | Local refresh verified; workflow supplied | Official index/XLSX adapter, ISIN and percentage validation, source hashes, immutable versions, atomic index and last-good-data retention; automatic Windows delivery remains unconfigured |
 
 Latest platform evidence: **14 API/configuration tests passed across the API and production runs; all 4 browser suites passed after fixes.** Historical checkpoints below describe the earlier Chambers release.
 
@@ -94,6 +102,17 @@ For the earlier Chambers release, local implementation was complete. Further wor
 | X09 | Automated tax / limitation-period calculation | Future scope | Explicit jurisdictional/rule validation; no such automated claims are made |
 
 ## Verification log
+
+- 2026-09-07 — Fund Lens release: `npm.cmd test` **21 passed**; Python source-adapter suite **5 passed**; `npm.cmd run test:e2e` **6 passed (1 minute)**. The final malformed-ISIN/unlisted-section guard was followed by another passing ingestion run. Online refresh independently succeeded without fixture inputs. Screenshots: `test-results/fund-lens-mobile-dark.png`, `test-results/fund-lens-desktop-light.png`.
+- 2026-09-07 — Deployed on the existing Cloudflare Tunnel after a consistent SQLite backup at `data/backups/pre-fund-lens-20260907-065652.sqlite`. HTTPS `/fund-overlap`, its JS, `/`, `/advocate`, `/healthz` return 200; anonymous `/api/fund-overlap/fund-index.json` returns 401. Local port 3000 also verified. SQLite integrity returned `ok`, and all table counts matched the pre-deployment values. No demo accounts or business records were created in the live workspace.
+
+- 2026-09-06 — After the user added the DNS record, `https://apps.sushantsynapse.com` resolved through Cloudflare and returned HTTP 200 for `/`, `/advocate`, `/healthz` and `/api/auth/status`. Page titles identify the platform and Chambers; health is `ok`. Public deployment is live through the local tunnel. The computer and both processes must stay running; automatic startup remains unconfigured.
+
+- 2026-09-06 — Confirmed the existing `https://sushantsynapse.com` landing page returns HTTP 200 (title: Sushant Synapse — Intelligent Solutions). `apps.sushantsynapse.com` still returns DNS name does not exist. The main domain was not changed; its working route does not establish a route for the new subdomain.
+
+- 2026-09-06 — Local tunnel deployment prepared for `apps.sushantsynapse.com`: production app healthy on loopback port 3001 with existing SQLite data; dedicated Cloudflare tunnel connected with four connections; ingress validation passes; all 15 API/configuration tests pass. Public DNS/HTTPS remains pending domain access. An incorrectly suffixed DNS record created under the saved certificate's other zone was removed. Automatic startup awaits explicit approval after automatic review rejected scheduled-task registration. No claim of public deployment yet.
+
+- 2026-09-06 — Local app launched from `server/index.js` using the existing workspace database. HTTP checks returned 200 for `/` and `/advocate` at port 3000. Startup required execution outside the sandbox after SQLite reported a read-only database; no application code changed and regression suites were not rerun for this launch.
 
 - 2026-09-06 — UI refinement: **12 API tests passed; 3 browser suites passed (40.3 seconds)**. Screens cover 320px/390px/768px/1440px layouts, both themes and system preference. Inspected setup, hearing form and legal-icon navigation screenshots. Fixed retained dialog scroll and verified Overview is in the viewport whenever the menu reopens.
 

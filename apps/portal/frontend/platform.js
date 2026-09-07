@@ -2,6 +2,7 @@
 const $=s=>document.querySelector(s);
 const escapeHtml=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const paths={
+ lens:'<circle cx="9" cy="10" r="6"/><circle cx="15" cy="10" r="6"/><path d="M12 16v5m-4 0h8"/>',
  grid:'<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>',
  scales:'<path d="M12 3v17m-4 1h8M4 7h16M6 7l-3 7h6L6 7zm12 0-3 7h6l-3-7zM3 14a3 3 0 0 0 6 0m6 0a3 3 0 0 0 6 0"/>',
  projects:'<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4m8-4v4M3 9h18m-13 5 3 3 5-5"/>',
