@@ -24,6 +24,7 @@ A mobile-first home for connected apps at **apps.sushantsynapse.com**. Chambers 
 
 - `/`: shared sign-in, searchable app catalogue, favourites, recent launches, profile and owner-managed team access.
 - `/advocate`: the complete Chambers workspace described below, using the same account and theme.
+- `/news`: owner preview of **Sushant Synapse Times**, by **Bhavik**. The layout, SQLite archives and saved-edition reader are deployed. The catalogue remains Planned and fetching is not connected yet. See the [News app status](apps/news/README.md).
 - `/fund-overlap`: Fund Lens compares mutual fund equity holdings, industry exposure and unique contributions using official PPFAS disclosures. See [coverage, methodology and refresh instructions](apps/fund-overlap/README.md).
 - SQLite stores accounts, app grants, preferences and Chambers records. Existing accounts receive Chambers access during migration; existing records are preserved.
 - This release serves one organisation with one Chambers workspace. It does not yet provide separate customer tenants or isolated databases per app.

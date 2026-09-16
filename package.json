@@ -8,6 +8,7 @@
     "test:e2e": "playwright test",
     "test:advocate": "playwright test apps/advocate/tests",
     "test:portal": "playwright test apps/portal/tests",
+    "test:news": "playwright test apps/news/tests",
     "test:fund-overlap": "playwright test apps/fund-overlap/tests",
     "refresh:funds": "python apps/fund-overlap/ingestion/refresh.py",
     "test:ingestion": "python -m unittest discover -s apps/fund-overlap/tests -p test_ingestion.py"

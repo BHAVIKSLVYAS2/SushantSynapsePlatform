@@ -7,6 +7,7 @@ const {createAuth}=require('../packages/auth');
 const {createPortal}=require('../apps/portal/backend/routes');
 const {createAdvocate}=require('../apps/advocate/backend/routes');
 const {createFundOverlap}=require('../apps/fund-overlap/backend/routes');
+const {createNews}=require('../apps/news/backend/routes');
 const {staticAssets}=require('./static-assets');
 const {fail}=require('./http');
 const ROOT=path.resolve(__dirname,'..');
@@ -17,6 +18,7 @@ if(production&&(!process.env.SETUP_TOKEN||process.env.SETUP_TOKEN.length<24))thr
 const store=new Store(process.env.DATA_DIR||path.join(ROOT,'data'));
 const auth=createAuth({store,secureCookie:production||process.env.COOKIE_SECURE==='1',initializeWorkspace(input,user){store.setSetting('firm',cleanSettings({name:input.firmName||'My Chambers',advocate:user.name}));if(input.demo===true)store.demo();}});
 const portal=createPortal({store,auth});
+const news=createNews({auth,store});
 const advocate=createAdvocate({store,auth});
 const fundOverlap=createFundOverlap({auth});
 const server = http.createServer(async (req,res) => {
@@ -27,6 +29,7 @@ const server = http.createServer(async (req,res) => {
     const url = new URL(req.url,'http://localhost');
     if(url.pathname==='/healthz'&&req.method==='GET')return json(200,{status:'ok'});
     if(url.pathname==='/advocate/'){res.writeHead(308,{Location:'/advocate'+url.search});return res.end();}
+    if(url.pathname==='/news/'){res.writeHead(308,{Location:'/news'+url.search});return res.end();}
     if (!url.pathname.startsWith('/api/')) {
       const assets=staticAssets;
       const name=assets[url.pathname];if(!name){res.writeHead(404);return res.end('Not found');}
@@ -47,6 +50,7 @@ const server = http.createServer(async (req,res) => {
     if(!user)fail(401,'Please sign in');
     if(route==='ledger'&&method==='GET')return json(200,{markdown:fs.readFileSync(path.join(ROOT,'docs/FUNCTIONALITY_LEDGER.md'),'utf8')});
     if(route==='platform'||route.startsWith('platform/'))return await portal(context);
+    if(route==='news'||route.startsWith('news/'))return await news(context);
     if(route==='fund-overlap'||route.startsWith('fund-overlap/'))return fundOverlap(context);
     return await advocate(context);
   } catch (error) {

@@ -41,7 +41,7 @@ class Store extends PlatformDatabase {
   exportSql() {
     const literal = value => value === null ? 'NULL' : value instanceof Uint8Array ? "X'" + Buffer.from(value).toString('hex') + "'" : typeof value === 'number' ? String(value) : "CAST(X'" + Buffer.from(String(value),'utf8').toString('hex') + "' AS TEXT)";
     const lines = ['-- Chambers full SQLite export. Import into a NEW, empty database.', '-- Includes account password hashes, audit records and documents; excludes live sessions.', '-- Exported '+new Date().toISOString(), this.schemaSql, 'BEGIN TRANSACTION;'];
-    for (const table of ['users','app_access','platform_preferences','records','files','settings','audit']) {
+    for (const table of ['users','app_access','platform_preferences','records','files','settings','audit',...(this.extraExportTables||[])]) {
       for (const row of this.sql.prepare(`SELECT * FROM ${table}`).all()) {
         lines.push(`INSERT INTO ${table} (${Object.keys(row).map(k=>'"'+k+'"').join(', ')}) VALUES (${Object.values(row).map(literal).join(', ')});`);
       }

@@ -9,6 +9,13 @@ class PlatformDatabase {
   this.sql.exec('PRAGMA journal_mode=WAL;');this.sql.exec(this.schemaSql);
  }
   transaction(fn) { this.sql.exec('BEGIN IMMEDIATE'); try { const result = fn(); this.sql.exec('COMMIT'); return result; } catch (e) { this.sql.exec('ROLLBACK'); throw e; } }
+  registerAppSchema(id, sql, tables) {
+    this.appSchemas ||= new Set(); this.extraExportTables ||= [];
+    if (this.appSchemas.has(id)) return;
+    if (tables.some(name => !/^[a-z][a-z0-9_]+$/.test(name))) throw Error('Invalid app table registration');
+    this.sql.exec(sql); this.schemaSql += '\n'+sql;
+    this.extraExportTables.push(...tables); this.appSchemas.add(id);
+  }
   setting(id) { const r = this.sql.prepare('SELECT data FROM settings WHERE id=?').get(id); return r ? JSON.parse(r.data) : null; }
   setSetting(id, data) { this.sql.prepare('INSERT INTO settings VALUES(?,?) ON CONFLICT(id) DO UPDATE SET data=excluded.data').run(id, JSON.stringify(data)); }
   users() { return this.sql.prepare('SELECT id,name,email,role,active FROM users ORDER BY name').all().map(u => ({ ...u, active: !!u.active })); }
