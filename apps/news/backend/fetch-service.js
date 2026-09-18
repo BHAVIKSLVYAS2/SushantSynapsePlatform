@@ -7,7 +7,7 @@ function createFetchService({store,repository,provider,clock=()=>new Date()}){
     validDate(date);const edition=repository.get(date);if(edition)return {date,state:'published',edition,cached:true};
     const row=store.sql.prepare('SELECT * FROM news_runs WHERE date=?').get(date);if(!row)return {date,state:'empty',stories:[]};
     const stories=JSON.parse(row.sourceJson);
-    return {date,cutoff:row.cutoff,state:stories.length===10?'ready':row.state==='running'&&row.leaseUntil<=clock().toISOString()?'interrupted':row.state,stories,error:row.error,attempts:row.attempts,cached:stories.length===10,provider:'GDELT'};
+    return {date,cutoff:row.cutoff,state:stories.length===10?'ready':row.state==='running'&&row.leaseUntil<=clock().toISOString()?'interrupted':row.state,stories,error:row.error,attempts:row.attempts,cached:stories.length===10,provider:stories[0]?.provider||null};
   }
   async function fetchDate(requested){
     const now=clock(),date=validDate(requested??indiaDate(now)),at=now.toISOString(),token=randomUUID();

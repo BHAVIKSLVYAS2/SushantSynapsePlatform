@@ -1,3 +1,9 @@
+# Manual release checkpoint - 2026-09-18
+
+Stages 4 and 5 now implement full manual publication. The source decision below is superseded: production uses the key-free PIB English release listing and actual publication dates, with credited source excerpts and a locally generated fictional satire. No AI service is configured or required. Scope is explicitly India public affairs. Real ten-story selection is verified. Full test/deployment status is in FUNCTIONALITY_LEDGER.md. Automatic 05:00 IST generation remains deferred.
+
+The historical staged plan follows for context; current implementation and operating limits are in [News README](../apps/news/README.md).
+
 # Sushant Synapse Times — proposed implementation plan
 
 Date: 2026-09-16. Stages 1 and 2 deployed as an owner preview at `/news`. Stage 3 implements key-free GDELT fetching and persistent unpublished source previews. Live provider availability is not yet verified; text generation and scheduling remain pending. See the functionality ledger for deployment and test evidence.

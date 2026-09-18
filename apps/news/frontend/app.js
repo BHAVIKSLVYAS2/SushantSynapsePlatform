@@ -15,13 +15,15 @@ async function load(){
   try{
     const response=await fetch('/api/news/status',{cache:'no-store'});
     if(response.status===401){document.querySelector('#sign-in').hidden=false;throw Error('Sign in with your platform account to continue.');}
-    if(response.status===403)throw Error('News is in development. This preview is currently available to the platform owner.');
+    if(response.status===403)throw Error('Ask the platform owner for News app access.');
     if(!response.ok)throw Error('The newspaper could not be loaded. Please retry.');
     const status=await response.json();
     document.querySelector('#edition-date').value=status.today;
     document.querySelector('#gate').hidden=true;
     document.querySelector('#newspaper').hidden=false;
     if(status.archiveAvailable)await loadArchives(status.today);
+    document.querySelector('#fetch-news').hidden=!status.fetchAvailable;
+    document.querySelector('#fetch-note').textContent=status.fetchAvailable?'':'The owner can publish today\u2019s newspaper.';
     if(status.fetchAvailable)await setupFetching(status.today);
   }catch(error){document.querySelector('#gate-message').textContent=error.message;document.querySelector('#retry').hidden=false;}
 }
@@ -67,7 +69,8 @@ function renderEdition(edition){
     grid.append(article);
   }
   const satire=element('aside','','saved-satire');
-  satire.append(element('p','AI-generated satire · Fictional commentary','section-label'),element('h2',edition.satire.title),element('p',edition.satire.body),element('p',`Inspired by story ${edition.satire.storyPosition}: ${edition.stories[edition.satire.storyPosition-1].title}`,'saved-meta'));
+  satire.append(element('p','Satire · Fictional commentary','section-label'),element('h2',edition.satire.title),element('p',edition.satire.body),element('p',`Inspired by story ${edition.satire.storyPosition}: ${edition.stories[edition.satire.storyPosition-1].title}`,'saved-meta'));
+  if(edition.model==='local-editorial-template')reader.append(element('p','India public affairs - Ten recent PIB releases. Briefs are credited source excerpts; satire uses a local editorial template.','saved-meta'));
   reader.append(grid,satire);reader.hidden=false;
   document.querySelector('.masthead h1').textContent=edition.name;
   document.querySelector('.byline strong').textContent=edition.author;
@@ -101,7 +104,7 @@ async function loadArchives(today){
   document.querySelector('#edition-date').disabled=false;document.querySelector('#edition-date').max=today;
   document.querySelector('#edition-navigation').hidden=false;
   document.querySelector('#archive-note').textContent='Choose a date to open its saved newspaper.';
-  document.querySelector('.preview-note p').textContent='Owner preview · Saved editions ready. News fetching is coming next.';
+  document.querySelector('.preview-note p').textContent='Ten stories, one satire, a newspaper to keep.';
   try{
     await archivePage();
     const requested=new URL(location.href).searchParams.get('date');
@@ -116,32 +119,25 @@ document.querySelector('#print-edition').addEventListener('click',()=>window.pri
 document.querySelector('#more-editions').addEventListener('click',async()=>{const button=document.querySelector('#more-editions');button.disabled=true;try{await archivePage(nextBefore);}catch(error){document.querySelector('#reader-status').textContent=error.message;}finally{button.disabled=false;}});
 
 function showPreview(result){
-  const panel=document.querySelector('#fetch-preview'),list=document.querySelector('#preview-stories');panel.hidden=false;list.replaceChildren();
-  document.querySelector('#preview-heading').textContent=`News preview · ${result.date}`;
-  const label=result.state==='ready'?(result.cached?'Opened ten stored source stories. No provider request was made.':'Ten source stories fetched and stored.'):result.state==='published'?'This date already has a saved newspaper.':result.state==='running'?'A fetch is running. Reopen this preview shortly.':result.state==='interrupted'?'The previous fetch was interrupted. Retry to resume the same news window.':result.error||'No source stories fetched for this date yet.';
-  document.querySelector('#fetch-status').textContent=label;
-  for(const story of result.stories||[]){
-    const article=element('article','','preview-story');article.append(element('h3',story.title));
-    const link=element('a',`Read original · ${story.source}`);const url=new URL(story.url);
-    if(['http:','https:'].includes(url.protocol)&&!url.username&&!url.password){link.href=url.href;link.target='_blank';link.rel='noopener noreferrer';article.append(link);}
-    article.append(element('p',`Observed ${new Date(story.observedAt).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})} IST`,'saved-meta'));list.append(article);
-  }
-  document.querySelector('#fetch-news').textContent=result.state==='ready'?'Open stored news preview':"Fetch today's news preview";
+  document.querySelector('#fetch-preview').hidden=false;
+  document.querySelector('#preview-stories').replaceChildren();
+  document.querySelector('#preview-heading').textContent='Today\u2019s newspaper';
+  document.querySelector('#fetch-status').textContent=result.state==='published'?(result.cached?'Opened the stored newspaper. No news request was made.':'Newspaper published and saved.'):(result.error||'A previous fetch is unfinished. Click Fetch to resume.');
+  document.querySelector('#fetch-news').textContent=result.state==='published'?"Open today's newspaper":"Fetch today's newspaper";
 }
 async function setupFetching(today){
-  const button=document.querySelector('#fetch-news');button.disabled=false;button.textContent="Fetch today's news preview";
-  document.querySelector('#fetch-note').textContent='Stores ten source stories once per date. Briefs and satire come next.';
-  document.querySelector('.preview-note p').textContent='Owner preview · News fetching and archives ready. Newspaper generation comes next.';
+  const button=document.querySelector('#fetch-news');button.disabled=false;button.textContent="Fetch today's newspaper";
+  document.querySelector('#fetch-note').textContent='Fetch once per day. Reopen the saved edition any time.';
   try{const saved=await getJson('/api/news/preview/'+today);if(saved&&saved.state!=='empty')showPreview(saved);}catch(error){document.querySelector('#fetch-status').textContent=error.message;}
 }
 document.querySelector('#fetch-news').addEventListener('click',async()=>{
   const button=document.querySelector('#fetch-news');button.disabled=true;
-  document.querySelector('#fetch-preview').hidden=false;document.querySelector('#fetch-status').textContent='Checking stored news, then fetching if needed…';
+  document.querySelector('#fetch-preview').hidden=false;document.querySelector('#fetch-status').textContent='Preparing your newspaper...';
   try{
     const response=await fetch('/api/news/fetch',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});
     if(response.status===401||response.status===403){document.querySelector('#newspaper').hidden=true;document.querySelector('#gate').hidden=false;document.querySelector('#gate-message').textContent='Sign in as the platform owner to fetch news.';document.querySelector('#sign-in').hidden=false;return;}
     const result=await response.json();if(!response.ok)throw Error(result.error||'News fetch failed. Please retry later.');
-    showPreview(result);if(result.state==='published')await openEdition(result.date);
+    showPreview(result);if(result.state==='published'){dates=[];await archivePage();await openEdition(result.date);}
   }catch(error){document.querySelector('#fetch-status').textContent=error.message;}
   finally{button.disabled=false;}
 });

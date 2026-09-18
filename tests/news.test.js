@@ -41,7 +41,7 @@ test('News archive routes validate dates, deny writes and enforce preview access
   createNewsRepository(store).publish(edition('2025-01-01'));
   assert.equal((await call('news/editions/2025-01-01')).data.stories.length,10);
   allowed=false;await assert.rejects(call('news/editions/2025-01-01'),e=>e.status===403);
-  allowed=true;user={role:'Clerk'};await assert.rejects(call('news/editions'),e=>e.status===403);
+  allowed=true;user={role:'Clerk'};assert.equal((await call('news/editions')).data.editions.length,1);await assert.rejects(call('news/fetch','POST'),e=>e.status===403);
   user=null;await assert.rejects(call('news/editions'),e=>e.status===401);
  }finally{store.sql.close();if(path.dirname(dir)===path.resolve(os.tmpdir()))fs.rmSync(dir,{recursive:true,force:true});}
 });
