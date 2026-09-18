@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-Last updated: **2026-09-07**. Chambers target: **advocates and chamber staff in India**. Fund Lens provides Indian mutual fund equity comparison within the same platform.
+Last updated: **2026-09-18**. Chambers target: **advocates and chamber staff in India**. Fund Lens provides Indian mutual fund equity comparison within the same platform.
 
 ## Resume instructions
 
@@ -12,6 +12,10 @@ Last updated: **2026-09-07**. Chambers target: **advocates and chamber staff in 
 6. The runtime server is started with `npm.cmd start` at http://localhost:3000. First-run owner setup is intentionally left for the user; no default credentials exist.
 
 ## Current checkpoint
+
+**News fetch commit verification (2026-09-18):** Exact staged News-only checkout passed all 26 Node tests and all three News Chrome workflows. Full working tree previously passed 52 Node tests and 15 Chrome workflows. Fetch-preview screenshot reviewed. Final live provider retry returned 429; no provider success or generated newspaper is claimed. Push is authorized; unrelated Fund Lens working-tree changes remain excluded.
+
+**News stage 3 deployed; provider availability pending (2026-09-18):** Added key-free GDELT source fetching, ten-story unpublished previews, SQLite reuse across reload/restart, duplicate/source diversity filtering and explicit observation-time provenance. Owner-only POST fetch validates input before external requests. Persisted leases, a one-minute global cooldown, five attempts per edition and twenty requests per UTC day bound retries; original cutoff/date survive midnight and interruption. No automatic fetch, generated briefs, satire or preview publication. **52 Node tests and all 15 Chrome workflows passed** before deployment. Production restart on 2026-09-16 followed backup `data/backups/pre-news-fetch-20260916-233954.sqlite`. Resumed verification on 2026-09-18: public home/Chambers/Fund Lens/News/health return 200, News assets match local hashes, anonymous status/archive requests return 401. SQLite integrity is `ok`; only the expected news_migrations row changed, news_fetch_budget was added, all business tables are unchanged and all News content/run/budget tables remain empty. Live provider checks returned rate limiting, timeout and invalid article lists, so real ten-story delivery is not claimed. Catalogue remains Planned. Next: verify live provider availability and implement stage 4 generation; preserve observation-time provenance rather than inventing publication dates.
 
 **News commit verification (2026-09-16):** Exported the staged News-only snapshot into an ignored isolated checkout. Its complete 23-test Node suite and both News Chrome workflows passed independently of unrelated Fund Lens files. The deployed full working tree previously passed 49 Node tests and 14 Chrome workflows. Commit scope includes News, catalogue/route integration and required shared database schema/export support; earlier Fund Lens changes remain in the working tree. No Git push requested or performed.
 

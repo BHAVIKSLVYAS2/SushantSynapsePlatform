@@ -19,6 +19,8 @@ function sourceUrl(value){
 function createNewsRepository(store){
   store.registerAppSchema('news-editions-1',fs.readFileSync(path.join(__dirname,'../database/001-editions.sql'),'utf8'),['news_migrations','news_editions','news_stories','news_runs']);
   store.sql.prepare('INSERT OR IGNORE INTO news_migrations VALUES(1,?)').run(new Date().toISOString());
+  store.registerAppSchema('news-fetch-2',fs.readFileSync(path.join(__dirname,'../database/002-fetch-budget.sql'),'utf8'),['news_fetch_budget']);
+  store.sql.prepare('INSERT OR IGNORE INTO news_migrations VALUES(2,?)').run(new Date().toISOString());
   function get(date){
     validDate(date);const row=store.sql.prepare('SELECT * FROM news_editions WHERE date=?').get(date);
     if(!row)return null;

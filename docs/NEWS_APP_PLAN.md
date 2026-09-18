@@ -1,6 +1,6 @@
 # Sushant Synapse Times — proposed implementation plan
 
-Date: 2026-09-16. Stages 1 and 2 deployed as an owner preview at `/news`, including SQLite storage and the archive reader; verification recorded in the functionality ledger. No news provider, text generation or schedule connected yet.
+Date: 2026-09-16. Stages 1 and 2 deployed as an owner preview at `/news`. Stage 3 implements key-free GDELT fetching and persistent unpublished source previews. Live provider availability is not yet verified; text generation and scheduling remain pending. See the functionality ledger for deployment and test evidence.
 
 ## Product defaults
 
@@ -18,25 +18,27 @@ Date: 2026-09-16. Stages 1 and 2 deployed as an owner preview at `/news`, includ
 
 ## Proposed external services
 
-The News API is the initial candidate. Its published free plan lists 100 daily requests, three articles per request, real-time top stories and historical data. Pagination and India/English filters are documented. Fetch at least four pages, with a bounded extra budget to remove duplicates and obtain ten distinct stories. Provider ranking plus freshness, source diversity and duplicate removal defines our editorial top ten; this is not an objective ranking of every news outlet.
+Stage 3 uses **GDELT DOC 2.0**, a free API requiring no key. The previously proposed The News API requires credentials that are not configured. GDELT's data-use page permits data reuse with attribution; previews link to GDELT and each original source. Query English news mentioning India or from Indian outlets. Fetch up to 100 ranked records in one request and select ten after validation, headline/URL deduplication and a maximum of three per source. HybridRel ranking is a relevance/outlet signal, not an objective universal top ten. No publisher articles or photos are fetched.
 
-Before committing the integration, verify the free account's actual endpoint access, India coverage, attribution, storage and derived-content permissions. Free API access alone does not establish permission to republish publisher articles or images. Use brief source-grounded descriptions and links; no full-article scraping or publisher photos in v1. Sparse metadata must yield shorter briefs, never invented facts.
+GDELT returns headlines, links and `seendate` observations. These are explicitly labelled observation times, with original publication time unknown (`publishedAt: null`). The 24-hour preview window is based on observation time. Preserve this distinction when implementing the edition-generation step; stage 2 publication validation currently expects actual publication timestamps and must be adapted deliberately, not fed invented dates. Sparse headline metadata must not become fabricated factual paragraphs. Underlying publisher content remains subject to its own rights.
 
 Groq's free API tier is the initial text-generation candidate for short briefs and a 150–250-word satire. A free account and server-side key are required for each service. Select an available model and verify quotas during integration; no paid fallback. Treat fetched news as untrusted input, validate structured output, retain source associations, and keep factual reporting separate from satire. Satire should address the situation or policy without presenting invented allegations or quotations as reporting.
 
 References reviewed on 2026-09-16:
+- https://gdeltproject.org/about.html
+- https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/
 - https://www.thenewsapi.com/pricing
 - https://www.thenewsapi.com/documentation
 - https://www.thenewsapi.com/tos
 - https://console.groq.com/docs/rate-limits
 
-Documentation reviewed; authenticated provider calls and publication/storage terms suitability remain unverified.
+GDELT documentation reviewed. Live checks returned rate limiting, a network failure and an invalid article list; do not claim real ten-story selection is verified. Deterministic provider fixtures verify adapter and persistence behavior. No credentials or paid fallback are used.
 
 ## Implementation stages — complete one at a time
 
 1. **App foundation and newspaper UI.** Add app package, protected routes, themed responsive newspaper layout and honest empty/archive states. Use fixtures only in isolated tests. Keep catalogue status Planned until usable and verified.
 2. **SQLite editions and archives.** Add tracked migrations under `apps/news/database`, app-owned repositories and `news_`-prefixed edition/story/run tables in the existing database. Register tables for full SQL export. Unique IST edition date, stored masthead/byline, ordered stories, source metadata, satire, cutoff, state and timestamps. Add date/list/detail APIs with app access; owner-only operational writes. Preserve all existing schemas/data. Archived dates open saved editions only; missing past dates show no edition.
-3. **News fetch and selection.** Configure server-side credentials; verify live free API access and permitted content retention/use. Validate responses/URLs/dates, paginate within a persisted request budget, deduplicate stories and select ten. Owner can prepare an unpublished preview. Redact keys from logs.
+3. **News fetch and selection (implemented).** Key-free GDELT adapter; validate response sizes/URLs/observation dates, deduplicate and select ten in provider order. Owner-only POST fetch creates an unpublished persistent preview; GET preview reopens it. Existing editions/previews return before any provider call. A two-minute persisted lease prevents overlapping requests; expired work can be retried. Limit to five attempts per edition, twenty requests per UTC day, and a one-minute global cooldown. Preserve original date/cutoff on retries across IST midnight. Live availability verification remains pending.
 4. **Briefs, satire and manual publication.** Add grounded text generation and output validation. The Fetch button runs the pipeline and publishes a complete validated edition without a separate routine approval step. Save the ten stories plus satire together in a transaction. Record model/prompt version and source associations. A failed draft never replaces a published edition. Reopening or fetching a completed date returns its saved content with zero provider calls.
 5. **Verify and release the manual app.** Test additive migrations and SQL restore, access controls, archive dates, deduplication, grounding validation, incomplete/provider-failure cases, quota limits, midnight/timezone boundaries, concurrent clicks and restart recovery. Explicitly verify repeated fetches use SQLite and make no news/AI requests, including after server restart. Use isolated DATA_DIR values. Run Node and relevant browser regressions; inspect mobile/desktop, themes and printing. Verify deployment. Automation is not required for this release.
 6. **Later: daily automation.** Reuse the persisted job lease and run state so timer overlap, restart and manual retries cannot duplicate editions. Start at 05:00 IST; bounded retries/backoff on provider failure. On startup after cutoff, attempt today's missing edition using its original news window and mark late publication. Do not auto-backfill older missed dates. Show last success/failure to the owner and retain the latest published edition with its true date if today's run fails. Verify timezone scheduling and the first scheduled run before calling automation operational.
@@ -49,4 +51,4 @@ If fewer than ten valid distinct stories or valid satire are available, retain a
 
 ## Next step
 
-Stages 1 and 2 implemented and deployed: owner preview, newspaper foundation, themes, SQLite edition storage, archive APIs and date reader. Next is stage 3: news fetch and selection. Continue sequentially as requested. Language, geographic mix and signed-in access remain proposed defaults. Fetching stays disabled until providers and generation are implemented and verified.
+Stage 3 implements fetching an unpublished source preview; it does not publish a complete newspaper. Next: verify live GDELT availability and implement stage 4 briefs/satire with a configured generation provider. Generation must explicitly support GDELT observation-time provenance. Catalogue stays Planned until the complete manual newspaper flow is usable and verified. Automatic scheduling remains deferred.

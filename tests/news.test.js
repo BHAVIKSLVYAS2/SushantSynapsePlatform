@@ -24,7 +24,7 @@ test('News additive migration, atomic immutable editions, pagination, restart an
   for(let i=1;i<=31;i++)repo.publish(edition('2024-12-'+String(i).padStart(2,'0')));
   const first=repo.list();assert.equal(first.editions.length,30);assert.equal(repo.list(first.nextBefore).editions.length,2);
   const restored=new DatabaseSync(':memory:');restored.exec(store.exportSql());assert.equal(restored.prepare('SELECT count(*) n FROM news_editions').get().n,32);assert.equal(restored.prepare('SELECT count(*) n FROM news_stories').get().n,320);assert.equal(restored.prepare('PRAGMA integrity_check').get().integrity_check,'ok');restored.close();
-  store.sql.close();store=new Store(dir);const reopened=createNewsRepository(store);assert.deepEqual(reopened.get('2025-01-02'),saved);assert.deepEqual(store.all('clients'),original);assert.deepEqual(Buffer.from(store.file('preserved').content),Buffer.from([0,1,255]));assert.equal(store.sql.prepare('SELECT count(*) n FROM news_migrations').get().n,1);
+  store.sql.close();store=new Store(dir);const reopened=createNewsRepository(store);assert.deepEqual(reopened.get('2025-01-02'),saved);assert.deepEqual(store.all('clients'),original);assert.deepEqual(Buffer.from(store.file('preserved').content),Buffer.from([0,1,255]));assert.equal(store.sql.prepare('SELECT count(*) n FROM news_migrations').get().n,2);
  }finally{store.sql.close();if(path.dirname(dir)===path.resolve(os.tmpdir()))fs.rmSync(dir,{recursive:true,force:true});}
 });
 test('News archive routes validate dates, deny writes and enforce preview access before reading',async()=>{

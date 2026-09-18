@@ -22,6 +22,7 @@ async function load(){
     document.querySelector('#gate').hidden=true;
     document.querySelector('#newspaper').hidden=false;
     if(status.archiveAvailable)await loadArchives(status.today);
+    if(status.fetchAvailable)await setupFetching(status.today);
   }catch(error){document.querySelector('#gate-message').textContent=error.message;document.querySelector('#retry').hidden=false;}
 }
 document.querySelector('#retry').addEventListener('click',load);
@@ -113,3 +114,34 @@ document.querySelector('#previous-edition').addEventListener('click',()=>{const 
 document.querySelector('#next-edition').addEventListener('click',()=>{const index=dates.findIndex(e=>e.date===selection);if(index>0)openEdition(dates[index-1].date);});
 document.querySelector('#print-edition').addEventListener('click',()=>window.print());
 document.querySelector('#more-editions').addEventListener('click',async()=>{const button=document.querySelector('#more-editions');button.disabled=true;try{await archivePage(nextBefore);}catch(error){document.querySelector('#reader-status').textContent=error.message;}finally{button.disabled=false;}});
+
+function showPreview(result){
+  const panel=document.querySelector('#fetch-preview'),list=document.querySelector('#preview-stories');panel.hidden=false;list.replaceChildren();
+  document.querySelector('#preview-heading').textContent=`News preview · ${result.date}`;
+  const label=result.state==='ready'?(result.cached?'Opened ten stored source stories. No provider request was made.':'Ten source stories fetched and stored.'):result.state==='published'?'This date already has a saved newspaper.':result.state==='running'?'A fetch is running. Reopen this preview shortly.':result.state==='interrupted'?'The previous fetch was interrupted. Retry to resume the same news window.':result.error||'No source stories fetched for this date yet.';
+  document.querySelector('#fetch-status').textContent=label;
+  for(const story of result.stories||[]){
+    const article=element('article','','preview-story');article.append(element('h3',story.title));
+    const link=element('a',`Read original · ${story.source}`);const url=new URL(story.url);
+    if(['http:','https:'].includes(url.protocol)&&!url.username&&!url.password){link.href=url.href;link.target='_blank';link.rel='noopener noreferrer';article.append(link);}
+    article.append(element('p',`Observed ${new Date(story.observedAt).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})} IST`,'saved-meta'));list.append(article);
+  }
+  document.querySelector('#fetch-news').textContent=result.state==='ready'?'Open stored news preview':"Fetch today's news preview";
+}
+async function setupFetching(today){
+  const button=document.querySelector('#fetch-news');button.disabled=false;button.textContent="Fetch today's news preview";
+  document.querySelector('#fetch-note').textContent='Stores ten source stories once per date. Briefs and satire come next.';
+  document.querySelector('.preview-note p').textContent='Owner preview · News fetching and archives ready. Newspaper generation comes next.';
+  try{const saved=await getJson('/api/news/preview/'+today);if(saved&&saved.state!=='empty')showPreview(saved);}catch(error){document.querySelector('#fetch-status').textContent=error.message;}
+}
+document.querySelector('#fetch-news').addEventListener('click',async()=>{
+  const button=document.querySelector('#fetch-news');button.disabled=true;
+  document.querySelector('#fetch-preview').hidden=false;document.querySelector('#fetch-status').textContent='Checking stored news, then fetching if needed…';
+  try{
+    const response=await fetch('/api/news/fetch',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});
+    if(response.status===401||response.status===403){document.querySelector('#newspaper').hidden=true;document.querySelector('#gate').hidden=false;document.querySelector('#gate-message').textContent='Sign in as the platform owner to fetch news.';document.querySelector('#sign-in').hidden=false;return;}
+    const result=await response.json();if(!response.ok)throw Error(result.error||'News fetch failed. Please retry later.');
+    showPreview(result);if(result.state==='published')await openEdition(result.date);
+  }catch(error){document.querySelector('#fetch-status').textContent=error.message;}
+  finally{button.disabled=false;}
+});

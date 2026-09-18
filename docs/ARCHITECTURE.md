@@ -42,7 +42,7 @@ Fund Lens performs comparisons entirely in the browser. Its JSON artifacts are a
 
 ## SQL ownership
 
-News owns `apps/news/database/001-editions.sql`, an additive migration tracked in `news_migrations`. The composition-created handler registers `news_editions`, `news_stories` and `news_runs` with the shared database for full SQL exports. `apps/news/backend/repository.js` validates and atomically stores immutable daily editions; business methods do not enter the advocate store. During the Planned preview, reads require owner access and no publication HTTP endpoint exists. The generation pipeline and job leases remain a later step.
+News owns `apps/news/database/001-editions.sql`, an additive migration tracked in `news_migrations`. The composition-created handler registers `news_editions`, `news_stories` and `news_runs` with the shared database for full SQL exports. Migration 2 adds `news_fetch_budget`. `apps/news/backend/repository.js` validates and atomically stores immutable daily editions; business methods do not enter the advocate store. During the Planned preview, reads and source-fetch writes require owner access; no publication HTTP endpoint exists. `fetch-service.js` persists job leases, request budgets and unpublished source previews. The GDELT adapter uses fixed endpoints and records observation times separately from unknown publication dates. Generation remains a later step.
 
 `packages/database/schema.sql` contains shared tables. `apps/advocate/database/schema.sql` contains Chambers tables and reporting views. Both are applied when opening the database, and both are included in the full SQL export. Existing names, IDs, rows, documents and the `data/chambers.sqlite` path are preserved.
 

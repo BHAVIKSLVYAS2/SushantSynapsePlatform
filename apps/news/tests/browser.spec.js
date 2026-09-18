@@ -6,7 +6,7 @@ const path=require('node:path');
 let child,base,dir;
 test.beforeAll(async()=>{
   dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-news-'));
-  child=spawn(process.execPath,['server/index.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe']});
+  child=spawn(process.execPath,['--require',path.join(__dirname,'mock-provider.cjs'),'server/index.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe']});
   await new Promise((resolve,reject)=>{
     let out='';const timer=setTimeout(()=>reject(Error('Server startup timed out')),10000);
     child.stdout.on('data',chunk=>{out+=chunk;const match=out.match(/localhost:(\d+)/);if(match){base='http://127.0.0.1:'+match[1];clearTimeout(timer);resolve();}});
@@ -29,7 +29,7 @@ test('News foundation: protected preview, planned catalogue, honest empty states
   expect(status.headers()['cache-control']).toBe('no-store');
   expect(await status.json()).toMatchObject({author:'Bhavik',generationAvailable:false,archiveAvailable:true});
   expect((await page.request.post(base+'/api/news/status',{data:{}})).status()).toBe(405);
-  expect((await page.request.post(base+'/api/news/fetch',{data:{}})).status()).toBe(404);
+  expect((await page.request.post(base+'/api/news/fetch',{data:{unsupported:true}})).status()).toBe(400);
   expect((await page.request.get(base+'/apps/news/backend/routes.js')).status()).toBe(404);
   expect((await page.request.post(base+'/api/platform/apps/news/launch',{data:{}})).status()).toBe(404);
   const catalog=await (await page.request.get(base+'/api/platform')).json();
@@ -37,7 +37,7 @@ test('News foundation: protected preview, planned catalogue, honest empty states
   await page.goto(base+'/news/');await expect(page).toHaveURL(base+'/news');
   await expect(page.getByRole('heading',{name:'Sushant Synapse Times',exact:true})).toBeVisible();
   await expect(page.locator('.byline')).toHaveText('By Bhavik');
-  await expect(page.getByRole('button',{name:"Fetch today's newspaper"})).toBeDisabled();
+  await expect(page.getByRole('button',{name:"Fetch today's news preview"})).toBeEnabled();
   await expect(page.getByLabel('Edition date')).toBeEnabled();
   await expect(page.getByRole('heading',{name:'Previous editions'})).toBeVisible();
   for(const width of [320,390,768,1440]){
@@ -63,6 +63,20 @@ test('News foundation: protected preview, planned catalogue, honest empty states
   await page.reload();await expect(page.locator('#newspaper')).toBeHidden();
   await expect(page.getByText('News is in development. This preview is currently available to the platform owner.')).toBeVisible();
   expect(errors).toEqual([]);
+});
+
+test('manual news fetch persists preview, reloads cache and keeps incomplete newspaper out of archive',async({page})=>{
+ await page.request.post(base+'/api/auth/login',{data:{email:'owner@news.example',password:'News isolated test password!'}});
+ await page.goto(base+'/news');await page.getByRole('button',{name:"Fetch today's news preview"}).click();
+ await expect(page.locator('#preview-stories article')).toHaveCount(10);
+ await expect(page.locator('#fetch-status')).toContainText('fetched and stored');
+ await expect(page.locator('#fetch-preview')).toContainText('Unpublished source selection');
+ await page.getByRole('button',{name:'Open stored news preview'}).click();await expect(page.locator('#fetch-status')).toContainText('No provider request');
+ await page.reload();await expect(page.locator('#preview-stories article')).toHaveCount(10);await expect(page.locator('#fetch-status')).toContainText('No provider request');
+ const today=(await (await page.request.get(base+'/api/news/status')).json()).today;
+ expect((await page.request.get(base+'/api/news/editions/'+today)).status()).toBe(404);
+ for(const width of [320,768,1440]){await page.setViewportSize({width,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+ await page.screenshot({path:'test-results/news-fetch-preview.png',fullPage:true});
 });
 
 test('saved editions render ten stories and satire, reopen by date, handle gaps and suppress stale responses',async({page})=>{
