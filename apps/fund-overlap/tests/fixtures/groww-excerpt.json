@@ -1,0 +1,94 @@
+{
+  "note": "Public source excerpt captured 2026-09-07. Only rows with identifiers in the ICICI stock response plus cash are retained for the fixture.",
+  "fund": {
+    "search_id": "hdfc-equity-fund-direct-growth",
+    "scheme_code": "118955",
+    "direct_scheme_code": "118955",
+    "scheme_name": "HDFC Flexi Cap Direct Plan Growth",
+    "fund_house": "HDFC Mutual Fund",
+    "sub_category": "Flexi Cap",
+    "category": "Equity",
+    "holdings": [
+      {
+        "scheme_code": "118955",
+        "portfolio_date": "2026-07-30T18:30:00.000Z",
+        "company_name": "ICICI Bank Ltd",
+        "nature_name": "EQUITY",
+        "sector_name": "Financial",
+        "instrument_name": "Equity",
+        "rating": null,
+        "market_value": 10197.8111,
+        "corpus_per": 9.20908573,
+        "market_cap": null,
+        "rating_market_cap": null,
+        "stock_search_id": "icici-bank-ltd"
+      },
+      {
+        "scheme_code": "118955",
+        "portfolio_date": "2026-07-30T18:30:00.000Z",
+        "company_name": "HDFC Bank Ltd",
+        "nature_name": "EQUITY",
+        "sector_name": "Financial",
+        "instrument_name": "Equity",
+        "rating": null,
+        "market_value": 6763.8543,
+        "corpus_per": 6.10806706,
+        "market_cap": null,
+        "rating_market_cap": null,
+        "stock_search_id": "hdfc-bank-ltd"
+      },
+      {
+        "scheme_code": "118955",
+        "portfolio_date": "2026-07-30T18:30:00.000Z",
+        "company_name": "Axis Bank Ltd",
+        "nature_name": "EQUITY",
+        "sector_name": "Financial",
+        "instrument_name": "Equity",
+        "rating": null,
+        "market_value": 6652.2632,
+        "corpus_per": 6.00729524,
+        "market_cap": null,
+        "rating_market_cap": null,
+        "stock_search_id": "axis-bank-ltd"
+      },
+      {
+        "scheme_code": "118955",
+        "portfolio_date": "2026-07-30T18:30:00.000Z",
+        "company_name": "Kotak Mahindra Bank Ltd",
+        "nature_name": "EQUITY",
+        "sector_name": "Financial",
+        "instrument_name": "Equity",
+        "rating": null,
+        "market_value": 3452.1338,
+        "corpus_per": 3.11743332,
+        "market_cap": null,
+        "rating_market_cap": null,
+        "stock_search_id": "kotak-mahindra-bank-ltd"
+      },
+      {
+        "scheme_code": "118955",
+        "portfolio_date": "2026-07-30T18:30:00.000Z",
+        "company_name": "Repo",
+        "nature_name": "CASH",
+        "sector_name": "Unspecified",
+        "instrument_name": "Repo",
+        "rating": null,
+        "market_value": 3431.9412,
+        "corpus_per": 3.09919848,
+        "market_cap": null,
+        "rating_market_cap": null,
+        "stock_search_id": null
+      }
+    ]
+  },
+  "identifiers": {
+    "icici-bank-ltd": "INE090A01021",
+    "hdfc-bank-ltd": "INE040A01034",
+    "kotak-mahindra-bank-ltd": "INE237A01036",
+    "axis-bank-ltd": "INE238A01034",
+    "idbi-bank-ltd": "INE008A01015",
+    "the-federal-bank-ltd": "INE171A01029",
+    "au-small-finance-bank-ltd": "INE949L01017",
+    "indusind-bank-ltd": "INE095A01012"
+  }
+}

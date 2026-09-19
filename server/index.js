@@ -20,7 +20,7 @@ const auth=createAuth({store,secureCookie:production||process.env.COOKIE_SECURE=
 const portal=createPortal({store,auth});
 const news=createNews({auth,store});
 const advocate=createAdvocate({store,auth});
-const fundOverlap=createFundOverlap({auth});
+const fundOverlap=createFundOverlap({auth,store,cacheDir:path.join(process.env.DATA_DIR||path.join(ROOT,'data'),'fund-overlap-cache')});
 const server = http.createServer(async (req,res) => {
   const json = (code,data) => { res.writeHead(code, {'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'}); res.end(JSON.stringify(data)); };
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('X-Frame-Options','DENY');res.setHeader('Referrer-Policy','same-origin');
@@ -51,7 +51,7 @@ const server = http.createServer(async (req,res) => {
     if(route==='ledger'&&method==='GET')return json(200,{markdown:fs.readFileSync(path.join(ROOT,'docs/FUNCTIONALITY_LEDGER.md'),'utf8')});
     if(route==='platform'||route.startsWith('platform/'))return await portal(context);
     if(route==='news'||route.startsWith('news/'))return await news(context);
-    if(route==='fund-overlap'||route.startsWith('fund-overlap/'))return fundOverlap(context);
+    if(route==='fund-overlap'||route.startsWith('fund-overlap/'))return await fundOverlap(context);
     return await advocate(context);
   } catch (error) {
     if(!res.headersSent)json(error.status||400,{error:error.message.includes('UNIQUE constraint')?'This record already exists':error.message});else res.end();

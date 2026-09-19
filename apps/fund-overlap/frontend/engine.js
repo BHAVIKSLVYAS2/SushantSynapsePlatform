@@ -30,6 +30,9 @@
     if(!Array.isArray(snapshots)||snapshots.length<2||snapshots.length>8)throw Error('Select between 2 and 8 funds');
     if(!['equity','nav'].includes(basis))throw Error('Invalid weight basis');
     if(new Set(snapshots.map(f=>f.schemeId)).size!==snapshots.length)throw Error('Select different funds');
+    if(new Set(snapshots.map(f=>f.portfolioKey||f.schemeId)).size!==snapshots.length)throw Error('Direct and regular plans share a portfolio. Select different underlying funds.');
+    const names=snapshots.map(f=>f.name?.toLowerCase().replace(/\b(direct|regular|plan|growth|option|idcw|dividend|payout|reinvestment)\b/g,'').replace(/[^a-z0-9]/g,''));
+    if(names.every(Boolean)&&new Set(names).size!==names.length)throw Error('Select different underlying funds, rather than variants of the same fund.');
     const funds=snapshots.map(f=>{
       if(!f.schemeId||!/^\d{4}-\d{2}-\d{2}$/.test(f.portfolioDate)||!Number.isFinite(Date.parse(f.portfolioDate))||new Date(f.portfolioDate).toISOString().slice(0,10)!==f.portfolioDate||Date.parse(f.portfolioDate)>now.getTime())throw Error('Invalid portfolio date');
       const {holdings,total}=normalize(f.holdings),factor=basis==='equity'?100/total:1;
@@ -51,6 +54,9 @@
     pairs.sort((a,b)=>b.overlap-a.overlap||a.i-b.i||a.j-b.j);
     const contributions=funds.map((f,i)=>{const unique=holdings.filter(h=>h.count===1&&h.weights[i]>0);return {schemeId:f.schemeId,count:unique.length,weight:round(unique.reduce((s,h)=>s+h.weights[i],0)),navWeight:round(unique.reduce((s,h)=>s+h.navWeights[i],0))};});
     const warnings=[];
+    if(funds.some(f=>f.unresolvedHoldings?.length))warnings.push('Some source equity rows have no verifiable security identifier and are excluded. This is a partial comparison; review the omitted names and NAV weights in the source details.');
+    if(funds.some(f=>f.source?.kind==='aggregator'))warnings.push('Some holdings use a secondary source ('+[...new Set(funds.filter(f=>f.source?.kind==='aggregator').map(f=>f.source.publisher))].join(', ')+'). Industry labels may differ from official AMC disclosures; review source dates and included coverage.');
+    for(const f of funds)if(f.cacheWarning)warnings.push(f.name+': '+f.cacheWarning);
     if(new Set(funds.map(f=>f.portfolioDate)).size>1)warnings.push('Portfolio dates differ. These snapshots are not from the same reporting date.');
     if(funds.some(f=>f.ageDays>45))warnings.push('One or more snapshots are over 45 days old. Check source dates before interpreting results.');
     if(funds.some(f=>f.holdings.some(h=>h.sector==='Unknown')))warnings.push('Unclassified holdings are excluded from industry similarity.');

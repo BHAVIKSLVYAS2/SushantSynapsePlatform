@@ -15,8 +15,8 @@ apps/
     tests/             Chambers browser workflows
   fund-overlap/
     frontend/          Fund Lens UI and pure browser comparison engine
-    backend/routes.js  Read-only authenticated reference-data serving
-    ingestion/         Official PPFAS XLSX source adapter and atomic publication
+    backend/           Authenticated reference routes, national providers and cache
+    ingestion/         Official PPFAS refresh and national saved-portfolio refresh
     data/              Public, versioned reference snapshots and small fund index
     tests/             Chrome workflows and official spreadsheet parser fixtures
 packages/
@@ -44,6 +44,10 @@ Fund Lens performs comparisons entirely in the browser. Its JSON artifacts are a
 
 News owns additive migrations under `apps/news/database`, registering editions, stories, run snapshots and budgets for SQL export. `repository.js` validates and atomically stores immutable daily editions. `fetch-service.js` persists source snapshots, leases and attempt budgets. `pib-provider.js` fetches bounded fixed-host public releases with verified publication dates; `publication.js` creates source excerpts and locally templated fictional satire. Owners publish through the validated fetch endpoint; users granted News access read saved editions. No arbitrary content publication endpoint or automatic scheduler exists.
 
+Personal Fund Lens portfolios use app-owned `fund_lens_portfolios` and `fund_lens_transactions`, created by the additive `apps/fund-overlap/database/001-portfolio.sql` migration and tracked in `fund_lens_migrations`. `registerAppSchema` registers the schema and export-table list on the shared database; the composition-created Fund Lens handler initializes it before serving requests. Full SQL exports include the new schema and rows. Chambers JSON backups retain their Chambers-only scope. App routes derive ownership from the session, validate edits/imports and enforce optimistic revisions. No portfolio details enter the shared Chambers activity feed. Account-private API access does not prevent an administrator from accessing the full database/SQL backup.
+
+Fund Lens watchlists are account preferences stored under `fundLensWatchlists` in the existing SQLite `platform_preferences` row. App-owned validated routes enforce access and derive the owner from the authenticated session. Up to 10 lists of four exact scheme codes are supported. NAV history is public reference data cached separately; hypothetical investment amounts stay in browser memory. `analytics-engine.js` holds pure return/exposure/SIP calculations and `analytics-ui.js` owns their interface.
+
 `packages/database/schema.sql` contains shared tables. `apps/advocate/database/schema.sql` contains Chambers tables and reporting views. Both are applied when opening the database, and both are included in the full SQL export. Existing names, IDs, rows, documents and the `data/chambers.sqlite` path are preserved.
 
 These files are idempotent baseline schemas for version 2, not a general incremental migration framework. Future schema changes should add ordered, tracked migration files in the owning database directory and test upgrading an existing database. Future apps should use app-prefixed tables to avoid collisions. This is still one organisation, not tenant-isolated SaaS.
@@ -68,3 +72,5 @@ npm run test:portal
 ```
 
 `server.js` is a compatibility launcher. The canonical entry point is `server/index.js`. Deployment still uses a single image and persistent database volume; see `DEPLOYMENT.md`.
+
+National fund discovery uses MFapi; holdings use Tickertape with exact-family Groww fallback. Public reference versions live in DATA_DIR/fund-overlap-cache, never in Chambers business tables. SHA-256 version checks and atomic pointer publication preserve last-good data. Provider outages are explicitly marked; catalogue coverage and holdings coverage are separate.

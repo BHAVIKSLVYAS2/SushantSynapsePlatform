@@ -3,6 +3,7 @@ data/uploads/
 node_modules/
 data/*.sqlite*
 data/backups/
+data/fund-overlap-cache/
 .npm-cache/
 test-results/
 playwright-report/
