@@ -13,6 +13,9 @@ Last updated: **2026-09-27**. Chambers target: **advocates and chamber staff in 
 
 ## Current checkpoint
 
+**Donation amount in numbers and words (2026-09-27):** Donation Appreciation now offers an optional INR amount with automatically generated, read-only Indian number wording (lakh/crore and exact paise). Positive values from 0.01 through 999999999.99, at most two decimals, are accepted; blank omits the amount. Switching types hides and disables the field, excludes the amount from rendering/validation and retains the value when switching back. All six templates reserve space for numeric amount and words without moving signatures or branding; all exports use the same renderer. **3 certificate browser tests passed**, including exact conversion boundaries, invalid amounts, optional omission, switching, maximum-length/multilingual bounds and PDF/PNG downloads. Donation screenshot reviewed. Live HTTPS HTML/JS bytes match; amount wording, both downloads and 320px layout verified. Static update is live without restart, new dependencies, API writes or database changes. No Git push.
+
+
 **Certificate footer logo added (2026-09-27):** Added the existing Sushant Synapse logo beside “Created with Sushant Synapse”, centred as one subtle footer credit. The shared renderer decodes the same-origin logo before rendering so preview, thumbnails, PDF, PNG and print use identical branding; text remains as a fallback if the logo cannot load. Certificate browser tests: **2 passed**. Reviewed the footer screenshot; live HTTPS renderer bytes match and both PDF/PNG downloads passed. Static change is live without a restart; no database changes or Git push.
 
 

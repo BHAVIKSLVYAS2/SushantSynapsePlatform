@@ -10,3 +10,5 @@ All certificate content remains in tab memory; refreshing clears it. Images are 
 - `tests/browser.spec.js`: isolated Chrome workflows, output dimensions, privacy, responsive print and multilingual bounds.
 
 Run `npm.cmd run test:e2e -- apps/certificates/tests`. Exports use 3508 × 2480 pixels, approximately 300 dpi; PDF text is not selectable. Browser/system fonts support local scripts without remote font requests. Physical print quality also depends on uploaded image resolution and printer settings. Select A4 landscape and disable browser headers/footers if your print dialog overrides the page styling.
+
+Donation Appreciation includes an optional INR amount. Words are calculated automatically using lakh/crore and exact paise; blank omits both lines. Other certificate types hide the amount. Accepted range: INR 0.01 to 99,99,99,999.99, with up to two decimal places.

@@ -1,4 +1,4 @@
-import {render,templates} from './renderer.js';
+import {render,templates,donationAmount} from './renderer.js';
 import {pdfBlob,download} from './export.js';
 const $=s=>document.querySelector(s),form=$('#details'),canvas=$('#certificate'),status=$('#status'),images={},versions={logo:0,signature:0};
 const types={
@@ -24,9 +24,17 @@ for(const [i,name] of templates.entries()){
  render(thumb,{template:name,accent:'blue',recipient:'Thank you',message:types['Donation Appreciation']},{},.2);
 }
 function data(){const value=Object.fromEntries(new FormData(form));for(const key of Object.keys(value))if(typeof value[key]==='string')value[key]=value[key].trim();value.message ||= types[value.type];return value;}
-let frame;function preview(){cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>{const d=data();render(canvas,d,images);const description=`${d.title||'Certificate of Appreciation'} presented to ${d.recipient||'Recipient Name'} for ${d.description||'their contribution'}. ${d.message}`;canvas.setAttribute('aria-label',description);$('#preview-description').textContent=d.recipient?description:'Add their name and contribution to make this certificate yours.';});}
+function syncDonation(){
+ const enabled=form.elements.type.value==='Donation Appreciation',input=form.elements.donationAmount;
+ $('#donation-fields').hidden=!enabled;input.disabled=!enabled;
+ const amount=donationAmount(input.value);
+ input.setCustomValidity(enabled&&input.value&&!amount?'Enter an amount from ₹0.01 to ₹99,99,99,999.99, with up to two decimal places.':'');
+ $('#donation-words').value=enabled&&amount?amount.words:'';
+ return enabled?amount:null;
+}
+let frame;function preview(){const amount=syncDonation();cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>{const d=data();render(canvas,d,images);const description=`${d.title||'Certificate of Appreciation'} presented to ${d.recipient||'Recipient Name'} for ${d.description||'their contribution'}. ${d.message}${amount?' Donation of '+amount.number+'. '+amount.words+'.':''}`;canvas.setAttribute('aria-label',description);$('#preview-description').textContent=d.recipient?description:'Add their name and contribution to make this certificate yours.';});}
 let pendingImages=0;
-function valid(){if(pendingImages){status.textContent='Please wait for your image to finish loading.';return false;}for(const name of ['recipient','description'])form.elements[name].setCustomValidity(form.elements[name].value.trim()?'':'Please enter this detail.');return form.reportValidity();}
+function valid(){syncDonation();if(pendingImages){status.textContent='Please wait for your image to finish loading.';return false;}for(const name of ['recipient','description'])form.elements[name].setCustomValidity(form.elements[name].value.trim()?'':'Please enter this detail.');return form.reportValidity();}
 form.addEventListener('input',()=>{for(const name of ['recipient','description'])form.elements[name].setCustomValidity('');$('#downloads').hidden=true;status.textContent='';preview();});
 form.addEventListener('change',preview);
 form.addEventListener('submit',e=>{e.preventDefault();if(!valid())return;preview();$('#downloads').hidden=false;status.textContent='Your certificate is ready. Choose PDF, PNG or print.';$('#downloads').scrollIntoView({behavior:'smooth',block:'nearest'});});

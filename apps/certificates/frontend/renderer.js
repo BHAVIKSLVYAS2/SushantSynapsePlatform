@@ -1,3 +1,17 @@
+// Parse decimal rupees into integer paise so words never depend on rounding.
+export function donationAmount(value){
+ const raw=String(value??'').trim();
+ if(!/^\d{1,9}(?:\.\d{1,2})?$/.test(raw))return null;
+ const [whole,fraction='']=raw.split('.'),rupees=Number(whole),paise=Number(fraction.padEnd(2,'0'));
+ if(rupees===0&&paise===0)return null;
+ const ones=['Zero','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+ const tens=['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+ const small=n=>n<20?ones[n]:n<100?tens[Math.floor(n/10)]+(n%10?' '+ones[n%10]:''):ones[Math.floor(n/100)]+' Hundred'+(n%100?' '+small(n%100):'');
+ let rest=rupees;const parts=[];
+ for(const [unit,label] of [[10000000,'Crore'],[100000,'Lakh'],[1000,'Thousand']]){const count=Math.floor(rest/unit);if(count)parts.push(small(count)+' '+label);rest%=unit;}
+ if(rest||!parts.length)parts.push(small(rest));
+ return {number:'₹'+rupees.toLocaleString('en-IN')+(paise?'.'+String(paise).padStart(2,'0'):''),words:parts.join(' ')+(rupees===1?' Rupee':' Rupees')+(paise?' and '+small(paise)+(paise===1?' Paisa':' Paise'):'')+' Only'};
+}
 // All certificate geometry is in a 1122 × 793.333 A4 landscape coordinate system.
 export const templates=['Classic','Modern','Minimal','Elegant','Community','Corporate'];
 export const accents={blue:'#234560',teal:'#216d68',gold:'#82652e',plum:'#68405e'};
@@ -40,8 +54,13 @@ export function render(canvas,data,images={},scale=1.25){
  block(data.recipient||'Recipient Name',135,346,852,91,55,serif,ink);
  line(355,449,767,449,a,.7);
  block('In recognition and sincere appreciation of',150,466,822,26,17,'Arial',muted);
- block(data.description||'your valuable contribution and support to our community',157,501,808,81,23,'Arial',ink);
- block(data.message,180,590,762,47,17,serif,muted);
+ const donation=data.type==='Donation Appreciation'?donationAmount(data.donationAmount):null;
+ block(data.description||'your valuable contribution and support to our community',157,donation?495:501,808,donation?53:81,23,'Arial',ink);
+ if(donation){
+  block('Donation of '+donation.number,157,555,808,28,23,'Arial',a,'600');
+  block(donation.words,157,585,808,34,16,'Arial',muted);
+ }
+ block(data.message,180,donation?622:590,762,donation?20:47,17,serif,muted);
  image(images.signature,755,643,200,48);
  const date=data.date?new Date(data.date+'T12:00:00'):null;
  block(date&&!Number.isNaN(date.getTime())?date.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}):'',115,668,300,27,18,'Arial',ink);

@@ -32,7 +32,29 @@ test('maximum-length and multilingual text stays within the certificate content 
  const result=await page.evaluate(async()=>{
   const {render,templates}=await import('/certificates/renderer.js');const failures=[];
   for(const template of templates){const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d'),original=ctx.fillText.bind(ctx);ctx.fillText=(text,x,y)=>{const width=ctx.measureText(text).width;if(x-width/2<70||x+width/2>1052||y<60||y>785)failures.push({template,text,x,y,width});original(text,x,y);};
-   render(canvas,{template,accent:'plum',recipient:'आदित्य शर्मा '.repeat(8).slice(0,100),organization:'Community '.repeat(10),title:'Appreciation '.repeat(6),description:'W'.repeat(400),message:'Grateful for your thoughtful service. '.repeat(7).slice(0,250),signatory:'A'.repeat(70),designation:'Director '.repeat(8).slice(0,70),location:'Maharashtra '.repeat(7).slice(0,80),reference:'SS-2026-'+'X'.repeat(32),date:'2026-09-27'},{},1);
+   render(canvas,{template,type:'Donation Appreciation',donationAmount:'999999999.99',accent:'plum',recipient:'आदित्य शर्मा '.repeat(8).slice(0,100),organization:'Community '.repeat(10),title:'Appreciation '.repeat(6),description:'W'.repeat(400),message:'Grateful for your thoughtful service. '.repeat(7).slice(0,250),signatory:'A'.repeat(70),designation:'Director '.repeat(8).slice(0,70),location:'Maharashtra '.repeat(7).slice(0,80),reference:'SS-2026-'+'X'.repeat(32),date:'2026-09-27'},{},1);
   }return failures;
  });expect(result).toEqual([]);
+});
+
+
+test('optional donation amounts use exact Indian wording and stay out of other types',async({page})=>{
+ await page.goto(base+'/certificates');
+ const amounts=await page.evaluate(async()=>{const {donationAmount}=await import('/certificates/renderer.js');return ['5000','100000','10000000','1.01','0.50','999999999.99','','0','-1','1.001','1e3','1000000000'].map(donationAmount);});
+ expect(amounts.slice(0,6)).toEqual([
+  {number:'₹5,000',words:'Five Thousand Rupees Only'},
+  {number:'₹1,00,000',words:'One Lakh Rupees Only'},
+  {number:'₹1,00,00,000',words:'One Crore Rupees Only'},
+  {number:'₹1.01',words:'One Rupee and One Paisa Only'},
+  {number:'₹0.50',words:'Zero Rupees and Fifty Paise Only'},
+  {number:'₹99,99,99,999.99',words:'Ninety Nine Crore Ninety Nine Lakh Ninety Nine Thousand Nine Hundred Ninety Nine Rupees and Ninety Nine Paise Only'}
+ ]);expect(amounts.slice(6)).toEqual(Array(6).fill(null));
+ await page.getByLabel('Recipient Name',{exact:true}).fill('Aarav Sharma');await page.getByLabel('Appreciation / Contribution Description').fill('supporting our community education programme');
+ const amount=page.locator('[name=donationAmount]');await amount.fill('5000');await expect(page.getByLabel('Amount in words',{exact:true})).toHaveValue('Five Thousand Rupees Only');await expect(page.locator('#certificate')).toHaveAttribute('aria-label',/Donation of ₹5,000/);
+ for(const template of ['Classic','Modern','Minimal','Elegant','Community','Corporate']){await page.getByRole('radio',{name:template,exact:true}).check();await expect(amount).toHaveValue('5000');}
+ await page.getByRole('radio',{name:'Classic',exact:true}).check();await page.locator('#certificate').screenshot({path:'test-results/certificate-donation.png'});
+ await page.getByRole('button',{name:'Generate certificate'}).click();await expect(page.locator('#downloads')).toBeVisible();for(const format of ['PDF','PNG']){const [download]=await Promise.all([page.waitForEvent('download'),page.getByRole('button',{name:'Download '+format,exact:true}).click()]);expect(await download.failure()).toBeNull();}
+ await amount.fill('-1');await page.getByRole('button',{name:'Generate certificate'}).click();await expect(page.locator('#downloads')).toBeHidden();
+ await page.getByLabel('Certificate Type').selectOption('Blood Donation');await expect(amount).toBeHidden();await expect(amount).toBeDisabled();await expect(page.locator('#certificate')).not.toHaveAttribute('aria-label',/Donation of/);await page.getByRole('button',{name:'Generate certificate'}).click();await expect(page.locator('#downloads')).toBeVisible();
+ await page.getByLabel('Certificate Type').selectOption('Donation Appreciation');await expect(amount).toHaveValue('-1');await amount.fill('');await page.getByRole('button',{name:'Generate certificate'}).click();await expect(page.locator('#downloads')).toBeVisible();await expect(page.locator('#certificate')).not.toHaveAttribute('aria-label',/Donation of/);
 });
