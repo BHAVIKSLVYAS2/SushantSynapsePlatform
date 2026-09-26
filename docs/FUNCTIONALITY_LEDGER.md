@@ -13,6 +13,10 @@ Last updated: **2026-09-27**. Chambers target: **advocates and chamber staff in 
 
 ## Current checkpoint
 
+**Donation release deployment reconfirmed (2026-09-27):** On the user's deployment request, fresh public HTTPS Chrome verification confirmed release `70b0882` is already served: exact certificate HTML/app/renderer bytes, optional donation amount with Five Thousand Rupees Only for 5000, successful PDF and PNG downloads, and health `ok`. Static assets are served directly, so no restart or database write was needed. No application changes, Git push or repeat regression suite in this verification-only session.
+
+
+
 **Donation amount in numbers and words (2026-09-27):** Donation Appreciation now offers an optional INR amount with automatically generated, read-only Indian number wording (lakh/crore and exact paise). Positive values from 0.01 through 999999999.99, at most two decimals, are accepted; blank omits the amount. Switching types hides and disables the field, excludes the amount from rendering/validation and retains the value when switching back. All six templates reserve space for numeric amount and words without moving signatures or branding; all exports use the same renderer. **3 certificate browser tests passed**, including exact conversion boundaries, invalid amounts, optional omission, switching, maximum-length/multilingual bounds and PDF/PNG downloads. Donation screenshot reviewed. Live HTTPS HTML/JS bytes match; amount wording, both downloads and 320px layout verified. Static update is live without restart, new dependencies, API writes or database changes. No Git push.
 
 
