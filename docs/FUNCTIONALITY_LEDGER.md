@@ -13,6 +13,9 @@ Last updated: **2026-09-27**. Chambers target: **advocates and chamber staff in 
 
 ## Current checkpoint
 
+**Certificate footer logo added (2026-09-27):** Added the existing Sushant Synapse logo beside “Created with Sushant Synapse”, centred as one subtle footer credit. The shared renderer decodes the same-origin logo before rendering so preview, thumbnails, PDF, PNG and print use identical branding; text remains as a fallback if the logo cannot load. Certificate browser tests: **2 passed**. Reviewed the footer screenshot; live HTTPS renderer bytes match and both PDF/PNG downloads passed. Static change is live without a restart; no database changes or Git push.
+
+
 **Certificate Generator committed and deployed (2026-09-27):** Release `f3942d6` is live at `https://apps.sushantsynapse.com/certificates`. Restarted only the verified Node child beneath the existing Windows production supervisor; tunnel stayed running. Live Chrome verified byte-for-byte certificate HTML, all four certificate assets and portal JS, three homepage cards, anonymous generation, successful PDF and PNG downloads, 320/390/768/1440px layouts, health `ok` and 401 protection for Chambers state, platform, private Fund Lens portfolio and News preview APIs. Initial live download probe timed out; repeat with explicit download permissions and jointly awaited click/download passed both formats. No application exceptions. Cloudflare's injected analytics beacon is blocked by the existing self-only CSP; certificate generation remains fully functional. SQLite integrity is `ok`, and every table's complete row-content hash matches `data/backups/pre-certificates-20260927-022049.sqlite`. No production certificate data, accounts or editions were written. Fresh pre-release verification: **55 API tests and 16 browser workflows passed**. Commit created locally; no Git push. Existing Windows host/tunnel uptime requirements remain.
 
 

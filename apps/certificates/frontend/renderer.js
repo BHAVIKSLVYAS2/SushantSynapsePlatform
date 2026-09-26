@@ -1,6 +1,8 @@
 // All certificate geometry is in a 1122 × 793.333 A4 landscape coordinate system.
 export const templates=['Classic','Modern','Minimal','Elegant','Community','Corporate'];
 export const accents={blue:'#234560',teal:'#216d68',gold:'#82652e',plum:'#68405e'};
+// Decode the same-origin brand mark before any preview or export is rendered.
+const brandLogo=await (async()=>{const logo=new Image();logo.src='/logo-adaptive-192.png';try{await logo.decode();return logo;}catch{return null;}})();
 const ink='#253441',muted='#63717a',paper='#fffefa';
 export function render(canvas,data,images={},scale=1.25){
  canvas.width=Math.round(1122*scale);canvas.height=Math.round(1122*210/297*scale);
@@ -48,6 +50,12 @@ export function render(canvas,data,images={},scale=1.25){
  block(data.signatory,690,707,330,22,15,'Arial',ink,'600');
  block(data.designation,690,733,330,20,12,'Arial',muted);
  block(data.reference,421,729,280,18,10,'Arial',muted);
- block('Created with Sushant Synapse',340,769,442,14,10,'Arial','#7b858c');
+ const credit='Created with Sushant Synapse';
+ c.font='10px Arial';
+ const creditWidth=c.measureText(credit).width,markWidth=brandLogo?20:0,left=(W-creditWidth-markWidth)/2;
+ c.save();
+ if(brandLogo){c.globalAlpha=.65;image(brandLogo,left,770,15,15);c.globalAlpha=1;}
+ c.fillStyle='#7b858c';c.textAlign='left';c.textBaseline='middle';c.fillText(credit,left+markWidth,777.5);
+ c.restore();
  return canvas;
 }
