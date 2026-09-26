@@ -27,7 +27,7 @@ test('News additive migration, atomic immutable editions, pagination, restart an
   store.sql.close();store=new Store(dir);const reopened=createNewsRepository(store);assert.deepEqual(reopened.get('2025-01-02'),saved);assert.deepEqual(store.all('clients'),original);assert.deepEqual(Buffer.from(store.file('preserved').content),Buffer.from([0,1,255]));assert.equal(store.sql.prepare('SELECT count(*) n FROM news_migrations').get().n,2);
  }finally{store.sql.close();if(path.dirname(dir)===path.resolve(os.tmpdir()))fs.rmSync(dir,{recursive:true,force:true});}
 });
-test('News archive routes validate dates, deny writes and enforce preview access before reading',async()=>{
+test('News archive routes validate dates, deny writes and allow public reading while protecting publication',async()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'news-api-'));const store=new Store(dir);
  try{
   let user={role:'Owner'},allowed=true;
@@ -40,8 +40,8 @@ test('News archive routes validate dates, deny writes and enforce preview access
   await assert.rejects(call('news/editions','POST'),e=>e.status===405);
   createNewsRepository(store).publish(edition('2025-01-01'));
   assert.equal((await call('news/editions/2025-01-01')).data.stories.length,10);
-  allowed=false;await assert.rejects(call('news/editions/2025-01-01'),e=>e.status===403);
-  allowed=true;user={role:'Clerk'};assert.equal((await call('news/editions')).data.editions.length,1);await assert.rejects(call('news/fetch','POST'),e=>e.status===403);
-  user=null;await assert.rejects(call('news/editions'),e=>e.status===401);
+  allowed=false;assert.equal((await call('news/editions/2025-01-01')).status,200);
+  allowed=true;user={role:'Clerk'};assert.equal((await call('news/editions')).data.editions.length,1);await assert.rejects(call('news/preview/2025-01-01'),e=>e.status===403);
+  user=null;assert.equal((await call('news/editions')).data.editions.length,1);await assert.rejects(call('news/preview/2025-01-01'),e=>e.status===401);
  }finally{store.sql.close();if(path.dirname(dir)===path.resolve(os.tmpdir()))fs.rmSync(dir,{recursive:true,force:true});}
 });

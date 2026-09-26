@@ -41,12 +41,29 @@ test('news fetch lease, stored preview, retry cutoff, restart cache, SQL export 
   assert.equal(service.preview('2025-01-04').state,'interrupted');assert.equal((await service.fetchDate()).state,'ready');
  }finally{store.sql.close();if(path.dirname(dir)===path.resolve(os.tmpdir()))fs.rmSync(dir,{recursive:true,force:true});}
 });
-test('fetch API rejects unauthorized and malformed writes before provider calls',async()=>{
+test('public fetch API rejects malformed writes before provider calls',async()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'news-fetch-api-'));const store=new Store(dir);let user=null,calls=0;
  try{
   const handler=createNews({store,auth:{hasAppAccess:()=>true,owner(u){if(u.role!=='Owner'){const e=Error('Owner required');e.status=403;throw e;}}},provider:{fetchStories:async()=>{calls++;return [];}}});
   const call=body=>{const req=Readable.from([Buffer.from(JSON.stringify(body))]);req.headers={'content-type':'application/json'};return handler({route:'news/fetch',method:'POST',user,req,json(){}});};
-  await assert.rejects(call({}),e=>e.status===401);user={role:'Clerk'};await assert.rejects(call({}),e=>e.status===403);user={role:'Owner'};
+
   for(const body of [{url:'https://attacker.example'},{date:123},{date:''},{date:'invalid'}])await assert.rejects(call(body),e=>e.status===400);assert.equal(calls,0);
  }finally{store.sql.close();if(path.dirname(dir)===path.resolve(os.tmpdir()))fs.rmSync(dir,{recursive:true,force:true});}
+});
+
+test('anonymous and member generation share one immutable edition and one provider fetch',async()=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'news-shared-api-'));let store=new Store(dir),calls=0,release,started;
+ const arrived=new Promise(resolve=>{started=resolve;});const blocked=new Promise(resolve=>{release=resolve;});
+ try{
+  const auth={hasAppAccess:()=>false,owner(){throw Error('Public generation must not require owner');}};
+  const provider={fetchStories:async cutoff=>{calls++;started();await blocked;return Array.from({length:10},(_,i)=>({title:'Public review '+i,source:'PIB',provider:'PIB',url:'https://www.pib.gov.in/PressReleasePage.aspx?PRID='+i,publishedAt:new Date(Date.parse(cutoff)-60000).toISOString(),description:'The department published its daily public update describing infrastructure improvements and the next steps for the programme. Isolated fixture.'}));}};
+  let handler=createNews({store,auth,provider});
+  const invoke=async(user=null)=>{const req=Readable.from([Buffer.from('{}')]);req.headers={'content-type':'application/json'};let result;await handler({route:'news/fetch',method:'POST',user,req,json(status,data){assert.equal(status,200);result=data;}});return result;};
+  const first=invoke();await arrived;
+  await assert.rejects(invoke({id:'member',role:'Clerk'}),e=>e.status===409);assert.equal(calls,1);
+  release();const published=await first;assert.equal(published.edition.stories.length,10);
+  const second=await invoke({id:'member',role:'Clerk'});assert.equal(second.cached,true);assert.deepEqual(second.edition,published.edition);assert.equal(calls,1);
+  store.sql.close();store=new Store(dir);handler=createNews({store,auth,provider});
+  assert.deepEqual((await invoke()).edition,published.edition);assert.equal(calls,1);
+ }finally{release?.();store.sql.close();fs.rmSync(dir,{recursive:true,force:true});}
 });

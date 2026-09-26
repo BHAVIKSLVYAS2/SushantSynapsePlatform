@@ -31,7 +31,8 @@ Visit the HTTPS domain, enter the setup token and create the first owner account
 
 - `/` — platform app collection, favourites, recent apps, profile and access management.
 - `/advocate` — Chambers advocate app.
-- `/fund-overlap` — Fund Lens mutual fund overlap analyzer; shared sign-in and app grant required for disclosure data.
+- `/fund-overlap` — public Fund Lens mutual fund overlap analyzer; no login required for reference data or comparisons.
+- `/news` — public saved newspaper and date archives; any visitor can generate the shared edition; operational previews require owner access.
 - `/healthz` — anonymous health signal; no business data.
 
 The public app port is not published by Compose; only Caddy's ports are exposed. The app runs as a non-root user and requires an HTTPS `PUBLIC_ORIGIN` and setup token when `NODE_ENV=production`. Host and origin checks allow the configured domain. Session cookies are Secure in production.

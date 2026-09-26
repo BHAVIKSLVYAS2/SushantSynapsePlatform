@@ -14,7 +14,9 @@ function createFundOverlap({auth, store, cacheDir, provider = createNationalProv
   const watchlists = store ? createWatchlists({store,auth}) : null;
   const portfolio = store ? createPortfolio({store,auth,nav}) : null;
   return async function handle({route, method, req, res, user}) {
-    if (!auth.hasAppAccess(user, 'fund-overlap')) fail(403, 'Ask the platform owner for Fund Lens access');
+    const privateRoute = /^fund-overlap\/(portfolio|watchlists)(\/|$)/.test(route);
+    if (privateRoute && !user) fail(401, 'Please sign in');
+    if (privateRoute && !auth.hasAppAccess(user, 'fund-overlap')) fail(403, 'Ask the platform owner for Fund Lens access');
     if(route==='fund-overlap/portfolio'||route.startsWith('fund-overlap/portfolio/')) {
       if(!portfolio)fail(503,'Portfolio tracker unavailable');
       return portfolio({route,method,req,res,user});
@@ -35,9 +37,6 @@ function createFundOverlap({auth, store, cacheDir, provider = createNationalProv
         const code = relative.slice(4); if (!codeValid(code)) fail(404, 'Scheme not found');
         try {data = await nav.history(code);} catch (error) {fail(503, error.message);}
       }
-      const current = auth.session(req);
-      if (!current) fail(401, 'Please sign in');
-      if (!auth.hasAppAccess(current, 'fund-overlap')) fail(403, 'Fund Lens access needed');
       res.setHeader('Cache-Control', 'private, no-store'); res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.writeHead(200); return res.end(method === 'HEAD' ? undefined : JSON.stringify(data));
     }
@@ -74,9 +73,6 @@ function createFundOverlap({auth, store, cacheDir, provider = createNationalProv
         try { data = await provider.snapshot(slug); }
         catch (error) { fail(503, error.message); }
       }
-      const current = auth.session(req);
-      if (!current) fail(401, 'Please sign in');
-      if (!auth.hasAppAccess(current, 'fund-overlap')) fail(403, 'Ask the platform owner for Fund Lens access');
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.writeHead(200); return res.end(method === 'HEAD' ? undefined : JSON.stringify(data));
     }
@@ -92,7 +88,7 @@ function createFundOverlap({auth, store, cacheDir, provider = createNationalProv
       if (cache.size > 100) cache.clear();
       cache.set(relative, item);
     }
-    // Recheck identity/grants before returning even an unchanged cached snapshot.
+    // Versioned snapshots contain only public reference holdings.
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
     res.setHeader('Cache-Control', 'private, max-age=0, must-revalidate');
     res.setHeader('Vary', 'Cookie');

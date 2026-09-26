@@ -78,7 +78,7 @@ test('search adapter excludes non-funds and unsafe identifiers; upstream failure
 function response() {
   return {headers: {}, setHeader(k, v) {this.headers[k] = v;}, writeHead(status) {this.status = status;}, end(body) {this.body = body;}};
 }
-test('national routes enforce grants before upstream calls and recheck sessions after loading; search failure retains local funds', async () => {
+test('public national routes validate input and survive session expiry; search failure retains local funds', async () => {
   let allowed = true, session = {id: 'fixture'}, calls = 0;
   const auth = {hasAppAccess: () => allowed, session: () => session};
   const provider = {search: async () => {calls++; throw Error('offline');}, snapshot: async () => {calls++; session = null; return {};}};
@@ -87,11 +87,10 @@ test('national routes enforce grants before upstream calls and recheck sessions 
     const res = response();
     return handle({route: 'fund-overlap/' + route, method: 'GET', req: {url, headers: {}}, res, user: {id: 'fixture'}}).then(() => res);
   };
-  allowed = false; await assert.rejects(invoke('search', '/api/fund-overlap/search?q=hdfc'), e => e.status === 403); assert.equal(calls, 0);
   allowed = true; await assert.rejects(invoke('search', '/api/fund-overlap/search?q=x'), e => e.status === 400); assert.equal(calls, 0);
   const result = await invoke('search', '/api/fund-overlap/search?q=parag');
   assert.equal(JSON.parse(result.body).funds.length, 5); assert.match(JSON.parse(result.body).warning, /temporarily unavailable/);
   assert.match(result.headers['Cache-Control'], /private, no-store/);
-  await assert.rejects(invoke('remote/hdfc-equity-fund-direct-growth'), e => e.status === 401);
+  assert.equal((await invoke('remote/hdfc-equity-fund-direct-growth')).status,200);
   assert.equal(calls, 2);
 });

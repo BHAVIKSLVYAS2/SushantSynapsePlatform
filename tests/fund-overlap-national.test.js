@@ -121,13 +121,12 @@ test('public API rate limiting cools down and URLs stay within the source allowl
   await assert.rejects(api.request('https://evil.example/'),/Unsupported/);
 });
 
-test('national scheme routes enforce grants and validate codes before upstream reads',async()=>{
+test('public national scheme routes validate codes before upstream reads',async()=>{
   let calls=0,allowed=false,user={id:'owner'};
   const handler=createFundOverlap({auth:{hasAppAccess:()=>allowed,session:()=>user},provider:{scheme:async()=>{calls++;return {schemeId:'amfi-118955'};},search:async()=>({funds:[],nextOffset:40,total:55})}});
   const invoke=async(route,url='/api/fund-overlap/'+route)=>{const res={setHeader(){},writeHead(status){this.status=status;},end(body){this.body=body;}};await handler({route:'fund-overlap/'+route,method:'GET',req:{url,headers:{}},res,user});return res;};
-  await assert.rejects(invoke('scheme/118955'),e=>e.status===403);assert.equal(calls,0);allowed=true;
   await assert.rejects(invoke('scheme/../secret'),e=>e.status===404);assert.equal(calls,0);
   const ok=await invoke('scheme/118955');assert.equal(ok.status,200);assert.equal(calls,1);
   const page=await invoke('search','/api/fund-overlap/search?q=example&offset=20');assert.equal(JSON.parse(page.body).nextOffset,40);
-  user=null;await assert.rejects(invoke('scheme/118955'),e=>e.status===401);
+  user=null;assert.equal((await invoke('scheme/118955')).status,200);
 });

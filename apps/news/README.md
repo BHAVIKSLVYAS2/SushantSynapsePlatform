@@ -1,8 +1,8 @@
 # Sushant Synapse Times
 
-By **Bhavik**, at `/news`. Manual newspaper publication is implemented: the owner clicks **Fetch today's newspaper**, the server selects ten recent English PIB public releases, adds credited source excerpts and one clearly labelled fictional satire, and saves the complete edition atomically in SQLite. Repeated clicks and reloads open the saved edition with no external calls. Shared theme, mobile layouts, source links, date archives and Print / Save PDF are supported.
+By **Bhavik**, at `/news`. Manual newspaper publication is implemented: any visitor clicks **Fetch today's newspaper**, the server selects ten recent English PIB public releases, adds credited source excerpts and one clearly labelled fictional satire, and saves the complete edition atomically in SQLite. Repeated clicks and reloads open the saved edition with no external calls. Shared theme, mobile layouts, source links, date archives and Print / Save PDF are supported.
 
-News is Available in the platform catalogue. Owners can publish; users explicitly granted News access can read. Anonymous users and users without access cannot read editions. Publication accepts only an optional edition date, never user-supplied article content. Existing editions are immutable. No accounts or app grants are changed by this release.
+News is Available in the platform catalogue. Anyone can read saved editions and archives without logging in. Any visitor can generate the shared daily edition without login. Repeat requests return that same immutable edition, with no additional provider fetch. Operational previews remain restricted to an authenticated owner with News access. Publication accepts only an optional edition date, never user-supplied article content. Existing editions are immutable. No accounts or app grants are changed by this release.
 
 ## Source and editorial scope
 

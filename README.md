@@ -22,12 +22,12 @@ This is an npm workspace monorepo. See [code ownership and adding apps](docs/ARC
 
 A mobile-first home for connected apps at **apps.sushantsynapse.com**. Chambers, Fund Lens and News are available; Projects, Finance and Knowledge are roadmap previews only.
 
-- `/`: shared sign-in, searchable app catalogue, favourites, recent launches, profile and owner-managed team access.
+- `/`: public Fund Lens and News launch cards, with optional sign-in for the searchable account catalogue, favourites, recent launches, profile and owner-managed team access.
 - `/advocate`: the complete Chambers workspace described below, using the same account and theme.
-- `/news`: **Sushant Synapse Times**, by **Bhavik**. Owner-triggered daily newspaper with ten recent India public-affairs releases, credited excerpts, fictional satire and SQLite date archives. Saved editions reopen without fetching. See [News usage and source scope](apps/news/README.md). Automatic 05:00 publication remains deferred.
-- `/fund-overlap`: Fund Lens compares mutual fund equity holdings, industry exposure and unique contributions using national MFapi discovery, Tickertape/Groww holdings and official PPFAS reference snapshots. See [coverage, methodology and refresh instructions](apps/fund-overlap/README.md).
+- `/news` (no login required): **Sushant Synapse Times**, by **Bhavik**. Shared daily newspaper generated on request by any visitor with ten recent India public-affairs releases, credited excerpts, fictional satire and SQLite date archives. Saved editions reopen without fetching. See [News usage and source scope](apps/news/README.md). Automatic 05:00 publication remains deferred.
+- `/fund-overlap` (no login required): Fund Lens compares mutual fund equity holdings, industry exposure and unique contributions using national MFapi discovery, Tickertape/Groww holdings and official PPFAS reference snapshots. See [coverage, methodology and refresh instructions](apps/fund-overlap/README.md).
 - SQLite stores accounts, app grants, preferences and Chambers records. Existing accounts receive Chambers access during migration; existing records are preserved.
-- Fund Lens **My portfolio** adds account-private transaction tracking, manual entry, previewed CSV import, dated NAV values, gains and XIRR. Transactions persist in app-owned SQLite tables and full SQL backups. See [portfolio usage and limits](apps/fund-overlap/README.md).
+- Fund Lens focuses on holdings overlap, industries and what-if comparisons. Personal portfolio entry/import, watchlists and investment calculators have been removed from the interface. Existing private SQLite records remain preserved and protected.
 - This release serves one organisation with one Chambers workspace. It does not yet provide separate customer tenants or isolated databases per app.
 
 Run `npm.cmd start`, then open http://localhost:3000. The public platform is served through the local Windows Cloudflare Tunnel. For its operational requirements and the alternative Docker deployment, follow the [deployment guide](docs/DEPLOYMENT.md).
@@ -138,3 +138,9 @@ Research references used for the original workflow design:
 
 - [Official eCourts services](https://ecommitteesci.gov.in/service/ecourts-services-portal/) — CNR, case status, cause lists, orders and judgments.
 - [Clio case management](https://www.clio.com/features/case-management/) — matter, task, document, client and fee workflows.
+
+## Appreciation Certificate Generator
+
+`/certificates` is a public, login-free app for eleven appreciation types, six templates, live preview, optional logos/signatures, four accents and local A4 landscape PDF/PNG/print output. It holds certificate content in tab memory only; refreshing clears it. Theme preference is the only local storage used. No certificate upload or storage endpoint exists.
+
+Exports are 3508 × 2480 pixels (approximately 300 dpi). PDF embeds a high-quality raster image to preserve the browser-rendered fonts and layout; its text is not selectable. Print uses A4 landscape with zero CSS margins; printer hardware margins and print-dialog settings can affect physical output. Uploaded PNG/JPEG/WebP images are limited to 5 MB and 24 megapixels, then resized locally to at most 1600 pixels. References are optional, unverified identifiers. No accounts, history, bulk tools, verification, premium upgrades or delivery integrations are implemented.

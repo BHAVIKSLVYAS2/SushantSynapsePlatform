@@ -10,12 +10,9 @@ systemTheme.addEventListener('change',applyTheme);
 window.addEventListener('storage',()=>{theme.value=window.SynapseTheme.read();if(!theme.value)theme.value='system';applyTheme();});
 async function load(){
   document.querySelector('#retry').hidden=true;
-  document.querySelector('#sign-in').hidden=true;
-  document.querySelector('#gate-message').textContent='Checking access…';
+  document.querySelector('#gate-message').textContent='Loading newspaper…';
   try{
     const response=await fetch('/api/news/status',{cache:'no-store'});
-    if(response.status===401){document.querySelector('#sign-in').hidden=false;throw Error('Sign in with your platform account to continue.');}
-    if(response.status===403)throw Error('Ask the platform owner for News app access.');
     if(!response.ok)throw Error('The newspaper could not be loaded. Please retry.');
     const status=await response.json();
     document.querySelector('#edition-date').value=status.today;
@@ -23,7 +20,7 @@ async function load(){
     document.querySelector('#newspaper').hidden=false;
     if(status.archiveAvailable)await loadArchives(status.today);
     document.querySelector('#fetch-news').hidden=!status.fetchAvailable;
-    document.querySelector('#fetch-note').textContent=status.fetchAvailable?'':'The owner can publish today\u2019s newspaper.';
+    document.querySelector('#fetch-note').textContent=status.fetchAvailable?'':'Newspaper generation is temporarily unavailable. Please retry shortly.';
     if(status.fetchAvailable)await setupFetching(status.today);
   }catch(error){document.querySelector('#gate-message').textContent=error.message;document.querySelector('#retry').hidden=false;}
 }
@@ -46,12 +43,6 @@ function navigation(){
 }
 async function getJson(url){
   const response=await fetch(url,{cache:'no-store'});
-  if(response.status===401||response.status===403){
-    document.querySelector('#newspaper').hidden=true;document.querySelector('#gate').hidden=false;
-    document.querySelector('#gate-message').textContent='Your session or preview access has ended. Sign in to continue.';
-    document.querySelector('#sign-in').hidden=false;
-    throw Error('Sign in to continue.');
-  }
   if(response.status===404)return null;
   if(!response.ok)throw Error('Could not load saved editions. Please try again.');
   return response.json();
@@ -127,15 +118,14 @@ function showPreview(result){
 }
 async function setupFetching(today){
   const button=document.querySelector('#fetch-news');button.disabled=false;button.textContent="Fetch today's newspaper";
-  document.querySelector('#fetch-note').textContent='Fetch once per day. Reopen the saved edition any time.';
-  try{const saved=await getJson('/api/news/preview/'+today);if(saved&&saved.state!=='empty')showPreview(saved);}catch(error){document.querySelector('#fetch-status').textContent=error.message;}
+  document.querySelector('#fetch-note').textContent='Anyone can prepare today’s newspaper. One shared edition is saved for everyone; repeat visits open the same edition.';
+  try{const saved=await getJson('/api/news/editions/'+today);if(saved)showPreview({state:'published',cached:true});}catch(error){document.querySelector('#fetch-status').textContent=error.message;}
 }
 document.querySelector('#fetch-news').addEventListener('click',async()=>{
   const button=document.querySelector('#fetch-news');button.disabled=true;
   document.querySelector('#fetch-preview').hidden=false;document.querySelector('#fetch-status').textContent='Preparing your newspaper...';
   try{
     const response=await fetch('/api/news/fetch',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});
-    if(response.status===401||response.status===403){document.querySelector('#newspaper').hidden=true;document.querySelector('#gate').hidden=false;document.querySelector('#gate-message').textContent='Sign in as the platform owner to fetch news.';document.querySelector('#sign-in').hidden=false;return;}
     const result=await response.json();if(!response.ok)throw Error(result.error||'News fetch failed. Please retry later.');
     showPreview(result);if(result.state==='published'){dates=[];await archivePage();await openEdition(result.date);}
   }catch(error){document.querySelector('#fetch-status').textContent=error.message;}

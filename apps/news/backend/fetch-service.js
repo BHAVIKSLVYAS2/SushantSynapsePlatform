@@ -15,7 +15,7 @@ function createFetchService({store,repository,provider,clock=()=>new Date()}){
       const saved=preview(date);if(saved.state==='published'||saved.state==='ready')return saved;
       const existing=store.sql.prepare('SELECT * FROM news_runs WHERE date=?').get(date);
       if(date!==indiaDate(now)&&!existing)fail(400,'Only today can start a new fetch. Existing failed runs can be retried.');
-      if(existing?.state==='running'&&existing.leaseUntil>at)fail(409,'A news fetch is already running. Reopen the preview shortly.');
+      if(existing?.state==='running'&&existing.leaseUntil>at)fail(409,'Someone is already preparing this newspaper. Open today’s edition again shortly.');
       if(existing&&Date.parse(at)-Date.parse(existing.updatedAt)<60000)fail(429,'Please wait one minute before retrying.');
       if(existing?.attempts>=5)fail(429,'This edition has reached its five-attempt limit.');
       // A persisted global cooldown also protects retries for different dates.
@@ -34,7 +34,7 @@ function createFetchService({store,repository,provider,clock=()=>new Date()}){
       const stories=await provider.fetchStories(claim.cutoff);
       if(!Array.isArray(stories)||stories.length!==10)fail(502,'News provider did not return ten stories');
       const result=store.sql.prepare("UPDATE news_runs SET sourceJson=?,state='pending',leaseToken=NULL,leaseUntil=NULL,error=NULL,updatedAt=? WHERE date=? AND leaseToken=?").run(JSON.stringify(stories),clock().toISOString(),date,token);
-      if(!result.changes)fail(409,'This fetch was superseded. Reopen the saved preview.');
+      if(!result.changes)fail(409,'This fetch was superseded. Reopen the saved newspaper.');
       return {...preview(date),cached:false};
     }catch(error){
       // Never persist arbitrary provider/network exception text or request URLs.

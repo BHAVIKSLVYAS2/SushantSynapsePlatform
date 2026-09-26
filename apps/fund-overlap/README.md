@@ -1,6 +1,6 @@
 # Fund Lens
 
-Fund Lens lives at `/fund-overlap` and in the platform catalogue. Owners can launch it immediately. Owners grant other users access through **Team access → Fund Lens**. Roles are read-only inside this app; it creates no financial records.
+Fund Lens lives at `/fund-overlap` and in the platform catalogue. Anyone can open it without a platform login, including comparison share links. The interface focuses on public holdings overlap, industries, unique contributions and what-if fund combinations.
 
 ## Coverage and interpretation
 
@@ -43,9 +43,9 @@ All five sources must pass before the index is atomically replaced. Missing/brok
 
 ## Access, privacy and cache
 
-The platform shell is public, while `/api/fund-overlap/*` requires a session and Fund Lens grant. Backend routes validate index/snapshot paths, AMFI scheme codes and legacy Groww slugs; upstream hosts are fixed and credentials are never forwarded. There is no comparison POST API. Selections stay in browser memory, and share links put scheme IDs and basis in the fragment. No investment amounts, PAN, folio or bank details are collected. Individual public snapshot downloads are visible to the origin; shared platform session cookies still apply.
+Fund reference APIs are public. Backend routes validate snapshot paths, AMFI codes and Groww slugs; upstream hosts are fixed and credentials are never forwarded. Comparisons stay in browser memory. Share links contain public scheme IDs and the selected basis, and work without login. No investment amounts, PAN, folio or bank details are collected by the comparison interface.
 
-Data responses use `private, max-age=0, must-revalidate`, `Vary: Cookie` and SHA-256 ETags. Authentication and grants are checked before conditional 304 responses, so revoked grants cannot fetch cached data anew. Already downloaded data in an open browser cannot be recalled. This is a deliberate change from public CDN caching in the standalone document: it preserves platform app-access enforcement. Static app JS/CSS revalidate through the platform's existing asset handler.
+Reference responses retain conservative revalidation and SHA-256 ETags. Private legacy portfolio/watchlist APIs still require a session and Fund Lens app access. Their SQLite records and SQL backup support are preserved. Chambers and platform preferences remain authenticated.
 
 ## Validation and operation
 
@@ -55,31 +55,11 @@ npm.cmd run test:fund-overlap
 npm.cmd run test:e2e
 ```
 
-API/browser tests use isolated temporary SQLite databases. Public source fixtures under `tests/fixtures` are official July 2026 XLSX files; no user data is included. Golden totals guard omissions or accidental inclusion of debt. Browser tests cover the portal launch, private gate, selection, both bases, filters, minimum-two simulator, shared links, CSV, printing, missing-source retry, 320/768/1440px layouts, and light/dark/system preferences.
+API/browser tests use isolated temporary SQLite databases. Public source fixtures under `tests/fixtures` are official July 2026 XLSX files; no user data is included. Golden totals guard omissions or accidental inclusion of debt. Browser tests cover the portal launch, anonymous access, selection, both bases, filters, minimum-two simulator, shared links, CSV, printing, missing-source retry, 320/768/1440px layouts, and light/dark/system preferences.
 
 No app database schema is needed: holdings are versioned public reference artifacts, not user business records. Shared auth/access/preferences remain in `data/chambers.sqlite`. Hosting uses the platform's current Windows Node process behind Cloudflare Tunnel. It requires the computer to remain running and connected; see `docs/DEPLOYMENT.md`.
-# Performance, exposure, SIP and watchlists
+## Scope cleanup (2026-09-26)
 
-## Personal portfolio tracker
+Removed the personal transaction/import interface, performance/risk/rolling-return panels, SIP simulator, saved-watchlist panel and amount-based exposure calculator from the served app. The public comparison retains search, 2?8 funds, overlap, holdings/industry views, what-if combinations, source provenance, share links, holdings report export and printing.
 
-**My portfolio** records actual statement transactions in private per-account SQLite tables. Use BUY for purchases/SIPs, SELL for redemptions, and DIVIDEND (zero units) for cash distributions. Enter the exact AMFI plan, date, actual units and cash paid/received. Plan-code search, editing, deletion, filtering and personal CSV export are available.
-
-CSV columns: `scheme_code,date,type,units,amount,reference`. Dates are YYYY-MM-DD; reference is optional. Download the template, preview the import, then save it. Imports are atomic and skip exact duplicates; overselling and stale-tab edits are rejected. Limits: 500 rows/1 MB per import, 50 schemes and 10,000 transactions per account. Broker-specific files/PDFs require conversion. No broker link is made.
-
-Current valuation uses available dated NAVs; aggregate values require a common date after all recorded transactions. Total gain is current value plus redemptions/distributions minus purchases. Actual dated cash flows determine XIRR; missing data or ambiguous/no detected solutions are explicit. These are not tax/FIFO calculations. Corporate actions and transfers are not automatically reconciled.
-
-Portfolios persist in the existing database and are included in full SQL backups. Chambers JSON backups do not include portfolio transactions; export your personal CSV as needed. Full database backups remain administrator-accessible. [Implementation and release checkpoint](../../docs/FUND_PORTFOLIO_PROGRESS.md).
-
-**Historical risk comparison** appears after loading Growth-plan NAV history. It shows annualised daily volatility, largest observed NAV drawdown, and recovery of that drawdown during the selected performance period. Sparse history produces an explicit unavailable volatility value; missing NAVs can hide larger falls. Methodology is expandable in the interface.
-
-**Rolling returns** compares completed monthly observations over all shared history, using separate 1/3/5-year windows. It shows lowest, median and highest annualised returns plus the share of positive windows. The date selector reveals the exact start/end and return for each plan. Plans use identical dates; endpoint gaps over seven days are skipped. These overlapping historical samples are not future probabilities.
-
-Open **Performance comparison** above the overlap selector to search exact MFapi plans. Direct and Regular plans remain separate for returns. Compare up to four Growth options over 1/3/5 years on shared NAV dates; short histories and distribution options produce explicit errors. NAV history is validated, cached for 24 hours and served only to authorised Fund Lens users.
-
-After loading history, **Historical SIP simulator** uses a monthly amount and start/end dates. Month-end dates are clamped to the month length, purchases use the next available NAV (maximum seven-day gap), and valuation uses the last NAV on/before the end date. XIRR uses actual simulated cash-flow dates. Taxes, exit loads and transaction charges are excluded; this is historical simulation, not a forecast.
-
-**Your saved watchlists** saves up to 10 lists of four exact plans to the signed-in user's SQLite preferences. Reload a list, fetch its latest available dated NAV, or delete it. These are private per user; entered allocation/SIP amounts are not saved or sent to providers.
-
-In overlap results, **Combined exposure** applies entered fund values to original disclosed NAV weights and aggregates stocks by ISIN and industries by published label. Excluded coverage is shown separately; it is not treated as cash. Existing stale/partial/source-date notices still apply.
-
-Release checkpoints: [feature progress](../../docs/FUND_LENS_FEATURE_PROGRESS.md).
+Existing portfolio/watchlist records, schemas, authenticated compatibility APIs and their regression tests remain preserved. Official source spreadsheet ingestion is a maintainer data-refresh tool, not a user upload feature; it remains necessary for verified reference snapshots.

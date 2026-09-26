@@ -25,15 +25,14 @@ test('rolling returns compare common monthly windows with actual-day annualisati
   assert.throws(()=>rolling([{...a,name:'IDCW'}],1),/Growth/);assert.throws(()=>rolling([{...a,rows:rows.slice(-365)}],1),/two completed/);
   const gaps={...a,rows:rows.filter(r=>r.date<'2024-01-20'||r.date>'2024-02-10')};assert.ok(rolling([gaps],1).skipped>0);
 });
-test('NAV routes enforce app access, input validation and post-request session revocation', async () => {
+test('Public NAV routes validate input and work without sessions', async () => {
   const {createFundOverlap} = require('../apps/fund-overlap/backend/routes');
   let allowed = false, user = {id:'owner'}, calls = 0;
   const handler = createFundOverlap({auth:{hasAppAccess:() => allowed,session:() => user},provider:{},nav:{history:async () => {calls++; return {code:'118955'};},plans:async () => ({plans:[]})}});
   const invoke = async route => {const res = {setHeader(){},writeHead(s){this.status=s;},end(body){this.body=body;}};await handler({route:'fund-overlap/'+route,method:'GET',req:{url:'/api/fund-overlap/'+route,headers:{}},res,user});return res;};
-  await assert.rejects(invoke('nav/118955'),e => e.status===403);assert.equal(calls,0);
   allowed = true;await assert.rejects(invoke('nav/not-a-code'),e => e.status===404);assert.equal(calls,0);
   assert.equal((await invoke('nav/118955')).status,200); user = null;
-  await assert.rejects(invoke('nav/118955'),e => e.status===401);
+  assert.equal((await invoke('nav/118955')).status,200);
 });
 test('SIP handles month ends, next NAV, exact cash flows and rejects gaps', () => {
   const {sip,xirr} = require('../apps/fund-overlap/frontend/analytics-engine');

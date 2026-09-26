@@ -35,7 +35,7 @@ const server = http.createServer(async (req,res) => {
       const name=assets[url.pathname];if(!name){res.writeHead(404);return res.end('Not found');}
       if(req.method!=='GET'&&req.method!=='HEAD')fail(405,'Method not allowed');
       res.setHeader('Content-Type',name.endsWith('.js')?'text/javascript; charset=utf-8':name.endsWith('.css')?'text/css; charset=utf-8':name.endsWith('.png')?'image/png':name.endsWith('.svg')?'image/svg+xml':name.endsWith('.webmanifest')?'application/manifest+json':'text/html; charset=utf-8');
-      res.setHeader('Cache-Control','no-cache');return res.end(req.method==='HEAD'?undefined:fs.readFileSync(path.join(ROOT,name)));
+      res.setHeader('Cache-Control',name.endsWith('.html')?'no-store':'no-cache');return res.end(req.method==='HEAD'?undefined:fs.readFileSync(path.join(ROOT,name)));
     }
     const host = req.headers.host || '';
     const localHost=/^(localhost|127\.0\.0\.1)(:\d+)?$/.test(host);
@@ -47,11 +47,11 @@ const server = http.createServer(async (req,res) => {
     const user=auth.session(req);
     const context={route,method,req,res,json,user};
     if(route.startsWith('auth/')||route==='users'||route.startsWith('users/'))return await auth.handle(context);
+    if(route==='news'||route.startsWith('news/'))return await news(context);
+    if(route==='fund-overlap'||route.startsWith('fund-overlap/'))return await fundOverlap(context);
     if(!user)fail(401,'Please sign in');
     if(route==='ledger'&&method==='GET')return json(200,{markdown:fs.readFileSync(path.join(ROOT,'docs/FUNCTIONALITY_LEDGER.md'),'utf8')});
     if(route==='platform'||route.startsWith('platform/'))return await portal(context);
-    if(route==='news'||route.startsWith('news/'))return await news(context);
-    if(route==='fund-overlap'||route.startsWith('fund-overlap/'))return await fundOverlap(context);
     return await advocate(context);
   } catch (error) {
     if(!res.headersSent)json(error.status||400,{error:error.message.includes('UNIQUE constraint')?'This record already exists':error.message});else res.end();

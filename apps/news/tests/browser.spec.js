@@ -17,12 +17,19 @@ test.afterEach(async()=>{
   if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});
   if(dir)fs.rmSync(dir,{recursive:true,force:true});
 });
+
+test('News public failures offer retry without asking for platform sign-in',async({page})=>{
+ await page.route('**/api/news/status',route=>route.fulfill({status:401,json:{error:'stale upstream'}}));
+ await page.goto(base+'/news');await expect(page.locator('#retry')).toBeVisible();await expect(page.locator('body')).not.toContainText('Sign in');await expect(page.locator('header .brand img')).toBeVisible();
+ await page.unroute('**/api/news/status');await page.locator('#retry').click();await expect(page.locator('#newspaper')).toBeVisible();await expect(page.locator('#fetch-news')).toBeEnabled();
+});
 test('News access, available catalogue, empty states, responsive themes and print',async({page})=>{
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
-  expect((await page.request.get(base+'/api/news/status')).status()).toBe(401);
+  expect((await page.request.get(base+'/api/news/status')).status()).toBe(200);
   await page.goto(base+'/news');
-  await expect(page.getByRole('link',{name:'Sign in to the platform'})).toBeVisible();
-  await expect(page.locator('#newspaper')).toBeHidden();
+  await expect(page.getByRole('link',{name:'Sign in to the platform'})).toBeHidden();
+  await expect(page.locator('#fetch-news')).toBeVisible();
+  await expect(page.locator('#newspaper')).toBeVisible();
   const password='News isolated test password!';
   expect((await page.request.post(base+'/api/auth/setup',{data:{name:'News Owner',email:'owner@news.example',password}})).status()).toBe(201);
   const status=await page.request.get(base+'/api/news/status');
@@ -59,15 +66,13 @@ test('News access, available catalogue, empty states, responsive themes and prin
   expect((await page.request.post(base+'/api/users',{data:{name:'News Reader',email:'reader@news.example',password,role:'Clerk',appIds:[]}})).status()).toBe(201);
   await page.request.post(base+'/api/auth/logout',{data:{}});
   await page.request.post(base+'/api/auth/login',{data:{email:'reader@news.example',password}});
-  expect((await page.request.get(base+'/api/news/status')).status()).toBe(403);
-  await page.reload();await expect(page.locator('#newspaper')).toBeHidden();
-  await expect(page.getByText('Ask the platform owner for News app access.')).toBeVisible();
+  expect((await page.request.get(base+'/api/news/status')).status()).toBe(200);
+  await page.reload();await expect(page.locator('#newspaper')).toBeVisible();
+  await expect(page.locator('#fetch-news')).toBeVisible();
   expect(errors).toEqual([]);
 });
 
 test('manual newspaper publishes ten stories and satire and reopens the stored edition',async({page})=>{
- await page.request.post(base+'/api/auth/setup',{data:{name:'News Owner',email:'owner@news.example',password:'News isolated test password!'}});
- await page.request.post(base+'/api/auth/login',{data:{email:'owner@news.example',password:'News isolated test password!'}});
  await page.goto(base+'/news');await page.getByRole('button',{name:"Fetch today's newspaper"}).click();
  await expect(page.locator('.saved-story')).toHaveCount(10);
  await expect(page.locator('.saved-satire')).toContainText('Fictional commentary');
@@ -78,21 +83,23 @@ test('manual newspaper publishes ten stories and satire and reopens the stored e
  expect((await page.request.get(base+'/api/news/editions/'+today)).status()).toBe(200);
  for(const width of [320,768,1440]){await page.setViewportSize({width,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await page.screenshot({path:'test-results/news-published.png',fullPage:true});
- expect((await page.request.post(base+'/api/users',{data:{name:'Granted reader',email:'granted@news.example',password:'News reader password!',role:'Clerk',appIds:['news']}})).status()).toBe(201);
+ await page.request.post(base+'/api/auth/setup',{data:{name:'News Owner',email:'owner@news.example',password:'News isolated test password!'}});
+ expect((await page.request.post(base+'/api/users',{data:{name:'Granted reader',email:'granted@news.example',password:'News reader password!',role:'Clerk',appIds:[]}})).status()).toBe(201);
  await page.request.post(base+'/api/auth/logout',{data:{}});
  await page.request.post(base+'/api/auth/login',{data:{email:'granted@news.example',password:'News reader password!'}});
  expect((await page.request.get(base+'/api/news/editions/'+today)).status()).toBe(200);
- expect((await page.request.post(base+'/api/news/fetch',{data:{}})).status()).toBe(403);
+ const shared=await (await page.request.get(base+'/api/news/editions/'+today)).json();
+ const repeated=await (await page.request.post(base+'/api/news/fetch',{data:{}})).json();expect(repeated.cached).toBe(true);expect(repeated.edition).toEqual(shared);
  expect((await page.request.get(base+'/api/news/preview/'+today)).status()).toBe(403);
- await page.reload();await expect(page.locator('.saved-story')).toHaveCount(10);await expect(page.locator('#fetch-news')).toBeHidden();
+ await page.reload();await expect(page.locator('.saved-story')).toHaveCount(10);await expect(page.locator('#fetch-news')).toBeVisible();
 });
 
 test('saved editions render ten stories and satire, reopen by date, handle gaps and suppress stale responses',async({page})=>{
   execFileSync(process.execPath,[path.join(__dirname,'seed-fixtures.js'),dir]);
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.request.post(base+'/api/auth/setup',{data:{name:'News Owner',email:'owner@news.example',password:'News isolated test password!'}});
- await page.request.post(base+'/api/auth/login',{data:{email:'owner@news.example',password:'News isolated test password!'}});
   await page.goto(base+'/news?date=2025-01-03');
+  await expect(page.locator('#fetch-news')).toBeVisible();
+  expect((await page.request.get(base+'/api/news/preview/2025-01-03')).status()).toBe(401);
   await expect(page.locator('.saved-story')).toHaveCount(10);
   await expect(page.getByLabel('Edition date')).toHaveValue('2025-01-03');
   await expect(page.locator('.saved-satire')).toContainText('Satire');
