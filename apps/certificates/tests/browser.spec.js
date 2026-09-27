@@ -143,5 +143,23 @@ test('optional donation amounts use exact Indian wording and stay out of other t
  await page.getByRole('button',{name:'Generate certificate'}).click();await expect(page.locator('#downloads')).toBeVisible();for(const format of ['PDF','PNG']){const [download]=await Promise.all([page.waitForEvent('download'),page.getByRole('button',{name:'Download '+format,exact:true}).click()]);expect(await download.failure()).toBeNull();}
  await amount.fill('-1');await page.getByRole('button',{name:'Generate certificate'}).click();await expect(page.locator('#downloads')).toBeHidden();
  await page.getByLabel('Certificate Type').selectOption('Blood Donation');await expect(amount).toBeHidden();await expect(amount).toBeDisabled();await expect(page.locator('#certificate')).not.toHaveAttribute('aria-label',/Donation of/);await page.getByRole('button',{name:'Generate certificate'}).click();await expect(page.locator('#downloads')).toBeVisible();
- await page.getByLabel('Certificate Type').selectOption('Donation Appreciation');await expect(amount).toHaveValue('-1');await amount.fill('');await page.getByRole('button',{name:'Generate certificate'}).click();await expect(page.locator('#downloads')).toBeVisible();await expect(page.locator('#certificate')).not.toHaveAttribute('aria-label',/Donation of/);
+ await page.getByLabel('Certificate Type').selectOption('Donation Appreciation');await expect(amount).toHaveValue('');await page.getByRole('button',{name:'Generate certificate'}).click();await expect(page.locator('#downloads')).toBeVisible();await expect(page.locator('#certificate')).not.toHaveAttribute('aria-label',/Donation of/);
+});
+
+test('donation panel is exclusive and type changes discard the amount',async({page})=>{
+ await page.goto(base+'/certificates');await page.getByLabel('Recipient Name',{exact:true}).fill('Aarav Sharma');await page.getByLabel('Organization Name').fill('The Kindness Foundation');await page.getByLabel('Appreciation / Contribution Description').fill('education and brighter futures for children in our community');
+ await page.locator('[name=donationAmount]').fill('5000');await expect(page.locator('#preview-description')).not.toContainText('5,000');
+ await page.locator('#certificate').screenshot({path:'test-results/donation-refined-classic.png'});
+ const rendering=await page.evaluate(async()=>{
+  const {render,templates}=await import('/certificates/renderer.js');const types=[...document.querySelectorAll('[name=type] option')].map(o=>o.value),results=[];
+  for(const template of templates)for(const type of types){const c=document.createElement('canvas'),ctx=c.getContext('2d'),texts=[];ctx.fillText=(text)=>texts.push(text);render(c,{template,type,donationAmount:'5000'},{},1);results.push({template,type,numbers:texts.filter(t=>t.includes('₹5,000')).length,words:texts.filter(t=>t.includes('Five Thousand')).length,panel:texts.includes('DONATION · INR')});}return results;
+ });
+ for(const row of rendering){const present=row.type==='Donation Appreciation';expect(row.numbers).toBe(present?1:0);expect(row.words).toBe(present?1:0);expect(row.panel).toBe(present);}
+ const types=await page.locator('[name=type] option').evaluateAll(options=>options.map(o=>o.value));
+ for(const type of types.filter(t=>t!=='Donation Appreciation')){
+  await page.getByLabel('Certificate Type').selectOption('Donation Appreciation');await page.locator('[name=donationAmount]').fill('5000');await page.getByLabel('Certificate Type').selectOption(type);
+  await expect(page.locator('#donation-fields')).toBeHidden();await expect(page.locator('[name=donationAmount]')).toHaveValue('');await expect(page.locator('#donation-words')).toHaveValue('');await expect(page.locator('#certificate')).not.toHaveAttribute('aria-label',/₹|Five Thousand/);
+  expect(await page.locator('#details').evaluate(form=>new FormData(form).has('donationAmount'))).toBe(false);
+ }
+ await page.getByLabel('Certificate Type').selectOption('Donation Appreciation');await expect(page.locator('[name=donationAmount]')).toHaveValue('');
 });

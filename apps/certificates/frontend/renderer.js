@@ -54,7 +54,8 @@ export function render(canvas,data,images={},scale=1.25){
    for(let x=12;x<W;x+=18)for(const y of [12,30,H-24,H-6]){c.beginPath();c.arc(x,y,2,0,Math.PI*2);c.fillStyle=a;c.fill();}
    poly([[30,163],[91,174],[72,221],[105,207],[48,286],[59,230],[30,243]],colors[3]);
    poly([[W-30,480],[W-91,491],[W-72,538],[W-105,524],[W-48,603],[W-59,547],[W-30,560]],colors[4]);
-   c.fillStyle=a;c.fillRect(133,225,866,89);c.fillStyle=colors[2];c.fillRect(123,215,866,89);rect(123,215,866,89,a,3);
+   const bannerY=data.type==='Donation Appreciation'?201:215,bannerH=data.type==='Donation Appreciation'?76:89;
+   c.fillStyle=a;c.fillRect(133,bannerY+10,866,bannerH);c.fillStyle=colors[2];c.fillRect(123,bannerY,866,bannerH);rect(123,bannerY,866,bannerH,a,3);
    if(!images.logo)poly([[522,102],[531,61],[549,80],[563,52],[580,81],[602,65],[596,104]],colors[3]);c.restore();
   }
  }
@@ -104,18 +105,22 @@ export function render(canvas,data,images={},scale=1.25){
  image(images.logo,logoX,68,90,68);
  block(data.organization,180,144,762,40,24,'Arial',a,'600');
  const serif=['Classic','Elegant','Community'].includes(t)?'Georgia':'Arial';
- block(data.title||'CERTIFICATE OF APPRECIATION',135,228,852,68,35,serif,a,playful?'bold':'normal');
- block(playful?'AND THE AWARD GOES TO':'PRESENTED TO',150,311,822,26,12,'Arial',muted);
- block(data.recipient||'Recipient Name',135,346,852,91,55,serif,ink);
- line(355,449,767,449,a,.7);
- block(playful?'For the truly legendary achievement of':'In recognition and sincere appreciation of',150,466,822,26,17,'Arial',muted);
- const donation=data.type==='Donation Appreciation'?donationAmount(data.donationAmount):null;
- block(data.description||'your valuable contribution and support to our community',157,donation?495:501,808,donation?53:81,23,'Arial',ink);
+ const isDonation=data.type==='Donation Appreciation',donation=isDonation?donationAmount(data.donationAmount):null;
+ block(data.title||'CERTIFICATE OF APPRECIATION',135,isDonation?210:228,852,68,isDonation?33:35,serif,a,playful?'bold':'normal');
+ block(isDonation?'PRESENTED WITH GRATITUDE TO':playful?'AND THE AWARD GOES TO':'PRESENTED TO',150,isDonation?279:311,822,26,12,'Arial',muted);
+ block(data.recipient||'Recipient Name',135,isDonation?310:346,852,isDonation?80:91,55,serif,ink);
+ line(355,isDonation?402:449,767,isDonation?402:449,a,.7);
+ block(isDonation?'For your generosity in supporting':playful?'For the truly legendary achievement of':'In recognition and sincere appreciation of',150,isDonation?416:466,822,26,17,'Arial',muted);
+ block(data.description||'your valuable contribution and support to our community',157,donation?445:isDonation?465:501,808,donation?45:81,23,'Arial',ink);
  if(donation){
-  block('Donation of '+donation.number,157,555,808,28,23,'Arial',a,'600');
-  block(donation.words,157,585,808,34,16,'Arial',muted);
+  // A single, bounded amount panel shared by preview, PNG, PDF and print.
+  c.save();c.globalAlpha=full?.12:.06;c.fillStyle=a;c.fillRect(157,500,808,91);c.restore();
+  line(157,500,965,500,a,.8);line(157,591,965,591,a,.8);
+  block('DONATION · INR',177,507,768,16,10,'Arial',muted,'600');
+  block(donation.number,177,526,768,34,30,serif,a,'600');
+  block(donation.words,177,563,768,24,14,'Arial',muted);
  }
- block(data.message,180,donation?622:590,762,donation?20:47,17,serif,muted);
+ block(data.message,180,donation?599:590,762,donation?38:47,17,serif,muted);
  if(full&&images.signature){c.fillStyle=paper;c.fillRect(750,641,210,52);}
  image(images.signature,755,643,200,48);
  const date=data.date?new Date(data.date+'T12:00:00'):null;
