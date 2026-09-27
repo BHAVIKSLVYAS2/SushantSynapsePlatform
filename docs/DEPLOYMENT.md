@@ -58,6 +58,10 @@ The local deployment uses `infrastructure/start-tunnel-host.ps1` to run producti
 
 Tunnel connections, public DNS and HTTPS were verified on 2026-09-06 after the user added the DNS record. `/`, `/advocate`, `/healthz` and `/api/auth/status` return HTTP 200 through the public hostname. The saved Cloudflare certificate only has access to another domain, so DNS was added by the user. Automatic Windows startup is not configured. The computer must remain awake, connected and running both processes to serve this deployment. Logs are in `data/public-server.log` and `data/tunnel.log`.
 
+### Recovery on 2026-09-27
+
+An outage returned Cloudflare error 1033 while no production Node process was listening on port 3001. Restored the existing deployment by starting `infrastructure/start-tunnel-host.ps1` in a hidden PowerShell process and starting a dedicated connector with `infrastructure/cloudflared.local.yml`. The unrelated existing Cloudflared Windows service was left running. The site's connector registered four connections and public `/healthz` returned `ok`. Current connector logs are in `data/tunnel-timetable.log`. Startup after a Windows reboot is still not configured for this application; both the production supervisor and this site's connector must remain running.
+
 ## Operational boundaries
 
 This is one private platform workspace with shared staff identities, not multi-tenant SaaS. App access is enforced by the server; Chambers roles are Owner/Advocate/Clerk. Future apps are explicitly marked Planned and have no launch route. Add future apps through `packages/app-registry/index.js`, dedicated storage/handlers, permission enforcement, tests and ledger updates.

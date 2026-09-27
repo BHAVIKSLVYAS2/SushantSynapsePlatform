@@ -7,6 +7,8 @@ const staticAssets={
  '/news':'apps/news/frontend/index.html',
  '/certificates':'apps/certificates/frontend/index.html',
  '/certificates/':'apps/certificates/frontend/index.html',
+ '/timetable-lite':'apps/timetable-lite/frontend/index.html',
+ '/timetable-lite/':'apps/timetable-lite/frontend/index.html',
  '/shared/theme.js':'packages/ui/theme.js',
  '/shared/platform-header.css':'packages/ui/platform-header.css',
 };
@@ -16,3 +18,4 @@ for(const file of ['app.js','engine.js','style.css','icon.svg'])staticAssets['/f
 for(const file of ['app.js','style.css'])staticAssets['/news/'+file]='apps/news/frontend/'+file;
 for(const file of ['app.js','renderer.js','export.js','style.css'])staticAssets['/certificates/'+file]='apps/certificates/frontend/'+file;
 module.exports={staticAssets};
+for(const file of ['app.js','engine.js','worker.js','export.js','style.css'])staticAssets['/timetable-lite/'+file]='apps/timetable-lite/frontend/'+file;

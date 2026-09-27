@@ -75,6 +75,10 @@ npm run test:portal
 
 National fund discovery uses MFapi; holdings use Tickertape with exact-family Groww fallback. Public reference versions live in DATA_DIR/fund-overlap-cache, never in Chambers business tables. SHA-256 version checks and atomic pointer publication preserve last-good data. Provider outages are explicitly marked; catalogue coverage and holdings coverage are separate.
 
+## Timetable Lite ownership
+
+`apps/timetable-lite/frontend` owns the public `/timetable-lite` planner. `engine.js` provides pure validation, bounded scheduling and atomic move/swap checks; `worker.js` keeps generation off the UI thread; `export.js` owns PDF, PNG, ZIP and print output. The user explicitly approved device-local storage for this app on 2026-09-27. Validated JSON imports/exports provide manual backup. No timetable API or database migration is installed; existing SQLite-backed apps retain their persistence and authorization boundaries.
+
 ## Certificate app ownership
 
 `apps/certificates/frontend` owns the public `/certificates` page. `app.js` manages transient form and image state; `renderer.js` defines template geometry and bounded text fitting; `export.js` writes a single A4 PDF and downloads. Both image formats and print reuse that renderer. No backend handler, schema or certificate persistence is needed. The user explicitly approved device/browser storage for reusable organisations on 2026-09-27. App-owned, validated localStorage stores up to 10 organisation names, reduced-size logos and positions on explicit save; recipient details and signatures remain transient. Future account-synced branding, history or verification must introduce app-owned authenticated routes and additive migrations rather than storing recipient data in shared preferences.

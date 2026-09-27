@@ -139,6 +139,16 @@ Research references used for the original workflow design:
 - [Official eCourts services](https://ecommitteesci.gov.in/service/ecourts-services-portal/) — CNR, case status, cause lists, orders and judgments.
 - [Clio case management](https://www.clio.com/features/case-management/) — matter, task, document, client and fee workflows.
 
+## Timetable Lite
+
+`/timetable-lite` is a public weekly timetable planner for schools and coaching institutes. Configure working days, periods and breaks, classes, subjects, teacher availability and weekly allocations. Generation checks teacher/class clashes, weekly totals, daily limits and consecutive lessons. Class views support validated moves, swaps and undo; teacher and master views show the wider schedule.
+
+Timetable Lite uses device-local browser storage, explicitly approved for this app. Export JSON backups to retain a copy; clearing browser storage removes the saved setup. Imports are validated before replacement. There is no account sync or timetable backend, and Chambers continues to use SQLite. PDF, PNG, multi-image ZIP and print exports support class and teacher schedules. Holidays annotate recurring lessons rather than rescheduling them. Bounded generation can reach its search limit without proving that a schedule is impossible.
+
+Run `npx.cmd playwright test apps/timetable-lite/tests` for its browser workflows; solver checks are included in `npm.cmd test`.
+
+Open **Help, browser storage & sample document** in the timetable app for setup instructions, a downloadable text guide and a downloadable, importable sample JSON containing two classes and 20 generated lessons. Sample downloads leave your current work untouched. Saved classes, periods, breaks and all setup/timetable data survive reload in the same browser profile/site; unsubmitted forms, view selections and undo history do not. Setup changes clear generated lessons for regeneration. Browser cleanup can remove local data, so keep JSON backups. Use one editing tab at a time: separate tabs do not merge changes.
+
 ## Appreciation Certificate Generator
 
 `/certificates` is a public, login-free app with seven distinct formal appreciation types and ten lighthearted personal awards. Seven designs include Classic, Minimal, Community, Aurora, Confetti, Sweetheart and Comic. Fun awards suggest matching designs until you choose your own. Formal designs offer five accents; playful designs use dedicated palettes. Live preview, optional logos/signatures and local A4 landscape PDF/PNG/print output are available. Recipient details and signatures stay in tab memory; refreshing clears them. You can explicitly save up to 10 organisation names, logos and logo positions in this browser, reuse or delete them, and restore the last selected organisation on reload. Clearing browser site data removes saved organisations; they are visible to anyone using that browser profile and do not sync between devices. Theme preference also uses local storage. No certificate upload or storage endpoint exists.
