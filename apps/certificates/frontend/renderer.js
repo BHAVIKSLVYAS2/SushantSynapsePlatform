@@ -13,19 +13,72 @@ export function donationAmount(value){
  return {number:'₹'+rupees.toLocaleString('en-IN')+(paise?'.'+String(paise).padStart(2,'0'):''),words:parts.join(' ')+(rupees===1?' Rupee':' Rupees')+(paise?' and '+small(paise)+(paise===1?' Paisa':' Paise'):'')+' Only'};
 }
 // All certificate geometry is in a 1122 × 793.333 A4 landscape coordinate system.
-export const templates=['Classic','Modern','Minimal','Elegant','Community','Corporate'];
-export const accents={blue:'#234560',teal:'#216d68',gold:'#82652e',plum:'#68405e'};
+export const templates=['Classic','Minimal','Community','Aurora','Confetti','Sweetheart','Comic'];
+export const playfulTemplates=['Confetti','Sweetheart','Comic'];
+export const disclaimer='Digitally generated; not independently verified. Issuer is responsible for content. Sushant Synapse provides the tool only.';
+export const accents={blue:'#234560',teal:'#216d68',gold:'#82652e',plum:'#68405e',digital:'#6335cf'};
 // Decode the same-origin brand mark before any preview or export is rendered.
 const brandLogo=await (async()=>{const logo=new Image();logo.src='/logo-adaptive-192.png';try{await logo.decode();return logo;}catch{return null;}})();
 const ink='#253441',muted='#63717a',paper='#fffefa';
 export function render(canvas,data,images={},scale=1.25){
  canvas.width=Math.round(1122*scale);canvas.height=Math.round(1122*210/297*scale);
  const c=canvas.getContext('2d');c.scale(canvas.width/1122,canvas.height/(1122*210/297));
- const W=1122,H=1122*210/297,a=accents[data.accent]||accents.blue,t=data.template||'Classic';
+ const W=1122,H=1122*210/297,t=data.template||'Classic';
+ const full=t==='Aurora';
+ const playful=playfulTemplates.includes(t);
+ const ink=full?'#ffffff':'#253441',muted=full?'#d8e4ff':'#63717a';
+ let a=accents[data.accent]||accents.blue;
+ if(data.accent==='digital'){a=c.createLinearGradient(80,0,1042,H);a.addColorStop(0,accents.digital);a.addColorStop(.5,'#245ad2');a.addColorStop(1,'#087e8b');}
  c.fillStyle=paper;c.fillRect(0,0,W,H);
  const rect=(x,y,w,h,color,width=1)=>{c.strokeStyle=color;c.lineWidth=width;c.strokeRect(x,y,w,h);};
  const line=(x,y,x2,y2,color,width=1)=>{c.beginPath();c.moveTo(x,y);c.lineTo(x2,y2);c.strokeStyle=color;c.lineWidth=width;c.stroke();};
  const poly=(points,color)=>{c.beginPath();points.forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.closePath();c.fillStyle=color;c.fill();};
+ // Print palettes belong to the artwork and are independent of the app theme.
+ const palettes={Confetti:['#fff9e9','#7954bb','#e9ad3e','#51a79a','#e98383'],Sweetheart:['#fff5f5','#a54468','#e9a8b6','#f4d8c5'],Comic:['#fffbea','#27374e','#f9cf48','#eb7662','#75bfc4']};
+ if(playful){
+  const colors=palettes[t];c.fillStyle=colors[0];c.fillRect(0,0,W,H);a=colors[1];
+  if(t==='Confetti'){
+   for(let i=0;i<64;i++){const x=22+(i*173)%1080,y=20+(i*97)%745;if(x>110&&x<1012&&y>135&&y<735)continue;c.save();c.translate(x,y);c.rotate(i*.83);c.fillStyle=colors[2+i%3];if(i%2)c.fillRect(-4,-8,8,16);else{c.beginPath();c.arc(0,0,5,0,Math.PI*2);c.fill();}c.restore();}
+   rect(113,211,896,431,'#e8ddbf',1);
+   // A little party crown above the heading.
+   if(!images.logo){poly([[519,99],[526,65],[547,84],[561,56],[577,84],[599,65],[603,99]],colors[2]);line(527,106,595,106,a,4);}
+  }
+  if(t==='Sweetheart'){
+   rect(31,31,W-62,H-62,colors[2],2);rect(41,41,W-82,H-82,colors[3]);
+   const heart=(x,y,size,color)=>{c.save();c.translate(x,y);c.scale(size,size);c.beginPath();c.moveTo(0,.7);c.bezierCurveTo(-1.6,-.3,-.7,-1.4,0,-.65);c.bezierCurveTo(.7,-1.4,1.6,-.3,0,.7);c.fillStyle=color;c.fill();c.restore();};
+   for(const [x,y,s] of [[88,97,28],[1034,105,21],[76,590,17],[1043,582,26],[104,678,12],[1016,666,12]])heart(x,y,s,colors[2]);
+   if(!images.logo)heart(561,93,26,a);line(461,198,536,198,colors[2],2);line(586,198,661,198,colors[2],2);
+  }
+  if(t==='Comic'){
+   c.save();c.fillStyle=colors[2];c.fillRect(0,0,W,36);c.fillRect(0,H-36,W,36);
+   for(let x=12;x<W;x+=18)for(const y of [12,30,H-24,H-6]){c.beginPath();c.arc(x,y,2,0,Math.PI*2);c.fillStyle=a;c.fill();}
+   poly([[30,163],[91,174],[72,221],[105,207],[48,286],[59,230],[30,243]],colors[3]);
+   poly([[W-30,480],[W-91,491],[W-72,538],[W-105,524],[W-48,603],[W-59,547],[W-30,560]],colors[4]);
+   c.fillStyle=a;c.fillRect(133,225,866,89);c.fillStyle=colors[2];c.fillRect(123,215,866,89);rect(123,215,866,89,a,3);
+   if(!images.logo)poly([[522,102],[531,61],[549,80],[563,52],[580,81],[602,65],[596,104]],colors[3]);c.restore();
+  }
+ }
+ if(full){
+  const background=c.createLinearGradient(0,0,W,H);
+  background.addColorStop(0,'#25134f');background.addColorStop(.48,'#102853');background.addColorStop(1,'#064852');
+  c.fillStyle=background;c.fillRect(0,0,W,H);
+  // Luminous ribbons and circuit details stay at the edges of the reading area.
+  const glow=c.createLinearGradient(0,0,W,250);
+  glow.addColorStop(0,'#ae67ff');glow.addColorStop(.5,'#527dff');glow.addColorStop(1,'#38e0db');
+  c.save();c.globalAlpha=.32;
+  poly([[0,0],[465,0],[215,107],[0,228]],glow);
+  poly([[W,H],[W-465,H],[W-215,H-107],[W,H-228]],glow);
+  c.globalAlpha=.16;
+  poly([[0,0],[305,0],[0,310]],glow);
+  poly([[W,H],[W-305,H],[W,H-310]],glow);
+  c.restore();
+  rect(28,28,W-56,H-56,'#79b7dc',.8);
+  for(const flip of [false,true]){c.save();if(flip){c.translate(W,H);c.rotate(Math.PI);}
+   for(let i=0;i<4;i++){const x=48+i*18,y=160-i*22;line(x,42,x,y,'#77cef0',.8);line(x,y,x+36,y+36,'#77cef0',.8);c.beginPath();c.arc(x+36,y+36,2.5,0,Math.PI*2);c.fillStyle='#99f5ee';c.fill();}
+   c.restore();}
+  line(430,199,692,199,glow,3);
+  a='#a9f4ed';
+ }
  if(t==='Classic'){rect(26,26,W-52,H-52,a,3);rect(35,35,W-70,H-70,a,.7);for(const x of [47,W-47])for(const y of [47,H-47]){c.save();c.translate(x,y);c.rotate(Math.PI/4);rect(-5,-5,10,10,a);c.restore();}line(430,192,692,192,a);}
  if(t==='Modern'){poly([[0,0],[200,0],[0,75]],a);poly([[0,0],[70,0],[0,160]],'#cadbdf');poly([[W,H],[W-140,H],[W,H-100]],a);line(80,207,1042,207,a,2);}
  if(t==='Minimal'){line(80,60,1042,60,a,2);line(80,H-30,1042,H-30,a);line(511,195,611,195,a,3);}
@@ -46,14 +99,16 @@ export function render(canvas,data,images={},scale=1.25){
   lines.forEach((v,i)=>c.fillText(v,x+w/2,y+h/2+(i-(lines.length-1)/2)*s*1.35));
  }
  function image(img,x,y,w,h){if(!img)return;const ratio=Math.min(w/img.width,h/img.height);c.drawImage(img,x+(w-img.width*ratio)/2,y+(h-img.height*ratio)/2,img.width*ratio,img.height*ratio);}
- image(images.logo,data.logoPosition==='left'?95:data.logoPosition==='right'?937:516,68,90,68);
+ const logoX=data.logoPosition==='left'?95:data.logoPosition==='right'?937:516;
+ if(full&&images.logo){c.fillStyle=paper;c.fillRect(logoX-5,63,100,78);}
+ image(images.logo,logoX,68,90,68);
  block(data.organization,180,144,762,40,24,'Arial',a,'600');
  const serif=['Classic','Elegant','Community'].includes(t)?'Georgia':'Arial';
- block(data.title||'CERTIFICATE OF APPRECIATION',135,228,852,68,35,serif,a);
- block('PRESENTED TO',150,311,822,26,12,'Arial',muted);
+ block(data.title||'CERTIFICATE OF APPRECIATION',135,228,852,68,35,serif,a,playful?'bold':'normal');
+ block(playful?'AND THE AWARD GOES TO':'PRESENTED TO',150,311,822,26,12,'Arial',muted);
  block(data.recipient||'Recipient Name',135,346,852,91,55,serif,ink);
  line(355,449,767,449,a,.7);
- block('In recognition and sincere appreciation of',150,466,822,26,17,'Arial',muted);
+ block(playful?'For the truly legendary achievement of':'In recognition and sincere appreciation of',150,466,822,26,17,'Arial',muted);
  const donation=data.type==='Donation Appreciation'?donationAmount(data.donationAmount):null;
  block(data.description||'your valuable contribution and support to our community',157,donation?495:501,808,donation?53:81,23,'Arial',ink);
  if(donation){
@@ -61,6 +116,7 @@ export function render(canvas,data,images={},scale=1.25){
   block(donation.words,157,585,808,34,16,'Arial',muted);
  }
  block(data.message,180,donation?622:590,762,donation?20:47,17,serif,muted);
+ if(full&&images.signature){c.fillStyle=paper;c.fillRect(750,641,210,52);}
  image(images.signature,755,643,200,48);
  const date=data.date?new Date(data.date+'T12:00:00'):null;
  block(date&&!Number.isNaN(date.getTime())?date.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}):'',115,668,300,27,18,'Arial',ink);
@@ -68,13 +124,17 @@ export function render(canvas,data,images={},scale=1.25){
  block(data.location||'DATE OF APPRECIATION',115,709,300,26,12,'Arial',muted);
  block(data.signatory,690,707,330,22,15,'Arial',ink,'600');
  block(data.designation,690,733,330,20,12,'Arial',muted);
- block(data.reference,421,729,280,18,10,'Arial',muted);
+ block(data.reference,421,724,280,18,10,'Arial',muted);
  const credit='Created with Sushant Synapse';
- c.font='10px Arial';
- const creditWidth=c.measureText(credit).width,markWidth=brandLogo?20:0,left=(W-creditWidth-markWidth)/2;
+ c.font='12px Arial';
+ const creditWidth=c.measureText(credit).width,markWidth=brandLogo?38:0,left=(W-creditWidth-markWidth)/2;
  c.save();
- if(brandLogo){c.globalAlpha=.65;image(brandLogo,left,770,15,15);c.globalAlpha=1;}
- c.fillStyle='#7b858c';c.textAlign='left';c.textBaseline='middle';c.fillText(credit,left+markWidth,777.5);
+ // Give the larger brand mark clear space across the lower template border.
+ c.fillStyle=full?'#102853':paper;c.fillRect(left-8,744,creditWidth+markWidth+16,H-744);
+ if(brandLogo)image(brandLogo,left,745,32,32);
+ c.fillStyle=muted;c.textAlign='left';c.textBaseline='middle';c.fillText(credit,left+markWidth,761);
+ c.fillStyle=full?'#102853':paper;c.fillRect(80,778,W-160,15);
+ block(disclaimer,90,779,W-180,12,9.5,'Arial',muted);
  c.restore();
  return canvas;
 }

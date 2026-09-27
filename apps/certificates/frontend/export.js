@@ -17,4 +17,14 @@ export function pdfBlob(canvas){
  add(`trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${start}\n%%EOF\n`);
  return new Blob(chunks,{type:'application/pdf'});
 }
+// Lossless canvas PNG with explicit print density, replacing the browser's 96 DPI tag.
+export async function pngBlob(canvas,dpi=300){
+ const blob=await new Promise((resolve,reject)=>canvas.toBlob(value=>value?resolve(value):reject(Error('Could not create image.')),'image/png'));
+ const bytes=new Uint8Array(await blob.arrayBuffer()),parts=[bytes.slice(0,8)];
+ const density=new Uint8Array(21),view=new DataView(density.buffer);view.setUint32(0,9);density.set([112,72,89,115],4);
+ view.setUint32(8,Math.round(dpi/.0254));view.setUint32(12,Math.round(dpi/.0254));density[16]=1;
+ let crc=0xffffffff;for(const byte of density.slice(4,17)){crc^=byte;for(let bit=0;bit<8;bit++)crc=(crc>>>1)^((crc&1)?0xedb88320:0);}view.setUint32(17,(crc^0xffffffff)>>>0);
+ for(let offset=8;offset<bytes.length;){const length=new DataView(bytes.buffer,bytes.byteOffset+offset,4).getUint32(0),end=offset+length+12,type=String.fromCharCode(...bytes.slice(offset+4,offset+8));if(type!=='pHYs')parts.push(bytes.slice(offset,end));if(type==='IHDR')parts.push(density);offset=end;}
+ return new Blob(parts,{type:'image/png'});
+}
 export function download(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),60000);}
