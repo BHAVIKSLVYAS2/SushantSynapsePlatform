@@ -71,6 +71,12 @@ Consistent pre-release backup: `data/backups/pre-batchfee-1790528480616.sqlite` 
 
 ## Operational boundaries
 
+### Tournament Lite release, 2026-09-28
+
+Application commit `b578d4f` is live at `/tournament-lite`. The isolated staged release passed 72 Node/API tests and five app/portal browser workflows. The existing supervisor restarted only its verified production Node child. Public HTTPS assets match the local release, organizer routes reject anonymous reads/writes, and live Chrome passed the sign-in boundary and 320–1440px layout checks. Existing app pages remain available.
+
+Backup: `data/backups/pre-tournament-1790606018920.sqlite`. Before/after integrity is `ok`; all 19 existing tables are unchanged. Two app-owned tables were added with zero tournaments and one migration marker. No live demo records were created. Existing Windows/tunnel operational requirements still apply.
+
 This is one private platform workspace with shared staff identities, not multi-tenant SaaS. App access is enforced by the server; Chambers roles are Owner/Advocate/Clerk. Future apps are explicitly marked Planned and have no launch route. Add future apps through `packages/app-registry/index.js`, dedicated storage/handlers, permission enforcement, tests and ledger updates.
 
 Backups are not encrypted by the application, local snapshots have no automatic retention deletion, and no email/SMS/court-data providers are configured. User accounts are owner-provisioned; no public registration or email password reset exists. Login attempt limits are per account and connection source; add appropriate edge rate limiting for a public installation. Choose monitoring, external backups and host patching procedures before real client data is used.
