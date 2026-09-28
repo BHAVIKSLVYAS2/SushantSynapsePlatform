@@ -2,6 +2,8 @@
 
 ## Repository structure
 
+**Tournament Lite** is available locally at `/tournament-lite`: six sports, four formats, bulk player/team entry, automatic fixtures and BYEs, scoring, standings, brackets, public sharing and downloadable winner cards. Organizers sign in with existing platform accounts; players and public viewers need no accounts. Tournament state persists in SQLite. See [Tournament Lite usage and rules](apps/tournament-lite/README.md).
+
 ```text
 apps/
   portal/          # Platform frontend, backend and browser tests

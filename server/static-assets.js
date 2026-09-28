@@ -1,5 +1,7 @@
 // Explicit URL allowlist. Filesystem paths are never accepted from requests.
 const staticAssets={
+ '/tournament-lite':'apps/tournament-lite/frontend/index.html',
+ '/tournament-lite/':'apps/tournament-lite/frontend/index.html',
  '/batchfee-lite':'apps/batchfee-lite/frontend/index.html',
  '/batchfee-lite/':'apps/batchfee-lite/frontend/index.html',
  '/':'apps/portal/frontend/index.html',
@@ -20,5 +22,6 @@ for(const file of ['app.js','engine.js','style.css','icon.svg'])staticAssets['/f
 for(const file of ['app.js','style.css'])staticAssets['/news/'+file]='apps/news/frontend/'+file;
 for(const file of ['app.js','renderer.js','export.js','style.css'])staticAssets['/certificates/'+file]='apps/certificates/frontend/'+file;
 module.exports={staticAssets};
+for(const file of ['app.js','export.js','style.css'])staticAssets['/tournament-lite/'+file]='apps/tournament-lite/frontend/'+file;
 for(const file of ['app.js','style.css'])staticAssets['/batchfee-lite/'+file]='apps/batchfee-lite/frontend/'+file;
 for(const file of ['app.js','engine.js','worker.js','export.js','style.css'])staticAssets['/timetable-lite/'+file]='apps/timetable-lite/frontend/'+file;

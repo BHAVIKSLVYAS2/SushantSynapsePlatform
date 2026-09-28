@@ -32,6 +32,8 @@ tests/                 Cross-app API and production configuration tests
 
 ## Dependency boundaries
 
+Tournament Lite is owned by `apps/tournament-lite`, served at `/tournament-lite` and `/api/tournament-lite`. Its format/progression engine is separate from sport scoring rules. Organizer routes enforce shared app access, Owner/Advocate roles, account ownership and optimistic revisions; explicit published-token GET routes are public. App-owned SQLite snapshots and an additive migration marker are registered for full SQL export. Public responses exclude organizer contact and team rosters. No browser business-state storage or external sport service is used.
+
 The server creates the database and app handlers. It injects the database and authentication helpers into each handler. App routes must enforce their own app access before reading or writing business data. Shared authentication receives an initialization callback from the server, so it does not import Chambers-specific settings.
 
 `PlatformDatabase` owns identity, access, preferences, settings and audit storage. The advocate store extends it with Chambers data access, migration, backups and reporting. The server currently creates that combined store because Chambers is the first available app. New apps should use their own repositories over the shared connection; do not add their business methods to the advocate store.
