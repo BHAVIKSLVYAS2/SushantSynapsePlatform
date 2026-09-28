@@ -31,6 +31,7 @@ Visit the HTTPS domain, enter the setup token and create the first owner account
 
 - `/` — platform app collection, favourites, recent apps, profile and access management.
 - `/advocate` — Chambers advocate app.
+- `/batchfee-lite` — private tuition/coaching fee tracker; platform owner access only.
 - `/fund-overlap` — public Fund Lens mutual fund overlap analyzer; no login required for reference data or comparisons.
 - `/news` — public saved newspaper and date archives; any visitor can generate the shared edition; operational previews require owner access.
 - `/healthz` — anonymous health signal; no business data.
@@ -61,6 +62,12 @@ Tunnel connections, public DNS and HTTPS were verified on 2026-09-06 after the u
 ### Recovery on 2026-09-27
 
 An outage returned Cloudflare error 1033 while no production Node process was listening on port 3001. Restored the existing deployment by starting `infrastructure/start-tunnel-host.ps1` in a hidden PowerShell process and starting a dedicated connector with `infrastructure/cloudflared.local.yml`. The unrelated existing Cloudflared Windows service was left running. The site's connector registered four connections and public `/healthz` returned `ok`. Current connector logs are in `data/tunnel-timetable.log`. Startup after a Windows reboot is still not configured for this application; both the production supervisor and this site's connector must remain running.
+
+## BatchFee release, 2026-09-28
+
+The existing Windows supervisor restarted the production Node process to load BatchFee Lite. Public HTTPS health, homepage, app HTML/JavaScript/CSS and existing app pages were verified; asset bytes matched the release checkout. Anonymous BatchFee data and backup requests return 401. Live Chrome verified the sign-in boundary, homepage launch link and 320–1440px layouts without creating business records.
+
+Consistent pre-release backup: `data/backups/pre-batchfee-1790528480616.sqlite` (integrity `ok`). Post-release integrity is `ok`; original records, accounts, files and settings are unchanged. Concurrent sign-ins, preference activity and an added hearing after the backup remain preserved. The additive BatchFee schema has one migration marker and empty workspace/history tables, leaving academy setup to the owner. Existing tunnel and supervisor remain in use; reboot startup remains unconfigured.
 
 ## Operational boundaries
 

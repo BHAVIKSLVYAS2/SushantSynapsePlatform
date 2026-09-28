@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS batchfee_migrations (version INTEGER PRIMARY KEY);
+CREATE TABLE IF NOT EXISTS batchfee_workspace (
+ id INTEGER PRIMARY KEY CHECK(id=1), revision INTEGER NOT NULL DEFAULT 0,
+ data TEXT NOT NULL CHECK(json_valid(data))
+);
+CREATE TABLE IF NOT EXISTS batchfee_events (
+ id INTEGER PRIMARY KEY AUTOINCREMENT, at TEXT NOT NULL, actor TEXT NOT NULL,
+ action TEXT NOT NULL, data TEXT NOT NULL CHECK(json_valid(data))
+);

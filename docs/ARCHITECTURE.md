@@ -79,6 +79,12 @@ National fund discovery uses MFapi; holdings use Tickertape with exact-family Gr
 
 `apps/timetable-lite/frontend` owns the public `/timetable-lite` planner. `engine.js` provides pure validation, bounded scheduling and atomic move/swap checks; `worker.js` keeps generation off the UI thread; `export.js` owns PDF, PNG, ZIP and print output. The user explicitly approved device-local storage for this app on 2026-09-27. Validated JSON imports/exports provide manual backup. No timetable API or database migration is installed; existing SQLite-backed apps retain their persistence and authorization boundaries.
 
+## BatchFee Lite ownership
+
+`apps/batchfee-lite` owns the private `/batchfee-lite` academy app and `/api/batchfee-lite` routes. `backend/engine.js` validates commands and deterministically generates fee obligations and payment allocations in integer paise. `backend/routes.js` persists the workspace snapshot and append-only command history in app-prefixed SQLite tables, with immediate transactions, optimistic revisions and idempotent request IDs. The additive version-1 schema is registered in full SQL exports. JSON app backups replay validated commands and cannot replace conflicting or newer history. Financial state stays in SQLite; browser storage holds theme preference only.
+
+V1 is owner-only, represented by `ownerOnly` catalogue metadata and enforced by shared app access plus the app handler. One academy shares the existing platform deployment; this is not multi-tenant SaaS. Optional staff assignment and offline synchronization are deferred. No changes to Chambers records, schemas, legacy migration source or persistence path are required. The app has no runtime npm dependencies.
+
 ## Certificate app ownership
 
 `apps/certificates/frontend` owns the public `/certificates` page. `app.js` manages transient form and image state; `renderer.js` defines template geometry and bounded text fitting; `export.js` writes a single A4 PDF and downloads. Both image formats and print reuse that renderer. No backend handler, schema or certificate persistence is needed. The user explicitly approved device/browser storage for reusable organisations on 2026-09-27. App-owned, validated localStorage stores up to 10 organisation names, reduced-size logos and positions on explicit save; recipient details and signatures remain transient. Future account-synced branding, history or verification must introduce app-owned authenticated routes and additive migrations rather than storing recipient data in shared preferences.

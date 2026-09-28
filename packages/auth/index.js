@@ -35,7 +35,7 @@ function session(req) {
   return user?.active ? { ...user, session: hashToken(token) } : null;
 }
 function owner(user) { if (user.role !== 'Owner') fail(403, 'Only the chamber owner can perform this action'); }
-function hasAppAccess(user, appId) { return user.role==='Owner'||store.access(user.id).includes(appId); }
+function hasAppAccess(user, appId) { return user.role==='Owner'||(!apps.find(a=>a.id===appId)?.ownerOnly&&store.access(user.id).includes(appId)); }
 function validAppIds(ids) { if(!Array.isArray(ids)||ids.some(id=>!apps.some(a=>a.id===id&&a.status==='Available'))||new Set(ids).size!==ids.length)fail(400,'Choose valid available apps');return ids; }
 
 async function handle({route,method,req,res,json,user}){

@@ -139,6 +139,12 @@ Research references used for the original workflow design:
 - [Official eCourts services](https://ecommitteesci.gov.in/service/ecourts-services-portal/) — CNR, case status, cause lists, orders and judgments.
 - [Clio case management](https://www.clio.com/features/case-management/) — matter, task, document, client and fee workflows.
 
+## BatchFee Lite
+
+`/batchfee-lite` is a private, mobile-first tuition/coaching fee tracker for the platform owner. Set up an academy, create batches and students, track recurring fees, record partial/advance payments, print receipts, prepare WhatsApp drafts, review family dues, track expenses and export simple reports. Student CSV imports and validated, history-preserving backups are included. Shared authentication and SQLite persistence protect records; leaving students retain their financial history.
+
+Monthly/quarterly fees catch up on opening the app; per-class/custom fees are entered manually. Joining months are charged in full. New batch enrolments on an existing student and frequency changes take effect next month. WhatsApp opens drafts for manual sending, PDF output uses browser print, and Excel import uses UTF-8 CSV. Optional staff access, offline editing, online collections and automated delivery are not enabled. See [BatchFee Lite rules and usage](apps/batchfee-lite/README.md). [Open BatchFee Lite](https://apps.sushantsynapse.com/batchfee-lite); sign in with the platform owner account.
+
 ## Timetable Lite
 
 `/timetable-lite` is a public weekly timetable planner for schools and coaching institutes. Configure working days, periods and breaks, classes, subjects, teacher availability and weekly allocations. Generation checks teacher/class clashes, weekly totals, daily limits and consecutive lessons. Class views support validated moves, swaps and undo; teacher and master views show the wider schedule.
