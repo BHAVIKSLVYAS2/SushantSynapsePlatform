@@ -11,10 +11,11 @@ function createFetchService({store,repository,provider,clock=()=>new Date()}){
   }
   async function fetchDate(requested){
     const now=clock(),date=validDate(requested??indiaDate(now)),at=now.toISOString(),token=randomUUID();
+    if(date>indiaDate(now))fail(400,'Future dates cannot generate news. Choose today or a past date.');
+    const cutoff=date===indiaDate(now)?at:new Date(date+'T23:59:59.999+05:30').toISOString();
     const claim=store.transaction(()=>{
       const saved=preview(date);if(saved.state==='published'||saved.state==='ready')return saved;
       const existing=store.sql.prepare('SELECT * FROM news_runs WHERE date=?').get(date);
-      if(date!==indiaDate(now)&&!existing)fail(400,'Only today can start a new fetch. Existing failed runs can be retried.');
       if(existing?.state==='running'&&existing.leaseUntil>at)fail(409,'Someone is already preparing this newspaper. Open today’s edition again shortly.');
       if(existing&&Date.parse(at)-Date.parse(existing.updatedAt)<60000)fail(429,'Please wait one minute before retrying.');
       if(existing?.attempts>=5)fail(429,'This edition has reached its five-attempt limit.');
@@ -26,8 +27,8 @@ function createFetchService({store,repository,provider,clock=()=>new Date()}){
       store.sql.prepare('INSERT INTO news_fetch_budget VALUES(?,1) ON CONFLICT(day) DO UPDATE SET requests=requests+1').run(day);
       const leaseUntil=new Date(now.getTime()+120000).toISOString();
       if(existing)store.sql.prepare("UPDATE news_runs SET state='running',attempts=attempts+1,leaseToken=?,leaseUntil=?,error=NULL,updatedAt=? WHERE date=?").run(token,leaseUntil,at,date);
-      else store.sql.prepare("INSERT INTO news_runs(date,cutoff,state,attempts,leaseToken,leaseUntil,createdAt,updatedAt) VALUES(?,?,'running',1,?,?,?,?)").run(date,at,token,leaseUntil,at,at);
-      return {date,cutoff:existing?.cutoff||at,claimed:true};
+      else store.sql.prepare("INSERT INTO news_runs(date,cutoff,state,attempts,leaseToken,leaseUntil,createdAt,updatedAt) VALUES(?,?,'running',1,?,?,?,?)").run(date,cutoff,token,leaseUntil,at,at);
+      return {date,cutoff:existing?.cutoff||cutoff,claimed:true};
     });
     if(!claim.claimed)return claim;
     try{

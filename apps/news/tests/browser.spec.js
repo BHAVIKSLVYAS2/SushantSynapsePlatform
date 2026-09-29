@@ -18,10 +18,44 @@ test.afterEach(async()=>{
   if(dir)fs.rmSync(dir,{recursive:true,force:true});
 });
 
+test('a pending publication does not replace a newly selected archive date',async({page})=>{
+  execFileSync(process.execPath,[path.join(__dirname,'seed-fixtures.js'),dir]);
+  const today=(await (await page.request.get(base+'/api/news/status')).json()).today;
+  await page.goto(base+'/news?date='+today);
+  let release,started;
+  const arrived=new Promise(resolve=>{started=resolve;});
+  const blocked=new Promise(resolve=>{release=resolve;});
+  await page.route('**/api/news/fetch',async route=>{
+    expect(route.request().postDataJSON()).toEqual({date:today});
+    const response=await route.fetch();started();await blocked;await route.fulfill({response});
+  });
+  await page.getByRole('button',{name:"Fetch today's newspaper"}).click();await arrived;
+  await page.getByLabel('Edition date').fill('2025-01-03');
+  await expect(page.locator('.saved-story h2').first()).toContainText('2025-01-03');
+  release();
+  await expect(page.locator('#fetch-news')).toBeEnabled();
+  await expect(page.getByLabel('Edition date')).toHaveValue('2025-01-03');
+  await expect(page.locator('#preview-heading')).toHaveText('Newspaper for 2025-01-03');
+  await expect(page.locator('.saved-story a').first()).toHaveAttribute('href','https://example.com/2025-01-03/1');
+});
+
 test('News public failures offer retry without asking for platform sign-in',async({page})=>{
  await page.route('**/api/news/status',route=>route.fulfill({status:401,json:{error:'stale upstream'}}));
  await page.goto(base+'/news');await expect(page.locator('#retry')).toBeVisible();await expect(page.locator('body')).not.toContainText('Sign in');await expect(page.locator('header .brand img')).toBeVisible();
  await page.unroute('**/api/news/status');await page.locator('#retry').click();await expect(page.locator('#newspaper')).toBeVisible();await expect(page.locator('#fetch-news')).toBeEnabled();
+});
+
+test('past dates generate comics and future dates show validation without fetching',async({page})=>{
+ await page.goto(base+'/news?date=2099-01-01');
+ await expect(page.locator('#reader-status')).toContainText('Future dates');await expect(page.locator('#fetch-news')).toBeDisabled();
+ expect((await page.request.post(base+'/api/news/fetch',{data:{date:'2099-01-01'}})).status()).toBe(400);
+ await page.getByLabel('Edition date').fill('2025-01-02');
+ await page.getByRole('button',{name:'Generate newspaper for 2025-01-02'}).click();
+ await expect(page.locator('.saved-story')).toHaveCount(10);await expect(page.locator('.comic-panel')).toHaveCount(3);
+ await expect(page.locator('#saved-reader')).toContainText('Masala');
+ await page.reload();await expect(page.locator('.comic-panel')).toHaveCount(3);
+ for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+ await page.getByLabel('Colour theme').selectOption('dark');await page.setViewportSize({width:390,height:844});await page.screenshot({path:'test-results/news-comic-mobile.png',fullPage:true});
 });
 test('News access, available catalogue, empty states, responsive themes and print',async({page})=>{
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
@@ -105,12 +139,21 @@ test('saved editions render ten stories and satire, reopen by date, handle gaps 
   await expect(page.locator('.saved-satire')).toContainText('Satire');
   expect(await page.evaluate(()=>window.injected)).toBeUndefined();
   await expect(page.locator('.saved-story a').first()).toHaveAttribute('href','https://example.com/2025-01-03/1');
+  const fetchRequest=page.waitForRequest(request=>request.url().endsWith('/api/news/fetch'));
+  await page.getByRole('button',{name:'Open newspaper for 2025-01-03',exact:true}).click();
+  expect((await fetchRequest).postDataJSON()).toEqual({date:'2025-01-03'});
+  await expect(page.locator('#fetch-news')).toBeEnabled();
+  await expect(page.getByLabel('Edition date')).toHaveValue('2025-01-03');
+  await expect(page.locator('#preview-heading')).toHaveText('Newspaper for 2025-01-03');
   await page.getByRole('button',{name:'Previous edition',exact:true}).click();
   await expect(page.getByLabel('Edition date')).toHaveValue('2025-01-01');
   await expect(page.locator('#reader-status')).toContainText('Opened from saved editions');
   await page.reload();await expect(page.locator('.saved-story')).toHaveCount(10);await expect(page.getByLabel('Edition date')).toHaveValue('2025-01-01');
   await page.getByLabel('Edition date').fill('2025-01-02');
   await expect(page.locator('#reader-status')).toHaveText('No saved newspaper for 2025-01-02.');
+  await expect(page.locator('#fetch-news')).toBeEnabled();
+  await expect(page.locator('#fetch-note')).toContainText('Historical coverage');
+  await expect(page.locator('#fetch-preview')).toBeHidden();
   await expect(page.locator('.saved-story')).toHaveCount(0);
   await expect(page.getByRole('button',{name:'Print / Save PDF'})).toBeDisabled();
   await page.locator('#archive-list').getByRole('button',{name:'2025-01-03',exact:true}).click();await expect(page.locator('.saved-story')).toHaveCount(10);

@@ -15,6 +15,7 @@ async function load(){
     const response=await fetch('/api/news/status',{cache:'no-store'});
     if(!response.ok)throw Error('The newspaper could not be loaded. Please retry.');
     const status=await response.json();
+    editionToday=status.today;selection=status.today;
     document.querySelector('#edition-date').value=status.today;
     document.querySelector('#gate').hidden=true;
     document.querySelector('#newspaper').hidden=false;
@@ -27,7 +28,7 @@ async function load(){
 document.querySelector('#retry').addEventListener('click',load);
 load();
 
-let dates=[],nextBefore=null,selection='',requestVersion=0;
+let dates=[],nextBefore=null,selection='',requestVersion=0,editionToday='',fetching=false,selectedSaved=false;
 const element=(tag,content,className)=>{const node=document.createElement(tag);node.textContent=content;if(className)node.className=className;return node;};
 function clearReader(){
   document.querySelector('#saved-reader').replaceChildren();
@@ -59,9 +60,12 @@ function renderEdition(edition){
     if(['http:','https:'].includes(url.protocol)&&!url.username&&!url.password){link.href=url.href;link.target='_blank';link.rel='noopener noreferrer';article.append(link);}
     grid.append(article);
   }
-  const satire=element('aside','','saved-satire');
+  const satire=element('aside','','saved-satire');satire.id='lighter-side';
   satire.append(element('p','Satire · Fictional commentary','section-label'),element('h2',edition.satire.title),element('p',edition.satire.body),element('p',`Inspired by story ${edition.satire.storyPosition}: ${edition.stories[edition.satire.storyPosition-1].title}`,'saved-meta'));
-  if(edition.model==='local-editorial-template')reader.append(element('p','India public affairs - Ten recent PIB releases. Briefs are credited source excerpts; satire uses a local editorial template.','saved-meta'));
+  if(edition.promptVersion==='news-comic-v2'){
+    const body=satire.children[2];body.className='comic-strip';body.replaceChildren(...edition.satire.body.split('\n\n').map((text,i)=>element('p',text,i>0&&i<4?'comic-panel':'comic-caption')));
+    reader.append(element('p','Ten stories across available topics, including Masala entertainment when available. Briefs are credited excerpts; open the originals for context. Comic dialogue is fictional.','saved-meta'));
+  }
   reader.append(grid,satire);reader.hidden=false;
   document.querySelector('.masthead h1').textContent=edition.name;
   document.querySelector('.byline strong').textContent=edition.author;
@@ -70,16 +74,19 @@ function renderEdition(edition){
 }
 async function openEdition(date){
   if(!date)return;
-  const version=++requestVersion;selection=date;clearReader();navigation();
+  const version=++requestVersion;selection=date;selectedSaved=false;clearReader();navigation();
+  document.querySelector('#fetch-preview').hidden=true;updateFetchControl();
   document.querySelector('#edition-date').value=date;
   document.querySelector('.edition-line span:nth-child(2)').textContent=`Selected date · ${date}`;
   document.querySelector('#reader-status').textContent='Opening saved newspaper…';
   const url=new URL(location.href);url.searchParams.set('date',date);history.replaceState(null,'',url);
+  if(!validSelection(date)){document.querySelector('#reader-status').textContent=date>editionToday?'Future dates cannot generate news. Choose today or a past date.':'Enter a valid edition date.';return;}
   try{
     const edition=await getJson('/api/news/editions/'+encodeURIComponent(date));
     if(version!==requestVersion)return;
     if(!edition){document.querySelector('#reader-status').textContent=`No saved newspaper for ${date}.`;return;}
-    renderEdition(edition);document.querySelector('#reader-status').textContent='Opened from saved editions. No news was fetched.';
+    selectedSaved=true;updateFetchControl();
+    renderEdition(edition);showPreview({date,state:'published',cached:true});document.querySelector('#reader-status').textContent='Opened from saved editions. No news was fetched.';
   }catch(error){if(version===requestVersion)document.querySelector('#reader-status').textContent=error.message;}
 }
 async function archivePage(before){
@@ -94,7 +101,7 @@ async function archivePage(before){
 async function loadArchives(today){
   document.querySelector('#edition-date').disabled=false;document.querySelector('#edition-date').max=today;
   document.querySelector('#edition-navigation').hidden=false;
-  document.querySelector('#archive-note').textContent='Choose a date to open its saved newspaper.';
+  document.querySelector('#archive-note').textContent='Choose today or a past date to generate or open its newspaper.';
   document.querySelector('.preview-note p').textContent='Ten stories, one satire, a newspaper to keep.';
   try{
     await archivePage();
@@ -112,22 +119,33 @@ document.querySelector('#more-editions').addEventListener('click',async()=>{cons
 function showPreview(result){
   document.querySelector('#fetch-preview').hidden=false;
   document.querySelector('#preview-stories').replaceChildren();
-  document.querySelector('#preview-heading').textContent='Today\u2019s newspaper';
+  document.querySelector('#preview-heading').textContent=`Newspaper for ${result.date}`;
   document.querySelector('#fetch-status').textContent=result.state==='published'?(result.cached?'Opened the stored newspaper. No news request was made.':'Newspaper published and saved.'):(result.error||'A previous fetch is unfinished. Click Fetch to resume.');
-  document.querySelector('#fetch-news').textContent=result.state==='published'?"Open today's newspaper":"Fetch today's newspaper";
+  updateFetchControl();
 }
-async function setupFetching(today){
-  const button=document.querySelector('#fetch-news');button.disabled=false;button.textContent="Fetch today's newspaper";
-  document.querySelector('#fetch-note').textContent='Anyone can prepare today’s newspaper. One shared edition is saved for everyone; repeat visits open the same edition.';
-  try{const saved=await getJson('/api/news/editions/'+today);if(saved)showPreview({state:'published',cached:true});}catch(error){document.querySelector('#fetch-status').textContent=error.message;}
+function validSelection(date){return /^\d{4}-\d{2}-\d{2}$/.test(date)&&Number.isFinite(Date.parse(date+'T00:00:00Z'))&&new Date(date+'T00:00:00Z').toISOString().slice(0,10)===date&&date<=editionToday;}
+function updateFetchControl(){
+  const button=document.querySelector('#fetch-news'),isToday=selection===editionToday;
+  button.disabled=fetching||!validSelection(selection);
+  button.textContent=fetching?'Preparing newspaper...':selectedSaved?(isToday?"Open today's newspaper":`Open newspaper for ${selection}`):(isToday?"Fetch today's newspaper":`Generate newspaper for ${selection}`);
+  document.querySelector('#fetch-note').textContent=!validSelection(selection)?'Choose today or a past date. Future editions cannot be generated.':selectedSaved?'Open the saved edition without fetching again.':'Generate ten varied stories for this date, plus a fictional comic. Historical coverage depends on the source archive.';
 }
+async function setupFetching(){updateFetchControl();}
 document.querySelector('#fetch-news').addEventListener('click',async()=>{
-  const button=document.querySelector('#fetch-news');button.disabled=true;
+  const date=selection,version=requestVersion;
+  if(!validSelection(date))return;
+  fetching=true;updateFetchControl();
   document.querySelector('#fetch-preview').hidden=false;document.querySelector('#fetch-status').textContent='Preparing your newspaper...';
   try{
-    const response=await fetch('/api/news/fetch',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});
+    const response=await fetch('/api/news/fetch',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({date})});
     const result=await response.json();if(!response.ok)throw Error(result.error||'News fetch failed. Please retry later.');
-    showPreview(result);if(result.state==='published'){dates=[];await archivePage();await openEdition(result.date);}
-  }catch(error){document.querySelector('#fetch-status').textContent=error.message;}
-  finally{button.disabled=false;}
+    if(result.state==='published'){
+      await archivePage();
+      if(version!==requestVersion)return;
+      await openEdition(date);
+      if(selection!==date)return;
+    }
+    if(selection===date)showPreview(result);
+  }catch(error){if(version===requestVersion)document.querySelector('#fetch-status').textContent=error.message;}
+  finally{fetching=false;updateFetchControl();}
 });

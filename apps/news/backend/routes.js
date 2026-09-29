@@ -1,9 +1,9 @@
 const {fail,readBody}=require('../../../server/http');
 const {createNewsRepository,today}=require('./repository');
-const {createPibProvider}=require('./pib-provider');
+const {createArchiveProvider}=require('./archive-provider');
 const {createPublicationService}=require('./publication');
 const {createFetchService}=require('./fetch-service');
-function createNews({auth,store,provider=createPibProvider()}) {
+function createNews({auth,store,provider=createArchiveProvider()}) {
   const repository=createNewsRepository(store);
   const fetching=createFetchService({store,repository,provider});
   const publication=createPublicationService({repository,fetching});
@@ -26,7 +26,7 @@ function createNews({auth,store,provider=createPibProvider()}) {
     }
     if(!['news/status','news/editions'].includes(route)&&!/^news\/editions\/[^/]+$/.test(route))fail(404,'Not found');
     if(method!=='GET')fail(405,'Method not allowed');
-    if(route==='news/status')return json(200,{name:'Sushant Synapse Times',author:'Bhavik',stage:'manual-publication',generationAvailable:true,fetchAvailable:true,provider:'PIB',archiveAvailable:true,today:today()});
+    if(route==='news/status')return json(200,{name:'Sushant Synapse Times',author:'Bhavik',stage:'manual-publication',generationAvailable:true,fetchAvailable:true,provider:'IndianExpress',archiveAvailable:true,today:today()});
     if(route==='news/editions')return json(200,repository.list(new URL(req.url,'http://localhost').searchParams.get('before')));
     const edition=repository.get(route.split('/')[2]);
     if(!edition)fail(404,'No saved newspaper for this date');
