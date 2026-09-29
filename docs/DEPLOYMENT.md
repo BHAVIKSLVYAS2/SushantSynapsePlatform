@@ -71,6 +71,12 @@ Consistent pre-release backup: `data/backups/pre-batchfee-1790528480616.sqlite` 
 
 ## Operational boundaries
 
+### News release, 2026-09-29
+
+Application commit `31b8a6c` deploys historical edition generation, future-date rejection, varied archive stories including entertainment and fictional three-panel satire. The isolated staged release passed 74 Node/API tests and six News Chrome workflows. Restarted only the verified production Node child under the existing supervisor; the tunnel stayed connected. Public health, exact News asset bytes, provider status, future-date rejection, protected API boundaries and mobile/desktop browser checks passed. No live test edition or business record was created.
+
+Backup `data/backups/pre-news-1790705796418.sqlite` and post-release SQLite integrity are `ok`; all 21 tables match exactly. Unrelated working-tree changes were excluded from the News commit and preserved in place. Existing Windows host/tunnel uptime requirements remain.
+
 ### Tournament Lite release, 2026-09-28
 
 Application commit `b578d4f` is live at `/tournament-lite`. The isolated staged release passed 72 Node/API tests and five app/portal browser workflows. The existing supervisor restarted only its verified production Node child. Public HTTPS assets match the local release, organizer routes reject anonymous reads/writes, and live Chrome passed the sign-in boundary and 320–1440px layout checks. Existing app pages remain available.
