@@ -24,7 +24,7 @@ This is an npm workspace monorepo. See [code ownership and adding apps](docs/ARC
 
 A mobile-first home for connected apps at **apps.sushantsynapse.com**. Chambers, Fund Lens and News are available; Projects, Finance and Knowledge are roadmap previews only.
 
-- `/`: public Fund Lens and News launch cards, with optional sign-in for the searchable account catalogue, favourites, recent launches, profile and owner-managed team access.
+- `/`: four no-login tools (Timetable Lite, certificates, Fund Lens and News), followed by a separate sign-in section for Chambers, Tournament Lite organizing and owner-only BatchFee Lite. Tournament results are public only through an organizer-shared link. Sign-in also opens the account catalogue, favourites, recent launches, profile and owner-managed app access.
 - `/advocate`: the complete Chambers workspace described below, using the same account and theme.
 - `/news` (no login required): **Sushant Synapse Times**, by **Bhavik**. Generate present or past editions with ten dated stories across available topics, including Masala entertainment, short credited excerpts and a fictional three-panel comic. Future dates are rejected. SQLite archives reopen without fetching. Historical availability depends on source coverage. See [News usage and source scope](apps/news/README.md). Automatic 05:00 publication remains deferred.
 - `/fund-overlap` (no login required): Fund Lens compares mutual fund equity holdings, industry exposure and unique contributions using national MFapi discovery, Tickertape/Groww holdings and official PPFAS reference snapshots. See [coverage, methodology and refresh instructions](apps/fund-overlap/README.md).

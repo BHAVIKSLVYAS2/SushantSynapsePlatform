@@ -9,8 +9,8 @@ test.afterAll(async()=>{if(child.exitCode===null)await new Promise(resolve=>{chi
 
 test('homepage ships real cards without JavaScript and ignores obsolete login query',async({browser,page})=>{
  const context=await browser.newContext({javaScriptEnabled:false});
- try{const fallback=await context.newPage();const response=await fallback.goto(base);expect(response.headers()['cache-control']).toBe('no-store');await expect(fallback.locator('.public-app')).toHaveCount(5);await expect(fallback.getByRole('link',{name:'Fund Lens',exact:true})).toBeVisible();await expect(fallback.getByRole('link',{name:'Open News'})).toBeVisible();await expect(fallback.getByRole('link',{name:'Tournament Lite',exact:true})).toBeVisible();}finally{await context.close();}
- await page.goto(base+'/?signin=1');await expect(page.locator('.public-app')).toHaveCount(5);await expect(page.locator('#auth-form')).toHaveCount(0);await page.getByRole('link',{name:'Sign in',exact:true}).click();await expect(page).toHaveURL(base+'/signin');await expect(page.locator('#auth-form')).toBeVisible();
+ try{const fallback=await context.newPage();const response=await fallback.goto(base);expect(response.headers()['cache-control']).toBe('no-store');await expect(fallback.locator('.public-app')).toHaveCount(4);await expect(fallback.getByRole('link',{name:'Fund Lens',exact:true})).toBeVisible();await expect(fallback.getByRole('link',{name:'Open News'})).toBeVisible();await expect(fallback.getByRole('link',{name:'Sign in to Tournament Lite'})).toBeVisible();}finally{await context.close();}
+ await page.goto(base+'/?signin=1');await expect(page.locator('.public-app')).toHaveCount(4);await expect(page.locator('#auth-form')).toHaveCount(0);await page.getByRole('link',{name:'Sign in',exact:true}).click();await expect(page).toHaveURL(base+'/signin');await expect(page.locator('#auth-form')).toBeVisible();
 });
 test('platform setup, favourites, app launch with shared sign-in, team access and responsive themes',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.setViewportSize({width:390,height:844});await page.goto(base);
@@ -30,4 +30,42 @@ test('platform setup, favourites, app launch with shared sign-in, team access an
  const row=page.locator('.team-row').filter({hasText:'Member One'});await row.getByRole('checkbox',{name:'Chambers'}).uncheck();await expect(row.getByRole('checkbox',{name:'Chambers'})).not.toBeChecked();
  await page.getByRole('button',{name:'Sign out',exact:true}).click();await expect(page.locator('#auth-form')).toHaveCount(0);await page.getByRole('link',{name:'Sign in',exact:true}).click();await page.getByLabel('Email address').fill('member@synapse.example');await page.getByLabel('Password',{exact:true}).fill('Member browser password!');await page.getByRole('button',{name:'Sign in',exact:true}).click();await expect(page.getByText('Access required',{exact:true})).toHaveCount(3);await expect(page.getByRole('button',{name:'Open Fund Lens'})).toBeVisible();await expect(page.getByRole('button',{name:'Open Sushant Synapse Times'})).toBeVisible();await expect(page.getByRole('button',{name:'Open Chambers'})).toHaveCount(0);expect((await page.request.get(base+'/api/state')).status()).toBe(403);
  await page.getByRole('navigation',{name:'Platform navigation'}).getByRole('button',{name:'My profile',exact:true}).click();await page.locator('#profile-form').getByLabel('Name',{exact:true}).fill('Updated Member');await page.getByRole('button',{name:'Save profile'}).click();await expect(page.locator('#profile-form input[name="name"]')).toHaveValue('Updated Member');expect(errors).toEqual([]);
+});
+test('public tools and private destinations stay distinct through sign-in',async({page})=>{
+ await page.goto(base);
+ await expect(page.locator('#free-apps .public-app')).toHaveCount(4);
+ await expect(page.locator('#workspace-apps .workspace-card')).toHaveCount(3);
+ await expect(page.locator('#free-apps a[href*="tournament"]')).toHaveCount(0);
+ const {apps}=require('../../../packages/app-registry');
+ expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.map(a=>a.getAttribute('href')).sort())).toEqual(apps.filter(a=>a.public&&a.status==='Available').map(a=>a.path).sort());
+ for(const [width,theme] of [[390,'dark'],[1440,'light']]){
+  await page.setViewportSize({width,height:1000});
+  await page.getByLabel('Colour theme').selectOption(theme);
+  await page.screenshot({path:'test-results/public-home-'+theme+'.png',fullPage:true});
+ }
+ for(const app of ['advocate','tournament-lite','batchfee-lite']){
+  await page.goto(base+'/signin?next='+app);
+  await expect(page.locator('#auth-form')).toBeVisible();
+  await expect(page.getByRole('navigation',{name:'Public apps'}).locator('.auth-public-links a')).toHaveCount(4);
+  for(const theme of ['light','dark','system']){
+   await page.getByLabel('Colour theme').selectOption(theme);
+   for(const width of [320,390,768,1440]){
+    await page.setViewportSize({width,height:1000});
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+   }
+  }
+  await page.screenshot({path:'test-results/signin-'+app+'.png',fullPage:true});
+  await page.getByLabel('Email address').fill('owner@synapse.example');
+  await page.getByLabel('Password',{exact:true}).fill('Platform browser password!');
+  await page.getByRole('button',{name:'Sign in',exact:true}).click();
+  await expect(page).toHaveURL(base+'/'+app);
+  await page.goto(base+'/signin?next='+app);
+  await expect(page).toHaveURL(base+'/'+app);
+  await page.request.post(base+'/api/auth/logout');
+ }
+ await page.goto(base+'/signin?next=https://example.com');
+ await page.getByLabel('Email address').fill('owner@synapse.example');
+ await page.getByLabel('Password',{exact:true}).fill('Platform browser password!');
+ await page.getByRole('button',{name:'Sign in',exact:true}).click();
+ await expect(page).toHaveURL(base+'/');
 });
