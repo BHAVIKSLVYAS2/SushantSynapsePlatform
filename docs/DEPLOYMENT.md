@@ -71,6 +71,18 @@ Consistent pre-release backup: `data/backups/pre-batchfee-1790528480616.sqlite` 
 
 ## Operational boundaries
 
+### Tournament and shared header release, 2026-10-01
+
+Application commit `f4ece30` is deployed from the clean export `C:\Code\SushantSynapsePlatform\.publish\release-f4ece30`, not the editable working tree. All 175 release files match the commit. Launcher commit `84a741b` adds `-ReleaseRoot` while keeping `DATA_DIR` anchored to `C:\Code\SushantSynapsePlatform\data`. Do not delete the active release directory. Future deployment must explicitly select a verified release; omitting the option retains the legacy working-tree behavior.
+
+To recover the application after a reboot, first confirm no application supervisor/server is already running, then start this hidden supervisor:
+
+```powershell
+Start-Process -FilePath powershell.exe -WindowStyle Hidden -ArgumentList @('-NoProfile','-ExecutionPolicy','Bypass','-File','C:\Code\SushantSynapsePlatform\infrastructure\start-tunnel-host.ps1','-ReleaseRoot','C:\Code\SushantSynapsePlatform\.publish\release-f4ece30')
+```
+
+The dedicated Cloudflare connector must also be running as documented above. At deployment, supervisor PID 9756 and Node PID 15600 replaced only the prior verified application processes; the tunnel stayed connected. The release passed 79 Node/API tests and 10 portal/tournament/header Chrome workflows before deployment. Live HTTPS matched 17 assets, protected private APIs, and passed responsive/theme/sign-in checks without business writes. Backup `data/backups/pre-header-release-1790795627440.sqlite` and post-release SQLite integrity are `ok`; all 21 tables are unchanged. Unrelated local edits remain preserved outside the release. Automatic reboot startup remains unconfigured.
+
 ### News illustrated UI release, 2026-10-01
 
 Commit `86ad39f` adds locally served original WebP illustrations, a comic newspaper cover, topic filters and illustrated satire panels. The isolated release passed 74 Node/API tests and six News Chrome workflows. Restarted only the verified production Node child under the existing supervisor; the dedicated tunnel remained running. Live HTTPS checks confirmed exact News assets and both images, WebP MIME, healthy endpoints, protected APIs and browser rendering of an existing edition with no page errors.
