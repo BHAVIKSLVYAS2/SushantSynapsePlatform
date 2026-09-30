@@ -1,4 +1,88 @@
 const {test,expect}=require('@playwright/test');
+
+test('All apps share a responsive platform header and working theme controls',async({page})=>{
+ await page.request.post(base+'/api/auth/setup',{data:{name:'Organizer',email:'organizer@example.test',password:'Tournament browser password!',firmName:'Workspace'}});
+ for(const route of ['/','/advocate','/tournament-lite','/batchfee-lite','/certificates','/timetable-lite','/fund-overlap','/news']){
+  await page.goto(base+route);const header=page.locator('header.synapse-header');await expect(header).toBeVisible();await expect(header.locator('.brand img')).toBeVisible();await expect(header.locator('.brand')).toHaveAttribute('href','/');
+  for(const width of [320,768,1440]){await page.setViewportSize({width,height:900});const box=await header.boundingBox();expect(box.x).toBeGreaterThanOrEqual(0);expect(box.x+box.width).toBeLessThanOrEqual(width+1);expect(await header.evaluate(el=>el.scrollWidth<=el.clientWidth)).toBe(true);}
+  for(const theme of ['dark','light','system']){await header.getByLabel('Colour theme',{exact:true}).selectOption(theme);await expect(page.locator(route==='/timetable-lite'?'body':'html')).toHaveAttribute('data-theme',theme==='system'?'light':theme);}
+ }
+ await page.goto(base+'/tournament-lite');await page.setViewportSize({width:320,height:900});await page.screenshot({path:'test-results/shared-header-mobile.png'});
+});
+
+test('Organizer edits details, validates dates and public viewers cannot edit',async({page,browser})=>{
+ await page.request.post(base+'/api/auth/setup',{data:{name:'Organizer',email:'organizer@example.test',password:'Tournament browser password!',firmName:'Workspace'}});
+ await page.request.post(base+'/api/tournament-lite',{data:{name:'Original Cup',sport:'Chess',mode:'Singles',format:'Knockout'}});
+ await page.goto(base+'/tournament-lite');await page.getByRole('button',{name:'Open tournament →'}).click();
+ await page.getByRole('button',{name:'Edit details',exact:true}).click();
+ await page.getByLabel('Tournament name',{exact:true}).fill('Updated Cup');await page.getByLabel('Start date').fill('2026-10-03');await page.getByLabel('End date').fill('2026-10-02');
+ await page.getByRole('button',{name:'Save',exact:true}).click();await expect(page.getByRole('alert')).toContainText('End date');
+ await page.getByLabel('End date').fill('2026-10-04');await page.getByLabel('Organizer contact (private)').fill('Private phone');await page.getByRole('button',{name:'Save',exact:true}).click();
+ await page.reload();await page.getByRole('button',{name:'Open tournament →'}).click();await expect(page.getByRole('heading',{name:'Updated Cup',exact:true})).toBeVisible();
+ await page.getByRole('button',{name:'Share tournament',exact:true}).click();const url=await page.getByLabel('Public link').inputValue();
+ const context=await browser.newContext();try{const viewer=await context.newPage();await viewer.goto(url);await expect(viewer.getByRole('heading',{name:'Updated Cup',exact:true})).toBeVisible();await expect(viewer.getByRole('button',{name:'Edit details'})).toHaveCount(0);expect(await viewer.locator('body').innerText()).not.toContain('Private phone');}finally{await context.close();}
+});
+
+test('Blocked group setup can be repaired and automatically advances through the final',async({page})=>{
+ await page.request.post(base+'/api/auth/setup',{data:{name:'Organizer',email:'organizer@example.test',password:'Tournament browser password!',firmName:'Workspace'}});
+ let response=await page.request.post(base+'/api/tournament-lite',{data:{name:'Group Cup',sport:'Chess',mode:'Singles',format:'Group Stage + Knockout',groupCount:4,qualifiers:2}});let t=await response.json();
+ response=await page.request.post(base+'/api/tournament-lite/'+t.id,{data:{revision:t.revision,type:'participants',input:{participants:['One','Two','Three','Four'].map(name=>({name}))}}});expect(response.ok()).toBe(true);
+ await page.goto(base+'/tournament-lite');await page.getByRole('button',{name:'Open tournament →'}).click();
+ await page.getByRole('button',{name:'Generate Fixtures',exact:true}).click();await expect(page.locator('#notice')).toContainText('Edit qualification');
+ await page.getByRole('button',{name:'Rules',exact:true}).click();await page.getByRole('button',{name:'Edit qualification',exact:true}).click();
+ await page.getByLabel('Number of groups').fill('2');await page.getByRole('button',{name:'Save',exact:true}).click();
+ await page.getByRole('button',{name:'Generate Fixtures',exact:true}).click();
+ for(let i=0;i<3;i++){await page.getByRole('button',{name:'Enter result',exact:true}).first().click();await page.getByRole('button',{name:'Save',exact:true}).click();}
+ await expect(page.locator('.champion')).toBeVisible();
+ await page.reload();await page.getByRole('button',{name:'Open tournament →'}).click();await expect(page.locator('.champion')).toBeVisible();
+});
+
+test('Partial scores survive reload and live-filter completion reveals the next round',async({page})=>{
+ await page.request.post(base+'/api/auth/setup',{data:{name:'Organizer',email:'organizer@example.test',password:'Tournament browser password!',firmName:'Workspace'}});
+ await page.goto(base+'/tournament-lite');
+ await page.getByRole('button',{name:'+ Create Tournament'}).click();
+ await page.getByLabel('Tournament name',{exact:true}).fill('Progress Cup');
+ await page.getByRole('button',{name:'Save',exact:true}).click();
+ await page.getByRole('button',{name:'Add / edit participants'}).click();
+ await page.getByLabel('Participant entries').fill('One | | 1\nTwo | | 2\nThree | | 3');
+ await page.getByRole('button',{name:'Save',exact:true}).click();
+ await page.getByRole('button',{name:'Fixtures',exact:true}).click();
+ await page.getByRole('button',{name:'Generate Fixtures',exact:true}).click();
+ await page.getByRole('button',{name:'Enter result',exact:true}).click();
+ await page.getByLabel('Game 1 first score').fill('10');await page.getByLabel('Game 1 second score').fill('10');
+ await page.getByRole('button',{name:'Save',exact:true}).click();
+ await expect(page.locator('#dialog')).not.toBeVisible();await expect(page.locator('#content')).toContainText('In progress');
+ await page.reload();await page.getByRole('button',{name:'Open tournament →'}).click();
+ await page.getByLabel('Show matches').selectOption('live');
+ await page.getByRole('button',{name:'Continue scoring'}).click();
+ await expect(page.getByLabel('Game 1 first score')).toHaveValue('10');
+ await page.getByLabel('Game 1 first score').fill('21');await page.getByLabel('Game 1 second score').fill('10');
+ await page.getByRole('button',{name:'Save',exact:true}).click();
+ await page.getByRole('button',{name:'Continue scoring'}).click();
+ await page.getByLabel('Game 2 first score').fill('21');await page.getByLabel('Game 2 second score').fill('5');
+ await page.getByRole('button',{name:'Save',exact:true}).click();
+ await expect(page.getByLabel('Show matches')).toHaveValue('all');
+ await page.getByRole('button',{name:'Enter result',exact:true}).click();
+ for(const game of [1,2]){await page.getByLabel(`Game ${game} first score`).fill('21');await page.getByLabel(`Game ${game} second score`).fill('5');}
+ await page.getByRole('button',{name:'Save',exact:true}).click();
+ await expect(page.locator('.champion')).toContainText('One');
+ await page.reload();await page.getByRole('button',{name:'Open tournament →'}).click();await expect(page.locator('.champion')).toContainText('One');
+});
+
+test('Creation validates only visible sport rules and clearing participant drafts saves',async({page})=>{
+ await page.request.post(base+'/api/auth/setup',{data:{name:'Organizer',email:'organizer@example.test',password:'Tournament browser password!',firmName:'Workspace'}});
+ await page.goto(base+'/tournament-lite');await page.getByRole('button',{name:'+ Create Tournament'}).click();
+ await page.getByLabel('Tournament name',{exact:true}).fill('Relevant Rules');
+ await page.locator('summary').click();await page.getByLabel('Points per game').fill('');
+ await page.getByLabel('Sport',{exact:true}).selectOption('Chess');
+ await expect(page.getByLabel('Points per game')).not.toBeVisible();await expect(page.getByLabel('Cricket overs')).toBeDisabled();
+ await page.getByRole('button',{name:'Save',exact:true}).click();await expect(page.locator('#dialog')).not.toBeVisible();
+ await page.getByRole('button',{name:'Add / edit participants'}).click();await page.getByLabel('Participant entries').fill('One\nTwo');
+ await page.getByRole('button',{name:'Save',exact:true}).click();await page.getByRole('button',{name:'Add / edit participants'}).click();
+ await page.getByLabel('Participant entries').fill('');await page.getByRole('button',{name:'Save',exact:true}).click();
+ await expect(page.locator('#dialog')).not.toBeVisible();await page.reload();await page.getByRole('button',{name:'Open tournament →'}).click();
+ const response=await page.request.get(base+'/api/tournament-lite');expect((await response.json()).tournaments[0].participants).toEqual([]);
+});
 test('Cricket totals and remaining racket/board sports work through their result forms',async({page})=>{
  await page.request.post(base+'/api/auth/setup',{data:{name:'Organizer',email:'organizer@example.test',password:'Tournament browser password!',firmName:'Workspace'}});
  for(const sport of ['Cricket','Table Tennis','Pickleball','Carrom']){

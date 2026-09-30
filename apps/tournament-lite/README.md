@@ -5,7 +5,7 @@ Open `/tournament-lite`. Organizers use the platform account; Owner and app-auth
 1. Create a tournament, choose a sport/format and review local rules.
 2. Add one entry per line. Optional syntax: `Name | player one, player two | seed`. Doubles require exactly two players. Team rosters are comma-separated names. The random team builder can split individual names into equal teams or pairs.
 3. Generate fixtures. Unseeded entries are shuffled, seeds are separated in knockout brackets, and BYEs advance automatically. Participants lock after generation.
-4. Assign court/table/ground and IST times, mark current matches live, and enter results. Standings and bracket progression update automatically.
+4. Assign court/table/ground and IST times, mark current matches live, and enter results. Racket/board scores can be saved during a game or between games; use **Continue scoring** after reopening. A best-of-three match completes after two game wins. Deciding scores automatically update standings and bracket progression; partial scores do not count as results. Cricket and Chess still require a complete result.
 5. Choose **Share tournament** to publish a read-only link. Anyone with the link can see participant names, fixtures, scores and winners; organizer contact and team rosters remain private. Public pages refresh every 30 seconds while visible. **Stop sharing** disables the link. WhatsApp opens a draft for manual sending.
 6. Download a PNG winner card when all matches finish.
 
@@ -17,9 +17,11 @@ Open `/tournament-lite`. Organizers use the platform account; Owner and app-auth
 - Cricket accepts innings totals, wickets and overs in cricket notation (`4.3` means 27 balls). League ties receive draw points; knockout ties require the organizer to enter the winner of a separately played tiebreak. NRR aggregates runs and balls across innings; all-out innings use the full scheduled overs. There is no ball-by-ball, abandoned-match or rain/DLS adjustment support.
 - Standings sort by points, then NRR for Cricket or score difference for other sports, then original entry order. This deterministic final tiebreak is visible in Rules and also decides tied league champions and qualifiers.
 - Correcting a knockout winner clears affected later results. A league correction after qualification explicitly requires confirmation and regenerates the knockout stage, including schedules. Unaffected league results remain intact.
-- Rules are fixed on creation; participants are editable until fixture generation. Tournament and match state is persisted in SQLite. There is no browser-only business storage or offline editing.
+- Scoring rules are fixed on creation; participants are editable until fixture generation. Before generating league/group knockout fixtures, use **Rules → Edit qualification** to adjust the qualifier and group counts if entry numbers change or generation is blocked. Setup shows only relevant sport/format fields. Tournament and match state, including partial racket/board scores, is persisted in SQLite. There is no browser-only business storage or offline editing.
 
 ## Ownership and recovery
+
+Use **Edit details** to correct the tournament name, venue, dates and organizer details, including after play starts. Existing match schedules and venues remain unchanged; edit each match through **Schedule / status**. Public viewers cannot edit, and organizer contact remains private.
 
 `backend/engine.js` owns formats and progression; `backend/sports.js` owns scoring and validation; `backend/routes.js` owns authorization, revisions and SQLite transactions. Additive SQL is in `database/001-initial.sql` and included in full platform SQL exports. Tournament snapshots have stable IDs, account ownership, public tokens and optimistic revisions. Concurrent stale writes are rejected; use Refresh before retrying. Shared Chambers data and legacy migration files are not modified by the app.
 
