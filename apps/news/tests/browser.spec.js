@@ -53,8 +53,18 @@ test('past dates generate comics and future dates show validation without fetchi
  await page.getByRole('button',{name:'Generate newspaper for 2025-01-02'}).click();
  await expect(page.locator('.saved-story')).toHaveCount(10);await expect(page.locator('.comic-panel')).toHaveCount(3);
  await expect(page.locator('#saved-reader')).toContainText('Masala');
+ await expect(page.locator('.cover-art img')).toBeVisible();
+ await page.locator('.comic-panel').first().scrollIntoViewIfNeeded();
+ await expect.poll(()=>page.locator('.comic-scene').evaluateAll(images=>images.every(img=>img.complete&&img.naturalWidth>0))).toBe(true);
+ const art=await page.request.get(base+'/news/art/chai-comic-v1.webp');expect(art.status()).toBe(200);expect(art.headers()['content-type']).toBe('image/webp');
+ await page.getByRole('button',{name:'Masala',exact:true}).click();
+ await expect(page.locator('.saved-story:visible')).toHaveCount(2);await expect(page.getByRole('button',{name:'Masala',exact:true})).toHaveAttribute('aria-pressed','true');
+ await page.emulateMedia({media:'print'});await expect(page.locator('.saved-story:visible')).toHaveCount(10);await expect(page.locator('.topic-filters')).toBeHidden();await page.emulateMedia({media:'screen'});
+ await page.getByRole('button',{name:'All stories',exact:true}).click();await expect(page.locator('.saved-story:visible')).toHaveCount(10);
  await page.reload();await expect(page.locator('.comic-panel')).toHaveCount(3);
  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+ await page.getByLabel('Colour theme').selectOption('light');await page.screenshot({path:'test-results/news-illustrated-desktop.png',fullPage:true});
+ await page.locator('.saved-satire').screenshot({path:'test-results/news-illustrated-comic.png'});
  await page.getByLabel('Colour theme').selectOption('dark');await page.setViewportSize({width:390,height:844});await page.screenshot({path:'test-results/news-comic-mobile.png',fullPage:true});
 });
 test('News access, available catalogue, empty states, responsive themes and print',async({page})=>{

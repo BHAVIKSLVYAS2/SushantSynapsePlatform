@@ -48,28 +48,79 @@ async function getJson(url){
   if(!response.ok)throw Error('Could not load saved editions. Please try again.');
   return response.json();
 }
+function storyTopic(story){
+  const path=new URL(story.url).pathname;
+  if(path.includes('/entertainment/'))return 'Masala';
+  if(path.includes('/sports/'))return 'Sport';
+  if(path.includes('/technology/'))return 'Tech';
+  if(path.includes('/business/'))return 'Money';
+  if(path.includes('/world/'))return 'World';
+  if(/\/(lifestyle|trending)\//.test(path))return 'Life & culture';
+  if(/\/(education|health)\//.test(path))return 'Learning & health';
+  return 'India';
+}
+function artwork(name,alt,className){
+  const img=element('img','',className);img.src='/news/art/'+name+'-v1.webp';img.alt=alt;img.width=1536;img.height=1024;img.decoding='async';
+  img.addEventListener('error',()=>{img.hidden=true;});return img;
+}
 function renderEdition(edition){
   const reader=document.querySelector('#saved-reader');reader.replaceChildren();
-  const meta=element('p',`Edition ${edition.date} · Published ${new Date(edition.publishedAt).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})} IST`,'saved-meta');
-  reader.append(meta,element('p',`News through ${new Date(edition.cutoff).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})} IST`,'saved-meta'));
+  const overview=element('div','','reader-overview');
+  overview.append(element('h2','The daily dispatch'),element('span',edition.stories.length+' stories · One chai break','reading-time'));
+  const info=element('details','','edition-info');info.append(element('summary','Edition '+edition.date+' · Sources & timing'));
+  info.append(element('p','Published '+new Date(edition.publishedAt).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})+' IST. News through '+new Date(edition.cutoff).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})+' IST.','saved-meta'));
+  info.append(element('p','Short credited source excerpts. Follow each original for full context. The artwork is AI-generated editorial illustration, not news photography.','saved-meta'));
+  const filters=element('div','','topic-filters');filters.setAttribute('role','group');filters.setAttribute('aria-label','Filter stories by topic');
+  const count=element('p','Showing all '+edition.stories.length+' stories','filter-count');count.setAttribute('role','status');
   const grid=element('div','','saved-stories');
   for(const story of edition.stories){
-    const article=element('article','','saved-story');
-    article.append(element('p',story.position===1?'Lead story':`Story ${story.position}`,'section-label'),element('h2',story.title),element('p',story.brief));
-    const link=element('a',`Read original · ${story.source}`);const url=new URL(story.url);
-    if(['http:','https:'].includes(url.protocol)&&!url.username&&!url.password){link.href=url.href;link.target='_blank';link.rel='noopener noreferrer';article.append(link);}
-    grid.append(article);
+    const article=element('article','','saved-story');article.dataset.topic=storyTopic(story);article.id='story-'+story.position;
+    const topline=element('div','','story-topline');
+    topline.append(element('span',storyTopic(story),'topic-tag'),element('span',String(story.position).padStart(2,'0'),'story-number'));
+    article.append(topline);
+    if(story.position===1)article.append(element('p','The lead','section-label lead-label'));
+    article.append(element('h2',story.title),element('p',story.brief,story.brief.length>250?'story-brief is-long':'story-brief'));
+    const actions=element('div','','story-actions'),link=element('a','Read original · '+story.source);const url=new URL(story.url);
+    if(['http:','https:'].includes(url.protocol)&&!url.username&&!url.password){link.href=url.href;link.target='_blank';link.rel='noopener noreferrer';actions.append(link);}
+    const toggle=element('button','Read full brief','expand-brief');toggle.setAttribute('aria-expanded','false');
+    toggle.addEventListener('click',()=>{const expanded=article.classList.toggle('expanded');toggle.setAttribute('aria-expanded',String(expanded));toggle.textContent=expanded?'Show less':'Read full brief';});
+    if(story.brief.length>250)actions.append(toggle);
+    article.append(actions);grid.append(article);
+  }
+  for(const topic of ['All stories',...new Set(edition.stories.map(storyTopic))]){
+    const button=element('button',topic);button.setAttribute('aria-pressed',String(topic==='All stories'));
+    button.addEventListener('click',()=>{
+      for(const other of filters.children)other.setAttribute('aria-pressed',String(other===button));
+      let visible=0;for(const article of grid.children){article.hidden=topic!=='All stories'&&article.dataset.topic!==topic;if(!article.hidden)visible++;}
+      count.textContent=topic==='All stories'?'Showing all '+visible+' stories':visible+' '+topic+' '+(visible===1?'story':'stories');
+    });filters.append(button);
   }
   const satire=element('aside','','saved-satire');satire.id='lighter-side';
-  satire.append(element('p','Satire · Fictional commentary','section-label'),element('h2',edition.satire.title),element('p',edition.satire.body),element('p',`Inspired by story ${edition.satire.storyPosition}: ${edition.stories[edition.satire.storyPosition-1].title}`,'saved-meta'));
+  const satireHead=element('div','','satire-heading');
+  satireHead.append(element('p','The chai-break comic','section-label'),element('h2',edition.satire.title),element('span','Satire · Fictional commentary','badge'));
+  satire.append(satireHead);
   if(edition.promptVersion==='news-comic-v2'){
-    const body=satire.children[2];body.className='comic-strip';body.replaceChildren(...edition.satire.body.split('\n\n').map((text,i)=>element('p',text,i>0&&i<4?'comic-panel':'comic-caption')));
-    reader.append(element('p','Ten stories across available topics, including Masala entertainment when available. Briefs are credited excerpts; open the originals for context. Comic dialogue is fictional.','saved-meta'));
+    const body=element('div','','comic-strip');
+    for(const [i,text]of edition.satire.body.split('\n\n').entries()){
+      if(i>0&&i<4){
+        const panel=element('section','','comic-panel');
+        panel.append(element('span',String(i).padStart(2,'0'),'panel-number'),artwork('chai-comic','', 'comic-scene'));
+        const dialogue=text.replace(/^Panel \d+:\s*/,'');const split=dialogue.indexOf(':');
+        const bubble=element('div','','speech-bubble');bubble.append(element('span',split<0?'Reader':dialogue.slice(0,split),'speaker'),element('p',split<0?dialogue:dialogue.slice(split+1).trim()));
+        panel.append(bubble);body.append(panel);
+      }else body.append(element('p',text,'comic-caption'));
+    }
+    satire.append(body);
+  }else{
+    satire.append(artwork('chai-comic','Two fictional friends sharing news over chai','legacy-comic-art'),element('p',edition.satire.body,'satire-body'));
   }
-  reader.append(grid,satire);reader.hidden=false;
+  satire.append(element('p','AI-generated illustration · Fictional characters, not a depiction of the reported event.','art-credit'));
+  const reference=element('a','Inspired by story '+edition.satire.storyPosition+': '+edition.stories[edition.satire.storyPosition-1].title,'satire-reference');
+  reference.href='#story-'+edition.satire.storyPosition;reference.addEventListener('click',()=>filters.firstElementChild.click());satire.append(reference);
+  reader.append(overview,info,filters,count,grid,satire);reader.hidden=false;
   document.querySelector('.masthead h1').textContent=edition.name;
   document.querySelector('.byline strong').textContent=edition.author;
-  document.querySelector('.edition-line span:nth-child(2)').textContent=`Saved edition · ${edition.date}`;
+  document.querySelector('.edition-line span:nth-child(2)').textContent='Saved edition · '+edition.date;
   document.querySelector('#print-edition').disabled=false;
 }
 async function openEdition(date){
