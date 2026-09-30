@@ -71,6 +71,12 @@ Consistent pre-release backup: `data/backups/pre-batchfee-1790528480616.sqlite` 
 
 ## Operational boundaries
 
+### News illustrated UI release, 2026-10-01
+
+Commit `86ad39f` adds locally served original WebP illustrations, a comic newspaper cover, topic filters and illustrated satire panels. The isolated release passed 74 Node/API tests and six News Chrome workflows. Restarted only the verified production Node child under the existing supervisor; the dedicated tunnel remained running. Live HTTPS checks confirmed exact News assets and both images, WebP MIME, healthy endpoints, protected APIs and browser rendering of an existing edition with no page errors.
+
+Backup `data/backups/pre-news-ui-1790793692001.sqlite` and post-release SQLite both pass integrity checks; all 21 tables are unchanged. No live test editions or business records were created. Existing host uptime requirements remain.
+
 ### News release, 2026-09-29
 
 Application commit `31b8a6c` deploys historical edition generation, future-date rejection, varied archive stories including entertainment and fictional three-panel satire. The isolated staged release passed 74 Node/API tests and six News Chrome workflows. Restarted only the verified production Node child under the existing supervisor; the tunnel stayed connected. Public health, exact News asset bytes, provider status, future-date rejection, protected API boundaries and mobile/desktop browser checks passed. No live test edition or business record was created.
