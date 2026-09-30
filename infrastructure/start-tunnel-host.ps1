@@ -1,6 +1,12 @@
+param([string]$ReleaseRoot)
 $ErrorActionPreference = 'Stop'
 $platformRoot = Split-Path $PSScriptRoot -Parent
-Set-Location -LiteralPath $platformRoot
+if (-not $ReleaseRoot) { $ReleaseRoot = $platformRoot }
+$releasePath = (Resolve-Path -LiteralPath $ReleaseRoot).Path
+if (-not (Test-Path -LiteralPath (Join-Path $releasePath 'server/index.js'))) {
+    throw 'Release directory must contain server/index.js'
+}
+Set-Location -LiteralPath $releasePath
 $env:NODE_ENV = 'production'
 $env:PUBLIC_ORIGIN = 'https://apps.sushantsynapse.com'
 $env:HOST = '127.0.0.1'
