@@ -71,6 +71,16 @@ Consistent pre-release backup: `data/backups/pre-batchfee-1790528480616.sqlite` 
 
 ## Operational boundaries
 
+### Homepage access correction, 2026-10-01 (current release)
+
+Commit `d90a031` is served from `C:\Code\SushantSynapsePlatform\.publish\release-access-correction`. It separates Tournament Lite organizing from the four no-login tools and includes the certificate header alignment fix. This supersedes `release-f4ece30` as the active application directory. Keep the release directory and original `data` directory intact. For recovery, confirm the application is stopped, then launch:
+
+```powershell
+Start-Process -FilePath powershell.exe -WindowStyle Hidden -ArgumentList @('-NoProfile','-ExecutionPolicy','Bypass','-File','C:\Code\SushantSynapsePlatform\infrastructure\start-tunnel-host.ps1','-ReleaseRoot','C:\Code\SushantSynapsePlatform\.publish\release-access-correction')
+```
+
+The dedicated tunnel must also remain running. Supervisor PID 13144 and Node PID 1732 serve port 3001. Exact release checks passed 79 Node/API tests and 11 browser workflows. Live HTTPS assets, public/private app separation with/without JavaScript, certificate header alignment, sign-in links, responsive layouts and API access boundaries passed. Backup `data/backups/pre-access-release-1790796161711.sqlite` and post-release integrity are `ok`; all 21 tables are unchanged. No live test records were created. Automatic Windows reboot startup remains unconfigured.
+
 ### Tournament and shared header release, 2026-10-01
 
 Application commit `f4ece30` is deployed from the clean export `C:\Code\SushantSynapsePlatform\.publish\release-f4ece30`, not the editable working tree. All 175 release files match the commit. Launcher commit `84a741b` adds `-ReleaseRoot` while keeping `DATA_DIR` anchored to `C:\Code\SushantSynapsePlatform\data`. Do not delete the active release directory. Future deployment must explicitly select a verified release; omitting the option retains the legacy working-tree behavior.
