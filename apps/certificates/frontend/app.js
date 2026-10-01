@@ -1,4 +1,4 @@
-import {render,templates,playfulTemplates,donationAmount,disclaimer} from './renderer.js?v=20260927-donation-refined';
+import {render,templates,playfulTemplates,donationAmount,disclaimer} from './renderer.js?v=20260927-corporate';
 import {pdfBlob,pngBlob,download} from './export.js?v=20260927-playful-hd';
 const $=s=>document.querySelector(s),form=$('#details'),canvas=$('#certificate'),status=$('#status'),images={},versions={logo:0,signature:0};
 $('#certificate-disclaimer').textContent=disclaimer;

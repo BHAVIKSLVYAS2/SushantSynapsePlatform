@@ -105,6 +105,10 @@ Application commit `31b8a6c` deploys historical edition generation, future-date 
 
 Backup `data/backups/pre-news-1790705796418.sqlite` and post-release SQLite integrity are `ok`; all 21 tables match exactly. Unrelated working-tree changes were excluded from the News commit and preserved in place. Existing Windows host/tunnel uptime requirements remain.
 
+### Tournament Lite scoring fix, 2026-09-29
+
+Deployed the validated partial-score saving and progression fixes after 76 Node/API tests and six Tournament Lite Chrome workflows passed. The production app and dedicated tunnel had stopped; restored the existing hidden launcher and site connector. Public HTTPS health, matching release assets, anonymous access protection and live mobile/desktop sign-in checks passed. No live test tournaments or scores were created. Backup `data/backups/pre-tournament-1790704480553.sqlite` and the post-release database both pass integrity checks; all 21 table contents are unchanged. Connector log: `data/tunnel-tournament-fix.log`. Existing host uptime and reboot-startup limitations remain.
+
 ### Tournament Lite release, 2026-09-28
 
 Application commit `b578d4f` is live at `/tournament-lite`. The isolated staged release passed 72 Node/API tests and five app/portal browser workflows. The existing supervisor restarted only its verified production Node child. Public HTTPS assets match the local release, organizer routes reject anonymous reads/writes, and live Chrome passed the sign-in boundary and 320–1440px layout checks. Existing app pages remain available.

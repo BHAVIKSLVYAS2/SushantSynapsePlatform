@@ -1,3 +1,4 @@
+const {setTheme}=require('../../../tests/browser-theme');
 const {test,expect}=require('@playwright/test');
 const {spawn,execFileSync}=require('node:child_process');
 const fs=require('node:fs');
@@ -63,9 +64,9 @@ test('past dates generate comics and future dates show validation without fetchi
  await page.getByRole('button',{name:'All stories',exact:true}).click();await expect(page.locator('.saved-story:visible')).toHaveCount(10);
  await page.reload();await expect(page.locator('.comic-panel')).toHaveCount(3);
  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
- await page.getByLabel('Colour theme').selectOption('light');await page.screenshot({path:'test-results/news-illustrated-desktop.png',fullPage:true});
+ await setTheme(page,'light');await page.screenshot({path:'test-results/news-illustrated-desktop.png',fullPage:true});
  await page.locator('.saved-satire').screenshot({path:'test-results/news-illustrated-comic.png'});
- await page.getByLabel('Colour theme').selectOption('dark');await page.setViewportSize({width:390,height:844});await page.screenshot({path:'test-results/news-comic-mobile.png',fullPage:true});
+ await setTheme(page,'dark');await page.setViewportSize({width:390,height:844});await page.screenshot({path:'test-results/news-comic-mobile.png',fullPage:true});
 });
 test('News access, available catalogue, empty states, responsive themes and print',async({page})=>{
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
@@ -95,14 +96,14 @@ test('News access, available catalogue, empty states, responsive themes and prin
     await page.setViewportSize({width,height:1000});
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   }
-  await page.getByLabel('Colour theme').selectOption('light');
+  await setTheme(page,'light');
   await page.screenshot({path:'test-results/news-desktop-light.png',fullPage:true});
   await page.setViewportSize({width:390,height:844});
-  await page.getByLabel('Colour theme').selectOption('dark');await page.reload();
+  await setTheme(page,'dark');await page.reload();
   await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
   await expect(page.locator('#newspaper')).toBeVisible();
   await page.screenshot({path:'test-results/news-mobile-dark.png',fullPage:true});
-  await page.getByLabel('Colour theme').selectOption('system');
+  await setTheme(page,'system');
   await page.emulateMedia({colorScheme:'light'});await expect(page.locator('html')).toHaveAttribute('data-theme','light');
   await page.emulateMedia({colorScheme:'dark'});await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
   await page.emulateMedia({media:'print'});await expect(page.locator('.edition-tools')).toBeHidden();await expect(page.locator('.masthead')).toBeVisible();
@@ -173,8 +174,8 @@ test('saved editions render ten stories and satire, reopen by date, handle gaps 
   await page.locator('#archive-list').getByRole('button',{name:'2025-01-03',exact:true}).click();await expect(page.locator('.saved-story h2').first()).toContainText('2025-01-03');
   release();await expect(page.getByLabel('Edition date')).toHaveValue('2025-01-03');
   for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
-  await page.getByLabel('Colour theme').selectOption('light');await page.screenshot({path:'test-results/news-archive-desktop.png',fullPage:true});
-  await page.setViewportSize({width:390,height:844});await page.getByLabel('Colour theme').selectOption('dark');await page.screenshot({path:'test-results/news-archive-mobile.png',fullPage:true});
+  await setTheme(page,'light');await page.screenshot({path:'test-results/news-archive-desktop.png',fullPage:true});
+  await page.setViewportSize({width:390,height:844});await setTheme(page,'dark');await page.screenshot({path:'test-results/news-archive-mobile.png',fullPage:true});
   await page.emulateMedia({media:'print'});await expect(page.locator('.saved-story')).toHaveCount(10);await expect(page.locator('#edition-navigation')).toBeHidden();
   expect(errors).toEqual([]);
 });

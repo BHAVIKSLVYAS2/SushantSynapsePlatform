@@ -1,3 +1,4 @@
+const {setTheme}=require('../../../tests/browser-theme');
 const {test,expect}=require('@playwright/test');
 const {spawn}=require('node:child_process');
 const fs=require('node:fs'),os=require('node:os'),path=require('node:path');
@@ -45,11 +46,11 @@ test('Fund Lens: selection, analysis, simulation, share, export, themes and resp
  const downloadPromise=page.waitForEvent('download');await page.getByRole('button',{name:'Export holdings CSV'}).click();const download=await downloadPromise;const csv=fs.readFileSync(await download.path(),'utf8');expect(csv).toContain('ISIN');expect(csv).toContain('Portfolio date');expect(csv).toContain('ppfas.com');
  await page.evaluate(()=>window.print=()=>{window.printInvoked=true;});await page.getByRole('button',{name:'Print report'}).click();expect(await page.evaluate(()=>window.printInvoked)).toBe(true);
  await page.goto(shared);await expect(page.locator('.pair')).toHaveCount(3);await expect(page.getByLabel('Weight basis')).toHaveValue('nav');
- await page.getByLabel('Colour theme').selectOption('dark');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await expect(page.locator('.pair')).toHaveCount(3);
+ await setTheme(page,'dark');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await expect(page.locator('.pair')).toHaveCount(3);
  await page.screenshot({path:'test-results/fund-lens-mobile-dark.png',fullPage:true});
  for(const width of [320,768,1440]){await page.setViewportSize({width,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
- await page.getByLabel('Colour theme').selectOption('light');await page.screenshot({path:'test-results/fund-lens-desktop-light.png',fullPage:true});
- await page.emulateMedia({colorScheme:'dark'});await page.getByLabel('Colour theme').selectOption('system');await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+ await setTheme(page,'light');await page.screenshot({path:'test-results/fund-lens-desktop-light.png',fullPage:true});
+ await page.emulateMedia({colorScheme:'dark'});await setTheme(page,'system');await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
  await page.emulateMedia({colorScheme:'light'});await expect(page.locator('html')).toHaveAttribute('data-theme','light');
  expect(requests.filter(r=>r.url.includes('/api/fund-overlap/')).every(r=>r.method==='GET'&&!r.body)).toBe(true);expect(errors).toEqual([]);
 });

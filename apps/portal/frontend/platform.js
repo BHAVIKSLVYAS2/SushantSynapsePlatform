@@ -27,7 +27,7 @@ let theme=SynapseTheme.read();
 const systemTheme=matchMedia('(prefers-color-scheme: dark)');
 function setTheme(value){theme=value;SynapseTheme.write(value);document.documentElement.dataset.theme=theme==='system'?(systemTheme.matches?'dark':'light'):theme;document.querySelectorAll('[data-theme-icon]').forEach(el=>el.innerHTML=icon(document.documentElement.dataset.theme==='dark'?'moon':'sun'));}
 setTheme(theme);systemTheme.addEventListener('change',()=>setTheme(theme));
-function themeControl(){return `<label class="theme-picker" title="Colour theme"><span data-theme-icon>${icon(document.documentElement.dataset.theme==='dark'?'moon':'sun')}</span><select aria-label="Colour theme" data-theme>${['system','light','dark'].map(t=>`<option value="${t}" ${t===theme?'selected':''}>${t[0].toUpperCase()+t.slice(1)}</option>`).join('')}</select></label>`;}
+function themeControl(){return SynapseTheme.control('data-theme');}
 function brand(){return `<a class="brand" href="/" aria-label="Sushant Synapse home"><img src="/logo-adaptive-192.png" alt="" width="42" height="42"><span>Sushant Synapse<small>PLATFORM</small></span></a>`;}
 function notice(text){$('#notice').textContent=text;$('#notice').classList.add('show');clearTimeout(notice.timer);notice.timer=setTimeout(()=>$('#notice').classList.remove('show'),3500);}
 async function api(route,method='GET',body){const r=await fetch('/api/'+route,{method,headers:body?{'Content-Type':'application/json'}:{},body:body?JSON.stringify(body):undefined});const data=await r.json();if(!r.ok){if(r.status===401&&state){state=null;section='apps';category='All';query='';await boot();}throw Error(data.error||'Request failed');}return data;}

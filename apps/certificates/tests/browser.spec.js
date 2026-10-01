@@ -1,3 +1,4 @@
+const {setTheme}=require('../../../tests/browser-theme');
 const {test,expect}=require('@playwright/test');
 const {spawn}=require('node:child_process');
 const fs=require('node:fs'),os=require('node:os'),path=require('node:path');
@@ -12,7 +13,7 @@ test('anonymous local generation, all designs, exports, privacy and responsive p
  await page.getByLabel('Organization Name').fill('The Kindness Foundation');
  await page.getByText('Personalize wording & signing').click();await page.getByLabel('Signatory Name').fill('Ananya Rao');await page.getByLabel('Signatory Designation').fill('Programme Director');await page.getByLabel('Location',{exact:true}).fill('Pune, Maharashtra');
  await expect(page.getByLabel('Certificate ID',{exact:true})).toHaveValue(/^SS-\d{4}-[A-F0-9]{8}$/);
- for(const name of ['Classic','Minimal','Community','Aurora','Confetti','Sweetheart','Comic']){await page.getByRole('radio',{name,exact:true}).check();await expect(page.getByLabel('Recipient Name',{exact:true})).toHaveValue('Aarav Sharma');await page.locator('#certificate').screenshot({path:`test-results/certificate-${name}.png`});}
+ for(const name of ['Classic','Corporate','Minimal','Community','Aurora','Confetti','Sweetheart','Comic']){await page.getByRole('radio',{name,exact:true}).check();await expect(page.getByLabel('Recipient Name',{exact:true})).toHaveValue('Aarav Sharma');await page.locator('#certificate').screenshot({path:`test-results/certificate-${name}.png`});}
  await page.getByRole('radio',{name:'Aurora',exact:true}).check();
  await page.getByLabel('Certificate Type').selectOption('Blood Donation');await expect(page.locator('#preview-description')).toContainText('life-saving gift');
  await page.getByText('Add logo & signature').click();
@@ -22,7 +23,7 @@ test('anonymous local generation, all designs, exports, privacy and responsive p
  for(const format of ['PDF','PNG']){const event=page.waitForEvent('download');await page.getByRole('button',{name:'Download '+format,exact:true}).click();const dl=await event;const target=`test-results/certificate.${format.toLowerCase()}`;await dl.saveAs(target);const bytes=fs.readFileSync(target);if(format==='PDF'){expect(bytes.subarray(0,8).toString()).toBe('%PDF-1.4');expect(bytes.toString('latin1')).toContain('/MediaBox [0 0 841.889764 595.275591]');expect(bytes.toString('latin1')).toContain('/Width 3508 /Height 2480');const pdf=bytes.toString('latin1'),offset=Number(pdf.match(/startxref\n(\d+)/)[1]);expect(pdf.slice(offset,offset+4)).toBe('xref');}else{expect(bytes.readUInt32BE(16)).toBe(7016);expect(bytes.readUInt32BE(20)).toBe(4961);}}
  await page.getByLabel('Recipient Name',{exact:true}).fill('Changed recipient');await expect(page.locator('#downloads')).toBeHidden();
  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
- await page.getByLabel('Colour theme').selectOption('light');await page.screenshot({path:'test-results/certificates-desktop.png',fullPage:true});await page.setViewportSize({width:390,height:844});await page.getByLabel('Colour theme').selectOption('dark');await page.screenshot({path:'test-results/certificates-mobile.png',fullPage:true});
+ await setTheme(page,'light');await page.screenshot({path:'test-results/certificates-desktop.png',fullPage:true});await page.setViewportSize({width:390,height:844});await setTheme(page,'dark');await page.screenshot({path:'test-results/certificates-mobile.png',fullPage:true});
  await page.emulateMedia({media:'print'});await expect(page.locator('header')).toBeHidden();await expect(page.locator('#certificate')).toBeVisible();await page.pdf({path:'test-results/certificate-print.pdf',preferCSSPageSize:true,printBackground:true});
  expect(requests.filter(url=>url.includes('/api/'))).toEqual([]);expect(errors).toEqual([]);await page.emulateMedia({media:'screen'});await page.reload();await expect(page.getByLabel('Recipient Name',{exact:true})).toHaveValue('');
 });
@@ -102,7 +103,7 @@ test('saved organisations restore branding only and can be reused and deleted',a
  await page.getByRole('button',{name:'Delete saved organisation',exact:true}).click();await expect(page.locator('#organisation-status')).toContainText('deleted');await expect(page.locator('#saved-organisation option')).toHaveCount(2);
  await page.reload();await expect(page.getByLabel('Organization Name')).toHaveValue('');
  await expect(page.locator('#certificate-disclaimer')).toContainText('Issuer is responsible for content');
- const disclaimers=await page.evaluate(async()=>{const {render,templates,disclaimer}=await import('/certificates/renderer.js');return templates.map(template=>{const c=document.createElement('canvas'),ctx=c.getContext('2d'),texts=[];const fill=ctx.fillText.bind(ctx);ctx.fillText=(text,...args)=>{texts.push(text);fill(text,...args);};render(c,{template},{},3508/1122);return texts.includes(disclaimer);});});expect(disclaimers).toEqual(Array(7).fill(true));
+ const disclaimers=await page.evaluate(async()=>{const {render,templates,disclaimer}=await import('/certificates/renderer.js');return templates.map(template=>{const c=document.createElement('canvas'),ctx=c.getContext('2d'),texts=[];const fill=ctx.fillText.bind(ctx);ctx.fillText=(text,...args)=>{texts.push(text);fill(text,...args);};render(c,{template},{},3508/1122);return texts.includes(disclaimer);});});expect(disclaimers).toEqual(Array(8).fill(true));
 });
 
 test('invalid and unavailable browser storage do not block certificate creation',async({page})=>{
@@ -138,7 +139,7 @@ test('optional donation amounts use exact Indian wording and stay out of other t
  ]);expect(amounts.slice(6)).toEqual(Array(6).fill(null));
  await page.getByLabel('Recipient Name',{exact:true}).fill('Aarav Sharma');await page.getByLabel('Appreciation / Contribution Description').fill('supporting our community education programme');
  const amount=page.locator('[name=donationAmount]');await amount.fill('5000');await expect(page.getByLabel('Amount in words',{exact:true})).toHaveValue('Five Thousand Rupees Only');await expect(page.locator('#certificate')).toHaveAttribute('aria-label',/Donation of ₹5,000/);
- for(const template of ['Classic','Minimal','Community','Aurora','Confetti','Sweetheart','Comic']){await page.getByRole('radio',{name:template,exact:true}).check();await expect(amount).toHaveValue('5000');}
+ for(const template of ['Classic','Corporate','Minimal','Community','Aurora','Confetti','Sweetheart','Comic']){await page.getByRole('radio',{name:template,exact:true}).check();await expect(amount).toHaveValue('5000');}
  await page.getByRole('radio',{name:'Aurora',exact:true}).check();await page.locator('#certificate').screenshot({path:'test-results/certificate-donation.png'});
  await page.getByRole('button',{name:'Generate certificate'}).click();await expect(page.locator('#downloads')).toBeVisible();for(const format of ['PDF','PNG']){const [download]=await Promise.all([page.waitForEvent('download'),page.getByRole('button',{name:'Download '+format,exact:true}).click()]);expect(await download.failure()).toBeNull();}
  await amount.fill('-1');await page.getByRole('button',{name:'Generate certificate'}).click();await expect(page.locator('#downloads')).toBeHidden();

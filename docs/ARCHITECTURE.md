@@ -40,6 +40,8 @@ The server creates the database and app handlers. It injects the database and au
 
 Shared UI contains theme preference storage and the platform header stylesheet used across every implemented app. Headers share the platform logo, typography, spacing, home navigation and visible theme controls; private workspaces retain their app actions. Each app retains its own content styles and icons. The public homepage includes its launch cards in HTML before JavaScript loads; `/signin` provides optional account entry. Portal and News asset URLs are release-versioned and HTML is served with no-store caching.
 
+`packages/ui/theme.js` owns the shared light/dark toggle markup, accessible pressed state, device preference persistence and cross-tab synchronization. App theme handlers still apply their own root/body theme attributes. New visitors and legacy system preferences follow the device setting until the toggle saves an explicit light/dark choice; blocked storage falls back to in-memory preference. Shared header CSS owns the sun/moon control, including keyboard focus and reduced-motion styling.
+
 Fund Lens performs comparisons entirely in the browser. Its JSON artifacts are public reference data, not workspace business state. Reference reads and News published edition/status/archive reads are explicitly routed before the shared login gate. Fund Lens portfolio/watchlist routes still require a session and app access; News generation is public and validated, while operational preview routes require owner access. Shared per-date leases, cooldowns and persisted request budgets bound generation. Chambers and platform preferences remain protected.
 
 ## SQL ownership

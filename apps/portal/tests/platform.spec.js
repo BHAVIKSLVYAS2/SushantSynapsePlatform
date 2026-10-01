@@ -1,4 +1,22 @@
+const {setTheme}=require('../../../tests/browser-theme');
 const {test,expect}=require('@playwright/test');
+
+test('theme toggle supports keyboard, system default, cross-tab sharing and blocked storage',async({browser})=>{
+ const context=await browser.newContext({colorScheme:'dark'});
+ try{
+  const page=await context.newPage(),other=await context.newPage();
+  await page.goto(base+'/certificates');await other.goto(base+'/news');
+  const toggle=page.getByRole('button',{name:'Dark mode',exact:true});await expect(toggle).toHaveAttribute('aria-pressed','true');
+  await expect(page.locator('select#theme')).toHaveCount(0);await toggle.focus();await page.keyboard.press('Space');
+  await expect(toggle).toHaveAttribute('aria-pressed','false');await expect(page.locator('html')).toHaveAttribute('data-theme','light');await expect(other.locator('html')).toHaveAttribute('data-theme','light');
+  await page.reload();await expect(toggle).toHaveAttribute('aria-pressed','false');await page.goto(base+'/timetable-lite');await expect(page.locator('body')).toHaveAttribute('data-theme','light');
+  await page.getByRole('button',{name:'Dark mode',exact:true}).click();await expect(other.locator('html')).toHaveAttribute('data-theme','dark');
+ }finally{await context.close();}
+ const blocked=await browser.newContext();try{
+  await blocked.addInitScript(()=>{Storage.prototype.getItem=Storage.prototype.setItem=()=>{throw new Error('Storage blocked');};});
+  const page=await blocked.newPage();await page.goto(base+'/certificates');const toggle=page.getByRole('button',{name:'Dark mode',exact:true});await toggle.click();await expect(toggle).toHaveAttribute('aria-pressed','true');await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+ }finally{await blocked.close();}
+});
 const {spawn}=require('node:child_process');
 const fs=require('node:fs');
 const os=require('node:os');
@@ -23,9 +41,9 @@ test('platform setup, favourites, app launch with shared sign-in, team access an
  await page.getByRole('button',{name:'Add Chambers to favourites'}).click();await page.getByRole('navigation',{name:'Mobile platform navigation'}).getByRole('button',{name:'Favourites',exact:true}).click();await expect(page.locator('.app-card')).toHaveCount(1);
  await page.getByRole('button',{name:'Open Chambers'}).click();await expect(page).toHaveURL(base+'/advocate');await expect(page.getByRole('heading',{name:'A clear view. A better day.'})).toBeVisible();
  await page.getByRole('link',{name:'Back to Sushant Synapse apps'}).click();await page.getByRole('navigation',{name:'Mobile platform navigation'}).getByRole('button',{name:'Recent',exact:true}).click();await expect(page.getByRole('heading',{name:'Chambers',exact:true})).toBeVisible();
- await page.getByRole('navigation',{name:'Mobile platform navigation'}).getByRole('button',{name:'All apps',exact:true}).click();await page.getByLabel('Colour theme').selectOption('dark');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await page.screenshot({path:'test-results/platform-mobile-dark.png',fullPage:true});
+ await page.getByRole('navigation',{name:'Mobile platform navigation'}).getByRole('button',{name:'All apps',exact:true}).click();await setTheme(page,'dark');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await page.screenshot({path:'test-results/platform-mobile-dark.png',fullPage:true});
  for(const width of [320,768,1440]){await page.setViewportSize({width,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
- await page.getByLabel('Colour theme').selectOption('light');await page.screenshot({path:'test-results/platform-desktop-light.png',fullPage:true});
+ await setTheme(page,'light');await page.screenshot({path:'test-results/platform-desktop-light.png',fullPage:true});
  await page.getByRole('navigation',{name:'Platform navigation'}).getByRole('button',{name:'Team access'}).click();await page.getByRole('button',{name:'Add member'}).click();await page.getByLabel('Name',{exact:true}).fill('Member One');await page.getByLabel('Email',{exact:true}).fill('member@synapse.example');await page.getByLabel('Initial password').fill('Member browser password!');await page.getByRole('button',{name:'Save member'}).click();await expect(page.getByText('Member One',{exact:true})).toBeVisible();
  const row=page.locator('.team-row').filter({hasText:'Member One'});await row.getByRole('checkbox',{name:'Chambers'}).uncheck();await expect(row.getByRole('checkbox',{name:'Chambers'})).not.toBeChecked();
  await page.getByRole('button',{name:'Sign out',exact:true}).click();await expect(page.locator('#auth-form')).toHaveCount(0);await page.getByRole('link',{name:'Sign in',exact:true}).click();await page.getByLabel('Email address').fill('member@synapse.example');await page.getByLabel('Password',{exact:true}).fill('Member browser password!');await page.getByRole('button',{name:'Sign in',exact:true}).click();await expect(page.getByText('Access required',{exact:true})).toHaveCount(3);await expect(page.getByRole('button',{name:'Open Fund Lens'})).toBeVisible();await expect(page.getByRole('button',{name:'Open Sushant Synapse Times'})).toBeVisible();await expect(page.getByRole('button',{name:'Open Chambers'})).toHaveCount(0);expect((await page.request.get(base+'/api/state')).status()).toBe(403);
@@ -40,7 +58,7 @@ test('public tools and private destinations stay distinct through sign-in',async
  expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.map(a=>a.getAttribute('href')).sort())).toEqual(apps.filter(a=>a.public&&a.status==='Available').map(a=>a.path).sort());
  for(const [width,theme] of [[390,'dark'],[1440,'light']]){
   await page.setViewportSize({width,height:1000});
-  await page.getByLabel('Colour theme').selectOption(theme);
+  await setTheme(page,theme);
   await page.screenshot({path:'test-results/public-home-'+theme+'.png',fullPage:true});
  }
  for(const app of ['advocate','tournament-lite','batchfee-lite']){
@@ -48,7 +66,7 @@ test('public tools and private destinations stay distinct through sign-in',async
   await expect(page.locator('#auth-form')).toBeVisible();
   await expect(page.getByRole('navigation',{name:'Public apps'}).locator('.auth-public-links a')).toHaveCount(4);
   for(const theme of ['light','dark','system']){
-   await page.getByLabel('Colour theme').selectOption(theme);
+   await setTheme(page,theme);
    for(const width of [320,390,768,1440]){
     await page.setViewportSize({width,height:1000});
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

@@ -63,7 +63,7 @@ function toast(message) { $('#toast').textContent=message;$('#toast').classList.
 async function refresh(){ db=await api('state');render(); }
 function navigate(target){ if(!pages[target])target='dashboard';page=target;query='';filter='All';selectedDay='';history.replaceState(null,'','#'+page);render();window.scrollTo(0,0);if(page==='ledger')loadLedger(); }
 function renderAuth() { location.replace('/?next=advocate'); }
-function themeControl(){return `<label class="theme-control" title="Colour theme"><span data-theme-icon>${icon(document.documentElement.dataset.theme==='dark'?'moon':'sun')}</span><span class="sr-only">Colour theme</span><select data-theme aria-label="Colour theme">${['system','light','dark'].map(t=>`<option value="${t}" ${theme===t?'selected':''}>${t[0].toUpperCase()+t.slice(1)}</option>`).join('')}</select></label>`;}
+function themeControl(){return SynapseTheme.control('data-theme');}
 function navButton(p,mobile=false){return `<button class="${mobile?'bottom-item':'nav-item'} ${page===p?'selected':''}" data-action="nav" data-page="${p}" ${page===p?'aria-current="page"':''}>${icon(p)}<span>${mobile&&p==='hearings'?'Diary':pages[p]}</span>${!mobile&&p==='tasks'?`<b>${active('tasks').filter(t=>t.status!=='Done').length}</b>`:''}</button>`;}
 function render(){
   const u=db.currentUser, due=active('tasks').filter(t=>t.status!=='Done'&&t.due<=today());
