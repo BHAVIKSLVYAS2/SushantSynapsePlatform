@@ -1,0 +1,73 @@
+const {test, expect} = require('@playwright/test');
+const http = require('node:http');
+const fs = require('node:fs');
+const path = require('node:path');
+let server, base, online = false;
+test.beforeAll(async () => {
+  const {output, files} = require('../../../infrastructure/cloudflare/build.cjs').build();
+  const {handle} = await import('../../../infrastructure/cloudflare/worker.mjs');
+  const assetFetch = async request => {
+    const name = new URL(request.url).pathname;
+    if (!files.has(name)) return new Response('Not found', {status: 404});
+    const type = name.endsWith('.js') ? 'text/javascript' : name.endsWith('.css') ? 'text/css' : name.endsWith('.png') ? 'image/png' : name.endsWith('.webp') ? 'image/webp' : name.endsWith('.svg') ? 'image/svg+xml' : name.endsWith('.html') ? 'text/html' : 'application/json';
+    return new Response(fs.readFileSync(path.join(output, name)), {headers: {'Content-Type': type}});
+  };
+  server = http.createServer(async (req, res) => {
+    try {
+      const url = new URL(req.url, 'https://apps.sushantsynapse.com');
+      const request = new Request(url, {method: req.method});
+      const response = files.has(url.pathname) ? await assetFetch(request) : await handle(request, {ASSETS: {fetch: assetFetch}}, async origin => {
+        if (!online) return new Response('Tunnel unavailable', {status: 530});
+        return Response.json(new URL(origin.url).pathname === '/healthz' ? {status: 'ok'} : {user: null, setupRequired: false});
+      });
+      res.writeHead(response.status, Object.fromEntries(response.headers)); res.end(Buffer.from(await response.arrayBuffer()));
+    } catch (error) { res.writeHead(500); res.end(error.message); }
+  });
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+  base = 'http://127.0.0.1:' + server.address().port;
+});
+test.afterAll(async () => { await new Promise(resolve => server.close(resolve)); });
+test.beforeEach(() => { online = false; });
+test('offline home keeps public tools usable and every dependent app shows a responsive themed fallback', async ({page}) => {
+  const errors = []; page.on('pageerror', error => errors.push(error.message));
+  await page.setViewportSize({width: 320, height: 850});
+  await page.goto(base);
+  await expect(page.locator('#free-apps .public-app')).toHaveCount(4);
+  await expect(page.locator('#backend-notice')).toBeVisible();
+  await page.locator('#free-apps a[href="/certificates"]').click();
+  await expect(page.locator('#backend-notice')).toHaveCount(0);
+  await expect(page.locator('canvas').first()).toBeVisible();
+  await page.goto(base + '/timetable-lite'); await expect(page.locator('#backend-notice')).toHaveCount(0);
+  await page.goto(base + '/news'); await expect(page.locator('#newspaper')).toBeVisible();
+  await expect(page.locator('#device-note')).toBeVisible(); await expect(page.locator('#backend-notice')).toHaveCount(0);
+  for (const route of ['/signin?next=advocate', '/advocate', '/fund-overlap', '/batchfee-lite', '/tournament-lite?share=abc']) {
+    const response = await page.goto(base + route); expect(response.status()).toBe(503);
+    await expect(page.getByRole('heading', {name: 'This app is temporarily unavailable.'})).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await page.getByRole('button', {name: 'Dark mode', exact: true}).click();
+  }
+  await page.screenshot({path: 'test-results/cloudflare-unavailable-mobile.png', fullPage: true});
+  online = true;
+  await page.goto(base + '/signin?next=advocate'); await expect(page.locator('#auth-form')).toBeVisible();
+  expect(errors).toEqual([]);
+});
+test('an outage during sign-in preserves input and connection checks never reload or resubmit', async ({page}) => {
+  online = true; await page.goto(base + '/signin');
+  await page.getByLabel('Email address').fill('draft@example.com');
+  online = false;
+  await page.evaluate(() => fetch('/api/auth/status'));
+  await expect(page.locator('#backend-notice')).toBeVisible();
+  await expect(page.getByLabel('Email address')).toHaveValue('draft@example.com');
+  online = true; await page.getByRole('button', {name: 'Check connection'}).click();
+  await expect(page.locator('#backend-notice')).toContainText('Connection restored');
+  await expect(page.getByLabel('Email address')).toHaveValue('draft@example.com');
+});
+test('fallback and independent links work without JavaScript; retry keeps the original URL', async ({browser}) => {
+  const context = await browser.newContext({javaScriptEnabled: false});
+  const page = await context.newPage();
+  const target = base + '/tournament-lite?share=retain-this';
+  await page.goto(target); await expect(page.getByRole('link', {name: 'Certificate Generator', exact: true})).toBeVisible();
+  await page.getByRole('link', {name: 'Try again'}).click(); expect(page.url()).toBe(target);
+  online = true; const response = await page.reload(); expect(response.status()).toBe(200);
+  await context.close();
+});

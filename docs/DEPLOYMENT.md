@@ -2,6 +2,28 @@
 
 Target: **https://apps.sushantsynapse.com**. The repository includes a Node/SQLite app and a Docker Compose/Caddy configuration. These files prepare deployment; pushing to GitHub alone does not put the site on that domain.
 
+## Cloudflare frontend (2026-10-01)
+
+**Live and verified:** `sushant-synapse-frontend-production`, version `bcf7db5f-2283-4295-bbc7-3a3fb92e8fa1`, serves `apps.sushantsynapse.com/*`. All 37 public asset files match the source; public pages and backend health/auth-status return 200, private state returns 401 anonymously, and live Chrome passed mobile/desktop theme and sign-in checks. Preview and production browser checks generated ten real stories and three comic panels while backend calls were disabled only in the verification browser. No DNS records or backend processes were changed. This frontend deployment supersedes the older whole-site laptop-availability requirement below; the backend still uses the documented active Node release and tunnel.
+
+The frontend can be deployed independently using `infrastructure/cloudflare/wrangler.jsonc`. It exports only allowlisted public assets. The database, accounts, document blobs, backups and backend remain on the existing Windows server; no data migration is involved.
+
+```powershell
+npm.cmd ci
+npm.cmd run deploy:frontend:preview
+node infrastructure/cloudflare/verify-live.cjs https://sushant-synapse-frontend-preview.bhavik-slvyas.workers.dev
+npm.cmd run deploy:frontend
+node infrastructure/cloudflare/verify-live.cjs https://apps.sushantsynapse.com
+```
+
+Run commands from the repository root. Wrangler requires Cloudflare account access and Workers route permissions for `sushantsynapse.com`. The production Worker route is `apps.sushantsynapse.com/*`; **retain the existing proxied tunnel DNS record**. Do not replace this with a Worker Custom Domain: same-host origin fetches depend on route-based deployment. The main `sushantsynapse.com` website and its separate Worker are unaffected.
+
+The homepage, News, certificates and Timetable Lite load from Cloudflare while the laptop is off. News assembles temporary editions in the browser using its independent Cloudflare source endpoint, with BBC News feeds when Indian Express archives cannot be retrieved; shared archives still require the backend. Other app pages show an accessible, theme-aware unavailable screen with retry and independent-tool links. API failures return uncached HTTP 503 JSON; mid-session failures show a dismissible connection notice without clearing forms or automatically repeating writes. Retry retains the full URL, including tournament share tokens. Backend calls continue to enforce existing sessions, origins and roles. Backend requests and sensitive responses are never cached. The independent News endpoint caches only public source metadata and requires the configured NEWS_LIMITER binding. Read requests time out after 15 seconds and writes after 60 seconds; an interrupted write may have completed on the origin, so users should inspect records before resubmitting. Page health checks time out after four seconds.
+
+Preview Workers deliberately return backend-unavailable responses for origin APIs (the independent News source endpoint remains available), and never send preview credentials or writes to production. The preview is useful for verifying laptop-off behavior without interrupting the real server. Frontend request quotas still apply to Worker-handled page/API requests; this is not a backend hosting migration or an unlimited-uptime guarantee.
+
+Rollback: remove only the production frontend Worker route for `apps.sushantsynapse.com/*` in Cloudflare. The retained DNS record then serves the original tunnel deployment again (requiring the laptop). Do not remove the tunnel, its DNS record, the main-domain Worker or the local data directory. Frontend releases are independent of backend releases; publish matching API-compatible versions.
+
 ## Server requirements
 
 - A Linux host with Docker Engine and Docker Compose v2.

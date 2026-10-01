@@ -8,13 +8,30 @@ applyTheme();
 theme.addEventListener('change',()=>{window.SynapseTheme.write(theme.value);applyTheme();});
 systemTheme.addEventListener('change',applyTheme);
 window.addEventListener('storage',()=>{theme.value=window.SynapseTheme.read();if(!theme.value)theme.value='system';applyTheme();});
+// Temporary editions stay in this tab. Shared archives remain authoritative in SQLite.
+let deviceMode=false;
+const deviceEditions=new Map();
+function useDevice(){
+  deviceMode=true;
+  document.querySelector('#device-note').hidden=false;
+  document.querySelector('.reading-nav span').textContent='Prepared on this device';
+  document.querySelector('#archive-note').textContent='Shared archives are unavailable. Choose a date to prepare a temporary edition.';
+  document.querySelector('#archive-empty').textContent='Editions prepared here remain available in this tab. Reloading clears them.';
+}
+async function backendRequest(url,options={}){
+  try{
+    const response=await fetch(url,{...options,signal:AbortSignal.timeout(options.method==='POST'?65000:6000)});
+    if(response.status>=500){useDevice();return null;}
+    return response;
+  }catch{useDevice();return null;}
+}
 async function load(){
   document.querySelector('#retry').hidden=true;
   document.querySelector('#gate-message').textContent='Loading newspaper…';
   try{
-    const response=await fetch('/api/news/status',{cache:'no-store'});
-    if(!response.ok)throw Error('The newspaper could not be loaded. Please retry.');
-    const status=await response.json();
+    const response=await backendRequest('/api/news/status',{cache:'no-store'});
+    if(response&&!response.ok)throw Error('The newspaper could not be loaded. Please retry.');
+    const status=response?await response.json():{today:SynapseNews.indiaDate(new Date()),archiveAvailable:true,fetchAvailable:true};
     editionToday=status.today;selection=status.today;
     document.querySelector('#edition-date').value=status.today;
     document.querySelector('#gate').hidden=true;
@@ -43,12 +60,17 @@ function navigation(){
   document.querySelector('#latest-edition').disabled=!dates.length||selection===dates[0].date;
 }
 async function getJson(url){
-  const response=await fetch(url,{cache:'no-store'});
+  const response=deviceMode?null:await backendRequest(url,{cache:'no-store'});
+  if(!response){
+    if(url.startsWith('/api/news/editions/'))return deviceEditions.get(decodeURIComponent(url.split('/').pop()))||null;
+    return {editions:[...deviceEditions.values()].sort((a,b)=>b.date.localeCompare(a.date)),nextBefore:null};
+  }
   if(response.status===404)return null;
   if(!response.ok)throw Error('Could not load saved editions. Please try again.');
   return response.json();
 }
 function storyTopic(story){
+  if(story.provider==='BBC')return story.category||'World';
   const path=new URL(story.url).pathname;
   if(path.includes('/entertainment/'))return 'Masala';
   if(path.includes('/sports/'))return 'Sport';
@@ -68,7 +90,7 @@ function renderEdition(edition){
   const overview=element('div','','reader-overview');
   overview.append(element('h2','The daily dispatch'),element('span',edition.stories.length+' stories · One chai break','reading-time'));
   const info=element('details','','edition-info');info.append(element('summary','Edition '+edition.date+' · Sources & timing'));
-  info.append(element('p','Published '+new Date(edition.publishedAt).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})+' IST. News through '+new Date(edition.cutoff).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})+' IST.','saved-meta'));
+  info.append(element('p',(edition.deviceOnly?'Prepared on this device ':'Published ')+new Date(edition.publishedAt).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})+' IST. News through '+new Date(edition.cutoff).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})+' IST.','saved-meta'));
   info.append(element('p','Short credited source excerpts. Follow each original for full context. The artwork is AI-generated editorial illustration, not news photography.','saved-meta'));
   const filters=element('div','','topic-filters');filters.setAttribute('role','group');filters.setAttribute('aria-label','Filter stories by topic');
   const count=element('p','Showing all '+edition.stories.length+' stories','filter-count');count.setAttribute('role','status');
@@ -120,7 +142,7 @@ function renderEdition(edition){
   reader.append(overview,info,filters,count,grid,satire);reader.hidden=false;
   document.querySelector('.masthead h1').textContent=edition.name;
   document.querySelector('.byline strong').textContent=edition.author;
-  document.querySelector('.edition-line span:nth-child(2)').textContent='Saved edition · '+edition.date;
+  document.querySelector('.edition-line span:nth-child(2)').textContent=(edition.deviceOnly?'On-device edition · ':'Saved edition · ')+edition.date;
   document.querySelector('#print-edition').disabled=false;
 }
 async function openEdition(date){
@@ -135,9 +157,9 @@ async function openEdition(date){
   try{
     const edition=await getJson('/api/news/editions/'+encodeURIComponent(date));
     if(version!==requestVersion)return;
-    if(!edition){document.querySelector('#reader-status').textContent=`No saved newspaper for ${date}.`;return;}
+    if(!edition){document.querySelector('#reader-status').textContent=deviceMode?`Choose Generate to prepare ${date} on this device.`:`No saved newspaper for ${date}.`;return;}
     selectedSaved=true;updateFetchControl();
-    renderEdition(edition);showPreview({date,state:'published',cached:true});document.querySelector('#reader-status').textContent='Opened from saved editions. No news was fetched.';
+    renderEdition(edition);showPreview({date,state:'published',cached:true,deviceOnly:edition.deviceOnly});document.querySelector('#reader-status').textContent=edition.deviceOnly?'Prepared in this tab. Use Print / Save PDF to keep a copy.':'Opened from saved editions. No news was fetched.';
   }catch(error){if(version===requestVersion)document.querySelector('#reader-status').textContent=error.message;}
 }
 async function archivePage(before){
@@ -154,6 +176,7 @@ async function loadArchives(today){
   document.querySelector('#edition-navigation').hidden=false;
   document.querySelector('#archive-note').textContent='Choose today or a past date to generate or open its newspaper.';
   document.querySelector('.preview-note p').textContent='Ten stories, one satire, a newspaper to keep.';
+  if(deviceMode)useDevice();
   try{
     await archivePage();
     const requested=new URL(location.href).searchParams.get('date');
@@ -172,6 +195,7 @@ function showPreview(result){
   document.querySelector('#preview-stories').replaceChildren();
   document.querySelector('#preview-heading').textContent=`Newspaper for ${result.date}`;
   document.querySelector('#fetch-status').textContent=result.state==='published'?(result.cached?'Opened the stored newspaper. No news request was made.':'Newspaper published and saved.'):(result.error||'A previous fetch is unfinished. Click Fetch to resume.');
+  if(result.deviceOnly)document.querySelector('#fetch-status').textContent='Prepared on this device. Not saved to shared archives. Print or save a PDF before leaving this tab.';
   updateFetchControl();
 }
 function validSelection(date){return /^\d{4}-\d{2}-\d{2}$/.test(date)&&Number.isFinite(Date.parse(date+'T00:00:00Z'))&&new Date(date+'T00:00:00Z').toISOString().slice(0,10)===date&&date<=editionToday;}
@@ -182,14 +206,28 @@ function updateFetchControl(){
   document.querySelector('#fetch-note').textContent=!validSelection(selection)?'Choose today or a past date. Future editions cannot be generated.':selectedSaved?'Open the saved edition without fetching again.':'Generate ten varied stories for this date, plus a fictional comic. Historical coverage depends on the source archive.';
 }
 async function setupFetching(){updateFetchControl();}
+
+async function prepareOnDevice(date){
+  if(deviceEditions.has(date))return {date,state:'published',deviceOnly:true,cached:true};
+  const response=await fetch('/api/news/sources?date='+encodeURIComponent(date),{cache:'no-store',signal:AbortSignal.timeout(100000)});
+  if(response.status===404)throw Error('On-device news needs the Cloudflare source service. Please use the hosted News app or retry when the server is available.');
+  const preview=await response.json();
+  if(!response.ok)throw Error(preview.error||'News sources are unavailable. Please retry later.');
+  if(preview.date!==date)throw Error('The source returned a different edition date. Please retry.');
+  const draft=SynapseNews.draftEdition(preview);
+  const edition={...draft,name:'Sushant Synapse Times',author:'Bhavik',deviceOnly:true,stories:draft.stories.map((s,i)=>({...s,position:i+1}))};
+  deviceEditions.set(date,edition);
+  if(deviceEditions.size>30)deviceEditions.delete(deviceEditions.keys().next().value);
+  return {date,state:'published',deviceOnly:true,cached:false};
+}
 document.querySelector('#fetch-news').addEventListener('click',async()=>{
   const date=selection,version=requestVersion;
   if(!validSelection(date))return;
   fetching=true;updateFetchControl();
   document.querySelector('#fetch-preview').hidden=false;document.querySelector('#fetch-status').textContent='Preparing your newspaper...';
   try{
-    const response=await fetch('/api/news/fetch',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({date})});
-    const result=await response.json();if(!response.ok)throw Error(result.error||'News fetch failed. Please retry later.');
+    const response=deviceMode?null:await backendRequest('/api/news/fetch',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({date})});
+    const result=response?await response.json():await prepareOnDevice(date);if(response&&!response.ok)throw Error(result.error||'News fetch failed. Please retry later.');
     if(result.state==='published'){
       await archivePage();
       if(version!==requestVersion)return;

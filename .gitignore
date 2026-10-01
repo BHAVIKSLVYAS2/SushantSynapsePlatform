@@ -19,3 +19,7 @@ coverage/
 .publish/
 __pycache__/
 *.pyc
+infrastructure/cloudflare/dist/
+infrastructure/cloudflare/pages.json
+.wrangler/
+worker-configuration.d.ts

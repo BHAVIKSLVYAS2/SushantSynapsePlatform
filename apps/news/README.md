@@ -2,6 +2,12 @@
 
 By **Bhavik**, at `/news`. Any visitor can generate today's newspaper or a missing past edition. The server selects ten dated stories across available sections from The Indian Express archive, adds short credited excerpts and one clearly labelled fictional comic, and saves the edition atomically in SQLite. Repeated clicks reopen the saved edition without external calls. Shared themes, mobile layouts, source links, archives and Print / Save PDF are supported.
 
+On the Cloudflare-hosted site, News also works when the Windows backend is unavailable. The browser assembles temporary editions using the same editorial templates. The independent `GET /api/news/sources?date=YYYY-MM-DD` Worker retrieves public source metadata; it never reads or writes SQLite. Indian Express archive retrieval is attempted first; BBC News public RSS feeds provide a clearly credited recent-news fallback when that archive is unavailable. The publisher returned HTTP 403 from Cloudflare during live verification, so fallback coverage differs from the shared Indian Express edition. Feed timestamps must match the selected IST date; older dates may be unavailable and never silently use current stories.
+
+Temporary editions remain in tab memory (at most 30), with print/PDF to keep a copy. Reloading clears them and retries shared storage. They are not published, synchronized or added to the shared archive. Existing saved editions and server publication continue unchanged while the backend is online. Internet access is still required for new source retrieval; this is independence from the Windows backend, not offline internet access.
+
+The Worker accepts only a date, rejects invalid/future dates and non-GET methods, uses fixed publisher hosts, refuses redirects, bounds source responses to 2 MB and never forwards visitor cookies to publishers. It caches public metadata for 15 minutes today or 24 hours for past dates, and failures for one minute. Cache misses share a six-attempts/minute rate limit per Cloudflare location (not a global daily budget). Each attempt uses up to 28 archive/article requests plus five RSS requests, with 60-second archive and 25-second feed deadlines. No AI key, paid model or new database is required.
+
 News is Available in the platform catalogue. Anyone can read saved editions and archives without logging in. Any visitor can generate the shared daily edition without login. Repeat requests return that same immutable edition, with no additional provider fetch. Operational previews remain restricted to an authenticated owner with News access. Publication accepts only an optional edition date, never user-supplied article content. Existing editions are immutable. No accounts or app grants are changed by this release.
 
 The fetch/open button follows the selected date. Missing past editions can be generated; future dates are rejected in the UI and API before spending a fetch budget. Historical cutoffs use the end of the selected IST day. Changing dates during a pending fetch keeps the newly selected newspaper on screen.
@@ -20,7 +26,7 @@ App-owned migrations register editions, stories, run snapshots and budgets for S
 
 `POST /api/news/fetch` accepts `{}` for today or `{ "date": "YYYY-MM-DD" }` to generate/open a present or historical edition. `GET /api/news/preview/YYYY-MM-DD` is owner-only operational status. Public read APIs are `GET /api/news/editions?before=YYYY-MM-DD` (30 dates per page) and `GET /api/news/editions/YYYY-MM-DD`. Reads never trigger generation.
 
-**05:00 IST automation remains deferred.** The app never fetches at startup. The host must be running and online to fetch. Very early editions and sparse historical archives may have insufficient stories.
+**05:00 IST automation remains deferred.** The app never fetches external stories at startup. The host must be running to publish shared editions; Cloudflare provides the independent on-device fallback. Very early editions and sparse historical archives may have insufficient stories.
 
 ## Verification
 

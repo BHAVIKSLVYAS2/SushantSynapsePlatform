@@ -32,7 +32,7 @@ A mobile-first home for connected apps at **apps.sushantsynapse.com**. Chambers,
 - Fund Lens focuses on holdings overlap, industries and what-if comparisons. Personal portfolio entry/import, watchlists and investment calculators have been removed from the interface. Existing private SQLite records remain preserved and protected.
 - This release serves one organisation with one Chambers workspace. It does not yet provide separate customer tenants or isolated databases per app.
 
-Run `npm.cmd start`, then open http://localhost:3000. The public platform is served through the local Windows Cloudflare Tunnel. For its operational requirements and the alternative Docker deployment, follow the [deployment guide](docs/DEPLOYMENT.md).
+Run `npm.cmd start`, then open http://localhost:3000. The backend uses the local Windows Cloudflare Tunnel. The Cloudflare frontend deployment can keep the homepage, certificates and Timetable Lite available while the laptop is off; backend-dependent apps show a graceful unavailable message. See the [deployment guide](docs/DEPLOYMENT.md) for frontend deployment status, commands and the alternative Docker deployment.
 
 ## Chambers advocate app
 A mobile-first case and practice management application for advocates and chamber staff in India. Light, dark, and system themes. SQLite persistence, authenticated accounts, and a saved functionality ledger for continuing development.
@@ -134,7 +134,7 @@ Read the ledger first when resuming. A feature is only marked verified when the 
 
 ## External scope
 
-Live eCourts synchronization, automated email/SMS/WhatsApp delivery, hosted deployment, managed encrypted off-device backups, client portals, e-signatures and payment gateways are not connected. No automatic limitation-date or GST computation is performed. The web manifest provides app metadata; no service worker caches confidential records and no offline-editing capability is claimed.
+Live eCourts synchronization, automated email/SMS/WhatsApp delivery, always-on backend hosting, managed encrypted off-device backups, client portals, e-signatures and payment gateways are not connected. The frontend is hosted on Cloudflare; database-backed apps still use the Windows tunnel backend. No automatic limitation-date or GST computation is performed. The web manifest provides app metadata; no service worker caches confidential records and no offline-editing capability is claimed.
 
 Research references used for the original workflow design:
 
@@ -162,3 +162,7 @@ Open **Help, browser storage & sample document** in the timetable app for setup 
 `/certificates` is a public, login-free app with seven distinct formal appreciation types and ten lighthearted personal awards. Eight designs include Classic, Corporate, Minimal, Community, Aurora, Confetti, Sweetheart and Comic. Fun awards suggest matching designs until you choose your own. Formal designs offer five accents; playful designs use dedicated palettes. Live preview, optional logos/signatures and local A4 landscape PDF/PNG/print output are available. Recipient details and signatures stay in tab memory; refreshing clears them. You can explicitly save up to 10 organisation names, logos and logo positions in this browser, reuse or delete them, and restore the last selected organisation on reload. Clearing browser site data removes saved organisations; they are visible to anyone using that browser profile and do not sync between devices. Theme preference also uses local storage. No certificate upload or storage endpoint exists.
 
 Lossless PNG defaults to 7016 × 4961 pixels (600 DPI), with a smaller 3508 × 2480 (300 DPI) option; both embed print-density metadata. PDF and print use 300 DPI. PDF embeds a high-quality raster image to preserve the browser-rendered fonts and layout; its text is not selectable. Print uses A4 landscape with zero CSS margins; printer hardware margins and print-dialog settings can affect physical output. Uploaded PNG/JPEG/WebP images are limited to 5 MB and 24 megapixels, then resized locally to at most 1600 pixels. Uploaded-image sharpness depends on source quality; saved organisation logos are smaller copies. References are optional, unverified identifiers. No accounts, history, bulk tools, verification, premium upgrades or delivery integrations are implemented.
+
+## News during backend outages
+
+The hosted News app can prepare temporary editions on your device while the Windows backend is unavailable. Cloudflare retrieves dated source metadata, using credited BBC News feeds when Indian Express archives are unavailable. Fresh generation still requires internet access; historical coverage depends on the sources. Temporary editions remain only in the current tab (up to 30), and Print / Save PDF keeps a copy. Reload to reconnect to shared SQLite archives. See [News details](apps/news/README.md).

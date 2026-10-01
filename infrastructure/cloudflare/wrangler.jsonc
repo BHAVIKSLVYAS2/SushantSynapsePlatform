@@ -1,0 +1,67 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "sushant-synapse-frontend",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  "preview_urls": false,
+  "build": {
+    "command": "node build.cjs",
+    "cwd": "infrastructure/cloudflare"
+  },
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "html_handling": "none",
+    "not_found_handling": "none"
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 0.1
+  },
+  "env": {
+    "preview": {
+      "name": "sushant-synapse-frontend-preview",
+      "workers_dev": true,
+      "ratelimits": [
+        {
+          "name": "NEWS_LIMITER",
+          "namespace_id": "2026100102",
+          "simple": {
+            "limit": 6,
+            "period": 60
+          }
+        }
+      ]
+    },
+    "production": {
+      "workers_dev": false,
+      "routes": [
+        {
+          "pattern": "apps.sushantsynapse.com/*",
+          "zone_name": "sushantsynapse.com"
+        }
+      ],
+      "ratelimits": [
+        {
+          "name": "NEWS_LIMITER",
+          "namespace_id": "2026100101",
+          "simple": {
+            "limit": 6,
+            "period": 60
+          }
+        }
+      ]
+    }
+  },
+  "ratelimits": [
+    {
+      "name": "NEWS_LIMITER",
+      "namespace_id": "2026100101",
+      "simple": {
+        "limit": 6,
+        "period": 60
+      }
+    }
+  ]
+}

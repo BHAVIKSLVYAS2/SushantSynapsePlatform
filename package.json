@@ -3,6 +3,9 @@
   "version": "3.0.0",
   "private": true,
   "scripts": {
+    "build:frontend": "node infrastructure/cloudflare/build.cjs",
+    "deploy:frontend:preview": "wrangler deploy --config infrastructure/cloudflare/wrangler.jsonc --env preview",
+    "deploy:frontend": "wrangler deploy --config infrastructure/cloudflare/wrangler.jsonc --env production",
     "start": "node server/index.js",
     "test": "node --test tests/*.test.js",
     "test:e2e": "playwright test",
@@ -18,7 +21,8 @@
     "node": ">=22.13"
   },
   "devDependencies": {
-    "@playwright/test": "^1.63.0"
+    "@playwright/test": "^1.63.0",
+    "wrangler": "^4.145.0"
   },
   "workspaces": [
     "apps/*",

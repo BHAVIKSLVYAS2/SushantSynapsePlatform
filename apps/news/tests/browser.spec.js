@@ -19,6 +19,46 @@ test.afterEach(async()=>{
   if(dir)fs.rmSync(dir,{recursive:true,force:true});
 });
 
+test('backend outage generates in the browser, reuses tab editions, validates dates and recovers shared archives',async({page})=>{
+  const errors=[];page.on('pageerror',error=>errors.push(error.message));
+  await page.route('**/api/news/status',route=>route.fulfill({status:503,json:{error:'Backend offline'}}));
+  let calls=0;
+  await page.route('**/api/news/sources?*',route=>{
+    calls++;const date=new URL(route.request().url()).searchParams.get('date');
+    const cutoff=new Date(date+'T23:59:59.999+05:30').toISOString();
+    return route.fulfill({json:{date,cutoff,stories:Array.from({length:10},(_,i)=>({title:'Device headline '+i,url:'https://indianexpress.com/article/technology/story-'+i+'/',provider:'IndianExpress',source:'The Indian Express',publishedAt:cutoff,description:'A verified source excerpt.'}))}});
+  });
+  await page.goto(base+'/news?date=2025-01-01');
+  await expect(page.locator('#device-note')).toBeVisible();
+  await page.locator('#fetch-news').click();
+  await expect(page.locator('.saved-story')).toHaveCount(10);await expect(page.locator('.comic-panel')).toHaveCount(3);
+  await expect(page.locator('#fetch-status')).toContainText('Not saved to shared archives');
+  await expect(page.locator('#print-edition')).toBeEnabled();
+  await page.locator('#fetch-news').click();await expect(page.locator('#fetch-news')).toBeEnabled();expect(calls).toBe(1);
+  await page.getByLabel('Edition date').fill('2099-01-01');await expect(page.locator('#fetch-news')).toBeDisabled();expect(calls).toBe(1);
+  for(const width of [320,768,1440]){await page.setViewportSize({width,height:900});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+  await page.unroute('**/api/news/status');await page.reload();
+  await expect(page.locator('#device-note')).toBeHidden();await expect(page.locator('.saved-story')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
+test('device generation failures can retry and pending generation preserves the selected date',async({page})=>{
+  await page.route('**/api/news/status',route=>route.abort());
+  await page.route('**/api/news/sources?*',route=>route.fulfill({status:502,json:{error:'Source unavailable. Retry later.'}}));
+  await page.goto(base+'/news?date=2025-01-01');await page.locator('#fetch-news').click();
+  await expect(page.locator('#fetch-status')).toContainText('Source unavailable');await expect(page.locator('.saved-story')).toHaveCount(0);await expect(page.locator('#fetch-news')).toBeEnabled();
+  await page.unroute('**/api/news/sources?*');
+  let release,started;const blocked=new Promise(resolve=>release=resolve),arrived=new Promise(resolve=>started=resolve);
+  await page.route('**/api/news/sources?*',async route=>{
+    started();await blocked;
+    await route.fulfill({json:{date:'2025-01-01',cutoff:'2025-01-01T18:29:59.999Z',stories:Array.from({length:10},(_,i)=>({title:'Device headline '+i,url:'https://indianexpress.com/article/technology/story-'+i+'/',provider:'IndianExpress',source:'The Indian Express',publishedAt:'2025-01-01T12:00:00Z',description:'A source excerpt.'}))}});
+  });
+  await page.locator('#fetch-news').click();await arrived;
+  await page.getByLabel('Edition date').fill('2025-01-02');release();
+  await expect(page.locator('#fetch-news')).toBeEnabled();await expect(page.getByLabel('Edition date')).toHaveValue('2025-01-02');await expect(page.locator('.saved-story')).toHaveCount(0);
+  await page.getByLabel('Edition date').fill('2025-01-01');await expect(page.locator('.saved-story')).toHaveCount(10);
+});
+
 test('a pending publication does not replace a newly selected archive date',async({page})=>{
   execFileSync(process.execPath,[path.join(__dirname,'seed-fixtures.js'),dir]);
   const today=(await (await page.request.get(base+'/api/news/status')).json()).today;

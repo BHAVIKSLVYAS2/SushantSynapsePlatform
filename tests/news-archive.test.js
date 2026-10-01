@@ -12,7 +12,7 @@ const candidates=titles.map((title,i)=>({title,url:`https://indianexpress.com/ar
 const html='<meta property="article:published_time" content="2025-01-01T12:00:00+05:30"><meta name="description" content="A dated source excerpt explains this news headline and its background for interested readers.">';
 test('historical provider verifies source dates, balances topics and bounds fixed-host requests',async()=>{
  let calls=0;
- const provider=createArchiveProvider({fetchImpl:async(url,options)=>{calls++;assert.equal(new URL(url).hostname,'indianexpress.com');assert.equal(options.redirect,'error');return new Response(url.includes('/archive/')?'<div class="article-list"><ul>'+candidates.map(s=>`<li><a href="${s.url}">${s.title}</a></li>`).join('')+'</ul>':html);}});
+ const provider=createArchiveProvider({fetchImpl:async(url,options)=>{calls++;assert.equal(new URL(url).hostname,'indianexpress.com');assert.equal(options.redirect,'manual');return new Response(url.includes('/archive/')?'<div class="article-list"><ul>'+candidates.map(s=>`<li><a href="${s.url}">${s.title}</a></li>`).join('')+'</ul>':html);}});
  const stories=await provider.fetchStories(cutoff);assert.equal(stories.length,10);assert.ok(calls<=28);assert.equal(stories.filter(s=>s.category.includes('Masala')).length,2);
  assert.equal(parseArticle(html,candidates[0],'2025-01-02T18:29:59.999Z'),null);
  assert.equal(parseArticle(html.replace('2025-01-01','2025-01-02'),candidates[0],cutoff),null);
