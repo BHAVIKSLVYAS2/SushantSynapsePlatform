@@ -71,6 +71,18 @@ Consistent pre-release backup: `data/backups/pre-batchfee-1790528480616.sqlite` 
 
 ## Operational boundaries
 
+### Complete toggle and certificate release, 2026-10-01 (current release)
+
+Application commit `87ea335` is live from `C:\Code\SushantSynapsePlatform\.publish\release-theme-toggle`, superseding `release-access-correction`. This includes all pending source changes: the shared light/dark toggle, Corporate certificate design and documentation. All 176 exported files match the commit. All 79 Node/API tests and 41 browser workflows passed. Live HTTPS matched 18 assets; Chrome verified both toggle states, Corporate design selection, mobile/desktop layouts and sign-in boundaries with no business writes.
+
+For recovery, first confirm the application is stopped, then launch the supervisor using the active release path:
+
+```powershell
+Start-Process -FilePath powershell.exe -WindowStyle Hidden -ArgumentList @('-NoProfile','-ExecutionPolicy','Bypass','-File','C:\Code\SushantSynapsePlatform\infrastructure\start-tunnel-host.ps1','-ReleaseRoot','C:\Code\SushantSynapsePlatform\.publish\release-theme-toggle')
+```
+
+Supervisor PID 4124 and Node PID 9680 serve port 3001; the existing dedicated tunnel remained connected. The original data directory is retained. Backup `data/backups/pre-theme-release-1790819295075.sqlite` and post-release SQLite integrity are `ok`; all 21 tables are unchanged. Do not remove the active release directory. The host and tunnel must remain running; automatic reboot startup remains unconfigured.
+
 ### Homepage access correction, 2026-10-01 (current release)
 
 Commit `d90a031` is served from `C:\Code\SushantSynapsePlatform\.publish\release-access-correction`. It separates Tournament Lite organizing from the four no-login tools and includes the certificate header alignment fix. This supersedes `release-f4ece30` as the active application directory. Keep the release directory and original `data` directory intact. For recovery, confirm the application is stopped, then launch:
