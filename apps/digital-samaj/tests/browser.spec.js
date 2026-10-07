@@ -29,6 +29,7 @@ test('Mobile registration autosaves, resumes, submits atomically and renders pri
 test('Signed out access requires shared login and database APIs stay protected',async({page})=>{
  await page.goto(base+'/digital-samaj');await expect(page.getByRole('link',{name:'Sign in',exact:true})).toHaveAttribute('href','/signin?next=digital-samaj');
  expect((await page.request.get(base+'/api/digital-samaj')).status()).toBe(401);
+ await page.locator('#language').selectOption('hi');await expect(page.getByRole('link',{name:'साइन इन',exact:true})).toBeVisible();await expect(page.locator('#notice')).not.toHaveClass('show');
 });
 
 test('Independent review publishes private-field-safe bilingual PDF; CSV mapping previews before import',async({page})=>{
