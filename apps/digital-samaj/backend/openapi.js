@@ -1,0 +1,22 @@
+'use strict';
+const paths={};
+function route(path,methods,summary){paths[path]={};for(const method of methods.split(',')){const parameters=[...path.matchAll(/\{(\w+)\}/g)].map(([,name])=>({name,in:'path',required:true,schema:{type:'string'}}));paths[path][method]={summary:summary+(method==='get'?' (read)':''),parameters,security:[{platformSession:[]}],responses:{200:{description:'Authorized result'},201:{description:'Created'},400:{description:'Validation failed'},401:{description:'Sign in required'},403:{description:'App permission, scope or privacy denied'},404:{description:'Unavailable resource'},409:{description:'Stale revision, pending review or conflicting identity'},429:{description:'Rate limit'}}};if(['post','patch','delete'].includes(method))paths[path][method].requestBody={required:true,content:{'application/json':{schema:{type:'object'}}}};}}
+route('','get,post','List authorized communities or bootstrap a community as platform owner');
+route('/{samajId}','get','Current Samaj and effective grants');
+for(const kind of ['persons','families']){route('/{samajId}/'+kind,'get,post','Directory or create draft '+kind);route('/{samajId}/'+kind+'/{id}','get,patch','Projected profile or revision-checked edit');route('/{samajId}/'+kind+'/{id}/submit','post','Submit for independent verification');route('/{samajId}/'+kind+'/{id}/export','get','Permission-checked print projection');}
+route('/{samajId}/families/{id}/head','post','Set a current family member as head');
+for(const resource of ['memberships','relationships','claims'])route('/{samajId}/'+resource,'post','Create '+resource+' or request approval');
+route('/{samajId}/tree/{id}','get','Privacy-filtered relationship graph');
+route('/{samajId}/grants','get,post','Manage scoped permission bundles');route('/{samajId}/grants/{id}','delete','Revoke another user grant');
+route('/{samajId}/reviews','get','Scoped review queue');route('/{samajId}/reviews/{id}','get,post','Inspect or decide an independent review');route('/{samajId}/reviews/{id}/withdraw','post','Withdraw own pending request');
+route('/{samajId}/reviews/{id}/start','post','Begin an independent review');
+route('/{samajId}/drafts','get,post','Private saved registrations');route('/{samajId}/drafts/{id}','get,patch','Read or autosave own draft');route('/{samajId}/drafts/{id}/submit','post','Atomically register a family with versioned consent');
+route('/{samajId}/photos','post','Upload validated private photo');route('/{samajId}/photos/{id}','get','Authorized image bytes');
+route('/{samajId}/duplicates/{id}','get','Scored candidate comparison');route('/{samajId}/duplicates/{id}/ignore','post','Explicitly ignore a match');route('/{samajId}/duplicates/merge','post','Explicit history-preserving merge with both revisions');
+route('/{samajId}/imports/file','post','Parse bounded CSV or first-sheet XLSX');route('/{samajId}/imports','post','Map, validate and persist preview');route('/{samajId}/imports/{id}/commit','post','Commit ready rows once; skip possible duplicates');
+for(const resource of ['audit','dashboard','moderation'])route('/{samajId}/'+resource,'get','Authorized '+resource);route('/{samajId}/moderation/{id}','post','Resolve a reported message');
+route('/{samajId}/announcements','get,post','Read or publish administrator announcements');route('/{samajId}/messaging-preference','get,post','Own messaging preference');route('/{samajId}/blocks','get,post,delete','Own block list');
+route('/{samajId}/connect','get,post','Own conversations or new reasoned message request');route('/{samajId}/connect/{id}','get','Participant-only messages');for(const action of ['decision','send','read','mute'])route('/{samajId}/connect/{id}/'+action,'post','Conversation '+action);route('/{samajId}/messages/{id}/report','post','Report a received message');route('/{samajId}/message-files/{id}','get','Participant-only attachment download');
+// OpenAPI path keys must start with a slash.
+paths['/']=paths[''];delete paths[''];
+module.exports={openapi:'3.1.0',info:{title:'DIGITAL SAMAJ API',version:'0.1.0',description:'Integrated Sushant Synapse app. Shared HttpOnly session and same-origin writes. JSON bodies use UUID identifiers; edits require integer revision. Read projections enforce scope and field visibility.'},servers:[{url:'/api/digital-samaj'}],components:{securitySchemes:{platformSession:{type:'apiKey',in:'cookie',name:'chambers_session'}}},paths};

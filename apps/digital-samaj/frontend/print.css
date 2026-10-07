@@ -1,0 +1,8 @@
+#print-document{display:none}
+@media print{
+ body[data-printing=true] #app>*{display:none!important}
+ body[data-printing=true] #app>#print-document{display:block!important}
+ #print-document article{break-inside:avoid;border-bottom:1px solid currentColor;margin-bottom:20px;padding-bottom:10px}
+ #print-document h1{font-size:24pt}
+ #print-document h2{font-size:17pt}
+}

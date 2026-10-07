@@ -10,6 +10,7 @@ const {createFundOverlap}=require('../apps/fund-overlap/backend/routes');
 const {createNews}=require('../apps/news/backend/routes');
 const {createBatchFee}=require('../apps/batchfee-lite/backend/routes');
 const {createTournament}=require('../apps/tournament-lite/backend/routes');
+const {createDigitalSamaj}=require('../apps/digital-samaj/backend/routes');
 const {staticAssets}=require('./static-assets');
 const {fail}=require('./http');
 const ROOT=path.resolve(__dirname,'..');
@@ -23,6 +24,7 @@ const portal=createPortal({store,auth});
 const news=createNews({auth,store});
 const batchFee=createBatchFee({auth,store});
 const tournament=createTournament({auth,store});
+const digitalSamaj=createDigitalSamaj({auth,store});
 const advocate=createAdvocate({store,auth});
 const fundOverlap=createFundOverlap({auth,store,cacheDir:path.join(process.env.DATA_DIR||path.join(ROOT,'data'),'fund-overlap-cache')});
 const server = http.createServer(async (req,res) => {
@@ -53,6 +55,7 @@ const server = http.createServer(async (req,res) => {
     if(route.startsWith('auth/')||route==='users'||route.startsWith('users/'))return await auth.handle(context);
     if(route==='news'||route.startsWith('news/'))return await news(context);
     if(route==='tournament-lite'||route.startsWith('tournament-lite/'))return await tournament(context);
+    if(route==='digital-samaj'||route.startsWith('digital-samaj/'))return await digitalSamaj(context);
     if(route==='fund-overlap'||route.startsWith('fund-overlap/'))return await fundOverlap(context);
     if(!user)fail(401,'Please sign in');
     if(route==='ledger'&&method==='GET')return json(200,{markdown:fs.readFileSync(path.join(ROOT,'docs/FUNCTIONALITY_LEDGER.md'),'utf8')});
