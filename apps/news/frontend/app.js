@@ -118,12 +118,26 @@ function renderEdition(edition){
     });filters.append(button);
   }
   const satire=element('aside','','saved-satire');satire.id='lighter-side';
+  let variant=edition.promptVersion==='news-comic-v3'?1:0;
+  const comicContent=element('div');
+  const controls=element('div','','comic-controls');
+  const another=element('button','Try another take');another.type='button';
+  const original=element('button','Show edition original');original.type='button';original.hidden=true;
+  const takeStatus=element('p','','comic-caption');takeStatus.setAttribute('role','status');
+  another.addEventListener('click',()=>{
+    renderComic(SynapseNews.createSatire(edition.stories,{date:edition.date,variant:variant++}),'news-comic-v3');
+    original.hidden=false;takeStatus.textContent='Fresh take for this reading. The edition original is unchanged. Takes cycle when all available jokes have been shown.';
+  });
+  original.addEventListener('click',()=>{renderComic(edition.satire,edition.promptVersion);original.hidden=true;takeStatus.textContent='Showing the edition original.';});
+  controls.append(another,original);satire.append(controls,takeStatus,comicContent);
+  function renderComic(comic,version){
+  comicContent.replaceChildren();
   const satireHead=element('div','','satire-heading');
-  satireHead.append(element('p','The chai-break comic','section-label'),element('h2',edition.satire.title),element('span','Satire · Fictional commentary','badge'));
-  satire.append(satireHead);
-  if(edition.promptVersion==='news-comic-v2'){
+  satireHead.append(element('p','The chai-break comic','section-label'),element('h2',comic.title),element('span','Satire · Fictional commentary','badge'));
+  comicContent.append(satireHead);
+  if(['news-comic-v2','news-comic-v3'].includes(version)){
     const body=element('div','','comic-strip');
-    for(const [i,text]of edition.satire.body.split('\n\n').entries()){
+    for(const [i,text]of comic.body.split('\n\n').entries()){
       if(i>0&&i<4){
         const panel=element('section','','comic-panel');
         panel.append(element('span',String(i).padStart(2,'0'),'panel-number'),artwork('chai-comic','', 'comic-scene'));
@@ -132,13 +146,17 @@ function renderEdition(edition){
         panel.append(bubble);body.append(panel);
       }else body.append(element('p',text,'comic-caption'));
     }
-    satire.append(body);
+    comicContent.append(body);
   }else{
-    satire.append(artwork('chai-comic','Two fictional friends sharing news over chai','legacy-comic-art'),element('p',edition.satire.body,'satire-body'));
+    comicContent.append(artwork('chai-comic','Two fictional friends sharing news over chai','legacy-comic-art'),element('p',comic.body,'satire-body'));
   }
-  satire.append(element('p','AI-generated illustration · Fictional characters, not a depiction of the reported event.','art-credit'));
-  const reference=element('a','Inspired by story '+edition.satire.storyPosition+': '+edition.stories[edition.satire.storyPosition-1].title,'satire-reference');
-  reference.href='#story-'+edition.satire.storyPosition;reference.addEventListener('click',()=>filters.firstElementChild.click());satire.append(reference);
+  comicContent.append(element('p','AI-generated illustration · Fictional characters, not a depiction of the reported event.','art-credit'));
+  if(!comic.body.startsWith('Reading-room comic:')){
+    const reference=element('a','Inspired by story '+comic.storyPosition+': '+edition.stories[comic.storyPosition-1].title,'satire-reference');
+    reference.href='#story-'+comic.storyPosition;reference.addEventListener('click',()=>filters.firstElementChild.click());comicContent.append(reference);
+  }
+  }
+  renderComic(edition.satire,edition.promptVersion);
   reader.append(overview,info,filters,count,grid,satire);reader.hidden=false;
   document.querySelector('.masthead h1').textContent=edition.name;
   document.querySelector('.byline strong').textContent=edition.author;

@@ -21,7 +21,7 @@ test('historical provider verifies source dates, balances topics and bounds fixe
  assert.equal(selectDiverse([...stories,...stories]).length,10);
  assert.equal(selectDiverse(candidates.map((s,i)=>({...s,url:`https://indianexpress.com/article/india/unique-${i}/`}))).length,10);
  await assert.rejects(createArchiveProvider({fetchImpl:async()=>new Response('Unavailable',{status:503})}).fetchStories(cutoff),/No edition was saved/);
- const draft=draftEdition({date:'2025-01-01',cutoff,stories});assert.match(draft.satire.title,/cinema/);assert.match(draft.satire.body,/Panel 3/);assert.ok(draft.satire.body.includes(stories[draft.satire.storyPosition-1].title));
+ const draft=draftEdition({date:'2025-01-01',cutoff,stories});assert.equal(draft.promptVersion,'news-comic-v3');assert.match(draft.satire.body,/Panel 3/);assert.ok(draft.satire.body.includes(stories[draft.satire.storyPosition-1].title));
 });
 test('past date publishes at IST day end, persists and future requests consume no budget',async()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'news-history-'));const store=new Store(dir);let calls=0;

@@ -31,7 +31,7 @@ test('source metadata is cached independently; browser drafts use the same edito
   const preview=await response.json();assert.equal(preview.cutoff,'2025-01-01T18:29:59.999Z');assert.equal(preview.stories.length,10);
   assert.equal(calls,14);assert.equal(limits,1);
   assert.deepEqual(await (await newsSources(request,env,options)).json(),preview);assert.equal(calls,14);assert.equal(limits,1);
-  const draft=engine.draftEdition(preview);assert.equal(draft.stories.length,10);assert.match(draft.satire.body,/Panel 3/);assert.equal(draft.promptVersion,'news-comic-v2');
+  const draft=engine.draftEdition(preview);assert.equal(draft.stories.length,10);assert.match(draft.satire.body,/Panel 3/);assert.equal(draft.promptVersion,'news-comic-v3');
 });
 test('unavailable, oversized and redirected sources never produce partial editions',async()=>{
   const {newsSources}=await import('../infrastructure/cloudflare/news-sources.mjs');

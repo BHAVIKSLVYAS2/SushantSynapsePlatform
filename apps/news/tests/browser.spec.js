@@ -42,6 +42,34 @@ test('backend outage generates in the browser, reuses tab editions, validates da
   expect(errors).toEqual([]);
 });
 
+test('fresh comic takes work on archives without writes, restore originals and print on mobile',async({page})=>{
+  execFileSync(process.execPath,[path.join(__dirname,'seed-fixtures.js'),dir]);
+  const writes=[];page.on('request',request=>{if(request.method()!=='GET')writes.push(request.url());});
+  await page.goto(base+'/news?date=2025-01-03');
+  const original=await page.locator('.satire-body').innerText();
+  const saved=await (await page.request.get(base+'/api/news/editions/2025-01-03')).json();
+  const takes=[];
+  for(let i=0;i<4;i++){
+    await page.getByRole('button',{name:'Try another take'}).click();
+    await expect(page.locator('.comic-panel')).toHaveCount(3);
+    takes.push(await page.locator('.comic-strip').innerText());
+  }
+  expect(new Set(takes).size).toBe(4);
+  await expect(page.locator('.satire-reference')).toHaveCount(0);
+  for(const width of [320,768,1440]){
+    await page.setViewportSize({width,height:900});
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  }
+  await setTheme(page,'dark');
+  await page.emulateMedia({media:'print'});
+  await expect(page.locator('.comic-controls')).toBeHidden();await expect(page.locator('.comic-panel').first()).toBeVisible();
+  await page.emulateMedia({media:'screen'});
+  await page.getByRole('button',{name:'Show edition original'}).click();
+  await expect(page.locator('.satire-body')).toHaveText(original);
+  expect(await (await page.request.get(base+'/api/news/editions/2025-01-03')).json()).toEqual(saved);
+  expect(writes).toEqual([]);
+});
+
 test('device generation failures can retry and pending generation preserves the selected date',async({page})=>{
   await page.route('**/api/news/status',route=>route.abort());
   await page.route('**/api/news/sources?*',route=>route.fulfill({status:502,json:{error:'Source unavailable. Retry later.'}}));

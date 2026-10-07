@@ -23,7 +23,7 @@ test('publication is atomic, source-grounded, reusable after failure and cached 
   let repository=createNewsRepository(store);
   const stories=Array.from({length:10},(_,i)=>parseRelease(article(i),'https://www.pib.gov.in/PressReleasePage.aspx?PRID='+i,cutoff));
   const preview={date:'2025-01-01',cutoff,stories};const draft=draftEdition(preview);
-  assert.deepEqual(draft.stories.map(s=>s.brief),stories.map(s=>s.description));assert.match(draft.satire.body,/fictional humour/);assert.ok(draft.satire.body.includes(stories[draft.satire.storyPosition-1].title));
+  assert.deepEqual(draft.stories.map(s=>s.brief),stories.map(s=>s.description));assert.match(draft.satire.body,/fictional humour/);assert.match(draft.satire.body,/Reading-room comic:/);
   assert.throws(()=>draftEdition({...preview,stories:stories.slice(1)}),/Ten source/);
   assert.throws(()=>draftEdition({...preview,stories:stories.map(s=>({...s,publishedAt:null}))}),/verified publication/);
   const fetching=createFetchService({store,repository,clock:()=>new Date(cutoff),provider:{fetchStories:async()=>{calls++;return stories;}}});
