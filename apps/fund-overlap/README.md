@@ -6,7 +6,7 @@ Fund Lens lives at `/fund-overlap` and in the platform catalogue. Anyone can ope
 
 ## Coverage and interpretation
 
-The older-name discovery and retry improvements described below are verified follow-up changes awaiting production rollout approval. Laptop-independent comparison itself is already live.
+The older-name discovery and retry improvements described below are live with implementation commit `4ef29b1`; production search and browser comparison checks passed.
 
 The national catalogue includes historical schemes; a listing does not guarantee available holdings or establish that a scheme is active. Search matches words instead of unrelated substrings. Verified previous names for HDFC Top 100/200 and SBI Bluechip lead to their current catalogue families and display the former names. These discovery aliases do not relax holdings identity validation. References: [HDFC scheme document](https://portal.amfiindia.com/spages/873.pdf), [HDFC Top 200 change](https://files.hdfcfund.com/ImpDocs/2_HDFC_Top_200_Fund.pdf), [SBI factsheet](https://www.sbimf.com/docs/default-source/scheme-factsheets/sbi-blue-chip-fund-factsheet-august-2025.pdf?sfvrsn=d1496a6e_2). A source failure preserves completed public identifier checks for an explicit retry; it never produces an incomplete comparison.
 

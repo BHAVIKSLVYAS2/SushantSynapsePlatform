@@ -6,9 +6,11 @@ Target: **https://apps.sushantsynapse.com**. The repository includes a Node/SQLi
 
 ### Current Fund Lens production release (2026-10-07)
 
+**Current:** Implementation commit `4ef29b1`, Cloudflare production version `5e8ec018-4740-40ae-a7eb-1ec1ad080e17`. The user explicitly authorized committing and deploying the follow-up changes. Live HDFC Top 100/200, SBI Bluechip and historical FMP search checks passed, and served Fund Lens JavaScript matches the commit exactly. Live Chrome HDFC/PPFAS comparison passed at 320/768/1440px with zero backend requests or page errors. This supersedes the initial release and approval-pending history below. All source changes are committed; the following documentation checkpoint records the final verification. No backend restart, database change, DNS change or paid subscription was required.
+
 With explicit user authorization, version `eb1e6012-b39f-4dfc-9a32-20dd2b62e6f9` was deployed to `apps.sushantsynapse.com/*`. Fund Lens comparison and public source requests now operate independently of the Windows origin. Live Chrome verified HDFC/PPFAS comparison, no backend requests or page errors, and layouts at 320/768/1440px. Live holdings checks also passed HDFC Large Cap, SBI Large Cap and ICICI Prudential Value Fund. Two historical schemes correctly returned unavailable-holdings errors. The DIGITAL SAMAJ backend release below remains unchanged, with no restart, data migration, DNS change or paid subscription.
 
-Post-deployment investigation produced additional search/retry improvements. They passed 21 edge/provider tests and six browser workflows, but automatic approval review rejected their second production rollout pending separate explicit authorization. **The working tree therefore contains follow-up changes newer than production.** Approve that follow-up deployment before running `npm.cmd run deploy:frontend` again. The initial laptop-independent deployment is already live.
+Post-deployment investigation produced additional search/retry improvements. They passed 21 edge/provider tests and six browser workflows. Their rollout initially required separate authorization, subsequently granted by the user; they are now included in the current release above.
 
 ### Earlier Fund Lens preparation checkpoint (2026-10-07; superseded above)
 
