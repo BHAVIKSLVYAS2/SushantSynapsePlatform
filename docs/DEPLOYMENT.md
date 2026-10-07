@@ -4,6 +4,16 @@ Target: **https://apps.sushantsynapse.com**. The repository includes a Node/SQLi
 
 ## Cloudflare frontend (2026-10-01)
 
+### Current DIGITAL SAMAJ release (2026-10-07)
+
+The active backend is commit `9c658f5`, exported to `C:\Code\SushantSynapsePlatform\.publish\release-9c658f5`, using the original `data` directory and port 3001. Supervisor PID 17168 and Node PID 4932 were observed at release time; PIDs can change. Restart with `infrastructure/start-tunnel-host.ps1 -ReleaseRoot C:\Code\SushantSynapsePlatform\.publish\release-9c658f5` in a hidden PowerShell process. This supersedes the older backend restart paths below. The existing dedicated tunnel remains unchanged.
+
+Frontend commit `8161247` adds the verified signed-out Hindi language fix and is API-compatible with that backend. Production Worker version `fba2005f-5df9-4057-b887-b38441062b07` serves the existing route. The initial Samaj frontend version was `5429a77e-5808-444b-b04a-12b81b9d81f9`. Both releases were published from clean commit exports. No DNS change was required.
+
+Consistent backup: `data/backups/pre-digital-samaj-1791345025906.sqlite`. Post-migration integrity is `ok`, foreign-key checks are clean and all 21 original tables match the backup by content hash. The 26 additive Samaj tables contain only initial role/permission/migration metadata; no live demo accounts or community records were created. Evidence is retained in `.publish/samaj-release-data-verification.json` and `.publish/samaj-live-verification.json`. Full platform validation passed 99 API tests and 49 browser workflows; final Samaj privacy and language checks passed 12 API and three browser tests.
+
+### Previous frontend checkpoint
+
 **Live and verified:** `sushant-synapse-frontend-production`, version `bcf7db5f-2283-4295-bbc7-3a3fb92e8fa1`, serves `apps.sushantsynapse.com/*`. All 37 public asset files match the source; public pages and backend health/auth-status return 200, private state returns 401 anonymously, and live Chrome passed mobile/desktop theme and sign-in checks. Preview and production browser checks generated ten real stories and three comic panels while backend calls were disabled only in the verification browser. No DNS records or backend processes were changed. This frontend deployment supersedes the older whole-site laptop-availability requirement below; the backend still uses the documented active Node release and tunnel.
 
 The frontend can be deployed independently using `infrastructure/cloudflare/wrangler.jsonc`. It exports only allowlisted public assets. The database, accounts, document blobs, backups and backend remain on the existing Windows server; no data migration is involved.

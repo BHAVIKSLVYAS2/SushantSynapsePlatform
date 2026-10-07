@@ -51,7 +51,7 @@ Tests create isolated temporary SQLite workspaces. `node apps/digital-samaj/seed
 
 ## Operational limits
 
-This is a locally verified MVP, not a claim of production deployment or an independent security audit. The existing Node Docker deployment includes the app; no new service is required. Public release, backup scheduling and hosted availability remain subject to the platform deployment process.
+The MVP is deployed at https://apps.sushantsynapse.com/digital-samaj with shared login and the original SQLite data directory. Release checks cover public assets, anonymous API protection, responsive themes and English/Hindi sign-in. This is not an independent security audit. Backup scheduling and hosted availability remain subject to the platform deployment process; authenticated workflows require the Windows backend and tunnel to remain running.
 
 Claims currently use administrator approval with supplied evidence. SMS/email OTP providers and automated outbound delivery are not connected. Chat refresh is manual; there are no push notifications or real-time transport. The mute preference is saved, but there is no notification-delivery service. File validation does not include antivirus scanning. Directory matching currently scans scoped records in memory before pagination; large deployments need measured indexing/query optimization. XLSX supports conventional `sheet1.xml`, not every Excel workbook layout, and legacy `.xls` is not supported. Imports create people only; they do not infer family relationships from ambiguous spreadsheet columns.
 

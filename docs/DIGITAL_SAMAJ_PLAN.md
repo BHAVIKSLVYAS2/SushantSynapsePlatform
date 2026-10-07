@@ -1,6 +1,6 @@
 # DIGITAL SAMAJ implementation
 
-Status: integrated MVP implemented and locally verified (99 platform API tests, 49 browser workflows, final twelve-test Samaj privacy regression). Commit and deployment are authorized and in progress. See `apps/digital-samaj/README.md` for implemented behavior and operational limits, and the functionality ledger for release evidence.
+Status: integrated MVP committed and deployed at https://apps.sushantsynapse.com/digital-samaj (99 platform API tests, 49 browser workflows, final twelve-test Samaj privacy regression and three-test language regression). Backend release `9c658f5`, frontend `8161247`. See `apps/digital-samaj/README.md` for implemented behavior and operational limits, and the functionality ledger for release evidence.
 
 ## Architecture
 
