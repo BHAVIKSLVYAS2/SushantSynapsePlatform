@@ -1,6 +1,7 @@
 import {newsSources} from './news-sources.mjs';
+import {fundSources} from './fund-sources.mjs';
 import pages from './pages.json' with {type: 'json'};
-const independent = new Set(['/', '/news', '/certificates', '/certificates/', '/timetable-lite', '/timetable-lite/']);
+const independent = new Set(['/', '/fund-overlap', '/news', '/certificates', '/certificates/', '/timetable-lite', '/timetable-lite/']);
 const security = {
   'X-Synapse-Frontend': 'cloudflare',
   'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff',
@@ -16,6 +17,7 @@ function unavailable(method) {
 // would change fetch(request) routing and must not replace this configuration.
 export async function handle(request, env, originFetch = fetch, sourceOptions = {}) {
   const url = new URL(request.url), pathname = url.pathname;
+  if (pathname.startsWith('/api/fund-overlap/') && !/^\/api\/fund-overlap\/(portfolio|watchlists|plans|nav)(\/|$)/.test(pathname)) return fundSources(request, env, sourceOptions);
   if (pathname === '/api/news/sources') return newsSources(request, env, sourceOptions);
   if (pathname.startsWith('/api/') || pathname === '/healthz') {
     // Never forward preview-host credentials/writes to the production database.

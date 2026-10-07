@@ -15,12 +15,12 @@ test('Cloudflare export contains only allowlisted frontend files and shared outa
 test('independent tools load without origin calls; unavailable app routes return uncached useful HTML', async () => {
   let calls = 0;
   const down = async () => { calls++; throw Error('Disconnected'); };
-  for (const route of ['/', '/news', '/news/', '/certificates', '/certificates/', '/timetable-lite']) {
+  for (const route of ['/', '/fund-overlap', '/fund-overlap/', '/news', '/news/', '/certificates', '/certificates/', '/timetable-lite']) {
     const response = await handle(new Request(base + route), assets, down);
     assert.equal(response.status, 200); assert.notEqual(await response.text(), '/_pages/unavailable.html');
   }
   assert.equal(calls, 0);
-  for (const route of ['/signin?next=advocate', '/advocate', '/advocate/', '/fund-overlap', '/tournament-lite?share=example', '/batchfee-lite']) {
+  for (const route of ['/signin?next=advocate', '/advocate', '/advocate/', '/tournament-lite?share=example', '/batchfee-lite']) {
     const response = await handle(new Request(base + route), assets, down);
     assert.equal(response.status, 503); assert.equal(response.headers.get('Cache-Control'), 'no-store');
     assert.equal(await response.text(), '/_pages/unavailable.html');
@@ -52,4 +52,65 @@ test('failed writes are never retried; gateway failures become JSON and previews
   assert.equal(calls, 1);
   for (const route of ['/data/chambers.sqlite', '/.env', '/server/index.js', '/missing']) assert.equal((await handle(new Request(base + route), assets, down)).status, 404);
   assert.equal((await handle(new Request(base + '/certificates', {method: 'POST'}), assets, down)).status, 405);
+});
+
+test('Fund Lens public references and provider requests work without an origin; private routes stay protected', async () => {
+  const down = async () => { throw Error('Laptop off'); };
+  const env = {...assets, FUND_LIMITER: {limit: async () => ({success: true})}};
+  const provider = {search: async () => ({funds: [{id: 'amfi-123456', name: 'Example Equity', holdingsPath: '/api/fund-overlap/scheme/123456'}], nextOffset: null}), scheme: async code => ({schemeId: 'amfi-' + code}), snapshot: async slug => ({schemeId: 'groww-' + slug})};
+  const get = (path, options = {}) => handle(new Request('https://preview.workers.dev' + path, options), env, down, {provider});
+  const index = await (await get('/api/fund-overlap/fund-index.json')).json();
+  assert.equal(index.funds.length, 5);
+  for (const fund of index.funds) assert.ok((await (await get(fund.holdingsPath)).json()).holdings.length);
+  assert.equal((await (await get('/api/fund-overlap/search?q=example')).json()).funds[0].id, 'amfi-123456');
+  assert.equal((await (await get('/api/fund-overlap/scheme/123456')).json()).schemeId, 'amfi-123456');
+  assert.equal((await (await get('/api/fund-overlap/remote/example-fund')).json()).schemeId, 'groww-example-fund');
+  for (const path of ['/api/fund-overlap/search?q=x', '/api/fund-overlap/search?q=example&offset=-1']) assert.equal((await get(path)).status, 400);
+  assert.equal((await get('/api/fund-overlap/scheme/invalid')).status, 404);
+  assert.equal((await get('/api/fund-overlap/search?q=example', {method: 'POST'})).status, 405);
+  assert.equal(await (await get('/api/fund-overlap/fund-index.json', {method: 'HEAD'})).text(), '');
+  for (const path of ['portfolio', 'watchlists']) assert.equal((await get('/api/fund-overlap/' + path)).status, 503);
+  env.FUND_LIMITER.limit = async () => ({success: false});
+  assert.equal((await get('/api/fund-overlap/scheme/123456')).status, 429);
+});
+
+test('edge reference cache reuses validated data and labels source failures/date regression stale', async () => {
+  const {edgeReferenceCache} = await import('../infrastructure/cloudflare/fund-sources.mjs');
+  const saved = new Map(); let now = 1000, calls = 0;
+  const cache = edgeReferenceCache({match: async k => saved.get(k)?.clone(), put: async (k, v) => saved.set(k, v)}, () => now);
+  const validate = value => {assert.ok(value.portfolioDate);};
+  const load = async () => {calls++; return {portfolioDate: '2026-07-31'};};
+  await cache.get('scheme:123456', 100, load, validate);
+  await cache.get('scheme:123456', 100, load, validate);
+  assert.equal(calls, 1);
+  now += 200;
+  assert.equal((await cache.get('scheme:123456', 100, async () => {throw Error('Source down');}, validate)).stale, true);
+  const regressed = await cache.get('scheme:123456', 100, async () => ({portfolioDate: '2026-06-30'}), validate);
+  assert.equal(regressed.stale, true); assert.equal(regressed.value.portfolioDate, '2026-07-31');
+  await assert.rejects(cache.get('missing', 100, async () => {throw Error('Unavailable');}));
+});
+
+test('large portfolios resume verified stock lookups across invocations within the free request budget', async () => {
+  const {boundedProvider} = await import('../infrastructure/cloudflare/fund-sources.mjs');
+  const fixture = require('../apps/fund-overlap/tests/fixtures/groww-excerpt.json');
+  const fund = structuredClone(fixture.fund);
+  const equity = fund.holdings.find(h => h.instrument_name === 'Equity');
+  fund.holdings = Array.from({length: 80}, (_,i) => ({...equity, stock_search_id: 'stock-' + i, corpus_per: 1}));
+  const saved = new Map(); let calls = 0;
+  const cache = {match: async k => saved.get(k)?.clone(), put: async (k,v) => saved.set(k,v)};
+  const fetchImpl = async url => {
+    calls++;
+    if (url.includes('/scheme/search/')) return Response.json(fund);
+    return Response.json({header: {searchId: url.split('/').at(-1), isin: 'INE090A01021'}});
+  };
+  let result, rounds = 0;
+  while (!result && rounds++ < 5) {
+    calls = 0;
+    const bounded = await boundedProvider(new Request(base + '/api/fund-overlap/remote/' + fund.search_id), cache, fetchImpl);
+    try { result = await bounded.source.snapshot(fund.search_id); }
+    catch (error) { assert.equal(error.code, 'FUND_CONTINUE'); }
+    await bounded.save();
+    assert.ok(calls <= 36);
+  }
+  assert.ok(rounds > 1); assert.equal(result.includedNavWeight, 80);
 });

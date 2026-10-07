@@ -10,6 +10,14 @@ test.beforeAll(async()=>{
 });
 test.afterAll(async()=>{if(child.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});fs.rmSync(dir,{recursive:true,force:true});});
 
+test('Cloudflare verification continues before returning a complete snapshot', async ({page}) => {
+ await page.goto(base+'/fund-overlap');
+ let calls=0;
+ await page.route('**/api/fund-overlap/scheme/123456',route=>route.fulfill({status:++calls===1?202:200,json:calls===1?{code:'FUND_CONTINUE'}:{schemeId:'amfi-123456',holdings:[]}}));
+ const value=await page.evaluate(()=>jsonFetch('/api/fund-overlap/scheme/123456'));
+ expect(value.schemeId).toBe('amfi-123456'); expect(calls).toBe(2);
+});
+
 test('Fund Lens: selection, analysis, simulation, share, export, themes and responsive layout',async({page,context})=>{
  const errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push({url:r.url(),method:r.method(),body:r.postData()}));
  await page.setViewportSize({width:390,height:844});await page.goto(base+'/fund-overlap');

@@ -10,7 +10,7 @@ function providerFor(fund = structuredClone(fixture.fund), stockTransform = x =>
   const provider = createProvider({now: () => Date.parse('2026-09-07'), fetchImpl: async (url, options) => {
     calls.push({url, options});
     assert.equal(new URL(url).origin, 'https://groww.in');
-    assert.equal(options.redirect, 'error');
+    assert.equal(options.redirect, 'manual');
     assert.equal(options.headers.Cookie, undefined);
     if (url.includes('/scheme/search/')) return Response.json(fund);
     const slug = url.split('/').at(-1);

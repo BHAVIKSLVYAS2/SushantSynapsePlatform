@@ -10,6 +10,12 @@ function build() {
     fs.rmSync(output, {recursive: true});
   }
   fs.mkdirSync(output, {recursive: true});
+  const references = {'/api/fund-overlap/fund-index.json': JSON.parse(fs.readFileSync(path.join(root, 'apps/fund-overlap/data/fund-index.json'), 'utf8'))};
+  for (const fund of references['/api/fund-overlap/fund-index.json'].funds) {
+    if (!/^\/api\/fund-overlap\/holdings\/[a-z0-9-]+\/\d{4}-\d{2}-\d{2}-[a-f0-9]{16}\.json$/.test(fund.holdingsPath)) throw Error('Invalid public snapshot path');
+    references[fund.holdingsPath] = JSON.parse(fs.readFileSync(path.join(root, 'apps/fund-overlap/data', fund.holdingsPath.slice('/api/fund-overlap/'.length)), 'utf8'));
+  }
+  fs.writeFileSync(path.join(__dirname, 'fund-references.json'), JSON.stringify(references));
   const pages = {}, files = new Map();
   for (const [url, source] of Object.entries(staticAssets)) {
     const target = source.endsWith('.html') ? '/_pages/' + (url.replaceAll('/', '') || 'home') + '.html' : url;

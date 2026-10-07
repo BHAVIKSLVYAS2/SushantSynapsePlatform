@@ -1,5 +1,7 @@
 # Sushant Synapse Platform
 
+Fund Lens comparison is deployed on Cloudflare and works without the laptop backend. See [deployment status](docs/DEPLOYMENT.md).
+
 ## Repository structure
 
 **DIGITAL SAMAJ** is the integrated family registry at `/digital-samaj`: saved registration, verified directory, Vanshavali, private profiles/photos, bilingual print/PDF, CSV/XLSX import and member messaging. It uses the existing platform login and SQLite. The platform owner creates a Samaj and grants app roles; independent reviewers approve submissions and profile claims. See [DIGITAL SAMAJ setup and boundaries](apps/digital-samaj/README.md). Deployment verification is recorded in the functionality ledger.
@@ -34,7 +36,7 @@ A mobile-first home for connected apps at **apps.sushantsynapse.com**. Chambers,
 - Fund Lens focuses on holdings overlap, industries and what-if comparisons. Personal portfolio entry/import, watchlists and investment calculators have been removed from the interface. Existing private SQLite records remain preserved and protected.
 - This release serves one organisation with one Chambers workspace. It does not yet provide separate customer tenants or isolated databases per app.
 
-Run `npm.cmd start`, then open http://localhost:3000. The backend uses the local Windows Cloudflare Tunnel. The Cloudflare frontend deployment can keep the homepage, certificates and Timetable Lite available while the laptop is off; backend-dependent apps show a graceful unavailable message. See the [deployment guide](docs/DEPLOYMENT.md) for frontend deployment status, commands and the alternative Docker deployment.
+Run `npm.cmd start`, then open http://localhost:3000. The backend uses the local Windows Cloudflare Tunnel. The Cloudflare deployment keeps the homepage, Fund Lens comparison, News temporary editions, certificates and Timetable Lite available while the laptop is off; backend-dependent apps show a graceful unavailable message. Fund Lens retrieves public third-party data on Cloudflare; internet and provider availability still apply. See the [deployment guide](docs/DEPLOYMENT.md) for release status and commands.
 
 ## Chambers advocate app
 A mobile-first case and practice management application for advocates and chamber staff in India. Light, dark, and system themes. SQLite persistence, authenticated accounts, and a saved functionality ledger for continuing development.

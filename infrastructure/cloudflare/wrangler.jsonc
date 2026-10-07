@@ -31,6 +31,14 @@
             "limit": 6,
             "period": 60
           }
+        },
+        {
+          "namespace_id": "2026100702",
+          "simple": {
+            "limit": 30,
+            "period": 60
+          },
+          "name": "FUND_LIMITER"
         }
       ]
     },
@@ -50,6 +58,14 @@
             "limit": 6,
             "period": 60
           }
+        },
+        {
+          "namespace_id": "2026100703",
+          "simple": {
+            "limit": 30,
+            "period": 60
+          },
+          "name": "FUND_LIMITER"
         }
       ]
     }
@@ -62,6 +78,17 @@
         "limit": 6,
         "period": 60
       }
+    },
+    {
+      "namespace_id": "2026100701",
+      "simple": {
+        "limit": 30,
+        "period": 60
+      },
+      "name": "FUND_LIMITER"
     }
+  ],
+  "compatibility_flags": [
+    "nodejs_compat"
   ]
 }

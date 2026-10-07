@@ -18,7 +18,7 @@ function parseSearch(payload) {
 }
 
 // No user-supplied URLs, cookies or credentials are forwarded to the provider.
-function createProvider({fetchImpl = fetch, now = () => Date.now()} = {}) {
+function createProvider({fetchImpl = fetch, now = () => Date.now(), referenceCache} = {}) {
   const cache = new Map(), pending = new Map(), queue = [];
   let active = 0;
   async function limited(fn) {
@@ -30,6 +30,7 @@ function createProvider({fetchImpl = fetch, now = () => Date.now()} = {}) {
     finally { const next = queue.shift(); if (next) next(); else active--; }
   }
   async function cached(key, ttl, fn) {
+    if (referenceCache) return (await referenceCache.get('groww:' + key, ttl, fn)).value;
     const hit = cache.get(key);
     if (hit && hit.expires > now()) return hit.value;
     if (pending.has(key)) return pending.get(key);
@@ -41,7 +42,7 @@ function createProvider({fetchImpl = fetch, now = () => Date.now()} = {}) {
   }
   async function request(path) {
     return limited(async () => {
-      const response = await fetchImpl(ORIGIN + path, {redirect: 'error', signal: AbortSignal.timeout(15000), headers: {'Accept': 'application/json', 'User-Agent': 'FundLens/1.0'}});
+      const response = await fetchImpl(ORIGIN + path, {redirect: 'manual', signal: AbortSignal.timeout(15000), headers: {'Accept': 'application/json', 'User-Agent': 'FundLens/1.0'}});
       if (!response.ok) throw Error('Fund data source is temporarily unavailable');
       let size = 0; const chunks = [];
       for await (const chunk of response.body) {
@@ -87,7 +88,7 @@ function createProvider({fetchImpl = fetch, now = () => Date.now()} = {}) {
       const holdings = [];
       // Small batches bound upstream work, including when a fund cannot be resolved.
       for (let start = 0; start < equities.length; start += 4) {
-        const batch = await Promise.all(equities.slice(start, start + 4).map(async h => {
+        const settled = await Promise.allSettled(equities.slice(start, start + 4).map(async h => {
           if (typeof h.corpus_per !== 'number' || !Number.isFinite(h.corpus_per) || h.corpus_per < 0 || h.corpus_per > 100) throw Error('Invalid disclosed equity weight');
           if (h.corpus_per === 0) return null;
           if (!slugValid(h.stock_search_id)) {
@@ -97,6 +98,9 @@ function createProvider({fetchImpl = fetch, now = () => Date.now()} = {}) {
           identifiers.set(h.stock_search_id, identifier);
           return {isin: identifier.isin, name: h.company_name, sector: h.sector_name || 'Unknown', weight: h.corpus_per};
         }));
+        const failed = settled.find(item => item.status === 'rejected');
+        if (failed) throw failed.reason;
+        const batch = settled.map(item => item.value);
         holdings.push(...batch.filter(Boolean));
       }
       const normalized = normalize(holdings);

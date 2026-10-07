@@ -3,6 +3,7 @@ const {normalize, validIsin} = require('../frontend/engine');
 const {createProvider} = require('./provider');
 const {createPublicApi} = require('./public-api');
 const {createReferenceCache} = require('./reference-cache');
+const {renamedFunds, matchesWords} = require('./search-names');
 const DAY = 86400000;
 const codeValid = code => /^\d{5,8}$/.test(String(code));
 const fundIdValid = id => typeof id === 'string' && /^M_[A-Z0-9]{1,20}$/.test(id);
@@ -20,8 +21,8 @@ function validateSnapshot(value) {
   if (Math.abs(total - value.includedNavWeight) > 0.00001) throw Error('Portfolio weights do not reconcile');
 }
 
-function createNationalProvider({fetchImpl = fetch, now = () => Date.now(), cacheDir, groww = createProvider({fetchImpl, now}), delayMs = 250} = {}) {
-  const api = createPublicApi({fetchImpl, delayMs}), cache = createReferenceCache(cacheDir, {now});
+function createNationalProvider({fetchImpl = fetch, now = () => Date.now(), cacheDir, referenceCache, groww = createProvider({fetchImpl, now}), delayMs = 250} = {}) {
+  const api = createPublicApi({fetchImpl, delayMs}), cache = referenceCache || createReferenceCache(cacheDir, {now});
   async function catalogue() {
     return cache.get('mfapi:catalogue', DAY, async () => {
       const {data} = await api.request('https://api.mfapi.in/mf');
@@ -33,12 +34,14 @@ function createNationalProvider({fetchImpl = fetch, now = () => Date.now(), cach
     const {value: rows, stale} = await catalogue();
     const term = query.toLowerCase().trim(), words = term.split(/\s+/);
     // Rank Direct Growth first within an exact family, while keeping code lookup exact.
-    const matches = rows.filter(r => r.code === term || words.every(w => r.name.toLowerCase().includes(w) || r.name.toLowerCase().replace(/[^a-z0-9]/g,'').includes(w.replace(/[^a-z0-9]/g,''))));
+    const formerNames = new Map(renamedFunds.map(f => [familyName(f.name), f.previousNames]));
+    const aliases = row => formerNames.get(familyName(row.name)) || [];
+    const matches = rows.filter(r => r.code === term || [r.name, ...aliases(r)].some(name => matchesWords(name, words)));
     const exact = row => familyName(row.name) === familyName(term);
     const phrase = row => row.name.toLowerCase().replace(/[^a-z0-9]+/g,' ').includes(words.join(' '));
-    matches.sort((a,b) => (b.code === term) - (a.code === term) || exact(b)-exact(a) || phrase(b)-phrase(a) || (/direct/i.test(b.name)*2 + /growth/i.test(b.name)) - (/direct/i.test(a.name)*2 + /growth/i.test(a.name)) || a.name.localeCompare(b.name) || a.code.localeCompare(b.code));
+    matches.sort((a,b) => (b.code === term) - (a.code === term) || exact(b)-exact(a) || (/direct/i.test(b.name)*2 + /growth/i.test(b.name)) - (/direct/i.test(a.name)*2 + /growth/i.test(a.name)) || phrase(b)-phrase(a) || a.name.localeCompare(b.name) || a.code.localeCompare(b.code));
     const groups = new Map(); for (const row of matches) if (!groups.has(familyName(row.name))) groups.set(familyName(row.name), row);
-    const funds = [...groups.values()].map(r => ({id:'amfi-'+r.code, name:r.name, amc:'Indian mutual fund · AMFI '+r.code, category:'Scheme catalogue', provider:'MFapi', holdingsPath:'/api/fund-overlap/scheme/'+r.code}));
+    const funds = [...groups.values()].map(r => ({id:'amfi-'+r.code, name:r.name, previousNames:aliases(r), amc:'Indian mutual fund · AMFI '+r.code, category:'Scheme catalogue', provider:'MFapi', holdingsPath:'/api/fund-overlap/scheme/'+r.code}));
     return {funds:funds.slice(offset,offset+20), nextOffset:offset+20<funds.length?offset+20:null, total:funds.length, catalogueCount:rows.length, warning:stale?'Fund catalogue refresh failed; saved catalogue shown. Retry shortly.':undefined};
   }
   async function metadata(code) {
@@ -81,12 +84,14 @@ function createNationalProvider({fetchImpl = fetch, now = () => Date.now(), cach
     if (Math.abs(equities.reduce((sum,h)=>sum+h.latest,0)-equity)>0.1) throw Error('Current holdings do not reconcile with the dated equity allocation');
     const holdings=[], unresolvedHoldings=[], identifiers=[];
     for(let start=0;start<equities.length;start+=4) {
-      await Promise.all(equities.slice(start,start+4).map(async h=>{
+      const batch = await Promise.allSettled(equities.slice(start,start+4).map(async h=>{
         if(!h.latest)return;
         if(!securityIdValid(h.sid)){unresolvedHoldings.push({name:h.title,weight:h.latest});return;}
         const stock=await tickerStock(h.sid);
         identifiers.push(stock);holdings.push({isin:stock.isin,name:h.title,sector:stock.sector,weight:h.latest});
       }));
+      const failed = batch.find(item => item.status === 'rejected');
+      if (failed) throw failed.reason;
     }
     const normalized=normalize(holdings);
     return {name:meta.scheme_name,amc:meta.fund_house,category:meta.scheme_category,portfolioDate,holdings:normalized.holdings,includedNavWeight:normalized.total,
@@ -96,7 +101,7 @@ function createNationalProvider({fetchImpl = fetch, now = () => Date.now(), cach
   }
   async function loadScheme(code) {
     const meta = await metadata(code); let source;
-    try {const row=await tickerFund(meta); if(row)source=await tickerSnapshot(meta,row);} catch { /* Independent secondary source below; never mix rows or dates. */ }
+    try {const row=await tickerFund(meta); if(row)source=await tickerSnapshot(meta,row);} catch (error) { if (error.code === 'FUND_CONTINUE') throw error; /* Independent secondary source below; never mix rows or dates. */ }
     if(!source) {
       const query=currentName(meta.scheme_name).replace(/\b(direct|regular|plan|growth|option|idcw|dividend|payout|reinvestment|reinvest)\b/gi,'').replace(/[^a-zA-Z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
       const rows=await groww.search(query);

@@ -23,3 +23,4 @@ infrastructure/cloudflare/dist/
 infrastructure/cloudflare/pages.json
 .wrangler/
 worker-configuration.d.ts
+infrastructure/cloudflare/fund-references.json

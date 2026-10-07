@@ -1,8 +1,14 @@
 # Fund Lens
 
+**Release status (2026-10-07):** Laptop-independent comparison is deployed on [Fund Lens](https://apps.sushantsynapse.com/fund-overlap). Live Chrome verified comparison without backend requests at mobile and desktop sizes.
+
 Fund Lens lives at `/fund-overlap` and in the platform catalogue. Anyone can open it without a platform login, including comparison share links. The interface focuses on public holdings overlap, industries, unique contributions and what-if fund combinations.
 
 ## Coverage and interpretation
+
+The older-name discovery and retry improvements described below are verified follow-up changes awaiting production rollout approval. Laptop-independent comparison itself is already live.
+
+The national catalogue includes historical schemes; a listing does not guarantee available holdings or establish that a scheme is active. Search matches words instead of unrelated substrings. Verified previous names for HDFC Top 100/200 and SBI Bluechip lead to their current catalogue families and display the former names. These discovery aliases do not relax holdings identity validation. References: [HDFC scheme document](https://portal.amfiindia.com/spages/873.pdf), [HDFC Top 200 change](https://files.hdfcfund.com/ImpDocs/2_HDFC_Top_200_Fund.pdf), [SBI factsheet](https://www.sbimf.com/docs/default-source/scheme-factsheets/sbi-blue-chip-fund-factsheet-august-2025.pdf?sfvrsn=d1496a6e_2). A source failure preserves completed public identifier checks for an explicit retry; it never produces an incomplete comparison.
 
 Fund Lens searches the free [MFapi catalogue](https://www.mfapi.in/) across Indian fund houses, including historical schemes. Search by name or AMFI code; Direct/Regular and Growth/IDCW variants are grouped by underlying family. Exact names rank first. Catalogue presence does not guarantee available holdings.
 
@@ -57,7 +63,9 @@ npm.cmd run test:e2e
 
 API/browser tests use isolated temporary SQLite databases. Public source fixtures under `tests/fixtures` are official July 2026 XLSX files; no user data is included. Golden totals guard omissions or accidental inclusion of debt. Browser tests cover the portal launch, anonymous access, selection, both bases, filters, minimum-two simulator, shared links, CSV, printing, missing-source retry, 320/768/1440px layouts, and light/dark/system preferences.
 
-No app database schema is needed: holdings are versioned public reference artifacts, not user business records. Shared auth/access/preferences remain in `data/chambers.sqlite`. Hosting uses the platform's current Windows Node process behind Cloudflare Tunnel. It requires the computer to remain running and connected; see `docs/DEPLOYMENT.md`.
+The public comparison runs on Cloudflare without the laptop backend. Search and holdings use the existing providers and validation; larger portfolios are verified in bounded requests before comparison. Public edge caches retain last-good references for up to 30 days but may be evicted earlier. Refresh timestamps and stale-source warnings remain visible. Official reference updates require a frontend redeployment. Internet and source availability are still required for uncached funds.
+
+Shared auth/access/preferences and preserved private portfolio/watchlist records remain in `data/chambers.sqlite`; those legacy private APIs still require the Windows backend. No business data is migrated. See `docs/DEPLOYMENT.md` for release verification.
 ## Scope cleanup (2026-09-26)
 
 Removed the personal transaction/import interface, performance/risk/rolling-return panels, SIP simulator, saved-watchlist panel and amount-based exposure calculator from the served app. The public comparison retains search, 2?8 funds, overlap, holdings/industry views, what-if combinations, source provenance, share links, holdings report export and printing.

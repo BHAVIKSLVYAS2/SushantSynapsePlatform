@@ -4,6 +4,18 @@ Target: **https://apps.sushantsynapse.com**. The repository includes a Node/SQLi
 
 ## Cloudflare frontend (2026-10-01)
 
+### Current Fund Lens production release (2026-10-07)
+
+With explicit user authorization, version `eb1e6012-b39f-4dfc-9a32-20dd2b62e6f9` was deployed to `apps.sushantsynapse.com/*`. Fund Lens comparison and public source requests now operate independently of the Windows origin. Live Chrome verified HDFC/PPFAS comparison, no backend requests or page errors, and layouts at 320/768/1440px. Live holdings checks also passed HDFC Large Cap, SBI Large Cap and ICICI Prudential Value Fund. Two historical schemes correctly returned unavailable-holdings errors. The DIGITAL SAMAJ backend release below remains unchanged, with no restart, data migration, DNS change or paid subscription.
+
+Post-deployment investigation produced additional search/retry improvements. They passed 21 edge/provider tests and six browser workflows, but automatic approval review rejected their second production rollout pending separate explicit authorization. **The working tree therefore contains follow-up changes newer than production.** Approve that follow-up deployment before running `npm.cmd run deploy:frontend` again. The initial laptop-independent deployment is already live.
+
+### Earlier Fund Lens preparation checkpoint (2026-10-07; superseded above)
+
+Preview version `047d2548-98a0-43c3-b448-f15a64eceb81` serves Fund Lens without the Windows origin. Public reference snapshots are bundled into the Worker; national search and validated holdings use MFapi/Tickertape/Groww directly. The Free plan permits the implementation without subscription changes: each invocation makes at most 36 upstream requests, saves public verification progress and uses HTTP 202 continuation where needed. The per-client/location rate limiter remains 30 requests/minute. Cache retention is best effort, up to 30 days; holdings dates and stale warnings remain explicit. Private legacy APIs still require the Node backend.
+
+Twenty edge/provider tests, six app browser workflows and live preview Chrome verification passed. Run `node infrastructure/cloudflare/verify-funds.cjs https://sushant-synapse-frontend-preview.bhavik-slvyas.workers.dev` to repeat the real HDFC/PPFAS comparison with backend requests blocked. Production deployment was rejected by automatic approval review pending explicit user authorization. **The production Worker still uses the DIGITAL SAMAJ release below.** Once approved, run `npm.cmd run deploy:frontend`, then the same verification script with `https://apps.sushantsynapse.com`, and record the deployed version. No backend restart or data migration is needed.
+
 ### Current DIGITAL SAMAJ release (2026-10-07)
 
 The active backend is commit `9c658f5`, exported to `C:\Code\SushantSynapsePlatform\.publish\release-9c658f5`, using the original `data` directory and port 3001. Supervisor PID 17168 and Node PID 4932 were observed at release time; PIDs can change. Restart with `infrastructure/start-tunnel-host.ps1 -ReleaseRoot C:\Code\SushantSynapsePlatform\.publish\release-9c658f5` in a hidden PowerShell process. This supersedes the older backend restart paths below. The existing dedicated tunnel remains unchanged.

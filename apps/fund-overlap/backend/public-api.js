@@ -14,7 +14,7 @@ function createPublicApi({fetchImpl = fetch, delayMs = 250} = {}) {
       const start = Math.max(Date.now(), lastStart + delayMs); lastStart = start;
       if (start > Date.now()) await new Promise(resolve => setTimeout(resolve, start - Date.now()));
       if (Date.now() < cooldown) throw Error('Reference source rate limited. Retry shortly.');
-      const response = await fetchImpl(url, {redirect: 'error', signal: AbortSignal.timeout(20000), headers: {Accept: 'application/json', 'User-Agent': 'FundLens/2.0'}});
+      const response = await fetchImpl(url, {redirect: 'manual', signal: AbortSignal.timeout(20000), headers: {Accept: 'application/json', 'User-Agent': 'FundLens/2.0'}});
       if (response.status === 429) {cooldown = Date.now() + 60000; throw Error('Reference source rate limited. Retry shortly.');}
       if (!response.ok) throw Error('Reference source is temporarily unavailable');
       const chunks = []; let size = 0;

@@ -32,7 +32,8 @@
   window.fetch = async (input, options) => {
     const url = new URL(typeof input === 'string' || input instanceof URL ? input : input.url, location.href);
     const newsHandlesOutages = /^\/news\/?$/.test(location.pathname) && url.pathname.startsWith('/api/news/');
-    const backend = !newsHandlesOutages && url.origin === location.origin && (url.pathname.startsWith('/api/') || url.pathname === '/healthz');
+    const fundHandlesOutages = /^\/fund-overlap\/?$/.test(location.pathname) && url.pathname.startsWith('/api/fund-overlap/');
+    const backend = !newsHandlesOutages && !fundHandlesOutages && url.origin === location.origin && (url.pathname.startsWith('/api/') || url.pathname === '/healthz');
     try { const response = await nativeFetch(input, options); if (backend && response.status >= 500) show(); return response; }
     catch (error) { if (backend && error.name !== 'AbortError') show(); throw error; }
   };

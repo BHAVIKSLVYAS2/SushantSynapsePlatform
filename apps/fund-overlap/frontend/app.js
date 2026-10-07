@@ -19,9 +19,14 @@ const system = matchMedia('(prefers-color-scheme: dark)');
 function theme() {const value = $('#theme').value; SynapseTheme.write(value); document.documentElement.dataset.theme = value === 'system' ? (system.matches ? 'dark' : 'light') : value;}
 $('#theme').value = SynapseTheme.read(); theme(); $('#theme').addEventListener('change', theme); system.addEventListener('change', theme);
 function notice(message) {$('#notice').textContent = message; $('#notice').classList.add('show'); clearTimeout(notice.timer); notice.timer = setTimeout(() => $('#notice').classList.remove('show'), 5000);}
-async function jsonFetch(url) {
+async function jsonFetch(url, attempt = 0) {
   const response = await fetch(url);
   const data = await response.json();
+  if (response.status === 202 && data.code === 'FUND_CONTINUE') {
+    if (attempt >= 15) throw Error('Holdings verification is taking longer than expected. Please retry shortly.');
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    return jsonFetch(url, attempt + 1);
+  }
   if (!response.ok) {const error = Error(data.error || 'Unable to load disclosure data'); error.status = response.status; throw error;}
   return data;
 }
@@ -60,7 +65,7 @@ async function searchLibrary(offset = 0) {
     for (const fund of data.funds) if (!index.funds.some(f => f.id === fund.id)) index.funds.push(fund);
     const combined = offset ? [...(searchFunds || []), ...data.funds] : data.funds;
     searchFunds = [...new Map(combined.map(f => [f.id, index.funds.find(entry => entry.id === f.id)])).values()];
-    nextOffset = data.nextOffset; searchFailed = !!data.warning; searchMessage = data.warning || (searchFunds.length + ' of ' + (data.total ?? searchFunds.length) + ' matching portfolios shown.');
+    nextOffset = data.nextOffset; searchFailed = !!data.warning; searchMessage = data.warning || (searchFunds.length + ' of ' + (data.total ?? searchFunds.length) + ' matching portfolios shown. The catalogue includes historical schemes; a listing does not guarantee available equity holdings.');
   } catch (error) {if (version === searchVersion) {searchFailed = true; searchMessage = error.message + ' Try your search again.';}}
   finally {if (version === searchVersion) {searchPending = false; renderFunds();}}
 }
@@ -80,6 +85,11 @@ function renderFunds() {
   $('#clear').disabled = busy || !selected.length; $('#explore').disabled = busy;
   document.querySelectorAll('.fund-card').forEach((card, i) => {
     const fund = funds[i];
+    if (fund.previousNames?.length) {
+      const previous = document.createElement('p'); previous.className = 'subtext';
+      previous.textContent = 'Previously: ' + fund.previousNames.join(' / ');
+      card.querySelector('h3').after(previous);
+    }
     card.querySelector('p:last-of-type').textContent = (fund.portfolioDate ? dateLabel(fund.portfolioDate) + ' · ' + pct(fund.includedNavWeight) + ' NAV included · ' : '') + holdingsStatus(fund);
   });
   $('#fund-progress').innerHTML = selected.filter(id => loadStates.has(id)).map(id => {

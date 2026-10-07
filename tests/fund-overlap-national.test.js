@@ -22,7 +22,7 @@ function fixture() {
 function harness({data=fixture(),cacheDir,now=()=>Date.parse('2026-09-15'),offline=false,groww}={}) {
   const calls=[];
   const provider=createNationalProvider({cacheDir,now,delayMs:0,groww:groww||{search:async()=>[],snapshot:async()=>{throw Error('unavailable');}},fetchImpl:async(url,options)=>{
-    calls.push(url);assert.equal(options.redirect,'error');assert.equal(options.headers.Cookie,undefined);
+    calls.push(url);assert.equal(options.redirect,'manual');assert.equal(options.headers.Cookie,undefined);
     if(offline)throw Error('offline');
     if(url==='https://api.mfapi.in/mf')return Response.json([
       {schemeCode:118955,schemeName:data.meta.scheme_name},
@@ -30,6 +30,10 @@ function harness({data=fixture(),cacheDir,now=()=>Date.parse('2026-09-15'),offli
       {schemeCode:101763,schemeName:'HDFC Flexi Cap Fund - Regular Plan - IDCW Option'},
       {schemeCode:120596,schemeName:'ICICI Prudential Large & Mid Cap Fund Direct Growth'},
       {schemeCode:120586,schemeName:'ICICI Prudential Large Cap Fund Direct Growth'},
+      {schemeCode:119018,schemeName:'HDFC Large Cap Fund - Direct Plan - Growth Option'},
+      {schemeCode:119598,schemeName:'SBI Large Cap Fund - Direct Plan - Growth'},
+      {schemeCode:106806,schemeName:'HDFC FMP 181D OCTOBER 2007 RETAIL PLAN DIVIDEND PAYOUT OPTION'},
+      {schemeCode:123414,schemeName:'HDFC FMP 1001D August 2013 (1)-Direct Option-Growth Option'},
       ...Array.from({length:45},(_,i)=>({schemeCode:200000+i,schemeName:'Example '+String(i).padStart(2,'0')+' Fund Direct Growth'})),
     ]);
     if(url.includes('/mf/118955/latest'))return Response.json({status:'SUCCESS',meta:data.meta});
@@ -55,6 +59,21 @@ test('national catalogue searches words/codes, groups plans, and paginates witho
   assert.equal(new Set(pages.flatMap(p=>p.funds.map(f=>f.id))).size,45);
   assert.notEqual(familyName('Example Large Cap Fund'),familyName('Example Mid Cap Fund'));
   assert.equal(familyName('ICICI Prudential Large Cap Fund (erstwhile Bluechip Fund) - Direct Plan - Growth'),familyName('ICICI Prudential Large Cap Fund'));
+});
+
+test('old names discover verified current families without unrelated historical substring matches', async () => {
+  const {provider} = harness();
+  for (const query of ['HDFC Top 100', 'HDFC Top 200']) {
+    const page = await provider.search(query);
+    assert.deepEqual(page.funds.map(f => f.id), ['amfi-119018']);
+    assert.ok(page.funds[0].previousNames.includes('HDFC Top 200 Fund'));
+  }
+  assert.equal((await provider.search('SBI Bluechip')).funds[0].id, 'amfi-119598');
+  assert.equal((await provider.search('SBI blue chip')).funds[0].id, 'amfi-119598');
+  assert.equal((await provider.search('HDFC October 2007')).funds[0].id, 'amfi-106806');
+  assert.equal((await provider.search('HDFC 100')).funds.length, 1);
+  assert.equal((await provider.search('123414')).funds[0].id, 'amfi-123414');
+  assert.notEqual(familyName('SBI Bluechip Fund'), familyName('SBI Large Cap Fund'));
 });
 
 test('free holdings adapter reconciles dated totals, verifies ISINs, excludes cash and coalesces requests',async()=>{
