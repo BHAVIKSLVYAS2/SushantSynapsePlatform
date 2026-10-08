@@ -4,6 +4,14 @@ Target: **https://apps.sushantsynapse.com**. The repository includes a Node/SQLi
 
 ## Cloudflare frontend (2026-10-01)
 
+### Current News satire release (2026-10-08)
+
+Implementation commit `ccc3b3c` is deployed to Cloudflare production version `d0ed2d0f-fee6-44a5-9d92-0eed03ee421f`. It retains the previously released Fund Lens and DIGITAL SAMAJ changes. News adds headline-matched comic takes and **Try another take** for saved and temporary editions. Live assets match source; Chrome verified three distinct takes on an existing archive, original restoration, responsive layouts, dark theme and printing, with no page errors or writes.
+
+The active backend is now `C:\Code\SushantSynapsePlatform\.publish\release-ccc3b3c`, with all 216 files verified against the commit. Recovery uses `infrastructure/start-tunnel-host.ps1 -ReleaseRoot C:\Code\SushantSynapsePlatform\.publish\release-ccc3b3c` in a hidden PowerShell process after confirming the existing supervisor is stopped. Observed supervisor PID 12300 and Node PID 6976 may change. The original data directory, port 3001 and dedicated tunnel remain unchanged. This supersedes the backend release path in the historical DIGITAL SAMAJ section below.
+
+Backup `data/backups/pre-news-satire-1791468993344.sqlite` and post-release SQLite integrity are `ok`; all 47 table contents match and foreign-key checks are clean. All 106 Node checks are verified: 99 passed in the full run and seven Cloudflare checks passed on rerun after sandbox build-file permission failures. Nine News browser workflows also passed. No schema migration, new live edition or business record was created during deployment verification.
+
 ### Current Fund Lens production release (2026-10-07)
 
 **Current:** Implementation commit `4ef29b1`, Cloudflare production version `5e8ec018-4740-40ae-a7eb-1ec1ad080e17`. The user explicitly authorized committing and deploying the follow-up changes. Live HDFC Top 100/200, SBI Bluechip and historical FMP search checks passed, and served Fund Lens JavaScript matches the commit exactly. Live Chrome HDFC/PPFAS comparison passed at 320/768/1440px with zero backend requests or page errors. This supersedes the initial release and approval-pending history below. All source changes are committed; the following documentation checkpoint records the final verification. No backend restart, database change, DNS change or paid subscription was required.
