@@ -11,3 +11,5 @@ Download produces a lossless PNG. Share uses native file sharing when supported 
 All text/photo state is transient tab memory. Refresh clears the card. Only shared theme preference is persisted; no API, database, card history, cloud sync, runtime dependency or paid service is introduced. The public Cloudflare routes bypass the laptop origin; opening the hosted page requires internet. No service worker/offline install is added. Deployment status is recorded in docs/FUNCTIONALITY_LEDGER.md.
 
 Checks: `node --test tests/celebration-studio.test.js`; `npx.cmd playwright test apps/celebration-studio/tests`. Browser tests use isolated temporary DATA_DIRs and never touch live records.
+
+Release: deployed and verified on 2026-10-09 at https://apps.sushantsynapse.com/celebration-studio (implementation commit e9d6f84, Cloudflare version d8f75d87-87e7-4202-855b-fecfa93ccd5c). Live evidence is recorded in the platform functionality ledger. Native sharing was simulated during verification to avoid sending messages; receiving-app support varies by device.
