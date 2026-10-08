@@ -1,0 +1,3 @@
+# Pocket Pause
+
+Public /pocket-pause: 36 keyboard/touch bubbles with opt-in synthesized sound, a bounded canvas sand pad with keyboard ripple/clear actions, and an optional one-minute circle (four seconds in, six out; no holds). Users can stop any time; background tabs pause the circle. Reduced-motion mode uses text cues without scaling. No health promises, scores, streaks, automatic replays, API, user data, dependencies or saved sessions. Only shared theme preferences persist. Sand strokes are bounded at 150 strokes and 1000 points per stroke. Sound defaults off; no microphone or recorded media.

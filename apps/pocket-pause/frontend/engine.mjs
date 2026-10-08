@@ -1,0 +1,1 @@
+export function breathState(elapsed){if(!Number.isFinite(elapsed)||elapsed<0)throw new Error('Invalid elapsed time');if(elapsed>=60000)return {done:true,remaining:0,cue:'Your minute is yours.',expanded:false};const phase=elapsed%10000;return {done:false,remaining:Math.ceil((60000-elapsed)/1000),cue:phase<4000?'Gently breathe in':'Gently breathe out',expanded:phase<4000};}

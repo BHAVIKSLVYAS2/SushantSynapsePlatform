@@ -114,3 +114,7 @@ apps/celebration-studio/frontend owns /celebration-studio. renderer.mjs owns bou
 ## Team Mixer ownership
 
 apps/team-mixer/frontend owns /team-mixer. engine.mjs owns bounded Unicode name validation, rejection-sampled randomness, Fisher-Yates shuffles and balanced-size team allocation with randomized extra-member placement. export.mjs owns dynamically sized canvas cards with grapheme-aware full-name wrapping and local PNG downloads. app.js owns transient results, staggered/reduced-motion reveal, stale-result clearing, edit/export locks and explicit list/card sharing. No backend route, SQL schema, persistent participant state or external service is introduced. Only shared theme preferences persist. Both public page routes bypass Cloudflare origin health checks and all assets are allowlisted.
+
+## Pocket Pause ownership
+
+apps/pocket-pause owns the public page, transient bubble/canvas/audio state and pure elapsed-time circle engine. No backend, persistence or schema. Both page routes bypass Cloudflare origin health checks; no business data is written.
