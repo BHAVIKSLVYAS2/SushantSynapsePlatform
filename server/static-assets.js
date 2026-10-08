@@ -32,3 +32,7 @@ for(const file of ['app.js','engine.js','worker.js','export.js','style.css'])sta
 staticAssets['/daily-spark']='apps/daily-spark/frontend/index.html';
 staticAssets['/daily-spark/']='apps/daily-spark/frontend/index.html';
 for(const file of ['app.js','engine.mjs','style.css'])staticAssets['/daily-spark/'+file]='apps/daily-spark/frontend/'+file;
+
+staticAssets['/decision-wheel']='apps/decision-wheel/frontend/index.html';
+staticAssets['/decision-wheel/']='apps/decision-wheel/frontend/index.html';
+for(const file of ['app.js','engine.mjs','style.css'])staticAssets['/decision-wheel/'+file]='apps/decision-wheel/frontend/'+file;

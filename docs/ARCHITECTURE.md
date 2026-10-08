@@ -102,3 +102,7 @@ V1 is owner-only, represented by `ownerOnly` catalogue metadata and enforced by 
 ## Daily Spark ownership
 
 apps/daily-spark/frontend owns /daily-spark. engine.mjs supplies versioned deterministic IST puzzles, arithmetic and a bounded four-number solver. app.js owns transient tab state, hints and explicit sharing. No backend, schema, persistence or external provider is used. Shared theme preferences are the only browser persistence. Static assets are allowlisted and both page routes bypass origin health checks in Cloudflare. Shared daily links preserve the v1 puzzle seed by date.
+
+## Decision Wheel ownership
+
+apps/decision-wheel/frontend owns /decision-wheel. engine.mjs validates bounded unique options, uses rejection-sampled browser cryptographic randomness and calculates exact pointer landing angles. app.js owns SVG rendering, animation locks, transient recent picks, winner removal and explicit result sharing. No backend routes, schema or persistent game/business state are introduced. Shared theme preferences are the only stored browser data. Both public page routes bypass Cloudflare origin health checks and all assets are explicitly allowlisted.

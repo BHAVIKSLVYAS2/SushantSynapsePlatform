@@ -193,3 +193,7 @@ Production Worker version `f9030162-6f94-4ecb-aaee-7351d4540f25` contains the au
 ### Daily Spark production release (2026-10-09)
 
 Daily Spark is live at https://apps.sushantsynapse.com/daily-spark on Cloudflare Worker version c2d5110f-d5a4-4cd5-85d2-1d9947322849, from implementation commit 02be2c9. Both page routes are independent of the origin. Eight live asset/page comparisons and live Chrome solve/share/theme/responsive/backend-blocked checks passed; the no-JavaScript homepage includes the fifth card. Evidence: .publish/daily-spark-live-verification.json. No SQLite migration or backend restart was performed. The Node account catalogue remains on its previous release; public homepage discovery and puzzle access are live. Internet access and existing Worker quotas apply.
+
+### Decision Wheel pending release (2026-10-09)
+
+The new public /decision-wheel app is implemented and verified locally. Both page routes bypass origin health checks, and the existing Cloudflare build exports only allowlisted public frontend assets. Publish through the existing frontend release process; no app database migration or backend restart is needed for the hosted wheel. The shared Node account catalogue requires its own backend release to expose new catalogue metadata to signed-in users. Homepage, sign-in public links and outage links are included in the frontend changes. Internet access and existing Worker quotas apply. Decision Wheel has not been committed or deployed in this work session.
