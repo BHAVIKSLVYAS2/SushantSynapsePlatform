@@ -1,4 +1,4 @@
-# Platform engagement analysis — 2026-10-09
+# Platform engagement analysis ï¿½ 2026-10-09
 
 ## What the code shows
 
@@ -20,4 +20,4 @@ Internet is needed to open the hosted app. Once loaded, puzzle play needs no net
 
 ## Review after launch
 
-The app is implemented locally and has not been deployed in this session. After deployment, review visits to /daily-spark, repeat visitors, shared dated-link arrivals and visits to other apps through existing aggregate hosting analytics if available. Compare a baseline period with the same length after launch. No tracking service was added, and increased engagement remains unmeasured. Keep the app small until usage justifies more features.
+The app was deployed and verified on 2026-10-09 at https://apps.sushantsynapse.com/daily-spark. Review visits to /daily-spark, repeat visitors, shared dated-link arrivals and visits to other apps through existing aggregate hosting analytics if available. Compare a baseline period with the same length after launch. No tracking service was added, and increased engagement remains unmeasured. Keep the app small until usage justifies more features.

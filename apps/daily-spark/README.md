@@ -6,6 +6,6 @@ Undo, reset, hints, reveal and explicit Web Share/clipboard/manual-copy fallback
 
 Why this app: the catalogue is mostly task-driven. A fresh short daily challenge offers a repeat-visit reason, result sharing offers discovery, and links to Certificates/News offer onward exploration. Engagement improvement is unmeasured. After deployment, review aggregate visits, repeat visits and onward clicks using existing hosting analytics if available; no tracking integration was added.
 
-Configured for laptop-independent Cloudflare serving with internet access. No service worker/offline installation is included. This local release requires deployment before it is publicly available.
+Configured for laptop-independent Cloudflare serving with internet access. No service worker/offline installation is included. Deployed and verified on 2026-10-09 at https://apps.sushantsynapse.com/daily-spark; see the platform functionality ledger for version and evidence.
 
 Verification: `node --test tests/daily-spark.test.js`; `npx.cmd playwright test apps/daily-spark/tests`; Cloudflare outage routing is covered by `tests/cloudflare.test.js`. Tests use isolated temporary DATA_DIR values and do not touch live records.

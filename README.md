@@ -173,4 +173,4 @@ The hosted News app can prepare temporary editions on your device while the Wind
 
 ## Daily Spark
 
-Public /daily-spark is a free daily make-24 puzzle: a deterministic IST challenge, practice puzzles, undo, hints, solution reveal and spoiler-free sharing. Shared date links reopen the same puzzle. Progress is transient tab memory; there are no accounts, stored scores or leaderboard. It makes no API requests and is configured for the existing Cloudflare frontend while the laptop is off; the new release has not yet been deployed. See apps/daily-spark/README.md.
+Public /daily-spark is a free daily make-24 puzzle: a deterministic IST challenge, practice puzzles, undo, hints, solution reveal and spoiler-free sharing. Shared date links reopen the same puzzle. Progress is transient tab memory; there are no accounts, stored scores or leaderboard. It makes no API requests and is configured for the existing Cloudflare frontend while the laptop is off; the frontend release is live at https://apps.sushantsynapse.com/daily-spark. See apps/daily-spark/README.md.
