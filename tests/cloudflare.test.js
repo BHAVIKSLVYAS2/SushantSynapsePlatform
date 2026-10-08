@@ -4,6 +4,20 @@ const fs = require('node:fs');
 const path = require('node:path');
 let handle, exported;
 const base = 'https://apps.sushantsynapse.com';
+test('warm verified holdings do not rewrite the large progress envelope', async () => {
+  const {boundedProvider} = await import('../infrastructure/cloudflare/fund-sources.mjs');
+  const refs = JSON.parse(fs.readFileSync(path.join(__dirname, '../infrastructure/cloudflare/fund-references.json'), 'utf8'));
+  const fund = refs['/api/fund-overlap/fund-index.json'].funds[0];
+  const snapshot = {...refs[fund.holdingsPath], schemeId:'amfi-123456', unresolvedNavWeight:0};
+  let writes = 0, upstream = 0;
+  const entries = {'https://apps.sushantsynapse.com/_fund-cache/v1/scheme%3A123456':{value:snapshot,savedAt:Date.now()}};
+  const provider = await boundedProvider(new Request(base+'/api/fund-overlap/scheme/123456'), {
+    match:async()=>Response.json(entries), put:async()=>{writes++;}
+  }, async()=>{upstream++; throw Error('Should not fetch cached holdings');});
+  assert.equal((await provider.source.scheme('123456')).schemeId, 'amfi-123456');
+  await provider.save();
+  assert.equal(writes,0); assert.equal(upstream,0);
+});
 test('ten national searches reuse one catalogue without rewriting holdings progress', async () => {
   const {boundedProvider} = await import('../infrastructure/cloudflare/fund-sources.mjs');
   const names = ['Mirae Asset Large & Midcap', 'HDFC Flexi Cap', 'Parag Parikh Flexi Cap', 'SBI Large Cap', 'ICICI Prudential Large Cap', 'Axis Small Cap', 'Kotak Midcap', 'Nippon India Small Cap', 'Quant Flexi Cap', 'UTI Nifty 50'];

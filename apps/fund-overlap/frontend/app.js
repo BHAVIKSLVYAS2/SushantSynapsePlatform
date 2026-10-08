@@ -8,6 +8,8 @@ let index, selected = [], excluded = new Set(), snapshots = new Map(), result, q
 let searchFunds = null, searchMessage = '', searchPending = false, searchVersion = 0, searchTimer, nextOffset = null, searchFailed = false;
 let basis = 'equity', filter = 'common', holdingQuery = '', sort = 'repeated';
 const loadStates = new Map();
+const snapshotLoadedAt = new Map();
+let searchController;
 function holdingsStatus(f) {
   const state = loadStates.get(f.id), snapshot = snapshots.get(f.id);
   if (state?.error) return 'Could not load holdings';
@@ -24,8 +26,15 @@ async function jsonFetch(url, attempt = 0, options = {}) {
   const remaining = deadline - Date.now();
   if (remaining <= 0) throw Error('Holdings verification is taking longer than expected. Please retry shortly.');
   let response;
-  try { response = await fetch(url, {signal: AbortSignal.timeout(Math.min(45000, remaining))}); }
+  try { response = await fetch(url, {signal: options.signal ? AbortSignal.any([options.signal, AbortSignal.timeout(Math.min(45000, remaining))]) : AbortSignal.timeout(Math.min(45000, remaining))}); }
   catch (error) { if (error.name === 'TimeoutError') throw Error('The fund source took too long to respond. Please retry shortly.'); throw error; }
+  // Retry a transient public GET once, including HTML gateway failures. Never
+  // retry rate limits blindly or restart a successful verification batch.
+  if ([502, 503, 504].includes(response.status) && !options.transientRetry) {
+    await response.body?.cancel();
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    return jsonFetch(url, attempt, {...options, deadline, transientRetry:true});
+  }
   let data;
   try { data = await response.json(); }
   catch {
@@ -60,7 +69,7 @@ function screen() {
   $('.selection p').textContent = 'Choose 2–8 funds. Your selection stays while you search.';
   const progress = document.createElement('div'); progress.id = 'fund-progress'; progress.setAttribute('role', 'status');
   $('#load-error').before(progress);
-  $('#fund-search').oninput = e => {query = e.target.value; clearTimeout(searchTimer); searchVersion++; searchFunds = null; searchMessage = ''; searchFailed = false; nextOffset = null; searchPending = query.trim().length >= 2; renderFunds(); if (searchPending) searchTimer = setTimeout(() => searchLibrary(), 350);};
+  $('#fund-search').oninput = e => {query = e.target.value; clearTimeout(searchTimer); searchController?.abort(); searchVersion++; searchFunds = null; searchMessage = ''; searchFailed = false; nextOffset = null; searchPending = query.trim().length >= 2; renderFunds(); if (searchPending) searchTimer = setTimeout(() => searchLibrary(), 350);};
   $('#more-funds').onclick = () => searchLibrary(nextOffset);
   $('#retry-search').onclick = () => searchLibrary();
   $('#compare').onclick = () => compare(true);
@@ -70,9 +79,11 @@ function screen() {
 }
 async function searchLibrary(offset = 0) {
   const version = ++searchVersion, term = query.trim();
+  searchController?.abort();
+  const controller = searchController = new AbortController();
   searchPending = true; searchFailed = false; searchMessage = ''; renderFunds();
   try {
-    const data = await jsonFetch('/api/fund-overlap/search?q=' + encodeURIComponent(term) + '&offset=' + offset);
+    const data = await jsonFetch('/api/fund-overlap/search?q=' + encodeURIComponent(term) + '&offset=' + offset, 0, {signal:controller.signal});
     if (version !== searchVersion) return;
     for (const fund of data.funds) if (!index.funds.some(f => f.id === fund.id)) index.funds.push(fund);
     const combined = offset ? [...(searchFunds || []), ...data.funds] : data.funds;
@@ -117,9 +128,13 @@ async function compare(scroll = false) {
   if (busy || selected.length < 2) return;
   busy = true; $('#load-error').textContent = ''; renderFunds();
   try {
-    // Each comparison revalidates permissions, including when the immutable data is cached.
+    // Public snapshots can be reused briefly in this tab. In particular, retry
+    // only failed funds instead of repeating every successful verification.
     const outcomes = await Promise.allSettled(selected.map(async id => {
       const entry = index.funds.find(f => f.id === id);
+      if (snapshots.has(id) && Date.now() - (snapshotLoadedAt.get(id) || 0) < 300000) {
+        loadStates.set(id, {loading:false}); return;
+      }
       loadStates.set(id, {loading:true}); renderFunds();
       try {
       let data;
@@ -128,6 +143,7 @@ async function compare(scroll = false) {
       }});} catch (error) {throw Error(entry.name + ': ' + error.message);}
       if (data.schemeId !== id || entry.portfolioDate && !entry.provider && data.portfolioDate !== entry.portfolioDate) throw Error('Disclosure metadata mismatch. Reload the fund library.');
       FundOverlap.normalize(data.holdings); snapshots.set(id, data);
+      if (data.cacheStatus !== 'stale') snapshotLoadedAt.set(id, Date.now());
       Object.assign(entry, {name:data.name, amc:data.amc, category:data.category, portfolioDate:data.portfolioDate, includedNavWeight:data.includedNavWeight, holdingsCount:data.holdings.length});
       loadStates.set(id, {loading:false});
       } catch (error) {loadStates.set(id, {error:error.message}); throw error;}

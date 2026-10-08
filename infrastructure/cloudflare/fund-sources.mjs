@@ -33,7 +33,7 @@ export async function boundedProvider(request, cache = globalThis.caches?.defaul
     return {source: national.createNationalProvider({fetchImpl, referenceCache: edgeReferenceCache(cache), delayMs: 0}), save: async () => {}};
   }
   const key = 'https://apps.sushantsynapse.com/_fund-progress/v1/' + encodeURIComponent(path);
-  let entries = {};
+  let entries = {}, dirty = false;
   try { entries = await (await cache?.match(key))?.json() || {}; } catch { /* Cold cache. */ }
   // Keep progress as plain values. Response bodies are single-use streams;
   // cloning/re-reading them across nested cache loads can lose saved progress.
@@ -49,6 +49,7 @@ export async function boundedProvider(request, cache = globalThis.caches?.defaul
         const value = await load(); validate(value);
         if (previous?.value.portfolioDate && value.portfolioDate < previous.value.portfolioDate) throw Error('Portfolio date regressed');
         entries[key] = {value, savedAt:Date.now()};
+        dirty = true;
         return {value, stale:false};
       } catch (error) {if (previous) return {value:previous.value, stale:true}; throw error;}
     })().finally(() => pending.delete(name));
@@ -61,7 +62,10 @@ export async function boundedProvider(request, cache = globalThis.caches?.defaul
   };
   const source = national.createNationalProvider({fetchImpl: limitedFetch, referenceCache, groww: legacy.createProvider({fetchImpl: limitedFetch, referenceCache}), delayMs: 0});
   return {source, async save() {
-    if (cache) await cache.put(key, Response.json(entries, {headers: {'Cache-Control': 'public, max-age=2592000'}}));
+    if (cache && dirty) {
+      await cache.put(key, Response.json(entries, {headers: {'Cache-Control': 'public, max-age=2592000'}}));
+      dirty = false;
+    }
   }};
 }
 export async function fundSources(request, env, options = {}) {

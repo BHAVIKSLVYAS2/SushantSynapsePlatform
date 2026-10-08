@@ -3,6 +3,31 @@ const {test,expect}=require('@playwright/test');
 const {spawn}=require('node:child_process');
 const fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 let child,base,dir;
+test('transient gateway errors recover once without retrying rate limits', async ({page}) => {
+ await page.goto(base+'/fund-overlap');
+ let calls=0;
+ await page.route('**/api/fund-overlap/scheme/123456',route=>++calls===1 ? route.fulfill({status:503,contentType:'text/html',body:'Gateway unavailable'}) : route.fulfill({json:{schemeId:'amfi-123456'}}));
+ expect(await page.evaluate(()=>jsonFetch('/api/fund-overlap/scheme/123456'))).toEqual({schemeId:'amfi-123456'});
+ expect(calls).toBe(2);
+ calls=0;
+ await page.route('**/api/fund-overlap/scheme/123457',route=>{calls++;return route.fulfill({status:429,json:{error:'Retry in a minute'}});});
+ await expect(page.evaluate(()=>jsonFetch('/api/fund-overlap/scheme/123457'))).rejects.toThrow('Retry in a minute');
+ expect(calls).toBe(1);
+});
+test('comparison retry reuses successful funds when one source fails', async ({page}) => {
+ await page.goto(base+'/fund-overlap');
+ let good=0,bad=0,recovered=false;
+ await page.route('**/api/fund-overlap/holdings/ppfas-flexi-cap/*.json',async route=>{good++;await route.continue();});
+ await page.route('**/api/fund-overlap/holdings/ppfas-elss/*.json',async route=>{bad++;if(recovered)await route.continue();else await route.fulfill({status:503,json:{error:'Source unavailable'}});});
+ await page.getByRole('button',{name:'Add Parag Parikh Flexi Cap Fund',exact:true}).click();
+ await page.getByRole('button',{name:'Add Parag Parikh ELSS Tax Saver Fund',exact:true}).click();
+ await page.locator('#compare').click();
+ await expect(page.locator('#load-error')).toContainText('Source unavailable');
+ recovered=true;
+ await page.locator('#compare').click();
+ await expect(page.getByRole('heading',{name:'Your funds, under the lens.'})).toBeVisible();
+ expect(good).toBe(1);expect(bad).toBe(3);
+});
 test('HTML search failures and rate limits recover on retry and retain selection', async ({page}) => {
  await page.goto(base+'/fund-overlap');
  await page.getByRole('button',{name:'Add Parag Parikh Flexi Cap Fund',exact:true}).click();
