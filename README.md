@@ -28,7 +28,7 @@ This is an npm workspace monorepo. See [code ownership and adding apps](docs/ARC
 
 A mobile-first home for connected apps at **apps.sushantsynapse.com**. Chambers, Fund Lens and News are available; Projects, Finance and Knowledge are roadmap previews only.
 
-- `/`: seven no-login tools (Celebration Studio, Decision Wheel, Daily Spark, Timetable Lite, certificates, Fund Lens and News), followed by a separate sign-in section for Chambers, Tournament Lite organizing and owner-only BatchFee Lite. Tournament results are public only through an organizer-shared link. Sign-in also opens the account catalogue, favourites, recent launches, profile and owner-managed app access.
+- `/`: eight no-login tools (Team Mixer, Celebration Studio, Decision Wheel, Daily Spark, Timetable Lite, certificates, Fund Lens and News), followed by a separate sign-in section for Chambers, Tournament Lite organizing and owner-only BatchFee Lite. Tournament results are public only through an organizer-shared link. Sign-in also opens the account catalogue, favourites, recent launches, profile and owner-managed app access.
 - `/advocate`: the complete Chambers workspace described below, using the same account and theme.
 - `/news` (no login required): **Sushant Synapse Times**, by **Bhavik**. Generate present or past editions with ten dated stories across available topics, including Masala entertainment, short credited excerpts and a fictional three-panel comic. Future dates are rejected. SQLite archives reopen without fetching. Historical availability depends on source coverage. See [News usage and source scope](apps/news/README.md). Automatic 05:00 publication remains deferred.
 - `/fund-overlap` (no login required): Fund Lens compares mutual fund equity holdings, industry exposure and unique contributions using national MFapi discovery, Tickertape/Groww holdings and official PPFAS reference snapshots. See [coverage, methodology and refresh instructions](apps/fund-overlap/README.md).
@@ -182,3 +182,7 @@ Public /daily-spark is a free daily make-24 puzzle: a deterministic IST challeng
 ## Celebration Studio
 
 /celebration-studio creates invitations, greetings and fun posters in English or Hindi. Six occasions, four designs, six colour palettes, optional local photos, square/vertical PNG downloads and explicit phone file sharing are included. Preview and export share one renderer; overflow disables export until wording fits. Text and photos stay in the current tab; refresh clears them. No login, saved history, upload or API is required. Live at https://apps.sushantsynapse.com/celebration-studio through laptop-independent Cloudflare hosting. See apps/celebration-studio/README.md and the functionality ledger for verification evidence.
+
+## Team Mixer
+
+/team-mixer randomly assigns 2-100 names to 2-20 teams with sizes differing by at most one person. Animated reveal, reduced motion, PNG team-card downloads and explicit list/card sharing are included. It balances headcounts rather than skill. Names/results stay in the current tab; refresh clears custom changes. No login, API or saved teams. Cloudflare laptop-independent serving is configured; see apps/team-mixer/README.md and the functionality ledger for release status.

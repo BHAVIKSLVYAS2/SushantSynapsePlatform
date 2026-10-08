@@ -110,3 +110,7 @@ apps/decision-wheel/frontend owns /decision-wheel. engine.mjs validates bounded 
 ## Celebration Studio ownership
 
 apps/celebration-studio/frontend owns /celebration-studio. renderer.mjs owns bounded field validation, English/Hindi starter copy, canvas geometry/text fitting, output sizes, design palettes and Unicode-safe filenames. app.js owns transient editor/photo state, version-guarded local image decoding/resizing, PNG download and explicit native file sharing with download fallback. No backend route, SQL schema, browser business-state persistence or external content provider is added. Only shared theme preferences persist. Both public page routes are independent of the Cloudflare origin health check; assets are explicitly allowlisted. Artwork is canvas-native rather than generated raster assets.
+
+## Team Mixer ownership
+
+apps/team-mixer/frontend owns /team-mixer. engine.mjs owns bounded Unicode name validation, rejection-sampled randomness, Fisher-Yates shuffles and balanced-size team allocation with randomized extra-member placement. export.mjs owns dynamically sized canvas cards with grapheme-aware full-name wrapping and local PNG downloads. app.js owns transient results, staggered/reduced-motion reveal, stale-result clearing, edit/export locks and explicit list/card sharing. No backend route, SQL schema, persistent participant state or external service is introduced. Only shared theme preferences persist. Both public page routes bypass Cloudflare origin health checks and all assets are allowlisted.

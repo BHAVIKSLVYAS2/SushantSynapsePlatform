@@ -40,3 +40,7 @@ for(const file of ['app.js','engine.mjs','style.css'])staticAssets['/decision-wh
 staticAssets['/celebration-studio']='apps/celebration-studio/frontend/index.html';
 staticAssets['/celebration-studio/']='apps/celebration-studio/frontend/index.html';
 for(const file of ['app.js','renderer.mjs','style.css'])staticAssets['/celebration-studio/'+file]='apps/celebration-studio/frontend/'+file;
+
+staticAssets['/team-mixer']='apps/team-mixer/frontend/index.html';
+staticAssets['/team-mixer/']='apps/team-mixer/frontend/index.html';
+for(const file of ['app.js','engine.mjs','export.mjs','style.css'])staticAssets['/team-mixer/'+file]='apps/team-mixer/frontend/'+file;
