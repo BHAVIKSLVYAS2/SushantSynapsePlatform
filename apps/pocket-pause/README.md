@@ -4,3 +4,6 @@ Public /pocket-pause: 36 keyboard/touch bubbles with opt-in synthesized sound, a
 
 
 Pocket Pause release (2026-10-09): https://apps.sushantsynapse.com/pocket-pause, implementation a1578dd, Cloudflare Worker a7e49cfd-5912-42bc-a670-ca2f8c10748c. Eight live asset comparisons and Chrome interaction checks passed; 120 local Node/API tests and eight browser workflows passed. No backend restart or database changes; authenticated catalogue metadata needs a later Node release. Evidence: .publish/pocket-pause-live-verification.json.
+
+
+Creative break room: Computer meltdown (8 hits), Retro TV tantrum (6 hits, four fictional channels), Crockery crash (six individually targeted plates) and Inbox shredder (five fixed fictional memos). Canvas props have persistent cracks/shards until explicit rebuilding; brief bounded fragment and shake animations obey reduced motion. Keyboard Space activates the next plate, and all scenes are touch-friendly. State is bounded, transient and kept per mode; completion disables the prop until an explicit rebuild. Sound control is shared across all modes and defaults off. No screenshots, real files, personal names or user content are accessed or deleted. scenes.mjs owns pure finite scene progression and token-coloured canvas drawing.

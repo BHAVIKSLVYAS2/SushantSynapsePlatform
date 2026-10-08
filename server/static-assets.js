@@ -1,5 +1,6 @@
 // Explicit URL allowlist. Filesystem paths are never accepted from requests.
 const staticAssets={
+ '/pocket-pause/scenes.mjs':'apps/pocket-pause/frontend/scenes.mjs',
  '/pocket-pause':'apps/pocket-pause/frontend/index.html',
  '/pocket-pause/':'apps/pocket-pause/frontend/index.html',
  '/pocket-pause/app.js':'apps/pocket-pause/frontend/app.js',

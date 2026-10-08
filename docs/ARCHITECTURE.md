@@ -118,3 +118,5 @@ apps/team-mixer/frontend owns /team-mixer. engine.mjs owns bounded Unicode name 
 ## Pocket Pause ownership
 
 apps/pocket-pause owns the public page, transient bubble/canvas/audio state and pure elapsed-time circle engine. No backend, persistence or schema. Both page routes bypass Cloudflare origin health checks; no business data is written.
+
+Pocket Pause scenes.mjs owns bounded fictional prop progression and canvas rendering for computer, TV, crockery and memo scenes. app.js owns per-tab states, explicit rebuilds, shared opt-in audio and bounded/reduced-motion fragment effects. No new service or persistence.

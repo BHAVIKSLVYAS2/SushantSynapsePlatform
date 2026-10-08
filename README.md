@@ -190,3 +190,5 @@ Public /daily-spark is a free daily make-24 puzzle: a deterministic IST challeng
 Team Mixer is live at https://apps.sushantsynapse.com/team-mixer (2026-10-09); production and local verification are recorded in the functionality ledger.
 
 Pocket Pause (/pocket-pause) adds a ninth free public tool: bubble popping, sand drawing and an optional one-minute circle. Sound is opt-in; activities and drawings stay in the tab.
+
+Pocket Pause now includes seven modes: Computer meltdown, Retro TV tantrum, Crockery crash, Inbox shredder, Bubble pop, Sand garden and Breathing circle. All props and office memos are fictional.
