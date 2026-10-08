@@ -11,7 +11,40 @@
     return;
   }
   const nativeFetch = window.fetch.bind(window);
+  function homeOffline() {
+    const workspace = document.querySelector('#workspace-apps');
+    if (!workspace) return;
+    workspace.querySelectorAll('.workspace-card').forEach(card => {
+      if (card.querySelector('.offline-ribbon')) return;
+      const ribbon = document.createElement('a');
+      ribbon.className = 'offline-ribbon'; ribbon.href = '#workspace-connection';
+      ribbon.textContent = 'Offline'; ribbon.setAttribute('aria-label', 'Offline — see why');
+      card.prepend(ribbon);
+    });
+    if (document.querySelector('#workspace-connection')) return;
+    const note = document.createElement('aside');
+    note.id = 'workspace-connection'; note.className = 'workspace-connection';
+    note.setAttribute('aria-labelledby', 'connection-title');
+    note.innerHTML = '<span class="connection-symbol" aria-hidden="true">☾</span><div><span class="eyebrow">A LITTLE BEHIND THE SCENES</span><h3 id="connection-title">The laptop is taking a nap.</h3><p>These workspaces run on my laptop, which is currently switched off or unreachable. An always-on Azure VM is beyond my budget for now. Thanks for being part of this little project :)</p><p class="connection-footnote">The free tools above are still ready to use. Private workspaces return when the laptop reconnects.</p><p data-connection-status role="status"></p></div><button type="button" data-check-connection>Check again</button>';
+    note.querySelector('[data-check-connection]').onclick = async event => {
+      const button = event.currentTarget; button.disabled = true; button.textContent = 'Checking…';
+      try {
+        const response = await nativeFetch('/healthz', {cache:'no-store', signal:AbortSignal.timeout(5000)});
+        if (!response.ok) throw Error('Offline');
+        workspace.querySelectorAll('.offline-ribbon').forEach(ribbon => ribbon.remove());
+        note.querySelector('#connection-title').textContent = 'The laptop is back online.';
+        note.querySelectorAll('p:not([data-connection-status])').forEach(p => p.remove());
+        note.querySelector('[data-connection-status]').textContent = 'Your private workspaces are ready. Sign in with your usual access.';
+        button.remove();
+      } catch {
+        note.querySelector('[data-connection-status]').textContent = 'Still offline. You can enjoy the free tools while it rests.';
+        button.textContent = 'Check again';
+      } finally {button.disabled = false;}
+    };
+    workspace.querySelector('.access-heading').after(note);
+  }
   function show() {
+    if (location.pathname === '/') {homeOffline(); return;}
     if (!document.body || document.body.hasAttribute('data-backend-unavailable') || document.querySelector('#backend-notice')) return;
     const banner = document.createElement('aside');
     banner.id = 'backend-notice'; banner.className = 'backend-notice'; banner.setAttribute('role', 'status');
