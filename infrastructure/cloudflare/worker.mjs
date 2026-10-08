@@ -1,7 +1,7 @@
 import {newsSources} from './news-sources.mjs';
 import {fundSources} from './fund-sources.mjs';
 import pages from './pages.json' with {type: 'json'};
-const independent = new Set(['/decision-wheel', '/decision-wheel/', '/daily-spark', '/daily-spark/', '/', '/fund-overlap', '/news', '/certificates', '/certificates/', '/timetable-lite', '/timetable-lite/']);
+const independent = new Set(['/celebration-studio', '/celebration-studio/', '/decision-wheel', '/decision-wheel/', '/daily-spark', '/daily-spark/', '/', '/fund-overlap', '/news', '/certificates', '/certificates/', '/timetable-lite', '/timetable-lite/']);
 const security = {
   'X-Synapse-Frontend': 'cloudflare',
   'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff',
@@ -9,7 +9,7 @@ const security = {
   'Content-Security-Policy': "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
 };
 function unavailable(method) {
-  return new Response(method === 'HEAD' ? null : JSON.stringify({error: 'The backend is currently unavailable. Please try again later. Fund Lens, News temporary editions, Certificates, Timetable Lite, Daily Spark and Decision Wheel remain available with an internet connection. Chambers, DIGITAL SAMAJ, Tournament Lite, BatchFee Lite and News saved editions need the server connection to return.', code: 'BACKEND_UNAVAILABLE'}), {
+  return new Response(method === 'HEAD' ? null : JSON.stringify({error: 'The backend is currently unavailable. Please try again later. Fund Lens, News temporary editions, Certificates, Timetable Lite, Daily Spark, Decision Wheel and Celebration Studio remain available with an internet connection. Chambers, DIGITAL SAMAJ, Tournament Lite, BatchFee Lite and News saved editions need the server connection to return.', code: 'BACKEND_UNAVAILABLE'}), {
     status: 503, headers: {...security, 'Content-Type': 'application/json; charset=utf-8', 'Retry-After': '30'},
   });
 }

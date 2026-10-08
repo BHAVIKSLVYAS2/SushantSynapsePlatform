@@ -36,3 +36,7 @@ for(const file of ['app.js','engine.mjs','style.css'])staticAssets['/daily-spark
 staticAssets['/decision-wheel']='apps/decision-wheel/frontend/index.html';
 staticAssets['/decision-wheel/']='apps/decision-wheel/frontend/index.html';
 for(const file of ['app.js','engine.mjs','style.css'])staticAssets['/decision-wheel/'+file]='apps/decision-wheel/frontend/'+file;
+
+staticAssets['/celebration-studio']='apps/celebration-studio/frontend/index.html';
+staticAssets['/celebration-studio/']='apps/celebration-studio/frontend/index.html';
+for(const file of ['app.js','renderer.mjs','style.css'])staticAssets['/celebration-studio/'+file]='apps/celebration-studio/frontend/'+file;

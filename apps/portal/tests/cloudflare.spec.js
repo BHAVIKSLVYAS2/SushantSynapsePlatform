@@ -32,11 +32,12 @@ test('offline home keeps public tools usable and every dependent app shows a res
   const errors = []; page.on('pageerror', error => errors.push(error.message));
   await page.setViewportSize({width: 320, height: 850});
   await page.goto(base);
-  await expect(page.locator('#free-apps .public-app')).toHaveCount(6);
+  await expect(page.locator('#free-apps .public-app')).toHaveCount(7);
   await expect(page.locator('#backend-notice')).toBeVisible();
   await page.locator('#free-apps a[href="/certificates"]').click();
   await expect(page.locator('#backend-notice')).toHaveCount(0);
   await expect(page.locator('canvas').first()).toBeVisible();
+  await page.goto(base + '/celebration-studio'); await expect(page.locator('#card')).toBeVisible(); await expect(page.locator('#download')).toBeEnabled(); await expect(page.locator('#backend-notice')).toHaveCount(0);
   await page.goto(base + '/decision-wheel'); await expect(page.locator('#spin')).toBeVisible(); await page.locator('#spin').click(); await expect(page.locator('#winner')).toBeVisible(); await expect(page.locator('#backend-notice')).toHaveCount(0);
   await page.goto(base + '/daily-spark'); await expect(page.locator('#numbers button')).toHaveCount(4); await expect(page.locator('#backend-notice')).toHaveCount(0);
   await page.goto(base + '/timetable-lite'); await expect(page.locator('#backend-notice')).toHaveCount(0);

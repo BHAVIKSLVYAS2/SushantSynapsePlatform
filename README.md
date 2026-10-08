@@ -28,7 +28,7 @@ This is an npm workspace monorepo. See [code ownership and adding apps](docs/ARC
 
 A mobile-first home for connected apps at **apps.sushantsynapse.com**. Chambers, Fund Lens and News are available; Projects, Finance and Knowledge are roadmap previews only.
 
-- `/`: six no-login tools (Decision Wheel, Daily Spark, Timetable Lite, certificates, Fund Lens and News), followed by a separate sign-in section for Chambers, Tournament Lite organizing and owner-only BatchFee Lite. Tournament results are public only through an organizer-shared link. Sign-in also opens the account catalogue, favourites, recent launches, profile and owner-managed app access.
+- `/`: seven no-login tools (Celebration Studio, Decision Wheel, Daily Spark, Timetable Lite, certificates, Fund Lens and News), followed by a separate sign-in section for Chambers, Tournament Lite organizing and owner-only BatchFee Lite. Tournament results are public only through an organizer-shared link. Sign-in also opens the account catalogue, favourites, recent launches, profile and owner-managed app access.
 - `/advocate`: the complete Chambers workspace described below, using the same account and theme.
 - `/news` (no login required): **Sushant Synapse Times**, by **Bhavik**. Generate present or past editions with ten dated stories across available topics, including Masala entertainment, short credited excerpts and a fictional three-panel comic. Future dates are rejected. SQLite archives reopen without fetching. Historical availability depends on source coverage. See [News usage and source scope](apps/news/README.md). Automatic 05:00 publication remains deferred.
 - `/fund-overlap` (no login required): Fund Lens compares mutual fund equity holdings, industry exposure and unique contributions using national MFapi discovery, Tickertape/Groww holdings and official PPFAS reference snapshots. See [coverage, methodology and refresh instructions](apps/fund-overlap/README.md).
@@ -178,3 +178,7 @@ Public /daily-spark is a free daily make-24 puzzle: a deterministic IST challeng
 ## Decision Wheel
 
 /decision-wheel is a free, public animated picker for lunch, tasks or names. Enter 2-30 unique options, spin, remove winners for picks without repeats and explicitly share a result. Equal-choice sampling, reduced motion and up to 20 tab-only recent picks are included. No account, API or saved lists; refresh clears your choices/history. Live at https://apps.sushantsynapse.com/decision-wheel through Cloudflare; the wheel works independently of the laptop backend. See apps/decision-wheel/README.md.
+
+## Celebration Studio
+
+/celebration-studio creates invitations, greetings and fun posters in English or Hindi. Six occasions, four designs, six colour palettes, optional local photos, square/vertical PNG downloads and explicit phone file sharing are included. Preview and export share one renderer; overflow disables export until wording fits. Text and photos stay in the current tab; refresh clears them. No login, saved history, upload or API is required. Laptop-independent Cloudflare serving is configured. See apps/celebration-studio/README.md and the functionality ledger for release status.

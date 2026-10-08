@@ -106,3 +106,7 @@ apps/daily-spark/frontend owns /daily-spark. engine.mjs supplies versioned deter
 ## Decision Wheel ownership
 
 apps/decision-wheel/frontend owns /decision-wheel. engine.mjs validates bounded unique options, uses rejection-sampled browser cryptographic randomness and calculates exact pointer landing angles. app.js owns SVG rendering, animation locks, transient recent picks, winner removal and explicit result sharing. No backend routes, schema or persistent game/business state are introduced. Shared theme preferences are the only stored browser data. Both public page routes bypass Cloudflare origin health checks and all assets are explicitly allowlisted.
+
+## Celebration Studio ownership
+
+apps/celebration-studio/frontend owns /celebration-studio. renderer.mjs owns bounded field validation, English/Hindi starter copy, canvas geometry/text fitting, output sizes, design palettes and Unicode-safe filenames. app.js owns transient editor/photo state, version-guarded local image decoding/resizing, PNG download and explicit native file sharing with download fallback. No backend route, SQL schema, browser business-state persistence or external content provider is added. Only shared theme preferences persist. Both public page routes are independent of the Cloudflare origin health check; assets are explicitly allowlisted. Artwork is canvas-native rather than generated raster assets.
