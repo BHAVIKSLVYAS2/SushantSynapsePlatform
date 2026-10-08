@@ -186,3 +186,5 @@ Public /daily-spark is a free daily make-24 puzzle: a deterministic IST challeng
 ## Team Mixer
 
 /team-mixer randomly assigns 2-100 names to 2-20 teams with sizes differing by at most one person. Animated reveal, reduced motion, PNG team-card downloads and explicit list/card sharing are included. It balances headcounts rather than skill. Names/results stay in the current tab; refresh clears custom changes. No login, API or saved teams. Cloudflare laptop-independent serving is configured; see apps/team-mixer/README.md and the functionality ledger for release status.
+
+Team Mixer is live at https://apps.sushantsynapse.com/team-mixer (2026-10-09); production and local verification are recorded in the functionality ledger.
