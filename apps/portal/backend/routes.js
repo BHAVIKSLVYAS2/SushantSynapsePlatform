@@ -1,11 +1,11 @@
-const {apps}=require('../../../packages/app-registry');
+const {apps,resolveAppId}=require('../../../packages/app-registry');
 const {fail,readBody}=require('../../../server/http');
 function createPortal({store,auth}){
 const {owner,hasAppAccess,validAppIds}=auth;
 return async function handle({route,method,req,json,user}){
     if(route==='platform'&&method==='GET'){
       const preferences=store.preferences(user.id),available=apps.filter(a=>a.status==='Available'&&(a.public||hasAppAccess(user,a.id)));
-      return json(200,{name:'Sushant Synapse Platform',domain:'apps.sushantsynapse.com',user:store.user(user.id),apps:apps.map(a=>({...a,accessible:a.status==='Available'&&(a.public||hasAppAccess(user,a.id))})),preferences:{favorites:preferences.favorites.filter(id=>available.some(a=>a.id===id)),recent:preferences.recent.filter(r=>available.some(a=>a.id===r.id))},team:user.role==='Owner'?store.users().map(u=>({...u,appIds:store.access(u.id)})):undefined});
+      return json(200,{name:'Sushant Synapse Platform',domain:'apps.sushantsynapse.com',user:store.user(user.id),apps:apps.map(a=>({...a,accessible:a.status==='Available'&&(a.public||hasAppAccess(user,a.id))})),preferences:{favorites:[...new Set(preferences.favorites.map(resolveAppId))].filter(id=>available.some(a=>a.id===id)),recent:preferences.recent.map(r=>({...r,id:resolveAppId(r.id)})).filter((r,i,all)=>all.findIndex(v=>v.id===r.id)===i&&available.some(a=>a.id===r.id))},team:user.role==='Owner'?store.users().map(u=>({...u,appIds:store.access(u.id)})):undefined});
     }
     if(route==='platform/preferences'&&method==='PATCH'){
       const input=await readBody(req),favorites=validAppIds(input.favorites);
@@ -13,7 +13,7 @@ return async function handle({route,method,req,json,user}){
       const preferences={...store.preferences(user.id),favorites};store.setPreferences(user.id,preferences);return json(200,preferences);
     }
     if(/^platform\/apps\/[^/]+\/launch$/.test(route)&&method==='POST'){
-      const app=apps.find(a=>a.id===route.split('/')[2]);if(!app||app.status!=='Available')fail(404,'This app is not available yet');
+      const app=apps.find(a=>a.id===resolveAppId(route.split('/')[2]));if(!app||app.status!=='Available')fail(404,'This app is not available yet');
       if(!app.public&&!hasAppAccess(user,app.id))fail(403,'Ask the platform owner for app access');
       const prefs=store.preferences(user.id);prefs.recent=[{id:app.id,at:new Date().toISOString()},...prefs.recent.filter(r=>r.id!==app.id)].slice(0,12);store.setPreferences(user.id,prefs);return json(200,{path:app.path});
     }

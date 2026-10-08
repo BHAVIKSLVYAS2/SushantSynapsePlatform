@@ -28,7 +28,7 @@ This is an npm workspace monorepo. See [code ownership and adding apps](docs/ARC
 
 A mobile-first home for connected apps at **apps.sushantsynapse.com**. Chambers, Fund Lens and News are available; Projects, Finance and Knowledge are roadmap previews only.
 
-- `/`: eight no-login tools (Team Mixer, Celebration Studio, Decision Wheel, Daily Spark, Timetable Lite, certificates, Fund Lens and News), followed by a separate sign-in section for Chambers, Tournament Lite organizing and owner-only BatchFee Lite. Tournament results are public only through an organizer-shared link. Sign-in also opens the account catalogue, favourites, recent launches, profile and owner-managed app access.
+- `/`: eight no-login tools (Pocket Pause, Team Mixer, Moment Studio, Decision Wheel, Daily Spark, Timetable Lite, Fund Lens and News), followed by a separate sign-in section for Chambers, Tournament Lite organizing and owner-only BatchFee Lite. Tournament results are public only through an organizer-shared link. Sign-in also opens the account catalogue, favourites, recent launches, profile and owner-managed app access.
 - `/advocate`: the complete Chambers workspace described below, using the same account and theme.
 - `/news` (no login required): **Sushant Synapse Times**, by **Bhavik**. Generate present or past editions with ten dated stories across available topics, including Masala entertainment, short credited excerpts and a fictional three-panel comic. Future dates are rejected. SQLite archives reopen without fetching. Historical availability depends on source coverage. See [News usage and source scope](apps/news/README.md). Automatic 05:00 publication remains deferred.
 - `/fund-overlap` (no login required): Fund Lens compares mutual fund equity holdings, industry exposure and unique contributions using national MFapi discovery, Tickertape/Groww holdings and official PPFAS reference snapshots. See [coverage, methodology and refresh instructions](apps/fund-overlap/README.md).
@@ -179,7 +179,7 @@ Public /daily-spark is a free daily make-24 puzzle: a deterministic IST challeng
 
 /decision-wheel is a free, public animated picker for lunch, tasks or names. Enter 2-30 unique options, spin, remove winners for picks without repeats and explicitly share a result. Equal-choice sampling, reduced motion and up to 20 tab-only recent picks are included. No account, API or saved lists; refresh clears your choices/history. Live at https://apps.sushantsynapse.com/decision-wheel through Cloudflare; the wheel works independently of the laptop backend. See apps/decision-wheel/README.md.
 
-## Celebration Studio
+## Celebration Studio (now in Moment Studio)
 
 /celebration-studio creates invitations, greetings and fun posters in English or Hindi. Six occasions, four designs, six colour palettes, optional local photos, square/vertical PNG downloads and explicit phone file sharing are included. Preview and export share one renderer; overflow disables export until wording fits. Text and photos stay in the current tab; refresh clears them. No login, saved history, upload or API is required. Live at https://apps.sushantsynapse.com/celebration-studio through laptop-independent Cloudflare hosting. See apps/celebration-studio/README.md and the functionality ledger for verification evidence.
 
@@ -192,3 +192,7 @@ Team Mixer is live at https://apps.sushantsynapse.com/team-mixer (2026-10-09); p
 Pocket Pause (/pocket-pause) adds a ninth free public tool: bubble popping, sand drawing and an optional one-minute circle. Sound is opt-in; activities and drawings stay in the tab.
 
 Pocket Pause now includes seven modes: Computer meltdown, Retro TV tantrum, Crockery crash, Inbox shredder, Bubble pop, Sand garden and Breathing circle. All props and office memos are fictional.
+
+## Moment Studio
+
+/moment-studio combines Certificates and Celebration Studio into one public app. Appreciation and fun awards, invitations, greetings, condolences and remembrance cards include the official Sushant Synapse logo/name on PNG, PDF and printed exports. Respectful editable condolence suggestions support English/Hindi with three tones and contexts; no external AI service. Legacy links and saved organisation branding remain usable. Paid watermark removal is a future feature, with no payment integration in this release.

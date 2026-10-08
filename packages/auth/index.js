@@ -1,6 +1,6 @@
 const {randomUUID,randomBytes,scryptSync,timingSafeEqual,createHash}=require('node:crypto');
 const {fail,readBody}=require('../../server/http');
-const {apps}=require('../app-registry');
+const {apps,resolveAppId}=require('../app-registry');
 function createAuth({store,secureCookie,initializeWorkspace}){
 const SESSION_TTL=12*60*60*1000;
 const hashToken=value=>createHash('sha256').update(value).digest('hex');
@@ -36,7 +36,7 @@ function session(req) {
 }
 function owner(user) { if (user.role !== 'Owner') fail(403, 'Only the chamber owner can perform this action'); }
 function hasAppAccess(user, appId) { return user.role==='Owner'||(!apps.find(a=>a.id===appId)?.ownerOnly&&store.access(user.id).includes(appId)); }
-function validAppIds(ids) { if(!Array.isArray(ids)||ids.some(id=>!apps.some(a=>a.id===id&&a.status==='Available'))||new Set(ids).size!==ids.length)fail(400,'Choose valid available apps');return ids; }
+function validAppIds(ids) { if(!Array.isArray(ids)||ids.some(id=>!apps.some(a=>a.id===resolveAppId(id)&&a.status==='Available'))||new Set(ids).size!==ids.length)fail(400,'Choose valid available apps');return [...new Set(ids.map(resolveAppId))]; }
 
 async function handle({route,method,req,res,json,user}){
     if(route==='auth/status'&&method==='GET')return json(200,{setupRequired:store.users().length===0,setupProtected:!!process.env.SETUP_TOKEN,user:user?{id:user.id,name:user.name,email:user.email,role:user.role}:null});

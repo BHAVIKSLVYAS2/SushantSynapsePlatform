@@ -97,6 +97,8 @@ V1 is owner-only, represented by `ownerOnly` catalogue metadata and enforced by 
 
 ## Certificate app ownership
 
+Current public implementation is under apps/moment-studio; /certificates and its assets are compatibility aliases. The original package source is retained as history.
+
 `apps/certificates/frontend` owns the public `/certificates` page. `app.js` manages transient form and image state; `renderer.js` defines template geometry and bounded text fitting; `export.js` writes a single A4 PDF and downloads. Both image formats and print reuse that renderer. No backend handler, schema or certificate persistence is needed. The user explicitly approved device/browser storage for reusable organisations on 2026-09-27. App-owned, validated localStorage stores up to 10 organisation names, reduced-size logos and positions on explicit save; recipient details and signatures remain transient. Future account-synced branding, history or verification must introduce app-owned authenticated routes and additive migrations rather than storing recipient data in shared preferences.
 
 ## Daily Spark ownership
@@ -109,6 +111,8 @@ apps/decision-wheel/frontend owns /decision-wheel. engine.mjs validates bounded 
 
 ## Celebration Studio ownership
 
+Current public implementation is under apps/moment-studio; /celebration-studio and its assets are compatibility aliases. The original package source is retained as history.
+
 apps/celebration-studio/frontend owns /celebration-studio. renderer.mjs owns bounded field validation, English/Hindi starter copy, canvas geometry/text fitting, output sizes, design palettes and Unicode-safe filenames. app.js owns transient editor/photo state, version-guarded local image decoding/resizing, PNG download and explicit native file sharing with download fallback. No backend route, SQL schema, browser business-state persistence or external content provider is added. Only shared theme preferences persist. Both public page routes are independent of the Cloudflare origin health check; assets are explicitly allowlisted. Artwork is canvas-native rather than generated raster assets.
 
 ## Team Mixer ownership
@@ -120,3 +124,7 @@ apps/team-mixer/frontend owns /team-mixer. engine.mjs owns bounded Unicode name 
 apps/pocket-pause owns the public page, transient bubble/canvas/audio state and pure elapsed-time circle engine. No backend, persistence or schema. Both page routes bypass Cloudflare origin health checks; no business data is written.
 
 Pocket Pause scenes.mjs owns bounded fictional prop progression and canvas rendering for computer, TV, crockery and memo scenes. app.js owns per-tab states, explicit rebuilds, shared opt-in audio and bounded/reduced-motion fragment effects. No new service or persistence.
+
+## Moment Studio ownership
+
+apps/moment-studio owns the combined public cards/certificates UI, both renderers, immutable platform branding and pure bilingual condolence suggestions. Legacy certificate/celebration pages and assets alias its implementations through the static allowlist. Old saved organisation branding uses its existing explicitly approved browser key. App registry aliases project legacy favourites/launches to moment-studio without database rewrites. No schema, payment service or removal entitlement exists; paid removal later requires trusted server exports.

@@ -32,9 +32,9 @@ test('offline home keeps public tools usable and every dependent app shows a res
   const errors = []; page.on('pageerror', error => errors.push(error.message));
   await page.setViewportSize({width: 320, height: 850});
   await page.goto(base);
-  await expect(page.locator('#free-apps .public-app')).toHaveCount(9);
+  await expect(page.locator('#free-apps .public-app')).toHaveCount(8);
   await expect(page.locator('#backend-notice')).toBeVisible();
-  await page.locator('#free-apps a[href="/certificates"]').click();
+  await page.goto(base + '/moment-studio/certificates');
   await expect(page.locator('#backend-notice')).toHaveCount(0);
   await expect(page.locator('canvas').first()).toBeVisible();
   await page.goto(base + '/pocket-pause'); await page.locator('.bubble').first().click(); await expect(page.locator('.bubble').first()).toHaveAttribute('aria-pressed','true'); await expect(page.locator('#backend-notice')).toHaveCount(0);
