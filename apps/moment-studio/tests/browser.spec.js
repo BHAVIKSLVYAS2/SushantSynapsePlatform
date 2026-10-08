@@ -1,5 +1,24 @@
 ﻿const {test,expect}=require('@playwright/test');const {spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');let child,base,dir;
 test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-celebration-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe']});await new Promise((resolve,reject)=>{let out='';const timer=setTimeout(()=>reject(Error('Startup timed out')),15000);child.stdout.on('data',chunk=>{out+=chunk;const match=out.match(/localhost:(\d+)/);if(match){base='http://127.0.0.1:'+match[1];clearTimeout(timer);resolve();}});child.once('error',reject);});});test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
+
+test('all studio sections are discoverable on mobile with exactly one current section',async({page})=>{
+ await page.setViewportSize({width:320,height:850});await page.goto(base+'/moment-studio');
+ const nav=page.getByRole('navigation',{name:'Moment Studio sections'});
+ for(const link of await nav.getByRole('link').all()){await expect(link).toBeVisible();const box=await link.boundingBox();expect(box.y+box.height).toBeLessThan(850);}
+ await expect(nav.locator('[aria-current=page]')).toHaveCount(1);
+ await expect(nav.locator('[aria-current=page]')).toHaveAttribute('data-studio-section','cards');
+ await nav.getByRole('link',{name:'Condolences & remembrance',exact:true}).click();
+ await expect(page.locator('#condolence-tools')).toBeVisible();
+ await expect(nav.locator('[aria-current=page]')).toHaveCount(1);
+ await expect(nav.locator('[aria-current=page]')).toHaveAttribute('data-studio-section','condolences');
+ await page.screenshot({path:'test-results/moment-navigation-mobile.png'});
+ await page.locator('#occasion').selectOption('birthday');
+ await expect(nav.locator('[aria-current=page]')).toHaveCount(1);
+ await expect(nav.locator('[aria-current=page]')).toHaveAttribute('data-studio-section','cards');
+ await nav.getByRole('link',{name:'Certificates & awards',exact:true}).click();
+ await expect(nav.locator('[aria-current=page]')).toHaveAttribute('data-studio-section','certificates');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});
 test('respectful bilingual generation, all branded card designs and real PNG export, merged navigation and private copying',async({page})=>{
 const api=[],errors=[];page.on('request',r=>{if(r.url().includes('/api/'))api.push(r.url());});page.on('pageerror',e=>errors.push(e.message));await page.route('**/api/**',r=>r.abort());await page.addInitScript(()=>Object.defineProperty(navigator,'clipboard',{value:undefined}));await page.goto(base+'/moment-studio?occasion=condolence');await expect(page).toHaveTitle(/Moment Studio/);await expect(page.locator('#occasion')).toHaveValue('condolence');await expect(page.getByRole('radio',{name:'Quiet remembrance',exact:true})).toBeChecked();await expect(page.locator('#palette')).toHaveValue('slate');
 for(const language of ['en','hi'])for(const tone of ['brief','warm','formal'])for(const connection of ['general','friend','colleague']){await page.locator('#language').selectOption(language);await page.locator('#message-tone').selectOption(tone);await page.locator('#connection').selectOption(connection);await page.locator('#generate-message').click();await expect(page.locator('#download')).toBeEnabled();}await page.locator('#copy-message').click();await expect(page.locator('#message-copy')).toHaveValue(/Sushant Synapse/);await expect(page.locator('#message-copy')).toHaveValue(/Moment Studio/);await page.locator('[name=name]').fill('आदरणीय अनन्या');
