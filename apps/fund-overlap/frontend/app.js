@@ -11,7 +11,7 @@ const loadStates = new Map();
 function holdingsStatus(f) {
   const state = loadStates.get(f.id), snapshot = snapshots.get(f.id);
   if (state?.error) return 'Could not load holdings';
-  if (state?.loading) return 'Loading holdings…';
+  if (state?.loading) return state.message || 'Loading holdings…';
   if (!snapshot) return f.portfolioDate ? 'Dated snapshot available' : 'Holdings not checked';
   return [snapshot.cacheStatus === 'stale' ? 'Saved data · refresh unavailable' : 'Holdings loaded', snapshot.unresolvedHoldings?.length ? 'Partial coverage' : '', snapshot.source.publisher].filter(Boolean).join(' · ');
 }
@@ -19,13 +19,25 @@ const system = matchMedia('(prefers-color-scheme: dark)');
 function theme() {const value = $('#theme').value; SynapseTheme.write(value); document.documentElement.dataset.theme = value === 'system' ? (system.matches ? 'dark' : 'light') : value;}
 $('#theme').value = SynapseTheme.read(); theme(); $('#theme').addEventListener('change', theme); system.addEventListener('change', theme);
 function notice(message) {$('#notice').textContent = message; $('#notice').classList.add('show'); clearTimeout(notice.timer); notice.timer = setTimeout(() => $('#notice').classList.remove('show'), 5000);}
-async function jsonFetch(url, attempt = 0) {
-  const response = await fetch(url);
-  const data = await response.json();
+async function jsonFetch(url, attempt = 0, options = {}) {
+  const deadline = options.deadline || Date.now() + 120000;
+  const remaining = deadline - Date.now();
+  if (remaining <= 0) throw Error('Holdings verification is taking longer than expected. Please retry shortly.');
+  let response;
+  try { response = await fetch(url, {signal: AbortSignal.timeout(Math.min(45000, remaining))}); }
+  catch (error) { if (error.name === 'TimeoutError') throw Error('The fund source took too long to respond. Please retry shortly.'); throw error; }
+  let data;
+  try { data = await response.json(); }
+  catch {
+    const error = Error(response.status === 429 ? 'Fund data is busy. Please retry in a minute.' : 'Fund data service returned an unavailable or invalid response. Please retry shortly.');
+    error.status = response.status;
+    throw error;
+  }
   if (response.status === 202 && data.code === 'FUND_CONTINUE') {
     if (attempt >= 15) throw Error('Holdings verification is taking longer than expected. Please retry shortly.');
+    options.onProgress?.(attempt + 1);
     await new Promise(resolve => setTimeout(resolve, 1000));
-    return jsonFetch(url, attempt + 1);
+    return jsonFetch(url, attempt + 1, {...options, deadline});
   }
   if (!response.ok) {const error = Error(data.error || 'Unable to load disclosure data'); error.status = response.status; throw error;}
   return data;
@@ -111,7 +123,9 @@ async function compare(scroll = false) {
       loadStates.set(id, {loading:true}); renderFunds();
       try {
       let data;
-      try {data = await jsonFetch(entry.holdingsPath);} catch (error) {throw Error(entry.name + ': ' + error.message);}
+      try {data = await jsonFetch(entry.holdingsPath, 0, {onProgress: round => {
+        loadStates.set(id, {loading:true, message:'Verifying holdings · batch ' + (round + 1) + '. Completed checks are saved for retry.'}); renderFunds();
+      }});} catch (error) {throw Error(entry.name + ': ' + error.message);}
       if (data.schemeId !== id || entry.portfolioDate && !entry.provider && data.portfolioDate !== entry.portfolioDate) throw Error('Disclosure metadata mismatch. Reload the fund library.');
       FundOverlap.normalize(data.holdings); snapshots.set(id, data);
       Object.assign(entry, {name:data.name, amc:data.amc, category:data.category, portfolioDate:data.portfolioDate, includedNavWeight:data.includedNavWeight, holdingsCount:data.holdings.length});

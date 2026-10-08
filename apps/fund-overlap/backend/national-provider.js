@@ -36,8 +36,18 @@ function createNationalProvider({fetchImpl = fetch, now = () => Date.now(), cach
     // Rank Direct Growth first within an exact family, while keeping code lookup exact.
     const formerNames = new Map(renamedFunds.map(f => [familyName(f.name), f.previousNames]));
     const aliases = row => formerNames.get(familyName(row.name)) || [];
-    const matches = rows.filter(r => r.code === term || [r.name, ...aliases(r)].some(name => matchesWords(name, words)));
-    const exact = row => familyName(row.name) === familyName(term);
+    const renamedMatches = renamedFunds.filter(f => f.previousNames.some(name => matchesWords(name, words)));
+    // Cheap necessary check before tokenizing thousands of unrelated schemes.
+    // Optional separators preserve joined queries such as "paragparikh".
+    const prefix = words.find(w => /^[a-z]+$/.test(w) && w !== 'and');
+    const prefilter = prefix && new RegExp([...prefix].join('[^a-z0-9]*'), 'i');
+    const matches = rows.filter(r => {
+      if (r.code === term) return true;
+      if ((!prefilter || prefilter.test(r.name)) && matchesWords(r.name, words)) return true;
+      return renamedMatches.some(f => r.name.toLowerCase().startsWith(f.name.split(' ')[0].toLowerCase()) && familyName(r.name) === familyName(f.name));
+    });
+    const termFamily = familyName(term);
+    const exact = row => familyName(row.name) === termFamily;
     const phrase = row => row.name.toLowerCase().replace(/[^a-z0-9]+/g,' ').includes(words.join(' '));
     matches.sort((a,b) => (b.code === term) - (a.code === term) || exact(b)-exact(a) || (/direct/i.test(b.name)*2 + /growth/i.test(b.name)) - (/direct/i.test(a.name)*2 + /growth/i.test(a.name)) || phrase(b)-phrase(a) || a.name.localeCompare(b.name) || a.code.localeCompare(b.code));
     const groups = new Map(); for (const row of matches) if (!groups.has(familyName(row.name))) groups.set(familyName(row.name), row);

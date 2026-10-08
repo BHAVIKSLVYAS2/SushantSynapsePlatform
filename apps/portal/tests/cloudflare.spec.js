@@ -9,7 +9,7 @@ test.beforeAll(async () => {
   const assetFetch = async request => {
     const name = new URL(request.url).pathname;
     if (!files.has(name)) return new Response('Not found', {status: 404});
-    const type = name.endsWith('.js') ? 'text/javascript' : name.endsWith('.css') ? 'text/css' : name.endsWith('.png') ? 'image/png' : name.endsWith('.webp') ? 'image/webp' : name.endsWith('.svg') ? 'image/svg+xml' : name.endsWith('.html') ? 'text/html' : 'application/json';
+    const type = (name.endsWith('.js') || name.endsWith('.mjs')) ? 'text/javascript' : name.endsWith('.css') ? 'text/css' : name.endsWith('.png') ? 'image/png' : name.endsWith('.webp') ? 'image/webp' : name.endsWith('.svg') ? 'image/svg+xml' : name.endsWith('.html') ? 'text/html' : 'application/json';
     return new Response(fs.readFileSync(path.join(output, name)), {headers: {'Content-Type': type}});
   };
   server = http.createServer(async (req, res) => {
@@ -32,17 +32,21 @@ test('offline home keeps public tools usable and every dependent app shows a res
   const errors = []; page.on('pageerror', error => errors.push(error.message));
   await page.setViewportSize({width: 320, height: 850});
   await page.goto(base);
-  await expect(page.locator('#free-apps .public-app')).toHaveCount(4);
+  await expect(page.locator('#free-apps .public-app')).toHaveCount(5);
   await expect(page.locator('#backend-notice')).toBeVisible();
   await page.locator('#free-apps a[href="/certificates"]').click();
   await expect(page.locator('#backend-notice')).toHaveCount(0);
   await expect(page.locator('canvas').first()).toBeVisible();
+  await page.goto(base + '/daily-spark'); await expect(page.locator('#numbers button')).toHaveCount(4); await expect(page.locator('#backend-notice')).toHaveCount(0);
   await page.goto(base + '/timetable-lite'); await expect(page.locator('#backend-notice')).toHaveCount(0);
   await page.goto(base + '/news'); await expect(page.locator('#newspaper')).toBeVisible();
   await expect(page.locator('#device-note')).toBeVisible(); await expect(page.locator('#backend-notice')).toHaveCount(0);
-  for (const route of ['/signin?next=advocate', '/advocate', '/fund-overlap', '/batchfee-lite', '/tournament-lite?share=abc']) {
+  await page.goto(base + '/fund-overlap'); await expect(page.locator('#fund-search')).toBeVisible();
+  for (const route of ['/signin?next=advocate', '/advocate', '/digital-samaj', '/batchfee-lite', '/tournament-lite?share=abc']) {
     const response = await page.goto(base + route); expect(response.status()).toBe(503);
     await expect(page.getByRole('heading', {name: 'This app is temporarily unavailable.'})).toBeVisible();
+    await expect(page.getByRole('link', {name: 'Fund Lens', exact: true})).toBeVisible();
+    await expect(page.getByRole('link', {name: 'News (temporary editions)', exact: true})).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.getByRole('button', {name: 'Dark mode', exact: true}).click();
   }

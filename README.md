@@ -28,7 +28,7 @@ This is an npm workspace monorepo. See [code ownership and adding apps](docs/ARC
 
 A mobile-first home for connected apps at **apps.sushantsynapse.com**. Chambers, Fund Lens and News are available; Projects, Finance and Knowledge are roadmap previews only.
 
-- `/`: four no-login tools (Timetable Lite, certificates, Fund Lens and News), followed by a separate sign-in section for Chambers, Tournament Lite organizing and owner-only BatchFee Lite. Tournament results are public only through an organizer-shared link. Sign-in also opens the account catalogue, favourites, recent launches, profile and owner-managed app access.
+- `/`: five no-login tools (Daily Spark, Timetable Lite, certificates, Fund Lens and News), followed by a separate sign-in section for Chambers, Tournament Lite organizing and owner-only BatchFee Lite. Tournament results are public only through an organizer-shared link. Sign-in also opens the account catalogue, favourites, recent launches, profile and owner-managed app access.
 - `/advocate`: the complete Chambers workspace described below, using the same account and theme.
 - `/news` (no login required): **Sushant Synapse Times**, by **Bhavik**. Generate present or past editions with ten dated stories across available topics, including Masala entertainment, short credited excerpts and a fictional three-panel comic. Future dates are rejected. SQLite archives reopen without fetching. Historical availability depends on source coverage. See [News usage and source scope](apps/news/README.md). Automatic 05:00 publication remains deferred.
 - `/fund-overlap` (no login required): Fund Lens compares mutual fund equity holdings, industry exposure and unique contributions using national MFapi discovery, Tickertape/Groww holdings and official PPFAS reference snapshots. See [coverage, methodology and refresh instructions](apps/fund-overlap/README.md).
@@ -170,3 +170,7 @@ Lossless PNG defaults to 7016 × 4961 pixels (600 DPI), with a smaller 3508 × 2
 ## News during backend outages
 
 The hosted News app can prepare temporary editions on your device while the Windows backend is unavailable. Cloudflare retrieves dated source metadata, using credited BBC News feeds when Indian Express archives are unavailable. Fresh generation still requires internet access; historical coverage depends on the sources. Temporary editions remain only in the current tab (up to 30), and Print / Save PDF keeps a copy. Reload to reconnect to shared SQLite archives. See [News details](apps/news/README.md).
+
+## Daily Spark
+
+Public /daily-spark is a free daily make-24 puzzle: a deterministic IST challenge, practice puzzles, undo, hints, solution reveal and spoiler-free sharing. Shared date links reopen the same puzzle. Progress is transient tab memory; there are no accounts, stored scores or leaderboard. It makes no API requests and is configured for the existing Cloudflare frontend while the laptop is off; the new release has not yet been deployed. See apps/daily-spark/README.md.

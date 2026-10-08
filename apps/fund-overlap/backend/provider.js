@@ -43,6 +43,7 @@ function createProvider({fetchImpl = fetch, now = () => Date.now(), referenceCac
   async function request(path) {
     return limited(async () => {
       const response = await fetchImpl(ORIGIN + path, {redirect: 'manual', signal: AbortSignal.timeout(15000), headers: {'Accept': 'application/json', 'User-Agent': 'FundLens/1.0'}});
+      if (response.status === 429) throw Error('Fund data source is rate limited. Please retry in a minute.');
       if (!response.ok) throw Error('Fund data source is temporarily unavailable');
       let size = 0; const chunks = [];
       for await (const chunk of response.body) {
@@ -51,7 +52,10 @@ function createProvider({fetchImpl = fetch, now = () => Date.now(), referenceCac
         chunks.push(Buffer.from(chunk));
       }
       const raw = Buffer.concat(chunks);
-      return {data: JSON.parse(raw.toString('utf8')), sha256: digest(raw)};
+      let data;
+      try { data = JSON.parse(raw.toString('utf8')); }
+      catch { throw Error('Fund data source returned an invalid response. Please retry shortly.'); }
+      return {data, sha256: digest(raw)};
     });
   }
   async function search(query, offset = 0) {

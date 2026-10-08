@@ -28,3 +28,7 @@ for(const file of ['app.js','i18n.js','style.css','print.css'])staticAssets['/di
 for(const file of ['app.js','export.js','style.css'])staticAssets['/tournament-lite/'+file]='apps/tournament-lite/frontend/'+file;
 for(const file of ['app.js','style.css'])staticAssets['/batchfee-lite/'+file]='apps/batchfee-lite/frontend/'+file;
 for(const file of ['app.js','engine.js','worker.js','export.js','style.css'])staticAssets['/timetable-lite/'+file]='apps/timetable-lite/frontend/'+file;
+
+staticAssets['/daily-spark']='apps/daily-spark/frontend/index.html';
+staticAssets['/daily-spark/']='apps/daily-spark/frontend/index.html';
+for(const file of ['app.js','engine.mjs','style.css'])staticAssets['/daily-spark/'+file]='apps/daily-spark/frontend/'+file;

@@ -26,11 +26,34 @@ export function edgeReferenceCache(cache, now = () => Date.now()) {
 // Partial verification is public reference work, never an incomplete comparison.
 export async function boundedProvider(request, cache = globalThis.caches?.default, fetchImpl = fetch) {
   const path = new URL(request.url).pathname;
+  // Search needs one catalogue read, not the holdings progress envelope. The
+  // envelope repeatedly parsed/stringified the entire national catalogue and
+  // rewrote it even on cache hits, exhausting the Worker's CPU budget.
+  if (path === '/api/fund-overlap/search') {
+    return {source: national.createNationalProvider({fetchImpl, referenceCache: edgeReferenceCache(cache), delayMs: 0}), save: async () => {}};
+  }
   const key = 'https://apps.sushantsynapse.com/_fund-progress/v1/' + encodeURIComponent(path);
   let entries = {};
   try { entries = await (await cache?.match(key))?.json() || {}; } catch { /* Cold cache. */ }
-  const local = new Map(Object.entries(entries).map(([k,v]) => [k, Response.json(v)]));
-  const referenceCache = edgeReferenceCache({match: async k => local.get(k)?.clone(), put: async (k,v) => {local.set(k,v);}});
+  // Keep progress as plain values. Response bodies are single-use streams;
+  // cloning/re-reading them across nested cache loads can lose saved progress.
+  const pending = new Map();
+  const referenceCache = {async get(name, ttl, load, validate = () => {}) {
+    if (pending.has(name)) return pending.get(name);
+    const task = (async () => {
+      const key = 'https://apps.sushantsynapse.com/_fund-cache/v1/' + encodeURIComponent(name);
+      let previous = entries[key];
+      try { if (previous) {validate(previous.value); if (!Number.isFinite(previous.savedAt) || previous.savedAt > Date.now()) previous = null;} } catch {previous = null;}
+      if (previous && Date.now() - previous.savedAt < ttl) return {value:previous.value, stale:false};
+      try {
+        const value = await load(); validate(value);
+        if (previous?.value.portfolioDate && value.portfolioDate < previous.value.portfolioDate) throw Error('Portfolio date regressed');
+        entries[key] = {value, savedAt:Date.now()};
+        return {value, stale:false};
+      } catch (error) {if (previous) return {value:previous.value, stale:true}; throw error;}
+    })().finally(() => pending.delete(name));
+    pending.set(name, task); return task;
+  }};
   let count = 0;
   const limitedFetch = (...args) => {
     if (++count > 36) {const error = Error('Continuing holdings verification'); error.code = 'FUND_CONTINUE'; throw error;}
@@ -38,9 +61,7 @@ export async function boundedProvider(request, cache = globalThis.caches?.defaul
   };
   const source = national.createNationalProvider({fetchImpl: limitedFetch, referenceCache, groww: legacy.createProvider({fetchImpl: limitedFetch, referenceCache}), delayMs: 0});
   return {source, async save() {
-    const saved = {};
-    for (const [k,v] of local) saved[k] = await v.clone().json();
-    if (cache) await cache.put(key, Response.json(saved, {headers: {'Cache-Control': 'public, max-age=2592000'}}));
+    if (cache) await cache.put(key, Response.json(entries, {headers: {'Cache-Control': 'public, max-age=2592000'}}));
   }};
 }
 export async function fundSources(request, env, options = {}) {

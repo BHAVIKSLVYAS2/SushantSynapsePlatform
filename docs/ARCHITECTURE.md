@@ -98,3 +98,7 @@ V1 is owner-only, represented by `ownerOnly` catalogue metadata and enforced by 
 ## Certificate app ownership
 
 `apps/certificates/frontend` owns the public `/certificates` page. `app.js` manages transient form and image state; `renderer.js` defines template geometry and bounded text fitting; `export.js` writes a single A4 PDF and downloads. Both image formats and print reuse that renderer. No backend handler, schema or certificate persistence is needed. The user explicitly approved device/browser storage for reusable organisations on 2026-09-27. App-owned, validated localStorage stores up to 10 organisation names, reduced-size logos and positions on explicit save; recipient details and signatures remain transient. Future account-synced branding, history or verification must introduce app-owned authenticated routes and additive migrations rather than storing recipient data in shared preferences.
+
+## Daily Spark ownership
+
+apps/daily-spark/frontend owns /daily-spark. engine.mjs supplies versioned deterministic IST puzzles, arithmetic and a bounded four-number solver. app.js owns transient tab state, hints and explicit sharing. No backend, schema, persistence or external provider is used. Shared theme preferences are the only browser persistence. Static assets are allowlisted and both page routes bypass origin health checks in Cloudflare. Shared daily links preserve the v1 puzzle seed by date.

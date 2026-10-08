@@ -3,6 +3,24 @@ const {test,expect}=require('@playwright/test');
 const {spawn}=require('node:child_process');
 const fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 let child,base,dir;
+test('HTML search failures and rate limits recover on retry and retain selection', async ({page}) => {
+ await page.goto(base+'/fund-overlap');
+ await page.getByRole('button',{name:'Add Parag Parikh Flexi Cap Fund',exact:true}).click();
+ let status=503;
+ await page.route('**/api/fund-overlap/search?**',route=>status===200 ? route.fulfill({json:{funds:[],nextOffset:null}}) : route.fulfill({status,contentType:'text/html',body:'<!DOCTYPE html><html>Unavailable</html>'}));
+ await page.locator('#fund-search').fill('mirae large and midcap');
+ await expect(page.locator('#search-status')).toContainText('Please retry shortly');
+ await expect(page.locator('#search-status')).not.toContainText('DOCTYPE');
+ await expect(page.locator('#selection-count')).toContainText('1 of 8');
+ status=429;
+ await page.locator('#retry-search').click();
+ await expect(page.locator('#search-status')).toContainText('retry in a minute');
+ status=200;
+ await page.locator('#retry-search').click();
+ await expect(page.locator('#retry-search')).toBeHidden();
+ await expect(page.locator('#search-status')).toContainText('matching portfolios shown');
+ await expect(page.locator('#selection-count')).toContainText('1 of 8');
+});
 test.beforeAll(async()=>{
  dir=fs.mkdtempSync(path.join(os.tmpdir(),'fund-lens-browser-'));
  child=spawn(process.execPath,['--require',path.join(__dirname,'fixtures/mock-nav.cjs'),'server/index.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir,NODE_ENV:'test',SETUP_TOKEN:''},stdio:['ignore','pipe','pipe']});
@@ -14,8 +32,10 @@ test('Cloudflare verification continues before returning a complete snapshot', a
  await page.goto(base+'/fund-overlap');
  let calls=0;
  await page.route('**/api/fund-overlap/scheme/123456',route=>route.fulfill({status:++calls===1?202:200,json:calls===1?{code:'FUND_CONTINUE'}:{schemeId:'amfi-123456',holdings:[]}}));
- const value=await page.evaluate(()=>jsonFetch('/api/fund-overlap/scheme/123456'));
+ const value=await page.evaluate(()=>{window.verificationRounds=[];return jsonFetch('/api/fund-overlap/scheme/123456',0,{onProgress:round=>window.verificationRounds.push(round)});});
  expect(value.schemeId).toBe('amfi-123456'); expect(calls).toBe(2);
+ expect(await page.evaluate(()=>window.verificationRounds)).toEqual([1]);
+ await expect(page.evaluate(()=>jsonFetch('/api/fund-overlap/scheme/123456',0,{deadline:Date.now()-1}))).rejects.toThrow('taking longer than expected');
 });
 
 test('Fund Lens: selection, analysis, simulation, share, export, themes and responsive layout',async({page,context})=>{

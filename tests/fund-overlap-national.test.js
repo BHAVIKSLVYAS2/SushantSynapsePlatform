@@ -6,6 +6,26 @@ const {createReferenceCache} = require('../apps/fund-overlap/backend/reference-c
 const {createPublicApi} = require('../apps/fund-overlap/backend/public-api');
 const {createFundOverlap} = require('../apps/fund-overlap/backend/routes');
 
+test('Mirae search recognizes and/ampersand without matching large-cap-only funds', () => {
+  const {matchesWords} = require('../apps/fund-overlap/backend/search-names');
+  for (const query of ['mirae large and midcap', 'mirae large & midcap', 'mirae large mid cap']) {
+    assert.equal(matchesWords('Mirae Asset Large & Midcap Fund - Direct Plan - Growth', query.split(/\s+/)), true);
+  }
+  assert.equal(matchesWords('Mirae Asset Large Cap Fund', 'mirae large and midcap'.split(' ')), false);
+});
+
+test('HTML provider responses are actionable and subsequent requests recover', async () => {
+  let calls = 0;
+  const api = createPublicApi({delayMs:0, fetchImpl:async () => ++calls === 1 ? new Response('<!DOCTYPE html>Unavailable') : Response.json({ok:true})});
+  await assert.rejects(api.request('https://api.mfapi.in/mf'), /Reference source returned an invalid response/);
+  assert.equal((await api.request('https://api.mfapi.in/mf')).data.ok, true);
+  const {createProvider} = require('../apps/fund-overlap/backend/provider');
+  calls = 0;
+  const provider = createProvider({fetchImpl:async () => ++calls === 1 ? new Response('<!DOCTYPE html>Unavailable') : Response.json({data:{content:[]}})});
+  await assert.rejects(provider.search('mirae'), /Fund data source returned an invalid response/);
+  assert.deepEqual(await provider.search('mirae'), []);
+});
+
 // Synthetic weights, using the independently observed public response schema.
 function fixture() {
   return {

@@ -23,7 +23,10 @@ function createPublicApi({fetchImpl = fetch, delayMs = 250} = {}) {
         chunks.push(Buffer.from(chunk));
       }
       const raw = Buffer.concat(chunks);
-      return {data: JSON.parse(raw.toString('utf8')), sha256: createHash('sha256').update(raw).digest('hex')};
+      let data;
+      try { data = JSON.parse(raw.toString('utf8')); }
+      catch { throw Error('Reference source returned an invalid response. Please retry shortly.'); }
+      return {data, sha256: createHash('sha256').update(raw).digest('hex')};
     } finally {const next = queue.shift(); if (next) next(); else active--;}
   }
   return {request};

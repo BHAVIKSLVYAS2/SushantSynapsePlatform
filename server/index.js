@@ -40,7 +40,7 @@ const server = http.createServer(async (req,res) => {
       const assets=staticAssets;
       const name=assets[url.pathname];if(!name){res.writeHead(404);return res.end('Not found');}
       if(req.method!=='GET'&&req.method!=='HEAD')fail(405,'Method not allowed');
-      res.setHeader('Content-Type',name.endsWith('.js')?'text/javascript; charset=utf-8':name.endsWith('.css')?'text/css; charset=utf-8':name.endsWith('.png')?'image/png':name.endsWith('.webp')?'image/webp':name.endsWith('.svg')?'image/svg+xml':name.endsWith('.webmanifest')?'application/manifest+json':'text/html; charset=utf-8');
+      res.setHeader('Content-Type',(name.endsWith('.js')||name.endsWith('.mjs'))?'text/javascript; charset=utf-8':name.endsWith('.css')?'text/css; charset=utf-8':name.endsWith('.png')?'image/png':name.endsWith('.webp')?'image/webp':name.endsWith('.svg')?'image/svg+xml':name.endsWith('.webmanifest')?'application/manifest+json':'text/html; charset=utf-8');
       res.setHeader('Cache-Control',name.endsWith('.html')?'no-store':'no-cache');return res.end(req.method==='HEAD'?undefined:fs.readFileSync(path.join(ROOT,name)));
     }
     const host = req.headers.host || '';

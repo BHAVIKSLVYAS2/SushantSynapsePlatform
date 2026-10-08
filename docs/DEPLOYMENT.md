@@ -186,3 +186,10 @@ This is one private platform workspace with shared staff identities, not multi-t
 Backups are not encrypted by the application, local snapshots have no automatic retention deletion, and no email/SMS/court-data providers are configured. User accounts are owner-provisioned; no public registration or email password reset exists. Login attempt limits are per account and connection source; add appropriate edge rate limiting for a public installation. Choose monitoring, external backups and host patching procedures before real client data is used.
 
 Docker and DNS deployment must be verified on the target host. This development environment's browser/API verification does not constitute a live deployment check.
+# Fund Lens search recovery release, 2026-10-08
+
+Production Worker version `f9030162-6f94-4ecb-aaee-7351d4540f25` contains the authorized search resource-use fix, Mirae `and`/`&` matching and HTML-response error handling. All ten real searches passed on preview version `60f7e111-b2d3-45db-be77-94ebaeade6bc`. Post-release production verification is pending because this machine's connections to the production hostname timed out before HTTP responses; preview remained reachable. The existing route, backend, SQLite database and subscription were unchanged. Run `node .publish/verify-fund-search-fix.cjs` to repeat ten production Chrome searches and asset/layout checks. See the latest functionality-ledger checkpoint for evidence and limitations.
+
+### Daily Spark pending release (2026-10-09)
+
+The new /daily-spark public app is locally implemented and verified, with both page routes independent of the origin. Rebuild/export and deploy the existing Cloudflare frontend to publish it; no SQLite migration or backend deployment is required for the hosted puzzle. Homepage and outage links are included in the same frontend release. Internet access and existing Worker quotas apply. Local implementation does not establish production availability.

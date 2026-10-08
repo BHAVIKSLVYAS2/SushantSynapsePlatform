@@ -4,6 +4,22 @@ const fs = require('node:fs');
 const path = require('node:path');
 let handle, exported;
 const base = 'https://apps.sushantsynapse.com';
+test('ten national searches reuse one catalogue without rewriting holdings progress', async () => {
+  const {boundedProvider} = await import('../infrastructure/cloudflare/fund-sources.mjs');
+  const names = ['Mirae Asset Large & Midcap', 'HDFC Flexi Cap', 'Parag Parikh Flexi Cap', 'SBI Large Cap', 'ICICI Prudential Large Cap', 'Axis Small Cap', 'Kotak Midcap', 'Nippon India Small Cap', 'Quant Flexi Cap', 'UTI Nifty 50'];
+  const queries = ['mirae large and midcap', 'hdfc flexi cap', 'paragparikh flexicap', 'sbi bluechip', 'icici prudential large cap', 'axis small cap', 'kotak midcap', 'nippon india small cap', 'quant flexi cap', 'uti nifty 50'];
+  const rows = names.map((name,i) => ({schemeCode:100000+i, schemeName:name+' Fund Direct Growth'}));
+  rows.push(...Array.from({length:38000}, (_,i) => ({schemeCode:200000+i, schemeName:'Historical Example '+i+' Fund Regular Growth'})));
+  const saved = new Map(); let reads=0, writes=0, upstream=0;
+  const cache = {match:async key => {reads++; return saved.get(key)?.clone();}, put:async(key,value) => {writes++; assert.ok(!key.includes('_fund-progress')); saved.set(key,value);}};
+  for (const [i, query] of queries.entries()) {
+    const provider = await boundedProvider(new Request(base+'/api/fund-overlap/search?q='+encodeURIComponent(query)), cache, async () => {upstream++; return Response.json(rows);});
+    const page = await provider.source.search(query);
+    assert.equal(page.funds[0]?.id, 'amfi-'+(100000+i));
+    await provider.save();
+  }
+  assert.equal(reads,10); assert.equal(writes,1); assert.equal(upstream,1);
+});
 before(async () => { exported = require('../infrastructure/cloudflare/build.cjs').build(); ({handle} = await import('../infrastructure/cloudflare/worker.mjs')); });
 const assets = {ASSETS: {fetch: async request => new Response(new URL(request.url).pathname, {headers: {'Content-Type': 'text/html'}})}};
 test('Cloudflare export contains only allowlisted frontend files and shared outage assets', () => {
@@ -15,7 +31,7 @@ test('Cloudflare export contains only allowlisted frontend files and shared outa
 test('independent tools load without origin calls; unavailable app routes return uncached useful HTML', async () => {
   let calls = 0;
   const down = async () => { calls++; throw Error('Disconnected'); };
-  for (const route of ['/', '/fund-overlap', '/fund-overlap/', '/news', '/news/', '/certificates', '/certificates/', '/timetable-lite']) {
+  for (const route of ['/daily-spark', '/daily-spark/', '/', '/fund-overlap', '/fund-overlap/', '/news', '/news/', '/certificates', '/certificates/', '/timetable-lite']) {
     const response = await handle(new Request(base + route), assets, down);
     assert.equal(response.status, 200); assert.notEqual(await response.text(), '/_pages/unavailable.html');
   }
@@ -95,7 +111,7 @@ test('large portfolios resume verified stock lookups across invocations within t
   const fixture = require('../apps/fund-overlap/tests/fixtures/groww-excerpt.json');
   const fund = structuredClone(fixture.fund);
   const equity = fund.holdings.find(h => h.instrument_name === 'Equity');
-  fund.holdings = Array.from({length: 80}, (_,i) => ({...equity, stock_search_id: 'stock-' + i, corpus_per: 1}));
+  fund.holdings = Array.from({length: 240}, (_,i) => ({...equity, stock_search_id: 'stock-' + i, corpus_per: 0.3}));
   const saved = new Map(); let calls = 0;
   const cache = {match: async k => saved.get(k)?.clone(), put: async (k,v) => saved.set(k,v)};
   const fetchImpl = async url => {
@@ -104,7 +120,7 @@ test('large portfolios resume verified stock lookups across invocations within t
     return Response.json({header: {searchId: url.split('/').at(-1), isin: 'INE090A01021'}});
   };
   let result, rounds = 0;
-  while (!result && rounds++ < 5) {
+  while (!result && rounds++ < 10) {
     calls = 0;
     const bounded = await boundedProvider(new Request(base + '/api/fund-overlap/remote/' + fund.search_id), cache, fetchImpl);
     try { result = await bounded.source.snapshot(fund.search_id); }
@@ -112,5 +128,5 @@ test('large portfolios resume verified stock lookups across invocations within t
     await bounded.save();
     assert.ok(calls <= 36);
   }
-  assert.ok(rounds > 1); assert.equal(result.includedNavWeight, 80);
+  assert.ok(rounds > 5); assert.ok(Math.abs(result.includedNavWeight - 72) < 0.00001);
 });

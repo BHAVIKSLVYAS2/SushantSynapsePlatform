@@ -4,9 +4,9 @@ const renamedFunds = [
   {name: 'SBI Large Cap Fund', previousNames: ['SBI Bluechip Fund'], sources: ['https://www.sbimf.com/docs/default-source/scheme-factsheets/sbi-blue-chip-fund-factsheet-august-2025.pdf?sfvrsn=d1496a6e_2']},
 ];
 function matchesWords(name, words) {
-  const tokens = name.toLowerCase().replace(/\bbluechip\b/g, 'blue chip').match(/[a-z0-9]+/g) || [];
+  const tokens = name.toLowerCase().replace(/&/g, ' and ').replace(/\b(large|mid|small|flexi|multi)cap\b/g, '$1 cap').replace(/\bbluechip\b/g, 'blue chip').match(/[a-z0-9]+/g) || [];
   return words.every(word => {
-    const term = word.replace(/[^a-z0-9]/g, '');
+    const term = word === '&' ? 'and' : word.replace(/[^a-z0-9]/g, '');
     if (!term) return true;
     if (/^\d+$/.test(term)) return tokens.includes(term);
     // Prefixes and joined words support "flexi"/"flexicap" without matching
