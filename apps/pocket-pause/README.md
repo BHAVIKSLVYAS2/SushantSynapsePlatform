@@ -1,5 +1,7 @@
 # Pocket Pause
 
+Colour quilt adds a fourth calm/creative interaction to the break collection: 25 tap/keyboard tiles, six labelled colours with distinct symbols, optional surprise patterns, undo and reset. Quilt state survives switching activities in the current tab and clears on refresh; undo history is bounded at 50 changes. The sand garden now supports undoing the last stroke and draws only each new segment during pointer movement instead of repainting all previous strokes. Eight activities total; existing seven activities retained after regression checks. Touch controls, keyboard alternatives and reduced-motion checks follow W3C WCAG 2.2 guidance; this is not a claim of full accessibility conformance or clinical benefit.
+
 Public /pocket-pause: 36 keyboard/touch bubbles with opt-in synthesized sound, a bounded canvas sand pad with keyboard ripple/clear actions, and an optional one-minute circle (four seconds in, six out; no holds). Users can stop any time; background tabs pause the circle. Reduced-motion mode uses text cues without scaling. No health promises, scores, streaks, automatic replays, API, user data, dependencies or saved sessions. Only shared theme preferences persist. Sand strokes are bounded at 150 strokes and 1000 points per stroke. Sound defaults off; no microphone or recorded media.
 
 
