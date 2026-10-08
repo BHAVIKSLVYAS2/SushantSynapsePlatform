@@ -210,3 +210,6 @@ Pocket Pause release (2026-10-09): https://apps.sushantsynapse.com/pocket-pause,
 
 
 Pocket Pause creative-scenes release (2026-10-09): implementation 2f24964, production Worker 2a50e9f2-65a2-4bdd-89a8-944c00bdf65d, https://apps.sushantsynapse.com/pocket-pause. Six assets uploaded; nine live source comparisons and creative-scene Chrome verification passed. Local: 121 Node/API tests and nine browser workflows passed across runs. Evidence: .publish/pocket-pause-v2-live-verification.json. No database writes or backend restart.
+
+
+Moment Studio merged release (2026-10-09): implementation f8a1a0a, production Worker a78d40c9-bc50-413c-b72e-c1f7b9fb2ba9, https://apps.sushantsynapse.com/moment-studio. Both legacy tools are aliases to its branded editors. Fifteen assets uploaded, 22 live source comparisons and Chrome export/navigation checks passed. Local final verification: 125 Node/API tests and 20 browser workflows passed across runs. Official platform logo/name appears on free PNG/PDF/print output. Payments and watermark-free entitlements are future work. Backend alias/projection code remains pending a Node release; the deployed portal adapter supports the current old catalogue without restarting the database-backed server. Evidence: .publish/moment-live-verification.json.
