@@ -2,6 +2,8 @@
 
 The most recent deployment IDs and verification are recorded at the top of `FUNCTIONALITY_LEDGER.md`. Release sections below are historical checkpoints, including sections originally labelled Current. Frontend and Node backend releases have separate versions. Do not select a recovery release from an old heading without checking the ledger and active supervisor configuration.
 
+Moment Studio refinement (2026-10-09): implementation `a1bb012` is live on production Cloudflare Worker `1084875b-0c13-4022-8f5d-f183b93a5044` at https://apps.sushantsynapse.com/moment-studio. Nine live page/asset comparisons and Chrome card/certificate export, Hindi, theme and responsive checks pass. Evidence: `.publish/moment-refined-live-verification.json`. Node release `.publish/release-610c90a`, tunnel and runtime SQLite remain unchanged.
+
 ## Digital Samaj form release (2026-10-09)
 
 Implementation `610c90a` is pushed to main. The active Node release is `C:\Code\SushantSynapsePlatform\.publish\release-610c90a`, with the original `data/chambers.sqlite` and port 3001. Cloudflare production version `babe3040-272d-436f-8b11-d047fb2777e7` serves the updated frontend. This supersedes the earlier active backend release paths below. The stopped host and dedicated connector were restored before this deployment; the unrelated Cloudflared service was left running.
