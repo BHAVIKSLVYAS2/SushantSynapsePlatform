@@ -45,7 +45,7 @@ test('Cloudflare export contains only allowlisted frontend files and shared outa
 test('independent tools load without origin calls; unavailable app routes return uncached useful HTML', async () => {
   let calls = 0;
   const down = async () => { calls++; throw Error('Disconnected'); };
-  for (const route of ['/support', '/support/', '/ritual-assist', '/ritual-assist/', '/take-a-break', '/take-a-break/', '/sponsor', '/sponsor/', '/moment-studio', '/moment-studio/', '/moment-studio/cards', '/moment-studio/certificates', '/moment-studio/certificates/', '/pocket-pause', '/pocket-pause/', '/team-mixer', '/team-mixer/', '/celebration-studio', '/celebration-studio/', '/decision-wheel', '/decision-wheel/', '/daily-spark', '/daily-spark/', '/', '/fund-overlap', '/fund-overlap/', '/news', '/news/', '/certificates', '/certificates/', '/timetable-lite']) {
+  for (const route of ['/showcase', '/showcase/', '/support', '/support/', '/ritual-assist', '/ritual-assist/', '/take-a-break', '/take-a-break/', '/sponsor', '/sponsor/', '/moment-studio', '/moment-studio/', '/moment-studio/cards', '/moment-studio/certificates', '/moment-studio/certificates/', '/pocket-pause', '/pocket-pause/', '/team-mixer', '/team-mixer/', '/celebration-studio', '/celebration-studio/', '/decision-wheel', '/decision-wheel/', '/daily-spark', '/daily-spark/', '/', '/fund-overlap', '/fund-overlap/', '/news', '/news/', '/certificates', '/certificates/', '/timetable-lite']) {
     const response = await handle(new Request(base + route), assets, down);
     assert.equal(response.status, 200); assert.notEqual(await response.text(), '/_pages/unavailable.html');
   }

@@ -1,5 +1,9 @@
 // Explicit URL allowlist. Filesystem paths are never accepted from requests.
 const staticAssets={
+ '/showcase':'apps/portal/frontend/showcase.html',
+ '/showcase/':'apps/portal/frontend/showcase.html',
+ '/showcase.js':'apps/portal/frontend/showcase.js',
+ '/showcase.css':'apps/portal/frontend/showcase.css',
  '/support':'apps/portal/frontend/support.html',
  '/support/':'apps/portal/frontend/support.html',
  '/support.js':'apps/portal/frontend/support.js',

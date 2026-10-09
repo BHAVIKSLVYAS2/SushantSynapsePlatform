@@ -48,6 +48,7 @@ test('offline home keeps public tools usable and every dependent app shows a res
   await expect(page.locator('.offline-ribbon')).toHaveCount(0);
   await expect(page.locator('#connection-title')).toContainText('back online');
   online = false;
+  const showcaseResponse=await page.goto(base+'/showcase?screen=1');expect(showcaseResponse.status()).toBe(200);await expect(page.locator('#scene-nav button')).toHaveCount(6);await expect(page.locator('#backend-notice')).toHaveCount(0);await expect(page.locator('#play')).toBeVisible();
   const supportResponse=await page.goto(base+'/support');expect(supportResponse.status()).toBe(200);await expect(page.locator('#availability')).toContainText('temporarily unavailable');await expect(page.locator('#payment')).toBeHidden();await expect(page.locator('#backend-notice')).toHaveCount(0);await expect(page.getByRole('link',{name:'Explore sponsorship'})).toBeVisible();
   await page.goto(base + '/moment-studio/certificates');
   await expect(page.locator('#backend-notice')).toHaveCount(0);
