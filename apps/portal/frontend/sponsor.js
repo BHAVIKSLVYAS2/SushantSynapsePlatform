@@ -1,0 +1,15 @@
+import {sponsorConfig} from '/sponsor-config.mjs';
+import {safeSponsorUrl,validateSponsorConfig} from '/shared/sponsorship-engine.mjs';
+const system=matchMedia('(prefers-color-scheme: dark)');
+function theme(value=SynapseTheme.read()){document.documentElement.dataset.theme=value==='system'?(system.matches?'dark':'light'):value;}
+theme();system.addEventListener('change',()=>theme());document.addEventListener('change',e=>{if(e.target.id==='theme')theme(e.target.value);});
+const form=document.querySelector('#sponsor-enquiry-form'),status=document.querySelector('#enquiry-status'),email=document.querySelector('#sponsor-email');
+form.hidden=false;
+let contact=null;try{validateSponsorConfig(sponsorConfig);contact=sponsorConfig.contact;}catch{}
+if(contact)document.querySelector('#contact-status').textContent='Enquiries: '+contact.value+'. Email enquiry opens a draft in your email app; you choose when to send it.';
+const brief='Sushant Synapse — sponsorship brief\n\nOne clearly labelled, dismissible text card per public page. No overlays, popups, autoplay, advertiser scripts or tracking pixels. No app controls, results, news coverage or exports are influenced.\n\nAvailable locations: public app catalogue, Team Mixer, Decision Wheel, Daily Spark, Timetable Lite, Sushant Synapse Times.\n\nPrivate workspaces, sign-in/search, Pocket Pause, Fund Lens and Moment Studio remain ad-free.\n\nCreative: business name (70 characters), headline (100), message (220), HTTPS website. Message and dates require review. Fixed fees and availability are agreed individually; no traffic/click/sales guarantees. No online payment or booking is taken here.\n\n'+(contact?'Enquiries: '+contact.value:'Public enquiry contact is not configured yet.');
+function download(name,text){const url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+document.querySelector('#download-kit').onclick=()=>download('sushant-synapse-sponsorship-brief.txt',brief);
+function draft(){const fields=Object.fromEntries(new FormData(form));return 'Sushant Synapse sponsorship enquiry\n\n'+Object.entries(fields).map(([key,value])=>key+': '+value).join('\n\n');}
+form.addEventListener('input',()=>{email.hidden=true;status.textContent='';});
+form.onsubmit=e=>{e.preventDefault();if(!safeSponsorUrl(form.elements.website.value)){status.textContent='Please use a valid HTTPS website address.';return;}const text=draft();download('sushant-synapse-sponsorship-enquiry.txt',text);status.textContent='Your enquiry draft was downloaded. Nothing has been sent.';if(contact){email.href='mailto:'+encodeURIComponent(contact.value)+'?subject='+encodeURIComponent('Sushant Synapse sponsorship enquiry')+'&body='+encodeURIComponent(text);email.hidden=false;}};

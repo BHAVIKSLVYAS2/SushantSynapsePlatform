@@ -2,6 +2,8 @@
 
 Fund Lens comparison is deployed on Cloudflare and works without the laptop backend. See [deployment status](docs/DEPLOYMENT.md).
 
+Quiet direct sponsorships are prepared for selected public pages: one labelled, dismissible text card outside the working controls, with no popups, autoplay, advertiser scripts or tracking pixels. Private workspaces and sensitive tools remain ad-free. `/sponsor` provides the partnership information, brief and local enquiry drafts; actual paid campaigns, enquiry contact and payments are not connected yet. See [the earning plan and publishing guide](docs/MONETIZATION.md).
+
 ## Repository structure
 
 **DIGITAL SAMAJ** is the integrated family registry at `/digital-samaj`: saved registration, verified directory, Vanshavali, private profiles/photos, bilingual print/PDF, CSV/XLSX import and member messaging. It uses the existing platform login and SQLite. The platform owner creates a Samaj and grants app roles; independent reviewers approve submissions and profile claims. See [DIGITAL SAMAJ setup and boundaries](apps/digital-samaj/README.md). Deployment verification is recorded in the functionality ledger.

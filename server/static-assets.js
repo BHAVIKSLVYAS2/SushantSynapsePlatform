@@ -51,6 +51,14 @@ const staticAssets={
  '/timetable-lite/':'apps/timetable-lite/frontend/index.html',
  '/shared/theme.js':'packages/ui/theme.js',
  '/shared/platform-header.css':'packages/ui/platform-header.css',
+ '/shared/sponsorship.js':'packages/ui/sponsorship.js',
+ '/shared/sponsorship-engine.mjs':'packages/ui/sponsorship-engine.mjs',
+ '/shared/sponsorship.css':'packages/ui/sponsorship.css',
+ '/sponsor':'apps/portal/frontend/sponsor.html',
+ '/sponsor/':'apps/portal/frontend/sponsor.html',
+ '/sponsor.js':'apps/portal/frontend/sponsor.js',
+ '/sponsor.css':'apps/portal/frontend/sponsor.css',
+ '/sponsor-config.mjs':'apps/portal/frontend/sponsor-config.mjs',
 };
 for(const file of ['platform.js','platform.css','manifest.webmanifest','logo-adaptive.png','logo-adaptive-192.png','logo-adaptive-512.png','logo-adaptive-uhd.png'])staticAssets['/'+file]='apps/portal/frontend/'+file;
 for(const file of ['app.js','style.css','icon.svg','advocate.webmanifest'])staticAssets['/'+file]='apps/advocate/frontend/'+file;
