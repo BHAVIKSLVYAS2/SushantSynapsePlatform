@@ -52,7 +52,7 @@ test('BBC feed fallback verifies dates, source links, deduplication, limits and 
   let calls=0;
   const fetchImpl=async(url,options)=>{calls++;assert.equal(options.redirect,'manual');return new URL(url).hostname==='indianexpress.com'?new Response(null,{status:403}):new Response(xml);};
   const response=await newsSources(new Request(base+'?date=2025-01-01'),{NEWS_LIMITER:{limit:async()=>({success:true})}},{fetchImpl});
-  assert.equal(response.status,200);const preview=await response.json();assert.equal(preview.stories.length,10);assert.equal(calls,9);
+  assert.equal(response.status,200);const preview=await response.json();assert.equal(preview.stories.length,10);assert.equal(calls,12);
   assert.ok(preview.stories.every(s=>s.provider==='BBC'&&s.source==='BBC News'&&!s.url.includes('?')));
   assert.match(engine.draftEdition(preview).stories[0].brief,/Source excerpt/);
 });

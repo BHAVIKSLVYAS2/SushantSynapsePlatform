@@ -81,6 +81,11 @@ if(!hasAppAccess(user,'advocate'))fail(403,'Chambers access is not enabled for y
       const f=store.file(id);if(!f)fail(404,'File not found');res.setHeader('Content-Type','application/octet-stream');res.setHeader('Cache-Control','no-store');res.setHeader('Content-Disposition',`attachment; filename*=UTF-8''${encodeURIComponent(f.name).replace(/'/g,'%27')}`);return res.end(Buffer.from(f.content));
     }
     canWrite(user,kind);
+    if(kind==='cases'&&action==='preparation'&&method==='POST'){
+      if(previous.archived)fail(400,'Restore the case before preparing it');const input=await readBody(req),templates={general:['Review the latest order and case papers','Confirm hearing details and client instructions','Prepare submissions and required document copies'],civil:['Review pleadings, issues and latest order','Check evidence and exhibit copies','Prepare submissions and confirm client instructions'],criminal:['Review charge, bail conditions and latest order','Check witness and evidence papers','Prepare submissions and confirm hearing attendance']};if(!Object.hasOwn(templates,input.template))fail(400,'Choose a preparation template');
+      const values=templates[input.template].map(title=>validate('tasks',{title,caseId:id,due:input.due,priority:'High',status:'To do',assigneeId:previous.assigneeId||'',notes:'Hearing preparation checklist. Review and adjust for this matter; dates are entered manually.'},null,(k,i)=>store.get(k,i)));
+      const tasks=store.transaction(()=>values.map((value,i)=>{const taskId=require('node:crypto').createHash('sha256').update(['hearing-prep',id,input.template,input.due,i].join(':')).digest('hex').slice(0,32);const existing=store.get('tasks',taskId);if(existing)return existing;const task=store.create('tasks',{...value,id:taskId});store.audit(user.name,'Created hearing preparation task','tasks',task);return task;}));return json(200,{tasks});
+    }
     if(kind==='hearings'&&action==='outcome'&&method==='POST'){
       const input=await readBody(req);previous=store.get(kind,id);
       if(input.version!==previous.version)fail(409,'This hearing changed. Reopen it before recording the outcome.');

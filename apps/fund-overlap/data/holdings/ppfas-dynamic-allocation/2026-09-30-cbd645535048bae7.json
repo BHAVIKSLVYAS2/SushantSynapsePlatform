@@ -1,0 +1,170 @@
+{
+  "schemeId": "ppfas-dynamic-allocation",
+  "name": "Parag Parikh Dynamic Asset Allocation Fund",
+  "amc": "PPFAS Mutual Fund",
+  "category": "Dynamic Asset Allocation",
+  "portfolioDate": "2026-09-30",
+  "includedNavWeight": 22.45,
+  "belowPrecisionCount": 1,
+  "policy": "Physical listed equities including foreign and arbitrage legs; excludes debt, cash, derivatives, fund units and REIT/InvIT units. No hedge netting.",
+  "source": {
+    "publisher": "PPFAS Mutual Fund",
+    "url": "https://amc.ppfas.com/downloads/portfolio-disclosure/2026/PPDAAF_PPFAS_Monthly_Portfolio_Report_September_30_2026.xlsx?07102026",
+    "indexUrl": "https://amc.ppfas.com/downloads/portfolio-disclosure/index.php",
+    "fetchedAt": "2026-10-08T21:57:19.293042+00:00",
+    "sha256": "d10bb7355f04e3123b7168b8039db4ebd3f456567b8b368c03a66bc314df01cc",
+    "adapterVersion": 1
+  },
+  "holdings": [
+    {
+      "isin": "INE522F01014",
+      "name": "Coal India Limited",
+      "sector": "Consumable Fuels",
+      "weight": 3.02
+    },
+    {
+      "isin": "INE347G01014",
+      "name": "Petronet LNG Limited",
+      "sector": "Gas",
+      "weight": 2.81
+    },
+    {
+      "isin": "INE752E01010",
+      "name": "Power Grid Corporation of India Limited",
+      "sector": "Power",
+      "weight": 2.61
+    },
+    {
+      "isin": "INE154A01025",
+      "name": "ITC Limited",
+      "sector": "Diversified FMCG",
+      "weight": 2.47
+    },
+    {
+      "isin": "INE040A01034",
+      "name": "HDFC Bank Limited",
+      "sector": "Banks",
+      "weight": 1.62
+    },
+    {
+      "isin": "INE397D01024",
+      "name": "Bharti Airtel Limited",
+      "sector": "Telecom - Services",
+      "weight": 1.53
+    },
+    {
+      "isin": "INE002A01018",
+      "name": "Reliance Industries Limited",
+      "sector": "Petroleum Products",
+      "weight": 1.52
+    },
+    {
+      "isin": "INE317F01035",
+      "name": "Nesco Limited",
+      "sector": "Commercial Services & Supplies",
+      "weight": 1.06
+    },
+    {
+      "isin": "INE277A01016",
+      "name": "Swaraj Engines Limited",
+      "sector": "Industrial Products",
+      "weight": 1.0
+    },
+    {
+      "isin": "INE134E01011",
+      "name": "Power Finance Corporation Limited",
+      "sector": "Finance",
+      "weight": 0.96
+    },
+    {
+      "isin": "INE237A01036",
+      "name": "Kotak Mahindra Bank Limited",
+      "sector": "Banks",
+      "weight": 0.72
+    },
+    {
+      "isin": "INE710A01016",
+      "name": "VST Industries Limited",
+      "sector": "Cigarettes & Tobacco Products",
+      "weight": 0.72
+    },
+    {
+      "isin": "INE591G01025",
+      "name": "Coforge Limited",
+      "sector": "IT - Software",
+      "weight": 0.67
+    },
+    {
+      "isin": "INE481G01011",
+      "name": "UltraTech Cement Limited",
+      "sector": "Cement & Cement Products",
+      "weight": 0.35
+    },
+    {
+      "isin": "INE101A01026",
+      "name": "Mahindra & Mahindra Limited",
+      "sector": "Automobiles",
+      "weight": 0.32
+    },
+    {
+      "isin": "INE081A01020",
+      "name": "Tata Steel Limited",
+      "sector": "Ferrous Metals",
+      "weight": 0.3
+    },
+    {
+      "isin": "INE280A01028",
+      "name": "Titan Company Limited",
+      "sector": "Consumer Durables",
+      "weight": 0.16
+    },
+    {
+      "isin": "INE584A01023",
+      "name": "NMDC Limited",
+      "sector": "Minerals & Mining",
+      "weight": 0.14
+    },
+    {
+      "isin": "INE918I01026",
+      "name": "Bajaj Finserv Limited",
+      "sector": "Finance",
+      "weight": 0.12
+    },
+    {
+      "isin": "INE257A01026",
+      "name": "Bharat Heavy Electricals Limited",
+      "sector": "Electrical Equipment",
+      "weight": 0.09
+    },
+    {
+      "isin": "INE674K01013",
+      "name": "Aditya Birla Capital Limited",
+      "sector": "Finance",
+      "weight": 0.09
+    },
+    {
+      "isin": "INE121J01017",
+      "name": "Indus Towers Limited",
+      "sector": "Telecom - Services",
+      "weight": 0.05
+    },
+    {
+      "isin": "INE271C01023",
+      "name": "DLF Limited",
+      "sector": "Realty",
+      "weight": 0.05
+    },
+    {
+      "isin": "INE123W01016",
+      "name": "SBI Life Insurance Company Limited",
+      "sector": "Insurance",
+      "weight": 0.04
+    },
+    {
+      "isin": "INE079A01024",
+      "name": "Ambuja Cements Limited",
+      "sector": "Cement & Cement Products",
+      "weight": 0.03
+    }
+  ]
+}

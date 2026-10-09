@@ -1,11 +1,12 @@
-﻿import {istDate,puzzle,tokens,calculate,solve,display} from './engine.mjs';
+﻿import {istDate,puzzle,practicePuzzle,tokens,calculate,solve,display} from './engine.mjs';
 const $=selector=>document.querySelector(selector),media=matchMedia('(prefers-color-scheme: dark)');
 $('#theme').outerHTML=window.SynapseTheme.control('id="theme"');
 function theme(){const p=window.SynapseTheme.read();document.documentElement.dataset.theme=p==='system'?(media.matches?'dark':'light'):p;}
 $('#theme').addEventListener('change',theme);media.addEventListener('change',theme);theme();
 let date,mode='daily',original,items,selected=[],op=null,history=[],assisted=false,finished=false,revealed=false;
 const symbols={'+':'+','-':'−','*':'×','/':'÷'};
-function start(practice=false){date=istDate();mode=practice?'practice':'daily';original=puzzle(practice?crypto.getRandomValues(new Uint32Array(1))[0]:date);reset();}
+const difficultyLabel=document.createElement('label');difficultyLabel.textContent='Practice difficulty ';const difficulty=document.createElement('select');difficulty.id='practice-difficulty';for(const level of ['easy','medium','hard'])difficulty.add(new Option(level[0].toUpperCase()+level.slice(1),level));difficulty.value='medium';difficultyLabel.append(difficulty);$('#practice').parentElement.after(difficultyLabel);difficulty.onchange=()=>{if(mode==='practice')start(true);};
+function start(practice=false){date=istDate();mode=practice?'practice':'daily';original=practice?practicePuzzle(String(crypto.getRandomValues(new Uint32Array(1))[0]),difficulty.value):puzzle(date);reset();}
 function reset(){items=tokens(original);selected=[];op=null;history=[];assisted=false;finished=false;revealed=false;$('#status').textContent='';$('#result').hidden=true;$('#share-fallback').hidden=true;render();}
 function render(){
  $('#edition').textContent=mode==='daily'?`DAILY · ${date} · IST`:'PRACTICE · JUST FOR FUN';$('#daily').setAttribute('aria-pressed',String(mode==='daily'));$('#practice').setAttribute('aria-pressed',String(mode==='practice'));

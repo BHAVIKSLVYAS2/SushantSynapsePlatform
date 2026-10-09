@@ -1,5 +1,6 @@
 'use strict';
 const theme=document.querySelector('#theme');
+const readingButton=document.createElement('button');readingButton.type='button';readingButton.id='reading-mode';readingButton.textContent='Light reading';readingButton.setAttribute('aria-pressed','false');theme.parentElement.append(readingButton);readingButton.onclick=()=>{const active=document.body.classList.toggle('light-reading');readingButton.setAttribute('aria-pressed',String(active));readingButton.textContent=active?'Illustrated reading':'Light reading';};
 const systemTheme=matchMedia('(prefers-color-scheme: dark)');
 function applyTheme(){document.documentElement.dataset.theme=theme.value==='system'?(systemTheme.matches?'dark':'light'):theme.value;}
 theme.value=window.SynapseTheme.read();

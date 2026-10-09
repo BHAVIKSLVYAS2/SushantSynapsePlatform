@@ -1,0 +1,3 @@
+CREATE TABLE IF NOT EXISTS samaj_events (id TEXT PRIMARY KEY,samaj_id TEXT NOT NULL REFERENCES samaj_communities(id),title TEXT NOT NULL,starts_at TEXT NOT NULL,location TEXT NOT NULL,description TEXT NOT NULL,family_id TEXT REFERENCES samaj_families(id),created_by TEXT NOT NULL REFERENCES users(id),cancelled INTEGER NOT NULL DEFAULT 0);
+CREATE INDEX IF NOT EXISTS samaj_events_calendar ON samaj_events(samaj_id,starts_at);
+CREATE TABLE IF NOT EXISTS samaj_event_rsvps (event_id TEXT NOT NULL REFERENCES samaj_events(id),user_id TEXT NOT NULL REFERENCES users(id),response TEXT NOT NULL CHECK(response IN ('Going','Maybe','Not going')),PRIMARY KEY(event_id,user_id));

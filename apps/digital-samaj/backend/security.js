@@ -4,23 +4,24 @@ const permissions=['family.view','family.create','family.edit','person.view','pe
 const reader=['family.view','person.view','directory.search','person.mobile.view','person.address.view','person.dob.view'];
 const roles={SUPER_ADMIN:permissions,SAMAJ_ADMIN:permissions,AREA_COORDINATOR:permissions.filter(p=>!['admin.manage','announcement.create'].includes(p)),FAMILY_ADMIN:[...reader,'family.create','family.edit','person.create','person.edit','report.export','chat.use'],FAMILY_MEMBER:[...reader,'person.edit','chat.use'],VERIFIED_MEMBER:[...reader,'chat.use'],GUEST:['family.view','person.view','directory.search']};
 const sensitive=['mobile','alternateMobile','whatsapp','email','dob','birthTime','birthPlace','address','pin','photo','bloodGroup','achievements'];
-function security(sql,user,samajId){
+function security(sql,user,samajId,{readOnly=false}={}){
  const grants=sql.prepare('SELECT g.*,p.permission FROM samaj_grants g JOIN samaj_role_permissions p ON p.role_id=g.role_id WHERE g.user_id=? AND g.samaj_id=?').all(user.id,samajId);
  const linked=sql.prepare('SELECT person_id FROM samaj_user_person WHERE user_id=? AND samaj_id=?').get(user.id,samajId)?.person_id;
  const familyIds=linked?sql.prepare("SELECT family_id FROM samaj_memberships WHERE person_id=? AND end_date=''").all(linked).map(r=>r.family_id):[];
+ const memberships=new Map();if(readOnly)for(const row of sql.prepare("SELECT m.person_id,m.family_id FROM samaj_memberships m JOIN samaj_persons p ON p.id=m.person_id WHERE p.samaj_id=? AND m.end_date=''").all(samajId)){if(!memberships.has(row.person_id))memberships.set(row.person_id,new Set());memberships.get(row.person_id).add(row.family_id);}
  function scope(g,r){
   if(!r)return g.scope==='ALL';
   if(r.samaj_id!==samajId)return false;
   if(g.scope==='ALL')return true;
   if(g.scope==='SELF')return r.id===linked;
-  if(g.scope==='FAMILY')return r.kind==='family'?r.id===g.scope_value:!!sql.prepare("SELECT 1 FROM samaj_memberships WHERE person_id=? AND family_id=? AND end_date=''").get(r.id,g.scope_value);
+  if(g.scope==='FAMILY')return r.kind==='family'?r.id===g.scope_value:readOnly?!!memberships.get(r.id)?.has(g.scope_value):!!sql.prepare("SELECT 1 FROM samaj_memberships WHERE person_id=? AND family_id=? AND end_date=''").get(r.id,g.scope_value);
   const d=typeof r.data==='string'?JSON.parse(r.data):r.data;
   const place=g.scope==='STATE'?[d.state]:g.scope==='DISTRICT'?[d.state,d.district]:[d.state,d.district,d.nativeVillage];
   return place.every(Boolean)&&place.join('|')===g.scope_value;
  }
  const can=(permission,r)=>grants.some(g=>g.permission===permission&&scope(g,r));
  const requirePermission=(p,r)=>{if(!can(p,r))fail(403,'Permission or scope denied');};
- function sameFamily(r){return r.kind==='family'?familyIds.includes(r.id):!!sql.prepare("SELECT 1 FROM samaj_memberships WHERE person_id=? AND end_date='' AND family_id IN (SELECT family_id FROM samaj_memberships WHERE person_id=? AND end_date='')").get(r.id,linked||'');}
+ function sameFamily(r){return r.kind==='family'?familyIds.includes(r.id):readOnly?familyIds.some(id=>memberships.get(r.id)?.has(id)):!!sql.prepare("SELECT 1 FROM samaj_memberships WHERE person_id=? AND end_date='' AND family_id IN (SELECT family_id FROM samaj_memberships WHERE person_id=? AND end_date='')").get(r.id,linked||'');}
  function visible(r,field){
   const privacy=typeof r.privacy==='string'?JSON.parse(r.privacy):r.privacy;
   const level=privacy[field]||'PRIVATE';

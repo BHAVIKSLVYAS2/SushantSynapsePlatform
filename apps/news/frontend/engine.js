@@ -202,7 +202,7 @@ function parseFeed(xml,cutoff,category='World'){
 }
 async function fetchFeedStories(cutoff,fetchImpl=globalThis.fetch){
   const signal=AbortSignal.timeout(25000);
-  const feeds=[['world/asia/india/','India'],['world/','World'],['business/','Money'],['technology/','Tech'],['entertainment_and_arts/','Life & culture']];
+  const feeds=[['world/asia/india/','India'],['world/','World'],['business/','Money'],['technology/','Tech'],['entertainment_and_arts/','Life & culture'],['science_and_environment/','Tech'],['health/','Life & culture'],['world/asia/','World']];
   const results=await Promise.allSettled(feeds.map(async ([path,category])=>{
     const response=await fetchImpl('https://feeds.bbci.co.uk/news/'+path+'rss.xml',{signal,redirect:'manual'});
     if(!response.ok){await response.body?.cancel();fail(502,'News feed unavailable (HTTP '+response.status+')');}

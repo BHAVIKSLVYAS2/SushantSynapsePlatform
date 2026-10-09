@@ -1,0 +1,62 @@
+{
+  "schemeId": "ppfas-conservative-hybrid",
+  "name": "Parag Parikh Conservative Hybrid Fund",
+  "amc": "PPFAS Mutual Fund",
+  "category": "Conservative Hybrid",
+  "portfolioDate": "2026-09-30",
+  "includedNavWeight": 9.83,
+  "belowPrecisionCount": 0,
+  "policy": "Physical listed equities including foreign and arbitrage legs; excludes debt, cash, derivatives, fund units and REIT/InvIT units. No hedge netting.",
+  "source": {
+    "publisher": "PPFAS Mutual Fund",
+    "url": "https://amc.ppfas.com/downloads/portfolio-disclosure/2026/PPCHF_PPFAS_Monthly_Portfolio_Report_September_30_2026.xlsx?07102026",
+    "indexUrl": "https://amc.ppfas.com/downloads/portfolio-disclosure/index.php",
+    "fetchedAt": "2026-10-08T21:57:19.293042+00:00",
+    "sha256": "fb0a0376a73b8de1794054fcd8753a19a637c5300621e47c2fd456b99e4fc245",
+    "adapterVersion": 1
+  },
+  "holdings": [
+    {
+      "isin": "INE347G01014",
+      "name": "Petronet LNG Limited",
+      "sector": "Gas",
+      "weight": 2.09
+    },
+    {
+      "isin": "INE522F01014",
+      "name": "Coal India Limited",
+      "sector": "Consumable Fuels",
+      "weight": 2.07
+    },
+    {
+      "isin": "INE154A01025",
+      "name": "ITC Limited",
+      "sector": "Diversified FMCG",
+      "weight": 2.02
+    },
+    {
+      "isin": "INE752E01010",
+      "name": "Power Grid Corporation of India Limited",
+      "sector": "Power",
+      "weight": 1.97
+    },
+    {
+      "isin": "INE134E01011",
+      "name": "Power Finance Corporation Limited",
+      "sector": "Finance",
+      "weight": 0.97
+    },
+    {
+      "isin": "INE277A01016",
+      "name": "Swaraj Engines Limited",
+      "sector": "Industrial Products",
+      "weight": 0.64
+    },
+    {
+      "isin": "INE121J01017",
+      "name": "Indus Towers Limited",
+      "sector": "Telecom - Services",
+      "weight": 0.07
+    }
+  ]
+}

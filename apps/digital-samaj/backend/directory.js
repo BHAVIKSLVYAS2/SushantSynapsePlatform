@@ -9,8 +9,14 @@ function directory({repo,ctx,kind,url}){
  if(Object.values(filters).some(v=>v.length>200))fail(400,'Filter is too long');
  const min=url.searchParams.has('minAge')&&url.searchParams.get('minAge')!==''?Number(url.searchParams.get('minAge')):null,max=url.searchParams.has('maxAge')&&url.searchParams.get('maxAge')!==''?Number(url.searchParams.get('maxAge')):null;
  if([min,max].some(v=>v!==null&&(!Number.isInteger(v)||v<0||v>130))||min!==null&&max!==null&&min>max)fail(400,'Invalid age range');
+ const familiesByPerson=new Map();
+ if(kind==='person'){
+  const visibleFamilies=new Map(repo.all('family',samajId).filter(f=>sec.can('family.view',f)&&(f.status==='VERIFIED'||sec.can('family.edit',f))).map(f=>[f.id,sec.project(f)]));
+  const memberships=repo.sql.prepare("SELECT m.person_id,m.family_id FROM samaj_memberships m JOIN samaj_persons p ON p.id=m.person_id WHERE p.samaj_id=? AND m.end_date=''").all(samajId);
+  for(const m of memberships){const family=visibleFamilies.get(m.family_id);if(!family)continue;const list=familiesByPerson.get(m.person_id)||[];list.push(family);familiesByPerson.set(m.person_id,list);}
+ }
  const rows=repo.all(kind,samajId).filter(r=>r.status!=='ARCHIVED'&&sec.can('directory.search',r)&&sec.can(kind+'.view',r)&&(sec.can(kind+'.edit',r)||r.status==='VERIFIED')).map(r=>{
-  const p=sec.project(r);if(kind==='person'){const families=repo.sql.prepare("SELECT family_id FROM samaj_memberships WHERE person_id=? AND end_date=''").all(r.id).map(m=>repo.get('family',m.family_id,samajId)).filter(f=>sec.can('family.view',f)&&(f.status==='VERIFIED'||sec.can('family.edit',f))).map(f=>sec.project(f));p.familyCodes=families.map(f=>f.code);p.gotras=[...new Set(families.map(f=>f.gotra).filter(Boolean))];}return p;
+  const p=sec.project(r);if(kind==='person'){const families=familiesByPerson.get(r.id)||[];p.familyCodes=families.map(f=>f.code);p.gotras=[...new Set(families.map(f=>f.gotra).filter(Boolean))];}return p;
  }).filter(r=>{
   if(q&&!Object.entries(r).filter(([k])=>!['privacy','revision'].includes(k)).some(([,v])=>typeof v==='string'&&v.toLocaleLowerCase().includes(q)))return false;
   if(!Object.entries(filters).every(([k,v])=>{const value=k==='familyCode'?r.familyCodes:k==='gotra'&&kind==='person'?r.gotras:r[k];return Array.isArray(value)?value.some(s=>s.toLocaleLowerCase().includes(v)):String(value||'').toLocaleLowerCase().includes(v);}))return false;

@@ -8,9 +8,11 @@ const {workflows}=require('./workflows');
 const {files}=require('./files');
 const {messaging}=require('./messaging');
 const {directory,exportFamily}=require('./directory');
+const {events}=require('./events');
 function createDigitalSamaj({store,auth}){
  const repo=repository(store),sql=repo.sql;
  const workflow=workflows({repo,store}),fileHandler=files({repo,store}),chat=messaging({repo,store,auth});
+ const calendar=events({repo,store});
  const limits=new Map();
  return async({route,method,req,res,json,user})=>{
   if(!user)fail(401,'Please sign in');if(!auth.hasAppAccess(user,'digital-samaj'))fail(403,'DIGITAL SAMAJ access required');
@@ -26,10 +28,10 @@ function createDigitalSamaj({store,auth}){
    store.transaction(()=>{sql.prepare('INSERT INTO samaj_communities VALUES(?,?,?)').run(sid,name,repo.now());sql.prepare('INSERT INTO samaj_grants VALUES(?,?,?,?,?,?,?)').run(randomUUID(),user.id,sid,'SUPER_ADMIN','ALL','',repo.now());repo.audit(user,sid,'community.create',sid,null,{name});});return json(201,{id:sid,name});
   }
   if(!sql.prepare('SELECT 1 FROM samaj_communities WHERE id=?').get(samajId))fail(404,'Samaj not found');
-  const sec=security(sql,user,samajId),ctx={samajId,sec,user};if(!sec.grants.length)fail(403,'Samaj membership required');
+  const sec=security(sql,user,samajId,{readOnly:method==='GET'}),ctx={samajId,sec,user};if(!sec.grants.length)fail(403,'Samaj membership required');
   function canReview(r){try{const next=JSON.parse(r.new_value);const kind=r.kind.endsWith('.family')?'family':'person';const target=repo.get(kind,r.entity_id,samajId);if(!sec.can('verification.approve',target))return false;if(r.kind==='head.family')return sec.can('verification.approve',repo.get('person',next.headId,samajId));if(r.kind==='membership')return sec.can('verification.approve',repo.get('family',next.familyId,samajId));if(r.kind==='relationship')return sec.can('verification.approve',repo.get('person',next.relatedId,samajId));return true;}catch{return false;}}
   const command={resource,id,action,method,b,ctx,json,res};
-  if(await workflow(command)||fileHandler(command)||chat(command))return;
+  if(calendar(command)||await workflow(command)||fileHandler(command)||chat(command))return;
   if(!resource&&method==='GET')return json(200,{id:samajId,name:sql.prepare('SELECT name FROM samaj_communities WHERE id=?').get(samajId).name,grants:sec.grants,linkedPersonId:sec.linked||null});
   if(resource==='grants'){
    sec.require('admin.manage');

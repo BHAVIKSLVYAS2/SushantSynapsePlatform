@@ -6,6 +6,12 @@ $('#theme').outerHTML=window.SynapseTheme.control('id="theme"');function theme()
 for(const [id,value]of Object.entries(occasions)){const option=new Option(value.name,id);$('#occasion').add(option);}for(const [id,value]of Object.entries(palettes))$('#palette').add(new Option(value.name,id));
 for(const [id,name]of Object.entries(designs)){const label=document.createElement('label');label.className='design-choice';const input=document.createElement('input');input.type='radio';input.name='design';input.value=id;input.checked=id==='confetti';label.append(input,document.createTextNode(name));$('#designs').append(label);}
 let image=null,imageVersion=0,pending=false,busy=false,ready=false;
+let dirty=false;
+form.addEventListener('input',()=>dirty=true);
+document.querySelector('.studio-nav').addEventListener('click',event=>{
+ const link=event.target.closest('a');if(!link||!dirty||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
+ if(!confirm('You have an unfinished card. Switching sections clears its text and photo. Stay here to download it, or continue?'))event.preventDefault();
+});
 function controls(){for(const id of ['download','share'])$('#'+id).disabled=!ready||pending||busy;$('#remove-photo').disabled=!image&&!pending;}
 function draw(){try{const data=validate(Object.fromEntries(new FormData(form))),result=render(canvas,data,image);ready=result.fits&&brandReady;canvas.classList.toggle('story',data.format==='story');canvas.setAttribute('aria-label',`${data.title}${data.name?' for '+data.name:''}. ${data.message}. ${data.details}. ${data.from}.`);$('#preview-description').textContent=result.width+' x '+result.height+' pixels | '+designs[data.design]+' | '+palettes[data.palette].name;$('#fit-status').textContent=!brandReady?'The platform logo could not load. Reload before exporting.':ready?'':'Some wording does not fit. Shorten it, remove the photo or choose Vertical status before exporting.';}catch(error){ready=false;$('#fit-status').textContent=error.message;}controls();}
 form.addEventListener('input',event=>{if(event.target.id==='photo')return;$('#status').textContent='';draw();});form.addEventListener('change',event=>{if(event.target.id!=='photo')draw();});form.onsubmit=event=>event.preventDefault();

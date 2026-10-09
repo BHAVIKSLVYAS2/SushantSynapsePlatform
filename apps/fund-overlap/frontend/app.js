@@ -10,6 +10,19 @@ let basis = 'equity', filter = 'common', holdingQuery = '', sort = 'repeated';
 const loadStates = new Map();
 const snapshotLoadedAt = new Map();
 let searchController;
+let comparisonController;
+const requestStarts = [];
+async function paceRequest(signal, deadline) {
+  while (true) {
+    signal?.throwIfAborted();
+    const now = Date.now();
+    while (requestStarts.length && requestStarts[0] <= now - 60000) requestStarts.shift();
+    if (requestStarts.length < 24) {requestStarts.push(now); return;}
+    const wait = requestStarts[0] + 60000 - now + 20;
+    if (now + wait >= deadline) throw Error('Fund data is busy. Please retry in a minute.');
+    await new Promise(resolve => setTimeout(resolve, Math.min(wait, 1000)));
+  }
+}
 function holdingsStatus(f) {
   const state = loadStates.get(f.id), snapshot = snapshots.get(f.id);
   if (state?.error) return 'Could not load holdings';
@@ -23,9 +36,11 @@ $('#theme').value = SynapseTheme.read(); theme(); $('#theme').addEventListener('
 function notice(message) {$('#notice').textContent = message; $('#notice').classList.add('show'); clearTimeout(notice.timer); notice.timer = setTimeout(() => $('#notice').classList.remove('show'), 5000);}
 async function jsonFetch(url, attempt = 0, options = {}) {
   const deadline = options.deadline || Date.now() + 120000;
-  const remaining = deadline - Date.now();
+  let remaining = deadline - Date.now();
   if (remaining <= 0) throw Error('Holdings verification is taking longer than expected. Please retry shortly.');
   let response;
+  await paceRequest(options.signal, deadline);
+  remaining=deadline-Date.now();if(remaining<=0)throw Error('Fund data is busy. Retry shortly.');
   try { response = await fetch(url, {signal: options.signal ? AbortSignal.any([options.signal, AbortSignal.timeout(Math.min(45000, remaining))]) : AbortSignal.timeout(Math.min(45000, remaining))}); }
   catch (error) { if (error.name === 'TimeoutError') throw Error('The fund source took too long to respond. Please retry shortly.'); throw error; }
   // Retry a transient public GET once, including HTML gateway failures. Never
@@ -98,6 +113,7 @@ function renderFunds() {
   $('#search-status').textContent = searchPending ? 'Searching Indian mutual funds…' : searchMessage || (needle.length === 1 ? 'Type at least 2 characters to search all fund houses.' : 'Search by fund name, fund house or category.');
   $('#fund-grid').innerHTML = funds.length ? funds.map(f => `<article class="fund-card ${selected.includes(f.id)?'selected':''}"><span class="category">${esc(f.category)}</span><h3>${esc(f.name)}</h3><p>${esc(f.amc)}${f.holdingsCount ? ' · ' + f.holdingsCount + ' equities' : ''}</p><p>${f.portfolioDate ? dateLabel(f.portfolioDate) + ' · ' + pct(f.includedNavWeight) + ' NAV included' : esc(holdingsStatus(f))}</p><button data-select="${esc(f.id)}" aria-pressed="${selected.includes(f.id)}" aria-label="${selected.includes(f.id)?'Remove':'Add'} ${esc(f.name)}" ${busy||(!selected.includes(f.id)&&selected.length===8)?'disabled':''}>${selected.includes(f.id)?'✓ Selected':'+ Add fund'}</button></article>`).join('') : `<p class="empty">${searchPending ? 'Looking for matching funds…' : 'No matching funds found. Try a shorter name or another fund house.'}</p>`;
   $('#selected-funds').innerHTML = selected.map(id => `<button class="text-button" data-select="${esc(id)}" aria-label="Remove selected ${esc(index.funds.find(f=>f.id===id).name)}" ${busy?'disabled':''}>${esc(index.funds.find(f=>f.id===id).name)} ×</button>`).join('');
+  for(const id of selected){const f=index.funds.find(f=>f.id===id),p=document.createElement('p'),button=document.createElement('button');p.className='subtext';p.textContent=f.name+' · '+(f.portfolioDate?dateLabel(f.portfolioDate)+' · '+pct(f.includedNavWeight)+' NAV included':'Date and coverage not yet checked')+' · '+holdingsStatus(f);button.type='button';button.textContent='Check coverage';button.disabled=busy;button.onclick=()=>previewCoverage(id);p.append(' ',button);$('#selected-funds').append(p);}
   $('#retry-search').hidden = !searchFailed;
   $('#selected-funds').hidden = selected.length === 0;
   $('#explore').hidden = selected.length > 0;
@@ -124,13 +140,16 @@ function changed() {
   excluded.clear(); result = null; $('#results').innerHTML = ''; $('#load-error').textContent = ''; renderFunds();
   history.replaceState(null, '', location.pathname);
 }
+async function previewCoverage(id){if(busy||!selected.includes(id))return;const entry=index.funds.find(f=>f.id===id),controller=comparisonController=new AbortController();busy=true;loadStates.set(id,{loading:true});renderFunds();try{const data=await jsonFetch(entry.holdingsPath,0,{signal:controller.signal,deadline:Date.now()+300000,onProgress:round=>{loadStates.set(id,{loading:true,message:'Checking coverage · batch '+round});renderFunds();}});if(data.schemeId!==id||entry.portfolioDate&&!entry.provider&&data.portfolioDate!==entry.portfolioDate)throw Error('Disclosure metadata mismatch. Reload the library.');FundOverlap.normalize(data.holdings);snapshots.set(id,data);if(data.cacheStatus!=='stale')snapshotLoadedAt.set(id,Date.now());Object.assign(entry,{portfolioDate:data.portfolioDate,includedNavWeight:data.includedNavWeight,holdingsCount:data.holdings.length});loadStates.set(id,{loading:false});$('#load-error').textContent='';}catch(error){loadStates.set(id,{error:error.message});if(error.name!=='AbortError')$('#load-error').textContent=error.message;}finally{busy=false;renderFunds();}}
 async function compare(scroll = false) {
   if (busy || selected.length < 2) return;
+  const comparisonIds = [...selected], selectionKey = comparisonIds.join(',');
+  const controller = comparisonController = new AbortController();
   busy = true; $('#load-error').textContent = ''; renderFunds();
   try {
     // Public snapshots can be reused briefly in this tab. In particular, retry
     // only failed funds instead of repeating every successful verification.
-    const outcomes = await Promise.allSettled(selected.map(async id => {
+    const outcomes = await Promise.allSettled(comparisonIds.map(async id => {
       const entry = index.funds.find(f => f.id === id);
       if (snapshots.has(id) && Date.now() - (snapshotLoadedAt.get(id) || 0) < 300000) {
         loadStates.set(id, {loading:false}); return;
@@ -138,7 +157,7 @@ async function compare(scroll = false) {
       loadStates.set(id, {loading:true}); renderFunds();
       try {
       let data;
-      try {data = await jsonFetch(entry.holdingsPath, 0, {onProgress: round => {
+      try {data = await jsonFetch(entry.holdingsPath, 0, {signal:controller.signal, deadline:Date.now()+300000, onProgress: round => {
         loadStates.set(id, {loading:true, message:'Verifying holdings · batch ' + (round + 1) + '. Completed checks are saved for retry.'}); renderFunds();
       }});} catch (error) {throw Error(entry.name + ': ' + error.message);}
       if (data.schemeId !== id || entry.portfolioDate && !entry.provider && data.portfolioDate !== entry.portfolioDate) throw Error('Disclosure metadata mismatch. Reload the fund library.');
@@ -149,12 +168,13 @@ async function compare(scroll = false) {
       } catch (error) {loadStates.set(id, {error:error.message}); throw error;}
       finally {renderFunds();}
     }));
+    if (selected.join(',') !== selectionKey) return;
     const failed = outcomes.find(outcome => outcome.status === 'rejected');
     if (failed) throw failed.reason;
     calculate();
     if (scroll) $('#results').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});
-  } catch (error) {result = null; $('#results').innerHTML = ''; $('#load-error').textContent = error.message + ' Your selection is unchanged. Try again or reload the library.';}
-  finally {busy = false; renderFunds();}
+  } catch (error) {if (selected.join(',') === selectionKey) {result = null; $('#results').innerHTML = ''; $('#load-error').textContent = error.message + ' Your selection is unchanged. Try again or reload the library.';}}
+  finally {busy = false; renderFunds();if (selected.join(',') !== selectionKey && selected.length >= 2) compare(scroll);}
 }
 function calculate() {
   const active = selected.filter(id => !excluded.has(id));
@@ -247,7 +267,8 @@ function readShare() {
   const ids = raw.split(',');
   if (ids.length<2||ids.length>8||new Set(ids).size!==ids.length||ids.some(id=>(!index.funds.some(f=>f.id===id)&&!/^groww-[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)&&!/^amfi-\d{5,8}$/.test(id))||id.length>166)) {notice('This comparison link contains unavailable or duplicate funds. Choose funds from the library.'); return;}
   for (const id of ids) if (!index.funds.some(f=>f.id===id)) { const national = id.startsWith('amfi-'); index.funds.push({id,name:national?'AMFI scheme '+id.slice(5):id.slice(6).replaceAll('-', ' '),amc:national?'Indian mutual fund':'Groww',category:'Mutual fund',provider:national?'MFapi':'Groww',holdingsPath:national?'/api/fund-overlap/scheme/'+id.slice(5):'/api/fund-overlap/remote/'+id.slice(6)}); }
-  selected = ids; basis = params.get('basis')==='nav'?'nav':'equity'; excluded.clear(); renderFunds(); compare(false);
+  if (busy && selected.join(',') !== ids.join(',')) comparisonController?.abort();
+  selected = ids; basis = params.get('basis')==='nav'?'nav':'equity'; excluded.clear(); $('#results').innerHTML=''; $('#load-error').textContent=''; renderFunds(); compare(false);
 }
 async function boot() {
   try {index = await jsonFetch('/api/fund-overlap/fund-index.json'); screen(); readShare();}

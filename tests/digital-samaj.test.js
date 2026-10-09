@@ -122,7 +122,7 @@ test('Full SQL export restores populated Samaj, claims, deferred merge reference
  await call('owner',base+'/duplicates/merge','POST',{sourceId:a.id,targetId:z.id,sourceRevision:1,targetRevision:1});
  const png='iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=';
  await call('owner',base+'/photos','POST',{kind:'person',entityId:z.id,revision:2,name:'one.png',mime:'image/png',content:png});
- const restored=new DatabaseSync(':memory:');try{restored.exec(store.exportSql());assert.equal(restored.prepare('SELECT count(*) n FROM samaj_persons').get().n,2);assert.equal(restored.prepare('SELECT count(*) n FROM samaj_files').get().n,1);assert.equal(restored.prepare('SELECT count(*) n FROM samaj_migrations').get().n,2);assert.equal(restored.prepare('PRAGMA integrity_check').get().integrity_check,'ok');assert.deepEqual(restored.prepare('PRAGMA foreign_key_check').all(),[]);}finally{restored.close();}
+ const restored=new DatabaseSync(':memory:');try{restored.exec(store.exportSql());assert.equal(restored.prepare('SELECT count(*) n FROM samaj_persons').get().n,2);assert.equal(restored.prepare('SELECT count(*) n FROM samaj_files').get().n,1);assert.equal(restored.prepare('SELECT count(*) n FROM samaj_migrations').get().n,3);assert.equal(restored.prepare('PRAGMA integrity_check').get().integrity_check,'ok');assert.deepEqual(restored.prepare('PRAGMA foreign_key_check').all(),[]);}finally{restored.close();}
 });
 
 test('Geographic reviewers stay in scope and family-scoped creators cannot move or view other families',async t=>{

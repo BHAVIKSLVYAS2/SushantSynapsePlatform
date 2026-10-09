@@ -1,5 +1,7 @@
 # Deploy Sushant Synapse Platform
 
+The most recent deployment IDs and verification are recorded at the top of `FUNCTIONALITY_LEDGER.md`. Release sections below are historical checkpoints, including sections originally labelled Current. Frontend and Node backend releases have separate versions. Do not select a recovery release from an old heading without checking the ledger and active supervisor configuration.
+
 Target: **https://apps.sushantsynapse.com**. The repository includes a Node/SQLite app and a Docker Compose/Caddy configuration. These files prepare deployment; pushing to GitHub alone does not put the site on that domain.
 
 ## Cloudflare frontend (2026-10-01)

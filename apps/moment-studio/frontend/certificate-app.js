@@ -1,8 +1,15 @@
 import {brandReady,requireBrand} from '/moment-studio/branding.mjs';
 import {render,templates,playfulTemplates,donationAmount,disclaimer} from '/moment-studio/certificate-renderer.mjs';
 import {pdfBlob,pngBlob,download} from '/moment-studio/certificate-export.js';
+import {certificateRows,zip} from '/moment-studio/batch.mjs';
 const $=s=>document.querySelector(s),form=$('#details'),canvas=$('#certificate'),status=$('#status'),images={},versions={logo:0,signature:0};
 $('#certificate-disclaimer').textContent=disclaimer;
+let dirty=false;
+form.addEventListener('input',()=>dirty=true);
+document.querySelector('.studio-nav').addEventListener('click',event=>{
+ const link=event.target.closest('a');if(!link||!dirty||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
+ if(!confirm('You have an unfinished certificate. Switching sections clears its recipient details and signature. Stay here to export it, or continue?'))event.preventDefault();
+});
 const types={
  'Donation Appreciation':'Your generosity and commitment are greatly appreciated.',
  'Volunteer Appreciation':'Your time, dedication and selfless service make a meaningful difference.',
@@ -164,5 +171,11 @@ $('#delete-organisation').onclick=()=>{
  if(storeOrganisations(entries,'')){refreshOrganisations();organisationStatus.textContent='Saved organisation deleted from this browser. The current certificate is unchanged.';}
 };
 if(lastOrganisation)void reuseOrganisation(lastOrganisation);
+
+const batch=document.createElement('details');batch.innerHTML='<summary>Certificates for a group</summary><p>Import up to 20 recipients. CSV headings: recipient,description. The current design, organisation, signature and platform branding apply to every certificate. Details stay in this tab.</p><button type="button" id="batch-template">Download CSV template</button><label>Recipient CSV<input type="file" id="batch-file" accept=".csv,text/csv"></label><ol id="batch-preview"></ol><button type="button" id="batch-export" disabled>Download PDF batch (ZIP)</button><p id="batch-status" role="status"></p>';form.after(batch);
+let batchRows=[],batchBusy=false;
+$('#batch-template').onclick=()=>download(new Blob(['recipient,description\r\nSample Recipient,helping our community\r\n'],{type:'text/csv;charset=utf-8'}),'certificate-recipients.csv');
+$('#batch-file').onchange=async event=>{if(batchBusy)return;batchRows=[];$('#batch-export').disabled=true;$('#batch-preview').replaceChildren();try{const file=event.target.files[0];if(!file)return;if(file.size>50000)throw Error('Use a CSV under 50 KB.');batchRows=certificateRows(await file.text());for(const row of batchRows){const li=document.createElement('li');li.textContent=row.recipient+(row.description?' — '+row.description:'');$('#batch-preview').append(li);}$('#batch-export').disabled=false;$('#batch-status').textContent='Review these names before exporting.';dirty=true;}catch(error){$('#batch-status').textContent=error.message;}finally{event.target.value='';}};
+$('#batch-export').onclick=async()=>{if(batchBusy||!batchRows.length)return;try{requireBrand();syncDonation();if(pendingImages)throw Error('Wait for images to finish loading.');const base=data(),rows=batchRows.map(row=>({...base,recipient:row.recipient,description:row.description||base.description}));if(rows.some(row=>!row.description))throw Error('Add a common contribution or supply each description in the CSV.');if(!form.elements.donationAmount.checkValidity())throw Error('Check the donation amount.');batchBusy=true;const controls=[...form.elements,...batch.querySelectorAll('input,button')],prior=controls.map(c=>c.disabled);controls.forEach(c=>c.disabled=true);try{await document.fonts.ready;const files=[];let bytes=0;for(const [i,row]of rows.entries()){await new Promise(resolve=>requestAnimationFrame(resolve));requireBrand();const output=render(document.createElement('canvas'),row,{...images},3508/1122);try{const pdf=pdfBlob(output),data=new Uint8Array(await pdf.arrayBuffer());bytes+=data.length;if(bytes>50000000)throw Error('Batch exceeds 50 MB. Use fewer recipients.');files.push({name:String(i+1).padStart(2,'0')+'-'+(row.recipient.replace(/[^\p{L}\p{N}_-]/gu,'-').slice(0,60)||'recipient')+'.pdf',data});$('#batch-status').textContent=`Prepared ${i+1} of ${rows.length}.`;}finally{output.width=1;output.height=1;}}download(zip(files),'moment-studio-certificates.zip');$('#batch-status').textContent=`${files.length} branded certificates downloaded.`;}finally{controls.forEach((c,i)=>c.disabled=prior[i]);}}catch(error){$('#batch-status').textContent='Batch not exported: '+error.message;}finally{batchBusy=false;}};
 
 if(!brandReady){document.body.classList.add('brand-unavailable');status.textContent='The platform logo could not load. Reload before generating.';}

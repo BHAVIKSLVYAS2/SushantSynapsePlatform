@@ -88,7 +88,7 @@ test('fallback and independent links work without JavaScript; retry keeps the or
   const context = await browser.newContext({javaScriptEnabled: false});
   const page = await context.newPage();
   const target = base + '/tournament-lite?share=retain-this';
-  await page.goto(target); await expect(page.getByRole('link', {name: 'Certificate Generator', exact: true})).toBeVisible();
+  await page.goto(target); await expect(page.getByRole('link', {name: 'Moment Studio', exact: true})).toBeVisible();
   await page.getByRole('link', {name: 'Try again'}).click(); expect(page.url()).toBe(target);
   online = true; const response = await page.reload(); expect(response.status()).toBe(200);
   await context.close();

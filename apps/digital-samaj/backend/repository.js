@@ -9,6 +9,8 @@ function repository(store){
  store.registerAppSchema('digital-samaj-v1',source,[...source.matchAll(/CREATE TABLE IF NOT EXISTS (\w+)/g)].map(m=>m[1]));
  const workflows=fs.readFileSync(path.join(__dirname,'../database/002-workflows.sql'),'utf8');
  store.registerAppSchema('digital-samaj-v2',workflows,[...workflows.matchAll(/CREATE TABLE IF NOT EXISTS (\w+)/g)].map(m=>m[1]));
+ const calendar=fs.readFileSync(path.join(__dirname,'../database/003-events.sql'),'utf8');store.registerAppSchema('digital-samaj-v3',calendar,['samaj_events','samaj_event_rsvps']);
+ sql.exec('INSERT OR IGNORE INTO samaj_migrations VALUES(3)');
  store.transaction(()=>{
   sql.exec('INSERT OR IGNORE INTO samaj_migrations VALUES(1); INSERT OR IGNORE INTO samaj_migrations VALUES(2);');
   for(const p of permissions)sql.prepare('INSERT OR IGNORE INTO samaj_permissions VALUES(?)').run(p);

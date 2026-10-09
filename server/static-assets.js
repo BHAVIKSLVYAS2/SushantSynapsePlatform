@@ -12,6 +12,7 @@ const staticAssets={
  '/moment-studio/messages.mjs':'apps/moment-studio/frontend/messages.mjs',
  '/moment-studio/cards.css':'apps/moment-studio/frontend/cards.css',
  '/moment-studio/certificate-app.js':'apps/moment-studio/frontend/certificate-app.js',
+ '/moment-studio/batch.mjs':'apps/moment-studio/frontend/batch.mjs',
  '/moment-studio/certificate-renderer.mjs':'apps/moment-studio/frontend/certificate-renderer.mjs',
  '/moment-studio/certificate-export.js':'apps/moment-studio/frontend/certificate-export.js',
  '/moment-studio/certificates.css':'apps/moment-studio/frontend/certificates.css',
@@ -57,7 +58,7 @@ for(const file of ['app.js','engine.js','style.css','icon.svg'])staticAssets['/f
 for(const file of ['app.js','engine.js','style.css','comic.css','art/chai-comic-v1.webp','art/news-desk-v1.webp'])staticAssets['/news/'+file]='apps/news/frontend/'+file;
 module.exports={staticAssets};
 for(const file of ['app.js','i18n.js','style.css','print.css'])staticAssets['/digital-samaj/'+file]='apps/digital-samaj/frontend/'+file;
-for(const file of ['app.js','export.js','style.css'])staticAssets['/tournament-lite/'+file]='apps/tournament-lite/frontend/'+file;
+for(const file of ['app.js','export.js','style.css','scheduling.js'])staticAssets['/tournament-lite/'+file]='apps/tournament-lite/frontend/'+file;
 for(const file of ['app.js','style.css'])staticAssets['/batchfee-lite/'+file]='apps/batchfee-lite/frontend/'+file;
 for(const file of ['app.js','engine.js','worker.js','export.js','style.css'])staticAssets['/timetable-lite/'+file]='apps/timetable-lite/frontend/'+file;
 
