@@ -2,6 +2,18 @@
 
 The most recent deployment IDs and verification are recorded at the top of `FUNCTIONALITY_LEDGER.md`. Release sections below are historical checkpoints, including sections originally labelled Current. Frontend and Node backend releases have separate versions. Do not select a recovery release from an old heading without checking the ledger and active supervisor configuration.
 
+## Digital Samaj form release (2026-10-09)
+
+Implementation `610c90a` is pushed to main. The active Node release is `C:\Code\SushantSynapsePlatform\.publish\release-610c90a`, with the original `data/chambers.sqlite` and port 3001. Cloudflare production version `babe3040-272d-436f-8b11-d047fb2777e7` serves the updated frontend. This supersedes the earlier active backend release paths below. The stopped host and dedicated connector were restored before this deployment; the unrelated Cloudflared service was left running.
+
+After confirming the existing platform supervisor is stopped, recovery uses:
+
+```powershell
+Start-Process -FilePath powershell.exe -WindowStyle Hidden -ArgumentList @('-NoProfile','-ExecutionPolicy','Bypass','-File','C:\Code\SushantSynapsePlatform\infrastructure\start-tunnel-host.ps1','-ReleaseRoot','C:\Code\SushantSynapsePlatform\.publish\release-610c90a')
+```
+
+All 307 exported release files match the commit. Live static assets and built HTML match the release; public health, anonymous API protection, English/Hindi sign-in and mobile/desktop themes pass. Final validation covers 146 API checks and 90 distinct browser workflows across runs, including all five final Samaj checks. Backup `data/backups/pre-samaj-form-1791560667204.sqlite` and post-release SQLite integrity are ok, foreign-key checks are clean, all 50 table hashes match, and the legacy migration file is unchanged. No schema change or live test records were introduced. Evidence: `.publish/samaj-form-live-verification.json` and `.publish/samaj-form-data-verification.json`. Keep the active release directory and dedicated tunnel. Automatic reboot startup remains unconfigured.
+
 Target: **https://apps.sushantsynapse.com**. The repository includes a Node/SQLite app and a Docker Compose/Caddy configuration. These files prepare deployment; pushing to GitHub alone does not put the site on that domain.
 
 ## Current audit release — 2026-10-09
