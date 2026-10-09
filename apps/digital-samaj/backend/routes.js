@@ -21,7 +21,7 @@ function createDigitalSamaj({store,auth}){
   if(samajId==='openapi.json'&&parts.length===1&&method==='GET')return json(200,require('./openapi'));
   if(parts.length>4)fail(404,'Not found');
   if(!samajId&&method==='GET')return json(200,{communities:sql.prepare('SELECT DISTINCT s.* FROM samaj_communities s JOIN samaj_grants g ON g.samaj_id=s.id WHERE g.user_id=?').all(user.id),canSetup:user.role==='Owner',roles});
-  const b=['POST','PATCH','DELETE'].includes(method)?await readBody(req,3000000):{};
+  const b=['POST','PATCH','DELETE'].includes(method)?await readBody(req,resource==='drafts'?8000000:3000000):{};
   if(!samajId&&method==='POST'){
    // Shared platform ownership is used only to bootstrap an explicit app grant.
    auth.owner(user);const name=text(b.name,'Samaj name',120,true),sid=randomUUID();

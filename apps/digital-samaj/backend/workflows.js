@@ -43,21 +43,36 @@ function workflows({repo,store}){
    if(method==='GET'){json(200,{...draft,data:JSON.parse(draft.data)});return true;}
    repo.revision(draft,b);if(draft.submitted_family_id)fail(409,'Draft is already submitted');
    if(method==='PATCH'){
-    if(!Number.isInteger(b.step)||b.step<0||b.step>9||!b.data||typeof b.data!=='object'||Array.isArray(b.data)||JSON.stringify(b.data).length>2900000)fail(400,'Invalid draft');
+    if(!Number.isInteger(b.step)||b.step<0||b.step>9||!b.data||typeof b.data!=='object'||Array.isArray(b.data)||JSON.stringify(b.data).length>7800000)fail(400,'Invalid draft');
+    if(b.data.formVersion!==undefined&&b.data.formVersion!==2)fail(400,'Invalid registration version');
+    if(b.data.formVersion===2&&b.step>4)fail(400,'Invalid registration step');
+    if(b.data.members!==undefined&&(!Array.isArray(b.data.members)||b.data.members.length>40))fail(400,'Maximum 40 members per registration');
+    for(const m of [{personId:b.data.headPersonId,photo:b.data.headPhoto},...(b.data.members||[])]){
+     if(!m||typeof m!=='object'||Array.isArray(m))fail(400,'Invalid member');
+     if(m.photo){if(m.personId)fail(400,'Change an existing member photo from their own profile');const photo=decodeFile(m.photo,{photoOnly:true});if(photo.content.length>120*1024)fail(400,'Member photo exceeds 120 KB');}
+    }
     if(b.data.familyPhoto)decodeFile(b.data.familyPhoto,{photoOnly:true});
     store.transaction(()=>{sql.prepare('UPDATE samaj_drafts SET step=?,data=?,revision=revision+1,updated_at=? WHERE id=?').run(b.step,JSON.stringify(b.data),repo.now(),id);repo.audit(user,samajId,'draft.save',id,{revision:draft.revision},{revision:draft.revision+1,step:b.step});});json(200,{id,revision:draft.revision+1});return true;
    }
    if(method==='POST'&&action==='submit'){
     const result=store.transaction(()=>{const d=JSON.parse(draft.data);if(b.consent!==true)fail(400,'Consent is required');if(!Array.isArray(d.members)||d.members.length>40)fail(400,'Maximum 40 members per registration');
-     const family=repo.create('family',{data:d.family,privacy:d.privacy},ctx),members=[{personId:d.headPersonId||'',data:d.head,type:'BirthFamily',relationship:''},...d.members];let head;
+     const family=repo.create('family',{data:d.family,privacy:d.privacy},ctx),members=[{personId:d.headPersonId||'',data:d.head,photo:d.headPhoto,type:'BirthFamily',relationship:''},...d.members],people=[];let head;
      for(const [i,m]of members.entries()){
       const p=m.personId?repo.ref('person',m.personId,samajId):repo.create('person',{data:{state:d.family.state||'',district:d.family.district||'',nativeVillage:d.family.nativeVillage||'',...m.data},privacy:d.privacy},ctx);
       if(i===0)head=p;
+      people.push(p);
       const joined=repo.membership({personId:p.id,familyId:family.id,type:m.type||'BirthFamily',isPrimary:!sql.prepare("SELECT 1 FROM samaj_memberships WHERE person_id=? AND is_primary=1 AND end_date=''").get(p.id)},ctx);
-      if(i&&m.relationship)repo.relationship({personId:head.id,relatedId:p.id,type:m.relationship},ctx);
+      if(m.photo){
+       if(m.personId)fail(400,'Change an existing member photo from their own profile');
+       sec.require('person.edit',p);const file=decodeFile(m.photo,{photoOnly:true});if(file.content.length>120*1024)fail(400,'Member photo exceeds 120 KB');const fid=randomUUID();
+       sql.prepare('INSERT INTO samaj_files VALUES(?,?,?,?,?,?,?,?,?)').run(fid,samajId,p.id,null,file.name,file.mime,file.content,user.id,repo.now());
+       sql.prepare('UPDATE samaj_persons SET data=? WHERE id=?').run(JSON.stringify({...JSON.parse(p.data),photo:fid}),p.id);repo.audit(user,samajId,'photo.upload',p.id,null,{fileId:fid});
+      }
       if(!m.personId){sql.prepare("UPDATE samaj_persons SET status='SUBMITTED',revision=revision+1 WHERE id=?").run(p.id);repo.request('verify.person',p.id,{revision:2,status:'DRAFT'},{status:'VERIFIED'},ctx);}
 
      }
+     for(const [i,m]of d.members.entries())if(m.relationship){const target=m.relatedTo===undefined||m.relatedTo==='head'?0:Number(m.relatedTo)+1;if(!Number.isInteger(target)||target<0||target>=people.length||target===i+1)fail(400,'Choose another registered person for the relationship');repo.relationship({personId:people[target].id,relatedId:people[i+1].id,type:m.relationship},ctx);}
+     // Retain group photos already present in legacy drafts; the new form offers only person photos.
      if(d.familyPhoto){const file=decodeFile(d.familyPhoto,{photoOnly:true}),fid=randomUUID();sql.prepare('INSERT INTO samaj_files VALUES(?,?,?,?,?,?,?,?,?)').run(fid,samajId,null,family.id,file.name,file.mime,file.content,user.id,repo.now());sql.prepare('UPDATE samaj_families SET data=? WHERE id=?').run(JSON.stringify({...JSON.parse(family.data),photo:fid}),family.id);}
      sql.prepare("UPDATE samaj_families SET head_id=?,status='SUBMITTED',revision=revision+1 WHERE id=?").run(head.id,family.id);sql.prepare('INSERT INTO samaj_consent VALUES(?,?,?,?,?)').run(randomUUID(),family.id,user.id,'1',repo.now());repo.request('verify.family',family.id,{revision:2,status:'DRAFT'},{status:'VERIFIED'},ctx);
      sql.prepare('UPDATE samaj_drafts SET submitted_family_id=?,revision=revision+1,updated_at=? WHERE id=?').run(family.id,repo.now(),id);repo.audit(user,samajId,'draft.submit',id,null,{familyId:family.id});return {familyId:family.id};});json(201,result);return true;

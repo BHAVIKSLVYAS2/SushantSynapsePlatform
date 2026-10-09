@@ -69,6 +69,38 @@ test('Wizard drafts are owner-private, stale saves fail and invalid submission r
  await assert.rejects(call('owner',base+'/drafts/'+draft.id+'/submit','POST',{revision:4,consent:true}),/already submitted/);
 });
 
+test('Person photos and multi-generation relationships submit atomically, remain private and reject reused-person photo replacement',async t=>{
+ const {call,store}=setup(t),c=await call('owner','','POST',{name:'Individual photos'}),base='/'+c.id;
+ await call('owner',base+'/grants','POST',{userId:'reviewer',role:'SAMAJ_ADMIN',scope:'ALL',scopeValue:''});
+ const photo={name:'portrait.png',mime:'image/png',content:'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/l9sAAAAASUVORK5CYII='};
+ const d=await call('owner',base+'/drafts','POST'),data={formVersion:2,family:{name:'Three generations'},head:{englishName:'Head'},headPhoto:photo,members:[{data:{englishName:'Mother'},photo,relationship:'Mother'},{data:{englishName:'Grandmother'},photo,relationship:'Mother',relatedTo:'0'}],privacy:{}};
+ await call('owner',base+'/drafts/'+d.id,'PATCH',{revision:1,step:4,data});
+ assert.equal((await call('owner',base+'/drafts/'+d.id)).data.members[1].photo.content,photo.content);
+ const bad={...data,members:[...data.members,{data:{englishName:'Invalid'},photo,relationship:'Mother',relatedTo:'99'}]},draft2=await call('owner',base+'/drafts','POST');
+ await call('owner',base+'/drafts/'+draft2.id,'PATCH',{revision:1,step:4,data:bad});
+ await assert.rejects(call('owner',base+'/drafts/'+draft2.id+'/submit','POST',{revision:2,consent:true}),/another registered person/);
+ assert.equal(store.sql.prepare('SELECT count(*) n FROM samaj_files').get().n,0);
+ assert.equal(store.sql.prepare('SELECT count(*) n FROM samaj_persons').get().n,0);
+ const submitted=await call('owner',base+'/drafts/'+d.id+'/submit','POST',{revision:2,consent:true}),family=await call('owner',base+'/families/'+submitted.familyId);
+ assert.equal(family.photo,undefined);assert.equal(family.members.length,3);assert.ok(family.members.every(m=>m.photo));
+ const rows=store.sql.prepare('SELECT person_id,family_id FROM samaj_files').all();assert.equal(rows.length,3);assert.ok(rows.every(r=>r.person_id&&!r.family_id));
+ const grandmother=family.members.find(p=>p.englishName==='Grandmother'),mother=family.members.find(p=>p.englishName==='Mother');
+ assert.ok(store.sql.prepare("SELECT 1 FROM samaj_relationships WHERE person_id=? AND related_id=? AND type='Mother'").get(mother.id,grandmother.id));
+ assert.equal((await call('reviewer',base+'/persons/'+mother.id)).photo,undefined);
+ await assert.rejects(call('reviewer',base+'/photos/'+mother.photo,'DELETE',{revision:mother.revision}),{status:403});
+ await assert.rejects(call('owner',base+'/photos/'+mother.photo,'DELETE',{revision:99}),{status:409});
+ await assert.rejects(call('owner',base+'/photos/'+mother.photo,'DELETE',{revision:mother.revision}),{status:409});
+ await assert.rejects(call('owner',base+'/photos','POST',{...photo,kind:'person',entityId:mother.id,revision:mother.revision}),{status:409});
+ const review=store.sql.prepare("SELECT id FROM samaj_reviews WHERE kind='verify.person' AND entity_id=?").get(mother.id);
+ await call('reviewer',base+'/reviews/'+review.id,'POST',{decision:'APPROVE',reason:'Identity checked'});
+ await call('owner',base+'/photos/'+mother.photo,'DELETE',{revision:mother.revision+1});
+ assert.equal((await call('owner',base+'/persons/'+mother.id)).photo,undefined);
+ assert.equal(store.sql.prepare('SELECT count(*) n FROM samaj_files').get().n,3,'Removing a photo preserves its original blob');
+ const reused=await call('owner',base+'/drafts','POST');await assert.rejects(call('owner',base+'/drafts/'+reused.id,'PATCH',{revision:1,step:1,data:{formVersion:2,headPersonId:mother.id,headPhoto:photo}}),/existing member photo/);
+ await assert.rejects(call('owner',base+'/drafts/'+reused.id,'PATCH',{revision:1,step:1,data:{formVersion:2,headPhoto:{...photo,mime:'image/jpeg'}}}),/type does not match/);
+ await assert.rejects(call('owner',base+'/drafts/'+reused.id,'PATCH',{revision:1,step:5,data:{formVersion:2}}),/registration step/);
+});
+
 test('Duplicate merge is explicit, retains historical rows, handles memberships, and protects conflicting parents',async t=>{
  const {call,store}=setup(t),c=await call('owner','','POST',{name:'Merge'}),base='/'+c.id;
  const create=englishName=>call('owner',base+'/persons','POST',{data:{englishName}}),a=await create('Same Name'),b=await create('Same Name'),child=await create('Child');

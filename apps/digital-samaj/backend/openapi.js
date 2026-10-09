@@ -11,7 +11,7 @@ route('/{samajId}/grants','get,post','Manage scoped permission bundles');route('
 route('/{samajId}/reviews','get','Scoped review queue');route('/{samajId}/reviews/{id}','get,post','Inspect or decide an independent review');route('/{samajId}/reviews/{id}/withdraw','post','Withdraw own pending request');
 route('/{samajId}/reviews/{id}/start','post','Begin an independent review');
 route('/{samajId}/drafts','get,post','Private saved registrations');route('/{samajId}/drafts/{id}','get,patch','Read or autosave own draft');route('/{samajId}/drafts/{id}/submit','post','Atomically register a family with versioned consent');
-route('/{samajId}/photos','post','Upload validated private photo');route('/{samajId}/photos/{id}','get','Authorized image bytes');
+route('/{samajId}/photos','post','Upload validated private photo');route('/{samajId}/photos/{id}','get,delete','Read authorized image bytes or detach a member photo while preserving its blob');
 route('/{samajId}/duplicates/{id}','get','Scored candidate comparison');route('/{samajId}/duplicates/{id}/ignore','post','Explicitly ignore a match');route('/{samajId}/duplicates/merge','post','Explicit history-preserving merge with both revisions');
 route('/{samajId}/imports/file','post','Parse bounded CSV or first-sheet XLSX');route('/{samajId}/imports','post','Map, validate and persist preview');route('/{samajId}/imports/{id}/commit','post','Commit ready rows once; skip possible duplicates');
 for(const resource of ['audit','dashboard','moderation'])route('/{samajId}/'+resource,'get','Authorized '+resource);route('/{samajId}/moderation/{id}','post','Resolve a reported message');
