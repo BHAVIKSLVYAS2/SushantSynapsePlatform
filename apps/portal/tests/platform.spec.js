@@ -25,6 +25,20 @@ let child,base,dir;
 test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-browser-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe']});await new Promise((resolve,reject)=>{let out='';child.stdout.on('data',c=>{out+=c;const m=out.match(/localhost:(\d+)/);if(m){base='http://127.0.0.1:'+m[1];resolve();}});child.once('error',reject);child.once('exit',code=>reject(Error('Server exited '+code)));});});
 test.afterAll(async()=>{if(child.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});fs.rmSync(dir,{recursive:true,force:true});});
 
+test('app finder stays usable across small screens, themes and empty results',async({page})=>{
+ await page.goto(base);await expect(page.locator('#app-finder-trigger')).toBeVisible();
+ for(const [width,height,theme] of [[320,568,'light'],[390,844,'dark'],[1440,900,'light']]){
+  await page.setViewportSize({width,height});await setTheme(page,theme);await page.evaluate(()=>scrollTo(0,500));const position=await page.evaluate(()=>scrollY);
+  await page.getByRole('button',{name:'Search apps',exact:true}).click();await expect(page.getByLabel('Search apps or activities')).toBeFocused();await expect(page.locator('.finder-result')).toHaveCount(8);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  const bounds=await page.locator('#app-finder-dialog').boundingBox();expect(bounds.y).toBeGreaterThanOrEqual(0);expect(bounds.y+bounds.height).toBeLessThanOrEqual(height+1);
+  await page.getByLabel('Search apps or activities').fill('not-a-real-tool');await expect(page.locator('#finder-count')).toContainText('No matching apps');await expect(page.getByRole('button',{name:'Clear search',exact:true})).toBeVisible();await page.getByRole('button',{name:'Clear search',exact:true}).click();
+  await page.getByLabel('Search apps or activities').fill('condolence');await expect(page.locator('.finder-result')).toHaveCount(1);await expect(page.locator('.finder-result')).toContainText('Moment Studio');await page.getByLabel('Search apps or activities').fill('');
+  await page.screenshot({path:`test-results/app-finder-${width}-${theme}.png`});await page.keyboard.press('Escape');await expect(page.locator('#app-finder-dialog')).not.toBeVisible();expect(await page.evaluate(()=>scrollY)).toBe(position);await expect(page.locator('#app-finder-trigger')).toBeFocused();
+ }
+ await page.locator('#app-finder-trigger').click();await page.getByLabel('Search apps or activities').fill('quilt');await page.locator('.finder-result').click();await expect(page).toHaveURL(base+'/pocket-pause');
+ await page.goto(base+'/signin');await expect(page.locator('#auth-form')).toBeVisible();await expect(page.locator('#app-finder-trigger')).toHaveCount(0);
+});
 test('homepage ships real cards without JavaScript and ignores obsolete login query',async({browser,page})=>{
  const context=await browser.newContext({javaScriptEnabled:false});
  try{const fallback=await context.newPage();const response=await fallback.goto(base);expect(response.headers()['cache-control']).toBe('no-store');await expect(fallback.locator('.public-app')).toHaveCount(8);await expect(fallback.getByRole('link',{name:'Fund Lens',exact:true})).toBeVisible();await expect(fallback.getByRole('link',{name:'Open News'})).toBeVisible();await expect(fallback.getByRole('link',{name:'Sign in to Tournament Lite'})).toBeVisible();}finally{await context.close();}
@@ -37,7 +51,7 @@ test('platform setup, favourites, app launch with shared sign-in, team access an
  await page.setViewportSize({width:390,height:844});await page.getByRole('link',{name:'Sign in',exact:true}).click();
  await page.getByLabel('Your name',{exact:true}).fill('Sushant Owner');await page.getByLabel('Workspace name',{exact:true}).fill('Synapse Chambers');await page.getByLabel('Email address').fill('owner@synapse.example');await page.getByLabel('Password',{exact:true}).fill('Platform browser password!');await page.getByRole('button',{name:'Create platform'}).click();
  await expect(page.getByRole('heading',{name:'Welcome, Sushant.'})).toBeVisible();await expect(page.getByRole('button',{name:'Open Chambers'})).toBeVisible();await expect(page.getByText('Planned',{exact:true})).toHaveCount(3);
- await page.getByRole('searchbox',{name:'Search apps'}).fill('Chambers');await expect(page.locator('.app-card')).toHaveCount(1);await page.getByRole('searchbox',{name:'Search apps'}).fill('');
+ await page.getByRole('button',{name:'Search apps',exact:true}).click();await page.getByLabel('Search apps or activities').fill('Chambers');await expect(page.locator('.finder-result')).toHaveCount(1);await expect(page.locator('.finder-result')).toContainText('Chambers');await page.keyboard.press('Escape');await expect(page.getByRole('button',{name:'Search apps',exact:true})).toBeFocused();
  await page.getByRole('button',{name:'Add Chambers to favourites'}).click();await page.getByRole('navigation',{name:'Mobile platform navigation'}).getByRole('button',{name:'Favourites',exact:true}).click();await expect(page.locator('.app-card')).toHaveCount(1);
  await page.getByRole('button',{name:'Open Chambers'}).click();await expect(page).toHaveURL(base+'/advocate');await expect(page.getByRole('heading',{name:'A clear view. A better day.'})).toBeVisible();
  await page.getByRole('link',{name:'Back to Sushant Synapse apps'}).click();await page.getByRole('navigation',{name:'Mobile platform navigation'}).getByRole('button',{name:'Recent',exact:true}).click();await expect(page.getByRole('heading',{name:'Chambers',exact:true})).toBeVisible();
