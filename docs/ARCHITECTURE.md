@@ -107,7 +107,7 @@ Current public implementation is under apps/moment-studio; /certificates and its
 
 ## Daily Spark ownership
 
-apps/daily-spark/frontend owns /daily-spark. engine.mjs supplies versioned deterministic IST puzzles, arithmetic and a bounded four-number solver. app.js owns transient tab state, hints and explicit sharing. No backend, schema, persistence or external provider is used. Shared theme preferences are the only browser persistence. Static assets are allowlisted and both page routes bypass origin health checks in Cloudflare. Shared daily links preserve the v1 puzzle seed by date.
+apps/daily-spark/frontend owns /daily-spark. engine.mjs supplies versioned deterministic IST puzzles, arithmetic and a bounded four-number solver. play.mjs owns the reusable transient game controller, hints and explicit sharing; app.js mounts it for the standalone page and view.mjs supplies markup for the hub. No backend, schema, persistence or external provider is used. Shared theme preferences are the only browser persistence. Static assets are allowlisted and both page routes bypass origin health checks in Cloudflare. Shared daily links preserve the v1 puzzle seed by date.
 
 ## Decision Wheel ownership
 
@@ -132,3 +132,10 @@ Pocket Pause scenes.mjs owns bounded fictional prop progression and canvas rende
 ## Moment Studio ownership
 
 apps/moment-studio owns the combined public cards/certificates UI, both renderers, immutable platform branding and pure bilingual condolence suggestions. Legacy certificate/celebration pages and assets alias its implementations through the static allowlist. Old saved organisation branding uses its existing explicitly approved browser key. App registry aliases project legacy favourites/launches to moment-studio without database rewrites. No schema, payment service or removal entitlement exists; paid removal later requires trusted server exports.
+
+
+## Take a Break ownership
+
+`apps/take-a-break/frontend` owns `/take-a-break`, its hub, four new native games and original bilingual clues. `engine.mjs` supplies deterministic versioned daily boards, immutable memory/bracket operations and bounded validation. Make 24 reuses the Daily Spark engine/controller; Decision Wheel and Pocket Pause retain their existing pages with return navigation. Daily dates are validated and use IST; practice state is transient. There are no backend routes, schema changes, game persistence or external content providers. Shared theme preferences are the only stored browser data.
+
+The catalogue deliberately retains the existing `daily-spark` API ID for Take a Break to preserve SQLite preferences. Wheel/Pocket entries carry `catalogueParent` metadata and remain valid legacy launch/favourite IDs. The default catalogue and finder show one hub; favourites/recent entries remain intact. The portal normalizes older backend catalogues so this frontend-only release does not need a Node restart. All static routes are allowlisted and the Cloudflare page bypasses origin health checks.

@@ -17,7 +17,7 @@ test('anonymous daily solve, undo, honest sharing and no API traffic',async({pag
  await page.reload();expect(await page.locator('#numbers button').allTextContents()).toEqual(original);await expect(page.locator('#result')).toBeHidden();expect(requests.filter(url=>url.includes('/api/'))).toEqual([]);expect(errors).toEqual([]);
 });
 test('hints, reveal, practice, theme and phone layouts',async({page})=>{
- await page.goto(base+'/');await expect(page.getByRole('link',{name:'Daily Spark',exact:true})).toBeVisible();await page.getByRole('link',{name:'Daily Spark',exact:true}).click();
+ await page.goto(base+'/');await expect(page.getByRole('link',{name:'Take a Break',exact:true})).toBeVisible();await page.goto(base+'/daily-spark');
  await page.locator('#hint').click();await expect(page.locator('#status')).toContainText('Try combining');await page.locator('#reveal').click();await expect(page.locator('#result-copy')).toContainText('= 24');await expect(page.locator('#combine')).toBeDisabled();await page.locator('#practice').click();await expect(page.locator('#edition')).toContainText('PRACTICE');await page.locator('#daily').click();await expect(page.locator('#edition')).toContainText('DAILY');
  await page.emulateMedia({colorScheme:'dark'});await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await page.locator('#theme').click();await expect(page.locator('html')).toHaveAttribute('data-theme','light');
  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:900});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}

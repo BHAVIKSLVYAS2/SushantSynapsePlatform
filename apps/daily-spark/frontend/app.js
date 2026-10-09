@@ -1,28 +1,6 @@
-﻿import {istDate,puzzle,practicePuzzle,tokens,calculate,solve,display} from './engine.mjs';
-const $=selector=>document.querySelector(selector),media=matchMedia('(prefers-color-scheme: dark)');
-$('#theme').outerHTML=window.SynapseTheme.control('id="theme"');
-function theme(){const p=window.SynapseTheme.read();document.documentElement.dataset.theme=p==='system'?(media.matches?'dark':'light'):p;}
-$('#theme').addEventListener('change',theme);media.addEventListener('change',theme);theme();
-let date,mode='daily',original,items,selected=[],op=null,history=[],assisted=false,finished=false,revealed=false;
-const symbols={'+':'+','-':'−','*':'×','/':'÷'};
-const difficultyLabel=document.createElement('label');difficultyLabel.textContent='Practice difficulty ';const difficulty=document.createElement('select');difficulty.id='practice-difficulty';for(const level of ['easy','medium','hard'])difficulty.add(new Option(level[0].toUpperCase()+level.slice(1),level));difficulty.value='medium';difficultyLabel.append(difficulty);$('#practice').parentElement.after(difficultyLabel);difficulty.onchange=()=>{if(mode==='practice')start(true);};
-function start(practice=false){date=istDate();mode=practice?'practice':'daily';original=practice?practicePuzzle(String(crypto.getRandomValues(new Uint32Array(1))[0]),difficulty.value):puzzle(date);reset();}
-function reset(){items=tokens(original);selected=[];op=null;history=[];assisted=false;finished=false;revealed=false;$('#status').textContent='';$('#result').hidden=true;$('#share-fallback').hidden=true;render();}
-function render(){
- $('#edition').textContent=mode==='daily'?`DAILY · ${date} · IST`:'PRACTICE · JUST FOR FUN';$('#daily').setAttribute('aria-pressed',String(mode==='daily'));$('#practice').setAttribute('aria-pressed',String(mode==='practice'));
- $('#numbers').replaceChildren(...items.map((item,index)=>{const b=document.createElement('button');b.type='button';b.className='tile';b.textContent=display(item.value);b.disabled=finished;b.setAttribute('aria-label',`Number ${index+1}: ${display(item.value)}`);b.setAttribute('aria-pressed',String(selected.includes(index)));if(selected.includes(index)){const order=document.createElement('small');order.textContent=selected.indexOf(index)===0?'FIRST':'SECOND';b.append(order);}b.onclick=()=>{if(selected.includes(index))selected=selected.filter(n=>n!==index);else if(selected.length<2)selected.push(index);else selected=[index];render();$('#numbers').children[index]?.focus();};return b;}));
- document.querySelectorAll('[data-op]').forEach(b=>{b.setAttribute('aria-pressed',String(op===b.dataset.op));b.disabled=finished;});$('#combine').disabled=finished||selected.length!==2||!op;$('#undo').disabled=!history.length||finished;$('#hint').disabled=finished;$('#reveal').disabled=finished;
- $('#move').textContent=finished?'Round complete.':selected.length===2?`${display(items[selected[0]].value)} ${symbols[op]||'?'} ${display(items[selected[1]].value)}`:selected.length===1?'Select your second number.':'Select your first number.';
- $('#history').replaceChildren(...history.map(step=>{const li=document.createElement('li');li.textContent=step.label;return li;}));
-}
-document.querySelectorAll('[data-op]').forEach(b=>b.onclick=()=>{op=b.dataset.op;render();});
-$('#combine').onclick=()=>{const [a,b]=selected.map(index=>items[index]);try{const value=calculate(a.value,op,b.value);history.push({items:structuredClone(items),label:`${display(a.value)} ${symbols[op]} ${display(b.value)} = ${display(value)}`});items=[...items.filter((_,index)=>!selected.includes(index)),{value,expression:`(${a.expression} ${op} ${b.expression})`}];selected=[];op=null;$('#status').textContent='';if(items.length===1){if(Math.abs(items[0].value-24)<1e-8)complete(false);else $('#status').textContent=`You made ${display(items[0].value)}. Undo a move or start again.`;}render();$('#numbers').querySelector('button:not(:disabled)')?.focus();}catch(error){$('#status').textContent=error.message;}};
-$('#undo').onclick=()=>{items=history.pop().items;selected=[];op=null;$('#status').textContent='';render();};$('#reset').onclick=reset;$('#daily').onclick=()=>start();$('#practice').onclick=()=>start(true);
-$('#hint').onclick=()=>{assisted=true;const solution=solve(items.map(item=>({...item,expression:String(item.value)}))),first=solution?.match(/\((\d+) ([+*/-]) (\d+)\)/);$('#status').textContent=first?`Try combining ${first[1]} ${symbols[first[2]]} ${first[3]} first.`:solution?'There is still a route to 24. Try a different operation, or reveal the solution.':'No route to 24 remains. Undo or start again.';};
-function complete(show){finished=true;revealed=show;$('#result').hidden=false;$('#result-title').textContent=show?'One way to make 24.':'You made it. A spark well spent!';$('#result-copy').textContent=show?`${solve(tokens(original))} = 24`:`${assisted?'Solved with a hint.':'Solved without hints.'} ${mode==='daily'?'Challenge a friend with the same four numbers.':'Try another practice round.'}`;$('#status').textContent=show?'Solution revealed. Start again to try it yourself.':'All four numbers used. Nicely done.';}
-$('#reveal').onclick=()=>{assisted=true;complete(true);render();};
-$('#share').onclick=async()=>{const text=`Daily Spark${mode==='daily'?` · ${date} (IST)`:''}\n${original.join(' · ')} → 24\n${revealed?'Can you make 24?':assisted?'Solved with a hint':'Solved without hints'}\n${mode==='practice'?'Try the daily challenge: ':''}${location.origin}/daily-spark${mode==='daily'?`?day=${date}`:''}`;try{if(navigator.share){await navigator.share({title:'Daily Spark',text});return;}if(navigator.clipboard){await navigator.clipboard.writeText(text);$('#status').textContent='Result copied. Paste it to challenge a friend.';return;}}catch(error){if(error.name==='AbortError')return;}$('#share-fallback').hidden=false;$('#share-text').value=text;$('#share-text').focus();$('#share-text').select();$('#status').textContent='Copy the message below to share your result.';};
-start();
-// A shared date reopens exactly the same versioned puzzle, even after midnight.
-const sharedDay=new URLSearchParams(location.search).get('day');
-if(sharedDay&&/^\d{4}-\d{2}-\d{2}$/.test(sharedDay)&&!Number.isNaN(Date.parse(sharedDay))&&new Date(sharedDay).toISOString().slice(0,10)===sharedDay&&sharedDay<=istDate()){date=sharedDay;original=puzzle(date);reset();}
+import {mountSpark} from './play.mjs';
+const media=matchMedia('(prefers-color-scheme: dark)'),button=document.querySelector('#theme');
+button.outerHTML=SynapseTheme.control('id="theme"');
+function theme(){const preference=SynapseTheme.read();document.documentElement.dataset.theme=preference==='system'?(media.matches?'dark':'light'):preference;}
+document.querySelector('#theme').addEventListener('change',theme);media.addEventListener('change',theme);theme();
+mountSpark(document.querySelector('main'));

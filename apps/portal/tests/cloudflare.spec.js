@@ -32,7 +32,7 @@ test('offline home keeps public tools usable and every dependent app shows a res
   const errors = []; page.on('pageerror', error => errors.push(error.message));
   await page.setViewportSize({width: 320, height: 850});
   await page.goto(base);
-  await expect(page.locator('#free-apps .public-app')).toHaveCount(8);
+  await expect(page.locator('#free-apps .public-app')).toHaveCount(6);
   await expect(page.locator('#backend-notice')).toHaveCount(0);
   await expect(page.locator('.offline-ribbon')).toHaveCount(4);
   await expect(page.locator('#free-apps .offline-ribbon')).toHaveCount(0);

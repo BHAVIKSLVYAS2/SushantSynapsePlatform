@@ -24,7 +24,7 @@ Future optional branded/export upgrades can diversify revenue while preserving f
 
 | Page | Placement |
 |---|---|
-| Public home | One card after the eight free tools, before the private workspace section |
+| Public home | One card after the public collections and tools, before the private workspace section |
 | Team Mixer, Decision Wheel, Daily Spark | One card after the activity and explore section, before the footer |
 | Timetable Lite | One card after its workspace, before the footer |
 | News | One card after the newspaper/archive, before the footer |

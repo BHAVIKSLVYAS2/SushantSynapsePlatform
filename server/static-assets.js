@@ -50,6 +50,10 @@ const staticAssets={
  '/timetable-lite':'apps/timetable-lite/frontend/index.html',
  '/timetable-lite/':'apps/timetable-lite/frontend/index.html',
  '/shared/theme.js':'packages/ui/theme.js',
+ '/take-a-break':'apps/take-a-break/frontend/index.html',
+ '/take-a-break/':'apps/take-a-break/frontend/index.html',
+ '/daily-spark/play.mjs':'apps/daily-spark/frontend/play.mjs',
+ '/daily-spark/view.mjs':'apps/daily-spark/frontend/view.mjs',
  '/shared/platform-header.css':'packages/ui/platform-header.css',
  '/shared/sponsorship.js':'packages/ui/sponsorship.js',
  '/shared/sponsorship-engine.mjs':'packages/ui/sponsorship-engine.mjs',
@@ -65,6 +69,7 @@ for(const file of ['app.js','style.css','icon.svg','advocate.webmanifest'])stati
 for(const file of ['app.js','engine.js','style.css','icon.svg'])staticAssets['/fund-overlap/'+file]='apps/fund-overlap/frontend/'+file;
 for(const file of ['app.js','engine.js','style.css','comic.css','art/chai-comic-v1.webp','art/news-desk-v1.webp'])staticAssets['/news/'+file]='apps/news/frontend/'+file;
 module.exports={staticAssets};
+for(const file of ['app.js','engine.mjs','clues.mjs','style.css'])staticAssets['/take-a-break/'+file]='apps/take-a-break/frontend/'+file;
 for(const file of ['app.js','i18n.js','style.css','print.css'])staticAssets['/digital-samaj/'+file]='apps/digital-samaj/frontend/'+file;
 for(const file of ['app.js','export.js','style.css','scheduling.js'])staticAssets['/tournament-lite/'+file]='apps/tournament-lite/frontend/'+file;
 for(const file of ['app.js','style.css'])staticAssets['/batchfee-lite/'+file]='apps/batchfee-lite/frontend/'+file;

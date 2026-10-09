@@ -4,6 +4,8 @@ Fund Lens comparison is deployed on Cloudflare and works without the laptop back
 
 Quiet direct sponsorships are prepared for selected public pages: one labelled, dismissible text card outside the working controls, with no popups, autoplay, advertiser scripts or tracking pixels. Private workspaces and sensitive tools remain ad-free. `/sponsor` provides the partnership information, brief and local enquiry drafts; actual paid campaigns, enquiry contact and payments are not connected yet. See [the earning plan and publishing guide](docs/MONETIZATION.md).
 
+**Take a Break** at `/take-a-break` brings seven activities into one mobile-friendly hub: Make 24 (Daily Spark), Oddly Different, Memory Minute, bilingual Clue Club, Face-Off, Decision Wheel and Pocket Pause. Daily challenges use IST dates, with practice rounds and explicit sharing. Free, no login, no backend dependency; progress stays in the current tab. Existing `/daily-spark`, `/decision-wheel` and `/pocket-pause` links continue to work.
+
 ## Repository structure
 
 **DIGITAL SAMAJ** is the integrated family registry at `/digital-samaj`: saved registration, verified directory, Vanshavali, private profiles/photos, bilingual print/PDF, CSV/XLSX import and member messaging. It uses the existing platform login and SQLite. The platform owner creates a Samaj and grants app roles; independent reviewers approve submissions and profile claims. See [DIGITAL SAMAJ setup and boundaries](apps/digital-samaj/README.md). Deployment verification is recorded in the functionality ledger.
@@ -30,7 +32,7 @@ This is an npm workspace monorepo. See [code ownership and adding apps](docs/ARC
 
 A mobile-first home for connected apps at **apps.sushantsynapse.com**. Chambers, Fund Lens and News are available; Projects, Finance and Knowledge are roadmap previews only.
 
-- `/`: eight no-login tools (Pocket Pause, Team Mixer, Moment Studio, Decision Wheel, Daily Spark, Timetable Lite, Fund Lens and News), followed by a separate sign-in section for Chambers, Tournament Lite organizing and owner-only BatchFee Lite. Tournament results are public only through an organizer-shared link. Sign-in also opens the account catalogue, favourites, recent launches, profile and owner-managed app access.
+- `/`: six no-login collections and tools (Take a Break, Team Mixer, Moment Studio, Timetable Lite, Fund Lens and News), followed by a separate sign-in section for Chambers, Tournament Lite organizing and owner-only BatchFee Lite. Tournament results are public only through an organizer-shared link. Sign-in also opens the account catalogue, favourites, recent launches, profile and owner-managed app access.
 - `/advocate`: the complete Chambers workspace described below, using the same account and theme.
 - `/news` (no login required): **Sushant Synapse Times**, by **Bhavik**. Generate present or past editions with ten dated stories across available topics, including Masala entertainment, short credited excerpts and a fictional three-panel comic. Future dates are rejected. SQLite archives reopen without fetching. Historical availability depends on source coverage. See [News usage and source scope](apps/news/README.md). Automatic 05:00 publication remains deferred.
 - `/fund-overlap` (no login required): Fund Lens compares mutual fund equity holdings, industry exposure and unique contributions using national MFapi discovery, Tickertape/Groww holdings and official PPFAS reference snapshots. See [coverage, methodology and refresh instructions](apps/fund-overlap/README.md).
