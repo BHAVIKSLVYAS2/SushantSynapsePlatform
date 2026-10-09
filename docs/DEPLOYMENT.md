@@ -4,6 +4,12 @@ The most recent deployment IDs and verification are recorded at the top of `FUNC
 
 Target: **https://apps.sushantsynapse.com**. The repository includes a Node/SQLite app and a Docker Compose/Caddy configuration. These files prepare deployment; pushing to GitHub alone does not put the site on that domain.
 
+## Current audit release — 2026-10-09
+
+Implementation `fea4614`; frontend Worker `de9559fb-cde3-4402-a560-59a02de9b917`; backend `C:\Code\SushantSynapsePlatform\.publish\release-fea4614`, original `data` directory and port 3001. All 14 pages, public asset bytes and anonymous private-API boundaries were verified. Existing data hashes remain unchanged apart from additive migration markers. Post-release documentation is overlaid in the active release so the ledger endpoint reflects verified status. Recovery checkpoint: `data/backups/pre-audit-implementation-1791519472938.sqlite`. See the latest functionality-ledger entry for evidence and remaining connections.
+
+Recovery uses `infrastructure/start-tunnel-host.ps1 -ReleaseRoot C:\Code\SushantSynapsePlatform\.publish\release-fea4614` in a hidden process after confirming this application's supervisor is stopped. The existing dedicated `infrastructure/cloudflared.local.yml` connector is separate from the unrelated Cloudflared service. Do not stop unrelated services. Laptop shutdown still takes private APIs offline; the independent public frontend remains deployed. Encrypted scheduled backups require pending payload/destination approval; automatic reference delivery additionally requires the two documented CI hosting secrets.
+
 ## Cloudflare frontend (2026-10-01)
 
 ### Current News satire release (2026-10-08)
