@@ -4,7 +4,7 @@ import {occasions,designs,palettes,validate,render,filename} from '/moment-studi
 const $=s=>document.querySelector(s),form=$('#editor'),canvas=$('#card'),media=matchMedia('(prefers-color-scheme: dark)');
 $('#theme').outerHTML=window.SynapseTheme.control('id="theme"');function theme(){const p=window.SynapseTheme.read();document.documentElement.dataset.theme=p==='system'?(media.matches?'dark':'light'):p;}$('#theme').addEventListener('change',theme);media.addEventListener('change',theme);theme();
 for(const [id,value]of Object.entries(occasions)){const option=new Option(value.name,id);$('#occasion').add(option);}for(const [id,value]of Object.entries(palettes))$('#palette').add(new Option(value.name,id));
-for(const [id,name]of Object.entries(designs)){const label=document.createElement('label');label.className='design-choice';const input=document.createElement('input');input.type='radio';input.name='design';input.value=id;input.checked=id==='confetti';label.append(input,document.createTextNode(name));$('#designs').append(label);}
+for(const [id,name]of Object.entries(designs)){const label=document.createElement('label');label.className='design-choice';const input=document.createElement('input');input.type='radio';input.name='design';input.value=id;input.checked=id==='elegant';const thumb=document.createElement('canvas');thumb.setAttribute('aria-hidden','true');render(thumb,{...occasions.birthday.en,occasion:'birthday',language:'en',design:id,palette:'slate',format:'square'});label.append(thumb,input,document.createTextNode(name));$('#designs').append(label);}
 let image=null,imageVersion=0,pending=false,busy=false,ready=false;
 let dirty=false;
 form.addEventListener('input',()=>dirty=true);

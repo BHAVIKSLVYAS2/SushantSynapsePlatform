@@ -39,7 +39,7 @@ export function render(canvas,data,images={},scale=1.25){
  if(playful){
   const colors=palettes[t];c.fillStyle=colors[0];c.fillRect(0,0,W,H);a=colors[1];
   if(t==='Confetti'){
-   for(let i=0;i<64;i++){const x=22+(i*173)%1080,y=20+(i*97)%745;if(x>110&&x<1012&&y>135&&y<735)continue;c.save();c.translate(x,y);c.rotate(i*.83);c.fillStyle=colors[2+i%3];if(i%2)c.fillRect(-4,-8,8,16);else{c.beginPath();c.arc(0,0,5,0,Math.PI*2);c.fill();}c.restore();}
+   for(let i=0;i<28;i++){const x=22+(i*173)%1080,y=20+(i*97)%745;if(x>110&&x<1012&&y>135&&y<735)continue;c.save();c.translate(x,y);c.rotate(i*.83);c.fillStyle=colors[2+i%3];if(i%2)c.fillRect(-4,-8,8,16);else{c.beginPath();c.arc(0,0,5,0,Math.PI*2);c.fill();}c.restore();}
    rect(113,211,896,431,'#e8ddbf',1);
    // A little party crown above the heading.
    if(!images.logo){poly([[519,99],[526,65],[547,84],[561,56],[577,84],[599,65],[603,99]],colors[2]);line(527,106,595,106,a,4);}
@@ -83,7 +83,9 @@ export function render(canvas,data,images={},scale=1.25){
  }
  if(t==='Classic'){rect(26,26,W-52,H-52,a,3);rect(35,35,W-70,H-70,a,.7);for(const x of [47,W-47])for(const y of [47,H-47]){c.save();c.translate(x,y);c.rotate(Math.PI/4);rect(-5,-5,10,10,a);c.restore();}line(430,192,692,192,a);}
  if(t==='Modern'){poly([[0,0],[200,0],[0,75]],a);poly([[0,0],[70,0],[0,160]],'#cadbdf');poly([[W,H],[W-140,H],[W,H-100]],a);line(80,207,1042,207,a,2);}
- if(t==='Minimal'){line(80,60,1042,60,a,2);line(80,H-30,1042,H-30,a);line(511,195,611,195,a,3);}
+ if(t==='Minimal'){
+ const sphere=(x,y,r)=>{const g=c.createRadialGradient(x-r*.4,y-r*.4,2,x,y,r);g.addColorStop(0,paper);g.addColorStop(.5,'#d5dfda');g.addColorStop(1,'#708b7d');c.save();c.shadowColor='#526e6022';c.shadowBlur=20;c.shadowOffsetY=12;c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();c.restore();};sphere(-85,110,150);sphere(W+85,H-110,150);
+line(80,60,1042,60,a,2);line(80,H-30,1042,H-30,a);line(511,195,611,195,a,3);}
  if(t==='Elegant'){rect(24,24,W-48,H-48,a);rect(42,42,W-84,H-84,a,2);for(const x of [42,W-42])for(const y of [42,H-42]){c.beginPath();c.arc(x,y,17,0,Math.PI*2);c.fillStyle=paper;c.fill();c.strokeStyle=a;c.stroke();}line(410,199,530,199,a);line(592,199,712,199,a);poly([[561,192],[568,199],[561,206],[554,199]],a);}
  if(t==='Community'){for(let i=0;i<8;i++){c.save();c.translate(35+i*9,95+i*62);c.rotate(-.4);c.beginPath();c.ellipse(0,0,13,28,0,0,Math.PI*2);c.fillStyle=i%2?a:'#d9e5dd';c.fill();c.restore();c.save();c.translate(W-35-i*9,H-95-i*62);c.rotate(-.4);c.beginPath();c.ellipse(0,0,13,28,0,0,Math.PI*2);c.fillStyle=i%2?a:'#d9e5dd';c.fill();c.restore();}line(160,62,962,62,a);line(160,H-30,962,H-30,a);}
  if(t==='Corporate'){
