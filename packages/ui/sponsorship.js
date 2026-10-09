@@ -5,6 +5,14 @@ try{muted=sessionStorage.getItem(mutedKey)==='1';}catch{/* Blocked storage still
 const node=(tag,className,text)=>{const el=document.createElement(tag);el.className=className;el.textContent=text;return el;};
 function mount(){
  for(const slot of document.querySelectorAll('[data-sponsor-slot]')){
+  const route=location.pathname.replace(/\/$/,'')||'/';
+  if(sponsorPages[slot.dataset.sponsorSlot]!==route||slot.previousElementSibling?.matches('[data-google-ad-preview]'))continue;
+  const preview=node('aside','synapse-google-ad-preview','');
+  preview.dataset.googleAdPreview='';preview.setAttribute('aria-label','Google advertisement placement preview');
+  preview.append(node('span','synapse-google-ad-label','Advertisement · Preview'),node('h2','synapse-google-ad-title','Google ads will appear here'),node('p','synapse-google-ad-description','Reserved ad space · Integration pending'));
+  slot.before(preview);
+ }
+ for(const slot of document.querySelectorAll('[data-sponsor-slot]')){
   if(slot.dataset.sponsorReady)continue;slot.dataset.sponsorReady='1';
   const page=slot.dataset.sponsorSlot,route=location.pathname.replace(/\/$/,'')||'/';
   if(muted||!sponsorConfig.enabled||sponsorPages[page]!==route){slot.hidden=true;continue;}

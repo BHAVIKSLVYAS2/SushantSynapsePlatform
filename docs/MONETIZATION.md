@@ -1,5 +1,9 @@
 # Quiet sponsorship plan
 
+## Google advertisement placement preview
+
+The six existing public sponsorship locations also show a separate responsive placeholder labelled "Advertisement · Preview", "Google ads will appear here" and "Reserved ad space · Integration pending". It is a visual layout preview only, excluded from print. No Google script, publisher account, ad request, consent service or revenue integration is connected. Private workspaces have no preview. Direct sponsorship remains separate.
+
 This release prepares **direct sponsorships**, not an ad-network connection. There are no booked advertisers, connected payment services, measured revenue or verified audience figures. The public homepage invites potential sponsors; empty app slots are hidden. The public enquiry contact remains unset until the owner supplies a public business address.
 
 ## Why this model

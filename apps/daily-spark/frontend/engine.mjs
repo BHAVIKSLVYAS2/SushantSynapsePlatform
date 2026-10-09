@@ -13,6 +13,28 @@ export function solve(items){
 }
 export function puzzle(seed){let state=2166136261;for(const c of `spark-v1:${seed}`)state=Math.imul(state^c.charCodeAt(0),16777619)>>>0;const next=()=>{state=(Math.imul(state,1664525)+1013904223)>>>0;return 1+state%9;};for(let i=0;i<100;i++){const numbers=Array.from({length:4},next);if(solve(tokens(numbers)))return numbers;}return [2,3,4,6];}
 export const display=value=>Number.isInteger(value)?String(value):String(Number(value.toFixed(4)));
+// Version 2 banks are classified by the operations required, not number size.
+export const levelBanks=Object.freeze({
+ warmup:[[1,2,3,4],[2,3,4,6],[2,2,3,4],[3,3,3,3],[1,2,5,6],[2,4,4,6],[3,4,5,6],[2,2,2,3],[4,4,4,4],[1,3,5,6],[2,3,5,6],[3,3,4,6]],
+ challenge:[[1,1,6,8],[1,2,7,7],[1,3,7,9],[1,3,8,9],[2,5,5,8],[2,5,6,9],[3,3,3,9],[3,3,5,5],[3,3,6,6],[4,4,4,5],[4,5,5,7],[4,5,8,8],[5,5,5,5],[5,6,7,7],[6,7,8,9]],
+ expert:[[1,3,4,6],[1,4,5,6],[1,5,5,5],[1,6,6,8],[3,3,7,7],[3,3,8,8],[4,4,7,7]]
+});
+export function levelPuzzle(seed,level='challenge'){
+ if(!Object.hasOwn(levelBanks,level))throw Error('Choose warmup, challenge or expert.');
+ let hash=2166136261;for(const c of `spark-v2:${level}:${seed}`)hash=Math.imul(hash^c.charCodeAt(0),16777619)>>>0;
+ const numbers=[...levelBanks[level][hash%levelBanks[level].length]];
+ for(let i=3;i>0;i--){hash=(Math.imul(hash,1664525)+1013904223)>>>0;const j=hash%(i+1);[numbers[i],numbers[j]]=[numbers[j],numbers[i]];}
+ return numbers;
+}
+export function solutionSteps(items){
+ if(items.length===1)return Math.abs(items[0].value-24)<1e-8?[]:null;
+ for(let i=0;i<items.length;i++)for(let j=i+1;j<items.length;j++)for(const [a,b]of [[items[i],items[j]],[items[j],items[i]]])for(const op of ['+','-','*','/']){
+  if(op==='/'&&Math.abs(b.value)<1e-10)continue;
+  const value=calculate(a.value,op,b.value),rest=items.filter((_,k)=>k!==i&&k!==j),next=solutionSteps([...rest,{value}]);
+  if(next)return [{a:a.value,b:b.value,op,value},...next];
+ }
+ return null;
+}
 export function practicePuzzle(seed,difficulty='medium'){
  if(!['easy','medium','hard'].includes(difficulty))throw Error('Choose easy, medium or hard.');if(difficulty==='medium')return puzzle(seed);
  function simple(items){if(items.length===1)return Math.abs(items[0]-24)<1e-8;for(let i=0;i<items.length;i++)for(let j=i+1;j<items.length;j++){const rest=items.filter((_,k)=>k!==i&&k!==j),a=items[i],b=items[j];for(const value of [a+b,a*b,a-b,b-a])if(simple([...rest,value]))return true;}return false;}
