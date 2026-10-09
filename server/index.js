@@ -5,6 +5,7 @@ const {Store}=require('../apps/advocate/backend/store');
 const {cleanSettings}=require('../apps/advocate/backend/settings');
 const {createAuth}=require('../packages/auth');
 const {createPortal}=require('../apps/portal/backend/routes');
+const {createSupport}=require('../apps/portal/backend/support');
 const {createAdvocate}=require('../apps/advocate/backend/routes');
 const {createFundOverlap}=require('../apps/fund-overlap/backend/routes');
 const {createNews}=require('../apps/news/backend/routes');
@@ -21,6 +22,7 @@ if(production&&(!process.env.SETUP_TOKEN||process.env.SETUP_TOKEN.length<24))thr
 const store=new Store(process.env.DATA_DIR||path.join(ROOT,'data'));
 const auth=createAuth({store,secureCookie:production||process.env.COOKIE_SECURE==='1',initializeWorkspace(input,user){store.setSetting('firm',cleanSettings({name:input.firmName||'My Chambers',advocate:user.name}));if(input.demo===true)store.demo();}});
 const portal=createPortal({store,auth});
+const support=createSupport({store,auth});
 const news=createNews({auth,store});
 const batchFee=createBatchFee({auth,store});
 const tournament=createTournament({auth,store});
@@ -53,6 +55,7 @@ const server = http.createServer(async (req,res) => {
     const user=auth.session(req);
     const context={route,method,req,res,json,user};
     if(route.startsWith('auth/')||route==='users'||route.startsWith('users/'))return await auth.handle(context);
+    if(route==='support'||route==='platform/support')return await support(context);
     if(route==='news'||route.startsWith('news/'))return await news(context);
     if(route==='tournament-lite'||route.startsWith('tournament-lite/'))return await tournament(context);
     if(route==='digital-samaj'||route.startsWith('digital-samaj/'))return await digitalSamaj(context);

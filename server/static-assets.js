@@ -1,5 +1,16 @@
 // Explicit URL allowlist. Filesystem paths are never accepted from requests.
 const staticAssets={
+ '/support':'apps/portal/frontend/support.html',
+ '/support/':'apps/portal/frontend/support.html',
+ '/support.js':'apps/portal/frontend/support.js',
+ '/support.css':'apps/portal/frontend/support.css',
+ '/support-engine.mjs':'apps/portal/frontend/support-engine.mjs',
+ '/support-qr.mjs':'apps/portal/frontend/support-qr.mjs',
+ '/ritual-assist':'apps/ritual-assist/frontend/index.html',
+ '/ritual-assist/':'apps/ritual-assist/frontend/index.html',
+ '/ritual-assist/app.js':'apps/ritual-assist/frontend/app.js',
+ '/ritual-assist/guides.mjs':'apps/ritual-assist/frontend/guides.mjs',
+ '/ritual-assist/style.css':'apps/ritual-assist/frontend/style.css',
  '/moment-studio':'apps/moment-studio/frontend/index.html',
  '/moment-studio/':'apps/moment-studio/frontend/index.html',
  '/moment-studio/cards':'apps/moment-studio/frontend/index.html',

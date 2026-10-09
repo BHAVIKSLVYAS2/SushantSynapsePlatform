@@ -1,0 +1,13 @@
+# Ritual Assist
+
+Public `/ritual-assist` provides 12 Hindu preparation guides in English and Hindi: daily puja, Ganesh, Lakshmi/Diwali, Satyanarayan, Griha pravesh, Namkaran, Vivah, Havan, Antyeshti, Prarthana sabha, Shraddha and Asthi planning.
+
+Search either language or an item name; filter Shubh and Ashubh. Each guide includes a suggested sequence, materials, custom notes, coordination advice, questions for a priest/elder and scoped references. Tick items as arranged. Each guide keeps its own checks while switching guides or language. Refresh clears all checks. Download a UTF-8 text checklist, copy it, share a guide link or use Print / Save PDF. Share links include only the guide and language, not the checklist state. Native sharing depends on the browser; clipboard/text fallback is available.
+
+`frontend/guides.mjs` owns original preparation summaries and pure search/export functions. `app.js` owns transient selection/check state; `style.css` owns responsive light/dark/print layouts. The Node static allowlist, shared app registry and Cloudflare independent-route set register the app. No API, database migration, recipient data, browser business-state storage or external content requests. Only the existing theme preference persists. Sources open only on an explicit click.
+
+These are general preparation notes, not complete liturgical instructions or a priest-reviewed ritual service. Common items are starting suggestions; “Confirm first” flags family-specific materials. Quantities and suppliers must be agreed for the actual ceremony. No invented muhurat, lunar-date calculation, funeral deadline, booking, payment or religious outcome guarantee is provided. Funeral guides cover coordination rather than body handling. Do not apply the UK legal procedures in the AMSUK cultural reference to India. Temple-specific lists are not universal prescriptions.
+
+References consulted 2026-10-09 are linked per guide: BAPS devotional practices; Drik Panchang Ganapati/Diwali/Shraddha pages; Hindu Temple of Tallahassee Satyanarayan materials; Hindu Temple of SiouxLand household and wedding lists; Hindu Temple Nebraska homam list; AMSUK cultural death-rites guidance. Those organisations describe particular traditions and do not endorse this app. Future community-specific content should be reviewed by knowledgeable representatives before being labelled authoritative.
+
+Run `node --test tests/ritual-assist.test.js` and `npx.cmd playwright test apps/ritual-assist/tests`. Tests use an isolated temporary `DATA_DIR`. Cloudflare outage checks include both public routes. No runtime workspace data is needed for demonstration or verification.

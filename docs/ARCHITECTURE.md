@@ -32,6 +32,8 @@ tests/                 Cross-app API and production configuration tests
 
 ## Dependency boundaries
 
+Support Us belongs to `apps/portal`: `/support` is a public frontend route; `/api/support` returns active recipient details or an empty disabled configuration. `backend/support.js` composes through `server/index.js`; `/api/platform/support` GET/PUT uses the shared Owner session check, bounded JSON validation, SQLite `settings` key `platform-support` and audit transaction. No schema changes or payment records are added. SQL export includes these settings; Chambers JSON backup remains scoped to Chambers settings. The Cloudflare page loads independently, while configuration and owner changes require the existing Node origin. It fails closed during backend outages, with no cached payment destination. QR encoding uses a local MIT-licensed qrcode 1.5.4/dijkstrajs browser bundle with no CDN, advertising scripts or new runtime dependencies. Both licenses are retained in `apps/portal/SUPPORT-QR-LICENSE.txt`.
+
 Fund Lens public comparison routes run independently in the Cloudflare Worker. `infrastructure/cloudflare/fund-sources.mjs` reuses app-owned MFapi/Tickertape/Groww validation, bundles only the official public reference index/snapshots, and caches public verification progress at the edge. Each invocation bounds upstream requests to 36; HTTP 202 asks the browser to continue verification before computing any comparison. Cache eviction can require re-verification. Private legacy portfolio/watchlist routes still proxy to authenticated Node/SQLite. No business state is migrated.
 
 DIGITAL SAMAJ is owned by `apps/digital-samaj`, served at `/digital-samaj` and `/api/digital-samaj`. The user explicitly selected integration with Node, shared sessions and SQLite instead of a separate Next.js/.NET/PostgreSQL service. App-scoped permission bundles, geographic/family/self grants, privacy projections, person/family/relationship repositories, review/import workflows and participant-only messaging are separate backend modules. Two additive schema files register app tables in full SQL export. Person identity is independent of login accounts; family contexts join the same person rather than duplicate it. The five-section browser registration autosaves drafts and individual person photos in SQLite; legacy ten-step drafts map to the new sections without discarding their data. Person photo removal detaches the current reference and retains its blob; new group-photo controls are absent. See the app README for verification, privacy and operational limits.
@@ -128,6 +130,10 @@ apps/team-mixer/frontend owns /team-mixer. engine.mjs owns bounded Unicode name 
 apps/pocket-pause owns the public page, transient bubble/canvas/audio state and pure elapsed-time circle engine. No backend, persistence or schema. Both page routes bypass Cloudflare origin health checks; no business data is written.
 
 Pocket Pause scenes.mjs owns bounded fictional prop progression and canvas rendering for computer, TV, crockery and memo scenes. app.js owns per-tab states, explicit rebuilds, shared opt-in audio and bounded/reduced-motion fragment effects. No new service or persistence.
+
+## Ritual Assist ownership
+
+`apps/ritual-assist` owns public `/ritual-assist`, bilingual Hindu preparation content and pure search/text-export helpers in `frontend/guides.mjs`. The editor keeps per-guide checks in tab memory, with explicit text download, copying, guide-link sharing and print output. Only shared theme preferences persist. No backend, schema, business-state storage, provider calls, calculated muhurat or bookings are installed. Node static allowlisting and Cloudflare independent routing serve both page routes. References retain their tradition-specific scope; the guides do not claim a universal vidhi or priest approval. See the app README for content scope and operational limits.
 
 ## Moment Studio ownership
 

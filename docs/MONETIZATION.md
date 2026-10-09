@@ -1,5 +1,13 @@
 # Quiet sponsorship plan
 
+## Voluntary support
+
+`/support` is implemented locally, adapted from `C:\Code\ContemptUniverse\src\web\app\support\page.tsx` with platform styling. It is not deployed and no payment recipient is configured. Sign in as the platform Owner, open `/support`, expand **Manage support settings**, enter a recipient display name and verified UPI ID or HTTPS payment link, then enable and save. The public destination changes immediately on the running Node instance. Only owners can read drafts or write settings; invalid UPI IDs, non-HTTPS/credential-bearing links and enabled empty configurations are rejected server-side. Details persist under `platform-support` in SQLite and full SQL export; disabled drafts are excluded from public responses. Configure the real production backend after deploying both server and frontend.
+
+UPI takes priority when both destinations exist. ₹20 Chai, ₹49 Coffee, ₹99 snack and ₹249 meal choices build a UPI deep link and matching local QR with recipient, INR amount and contribution note. HTTPS-only checkout gets its own QR/link; amount tiles are hidden because a generic hosted URL cannot guarantee the amount. Copy uses clipboard with a manual selection fallback. No static third-party QR images, payment credentials, confirmation, receipts, recurring charges, paid entitlements or payment-history records are implemented. Visitors must check the recipient in their external app. Backend failure hides payment controls rather than reusing an old recipient. No contributions or revenue have been observed or claimed.
+
+The sponsorship panel links to the existing `/sponsor` workflow. No AdSense account or ad-view reward is connected, and this page loads no advertising scripts. The source's ad-view promotion is replaced with the platform's existing partnership opportunity. QR implementation is vendored from the source's installed `qrcode` package (1.5.4), bundled with its `dijkstrajs` dependency using esbuild's ESM browser output. The source project is unchanged. Licenses: `apps/portal/SUPPORT-QR-LICENSE.txt`. Existing sponsorship publishing rules below still apply.
+
 ## Google advertisement placement preview
 
 The six existing public sponsorship locations also show a separate responsive placeholder labelled "Advertisement · Preview", "Google ads will appear here" and "Reserved ad space · Integration pending". It is a visual layout preview only, excluded from print. No Google script, publisher account, ad request, consent service or revenue integration is connected. Private workspaces have no preview. Direct sponsorship remains separate.

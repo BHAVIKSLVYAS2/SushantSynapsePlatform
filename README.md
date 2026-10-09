@@ -1,5 +1,7 @@
 # Sushant Synapse Platform
 
+**Support Us** is implemented locally at `/support`, adapted from Contempt Universe with the platform header, light/dark/system themes and responsive layout. It offers ₹20/₹49/₹99/₹249 UPI contributions, amount-specific QR codes, external payment links, copy fallback and the existing sponsorship page. Signed-in owners configure verified recipient details on the page; settings persist in SQLite. Contributions default to disabled. No recipient is configured, no payment is verified and this feature is not yet deployed. See [support setup](docs/MONETIZATION.md#voluntary-support).
+
 Fund Lens comparison is deployed on Cloudflare and works without the laptop backend. See [deployment status](docs/DEPLOYMENT.md).
 
 Quiet direct sponsorships are prepared for selected public pages: one labelled, dismissible text card outside the working controls, with no popups, autoplay, advertiser scripts or tracking pixels. Private workspaces and sensitive tools remain ad-free. `/sponsor` provides the partnership information, brief and local enquiry drafts; actual paid campaigns, enquiry contact and payments are not connected yet. See [the earning plan and publishing guide](docs/MONETIZATION.md).
@@ -196,6 +198,10 @@ Team Mixer is live at https://apps.sushantsynapse.com/team-mixer (2026-10-09); p
 Pocket Pause (/pocket-pause) adds a ninth free public tool: bubble popping, sand drawing and an optional one-minute circle. Sound is opt-in; activities and drawings stay in the tab.
 
 Pocket Pause now includes seven modes: Computer meltdown, Retro TV tantrum, Crockery crash, Inbox shredder, Bubble pop, Sand garden and Breathing circle. All props and office memos are fictional.
+
+## Ritual Assist
+
+`/ritual-assist` is a free public Hindu preparation page with 12 English/Hindi guides for Shubh ceremonies and Ashubh mourning/remembrance. Browse suggested steps, puja materials and family-custom notes; tick arranged items, download/copy a checklist, share a guide link or Print / Save PDF. Checks remain in the tab and clear on refresh. Scoped source links and questions for a priest/elder help families confirm their own practice. No muhurat calculation, funeral deadline, booking, payment or saved personal data. See [Ritual Assist](apps/ritual-assist/README.md).
 
 ## Moment Studio
 
