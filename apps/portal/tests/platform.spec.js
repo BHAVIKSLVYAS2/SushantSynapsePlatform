@@ -1,5 +1,6 @@
 const {setTheme}=require('../../../tests/browser-theme');
 const {test,expect}=require('@playwright/test');
+const {noAdsContext}=require('../../../tests/browser-ads');
 // Never generate real advertising traffic from disposable test accounts.
 test.beforeEach(async({context})=>{await context.route('https://pagead2.googlesyndication.com/**',r=>r.fulfill({contentType:'text/javascript',body:''}));});
 
@@ -28,6 +29,9 @@ test('premium bento keeps all tools discoverable across touch layouts and both t
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${width}px ${theme}`).toBe(true);
    const columns=await page.locator('.public-apps').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length);
    expect(columns).toBe(width>=1100?4:width>=760?3:2);
+   if(width>=1100)await expect(page.getByRole('navigation',{name:'Platform shortcuts'})).toBeVisible();else await expect(page.getByRole('navigation',{name:'Platform shortcuts'})).toBeHidden();
+   await expect(page.locator('#free-apps .access-heading #app-finder-trigger')).toBeVisible();
+   await expect(page.locator('.public-app .home-sculpture')).toHaveCount(8);
    for(const href of ['/timetable-lite','/ritual-assist','/team-mixer']){
     const tile=page.locator(`.public-app[href="${href}"]`);
     await expect(tile).toBeVisible();expect(await tile.evaluate(el=>getComputedStyle(el).gridColumnStart)).toBe('span 2');
@@ -35,6 +39,7 @@ test('premium bento keeps all tools discoverable across touch layouts and both t
   }
  }
  await page.setViewportSize({width:1440,height:1000});await setTheme(page,'light');await page.screenshot({path:'test-results/premium-home-desktop.png',fullPage:true});
+ await setTheme(page,'dark');await page.screenshot({path:'test-results/mint-home-desktop-dark.png',fullPage:true});
  await page.setViewportSize({width:390,height:844});await setTheme(page,'dark');await page.screenshot({path:'test-results/premium-home-mobile-dark.png',fullPage:true});
  await page.emulateMedia({reducedMotion:'reduce'});
  expect(await page.locator('.home-paths a[href="/support"]').evaluate(el=>getComputedStyle(el).animationName)).toBe('none');
@@ -51,13 +56,13 @@ test('legal information works without JavaScript, has real notices and fits mobi
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  for(const route of ['/privacy','/terms','/contact','/legal','/legal/third-party-notices']){const response=await page.goto(base+route);expect(response.status()).toBe(200);await expect(page.locator('h1')).toBeVisible();await expect(page.locator('.synapse-legal-footer')).toBeVisible();for(const width of [320,1440]){await page.setViewportSize({width,height:900});for(const theme of ['light','dark']){await page.evaluate(t=>document.documentElement.dataset.theme=t,theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}}}
  await page.goto(base+'/legal/third-party-notices');await expect(page.locator('article')).toContainText('Copyright (c) 2012 Ryan Day');await expect(page.locator('article')).toContainText('Wyatt Baldwin');await expect(page.locator('article')).toContainText('Don Cross');
- const context=await browser.newContext({javaScriptEnabled:false});try{const nojs=await context.newPage();for(const route of ['/','/signin','/ritual-assist','/moment-studio','/advocate','/digital-samaj','/news','/support','/privacy']){await nojs.goto(base+route);await expect(nojs.locator('.synapse-legal-footer a[href="/privacy"]')).toBeVisible();await expect(nojs.locator('.synapse-legal-footer a[href="/contact"]')).toBeVisible();}}finally{await context.close();}
+ const context=await noAdsContext(browser,{javaScriptEnabled:false});try{const nojs=await context.newPage();for(const route of ['/','/signin','/ritual-assist','/moment-studio','/advocate','/digital-samaj','/news','/support','/privacy']){await nojs.goto(base+route);await expect(nojs.locator('.synapse-legal-footer a[href="/privacy"]')).toBeVisible();await expect(nojs.locator('.synapse-legal-footer a[href="/contact"]')).toBeVisible();}}finally{await context.close();}
  for(const route of ['/','/signin','/advocate','/digital-samaj','/batchfee-lite','/tournament-lite','/fund-overlap','/news','/ritual-assist','/ritual-assist/calendar','/moment-studio','/moment-studio/certificates','/timetable-lite','/take-a-break','/pocket-pause','/daily-spark','/decision-wheel','/team-mixer','/support','/sponsor']){await page.setViewportSize({width:320,height:850});await page.goto(base+route);await expect(page.locator('.synapse-legal-footer')).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await page.goto(base+'/showcase?screen=1');await expect(page.locator('.synapse-legal-footer')).toBeHidden();expect(errors).toEqual([]);
 });
 
 test('theme toggle supports light default, saved system preference, keyboard, cross-tab sharing and blocked storage',async({browser})=>{
- const context=await browser.newContext({colorScheme:'dark'});
+ const context=await noAdsContext(browser,{colorScheme:'dark'});
  try{
   const page=await context.newPage(),other=await context.newPage();
   await page.goto(base+'/certificates');await other.goto(base+'/news');
@@ -69,7 +74,7 @@ test('theme toggle supports light default, saved system preference, keyboard, cr
   await page.reload();await expect(toggle).toHaveAttribute('aria-pressed','false');await page.goto(base+'/timetable-lite');await expect(page.locator('body')).toHaveAttribute('data-theme','light');
   await page.getByRole('button',{name:'Dark mode',exact:true}).click();await expect(other.locator('html')).toHaveAttribute('data-theme','dark');
  }finally{await context.close();}
- const blocked=await browser.newContext();try{
+ const blocked=await noAdsContext(browser,);try{
   await blocked.addInitScript(()=>{Storage.prototype.getItem=Storage.prototype.setItem=()=>{throw new Error('Storage blocked');};});
   const page=await blocked.newPage();await page.goto(base+'/certificates');const toggle=page.getByRole('button',{name:'Dark mode',exact:true});await toggle.click();await expect(toggle).toHaveAttribute('aria-pressed','true');await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
  }finally{await blocked.close();}
@@ -87,7 +92,7 @@ test('sponsorship invitation is quiet, dismissible and absent from sensitive app
  expect(await page.locator('.synapse-sponsor').evaluate(el=>getComputedStyle(el).position)).toBe('static');await page.getByRole('button',{name:'Hide for this visit'}).click();await expect(page.locator('[data-sponsor-slot=home]')).toBeHidden();await page.reload();await expect(page.locator('[data-sponsor-slot=home]')).toBeHidden();
  for(const route of ['/team-mixer','/decision-wheel','/daily-spark','/timetable-lite','/news']){await page.goto(base+route);await expect(page.locator('[data-sponsor-slot]')).toBeHidden();}
  for(const route of ['/pocket-pause','/fund-overlap','/moment-studio','/moment-studio/certificates','/signin']){await page.goto(base+route);await expect(page.locator('[data-sponsor-slot]')).toHaveCount(0);}
- const context=await browser.newContext({javaScriptEnabled:false});try{const fallback=await context.newPage();await fallback.goto(base);await expect(fallback.getByRole('link',{name:'Explore sponsorship'})).toBeVisible();await fallback.goto(base+'/sponsor');await expect(fallback.getByRole('heading',{name:/Sponsor a little/})).toBeVisible();await expect(fallback.locator('#sponsor-enquiry-form')).toBeHidden();}finally{await context.close();}
+ const context=await noAdsContext(browser,{javaScriptEnabled:false});try{const fallback=await context.newPage();await fallback.goto(base);await expect(fallback.getByRole('link',{name:'Explore sponsorship'})).toBeVisible();await fallback.goto(base+'/sponsor');await expect(fallback.getByRole('heading',{name:/Sponsor a little/})).toBeVisible();await expect(fallback.locator('#sponsor-enquiry-form')).toBeHidden();}finally{await context.close();}
 });
 test('reviewed sponsor cards use safe links and stay outside workflows and printouts',async({page})=>{
  const errors=[],outside=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(new URL(r.url()).origin!==base&&!r.url().startsWith('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1894051755496526'))outside.push(r.url());});
@@ -119,7 +124,7 @@ test('app finder stays usable across small screens, themes and empty results',as
  await page.goto(base+'/signin');await expect(page.locator('#auth-form')).toBeVisible();await expect(page.locator('#app-finder-trigger')).toHaveCount(0);
 });
 test('homepage ships real cards without JavaScript and ignores obsolete login query',async({browser,page})=>{
- const context=await browser.newContext({javaScriptEnabled:false});
+ const context=await noAdsContext(browser,{javaScriptEnabled:false});
  try{const fallback=await context.newPage();const response=await fallback.goto(base);expect(response.headers()['cache-control']).toBe('no-store');await expect(fallback.locator('.public-app')).toHaveCount(9);await expect(fallback.getByRole('link',{name:'Decision Wheel',exact:true})).toBeVisible();await expect(fallback.getByRole('link',{name:'Fund Lens',exact:true})).toBeVisible();await expect(fallback.getByRole('link',{name:'Open News'})).toBeVisible();await expect(fallback.getByRole('link',{name:'Sign in to Tournament Lite'})).toBeVisible();}finally{await context.close();}
  await page.goto(base+'/?signin=1');await expect(page.locator('.public-app')).toHaveCount(9);await expect(page.locator('#auth-form')).toHaveCount(0);await page.getByRole('link',{name:'Sign in',exact:true}).click();await expect(page).toHaveURL(base+'/signin');await expect(page.locator('#auth-form')).toBeVisible();
 });
