@@ -37,6 +37,7 @@ function build() {
   X-Synapse-Frontend: cloudflare
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
+  Strict-Transport-Security: max-age=3600
   Referrer-Policy: same-origin
   Cache-Control: no-cache
   Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'

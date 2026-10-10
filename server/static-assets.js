@@ -1,5 +1,12 @@
 // Explicit URL allowlist. Filesystem paths are never accepted from requests.
 const staticAssets={
+ '/privacy':'apps/portal/frontend/privacy.html',
+ '/terms':'apps/portal/frontend/terms.html',
+ '/contact':'apps/portal/frontend/contact.html',
+ '/legal':'apps/portal/frontend/legal.html',
+ '/legal/third-party-notices':'apps/portal/frontend/third-party-notices.html',
+ '/legal.css':'apps/portal/frontend/legal.css',
+ '/shared/legal-footer.css':'packages/ui/legal-footer.css',
  '/showcase':'apps/portal/frontend/showcase.html',
  '/showcase/':'apps/portal/frontend/showcase.html',
  '/showcase.js':'apps/portal/frontend/showcase.js',
@@ -86,6 +93,7 @@ const staticAssets={
  '/sponsor.css':'apps/portal/frontend/sponsor.css',
  '/sponsor-config.mjs':'apps/portal/frontend/sponsor-config.mjs',
 };
+for(const route of ['/privacy','/terms','/contact','/legal','/legal/third-party-notices'])staticAssets[route+'/']=staticAssets[route];
 for(const file of ['platform.js','platform.css','manifest.webmanifest','logo-adaptive.png','logo-adaptive-192.png','logo-adaptive-512.png','logo-adaptive-uhd.png'])staticAssets['/'+file]='apps/portal/frontend/'+file;
 for(const file of ['app.js','style.css','icon.svg','advocate.webmanifest'])staticAssets['/'+file]='apps/advocate/frontend/'+file;
 for(const file of ['app.js','engine.js','style.css','icon.svg'])staticAssets['/fund-overlap/'+file]='apps/fund-overlap/frontend/'+file;

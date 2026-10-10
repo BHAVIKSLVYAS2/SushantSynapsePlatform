@@ -8,8 +8,8 @@ function mount(){
   const route=location.pathname.replace(/\/$/,'')||'/';
   if(sponsorPages[slot.dataset.sponsorSlot]!==route||slot.previousElementSibling?.matches('[data-google-ad-preview]'))continue;
   const preview=node('aside','synapse-google-ad-preview','');
-  preview.dataset.googleAdPreview='';preview.setAttribute('aria-label','Google advertisement placement preview');
-  preview.append(node('span','synapse-google-ad-label','Advertisement · Preview'),node('h2','synapse-google-ad-title','Google ads will appear here'),node('p','synapse-google-ad-description','Reserved ad space · Integration pending'));
+  preview.dataset.googleAdPreview='';preview.setAttribute('aria-label','Advertisement placement preview');
+  preview.append(node('span','synapse-google-ad-label','Advertisement · Preview'),node('h2','synapse-google-ad-title','Reserved advertisement space'),node('p','synapse-google-ad-description','No ad network connected'));
   slot.before(preview);
  }
  for(const slot of document.querySelectorAll('[data-sponsor-slot]')){

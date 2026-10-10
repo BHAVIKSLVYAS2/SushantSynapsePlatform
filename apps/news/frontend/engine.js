@@ -181,7 +181,7 @@ function createSatire(stories,{date='',variant=0}={}){
 function draftEdition(preview){
   if(preview.stories?.length!==10)fail(502,'Ten source stories are required before publication.');
   const stories=preview.stories.map(s=>{
-    if(!['PIB','IndianExpress','BBC'].includes(s.provider)||!s.publishedAt||typeof s.description!=='string'||!s.description.trim())fail(502,'These source stories do not contain verified publication times and reusable excerpts.');
+    if(!['PIB','IndianExpress','BBC'].includes(s.provider)||!s.publishedAt||typeof s.description!=='string'||!s.description.trim())fail(502,'These source stories do not contain verified publication times and source excerpts.');
     return {...s,brief:s.provider!=='PIB'?`${s.category||'News'} · Source excerpt: ${s.description}…`:s.description};
   });
   const satire=createSatire(stories,{date:preview.date});

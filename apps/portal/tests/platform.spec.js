@@ -1,6 +1,15 @@
 const {setTheme}=require('../../../tests/browser-theme');
 const {test,expect}=require('@playwright/test');
 
+test('legal information works without JavaScript, has real notices and fits mobile themes',async({browser,page})=>{
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ for(const route of ['/privacy','/terms','/contact','/legal','/legal/third-party-notices']){const response=await page.goto(base+route);expect(response.status()).toBe(200);await expect(page.locator('h1')).toBeVisible();await expect(page.locator('.synapse-legal-footer')).toBeVisible();for(const width of [320,1440]){await page.setViewportSize({width,height:900});for(const theme of ['light','dark']){await page.evaluate(t=>document.documentElement.dataset.theme=t,theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}}}
+ await page.goto(base+'/legal/third-party-notices');await expect(page.locator('article')).toContainText('Copyright (c) 2012 Ryan Day');await expect(page.locator('article')).toContainText('Wyatt Baldwin');await expect(page.locator('article')).toContainText('Don Cross');
+ const context=await browser.newContext({javaScriptEnabled:false});try{const nojs=await context.newPage();for(const route of ['/','/signin','/ritual-assist','/moment-studio','/advocate','/digital-samaj','/news','/support','/privacy']){await nojs.goto(base+route);await expect(nojs.locator('.synapse-legal-footer a[href="/privacy"]')).toBeVisible();await expect(nojs.locator('.synapse-legal-footer a[href="/contact"]')).toBeVisible();}}finally{await context.close();}
+ for(const route of ['/','/signin','/advocate','/digital-samaj','/batchfee-lite','/tournament-lite','/fund-overlap','/news','/ritual-assist','/ritual-assist/calendar','/moment-studio','/moment-studio/certificates','/timetable-lite','/take-a-break','/pocket-pause','/daily-spark','/decision-wheel','/team-mixer','/support','/sponsor']){await page.setViewportSize({width:320,height:850});await page.goto(base+route);await expect(page.locator('.synapse-legal-footer')).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+ await page.goto(base+'/showcase?screen=1');await expect(page.locator('.synapse-legal-footer')).toBeHidden();expect(errors).toEqual([]);
+});
+
 test('theme toggle supports keyboard, system default, cross-tab sharing and blocked storage',async({browser})=>{
  const context=await browser.newContext({colorScheme:'dark'});
  try{
