@@ -67,7 +67,8 @@
     const newsHandlesOutages = /^\/news\/?$/.test(location.pathname) && url.pathname.startsWith('/api/news/');
     const fundHandlesOutages = /^\/fund-overlap\/?$/.test(location.pathname) && url.pathname.startsWith('/api/fund-overlap/');
     const supportHandlesOutages = /^\/support\/?$/.test(location.pathname) && ['/api/support','/api/platform/support','/api/auth/status'].includes(url.pathname);
-    const backend = !newsHandlesOutages && !fundHandlesOutages && !supportHandlesOutages && url.origin === location.origin && (url.pathname.startsWith('/api/') || url.pathname === '/healthz');
+    const arenaHandlesOutages = url.pathname === '/api/satire-arena' || url.pathname.startsWith('/api/satire-arena/');
+    const backend = !arenaHandlesOutages && !newsHandlesOutages && !fundHandlesOutages && !supportHandlesOutages && url.origin === location.origin && (url.pathname.startsWith('/api/') || url.pathname === '/healthz');
     try { const response = await nativeFetch(input, options); if (backend && response.status >= 500) show(); return response; }
     catch (error) { if (backend && error.name !== 'AbortError') show(); throw error; }
   };

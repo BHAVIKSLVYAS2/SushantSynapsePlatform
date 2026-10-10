@@ -66,6 +66,21 @@
             "period": 60
           },
           "name": "FUND_LIMITER"
+        },
+        {
+          "name": "ARENA_LIMITER",
+          "namespace_id": "2026101001",
+          "simple": {
+            "limit": 30,
+            "period": 60
+          }
+        }
+      ],
+      "d1_databases": [
+        {
+          "binding": "ARENA_DB",
+          "database_name": "sushant-synapse-satire-arena",
+          "database_id": "32d8183e-a389-4542-8993-999c066e7186"
         }
       ]
     }

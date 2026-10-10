@@ -1,0 +1,15 @@
+# Satire Arena
+
+Adapted from the user-owned Contempt Universe Arena without changing its source app, accounts or SQL Server data. Existing Arena vote history is not imported; this platform starts its own rounds.
+
+`frontend/` owns the three-character cartoon UI, reaction animations, private browser-selected state, pending-link confirmation, scoreboard, support link, export and removal controls. Shared platform headers/themes/footer apply; advertising is off. Artwork provenance is retained in ARTWORK.md.
+
+`backend/edge.mjs` executes in the Cloudflare Worker before the Node proxy. `database/001-arena.sql` belongs exclusively to a dedicated Cloudflare D1 SQLite database. It is never registered with or applied to chambers.sqlite. The static page, picture and API all run without the laptop/tunnel. Other platform apps retain their existing deployment requirements.
+
+Voting intentionally differs from the original account-based Arena: a signed Secure/HttpOnly/SameSite cookie identifies a browser. Only a keyed hash is stored with each ballot, not a name, phone, account, raw cookie or IP. Public API returns only aggregates plus this browser’s current selections. The cookie is needed to export/remove past choices. Browser clearing/device changes can permit another vote; this is an informal parody game, not one-person voting. No cloud authentication migration is implied.
+
+The SQL primary key `(voter, character, round)` and UPSERT make repeated votes idempotent and changes replace the same ballot. Counters are authoritative SQL counts, not page views, JavaScript increments or eventually-consistent cached totals. Rounds use server time, midnight IST, and retain prior ballot history until that browser removes it. No scheduled laptop task is needed. API reads are private/no-store and use the D1 primary session. Body bounds, exact fields, current-round validation, same-origin writes and a 30/minute IP-based Worker limiter bound submissions. These limits do not prevent all bot/cookie-reset abuse.
+
+Production binding ARENA_DB is isolated from preview, which returns unavailable instead of borrowing production votes. ARENA_COOKIE_SECRET is stored in Cloudflare secrets; preserve it across releases, because rotation makes previous cookies inaccessible. Run schema against the explicitly named Arena database only. D1 infrastructure SQL access is administrative and must not be offered in public UI. Export/back up cloud data before destructive changes. There is no automatic retention expiry or operator dashboard yet.
+
+Tests use an isolated in-memory SQLite database and a separate temporary test HTTP process. No existing business records or production votes are used for tests.

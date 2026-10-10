@@ -54,6 +54,7 @@ const server = http.createServer(async (req,res) => {
     if (req.headers.origin && req.headers.origin!==allowedOrigin) fail(403,'Origin rejected');
     if (req.headers['sec-fetch-site']==='cross-site') fail(403,'Cross-site request rejected');
     const route=url.pathname.slice(5), method=req.method;
+    if(url.pathname==='/api/satire-arena'||url.pathname.startsWith('/api/satire-arena/'))return json(503,{error:'Satire Arena votes use the hosted cloud service. Open the production platform to react.'});
     const user=auth.session(req);
     const context={route,method,req,res,json,user};
     if(route.startsWith('auth/')||route==='users'||route.startsWith('users/'))return await auth.handle(context);
