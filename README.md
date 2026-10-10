@@ -1,6 +1,6 @@
 # Sushant Synapse Platform
 
-WhatsApp contact is available at +91 78741 66009 through `/contact`, `/support` and `/sponsor`. Forms combine entered details into a reviewed message; visitors open WhatsApp and press Send. Shared navigation and homepage links expose Support Us and Watch demos. Forms are not saved by the platform; payment settings remain separate.
+WhatsApp contact is available through `/contact`, `/support` and `/sponsor`. Submitting a form opens WhatsApp with combined details; visitors review the draft and press Send. Shared navigation and homepage links expose Support Us and Watch demos. Forms are not saved by the platform; payment settings remain separate.
 
 Ritual Assist provides 15 bilingual guides, expanded Havan materials, Antyeshti considerations and day 10–12 checklists. Its remembrance calendar requires date, IST time and Indian city; stateless backend calculation returns first-year and ten upcoming annual/Pitru Paksha plans. Family-specific and uncertain dates require confirmation. See [scope](apps/ritual-assist/README.md).
 
@@ -8,7 +8,7 @@ Public [privacy/data-use information](/privacy), [usage responsibilities](/terms
 
 **Support Us** is deployed at `/support`, adapted from Contempt Universe with the platform header, light/dark/system themes and responsive layout. It offers ₹20/₹49/₹99/₹249 UPI contributions, amount-specific QR codes, external payment links, copy fallback and the existing sponsorship page. Signed-in owners configure verified recipient details on the page; settings persist in SQLite. Contributions default to disabled. No recipient is configured, no payment is verified. See [support setup](docs/MONETIZATION.md#voluntary-support).
 
-**Watch demos** at `/showcase` is a promotional HTML player with eleven looping scenes, including Decision Wheel and all four private workspaces, playback controls, full-screen display mode (`?screen=1`) and a self-contained HTML download. Sample workflows are clearly labelled; no accounts or payments are created. See [player usage](apps/portal/SHOWCASE.md).
+**Watch demos** at `/showcase` is a promotional HTML player with eleven looping scenes, including Decision Wheel and all four private workspaces, playback controls, full-screen display mode (`?screen=1`) with no HTML download. Sample workflows are clearly labelled; no accounts or payments are created. See [player usage](apps/portal/SHOWCASE.md).
 
 Fund Lens comparison is deployed on Cloudflare and works without the laptop backend. See [deployment status](docs/DEPLOYMENT.md).
 

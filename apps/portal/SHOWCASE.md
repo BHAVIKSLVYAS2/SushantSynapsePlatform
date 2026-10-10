@@ -6,6 +6,8 @@ Use Play/Pause, Previous/Next, Restart or a named scene. Scene length can be 8, 
 
 `/showcase?screen=1` removes the introduction and partnership sections for a larger display. Keep a browser open on this URL to loop through the presentation; Exit display restores the page. Full screen requires a user gesture and browser support. The presentation contains no sound, stream or video provider. It is an HTML player, not a video export or a remote-managed signage service.
 
-**Download HTML player** embeds the player code, theme code, CSS and logo into `sushant-synapse-demo-player.html`. Open it in a modern browser to play offline. Its Open display screen link stays in the downloaded file. Tool, platform and sponsorship links point to the established HTTPS production host and require internet. No advertising scripts or external fonts are loaded. Download preparation fetches only explicitly allowlisted assets, without API requests or user data. A downloaded player is a snapshot; download again after an update. The hosted page requires connectivity for its initial assets.
+HTML player download has been removed. Use the hosted page or display mode; initial assets require internet.
 
 Ownership is portal frontend only. Both page routes bypass Cloudflare origin checks; the Node static allowlist serves local development. Tests in `apps/portal/tests/showcase/browser.spec.js` use a temporary DATA_DIR and cover all eleven scenes, playback/pause, timings, keyboard navigation, fullscreen, display mode, light/dark/responsive layouts, a real downloaded file in an offline browser, reduced motion and no-JavaScript guidance. Source implementation uses fixed sample strings and no visitor-authored HTML.
+
+Sponsorship forms open combined WhatsApp drafts; enquiry downloads are unavailable.
