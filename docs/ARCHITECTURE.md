@@ -135,6 +135,8 @@ Pocket Pause scenes.mjs owns bounded fictional prop progression and canvas rende
 
 ## Ritual Assist ownership
 
+The app also owns `/ritual-assist/calendar`, `calendar.js`, the module worker, pure `panchang.mjs` and vendored MIT Astronomy Engine. Calculations run locally in tab memory; no backend persistence or provider connection is introduced. Static allowlisting and independent Cloudflare routing include the calendar. Tithi boundaries, Aparahna overlap selection, month convention and conditional/withheld dates are app-owned; third-party provenance and approximate accuracy limits live in the app README.
+
 `apps/ritual-assist` owns public `/ritual-assist`, bilingual Hindu preparation content and pure search/text-export helpers in `frontend/guides.mjs`. The editor keeps per-guide checks in tab memory, with explicit text download, copying, guide-link sharing and print output. Only shared theme preferences persist. No backend, schema, business-state storage, provider calls, calculated muhurat or bookings are installed. Node static allowlisting and Cloudflare independent routing serve both page routes. References retain their tradition-specific scope; the guides do not claim a universal vidhi or priest approval. See the app README for content scope and operational limits.
 
 ## Moment Studio ownership
