@@ -2,7 +2,7 @@
 
 WhatsApp contact is available through `/contact`, `/support` and `/sponsor`. Submitting a form opens WhatsApp with combined details; visitors review the draft and press Send. Shared navigation and homepage links expose Support Us and Watch demos. Forms are not saved by the platform; payment settings remain separate.
 
-Ritual Assist provides 15 bilingual guides, expanded Havan materials, Antyeshti considerations and day 10–12 checklists. Its remembrance calendar requires date, IST time and Indian city; stateless backend calculation returns first-year and ten upcoming annual/Pitru Paksha plans. Family-specific and uncertain dates require confirmation. See [scope](apps/ritual-assist/README.md).
+Ritual Assist provides 15 bilingual guides, expanded Havan materials, Antyeshti considerations and day 10–12 checklists. Its Shraddha & Barsi Calendar requires date, IST time and Indian PIN code; stateless backend calculation returns first-year observances and the current year plus next ten years. Calendar reminders export individual resolved dates to an ICS file. A selectable bilingual preparation pack includes ceremony materials, checks, responsibilities and print/PDF or text export. Family-specific and uncertain dates require confirmation. See [scope](apps/ritual-assist/README.md).
 
 Public [privacy/data-use information](/privacy), [usage responsibilities](/terms), [contact status](/contact) and [third-party notices](/legal/third-party-notices) are linked across every app. Operator/contact details and some rights/retention workflows remain pending; these pages do not claim legal clearance. The internal audit and source register are in `docs/COPYRIGHT_LEGAL_AUDIT_2026-10-10.md` and `docs/LEGAL_SOURCE_REGISTER.md`.
 
