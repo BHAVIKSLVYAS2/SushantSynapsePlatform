@@ -19,5 +19,7 @@
   }
  }
  let queued=false;const schedule=()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;decorate();});};
- decorate();new MutationObserver(schedule).observe(document.body,{childList:true,subtree:true});
+ // Counter ticks, typing and reaction particles never need a full heading scan.
+ const targets='h1,h2,h3,.nav-icon';
+ decorate();new MutationObserver(records=>{if(records.some(record=>[...record.addedNodes].some(node=>node.nodeType===1&&(node.matches(targets)||node.querySelector(targets)))))schedule();}).observe(document.body,{childList:true,subtree:true});
 })();
