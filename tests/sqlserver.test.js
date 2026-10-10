@@ -29,4 +29,9 @@ test('SQL configuration requires an explicit database and production certificate
  assert.throws(()=>configFromEnv({...env,SQLSERVER_TRUST_CERTIFICATE:'1'}),/certificate/);
  assert.throws(()=>configFromEnv({...env,SQLSERVER_AUTH:'integrated'}),/Unsupported/);
  assert.throws(()=>configFromEnv({...env,SQLSERVER_AUTH:'sql'}),/requires/);
+ const local={NODE_ENV:'production',SQLSERVER_SERVER:'.\\SQLEXPRESS',SQLSERVER_DATABASE:'SushantSynapsePlatform',SQLSERVER_AUTH:'integrated',SQLSERVER_LOCAL_INSTANCE:'1',SQLSERVER_TRUST_CERTIFICATE:'1'};
+ if(process.platform==='win32'){const connection=configFromEnv(local);assert.equal(connection.driver,'mssql/msnodesqlv8');assert.match(connection.config.connectionString,/Encrypt=Yes/);assert.match(connection.config.connectionString,/Trusted_Connection=Yes/);}
+ else assert.throws(()=>configFromEnv(local),/Local SQL mode/);
+ assert.throws(()=>configFromEnv({...local,SQLSERVER_SERVER:'remote.example\\SQLEXPRESS'}),/Local SQL mode/);
+ assert.throws(()=>configFromEnv({...local,SQLSERVER_AUTH:'sql',SQLSERVER_USER:'app',SQLSERVER_PASSWORD:'test-only'}),/Local SQL mode/);
 });

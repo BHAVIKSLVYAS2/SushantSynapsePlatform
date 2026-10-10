@@ -25,7 +25,6 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
-    "msnodesqlv8": "^5.5.0",
     "wrangler": "^4.145.0"
   },
   "workspaces": [
@@ -34,5 +33,8 @@
   ],
   "dependencies": {
     "mssql": "^12.7.4"
+  },
+  "optionalDependencies": {
+    "msnodesqlv8": "^5.5.0"
   }
 }
