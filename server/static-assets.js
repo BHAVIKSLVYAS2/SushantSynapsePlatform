@@ -10,6 +10,7 @@ const staticAssets={
  '/legal/third-party-notices':'apps/portal/frontend/third-party-notices.html',
  '/legal.css':'apps/portal/frontend/legal.css',
  '/shared/legal-footer.css':'packages/ui/legal-footer.css',
+ '/shared/language.js':'packages/ui/language.js',
  '/showcase':'apps/portal/frontend/showcase.html',
  '/showcase/':'apps/portal/frontend/showcase.html',
  '/showcase.js':'apps/portal/frontend/showcase.js',

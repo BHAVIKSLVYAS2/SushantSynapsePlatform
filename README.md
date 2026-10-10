@@ -218,3 +218,5 @@ The linked `/ritual-assist/calendar` adds a Hindu Panchang remembrance planner: 
 ## Moment Studio
 
 /moment-studio combines Certificates and Celebration Studio into one public app. Appreciation and fun awards, invitations, greetings, condolences and remembrance cards include the official Sushant Synapse logo/name on PNG, PDF and printed exports. Respectful editable condolence suggestions support English/Hindi with three tones and contexts; no external AI service. Legacy links and saved organisation branding remain usable. Paid watermark removal is a future feature, with no payment integration in this release.
+
+Shared footer language: `packages/ui/language.js` remembers English/Hindi in device-local `synapse-language` storage. It translates shared navigation and public homepage copy and synchronizes existing Ritual Assist/DIGITAL SAMAJ selectors. Other app bodies and user-entered artwork/records retain their existing languages; the Hindi footer states this limitation. No external translation service or business persistence is involved.
