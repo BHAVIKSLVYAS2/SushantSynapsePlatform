@@ -46,3 +46,43 @@ html:root[data-theme=dark]{--bg:#141b19;--surface:#1e2824;--text:#edf2ed;--ink:#
 @media(prefers-reduced-motion:reduce){.certificate-studio .template{transition:none}.certificate-studio .template:hover{transform:none}}
 }
 @media print{.artboard-toolbar,#preview-dialog,.skip{display:none!important}#certificate{max-height:none;max-width:none}}
+/* Reference-inspired desk: compact navigation, scrollable inspector, large artboard. */
+@media screen{
+html[data-theme] body#moment-certificate[data-ui-app=moment-studio]{--ui-bg:#f3f0eb;--ui-solid:#fff;--ui-ink:#292421;--ui-muted:#756b64;--ui-edge:#ded7cf;--ui-soft:#ece5dd;--ui-accent:#a65e43;--ui-on-accent:#fff;--ui-bloom:#b8755320;--studio-shadow:0 10px 30px #30251d18;background:radial-gradient(ellipse at 95% 15%,var(--ui-bloom),transparent 50%),var(--ui-bg)}
+html[data-theme=dark] body#moment-certificate[data-ui-app=moment-studio]{--ui-bg:#151311;--ui-solid:#26211e;--ui-ink:#f7eee6;--ui-muted:#bcb0a6;--ui-edge:#493d35;--ui-soft:#332b25;--ui-accent:#e9aa8c;--ui-on-accent:#2a180f;--ui-bloom:#b8755316;--studio-shadow:0 10px 30px #0004}
+#moment-certificate .synapse-header{max-width:none;min-height:64px;padding:10px 24px;background:var(--ui-solid)}
+#moment-certificate .synapse-header .brand{font-size:15px;gap:9px}#moment-certificate .brand img{width:30px;height:30px}#moment-certificate .brand small{font-size:8px;letter-spacing:1.2px}
+#moment-certificate .synapse-help-nav{display:none}
+#moment-certificate main{max-width:1600px;padding:0 24px}
+body#moment-certificate[data-ui-app] .studio-nav{margin-top:12px;padding:4px;border-radius:12px;background:var(--ui-solid);border-color:var(--ui-edge)}
+#moment-certificate .brand-note{margin:6px 0;font-size:10px}
+body#moment-certificate[data-ui-app] .intro{padding-right:0!important;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:8px 0;margin:0 0 12px;border:0;background:none;box-shadow:none;border-radius:0}
+body#moment-certificate[data-ui-app] .intro .eyebrow{display:none}
+body#moment-certificate[data-ui-app] .intro .ui-workspace-art{display:none}
+body#moment-certificate[data-ui-app] .intro h1{font-size:clamp(22px,2.2vw,30px);margin:4px 0;line-height:1.2;font-weight:700}
+#moment-certificate .intro p{font-size:11px;margin:0;color:var(--ui-muted)}
+#moment-certificate .workspace{grid-template-columns:350px minmax(0,1fr);gap:30px}
+#moment-certificate #details{height:calc(100svh - 245px);min-height:420px;overflow:auto;scrollbar-width:thin;scrollbar-color:var(--ui-edge) transparent;padding:18px;background:var(--ui-solid);border:1px solid var(--ui-edge);border-radius:16px;overscroll-behavior:contain;scroll-padding:18px}
+body#moment-certificate[data-ui-app] #details .panel{padding:0 0 20px;margin:0 0 20px;border:0;border-bottom:1px solid var(--ui-edge);border-radius:0;background:none;box-shadow:none}
+#moment-certificate #details h2{font-size:14px;gap:8px;margin-bottom:12px}#moment-certificate #details .ui-section-art{display:none}
+#moment-certificate #details label{margin-top:12px}#moment-certificate #details input,#moment-certificate #details select,#moment-certificate #details textarea{font-size:13px;min-height:40px;padding:9px 10px}
+#moment-certificate #details .hint{font-size:10px;margin:6px 0 12px}#moment-certificate #details fieldset{margin:8px 0}
+#moment-certificate .templates{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+#moment-certificate #templates .template{margin:0}
+#moment-certificate .finish-panel>p.hint{display:none}
+#moment-certificate .finish-panel legend{position:absolute;clip-path:inset(50%);width:1px;height:1px;overflow:hidden}
+body#moment-certificate[data-ui-app] .template{font-size:10px;padding:5px;border-radius:8px}#moment-certificate .template:has(input:checked){padding:4px}
+#moment-certificate .template small{display:none}#moment-certificate .template canvas{margin-bottom:3px}#moment-certificate .template input{min-height:0!important;padding:0!important;margin:3px;width:12px;height:12px}
+#moment-certificate .preview-column{top:16px}#moment-certificate .preview-heading{min-height:24px}#moment-certificate .preview-heading h2{font-size:14px}
+#moment-certificate .artboard-toolbar{margin-top:8px}#moment-certificate .paper-stage{margin-top:10px;padding:22px;background:var(--ui-soft);border-color:var(--ui-edge);border-radius:16px}
+#moment-certificate #certificate{max-height:calc(100svh - 455px);min-height:160px;width:auto;max-width:100%;box-shadow:var(--studio-shadow)}
+#moment-certificate .studio-export-bar{margin-top:14px;padding:12px 16px;border:1px solid var(--ui-edge);border-radius:14px;background:var(--ui-solid);box-shadow:var(--studio-shadow);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px}
+#moment-certificate .export-buttons{display:flex;flex-wrap:wrap;gap:8px}#moment-certificate .export-buttons button{min-height:42px;padding:9px 14px;font-size:12px;border-radius:999px}
+#moment-certificate .export-quality{display:flex;align-items:center;gap:8px;margin:0;font-size:10px}#moment-certificate .export-quality select{width:auto;font-size:11px;margin:0;padding:7px;min-height:36px}
+#moment-certificate #export-status{width:100%;margin:0;font-size:10px;color:var(--ui-muted)}
+#moment-certificate .preview-column:has(#downloads:not([hidden])) .studio-export-bar{display:none}
+#moment-certificate .paper-meta{margin:10px 0}#moment-certificate #preview-description{margin:6px 0}#moment-certificate footer{margin-top:24px}
+@media(max-width:1100px){#moment-certificate .workspace{grid-template-columns:320px minmax(0,1fr);gap:18px}#moment-certificate #details{padding:14px}#moment-certificate .paper-stage{padding:14px}#moment-certificate .intro>p{display:none}}
+@media(max-width:760px){#moment-certificate main{padding:0 14px}#moment-certificate .synapse-header{padding:12px 14px}#moment-certificate .workspace{grid-template-columns:1fr;gap:20px}#moment-certificate #details{height:auto;min-height:0;overflow:visible;padding:18px}#moment-certificate #certificate{width:100%;max-height:none;min-height:0}#moment-certificate .intro{padding:10px 0}#moment-certificate .studio-export-bar{padding:12px}#moment-certificate .export-buttons{width:100%}#moment-certificate .export-buttons button{flex:1;padding:10px;font-size:11px}#moment-certificate .export-quality{width:100%;justify-content:space-between}}
+}
+@media print{.studio-export-bar,.preview-edit{display:none!important}}

@@ -114,6 +114,15 @@ for(const format of ['pdf','png'])$('#'+format).onclick=async()=>{
  finally{if(output){output.width=1;output.height=1;}button.disabled=false;}
 };
 $('#print').onclick=()=>{if(valid()){requireBrand();render(canvas,data(),images,3508/1122);window.print();}};
+// The artboard toolbar reuses the validated, branded export handlers.
+$('#quick-quality').onchange=event=>{$('#png-quality').value=event.target.value;};
+$('#png-quality').addEventListener('change',event=>{$('#quick-quality').value=event.target.value;});
+for(const format of ['png','pdf','print'])$('#quick-'+format).onclick=async()=>{
+ const controls=[...document.querySelectorAll('.studio-export-bar button,.studio-export-bar select')];
+ controls.forEach(control=>control.disabled=true);
+ try{await $('#'+format).onclick();}finally{controls.forEach(control=>control.disabled=false);}
+};
+new MutationObserver(()=>{$('#export-status').textContent=status.textContent||'Export locally. Your certificate details stay in this tab.';}).observe(status,{childList:true,characterData:true,subtree:true});
 window.addEventListener('beforeprint',()=>{document.body.classList.toggle('brand-unavailable',!brandReady);if(brandReady)render(canvas,data(),images,3508/1122);});window.addEventListener('afterprint',preview);
 const media=matchMedia('(prefers-color-scheme: dark)');let preference='system';try{preference=window.SynapseTheme.read();}catch{}
 $('#theme').value=preference;function theme(){document.documentElement.dataset.theme=preference==='system'?(media.matches?'dark':'light'):preference;}$('#theme').onchange=e=>{preference=e.target.value;try{window.SynapseTheme.write(preference);}catch{}theme();};media.addEventListener('change',theme);theme();preview();

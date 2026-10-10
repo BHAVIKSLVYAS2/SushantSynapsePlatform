@@ -1,5 +1,16 @@
 ﻿const {test,expect}=require('@playwright/test');const {spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');let child,base,dir;
 test.beforeEach(async({page})=>{page.on('dialog',dialog=>dialog.accept());});
+test('reference workspace keeps the artboard visible while controls scroll and exports directly',async({page})=>{
+ await page.setViewportSize({width:1440,height:900});await page.goto(base+'/moment-studio');
+ await expect(page.locator('#quick-png')).toBeInViewport();await expect(page.locator('#quick-pdf')).toBeInViewport();
+ const before=await page.locator('#certificate').boundingBox();
+ const scroll=await page.locator('#details').evaluate(el=>{el.scrollTop=500;return {top:el.scrollTop,scroll:el.scrollHeight,height:el.clientHeight};});
+ expect(scroll.top).toBe(500);expect(scroll.scroll).toBeGreaterThan(scroll.height);expect(Math.abs((await page.locator('#certificate').boundingBox()).y-before.y)).toBeLessThan(2);
+ await page.getByLabel('Recipient Name',{exact:true}).fill('Meera');await page.getByLabel('Appreciation / Contribution Description').fill('bringing the team together');
+ await page.locator('#quick-quality').selectOption('300');await expect(page.locator('#downloads')).toBeHidden();
+ const event=page.waitForEvent('download');await page.locator('#quick-png').click();const output=await event,target=path.join(dir,'reference-direct.png');await output.saveAs(target);const bytes=fs.readFileSync(target);expect(bytes.readUInt32BE(16)).toBe(3508);expect(bytes.readUInt32BE(20)).toBe(2480);
+ await expect(page.locator('#export-status')).toContainText('PNG ready');await expect(page.locator('#quick-png')).toBeEnabled();
+});
 test('certificate entry keeps desktop preview beside the editor and supports expanded inspection',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.setViewportSize({width:1440,height:900});await page.goto(base+'/moment-studio');
@@ -11,7 +22,7 @@ test('certificate entry keeps desktop preview beside the editor and supports exp
  await expect(page.locator('#certificate')).toHaveAttribute('aria-label',/Meera Sharma/);
  await page.locator('#expand-preview').click();await expect(page.locator('#preview-dialog')).toBeVisible();await expect(page.locator('#expanded-certificate')).toHaveAttribute('aria-label',/Meera Sharma/);
  await expect(page.locator('#close-preview')).toBeFocused();await page.keyboard.press('Escape');await expect(page.locator('#preview-dialog')).not.toBeVisible();await expect(page.locator('#expand-preview')).toBeFocused();
- await page.locator('#details').scrollIntoViewIfNeeded();await page.evaluate(()=>scrollTo(0,900));
+ await page.locator('#details').scrollIntoViewIfNeeded();await page.locator('#details').evaluate(el=>el.scrollTop=900);
  expect(await page.locator('.preview-column').evaluate(el=>el.getBoundingClientRect().top)).toBeGreaterThanOrEqual(0);
  for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await page.evaluate(t=>SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await page.setViewportSize({width:390,height:900});
