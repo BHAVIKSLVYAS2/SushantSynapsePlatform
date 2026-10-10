@@ -1,5 +1,6 @@
 import {expandMourning} from './mourning.mjs';
 import {reviewMaterials} from './materials-review.mjs';
+import {addSeedha} from './seedha.mjs';
 // Original preparation summaries. These are not complete liturgical instructions.
 const p=(en,hi)=>({en,hi});
 export const sources={
@@ -37,6 +38,7 @@ export const guides=[
 ];
 expandMourning(guides,sources);
 reviewMaterials(guides,sources);
+addSeedha(guides,sources);
 export const scope=p('Hindu preparation guides, not a single universal vidhi. Confirm family customs, quantities and local dates with your priest or elder.','हिन्दू अनुष्ठान की तैयारी; सभी के लिए एक ही विधि नहीं। पारिवारिक रीति, मात्रा और स्थानीय तिथि की पुरोहित या बुजुर्ग से पुष्टि करें।');
 export function guideById(id){return guides.find(g=>g.id===id)||guides[0];}
 export function findGuides({category='all',query=''}={}){if(!Object.hasOwn(categories,category))throw Error('Unknown category');const q=String(query).normalize('NFKC').trim().toLocaleLowerCase();return guides.filter(g=>(category==='all'||g.category===category)&&(!q||[g.id,g.title.en,g.title.hi,g.summary.en,g.summary.hi,...g.items.flatMap(i=>[i.label.en,i.label.hi])].join(' ').normalize('NFKC').toLocaleLowerCase().includes(q)));}
