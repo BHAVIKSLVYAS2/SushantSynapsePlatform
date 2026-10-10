@@ -6,7 +6,8 @@
     "db:sqlserver:init": "node infrastructure/sqlserver.cjs init",
     "db:sqlserver:import": "node infrastructure/sqlserver.cjs import",
     "db:sqlserver:import-arena": "node infrastructure/sqlserver.cjs import-arena",
-    "build:frontend": "node infrastructure/cloudflare/build.cjs",
+    "build:ui": "tailwindcss -i packages/ui/premium.tailwind.css -o packages/ui/premium.bundle.css --minify",
+    "build:frontend": "npm run build:ui && node infrastructure/cloudflare/build.cjs",
     "deploy:frontend:preview": "wrangler deploy --config infrastructure/cloudflare/wrangler.jsonc --env preview",
     "deploy:frontend": "wrangler deploy --config infrastructure/cloudflare/wrangler.jsonc --env production",
     "start": "node server/index.js",
@@ -25,6 +26,8 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
+    "@tailwindcss/cli": "^4.3.3",
+    "tailwindcss": "^4.3.3",
     "wrangler": "^4.145.0"
   },
   "workspaces": [

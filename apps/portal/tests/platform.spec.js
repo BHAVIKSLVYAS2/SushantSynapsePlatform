@@ -1,6 +1,36 @@
 const {setTheme}=require('../../../tests/browser-theme');
 const {test,expect}=require('@playwright/test');
 
+test('premium bento keeps all tools discoverable across touch layouts and both themes',async({page})=>{
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(base+'/');
+ for(const width of [320,390,768,1440]){
+  await page.setViewportSize({width,height:900});
+  for(const theme of ['light','dark']){
+   await setTheme(page,theme);
+   expect(await page.locator('.public-app').first().evaluate(el=>getComputedStyle(el).backgroundColor)).toBe(theme==='dark'?'rgba(30, 41, 59, 0.6)':'rgba(255, 255, 255, 0.65)');
+   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${width}px ${theme}`).toBe(true);
+   const columns=await page.locator('.public-apps').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length);
+   expect(columns).toBe(width>=1100?4:width>=760?3:2);
+   for(const href of ['/timetable-lite','/ritual-assist','/team-mixer']){
+    const tile=page.locator(`.public-app[href="${href}"]`);
+    await expect(tile).toBeVisible();expect(await tile.evaluate(el=>getComputedStyle(el).gridColumnStart)).toBe('span 2');
+   }
+  }
+ }
+ await page.setViewportSize({width:1440,height:1000});await setTheme(page,'light');await page.screenshot({path:'test-results/premium-home-desktop.png',fullPage:true});
+ await page.setViewportSize({width:390,height:844});await setTheme(page,'dark');await page.screenshot({path:'test-results/premium-home-mobile-dark.png',fullPage:true});
+ await page.emulateMedia({reducedMotion:'reduce'});
+ expect(await page.locator('.home-paths a[href="/support"]').evaluate(el=>getComputedStyle(el).animationName)).toBe('none');
+ for(const route of ['/timetable-lite','/ritual-assist','/ritual-assist/calendar','/team-mixer','/decision-wheel','/moment-studio','/moment-studio/certificates','/take-a-break','/pocket-pause','/daily-spark','/news','/fund-overlap','/advocate','/digital-samaj','/batchfee-lite','/tournament-lite','/satire-arena']){
+  await page.goto(base+route);await expect(page.locator('link[href*="/shared/premium.css"]')).toHaveCount(1);
+  await expect(page.getByRole('button',{name:'Dark mode',exact:true})).toBeVisible();
+  expect(await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundColor),route).toBe('rgb(8, 12, 20)');
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),route).toBe(true);
+ }
+ expect(errors).toEqual([]);
+});
+
 test('legal information works without JavaScript, has real notices and fits mobile themes',async({browser,page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  for(const route of ['/privacy','/terms','/contact','/legal','/legal/third-party-notices']){const response=await page.goto(base+route);expect(response.status()).toBe(200);await expect(page.locator('h1')).toBeVisible();await expect(page.locator('.synapse-legal-footer')).toBeVisible();for(const width of [320,1440]){await page.setViewportSize({width,height:900});for(const theme of ['light','dark']){await page.evaluate(t=>document.documentElement.dataset.theme=t,theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}}}
@@ -10,12 +40,14 @@ test('legal information works without JavaScript, has real notices and fits mobi
  await page.goto(base+'/showcase?screen=1');await expect(page.locator('.synapse-legal-footer')).toBeHidden();expect(errors).toEqual([]);
 });
 
-test('theme toggle supports keyboard, system default, cross-tab sharing and blocked storage',async({browser})=>{
+test('theme toggle supports light default, saved system preference, keyboard, cross-tab sharing and blocked storage',async({browser})=>{
  const context=await browser.newContext({colorScheme:'dark'});
  try{
   const page=await context.newPage(),other=await context.newPage();
   await page.goto(base+'/certificates');await other.goto(base+'/news');
-  const toggle=page.getByRole('button',{name:'Dark mode',exact:true});await expect(toggle).toHaveAttribute('aria-pressed','true');
+  const toggle=page.getByRole('button',{name:'Dark mode',exact:true});await expect(toggle).toHaveAttribute('aria-pressed','false');
+  await expect(page.locator('html')).toHaveAttribute('data-theme','light');
+  await setTheme(page,'system');await expect(toggle).toHaveAttribute('aria-pressed','true');
   await expect(page.locator('select#theme')).toHaveCount(0);await toggle.focus();await page.keyboard.press('Space');
   await expect(toggle).toHaveAttribute('aria-pressed','false');await expect(page.locator('html')).toHaveAttribute('data-theme','light');await expect(other.locator('html')).toHaveAttribute('data-theme','light');
   await page.reload();await expect(toggle).toHaveAttribute('aria-pressed','false');await page.goto(base+'/timetable-lite');await expect(page.locator('body')).toHaveAttribute('data-theme','light');

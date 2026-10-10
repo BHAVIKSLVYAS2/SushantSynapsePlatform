@@ -1,0 +1,194 @@
+/* Shared presentation layer. App layout, generated artwork and print remain app-owned. */
+@media screen {
+  :root, body {
+    --ui-bg: #f8fafc;
+    --ui-ink: #0f172a;
+    --ui-muted: #64748b;
+    --ui-glass: rgba(255,255,255,.65);
+    --ui-solid: #fff;
+    --ui-edge: rgba(100,116,139,.18);
+    --ui-soft: #eef2f8;
+    --ui-accent: #334bc4;
+    --ui-on-accent: #fff;
+    --ui-highlight: rgba(255,255,255,.9);
+    --ui-bloom: rgba(99,102,241,.07);
+    --ui-gold: #ffc015;
+    --ui-gold-ink: #795000;
+    --ui-shadow: 0 8px 32px rgba(15,23,42,.035), inset 0 1px 0 var(--ui-highlight);
+    --ui-ease: cubic-bezier(.16,1,.3,1);
+  }
+  html[data-theme=dark], html[data-theme=dark] body, body[data-theme=dark] {
+    --ui-bg: #080c14;
+    --ui-ink: #f8fafc;
+    --ui-muted: #94a3b8;
+    --ui-glass: rgba(30,41,59,.6);
+    --ui-solid: #182234;
+    --ui-edge: rgba(255,255,255,.08);
+    --ui-soft: #1c2940;
+    --ui-accent: #b5c0ff;
+    --ui-on-accent: #101a42;
+    --ui-highlight: rgba(255,255,255,.06);
+    --ui-bloom: rgba(99,102,241,.12);
+    --ui-gold-ink: #ffe29a;
+    --ui-shadow: 0 12px 36px rgba(0,0,0,.12), inset 0 1px 0 var(--ui-highlight);
+  }
+  /* Map existing app tokens without changing engine colours or business state. */
+  :root, html[data-theme], body, body[data-theme] {
+    --bg: var(--ui-bg); --surface: var(--ui-solid); --text: var(--ui-ink);
+    --ink: var(--ui-ink); --muted: var(--ui-muted); --line: var(--ui-edge);
+    --border: var(--ui-edge); --soft: var(--ui-soft); --surface-soft: var(--ui-soft);
+    --sidebar: var(--ui-glass); --accent-soft: var(--ui-soft); --tint: var(--ui-soft);
+    --primary: var(--ui-accent); --accent: var(--ui-accent);
+    --on-primary: var(--ui-on-accent); --on-accent: var(--ui-on-accent);
+    --shadow: var(--ui-shadow); --radius: 20px;
+  }
+  body {
+    background: radial-gradient(ellipse at 90% 0%,var(--ui-bloom),transparent 55%),var(--ui-bg);
+    color: var(--ui-ink);
+    font-family: Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI","Nirmala UI",sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  :is(.intro,.hero,.public-hero,.page-heading,.page-top) h1 {
+    font-family: inherit; font-weight: 750; letter-spacing: -.045em; line-height: 1.08;
+  }
+  :is(.intro,.hero,.public-hero) h1 em {font-family:inherit;font-style:normal;font-weight:inherit;color:var(--ui-accent)}
+  :is(.panel,.card,.workspace-card,.app-card,.public-app,.client-card,.stat,.library,.game-card,.break-card,.arena-card,.score,.game,.empty,.intro-banner,.synapse-sponsor,.support-card,.support-partner) {
+    background: var(--ui-glass); border-color: var(--ui-edge); border-radius: 22px;
+    box-shadow: var(--ui-shadow);
+  }
+  /* Blur only major surfaces, rather than every nested card. */
+  :is(.panel,.library,.public-app,.workspace-card,.synapse-header,.topbar,.mobile-nav,.bottom-nav,.synapse-sponsor) {
+    -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  }
+  .synapse-header {
+    --header-bg: var(--ui-glass); --header-text: var(--ui-ink);
+    --header-muted: var(--ui-muted); --header-line: var(--ui-edge); --header-surface: var(--ui-solid);
+    background:var(--ui-glass); border-bottom:1px solid var(--ui-edge);
+  }
+  [data-theme=dark] .synapse-header {
+    --header-bg:var(--ui-glass);--header-text:var(--ui-ink);--header-muted:var(--ui-muted);
+    --header-line:var(--ui-edge);--header-surface:var(--ui-solid);
+  }
+  .synapse-header .brand img {filter:drop-shadow(0 3px 5px var(--ui-bloom))}
+  :is(button,.button,.primary,.secondary,.launch,.public-launch,.nav-item,.bottom-item,.all-apps) {
+    touch-action:manipulation; -webkit-tap-highlight-color:transparent;
+    transition: transform .35s var(--ui-ease),box-shadow .35s var(--ui-ease),background-color .25s var(--ui-ease),border-color .25s var(--ui-ease);
+  }
+  :where(button,.button,.primary,.secondary,.launch,.public-launch,.all-apps) {min-height:44px;border-radius:14px}
+  :is(.primary,.secondary,.launch,.public-launch,.all-apps) {min-height:44px;border-radius:14px}
+  :is(button,.button,.primary,.secondary,.launch,.all-apps):not(:disabled):active {transform:scale(.97)}
+  :is(.public-app,.break-card,.app-card,.guide-option,.design-choice,.template) {
+    transition:transform .4s var(--ui-ease),box-shadow .4s var(--ui-ease),border-color .4s var(--ui-ease);
+  }
+  :is(.public-app,.break-card,.guide-option,.design-choice,.template):active {transform:scale(.97)}
+  .public-app:active {transform:scale(.97)}
+  :is(input:not([type=checkbox]):not([type=radio]),select,textarea) {border-radius:12px;font-size:16px}
+  :is(button,a,input,select,textarea,summary):focus-visible {outline:3px solid var(--ui-accent);outline-offset:4px}
+  :is(.tabs,.filters,.presets,.modes,.studio-nav) {gap:8px}
+  :is(.tabs,.filters,.presets,.modes) button {min-height:44px;border-radius:999px}
+  :is(.badge,.access-label,.pill,.public-tags span,.feature-tags span) {border-radius:999px}
+  :is(.mobile-nav,.bottom-nav) {background:var(--ui-glass);box-shadow:0 -8px 30px var(--ui-bloom)}
+  .theme-toggle {border-radius:999px}
+  .theme-toggle::before {transition:transform .4s var(--ui-ease)}
+  /* Rapid game taps retain their original short feedback duration. */
+  .bubble {transition:transform .12s var(--ui-ease),opacity .12s var(--ui-ease)}
+  .synapse-help-nav a {min-height:44px;display:inline-flex;align-items:center}
+  .synapse-sponsor-label {
+    display:inline-flex;align-items:center;min-height:30px;padding:5px 12px;border-radius:999px;
+    border:1px solid transparent;
+    background:linear-gradient(var(--ui-solid),var(--ui-solid)) padding-box,linear-gradient(120deg,var(--ui-gold),var(--ui-gold-ink),var(--ui-gold)) border-box;
+    color:var(--ui-gold-ink);box-shadow:0 0 18px color-mix(in srgb,var(--ui-gold) 14%,transparent);
+  }
+  :is(.support-card,.support-hero,.home-paths a[href="/support"]) {animation:ui-support-bloom 4s ease-in-out infinite}
+  @keyframes ui-support-bloom {
+    0%,100% {box-shadow:0 0 0 0 transparent}
+    50% {box-shadow:0 0 28px color-mix(in srgb,var(--ui-gold) 16%,transparent)}
+  }
+  /* Home: compact bento tiles with deliberate featured rows. Works before JS. */
+  .public-home main {max-width:1320px;padding-inline:clamp(16px,4vw,40px)}
+  .public-hero {padding:clamp(36px,6vw,80px) 0 32px;max-width:850px}
+  .public-hero h1 {font-size:clamp(44px,6.5vw,80px)}
+  .public-hero>p {color:var(--ui-muted);font-size:clamp(14px,1.5vw,17px)}
+  .public-apps,.app-grid,.workspace-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .public-app {min-width:0;position:relative}
+  .app-card :is(h3,p) {overflow-wrap:anywhere}
+  .public-app-head {padding:16px;gap:8px}
+  .public-app-category {font-size:9px;letter-spacing:.08em;overflow-wrap:anywhere}
+  .public-app-arrow {width:32px;height:32px;flex-shrink:0;background:var(--ui-soft);border:0}
+  .public-app-head .app-icon {width:32px;height:32px;border-radius:10px}
+  .public-app-head .app-icon .icon {width:20px;height:20px}
+  .public-app :is(.news-visual,.fund-visual) {height:120px;margin:0 12px;border-radius:14px;background:var(--ui-soft);color:var(--ui-accent)}
+  .public-app .news-visual strong {font-family:inherit;font-size:clamp(20px,2.2vw,30px);font-weight:700;line-height:1.1;letter-spacing:-.04em;margin:8px 0}
+  .public-app .mini-paper-kicker {font-size:8px;letter-spacing:.1em;padding:0 8px}
+  .public-app .mini-paper-byline {display:none}
+  .public-app .fund-orbit {width:80px;height:80px;top:8px}
+  .public-app .orbit-a {left:calc(50% - 60px)}
+  .public-app .orbit-b {left:calc(50% - 20px)}
+  .public-app .orbit-caption {bottom:10px;font-size:9px}
+  .public-app-copy {padding:16px;gap:0}
+  .public-app-copy h2 {font-size:clamp(19px,2vw,27px);font-weight:700;letter-spacing:-.035em;margin-bottom:10px;overflow-wrap:anywhere}
+  .public-app-copy>p {font-size:12px;line-height:1.65;margin:0}
+  .public-app .access-label {font-size:9px;padding:5px 8px;margin-bottom:12px;max-width:100%}
+  .public-tags {gap:5px;margin:16px 0}
+  .public-tags span {font-size:9px;padding:5px 7px}
+  .public-launch {font-size:11px;padding:12px;min-height:44px;background:var(--ui-soft);color:var(--ui-accent);border:1px solid var(--ui-edge)}
+  .news-app .public-launch {background:var(--ui-soft);color:var(--ui-accent)}
+  .public-app[href="/timetable-lite"],.public-app[href="/ritual-assist"],.public-app[href="/team-mixer"] {grid-column:span 2}
+  .public-app[href="/timetable-lite"] {order:-3}
+  .public-app[href="/ritual-assist"] {order:-2}
+  .public-app[href="/team-mixer"] {order:-1}
+  .public-app:is([href="/timetable-lite"],[href="/ritual-assist"],[href="/team-mixer"]) .news-visual {height:140px;background:linear-gradient(120deg,var(--ui-soft),var(--ui-bloom))}
+  .workspace-card {padding:18px;min-width:0}
+  .workspace-card h3 {font-size:20px;overflow-wrap:anywhere}
+  .workspace-card .secondary {white-space:normal;overflow-wrap:anywhere}
+  .access-heading h2 {font-size:clamp(25px,3vw,34px);font-weight:700}
+  .public-home .home-paths {gap:8px}
+  /* App-owned tool catalogues share the bento rhythm. */
+  .break-grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .guide-list {grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .guide-option {border:1px solid var(--ui-edge);background:var(--ui-glass);border-radius:14px;padding:12px;min-width:0}
+  .guide-option strong {overflow-wrap:anywhere}
+  .guide-option small {font-size:10px}
+  .library .guide-list {grid-template-columns:1fr}
+  .intro h2,.panel>h2,.results-heading h2,.preview-heading h2 {font-family:inherit;font-weight:700;letter-spacing:-.025em}
+  @media(hover:hover) and (pointer:fine) {
+    .public-app:hover {transform:translateY(-3px)}
+    :is(.public-app,.break-card,.app-card,.guide-option,.design-choice,.template):hover {
+      transform:translateY(-3px);border-color:color-mix(in srgb,var(--ui-accent) 35%,var(--ui-edge));
+      box-shadow:0 16px 32px var(--ui-bloom),inset 0 1px 0 var(--ui-highlight);
+    }
+    :is(.primary,.secondary,.button,.all-apps):not(:disabled):hover {transform:translateY(-2px)}
+  }
+  @media(hover:none) {
+    .public-app:hover {transform:none}
+    .public-app:active {transform:scale(.97)}
+  }
+  @media(min-width:760px) {
+    .public-apps,.app-grid,.break-grid {grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    .workspace-grid {grid-template-columns:repeat(2,minmax(0,1fr))}
+    .public-app-copy {padding:22px}
+    .public-app-head {padding:20px}
+  }
+  @media(min-width:1100px) {
+    .public-apps,.app-grid,.workspace-grid,.break-grid {grid-template-columns:repeat(4,minmax(0,1fr))}
+    .public-app:is([href="/timetable-lite"],[href="/ritual-assist"],[href="/team-mixer"]) .news-visual {height:160px}
+  }
+  @media(max-width:760px) {
+    .app-card {padding:14px}
+    .app-card h2 {font-size:20px;overflow-wrap:anywhere}
+    .app-card-top {display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+    .app-card-top .app-icon {width:40px;height:40px}
+    .app-card-top .badge {grid-column:1 / -1;margin-left:0;width:fit-content;white-space:normal}
+    .app-card-top .favorite {grid-column:2;grid-row:1;width:44px;height:44px}
+    .app-card .launch {padding:12px 10px;font-size:12px;overflow-wrap:anywhere}
+    .app-card .feature-tags span {overflow-wrap:anywhere;min-width:0}
+    .library .guide-list {grid-template-columns:repeat(2,minmax(0,1fr))}
+    .public-app-copy>p {font-size:11px}
+    .public-app .mini-paper-kicker {font-size:7px}
+    .public-app-head .app-icon {display:none}
+  }
+  @media(prefers-reduced-motion:reduce) {
+    :is(button,.button,.primary,.secondary,.launch,.public-launch,.nav-item,.bottom-item,.all-apps,.public-app,.break-card,.app-card,.guide-option,.design-choice,.template),.theme-toggle::before {transition:none;transform:none!important}
+    :is(.support-card,.support-hero,.home-paths a[href="/support"]) {animation:none}
+  }
+}
