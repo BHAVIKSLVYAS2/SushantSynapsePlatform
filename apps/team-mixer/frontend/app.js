@@ -1,4 +1,4 @@
-import {sample,mix,constrainedMix,resultText,safeFilename} from './engine.mjs';
+import {sample,mix,constrainedMix,resultText,safeFilename} from './engine.mjs?v=20261010-aakanksha';
 import {renderCard,pngBlob,download} from './export.mjs';
 const $=s=>document.querySelector(s),media=matchMedia('(prefers-color-scheme: dark)'),motion=matchMedia('(prefers-reduced-motion: reduce)');
 $('#theme').outerHTML=window.SynapseTheme.control('id="theme"');function theme(){const p=window.SynapseTheme.read();document.documentElement.dataset.theme=p==='system'?(media.matches?'dark':'light'):p;}$('#theme').addEventListener('change',theme);media.addEventListener('change',theme);theme();

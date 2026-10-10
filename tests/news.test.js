@@ -11,8 +11,12 @@ test('News additive migration, atomic immutable editions, pagination, restart an
  try{
   store.create('clients',{name:'Preserved client'});store.addFile('preserved','sample.bin','application/octet-stream',Buffer.from([0,1,255]));
   const original=store.all('clients');const repo=createNewsRepository(store);
-  const saved=repo.publish(edition('2025-01-02'));assert.equal(saved.author,'Bhavik');assert.equal(saved.stories.length,10);
+  const saved=repo.publish(edition('2025-01-02'));assert.equal(saved.author,'Aakanksha');assert.equal(saved.stories.length,10);
   assert.deepEqual(repo.publish({...edition('2025-01-02'),satire:{}}),saved);
+  store.sql.prepare('UPDATE news_editions SET author=? WHERE date=?').run('Bhavik','2025-01-02');
+  assert.equal(repo.get('2025-01-02').author,'Aakanksha');assert.equal(repo.list().editions[0].author,'Aakanksha');
+  assert.deepEqual(repo.publish(edition('2025-01-02')),saved);
+  assert.equal(store.sql.prepare('SELECT author FROM news_editions WHERE date=?').get('2025-01-02').author,'Bhavik');
   for(const date of ['2025-02-29','2025-13-01','2025-1-01','2025-01-01junk'])assert.throws(()=>validDate(date));
   const bad=edition('2025-01-03');bad.stories[9].url='javascript:alert(1)';assert.throws(()=>repo.publish(bad),/source URL/);assert.equal(repo.get(bad.date),null);
   assert.throws(()=>repo.publish({...edition('2025-01-03'),stories:[]}),/ten stories/);

@@ -25,12 +25,12 @@ function createNewsRepository(store){
     validDate(date);const row=store.sql.prepare('SELECT * FROM news_editions WHERE date=?').get(date);
     if(!row)return null;
     const {satireTitle,satireBody,satireStory,...edition}=row;
-    return {...edition,satire:{title:satireTitle,body:satireBody,storyPosition:satireStory},stories:store.sql.prepare('SELECT position,title,brief,source,url,publishedAt FROM news_stories WHERE editionDate=? ORDER BY position').all(date)};
+    return {...edition,author:edition.author==='Bhavik'?'Aakanksha':edition.author,satire:{title:satireTitle,body:satireBody,storyPosition:satireStory},stories:store.sql.prepare('SELECT position,title,brief,source,url,publishedAt FROM news_stories WHERE editionDate=? ORDER BY position').all(date)};
   }
   function list(before){
     if(before)validDate(before);
     const rows=store.sql.prepare('SELECT date,name,author,publishedAt FROM news_editions WHERE date < ? ORDER BY date DESC LIMIT 31').all(before||'9999-12-31');
-    return {editions:rows.slice(0,30),nextBefore:rows.length>30?rows[29].date:null};
+    return {editions:rows.slice(0,30).map(row=>({...row,author:row.author==='Bhavik'?'Aakanksha':row.author})),nextBefore:rows.length>30?rows[29].date:null};
   }
   // Internal publication boundary for the future validated generation pipeline;
   // there is deliberately no user-supplied publication HTTP endpoint.
@@ -54,7 +54,7 @@ function createNewsRepository(store){
     const model=text(input.model,'model',150),promptVersion=text(input.promptVersion,'prompt version',100);
     return store.transaction(()=>{
       const saved=get(date);if(saved)return saved;
-      store.sql.prepare('INSERT INTO news_editions VALUES(?,?,?,?,?,?,?,?,?,?)').run(date,'Sushant Synapse Times','Bhavik',cutoff,publishedAt,title,body,satire.storyPosition,model,promptVersion);
+      store.sql.prepare('INSERT INTO news_editions VALUES(?,?,?,?,?,?,?,?,?,?)').run(date,'Sushant Synapse Times','Aakanksha',cutoff,publishedAt,title,body,satire.storyPosition,model,promptVersion);
       const insert=store.sql.prepare('INSERT INTO news_stories VALUES(?,?,?,?,?,?,?)');
       for(const s of stories)insert.run(date,s.position,s.title,s.brief,s.source,s.url,s.publishedAt);
       store.sql.prepare("UPDATE news_runs SET state='published',leaseToken=NULL,leaseUntil=NULL,error=NULL,updatedAt=? WHERE date=?").run(publishedAt,date);

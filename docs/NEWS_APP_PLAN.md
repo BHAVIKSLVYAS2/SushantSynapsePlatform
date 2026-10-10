@@ -12,7 +12,7 @@ Date: 2026-09-16. Stages 1 and 2 deployed as an owner preview at `/news`. Stage 
 
 - New News app at `/news`, owned by `apps/news`, composed in `server/index.js`.
 - Shared login, owner-managed app access and light/dark/system themes.
-- Confirmed newspaper name: **Sushant Synapse Times**. Confirmed author byline: **Bhavik**. Retain source credits and clear AI-satire labelling alongside the byline.
+- Confirmed newspaper name: **Sushant Synapse Times**. Confirmed author byline: **Aakanksha**. Retain source credits and clear AI-satire labelling alongside the byline.
 - English, India-focused general news with relevant world coverage; these are proposed defaults.
 - Initial release: one manually generated newspaper per IST date, containing ten distinct news stories and one clearly labelled original AI satire inspired by a selected story.
 - An owner-visible **Fetch today's newspaper** button starts generation only when today's saved edition does not exist. The server checks SQLite first; repeated clicks, reloads and visits return the stored edition without further news or AI calls. Other users with app access can read saved editions.

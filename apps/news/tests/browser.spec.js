@@ -147,7 +147,7 @@ test('News access, available catalogue, empty states, responsive themes and prin
   expect((await page.request.post(base+'/api/auth/setup',{data:{name:'News Owner',email:'owner@news.example',password}})).status()).toBe(201);
   const status=await page.request.get(base+'/api/news/status');
   expect(status.headers()['cache-control']).toBe('no-store');
-  expect(await status.json()).toMatchObject({author:'Bhavik',generationAvailable:true,archiveAvailable:true});
+  expect(await status.json()).toMatchObject({author:'Aakanksha',generationAvailable:true,archiveAvailable:true});
   expect((await page.request.post(base+'/api/news/status',{data:{}})).status()).toBe(405);
   expect((await page.request.post(base+'/api/news/fetch',{data:{unsupported:true}})).status()).toBe(400);
   expect((await page.request.get(base+'/apps/news/backend/routes.js')).status()).toBe(404);
@@ -156,7 +156,7 @@ test('News access, available catalogue, empty states, responsive themes and prin
   expect(catalog.apps.find(app=>app.id==='news')).toMatchObject({status:'Available',accessible:true});
   await page.goto(base+'/news/');await expect(page).toHaveURL(base+'/news');
   await expect(page.getByRole('heading',{name:'Sushant Synapse Times',exact:true})).toBeVisible();
-  await expect(page.locator('.byline')).toHaveText('By Bhavik');
+  await expect(page.locator('.byline')).toHaveText('By Aakanksha');
   await expect(page.getByRole('button',{name:"Fetch today's newspaper"})).toBeEnabled();
   await expect(page.getByLabel('Edition date')).toBeEnabled();
   await expect(page.getByRole('heading',{name:'Previous editions'})).toBeVisible();

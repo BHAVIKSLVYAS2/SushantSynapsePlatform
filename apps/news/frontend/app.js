@@ -160,7 +160,7 @@ function renderEdition(edition){
   renderComic(edition.satire,edition.promptVersion);
   reader.append(overview,info,filters,count,grid,satire);reader.hidden=false;
   document.querySelector('.masthead h1').textContent=edition.name;
-  document.querySelector('.byline strong').textContent=edition.author;
+  document.querySelector('.byline strong').textContent=edition.author==='Bhavik'?'Aakanksha':edition.author;
   document.querySelector('.edition-line span:nth-child(2)').textContent=(edition.deviceOnly?'On-device edition · ':'Saved edition · ')+edition.date;
   document.querySelector('#print-edition').disabled=false;
 }
@@ -234,7 +234,7 @@ async function prepareOnDevice(date){
   if(!response.ok)throw Error(preview.error||'News sources are unavailable. Please retry later.');
   if(preview.date!==date)throw Error('The source returned a different edition date. Please retry.');
   const draft=SynapseNews.draftEdition(preview);
-  const edition={...draft,name:'Sushant Synapse Times',author:'Bhavik',deviceOnly:true,stories:draft.stories.map((s,i)=>({...s,position:i+1}))};
+  const edition={...draft,name:'Sushant Synapse Times',author:'Aakanksha',deviceOnly:true,stories:draft.stories.map((s,i)=>({...s,position:i+1}))};
   deviceEditions.set(date,edition);
   if(deviceEditions.size>30)deviceEditions.delete(deviceEditions.keys().next().value);
   return {date,state:'published',deviceOnly:true,cached:false};
