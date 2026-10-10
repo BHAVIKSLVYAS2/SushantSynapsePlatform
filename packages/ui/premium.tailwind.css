@@ -2,6 +2,7 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities) source(none);
 @import "./premium.css";
+@import "./workbench.css";
 @source inline("grid grid-cols-2 gap-3.5 md:grid-cols-3 md:gap-4.5 xl:grid-cols-4");
 @theme {
   --breakpoint-md: 47.5rem;
