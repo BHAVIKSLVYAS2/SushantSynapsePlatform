@@ -1,6 +1,6 @@
 # Sushant Synapse Platform
 
-The local backend uses **one SQL Server Express database, `SushantSynapsePlatform`, with eight separate schemas**, including Satire Arena's `satire`. The flow is UI → Node API → local SQL Server. Cloudflare serves frontend assets and forwards API requests; no D1 binding is configured. Azure migration remains a later step. SQLite files are retained as migration/recovery sources. See [SQL Server setup and recovery](docs/SQLSERVER_MIGRATION.md).
+The local backend uses **one SQL Server LocalDB database, `SushantSynapsePlatform`, with eight separate schemas**, including Satire Arena's `satire`. The flow is UI → Node API → local SQL Server. Cloudflare serves frontend assets and forwards API requests; no D1 binding is configured. Azure migration remains a later step. SQLite files are retained as migration/recovery sources. See [SQL Server setup and recovery](docs/SQLSERVER_MIGRATION.md).
 
 WhatsApp contact is available through `/contact`, `/support` and `/sponsor`. Submitting a form opens WhatsApp with combined details; visitors review the draft and press Send. Shared navigation and homepage links expose Support Us and Watch demos. Forms are not saved by the platform; payment settings remain separate.
 

@@ -38,7 +38,7 @@ On Windows use `npm.cmd` in place of `npm` when needed. Provisioning, managed id
 
 ## Current local deployment
 
-Database: `.\SQLEXPRESS / SushantSynapsePlatform`, Windows integrated authentication. Eight schemas: `platform`, `chambers`, `batchfee`, `samaj`, `tournament`, `news`, `fundlens`, `satire`. Provision or verify the local structure with `powershell -ExecutionPolicy Bypass -File infrastructure/provision-local-sql.ps1`; this creates only a missing database and applies checksum-tracked migrations, preserving existing records.
+Database: `(localdb)\MSSQLLocalDB / SushantSynapsePlatform`, Windows integrated authentication. Eight schemas: `platform`, `chambers`, `batchfee`, `samaj`, `tournament`, `news`, `fundlens`, `satire`. Provision or verify the local structure with `powershell -ExecutionPolicy Bypass -File infrastructure/provision-local-sql.ps1`; this creates only a missing database and applies checksum-tracked migrations, preserving existing records.
 
 Protected runtime settings live in ignored `data/local-host.json`. App database definitions remain under each app's `database/sqlserver/`; shared definitions are under `packages/database/sqlserver/`. SQL Server manages its MDF/LDF files; do not copy live database files into source control. Full native recovery exports are under `data/backups/` and must remain private.
 
@@ -63,3 +63,5 @@ Run `npm.cmd test` and `npm.cmd run test:e2e` for compatibility workflows. Focus
 Source SQLite schemas under `packages/database/schema.sql` and `apps/advocate/database/schema.sql` are retained for compatibility, source migration and existing-data preservation. They are not the Azure SQL schemas. Keep app schemas in app directories and shared storage/runtime code in packages/database.
 
 Local Windows hosting: set SQLSERVER_LOCAL_INSTANCE=1 with SQLSERVER_AUTH=integrated and SQLSERVER_SERVER=.\SQLEXPRESS. This explicitly permits the local certificate in production; remote/Azure connections still require verified certificates. msnodesqlv8 is an optional runtime dependency. infrastructure/start-tunnel-host.ps1 reads protected data/local-host.json when present; keep that file private and outside source control.
+
+LocalDB connection in SSMS/Visual Studio: server (localdb)\MSSQLLocalDB, Windows Authentication, encryption Optional/off. This user-owned named-pipe instance does not support TLS; only this exact local instance gets the exception. Remote/Azure connections still require TLS and verified certificates. Current MDF/LDF files: data/sqlserver/SushantSynapsePlatform.mdf and SushantSynapsePlatform_log.ldf. Do not copy/delete these while LocalDB is running. The prior SQL Express database is preserved as a rollback copy; the API exclusively uses LocalDB.

@@ -34,4 +34,6 @@ test('SQL configuration requires an explicit database and production certificate
  else assert.throws(()=>configFromEnv(local),/Local SQL mode/);
  assert.throws(()=>configFromEnv({...local,SQLSERVER_SERVER:'remote.example\\SQLEXPRESS'}),/Local SQL mode/);
  assert.throws(()=>configFromEnv({...local,SQLSERVER_AUTH:'sql',SQLSERVER_USER:'app',SQLSERVER_PASSWORD:'test-only'}),/Local SQL mode/);
+ if(process.platform==='win32'){const connection=configFromEnv({...local,SQLSERVER_SERVER:'(localdb)\\MSSQLLocalDB'});assert.equal(connection.config.options.encrypt,false);assert.match(connection.config.connectionString,/Encrypt=No/);}
+ assert.throws(()=>configFromEnv({...local,SQLSERVER_SERVER:'remote\\MSSQLLocalDB'}),/Local SQL mode/);
 });

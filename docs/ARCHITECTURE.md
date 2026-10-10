@@ -8,7 +8,7 @@ Ritual calendar reminder/pack exports belong to app-owned frontend modules: `cal
 
 Public information routes `/privacy`, `/terms`, `/contact`, `/legal` and `/legal/third-party-notices` belong to the portal frontend. Their static shared footer belongs to `packages/ui/legal-footer.css`; no browser tracking, legal-form submission or storage is introduced. All pages link to them without JavaScript; Cloudflare independently serves the routes and slash aliases. Information reflects current app storage/limitations, with operator/contact details explicitly pending until supplied. See `docs/LEGAL_SOURCE_REGISTER.md` for notices and unresolved rights decisions.
 
-This is an npm workspace monorepo. Apps share one Node API and account system. The local deployment uses `.\SQLEXPRESS / SushantSynapsePlatform`, with `platform`, `chambers`, `batchfee`, `samaj`, `tournament`, `news`, `fundlens` and `satire` schemas. UI → API → local SQL Server is the persistence path, including Arena. Cloudflare has no D1 binding or database route. SQLite is retained for isolated compatibility tests and source recovery. See `docs/SQLSERVER_MIGRATION.md` for local provisioning, recovery and future Azure configuration.
+This is an npm workspace monorepo. Apps share one Node API and account system. The local deployment uses `(localdb)\MSSQLLocalDB / SushantSynapsePlatform`, with `platform`, `chambers`, `batchfee`, `samaj`, `tournament`, `news`, `fundlens` and `satire` schemas. UI → API → local SQL Server is the persistence path, including Arena. Cloudflare has no D1 binding or database route. SQLite is retained for isolated compatibility tests and source recovery. See `docs/SQLSERVER_MIGRATION.md` for local provisioning, recovery and future Azure configuration.
 
 ```text
 apps/
