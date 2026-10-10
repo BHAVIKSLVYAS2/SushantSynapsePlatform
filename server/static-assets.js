@@ -8,6 +8,7 @@ const staticAssets={
  '/satire-arena/extra-cast.svg':'apps/satire-arena/frontend/extra-cast.svg',
  '/satire-arena/new-cast.png':'apps/satire-arena/frontend/new-cast.png',
  '/satire-arena/extra-cast-v2.png':'apps/satire-arena/frontend/extra-cast-v2.png',
+ '/satire-arena/feedback.mjs':'apps/satire-arena/frontend/feedback.mjs',
  '/satire-arena/app.js':'apps/satire-arena/frontend/app.js',
  '/satire-arena/style.css':'apps/satire-arena/frontend/style.css',
  '/satire-arena/cartoon-cast.png':'apps/satire-arena/frontend/cartoon-cast.png',
