@@ -46,7 +46,7 @@ test('premium bento keeps all tools discoverable across touch layouts and both t
  for(const route of ['/timetable-lite','/ritual-assist','/ritual-assist/calendar','/team-mixer','/decision-wheel','/moment-studio','/moment-studio/certificates','/take-a-break','/pocket-pause','/daily-spark','/news','/fund-overlap','/advocate','/digital-samaj','/batchfee-lite','/tournament-lite','/satire-arena']){
   await page.goto(base+route);await expect(page.locator('link[href*="/shared/premium.css"]')).toHaveCount(1);
   await expect(page.getByRole('button',{name:'Dark mode',exact:true})).toBeVisible();
-  expect(await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundColor),route).toBe('rgb(8, 12, 20)');
+  await expect(page.locator('body'),route).toHaveCSS('background-color','rgb(8, 12, 20)');
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),route).toBe(true);
  }
  expect(errors).toEqual([]);
@@ -135,7 +135,10 @@ test('platform setup, favourites, app launch with shared sign-in, team access an
  await page.setViewportSize({width:390,height:844});await page.getByRole('link',{name:'Sign in',exact:true}).click();
  await page.getByLabel('Your name',{exact:true}).fill('Sushant Owner');await page.getByLabel('Workspace name',{exact:true}).fill('Synapse Chambers');await page.getByLabel('Email address').fill('owner@synapse.example');await page.getByLabel('Password',{exact:true}).fill('Platform browser password!');await page.getByRole('button',{name:'Create platform'}).click();
  await expect(page.getByRole('heading',{name:'Welcome, Sushant.'})).toBeVisible();await expect(page.getByRole('button',{name:'Open Chambers'})).toBeVisible();await expect(page.getByText('Planned',{exact:true})).toHaveCount(3);
- await page.getByRole('button',{name:'Search apps',exact:true}).click();await page.getByLabel('Search apps or activities').fill('Chambers');await expect(page.locator('.finder-result')).toHaveCount(1);await expect(page.locator('.finder-result')).toContainText('Chambers');await page.keyboard.press('Escape');await expect(page.getByRole('button',{name:'Search apps',exact:true})).toBeFocused();
+ await expect(page.locator('.app-card .app-sculpture')).toHaveCount(await page.locator('.app-card').count());
+ await expect(page.locator('.app-card.planned .launch,.app-card.planned .favorite')).toHaveCount(0);
+ await expect(page.locator('.app-card[data-app-id="advocate"] use')).toHaveAttribute('href',/home-art\.svg.*#chambers$/);
+ await page.getByRole('button',{name:'Search apps',exact:true}).click();await page.getByLabel('Search apps or activities').fill('Chambers');await expect(page.locator('.finder-result')).toHaveCount(1);await expect(page.locator('.finder-result')).toContainText('Chambers');await expect(page.locator('.finder-result .finder-sculpture')).toHaveAttribute('aria-hidden','true');await page.keyboard.press('Escape');await expect(page.getByRole('button',{name:'Search apps',exact:true})).toBeFocused();
  await page.getByRole('button',{name:'Add Chambers to favourites'}).click();await page.getByRole('navigation',{name:'Mobile platform navigation'}).getByRole('button',{name:'Favourites',exact:true}).click();await expect(page.locator('.app-card')).toHaveCount(1);
  await page.getByRole('button',{name:'Open Chambers'}).click();await expect(page).toHaveURL(base+'/advocate');await expect(page.getByRole('heading',{name:'A clear view. A better day.'})).toBeVisible();
  await page.getByRole('link',{name:'Back to Sushant Synapse apps'}).click();await page.getByRole('navigation',{name:'Mobile platform navigation'}).getByRole('button',{name:'Recent',exact:true}).click();await expect(page.getByRole('heading',{name:'Chambers',exact:true})).toBeVisible();

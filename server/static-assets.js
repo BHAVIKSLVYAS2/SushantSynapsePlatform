@@ -1,5 +1,6 @@
 // Explicit URL allowlist. Filesystem paths are never accepted from requests.
 const staticAssets={
+ '/shared/workbench.js':'packages/ui/workbench.js',
  '/home.css':'apps/portal/frontend/home.css',
  '/home-art.svg':'apps/portal/frontend/home-art.svg',
  '/ads.txt':'packages/ui/ads.txt',

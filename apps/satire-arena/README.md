@@ -1,5 +1,9 @@
 # Satire Arena
 
+The public page's primary brand is **Garland or Roast**, retaining Satire Arena as the subtitle and the existing `/satire-arena` and `/arena` routes. A prominent Fans/Critics/Amused scoreboard uses authoritative API totals and `resetsAt` for its live midnight-IST countdown, polls every 30 seconds and refreshes at rollover/visibility return. A sticky mini scoreboard, compact six-button cards, selected-pick badges, explicit per-card totals and positive-count/tie-aware leader ribbons improve browsing. The daily Main Event rotates deterministically from the server's round date; it does not alter voting or ranking. Successful votes retain all original feedback and add a short toast; failures show no success toast. No animation, sprite, haptic, ballot ID or API contract is changed.
+
+Arena-wide (1080×1350) and individual-character (1080×1080) PNG share cards render locally with existing portraits, official logo and parody disclaimers. They snapshot public totals only, exclude personal selections/identity and use native file sharing when supported, otherwise download. Cancellation never changes ballots. All existing privacy/disclaimer copy and export/removal controls remain. No new provider, upload, business storage or weekly activity endpoint is added; weekly activity is intentionally absent because the current API has no weekly aggregate. This redesign is locally verified; production publishing is a separate step.
+
 Adapted from the user-owned Contempt Universe Arena without changing its source app, accounts or SQL Server data. Existing Arena vote history is not imported; this platform starts its own rounds.
 
 `frontend/` owns the nine-character cartoon UI, reaction animations, private browser-selected state, pending-link confirmation, scoreboard, support link, export and removal controls. Shared platform headers/themes/footer apply; advertising is off. Artwork provenance is retained in ARTWORK.md.
