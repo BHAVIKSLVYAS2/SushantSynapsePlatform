@@ -633,3 +633,10 @@ For the earlier Chambers release, local implementation was complete. Further wor
 
 - Created the separate local SQL Express database `SushantSynapsePlatform` and verified all eight schemas. Existing Contempt Universe databases were not changed. Production data cutover is pending final backup/import verification; live Arena still uses D1.
 - Added protected host configuration loading and production Windows integrated authentication restricted to this computer's SQL Express instance. Azure/remote production certificate checks remain required. The native Windows driver is an optional runtime dependency; Azure retains the pure JavaScript driver.
+
+## Local SQL cutover � 2026-10-10
+
+- Activated `SushantSynapsePlatform` on this computer's SQL Express instance with eight schemas and Windows authentication. UI communicates through Node APIs; live health/authentication checks pass. Preserved 280 source rows, account hashes and document blobs; all 53 SQLite source table hashes and legacy JSON match the migration snapshot. Active sessions intentionally expire.
+- Production native SQL export restored into a second empty disposable database with all 280 retained rows. Final isolated compatibility tests: 182/182; focused Arena/hash tests: 7/7. SQL integration/recovery passes with the additive News error-length migration. Earlier import attempts rolled back completely; integer normalization and ordering-independent exact hashes fixed source verification.
+- User explicitly authorized resetting Arena data and removing D1. D1 export preserved privately; local Arena starts with new signed browser identities and empty votes. Cloudflare D1 binding/legacy routing removed from code. Final Worker deployment, SQL-backed voting verification and cloud resource removal are being completed; update this status with their actual results.
+- Reproducible local provisioning: infrastructure/provision-local-sql.ps1. Protected runtime configuration: data/local-host.json. Original SQLite/legacy migration sources remain preserved. Azure and GitHub push remain pending.

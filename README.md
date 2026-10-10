@@ -1,6 +1,6 @@
 # Sushant Synapse Platform
 
-The backend now supports **one Azure SQL / SQL Server database with eight separate app schemas**, including Satire Arena's `satire`, selected explicitly through `DATABASE_PROVIDER=sqlserver`. Existing SQLite remains the default until a verified migration; no live records are automatically moved. Native migrations, read-only source transfer, Arena D1 import, configuration and recovery instructions are in [SQL Server migration](docs/SQLSERVER_MIGRATION.md). The SQL-capable code is deployed; live storage remains SQLite/D1 pending configured and verified SQL cutover.
+The local backend uses **one SQL Server Express database, `SushantSynapsePlatform`, with eight separate schemas**, including Satire Arena's `satire`. The flow is UI → Node API → local SQL Server. Cloudflare serves frontend assets and forwards API requests; no D1 binding is configured. Azure migration remains a later step. SQLite files are retained as migration/recovery sources. See [SQL Server setup and recovery](docs/SQLSERVER_MIGRATION.md).
 
 WhatsApp contact is available through `/contact`, `/support` and `/sponsor`. Submitting a form opens WhatsApp with combined details; visitors review the draft and press Send. Shared navigation and homepage links expose Support Us and Watch demos. Forms are not saved by the platform; payment settings remain separate.
 

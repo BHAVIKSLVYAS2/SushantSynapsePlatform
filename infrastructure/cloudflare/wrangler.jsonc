@@ -43,7 +43,6 @@
       ]
     },
     "production": {
-      "vars": {"ARENA_STORAGE": "d1"},
       "workers_dev": false,
       "routes": [
         {
@@ -75,13 +74,6 @@
             "limit": 30,
             "period": 60
           }
-        }
-      ],
-      "d1_databases": [
-        {
-          "binding": "ARENA_DB",
-          "database_name": "sushant-synapse-satire-arena",
-          "database_id": "32d8183e-a389-4542-8993-999c066e7186"
         }
       ]
     }

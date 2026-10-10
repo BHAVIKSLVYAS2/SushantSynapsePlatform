@@ -36,6 +36,14 @@ The D1 binding and `ARENA_STORAGE=d1` branch remain available for controlled pre
 
 On Windows use `npm.cmd` in place of `npm` when needed. Provisioning, managed identity setup, Azure deployment and live-data cutover are separate from local implementation and have not been performed by this change.
 
+## Current local deployment
+
+Database: `.\SQLEXPRESS / SushantSynapsePlatform`, Windows integrated authentication. Eight schemas: `platform`, `chambers`, `batchfee`, `samaj`, `tournament`, `news`, `fundlens`, `satire`. Provision or verify the local structure with `powershell -ExecutionPolicy Bypass -File infrastructure/provision-local-sql.ps1`; this creates only a missing database and applies checksum-tracked migrations, preserving existing records.
+
+Protected runtime settings live in ignored `data/local-host.json`. App database definitions remain under each app's `database/sqlserver/`; shared definitions are under `packages/database/sqlserver/`. SQL Server manages its MDF/LDF files; do not copy live database files into source control. Full native recovery exports are under `data/backups/` and must remain private.
+
+The verified SQLite import retained 280 rows and all document/account contents; sessions expire at cutover. Satire identities and active votes restart locally under the user's authorized reset. Old D1 votes were exported privately before removal. No Cloudflare proxy secret is needed: cookie signing occurs in Node. The frontend communicates exclusively through the API.
+
 ## Transaction and runtime behavior
 
 This first implementation deliberately retains the existing synchronous repository API. The pure-JavaScript SQL Server driver runs on a dedicated worker with bounded shared-memory responses and typed parameters. Network operations still block each calling API handler; this is not a fully asynchronous repository refactor.

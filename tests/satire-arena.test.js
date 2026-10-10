@@ -31,7 +31,7 @@ test('IST rollover, invalid/cross-origin ballots, unsigned cookies and unavailab
 test('Arena page stays static while SQL API uses origin; preview cannot reach production votes',async()=>{
  const {handle}=await import('../infrastructure/cloudflare/worker.mjs');let origins=0;const env={ASSETS:{fetch:async()=>new Response('<html>Arena</html>',{headers:{'Content-Type':'text/html'}})}};const origin=async()=>{origins++;throw Error('Origin offline');};assert.equal((await handle(new Request(base+'/satire-arena'),env,origin)).status,200);assert.equal((await handle(new Request(base+'/api/satire-arena'),env,origin)).status,503);assert.equal(origins,1);
  assert.equal((await handle(new Request('https://preview.example/api/satire-arena'),env,origin)).status,503);assert.equal(origins,1);
- const config=JSON.parse(require('node:fs').readFileSync('infrastructure/cloudflare/wrangler.jsonc'));assert.equal(config.env.production.vars.ARENA_STORAGE,'d1');assert.equal(config.env.production.d1_databases[0].binding,'ARENA_DB');assert.equal(config.env.preview.d1_databases,undefined);
+ const config=JSON.parse(require('node:fs').readFileSync('infrastructure/cloudflare/wrangler.jsonc'));assert.equal(config.env.production.d1_databases,undefined);assert.equal(config.env.preview.d1_databases,undefined);
 });
 test('SQL Arena proxy retains managed write limits, identity cookies and explicit legacy isolation',async()=>{
  const {handle}=await import('../infrastructure/cloudflare/worker.mjs');let calls=0;const env={ARENA_LIMITER:{limit:async()=>({success:true})}};

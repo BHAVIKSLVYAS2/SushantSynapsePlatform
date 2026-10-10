@@ -1,4 +1,3 @@
-import {arena} from '../../apps/satire-arena/backend/edge.mjs';
 import {newsSources} from './news-sources.mjs';
 import {fundSources} from './fund-sources.mjs';
 import pages from './pages.json' with {type: 'json'};
@@ -20,8 +19,6 @@ function unavailable(method) {
 export async function handle(request, env, originFetch = fetch, sourceOptions = {}) {
   const url = new URL(request.url), pathname = url.pathname;
   const arenaRoute=pathname === '/api/satire-arena' || pathname.startsWith('/api/satire-arena/');
-  // Explicit legacy mode is available for controlled pre-cutover releases/rollback.
-  if(arenaRoute && env.ARENA_STORAGE==='d1')return url.hostname==='apps.sushantsynapse.com'?arena(request,env):unavailable(request.method);
   if(arenaRoute && url.hostname==='apps.sushantsynapse.com' && ['PUT','DELETE'].includes(request.method)){
     if(!env.ARENA_LIMITER)return unavailable(request.method);
     const limit=await env.ARENA_LIMITER.limit({key:request.headers.get('CF-Connecting-IP')||'unknown'});
