@@ -1,5 +1,7 @@
 # Legal information and source register
 
+Public contact update (10 October 2026): user-authorized WhatsApp destination +91 78741 66009 is published for Contact/Support/Sponsorship. Forms are transient; opening WhatsApp deliberately shares prepared fields with that service, and visitors control sending. Privacy updated. Configuration does not establish recipient registration, delivery, payment recipient, legal operator identity or a complete rights-request workflow. Format follows [official click-to-chat help](https://faq.whatsapp.com/5913398998672934).
+
 Ritual Assist update (10 October 2026): calendar date/time/city now travel by POST to the platform Node backend without request-body logging or saved death records. Hosting metadata and temporary address rate limits apply; public privacy wording reflects this exception to browser-local tools. Expanded original funeral/material summaries reference particular temple traditions, not universal requirements. No Drik integration, exact provider equivalence, source endorsement or priest certification is claimed.
 
 Updated 10 October 2026. This records evidence and outstanding decisions; it is not a rights-clearance certificate.

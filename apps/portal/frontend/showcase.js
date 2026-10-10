@@ -35,10 +35,10 @@ $('#download-player').hidden=standalone;
 $('#download-player').onclick=async()=>{
  const button=$('#download-player');button.disabled=true;$('#player-status').textContent='Preparing a self-contained HTML player…';
  try{
-  const urls=['/showcase','/platform.css','/shared/platform-header.css','/showcase.css','/shared/theme.js','/showcase.js','/logo-adaptive-192.png','/shared/legal-footer.css'];
-  const [html,platform,header,css,themeScript,script,logo,legalFooter]=await Promise.all(urls.map((url,i)=>loadAsset(url,i===6?'image':'text')));
+  const urls=['/showcase','/platform.css','/shared/platform-header.css','/showcase.css','/shared/theme.js','/showcase.js','/logo-adaptive-192.png','/shared/legal-footer.css','/shared/whatsapp.css'];
+  const [html,platform,header,css,themeScript,script,logo,legalFooter,whatsappCss]=await Promise.all(urls.map((url,i)=>loadAsset(url,i===6?'image':'text')));
   const doc=new DOMParser().parseFromString(html,'text/html'),meta=doc.createElement('meta');meta.name='showcase-export';meta.content='standalone';doc.head.prepend(meta);
-  const styles={'/platform.css':platform,'/shared/platform-header.css':header,'/showcase.css':css,'/shared/legal-footer.css':legalFooter};
+  const styles={'/platform.css':platform,'/shared/platform-header.css':header,'/showcase.css':css,'/shared/legal-footer.css':legalFooter,'/shared/whatsapp.css':whatsappCss};
   for(const link of doc.querySelectorAll('link[rel=stylesheet]')){const contents=styles[link.getAttribute('href').split('?')[0]];if(contents){const style=doc.createElement('style');style.textContent=contents;link.replaceWith(style);}else link.remove();}
   for(const external of doc.querySelectorAll('script[src]')){
    const src=external.getAttribute('src').split('?')[0],contents=src==='/shared/theme.js'?themeScript:src==='/showcase.js'?script.replaceAll('/logo-adaptive-192.png',logo):null;

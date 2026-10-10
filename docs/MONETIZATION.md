@@ -1,5 +1,7 @@
 # Quiet sponsorship plan
 
+WhatsApp enquiries are configured for user-supplied +91 78741 66009. Contact, Support and Sponsorship forms combine messages; visitors review them, open WhatsApp and press Send. Support/Demos are prominent in shared navigation/homepage. This is an enquiry channel, not automatic delivery or payment verification. Existing payment settings and agreed sponsorship publishing remain separate. Historical local-draft-only descriptions below precede this update.
+
 ## Voluntary support
 
 `/support` is deployed, adapted from `C:\Code\ContemptUniverse\src\web\app\support\page.tsx` with platform styling. No payment recipient is configured. Sign in as the platform Owner, open `/support`, expand **Manage support settings**, enter a recipient display name and verified UPI ID or HTTPS payment link, then enable and save. The public destination changes immediately on the running Node instance. Only owners can read drafts or write settings; invalid UPI IDs, non-HTTPS/credential-bearing links and enabled empty configurations are rejected server-side. Details persist under `platform-support` in SQLite and full SQL export; disabled drafts are excluded from public responses. Both server and frontend are deployed; configure the recipient through the production Owner account.

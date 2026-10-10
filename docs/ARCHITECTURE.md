@@ -1,5 +1,7 @@
 # Code ownership and adding apps
 
+WhatsApp contact is a frontend flow owned by portal forms and `packages/ui/whatsapp.js`, `whatsapp-engine.mjs` and `whatsapp.css`. Only named enquiry fields and page path enter a reviewable draft for +91 78741 66009. No automatic delivery, app-record access, platform API write or form persistence is introduced. Static navigation exposes WhatsApp, Support Us and Watch demos. Visitors send from WhatsApp; delivery/recipient registration are not verified.
+
 Ritual Assist owns its stateless calendar backend in `apps/ritual-assist/backend`. `server/index.js` composes public `POST /api/ritual-assist/calendar`; bounded Indian/IST inputs run in worker threads without SQLite writes or retained death records. Cloudflare independently serves guides/form; calculation requires Node. App-owned content modules provide 15 bilingual guides.
 
 Public information routes `/privacy`, `/terms`, `/contact`, `/legal` and `/legal/third-party-notices` belong to the portal frontend. Their static shared footer belongs to `packages/ui/legal-footer.css`; no browser tracking, legal-form submission or storage is introduced. All pages link to them without JavaScript; Cloudflare independently serves the routes and slash aliases. Information reflects current app storage/limitations, with operator/contact details explicitly pending until supplied. See `docs/LEGAL_SOURCE_REGISTER.md` for notices and unresolved rights decisions.

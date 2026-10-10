@@ -1,5 +1,7 @@
 # Sushant Synapse Platform
 
+WhatsApp contact is available at +91 78741 66009 through `/contact`, `/support` and `/sponsor`. Forms combine entered details into a reviewed message; visitors open WhatsApp and press Send. Shared navigation and homepage links expose Support Us and Watch demos. Forms are not saved by the platform; payment settings remain separate.
+
 Ritual Assist provides 15 bilingual guides, expanded Havan materials, Antyeshti considerations and day 10–12 checklists. Its remembrance calendar requires date, IST time and Indian city; stateless backend calculation returns first-year and ten upcoming annual/Pitru Paksha plans. Family-specific and uncertain dates require confirmation. See [scope](apps/ritual-assist/README.md).
 
 Public [privacy/data-use information](/privacy), [usage responsibilities](/terms), [contact status](/contact) and [third-party notices](/legal/third-party-notices) are linked across every app. Operator/contact details and some rights/retention workflows remain pending; these pages do not claim legal clearance. The internal audit and source register are in `docs/COPYRIGHT_LEGAL_AUDIT_2026-10-10.md` and `docs/LEGAL_SOURCE_REGISTER.md`.
@@ -10,7 +12,7 @@ Public [privacy/data-use information](/privacy), [usage responsibilities](/terms
 
 Fund Lens comparison is deployed on Cloudflare and works without the laptop backend. See [deployment status](docs/DEPLOYMENT.md).
 
-Quiet direct sponsorships are prepared for selected public pages: one labelled, dismissible text card outside the working controls, with no popups, autoplay, advertiser scripts or tracking pixels. Private workspaces and sensitive tools remain ad-free. `/sponsor` provides the partnership information, brief and local enquiry drafts; actual paid campaigns, enquiry contact and payments are not connected yet. See [the earning plan and publishing guide](docs/MONETIZATION.md).
+Quiet direct sponsorships are prepared for selected public pages: one labelled, dismissible text card outside the working controls, with no popups, autoplay, advertiser scripts or tracking pixels. Private workspaces and sensitive tools remain ad-free. `/sponsor` provides the partnership information, brief and local enquiry drafts; WhatsApp enquiry contact is configured; actual paid campaigns and payments are not connected yet. See [the earning plan and publishing guide](docs/MONETIZATION.md).
 
 **Take a Break** at `/take-a-break` brings seven activities into one mobile-friendly hub: Make 24 (Daily Spark), Oddly Different, Memory Minute, bilingual Clue Club, Face-Off, Decision Wheel and Pocket Pause. Daily challenges use IST dates, with practice rounds and explicit sharing. Free, no login, no backend dependency; progress stays in the current tab. Existing `/daily-spark`, `/decision-wheel` and `/pocket-pause` links continue to work.
 
