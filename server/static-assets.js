@@ -28,6 +28,8 @@ const staticAssets={
  '/ritual-assist/':'apps/ritual-assist/frontend/index.html',
  '/ritual-assist/app.js':'apps/ritual-assist/frontend/app.js',
  '/ritual-assist/guides.mjs':'apps/ritual-assist/frontend/guides.mjs',
+ '/ritual-assist/mourning.mjs':'apps/ritual-assist/frontend/mourning.mjs',
+ '/ritual-assist/materials-review.mjs':'apps/ritual-assist/frontend/materials-review.mjs',
  '/ritual-assist/style.css':'apps/ritual-assist/frontend/style.css',
  '/moment-studio':'apps/moment-studio/frontend/index.html',
  '/moment-studio/':'apps/moment-studio/frontend/index.html',

@@ -1,5 +1,7 @@
 # Sushant Synapse Platform
 
+Ritual Assist provides 15 bilingual guides, expanded Havan materials, Antyeshti considerations and day 10–12 checklists. Its remembrance calendar requires date, IST time and Indian city; stateless backend calculation returns first-year and ten upcoming annual/Pitru Paksha plans. Family-specific and uncertain dates require confirmation. See [scope](apps/ritual-assist/README.md).
+
 Public [privacy/data-use information](/privacy), [usage responsibilities](/terms), [contact status](/contact) and [third-party notices](/legal/third-party-notices) are linked across every app. Operator/contact details and some rights/retention workflows remain pending; these pages do not claim legal clearance. The internal audit and source register are in `docs/COPYRIGHT_LEGAL_AUDIT_2026-10-10.md` and `docs/LEGAL_SOURCE_REGISTER.md`.
 
 **Support Us** is deployed at `/support`, adapted from Contempt Universe with the platform header, light/dark/system themes and responsive layout. It offers ₹20/₹49/₹99/₹249 UPI contributions, amount-specific QR codes, external payment links, copy fallback and the existing sponsorship page. Signed-in owners configure verified recipient details on the page; settings persist in SQLite. Contributions default to disabled. No recipient is configured, no payment is verified. See [support setup](docs/MONETIZATION.md#voluntary-support).

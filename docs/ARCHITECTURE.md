@@ -1,5 +1,7 @@
 # Code ownership and adding apps
 
+Ritual Assist owns its stateless calendar backend in `apps/ritual-assist/backend`. `server/index.js` composes public `POST /api/ritual-assist/calendar`; bounded Indian/IST inputs run in worker threads without SQLite writes or retained death records. Cloudflare independently serves guides/form; calculation requires Node. App-owned content modules provide 15 bilingual guides.
+
 Public information routes `/privacy`, `/terms`, `/contact`, `/legal` and `/legal/third-party-notices` belong to the portal frontend. Their static shared footer belongs to `packages/ui/legal-footer.css`; no browser tracking, legal-form submission or storage is introduced. All pages link to them without JavaScript; Cloudflare independently serves the routes and slash aliases. Information reflects current app storage/limitations, with operator/contact details explicitly pending until supplied. See `docs/LEGAL_SOURCE_REGISTER.md` for notices and unresolved rights decisions.
 
 This is an npm workspace monorepo. Apps have separate source directories and share one Node server, account system and SQLite connection. No bundler or runtime npm dependencies are required.

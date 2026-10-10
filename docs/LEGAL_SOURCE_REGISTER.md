@@ -1,5 +1,7 @@
 # Legal information and source register
 
+Ritual Assist update (10 October 2026): calendar date/time/city now travel by POST to the platform Node backend without request-body logging or saved death records. Hosting metadata and temporary address rate limits apply; public privacy wording reflects this exception to browser-local tools. Expanded original funeral/material summaries reference particular temple traditions, not universal requirements. No Drik integration, exact provider equivalence, source endorsement or priest certification is claimed.
+
 Updated 10 October 2026. This records evidence and outstanding decisions; it is not a rights-clearance certificate.
 
 | Material | Evidence | Current status / next action |

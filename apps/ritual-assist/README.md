@@ -1,5 +1,15 @@
 # Ritual Assist
 
+## Current refinement — 10 October 2026
+
+The current release has **15 bilingual guides**, including expanded Antyeshti male/female/shared considerations and separate day 10/11/12 Ashubh checklists. Havan has 15 material entries in three groups. All guides have reviewed material notes, with quantities, substitutions and family customs left for officiant confirmation. Sources are preparation references, not universal prescriptions or priest certification. The inaccessible Nebraska reference was replaced with the Charleston Havan PDF.
+
+The current calendar requires only death date, death time in IST and Indian city (40 choices). Collapsed optional settings allow family month convention, civil/sunrise counting, confirmed tithi and day 13 selection. Default counting includes death date as day 1; regional defaults are conveniences, not a determination of family tradition. Death city also supplies the observance location.
+
+Calculation now uses public `POST /api/ritual-assist/calendar` on Node, superseding the browser-only/no-API statements below. Inputs are not stored or logged as request bodies; temporary address rate limits and hosting metadata apply. Guides/form load independently on Cloudflare, while calculation requires Node connectivity. `backend/calendar-input.mjs` validates bounded Indian/IST input; `routes.js` bounds calculation to two worker threads, six requests/address/minute and 20 seconds. No schema or SQLite write is introduced. Existing lunar recurrence, first-year and ten-occurrence future plans and approximate-engine limitations remain unchanged.
+
+Final verification: 37 affected Node checks, seven subsequent material/API checks and seven Chrome workflows passed, including all 30 bilingual guide views, exports, cancellation/failure and responsive themes. Tests use isolated DATA_DIRs. Historical implementation notes below describe the preceding browser-only release.
+
 Public `/ritual-assist` provides 12 Hindu preparation guides in English and Hindi: daily puja, Ganesh, Lakshmi/Diwali, Satyanarayan, Griha pravesh, Namkaran, Vivah, Havan, Antyeshti, Prarthana sabha, Shraddha and Asthi planning.
 
 ## Panchang remembrance calendar
