@@ -1,4 +1,8 @@
 .git
+.publish
+.wrangler
+**/.wrangler
+infrastructure/cloudflared.local.yml
 .env
 .env.*
 !.env.example
@@ -11,3 +15,5 @@ tests
 *.log
 
 **/tests
+**/__pycache__
+*.pyc
