@@ -33,3 +33,13 @@
 @keyframes clap-bounce{0%{opacity:0;transform:scale(.3)}25%,55%{opacity:1;transform:scale(1.2) rotate(-8deg)}40%,70%{opacity:1;transform:scale(.95) rotate(8deg)}100%{opacity:0;transform:translateY(-35px)}}
 @keyframes button-confirm{0%,100%{transform:scale(1)}45%{transform:scale(1.08)}}
 @media(prefers-reduced-motion:reduce){.reaction-effect *,.reaction-confirmed{animation:none!important}.reaction-hero{opacity:1;transform:none}.reaction-particle{display:none}.reaction-active{box-shadow:4px 4px 0 var(--arena-shadow)}}@media print{.reaction-effect,.feedback-options{display:none!important}}
+
+/* Ink is portrait artwork, with the same pigment in both interface themes. */
+:root{--arena-ink:#2439ad;--arena-ink-shine:#7c96ff}
+.ink-effect .ink-projectile{position:absolute;left:50%;top:35%;font-size:64px;padding:0;animation:ink-throw 1.6s both}
+.ink-splash{position:absolute;left:50%;top:35%;width:56%;height:auto;overflow:visible;filter:drop-shadow(0 3px 3px var(--arena-shadow));animation:ink-impact 1.6s both}
+.ink-blot,.ink-drops{fill:var(--arena-ink)}
+.ink-shine{fill:none;stroke:var(--arena-ink-shine);stroke-width:5;stroke-linecap:round;opacity:.65}
+@keyframes ink-throw{0%{opacity:0;transform:translate(130px,150px) rotate(45deg) scale(.4)}12%{opacity:1}32%{opacity:1;transform:translate(-50%,-50%) rotate(-20deg) scale(1.1)}38%,100%{opacity:0;transform:translate(-50%,-50%) scale(.2)}}
+@keyframes ink-impact{0%,30%{opacity:0;transform:translate(-50%,-50%) scale(.05)}42%{opacity:1;transform:translate(-50%,-50%) rotate(-8deg) scale(1.15)}55%,85%{opacity:1;transform:translate(-50%,-50%) rotate(-5deg) scale(1)}100%{opacity:0;transform:translate(-50%,-42%) rotate(-5deg) scale(1)}}
+@media(prefers-reduced-motion:reduce){.ink-effect .ink-projectile{display:none}.ink-splash{opacity:1;transform:translate(-50%,-50%);animation:none!important}}

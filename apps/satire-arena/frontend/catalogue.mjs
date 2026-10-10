@@ -9,5 +9,5 @@ export const cast=[
  {id:'cycle-captain',name:'Cycle Captain',tag:'THE COMEBACK RIDER',copy:'Every detour deserves another lap.',portrait:7},
  {id:'lexicon-lord',name:'Lexicon Lord',tag:'THE WORDPLAY WIZARD',copy:'Why use one word when twelve will do?',portrait:8}
 ];
-export const reactions=[{id:'garland',icon:'🌼',name:'Garland',side:'fans'},{id:'applause',icon:'👏',name:'Applause',side:'fans'},{id:'shoe',icon:'👟',name:'Shoe',side:'critics'},{id:'finger',icon:'🖕',name:'Middle finger',side:'critics'},{id:'tomato',icon:'🍅',name:'Tomato',side:'critics'},{id:'laugh',icon:'😂',name:'Just laughing',side:'amused'}];
+export const reactions=[{id:'garland',icon:'🌼',name:'Garland',side:'fans'},{id:'applause',icon:'👏',name:'Applause',side:'fans'},{id:'shoe',icon:'👟',name:'Shoe',side:'critics'},{id:'finger',icon:'💧',name:'Throw ink',side:'critics'},{id:'tomato',icon:'🍅',name:'Tomato',side:'critics'},{id:'laugh',icon:'😂',name:'Just laughing',side:'amused'}];
 export function tally(scores){const totals={fans:0,critics:0,amused:0};for(const score of scores||[])for(const reaction of reactions)totals[reaction.side]+=score[reaction.id]||0;return totals;}

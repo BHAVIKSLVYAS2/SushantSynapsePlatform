@@ -2,7 +2,7 @@ const effects={
  garland:{icon:'🌼',particles:['🌼','🌸','🌼','🍃','🌸'],pulse:[20,35,20]},
  applause:{icon:'👏',particles:['✨','👏','✨'],pulse:[20,30,20,30,20]},
  shoe:{icon:'👟',particles:[],pulse:[45,25,65]},
- finger:{icon:'🖕',particles:[],pulse:[25,35,40]},
+ finger:{icon:'💧',particles:[],pulse:[25,35,40]},
  tomato:{icon:'🍅',particles:['💥'],pulse:[35,20,75]},
  laugh:{icon:'😂',particles:['😂','✨','😂'],pulse:[20,25,20,25,30]}
 };
@@ -25,6 +25,14 @@ export function playReaction(card,reaction,{haptics=true}={}){
  if(ready.has(Math.floor(index/3)))card.dataset.expression=expressions[reaction];
  const layer=document.createElement('div');layer.className='reaction-effect'+(reduced?' reaction-still':'');layer.setAttribute('aria-hidden','true');
  const hero=document.createElement('span');hero.className='reaction-hero';hero.textContent=effect.icon;layer.append(hero);
+ if(reaction==='finger'){
+  // Keep the stored ballot ID compatible; the current gesture is an ink throw.
+  layer.classList.add('ink-effect');hero.classList.add('ink-projectile');
+  const splash=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  splash.classList.add('ink-splash');splash.setAttribute('viewBox','0 0 160 160');
+  splash.innerHTML='<path class="ink-blot" d="M77 38C60 30 58 51 47 49L25 38 37 62C39 73 21 70 25 84L43 91 32 115 57 103C67 100 63 130 79 124L89 105 119 122 108 96C107 87 137 92 132 77L110 68 126 43 100 52C90 54 98 24 84 28Z"/><g class="ink-drops"><circle cx="18" cy="28" r="5"/><circle cx="137" cy="39" r="7"/><circle cx="146" cy="111" r="5"/><circle cx="20" cy="126" r="7"/><circle cx="70" cy="145" r="4"/><circle cx="115" cy="14" r="4"/></g><path class="ink-shine" d="M61 59Q69 47 81 50M48 76Q44 83 49 88"/>';
+  layer.append(splash);
+ }
  if(!reduced)for(const [i,icon]of effect.particles.entries()){const particle=document.createElement('span');particle.className='reaction-particle particle-'+i;particle.textContent=icon;layer.append(particle);}
  portrait.append(layer);
  if(haptics&&!reduced)try{navigator.vibrate?.(effect.pulse);}catch{/* Unsupported or denied vibration leaves visual feedback available. */}
