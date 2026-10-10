@@ -37,6 +37,11 @@
   const busy=!!native()?.disabled;
   for(const footer of document.querySelectorAll('[data-language-control]')){
    footer.hidden=false;footer.lang=language;
+   if(footer.classList.contains('synapse-language')&&!footer.querySelector('.synapse-language-toggle')){
+    const toggle=document.createElement('span');toggle.className='synapse-language-toggle';
+    const buttons=[...footer.querySelectorAll('[data-interface-language]')];
+    buttons[0]?.before(toggle);for(const button of buttons){if(button.dataset.interfaceLanguage==='en'){button.textContent='EN';button.setAttribute('aria-label','English');}toggle.append(button);}
+   }
    for(const button of footer.querySelectorAll('[data-interface-language]')){const active=button.dataset.interfaceLanguage===language;button.setAttribute('aria-pressed',String(active));if(button.disabled!==busy)button.disabled=busy;}
    const help=footer.querySelector('[data-language-help]');if(help){help.hidden=nativePage||language==='en';help.textContent='कुछ ऐप की सामग्री अभी अंग्रेज़ी में है।';}
   }
