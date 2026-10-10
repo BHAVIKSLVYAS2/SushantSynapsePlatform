@@ -7,3 +7,7 @@ The same vendored engine executes on the platform Node server for the simplified
 Input: the npm `astronomy-engine@2.1.19` package, SHA-512 integrity `8yWKNf7UeNbH458h3sAJ6ZgAjE5jTXp/mNNRFoC20j2SHwZIjAQeEsBB2Q3uCFRaTCCJRv33K2XhkhZQMXoX6w==`. Build with esbuild, ESM format, minification and inline legal comments. No runtime CDN or provider credentials are required. The package is vendored only inside Ritual Assist.
 
 The engine's approximate astronomical accuracy does not constitute priest approval or exact equivalence to a regional Panchang. The app uses a five-minute guard around death-tithi and Aparahna boundaries and flags uncertain sidereal month classification.
+
+## GeoNames India postal locations
+
+The offline server-only PIN directory is derived from GeoNames India postal data, retrieved 10 October 2026, under CC BY 4.0. Attribution, source hash, median-coordinate transformation and uncertainty limits are in [data/README.md](data/README.md). Public attribution appears in the calculator and third-party notices. GeoNames provides approximate postal coordinates without an accuracy warranty.

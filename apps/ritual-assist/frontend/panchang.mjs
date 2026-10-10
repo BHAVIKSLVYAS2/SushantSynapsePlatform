@@ -42,6 +42,7 @@ export function generateCalendar(input,options={}){
  if(!data.moment&&data.counting==='sunrise')throw Error('Sunrise-based day counting requires the death time');
  const firstDate=data.counting==='sunrise'&&data.moment<deathDay.sunrise?addDays(data.date,-1):data.date,early=[4,10,11,12,...data.include13?[13]:[]].map(day=>({kind:'day',day,date:addDays(firstDate,day-1),status:'counted'}));
  const result={methodology,data:{...data,start:undefined},firstDate,deathDay,tithi,deathWindow:anchor,dayWindows,early,monthly:[],annual:null,pitru:null,upcomingAnnual:[],upcomingPitru:[],planningFrom:localDate(options.now??Date.now()),warnings};
+ const currentYear=Number(result.planningFrom.slice(0,4));result.yearly=Array.from({length:11},(_,i)=>({year:currentYear+i,annual:[],pitru:[]}));
  if(!tithi){warnings.push('time-required');return result;}if(warnings.includes('death-boundary')&&!data.confirmedTithi){warnings.push('confirm-boundary-tithi');return result;}
  let reference=data.moment;if(!reference||tithi!==anchor.number){const window=dayWindows.find(w=>w.number===tithi);reference=Math.max(window.start+1000,data.start);result.deathWindow=window;warnings.push('confirmed-tithi');}
  const deathMonth=monthAt(reference);result.deathMonth=deathMonth;
@@ -57,38 +58,39 @@ export function generateCalendar(input,options={}){
  if(result.monthly.some(row=>row.month.adhika))warnings.push('adhika-in-year');if(!result.pitru)warnings.push('pitru-unresolved');
  // Upcoming observances start today, so an old death date does not produce an expired ten-year plan.
  // Keep the original first-year timeline separately and never derive dates by adding Gregorian years.
- const planningStart=midnight(result.planningFrom),future=[monthAt(planningStart)];
+ const planningStart=midnight(result.planningFrom),future=[monthAt(midnight(currentYear+'-01-01'))];
  for(let i=0;i<160;i++)future.push(lunarMonth(future.at(-1).end+1000));
  const upcoming=row=>row.date?midnight(row.date)>=planningStart:row.window.end>planningStart;
+ const retainYear=row=>{const years=new Set(row.date?[Number(row.date.slice(0,4))]:row.candidates.map(day=>Number(day.date.slice(0,4))));for(const year of years){const target=result.yearly.find(item=>item.year===year);if(target)target[row.kind].push(row);}};
  let yearHasKshaya=false;
  for(const month of future){
   yearHasKshaya ||= month.kshaya;
-  if(month.index===deathMonth.index&&!month.adhika&&result.upcomingAnnual.length<10){
+  if(month.index===deathMonth.index&&!month.adhika){
    const window=intervalFor(month,tithi);
-   if(window.start>=result.annual.window.start){const row={...observance(window,data.location),kind:'annual',month,conditional:deathMonth.adhika||deathMonth.uncertain||month.uncertain||yearHasKshaya};if(upcoming(row))result.upcomingAnnual.push(row);}
+   if(window.start>=result.annual.window.start){const row={...observance(window,data.location),kind:'annual',month,conditional:deathMonth.adhika||deathMonth.uncertain||month.uncertain||yearHasKshaya};retainYear(row);if(upcoming(row)&&result.upcomingAnnual.length<10)result.upcomingAnnual.push(row);}
    yearHasKshaya=false;
   }
-  if(month.index===5&&!month.adhika&&result.upcomingPitru.length<10){
+  if(month.index===5&&!month.adhika){
    const window=intervalFor(month,pitruTithi);
-   if(window.start>after){const row={...observance(window,data.location),kind:'pitru',month,tithi:pitruTithi,conditional:[14,15,29].includes(tithi)||month.uncertain||result.annual.conditional};if(upcoming(row))result.upcomingPitru.push(row);}
+   if(window.start>after){const row={...observance(window,data.location),kind:'pitru',month,tithi:pitruTithi,conditional:[14,15,29].includes(tithi)||month.uncertain||result.annual.conditional};retainYear(row);if(upcoming(row)&&result.upcomingPitru.length<10)result.upcomingPitru.push(row);}
   }
-  if(result.upcomingAnnual.length===10&&result.upcomingPitru.length===10)break;
+  if(Number(localDate(month.start).slice(0,4))>currentYear+10&&result.upcomingAnnual.length===10&&result.upcomingPitru.length===10)break;
  }
  if(result.upcomingAnnual.length<10||result.upcomingPitru.length<10)warnings.push('long-term-incomplete');
  return result;
 }
 export function calendarText(result,language='en'){
  const hi=language==='hi',time=value=>new Intl.DateTimeFormat(hi?'hi-IN':'en-IN',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Kolkata',hour12:false}).format(new Date(Math.round(value/60000)*60000))+' IST';
- const lines=[hi?'रिचुअल असिस्ट · पंचांग स्मरण योजना':'Ritual Assist · Panchang remembrance plan',`${hi?'मृत्यु की तारीख':'Death date'}: ${result.data.date} ${result.data.time||(hi?'समय अज्ञात':'time unknown')} IST`,`${hi?'अनुष्ठान का स्थान':'Observance place'}: ${result.data.location.name} (${result.data.location.lat}, ${result.data.location.lon})`,`${hi?'मास पद्धति':'Lunar months'}: ${result.data.calendar}`,`${hi?'दिन गणना':'Day counting'}: ${result.data.counting}; ${hi?'पहला दिन':'day 1'} = ${result.firstDate}`,`${hi?'मृत्यु तिथि':'Death tithi'}: ${result.tithi?tithiLabel(result.tithi,language):(hi?'अनिश्चित — समय या पुरोहित द्वारा निश्चित तिथि चाहिए':'Unresolved — time or priest-confirmed tithi required')}`,'',hi?'यह गणना आधारित योजना है। व्यवस्था से पहले पारिवारिक नियम और सम्भावित तारीख पुरोहित से निश्चित करें।':'Calculated planning dates, not priest-approved ritual instructions. Confirm family rules and candidate dates before booking.',''];
+ const lines=[hi?'रिचुअल असिस्ट · श्राद्ध और बरसी कैलेंडर':'Ritual Assist · Shraddha & Barsi Calendar',`${hi?'मृत्यु की तारीख':'Death date'}: ${result.data.date} ${result.data.time||(hi?'समय अज्ञात':'time unknown')} IST`,`${hi?'अनुष्ठान का स्थान':'Observance place'}: ${result.data.location.name} (${result.data.location.lat}, ${result.data.location.lon})`,`${hi?'मास पद्धति':'Lunar months'}: ${result.data.calendar}`,`${hi?'दिन गणना':'Day counting'}: ${result.data.counting}; ${hi?'पहला दिन':'day 1'} = ${result.firstDate}`,`${hi?'मृत्यु तिथि':'Death tithi'}: ${result.tithi?tithiLabel(result.tithi,language):(hi?'अनिश्चित — समय या पुरोहित द्वारा निश्चित तिथि चाहिए':'Unresolved — time or priest-confirmed tithi required')}`,'',hi?'यह गणना आधारित कैलेंडर है। व्यवस्था से पहले पारिवारिक नियम और सम्भावित तारीख पुरोहित से निश्चित करें।':'Calculated planning dates, not priest-approved ritual instructions. Confirm family rules and candidate dates before booking.',''];
  for(const row of calendarRows(result)){
   const title=row.kind==='day'?(row.day===4?(hi?'चौथा':'Chautha'):(hi?'दिन ':'Day ')+row.day):row.kind==='monthly'?(hi?'मासिक ':'Masik ')+row.number:row.kind==='annual'?(hi?'बरसी / संवत्सरी · वार्षिक श्राद्ध':'Barsi / Samvatsari · annual Shraddha'):(hi?'पितृ पक्ष श्राद्ध':'Pitru Paksha Shraddha');
   lines.push(`${title}: ${row.date||(hi?'अनिश्चित':'UNRESOLVED')} · ${row.status}${row.conditional?(hi?' · केवल सम्भावित, पारिवारिक पुष्टि आवश्यक':' · candidate only; family confirmation required'):''}${row.month?.adhika?(hi?' · अधिक मास':' · Adhik Maas'):''}`);
   if(row.window){lines.push(`${tithiLabel(row.window.number,language)}: ${time(row.window.start)} → ${time(row.window.end)}`);for(const day of row.candidates)lines.push(`${day.date} · ${hi?'अपराह्न':'Aparahna'}: ${time(day.aparahnaStart)} → ${time(day.aparahnaEnd)}`);}
  }
- lines.push('',(hi?'अगले दस वार्षिक और दस पितृ पक्ष अनुष्ठान, योजना आरम्भ':'Next ten annual and ten Pitru Paksha observances, planning from')+': '+result.planningFrom);
- lines.push('',(hi?'सावधानियाँ':'Warnings')+': '+(result.warnings.join(', ')||'none'),'Method: '+methodology.engine+'; '+methodology.precision,'Month classification: Chitra/Spica-aligned sidereal Sun; not exact Lahiri. All times IST.',result.calculation?.processing==='server'?'Date, IST time and city were processed on the platform server without saving a death record.':'Local calculation; no saved server record.','Sources:',...methodology.sources.map(source=>source.name+' — '+source.url));return lines.join('\n');
+ lines.push('',(hi?'वर्तमान वर्ष और अगले दस वर्ष':'Current year and next ten years')+': '+(result.yearly?.[0]?.year||result.planningFrom.slice(0,4))+'–'+(result.yearly?.at(-1)?.year||''));
+ lines.push('',(hi?'सावधानियाँ':'Warnings')+': '+(result.warnings.join(', ')||'none'),'Method: '+methodology.engine+'; '+methodology.precision,'Month classification: Chitra/Spica-aligned sidereal Sun; not exact Lahiri. All times IST.',result.calculation?.processing==='server'?'Date, IST time and PIN code were processed on the platform server without saving a death record.':'Local calculation; no saved server record.','Postal locations: GeoNames · CC BY 4.0 · https://www.geonames.org/ (approximate coordinates; no external geocoding request).','Sources:',...methodology.sources.map(source=>source.name+' — '+source.url));return lines.join('\n');
 }
 export function calendarRows(result){
- const rows=[...result.early,...result.monthly,...result.annual?[result.annual]:[],...result.pitru?[result.pitru]:[],...result.upcomingAnnual||[],...result.upcomingPitru||[]];
+ const rows=[...result.early,...result.monthly,...result.annual?[result.annual]:[],...result.pitru?[result.pitru]:[],...result.upcomingAnnual||[],...result.upcomingPitru||[],...(result.yearly||[]).flatMap(year=>[...year.annual,...year.pitru])];
  const seen=new Set();return rows.filter(row=>{const key=row.kind+':'+(row.window?row.window.number+':'+localDate(row.window.start):row.date);if(seen.has(key))return false;seen.add(key);return true;}).sort((a,b)=>(a.window?.start??midnight(a.date))-(b.window?.start??midnight(b.date)));
 }
