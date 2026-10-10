@@ -55,6 +55,11 @@ test('compact language controls and calendar theme follow shared preferences',as
  await page.locator('[data-theme-toggle]').click();
  await expect(page.locator('html')).toHaveAttribute('data-theme','light');
  expect(await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundColor)).not.toBe(dark);
+ await page.locator('.intro [data-interface-language=en]').focus();
+ await page.keyboard.press('Tab');
+ await expect(page.locator('.intro [data-interface-language=hi]')).toBeFocused();
+ await page.keyboard.press('Tab');
+ await expect(page.locator('#date')).toBeFocused();
  await page.locator('.intro [data-interface-language=hi]').click();
  await expect(page.locator('#headline')).toContainText('श्राद्ध');
  await expect(page.locator('.intro [data-interface-language=hi]')).toHaveAttribute('aria-pressed','true');
