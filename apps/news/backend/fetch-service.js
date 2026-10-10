@@ -5,7 +5,7 @@ function createFetchService({store,repository,provider,clock=()=>new Date()}){
   const indiaDate=date=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Kolkata'}).format(date);
   function preview(date){
     validDate(date);const edition=repository.get(date);if(edition)return {date,state:'published',edition,cached:true};
-    const row=store.sql.prepare('SELECT * FROM news_runs WHERE date=?').get(date);if(!row)return {date,state:'empty',stories:[]};
+    const row=store.sql.prepare('SELECT * FROM [news].[news_runs] WHERE date=?').get(date);if(!row)return {date,state:'empty',stories:[]};
     const stories=JSON.parse(row.sourceJson);
     return {date,cutoff:row.cutoff,state:stories.length===10?'ready':row.state==='running'&&row.leaseUntil<=clock().toISOString()?'interrupted':row.state,stories,error:row.error,attempts:row.attempts,cached:stories.length===10,provider:stories[0]?.provider||null};
   }
@@ -15,32 +15,32 @@ function createFetchService({store,repository,provider,clock=()=>new Date()}){
     const cutoff=date===indiaDate(now)?at:new Date(date+'T23:59:59.999+05:30').toISOString();
     const claim=store.transaction(()=>{
       const saved=preview(date);if(saved.state==='published'||saved.state==='ready')return saved;
-      const existing=store.sql.prepare('SELECT * FROM news_runs WHERE date=?').get(date);
+      const existing=store.sql.prepare('SELECT * FROM [news].[news_runs] WHERE date=?').get(date);
       if(existing?.state==='running'&&existing.leaseUntil>at)fail(409,'Someone is already preparing this newspaper. Open today’s edition again shortly.');
       if(existing&&Date.parse(at)-Date.parse(existing.updatedAt)<60000)fail(429,'Please wait one minute before retrying.');
       if(existing?.attempts>=5)fail(429,'This edition has reached its five-attempt limit.');
       // A persisted global cooldown also protects retries for different dates.
-      const last=store.sql.prepare('SELECT MAX(updatedAt) at FROM news_runs').get().at;
+      const last=store.sql.prepare('SELECT MAX(updatedAt) at FROM [news].[news_runs]').get().at;
       if(last&&Date.parse(at)-Date.parse(last)<60000)fail(429,'Please wait one minute before starting another news fetch.');
-      const day=at.slice(0,10),used=store.sql.prepare('SELECT requests FROM news_fetch_budget WHERE day=?').get(day)?.requests||0;
+      const day=at.slice(0,10),used=store.sql.prepare('SELECT requests FROM [news].[news_fetch_budget] WHERE day=?').get(day)?.requests||0;
       if(used>=20)fail(429,'The daily news request budget is exhausted. Try tomorrow.');
-      store.sql.prepare('INSERT INTO news_fetch_budget VALUES(?,1) ON CONFLICT(day) DO UPDATE SET requests=requests+1').run(day);
+      store.sql.prepare('INSERT INTO [news].[news_fetch_budget] VALUES(?,1) ON CONFLICT(day) DO UPDATE SET requests=requests+1').run(day);
       const leaseUntil=new Date(now.getTime()+120000).toISOString();
-      if(existing)store.sql.prepare("UPDATE news_runs SET state='running',attempts=attempts+1,leaseToken=?,leaseUntil=?,error=NULL,updatedAt=? WHERE date=?").run(token,leaseUntil,at,date);
-      else store.sql.prepare("INSERT INTO news_runs(date,cutoff,state,attempts,leaseToken,leaseUntil,createdAt,updatedAt) VALUES(?,?,'running',1,?,?,?,?)").run(date,cutoff,token,leaseUntil,at,at);
+      if(existing)store.sql.prepare("UPDATE [news].[news_runs] SET state='running',attempts=attempts+1,leaseToken=?,leaseUntil=?,error=NULL,updatedAt=? WHERE date=?").run(token,leaseUntil,at,date);
+      else store.sql.prepare("INSERT INTO [news].[news_runs](date,cutoff,state,attempts,leaseToken,leaseUntil,createdAt,updatedAt) VALUES(?,?,'running',1,?,?,?,?)").run(date,cutoff,token,leaseUntil,at,at);
       return {date,cutoff:existing?.cutoff||cutoff,claimed:true};
     });
     if(!claim.claimed)return claim;
     try{
       const stories=await provider.fetchStories(claim.cutoff);
       if(!Array.isArray(stories)||stories.length!==10)fail(502,'News provider did not return ten stories');
-      const result=store.sql.prepare("UPDATE news_runs SET sourceJson=?,state='pending',leaseToken=NULL,leaseUntil=NULL,error=NULL,updatedAt=? WHERE date=? AND leaseToken=?").run(JSON.stringify(stories),clock().toISOString(),date,token);
+      const result=store.sql.prepare("UPDATE [news].[news_runs] SET sourceJson=?,state='pending',leaseToken=NULL,leaseUntil=NULL,error=NULL,updatedAt=? WHERE date=? AND leaseToken=?").run(JSON.stringify(stories),clock().toISOString(),date,token);
       if(!result.changes)fail(409,'This fetch was superseded. Reopen the saved newspaper.');
       return {...preview(date),cached:false};
     }catch(error){
       // Never persist arbitrary provider/network exception text or request URLs.
       const message=error.status&&[400,409,429,502].includes(error.status)?error.message:'News fetch failed. Please retry later.';
-      store.sql.prepare("UPDATE news_runs SET state='failed',leaseToken=NULL,leaseUntil=NULL,error=?,updatedAt=? WHERE date=? AND leaseToken=?").run(message,clock().toISOString(),date,token);
+      store.sql.prepare("UPDATE [news].[news_runs] SET state='failed',leaseToken=NULL,leaseUntil=NULL,error=?,updatedAt=? WHERE date=? AND leaseToken=?").run(message,clock().toISOString(),date,token);
       fail(error.status&&[400,409,429,502].includes(error.status)?error.status:502,message);
     }
   }

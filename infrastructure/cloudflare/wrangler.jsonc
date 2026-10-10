@@ -43,6 +43,7 @@
       ]
     },
     "production": {
+      "vars": {"ARENA_STORAGE": "d1"},
       "workers_dev": false,
       "routes": [
         {

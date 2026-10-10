@@ -6,7 +6,7 @@ const fingerprint=row=>createHash('sha256').update(JSON.stringify(core.clean(row
 function createPortfolio({store,auth,nav}) {
   store.transaction(()=>{
     store.registerAppSchema('fund-lens-portfolio-1',fs.readFileSync(path.join(__dirname,'../database/001-portfolio.sql'),'utf8'),['fund_lens_migrations','fund_lens_portfolios','fund_lens_transactions']);
-    store.sql.prepare('INSERT OR IGNORE INTO fund_lens_migrations VALUES(1,?)').run(new Date().toISOString());
+    store.sql.prepare('INSERT OR IGNORE INTO [fundlens].[fund_lens_migrations] VALUES(1,?)').run(new Date().toISOString());
   });
   function identity(req,user) {
     const current=auth.session(req);
@@ -14,7 +14,7 @@ function createPortfolio({store,auth,nav}) {
     if(!['Owner','Advocate','Clerk'].includes(current.role)||!auth.hasAppAccess(current,'fund-overlap'))fail(403,'Fund Lens access needed');
     return current.id;
   }
-  const read=id=>({revision:store.sql.prepare('SELECT revision FROM fund_lens_portfolios WHERE userId=?').get(id)?.revision||0,transactions:store.sql.prepare('SELECT id,schemeCode,schemeName,date,type,units,amount,reference FROM fund_lens_transactions WHERE userId=? ORDER BY date,id').all(id)});
+  const read=id=>({revision:store.sql.prepare('SELECT revision FROM [fundlens].[fund_lens_portfolios] WHERE userId=?').get(id)?.revision||0,transactions:store.sql.prepare('SELECT id,schemeCode,schemeName,date,type,units,amount,reference FROM [fundlens].[fund_lens_transactions] WHERE userId=? ORDER BY date,id').all(id)});
   return async ({route,method,req,res,user})=>{
     const userId=identity(req,user), relative=route.slice('fund-overlap/portfolio'.length);
     const send=(status,data)=>{res.setHeader('Content-Type','application/json; charset=utf-8');res.setHeader('Cache-Control','private, no-store');res.writeHead(status);res.end(JSON.stringify(data));};
@@ -54,9 +54,9 @@ function createPortfolio({store,auth,nav}) {
       const combined=[...retained,...added];if(combined.length>10000)fail(400,'Portfolio limit: 10,000 transactions');
       try{core.sequence(combined);}catch(error){fail(400,error.message);}
       if(preview){result={revision:state.revision,transactions:added.map(({fingerprint,...r})=>r),duplicates};return;}
-      if(old)store.sql.prepare('DELETE FROM fund_lens_transactions WHERE userId=? AND id=?').run(userId,old.id);
-      for(const r of added)store.sql.prepare('INSERT INTO fund_lens_transactions VALUES(?,?,?,?,?,?,?,?,?,?)').run(old?.id||randomUUID(),userId,r.schemeCode,r.schemeName,r.date,r.type,r.units,r.amount,r.reference,r.fingerprint);
-      if(old||added.length)store.sql.prepare('INSERT INTO fund_lens_portfolios VALUES(?,1) ON CONFLICT(userId) DO UPDATE SET revision=revision+1').run(userId);
+      if(old)store.sql.prepare('DELETE FROM [fundlens].[fund_lens_transactions] WHERE userId=? AND id=?').run(userId,old.id);
+      for(const r of added)store.sql.prepare('INSERT INTO [fundlens].[fund_lens_transactions] VALUES(?,?,?,?,?,?,?,?,?,?)').run(old?.id||randomUUID(),userId,r.schemeCode,r.schemeName,r.date,r.type,r.units,r.amount,r.reference,r.fingerprint);
+      if(old||added.length)store.sql.prepare('INSERT INTO [fundlens].[fund_lens_portfolios] VALUES(?,1) ON CONFLICT(userId) DO UPDATE SET revision=revision+1').run(userId);
       result={...read(userId),imported:added.length,duplicates};
     });
     return send(200,result);

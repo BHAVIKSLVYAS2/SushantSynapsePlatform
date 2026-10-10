@@ -6,6 +6,8 @@ COPY --chown=node:node server ./server
 COPY --chown=node:node apps ./apps
 COPY --chown=node:node packages ./packages
 COPY --chown=node:node docs ./docs
+COPY --chown=node:node infrastructure/sqlserver.cjs ./infrastructure/sqlserver.cjs
+RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
 RUN mkdir -p /app/data && chown node:node /app/data
 USER node
 EXPOSE 3000

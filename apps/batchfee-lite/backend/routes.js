@@ -3,19 +3,19 @@ const {fail,readBody}=require('../../../server/http');
 const {empty,apply,view,today,date}=require('./engine');
 function createBatchFee({store,auth}){
  store.registerAppSchema('batchfee-lite-v1',fs.readFileSync(path.join(__dirname,'../database/001-initial.sql'),'utf8'),['batchfee_migrations','batchfee_workspace','batchfee_events']);
- store.sql.exec('INSERT OR IGNORE INTO batchfee_migrations VALUES(1)');
+ store.sql.exec('INSERT OR IGNORE INTO [batchfee].[batchfee_migrations] VALUES(1)');
  store.registerAppSchema('batchfee-lite-v2',fs.readFileSync(path.join(__dirname,'../database/002-staff.sql'),'utf8'),['batchfee_staff']);
- store.sql.exec('INSERT OR IGNORE INTO batchfee_migrations VALUES(2)');
- const read=()=>{const r=store.sql.prepare('SELECT * FROM batchfee_workspace WHERE id=1').get();return {revision:r?.revision||0,state:r?JSON.parse(r.data):empty()};};
- const events=()=>store.sql.prepare('SELECT at,actor,action,data FROM batchfee_events ORDER BY id').all().map(e=>({...e,data:JSON.parse(e.data)}));
- const save=(state,revision)=>store.sql.prepare('INSERT INTO batchfee_workspace VALUES(1,?,?) ON CONFLICT(id) DO UPDATE SET revision=excluded.revision,data=excluded.data').run(revision,JSON.stringify(state));
- const append=e=>store.sql.prepare('INSERT INTO batchfee_events(at,actor,action,data) VALUES(?,?,?,?)').run(e.at,e.actor,e.action,JSON.stringify(e.data));
+ store.sql.exec('INSERT OR IGNORE INTO [batchfee].[batchfee_migrations] VALUES(2)');
+ const read=()=>{const r=store.sql.prepare('SELECT * FROM [batchfee].[batchfee_workspace] WHERE id=1').get();return {revision:r?.revision||0,state:r?JSON.parse(r.data):empty()};};
+ const events=()=>store.sql.prepare('SELECT at,actor,action,data FROM [batchfee].[batchfee_events] ORDER BY id').all().map(e=>({...e,data:JSON.parse(e.data)}));
+ const save=(state,revision)=>store.sql.prepare('INSERT INTO [batchfee].[batchfee_workspace] VALUES(1,?,?) ON CONFLICT(id) DO UPDATE SET revision=excluded.revision,data=excluded.data').run(revision,JSON.stringify(state));
+ const append=e=>store.sql.prepare('INSERT INTO [batchfee].[batchfee_events](at,actor,action,data) VALUES(?,?,?,?)').run(e.at,e.actor,e.action,JSON.stringify(e.data));
  return async({route,method,req,json,user})=>{
-  if(!user)fail(401,'Please sign in');const role=user.role==='Owner'?'Owner':store.sql.prepare('SELECT role FROM batchfee_staff WHERE user_id=?').get(user.id)?.role;
+  if(!user)fail(401,'Please sign in');const role=user.role==='Owner'?'Owner':store.sql.prepare('SELECT role FROM [batchfee].[batchfee_staff] WHERE user_id=?').get(user.id)?.role;
   if(!auth.hasAppAccess(user,'batchfee-lite')||!role)fail(403,'BatchFee Lite needs both app access and an explicit staff role.');
   if(route==='batchfee-lite/staff'){
-   auth.owner(user);if(method==='GET')return json(200,{staff:store.sql.prepare('SELECT * FROM batchfee_staff').all(),users:store.users().filter(u=>u.active&&u.role!=='Owner').map(({id,name})=>({id,name}))});
-   if(method!=='POST')fail(405,'Method not allowed');const input=await readBody(req),target=store.user(input.userId);if(!target?.active||target.role==='Owner'||!['Viewer','Collector','Manager','Revoke'].includes(input.role))fail(400,'Choose an active staff account and valid role');store.transaction(()=>{if(input.role==='Revoke')store.sql.prepare('DELETE FROM batchfee_staff WHERE user_id=?').run(target.id);else{store.sql.prepare('INSERT INTO batchfee_staff VALUES(?,?) ON CONFLICT(user_id) DO UPDATE SET role=excluded.role').run(target.id,input.role);store.setAccess(target.id,[...new Set([...store.access(target.id),'batchfee-lite'])]);}store.audit(user.name,'Updated BatchFee staff role','users',{id:target.id,name:target.name,role:input.role});});return json(200,{ok:true});
+   auth.owner(user);if(method==='GET')return json(200,{staff:store.sql.prepare('SELECT * FROM [batchfee].[batchfee_staff]').all(),users:store.users().filter(u=>u.active&&u.role!=='Owner').map(({id,name})=>({id,name}))});
+   if(method!=='POST')fail(405,'Method not allowed');const input=await readBody(req),target=store.user(input.userId);if(!target?.active||target.role==='Owner'||!['Viewer','Collector','Manager','Revoke'].includes(input.role))fail(400,'Choose an active staff account and valid role');store.transaction(()=>{if(input.role==='Revoke')store.sql.prepare('DELETE FROM [batchfee].[batchfee_staff] WHERE user_id=?').run(target.id);else{store.sql.prepare('INSERT INTO [batchfee].[batchfee_staff] VALUES(?,?) ON CONFLICT(user_id) DO UPDATE SET role=excluded.role').run(target.id,input.role);store.setAccess(target.id,[...new Set([...store.access(target.id),'batchfee-lite'])]);}store.audit(user.name,'Updated BatchFee staff role','users',{id:target.id,name:target.name,role:input.role});});return json(200,{ok:true});
   }
   if(route==='batchfee-lite'&&method==='GET'){const r=read();return json(200,{revision:r.revision,...view(r.state),accessRole:role});}
   if(role!=='Owner'&&(route==='batchfee-lite/backup'||route==='batchfee-lite/restore'))fail(403,'Only the owner can export or restore the full backup');

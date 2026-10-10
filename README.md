@@ -1,5 +1,7 @@
 # Sushant Synapse Platform
 
+The backend now supports **one Azure SQL / SQL Server database with eight separate app schemas**, including Satire Arena's `satire`, selected explicitly through `DATABASE_PROVIDER=sqlserver`. Existing SQLite remains the default until a verified migration; no live records are automatically moved. Native migrations, read-only source transfer, Arena D1 import, configuration and recovery instructions are in [SQL Server migration](docs/SQLSERVER_MIGRATION.md). The live deployment remains unchanged until cutover.
+
 WhatsApp contact is available through `/contact`, `/support` and `/sponsor`. Submitting a form opens WhatsApp with combined details; visitors review the draft and press Send. Shared navigation and homepage links expose Support Us and Watch demos. Forms are not saved by the platform; payment settings remain separate.
 
 Ritual Assist provides 15 bilingual guides, expanded Havan materials, Antyeshti considerations and day 10–12 checklists. Its Shraddha & Barsi Calendar requires date, IST time and Indian PIN code; stateless backend calculation returns first-year observances and the current year plus next ten years. Calendar reminders export individual resolved dates to an ICS file. A selectable bilingual preparation pack includes ceremony materials, checks, responsibilities and print/PDF or text export. Family-specific and uncertain dates require confirmation. See [scope](apps/ritual-assist/README.md).

@@ -5,21 +5,21 @@ const { randomUUID } = require('node:crypto');
 const { schemas, indiaToday } = require('./schema');
 
 class Store extends PlatformDatabase {
-  constructor(root) {
-    super(root,{appSchema:path.join(__dirname,'../database/schema.sql')});
+  constructor(root,options={}) {
+    super(root,{...options,appSchema:path.join(__dirname,'../database/schema.sql')});
     if (!this.setting('firm')) this.setSetting('firm', { name: 'My Chambers', advocate: '', email: '', phone: '', address: '', barNumber: '', timezone: 'Asia/Kolkata' });
-    if (!this.setting('migrated')) this.migrate();
+    if (!this.setting('migrated')) {if(this.provider==='sqlite')this.migrate();else this.setSetting('migrated',true);}
     if (!this.setting('platform_migrated')) this.transaction(() => {
       for (const user of this.users()) this.setAccess(user.id, ['advocate']);
       this.setSetting('platform_migrated', true);
     });
   }
-  all(kind) { return this.sql.prepare('SELECT data FROM records WHERE kind=? ORDER BY rowid DESC').all(kind).map(r => JSON.parse(r.data)); }
-  get(kind, id) { if (kind === 'users') return this.user(id); const r = this.sql.prepare('SELECT data FROM records WHERE kind=? AND id=?').get(kind, id); return r ? JSON.parse(r.data) : null; }
-  put(kind, record) { this.sql.prepare('INSERT INTO records(kind,id,data) VALUES(?,?,?) ON CONFLICT(kind,id) DO UPDATE SET data=excluded.data').run(kind, record.id, JSON.stringify(record)); return record; }
+  all(kind) { return this.sql.prepare('SELECT data FROM [chambers].[records] WHERE kind=? ORDER BY rowid DESC').all(kind).map(r => JSON.parse(r.data)); }
+  get(kind, id) { if (kind === 'users') return this.user(id); const r = this.sql.prepare('SELECT data FROM [chambers].[records] WHERE kind=? AND id=?').get(kind, id); return r ? JSON.parse(r.data) : null; }
+  put(kind, record) { this.sql.prepare('INSERT INTO [chambers].[records](kind,id,data) VALUES(?,?,?) ON CONFLICT(kind,id) DO UPDATE SET data=excluded.data').run(kind, record.id, JSON.stringify(record)); return record; }
   create(kind, record) { const now = new Date().toISOString(); return this.put(kind, { ...record, id: record.id || randomUUID(), version: 1, archived: false, createdAt: now, updatedAt: now }); }
-  file(id) { return this.sql.prepare('SELECT * FROM files WHERE id=?').get(id); }
-  addFile(id, name, mime, content) { this.sql.prepare('INSERT INTO files VALUES(?,?,?,?) ON CONFLICT(id) DO UPDATE SET name=excluded.name,mime=excluded.mime,content=excluded.content').run(id, name, mime, content); }
+  file(id) { return this.sql.prepare('SELECT * FROM [chambers].[files] WHERE id=?').get(id); }
+  addFile(id, name, mime, content) { this.sql.prepare('INSERT INTO [chambers].[files] VALUES(?,?,?,?) ON CONFLICT(id) DO UPDATE SET name=excluded.name,mime=excluded.mime,content=excluded.content').run(id, name, mime, content); }
   state() {
     const result = { settings: this.setting('firm'), users: this.users(), activity: this.activity() };
     for (const kind of Object.keys(schemas)) result[kind] = this.all(kind);
@@ -36,9 +36,10 @@ class Store extends PlatformDatabase {
   backup() {
     const records = {}; for (const kind of Object.keys(schemas)) records[kind] = this.all(kind);
     return { format: 'chambers-backup', version: 2, exportedAt: new Date().toISOString(), settings: this.setting('firm'), records,
-      files: this.sql.prepare('SELECT * FROM files').all().map(f => ({ ...f, content: Buffer.from(f.content).toString('base64') })) };
+      files: this.sql.prepare('SELECT * FROM [chambers].[files]').all().map(f => ({ ...f, content: Buffer.from(f.content).toString('base64') })) };
   }
   exportSql() {
+    if(this.provider==='sqlserver')return require('../../../packages/database/sqlserver-transfer').exportSqlServer(this);
     const literal = value => value === null ? 'NULL' : value instanceof Uint8Array ? "X'" + Buffer.from(value).toString('hex') + "'" : typeof value === 'number' ? String(value) : "CAST(X'" + Buffer.from(String(value),'utf8').toString('hex') + "' AS TEXT)";
     const lines = ['-- Chambers full SQLite export. Import into a NEW, empty database.', '-- Includes account password hashes, audit records and documents; excludes live sessions.', '-- Exported '+new Date().toISOString(), this.schemaSql, 'BEGIN TRANSACTION;'];
     for (const table of ['users','app_access','platform_preferences','records','files','settings','audit',...(this.extraExportTables||[])]) {

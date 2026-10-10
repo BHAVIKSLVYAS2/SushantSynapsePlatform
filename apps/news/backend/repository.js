@@ -18,18 +18,18 @@ function sourceUrl(value){
 }
 function createNewsRepository(store){
   store.registerAppSchema('news-editions-1',fs.readFileSync(path.join(__dirname,'../database/001-editions.sql'),'utf8'),['news_migrations','news_editions','news_stories','news_runs']);
-  store.sql.prepare('INSERT OR IGNORE INTO news_migrations VALUES(1,?)').run(new Date().toISOString());
+  store.sql.prepare('INSERT OR IGNORE INTO [news].[news_migrations] VALUES(1,?)').run(new Date().toISOString());
   store.registerAppSchema('news-fetch-2',fs.readFileSync(path.join(__dirname,'../database/002-fetch-budget.sql'),'utf8'),['news_fetch_budget']);
-  store.sql.prepare('INSERT OR IGNORE INTO news_migrations VALUES(2,?)').run(new Date().toISOString());
+  store.sql.prepare('INSERT OR IGNORE INTO [news].[news_migrations] VALUES(2,?)').run(new Date().toISOString());
   function get(date){
-    validDate(date);const row=store.sql.prepare('SELECT * FROM news_editions WHERE date=?').get(date);
+    validDate(date);const row=store.sql.prepare('SELECT * FROM [news].[news_editions] WHERE date=?').get(date);
     if(!row)return null;
     const {satireTitle,satireBody,satireStory,...edition}=row;
-    return {...edition,author:edition.author==='Bhavik'?'Aakanksha':edition.author,satire:{title:satireTitle,body:satireBody,storyPosition:satireStory},stories:store.sql.prepare('SELECT position,title,brief,source,url,publishedAt FROM news_stories WHERE editionDate=? ORDER BY position').all(date)};
+    return {...edition,author:edition.author==='Bhavik'?'Aakanksha':edition.author,satire:{title:satireTitle,body:satireBody,storyPosition:satireStory},stories:store.sql.prepare('SELECT position,title,brief,source,url,publishedAt FROM [news].[news_stories] WHERE editionDate=? ORDER BY position').all(date)};
   }
   function list(before){
     if(before)validDate(before);
-    const rows=store.sql.prepare('SELECT date,name,author,publishedAt FROM news_editions WHERE date < ? ORDER BY date DESC LIMIT 31').all(before||'9999-12-31');
+    const rows=store.sql.prepare('SELECT date,name,author,publishedAt FROM [news].[news_editions] WHERE date < ? ORDER BY date DESC LIMIT 31').all(before||'9999-12-31');
     return {editions:rows.slice(0,30).map(row=>({...row,author:row.author==='Bhavik'?'Aakanksha':row.author})),nextBefore:rows.length>30?rows[29].date:null};
   }
   // Internal publication boundary for the future validated generation pipeline;
@@ -54,10 +54,10 @@ function createNewsRepository(store){
     const model=text(input.model,'model',150),promptVersion=text(input.promptVersion,'prompt version',100);
     return store.transaction(()=>{
       const saved=get(date);if(saved)return saved;
-      store.sql.prepare('INSERT INTO news_editions VALUES(?,?,?,?,?,?,?,?,?,?)').run(date,'Sushant Synapse Times','Aakanksha',cutoff,publishedAt,title,body,satire.storyPosition,model,promptVersion);
-      const insert=store.sql.prepare('INSERT INTO news_stories VALUES(?,?,?,?,?,?,?)');
+      store.sql.prepare('INSERT INTO [news].[news_editions] VALUES(?,?,?,?,?,?,?,?,?,?)').run(date,'Sushant Synapse Times','Aakanksha',cutoff,publishedAt,title,body,satire.storyPosition,model,promptVersion);
+      const insert=store.sql.prepare('INSERT INTO [news].[news_stories] VALUES(?,?,?,?,?,?,?)');
       for(const s of stories)insert.run(date,s.position,s.title,s.brief,s.source,s.url,s.publishedAt);
-      store.sql.prepare("UPDATE news_runs SET state='published',leaseToken=NULL,leaseUntil=NULL,error=NULL,updatedAt=? WHERE date=?").run(publishedAt,date);
+      store.sql.prepare("UPDATE [news].[news_runs] SET state='published',leaseToken=NULL,leaseUntil=NULL,error=NULL,updatedAt=? WHERE date=?").run(publishedAt,date);
       return get(date);
     });
   }

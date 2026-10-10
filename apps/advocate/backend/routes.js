@@ -59,7 +59,7 @@ function restoreBackup(backup, actor) {
   }
   store.snapshot(true);
   store.transaction(() => {
-    store.sql.exec('DELETE FROM records; DELETE FROM files;');
+    store.sql.exec('DELETE FROM [chambers].[records]; DELETE FROM [chambers].[files];');
     for (const [kind, records] of Object.entries(validRecords)) for (const r of records) store.put(kind,r);
     for (const [id,f] of files) store.addFile(id,f.name,f.mime,f.bytes);
     store.setSetting('firm', settings);store.audit(actor,'Restored backup','workspace',{name:backup.exportedAt || 'Backup'});

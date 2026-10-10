@@ -13,6 +13,7 @@ const {createNews}=require('../apps/news/backend/routes');
 const {createBatchFee}=require('../apps/batchfee-lite/backend/routes');
 const {createTournament}=require('../apps/tournament-lite/backend/routes');
 const {createDigitalSamaj}=require('../apps/digital-samaj/backend/routes');
+const {createArena}=require('../apps/satire-arena/backend/routes');
 const {staticAssets}=require('./static-assets');
 const {fail}=require('./http');
 const ROOT=path.resolve(__dirname,'..');
@@ -29,13 +30,13 @@ const news=createNews({auth,store});
 const batchFee=createBatchFee({auth,store});
 const tournament=createTournament({auth,store});
 const digitalSamaj=createDigitalSamaj({auth,store});
+const satireArena=createArena({store});
 const advocate=createAdvocate({store,auth});
 const fundOverlap=createFundOverlap({auth,store,cacheDir:path.join(process.env.DATA_DIR||path.join(ROOT,'data'),'fund-overlap-cache')});
-const server = http.createServer(async (req,res) => {
+async function dispatch(req,res) {
   const json = (code,data) => { res.writeHead(code, {'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'}); res.end(JSON.stringify(data)); };
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('X-Frame-Options','DENY');res.setHeader('Referrer-Policy','same-origin');
   res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'");
-  try {
     const url = new URL(req.url,'http://localhost');
     if(url.pathname==='/healthz'&&req.method==='GET')return json(200,{status:'ok'});
     if(url.pathname==='/advocate/'){res.writeHead(308,{Location:'/advocate'+url.search});return res.end();}
@@ -54,7 +55,7 @@ const server = http.createServer(async (req,res) => {
     if (req.headers.origin && req.headers.origin!==allowedOrigin) fail(403,'Origin rejected');
     if (req.headers['sec-fetch-site']==='cross-site') fail(403,'Cross-site request rejected');
     const route=url.pathname.slice(5), method=req.method;
-    if(url.pathname==='/api/satire-arena'||url.pathname.startsWith('/api/satire-arena/'))return json(503,{error:'Satire Arena votes use the hosted cloud service. Open the production platform to react.'});
+    if(url.pathname==='/api/satire-arena'||url.pathname.startsWith('/api/satire-arena/'))return await satireArena(req,res,allowedOrigin);
     const user=auth.session(req);
     const context={route,method,req,res,json,user};
     if(route.startsWith('auth/')||route==='users'||route.startsWith('users/'))return await auth.handle(context);
@@ -69,9 +70,18 @@ const server = http.createServer(async (req,res) => {
     if(route==='platform'||route.startsWith('platform/'))return await portal(context);
     if(route==='batchfee-lite'||route.startsWith('batchfee-lite/'))return await batchFee(context);
     return await advocate(context);
-  } catch (error) {
-    if(!res.headersSent)json(error.status||400,{error:error.message.includes('UNIQUE constraint')?'This record already exists':error.message});else res.end();
-  }
+}
+const server=http.createServer(async(req,res)=>{
+ try{
+  if(store.provider==='sqlserver'&&req.url.startsWith('/api/')){
+   // A success response is published only after the enclosing transaction commits.
+   const headers=new Map();let code=200,body;
+   const staged={headersSent:false,setHeader(name,value){headers.set(name,value);},writeHead(status,values={}){code=status;for(const [name,value]of Object.entries(values))headers.set(name,value);},end(value){body=value;}};
+   await store.requestContext(()=>dispatch(req,staged));
+   for(const [name,value]of headers)res.setHeader(name,value);res.writeHead(code);res.end(body);
+  }else await dispatch(req,res);
+ }catch(error){if(!res.headersSent){res.writeHead(error.status||400,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify({error:error.message.includes('UNIQUE constraint')?'This record already exists':error.message}));}else res.end();}
 });
+server.requestTimeout=60000;
 server.listen(process.env.PORT===undefined?3000:Number(process.env.PORT),process.env.HOST||'127.0.0.1',()=>console.log(`Sushant Synapse Platform running at http://localhost:${server.address().port}`));
 for(const signal of ['SIGINT','SIGTERM'])process.on(signal,()=>server.close(()=>{store.sql.close();process.exit(0);}));

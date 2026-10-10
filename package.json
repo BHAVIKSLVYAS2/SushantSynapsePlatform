@@ -3,6 +3,9 @@
   "version": "3.0.0",
   "private": true,
   "scripts": {
+    "db:sqlserver:init": "node infrastructure/sqlserver.cjs init",
+    "db:sqlserver:import": "node infrastructure/sqlserver.cjs import",
+    "db:sqlserver:import-arena": "node infrastructure/sqlserver.cjs import-arena",
     "build:frontend": "node infrastructure/cloudflare/build.cjs",
     "deploy:frontend:preview": "wrangler deploy --config infrastructure/cloudflare/wrangler.jsonc --env preview",
     "deploy:frontend": "wrangler deploy --config infrastructure/cloudflare/wrangler.jsonc --env production",
@@ -22,10 +25,14 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
+    "msnodesqlv8": "^5.5.0",
     "wrangler": "^4.145.0"
   },
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "mssql": "^12.7.4"
+  }
 }

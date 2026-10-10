@@ -12,6 +12,15 @@ services:
       DATA_DIR: /app/data
       PUBLIC_ORIGIN: https://apps.sushantsynapse.com
       SETUP_TOKEN: ${SETUP_TOKEN:?Set SETUP_TOKEN in .env before starting}
+      DATABASE_PROVIDER: ${DATABASE_PROVIDER:-sqlite}
+      SQLSERVER_SERVER: ${SQLSERVER_SERVER:-}
+      SQLSERVER_DATABASE: ${SQLSERVER_DATABASE:-}
+      SQLSERVER_AUTH: ${SQLSERVER_AUTH:-managed-identity}
+      AZURE_CLIENT_ID: ${AZURE_CLIENT_ID:-}
+      SQLSERVER_USER: ${SQLSERVER_USER:-}
+      SQLSERVER_PASSWORD: ${SQLSERVER_PASSWORD:-}
+      SQLSERVER_AUTO_MIGRATE: "0"
+      ARENA_COOKIE_SECRET: ${ARENA_COOKIE_SECRET:-}
     volumes:
       - platform_data:/app/data
     expose:
