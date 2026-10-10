@@ -31,7 +31,7 @@ test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{ch
 test('all bilingual guides, materials, search, completion isolation, downloads and printing',async({page})=>{
  const errors=[],api=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.url().includes('/api/'))api.push(r.url());});await page.route('**/api/**',r=>r.abort());await page.goto(base+'/ritual-assist');await expect(page.locator('.guide-option')).toHaveCount(15);
  for(const lang of ['en','hi']){await page.locator('#language').selectOption(lang);for(const button of await page.locator('.guide-option').all()){const id=await button.getAttribute('data-guide');await button.click();await expect(page.locator('#guide-title')).not.toBeEmpty();await expect(page.locator('.steps li').first()).toBeVisible();expect(await page.locator('.check-item').count()).toBeGreaterThanOrEqual(4);await expect(page.locator('.guide-option[aria-pressed=true]')).toHaveAttribute('data-guide',id);await page.locator('.reference summary').click();await expect(page.locator('.reference a').first()).toHaveAttribute('href',/^https:/);}}
- await page.locator('#search').fill('श्राद्ध');await expect(page.locator('.guide-option')).toHaveCount(1);await page.locator('.guide-option').click();await expect(page.locator('[data-item^=seedha-]')).toHaveCount(8);await expect(page.locator('#guide .seedha-card')).toHaveCount(1);await expect(page.locator('#guide .seedha-card [data-item^=seedha-]')).toHaveCount(8);await page.locator('[data-item=water]').check();await expect(page.locator('#progress')).toContainText('1 / 13');await page.locator('[data-item=seedha-flour]').check();await expect(page.locator('#progress')).toContainText('2 / 13');await page.locator('#language').selectOption('en');await expect(page.locator('[data-item=water]')).toBeChecked();await expect(page.locator('[data-item=seedha-flour]')).toBeChecked();
+ await page.locator('#search').fill('श्राद्ध');await expect(page.locator('.guide-option')).toHaveCount(1);await page.locator('.guide-option').click();await expect(page.locator('[data-item^=seedha-]')).toHaveCount(8);await expect(page.locator('#guide .seedha-card')).toHaveCount(1);await expect(page.locator('#guide .seedha-card')).toContainText('सीधा चढ़ावा');await expect(page.locator('#guide .seedha-card [data-item^=seedha-]')).toHaveCount(8);await page.locator('[data-item=water]').check();await expect(page.locator('#progress')).toContainText('1 / 13');await page.locator('[data-item=seedha-flour]').check();await expect(page.locator('#progress')).toContainText('2 / 13');await page.locator('#language').selectOption('en');await expect(page.locator('[data-item=water]')).toBeChecked();await expect(page.locator('[data-item=seedha-flour]')).toBeChecked();await expect(page.locator('#guide .seedha-card h3')).toContainText('Seedha Chadhava');await expect(page.locator('#guide .seedha-card')).toContainText('one meal for about 1–2 people');await page.locator('#guide .seedha-card').screenshot({path:'test-results/seedha-combined-card.png'});
  const dl=page.waitForEvent('download');await page.locator('#download').click();const file=await dl,target='test-results/ritual-shraddha.txt';await file.saveAs(target);const contents=fs.readFileSync(target,'utf8');expect(contents).toContain('[x] Water, vessel and spoon');expect(contents).toContain('[x] Seedha: wheat flour / atta');expect(contents).toContain('Seedha Chadhava - Shraddha / Barsi / Samvatsari');expect(contents).toContain('confirm first');expect(contents).toContain('References');
  await page.locator('#search').fill('');await page.locator('[data-guide=ganesh-puja]').click();await expect(page.locator('[data-item=water]')).not.toBeChecked();await page.locator('[data-guide=shraddha]').click();await expect(page.locator('[data-item=water]')).toBeChecked();await page.locator('#reset').click();await expect(page.locator('[data-item=water]')).not.toBeChecked();
  await page.locator('#search').fill('<img src=x onerror=alert(1)>');await expect(page.locator('.guide-option')).toHaveCount(0);await expect(page.locator('#results')).toContainText('No matching');expect(await page.locator('#guide-list img').count()).toBe(0);await page.locator('#search').fill('');await page.getByRole('button',{name:'Ashubh · mourning & remembrance',exact:true}).click();await expect(page.locator('.guide-option')).toHaveCount(7);
@@ -45,4 +45,29 @@ test('mobile navigation, themes, copy fallback, native sharing cancellation and 
 test('public homepage finder and no-JavaScript discovery link to the new app',async({page,browser})=>{
  await page.goto(base+'/');await page.getByRole('button',{name:'Search apps',exact:true}).click();await page.getByLabel('Search apps or activities').fill('samagri');await expect(page.locator('.finder-result')).toHaveCount(1);await page.locator('.finder-result').click();await expect(page).toHaveURL(/\/ritual-assist/);await expect(page.locator('#guide-title')).toBeVisible();
  const context=await browser.newContext({javaScriptEnabled:false});try{const nojs=await context.newPage();await nojs.goto(base+'/');await nojs.getByRole('link',{name:'Ritual Assist',exact:true}).click();await expect(nojs.locator('noscript .scope')).toContainText('Enable JavaScript');}finally{await context.close();}
+});
+test('compact language controls and calendar theme follow shared preferences',async({page})=>{
+ await page.addInitScript(()=>{if(!localStorage.getItem('synapse-theme'))localStorage.setItem('synapse-theme','system');});
+ await page.emulateMedia({colorScheme:'dark'});
+ await page.goto(base+'/ritual-assist/calendar');
+ await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+ const dark=await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundColor);
+ await page.locator('[data-theme-toggle]').click();
+ await expect(page.locator('html')).toHaveAttribute('data-theme','light');
+ expect(await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundColor)).not.toBe(dark);
+ await page.locator('.intro [data-interface-language=hi]').click();
+ await expect(page.locator('#headline')).toContainText('श्राद्ध');
+ await expect(page.locator('.intro [data-interface-language=hi]')).toHaveAttribute('aria-pressed','true');
+ await page.reload();
+ await expect(page.locator('html')).toHaveAttribute('data-theme','light');
+ await expect(page.locator('#language')).toHaveValue('hi');
+ await page.goto(base+'/ritual-assist?guide=havan');
+ await page.locator('[data-item=samagri]').check();
+ await page.locator('.intro [data-interface-language=en]').click();
+ await expect(page.locator('[data-item=samagri]')).toBeChecked();
+ await expect(page.locator('#guide-title')).toHaveText('Havan / homam');
+ for(const width of [320,390,768,1440]){
+  await page.setViewportSize({width,height:900});
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ }
 });

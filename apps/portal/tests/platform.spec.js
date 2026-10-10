@@ -46,7 +46,12 @@ test('premium bento keeps all tools discoverable across touch layouts and both t
  for(const route of ['/timetable-lite','/ritual-assist','/ritual-assist/calendar','/team-mixer','/decision-wheel','/moment-studio','/moment-studio/certificates','/take-a-break','/pocket-pause','/daily-spark','/news','/fund-overlap','/advocate','/digital-samaj','/batchfee-lite','/tournament-lite','/satire-arena']){
   await page.goto(base+route);await expect(page.locator('link[href*="/shared/premium.css"]')).toHaveCount(1);
   await expect(page.getByRole('button',{name:'Dark mode',exact:true})).toBeVisible();
-  await expect(page.locator('body'),route).toHaveCSS('background-color','rgb(8, 12, 20)');
+  await expect(page.locator('html'),route).toHaveAttribute('data-theme','dark');
+  // App-owned dark palettes may differ while retaining a readable dark canvas.
+  await expect.poll(async()=>page.locator('body').evaluate(el=>{
+   const channels=getComputedStyle(el).backgroundColor.match(/[\d.]+/g).slice(0,3).map(Number);
+   return Math.max(...channels);
+  }),{message:route+' dark canvas'}).toBeLessThan(64);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),route).toBe(true);
  }
  expect(errors).toEqual([]);
@@ -65,7 +70,7 @@ test('theme toggle supports light default, saved system preference, keyboard, cr
  const context=await noAdsContext(browser,{colorScheme:'dark'});
  try{
   const page=await context.newPage(),other=await context.newPage();
-  await page.goto(base+'/certificates');await other.goto(base+'/news');
+  await page.goto(base+'/');await other.goto(base+'/news');
   const toggle=page.getByRole('button',{name:'Dark mode',exact:true});await expect(toggle).toHaveAttribute('aria-pressed','false');
   await expect(page.locator('html')).toHaveAttribute('data-theme','light');
   await setTheme(page,'system');await expect(toggle).toHaveAttribute('aria-pressed','true');
@@ -76,7 +81,7 @@ test('theme toggle supports light default, saved system preference, keyboard, cr
  }finally{await context.close();}
  const blocked=await noAdsContext(browser,);try{
   await blocked.addInitScript(()=>{Storage.prototype.getItem=Storage.prototype.setItem=()=>{throw new Error('Storage blocked');};});
-  const page=await blocked.newPage();await page.goto(base+'/certificates');const toggle=page.getByRole('button',{name:'Dark mode',exact:true});await toggle.click();await expect(toggle).toHaveAttribute('aria-pressed','true');await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+  const page=await blocked.newPage();await page.goto(base+'/');const toggle=page.getByRole('button',{name:'Dark mode',exact:true});await toggle.click();await expect(toggle).toHaveAttribute('aria-pressed','true');await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
  }finally{await blocked.close();}
 });
 const {spawn}=require('node:child_process');
@@ -123,10 +128,17 @@ test('app finder stays usable across small screens, themes and empty results',as
  await page.locator('#app-finder-trigger').click();await page.getByLabel('Search apps or activities').fill('quilt');await page.locator('.finder-result').click();await expect(page).toHaveURL(base+'/take-a-break');
  await page.goto(base+'/signin');await expect(page.locator('#auth-form')).toBeVisible();await expect(page.locator('#app-finder-trigger')).toHaveCount(0);
 });
+async function expectWorkspaceDiscovery(page){
+ await expect(page.locator('.workspace-card-art .home-sculpture use')).toHaveCount(4);
+ await expect(page.locator('.workspace-card-art[aria-hidden=true]')).toHaveCount(4);
+ for(const [name,destination]of [['DIGITAL SAMAJ','digital-samaj'],['Chambers','advocate'],['Tournament Lite','tournament-lite'],['BatchFee Lite','batchfee-lite']]){
+  await expect(page.getByRole('link',{name:'Sign in to '+name+' →',exact:true})).toHaveAttribute('href','/signin?next='+destination);
+ }
+}
 test('homepage ships real cards without JavaScript and ignores obsolete login query',async({browser,page})=>{
  const context=await noAdsContext(browser,{javaScriptEnabled:false});
- try{const fallback=await context.newPage();const response=await fallback.goto(base);expect(response.headers()['cache-control']).toBe('no-store');await expect(fallback.locator('.public-app')).toHaveCount(9);await expect(fallback.getByRole('link',{name:'Decision Wheel',exact:true})).toBeVisible();await expect(fallback.getByRole('link',{name:'Fund Lens',exact:true})).toBeVisible();await expect(fallback.getByRole('link',{name:'Open News'})).toBeVisible();await expect(fallback.getByRole('link',{name:'Sign in to Tournament Lite'})).toBeVisible();}finally{await context.close();}
- await page.goto(base+'/?signin=1');await expect(page.locator('.public-app')).toHaveCount(9);await expect(page.locator('#auth-form')).toHaveCount(0);await page.getByRole('link',{name:'Sign in',exact:true}).click();await expect(page).toHaveURL(base+'/signin');await expect(page.locator('#auth-form')).toBeVisible();
+ try{const fallback=await context.newPage();const response=await fallback.goto(base);expect(response.headers()['cache-control']).toBe('no-store');await expect(fallback.locator('.public-app')).toHaveCount(9);await expect(fallback.getByRole('link',{name:'Decision Wheel',exact:true})).toBeVisible();await expect(fallback.getByRole('link',{name:'Fund Lens',exact:true})).toBeVisible();await expect(fallback.getByRole('link',{name:'Open News'})).toBeVisible();await expect(fallback.getByRole('link',{name:'Sign in to Tournament Lite'})).toBeVisible();await expectWorkspaceDiscovery(fallback);}finally{await context.close();}
+ await page.goto(base+'/?signin=1');await expectWorkspaceDiscovery(page);await expect(page.locator('.public-app')).toHaveCount(9);await expect(page.locator('#auth-form')).toHaveCount(0);await page.getByRole('link',{name:'Sign in',exact:true}).click();await expect(page).toHaveURL(base+'/signin');await expect(page.locator('#auth-form')).toBeVisible();
 });
 test('platform setup, favourites, app launch with shared sign-in, team access and responsive themes',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.setViewportSize({width:390,height:844});await page.goto(base);
