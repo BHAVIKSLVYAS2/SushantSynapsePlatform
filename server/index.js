@@ -45,7 +45,7 @@ async function dispatch(req,res) {
     if(url.pathname==='/news/'){res.writeHead(308,{Location:'/news'+url.search});return res.end();}
     if (!url.pathname.startsWith('/api/')) {
       const assets=staticAssets;
-      const name=assets[url.pathname];if(!name){res.writeHead(404);return res.end('Not found');}
+      const name=assets[/^\/moment-studio\/?$/.test(url.pathname)&&url.searchParams.has('occasion')?'/moment-studio/cards':url.pathname];if(!name){res.writeHead(404);return res.end('Not found');}
       if(req.method!=='GET'&&req.method!=='HEAD')fail(405,'Method not allowed');
       res.setHeader('Content-Type',(name.endsWith('.js')||name.endsWith('.mjs'))?'text/javascript; charset=utf-8':name.endsWith('.css')?'text/css; charset=utf-8':name.endsWith('.png')?'image/png':name.endsWith('.webp')?'image/webp':name.endsWith('.svg')?'image/svg+xml':name.endsWith('.webmanifest')?'application/manifest+json':'text/html; charset=utf-8');
       if(name.endsWith('.txt'))res.setHeader('Content-Type','text/plain; charset=utf-8');

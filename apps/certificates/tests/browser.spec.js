@@ -13,7 +13,7 @@ test('anonymous local generation, all designs, exports, privacy and responsive p
  await page.getByLabel('Organization Name').fill('The Kindness Foundation');
  await page.getByText('Personalize wording & signing').click();await page.getByLabel('Signatory Name').fill('Ananya Rao');await page.getByLabel('Signatory Designation').fill('Programme Director');await page.getByLabel('Location',{exact:true}).fill('Pune, Maharashtra');
  await expect(page.getByLabel('Certificate ID',{exact:true})).toHaveValue(/^SS-\d{4}-[A-F0-9]{8}$/);
- for(const name of ['Classic','Corporate','Minimal','Community','Aurora','Confetti','Sweetheart','Comic']){await page.getByRole('radio',{name,exact:true}).check();await expect(page.getByLabel('Recipient Name',{exact:true})).toHaveValue('Aarav Sharma');await page.locator('#certificate').screenshot({path:`test-results/certificate-${name}.png`});}
+ for(const name of ['Aurora','Minimal','Corporate','Studio','Editorial']){await page.getByRole('radio',{name,exact:true}).check();await expect(page.getByLabel('Recipient Name',{exact:true})).toHaveValue('Aarav Sharma');await page.locator('#certificate').screenshot({path:`test-results/certificate-${name}.png`});}
  await page.getByRole('radio',{name:'Aurora',exact:true}).check();
  await page.getByLabel('Certificate Type').selectOption('Blood Donation');await expect(page.locator('#preview-description')).toContainText('life-saving gift');
  await page.getByText('Add logo & signature').click();
@@ -58,12 +58,12 @@ test('curated playful designs and lossless PNG densities',async({page})=>{
  await expect(page.locator('[name=type] option')).toHaveCount(17);
  for(const name of ['Social Service','Sponsorship Appreciation','Outstanding Contribution','Custom'])await expect(page.locator('[name=type] option').filter({hasText:new RegExp('^'+name+'$')})).toHaveCount(0);
  await page.getByLabel('Recipient Name',{exact:true}).fill('Priya Sharma');
- for(const [award,template] of [['Best Friend','Confetti'],['Best Wife','Sweetheart'],['Best Dad','Comic']]){
+ for(const [award,template] of [['Best Friend','Studio'],['Best Wife','Editorial'],['Best Dad','Studio']]){
   await page.getByLabel('Certificate Type').selectOption(award);await expect(page.getByRole('radio',{name:template,exact:true})).toBeChecked();
   await expect(page.locator('[name=accent]')).toBeHidden();
   await page.locator('#certificate').screenshot({path:`test-results/playful-${template}.png`});
  }
- await page.getByRole('radio',{name:'Sweetheart',exact:true}).check();await page.getByLabel('Certificate Type').selectOption('Chai Champion');await expect(page.getByRole('radio',{name:'Sweetheart',exact:true})).toBeChecked();
+ await page.getByRole('radio',{name:'Editorial',exact:true}).check();await page.getByLabel('Certificate Type').selectOption('Chai Champion');await expect(page.getByRole('radio',{name:'Editorial',exact:true})).toBeChecked();
  await page.getByRole('button',{name:'Generate certificate'}).click();
  for(const [dpi,width,height] of [['600',7016,4961],['300',3508,2480]]){
   await page.getByLabel('PNG quality').selectOption(dpi);
@@ -77,7 +77,7 @@ test('curated playful designs and lossless PNG densities',async({page})=>{
   }offset+=length+12;}expect(densities).toBe(1);
   const decoded=await page.evaluate(async base64=>{const blob=new Blob([Uint8Array.from(atob(base64),c=>c.charCodeAt(0))],{type:'image/png'}),bitmap=await createImageBitmap(blob);const size=[bitmap.width,bitmap.height];bitmap.close();return size;},bytes.toString('base64'));expect(decoded).toEqual([width,height]);
  }
- await page.getByRole('radio',{name:'Classic',exact:true}).check();await expect(page.getByLabel('Accent colour')).toBeVisible();
+ await page.getByRole('radio',{name:'Minimal',exact:true}).check();await expect(page.getByLabel('Accent colour')).toBeVisible();
  await page.setViewportSize({width:320,height:900});await page.getByRole('button',{name:'Generate certificate'}).click();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 
@@ -103,7 +103,7 @@ test('saved organisations restore branding only and can be reused and deleted',a
  await page.getByRole('button',{name:'Delete saved organisation',exact:true}).click();await expect(page.locator('#organisation-status')).toContainText('deleted');await expect(page.locator('#saved-organisation option')).toHaveCount(2);
  await page.reload();await expect(page.getByLabel('Organization Name')).toHaveValue('');
  await expect(page.locator('#certificate-disclaimer')).toContainText('Issuer is responsible for content');
- const disclaimers=await page.evaluate(async()=>{const {render,templates,disclaimer}=await import('/certificates/renderer.js');return templates.map(template=>{const c=document.createElement('canvas'),ctx=c.getContext('2d'),texts=[];const fill=ctx.fillText.bind(ctx);ctx.fillText=(text,...args)=>{texts.push(text);fill(text,...args);};render(c,{template},{},3508/1122);return texts.includes(disclaimer);});});expect(disclaimers).toEqual(Array(8).fill(true));
+ const disclaimers=await page.evaluate(async()=>{const {render,templates,disclaimer}=await import('/certificates/renderer.js');return templates.map(template=>{const c=document.createElement('canvas'),ctx=c.getContext('2d'),texts=[];const fill=ctx.fillText.bind(ctx);ctx.fillText=(text,...args)=>{texts.push(text);fill(text,...args);};render(c,{template},{},3508/1122);return texts.includes(disclaimer);});});expect(disclaimers).toEqual(Array(5).fill(true));
 });
 
 test('invalid and unavailable browser storage do not block certificate creation',async({page})=>{
@@ -119,7 +119,7 @@ test('maximum-length and multilingual text stays within the certificate content 
  await page.goto(base+'/certificates');
  const result=await page.evaluate(async()=>{
   const {render,templates}=await import('/certificates/renderer.js');const failures=[];
-  for(const template of templates){const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d'),original=ctx.fillText.bind(ctx);ctx.fillText=(text,x,y)=>{const width=ctx.measureText(text).width;if(x-width/2<70||x+width/2>1052||y<60||y>785)failures.push({template,text,x,y,width});original(text,x,y);};
+  for(const template of templates){const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d'),original=ctx.fillText.bind(ctx);ctx.fillText=(text,x,y)=>{const width=ctx.measureText(text).width,left=ctx.textAlign==='left'?x:x-width/2;if(left<70||left+width>1052||y<60||y>785)failures.push({template,text,x,y,width});original(text,x,y);};
    render(canvas,{template,type:'Donation Appreciation',donationAmount:'999999999.99',accent:'plum',recipient:'आदित्य शर्मा '.repeat(8).slice(0,100),organization:'Community '.repeat(10),title:'Appreciation '.repeat(6),description:'W'.repeat(400),message:'Grateful for your thoughtful service. '.repeat(7).slice(0,250),signatory:'A'.repeat(70),designation:'Director '.repeat(8).slice(0,70),location:'Maharashtra '.repeat(7).slice(0,80),reference:'SS-2026-'+'X'.repeat(32),date:'2026-09-27'},{},1);
   }return failures;
  });expect(result).toEqual([]);
@@ -139,7 +139,7 @@ test('optional donation amounts use exact Indian wording and stay out of other t
  ]);expect(amounts.slice(6)).toEqual(Array(6).fill(null));
  await page.getByLabel('Recipient Name',{exact:true}).fill('Aarav Sharma');await page.getByLabel('Appreciation / Contribution Description').fill('supporting our community education programme');
  const amount=page.locator('[name=donationAmount]');await amount.fill('5000');await expect(page.getByLabel('Amount in words',{exact:true})).toHaveValue('Five Thousand Rupees Only');await expect(page.locator('#certificate')).toHaveAttribute('aria-label',/Donation of ₹5,000/);
- for(const template of ['Classic','Corporate','Minimal','Community','Aurora','Confetti','Sweetheart','Comic']){await page.getByRole('radio',{name:template,exact:true}).check();await expect(amount).toHaveValue('5000');}
+ for(const template of ['Aurora','Minimal','Corporate','Studio','Editorial']){await page.getByRole('radio',{name:template,exact:true}).check();await expect(amount).toHaveValue('5000');}
  await page.getByRole('radio',{name:'Aurora',exact:true}).check();await page.locator('#certificate').screenshot({path:'test-results/certificate-donation.png'});
  await page.getByRole('button',{name:'Generate certificate'}).click();await expect(page.locator('#downloads')).toBeVisible();for(const format of ['PDF','PNG']){const [download]=await Promise.all([page.waitForEvent('download'),page.getByRole('button',{name:'Download '+format,exact:true}).click()]);expect(await download.failure()).toBeNull();}
  await amount.fill('-1');await page.getByRole('button',{name:'Generate certificate'}).click();await expect(page.locator('#downloads')).toBeHidden();

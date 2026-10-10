@@ -1,8 +1,10 @@
 import {brandReady,requireBrand} from '/moment-studio/branding.mjs';
-import {render,templates,playfulTemplates,donationAmount,disclaimer} from '/moment-studio/certificate-renderer.mjs';
+import {render,templates,templateNotes,playfulTemplates,donationAmount,disclaimer} from '/moment-studio/certificate-renderer.mjs?v=20261011-curated';
 import {pdfBlob,pngBlob,download} from '/moment-studio/certificate-export.js';
 import {certificateRows,zip} from '/moment-studio/batch.mjs';
 const $=s=>document.querySelector(s),form=$('#details'),canvas=$('#certificate'),status=$('#status'),images={},versions={logo:0,signature:0};
+// Match the card workspace while retaining explicit light/dark/system preferences.
+try{if(!localStorage.getItem('synapse-theme')&&!localStorage.getItem('chambers-theme'))window.SynapseTheme.write('dark');}catch{window.SynapseTheme.write('dark');}
 $('#certificate-disclaimer').textContent=disclaimer;
 let dirty=false;
 form.addEventListener('input',()=>dirty=true);
@@ -40,12 +42,12 @@ const today=new Date();form.elements.date.value=[today.getFullYear(),String(toda
 form.elements.reference.value=`SS-${today.getFullYear()}-${crypto.randomUUID().replaceAll('-','').slice(0,8).toUpperCase()}`;
 for(const [i,name] of templates.entries()){
  const label=document.createElement('label');label.className='template';const thumb=document.createElement('canvas');thumb.setAttribute('aria-hidden','true');
- const radio=document.createElement('input');radio.type='radio';radio.name='template';radio.value=name;radio.checked=i===0;
- label.append(thumb,radio,document.createTextNode(name));$('#templates').append(label);
+ const radio=document.createElement('input');radio.type='radio';radio.name='template';radio.value=name;radio.setAttribute('aria-label',name);radio.checked=i===0;
+ label.append(thumb,radio,document.createTextNode(name));const note=document.createElement('small');note.textContent=templateNotes[name];label.append(note);$('#templates').append(label);
  render(thumb,{template:name,accent:'blue',title:playfulTemplates.includes(name)?'Best Friend Award':'',recipient:playfulTemplates.includes(name)?'Your favourite human':'Thank you',message:playfulTemplates.includes(name)?funAwards['Best Friend'].message:types['Donation Appreciation']},{},.35);
 }
 let automaticTemplate=true;
-const suggestedTemplate=()=>!funAwards[form.elements.type.value]?'Classic':['Best Wife','Best Husband','Best Partner','Best Mom'].includes(form.elements.type.value)?'Sweetheart':['Office MVP','Legendary Latecomer','Best Dad'].includes(form.elements.type.value)?'Comic':'Confetti';
+const suggestedTemplate=()=>!funAwards[form.elements.type.value]?'Minimal':['Best Wife','Best Husband','Best Partner','Best Mom'].includes(form.elements.type.value)?'Editorial':'Studio';
 function syncTemplate(){
  if(automaticTemplate)form.elements.template.value=suggestedTemplate();
  const fixedPalette=playfulTemplates.includes(form.elements.template.value);
@@ -75,6 +77,14 @@ function syncDonation(){
 }
 let frame;function preview(){const amount=syncDonation();cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>{const d=data();render(canvas,d,images);const description=`${d.title||'Certificate of Appreciation'} presented to ${d.recipient||'Recipient Name'} for ${d.description||'their contribution'}. ${d.message}`;canvas.setAttribute('aria-label',description+(amount?' Donation of '+amount.number+'. '+amount.words+'.':'')+' '+disclaimer);$('#preview-description').textContent=d.recipient?description:'Add their name and contribution to make this certificate yours.';});}
 let pendingImages=0;
+const previewDialog=$('#preview-dialog'),expanded=$('#expanded-certificate');
+$('#expand-preview').onclick=()=>{
+ render(expanded,data(),images,2);expanded.setAttribute('aria-label',canvas.getAttribute('aria-label'));
+ previewDialog.showModal();$('#close-preview').focus();
+};
+$('#close-preview').onclick=()=>previewDialog.close();
+previewDialog.addEventListener('click',event=>{if(event.target===previewDialog){const r=previewDialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)previewDialog.close();}});
+previewDialog.addEventListener('close',()=>{$('#expand-preview').focus();expanded.width=expanded.height=1;});
 function valid(){if(!brandReady){status.textContent='The platform logo could not load. Reload before generating.';return false;}syncDonation();if(pendingImages){status.textContent='Please wait for your image to finish loading.';return false;}const value=data();for(const name of ['recipient','description'])form.elements[name].setCustomValidity(value[name]?'':'Please enter this detail.');return form.reportValidity();}
 form.addEventListener('input',()=>{for(const name of ['recipient','description'])form.elements[name].setCustomValidity('');$('#downloads').hidden=true;status.textContent='';preview();});
 form.addEventListener('change',preview);
@@ -172,7 +182,7 @@ $('#delete-organisation').onclick=()=>{
 };
 if(lastOrganisation)void reuseOrganisation(lastOrganisation);
 
-const batch=document.createElement('details');batch.innerHTML='<summary>Certificates for a group</summary><p>Import up to 20 recipients. CSV headings: recipient,description. The current design, organisation, signature and platform branding apply to every certificate. Details stay in this tab.</p><button type="button" id="batch-template">Download CSV template</button><label>Recipient CSV<input type="file" id="batch-file" accept=".csv,text/csv"></label><ol id="batch-preview"></ol><button type="button" id="batch-export" disabled>Download PDF batch (ZIP)</button><p id="batch-status" role="status"></p>';form.after(batch);
+const batch=document.createElement('details');batch.innerHTML='<summary>Certificates for a group</summary><p>Import up to 20 recipients. CSV headings: recipient,description. The current design, organisation, signature and platform branding apply to every certificate. Details stay in this tab.</p><button type="button" id="batch-template">Download CSV template</button><label>Recipient CSV<input type="file" id="batch-file" accept=".csv,text/csv"></label><ol id="batch-preview"></ol><button type="button" id="batch-export" disabled>Download PDF batch (ZIP)</button><p id="batch-status" role="status"></p>';batch.className='batch-tools';form.append(batch);
 let batchRows=[],batchBusy=false;
 $('#batch-template').onclick=()=>download(new Blob(['recipient,description\r\nSample Recipient,helping our community\r\n'],{type:'text/csv;charset=utf-8'}),'certificate-recipients.csv');
 $('#batch-file').onchange=async event=>{if(batchBusy)return;batchRows=[];$('#batch-export').disabled=true;$('#batch-preview').replaceChildren();try{const file=event.target.files[0];if(!file)return;if(file.size>50000)throw Error('Use a CSV under 50 KB.');batchRows=certificateRows(await file.text());for(const row of batchRows){const li=document.createElement('li');li.textContent=row.recipient+(row.description?' — '+row.description:'');$('#batch-preview').append(li);}$('#batch-export').disabled=false;$('#batch-status').textContent='Review these names before exporting.';dirty=true;}catch(error){$('#batch-status').textContent=error.message;}finally{event.target.value='';}};

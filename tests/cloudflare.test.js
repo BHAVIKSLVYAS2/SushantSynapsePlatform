@@ -36,6 +36,14 @@ test('ten national searches reuse one catalogue without rewriting holdings progr
 });
 before(async () => { exported = require('../infrastructure/cloudflare/build.cjs').build(); ({handle} = await import('../infrastructure/cloudflare/worker.mjs')); });
 const assets = {ASSETS: {fetch: async request => new Response(new URL(request.url).pathname, {headers: {'Content-Type': 'text/html'}})}};
+test('Moment Studio opens certificates first and preserves old occasion deep links at the edge',async()=>{
+ const down=async()=>{throw Error('Public studio must not depend on the backend');};
+ for(const root of ['/moment-studio','/moment-studio/']){
+  assert.equal(await (await handle(new Request(base+root),assets,down)).text(),exported.pages[root]);
+  assert.equal(await (await handle(new Request(base+root+'?occasion=condolence&language=hi'),assets,down)).text(),exported.pages['/moment-studio/cards']);
+ }
+ const {staticAssets}=require('../server/static-assets');assert.equal(staticAssets['/moment-studio'],staticAssets['/moment-studio/certificates']);assert.equal(staticAssets['/moment-studio/cards'],staticAssets['/celebration-studio']);
+});
 test('AdSense has fresh response nonces only on the anonymous homepage',async()=>{
  const env={ASSETS:{fetch:async()=>new Response('<html><head><script src="/shared/theme.js"></script></head><body></body></html>',{headers:{'Content-Type':'text/html','Content-Length':'1',ETag:'old'}})}};
  let previous;

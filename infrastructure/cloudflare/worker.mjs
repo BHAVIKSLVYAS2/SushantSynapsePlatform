@@ -40,7 +40,8 @@ export async function handle(request, env, originFetch = fetch, sourceOptions = 
   }
   if (!['GET', 'HEAD'].includes(request.method)) return new Response('Method not allowed', {status: 405, headers: {...security, Allow: 'GET, HEAD'}});
   const canonical = ['/news/', '/advocate/', '/fund-overlap/', '/signin/'].includes(pathname) ? pathname.slice(0, -1) : pathname;
-  let page = pages[canonical];
+  // Preserve existing occasion deep links while certificates become the studio entry.
+  let page = pages[/^\/moment-studio\/?$/.test(canonical)&&url.searchParams.has('occasion')?'/moment-studio/cards':canonical];
   if (!page) return new Response('Not found', {status: 404, headers: security});
   let offline = false;
   if (!independent.has(canonical)) {

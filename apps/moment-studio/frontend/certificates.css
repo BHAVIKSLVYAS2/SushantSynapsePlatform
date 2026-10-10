@@ -11,3 +11,38 @@ body{font-size:14px}main{max-width:1400px;padding:0 28px}.studio-nav{display:fle
 @media print{.paper-stage{padding:0;background:white}#certificate{box-shadow:none}}
 html:root[data-theme=dark]{--bg:#141b19;--surface:#1e2824;--text:#edf2ed;--ink:#edf2ed;--muted:#a7b7ad;--line:#35473d;--accent:#a9d5bd;--soft:#283a30;--on-accent:#15291f}
 .designs{grid-template-columns:repeat(3,minmax(0,1fr))}.design-choice{font-size:10px;gap:4px}.design-choice canvas{max-height:94px;object-fit:contain}
+/* Certificate-first artboard. Keep exactly two workspace columns, including batch tools. */
+@media screen{
+.certificate-studio .workspace{grid-template-columns:minmax(320px,390px) minmax(0,1fr);gap:24px}
+.certificate-studio .intro{margin-bottom:24px}
+.certificate-studio .intro h1{font-family:inherit}
+.certificate-studio .preview-column{top:18px;align-self:start}
+.certificate-studio .preview-heading h2{margin:0}
+.certificate-studio .preview-edit{display:none;font-size:12px;min-height:44px;align-items:center}
+.certificate-studio .artboard-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;font-size:11px;color:var(--muted)}
+.certificate-studio .artboard-toolbar button{min-height:36px;padding:7px 12px;font-size:11px}
+.certificate-studio .paper-stage{display:grid;place-items:center;padding:clamp(10px,1.5vw,24px);min-width:0}
+.certificate-studio #certificate{width:auto;max-width:100%;height:auto;max-height:calc(100svh - 220px);object-fit:contain;aspect-ratio:297/210}
+.certificate-studio .templates{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.certificate-studio .template{position:relative;overflow:hidden;text-align:left;transition:transform .3s cubic-bezier(.16,1,.3,1),border-color .3s,box-shadow .3s}
+.certificate-studio .template:hover{transform:translateY(-2px);box-shadow:var(--studio-shadow)}
+.certificate-studio .template canvas{border-radius:5px;margin-bottom:6px;aspect-ratio:297/210}
+.certificate-studio .template small{display:block;margin-top:3px;font-size:10px;line-height:1.4}
+.certificate-studio .template input{accent-color:var(--accent);margin-right:5px}
+.certificate-studio .finish-panel{margin-bottom:16px}
+.certificate-studio #preview-description{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.certificate-studio .batch-tools{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;font-size:12px}
+.certificate-studio #downloads{padding:18px;margin-top:18px}
+.certificate-studio #downloads .hint{margin:8px 0}
+.certificate-studio .skip{position:fixed;top:12px;left:16px;z-index:100;padding:12px;background:var(--surface);border:1px solid var(--accent);border-radius:10px;clip-path:inset(50%);width:1px;height:1px;overflow:hidden}
+.certificate-studio .skip:focus{clip-path:none;width:auto;height:auto}
+.certificate-studio #preview-dialog{width:min(1320px,96vw);max-height:94svh;padding:20px;border:1px solid var(--line);border-radius:20px;background:var(--surface);color:var(--ink);overflow:auto}
+.certificate-studio #preview-dialog::backdrop{background:var(--bg);opacity:.85;backdrop-filter:blur(12px)}
+.certificate-studio .expanded-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
+.certificate-studio .expanded-heading h2{margin:0}
+.certificate-studio #expanded-certificate{display:block;max-width:100%;max-height:calc(94svh - 140px);width:auto;height:auto;margin:auto;box-shadow:var(--studio-shadow)}
+@media(max-width:1000px){.certificate-studio .workspace{grid-template-columns:320px minmax(0,1fr);gap:16px}}
+@media(max-width:760px){.certificate-studio .workspace{grid-template-columns:1fr}.certificate-studio .preview-column{position:static;grid-row:1}.certificate-studio .preview-heading{gap:10px;flex-wrap:wrap}.certificate-studio .preview-edit{display:inline-flex}.certificate-studio #certificate{width:100%;max-height:none}.certificate-studio #preview-dialog{padding:12px}.certificate-studio #expanded-certificate{width:100%}}
+@media(prefers-reduced-motion:reduce){.certificate-studio .template{transition:none}.certificate-studio .template:hover{transform:none}}
+}
+@media print{.artboard-toolbar,#preview-dialog,.skip{display:none!important}#certificate{max-height:none;max-width:none}}
