@@ -1,5 +1,21 @@
 const {setTheme}=require('../../../tests/browser-theme');
 const {test,expect}=require('@playwright/test');
+// Never generate real advertising traffic from disposable test accounts.
+test.beforeEach(async({context})=>{await context.route('https://pagead2.googlesyndication.com/**',r=>r.fulfill({contentType:'text/javascript',body:''}));});
+
+test('AdSense loads asynchronously only for an anonymous home and retains tool navigation',async({page,context})=>{
+ const requests=[],violations=[];page.on('request',r=>{if(r.url().includes('adsbygoogle.js'))requests.push(r.url());});
+ await page.addInitScript(()=>{window.cspViolations=[];document.addEventListener('securitypolicyviolation',e=>window.cspViolations.push(e.effectiveDirective));});
+ const response=await page.goto(base+'/');await expect(page.locator('head script[src*="adsbygoogle.js"]')).toHaveCount(1);
+ const ad=page.locator('head script[src*="adsbygoogle.js"]');await expect(ad).toHaveAttribute('async','');await expect(ad).toHaveAttribute('crossorigin','anonymous');
+ const nonce=await ad.evaluate(e=>e.nonce);expect(response.headers()['content-security-policy']).toContain(`'nonce-${nonce}'`);
+ await page.getByRole('button',{name:'Search apps',exact:true}).click();await page.getByLabel('Search apps or activities').fill('teams');await expect(page.locator('.finder-result')).toHaveCount(1);
+ violations.push(...await page.evaluate(()=>window.cspViolations));
+ for(const route of ['/signin','/team-mixer','/ritual-assist/calendar','/privacy']){await page.goto(base+route);await expect(page.locator('script[src*="adsbygoogle.js"]')).toHaveCount(0);}
+ await context.addCookies([{name:'chambers_session',value:'invalid-test-session',url:base}]);await page.goto(base+'/');await expect(page.locator('script[src*="adsbygoogle.js"]')).toHaveCount(0);
+ expect(requests).toHaveLength(1);expect(violations).toEqual([]);
+ const txt=await page.request.get(base+'/ads.txt');expect(txt.headers()['content-type']).toContain('text/plain');expect(await txt.text()).toContain('pub-1894051755496526');
+});
 
 test('premium bento keeps all tools discoverable across touch layouts and both themes',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
@@ -74,7 +90,7 @@ test('sponsorship invitation is quiet, dismissible and absent from sensitive app
  const context=await browser.newContext({javaScriptEnabled:false});try{const fallback=await context.newPage();await fallback.goto(base);await expect(fallback.getByRole('link',{name:'Explore sponsorship'})).toBeVisible();await fallback.goto(base+'/sponsor');await expect(fallback.getByRole('heading',{name:/Sponsor a little/})).toBeVisible();await expect(fallback.locator('#sponsor-enquiry-form')).toBeHidden();}finally{await context.close();}
 });
 test('reviewed sponsor cards use safe links and stay outside workflows and printouts',async({page})=>{
- const errors=[],outside=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(new URL(r.url()).origin!==base)outside.push(r.url());});
+ const errors=[],outside=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(new URL(r.url()).origin!==base&&!r.url().startsWith('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1894051755496526'))outside.push(r.url());});
  const config={enabled:true,contact:null,campaigns:[{id:'browser-test',approved:true,sponsor:'Reviewed example',title:'<img src=x onerror=alert(1)>',description:'A reviewed text message.',url:'https://example.com/offer',pages:['home','teams','wheel','spark','timetable','news'],startsAt:'2020-01-01T00:00:00Z',endsAt:'2100-01-01T00:00:00Z'}]};
  await page.route('**/sponsor-config.mjs',route=>route.fulfill({contentType:'text/javascript',body:'export const sponsorConfig='+JSON.stringify(config)}));
  for(const route of ['/','/team-mixer','/decision-wheel','/daily-spark','/timetable-lite','/news']){

@@ -41,6 +41,9 @@ function build() {
   Referrer-Policy: same-origin
   Cache-Control: no-cache
   Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'
+
+/_pages/home.html
+  ! Content-Security-Policy
 `);
   console.log(`Exported ${files.size} public frontend assets; no database or credentials included.`);
   return {output, pages, files};

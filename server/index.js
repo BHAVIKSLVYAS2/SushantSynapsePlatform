@@ -15,6 +15,8 @@ const {createTournament}=require('../apps/tournament-lite/backend/routes');
 const {createDigitalSamaj}=require('../apps/digital-samaj/backend/routes');
 const {createArena}=require('../apps/satire-arena/backend/routes');
 const {staticAssets}=require('./static-assets');
+const {eligibleHome,renderHome,homePolicy}=require('../packages/ui/adsense.cjs');
+const {randomUUID}=require('node:crypto');
 const {fail}=require('./http');
 const ROOT=path.resolve(__dirname,'..');
 const production=process.env.NODE_ENV==='production';
@@ -46,7 +48,10 @@ async function dispatch(req,res) {
       const name=assets[url.pathname];if(!name){res.writeHead(404);return res.end('Not found');}
       if(req.method!=='GET'&&req.method!=='HEAD')fail(405,'Method not allowed');
       res.setHeader('Content-Type',(name.endsWith('.js')||name.endsWith('.mjs'))?'text/javascript; charset=utf-8':name.endsWith('.css')?'text/css; charset=utf-8':name.endsWith('.png')?'image/png':name.endsWith('.webp')?'image/webp':name.endsWith('.svg')?'image/svg+xml':name.endsWith('.webmanifest')?'application/manifest+json':'text/html; charset=utf-8');
-      res.setHeader('Cache-Control',name.endsWith('.html')?'no-store':'no-cache');return res.end(req.method==='HEAD'?undefined:fs.readFileSync(path.join(ROOT,name)));
+      if(name.endsWith('.txt'))res.setHeader('Content-Type','text/plain; charset=utf-8');
+      let contents=req.method==='HEAD'?undefined:fs.readFileSync(path.join(ROOT,name));
+      if(eligibleHome(url.pathname,req.headers.cookie)){const nonce=randomUUID();res.setHeader('Content-Security-Policy',homePolicy(nonce));if(contents)contents=renderHome(contents.toString(),nonce);}
+      res.setHeader('Cache-Control',name.endsWith('.html')?'no-store':'no-cache');return res.end(contents);
     }
     const host = req.headers.host || '';
     const localHost=/^(localhost|127\.0\.0\.1)(:\d+)?$/.test(host);

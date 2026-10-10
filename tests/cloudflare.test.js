@@ -36,6 +36,23 @@ test('ten national searches reuse one catalogue without rewriting holdings progr
 });
 before(async () => { exported = require('../infrastructure/cloudflare/build.cjs').build(); ({handle} = await import('../infrastructure/cloudflare/worker.mjs')); });
 const assets = {ASSETS: {fetch: async request => new Response(new URL(request.url).pathname, {headers: {'Content-Type': 'text/html'}})}};
+test('AdSense has fresh response nonces only on the anonymous homepage',async()=>{
+ const env={ASSETS:{fetch:async()=>new Response('<html><head><script src="/shared/theme.js"></script></head><body></body></html>',{headers:{'Content-Type':'text/html','Content-Length':'1',ETag:'old'}})}};
+ let previous;
+ for(let i=0;i<2;i++){
+  const r=await handle(new Request(base+'/'),env),html=await r.text(),policy=r.headers.get('Content-Security-Policy');
+  const nonce=/script-src 'nonce-([^']+)'/.exec(policy)?.[1];assert.ok(nonce);assert.notEqual(nonce,previous);previous=nonce;
+  assert.match(policy,/'strict-dynamic'/);assert.match(html,/client=ca-pub-1894051755496526/);assert.match(html,/google-adsense-account/);
+  assert.equal([...html.matchAll(/<script\b[^>]*>/g)].every(([tag])=>tag.includes(`nonce="${nonce}"`)),true);
+  assert.equal(r.headers.get('Content-Length'),null);assert.equal(r.headers.get('ETag'),null);assert.equal(r.headers.get('Cache-Control'),'no-store');
+ }
+ for(const [route,cookie]of [['/','other=1; chambers_session=private'],['/signin',''],['/team-mixer',''],['/advocate','']]){
+  const r=await handle(new Request(base+route,{headers:{Cookie:cookie}}),env,async()=>Response.json({status:'ok'}));
+  assert.doesNotMatch(await r.text(),/adsbygoogle|google-adsense-account/);assert.match(r.headers.get('Content-Security-Policy'),/script-src 'self';/);
+ }
+ const head=await handle(new Request(base+'/',{method:'HEAD'}),env);assert.equal(await head.text(),'');assert.match(head.headers.get('Content-Security-Policy'),/nonce-/);
+ assert.equal(fs.readFileSync(path.join(exported.output,'ads.txt'),'utf8').trim(),'google.com, pub-1894051755496526, DIRECT, f08c47fec0942fa0');
+});
 test('Cloudflare export contains only allowlisted frontend files and shared outage assets', () => {
   const files = fs.readdirSync(exported.output, {recursive: true, withFileTypes: true}).filter(item => item.isFile());
   assert.equal(files.length, exported.files.size + 1);

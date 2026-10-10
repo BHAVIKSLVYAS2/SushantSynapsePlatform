@@ -9,7 +9,9 @@ function mount(){
   if(sponsorPages[slot.dataset.sponsorSlot]!==route||slot.previousElementSibling?.matches('[data-google-ad-preview]'))continue;
   const preview=node('aside','synapse-google-ad-preview','');
   preview.dataset.googleAdPreview='';preview.setAttribute('aria-label','Advertisement placement preview');
-  preview.append(node('span','synapse-google-ad-label','Advertisement · Preview'),node('h2','synapse-google-ad-title','Reserved advertisement space'),node('p','synapse-google-ad-description','No ad network connected'));
+  // The homepage now has AdSense verification code; no manual ad unit is supplied.
+  if(route==='/')continue;
+  preview.append(node('span','synapse-google-ad-label','Advertisement · Preview'),node('h2','synapse-google-ad-title','Reserved advertisement space'),node('p','synapse-google-ad-description','No ads configured for this page'));
   slot.before(preview);
  }
  for(const slot of document.querySelectorAll('[data-sponsor-slot]')){

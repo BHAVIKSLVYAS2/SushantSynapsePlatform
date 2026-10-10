@@ -1,5 +1,6 @@
 // Explicit URL allowlist. Filesystem paths are never accepted from requests.
 const staticAssets={
+ '/ads.txt':'packages/ui/ads.txt',
  '/shared/premium.css':'packages/ui/premium.bundle.css',
  '/satire-arena':'apps/satire-arena/frontend/index.html',
  '/satire-arena/':'apps/satire-arena/frontend/index.html',

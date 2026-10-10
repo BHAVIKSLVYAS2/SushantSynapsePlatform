@@ -1,6 +1,7 @@
 import {newsSources} from './news-sources.mjs';
 import {fundSources} from './fund-sources.mjs';
 import pages from './pages.json' with {type: 'json'};
+import adsense from '../../packages/ui/adsense.cjs';
 const independent = new Set(['/satire-arena','/satire-arena/','/arena','/arena/','/privacy', '/privacy/', '/terms', '/terms/', '/contact', '/contact/', '/legal', '/legal/', '/legal/third-party-notices', '/legal/third-party-notices/', '/showcase', '/showcase/', '/support', '/support/', '/ritual-assist', '/ritual-assist/', '/ritual-assist/calendar', '/ritual-assist/calendar/', '/take-a-break', '/take-a-break/', '/sponsor', '/sponsor/', '/moment-studio', '/moment-studio/', '/moment-studio/cards', '/moment-studio/cards/', '/moment-studio/certificates', '/moment-studio/certificates/', '/pocket-pause', '/pocket-pause/', '/team-mixer', '/team-mixer/', '/celebration-studio', '/celebration-studio/', '/decision-wheel', '/decision-wheel/', '/daily-spark', '/daily-spark/', '/', '/fund-overlap', '/news', '/certificates', '/certificates/', '/timetable-lite', '/timetable-lite/']);
 const security = {
   'Strict-Transport-Security': 'max-age=3600',
@@ -57,6 +58,11 @@ export async function handle(request, env, originFetch = fetch, sourceOptions = 
   const headers = new Headers(response.headers);
   for (const [name, value] of Object.entries(security)) headers.set(name, value);
   if (offline) headers.set('Retry-After', '30');
+  if(adsense.eligibleHome(canonical,request.headers.get('Cookie')||'')&&response.ok){
+    const nonce=crypto.randomUUID();headers.set('Content-Security-Policy',adsense.homePolicy(nonce));
+    headers.delete('Content-Length');headers.delete('ETag');
+    return new Response(request.method==='HEAD'?null:adsense.renderHome(await response.text(),nonce),{status:response.status,headers});
+  }
   return new Response(request.method === 'HEAD' ? null : response.body, {status: offline ? 503 : response.status, headers});
 }
 export default {fetch(request, env) { return handle(request, env); }};
