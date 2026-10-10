@@ -6,6 +6,7 @@ const staticAssets={
  '/arena/':'apps/satire-arena/frontend/index.html',
  '/satire-arena/catalogue.mjs':'apps/satire-arena/frontend/catalogue.mjs',
  '/satire-arena/extra-cast.svg':'apps/satire-arena/frontend/extra-cast.svg',
+ '/satire-arena/extra-cast-v2.png':'apps/satire-arena/frontend/extra-cast-v2.png',
  '/satire-arena/app.js':'apps/satire-arena/frontend/app.js',
  '/satire-arena/style.css':'apps/satire-arena/frontend/style.css',
  '/satire-arena/cartoon-cast.png':'apps/satire-arena/frontend/cartoon-cast.png',
