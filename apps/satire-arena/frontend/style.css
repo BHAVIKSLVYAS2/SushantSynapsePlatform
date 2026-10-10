@@ -7,6 +7,19 @@
 
 .portrait-6,.portrait-7,.portrait-8{background-image:url(/satire-arena/new-cast.png)}.portrait-6{background-position:0 center}.portrait-7{background-position:50% center}.portrait-8{background-position:100% center}
 
+/* Four expression rows; each sheet preserves the existing three-character order. */
+[data-expression] .portrait{background-image:url(/satire-arena/expressions-original.png);background-size:300% 400%;background-position-y:0%}
+[data-expression] .portrait-3,[data-expression] .portrait-4,[data-expression] .portrait-5{background-image:url(/satire-arena/expressions-expanded.png)}
+[data-expression] .portrait-6,[data-expression] .portrait-7,[data-expression] .portrait-8{background-image:url(/satire-arena/expressions-new.png)}
+[data-expression=startled] .portrait{background-position-y:33.333333%}
+[data-expression=annoyed] .portrait{background-position-y:66.666667%}
+[data-expression=laughing] .portrait{background-position-y:100%}
+/* Leave the face visible while reaction props play in the lower corner. */
+[data-expression] .reaction-effect{place-items:end;padding:0 8% 12%}
+[data-expression] .reaction-hero{font-size:clamp(44px,5vw,68px)}
+[data-expression] .reaction-particle{font-size:22px}
+[data-expression][data-effect=tomato] .reaction-particle{left:76%;top:72%;font-size:50px}
+
 .feedback-options{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 20px;margin:0 0 20px;padding:14px 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}.feedback-options label{display:flex;align-items:center;gap:9px;min-height:44px;font-size:13px;cursor:pointer}.feedback-options input{width:18px;height:18px;accent-color:var(--primary)}.feedback-options small{font-size:11px;color:var(--muted);max-width:430px;line-height:1.6}
 .reaction-effect{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:2;display:grid;place-items:center}.reaction-hero{font-size:clamp(65px,8vw,115px);filter:drop-shadow(0 4px 6px var(--arena-shadow));animation:reaction-pop 1.25s both}.reaction-particle{position:absolute;font-size:35px;left:18%;top:12%;animation:petal-fall 1.25s both}.particle-1{left:35%;top:4%;animation-delay:.07s}.particle-2{left:62%;top:8%;animation-delay:.12s}.particle-3{left:78%;top:18%;animation-delay:.04s}.particle-4{left:48%;top:15%;animation-delay:.1s}.reaction-confirmed{animation:button-confirm .45s both}.reaction-active{box-shadow:0 0 0 3px var(--primary),4px 4px 0 var(--arena-shadow)}
 [data-effect=garland] .reaction-hero{animation:garland-drop 1.25s both}[data-effect=shoe] .reaction-hero{animation:shoe-tumble 1.25s both}[data-effect=tomato] .reaction-hero{animation:tomato-impact 1.25s both}[data-effect=tomato] .reaction-particle{left:42%;top:40%;font-size:100px;animation:impact-splat 1.25s both}[data-effect=laugh] .reaction-hero{animation:laugh-wobble 1.25s both}[data-effect=applause] .reaction-hero{animation:clap-bounce 1.25s both}

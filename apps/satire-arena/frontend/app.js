@@ -1,5 +1,5 @@
 import {cast,reactions,tally} from './catalogue.mjs';
-import {playReaction,stopVibration} from './feedback.mjs';
+import {playReaction,stopVibration} from './feedback.mjs?v=20261010-expressions';
 const $=s=>document.querySelector(s),api='/api/satire-arena';let round=null,busy=false,pending=null,loading=null;
 const media=matchMedia('(prefers-color-scheme: dark)');function applyTheme(){const value=window.SynapseTheme.read();document.documentElement.dataset.theme=value==='system'?(media.matches?'dark':'light'):value;}
 document.querySelector('[data-theme-toggle]').outerHTML=window.SynapseTheme.control();document.addEventListener('change',event=>{if(event.target.matches('[data-theme-toggle]'))applyTheme();});media.addEventListener('change',applyTheme);applyTheme();
