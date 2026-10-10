@@ -203,6 +203,8 @@ Pocket Pause now includes seven modes: Computer meltdown, Retro TV tantrum, Croc
 
 ## Ritual Assist
 
+The remembrance calendar now includes the next ten Barsi/Samvatsari and ten Pitru Paksha Shraddha observances from today, including for older death dates. A bilingual table shows lunar timings and confirmation conditions; downloaded/printed plans include the future dates.
+
 The linked `/ritual-assist/calendar` adds a Hindu Panchang remembrance planner: inclusive Chautha/days 10–12 (optional 13), tithi-based Masik, Barsi and first Pitru Paksha after Barsi. Date, IST time or confirmed tithi, Indian place and lunar month/day-counting conventions are explicit. English/Hindi results download or print, with no personal-data upload. Adhik Maas and ambiguous boundaries need confirmation. This is an approximate astronomy-based planning aid, not a certified regional Panchang; see the app README for method, verified fixtures and limits.
 
 `/ritual-assist` is a free public Hindu preparation page with 12 English/Hindi guides for Shubh ceremonies and Ashubh mourning/remembrance. Browse suggested steps, puja materials and family-custom notes; tick arranged items, download/copy a checklist, share a guide link or Print / Save PDF. Checks remain in the tab and clear on refresh. Scoped source links and questions for a priest/elder help families confirm their own practice. No muhurat calculation, funeral deadline, booking, payment or saved personal data. See [Ritual Assist](apps/ritual-assist/README.md).

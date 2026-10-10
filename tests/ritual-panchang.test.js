@@ -1,6 +1,11 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const engine=import('../apps/ritual-assist/frontend/panchang.mjs');
 const input={date:'2025-10-01',time:'12:00',city:'delhi',calendar:'amanta',counting:'civil'};
+test('ten upcoming annual and Pitru cycles start today, retain lunar identity and export without duplicates',async()=>{
+ const {generateCalendar,calendarRows,calendarText,midnight}=await engine,now=+new Date('2026-10-10T12:00:00+05:30');
+ for(const date of ['1980-10-01','2025-10-01','2026-10-09']){const r=generateCalendar({...input,date},{now});assert.equal(r.planningFrom,'2026-10-10');assert.equal(r.upcomingAnnual.length,10);assert.equal(r.upcomingPitru.length,10);for(const [kind,rows]of [['annual',r.upcomingAnnual],['pitru',r.upcomingPitru]]){for(let i=0;i<rows.length;i++){const row=rows[i];assert.equal(row.kind,kind);assert.equal(row.month.adhika,false);assert.ok(row.date?midnight(row.date)>=midnight(r.planningFrom):row.window.end>midnight(r.planningFrom));assert.equal(row.window.number,kind==='annual'?r.tithi:r.pitru.tithi);if(kind==='annual')assert.equal(row.month.index,r.deathMonth.index);else assert.ok(row.window.start>r.annual.window.end);if(i)assert.ok(row.window.start-rows[i-1].window.start>320*86400000);}}const all=calendarRows(r),keys=all.map(row=>row.kind+':'+(row.window?Math.round(row.window.start/60000):row.date));assert.equal(new Set(keys).size,all.length);for(const lang of ['en','hi']){const text=calendarText(r,lang);for(const row of [...r.upcomingAnnual,...r.upcomingPitru])if(row.date)assert.ok(text.includes(row.date));}}
+ const unknown=generateCalendar({...input,time:''},{now});assert.deepEqual(unknown.upcomingAnnual,[]);assert.deepEqual(unknown.upcomingPitru,[]);
+});
 const within=(actual,expected,minutes=3)=>assert.ok(Math.abs(actual-+new Date(expected))<minutes*60000,`${new Date(actual).toISOString()} differs from ${expected}`);
 test('independent published 2026 Panchang tithi and sunrise fixtures agree within three minutes',async()=>{const {tithiWindow,daylight,cities,monthAt,observance}=await engine;
  // Drik Panchang: Adhika Purnima 2026 (Dharampur), Delhi 26 September, Patna Amavasya 10 October.
