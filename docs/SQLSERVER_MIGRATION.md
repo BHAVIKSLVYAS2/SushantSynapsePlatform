@@ -42,7 +42,7 @@ Database: `.\SQLEXPRESS / SushantSynapsePlatform`, Windows integrated authentica
 
 Protected runtime settings live in ignored `data/local-host.json`. App database definitions remain under each app's `database/sqlserver/`; shared definitions are under `packages/database/sqlserver/`. SQL Server manages its MDF/LDF files; do not copy live database files into source control. Full native recovery exports are under `data/backups/` and must remain private.
 
-The verified SQLite import retained 280 rows and all document/account contents; sessions expire at cutover. Satire identities and active votes restart locally under the user's authorized reset. Old D1 votes were exported privately before removal. No Cloudflare proxy secret is needed: cookie signing occurs in Node. The frontend communicates exclusively through the API.
+The verified SQLite import retained 280 rows and all document/account contents; sessions expire at cutover. Satire identities and active votes restart locally under the user's authorized reset. Old D1 votes were exported privately before disconnecting its binding. Remote D1 deletion was blocked by automatic approval review; the unused resource requires manual removal. No Cloudflare proxy secret is needed: cookie signing occurs in Node. The frontend communicates exclusively through the API.
 
 ## Transaction and runtime behavior
 
@@ -58,7 +58,7 @@ App-owned documents/photos/attachments remain in their SQL tables in this change
 
 Owner full SQL export in SQL Server mode produces a native T-SQL recovery script for a NEW empty database, including accounts, all app tables, documents, migration checksums and reporting objects, but excluding live sessions. Chambers JSON backups remain Chambers-only. Local daily JSON snapshots remain unencrypted and do not substitute for managed off-device full-platform recovery. Configure Azure SQL backup/PITR policies and verify restoration before production migration.
 
-Run `npm.cmd test` and `npm.cmd run test:e2e` for compatibility workflows. Focused ownership/dialect/configuration tests are in `tests/sqlserver.test.js`. `powershell -File infrastructure/test-sqlserver.ps1` creates a uniquely named local SQL Express test database, migrates only generated fixture data and cleans only its owned test database. It requires Windows integrated authentication, SQL Server 2022+ and ODBC Driver 18. The optional dev-only `msnodesqlv8` driver runs in a main-thread sidecar because native ODBC does not share the production worker lifecycle. Production uses the pure-JavaScript driver, not the dev driver.
+Run `npm.cmd test` and `npm.cmd run test:e2e` for compatibility workflows. Focused ownership/dialect/configuration tests are in `tests/sqlserver.test.js`. `powershell -File infrastructure/test-sqlserver.ps1` creates a uniquely named local SQL Express test database, migrates only generated fixture data and cleans only its owned test database. It requires Windows integrated authentication, SQL Server 2022+ and ODBC Driver 18. The optional Windows runtime `msnodesqlv8` driver runs in a main-thread sidecar because native ODBC does not share the production worker lifecycle. Local Windows production uses the native ODBC sidecar; Azure production uses the pure-JavaScript driver.
 
 Source SQLite schemas under `packages/database/schema.sql` and `apps/advocate/database/schema.sql` are retained for compatibility, source migration and existing-data preservation. They are not the Azure SQL schemas. Keep app schemas in app directories and shared storage/runtime code in packages/database.
 
