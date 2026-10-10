@@ -4,8 +4,8 @@ const {createHash}=require('node:crypto');
 const {tables}=require('./catalog');
 const {migrations}=require('./sqlserver-migrations');
 function literal(value){if(value===null)return 'NULL';if(value instanceof Uint8Array)return '0x'+Buffer.from(value).toString('hex');if(typeof value==='number'){if(!Number.isFinite(value))throw Error('Invalid exported number');return String(value);}return "N'"+String(value).replaceAll("'","''")+"'";}
-function digest(rows){return createHash('sha256').update(JSON.stringify(rows.map(row=>Object.fromEntries(Object.entries(row).map(([key,value])=>[key,value instanceof Uint8Array?{blob:Buffer.from(value).toString('hex')}:value]))))).digest('hex');}
-function readTarget(db,meta){return db.native(`SELECT ${meta.columns.map(c=>'['+c.name+']').join(',')} FROM ${meta.qualified} ORDER BY ${meta.primary.map(c=>'['+c+']').join(',')}`);}
+function digest(rows){const canonical=rows.map(row=>JSON.stringify(Object.fromEntries(Object.keys(row).sort().map(key=>{const value=row[key];return [key,value instanceof Uint8Array?{blob:Buffer.from(value).toString('hex')}:value];})))).sort();return createHash('sha256').update(JSON.stringify(canonical)).digest('hex');}
+function readTarget(db,meta){return db.native(`SELECT ${meta.columns.map(c=>'['+c.name+']').join(',')} FROM ${meta.qualified} ORDER BY ${meta.primary.map(c=>'['+c+']').join(',')}`).map(row=>{for(const column of meta.columns){if(/\bINTEGER\b/i.test(column.definition)&&typeof row[column.name]==='string'){const value=Number(row[column.name]);if(!Number.isSafeInteger(value))throw Error('Migrated integer exceeds safe application range');row[column.name]=value;}}return row;});}
 function importSqlite(db,source){
  const resolved=path.resolve(source);if(!fs.existsSync(resolved))throw Error('SQLite migration source does not exist');
  const input=new DatabaseSync(resolved,{readOnly:true}),checks=[];
