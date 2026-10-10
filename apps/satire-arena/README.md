@@ -2,7 +2,7 @@
 
 Adapted from the user-owned Contempt Universe Arena without changing its source app, accounts or SQL Server data. Existing Arena vote history is not imported; this platform starts its own rounds.
 
-`frontend/` owns the six-character cartoon UI, reaction animations, private browser-selected state, pending-link confirmation, scoreboard, support link, export and removal controls. Shared platform headers/themes/footer apply; advertising is off. Artwork provenance is retained in ARTWORK.md.
+`frontend/` owns the nine-character cartoon UI, reaction animations, private browser-selected state, pending-link confirmation, scoreboard, support link, export and removal controls. Shared platform headers/themes/footer apply; advertising is off. Artwork provenance is retained in ARTWORK.md.
 
 `backend/edge.mjs` executes in the Cloudflare Worker before the Node proxy. `database/001-arena.sql` belongs exclusively to a dedicated Cloudflare D1 SQLite database. It is never registered with or applied to chambers.sqlite. The static page, picture and API all run without the laptop/tunnel. Other platform apps retain their existing deployment requirements.
 
@@ -17,3 +17,5 @@ Tests use an isolated in-memory SQLite database and a separate temporary test HT
 Arena expansion (2026-10-10): six characters and six reactions share `frontend/catalogue.mjs`. Garland/Applause count as Fans, Shoe/Middle finger/Tomato as Critics, and Just laughing as Amused. New characters use original code-authored SVG artwork, with no added external assets/services. Additive `002-expanded-arena.sql` preserves the original vote table and introduces expanded ballots plus a latest-ballot view. Atomic batches replace legacy votes on changes and remove both storage generations on deletion. The view deduplicates deployment-overlap ballots by timestamp and prioritizes expanded storage on ties. Apply both schema files to fresh development databases. Existing browser identities, signing secret, rate limits and IST rounds are unchanged.
 
 Portrait refresh (2026-10-10): the newer three characters now use original generated editorial caricatures in `frontend/extra-cast-v2.png`, matching the first trio. Recognizable visual references are Amit Shah, Mamata Banerjee and Nitish Kumar. Existing fictional names, parody labels, character IDs and ballots remain unchanged. The earlier SVG is retained as provenance, not the displayed artwork.
+
+Nine-character expansion: Saffron Sage (Yogi Adityanath visual reference), Cycle Captain (Akhilesh Yadav) and Lexicon Lord (Shashi Tharoor) use original generated `frontend/new-cast.png`. Apply additive `003-nine-character-arena.sql` before the updated Worker: it retains both earlier ballot tables and combines all three generations, deduplicating timestamp ties in favour of newer storage. Writes atomically remove this identity’s older same-day ballot before saving; removal covers all three tables. No signing key, identity or rate-limit change.

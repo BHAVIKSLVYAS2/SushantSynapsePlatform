@@ -1,9 +1,23 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),{fixture}=require('../apps/satire-arena/tests/fixture.cjs');
 const base='https://apps.sushantsynapse.com';
+test('nine-character migration retains older tables, deduplicates overlaps and removes all storage generations',async()=>{
+ const {arena}=await import('../apps/satire-arena/backend/edge.mjs'),{env,sqlite}=fixture(),now=new Date('2026-10-10T12:00:00Z');
+ const initial=await arena(new Request(base+'/api/satire-arena'),env,{now}),cookie=initial.headers.get('set-cookie').split(';')[0];
+ const ballot=await arena(new Request(base+'/api/satire-arena/saffron-sage/vote',{method:'PUT',headers:{Origin:base,Cookie:cookie,'Content-Type':'application/json'},body:JSON.stringify({round:'2026-10-10',reaction:'laugh'})}),env,{now});assert.equal(ballot.status,204);
+ const voter=sqlite.prepare('SELECT voter FROM arena_cast_votes').get().voter;
+ sqlite.prepare('INSERT INTO arena_votes VALUES(?,?,?,?,?)').run(voter,'namo-nimbus','2026-10-10','shoe',now.toISOString());
+ sqlite.prepare('INSERT INTO arena_expanded_votes VALUES(?,?,?,?,?)').run(voter,'namo-nimbus','2026-10-10','garland',now.toISOString());
+ sqlite.prepare('INSERT INTO arena_cast_votes VALUES(?,?,?,?,?)').run(voter,'namo-nimbus','2026-10-10','applause',now.toISOString());
+ sqlite.exec(require('node:fs').readFileSync('apps/satire-arena/database/003-nine-character-arena.sql','utf8'));
+ assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM arena_votes').get().n,1);assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM arena_expanded_votes').get().n,1);
+ assert.equal(sqlite.prepare("SELECT reaction FROM arena_all_votes WHERE character='namo-nimbus'").get().reaction,'applause');
+ assert.equal((await arena(new Request(base+'/api/satire-arena/mine',{method:'DELETE',headers:{Origin:base,Cookie:cookie,'X-Arena-Confirm':'DELETE'}}),env,{now})).status,204);
+ for(const table of ['arena_votes','arena_expanded_votes','arena_cast_votes'])assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM '+table).get().n,0);sqlite.close();
+});
 test('expanded choices preserve legacy ballots and neutral laughter never changes fan/critic totals',async()=>{
  const {arena}=await import('../apps/satire-arena/backend/edge.mjs'),{cast,reactions,tally}=await import('../apps/satire-arena/frontend/catalogue.mjs'),{env,sqlite}=fixture();const now=new Date('2026-10-10T12:00:00Z');sqlite.prepare('INSERT INTO arena_votes VALUES(?,?,?,?,?)').run('legacy-private-identity','namo-nimbus','2026-10-10','garland',now.toISOString());const initial=await arena(new Request(base+'/api/satire-arena'),env,{now}),cookie=initial.headers.get('set-cookie').split(';')[0];assert.equal((await initial.json()).characters[0].garland,1);
  for(const c of cast)for(const r of reactions){const response=await arena(new Request(base+'/api/satire-arena/'+c.id+'/vote',{method:'PUT',headers:{Origin:base,Cookie:cookie,'Content-Type':'application/json'},body:JSON.stringify({round:'2026-10-10',reaction:r.id})}),env,{now});assert.equal(response.status,204);}
- const result=await(await arena(new Request(base+'/api/satire-arena',{headers:{Cookie:cookie}}),env,{now})).json();assert.equal(result.characters.length,6);assert.deepEqual(tally(result.characters),{fans:1,critics:0,amused:6});assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM arena_all_votes').get().n,7);assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM arena_votes').get().n,1);sqlite.close();
+ const result=await(await arena(new Request(base+'/api/satire-arena',{headers:{Cookie:cookie}}),env,{now})).json();assert.equal(result.characters.length,9);assert.deepEqual(tally(result.characters),{fans:1,critics:0,amused:9});assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM arena_all_votes').get().n,10);assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM arena_votes').get().n,1);sqlite.close();
 });
 test('cloud ballots are unique, changeable, private, exportable and removable',async()=>{
  const {arena}=await import('../apps/satire-arena/backend/edge.mjs'),{env,sqlite}=fixture();const now=new Date('2026-10-10T12:00:00Z');let cookie='';const request=(path='',method='GET',body,extra={})=>new Request(base+'/api/satire-arena'+path,{method,headers:{Origin:base,Cookie:cookie,'Content-Type':'application/json',...extra},...(body?{body:JSON.stringify(body)}:{})});let response=await arena(request(),env,{now});cookie=response.headers.get('set-cookie').split(';')[0];assert.match(cookie,/__Host-arena=/);const baseline=await response.json();assert.equal(baseline.characters[0].garland,0);
