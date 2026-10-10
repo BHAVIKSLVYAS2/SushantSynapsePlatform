@@ -1,4 +1,5 @@
-export const characters=['namo-nimbus','rally-rohan','muffler-mohan'],reactions=['garland','shoe','finger'];
+import {cast,reactions as options} from '../frontend/catalogue.mjs';
+export const characters=cast.map(c=>c.id),reactions=options.map(r=>r.id);
 export function roundAt(now=new Date()){return new Date(now.getTime()+19800000).toISOString().slice(0,10);}
 const headers={'Content-Type':'application/json; charset=utf-8','Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff','Vary':'Cookie'};
 const encoder=new TextEncoder();
@@ -30,13 +31,13 @@ export async function arena(request,env,{now=new Date()}={}){
    let body;try{body=JSON.parse(raw);}catch{return reply({error:'Invalid ballot.'},400);}
    if(!body||Array.isArray(body)||Object.keys(body).some(key=>!['reaction','round'].includes(key))||!characters.includes(vote[1])||!reactions.includes(body.reaction))return reply({error:'Choose an available character and reaction.'},400);
    if(body.round!==round)return reply({error:'A new IST round has started. Refresh before reacting.'},409);
-   await db.prepare('INSERT INTO arena_votes(voter,character,round,reaction,updated_at) VALUES(?,?,?,?,?) ON CONFLICT(voter,character,round) DO UPDATE SET reaction=excluded.reaction,updated_at=excluded.updated_at').bind(voter,vote[1],round,body.reaction,now.toISOString()).run();return reply(null,204);
+   await db.batch([db.prepare('DELETE FROM arena_votes WHERE voter=? AND character=? AND round=?').bind(voter,vote[1],round),db.prepare('INSERT INTO arena_expanded_votes(voter,character,round,reaction,updated_at) VALUES(?,?,?,?,?) ON CONFLICT(voter,character,round) DO UPDATE SET reaction=excluded.reaction,updated_at=excluded.updated_at').bind(voter,vote[1],round,body.reaction,now.toISOString())]);return reply(null,204);
   }
   if(mine){
-   if(request.method==='DELETE'){if(request.headers.get('X-Arena-Confirm')!=='DELETE')return reply({error:'Confirm removal of your reactions.'},400);await db.prepare('DELETE FROM arena_votes WHERE voter=?').bind(voter).run();return reply(null,204);}
-   const rows=await db.prepare('SELECT character,round,reaction,updated_at FROM arena_votes WHERE voter=? ORDER BY round,character').bind(voter).all();return reply({scope:'This browser identity only',votes:rows.results},200,id.cookie);
+   if(request.method==='DELETE'){if(request.headers.get('X-Arena-Confirm')!=='DELETE')return reply({error:'Confirm removal of your reactions.'},400);await db.batch([db.prepare('DELETE FROM arena_votes WHERE voter=?').bind(voter),db.prepare('DELETE FROM arena_expanded_votes WHERE voter=?').bind(voter)]);return reply(null,204);}
+   const rows=await db.prepare('SELECT character,round,reaction,updated_at FROM arena_all_votes WHERE voter=? ORDER BY round,character').bind(voter).all();return reply({scope:'This browser identity only',votes:rows.results},200,id.cookie);
   }
-  const [counts,mineRows]=await db.batch([db.prepare('SELECT character,reaction,COUNT(*) AS count FROM arena_votes WHERE round=? GROUP BY character,reaction').bind(round),db.prepare('SELECT character,reaction FROM arena_votes WHERE round=? AND voter=?').bind(round,voter)]);
+  const [counts,mineRows]=await db.batch([db.prepare('SELECT character,reaction,COUNT(*) AS count FROM arena_all_votes WHERE round=? GROUP BY character,reaction').bind(round),db.prepare('SELECT character,reaction FROM arena_all_votes WHERE round=? AND voter=?').bind(round,voter)]);
   return reply({round,resetsAt:new Date(Date.parse(round+'T00:00:00+05:30')+86400000).toISOString(),votingMode:'browser',characters:characters.map(id=>({id,...Object.fromEntries(reactions.map(reaction=>[reaction,counts.results.find(row=>row.character===id&&row.reaction===reaction)?.count||0])),selected:mineRows.results.find(row=>row.character===id)?.reaction||null}))},200,id.cookie);
  }catch{return reply({error:'The shared arena could not be reached. Refresh to check whether your last reaction saved.'},503);}
 }
