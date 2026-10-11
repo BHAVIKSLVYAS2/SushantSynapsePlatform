@@ -1,6 +1,6 @@
 # Sushant Synapse Platform
 
-The selected [free Cloudflare deployment profile](docs/CLOUDFLARE_FREE_DEPLOYMENT.md) uses existing email/password accounts, Chambers on D1, private documents up to 1 MB each / 100 MB total, and hard application limits. Heavy private workflows remain disabled. Workers Free is owner-confirmed. Password login and exact document downloads pass real cloud staging checks; production cutover status is recorded in the functionality ledger. No OTP, verified email ownership or Access allow-list is required.
+The selected [free Cloudflare deployment profile](docs/CLOUDFLARE_FREE_DEPLOYMENT.md) is deployed at **https://apps.sushantsynapse.com** with existing email/password accounts, Chambers on D1, private documents up to 1 MB each / 100 MB total, and hard application limits. Heavy private workflows remain disabled. Workers Free is owner-confirmed. The cloud backend runs without the laptop. No OTP, verified email ownership or Access allow-list is required. Deployment and verification evidence are recorded in the functionality ledger.
 
 A Cloudflare-native backend is prepared for **Workers + D1 + private R2**, with local integration tests and verified migration/recovery tooling. It uses a separate staging Worker configuration; the current production Node/SQL Server backend remains in place. Start with [the Cloudflare migration guide](docs/CLOUDFLARE_FULLSTACK.md) and `npm.cmd run test:cloudflare`.
 
@@ -8,7 +8,7 @@ Current URLs: certificates at `/moment-studio`, greeting/remembrance cards at `/
 
 All served apps use one persistent platform header with searchable app switching, theme and account controls. App actions and navigation sit inside that frame. Home provides uniform launcher cards, public/private access labels and app search; Chambers uses a compact practice overview. Saved light/dark/system themes remain shared, including Moment Studio. App-specific content, printable records and exported artwork retain their owning layouts.
 
-The local backend uses **one SQL Server LocalDB database, `SushantSynapsePlatform`, with eight separate schemas**, including Satire Arena's `satire`. The flow is UI → Node API → local SQL Server. Cloudflare serves frontend assets and forwards API requests; no D1 binding is configured. Azure migration remains a later step. SQLite files are retained as migration/recovery sources. See [SQL Server setup and recovery](docs/SQLSERVER_MIGRATION.md).
+The retained local backend uses **one SQL Server LocalDB database, `SushantSynapsePlatform`, with eight separate schemas**, including Satire Arena's `satire`. Local flow remains UI → Node API → SQL Server. Production now uses Cloudflare Workers → D1 directly, with no forwarding of private APIs to the laptop. SQL Server, SQLite recovery files and legacy JSON remain preserved; cloud writes do not synchronize back to the old source. See [SQL Server setup and recovery](docs/SQLSERVER_MIGRATION.md).
 
 WhatsApp contact is available through `/contact`, `/support` and `/sponsor`. Submitting a form opens WhatsApp with combined details; visitors review the draft and press Send. Shared navigation and homepage links expose Support Us and Watch demos. Forms are not saved by the platform; payment settings remain separate.
 

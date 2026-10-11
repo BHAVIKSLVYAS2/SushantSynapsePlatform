@@ -1,6 +1,8 @@
-# Free cloud deployment preparation
+# Free D1 cloud deployment
 
 The user selected free limits with reduced features on 2026-10-11, then authorized D1 document changes, commit and deployment. The user subsequently chose existing email/password login without OTP or email verification and confirmed **Workers Free**. Real cloud staging verifies password login, exact 1 MB document downloads, payment concurrency, logout revocation, and all 54 source tables / 328 rows. Production cutover evidence is recorded in the functionality ledger.
+
+**Production is live at https://apps.sushantsynapse.com**, using D1 database `synapse-platform-free-production` and `wrangler.free.production.jsonc`. `/healthz` reports `storage: d1-free`. The backend does not forward private APIs to the laptop. Existing local databases remain preserved recovery sources; cloud changes do not synchronize back to them. Temporary staging workers.dev access was disabled after verification. `npm.cmd run deploy:frontend` now publishes the Free D1 production configuration and retains the existing Arena secret.
 
 The target is Workers **Free**, D1 **Free**, static assets, and existing password sign-in. No R2 bucket, Workers Paid upgrade, paid login service, paid logs, or payment enrollment is performed by the code. Account plans are shared with other applications: deploying this configuration to an already-paid account does not make its usage free.
 
@@ -25,10 +27,10 @@ The rejected complete backend would need Workers Paid (US$5/month minimum), with
 
 Sources checked 2026-10-11: [Workers pricing](https://developers.cloudflare.com/workers/platform/pricing/), [Workers limits](https://developers.cloudflare.com/workers/platform/limits/), [D1 pricing](https://developers.cloudflare.com/d1/platform/pricing/), [D1 quota errors](https://developers.cloudflare.com/d1/reference/faq/), [Zero Trust onboarding](https://developers.cloudflare.com/learning-paths/clientless-access/initial-setup/create-zero-trust-org/), [Zero Trust plans](https://www.cloudflare.com/plans/zero-trust-services/), [R2 pricing](https://developers.cloudflare.com/r2/pricing/), [automatic billing](https://developers.cloudflare.com/billing/understand/how-billing-works/).
 
-## Remaining deployment steps
+## Deployment and recovery procedure
 
 1. Owner confirms **Workers Free** in the dashboard (confirmed 2026-10-11). Current OAuth credentials authenticate successfully but cannot read subscriptions; Standard usage-model metadata is not proof of Free billing. R2 is not enabled. Do not upgrade or cancel other account services automatically.
-2. Select a separate staging hostname first; do not replace the production route before acceptance. The user's latest commit/deploy instruction authorizes this work.
+2. Select a separate staging hostname first; do not replace the production route before acceptance. The user's latest commit/deploy instruction authorizes this work. Staging workers.dev access is currently disabled; enable it explicitly only during future staging acceptance and close it afterwards.
 3. Keep `AUTH_METHOD=password` and the `AUTH_LIMITER` binding. Preserve source hashes and account IDs during import. Setup is protected by a secret and cannot run when source accounts exist; no new password or verified email is required for migrated accounts.
 4. Create a **new** staging D1 database, set its UUID and exact HTTPS `PUBLIC_ORIGIN`, then apply `d1-free-migrations`. There are no R2 bindings. Use the free configuration, not `wrangler.fullstack.jsonc`.
 5. Export the authoritative SQL Server source using the existing full backup command. Run `node infrastructure/cloudflare/free-import.cjs --bundle <full-bundle> --output <new-directory>`. This validates the full backup and produces D1-only SQL plus an omission report without changing source data. It imports eligible Chambers document bytes, using statements below D1's 100 KB SQL limit. It refuses excess record/account/aggregate document capacity rather than truncating records. Keep the full bundle securely for omitted original files and disabled apps.
