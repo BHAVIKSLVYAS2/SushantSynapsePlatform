@@ -63,3 +63,17 @@
 @media(max-width:760px){.totals{gap:8px}.score-team{padding:12px 8px;gap:8px}.score-team>span{font-size:26px}.score-team>div>span{font-size:11px}.score-team strong{font-size:30px}.score-team small{font-size:9px}.score-bottom .actions{width:100%;justify-content:flex-start}.score-bottom .actions button{flex:1;font-size:12px}.mini-score{gap:8px;padding:10px 12px}.mini-score>a{flex-basis:100%;font-size:12px}.mini-score small{font-size:10px}.lineup-heading{align-items:flex-start;flex-direction:column;gap:0}.reactions button{min-height:80px;padding:12px}.reactions b{font-size:12px}.reactions span{font-size:28px}.reactions strong{font-size:18px}.arena .hero h1{font-size:clamp(40px,10vw,58px)}}
 @media(prefers-reduced-motion:reduce){.reaction-toast{animation:none}.meter span{transition:none}}
 @media print{.mini-score,.reaction-toast,.card-meta button,#share-arena,#spotlight{display:none!important}}
+/* Compact reaction tray: six visible choices, two rows, comfortable touch targets. */
+@media screen {
+ body[data-ui-app=satire-arena] .score-team>div>span{color:var(--text)}
+ body[data-ui-app=satire-arena] .reactions{gap:6px;margin:10px 0 8px}
+ body[data-ui-app=satire-arena] .reactions button{min-height:48px;padding:6px;gap:2px;border-radius:10px;grid-template-columns:20px minmax(0,1fr);align-content:center}
+ body[data-ui-app=satire-arena] .reactions span{font-size:20px;line-height:1}
+ body[data-ui-app=satire-arena] .reactions strong{min-width:0;font-size:12px;line-height:1.2;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;text-align:right}
+ body[data-ui-app=satire-arena] .reactions b{font-size:10px;line-height:1.3;letter-spacing:0;white-space:normal}
+ body[data-ui-app=satire-arena] .reactions button[aria-pressed=true] :is(b,strong){color:var(--text)}
+ body[data-ui-app=satire-arena] .reactions button[aria-pressed=true]:after{display:none}
+ body[data-ui-app=satire-arena] .choice-badge{padding:4px 9px;margin:2px 0;font-size:10px}
+ body[data-ui-app=satire-arena] .card-meta{margin:10px 0}
+ body[data-ui-app=satire-arena] .card-body .vote-state{margin-top:6px;line-height:1.5}
+}
