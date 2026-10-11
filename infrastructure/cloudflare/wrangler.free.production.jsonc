@@ -1,0 +1,21 @@
+{
+ "$schema":"../../node_modules/wrangler/config-schema.json",
+ "name":"sushant-synapse-frontend-production",
+ "main":"fullstack-worker.mjs",
+ "compatibility_date":"2026-10-01",
+ "compatibility_flags":["nodejs_compat"],
+ "workers_dev":false,
+ "preview_urls":false,
+ "routes":[{"pattern":"apps.sushantsynapse.com/*","zone_name":"sushantsynapse.com"}],
+ "build":{"command":"node build.cjs --fullstack","cwd":"infrastructure/cloudflare"},
+ "assets":{"directory":"./dist","binding":"ASSETS","html_handling":"none","not_found_handling":"none","run_worker_first":true},
+ "vars":{"PUBLIC_ORIGIN":"https://apps.sushantsynapse.com","MAINTENANCE_MODE":"false","FREE_MODE":"true","AUTH_METHOD":"password"},
+ "d1_databases":[{"binding":"PLATFORM_DB","database_name":"synapse-platform-free-production","database_id":"4fd0fa38-63c1-46e0-8628-0841d8074dcf","migrations_dir":"d1-free-migrations"}],
+ "ratelimits":[
+  {"name":"AUTH_LIMITER","namespace_id":"2026101108","simple":{"limit":6,"period":60}},
+  {"name":"NEWS_LIMITER","namespace_id":"2026100101","simple":{"limit":6,"period":60}},
+  {"name":"FUND_LIMITER","namespace_id":"2026100703","simple":{"limit":30,"period":60}},
+  {"name":"ARENA_LIMITER","namespace_id":"2026101001","simple":{"limit":30,"period":60}}
+ ],
+ "observability":{"enabled":false}
+}

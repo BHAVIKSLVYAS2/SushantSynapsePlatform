@@ -65,8 +65,24 @@ test('free import preserves the full recovery bundle and refuses excess records'
   const excess=path.join(root,'excess');createBundle(reader,excess,'isolated-test');assert.throws(()=>prepareFreeImport(excess,path.join(root,'rejected')),/exceeds free workspace capacity/);assert.equal(fs.existsSync(path.join(root,'rejected')),false);
  }finally{db.close();fs.rmSync(root,{recursive:true,force:true});}
 });
+test('native free Worker preserves password login without Access or R2',async()=>{
+ const {scryptSync}=require('node:crypto'),password='existing-password-123',salt='0123456789abcdef0123456789abcdef';
+ const worker={name:'password-free',modules:true,scriptPath:path.resolve(process.env.SYNAPSE_FREE_BUNDLE||'infrastructure/cloudflare/.publish/fullstack-dryrun/fullstack-worker.js'),compatibilityDate:'2026-10-01',compatibilityFlags:['nodejs_compat'],d1Databases:{PLATFORM_DB:'isolated-password-free'},bindings:{PUBLIC_ORIGIN:origin,FREE_MODE:'true',AUTH_METHOD:'password'},ratelimits:{AUTH_LIMITER:{namespace_id:'7',simple:{limit:10000,period:60}}}};
+ const options={workers:[worker]},mf=new Miniflare(convertV4MiniflareOptions?convertV4MiniflareOptions(options):options);let cookie='';
+ const api=async(route,method='GET',body)=>mf.dispatchFetch(origin+'/api/'+route,{method,headers:{'Content-Type':'application/json',Cookie:cookie},body:body===undefined?undefined:JSON.stringify(body)});
+ try{
+  const db=await mf.getD1Database('PLATFORM_DB');for(const file of ['0001-platform.sql','0002-free-guards.sql','0003-document-blobs.sql'])await db.batch(statements(fs.readFileSync('infrastructure/cloudflare/d1-free-migrations/'+file,'utf8')).map(s=>db.prepare(s)));
+  const stored=salt+':'+scryptSync(password,salt,64).toString('hex');await db.prepare('INSERT INTO users VALUES(?,?,?,?,?,1)').bind('owner','Owner','arbitrary@example.test','Owner',stored).run();
+  assert.equal((await api('state')).status,401);assert.equal((await api('auth/login','POST',{email:'arbitrary@example.test',password:'wrong'})).status,401);
+  const login=await api('auth/login','POST',{email:'arbitrary@example.test',password});assert.equal(login.status,200);cookie=login.headers.get('Set-Cookie').split(';')[0];assert.match(login.headers.get('Set-Cookie'),/HttpOnly; Secure; SameSite=Strict/);
+  const state=await api('state');assert.equal(state.status,200);assert.equal((await state.json()).capabilities.authMethod,'password');assert.equal((await db.prepare('SELECT password FROM users').first()).password,stored);
+  assert.equal((await api('users','POST',{name:'Staff',email:'not-owned@example.test',role:'Clerk',password,appIds:[]})).status,201);
+  await db.prepare("UPDATE users SET active=0 WHERE id='owner'").run();assert.equal((await api('state')).status,401);
+ }finally{await mf.dispose();}
+});
+
 test('native free Worker keeps Chambers secure and stops atomic writes at capacity',async t=>{
- const worker={name:'free',modules:true,scriptPath:path.resolve(process.env.SYNAPSE_FREE_BUNDLE||'infrastructure/cloudflare/.publish/fullstack-dryrun/fullstack-worker.js'),compatibilityDate:'2026-10-01',compatibilityFlags:['nodejs_compat'],d1Databases:{PLATFORM_DB:'isolated-free'},bindings:{PUBLIC_ORIGIN:origin,FREE_MODE:'true',ACCESS_TEAM_DOMAIN:issuer,ACCESS_AUD:audience},outboundService:async request=>{assert.equal(new URL(request.url).origin,issuer);return Response.json({keys:[jwk]});},serviceBindings:{ASSETS:async request=>{const p=new URL(request.url).pathname,target=path.resolve('infrastructure/cloudflare/dist','.'+p);return fs.existsSync(target)?new Response(fs.readFileSync(target),{headers:{'Content-Type':mime(p)}}):new Response('Not found',{status:404});}}};
+ const worker={name:'free',modules:true,scriptPath:path.resolve(process.env.SYNAPSE_FREE_BUNDLE||'infrastructure/cloudflare/.publish/fullstack-dryrun/fullstack-worker.js'),compatibilityDate:'2026-10-01',compatibilityFlags:['nodejs_compat'],d1Databases:{PLATFORM_DB:'isolated-free'},bindings:{PUBLIC_ORIGIN:origin,FREE_MODE:'true',AUTH_METHOD:'access',ACCESS_TEAM_DOMAIN:issuer,ACCESS_AUD:audience},outboundService:async request=>{assert.equal(new URL(request.url).origin,issuer);return Response.json({keys:[jwk]});},serviceBindings:{ASSETS:async request=>{const p=new URL(request.url).pathname,target=path.resolve('infrastructure/cloudflare/dist','.'+p);return fs.existsSync(target)?new Response(fs.readFileSync(target),{headers:{'Content-Type':mime(p)}}):new Response('Not found',{status:404});}}};
  const options={workers:[worker]},mf=new Miniflare(convertV4MiniflareOptions?convertV4MiniflareOptions(options):options);
  const api=async(route,method='GET',body,token=jwt())=>{const r=await mf.dispatchFetch(origin+'/api/'+route,{method,headers:{'Content-Type':'application/json',...(token?{'Cf-Access-Jwt-Assertion':token}:{})},body:body===undefined?undefined:JSON.stringify(body)});return {status:r.status,data:await r.json()};};
  try{

@@ -26,9 +26,10 @@ export async function edgeApi(request,env){
   if(url.pathname==='/healthz'&&request.method==='GET'){await repo.first('SELECT id FROM users LIMIT 1');return json({status:'ok',storage:free?'d1-free':'d1-r2',documents:true});}
   if(!url.pathname.startsWith('/api/'))fail(404,'Not found');const route=url.pathname.slice(5);
   if(free&&(/^(digital-samaj|batchfee-lite|tournament-lite|news|fund-overlap)(\/|$)/.test(route)||route==='ritual-assist/calendar'||/^(backup|backup.sql|restore)(\/|$)/.test(route)))fail(503,'This feature is unavailable in the free cloud workspace.');
-  const user=free?await accessSession(request,repo,env):await session(request,repo),files=free?new D1PrivateFiles(repo):new PrivateFiles(env.PRIVATE_FILES,repo),context={request,route,user,repo,files,env};let result;
+  const useAccess=env.AUTH_METHOD==='access';
+  const user=useAccess?await accessSession(request,repo,env):await session(request,repo),files=free?new D1PrivateFiles(repo):new PrivateFiles(env.PRIVATE_FILES,repo),context={request,route,user,repo,files,env};let result;
   if(route==='satire-arena'||route.startsWith('satire-arena/'))result=await arena(request,{...env,ARENA_DB:env.PLATFORM_DB});
-  else if(route.startsWith('auth/')||route==='users'||route.startsWith('users/'))result=await (free?accessAuth:auth)(context);
+  else if(route.startsWith('auth/')||route==='users'||route.startsWith('users/'))result=await (useAccess?accessAuth:auth)(context);
   else if(route==='platform'||route.startsWith('platform/')||route==='support')result=await portal(context);
   else if(route==='ritual-assist/calendar')result=await ritual(context);
   else if(route==='batchfee-lite'||route.startsWith('batchfee-lite/'))result=await batchfee(context);

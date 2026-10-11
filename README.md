@@ -1,6 +1,6 @@
 # Sushant Synapse Platform
 
-The selected [free Cloudflare deployment profile](docs/CLOUDFLARE_FREE_DEPLOYMENT.md) prepares Chambers on D1 with email-code login, private documents up to 1 MB each / 100 MB total, and hard application limits. Heavy private workflows remain disabled. Commit and deployment are authorized; Free-plan confirmation and Access setup remain pending, and production has not switched.
+The selected [free Cloudflare deployment profile](docs/CLOUDFLARE_FREE_DEPLOYMENT.md) uses existing email/password accounts, Chambers on D1, private documents up to 1 MB each / 100 MB total, and hard application limits. Heavy private workflows remain disabled. Workers Free is owner-confirmed. Password login and exact document downloads pass real cloud staging checks; production cutover status is recorded in the functionality ledger. No OTP, verified email ownership or Access allow-list is required.
 
 A Cloudflare-native backend is prepared for **Workers + D1 + private R2**, with local integration tests and verified migration/recovery tooling. It uses a separate staging Worker configuration; the current production Node/SQL Server backend remains in place. Start with [the Cloudflare migration guide](docs/CLOUDFLARE_FULLSTACK.md) and `npm.cmd run test:cloudflare`.
 

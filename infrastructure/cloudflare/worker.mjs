@@ -19,6 +19,7 @@ function unavailable(method) {
 // would change fetch(request) routing and must not replace this configuration.
 export async function handle(request, env, originFetch = fetch, sourceOptions = {}) {
   const url = new URL(request.url), pathname = url.pathname;
+  if(env.MAINTENANCE_MODE==='true'&&(pathname.startsWith('/api/')||pathname==='/healthz'))return new Response(JSON.stringify({error:'The workspace is undergoing maintenance. Please try again shortly.'}),{status:503,headers:{...security,'Content-Type':'application/json; charset=utf-8','Retry-After':'60'}});
   const arenaRoute=pathname === '/api/satire-arena' || pathname.startsWith('/api/satire-arena/');
   if(arenaRoute && url.hostname==='apps.sushantsynapse.com' && ['PUT','DELETE'].includes(request.method)){
     if(!env.ARENA_LIMITER)return unavailable(request.method);
