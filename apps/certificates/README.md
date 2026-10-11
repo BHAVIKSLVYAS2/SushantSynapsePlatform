@@ -1,5 +1,9 @@
 # Appreciation Certificate Generator
 
+Current page: `/moment-studio`. The old `/certificates` page/assets are removed. Tests in this workspace now exercise the current route; legacy-URL notes below are historical.
+
+The active implementation is owned by `apps/moment-studio/frontend`. `/certificates` and its asset URLs remain compatibility aliases. This workspace retains browser tests; the superseded frontend source was removed on 2026-10-11. The older feature notes below describe historical behavior; see `apps/moment-studio/README.md` for current scope.
+
 Certificate Type includes a Fun & personal awards group: Best Friend, Best Wife, Best Husband, Best Partner, Best Mom, Best Dad, Best Sibling, Office MVP, Chai Champion and Legendary Latecomer. These provide humorous suggested titles, descriptions and messages. Enter a recipient and leave the description blank to use the suggestion, or personalize the wording. Custom text is preserved when switching types. All eight designs and PDF/PNG/print use the same award wording.
 
 Open `/certificates` after starting or restarting the platform with `npm.cmd start`. No login is needed. Enter recipient, contribution and date, choose a template, generate, then download PDF/PNG or print. Optional fields and images expand inline. Edits update the preview and require Generate again before downloading.

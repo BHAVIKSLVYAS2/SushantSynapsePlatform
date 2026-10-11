@@ -1,5 +1,7 @@
 # Sushant Synapse Platform
 
+Current URLs: certificates at `/moment-studio`, greeting/remembrance cards at `/moment-studio/cards`, and Garland or Roast at `/satire-arena`. The old `/certificates`, `/celebration-studio` and `/arena` URLs/assets have been removed locally; old bookmarks will return 404 after deployment. Occasion links use `/moment-studio/cards?occasion=...`. Saved favourites/history retain app-ID migration mappings.
+
 All served apps use one persistent platform header with searchable app switching, theme and account controls. App actions and navigation sit inside that frame. Home provides uniform launcher cards, public/private access labels and app search; Chambers uses a compact practice overview. Saved light/dark/system themes remain shared, including Moment Studio. App-specific content, printable records and exported artwork retain their owning layouts.
 
 The local backend uses **one SQL Server LocalDB database, `SushantSynapsePlatform`, with eight separate schemas**, including Satire Arena's `satire`. The flow is UI → Node API → local SQL Server. Cloudflare serves frontend assets and forwards API requests; no D1 binding is configured. Azure migration remains a later step. SQLite files are retained as migration/recovery sources. See [SQL Server setup and recovery](docs/SQLSERVER_MIGRATION.md).

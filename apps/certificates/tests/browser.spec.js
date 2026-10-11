@@ -7,7 +7,7 @@ test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-certi
 test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
 test('anonymous local generation, all designs, exports, privacy and responsive print',async({page})=>{
  const errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r.url()));
- await page.goto(base+'/certificates');await expect(page.locator('#certificate')).toBeVisible();
+ await page.goto(base+'/moment-studio');await expect(page.locator('#certificate')).toBeVisible();
  await page.getByRole('button',{name:'Generate certificate'}).click();await expect(page.locator('#downloads')).toBeHidden();
  await page.getByLabel('Recipient Name',{exact:true}).fill('Aarav Sharma');await page.getByLabel('Appreciation / Contribution Description').fill('supporting education for children in our community');
  await page.getByLabel('Organization Name').fill('The Kindness Foundation');
@@ -29,7 +29,7 @@ test('anonymous local generation, all designs, exports, privacy and responsive p
 });
 
 test('fun awards provide wording and preserve personal edits when switching types',async({page})=>{
- await page.goto(base+'/certificates');
+ await page.goto(base+'/moment-studio');
  await page.getByLabel('Recipient Name',{exact:true}).fill('Priya');
  for(const name of ['Best Friend','Best Wife','Best Husband','Best Partner','Best Mom','Best Dad','Best Sibling','Office MVP','Chai Champion','Legendary Latecomer']){
   await page.getByLabel('Certificate Type').selectOption(name);
@@ -54,7 +54,7 @@ test('fun awards provide wording and preserve personal edits when switching type
 });
 
 test('curated playful designs and lossless PNG densities',async({page})=>{
- await page.goto(base+'/certificates');
+ await page.goto(base+'/moment-studio');
  await expect(page.locator('[name=type] option')).toHaveCount(17);
  for(const name of ['Social Service','Sponsorship Appreciation','Outstanding Contribution','Custom'])await expect(page.locator('[name=type] option').filter({hasText:new RegExp('^'+name+'$')})).toHaveCount(0);
  await page.getByLabel('Recipient Name',{exact:true}).fill('Priya Sharma');
@@ -82,7 +82,7 @@ test('curated playful designs and lossless PNG densities',async({page})=>{
 });
 
 test('saved organisations restore branding only and can be reused and deleted',async({page})=>{
- await page.goto(base+'/certificates');
+ await page.goto(base+'/moment-studio');
  await page.getByLabel('Organization Name').fill('Community Trust');
  await page.getByLabel('Recipient Name',{exact:true}).fill('Private recipient');
  await page.getByLabel('Appreciation / Contribution Description').fill('Private contribution');
@@ -103,11 +103,11 @@ test('saved organisations restore branding only and can be reused and deleted',a
  await page.getByRole('button',{name:'Delete saved organisation',exact:true}).click();await expect(page.locator('#organisation-status')).toContainText('deleted');await expect(page.locator('#saved-organisation option')).toHaveCount(2);
  await page.reload();await expect(page.getByLabel('Organization Name')).toHaveValue('');
  await expect(page.locator('#certificate-disclaimer')).toContainText('Issuer is responsible for content');
- const disclaimers=await page.evaluate(async()=>{const {render,templates,disclaimer}=await import('/certificates/renderer.js');return templates.map(template=>{const c=document.createElement('canvas'),ctx=c.getContext('2d'),texts=[];const fill=ctx.fillText.bind(ctx);ctx.fillText=(text,...args)=>{texts.push(text);fill(text,...args);};render(c,{template},{},3508/1122);return texts.includes(disclaimer);});});expect(disclaimers).toEqual(Array(5).fill(true));
+ const disclaimers=await page.evaluate(async()=>{const {render,templates,disclaimer}=await import('/moment-studio/certificate-renderer.mjs');return templates.map(template=>{const c=document.createElement('canvas'),ctx=c.getContext('2d'),texts=[];const fill=ctx.fillText.bind(ctx);ctx.fillText=(text,...args)=>{texts.push(text);fill(text,...args);};render(c,{template},{},3508/1122);return texts.includes(disclaimer);});});expect(disclaimers).toEqual(Array(5).fill(true));
 });
 
 test('invalid and unavailable browser storage do not block certificate creation',async({page})=>{
- await page.goto(base+'/certificates');await page.evaluate(()=>localStorage.setItem('synapse.certificates.organisations.v1','{bad JSON'));await page.reload();
+ await page.goto(base+'/moment-studio');await page.evaluate(()=>localStorage.setItem('synapse.certificates.organisations.v1','{bad JSON'));await page.reload();
  await expect(page.locator('#organisation-status')).toContainText('could not be read');
  await page.getByLabel('Organization Name').fill('Local organisation');
  await page.evaluate(()=>{Storage.prototype.setItem=function(){throw new DOMException('Full','QuotaExceededError');};});
@@ -116,9 +116,9 @@ test('invalid and unavailable browser storage do not block certificate creation'
 });
 
 test('maximum-length and multilingual text stays within the certificate content areas',async({page})=>{
- await page.goto(base+'/certificates');
+ await page.goto(base+'/moment-studio');
  const result=await page.evaluate(async()=>{
-  const {render,templates}=await import('/certificates/renderer.js');const failures=[];
+  const {render,templates}=await import('/moment-studio/certificate-renderer.mjs');const failures=[];
   for(const template of templates){const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d'),original=ctx.fillText.bind(ctx);ctx.fillText=(text,x,y)=>{const width=ctx.measureText(text).width,left=ctx.textAlign==='left'?x:x-width/2;if(left<70||left+width>1052||y<60||y>785)failures.push({template,text,x,y,width});original(text,x,y);};
    render(canvas,{template,type:'Donation Appreciation',donationAmount:'999999999.99',accent:'plum',recipient:'आदित्य शर्मा '.repeat(8).slice(0,100),organization:'Community '.repeat(10),title:'Appreciation '.repeat(6),description:'W'.repeat(400),message:'Grateful for your thoughtful service. '.repeat(7).slice(0,250),signatory:'A'.repeat(70),designation:'Director '.repeat(8).slice(0,70),location:'Maharashtra '.repeat(7).slice(0,80),reference:'SS-2026-'+'X'.repeat(32),date:'2026-09-27'},{},1);
   }return failures;
@@ -127,8 +127,8 @@ test('maximum-length and multilingual text stays within the certificate content 
 
 
 test('optional donation amounts use exact Indian wording and stay out of other types',async({page})=>{
- await page.goto(base+'/certificates');
- const amounts=await page.evaluate(async()=>{const {donationAmount}=await import('/certificates/renderer.js');return ['5000','100000','10000000','1.01','0.50','999999999.99','','0','-1','1.001','1e3','1000000000'].map(donationAmount);});
+ await page.goto(base+'/moment-studio');
+ const amounts=await page.evaluate(async()=>{const {donationAmount}=await import('/moment-studio/certificate-renderer.mjs');return ['5000','100000','10000000','1.01','0.50','999999999.99','','0','-1','1.001','1e3','1000000000'].map(donationAmount);});
  expect(amounts.slice(0,6)).toEqual([
   {number:'₹5,000',words:'Five Thousand Rupees Only'},
   {number:'₹1,00,000',words:'One Lakh Rupees Only'},
@@ -148,11 +148,11 @@ test('optional donation amounts use exact Indian wording and stay out of other t
 });
 
 test('donation panel is exclusive and type changes discard the amount',async({page})=>{
- await page.goto(base+'/certificates');await page.getByLabel('Recipient Name',{exact:true}).fill('Aarav Sharma');await page.getByLabel('Organization Name').fill('The Kindness Foundation');await page.getByLabel('Appreciation / Contribution Description').fill('education and brighter futures for children in our community');
+ await page.goto(base+'/moment-studio');await page.getByLabel('Recipient Name',{exact:true}).fill('Aarav Sharma');await page.getByLabel('Organization Name').fill('The Kindness Foundation');await page.getByLabel('Appreciation / Contribution Description').fill('education and brighter futures for children in our community');
  await page.locator('[name=donationAmount]').fill('5000');await expect(page.locator('#preview-description')).not.toContainText('5,000');
  await page.locator('#certificate').screenshot({path:'test-results/donation-refined-classic.png'});
  const rendering=await page.evaluate(async()=>{
-  const {render,templates}=await import('/certificates/renderer.js');const types=[...document.querySelectorAll('[name=type] option')].map(o=>o.value),results=[];
+  const {render,templates}=await import('/moment-studio/certificate-renderer.mjs');const types=[...document.querySelectorAll('[name=type] option')].map(o=>o.value),results=[];
   for(const template of templates)for(const type of types){const c=document.createElement('canvas'),ctx=c.getContext('2d'),texts=[];ctx.fillText=(text)=>texts.push(text);render(c,{template,type,donationAmount:'5000'},{},1);results.push({template,type,numbers:texts.filter(t=>t.includes('₹5,000')).length,words:texts.filter(t=>t.includes('Five Thousand')).length,panel:texts.includes('DONATION · INR')});}return results;
  });
  for(const row of rendering){const present=row.type==='Donation Appreciation';expect(row.numbers).toBe(present?1:0);expect(row.words).toBe(present?1:0);expect(row.panel).toBe(present);}

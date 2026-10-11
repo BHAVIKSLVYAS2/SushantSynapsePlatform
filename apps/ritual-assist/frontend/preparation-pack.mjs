@@ -1,6 +1,5 @@
 import {calendarRows,calendarText} from './panchang.mjs';
 import {guides,checklistText,scope} from './guides.mjs';
-import {occasionTitle} from './calendar-export.mjs';
 
 export const packGuides=guides.filter(guide=>guide.category==='ashubh'||guide.id==='havan');
 export const defaultPackGuides=['prarthana-sabha','day-10','day-11','day-12','shraddha'];
@@ -17,5 +16,3 @@ export function packText(pack,{checked=new Set(),assignments=[]}={}){
  for(const guide of pack.guides){lines.push('\n'+checklistText(guide,language,new Set(guide.items.filter(item=>checked.has(guide.id+':'+item.id)).map(item=>item.id))));}
  lines.push('',hi?'चेक और जिम्मेदारियाँ इसी टैब में हैं। फ़ाइल साझा करने पर उसमें शामिल विवरण भी साझा होंगे।':'Checks and assignments stay in this tab. Sharing this file also shares its included details.');return lines.join('\n');
 }
-
-export function scheduleLabel(row,language){return occasionTitle(row,language)+(row.conditional?(language==='hi'?' · पुष्टि आवश्यक':' · confirmation required'):'');}

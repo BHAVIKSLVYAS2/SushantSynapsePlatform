@@ -2,7 +2,7 @@ import {newsSources} from './news-sources.mjs';
 import {fundSources} from './fund-sources.mjs';
 import pages from './pages.json' with {type: 'json'};
 import adsense from '../../packages/ui/adsense.cjs';
-const independent = new Set(['/satire-arena','/satire-arena/','/arena','/arena/','/privacy', '/privacy/', '/terms', '/terms/', '/contact', '/contact/', '/legal', '/legal/', '/legal/third-party-notices', '/legal/third-party-notices/', '/showcase', '/showcase/', '/support', '/support/', '/ritual-assist', '/ritual-assist/', '/ritual-assist/calendar', '/ritual-assist/calendar/', '/take-a-break', '/take-a-break/', '/sponsor', '/sponsor/', '/moment-studio', '/moment-studio/', '/moment-studio/cards', '/moment-studio/cards/', '/moment-studio/certificates', '/moment-studio/certificates/', '/pocket-pause', '/pocket-pause/', '/team-mixer', '/team-mixer/', '/celebration-studio', '/celebration-studio/', '/decision-wheel', '/decision-wheel/', '/daily-spark', '/daily-spark/', '/', '/fund-overlap', '/news', '/certificates', '/certificates/', '/timetable-lite', '/timetable-lite/']);
+const independent = new Set(['/satire-arena','/satire-arena/','/privacy', '/privacy/', '/terms', '/terms/', '/contact', '/contact/', '/legal', '/legal/', '/legal/third-party-notices', '/legal/third-party-notices/', '/showcase', '/showcase/', '/support', '/support/', '/ritual-assist', '/ritual-assist/', '/ritual-assist/calendar', '/ritual-assist/calendar/', '/take-a-break', '/take-a-break/', '/sponsor', '/sponsor/', '/moment-studio', '/moment-studio/', '/moment-studio/cards', '/moment-studio/cards/', '/moment-studio/certificates', '/moment-studio/certificates/', '/pocket-pause', '/pocket-pause/', '/team-mixer', '/team-mixer/', '/decision-wheel', '/decision-wheel/', '/daily-spark', '/daily-spark/', '/', '/fund-overlap', '/news', '/timetable-lite', '/timetable-lite/']);
 const security = {
   'Strict-Transport-Security': 'max-age=3600',
   'X-Synapse-Frontend': 'cloudflare',
@@ -40,8 +40,7 @@ export async function handle(request, env, originFetch = fetch, sourceOptions = 
   }
   if (!['GET', 'HEAD'].includes(request.method)) return new Response('Method not allowed', {status: 405, headers: {...security, Allow: 'GET, HEAD'}});
   const canonical = ['/news/', '/advocate/', '/fund-overlap/', '/signin/'].includes(pathname) ? pathname.slice(0, -1) : pathname;
-  // Preserve existing occasion deep links while certificates become the studio entry.
-  let page = pages[/^\/moment-studio\/?$/.test(canonical)&&url.searchParams.has('occasion')?'/moment-studio/cards':canonical];
+  let page = pages[canonical];
   if (!page) return new Response('Not found', {status: 404, headers: security});
   let offline = false;
   if (!independent.has(canonical)) {

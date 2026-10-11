@@ -8,9 +8,9 @@ if (!['https://apps.sushantsynapse.com', 'https://sushant-synapse-frontend-previ
 const preview = base.includes('workers.dev');
 (async () => {
   const checks = [];
-  for (const route of ['/', '/certificates', '/timetable-lite', '/signin', '/advocate', '/news', '/fund-overlap', '/tournament-lite', '/batchfee-lite', '/healthz', '/api/auth/status', '/api/state']) {
+  for (const route of ['/', '/moment-studio', '/timetable-lite', '/signin', '/advocate', '/news', '/fund-overlap', '/tournament-lite', '/batchfee-lite', '/healthz', '/api/auth/status', '/api/state']) {
     const response = await fetch(base + route, {signal: AbortSignal.timeout(25000)});
-    const expected = preview && !['/', '/news', '/fund-overlap', '/certificates', '/timetable-lite'].includes(route) ? 503 : route === '/api/state' ? 401 : 200;
+    const expected = preview && !['/', '/news', '/fund-overlap', '/moment-studio', '/timetable-lite'].includes(route) ? 503 : route === '/api/state' ? 401 : 200;
     assert.equal(response.status, expected, route);
     if (!route.startsWith('/api/') && route !== '/healthz') assert.equal(response.headers.get('x-synapse-frontend'), 'cloudflare', route);
     checks.push({route, status: response.status});
@@ -29,7 +29,7 @@ const preview = base.includes('workers.dev');
     const errors = []; page.on('pageerror', error => errors.push(error.message));
     await page.goto(base); await page.locator('#free-apps .public-app').first().waitFor();
     if (preview) await page.locator('#backend-notice').waitFor();
-    await page.goto(base + '/certificates'); await page.locator('canvas').first().waitFor();
+    await page.goto(base + '/moment-studio'); await page.locator('canvas').first().waitFor();
     assert.equal(await page.locator('#backend-notice').count(), 0);
     await page.goto(base + '/timetable-lite');
     assert.equal(await page.locator('#backend-notice').count(), 0);

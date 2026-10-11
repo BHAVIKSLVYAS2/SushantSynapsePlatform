@@ -1,5 +1,9 @@
 # Celebration Studio
 
+Current page: `/moment-studio/cards`. The old `/celebration-studio` page/assets are removed. Tests in this workspace now exercise the current route; legacy-URL notes below are historical.
+
+The active implementation is owned by `apps/moment-studio/frontend`. `/celebration-studio` and its asset URLs remain compatibility aliases. This workspace retains browser tests; the superseded frontend source was removed on 2026-10-11. Renderer validation tests now exercise Moment Studio. The older feature notes below describe historical behavior; see `apps/moment-studio/README.md` for current scope.
+
 A free public browser tool at `/celebration-studio` for birthday cards, invitations, anniversary greetings, festival wishes, thank-you cards and fun posters. Suggested English/Hindi wording is editable. Applying a suggestion replaces only the headline/message, preserving the recipient, event details, host and photo. Four designs (Confetti, Elegant, Bloom, Bold), six palettes and square 1080 x 1080 or vertical 1080 x 1920 output are included.
 
 Preview and PNG export use the same canvas renderer. Text wraps on word/grapheme boundaries and shrinks within bounded sizes; export is disabled when wording does not fit. Shorten it, remove the photo or choose vertical output. System fonts support browser shaping; actual fonts may vary by device. Card colours are design palettes and do not change with the editor's light/dark theme.

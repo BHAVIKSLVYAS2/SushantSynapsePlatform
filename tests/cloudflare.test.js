@@ -36,13 +36,19 @@ test('ten national searches reuse one catalogue without rewriting holdings progr
 });
 before(async () => { exported = require('../infrastructure/cloudflare/build.cjs').build(); ({handle} = await import('../infrastructure/cloudflare/worker.mjs')); });
 const assets = {ASSETS: {fetch: async request => new Response(new URL(request.url).pathname, {headers: {'Content-Type': 'text/html'}})}};
-test('Moment Studio opens certificates first and preserves old occasion deep links at the edge',async()=>{
+test('retired page and asset URLs return 404 at the edge',async()=>{
+ for(const route of ['/certificates','/certificates/','/certificates/app.js','/certificates/renderer.js','/certificates/export.js','/certificates/style.css','/certificates/branding.mjs','/celebration-studio','/celebration-studio/','/celebration-studio/app.js','/celebration-studio/renderer.mjs','/celebration-studio/style.css','/celebration-studio/branding.mjs','/arena','/arena/']){
+  assert.equal(exported.pages[route],undefined);
+  assert.equal((await handle(new Request(base+route),assets,async()=>{throw Error('Retired routes must not contact origin');})).status,404);
+ }
+});
+test('Moment Studio uses explicit certificate and card routes at the edge',async()=>{
  const down=async()=>{throw Error('Public studio must not depend on the backend');};
  for(const root of ['/moment-studio','/moment-studio/']){
   assert.equal(await (await handle(new Request(base+root),assets,down)).text(),exported.pages[root]);
-  assert.equal(await (await handle(new Request(base+root+'?occasion=condolence&language=hi'),assets,down)).text(),exported.pages['/moment-studio/cards']);
+  assert.equal(await (await handle(new Request(base+root+'?occasion=condolence&language=hi'),assets,down)).text(),exported.pages[root]);
  }
- const {staticAssets}=require('../server/static-assets');assert.equal(staticAssets['/moment-studio'],staticAssets['/moment-studio/certificates']);assert.equal(staticAssets['/moment-studio/cards'],staticAssets['/celebration-studio']);
+ const {staticAssets}=require('../server/static-assets');assert.equal(staticAssets['/moment-studio'],staticAssets['/moment-studio/certificates']);assert.equal(staticAssets['/celebration-studio'],undefined);
 });
 test('AdSense has fresh response nonces only on the anonymous homepage',async()=>{
  const env={ASSETS:{fetch:async()=>new Response('<html><head><script src="/shared/theme.js"></script></head><body></body></html>',{headers:{'Content-Type':'text/html','Content-Length':'1',ETag:'old'}})}};
@@ -70,7 +76,7 @@ test('Cloudflare export contains only allowlisted frontend files and shared outa
 test('independent tools load without origin calls; unavailable app routes return uncached useful HTML', async () => {
   let calls = 0;
   const down = async () => { calls++; throw Error('Disconnected'); };
-  for (const route of ['/privacy', '/privacy/', '/terms', '/terms/', '/contact', '/contact/', '/legal', '/legal/', '/legal/third-party-notices', '/legal/third-party-notices/', '/showcase', '/showcase/', '/support', '/support/', '/ritual-assist', '/ritual-assist/', '/ritual-assist/calendar', '/ritual-assist/calendar/', '/take-a-break', '/take-a-break/', '/sponsor', '/sponsor/', '/moment-studio', '/moment-studio/', '/moment-studio/cards', '/moment-studio/certificates', '/moment-studio/certificates/', '/pocket-pause', '/pocket-pause/', '/team-mixer', '/team-mixer/', '/celebration-studio', '/celebration-studio/', '/decision-wheel', '/decision-wheel/', '/daily-spark', '/daily-spark/', '/', '/fund-overlap', '/fund-overlap/', '/news', '/news/', '/certificates', '/certificates/', '/timetable-lite']) {
+  for (const route of ['/privacy', '/privacy/', '/terms', '/terms/', '/contact', '/contact/', '/legal', '/legal/', '/legal/third-party-notices', '/legal/third-party-notices/', '/showcase', '/showcase/', '/support', '/support/', '/ritual-assist', '/ritual-assist/', '/ritual-assist/calendar', '/ritual-assist/calendar/', '/take-a-break', '/take-a-break/', '/sponsor', '/sponsor/', '/moment-studio', '/moment-studio/', '/moment-studio/cards', '/moment-studio/certificates', '/moment-studio/certificates/', '/pocket-pause', '/pocket-pause/', '/team-mixer', '/team-mixer/', '/decision-wheel', '/decision-wheel/', '/daily-spark', '/daily-spark/', '/', '/fund-overlap', '/fund-overlap/', '/news', '/news/', '/timetable-lite']) {
     const response = await handle(new Request(base + route), assets, down);
     assert.equal(response.status, 200); assert.notEqual(await response.text(), '/_pages/unavailable.html');
   }
@@ -106,7 +112,7 @@ test('failed writes are never retried; gateway failures become JSON and previews
   assert.equal((await handle(new Request('https://preview.workers.dev/api/auth/status'), assets, down)).status, 503);
   assert.equal(calls, 1);
   for (const route of ['/data/chambers.sqlite', '/.env', '/server/index.js', '/missing']) assert.equal((await handle(new Request(base + route), assets, down)).status, 404);
-  assert.equal((await handle(new Request(base + '/certificates', {method: 'POST'}), assets, down)).status, 405);
+  assert.equal((await handle(new Request(base + '/moment-studio', {method: 'POST'}), assets, down)).status, 405);
 });
 
 test('Fund Lens public references and provider requests work without an origin; private routes stay protected', async () => {

@@ -10,7 +10,7 @@
   ['Timetable Lite','/timetable-lite','Public tool'],['Fund Lens','/fund-overlap','Public tool'],
   ['News','/news','Public tool'],['Ritual Assist','/ritual-assist','Public tool'],['Satire Arena','/satire-arena','Public tool']
  ];
- const aliases={'/arena':'/satire-arena','/certificates':'/moment-studio','/celebration-studio':'/moment-studio','/daily-spark':'/take-a-break','/pocket-pause':'/take-a-break'};
+ const aliases={'/moment-studio/cards':'/moment-studio','/daily-spark':'/take-a-break','/pocket-pause':'/take-a-break'};
  const path=location.pathname.replace(/\/$/,'')||'/';
  const current=entries.find(([,route])=>(aliases[path]||path)===route||path.startsWith(route+'/'));
  const names={'/':'All apps','/signin':'Sign in','/support':'Support','/sponsor':'Sponsorship','/showcase':'Demos','/contact':'Contact','/privacy':'Privacy','/terms':'Usage terms','/legal':'Legal information','/legal/third-party-notices':'Third-party notices'};

@@ -3,7 +3,7 @@ const {test,expect}=require('@playwright/test');
 
 test('All apps share a responsive platform header and working theme controls',async({page})=>{
  await page.request.post(base+'/api/auth/setup',{data:{name:'Organizer',email:'organizer@example.test',password:'Tournament browser password!',firmName:'Workspace'}});
- for(const route of ['/','/advocate','/tournament-lite','/batchfee-lite','/certificates','/timetable-lite','/fund-overlap','/news']){
+ for(const route of ['/','/advocate','/tournament-lite','/batchfee-lite','/moment-studio','/timetable-lite','/fund-overlap','/news']){
   await page.goto(base+route);const header=page.locator('header.platform-shell');await expect(header).toBeVisible();await expect(header.locator('.platform-shell-brand img')).toBeVisible();await expect(header.locator('.platform-shell-brand')).toHaveAttribute('href','/');
   for(const width of [320,768,1440]){await page.setViewportSize({width,height:900});const box=await header.boundingBox();expect(box.x).toBeGreaterThanOrEqual(0);expect(box.x+box.width).toBeLessThanOrEqual(width+1);expect(await header.evaluate(el=>el.scrollWidth<=el.clientWidth)).toBe(true);}
   for(const theme of ['dark','light','system']){await setTheme(page,theme);await expect(page.locator(route==='/timetable-lite'?'body':'html')).toHaveAttribute('data-theme',theme==='system'?'light':theme);}
