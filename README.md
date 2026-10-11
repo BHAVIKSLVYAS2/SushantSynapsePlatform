@@ -1,6 +1,6 @@
 # Sushant Synapse Platform
 
-**Focus** at `/focus` combines a 25-minute timer with private daily task lists, priorities, time estimates, completion and unfinished-task carry-forward. Sign in with an existing account to save tasks across devices. Pocket Pause stays separate at `/pocket-pause` for micro-rests.
+**Focus** at `/focus` combines a 25-minute timer with browser-saved daily task lists, priorities, time estimates, completion and unfinished-task carry-forward. No sign-in is needed. Tasks stay in this browser profile and do not sync across devices; clearing browser data removes them. Pocket Pause stays separate at `/pocket-pause` for micro-rests.
 
 The selected [free Cloudflare deployment profile](docs/CLOUDFLARE_FREE_DEPLOYMENT.md) is deployed at **https://apps.sushantsynapse.com** with existing email/password accounts, Chambers on D1, private documents up to 1 MB each / 100 MB total, and hard application limits. DIGITAL SAMAJ, BatchFee, Tournament, saved News, private Fund workflows and the ritual calendar are enabled on the same Free D1 backend. Workers Free is owner-confirmed. The cloud backend runs without the laptop. No OTP, verified email ownership or Access allow-list is required. Deployment and verification evidence are recorded in the functionality ledger.
 

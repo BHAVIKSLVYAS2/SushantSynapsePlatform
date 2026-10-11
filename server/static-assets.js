@@ -85,6 +85,7 @@ const staticAssets={
  '/focus/':'apps/focus/frontend/index.html',
  '/focus/app.js':'apps/focus/frontend/app.js',
  '/focus/focus-timer.mjs':'apps/focus/frontend/focus-timer.mjs',
+ '/focus/task-model.mjs':'apps/focus/frontend/task-model.mjs',
  '/focus/style.css':'apps/focus/frontend/style.css',
  '/pocket-pause/style.css':'apps/pocket-pause/frontend/style.css',
  '/digital-samaj':'apps/digital-samaj/frontend/index.html',

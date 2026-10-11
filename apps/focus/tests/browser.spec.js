@@ -30,10 +30,8 @@ test('focus timer pauses, resumes and completes after elapsed background time',a
 });
 
 
-test('daily tasks save across refresh, stay private and carry forward',async({page,browser})=>{
- const password='Isolated Focus browser password 2026!';
- const setup=await page.request.post(base+'/api/auth/setup',{data:{name:'Focus owner',email:'focus-owner@example.test',password,firmName:'Focus office'}});expect(setup.status()).toBe(201);
- const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/focus');
+test('browser tasks work without login, persist, isolate profiles and carry forward',async({page,browser})=>{
+ const errors=[],taskRequests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.url().includes('/api/focus'))taskRequests.push(r.url());});await page.goto(base+'/focus');
  await expect(page.locator('#task-form')).toBeVisible();
  await page.locator('#plan-date').fill('2026-10-10');await page.locator('#plan-date').dispatchEvent('change');
  await page.locator('#task-form input[name=title]').fill('Prepare client proposal');await page.locator('#task-form select[name=priority]').selectOption('High');await page.locator('#task-form button[type=submit]').click();
@@ -41,10 +39,17 @@ test('daily tasks save across refresh, stay private and carry forward',async({pa
  await page.locator('#plan-date').fill('2026-10-11');await page.locator('#plan-date').dispatchEvent('change');
  await expect(page.locator('#carry-list')).toContainText('Prepare client proposal');await page.getByRole('button',{name:'Bring to this day'}).click();await expect(page.locator('#task-list')).toContainText('Prepare client proposal');
  await page.getByRole('button',{name:'Focus on this'}).click();await expect(page.locator('#current-task')).toContainText('Prepare client proposal');
- await page.getByRole('checkbox',{name:'Complete Prepare client proposal'}).check();await expect(page.locator('#summary')).toContainText('1 of 1 complete');await expect(page.locator('#task-status')).toHaveText('Saved.');
- const staff=await page.request.post(base+'/api/users',{data:{name:'Focus staff',email:'focus-private@example.test',role:'Clerk',password,appIds:[]}});expect(staff.status()).toBe(201);
- const other=await browser.newContext();try{const login=await other.request.post(base+'/api/auth/login',{data:{email:'focus-private@example.test',password}});expect(login.status()).toBe(200);const list=await other.request.get(base+'/api/focus');expect((await list.json()).tasks).toEqual([]);}finally{await other.close();}
+ await page.getByRole('checkbox',{name:'Complete Prepare client proposal'}).check();await expect(page.locator('#summary')).toContainText('1 of 1 complete');await expect(page.locator('#task-status')).toHaveText('Saved in this browser.');
+ const other=await browser.newContext();try{const otherPage=await other.newPage();await otherPage.goto(base+'/focus');await expect(otherPage.locator('#task-form')).toBeVisible();await expect(otherPage.locator('#task-list .task-row')).toHaveCount(0);}finally{await other.close();}
+ const tab=await page.context().newPage();await tab.goto(base+'/focus');await tab.locator('#plan-date').fill('2026-10-11');await tab.locator('#plan-date').dispatchEvent('change');await expect(tab.locator('#task-list')).toContainText('Prepare client proposal');await tab.close();expect(taskRequests).toEqual([]);
  await page.getByRole('button',{name:'Dark mode',exact:true}).click();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await page.screenshot({path:'.publish/focus-office-mobile-dark.png',fullPage:true});
  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:950});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await page.goto(base+'/pocket-pause');await expect(page.locator('#timer')).toHaveCount(0);await expect(page.getByRole('link',{name:'Planning your work? Open Focus'})).toBeVisible();expect(errors).toEqual([]);
+});
+
+
+test('blocked storage rejects saves without losing the existing browser tasks',async({page})=>{
+ await page.goto(base+'/focus');await page.locator('#task-form input[name=title]').fill('First saved task');await page.locator('#task-form button[type=submit]').click();await expect(page.locator('#task-list')).toContainText('First saved task');
+ await page.evaluate(()=>{Storage.prototype.setItem=function(){throw new DOMException('Quota exceeded','QuotaExceededError');};});
+ await page.locator('#task-form input[name=title]').fill('Unsaved task');await page.locator('#task-form button[type=submit]').click();await expect(page.locator('#task-status')).toContainText('Unable to save');await expect(page.locator('#task-list .task-row')).toHaveCount(1);await page.reload();await expect(page.locator('#task-list')).toContainText('First saved task');await expect(page.locator('#task-list')).not.toContainText('Unsaved task');
 });

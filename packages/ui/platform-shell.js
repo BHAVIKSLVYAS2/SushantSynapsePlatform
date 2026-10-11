@@ -3,7 +3,7 @@
 (() => {
  if (new URLSearchParams(location.search).get('screen') === '1') return;
  const entries = [
-  ['Focus','/focus','Timer and personal tasks'],
+  ['Focus','/focus','Browser-saved tasks and timer'],
   ['Chambers','/advocate','Private workspace'],['DIGITAL SAMAJ','/digital-samaj','Private workspace'],
   ['Tournament Lite','/tournament-lite','Organizer sign-in'],['BatchFee Lite','/batchfee-lite','Private workspace'],
   ['Take a Break','/take-a-break','Public tool'],['Decision Wheel','/decision-wheel','Public tool'],
