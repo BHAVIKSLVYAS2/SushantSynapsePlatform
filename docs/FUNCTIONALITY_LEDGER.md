@@ -1,5 +1,8 @@
 # Chambers functionality ledger
 
+**Final Arena expression crop live-verified (2026-10-11):** Frontend correction 084ce9f is live from .publish/release-arena-eleven-084ce9f on Worker 3e498f07-1e46-4e00-8f49-126e8033d7aa; Node remains on implementation 829891e with the verified additive migration. Two changed assets uploaded, 158 reused. Repeated live checks pass five exact asset matches, eleven-character API, eight themed responsive layouts, new-character PNG download, three angry shoe faces and explicit five-row sprite sizing. The corrected .publish/arena-eleven-live-angry.png was visually reviewed and shows one complete angry Budget Beena portrait with no adjacent-row fragments. Evidence .publish/arena-eleven-live-verification.json now records final frontend 084ce9f. Zero page errors/business writes. Prior backup and 53-table preservation evidence remains valid; no further backend/data changes or repository push.
+
+
 **Arena expression crop correction (2026-10-11):** Final live screenshot review caught the earlier three-column expression selector overriding the new sheet's five-row sizing. Added an app-scoped expression-state override for the two new portraits, and a computed 500% background-size regression assertion. The responsive scoreboard and new-character save/reload/share/angry workflows both pass. This corrects the adjacent-row fragments in the first live angry capture; corrected frontend deployment and screenshot verification follow. Backend and stored ballots are unchanged.
 
 
