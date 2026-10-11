@@ -5,6 +5,7 @@ import {accessSession,accessAuth} from '../packages/auth/access.mjs';
 import {FreeD1Repository} from '../packages/database/d1-free.mjs';
 import {D1PrivateFiles} from '../packages/storage/d1.mjs';
 import {portal} from '../apps/portal/backend/edge.mjs';
+import {focus} from '../apps/focus/backend/edge.mjs';
 import {chambers} from '../apps/advocate/backend/edge.mjs';
 import {batchfee} from '../apps/batchfee-lite/backend/edge.mjs';
 import {tournament} from '../apps/tournament-lite/backend/edge.mjs';
@@ -31,6 +32,7 @@ export async function edgeApi(request,env){
   if(route==='satire-arena'||route.startsWith('satire-arena/'))result=await arena(request,{...env,ARENA_DB:env.PLATFORM_DB});
   else if(route.startsWith('auth/')||route==='users'||route.startsWith('users/'))result=await (useAccess?accessAuth:auth)(context);
   else if(route==='platform'||route.startsWith('platform/')||route==='support')result=await portal(context);
+  else if(route==='focus'||route.startsWith('focus/'))result=await focus(context);
   else if(route==='ritual-assist/calendar')result=await ritual(context);
   else if(route==='batchfee-lite'||route.startsWith('batchfee-lite/'))result=await batchfee(context);
   else if(route==='tournament-lite'||route.startsWith('tournament-lite/'))result=await tournament(context);

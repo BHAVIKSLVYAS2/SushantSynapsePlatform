@@ -1,7 +1,5 @@
 import {scenes,createScene,strike,caption,drawScene} from './scenes.mjs';
 import {breathState} from './engine.mjs';
-import {mountFocusTimer} from './focus-timer.mjs';
-mountFocusTimer();
 const $=s=>document.querySelector(s),media=matchMedia('(prefers-color-scheme: dark)');$('#theme').outerHTML=SynapseTheme.control('id="theme"');function theme(){const p=SynapseTheme.read();document.documentElement.dataset.theme=p==='system'?(media.matches?'dark':'light'):p;paint();if(currentScene)renderScene();}$('#theme').addEventListener('change',theme);media.addEventListener('change',theme);
 let currentScene=null,sceneAnimation=null;const sceneStates=new Map();
 let popped=0,sound=false,audio=null,timer=null,started=0,strokes=[],stroke=null,ripples=0;const canvas=$('#garden'),ctx=canvas.getContext('2d');

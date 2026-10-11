@@ -58,6 +58,26 @@ test('native Worker integration with '+(allAppsD1?'all apps on Free D1':'D1 and 
   assert.equal((await api('invoices','POST',{}, {Cookie:cc})).status,403);assert.equal((await api('users/'+ownerId,'PATCH',{active:false})).status,400);
   assert.equal((await api('users/'+clerk.id,'PATCH',{active:false})).status,200);assert.equal((await api('state','GET',undefined,{Cookie:cc})).status,401);
  });
+
+ await t.test('Focus tasks persist, remain private and reject stale or invalid writes',async()=>{
+  assert.equal((await api('focus','GET',undefined,{Cookie:''})).status,401);
+  let plan=(await api('focus')).data;assert.equal(plan.revision,0);
+  const input={type:'add',revision:0,title:'Prepare office proposal',date:'2026-10-11',priority:'High',minutes:25};
+  assert.equal((await api('focus','POST',{...input,date:'2026-02-30'})).status,400);
+  const added=await api('focus','POST',input);assert.equal(added.status,200,JSON.stringify(added.data));plan=added.data;assert.equal(plan.tasks.length,1);
+  assert.equal((await api('focus','POST',input)).status,409);
+  assert.equal((await api('focus')).data.tasks[0].title,input.title);
+  const staff=await create('users',{name:'Focus staff',email:'focus-staff@example.test',role:'Clerk',password,appIds:[]});
+  const login=await api('auth/login','POST',{email:staff.email,password}),staffCookie=login.headers.get('Set-Cookie').split(';')[0];
+  assert.equal((await api('focus','GET',undefined,{Cookie:staffCookie})).data.tasks.length,0);
+  assert.equal((await api('focus','POST',{type:'delete',id:plan.tasks[0].id,revision:0},{Cookie:staffCookie})).status,404);
+  assert.equal((await api('focus','POST',{...input,title:'Staff private task'},{Cookie:staffCookie})).status,200);
+  const results=await Promise.all([false,true].map(done=>api('focus','POST',{type:'toggle',revision:plan.revision,id:plan.tasks[0].id,done})));
+  assert.deepEqual(results.map(r=>r.status).sort(),[200,409]);plan=(await api('focus')).data;
+  const moved=await api('focus','POST',{type:'move',revision:plan.revision,id:plan.tasks[0].id,date:'2026-10-12'});assert.equal(moved.status,200);assert.equal(moved.data.tasks[0].date,'2026-10-12');
+  const deleted=await api('focus','POST',{type:'delete',revision:moved.data.revision,id:plan.tasks[0].id});assert.equal(deleted.status,200);assert.equal(deleted.data.tasks.length,0);
+  await api('users/'+staff.id,'PATCH',{active:false});assert.equal((await api('focus','GET',undefined,{Cookie:staffCookie})).status,401);
+ });
  await t.test('BatchFee idempotency and tournament privacy',async()=>{
   let state=(await api('batchfee-lite')).data;
   const command=async(type,input,requestId=crypto.randomUUID())=>{const r=await api('batchfee-lite/command','POST',{type,input,requestId,revision:state.revision});assert.equal(r.status,200,JSON.stringify(r.data));state=r.data;return r;};

@@ -1,6 +1,6 @@
 # Pocket Pause
 
-The 25-minute focus timer includes Start, Pause/resume and Reset. It measures elapsed wall-clock time, catches up after background-tab delays and announces completion in the page before users choose a micro-rest. Refresh resets the timer; it needs no account or backend storage.
+Work planning and the 25-minute timer now live in the separate [Focus app](/focus). Pocket Pause remains the break collection, with a link back to Focus.
 
 Colour quilt adds a fourth calm/creative interaction to the break collection: 25 tap/keyboard tiles, six labelled colours with distinct symbols, optional surprise patterns, undo and reset. Quilt state survives switching activities in the current tab and clears on refresh; undo history is bounded at 50 changes. The sand garden now supports undoing the last stroke and draws only each new segment during pointer movement instead of repainting all previous strokes. Eight activities total; existing seven activities retained after regression checks. Touch controls, keyboard alternatives and reduced-motion checks follow W3C WCAG 2.2 guidance; this is not a claim of full accessibility conformance or clinical benefit.
 
