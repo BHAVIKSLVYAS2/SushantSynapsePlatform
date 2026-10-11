@@ -108,3 +108,5 @@ body[data-ui-app=satire-arena] [data-expression=startled] :is(.portrait-9,.portr
 body[data-ui-app=satire-arena] [data-expression=annoyed] :is(.portrait-9,.portrait-10){background-position-y:75%}
 body[data-ui-app=satire-arena] [data-expression=laughing] :is(.portrait-9,.portrait-10){background-position-y:100%}
 }
+
+@media screen{body[data-ui-app=satire-arena] [data-expression] :is(.portrait-9,.portrait-10){background-size:auto 500%}}
