@@ -1,5 +1,7 @@
 # Code ownership and adding apps
 
+Greeting refinements (2026-10-11): Moment Studio `card-app.js` owns occasion-specific design/palette defaults; `card-renderer.mjs` owns local botanical artwork, fine rules, circular memorial photo crops and bounded message/details/sender regions. Certificate rendering remains independently owned.
+
 URL retirement (2026-10-11): `/certificates`, `/celebration-studio`, `/arena` and their old frontend asset URLs are removed, including trailing-slash variants. Current destinations are `/moment-studio`, `/moment-studio/cards` and `/satire-arena`. Root Studio `occasion` queries no longer choose the cards page; use `/moment-studio/cards?occasion=...`. Internal navigation/tests use current destinations. Database preference app-ID mappings remain to preserve saved favourites/history. These current rules supersede legacy URL references in historical paragraphs below.
 
 Unused implementation cleanup (2026-10-11): Moment Studio owns both legacy `/certificates/*` and `/celebration-studio/*` URLs. Their old frontend source trees are removed; retained workspace folders own compatibility browser tests and historical documentation. Celebration validation tests now import the active card renderer. Retired Fund portfolio/analytics UI modules, browser calendar worker and shared heading-decoration script are removed; private Fund APIs/core/data, backend calendar worker and compiled workbench CSS retain their owners. Historical ownership paragraphs below are superseded by this contract.
