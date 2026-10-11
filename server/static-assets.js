@@ -11,6 +11,7 @@ const staticAssets={
  '/arena/':'apps/satire-arena/frontend/index.html',
  '/satire-arena/catalogue.mjs':'apps/satire-arena/frontend/catalogue.mjs',
  '/satire-arena/extra-cast.svg':'apps/satire-arena/frontend/extra-cast.svg',
+ '/satire-arena/highway-budget-expressions.png':'apps/satire-arena/frontend/highway-budget-expressions.png',
  '/satire-arena/new-cast.png':'apps/satire-arena/frontend/new-cast.png',
  '/satire-arena/expressions-original.png':'apps/satire-arena/frontend/expressions-original.png',
  '/satire-arena/expressions-expanded.png':'apps/satire-arena/frontend/expressions-expanded.png',

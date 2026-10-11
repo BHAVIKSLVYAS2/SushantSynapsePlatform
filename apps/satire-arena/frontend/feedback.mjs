@@ -7,8 +7,8 @@ const effects={
  laugh:{icon:'😂',particles:['😂','✨','😂'],pulse:[20,25,20,25,30]}
 };
 const timers=new WeakMap();
-const expressions={garland:'happy',applause:'happy',shoe:'startled',tomato:'startled',finger:'annoyed',laugh:'laughing'};
-const sheets=['expressions-original.png','expressions-expanded.png','expressions-new.png'];
+const expressions={garland:'happy',applause:'happy',shoe:'annoyed',tomato:'startled',finger:'annoyed',laugh:'laughing'};
+const sheets=['expressions-original.png','expressions-expanded.png','expressions-new.png','highway-budget-expressions.png'];
 const ready=new Set();
 for(const [index,file]of sheets.entries()){
  const image=new Image();image.src='/satire-arena/'+file;
@@ -22,7 +22,7 @@ export function playReaction(card,reaction,{haptics=true}={}){
  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
  card.dataset.effect=reaction;card.classList.remove('reaction-active');void card.offsetWidth;card.classList.add('reaction-active');button?.classList.add('reaction-confirmed');
  const index=Number([...portrait.classList].find(name=>/^portrait-\d+$/.test(name))?.split('-')[1]);
- if(ready.has(Math.floor(index/3)))card.dataset.expression=expressions[reaction];
+ if(ready.has(index>=9?3:Math.floor(index/3)))card.dataset.expression=expressions[reaction];
  const layer=document.createElement('div');layer.className='reaction-effect'+(reduced?' reaction-still':'');layer.setAttribute('aria-hidden','true');
  const hero=document.createElement('span');hero.className='reaction-hero';hero.textContent=effect.icon;layer.append(hero);
  if(reaction==='finger'){

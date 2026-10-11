@@ -9,7 +9,7 @@ const owners=[
  ['tournament','apps/tournament-lite/database',['001-initial.sql']],
  ['news','apps/news/database',['001-editions.sql','002-fetch-budget.sql']],
  ['fundlens','apps/fund-overlap/database',['001-portfolio.sql']],
- ['satire','apps/satire-arena/database',['001-arena.sql','002-expanded-arena.sql','003-nine-character-arena.sql']],
+ ['satire','apps/satire-arena/database',['001-arena.sql','002-expanded-arena.sql','003-nine-character-arena.sql','004-highway-budget.sql']],
 ];
 function splitSql(value){
  const parts=[];let start=0,depth=0,quoted=false;
