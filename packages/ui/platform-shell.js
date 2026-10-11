@@ -3,13 +3,20 @@
 (() => {
  if (new URLSearchParams(location.search).get('screen') === '1') return;
  const entries = [
+  ['Moment Studio','/moment-studio','Public tool'],
+  ['Take a Break','/take-a-break','Public tool'],
+  ['Decision Wheel','/decision-wheel','Public tool'],
+  ['News','/news','Public tool'],
   ['Focus','/focus','Browser-saved tasks and timer'],
-  ['Chambers','/advocate','Private workspace'],['DIGITAL SAMAJ','/digital-samaj','Private workspace'],
-  ['Tournament Lite','/tournament-lite','Organizer sign-in'],['BatchFee Lite','/batchfee-lite','Private workspace'],
-  ['Take a Break','/take-a-break','Public tool'],['Decision Wheel','/decision-wheel','Public tool'],
-  ['Team Mixer','/team-mixer','Public tool'],['Moment Studio','/moment-studio','Public tool'],
-  ['Timetable Lite','/timetable-lite','Public tool'],['Fund Lens','/fund-overlap','Public tool'],
-  ['News','/news','Public tool'],['Ritual Assist','/ritual-assist','Public tool'],['Satire Arena','/satire-arena','Public tool']
+  ['Chambers','/advocate','Private workspace'],
+  ['DIGITAL SAMAJ','/digital-samaj','Private workspace'],
+  ['Tournament Lite','/tournament-lite','Organizer sign-in'],
+  ['BatchFee Lite','/batchfee-lite','Private workspace'],
+  ['Team Mixer','/team-mixer','Public tool'],
+  ['Timetable Lite','/timetable-lite','Public tool'],
+  ['Fund Lens','/fund-overlap','Public tool'],
+  ['Ritual Assist','/ritual-assist','Public tool'],
+  ['Satire Arena','/satire-arena','Public tool']
  ];
  const aliases={'/moment-studio/cards':'/moment-studio','/daily-spark':'/take-a-break','/pocket-pause':'/take-a-break'};
  const path=location.pathname.replace(/\/$/,'')||'/';

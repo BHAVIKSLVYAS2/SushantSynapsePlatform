@@ -29,30 +29,27 @@ test('certificate entry keeps desktop preview beside the editor and supports exp
  const mobile=await page.evaluate(()=>document.querySelector('.preview-column').getBoundingClientRect().top<document.querySelector('#details').getBoundingClientRect().top);expect(mobile).toBe(true);
  await page.goto(base+'/moment-studio/cards?occasion=birthday');await expect(page.locator('#occasion')).toHaveValue('birthday');await expect(page.locator('#download')).toBeEnabled();expect(errors).toEqual([]);
 });
-test('creative workspace filters, favorites, keyboard search, presets and validated drops',async({page})=>{
- const errors=[],api=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.url().includes('/api/'))api.push(r.url());});
- await page.goto(base+'/moment-studio/cards');await expect(page.locator('#download')).toBeEnabled();await expect(page.locator('html')).toHaveAttribute('data-theme','light');
- await page.locator('[data-filter=media]').click();await expect(page.locator('.tool-tile:visible')).toHaveCount(2);
- await page.locator('[data-filter=text]').click();await expect(page.locator('.tool-tile:visible')).toHaveCount(2);
- await page.locator('[data-filter=ai]').click();await expect(page.locator('.tool-tile:visible')).toHaveCount(0);await expect(page.locator('#tool-empty')).toContainText('No AI service');await expect(page.locator('#card')).toBeVisible();
- await page.locator('[data-filter=recent]').click();await expect(page.locator('#tool-empty')).toBeVisible();await page.locator('[data-filter=all]').click();
- await page.locator('[data-favorite=invitation]').click();await expect(page.locator('[data-favorite=invitation]')).toHaveAttribute('aria-pressed','true');
- await page.locator('#open-command').focus();await page.keyboard.press('Control+k');await expect(page.locator('#studio-command')).toBeVisible();await expect(page.locator('#command-search')).toBeFocused();await expect(page.locator('#command-results button').first()).toHaveText('★ Invitation preset');
- await page.locator('#command-search').fill('unavailable-tool');await expect(page.locator('#command-empty')).toBeVisible();await page.locator('#command-search').fill('invitation');await page.keyboard.press('ArrowDown');await page.keyboard.press('Enter');await expect(page.locator('#occasion')).toHaveValue('invitation');await expect(page.locator('#studio-command')).not.toBeVisible();await expect(page.locator('#open-command')).toBeFocused();
- await page.locator('[name=name]').fill('Keep this name');await page.locator('[data-preset=condolence]').click();await expect(page.locator('#occasion')).toHaveValue('condolence');await expect(page.locator('[name=name]')).toHaveValue('Keep this name');await expect(page.locator('#condolence-tools')).toBeVisible();await expect(page.locator('#download')).toBeEnabled();
- const headline=await page.locator('[name=title]').inputValue();page.removeAllListeners('dialog');page.once('dialog',dialog=>dialog.dismiss());await page.locator('[data-preset=invitation]').click();await expect(page.locator('[name=title]')).toHaveValue(headline);await expect(page.locator('#occasion')).toHaveValue('condolence');
- page.once('dialog',dialog=>dialog.dismiss());await page.locator('#certificate-shortcut').click();await expect(page).toHaveURL(base+'/moment-studio/cards');page.on('dialog',dialog=>dialog.accept());
- await page.locator('[data-filter=recent]').click();await expect(page.locator('[data-tool=remembrance]')).toBeVisible();await expect(page.locator('[data-tool=certificate]')).toBeHidden();
- await page.locator('#photo-drop').evaluate(el=>{const dt=new DataTransfer();dt.items.add(new File(['invalid'],'bad.txt',{type:'text/plain'}));el.dispatchEvent(new DragEvent('drop',{bubbles:true,dataTransfer:dt}));});await expect(page.locator('#photo-status')).toContainText('Choose a PNG');await expect(page.locator('#download')).toBeEnabled();
- await page.locator('[data-filter=all]').click();
- await page.locator('#photo-drop').evaluate(async el=>{const canvas=document.createElement('canvas');canvas.width=40;canvas.height=40;canvas.getContext('2d').fillRect(0,0,40,40);const blob=await new Promise(resolve=>canvas.toBlob(resolve));const dt=new DataTransfer();dt.items.add(new File([blob],'photo.png',{type:'image/png'}));el.dispatchEvent(new DragEvent('drop',{bubbles:true,dataTransfer:dt}));});await expect(page.locator('#photo-status')).toContainText('Photo added locally');await expect(page.locator('#remove-photo')).toBeEnabled();await page.locator('#remove-photo').click();
- await page.setViewportSize({width:390,height:950});await page.locator('.edit-shortcut').click();await expect(page.locator('#editor')).toBeInViewport();
+test('simple cards preserve styling, validate photos and keep responsive exports',async({page})=>{
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/moment-studio/cards');
+ await expect(page.locator('.tool-tile,#open-command,.studio-toolbar')).toHaveCount(0);
+ await expect(page.locator('.workspace > *')).toHaveCount(2);
+ await expect(page.locator('#occasion option')).toHaveCount(7);
+ await page.getByRole('radio',{name:'Bloom',exact:true}).check();
+ await page.locator('#personalise').evaluate(el=>el.open=true);await page.locator('#palette').selectOption('rose');
+ await page.locator('#occasion').selectOption('invitation');
+ await expect(page.getByRole('radio',{name:'Bloom',exact:true})).toBeChecked();await expect(page.locator('#palette')).toHaveValue('rose');
+ await page.locator('#event-date').fill('2026-10-18');await page.locator('#event-time').fill('18:00');await page.locator('#event-venue').fill('Community Hall');
+ await expect(page.locator('#card')).toHaveAttribute('aria-label',/18 October 2026 · 18:00 · Community Hall/);
+ await page.locator('[name=details]').fill('Please arrive early');
+ await page.locator('#wording').evaluate(el=>el.open=true);await page.locator('#suggest').click();
+ await expect(page.locator('[name=details]')).toHaveValue('Please arrive early');
+ await expect(page.locator('#card')).toHaveAttribute('aria-label',/Community Hall · Please arrive early/);
+ await page.locator('#photo-drop').evaluate(el=>{const dt=new DataTransfer();dt.items.add(new File(['invalid'],'bad.txt',{type:'text/plain'}));el.dispatchEvent(new DragEvent('drop',{bubbles:true,dataTransfer:dt}));});
+ await expect(page.locator('#photo-status')).toContainText('Choose a PNG');await expect(page.locator('#download')).toBeEnabled();
  for(const theme of ['light','dark']){await page.evaluate(value=>window.SynapseTheme.write(value),theme);for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:950});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}}
- await page.screenshot({path:'test-results/moment-workspace-dark.png',fullPage:true});
- await page.emulateMedia({reducedMotion:'reduce'});expect(await page.locator('.tool-tile').first().evaluate(el=>getComputedStyle(el).transitionDuration)).toBe('0s');
- await page.locator('#open-command').click();await page.keyboard.press('Escape');await expect(page.locator('#open-command')).toBeFocused();
- await page.reload();await expect(page.locator('[data-favorite=invitation]')).toHaveAttribute('aria-pressed','false');expect(errors).toEqual([]);expect(api).toEqual([]);
- await page.evaluate(()=>window.SynapseTheme.write('light'));await page.reload();await expect(page.locator('html')).toHaveAttribute('data-theme','light');await page.evaluate(()=>window.SynapseTheme.write('system'));await page.emulateMedia({colorScheme:'dark'});await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await page.emulateMedia({colorScheme:'light'});await expect(page.locator('html')).toHaveAttribute('data-theme','light');await page.setViewportSize({width:390,height:950});await page.screenshot({path:'test-results/moment-workspace-mobile-light.png',fullPage:true});
+ await page.setViewportSize({width:1440,height:950});await page.screenshot({path:'test-results/moment-simple-desktop.png',fullPage:true});
+ await page.setViewportSize({width:390,height:844});await page.locator('.edit-shortcut').click();await expect(page.locator('#editor')).toBeInViewport();
+ await page.evaluate(()=>window.SynapseTheme.write('light'));await page.screenshot({path:'test-results/moment-simple-mobile.png',fullPage:true});expect(errors).toEqual([]);
 });
 test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-celebration-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe']});await new Promise((resolve,reject)=>{let out='';const timer=setTimeout(()=>reject(Error('Startup timed out')),15000);child.stdout.on('data',chunk=>{out+=chunk;const match=out.match(/localhost:(\d+)/);if(match){base='http://127.0.0.1:'+match[1];clearTimeout(timer);resolve();}});child.once('error',reject);});});test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
 
@@ -64,11 +61,11 @@ test('all studio sections are discoverable on mobile with exactly one current se
  await expect(nav.locator('[aria-current=page]')).toHaveAttribute('data-studio-section','certificates');
  await expect(nav.getByRole('link').first()).toHaveAttribute('data-studio-section','certificates');
  await nav.getByRole('link',{name:'Condolences & remembrance',exact:true}).click();
- await expect(page.locator('#condolence-tools')).toBeVisible();
+ await page.locator('#wording').evaluate(el=>el.open=true);await expect(page.locator('#condolence-tools')).toBeVisible();
  await expect(nav.locator('[aria-current=page]')).toHaveCount(1);
  await expect(nav.locator('[aria-current=page]')).toHaveAttribute('data-studio-section','condolences');
  await page.screenshot({path:'test-results/moment-navigation-mobile.png'});
- await page.locator('#occasion').selectOption('birthday');
+ await page.getByRole('link',{name:'Cards & greetings',exact:true}).click();
  await expect(nav.locator('[aria-current=page]')).toHaveCount(1);
  await expect(nav.locator('[aria-current=page]')).toHaveAttribute('data-studio-section','cards');
  await nav.getByRole('link',{name:'Certificates & awards',exact:true}).click();
@@ -77,6 +74,7 @@ test('all studio sections are discoverable on mobile with exactly one current se
 });
 test('respectful bilingual generation, all branded card designs and real PNG export, merged navigation and private copying',async({page})=>{
 const api=[],errors=[];page.on('request',r=>{if(r.url().includes('/api/'))api.push(r.url());});page.on('pageerror',e=>errors.push(e.message));await page.route('**/api/**',r=>r.abort());await page.addInitScript(()=>Object.defineProperty(navigator,'clipboard',{value:undefined}));await page.goto(base+'/moment-studio/cards?occasion=condolence');await expect(page).toHaveTitle(/Moment Studio/);await expect(page.locator('#occasion')).toHaveValue('condolence');await expect(page.getByRole('radio',{name:'Quiet remembrance',exact:true})).toBeChecked();await expect(page.locator('#palette')).toHaveValue('slate');
+await page.locator('#wording').evaluate(el=>el.open=true);await page.locator('#personalise').evaluate(el=>el.open=true);
 for(const language of ['en','hi'])for(const tone of ['brief','warm','formal'])for(const connection of ['general','friend','colleague']){await page.locator('#language').selectOption(language);await page.locator('#message-tone').selectOption(tone);await page.locator('#connection').selectOption(connection);await page.locator('#generate-message').click();await expect(page.locator('#download')).toBeEnabled();}await page.locator('#copy-message').click();await expect(page.locator('#message-copy')).toHaveValue(/Sushant Synapse/);await expect(page.locator('#message-copy')).toHaveValue(/Moment Studio/);await page.locator('[name=name]').fill('आदरणीय अनन्या');
 const branded=await page.evaluate(async()=>{const {render,occasions,designs,palettes}=await import('/moment-studio/card-renderer.mjs'),{brandReady}=await import('/moment-studio/branding.mjs');const result=[];for(const occasion of Object.keys(occasions))for(const design of Object.keys(designs))for(const format of ['square','story']){const c=document.createElement('canvas'),ctx=c.getContext('2d'),draw=ctx.drawImage.bind(ctx),fill=ctx.fillText.bind(ctx),logos=[],credits=[];ctx.drawImage=(image,...args)=>{if(image.src?.endsWith('/logo-adaptive-192.png'))logos.push(args);return draw(image,...args);};ctx.fillText=(text,...args)=>{if(text.includes('Sushant Synapse'))credits.push(text);return fill(text,...args);};const d={...occasions[occasion].hi,occasion,language:'hi',design,palette:'slate',format,name:'अनन्या',from:'आपके मित्र'};const r=render(c,d);result.push({occasion,design,format,fits:r.fits,logos:logos.length,credits:credits.length});}return {brandReady,result};});expect(branded.brandReady).toBe(true);for(const row of branded.result){expect(row.fits).toBe(true);expect(row.logos).toBe(1);expect(row.credits).toBe(1);}expect(branded.result).toHaveLength(90);
 for(const [format,height] of [['square',1080],['story',1920]]){await page.getByLabel('Card size').selectOption(format);const event=page.waitForEvent('download');await page.locator('#download').click();const download=await event,file='test-results/moment-condolence-'+format+'.png';await download.saveAs(file);const bytes=fs.readFileSync(file);expect(bytes.readUInt32BE(16)).toBe(1080);expect(bytes.readUInt32BE(20)).toBe(height);const match=await page.evaluate(async b64=>{const bytes=Uint8Array.from(atob(b64),c=>c.charCodeAt(0)),bitmap=await createImageBitmap(new Blob([bytes],{type:'image/png'})),c=document.createElement('canvas');c.width=bitmap.width;c.height=bitmap.height;c.getContext('2d').drawImage(bitmap,0,0);bitmap.close();const current=document.querySelector('#card'),y=c.height-104,a=current.getContext('2d').getImageData(60,y,960,64).data,b=c.getContext('2d').getImageData(60,y,960,64).data;return a.every((v,i)=>v===b[i]);},bytes.toString('base64'));expect(match).toBe(true);}

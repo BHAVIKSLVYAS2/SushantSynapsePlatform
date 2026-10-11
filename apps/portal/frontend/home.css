@@ -136,6 +136,8 @@
 }
 @media print {.home-rail {display:none!important}}
 /* Private workspaces use the same native artwork and materials as public tools. */
+/* Catalogue markup owns reading and visual order on every screen size. */
+.public-home #free-apps .public-app {order:0}
 @media screen {
  .public-home #workspace-apps{scroll-margin-top:24px}
  .public-home .workspace-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}

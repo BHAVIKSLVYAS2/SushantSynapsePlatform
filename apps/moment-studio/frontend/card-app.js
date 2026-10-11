@@ -4,8 +4,21 @@ import {occasions,designs,palettes,validate,render,filename} from '/moment-studi
 const $=s=>document.querySelector(s),form=$('#editor'),canvas=$('#card'),media=matchMedia('(prefers-color-scheme: dark)');
 // Use the shared platform default and preserve explicit theme preferences.
 $('#theme').outerHTML=window.SynapseTheme.control('id="theme"');function theme(){const p=window.SynapseTheme.read();document.documentElement.dataset.theme=p==='system'?(media.matches?'dark':'light'):p;}$('#theme').addEventListener('change',theme);media.addEventListener('change',theme);theme();
-for(const [id,value]of Object.entries(occasions)){const option=new Option(value.name,id);$('#occasion').add(option);}for(const [id,value]of Object.entries(palettes))$('#palette').add(new Option(value.name,id));
-for(const [id,name]of Object.entries(designs)){const label=document.createElement('label');label.className='design-choice';const input=document.createElement('input');input.type='radio';input.name='design';input.value=id;input.checked=id==='elegant';const thumb=document.createElement('canvas');thumb.setAttribute('aria-hidden','true');render(thumb,{...occasions.birthday.en,occasion:'birthday',language:'en',design:id,palette:'slate',format:'square'});label.append(thumb,input,document.createTextNode(name));$('#designs').append(label);}
+const params=new URLSearchParams(location.search),initialOccasion=params.get('occasion'),memorial=['condolence','remembrance'].includes(initialOccasion);
+const allowed=Object.keys(occasions).filter(id=>memorial===['condolence','remembrance'].includes(id));
+for(const id of allowed)$('#occasion').add(new Option(occasions[id].name,id));
+for(const [id,value]of Object.entries(palettes))$('#palette').add(new Option(value.name,id));
+let customDesign=false,customPalette=false;
+function thumbnails(){
+ const occasion=form.elements.occasion.value,selected=form.elements.design?.value;
+ $('#designs').replaceChildren();
+ for(const [id,name]of Object.entries(designs)){
+  if(memorial&&!['quiet','elegant','bloom'].includes(id)||!memorial&&id==='quiet')continue;
+  const label=document.createElement('label');label.className='design-choice';const input=document.createElement('input');input.type='radio';input.name='design';input.value=id;input.checked=id===selected;input.addEventListener('change',()=>customDesign=true);
+  const thumb=document.createElement('canvas');thumb.setAttribute('aria-hidden','true');render(thumb,{...occasions[occasion][form.elements.language.value],occasion,language:form.elements.language.value,design:id,palette:memorial?'slate':'peach',format:'square'});label.append(thumb,input,document.createTextNode(name));$('#designs').append(label);
+ }
+}
+$('#palette').addEventListener('change',()=>customPalette=true);
 let image=null,imageVersion=0,pending=false,busy=false,ready=false;
 let dirty=false;
 form.addEventListener('input',()=>dirty=true);
@@ -14,7 +27,7 @@ document.addEventListener('click',event=>{
  if(!confirm('You have an unfinished card. Switching sections clears its text and photo. Stay here to download it, or continue?'))event.preventDefault();
 });
 function controls(){for(const id of ['download','share'])$('#'+id).disabled=!ready||pending||busy;$('#remove-photo').disabled=!image&&!pending;}
-function draw(){try{const data=validate(Object.fromEntries(new FormData(form))),result=render(canvas,data,image);ready=result.fits&&brandReady;canvas.classList.toggle('story',data.format==='story');canvas.setAttribute('aria-label',`${data.title}${data.name?' for '+data.name:''}. ${data.message}. ${data.details}. ${data.from}.`);$('#preview-description').textContent=result.width+' x '+result.height+' pixels | '+designs[data.design]+' | '+palettes[data.palette].name;$('#fit-status').textContent=!brandReady?'The platform logo could not load. Reload before exporting.':ready?'':'Some wording does not fit. Shorten it, remove the photo or choose Vertical status before exporting.';}catch(error){ready=false;$('#fit-status').textContent=error.message;}controls();}
+function draw(){try{const data=validate(cardData()),result=render(canvas,data,image);ready=result.fits&&brandReady;canvas.classList.toggle('story',data.format==='story');canvas.setAttribute('aria-label',`${data.title}${data.name?' for '+data.name:''}. ${data.message}. ${data.details}. ${data.from}.`);$('#preview-description').textContent=result.width+' x '+result.height+' pixels | '+designs[data.design]+' | '+palettes[data.palette].name;$('#fit-status').textContent=!brandReady?'The platform logo could not load. Reload before exporting.':ready?'':'Some wording does not fit. Shorten it, remove the photo or choose Vertical status before exporting.';}catch(error){ready=false;$('#fit-status').textContent=error.message;}controls();}
 form.addEventListener('input',event=>{if(event.target.id==='photo')return;$('#status').textContent='';draw();});form.addEventListener('change',event=>{if(event.target.id!=='photo')draw();});form.onsubmit=event=>event.preventDefault();
 $('#suggest').onclick=()=>{const text=occasions[form.elements.occasion.value][form.elements.language.value];form.elements.title.value=text.title;form.elements.message.value=text.message;draw();$('#status').textContent='Suggested headline and message applied. Your other details are unchanged.';};
 $('#photo').onchange=async()=>{
@@ -26,46 +39,47 @@ $('#photo').onchange=async()=>{
 $('#remove-photo').onclick=()=>{imageVersion++;pending=false;image=null;$('#photo').value='';$('#photo-status').textContent='Photo removed.';draw();};
 function blob(){return new Promise((resolve,reject)=>canvas.toBlob(value=>value?resolve(value):reject(Error('Could not create the image. Please try again.')),'image/png'));}
 function download(file,name){const url=URL.createObjectURL(file),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),60000);}
-async function exportCard(share){if(!ready||pending||busy)return;busy=true;controls();try{requireBrand();const data=validate(Object.fromEntries(new FormData(form)));render(canvas,data,image);const png=await blob(),name=filename(data),file=new File([png],name,{type:'image/png'});if(share&&navigator.canShare?.({files:[file]})&&navigator.share){try{await navigator.share({files:[file],title:'Moment Studio'});$('#status').textContent='Card shared.';return;}catch(error){if(error.name==='AbortError'){$('#status').textContent='Sharing cancelled. Your card is still here.';return;}}}download(png,name);$('#status').textContent=share?'Card downloaded. Attach it in WhatsApp or your favourite app.':'PNG downloaded. Your card is ready to send.';}catch(error){$('#status').textContent=error.message;}finally{busy=false;controls();}}
+async function exportCard(share){if(!ready||pending||busy)return;busy=true;controls();try{requireBrand();const data=validate(cardData());render(canvas,data,image);const png=await blob(),name=filename(data),file=new File([png],name,{type:'image/png'});if(share&&navigator.canShare?.({files:[file]})&&navigator.share){try{await navigator.share({files:[file],title:'Moment Studio'});$('#status').textContent='Card shared.';return;}catch(error){if(error.name==='AbortError'){$('#status').textContent='Sharing cancelled. Your card is still here.';return;}}}download(png,name);$('#status').textContent=share?'Card downloaded. Attach it in WhatsApp or your favourite app.':'PNG downloaded. Your card is ready to send.';}catch(error){$('#status').textContent=error.message;}finally{busy=false;controls();}}
 $('#download').onclick=()=>exportCard(false);$('#share').onclick=()=>exportCard(true);
 let messageVariant=0;
-function syncOccasion(){const memorial=['condolence','remembrance'].includes(form.elements.occasion.value);$('#condolence-tools').hidden=form.elements.occasion.value!=='condolence';const presets={birthday:['confetti','peach'],congratulations:['elegant','sunshine'],anniversary:['bloom','rose'],festival:['bloom','sunshine'],thanks:['bloom','forest'],invitation:['elegant','lavender'],fun:['bold','ocean']};const [design,palette]=memorial?['quiet','slate']:presets[form.elements.occasion.value]||['elegant','peach'];form.elements.design.value=design;form.elements.palette.value=palette;document.querySelectorAll('.studio-nav a').forEach(a=>{a.removeAttribute('aria-current');if(a.dataset.studioSection===(memorial?'condolences':'cards'))a.setAttribute('aria-current','page');});draw();}
-$('#occasion').addEventListener('change',syncOccasion);
+function syncOccasion(){
+ const id=form.elements.occasion.value;
+ $('#studio-title').textContent=memorial?'Condolences & remembrance':'Cards & greetings';
+ $('#condolence-tools').hidden=id!=='condolence';$('#suggest').hidden=id==='condolence';
+ $('#recipient-label').textContent=memorial?'Person’s name':id==='invitation'?'Guest / occasion name':'Name or recipient';
+ $('#sender-label').textContent=id==='invitation'?'Host':'From';
+ $('#event-fields').hidden=!['invitation','remembrance'].includes(id);
+ $('#event-heading').textContent=id==='remembrance'?'Remembrance gathering (optional)':'Event details';
+ const presets={birthday:['confetti','peach'],congratulations:['elegant','sunshine'],anniversary:['bloom','rose'],festival:['bloom','sunshine'],thanks:['bloom','forest'],invitation:['elegant','lavender'],fun:['bold','ocean']};
+ const [design,palette]=memorial?['quiet','slate']:presets[id];
+ thumbnails();if(!customDesign)form.elements.design.value=design;if(!customPalette)form.elements.palette.value=palette;
+ document.querySelectorAll('.studio-nav a').forEach(a=>{a.removeAttribute('aria-current');if(a.dataset.studioSection===(memorial?'condolences':'cards'))a.setAttribute('aria-current','page');});draw();
+}
+let previousOccasion=null;
+$('#occasion').addEventListener('change',()=>{
+ const language=form.elements.language.value,prior=occasions[previousOccasion]?.[language],next=occasions[form.elements.occasion.value][language];
+ if(prior&&form.elements.title.value===prior.title)form.elements.title.value=next.title;
+ if(prior&&form.elements.message.value===prior.message)form.elements.message.value=next.message;
+ previousOccasion=form.elements.occasion.value;syncOccasion();
+});
 $('#generate-message').onclick=()=>{const copy=condolenceMessage({language:form.elements.language.value,tone:$('#message-tone').value,connection:$('#connection').value,variant:messageVariant++});form.elements.title.value=copy.title;form.elements.message.value=copy.message;draw();$('#status').textContent='Thoughtful wording generated. Review and edit it to suit the person and situation.';};
 $('#copy-message').onclick=async()=>{const message=form.elements.message.value.trim();if(!message){$('#status').textContent='Write or generate a message first.';return;}const text=message+'\n\nCreated with Sushant Synapse · Moment Studio\n'+location.origin+'/moment-studio';try{if(navigator.clipboard){await navigator.clipboard.writeText(text);$('#status').textContent='Message copied with Moment Studio credit.';return;}}catch{}$('#message-copy').value=text;$('#message-copy-label').hidden=false;$('#message-copy').focus();$('#message-copy').select();$('#status').textContent='Copy your message below.';};
-const params=new URLSearchParams(location.search),occasion=params.get('occasion'),language=params.get('language');form.elements.occasion.value=Object.hasOwn(occasions,occasion)?occasion:'birthday';if(['en','hi'].includes(language))form.elements.language.value=language;const initial=occasions[form.elements.occasion.value][form.elements.language.value];form.elements.title.value=initial.title;form.elements.message.value=initial.message;syncOccasion();draw();
+const language=params.get('language');form.elements.occasion.value=allowed.includes(initialOccasion)?initialOccasion:allowed[0];if(['en','hi'].includes(language))form.elements.language.value=language;const initial=occasions[form.elements.occasion.value][form.elements.language.value];form.elements.title.value=initial.title;form.elements.message.value=initial.message;previousOccasion=form.elements.occasion.value;syncOccasion();draw();
 
-// Workspace shortcuts reuse the existing editor, validation and export handlers.
-const recent=new Set(),favorites=new Set();let filter='all';
-const tools=[
- {id:'card',name:'Card artboard',keywords:'birthday greeting media image',run:()=>canvas.scrollIntoView({behavior:'instant',block:'center'})},
- {id:'certificate',name:'Certificates & awards',keywords:'recognition pdf png media',run:()=>document.querySelector('[data-studio-section="certificates"]').click()},
- {id:'invitation',name:'Invitation preset',keywords:'event celebration party',run:()=>preset('invitation')},
- {id:'wording',name:'Suggested wording',keywords:'words text prompts english hindi',run:()=>$('#suggest').click()},
- {id:'copy',name:'Copy message',keywords:'clipboard text words',run:()=>$('#copy-message').click()},
- {id:'remembrance',name:'Condolence preset',keywords:'sympathy remembrance comfort text',run:()=>preset('condolence')},
- {id:'photo',name:'Add a local photo',keywords:'upload image media drop',run:()=>$('#photo').click()}
-];
-function applyFilter(){let count=0;document.querySelectorAll('[data-tool]').forEach(tile=>{tile.hidden=!(filter==='all'||tile.dataset.category===filter||filter==='recent'&&recent.has(tile.dataset.tool));if(!tile.hidden)count++;});$('#tool-empty').hidden=count>0;$('#tool-empty').textContent=filter==='ai'?'No AI service is connected. Use Text & Prompts for private, editable wording.':'No recent tools yet. Run a preset or use a wording action to get started.';}
-function remember(id){recent.delete(id);recent.add(id);applyFilter();}
-function preset(id){if(dirty&&!confirm('Replace the headline and message with this preset? Your name, details and photo stay.'))return;form.elements.occasion.value=id;syncOccasion();$('#suggest').click();dirty=true;remember(id==='condolence'?'remembrance':id);}
-document.querySelectorAll('[data-filter]').forEach(button=>button.addEventListener('click',()=>{filter=button.dataset.filter;document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));applyFilter();}));
-document.querySelectorAll('[data-preset]').forEach(button=>button.addEventListener('click',()=>preset(button.dataset.preset)));
-document.querySelectorAll('[data-action]').forEach(button=>button.addEventListener('click',()=>{remember('wording');$('#'+(button.dataset.action==='copy'?'copy-message':'suggest')).click();}));
-document.querySelectorAll('[data-favorite]').forEach(button=>button.addEventListener('click',()=>{const id=button.dataset.favorite;if(favorites.has(id))favorites.delete(id);else favorites.add(id);button.setAttribute('aria-pressed',String(favorites.has(id)));button.textContent=favorites.has(id)?'★ Favorited':'☆ Favorite';}));
-$('#suggest').addEventListener('click',()=>{dirty=true;remember('wording');});
-$('#generate-message').addEventListener('click',()=>{dirty=true;remember('remembrance');});
-$('#copy-message').addEventListener('click',()=>remember('wording'));
-$('#choose-photo').addEventListener('click',()=>$('#photo').click());
+// Combine event fields at render/export time, preserving separately typed details.
+function cardData(){
+ const data=Object.fromEntries(new FormData(form));
+ if(['invitation','remembrance'].includes(data.occasion)){
+  const date=$('#event-date').value;
+  const dateText=date?new Intl.DateTimeFormat(data.language==='hi'?'hi-IN':'en-IN',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(date+'T00:00:00Z')):'';
+  data.details=[dateText,$('#event-time').value,$('#event-venue').value,data.details].filter(Boolean).join(' · ');
+ }
+ return data;
+}
+$('#language').addEventListener('change',thumbnails);
+$('#suggest').addEventListener('click',()=>dirty=true);
+$('#generate-message').addEventListener('click',()=>dirty=true);
 const drop=$('#photo-drop');
 for(const type of ['dragenter','dragover'])drop.addEventListener(type,event=>{event.preventDefault();drop.classList.add('drag-active');});
-drop.addEventListener('dragleave',event=>{if(!drop.contains(event.relatedTarget))drop.classList.remove('drag-active');});
-drop.addEventListener('drop',event=>{event.preventDefault();drop.classList.remove('drag-active');const files=event.dataTransfer?.files;if(!files?.length)return;if(files.length!==1){$('#photo-status').textContent='Drop one photo at a time.';return;}const transfer=new DataTransfer();transfer.items.add(files[0]);$('#photo').files=transfer.files;dirty=true;remember('card');$('#photo').dispatchEvent(new Event('change',{bubbles:true}));});
-const command=$('#studio-command'),search=$('#command-search'),results=$('#command-results');let commandTrigger;
-function renderCommands(){results.replaceChildren();const query=search.value.trim().toLowerCase();const matches=tools.filter(tool=>(tool.name+' '+tool.keywords).toLowerCase().includes(query)).sort((a,b)=>Number(favorites.has(b.id))-Number(favorites.has(a.id)));for(const tool of matches){const button=document.createElement('button');button.type='button';button.textContent=(favorites.has(tool.id)?'★ ':'')+tool.name;button.addEventListener('click',()=>{command.close();remember(tool.id);tool.run();});results.append(button);}$('#command-empty').hidden=matches.length>0;}
-function openCommand(){if(command.open)return;commandTrigger=document.activeElement;search.value='';renderCommands();command.showModal();search.focus();}
-$('#open-command').addEventListener('click',openCommand);$('#close-command').addEventListener('click',()=>command.close());search.addEventListener('input',renderCommands);
-command.addEventListener('close',()=>commandTrigger?.focus());
-command.addEventListener('click',event=>{if(event.target===command){const rect=command.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)command.close();}});
-document.addEventListener('keydown',event=>{if((event.metaKey||event.ctrlKey)&&event.key.toLowerCase()==='k'){event.preventDefault();openCommand();}});
-command.addEventListener('keydown',event=>{const buttons=[...results.querySelectorAll('button')];if(['ArrowDown','ArrowUp'].includes(event.key)){event.preventDefault();if(!buttons.length)return;const index=buttons.indexOf(document.activeElement),next=index<0?(event.key==='ArrowDown'?0:buttons.length-1):(index+(event.key==='ArrowDown'?1:-1)+buttons.length)%buttons.length;buttons[next].focus();}if(event.key==='Enter'&&document.activeElement===search&&buttons.length){event.preventDefault();buttons[0].click();}});
+drop.addEventListener('dragleave',()=>drop.classList.remove('drag-active'));
+drop.addEventListener('drop',event=>{event.preventDefault();drop.classList.remove('drag-active');const files=event.dataTransfer?.files;if(!files?.length)return;$('#personalise').open=true;if(files.length!==1){$('#photo-status').textContent='Drop one photo at a time.';return;}const transfer=new DataTransfer();transfer.items.add(files[0]);$('#photo').files=transfer.files;dirty=true;$('#photo').dispatchEvent(new Event('change',{bubbles:true}));});
