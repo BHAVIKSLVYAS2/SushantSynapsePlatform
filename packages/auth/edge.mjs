@@ -12,7 +12,7 @@ export async function session(request,repo){const token=/(?:^|;\s*)chambers_sess
 function newSession(repo,id){const token=randomBytes(32).toString('hex');return {cookie:cookie(token),writes:[repo.statement('DELETE FROM sessions WHERE expires<?',Date.now()),repo.statement('INSERT INTO sessions VALUES(?,?,?)',hash(token),id,Date.now()+ttl)]};}
 export async function auth(context){
  const {request,repo,user,route,env}=context,method=request.method;
- if(route==='auth/status'&&method==='GET')return json({setupRequired:!(await repo.first('SELECT id FROM users LIMIT 1')),setupProtected:true,authMethod:'password',freeWorkspace:env.FREE_MODE==='true',user:user?await repo.user(user.id):null});
+ if(route==='auth/status'&&method==='GET')return json({setupRequired:!(await repo.first('SELECT id FROM users LIMIT 1')),setupProtected:true,authMethod:'password',freeWorkspace:env.FREE_MODE==='true',fullApps:env.FULL_APPS==='true',user:user?await repo.user(user.id):null});
  if(route==='auth/setup'&&method==='POST'){
   const b=await body(request);if(await repo.first('SELECT id FROM users LIMIT 1'))fail(409,'Workspace is already set up');if(!env.SETUP_TOKEN||env.SETUP_TOKEN.length<24||typeof b.setupToken!=='string'||hash(b.setupToken)!==hash(env.SETUP_TOKEN))fail(403,'Setup token required');
   const u=userInput({...b,role:'Owner'}),id=crypto.randomUUID(),password=passwordHash(b.password),s=newSession(repo,id);

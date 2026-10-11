@@ -4,14 +4,16 @@
  "main":"fullstack-worker.mjs",
  "compatibility_date":"2026-10-01",
  "compatibility_flags":["nodejs_compat"],
- "workers_dev":false,
+ "workers_dev":true,
  "preview_urls":false,
  "build":{"command":"node build.cjs --fullstack","cwd":"infrastructure/cloudflare"},
  "assets":{"directory":"./dist","binding":"ASSETS","html_handling":"none","not_found_handling":"none","run_worker_first":true},
- "vars":{"PUBLIC_ORIGIN":"https://sushant-synapse-free-staging.bhavik-slvyas.workers.dev","MAINTENANCE_MODE":"false","FREE_MODE":"true","AUTH_METHOD":"password"},
+ "vars":{"PUBLIC_ORIGIN":"https://sushant-synapse-free-staging.bhavik-slvyas.workers.dev","MAINTENANCE_MODE":"false","FREE_MODE":"true","AUTH_METHOD":"password","FULL_APPS":"true"},
  "d1_databases":[{"binding":"PLATFORM_DB","database_name":"synapse-platform-free-staging","database_id":"721bc0d6-f730-43e6-a7ed-eb3869851b5d","migrations_dir":"d1-free-migrations"}],
  "ratelimits":[
   {"name":"AUTH_LIMITER","namespace_id":"2026101107","simple":{"limit":6,"period":60}},
+  {"name":"SAMAJ_LIMITER","namespace_id":"2026101109","simple":{"limit":120,"period":60}},
+  {"name":"CALENDAR_LIMITER","namespace_id":"2026101110","simple":{"limit":6,"period":60}},
   {"name":"NEWS_LIMITER","namespace_id":"2026101104","simple":{"limit":6,"period":60}},
   {"name":"FUND_LIMITER","namespace_id":"2026101105","simple":{"limit":30,"period":60}},
   {"name":"ARENA_LIMITER","namespace_id":"2026101106","simple":{"limit":30,"period":60}}

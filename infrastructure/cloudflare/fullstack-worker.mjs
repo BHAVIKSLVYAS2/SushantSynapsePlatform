@@ -19,7 +19,7 @@ export default {
   const {default:pages}=await import('./pages.json',{with:{type:'json'}});
   const canonical=['/news/','/advocate/','/fund-overlap/','/signin/'].includes(url.pathname)?url.pathname.slice(0,-1):url.pathname;
   if(pages[canonical]){
-   if(env.FREE_MODE==='true'&&/^\/(digital-samaj|batchfee-lite|tournament-lite)(\/|$)/.test(canonical))return new Response('This workspace is unavailable in the free cloud version. Existing records are preserved in the local workspace.',{status:503,headers:{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'}});
+   if(env.FREE_MODE==='true'&&env.FULL_APPS!=='true'&&/^\/(digital-samaj|batchfee-lite|tournament-lite)(\/|$)/.test(canonical))return new Response('This workspace is unavailable in the free cloud version. Existing records are preserved in the local workspace.',{status:503,headers:{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'}});
    if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405});
    const response=await env.ASSETS.fetch(new Request(new URL(pages[canonical],url)));
    const headers=new Headers(response.headers);headers.set('Cache-Control','no-store');headers.set('X-Synapse-Frontend','cloudflare');

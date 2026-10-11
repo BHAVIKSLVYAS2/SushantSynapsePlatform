@@ -2,6 +2,7 @@ const {test,before,after}=require('node:test'),assert=require('node:assert/stric
 const {createRequire}=require('node:module');
 const wranglerRequire=createRequire(process.env.SYNAPSE_WRANGLER_PACKAGE||require.resolve('wrangler/package.json'));
 const {Miniflare,convertV4MiniflareOptions}=wranglerRequire('miniflare');
+const allAppsD1=process.env.SYNAPSE_ALL_APPS_D1==='true';
 const {statements}=require('../infrastructure/cloudflare/sql-statements.cjs');
 let mf,db,cookie='',ownerId;
 const password='Cloudflare test password 2026!',setupToken='isolated-test-setup-token-abcdefghijklmnopqrstuvwxyz';
@@ -12,10 +13,12 @@ async function api(route,method='GET',body,headers={}){const r=await raw('/api/'
 async function create(kind,body){const r=await api(kind,'POST',body);assert.equal(r.status,201,JSON.stringify(r.data));return r.data;}
 before(async()=>{
  const worker={name:'api',modules:true,scriptPath:path.resolve('infrastructure/cloudflare/.publish/fullstack-dryrun/fullstack-worker.js'),compatibilityDate:'2026-10-01',compatibilityFlags:['nodejs_compat'],d1Databases:{PLATFORM_DB:'isolated-platform'},r2Buckets:{PRIVATE_FILES:'isolated-files'},bindings:{PUBLIC_ORIGIN:origin,SETUP_TOKEN:setupToken,ARENA_COOKIE_SECRET:'isolated-arena-secret-abcdefghijklmnopqrstuvwxyz'},ratelimits:Object.fromEntries(['AUTH','SAMAJ','CALENDAR','NEWS','FUND','ARENA'].map((name,i)=>[name+'_LIMITER',{namespace_id:String(i+1),simple:{limit:10000,period:60}}])),serviceBindings:{ASSETS:async request=>{const p=new URL(request.url).pathname,target=path.resolve('infrastructure/cloudflare/dist','.'+p);if(!target.startsWith(path.resolve('infrastructure/cloudflare/dist')+path.sep)||!fs.existsSync(target)||!fs.statSync(target).isFile())return new Response('Not found',{status:404});return new Response(fs.readFileSync(target),{headers:{'Content-Type':mime(p)}});}}};
- const options={workers:[worker]};mf=new Miniflare(convertV4MiniflareOptions?convertV4MiniflareOptions(options):options);db=await mf.getD1Database('PLATFORM_DB');await db.batch(statements(fs.readFileSync('infrastructure/cloudflare/d1-migrations/0001-platform.sql','utf8')).map(s=>db.prepare(s)));
+ if(allAppsD1){delete worker.r2Buckets;Object.assign(worker.bindings,{FREE_MODE:'true',FULL_APPS:'true',AUTH_METHOD:'password'});}
+ const options={workers:[worker]};mf=new Miniflare(convertV4MiniflareOptions?convertV4MiniflareOptions(options):options);db=await mf.getD1Database('PLATFORM_DB');
+ for(const file of allAppsD1?['d1-free-migrations/0001-platform.sql','d1-free-migrations/0002-free-guards.sql','d1-free-migrations/0003-document-blobs.sql','d1-free-migrations/0004-samaj-blobs.sql']:['d1-migrations/0001-platform.sql'])await db.batch(statements(fs.readFileSync('infrastructure/cloudflare/'+file,'utf8')).map(s=>db.prepare(s)));
 });
 after(async()=>{await mf?.dispose();});
-test('native Worker integration with D1 and private R2',async t=>{
+test('native Worker integration with '+(allAppsD1?'all apps on Free D1':'D1 and private R2'),async t=>{
  await t.test('static routes, hidden source, setup protection and host/origin checks',async()=>{
   for(const route of ['/','/advocate','/platform.js','/app.js','/shared/theme.js'])assert.equal((await raw(route)).status,200,route);
   for(const route of ['/server/index.js','/data/chambers.sqlite','/_pages/home.html','/_edge/functionality-ledger.md','/%5Fedge/functionality-ledger.md','/%5Fpages/home.html'])assert.equal((await raw(route)).status,404,route);
@@ -49,8 +52,8 @@ test('native Worker integration with D1 and private R2',async t=>{
   let r=await raw('/api/documents/'+document.id+'/download');assert.equal(r.status,200);assert.deepEqual(Buffer.from(await r.arrayBuffer()),Buffer.from(content,'base64'));
   assert.equal((await raw('/api/documents/'+document.id+'/download','GET',undefined,{Cookie:''})).status,401);
   assert.equal((await db.prepare('SELECT content FROM files WHERE id=?').bind(document.id).first()).content,null);
-  const meta=await db.prepare('SELECT * FROM edge_objects WHERE id=?').bind(document.id).first();assert.equal(meta.size,Buffer.from(content,'base64').length);
-  const backup=await api('backup');assert.equal(backup.data.files[0].content,content);assert.equal((await api('backup.sql')).status,409);
+  const meta=await db.prepare('SELECT * FROM '+(allAppsD1?'edge_document_blobs':'edge_objects')+' WHERE id=?').bind(document.id).first();assert.equal(meta.size,Buffer.from(content,'base64').length);
+  const backup=await api('backup');if(allAppsD1){assert.equal(backup.status,503);assert.equal((await api('backup.sql')).status,503);}else{assert.equal(backup.data.files[0].content,content);assert.equal((await api('backup.sql')).status,409);}
   const clerk=await create('users',{name:'Clerk',email:'clerk@example.test',role:'Clerk',password});const login=await api('auth/login','POST',{email:clerk.email,password});const cc=login.headers.get('Set-Cookie').split(';')[0];
   assert.equal((await api('invoices','POST',{}, {Cookie:cc})).status,403);assert.equal((await api('users/'+ownerId,'PATCH',{active:false})).status,400);
   assert.equal((await api('users/'+clerk.id,'PATCH',{active:false})).status,200);assert.equal((await api('state','GET',undefined,{Cookie:cc})).status,401);
@@ -73,7 +76,7 @@ test('native Worker integration with D1 and private R2',async t=>{
   assert.equal((await db.prepare('SELECT COUNT(*) n FROM samaj_families').first()).n,0);
   data.members[0].data.dob='2020-02-29';assert.equal((await api(base+'/drafts/'+draft.id,'PATCH',{revision:2,step:4,data})).status,200);
   const submitted=await api(base+'/drafts/'+draft.id+'/submit','POST',{revision:3,consent:true});assert.equal(submitted.status,201,JSON.stringify(submitted.data));
-  const family=await api(base+'/families/'+submitted.data.familyId);assert.equal(family.data.members.length,2);assert.equal((await db.prepare("SELECT COUNT(*) n FROM edge_objects WHERE scope='samaj'").first()).n,1);
+  const family=await api(base+'/families/'+submitted.data.familyId);assert.equal(family.data.members.length,2);assert.equal((await db.prepare(allAppsD1?'SELECT COUNT(*) n FROM edge_samaj_blobs':"SELECT COUNT(*) n FROM edge_objects WHERE scope='samaj'").first()).n,1);
  });
  await t.test('watchlists remain account-owned and calendar runs without filesystem',async()=>{
   const list=await create('fund-overlap/watchlists',{name:'My plans',plans:[{code:'119551',name:'Example Direct Growth'}]});assert.equal((await api('fund-overlap/watchlists')).data.watchlists[0].id,list.id);

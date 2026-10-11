@@ -1,6 +1,6 @@
 # Sushant Synapse Platform
 
-The selected [free Cloudflare deployment profile](docs/CLOUDFLARE_FREE_DEPLOYMENT.md) is deployed at **https://apps.sushantsynapse.com** with existing email/password accounts, Chambers on D1, private documents up to 1 MB each / 100 MB total, and hard application limits. Heavy private workflows remain disabled. Workers Free is owner-confirmed. The cloud backend runs without the laptop. No OTP, verified email ownership or Access allow-list is required. Deployment and verification evidence are recorded in the functionality ledger.
+The selected [free Cloudflare deployment profile](docs/CLOUDFLARE_FREE_DEPLOYMENT.md) is deployed at **https://apps.sushantsynapse.com** with existing email/password accounts, Chambers on D1, private documents up to 1 MB each / 100 MB total, and hard application limits. DIGITAL SAMAJ, BatchFee, Tournament, saved News, private Fund workflows and the ritual calendar are enabled on the same Free D1 backend. Workers Free is owner-confirmed. The cloud backend runs without the laptop. No OTP, verified email ownership or Access allow-list is required. Deployment and verification evidence are recorded in the functionality ledger.
 
 A Cloudflare-native backend is prepared for **Workers + D1 + private R2**, with local integration tests and verified migration/recovery tooling. It uses a separate staging Worker configuration; the current production Node/SQL Server backend remains in place. Start with [the Cloudflare migration guide](docs/CLOUDFLARE_FULLSTACK.md) and `npm.cmd run test:cloudflare`.
 
@@ -60,7 +60,7 @@ A mobile-first home for connected apps at **apps.sushantsynapse.com**. Chambers,
 - Fund Lens focuses on holdings overlap, industries and what-if comparisons. Personal portfolio entry/import, watchlists and investment calculators have been removed from the interface. Existing private SQLite records remain preserved and protected.
 - This release serves one organisation with one Chambers workspace. It does not yet provide separate customer tenants or isolated databases per app.
 
-Run `npm.cmd start`, then open http://localhost:3000. The backend uses the local Windows Cloudflare Tunnel. The Cloudflare deployment keeps the homepage, Fund Lens comparison, News temporary editions, certificates and Timetable Lite available while the laptop is off; backend-dependent apps show a graceful unavailable message. Fund Lens retrieves public third-party data on Cloudflare; internet and provider availability still apply. See the [deployment guide](docs/DEPLOYMENT.md) for release status and commands.
+Run `npm.cmd start`, then open http://localhost:3000. The backend uses the local Windows Cloudflare Tunnel. The Cloudflare deployment runs implemented apps directly on Workers and D1 while the laptop is off. The local runtime remains available for development and recovery. Fund Lens retrieves public third-party data on Cloudflare; internet and provider availability still apply. See the [deployment guide](docs/DEPLOYMENT.md) for release status and commands.
 
 ## Chambers advocate app
 A mobile-first case and practice management application for advocates and chamber staff in India. Light, dark, and system themes. SQLite persistence, authenticated accounts, and a saved functionality ledger for continuing development.

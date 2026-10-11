@@ -9,19 +9,20 @@ function prepareRecovery(sqlFile,output){
  const source=new DatabaseSync(':memory:'),restored=new DatabaseSync(':memory:');
  try{
   const dump=fs.readFileSync(sqlFile,'utf8');
-  for(const statement of statements(dump)){if(!/^(CREATE\s+(?:TABLE|INDEX|UNIQUE\s+INDEX|TRIGGER|VIEW)\b|DROP\s+VIEW\b|INSERT\s+(?:OR\s+IGNORE\s+)?INTO\b|BEGIN\b|COMMIT\b|PRAGMA\s+(?:defer_foreign_keys|foreign_keys)\s*=\s*(?:ON|OFF|0|1)\s*;?$)/i.test(statement.trim()))throw Error('Unsupported D1 export statement');}
+  for(const statement of statements(dump)){if(!/^(CREATE\s+(?:TABLE|INDEX|UNIQUE\s+INDEX|TRIGGER|VIEW)\b|DROP\s+(?:VIEW|TRIGGER)\b|INSERT\s+(?:OR\s+IGNORE\s+)?INTO\b|BEGIN\b|COMMIT\b|DELETE\s+FROM\s+sqlite_sequence\s*;?$|PRAGMA\s+(?:defer_foreign_keys|foreign_keys)\s*=\s*(?:ON|OFF|TRUE|FALSE|0|1)\s*;?$)/i.test(statement.trim()))throw Error('Unsupported D1 export statement');}
   source.exec(dump);if(source.prepare('PRAGMA integrity_check').get().integrity_check!=='ok'||source.prepare('PRAGMA foreign_key_check').all().length)throw Error('Source export integrity failed');
   if(source.prepare('SELECT COUNT(*) n FROM edge_objects').get().n)throw Error('This tool only restores D1-only workspaces');
   const exported={};for(const meta of Object.values(tables)){if(meta.name==='sessions')continue;const rows=source.prepare('SELECT '+meta.columns.map(c=>c.name).join(',')+(meta.name==='records'?',rowid AS __rowid':'')+' FROM '+meta.name).all();exported[meta.name]={rows,sha256:digest(rows)};}
-  const objects=source.prepare('SELECT id,name,mime,size,sha256,created_at FROM edge_document_blobs ORDER BY id').all();
+  const objects=source.prepare("SELECT id,name,mime,size,sha256,created_at,'chambers' scope FROM edge_document_blobs ORDER BY id").all();
+  if(source.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='edge_samaj_blobs'").get())objects.push(...source.prepare("SELECT id,name,mime,size,sha256,created_at,'samaj' scope,CASE WHEN file_id IS NOT NULL THEN 'samaj_files' ELSE 'samaj_message_attachments' END kind FROM edge_samaj_blobs ORDER BY id").all());
   const manifest={format:'synapse-d1-only-recovery',version:1,createdAt:new Date().toISOString(),sessionsMigrated:false,tables:exported,objects};
   const manifestHash=createHash('sha256').update(JSON.stringify(manifest)).digest('hex');
-  const sql=importSql({...manifest,objects:[]},manifestHash)+'\n'+documentSql(objects,object=>Buffer.from(source.prepare('SELECT content FROM edge_document_blobs WHERE id=?').get(object.id).content));
-  restored.exec(schema());for(const file of ['0002-free-guards.sql','0003-document-blobs.sql'])restored.exec(fs.readFileSync(path.join(__dirname,'d1-free-migrations',file),'utf8'));
+  const sql=importSql({...manifest,objects:[]},manifestHash)+'\n'+documentSql(objects,object=>Buffer.from(source.prepare('SELECT content FROM '+(object.scope==='samaj'?'edge_samaj_blobs':'edge_document_blobs')+' WHERE id=?').get(object.id).content));
+  restored.exec(schema());for(const file of ['0002-free-guards.sql','0003-document-blobs.sql','0004-samaj-blobs.sql'])restored.exec(fs.readFileSync(path.join(__dirname,'d1-free-migrations',file),'utf8'));
   restored.exec('BEGIN');restored.exec(sql);restored.exec('COMMIT');
   if(restored.prepare('PRAGMA foreign_key_check').all().length)throw Error('Recovery foreign keys failed');
   for(const [name,t]of Object.entries(exported)){const meta=tables[name],rows=restored.prepare('SELECT '+meta.columns.map(c=>c.name).join(',')+(name==='records'?',rowid AS __rowid':'')+' FROM '+name).all();if(digest(rows)!==t.sha256)throw Error('Recovery table checksum differs: '+name);}
-  for(const object of objects){const bytes=restored.prepare('SELECT content FROM edge_document_blobs WHERE id=?').get(object.id).content;if(createHash('sha256').update(bytes).digest('hex')!==object.sha256)throw Error('Recovery document checksum differs');}
+  for(const object of objects){const bytes=restored.prepare('SELECT content FROM '+(object.scope==='samaj'?'edge_samaj_blobs':'edge_document_blobs')+' WHERE id=?').get(object.id).content;if(createHash('sha256').update(bytes).digest('hex')!==object.sha256)throw Error('Recovery document checksum differs');}
   fs.mkdirSync(target,{recursive:true,mode:0o700});fs.writeFileSync(path.join(target,'d1-restore.sql'),sql,{mode:0o600});fs.writeFileSync(path.join(target,'manifest.json'),JSON.stringify(manifest),{mode:0o600});
   return {verified:true,manifestHash,tables:Object.keys(exported).length,documents:objects.length,sessionsMigrated:false};
  }finally{source.close();restored.close();}

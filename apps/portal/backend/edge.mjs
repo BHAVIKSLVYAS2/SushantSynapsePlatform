@@ -4,7 +4,7 @@ import {appIds} from '../../../packages/auth/edge.mjs';
 import {emptySupport,validateSupport} from '../frontend/support-engine.mjs';
 const {apps,resolveAppId}=registry;
 export async function portal({route,request,repo,user,env}){
- const disabled=env?.FREE_MODE==='true'?['digital-samaj','batchfee-lite','tournament-lite']:[];
+ const disabled=env?.FREE_MODE==='true'&&env.FULL_APPS!=='true'?['digital-samaj','batchfee-lite','tournament-lite']:[];
  const enabled=app=>app.status==='Available'&&!disabled.includes(app.id);
  const method=request.method;
  if(route==='support'&&method==='GET'){const value=await repo.setting('platform-support');return json(value?.isActive?value:{...emptySupport});}
