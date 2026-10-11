@@ -33,3 +33,32 @@ for(const [kind,limit] of [['computer',8],['tv',6],['plates',6],['shred',5]]){aw
 await page.locator('[data-mode=plates]').click();await page.locator('#scene-target').click({position:{x:10,y:100}});const once=await page.locator('#scene-canvas').evaluate(c=>c.toDataURL());await page.locator('#scene-target').click({position:{x:10,y:100}});expect(await page.locator('#scene-canvas').evaluate(c=>c.toDataURL())).toBe(once);await page.locator('[data-mode=computer]').click();await page.locator('#scene-target').click();await page.waitForTimeout(700);await expect(page.locator('.fragment')).toHaveCount(0);await page.locator('[data-mode=tv]').click();await page.locator('[data-mode=computer]').click();await expect(page.locator('#scene-caption')).toContainText('motivation');
 await page.emulateMedia({reducedMotion:'reduce'});await page.locator('#scene-target').click();await expect(page.locator('.fragment')).toHaveCount(0);await page.getByRole('button',{name:'Dark mode',exact:true}).click();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');for(const kind of ['computer','tv','plates','shred']){await page.locator('[data-mode='+kind+']').click();for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:950});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}await page.setViewportSize({width:390,height:844});await page.screenshot({path:'test-results/pocket-pause-'+kind+'.png',fullPage:true});}await page.reload();await page.locator('[data-mode=computer]').click();await expect(page.locator('#scene-caption')).toHaveText('Loading your patience...');expect(errors).toEqual([]);expect(api).toEqual([]);
 });
+
+
+test('focus timer pauses, resumes and completes after elapsed background time',async({page})=>{
+ await page.clock.install();
+ await page.setViewportSize({width:320,height:850});
+ await page.goto(base+'/pocket-pause');
+ await expect(page.locator('#timer')).toHaveText('25:00');
+ await expect(page.locator('#pauseBtn')).toBeDisabled();
+ await page.locator('#startBtn').click();
+ await expect(page.locator('#startBtn')).toBeDisabled();
+ await page.clock.fastForward(60000);
+ await expect(page.locator('#timer')).toHaveText('24:00');
+ await page.locator('#pauseBtn').click();
+ await page.clock.fastForward(120000);
+ await expect(page.locator('#timer')).toHaveText('24:00');
+ await page.locator('#startBtn').click();
+ await page.clock.fastForward(24*60000);
+ await expect(page.locator('#timer')).toHaveText('00:00');
+ await expect(page.locator('#focus-status')).toContainText('Focus session complete!');
+ await expect(page.locator('#pauseBtn')).toBeDisabled();
+ await page.locator('#startBtn').click();
+ await expect(page.locator('#timer')).toHaveText('25:00');
+ await page.clock.fastForward(1000);
+ await page.locator('#resetBtn').click();
+ await expect(page.locator('#timer')).toHaveText('25:00');
+ await page.clock.fastForward(60000);
+ await expect(page.locator('#timer')).toHaveText('25:00');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});

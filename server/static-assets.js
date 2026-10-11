@@ -81,6 +81,7 @@ const staticAssets={
  '/pocket-pause/':'apps/pocket-pause/frontend/index.html',
  '/pocket-pause/app.js':'apps/pocket-pause/frontend/app.js',
  '/pocket-pause/engine.mjs':'apps/pocket-pause/frontend/engine.mjs',
+ '/pocket-pause/focus-timer.mjs':'apps/pocket-pause/frontend/focus-timer.mjs',
  '/pocket-pause/style.css':'apps/pocket-pause/frontend/style.css',
  '/digital-samaj':'apps/digital-samaj/frontend/index.html',
  '/digital-samaj/':'apps/digital-samaj/frontend/index.html',
