@@ -1,5 +1,9 @@
 # Sushant Synapse Platform
 
+The selected [free Cloudflare deployment profile](docs/CLOUDFLARE_FREE_DEPLOYMENT.md) prepares Chambers on D1 with email-code login, private documents up to 1 MB each / 100 MB total, and hard application limits. Heavy private workflows remain disabled. Commit and deployment are authorized; Free-plan confirmation and Access setup remain pending, and production has not switched.
+
+A Cloudflare-native backend is prepared for **Workers + D1 + private R2**, with local integration tests and verified migration/recovery tooling. It uses a separate staging Worker configuration; the current production Node/SQL Server backend remains in place. Start with [the Cloudflare migration guide](docs/CLOUDFLARE_FULLSTACK.md) and `npm.cmd run test:cloudflare`.
+
 Current URLs: certificates at `/moment-studio`, greeting/remembrance cards at `/moment-studio/cards`, and Garland or Roast at `/satire-arena`. The old `/certificates`, `/celebration-studio` and `/arena` URLs/assets are removed and live-verified as 404 on 2026-10-11. Occasion links use `/moment-studio/cards?occasion=...`. Saved favourites/history retain app-ID migration mappings.
 
 All served apps use one persistent platform header with searchable app switching, theme and account controls. App actions and navigation sit inside that frame. Home provides uniform launcher cards, public/private access labels and app search; Chambers uses a compact practice overview. Saved light/dark/system themes remain shared, including Moment Studio. App-specific content, printable records and exported artwork retain their owning layouts.

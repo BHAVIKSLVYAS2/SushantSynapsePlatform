@@ -1,5 +1,4 @@
-import {readFileSync} from 'node:fs';
-const dataset=JSON.parse(readFileSync(new URL('../data/india-pincodes.json',import.meta.url),'utf8'));
+import dataset from '../data/india-pincodes.json' with {type:'json'};
 const north=new Set(['Delhi','Uttar Pradesh','Uttarakhand','Himachal Pradesh','Haryana','Punjab','Chandigarh','Rajasthan','Madhya Pradesh','Bihar','Jharkhand','Chhattisgarh','Jammu & Kashmir']);
 export function resolvePincode(value){
  if(typeof value!=='string'||! /^[1-9]\d{5}$/.test(value))throw Error('Enter a six-digit Indian PIN code');

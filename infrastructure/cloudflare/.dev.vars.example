@@ -1,0 +1,3 @@
+# Copy to .dev.vars for LOCAL development only. The actual file is ignored by Git.
+SETUP_TOKEN=replace-with-at-least-24-random-characters
+ARENA_COOKIE_SECRET=replace-with-a-separate-long-random-secret

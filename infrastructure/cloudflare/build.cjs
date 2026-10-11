@@ -4,7 +4,7 @@ const {staticAssets} = require('../../server/static-assets');
 const root = path.resolve(__dirname, '../..');
 const output = path.join(__dirname, 'dist');
 // Export only the public allowlist, never data, credentials or backend source.
-function build() {
+function build({fullstack=false}={}) {
   if (fs.existsSync(output)) {
     if (fs.realpathSync(output) !== output || path.relative(root, output) !== path.join('infrastructure', 'cloudflare', 'dist')) throw Error('Unsafe export path');
     fs.rmSync(output, {recursive: true});
@@ -33,6 +33,10 @@ function build() {
     fs.writeFileSync(target, contents);
   }
   fs.writeFileSync(path.join(__dirname, 'pages.json'), JSON.stringify(pages, null, 2) + '\n');
+  if(fullstack){
+    fs.mkdirSync(path.join(output, '_edge'), {recursive:true});
+    fs.copyFileSync(path.join(root, 'docs/FUNCTIONALITY_LEDGER.md'), path.join(output, '_edge/functionality-ledger.md'));
+  }
   fs.writeFileSync(path.join(output, '_headers'), `/*
   X-Synapse-Frontend: cloudflare
   X-Content-Type-Options: nosniff
@@ -48,5 +52,5 @@ function build() {
   console.log(`Exported ${files.size} public frontend assets; no database or credentials included.`);
   return {output, pages, files};
 }
-if (require.main === module) build();
+if (require.main === module) build({fullstack:process.argv.includes('--fullstack')});
 module.exports = {build};

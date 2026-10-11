@@ -1,0 +1,24 @@
+{
+ "$schema":"../../node_modules/wrangler/config-schema.json",
+ "name":"sushant-synapse-fullstack-staging",
+ "main":"fullstack-worker.mjs",
+ "compatibility_date":"2026-10-01",
+ "compatibility_flags":["nodejs_compat"],
+ "workers_dev":true,
+ "preview_urls":false,
+ "build":{"command":"node build.cjs --fullstack","cwd":"infrastructure/cloudflare"},
+ "assets":{"directory":"./dist","binding":"ASSETS","html_handling":"none","not_found_handling":"none","run_worker_first":true},
+ "vars":{"PUBLIC_ORIGIN":"http://127.0.0.1:8787","MAINTENANCE_MODE":"false"},
+ "d1_databases":[{"binding":"PLATFORM_DB","database_name":"synapse-platform-staging","database_id":"00000000-0000-0000-0000-000000000000","migrations_dir":"d1-migrations"}],
+ "r2_buckets":[{"binding":"PRIVATE_FILES","bucket_name":"synapse-private-staging"}],
+ "ratelimits":[
+  {"name":"AUTH_LIMITER","namespace_id":"2026101101","simple":{"limit":10,"period":60}},
+  {"name":"SAMAJ_LIMITER","namespace_id":"2026101102","simple":{"limit":120,"period":60}},
+  {"name":"CALENDAR_LIMITER","namespace_id":"2026101103","simple":{"limit":6,"period":60}},
+  {"name":"NEWS_LIMITER","namespace_id":"2026101104","simple":{"limit":6,"period":60}},
+  {"name":"FUND_LIMITER","namespace_id":"2026101105","simple":{"limit":30,"period":60}},
+  {"name":"ARENA_LIMITER","namespace_id":"2026101106","simple":{"limit":30,"period":60}}
+ ],
+ "observability":{"enabled":true,"head_sampling_rate":0.1},
+ "limits":{"cpu_ms":30000}
+}
