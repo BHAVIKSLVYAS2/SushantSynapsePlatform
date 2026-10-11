@@ -4,6 +4,7 @@ $('#theme').outerHTML=window.SynapseTheme.control('id="theme"');
 function theme(){const p=window.SynapseTheme.read();document.documentElement.dataset.theme=p==='system'?(media.matches?'dark':'light'):p;}
 $('#theme').addEventListener('change',theme);media.addEventListener('change',theme);theme();
 let options=[],rotation=0,spinning=false,result=null,history=[];
+$('.hub').textContent='✦';
 function node(name,attributes={}){const element=document.createElementNS(svgNS,name);for(const [key,value]of Object.entries(attributes))element.setAttribute(key,String(value));return element;}
 function draw(){
  const wheel=$('#wheel');wheel.replaceChildren();wheel.style.transform=`rotate(${rotation}deg)`;
@@ -19,7 +20,7 @@ function draw(){
  $('#count').textContent=`${options.length} ${options.length===1?'OPTION LEFT':'EQUAL CHOICES'}`;$('#spin').disabled=spinning||options.length<2;
  $('#wheel-title').textContent=$('#question').value.trim()||'Let the wheel decide.';
 }
-function clearResult(){result=null;$('#result').hidden=true;$('#share-fallback').hidden=true;}
+function clearResult(){result=null;$('.play').classList.remove('has-winner');$('#result').hidden=true;$('#share-fallback').hidden=true;}
 function update(preserveRotation=false){const next=parseOptions($('#options').value),same=next.length===options.length&&next.every((value,index)=>value===options[index]);options=next;if(!preserveRotation||!same)rotation=0;clearResult();draw();$('#status').textContent='Wheel ready. Every option has an equal chance.';}
 $('#options-form').onsubmit=event=>{event.preventDefault();if(spinning)return;try{update();}catch(error){$('#status').textContent=error.message;}};
 for(const field of ['#options','#question'])$(field).addEventListener('input',()=>{if(!spinning){clearResult();$('#status').textContent='Update the wheel or spin to use your changes.';$('#spin').disabled=false;}});
@@ -31,8 +32,15 @@ function renderHistory(){
 $('#spin').onclick=async()=>{
  if(spinning)return;
  try{update(true);const index=chooseIndex(options.length),next=landingRotation(rotation,index,options.length);lock(true);$('#status').textContent='Spinning\u2026';
-  const animation=$('#wheel').animate([{transform:`rotate(${rotation}deg)`},{transform:`rotate(${next}deg)`}],{duration:motion.matches?0:2600,easing:'cubic-bezier(.14,.72,.16,1)',fill:'forwards'});
-  try{await animation.finished;rotation=next;$('#wheel').style.transform=`rotate(${rotation}deg)`;}finally{animation.cancel();}
+  const play=$('.play'),pointer=$('.pointer');let frame=0,lastSlice=-1;
+  play.classList.add('is-spinning');$('#spin').textContent='Spinning…';
+  const preview=document.createElement('p');preview.className='spin-preview';preview.setAttribute('aria-hidden','true');preview.textContent='Round and round…';$('.wheel-stage').after(preview);
+  const animation=$('#wheel').animate([{transform:`rotate(${rotation}deg)`},{transform:`rotate(${next}deg)`}],{duration:motion.matches?0:3800,easing:'cubic-bezier(.12,.65,.12,1)',fill:'forwards'});
+  function tick(){const matrix=new DOMMatrixReadOnly(getComputedStyle($('#wheel')).transform),angle=(Math.atan2(matrix.b,matrix.a)*180/Math.PI+360)%360,slice=Math.floor(((360-angle)%360)/(360/options.length));if(slice!==lastSlice){preview.textContent=options[slice];lastSlice=slice;pointer.getAnimations().forEach(a=>a.cancel());pointer.animate([{transform:'translateX(-50%) rotate(-15deg)'},{transform:'translateX(-50%) rotate(0deg)'}],{duration:130});}frame=requestAnimationFrame(tick);}
+  if(!motion.matches)frame=requestAnimationFrame(tick);
+  try{await animation.finished;rotation=next;$('#wheel').style.transform=`rotate(${rotation}deg)`;}finally{cancelAnimationFrame(frame);animation.cancel();preview.remove();play.classList.remove('is-spinning');$('#spin').textContent='Spin the wheel';}
+  play.classList.add('has-winner');
+  if(!motion.matches){const stage=$('.wheel-stage');for(let i=0;i<24;i++){const piece=document.createElement('i');piece.className='wheel-confetti';piece.setAttribute('aria-hidden','true');piece.style.background=`var(--wheel-${i%8})`;stage.append(piece);const angle=i*Math.PI/12,distance=80+(i%4)*18;const burst=piece.animate([{transform:'translate(-50%,-50%) scale(0)',opacity:0},{offset:.15,opacity:1},{transform:`translate(${Math.cos(angle)*distance}px,${Math.sin(angle)*distance+40}px) rotate(${i*47}deg)`,opacity:0}],{duration:1100,easing:'cubic-bezier(.15,.6,.3,1)'});burst.finished.then(()=>piece.remove());}}
   showResult(options[index]);history.unshift({...result});history=history.slice(0,20);renderHistory();$('#status').textContent=`Selected: ${options[index]}.`;$('#winner').setAttribute('tabindex','-1');$('#winner').focus();
  }catch(error){$('#status').textContent=error.message;}finally{lock(false);}
 };
