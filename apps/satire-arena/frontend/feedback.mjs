@@ -1,14 +1,15 @@
+import {inkpot} from './catalogue.mjs?v=20261011-speakers';
 const effects={
  garland:{icon:'🌼',particles:['🌼','🌸','🌼','🍃','🌸'],pulse:[20,35,20]},
  applause:{icon:'👏',particles:['✨','👏','✨'],pulse:[20,30,20,30,20]},
  shoe:{icon:'👟',particles:[],pulse:[45,25,65]},
- finger:{icon:'💧',particles:[],pulse:[25,35,40]},
+ finger:{icon:'',particles:[],pulse:[25,35,40]},
  tomato:{icon:'🍅',particles:['💥'],pulse:[35,20,75]},
  laugh:{icon:'😂',particles:['😂','✨','😂'],pulse:[20,25,20,25,30]}
 };
 const timers=new WeakMap();
 const expressions={garland:'happy',applause:'happy',shoe:'annoyed',tomato:'startled',finger:'annoyed',laugh:'laughing'};
-const sheets=['expressions-original.png','expressions-expanded.png','expressions-new.png','highway-budget-expressions.png'];
+const sheets=['expressions-original.png','expressions-expanded.png','expressions-new.png','highway-budget-expressions.png','speakers-expressions.png'];
 const ready=new Set();
 for(const [index,file]of sheets.entries()){
  const image=new Image();image.src='/satire-arena/'+file;
@@ -22,9 +23,9 @@ export function playReaction(card,reaction,{haptics=true}={}){
  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
  card.dataset.effect=reaction;card.classList.remove('reaction-active');void card.offsetWidth;card.classList.add('reaction-active');button?.classList.add('reaction-confirmed');
  const index=Number([...portrait.classList].find(name=>/^portrait-\d+$/.test(name))?.split('-')[1]);
- if(ready.has(index>=9?3:Math.floor(index/3)))card.dataset.expression=expressions[reaction];
+ if(ready.has(index>=11?4:index>=9?3:Math.floor(index/3)))card.dataset.expression=expressions[reaction];
  const layer=document.createElement('div');layer.className='reaction-effect'+(reduced?' reaction-still':'');layer.setAttribute('aria-hidden','true');
- const hero=document.createElement('span');hero.className='reaction-hero';hero.textContent=effect.icon;layer.append(hero);
+ const hero=document.createElement('span');hero.className='reaction-hero';if(reaction==='finger')hero.innerHTML=inkpot;else hero.textContent=effect.icon;layer.append(hero);
  if(reaction==='finger'){
   // Keep the stored ballot ID compatible; the current gesture is an ink throw.
   layer.classList.add('ink-effect');hero.classList.add('ink-projectile');

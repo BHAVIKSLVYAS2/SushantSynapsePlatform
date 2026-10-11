@@ -6,8 +6,8 @@ const {compile}=require('../packages/database/sqlserver-dialect');
 const {configFromEnv}=require('../packages/database/sqlserver-config');
 const {Store}=require('../apps/advocate/backend/store');
 test('schema ownership stays in one database and qualified SQLite compatibility preserves records',()=>{
- assert.deepEqual(owners.map(o=>o[0]),['platform','chambers','batchfee','samaj','tournament','news','fundlens','satire']);assert.equal(Object.keys(tables).length,54);
- assert.equal(qualified('arena_additions_votes'),'[satire].[arena_additions_votes]');assert.equal(qualified('users'),'[platform].[users]');assert.equal(qualified('samaj_files'),'[samaj].[samaj_files]');assert.throws(()=>sqliteSql('SELECT * FROM [news].[users]'),/ownership/);
+ assert.deepEqual(owners.map(o=>o[0]),['platform','chambers','batchfee','samaj','tournament','news','fundlens','satire']);assert.equal(Object.keys(tables).length,55);
+ assert.equal(qualified('arena_additions_votes'),'[satire].[arena_additions_votes]');assert.equal(qualified('arena_speakers_votes'),'[satire].[arena_speakers_votes]');assert.equal(qualified('users'),'[platform].[users]');assert.equal(qualified('samaj_files'),'[samaj].[samaj_files]');assert.throws(()=>sqliteSql('SELECT * FROM [news].[users]'),/ownership/);
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'schema-compat-'));let store;
  try{store=new Store(root,{provider:'sqlite'});store.create('clients',{id:'same-id',name:'Preserved हिन्दी'});store.sql.close();store=new Store(root,{provider:'sqlite'});assert.equal(store.get('clients','same-id').name,'Preserved हिन्दी');assert.equal(store.sql.prepare('SELECT count(*) n FROM [chambers].[records]').get().n,1);}finally{store?.sql.close();fs.rmSync(root,{recursive:true,force:true});}
 });

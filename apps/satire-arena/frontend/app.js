@@ -1,5 +1,5 @@
-import {cast,reactions,tally} from './catalogue.mjs?v=20261011-expanded';
-import {playReaction,stopVibration} from './feedback.mjs?v=20261011-expanded';
+import {cast,reactions,tally} from './catalogue.mjs?v=20261011-speakers';
+import {playReaction,stopVibration} from './feedback.mjs?v=20261011-speakers';
 const $=s=>document.querySelector(s),api='/api/satire-arena';let round=null,busy=false,pending=null,loading=null,lastLoaded=0,shareBusy=false,toastTimer,rolloverAttempt=0;
 const media=matchMedia('(prefers-color-scheme: dark)');function applyTheme(){const value=window.SynapseTheme.read();document.documentElement.dataset.theme=value==='system'?(media.matches?'dark':'light'):value;}
 document.querySelector('[data-theme-toggle]').outerHTML=window.SynapseTheme.control();document.addEventListener('change',event=>{if(event.target.matches('[data-theme-toggle]'))applyTheme();});media.addEventListener('change',applyTheme);applyTheme();
@@ -38,13 +38,13 @@ function artwork(src){if(!shareArtwork.has(src))shareArtwork.set(src,new Promise
 async function shareStandings(character=null){
  if(!round||shareBusy)return;shareBusy=true;render();const snapshot={round:round.round,characters:round.characters.map(({selected,...publicScore})=>({...publicScore}))};
  try{
-  const people=character?cast.filter(c=>c.id===character):cast,files=['cartoon-cast.png','extra-cast-v2.png','new-cast.png','highway-budget-expressions.png'];
-  const images=await Promise.all(people.map(c=>artwork('/satire-arena/'+files[c.portrait>=9?3:Math.floor(c.portrait/3)]))),logo=await artwork('/logo-adaptive-192.png');
-  const canvas=document.createElement('canvas');canvas.width=1080;canvas.height=character?1080:1620;const ctx=canvas.getContext('2d');
+  const people=character?cast.filter(c=>c.id===character):cast,files=['cartoon-cast.png','extra-cast-v2.png','new-cast.png','highway-budget-expressions.png','speakers-expressions.png'];
+  const images=await Promise.all(people.map(c=>artwork('/satire-arena/'+files[c.portrait>=11?4:c.portrait>=9?3:Math.floor(c.portrait/3)]))),logo=await artwork('/logo-adaptive-192.png');
+  const canvas=document.createElement('canvas');canvas.width=1080;canvas.height=character?1080:1890;const ctx=canvas.getContext('2d');
   // Fixed export-art palette; interface theme never changes the shared image.
   const ink='#172a31',paper='#fff6e5',fan='#16715c',critic='#b94139',amused='#7355ad';ctx.fillStyle=paper;ctx.fillRect(0,0,canvas.width,canvas.height);
   function text(value,x,y,size=28,color=ink,weight=600){ctx.fillStyle=color;ctx.font=`${weight} ${size}px "Segoe UI", Arial, sans-serif`;ctx.fillText(value,x,y);}
-  function portrait(c,img,x,y,size){const cell=img.naturalWidth/(c.portrait>=9?2:3);ctx.save();ctx.beginPath();ctx.roundRect(x,y,size,size,20);ctx.clip();ctx.drawImage(img,(c.portrait>=9?c.portrait-9:c.portrait%3)*cell,0,cell,c.portrait>=9?cell:img.naturalHeight,x,y,size,size);ctx.restore();}
+  function portrait(c,img,x,y,size){const cell=img.naturalWidth/(c.portrait>=9?2:3);ctx.save();ctx.beginPath();ctx.roundRect(x,y,size,size,20);ctx.clip();ctx.drawImage(img,(c.portrait>=11?c.portrait-11:c.portrait>=9?c.portrait-9:c.portrait%3)*cell,0,cell,c.portrait>=9?cell:img.naturalHeight,x,y,size,size);ctx.restore();}
   const short=n=>new Intl.NumberFormat('en-IN',{notation:'compact',maximumFractionDigits:1}).format(n);
   ctx.drawImage(logo,54,42,56,56);text('SUSHANT SYNAPSE · SATIRE ARENA',128,80,22);text('Garland or Roast',54,166,64);text('Daily fictional parody · '+snapshot.round+' · IST',54,212,25,ink,400);
   if(character){
