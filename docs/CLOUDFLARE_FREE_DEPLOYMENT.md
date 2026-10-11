@@ -29,6 +29,8 @@ Sources checked 2026-10-11: [Workers pricing](https://developers.cloudflare.com/
 
 ## Deployment and recovery procedure
 
+The initial cutover steps below have already completed. For the full-app upgrade, the existing cloud D1 database was exported and its offline recovery verified, then only migration `0004-samaj-blobs.sql` was applied in place. `FULL_APPS=true` enables the tested apps without replacing accounts, records or the database binding. Never import a stale laptop export over the authoritative production database. Full-app staging acceptance includes private Samaj photo bytes, BatchFee idempotency, tournament privacy, saved news publication and actual calendar calculations; the staging public URL is closed afterwards.
+
 1. Owner confirms **Workers Free** in the dashboard (confirmed 2026-10-11). Current OAuth credentials authenticate successfully but cannot read subscriptions; Standard usage-model metadata is not proof of Free billing. R2 is not enabled. Do not upgrade or cancel other account services automatically.
 2. Select a separate staging hostname first; do not replace the production route before acceptance. The user's latest commit/deploy instruction authorizes this work. Staging workers.dev access is currently disabled; enable it explicitly only during future staging acceptance and close it afterwards.
 3. Keep `AUTH_METHOD=password` and the `AUTH_LIMITER` binding. Preserve source hashes and account IDs during import. Setup is protected by a secret and cannot run when source accounts exist; no new password or verified email is required for migrated accounts.
