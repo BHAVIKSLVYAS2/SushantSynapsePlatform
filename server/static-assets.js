@@ -1,5 +1,7 @@
 // Explicit URL allowlist. Filesystem paths are never accepted from requests.
 const staticAssets={
+ '/shared/platform-shell.js':'packages/ui/platform-shell.js',
+ '/shared/platform-shell.css':'packages/ui/platform-shell.css',
  '/shared/workbench.js':'packages/ui/workbench.js',
  '/home.css':'apps/portal/frontend/home.css',
  '/home-art.svg':'apps/portal/frontend/home-art.svg',

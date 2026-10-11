@@ -5,6 +5,8 @@
  // Capture the incoming URL before native apps add their default language to it.
  const requestedLanguage=new URL(performance.getEntriesByType('navigation')[0]?.name||location.href).searchParams.get('lang');
  const dictionary={
+  'Your apps, together.':'आपके ऐप, एक साथ।','Open a public tool or sign in to your workspace.':'सार्वजनिक टूल खोलें या अपने कार्यक्षेत्र में साइन इन करें।','Account':'खाता','Switch app':'ऐप बदलें','Find an app':'ऐप खोजें','Public tool':'सार्वजनिक टूल','Private workspace':'निजी कार्यक्षेत्र',
+
   'PLATFORM':'प्लेटफ़ॉर्म','All apps':'सभी ऐप','All apps ↗':'सभी ऐप ↗','Sign in':'साइन इन','Support us':'सहयोग करें','Watch demos':'डेमो देखें','Contact':'संपर्क','WhatsApp':'WhatsApp','WhatsApp ↗':'WhatsApp ↗','Privacy':'गोपनीयता','Usage terms':'उपयोग की शर्तें','Third-party notices':'तृतीय-पक्ष सूचनाएँ','Sponsorship':'प्रायोजन','Ritual guides ↗':'अनुष्ठान मार्गदर्शिकाएँ ↗',
   'A little clarity.':'थोड़ी स्पष्टता।','Every day.':'हर दिन।','SUSHANT SYNAPSE / APPS':'SUSHANT SYNAPSE / ऐप','Plan a week, compare funds or make someone’s day.':'सप्ताह की योजना बनाएँ, फ़ंड तुलना करें या किसी का दिन खास बनाएँ।','Choose a public tool or sign in to your workspace.':'सार्वजनिक टूल चुनें या अपने कार्यक्षेत्र में साइन इन करें।','Explore free apps':'मुफ़्त ऐप देखें','Apps requiring sign-in':'साइन इन वाले ऐप','OPEN TO EVERYONE':'सभी के लिए','Free to try. No sign-in.':'मुफ़्त इस्तेमाल करें। साइन इन नहीं।','Open any of these nine collections and tools and get started without an account.':'इन नौ संग्रहों और टूल में से कोई भी खोलें; खाते की जरूरत नहीं।','No sign-in required':'साइन इन की जरूरत नहीं','Free · No sign-in required':'मुफ़्त · साइन इन की जरूरत नहीं',
   'Prepare with clarity.':'स्पष्ट तैयारी।','Observe with care.':'श्रद्धा से पालन।','RITUALS / FAMILY PREPARATION':'अनुष्ठान / पारिवारिक तैयारी','Hindu ceremony guides, practical puja materials and thoughtful preparation for Shubh and Ashubh occasions.':'शुभ और अशुभ अवसरों के लिए हिन्दू अनुष्ठान मार्गदर्शिकाएँ, पूजा सामग्री और तैयारी।','Steps & materials':'चरण और सामग्री','English & Hindi':'अंग्रेज़ी और हिन्दी','Open Ritual Assist ↗':'Ritual Assist खोलें ↗',
@@ -32,7 +34,7 @@
  }
  function refresh(){
   document.documentElement.dataset.language=language;
-  for(const root of document.querySelectorAll('.synapse-header,.synapse-help-nav,.synapse-legal-footer,.public-home'))translate(root);
+  for(const root of document.querySelectorAll('.platform-shell,.platform-switcher-heading,.platform-switcher nav,.synapse-header,.synapse-help-nav,.synapse-legal-footer,.public-home'))translate(root);
   if(document.querySelector('.public-home'))document.documentElement.lang=language;
   const busy=!!native()?.disabled;
   for(const footer of document.querySelectorAll('[data-language-control]')){

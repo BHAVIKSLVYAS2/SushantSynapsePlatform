@@ -25,16 +25,16 @@ test('premium bento keeps all tools discoverable across touch layouts and both t
   await page.setViewportSize({width,height:900});
   for(const theme of ['light','dark']){
    await setTheme(page,theme);
-   expect(await page.locator('.public-app').first().evaluate(el=>getComputedStyle(el).backgroundColor)).toBe(theme==='dark'?'rgba(30, 41, 59, 0.6)':'rgba(255, 255, 255, 0.65)');
+   expect(await page.locator('.public-app').first().evaluate(el=>getComputedStyle(el).backgroundColor)).toBe(theme==='dark'?'rgb(25, 37, 47)':'rgb(255, 255, 255)');
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${width}px ${theme}`).toBe(true);
    const columns=await page.locator('.public-apps').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length);
-   expect(columns).toBe(width>=1100?4:width>=760?3:2);
-   if(width>=1100)await expect(page.getByRole('navigation',{name:'Platform shortcuts'})).toBeVisible();else await expect(page.getByRole('navigation',{name:'Platform shortcuts'})).toBeHidden();
+   expect(columns).toBe(width>=760?3:width>=380?2:1);
+   await expect(page.locator('.platform-shell')).toBeVisible();
    await expect(page.locator('#free-apps .access-heading #app-finder-trigger')).toBeVisible();
    await expect(page.locator('.public-app .home-sculpture')).toHaveCount(8);
    for(const href of ['/timetable-lite','/ritual-assist','/team-mixer']){
     const tile=page.locator(`.public-app[href="${href}"]`);
-    await expect(tile).toBeVisible();expect(await tile.evaluate(el=>getComputedStyle(el).gridColumnStart)).toBe('span 2');
+    await expect(tile).toBeVisible();expect(await tile.evaluate(el=>getComputedStyle(el).gridColumnStart)).toBe('auto');
    }
   }
  }
@@ -138,13 +138,13 @@ async function expectWorkspaceDiscovery(page){
 test('homepage ships real cards without JavaScript and ignores obsolete login query',async({browser,page})=>{
  const context=await noAdsContext(browser,{javaScriptEnabled:false});
  try{const fallback=await context.newPage();const response=await fallback.goto(base);expect(response.headers()['cache-control']).toBe('no-store');await expect(fallback.locator('.public-app')).toHaveCount(9);await expect(fallback.getByRole('link',{name:'Decision Wheel',exact:true})).toBeVisible();await expect(fallback.getByRole('link',{name:'Fund Lens',exact:true})).toBeVisible();await expect(fallback.getByRole('link',{name:'Open News'})).toBeVisible();await expect(fallback.getByRole('link',{name:'Sign in to Tournament Lite'})).toBeVisible();await expectWorkspaceDiscovery(fallback);}finally{await context.close();}
- await page.goto(base+'/?signin=1');await expectWorkspaceDiscovery(page);await expect(page.locator('.public-app')).toHaveCount(9);await expect(page.locator('#auth-form')).toHaveCount(0);await page.getByRole('link',{name:'Sign in',exact:true}).click();await expect(page).toHaveURL(base+'/signin');await expect(page.locator('#auth-form')).toBeVisible();
+ await page.goto(base+'/?signin=1');await expectWorkspaceDiscovery(page);await expect(page.locator('.public-app')).toHaveCount(9);await expect(page.locator('#auth-form')).toHaveCount(0);await page.goto(base+'/signin');await expect(page).toHaveURL(base+'/signin');await expect(page.locator('#auth-form')).toBeVisible();
 });
 test('platform setup, favourites, app launch with shared sign-in, team access and responsive themes',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.setViewportSize({width:390,height:844});await page.goto(base);
  await expect(page.locator('#auth-form')).toHaveCount(0);await expect(page.getByRole('link',{name:'Fund Lens',exact:true})).toBeVisible();await expect(page.getByRole('link',{name:'Open News'})).toBeVisible();
  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
- await page.setViewportSize({width:390,height:844});await page.getByRole('link',{name:'Sign in',exact:true}).click();
+ await page.setViewportSize({width:390,height:844});await page.goto(base+'/signin');
  await page.getByLabel('Your name',{exact:true}).fill('Sushant Owner');await page.getByLabel('Workspace name',{exact:true}).fill('Synapse Chambers');await page.getByLabel('Email address').fill('owner@synapse.example');await page.getByLabel('Password',{exact:true}).fill('Platform browser password!');await page.getByRole('button',{name:'Create platform'}).click();
  await expect(page.getByRole('heading',{name:'Welcome, Sushant.'})).toBeVisible();await expect(page.getByRole('button',{name:'Open Chambers'})).toBeVisible();await expect(page.getByText('Planned',{exact:true})).toHaveCount(3);
  await expect(page.locator('.app-card .app-sculpture')).toHaveCount(await page.locator('.app-card').count());
@@ -152,14 +152,14 @@ test('platform setup, favourites, app launch with shared sign-in, team access an
  await expect(page.locator('.app-card[data-app-id="advocate"] use')).toHaveAttribute('href',/home-art\.svg.*#chambers$/);
  await page.getByRole('button',{name:'Search apps',exact:true}).click();await page.getByLabel('Search apps or activities').fill('Chambers');await expect(page.locator('.finder-result')).toHaveCount(1);await expect(page.locator('.finder-result')).toContainText('Chambers');await expect(page.locator('.finder-result .finder-sculpture')).toHaveAttribute('aria-hidden','true');await page.keyboard.press('Escape');await expect(page.getByRole('button',{name:'Search apps',exact:true})).toBeFocused();
  await page.getByRole('button',{name:'Add Chambers to favourites'}).click();await page.getByRole('navigation',{name:'Mobile platform navigation'}).getByRole('button',{name:'Favourites',exact:true}).click();await expect(page.locator('.app-card')).toHaveCount(1);
- await page.getByRole('button',{name:'Open Chambers'}).click();await expect(page).toHaveURL(base+'/advocate');await expect(page.getByRole('heading',{name:'A clear view. A better day.'})).toBeVisible();
- await page.getByRole('link',{name:'Back to Sushant Synapse apps'}).click();await page.getByRole('navigation',{name:'Mobile platform navigation'}).getByRole('button',{name:'Recent',exact:true}).click();await expect(page.getByRole('heading',{name:'Chambers',exact:true})).toBeVisible();
+ await page.getByRole('button',{name:'Open Chambers'}).click();await expect(page).toHaveURL(base+'/advocate');await expect(page.getByRole('heading',{name:'Chambers overview'})).toBeVisible();
+ await page.locator('.platform-shell-brand').click();await page.getByRole('navigation',{name:'Mobile platform navigation'}).getByRole('button',{name:'Recent',exact:true}).click();await expect(page.getByRole('heading',{name:'Chambers',exact:true})).toBeVisible();
  await page.getByRole('navigation',{name:'Mobile platform navigation'}).getByRole('button',{name:'All apps',exact:true}).click();await setTheme(page,'dark');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await page.screenshot({path:'test-results/platform-mobile-dark.png',fullPage:true});
  for(const width of [320,768,1440]){await page.setViewportSize({width,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await setTheme(page,'light');await page.screenshot({path:'test-results/platform-desktop-light.png',fullPage:true});
  await page.getByRole('navigation',{name:'Platform navigation'}).getByRole('button',{name:'Team access'}).click();await page.getByRole('button',{name:'Add member'}).click();await page.getByLabel('Name',{exact:true}).fill('Member One');await page.getByLabel('Email',{exact:true}).fill('member@synapse.example');await page.getByLabel('Initial password').fill('Member browser password!');await page.getByRole('button',{name:'Save member'}).click();await expect(page.getByText('Member One',{exact:true})).toBeVisible();
  const row=page.locator('.team-row').filter({hasText:'Member One'});await row.getByRole('checkbox',{name:'Chambers'}).uncheck();await expect(row.getByRole('checkbox',{name:'Chambers'})).not.toBeChecked();
- await page.getByRole('button',{name:'Sign out',exact:true}).click();await expect(page.locator('#auth-form')).toHaveCount(0);await page.getByRole('link',{name:'Sign in',exact:true}).click();await page.getByLabel('Email address').fill('member@synapse.example');await page.getByLabel('Password',{exact:true}).fill('Member browser password!');await page.locator('#auth-form button[type=submit]').click();await expect(page.getByText('Access required',{exact:true})).toHaveCount(4);await expect(page.getByRole('button',{name:'Open Fund Lens'})).toBeVisible();await expect(page.getByRole('button',{name:'Open Sushant Synapse Times'})).toBeVisible();await expect(page.getByRole('button',{name:'Open Chambers'})).toHaveCount(0);expect((await page.request.get(base+'/api/state')).status()).toBe(403);
+ await page.getByRole('button',{name:'Sign out',exact:true}).click();await expect(page.locator('#auth-form')).toHaveCount(0);await page.goto(base+'/signin');await page.getByLabel('Email address').fill('member@synapse.example');await page.getByLabel('Password',{exact:true}).fill('Member browser password!');await page.locator('#auth-form button[type=submit]').click();await expect(page.getByText('Access required',{exact:true})).toHaveCount(4);await expect(page.getByRole('button',{name:'Open Fund Lens'})).toBeVisible();await expect(page.getByRole('button',{name:'Open Sushant Synapse Times'})).toBeVisible();await expect(page.getByRole('button',{name:'Open Chambers'})).toHaveCount(0);expect((await page.request.get(base+'/api/state')).status()).toBe(403);
  await page.getByRole('navigation',{name:'Platform navigation'}).getByRole('button',{name:'My profile',exact:true}).click();await page.locator('#profile-form').getByLabel('Name',{exact:true}).fill('Updated Member');await page.getByRole('button',{name:'Save profile'}).click();await expect(page.locator('#profile-form input[name="name"]')).toHaveValue('Updated Member');expect(errors).toEqual([]);
 });
 test('public tools and private destinations stay distinct through sign-in',async({page})=>{

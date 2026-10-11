@@ -1,16 +1,7 @@
 /* Moment Studio materials: theme-aware, screen-only, independent of exported artwork. */
 @media screen {
   body[data-ui-app=moment-studio]:has(.studio-bento) {
-    --ui-bg:#080c14;--ui-solid:#0f172a;--ui-glass:rgba(30,41,59,.5);--ui-edge:rgba(255,255,255,.08);
-    --ui-accent:#00f5c4;--ui-on-accent:#052b25;--ui-soft:#172337;--ui-text:#edf5fa;--ui-muted:#a6b7c9;
-    --studio-amber:#ffb800;--studio-glow:rgba(0,245,196,.25);--studio-backdrop:rgba(8,12,20,.8);
-    --bg:var(--ui-bg);--surface:var(--ui-solid);--text:var(--ui-text);--ink:var(--ui-text);--muted:var(--ui-muted);--line:var(--ui-edge);--accent:var(--ui-accent);--soft:var(--ui-soft);--on-accent:var(--ui-on-accent);
-    color:var(--text);background:radial-gradient(ellipse at 80% 0%,var(--ui-soft),transparent 60%),var(--bg);
-  }
-  html[data-theme=light] body[data-ui-app=moment-studio]:has(.studio-bento) {
-    --ui-bg:#f2f6f8;--ui-solid:#fff;--ui-glass:rgba(255,255,255,.78);--ui-edge:rgba(15,23,42,.14);
-    --ui-accent:#007e69;--ui-on-accent:#fff;--ui-soft:#e5f2ee;--ui-text:#142c36;--ui-muted:#516575;
-    --studio-amber:#876000;--studio-glow:rgba(0,126,105,.16);--studio-backdrop:rgba(15,23,42,.45);
+    --studio-amber:var(--ui-muted);--studio-glow:transparent;--studio-backdrop:color-mix(in srgb,var(--ui-bg) 65%,transparent);
   }
   body[data-ui-app=moment-studio]:has(.studio-bento) :is(.panel,.studio-featured,.tool-tile,.studio-intro,#studio-command) {background:var(--ui-glass);border-color:var(--ui-edge);backdrop-filter:blur(16px)}
   body[data-ui-app=moment-studio]:has(.studio-bento) :is(button,.tool-tile,.studio-featured,a) {transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s cubic-bezier(.16,1,.3,1),border-color .3s cubic-bezier(.16,1,.3,1),background .3s cubic-bezier(.16,1,.3,1)}
@@ -38,8 +29,8 @@
 }
 /* Inner pages share homepage materials; public-home and exported artwork stay intact. */
 @media screen {
- body[data-ui-app]:not(:has(.public-home)) {--ui-product-top:rgba(255,255,255,.86);--ui-product-bottom:rgba(240,249,247,.64);--ui-product-edge:rgba(19,95,82,.16);--ui-product-halo:rgba(25,186,148,.09);--ui-product-shadow:0 10px 26px rgba(15,65,56,.045),inset 0 1px 0 rgba(255,255,255,.85);--ui-product-panel:linear-gradient(145deg,var(--ui-product-top),var(--ui-product-bottom))}
- html[data-theme=dark] body[data-ui-app]:not(:has(.public-home)),body[data-theme=dark][data-ui-app]:not(:has(.public-home)) {--ui-product-top:rgba(15,25,32,.94);--ui-product-bottom:rgba(8,13,21,.88);--ui-product-edge:rgba(152,200,203,.22);--ui-product-halo:rgba(64,231,184,.10);--ui-product-shadow:0 12px 28px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.04)}
+ body[data-ui-app]:not(:has(.public-home)) {--ui-product-top:var(--ui-solid);--ui-product-bottom:var(--ui-solid);--ui-product-edge:var(--ui-edge);--ui-product-halo:transparent;--ui-product-shadow:none;--ui-product-panel:linear-gradient(var(--ui-solid),var(--ui-solid))}
+
  body[data-ui-app]:not(:has(.public-home)) :is(.panel,.card,.stat,.intro-banner,.workbench,.library,.team,.match,.registration,.round,.edition-cover,.settings-panel) {background-image:var(--ui-product-panel);border-color:var(--ui-product-edge);box-shadow:var(--ui-product-shadow);border-radius:18px}
  body[data-ui-app]:not(:has(.public-home)) :is(.page-heading,.page-top,.intro,.hero) {background-image:radial-gradient(ellipse at 5% 0%,var(--ui-product-halo),transparent 62%),var(--ui-product-panel);border-color:var(--ui-product-edge);box-shadow:var(--ui-product-shadow)}
  body[data-ui-app]:not(:has(.public-home)) :is(.panel,.card,.stat,.registration) {min-width:0;position:relative}

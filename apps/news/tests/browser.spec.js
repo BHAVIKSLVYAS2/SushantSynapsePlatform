@@ -110,7 +110,7 @@ test('a pending publication does not replace a newly selected archive date',asyn
 
 test('News public failures offer retry without asking for platform sign-in',async({page})=>{
  await page.route('**/api/news/status',route=>route.fulfill({status:401,json:{error:'stale upstream'}}));
- await page.goto(base+'/news');await expect(page.locator('#retry')).toBeVisible();await expect(page.locator('body')).not.toContainText('Sign in');await expect(page.locator('header .brand img')).toBeVisible();
+ await page.goto(base+'/news');await expect(page.locator('#retry')).toBeVisible();await expect(page.locator('body')).not.toContainText('Sign in');await expect(page.locator('.platform-shell-brand img')).toBeVisible();
  await page.unroute('**/api/news/status');await page.locator('#retry').click();await expect(page.locator('#newspaper')).toBeVisible();await expect(page.locator('#fetch-news')).toBeEnabled();
 });
 

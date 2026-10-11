@@ -24,7 +24,7 @@ test('anonymous local generation, all designs, exports, privacy and responsive p
  await page.getByLabel('Recipient Name',{exact:true}).fill('Changed recipient');await expect(page.locator('#downloads')).toBeHidden();
  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await setTheme(page,'light');await page.screenshot({path:'test-results/certificates-desktop.png',fullPage:true});await page.setViewportSize({width:390,height:844});await setTheme(page,'dark');await page.screenshot({path:'test-results/certificates-mobile.png',fullPage:true});
- await page.emulateMedia({media:'print'});await expect(page.locator('header')).toBeHidden();await expect(page.locator('#certificate')).toBeVisible();await page.pdf({path:'test-results/certificate-print.pdf',preferCSSPageSize:true,printBackground:true});
+ await page.emulateMedia({media:'print'});for(const header of await page.locator('header').all())await expect(header).toBeHidden();await expect(page.locator('#certificate')).toBeVisible();await page.pdf({path:'test-results/certificate-print.pdf',preferCSSPageSize:true,printBackground:true});
  expect(requests.filter(url=>url.includes('/api/'))).toEqual([]);expect(errors).toEqual([]);await page.emulateMedia({media:'screen'});await page.reload();await expect(page.getByLabel('Recipient Name',{exact:true})).toHaveValue('');
 });
 

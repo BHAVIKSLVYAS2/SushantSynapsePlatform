@@ -1,5 +1,7 @@
 # Sushant Synapse Platform
 
+All served apps use one persistent platform header with searchable app switching, theme and account controls. App actions and navigation sit inside that frame. Home provides uniform launcher cards, public/private access labels and app search; Chambers uses a compact practice overview. Saved light/dark/system themes remain shared, including Moment Studio. App-specific content, printable records and exported artwork retain their owning layouts.
+
 The local backend uses **one SQL Server LocalDB database, `SushantSynapsePlatform`, with eight separate schemas**, including Satire Arena's `satire`. The flow is UI → Node API → local SQL Server. Cloudflare serves frontend assets and forwards API requests; no D1 binding is configured. Azure migration remains a later step. SQLite files are retained as migration/recovery sources. See [SQL Server setup and recovery](docs/SQLSERVER_MIGRATION.md).
 
 WhatsApp contact is available through `/contact`, `/support` and `/sponsor`. Submitting a form opens WhatsApp with combined details; visitors review the draft and press Send. Shared navigation and homepage links expose Support Us and Watch demos. Forms are not saved by the platform; payment settings remain separate.
@@ -57,7 +59,7 @@ Run `npm.cmd start`, then open http://localhost:3000. The backend uses the local
 ## Chambers advocate app
 A mobile-first case and practice management application for advocates and chamber staff in India. Light, dark, and system themes. SQLite persistence, authenticated accounts, and a saved functionality ledger for continuing development.
 
-The interface uses a consistent legal SVG icon set (scales, courthouse, advocate briefcase, gavel, certified documents and fee receipts), readable serif headings, touch-sized controls and mobile bottom-sheet forms. All icons are local assets and adapt to the selected theme.
+The interface uses a consistent legal SVG icon set (scales, courthouse, advocate briefcase, gavel, certified documents and fee receipts), shared sans-serif headings, touch-sized controls and mobile bottom-sheet forms. All icons are local assets and adapt to the selected theme.
 
 ## Start
 

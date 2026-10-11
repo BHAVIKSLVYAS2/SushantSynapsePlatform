@@ -2,16 +2,15 @@ import {brandReady,requireBrand} from '/moment-studio/branding.mjs';
 import {condolenceMessage} from '/moment-studio/messages.mjs';
 import {occasions,designs,palettes,validate,render,filename} from '/moment-studio/card-renderer.mjs';
 const $=s=>document.querySelector(s),form=$('#editor'),canvas=$('#card'),media=matchMedia('(prefers-color-scheme: dark)');
-// Dark-first for new Studio visitors; preserve every explicit platform preference.
-try{if(!localStorage.getItem('synapse-theme')&&!localStorage.getItem('chambers-theme'))window.SynapseTheme.write('dark');}catch{window.SynapseTheme.write('dark');}
+// Use the shared platform default and preserve explicit theme preferences.
 $('#theme').outerHTML=window.SynapseTheme.control('id="theme"');function theme(){const p=window.SynapseTheme.read();document.documentElement.dataset.theme=p==='system'?(media.matches?'dark':'light'):p;}$('#theme').addEventListener('change',theme);media.addEventListener('change',theme);theme();
 for(const [id,value]of Object.entries(occasions)){const option=new Option(value.name,id);$('#occasion').add(option);}for(const [id,value]of Object.entries(palettes))$('#palette').add(new Option(value.name,id));
 for(const [id,name]of Object.entries(designs)){const label=document.createElement('label');label.className='design-choice';const input=document.createElement('input');input.type='radio';input.name='design';input.value=id;input.checked=id==='elegant';const thumb=document.createElement('canvas');thumb.setAttribute('aria-hidden','true');render(thumb,{...occasions.birthday.en,occasion:'birthday',language:'en',design:id,palette:'slate',format:'square'});label.append(thumb,input,document.createTextNode(name));$('#designs').append(label);}
 let image=null,imageVersion=0,pending=false,busy=false,ready=false;
 let dirty=false;
 form.addEventListener('input',()=>dirty=true);
-document.querySelector('main').addEventListener('click',event=>{
- const link=event.target.closest('a');if(!link||!link.matches('.studio-nav a,#certificate-shortcut')||!dirty||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
+document.addEventListener('click',event=>{
+ const link=event.target.closest('a');if(!link||!link.matches('.studio-nav a,#certificate-shortcut,.platform-shell a,.platform-switcher a')||!dirty||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
  if(!confirm('You have an unfinished card. Switching sections clears its text and photo. Stay here to download it, or continue?'))event.preventDefault();
 });
 function controls(){for(const id of ['download','share'])$('#'+id).disabled=!ready||pending||busy;$('#remove-photo').disabled=!image&&!pending;}
