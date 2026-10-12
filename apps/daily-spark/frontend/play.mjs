@@ -1,6 +1,8 @@
 import {istDate,puzzle,levelPuzzle,tokens,calculate,solve,display,solutionSteps} from './engine.mjs';
+import {createSparkCelebration} from './celebration.mjs';
 export function mountSpark(root,{day=null,challengeUrl=date=>`${location.origin}/daily-spark?day=${date}`,onComplete}={}){
 const $=selector=>root.querySelector(selector);
+const celebration=createSparkCelebration(root);
 let date,mode='daily',original,items,selected=[],op=null,history=[],assisted=false,finished=false,revealed=false,hintStep=0;
 const symbols={'+':'+','-':'−','*':'×','/':'÷'};
 const params=new URLSearchParams(location.search),difficulty=$('#practice-difficulty');
@@ -9,7 +11,7 @@ difficulty.value=['warmup','challenge','expert'].includes(params.get('level'))?p
 difficulty.onchange=()=>{legacyRound=false;start(mode==='practice');};
 const descriptions={warmup:'A gentle start: no division needed.',challenge:'Division is required; whole-number steps are possible.',expert:'A tougher spark: a fractional step is required.'};
 function start(practice=false){date=day||istDate();mode=practice?'practice':'daily';original=!practice&&legacyRound?puzzle(date):levelPuzzle(practice?String(crypto.getRandomValues(new Uint32Array(1))[0]):date,difficulty.value);reset();if(!practice&&!legacyRound){const u=new URL(location.href);u.searchParams.set('day',date);u.searchParams.set('level',difficulty.value);window.history.replaceState(null,'',u.href);}}
-function reset(){items=tokens(original);selected=[];op=null;history=[];hintStep=0;assisted=false;finished=false;revealed=false;$('#status').textContent='';$('#result').hidden=true;$('#share-fallback').hidden=true;render();}
+function reset(){celebration.clear();items=tokens(original);selected=[];op=null;history=[];hintStep=0;assisted=false;finished=false;revealed=false;$('#status').textContent='';$('#result').hidden=true;$('#share-fallback').hidden=true;render();}
 function render(){
  root.dataset.sparkLegacy=String(legacyRound&&mode==='daily');
  $('#difficulty-note').textContent=legacyRound&&mode==='daily'?'Original shared puzzle · difficulty varies.':descriptions[difficulty.value];
@@ -23,7 +25,19 @@ root.querySelectorAll('[data-op]').forEach(b=>b.onclick=()=>{op=b.dataset.op;ren
 $('#combine').onclick=()=>{const [a,b]=selected.map(index=>items[index]);try{const value=calculate(a.value,op,b.value);history.push({items:structuredClone(items),label:`${display(a.value)} ${symbols[op]} ${display(b.value)} = ${display(value)}`});items=[...items.filter((_,index)=>!selected.includes(index)),{value,expression:`(${a.expression} ${op} ${b.expression})`}];selected=[];op=null;hintStep=0;$('#status').textContent='';if(items.length===1){if(Math.abs(items[0].value-24)<1e-8)complete(false);else $('#status').textContent=`You made ${display(items[0].value)}. Undo a move or start again.`;}render();$('#numbers').querySelector('button:not(:disabled)')?.focus();}catch(error){$('#status').textContent=error.message;}};
 $('#undo').onclick=()=>{items=history.pop().items;selected=[];op=null;hintStep=0;$('#status').textContent='';render();};$('#reset').onclick=reset;$('#daily').onclick=()=>start();$('#practice').onclick=()=>start(true);$('#another').onclick=()=>start(true);
 $('#hint').onclick=()=>{assisted=true;const steps=solutionSteps(items);if(!steps){$('#status').textContent='No route to 24 remains. Undo or start again.';return;}const step=steps[0];hintStep++;const names={'+':'addition','-':'subtraction','*':'multiplication','/':'division'};$('#status').textContent=hintStep===1?`A nudge: try ${names[step.op]}.`:hintStep===2?`Try combining ${display(step.a)} ${symbols[step.op]} ${display(step.b)} first.`:`First move: ${display(step.a)} ${symbols[step.op]} ${display(step.b)} = ${display(step.value)}. Use Show solution for the full route.`;};
-function complete(show){finished=true;revealed=show;$('#result').hidden=false;$('#result').classList.toggle('spark-solved',!show);$('#result-title').textContent=show?'One way to make 24.':'You made it. A spark well spent!';$('#result-copy').textContent=show?`${solve(tokens(original))} = 24`:`${assisted?'Solved with hints.':'Solved independently — without hints.'} ${mode==='daily'?'Challenge a friend with the same four numbers.':'Try another practice round.'}`;$('#status').textContent=show?'Solution revealed. Start again to try it yourself.':'All four numbers used. Nicely done.';onComplete?.();}
+function complete(show){
+ if(finished)return;
+ finished=true;revealed=show;
+ $('#result').hidden=false;$('#result').classList.toggle('spark-solved',!show);
+ $('#result-title').textContent=show?'One way to make 24.':'You made 24!';
+ const level={warmup:'Warm-up',challenge:'Challenge',expert:'Expert'}[difficulty.value];
+ $('#result-badge').textContent=show?'':(legacyRound&&mode==='daily'?'Daily puzzle':level+' puzzle')+' complete';
+ $('#result-copy').textContent=show?`${solve(tokens(original))} = 24`:
+   `${assisted?'Solved with hints. A little nudge, a great finish!':'Solved independently — without hints. All you. Brilliant work!'} ${mode==='daily'?'Challenge a friend with the same four numbers.':'Try another practice round.'}`;
+ $('#status').textContent=show?'Solution revealed. Start again to try it yourself.':'You made 24! All four numbers used. Nicely done.';
+ onComplete?.();
+ if(!show)celebration.celebrate();
+}
 $('#reveal').onclick=()=>{assisted=true;complete(true);render();};
 $('#share').onclick=async()=>{const text=`Daily Spark${mode==='daily'?` · ${date} (IST)`:''}\n${original.join(' · ')} → 24\n${revealed?'Can you make 24?':assisted?'Solved with a hint':'Solved without hints'}\n${mode==='practice'?'Try the daily challenge: ':''}${shareUrl()}`;try{if(navigator.share){await navigator.share({title:'Daily Spark',text});return;}if(navigator.clipboard){await navigator.clipboard.writeText(text);$('#status').textContent='Result copied. Paste it to challenge a friend.';return;}}catch(error){if(error.name==='AbortError')return;}$('#share-fallback').hidden=false;$('#share-text').value=text;$('#share-text').focus();$('#share-text').select();$('#status').textContent='Copy the message below to share your result.';};
 function shareUrl(){const u=new URL(challengeUrl(mode==='daily'?date:istDate()),location.origin);if(!(legacyRound&&mode==='daily'))u.searchParams.set('level',difficulty.value);return u.href;}

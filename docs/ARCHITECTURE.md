@@ -1,5 +1,7 @@
 # Code ownership and adding apps
 
+Make 24 celebration (2026-10-12): `apps/daily-spark/frontend/celebration.mjs` and `celebration.css` own the bounded visual effects and persistent result-card presentation shared by standalone Daily Spark and Take a Break. `play.mjs` triggers effects only for a solved puzzle and clears them on reset; hidden panes/pages and reduced-motion changes cancel animations. The existing engine and transient progress remain unchanged. Both assets are explicitly allowlisted in `server/static-assets.js`.
+
 App visibility order (2026-10-12): Moment Studio, Take a Break, Decision Wheel and News lead public home, registry/catalogue and shared app switching. Remaining entries retain their prior relative order within each surface. Static home and `publicHome()` stay aligned; homepage CSS defers to markup order instead of historical featured-app ordering. Favourite/recent preferences and access checks are preserved.
 
 Moment Studio simplified cards (2026-10-11): `index.html`, `cards.css` and `card-app.js` own the focused two-child form/preview workspace. Greetings and memorial routes expose separate occasion lists, occasion-aware template thumbnails, collapsible wording/personalisation and optional event inputs composed into the existing bounded details at render/export time. Manual design/palette choices survive occasion changes. The former tool dashboard, filters, favourites and command search are removed. Certificate rendering, branding and persistence retain their existing owners.

@@ -104,6 +104,8 @@ const staticAssets={
  '/shared/theme.js':'packages/ui/theme.js',
  '/take-a-break':'apps/take-a-break/frontend/index.html',
  '/take-a-break/':'apps/take-a-break/frontend/index.html',
+ '/daily-spark/celebration.mjs':'apps/daily-spark/frontend/celebration.mjs',
+ '/daily-spark/celebration.css':'apps/daily-spark/frontend/celebration.css',
  '/daily-spark/play.mjs':'apps/daily-spark/frontend/play.mjs',
  '/daily-spark/view.mjs':'apps/daily-spark/frontend/view.mjs',
  '/shared/platform-header.css':'packages/ui/platform-header.css',
