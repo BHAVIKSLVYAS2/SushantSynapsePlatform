@@ -1,4 +1,181 @@
-:root{color-scheme:light;--bg:#f5f6fb;--surface:#fff;--text:#253049;--muted:#66728b;--line:#dce2ee;--accent:#3655ab;--soft:#edf0ff;--on-accent:#fff;--team-0:#e5ecff;--team-1:#e1f1e8;--team-2:#fff0d9;--team-3:#f0e5fa;--team-4:#fce5ec;--team-5:#e0f0f5}:root[data-theme=dark]{color-scheme:dark;--bg:#121622;--surface:#1c2231;--text:#e8ecfa;--muted:#a6b0c7;--line:#323e55;--accent:#b2c3ff;--soft:#2a3554;--on-accent:#17213b;--team-0:#2a3b61;--team-1:#27493d;--team-2:#53442b;--team-3:#433452;--team-4:#523143;--team-5:#294552}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 'Segoe UI',Arial,sans-serif}main{max-width:1180px;margin:auto;padding:0 22px}a{color:var(--accent)}button,input,textarea{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:10px;max-width:100%}button{min-height:46px;padding:10px 16px;cursor:pointer}button:disabled{opacity:.45;cursor:default}input,textarea{width:100%;padding:11px;margin:6px 0 16px}textarea{resize:vertical}label{display:block;font-size:14px;font-weight:600}label span{color:var(--muted);font-weight:400}:focus-visible{outline:3px solid var(--accent);outline-offset:3px}.skip{position:absolute;top:-80px;left:10px;background:var(--surface);z-index:10}.skip:focus{top:10px}.intro{text-align:center;padding:32px 0}.eyebrow{font-size:11px;letter-spacing:2px;font-weight:700;color:var(--muted)}h1{font:clamp(44px,7vw,70px)/1.1 Georgia,serif;margin:14px 0}h1 em{color:var(--accent)}h2{font:26px/1.3 Georgia,serif;margin:6px 0 20px}p{color:var(--muted)}.workspace{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:28px;align-items:start}.panel{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:26px;min-width:0}.pair{display:flex;gap:14px;align-items:center}.pair input{width:95px;margin:0}.hint,.privacy{font-size:13px}.privacy{margin-bottom:0}.actions{display:flex;gap:10px;flex-wrap:wrap}.actions button{font-size:14px}.primary{background:var(--accent);color:var(--on-accent);border-color:var(--accent);font-weight:650}.results-column{min-width:0}.results-heading{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.results-heading h2{margin:6px 0 0;overflow-wrap:anywhere}.summary{font-size:12px;color:var(--muted)}.empty{padding:60px 20px;text-align:center;background:var(--soft);border:1px dashed var(--line);border-radius:22px}.empty>span{font-weight:700;letter-spacing:10px;color:var(--accent)}.empty h3{font:32px/1.3 Georgia,serif}.teams{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:22px}.team{border:1px solid var(--line);border-radius:18px;background:var(--surface);overflow:hidden;min-width:0}.team header{padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--team-0)}.team:nth-child(6n+2) header{background:var(--team-1)}.team:nth-child(6n+3) header{background:var(--team-2)}.team:nth-child(6n+4) header{background:var(--team-3)}.team:nth-child(6n+5) header{background:var(--team-4)}.team:nth-child(6n+6) header{background:var(--team-5)}.team h3{font-size:17px;margin:0}.team header span{font-size:12px;color:var(--muted)}.team ol{margin:0;padding:15px 20px 15px 38px}.team li{padding:4px 0;overflow-wrap:anywhere}.team li::marker{color:var(--muted)}#copy-fallback{display:block;margin-top:20px}.explore{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:36px}.explore a{min-height:44px;display:inline-flex;align-items:center}footer{text-align:center;font-size:12px;color:var(--muted);padding:30px 0}[hidden]{display:none!important}@media(max-width:740px){main{padding:0 14px}.workspace{grid-template-columns:1fr;gap:22px}.panel{padding:22px 18px}.intro{padding-top:16px}}@media(max-width:420px){.teams{grid-template-columns:1fr}}
-.focus-timer{padding:24px;margin:0 0 24px;text-align:center;border:1px solid var(--line);border-radius:22px;background:var(--surface)}.focus-timer h2{margin-bottom:12px}.focus-timer #timer{display:block;font-size:clamp(48px,12vw,72px);font-variant-numeric:tabular-nums;line-height:1.2;color:var(--text);margin:16px 0}.focus-timer p{font-size:14px}.focus-timer .actions button{min-width:88px}
-.actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
-main{max-width:1120px}.focus-layout{display:grid;grid-template-columns:minmax(260px,.75fr) minmax(0,1.25fr);gap:24px;align-items:start}.tasks-panel{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:24px;min-width:0}.tasks-heading{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.tasks-heading h2{flex:1;min-width:180px}.tasks-heading label{max-width:170px}.tasks-heading input{margin-bottom:0}select{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:11px;min-height:44px;width:100%;margin:6px 0 16px}.task-inputs{display:flex;gap:12px;align-items:end;flex-wrap:wrap}.task-inputs label{flex:1;min-width:120px}.task-inputs button{margin-bottom:16px}.task-list{list-style:none;padding:0;margin:20px 0}.task-row{display:flex;gap:12px;align-items:start;padding:16px 0;border-bottom:1px solid var(--line)}.task-row input[type=checkbox]{width:22px;height:22px;flex:none;margin:6px 0;accent-color:var(--accent)}.task-copy{flex:1;min-width:0}.task-title{display:block;overflow-wrap:anywhere;font-weight:600}.task-row.done .task-title{text-decoration:line-through;color:var(--muted)}.task-meta{display:block;font-size:12px;color:var(--muted);margin:6px 0}.task-actions{display:flex;flex-wrap:wrap;gap:6px}.task-actions button{font-size:12px;min-height:44px;padding:8px 10px}.task-row.selected{border-left:3px solid var(--accent);padding-left:10px}.timer-note,.break-link{display:block;text-align:center;font-size:13px;color:var(--muted)}.break-link{color:var(--accent);padding:16px}.privacy{text-align:center}#task-status{min-height:24px}#signin-note{padding:20px;background:var(--soft);border-radius:12px}#signin-note a{display:inline-flex;padding:12px;border-radius:10px}#carry-section{border-top:1px solid var(--line);margin-top:28px;padding-top:16px}@media(max-width:760px){.focus-layout{grid-template-columns:1fr}.tasks-panel{padding:20px 16px}.intro h1{font-size:48px}}
+/* Focus owns its personal workspace; colour and theme tokens come from the platform. */
+body[data-ui-app=focus] {
+  --focus-wash:color-mix(in srgb,var(--ui-accent) 6%,var(--ui-solid));
+  --focus-edge:color-mix(in srgb,var(--ui-accent) 28%,var(--ui-edge));
+  --focus-shadow:0 5px 18px color-mix(in srgb,var(--ui-ink) 4%,transparent);
+  --focus-high:var(--ui-accent);
+  --focus-normal:var(--ui-ink);
+  --focus-low:var(--ui-muted);
+  color-scheme:light;margin:0;background:var(--ui-bg);color:var(--ui-ink);font:16px/1.55 Inter,"Segoe UI",Arial,sans-serif;
+}
+html[data-theme=dark] body[data-ui-app=focus] {color-scheme:dark}
+body[data-ui-app=focus] * {box-sizing:border-box}
+body[data-ui-app=focus] [hidden] {display:none!important}
+body[data-ui-app=focus] main {max-width:1440px;margin:auto;padding:30px 24px 18px}
+body[data-ui-app=focus] a {color:var(--ui-accent)}
+body[data-ui-app=focus] button,body[data-ui-app=focus] input,body[data-ui-app=focus] select {font:inherit;color:var(--ui-ink);background:var(--ui-solid);border:1px solid var(--ui-edge);border-radius:11px;max-width:100%}
+body[data-ui-app=focus] button {min-width:44px;min-height:44px;padding:9px 13px;font-size:13px;font-weight:600;cursor:pointer}
+body[data-ui-app=focus] button:disabled {opacity:.46;cursor:default}
+body[data-ui-app=focus] input:not([type=checkbox]),body[data-ui-app=focus] select {display:block;width:100%;min-height:46px;padding:10px 12px;margin:6px 0 0}
+body[data-ui-app=focus] label {display:block;font-size:12px;font-weight:650;line-height:1.5}
+body[data-ui-app=focus] label span {color:var(--ui-muted);font-weight:400}
+body[data-ui-app=focus] :focus-visible {outline:3px solid var(--ui-accent);outline-offset:3px}
+body[data-ui-app=focus] .skip {position:absolute;top:-80px;left:10px;padding:10px 14px;background:var(--ui-solid);z-index:70}
+body[data-ui-app=focus] .skip:focus {top:10px}
+body[data-ui-app=focus] .intro {text-align:left}
+body[data-ui-app=focus] .intro p {margin:10px 0 12px;max-width:70ch;color:var(--ui-muted);font-size:14px}
+body[data-ui-app=focus] .eyebrow {font-size:10px;font-weight:750;letter-spacing:.12em;color:var(--ui-accent)}
+body[data-ui-app=focus] .local-note {display:inline-flex;gap:7px;align-items:center;font-size:11px;font-weight:500;color:var(--ui-muted)}
+body[data-ui-app=focus] .local-note>span {color:var(--ui-accent);font-size:9px}
+body[data-ui-app=focus] h2 {font:650 21px/1.3 Inter,"Segoe UI",Arial,sans-serif;letter-spacing:-.5px;margin:7px 0 16px;color:var(--ui-ink)}
+body[data-ui-app=focus] h3 {font:650 15px/1.4 Inter,"Segoe UI",Arial,sans-serif;margin:0;color:var(--ui-ink)}
+body[data-ui-app=focus] p {color:var(--ui-muted)}
+body[data-ui-app=focus] .focus-layout {display:grid;grid-template-columns:minmax(0,1fr);gap:22px;align-items:start}
+body[data-ui-app=focus] .timer-column {min-width:0}
+body[data-ui-app=focus] .focus-timer {padding:24px;border:1px solid var(--focus-edge);border-radius:22px;background:linear-gradient(155deg,var(--focus-wash),var(--ui-solid) 62%);box-shadow:var(--focus-shadow)}
+body[data-ui-app=focus] .timer-heading {display:flex;align-items:center;justify-content:space-between;gap:10px}
+body[data-ui-app=focus] .timer-mark {display:grid;place-items:center;width:32px;height:32px;border:1px solid var(--focus-edge);border-radius:10px;background:var(--ui-solid);color:var(--ui-accent);font-size:21px}
+body[data-ui-app=focus] .focus-timer h2 {font-size:18px;margin:7px 0 22px}
+body[data-ui-app=focus] .duration-controls {border:0;padding:0;margin:0;min-width:0}
+body[data-ui-app=focus] .duration-controls legend {font-size:11px;font-weight:600;color:var(--ui-muted);padding:0;margin-bottom:9px}
+body[data-ui-app=focus] .duration-options {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+body[data-ui-app=focus] .duration-options button {padding:8px 4px;font-size:11px;border-radius:9px;white-space:nowrap}
+body[data-ui-app=focus] .duration-options button[aria-pressed=true] {background:var(--ui-accent);border-color:var(--ui-accent);color:var(--ui-on-accent);box-shadow:0 3px 9px color-mix(in srgb,var(--ui-accent) 15%,transparent)}
+body[data-ui-app=focus] .custom-duration {display:flex;align-items:end;gap:8px;margin-top:12px}
+body[data-ui-app=focus] .custom-duration label {flex:1;min-width:0}
+body[data-ui-app=focus] .custom-duration button {flex:none;min-height:46px}
+body[data-ui-app=focus] .timer-dial {display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:190px;margin:24px 0;border-radius:20px;border:1px solid var(--focus-edge);background:var(--ui-solid);box-shadow:inset 0 0 0 6px var(--focus-wash)}
+body[data-ui-app=focus] #timer {display:block;color:var(--ui-ink);font-size:clamp(56px,9vw,74px);font-weight:650;letter-spacing:-3px;font-variant-numeric:tabular-nums;line-height:1.15}
+body[data-ui-app=focus] .timer-caption {margin-top:9px;color:var(--ui-muted);font-size:9px;font-weight:600;letter-spacing:.2em}
+body[data-ui-app=focus] .current-task-wrap {padding:14px 15px;margin-bottom:18px;border-left:3px solid var(--ui-accent);border-radius:0 10px 10px 0;background:var(--focus-wash)}
+body[data-ui-app=focus] #current-task {min-height:42px;margin:6px 0 0;line-height:1.55;font-size:13px;color:var(--ui-ink);overflow-wrap:anywhere}
+body[data-ui-app=focus] .actions {display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:7px}
+body[data-ui-app=focus] .actions button {padding-inline:6px}
+body[data-ui-app=focus] button.primary {background:var(--ui-accent);color:var(--ui-on-accent);border-color:var(--ui-accent);font-weight:700}
+body[data-ui-app=focus] #focus-status {min-height:38px;margin:15px 0 0;font-size:11px;line-height:1.65}
+body[data-ui-app=focus] .break-link {display:flex;gap:13px;align-items:center;padding:17px 19px;margin-top:14px;border:1px solid var(--ui-edge);border-radius:16px;background:var(--ui-solid);text-decoration:none;font-size:12px;font-weight:650}
+body[data-ui-app=focus] .break-link>span:first-child {font-size:28px;font-weight:400}
+body[data-ui-app=focus] .break-link small {display:block;color:var(--ui-muted);font-size:11px;font-weight:400;margin-top:4px}
+body[data-ui-app=focus] .timer-note {font-size:11px;text-align:center;margin:12px 0 0}
+body[data-ui-app=focus] .tasks-panel {padding:24px;border:1px solid var(--ui-edge);border-radius:22px;background:var(--ui-solid);min-width:0;container-type:inline-size}
+body[data-ui-app=focus] .tasks-heading {display:flex;gap:16px;align-items:start;justify-content:space-between;flex-wrap:wrap}
+body[data-ui-app=focus] .tasks-heading h2 {margin-bottom:0;font-size:23px}
+body[data-ui-app=focus] .day-controls {display:flex;gap:8px;align-items:end;min-width:0}
+body[data-ui-app=focus] .day-controls label {min-width:0;width:155px}
+body[data-ui-app=focus] .day-controls button {min-height:46px}
+body[data-ui-app=focus] .day-overview {padding:16px 0 22px}
+body[data-ui-app=focus] #summary {font-size:12px;margin:0 0 9px;line-height:1.7}
+body[data-ui-app=focus] #day-progress {display:block;width:100%;height:6px;appearance:none;border:0;border-radius:20px;overflow:hidden;background:var(--ui-soft);color:var(--ui-accent)}
+body[data-ui-app=focus] #day-progress::-webkit-progress-bar {border-radius:20px;background:var(--ui-soft)}
+body[data-ui-app=focus] #day-progress::-webkit-progress-value {border-radius:20px;background:var(--ui-accent)}
+body[data-ui-app=focus] #day-progress::-moz-progress-bar {border-radius:20px;background:var(--ui-accent)}
+body[data-ui-app=focus] .task-composer {padding:17px;background:var(--focus-wash);border:1px solid var(--focus-edge);border-radius:15px}
+body[data-ui-app=focus] .task-inputs {display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin-top:12px}
+body[data-ui-app=focus] .task-inputs label {flex:1;min-width:125px}
+body[data-ui-app=focus] .task-inputs button {display:flex;gap:18px;justify-content:space-between;align-items:center;min-height:46px;padding-inline:16px}
+body[data-ui-app=focus] .task-inputs button>span {font-size:20px;font-weight:400;line-height:1}
+body[data-ui-app=focus] #task-status {min-height:22px;margin:9px 2px 15px;font-size:11px}
+body[data-ui-app=focus] .board-heading {margin-bottom:15px}
+body[data-ui-app=focus] #board-help {max-width:80ch;font-size:11px;line-height:1.65;margin:6px 0 0}
+body[data-ui-app=focus] .priority-board {display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+body[data-ui-app=focus] .priority-lane {--lane-ink:var(--focus-normal);--lane-wash:color-mix(in srgb,var(--ui-muted) 4%,var(--ui-solid));min-width:0;border:1px solid var(--ui-edge);border-radius:15px;background:var(--lane-wash);padding:12px;transition:border-color .18s,background-color .18s}
+body[data-ui-app=focus] .priority-lane[data-priority=High] {--lane-ink:var(--focus-high);--lane-wash:var(--focus-wash);border-color:var(--focus-edge)}
+body[data-ui-app=focus] .priority-lane[data-priority=Low] {--lane-ink:var(--focus-low);--lane-wash:color-mix(in srgb,var(--ui-muted) 2%,var(--ui-solid))}
+body[data-ui-app=focus] .lane-heading {display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:2px 2px 12px}
+body[data-ui-app=focus] .lane-heading h3 {display:flex;gap:7px;align-items:center;flex:1;font-size:13px;color:var(--lane-ink)}
+body[data-ui-app=focus] .lane-heading h3::before {content:"";width:7px;height:7px;border-radius:50%;background:var(--lane-ink);flex:none}
+body[data-ui-app=focus] .lane-count {display:grid;place-items:center;min-width:24px;height:24px;border:1px solid var(--ui-edge);border-radius:7px;background:var(--ui-solid);font-size:11px;font-weight:700;color:var(--lane-ink)}
+body[data-ui-app=focus] .lane-meta {font-size:10px;color:var(--ui-muted)}
+body[data-ui-app=focus] .lane-heading p {font-size:10px;margin:0;width:100%}
+body[data-ui-app=focus] .priority-list,body[data-ui-app=focus] .task-list {list-style:none;padding:0;margin:0;display:grid;gap:10px;min-width:0}
+body[data-ui-app=focus] .priority-list {min-height:100px;align-content:start}
+body[data-ui-app=focus] .lane-empty {display:flex;align-items:center;justify-content:center;min-height:100px;margin:0;padding:15px;border:1px dashed var(--ui-edge);border-radius:12px;font-size:11px;text-align:center;color:var(--ui-muted)}
+body[data-ui-app=focus] .task-row {position:relative;min-width:0;padding:14px;background:var(--ui-solid);border:1px solid var(--ui-edge);border-radius:13px;box-shadow:var(--focus-shadow);transition:border-color .18s,box-shadow .18s,opacity .18s}
+body[data-ui-app=focus] .task-top {display:flex;gap:9px;align-items:start}
+body[data-ui-app=focus] .task-row input[type=checkbox] {width:22px;height:22px;min-width:22px;min-height:22px;margin:0;flex:none;accent-color:var(--ui-accent);cursor:pointer}
+body[data-ui-app=focus] .task-row .check-target {display:flex;align-items:start;justify-content:center;min-width:44px;min-height:44px;margin:-11px -10px 0;padding-top:11px;flex:none}
+body[data-ui-app=focus] .task-title {display:block;flex:1;min-width:0;margin:0;overflow-wrap:anywhere;font-size:14px;font-weight:650;line-height:1.55;color:var(--ui-ink)}
+body[data-ui-app=focus] .task-copy {min-width:0;flex:1}
+body[data-ui-app=focus] .drag-handle {display:grid;place-items:center;min-width:44px;width:44px;min-height:44px;padding:4px;margin:-10px -9px 0 0;background:transparent;border-color:transparent;border-radius:8px;font-size:20px;line-height:1;color:var(--ui-muted);cursor:grab;flex:none;touch-action:none}
+body[data-ui-app=focus] .drag-handle:active {cursor:grabbing}
+body[data-ui-app=focus] .task-badges {display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
+body[data-ui-app=focus] .priority-badge,body[data-ui-app=focus] .estimate-badge,body[data-ui-app=focus] .date-badge,body[data-ui-app=focus] .task-date,body[data-ui-app=focus] .focus-badge {display:inline-flex;align-items:center;gap:4px;min-height:26px;padding:3px 7px;border:1px solid var(--ui-edge);border-radius:6px;background:var(--ui-solid);color:var(--ui-muted);font-size:11px;font-weight:550}
+body[data-ui-app=focus] .focus-badge {color:var(--ui-accent);background:var(--focus-wash);border-color:var(--focus-edge);font-weight:650}
+body[data-ui-app=focus] .task-row[data-priority=High] .priority-badge {color:var(--ui-accent);border-color:var(--focus-edge);background:var(--focus-wash)}
+body[data-ui-app=focus] .task-row[data-priority=Normal] .priority-badge {color:var(--ui-ink);background:var(--ui-bg)}
+body[data-ui-app=focus] .task-meta {display:block;font-size:10px;margin:10px 0;color:var(--ui-muted)}
+body[data-ui-app=focus] .task-actions {display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+body[data-ui-app=focus] .task-actions button {padding:8px;font-size:11px;border-color:transparent;background:var(--ui-bg);border-radius:8px}
+body[data-ui-app=focus] .task-actions button:first-child:not(:last-child) {color:var(--ui-accent);background:var(--focus-wash)}
+body[data-ui-app=focus] .task-reorder {display:flex;gap:4px;align-items:end;flex-wrap:wrap;border-top:1px solid var(--ui-edge);padding-top:10px;margin-top:11px}
+body[data-ui-app=focus] .task-reorder label {flex:1;min-width:70px;font-size:10px;color:var(--ui-muted)}
+body[data-ui-app=focus] .task-reorder select {margin-top:3px;font-size:11px;padding:8px 5px;min-height:44px;border-radius:8px}
+body[data-ui-app=focus] .task-reorder button {font-size:10px;min-width:44px;padding:8px 5px;border-radius:8px}
+body[data-ui-app=focus] .task-move-buttons {display:flex;gap:4px}
+body[data-ui-app=focus] .task-row.selected {border-color:var(--ui-accent);box-shadow:inset 3px 0 0 var(--ui-accent),0 4px 15px color-mix(in srgb,var(--ui-accent) 9%,transparent)}
+body[data-ui-app=focus] .task-row.done {box-shadow:none;background:color-mix(in srgb,var(--ui-bg) 45%,var(--ui-solid))}
+body[data-ui-app=focus] .task-row.done .task-title {text-decoration:line-through;color:var(--ui-muted);font-weight:500}
+body[data-ui-app=focus] .task-row.dragging {opacity:.45}
+body[data-ui-app=focus] .priority-lane.drop-target {border-color:var(--ui-accent);background:color-mix(in srgb,var(--ui-accent) 10%,var(--ui-solid));outline:2px dashed var(--focus-edge);outline-offset:3px}
+body[data-ui-app=focus] .task-row.drop-before::before,body[data-ui-app=focus] .task-row.drop-after::before {content:"";position:absolute;inset:-7px -2px auto;height:3px;border-radius:5px;background:var(--ui-accent)}
+body[data-ui-app=focus] .task-row.drop-after::before {inset:auto -2px -7px}
+body[data-ui-app=focus] .drag-preview {position:fixed;z-index:100;pointer-events:none;max-width:260px;padding:11px 15px;border:1px solid var(--ui-accent);border-radius:12px;background:var(--ui-solid);color:var(--ui-ink);box-shadow:0 10px 28px color-mix(in srgb,var(--ui-ink) 18%,transparent);font-size:12px;font-weight:650;overflow-wrap:anywhere}
+body[data-ui-app=focus] .empty-list {font-size:12px;margin:16px 0 0;padding:18px;text-align:center;background:var(--focus-wash);border:1px dashed var(--focus-edge);border-radius:13px}
+body[data-ui-app=focus] .secondary-list-section {border-top:1px solid var(--ui-edge);margin-top:26px;padding-top:19px}
+body[data-ui-app=focus] .section-heading {display:flex;gap:8px;align-items:baseline;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}
+body[data-ui-app=focus] .section-heading span,body[data-ui-app=focus] .secondary-list-section>p {font-size:11px;color:var(--ui-muted)}
+body[data-ui-app=focus] .secondary-list-section>p {margin:0 0 12px}
+body[data-ui-app=focus] .privacy {text-align:center;font-size:11px;max-width:85ch;margin:24px auto 0;line-height:1.65}
+body[data-ui-app=focus] #task-dialog {width:min(500px,calc(100% - 28px));max-height:calc(100dvh - 32px);padding:26px;border:1px solid var(--focus-edge);border-radius:20px;background:var(--ui-solid);color:var(--ui-ink);overflow:auto}
+body[data-ui-app=focus] #task-dialog::backdrop {background:color-mix(in srgb,var(--ui-ink) 32%,transparent);backdrop-filter:blur(4px)}
+body[data-ui-app=focus] #task-dialog h2 {margin:7px 0 20px;font-size:25px}
+body[data-ui-app=focus] #edit-task-form>label {margin-bottom:16px}
+body[data-ui-app=focus] .edit-fields {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:16px}
+body[data-ui-app=focus] #edit-error {min-height:20px;font-size:12px;margin:0 0 14px}
+body[data-ui-app=focus] .dialog-actions {display:flex;justify-content:flex-end;gap:8px;border-top:1px solid var(--ui-edge);padding-top:16px}
+@container (min-width:730px) {
+  body[data-ui-app=focus] .priority-board {grid-template-columns:repeat(3,minmax(0,1fr));align-items:start}
+  body[data-ui-app=focus] .priority-list {min-height:145px}
+  body[data-ui-app=focus] .lane-empty {min-height:145px}
+  body[data-ui-app=focus] .secondary-list-section .task-list {grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(min-width:960px) {
+  body[data-ui-app=focus] .focus-layout {grid-template-columns:296px minmax(0,1fr);gap:24px}
+  body[data-ui-app=focus] .timer-column {position:sticky;top:96px}
+}
+@media(max-width:599px) {
+  body[data-ui-app=focus] main {padding:22px 14px 12px}
+  body[data-ui-app=focus] .focus-layout {gap:18px}
+  body[data-ui-app=focus] .focus-timer {padding:20px}
+  body[data-ui-app=focus] .timer-dial {min-height:170px;margin:20px 0}
+  body[data-ui-app=focus] .tasks-panel {padding:18px 14px}
+  body[data-ui-app=focus] .tasks-heading {gap:14px}
+  body[data-ui-app=focus] .tasks-heading h2 {font-size:21px}
+  body[data-ui-app=focus] .day-controls {width:100%}
+  body[data-ui-app=focus] .day-controls label {flex:1;width:auto}
+  body[data-ui-app=focus] .task-composer {padding:14px}
+  body[data-ui-app=focus] .task-inputs {gap:10px}
+  body[data-ui-app=focus] .task-inputs label {min-width:100px}
+  body[data-ui-app=focus] .task-inputs button {width:100%;justify-content:center;gap:12px}
+  body[data-ui-app=focus] .task-actions button,body[data-ui-app=focus] .task-reorder button {font-size:11px;padding-inline:10px}
+  body[data-ui-app=focus] .task-reorder label {font-size:11px}
+  body[data-ui-app=focus] #task-dialog {padding:22px 18px}
+  body[data-ui-app=focus] .edit-fields {gap:10px}
+}
+@media(hover:hover) {
+  body[data-ui-app=focus] .task-row:hover {border-color:var(--focus-edge);box-shadow:0 6px 20px color-mix(in srgb,var(--ui-ink) 7%,transparent)}
+  body[data-ui-app=focus] .drag-handle:hover {background:var(--focus-wash);color:var(--ui-accent)}
+  body[data-ui-app=focus] .break-link:hover {border-color:var(--focus-edge);background:var(--focus-wash)}
+  body[data-ui-app=focus] button:not(:disabled):hover {border-color:var(--focus-edge)}
+}
+@media(prefers-reduced-motion:reduce) {
+  body[data-ui-app=focus] *,body[data-ui-app=focus] *::before,body[data-ui-app=focus] *::after {transition:none!important;animation:none!important;scroll-behavior:auto!important}
+}
+@media print {
+  body[data-ui-app=focus] main {padding:0;max-width:none}
+  body[data-ui-app=focus] .focus-layout {display:block}
+  body[data-ui-app=focus] .timer-column,body[data-ui-app=focus] .task-composer,body[data-ui-app=focus] .task-actions,body[data-ui-app=focus] .task-reorder,body[data-ui-app=focus] .drag-handle,body[data-ui-app=focus] #task-dialog {display:none!important}
+  body[data-ui-app=focus] .tasks-panel {border:0;padding:0}
+  body[data-ui-app=focus] .priority-board {grid-template-columns:repeat(3,minmax(0,1fr))}
+  body[data-ui-app=focus] .task-row {break-inside:avoid;box-shadow:none}
+}
