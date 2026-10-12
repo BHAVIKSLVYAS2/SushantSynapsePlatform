@@ -86,3 +86,10 @@ body#moment-certificate[data-ui-app] .template{font-size:10px;padding:5px;border
 @media(max-width:760px){#moment-certificate main{padding:0 14px}#moment-certificate .synapse-header{padding:12px 14px}#moment-certificate .workspace{grid-template-columns:1fr;gap:20px}#moment-certificate #details{height:auto;min-height:0;overflow:visible;padding:18px}#moment-certificate #certificate{width:100%;max-height:none;min-height:0}#moment-certificate .intro{padding:10px 0}#moment-certificate .studio-export-bar{padding:12px}#moment-certificate .export-buttons{width:100%}#moment-certificate .export-buttons button{flex:1;padding:10px;font-size:11px}#moment-certificate .export-quality{width:100%;justify-content:space-between}}
 }
 @media print{.studio-export-bar,.preview-edit{display:none!important}}
+/* Four original directions are legible together without a template catalogue. */
+@media screen{
+#moment-certificate .templates{grid-template-columns:repeat(2,minmax(0,1fr))}
+#moment-certificate .template small{display:block;font-size:9px;line-height:1.35;color:var(--ui-muted);margin-top:4px}
+#moment-certificate .template canvas{width:100%;height:auto}
+@media(max-width:760px){#moment-certificate .preview-column{grid-row:auto}#moment-certificate .preview-edit{display:none}}
+}

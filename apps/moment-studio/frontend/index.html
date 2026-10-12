@@ -1,27 +1,81 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Create invitations, greetings and fun posters in English or Hindi. Free, private, no login. Download square or vertical PNG cards."><title>Moment Studio · Sushant Synapse</title><link rel="icon" href="/logo-adaptive-192.png"><link rel="stylesheet" href="/moment-studio/cards.css?v=20261011-simple"><link rel="stylesheet" href="/shared/platform-header.css?v=20261001-toggle"><link rel="canonical" href="https://apps.sushantsynapse.com/moment-studio/cards"><link rel="stylesheet" href="/shared/legal-footer.css?v=20261010-language"><link rel="stylesheet" href="/shared/whatsapp.css?v=20261010-contact-direct"><link rel="stylesheet" href="/shared/premium.css?v=20261011-audit"><link rel="stylesheet" href="/shared/platform-shell.css?v=20261011-shell"><script src="/shared/platform-shell.js?v=20261011-shell" defer></script></head><body data-ui-app="moment-studio"><a class="skip" href="#main">Skip to studio</a><header class="synapse-header"><a class="brand" href="/" aria-label="Sushant Synapse home"><img src="/logo-adaptive-192.png" width="42" height="42" alt=""><span>Sushant Synapse<small>PLATFORM</small></span></a><div class="header-actions"><a class="all-apps" href="/">All apps &#8599;</a><button type="button" id="theme" data-theme-toggle aria-label="Dark mode"></button></div></header><nav class="synapse-help-nav" aria-label="Support and contact"><a href="/support">Support us</a><a href="/showcase">Watch demos</a><a href="/contact">Contact</a><a href="https://wa.me/917874166009?text=Hello%2C%20I%20would%20like%20to%20contact%20Sushant%20Synapse." target="_blank" rel="noopener noreferrer">WhatsApp ↗</a></nav>
-<main id="main"><nav class="studio-nav" aria-label="Moment Studio sections"><a href="/moment-studio/certificates" data-studio-section="certificates" aria-label="Certificates &amp; awards"><span class="studio-section-icon" aria-hidden="true">☆</span><span><strong>Certificates &amp; awards</strong><small>Appreciation, recognition &amp; thank yous</small></span><span class="studio-section-arrow" aria-hidden="true">↗</span></a><a href="/moment-studio/cards" data-studio-section="cards" aria-label="Cards &amp; greetings" aria-current="page"><span class="studio-section-icon" aria-hidden="true">✉</span><span><strong>Cards &amp; greetings</strong><small>Birthdays, invitations &amp; celebrations</small></span><span class="studio-section-arrow" aria-hidden="true">↗</span></a><a href="/moment-studio/cards?occasion=condolence" data-studio-section="condolences" aria-label="Condolences &amp; remembrance"><span class="studio-section-icon" aria-hidden="true">♡</span><span><strong>Condolences &amp; remembrance</strong><small>Sympathy messages &amp; gentle tributes</small></span><span class="studio-section-arrow" aria-hidden="true">↗</span></a></nav>
-<section class="intro"><h1 id="studio-title">Cards &amp; greetings</h1><p>Choose a design, personalise your message and download.</p></section>
-<div class="workspace">
-<form id="editor" class="panel">
-<h2>1. Choose a template</h2>
-<label>Occasion<select aria-label="Occasion" name="occasion" id="occasion"></select></label>
-<fieldset><legend>Design</legend><div id="designs" class="designs"></div></fieldset>
-<h2>2. Card details</h2>
-<label><span id="recipient-label">Name or recipient</span> <span>optional</span><input name="name" maxlength="80" placeholder="e.g. Aarav"></label>
-<label>Your message<textarea name="message" rows="4" maxlength="600"></textarea></label>
-<details id="wording"><summary>Suggested messages</summary>
-<label>Suggested wording<select aria-label="Suggested wording" name="language" id="language"><option value="en">English</option><option value="hi">Hindi / हिन्दी</option></select></label>
-<button type="button" id="suggest">Use suggested wording</button>
-<section id="condolence-tools" hidden><div class="pair"><label>Tone<select id="message-tone"><option value="warm">Warm &amp; supportive</option><option value="brief">Short &amp; simple</option><option value="formal">Formal &amp; respectful</option></select></label><label>Connection<select id="connection"><option value="general">General sympathy</option><option value="friend">For a friend</option><option value="colleague">For a colleague</option></select></label></div><button id="generate-message" type="button">Use this message</button></section>
-<p class="hint">Replaces the headline and message. Names, details and photos stay. Local English/Hindi suggestions; review before sharing.</p></details>
-<label><span id="sender-label">From</span> <span>optional</span><input name="from" maxlength="80" placeholder="Your name"></label>
-<section id="event-fields" hidden><h2 id="event-heading">Event details</h2><div class="pair"><label>Date<input id="event-date" type="date"></label><label>Time<input id="event-time" type="time"></label></div><label>Venue<input id="event-venue" maxlength="100"></label></section>
-<details id="personalise"><summary>Personalise <span>Optional</span></summary>
-<label>Headline<input name="title" required maxlength="100"></label>
-<label>Additional details <span>optional</span><textarea name="details" rows="2" maxlength="200"></textarea></label>
-<div class="pair"><label>Colour palette<select aria-label="Colour palette" name="palette" id="palette"></select></label><label>Card size<select aria-label="Card size" name="format"><option value="square">Square post · 1080 × 1080</option><option value="story">Vertical status · 1080 × 1920</option></select></label></div>
-<label>Photo <span>optional</span><input type="file" id="photo" accept="image/png,image/jpeg,image/webp"></label><p class="hint">PNG, JPEG or WebP, up to 5 MB and 24 megapixels. Centre crop; square photos work well.</p><button type="button" id="remove-photo" disabled>Remove photo</button><p id="photo-status" role="status" aria-live="polite"></p><p class="hint">Use content you have permission to use. <a href="/terms">Usage responsibilities</a>.</p></details>
-<p class="privacy">Text and photos stay in this tab; refresh clears them. Free exports include Sushant Synapse branding.</p>
-</form>
-<section class="preview-column" aria-labelledby="preview-title"><div class="preview-heading"><h2 id="preview-title">3. Preview &amp; download</h2><a class="edit-shortcut" href="#editor">Edit card ↓</a></div><div class="canvas-stage" id="photo-drop"><canvas id="card" width="1080" height="1080" role="img" aria-label="Card preview"></canvas></div><p id="preview-description" class="hint"></p><p id="fit-status" role="status" aria-live="polite"></p><div class="actions"><button type="button" id="download" class="primary">Download PNG</button><button type="button" id="share">Share card</button><button type="button" id="copy-message">Copy message text</button></div><label id="message-copy-label" for="message-copy" hidden>Copy your message<textarea id="message-copy" readonly rows="5"></textarea></label><p id="status" role="status" aria-live="polite"></p><details><summary>Download &amp; sharing help</summary><p class="hint">Square for posts. Vertical for WhatsApp Status and stories. If file sharing is unavailable, the image downloads for you to attach manually. Share sends the finished image only when you choose a destination.</p></details></section>
-</div></main><noscript>Moment Studio needs JavaScript to render and download cards.</noscript><script src="/shared/theme.js?v=20261001-toggle"></script><script type="module" src="/moment-studio/card-app.js?v=20261011-simple"></script><footer class="synapse-legal-footer" aria-label="Platform legal information"><span>Sushant Synapse</span><nav aria-label="Legal links"><a href="/support">Support us</a><a href="/showcase">Watch demos</a><a href="https://wa.me/917874166009?text=Hello%2C%20I%20would%20like%20to%20contact%20Sushant%20Synapse." target="_blank" rel="noopener noreferrer">WhatsApp</a><a href="/privacy">Privacy</a><a href="/terms">Usage terms</a><a href="/contact">Contact</a><a href="/legal/third-party-notices">Third-party notices</a></nav><div class="synapse-language" data-language-control hidden role="group" aria-label="Interface language / भाषा"><span>Language / भाषा</span><button type="button" lang="en" data-interface-language="en" aria-pressed="true">English</button><button type="button" lang="hi" data-interface-language="hi" aria-pressed="false">हिन्दी</button><small data-language-help hidden></small></div></footer><script src="/shared/language.js?v=20261010-language" defer></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Make greetings, invitations, condolences and remembrance cards. Add your details, preview and download. Free, private, no login.">
+  <title>Moment Studio · Sushant Synapse</title>
+  <link rel="icon" href="/logo-adaptive-192.png">
+  <link rel="stylesheet" href="/moment-studio/cards.css?v=20261012-details">
+  <link rel="stylesheet" href="/shared/platform-header.css?v=20261001-toggle">
+  <link rel="canonical" href="https://apps.sushantsynapse.com/moment-studio/cards">
+  <link rel="stylesheet" href="/shared/legal-footer.css?v=20261010-language">
+  <link rel="stylesheet" href="/shared/whatsapp.css?v=20261010-contact-direct">
+  <link rel="stylesheet" href="/shared/premium.css?v=20261011-audit">
+  <link rel="stylesheet" href="/shared/platform-shell.css?v=20261011-shell">
+  <script src="/shared/platform-shell.js?v=20261011-shell" defer></script>
+</head>
+<body data-ui-app="moment-studio" id="moment-cards">
+  <a class="skip" href="#main">Skip to studio</a>
+  <header class="synapse-header">
+    <a class="brand" href="/" aria-label="Sushant Synapse home"><img src="/logo-adaptive-192.png" width="42" height="42" alt=""><span>Moment Studio<small>BY SUSHANT SYNAPSE</small></span></a>
+    <div class="header-actions"><a class="all-apps" href="/">All apps &#8599;</a><button type="button" id="theme" data-theme-toggle aria-label="Dark mode"></button></div>
+  </header>
+  <main id="main">
+    <nav class="studio-nav" aria-label="Moment Studio sections">
+      <a href="/moment-studio/certificates" data-studio-section="certificates" aria-label="Certificates &amp; awards"><span class="studio-section-icon" aria-hidden="true">☆</span><strong>Certificates &amp; awards</strong></a>
+      <a href="/moment-studio/cards" data-studio-section="cards" aria-label="Cards &amp; greetings" aria-current="page"><span class="studio-section-icon" aria-hidden="true">✉</span><strong>Cards &amp; greetings</strong></a>
+      <a href="/moment-studio/cards?occasion=condolence" data-studio-section="condolences" aria-label="Condolences &amp; remembrance"><span class="studio-section-icon" aria-hidden="true">♡</span><strong>Condolences &amp; remembrance</strong></a>
+    </nav>
+    <section class="intro"><h1 id="studio-title">Cards &amp; greetings</h1><p>Add your details, check the preview and download.</p></section>
+    <div class="workspace">
+      <form id="editor" aria-label="Card details">
+        <section class="panel finish-panel">
+          <h2><b>01</b> Choose your card</h2>
+          <div class="pair">
+            <label>Occasion<select aria-label="Occasion" name="occasion" id="occasion"></select></label>
+            <label>Card language<select name="language" id="language"><option value="en">English</option><option value="hi">Hindi / हिन्दी</option></select></label>
+          </div>
+          <details id="design-options"><summary>Design <span id="design-name"></span></summary><fieldset><legend class="visually-hidden">Card design</legend><div id="designs" class="designs"></div></fieldset></details>
+        </section>
+        <section class="panel content-panel">
+          <h2><b>02</b> Add your details</h2>
+          <label id="name-field"><span id="recipient-label">Recipient name</span> <small>optional</small><input name="name" maxlength="80" placeholder="e.g. Aarav"></label>
+          <label id="title-field"><span id="headline-label">Headline</span><input name="title" required maxlength="100"></label>
+          <div class="message-heading"><label for="message" id="message-label">Your message</label><button type="button" id="suggest" class="text-button">Use suggested wording</button></div>
+          <textarea name="message" id="message" rows="4" maxlength="600" aria-describedby="message-hint"></textarea>
+          <p id="message-hint" class="hint">Edit the starter message to make it your own.</p>
+          <p id="wording-status" role="status" aria-live="polite"></p>
+          <details id="message-help"><summary>Copy message as text</summary><button type="button" id="copy-message">Copy message text</button><label id="message-copy-label" for="message-copy" hidden>Copy your message<textarea id="message-copy" readonly rows="5"></textarea></label><p id="copy-status" role="status" aria-live="polite"></p></details>
+          <section id="event-fields" hidden>
+            <h3 id="invitation-events">Event details</h3>
+            <details id="remembrance-gathering"><summary id="event-heading">Add a remembrance gathering</summary><div class="pair"><label>Date<input id="event-date" type="date"></label><label>Time<input id="event-time" type="time"></label></div><label>Venue<input id="event-venue" maxlength="100" placeholder="Where to meet"></label></details>
+          </section>
+          <label><span id="sender-label">From</span> <small>optional</small><input name="from" maxlength="80" placeholder="Your name"></label>
+          <label>Additional details <small>optional</small><textarea name="details" rows="2" maxlength="200" placeholder="Anything else you would like to include"></textarea></label>
+          <div class="photo-field">
+            <label>Photo <small>optional</small><input type="file" id="photo" accept="image/png,image/jpeg,image/webp" aria-describedby="photo-hint"></label>
+            <div class="photo-help"><p id="photo-hint" class="hint">PNG, JPEG or WebP · up to 5 MB. Centre crop.</p><button type="button" id="remove-photo" class="text-button" disabled>Remove photo</button></div>
+            <p id="photo-status" role="status" aria-live="polite"></p>
+          </div>
+        </section>
+        <details id="personalise"><summary>More options <span>Colour &amp; size</span></summary><div class="pair"><label>Colour palette<select aria-label="Colour palette" name="palette" id="palette"></select></label><label>Card size<select aria-label="Card size" name="format"><option value="square">Square post · 1080 × 1080</option><option value="story">Vertical status · 1080 × 1920</option></select></label></div></details>
+        <p class="privacy">Text and photos stay in this tab; refresh clears them. Free exports include Sushant Synapse branding.</p>
+      </form>
+      <section class="preview-column" aria-labelledby="preview-title">
+        <div class="preview-heading"><h2 id="preview-title">Preview</h2><span><i aria-hidden="true"></i>Changes as you type</span></div>
+        <div class="canvas-stage" id="photo-drop"><canvas id="card" width="1080" height="1080" role="img" aria-label="Card preview"></canvas></div>
+        <p id="preview-description" class="hint"></p>
+        <p id="fit-status" role="status" aria-live="polite"></p>
+        <div class="studio-export-bar"><div class="actions"><button type="button" id="download" class="primary">Download PNG</button><button type="button" id="share">Share card</button></div><p id="status" role="status" aria-live="polite"></p></div>
+        <details class="sharing-help"><summary>Download &amp; sharing help</summary><p class="hint">Choose Square for posts or Vertical status in More options for WhatsApp Status and stories. If file sharing is unavailable, the image downloads for you to attach manually. Sharing opens your device’s destinations. Use photos and wording you have permission to share. <a href="/terms">Usage responsibilities</a>.</p></details>
+      </section>
+    </div>
+  </main>
+  <noscript>Moment Studio needs JavaScript to render and download cards.</noscript>
+  <script src="/shared/theme.js?v=20261001-toggle"></script>
+  <script type="module" src="/moment-studio/card-app.js?v=20261012-details"></script>
+  <footer class="synapse-legal-footer" aria-label="Platform legal information"><span>Sushant Synapse</span><nav aria-label="Legal links"><a href="/support">Support us</a><a href="/showcase">Watch demos</a><a href="https://wa.me/917874166009?text=Hello%2C%20I%20would%20like%20to%20contact%20Sushant%20Synapse." target="_blank" rel="noopener noreferrer">WhatsApp</a><a href="/privacy">Privacy</a><a href="/terms">Usage terms</a><a href="/contact">Contact</a><a href="/legal/third-party-notices">Third-party notices</a></nav><div class="synapse-language" data-language-control hidden role="group" aria-label="Interface language / भाषा"><span>Language / भाषा</span><button type="button" lang="en" data-interface-language="en" aria-pressed="true">English</button><button type="button" lang="hi" data-interface-language="hi" aria-pressed="false">हिन्दी</button><small data-language-help hidden></small></div></footer>
+  <script src="/shared/language.js?v=20261010-language" defer></script>
+</body>
+</html>

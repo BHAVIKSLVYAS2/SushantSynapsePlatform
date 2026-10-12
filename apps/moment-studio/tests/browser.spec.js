@@ -14,7 +14,7 @@ test('reference workspace keeps the artboard visible while controls scroll and e
 test('certificate entry keeps desktop preview beside the editor and supports expanded inspection',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.setViewportSize({width:1440,height:900});await page.goto(base+'/moment-studio');
- await expect(page.locator('#certificate')).toBeVisible();await expect(page.locator('#templates input')).toHaveCount(5);
+ await expect(page.locator('#certificate')).toBeVisible();await expect(page.locator('#templates input')).toHaveCount(4);
  const layout=await page.evaluate(()=>{const form=document.querySelector('#details').getBoundingClientRect(),preview=document.querySelector('.preview-column').getBoundingClientRect();return {children:[...document.querySelector('.workspace').children].map(e=>e.tagName),sameRow:Math.abs(form.top-preview.top)<3,right:preview.left>=form.right};});
  expect(layout).toEqual({children:['FORM','SECTION'],sameRow:true,right:true});
  await expect(page.locator('#details #batch-file')).toHaveCount(1);
@@ -26,7 +26,7 @@ test('certificate entry keeps desktop preview beside the editor and supports exp
  expect(await page.locator('.preview-column').evaluate(el=>el.getBoundingClientRect().top)).toBeGreaterThanOrEqual(0);
  for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await page.evaluate(t=>SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await page.setViewportSize({width:390,height:900});
- const mobile=await page.evaluate(()=>document.querySelector('.preview-column').getBoundingClientRect().top<document.querySelector('#details').getBoundingClientRect().top);expect(mobile).toBe(true);
+ const mobile=await page.evaluate(()=>document.querySelector('#details').getBoundingClientRect().top<document.querySelector('.preview-column').getBoundingClientRect().top);expect(mobile).toBe(true);
  await page.goto(base+'/moment-studio/cards?occasion=birthday');await expect(page.locator('#occasion')).toHaveValue('birthday');await expect(page.locator('#download')).toBeEnabled();expect(errors).toEqual([]);
 });
 test('simple cards preserve styling, validate photos and keep responsive exports',async({page})=>{
@@ -34,6 +34,7 @@ test('simple cards preserve styling, validate photos and keep responsive exports
  await expect(page.locator('.tool-tile,#open-command,.studio-toolbar')).toHaveCount(0);
  await expect(page.locator('.workspace > *')).toHaveCount(2);
  await expect(page.locator('#occasion option')).toHaveCount(7);
+ await page.locator('#design-options').evaluate(el=>el.open=true);
  await page.getByRole('radio',{name:'Bloom',exact:true}).check();
  await page.locator('#personalise').evaluate(el=>el.open=true);await page.locator('#palette').selectOption('rose');
  await page.locator('#occasion').selectOption('invitation');
@@ -41,17 +42,55 @@ test('simple cards preserve styling, validate photos and keep responsive exports
  await page.locator('#event-date').fill('2026-10-18');await page.locator('#event-time').fill('18:00');await page.locator('#event-venue').fill('Community Hall');
  await expect(page.locator('#card')).toHaveAttribute('aria-label',/18 October 2026 · 18:00 · Community Hall/);
  await page.locator('[name=details]').fill('Please arrive early');
- await page.locator('#wording').evaluate(el=>el.open=true);await page.locator('#suggest').click();
+ await page.locator('#suggest').click();
  await expect(page.locator('[name=details]')).toHaveValue('Please arrive early');
  await expect(page.locator('#card')).toHaveAttribute('aria-label',/Community Hall · Please arrive early/);
  await page.locator('#photo-drop').evaluate(el=>{const dt=new DataTransfer();dt.items.add(new File(['invalid'],'bad.txt',{type:'text/plain'}));el.dispatchEvent(new DragEvent('drop',{bubbles:true,dataTransfer:dt}));});
  await expect(page.locator('#photo-status')).toContainText('Choose a PNG');await expect(page.locator('#download')).toBeEnabled();
  for(const theme of ['light','dark']){await page.evaluate(value=>window.SynapseTheme.write(value),theme);for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:950});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}}
  await page.setViewportSize({width:1440,height:950});await page.screenshot({path:'test-results/moment-simple-desktop.png',fullPage:true});
- await page.setViewportSize({width:390,height:844});await page.locator('.edit-shortcut').click();await expect(page.locator('#editor')).toBeInViewport();
+ await page.setViewportSize({width:390,height:844});await page.evaluate(()=>window.scrollTo(0,0));await expect(page.locator('#editor')).toBeInViewport();
  await page.evaluate(()=>window.SynapseTheme.write('light'));await page.screenshot({path:'test-results/moment-simple-mobile.png',fullPage:true});expect(errors).toEqual([]);
 });
-test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-celebration-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe']});await new Promise((resolve,reject)=>{let out='';const timer=setTimeout(()=>reject(Error('Startup timed out')),15000);child.stdout.on('data',chunk=>{out+=chunk;const match=out.match(/localhost:(\d+)/);if(match){base='http://127.0.0.1:'+match[1];clearTimeout(timer);resolve();}});child.once('error',reject);});});test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
+test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-moment-studio-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,DATABASE_PROVIDER:'sqlite',NODE_ENV:'test',PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe']});await new Promise((resolve,reject)=>{let out='';const timer=setTimeout(()=>reject(Error('Startup timed out')),15000);child.stdout.on('data',chunk=>{out+=chunk;const match=out.match(/localhost:(\d+)/);if(match){base='http://127.0.0.1:'+match[1];clearTimeout(timer);resolve();}});child.once('error',reject);});});test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
+
+test('mobile creation starts at the form with visible wording and task-specific fields',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ for(const occasion of ['birthday','invitation','condolence','remembrance']){
+  await page.goto(base+'/moment-studio/cards?occasion='+occasion);
+  await expect(page.locator('#editor')).toBeInViewport();
+  await expect(page.locator('[name=name]')).toBeInViewport();await expect(page.locator('#design-options')).not.toHaveAttribute('open','');
+  expect(await page.evaluate(()=>document.querySelector('#editor').getBoundingClientRect().top<document.querySelector('.preview-column').getBoundingClientRect().top)).toBe(true);
+  await expect(page.locator('#language')).toBeVisible();await expect(page.locator('#language option')).toHaveText(['English','Hindi / हिन्दी']);
+  for(const field of ['title','message','name','from','details'])await expect(page.locator('[name='+field+']')).toBeVisible();
+  await expect(page.locator('#photo')).toBeVisible();await expect(page.locator('#personalise')).not.toHaveAttribute('open','');
+  await expect(page.locator('#wording,#condolence-tools,#message-tone,#connection,#generate-message,.edit-shortcut')).toHaveCount(0);
+  if(occasion==='remembrance'){await expect(page.locator('#remembrance-gathering')).not.toHaveAttribute('open','');for(const field of ['event-date','event-time','event-venue'])await expect(page.locator('#'+field)).toBeHidden();await page.locator('#remembrance-gathering summary').click();}
+  const event=['invitation','remembrance'].includes(occasion);
+  for(const field of ['event-date','event-time','event-venue'])if(event)await expect(page.locator('#'+field)).toBeVisible();else await expect(page.locator('#'+field)).toBeHidden();
+  if(occasion==='invitation'){await expect(page.getByLabel('Event name',{exact:true})).toBeVisible();await expect(page.getByLabel('Guest name',{exact:false})).toBeVisible();await expect(page.getByLabel('Host',{exact:false})).toBeVisible();}
+  await expect(page.locator('#download')).toBeEnabled();
+ }
+});
+
+test('language and occasion follow untouched starters while personal wording survives until confirmed replacement',async({page})=>{
+ let automaticDialogs=0;page.on('dialog',()=>automaticDialogs++);
+ await page.goto(base+'/moment-studio/cards?occasion=birthday');
+ const english=await page.locator('[name=message]').inputValue();await page.locator('#language').selectOption('hi');
+ await expect(page.locator('[name=message]')).toHaveValue(/\p{Script=Devanagari}/u);await page.locator('#language').selectOption('en');await expect(page.locator('[name=message]')).toHaveValue(english);
+ await page.locator('[name=title]').fill('Our community celebration');await page.locator('[name=message]').fill('A message written for this family.');await page.locator('[name=name]').fill('Private recipient');await page.locator('[name=from]').fill('Private sender');await page.locator('[name=details]').fill('Bring your favourite memory');
+ await page.locator('#occasion').selectOption('invitation');await page.locator('#language').selectOption('hi');
+ await expect(page.locator('[name=title]')).toHaveValue('Our community celebration');await expect(page.locator('[name=message]')).toHaveValue('A message written for this family.');
+ expect(automaticDialogs).toBe(0);
+ await page.locator('#event-date').fill('2026-10-18');await page.locator('#event-time').fill('18:00');await page.locator('#event-venue').fill('Community Hall');
+ page.removeAllListeners('dialog');let replacements=0;page.once('dialog',async dialog=>{replacements++;expect(dialog.type()).toBe('confirm');await dialog.dismiss();});await page.locator('#suggest').click();
+ await expect(page.locator('[name=message]')).toHaveValue('A message written for this family.');await expect(page.locator('[name=title]')).toHaveValue('Our community celebration');
+ page.once('dialog',async dialog=>{replacements++;await dialog.accept();});await page.locator('#suggest').click();await expect(page.locator('[name=message]')).toHaveValue(/\p{Script=Devanagari}/u);expect(replacements).toBe(2);
+ await expect(page.locator('[name=title]')).toHaveValue('Our community celebration');
+ for(const [field,value]of [['name','Private recipient'],['from','Private sender'],['details','Bring your favourite memory']])await expect(page.locator('[name='+field+']')).toHaveValue(value);
+ await expect(page.locator('#event-date')).toHaveValue('2026-10-18');await expect(page.locator('#event-time')).toHaveValue('18:00');await expect(page.locator('#event-venue')).toHaveValue('Community Hall');
+ await page.reload();await expect(page.locator('[name=name]')).toHaveValue('');await expect(page.locator('[name=from]')).toHaveValue('');await expect(page.locator('#event-date')).toHaveValue('');
+});
 
 test('all studio sections are discoverable on mobile with exactly one current section',async({page})=>{
  await page.setViewportSize({width:320,height:850});await page.goto(base+'/moment-studio');
@@ -61,7 +100,8 @@ test('all studio sections are discoverable on mobile with exactly one current se
  await expect(nav.locator('[aria-current=page]')).toHaveAttribute('data-studio-section','certificates');
  await expect(nav.getByRole('link').first()).toHaveAttribute('data-studio-section','certificates');
  await nav.getByRole('link',{name:'Condolences & remembrance',exact:true}).click();
- await page.locator('#wording').evaluate(el=>el.open=true);await expect(page.locator('#condolence-tools')).toBeVisible();
+ await expect(page.locator('#language')).toBeVisible();await expect(page.locator('[name=message]')).toBeVisible();
+ await expect(page.locator('#wording,#condolence-tools,#message-tone,#connection,#generate-message,.edit-shortcut')).toHaveCount(0);
  await expect(nav.locator('[aria-current=page]')).toHaveCount(1);
  await expect(nav.locator('[aria-current=page]')).toHaveAttribute('data-studio-section','condolences');
  await page.screenshot({path:'test-results/moment-navigation-mobile.png'});
@@ -72,10 +112,10 @@ test('all studio sections are discoverable on mobile with exactly one current se
  await expect(nav.locator('[aria-current=page]')).toHaveAttribute('data-studio-section','certificates');
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
-test('respectful bilingual generation, all branded card designs and real PNG export, merged navigation and private copying',async({page})=>{
+test('editable bilingual condolences, all branded card designs and real PNG export, merged navigation and private copying',async({page})=>{
 const api=[],errors=[];page.on('request',r=>{if(r.url().includes('/api/'))api.push(r.url());});page.on('pageerror',e=>errors.push(e.message));await page.route('**/api/**',r=>r.abort());await page.addInitScript(()=>Object.defineProperty(navigator,'clipboard',{value:undefined}));await page.goto(base+'/moment-studio/cards?occasion=condolence');await expect(page).toHaveTitle(/Moment Studio/);await expect(page.locator('#occasion')).toHaveValue('condolence');await expect(page.getByRole('radio',{name:'Quiet remembrance',exact:true})).toBeChecked();await expect(page.locator('#palette')).toHaveValue('slate');
-await page.locator('#wording').evaluate(el=>el.open=true);await page.locator('#personalise').evaluate(el=>el.open=true);
-for(const language of ['en','hi'])for(const tone of ['brief','warm','formal'])for(const connection of ['general','friend','colleague']){await page.locator('#language').selectOption(language);await page.locator('#message-tone').selectOption(tone);await page.locator('#connection').selectOption(connection);await page.locator('#generate-message').click();await expect(page.locator('#download')).toBeEnabled();}await page.locator('#copy-message').click();await expect(page.locator('#message-copy')).toHaveValue(/Sushant Synapse/);await expect(page.locator('#message-copy')).toHaveValue(/Moment Studio/);await page.locator('[name=name]').fill('आदरणीय अनन्या');
+await page.locator('#personalise').evaluate(el=>el.open=true);
+for(const language of ['en','hi']){await page.locator('#language').selectOption(language);await expect(page.locator('#download')).toBeEnabled();if(language==='hi')await expect(page.locator('[name=message]')).toHaveValue(/\p{Script=Devanagari}/u);}await page.locator('#message-help summary').click();await page.locator('#copy-message').click();await expect(page.locator('#message-copy')).toHaveValue(/Sushant Synapse/);await expect(page.locator('#message-copy')).toHaveValue(/Moment Studio/);await page.locator('[name=name]').fill('आदरणीय अनन्या');
 const branded=await page.evaluate(async()=>{const {render,occasions,designs,palettes}=await import('/moment-studio/card-renderer.mjs'),{brandReady}=await import('/moment-studio/branding.mjs');const result=[];for(const occasion of Object.keys(occasions))for(const design of Object.keys(designs))for(const format of ['square','story']){const c=document.createElement('canvas'),ctx=c.getContext('2d'),draw=ctx.drawImage.bind(ctx),fill=ctx.fillText.bind(ctx),logos=[],credits=[];ctx.drawImage=(image,...args)=>{if(image.src?.endsWith('/logo-adaptive-192.png'))logos.push(args);return draw(image,...args);};ctx.fillText=(text,...args)=>{if(text.includes('Sushant Synapse'))credits.push(text);return fill(text,...args);};const d={...occasions[occasion].hi,occasion,language:'hi',design,palette:'slate',format,name:'अनन्या',from:'आपके मित्र'};const r=render(c,d);result.push({occasion,design,format,fits:r.fits,logos:logos.length,credits:credits.length});}return {brandReady,result};});expect(branded.brandReady).toBe(true);for(const row of branded.result){expect(row.fits).toBe(true);expect(row.logos).toBe(1);expect(row.credits).toBe(1);}expect(branded.result).toHaveLength(90);
 for(const [format,height] of [['square',1080],['story',1920]]){await page.getByLabel('Card size').selectOption(format);const event=page.waitForEvent('download');await page.locator('#download').click();const download=await event,file='test-results/moment-condolence-'+format+'.png';await download.saveAs(file);const bytes=fs.readFileSync(file);expect(bytes.readUInt32BE(16)).toBe(1080);expect(bytes.readUInt32BE(20)).toBe(height);const match=await page.evaluate(async b64=>{const bytes=Uint8Array.from(atob(b64),c=>c.charCodeAt(0)),bitmap=await createImageBitmap(new Blob([bytes],{type:'image/png'})),c=document.createElement('canvas');c.width=bitmap.width;c.height=bitmap.height;c.getContext('2d').drawImage(bitmap,0,0);bitmap.close();const current=document.querySelector('#card'),y=c.height-104,a=current.getContext('2d').getImageData(60,y,960,64).data,b=c.getContext('2d').getImageData(60,y,960,64).data;return a.every((v,i)=>v===b[i]);},bytes.toString('base64'));expect(match).toBe(true);}
 await page.getByLabel('Card size').selectOption('square');await page.setViewportSize({width:390,height:844});await page.getByRole('button',{name:'Dark mode',exact:true}).click();await page.screenshot({path:'test-results/moment-condolence-mobile.png',fullPage:true});for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:950});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}await page.getByRole('link',{name:'Certificates & awards',exact:true}).click();await expect(page).toHaveURL(base+'/moment-studio/certificates');await expect(page.locator('[name=type] option')).toHaveCount(17);await page.getByRole('link',{name:'Condolences & remembrance',exact:true}).click();await expect(page.locator('#occasion')).toHaveValue('condolence');await page.reload();await expect(page.locator('[name=name]')).toHaveValue('');expect(errors).toEqual([]);expect(api).toEqual([]);

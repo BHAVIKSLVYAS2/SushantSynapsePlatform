@@ -1,10 +1,9 @@
 import {brandReady,requireBrand} from '/moment-studio/branding.mjs';
-import {render,templates,templateNotes,playfulTemplates,donationAmount,disclaimer} from '/moment-studio/certificate-renderer.mjs?v=20261011-curated';
+import {render,templates,templateNotes,accentTemplates,donationAmount,disclaimer} from '/moment-studio/certificate-renderer.mjs?v=20261012-premium';
 import {pdfBlob,pngBlob,download} from '/moment-studio/certificate-export.js';
 import {certificateRows,zip} from '/moment-studio/batch.mjs';
 const $=s=>document.querySelector(s),form=$('#details'),canvas=$('#certificate'),status=$('#status'),images={},versions={logo:0,signature:0};
-// Match the card workspace while retaining explicit light/dark/system preferences.
-try{if(!localStorage.getItem('synapse-theme')&&!localStorage.getItem('chambers-theme'))window.SynapseTheme.write('dark');}catch{window.SynapseTheme.write('dark');}
+// The shared platform owns initial and saved light/dark/system preferences.
 $('#certificate-disclaimer').textContent=disclaimer;
 let dirty=false;
 form.addEventListener('input',()=>dirty=true);
@@ -44,13 +43,13 @@ for(const [i,name] of templates.entries()){
  const label=document.createElement('label');label.className='template';const thumb=document.createElement('canvas');thumb.setAttribute('aria-hidden','true');
  const radio=document.createElement('input');radio.type='radio';radio.name='template';radio.value=name;radio.setAttribute('aria-label',name);radio.checked=i===0;
  label.append(thumb,radio,document.createTextNode(name));const note=document.createElement('small');note.textContent=templateNotes[name];label.append(note);$('#templates').append(label);
- render(thumb,{template:name,accent:'blue',title:playfulTemplates.includes(name)?'Best Friend Award':'',recipient:playfulTemplates.includes(name)?'Your favourite human':'Thank you',message:playfulTemplates.includes(name)?funAwards['Best Friend'].message:types['Donation Appreciation']},{},.35);
+ render(thumb,{template:name,accent:'blue',title:'Certificate of Appreciation',recipient:'Aarav Sharma',description:'For exceptional dedication and a lasting contribution.',organization:'THE KINDNESS FOUNDATION',date:'2026-10-12'},{},.35);
 }
 let automaticTemplate=true;
-const suggestedTemplate=()=>!funAwards[form.elements.type.value]?'Minimal':['Best Wife','Best Husband','Best Partner','Best Mom'].includes(form.elements.type.value)?'Editorial':'Studio';
+const suggestedTemplate=()=>funAwards[form.elements.type.value]?'Jubilee':form.elements.type.value==='Event Contribution'?'Nocturne':form.elements.type.value==='Teaching / Mentoring'?'Summit':'Laurel';
 function syncTemplate(){
  if(automaticTemplate)form.elements.template.value=suggestedTemplate();
- const fixedPalette=playfulTemplates.includes(form.elements.template.value);
+ const fixedPalette=!accentTemplates.includes(form.elements.template.value);
  form.elements.accent.disabled=fixedPalette;
  form.elements.accent.closest('label').hidden=fixedPalette;
  $('#template-suggestion').textContent=automaticTemplate?'A matching design is selected for your award. You can choose any design.':'Your chosen design stays selected when you change award type.';
