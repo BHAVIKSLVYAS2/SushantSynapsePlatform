@@ -159,3 +159,8 @@
  @media(prefers-reduced-motion:reduce){.public-home .workspace-card{transition:none}}
 }
 @media print{.workspace-card-art{display:none}}
+:root{--arena-discovery-gap:20px}
+.arena-discovery{padding:24px;margin:24px 0;border:1px solid var(--line);border-radius:20px;background:var(--surface);color:var(--text)}
+.arena-discovery svg{float:right;max-width:30%;margin-left:var(--arena-discovery-gap)}
+.arena-discovery nav{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.arena-discovery a{display:inline-flex;min-height:44px;align-items:center}

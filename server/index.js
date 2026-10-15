@@ -35,6 +35,7 @@ const batchFee=createBatchFee({auth,store});
 const tournament=createTournament({auth,store});
 const digitalSamaj=createDigitalSamaj({auth,store});
 const satireArena=createArena({store});
+const metricsBuckets=new Map();
 const advocate=createAdvocate({store,auth});
 const fundOverlap=createFundOverlap({auth,store,cacheDir:path.join(process.env.DATA_DIR||path.join(ROOT,'data'),'fund-overlap-cache')});
 async function dispatch(req,res) {
@@ -42,6 +43,29 @@ async function dispatch(req,res) {
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('X-Frame-Options','DENY');res.setHeader('Referrer-Policy','same-origin');
   res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'");
     const url = new URL(req.url,'http://localhost');
+    if(url.pathname.startsWith('/api/arena-editorial')||url.pathname.startsWith('/api/arena-metrics')||url.pathname.startsWith('/satire-arena/')||url.pathname==='/sitemap.xml'||url.pathname==='/robots.txt'){
+      const {editorial,editorialKey,published,empty}=await import('../apps/satire-arena/backend/editorial.mjs');
+      const {publicEditorialPath,publicPage}=await import('../apps/satire-arena/backend/public-pages.mjs');
+      const origin=publicOrigin||`http://${req.headers.host}`;
+      let response;
+      if(url.pathname.startsWith('/api/arena-editorial')||url.pathname.startsWith('/api/arena-metrics')){
+        const host=req.headers.host||'';if(!/^(localhost|127\.0\.0\.1)(:\d+)?$/.test(host)&&(!publicOrigin||host!==new URL(publicOrigin).host))fail(403,'Host rejected');
+        if(req.headers['sec-fetch-site']==='cross-site')fail(403,'Cross-site request rejected');
+        const {Readable}=require('node:stream');
+        const request=new Request(new URL(req.url,origin),{method:req.method,headers:req.headers,...(!['GET','HEAD'].includes(req.method)?{body:Readable.toWeb(req),duplex:'half'}:{})});
+        if(url.pathname.startsWith('/api/arena-metrics')){
+          const {metrics,metricsKey}=await import('../apps/satire-arena/backend/metrics.mjs');let baseline;
+          response=await metrics(request,{enabled:process.env.ARENA_ANALYTICS_ENABLED==='true',user:auth.session(req),read:async()=>{baseline=store.setting(metricsKey);return baseline;},write:async next=>store.transaction(()=>{if(JSON.stringify(store.setting(metricsKey))!==JSON.stringify(baseline))fail(409,'Metrics changed');store.setSetting(metricsKey,next);}),limit:async()=>{const minute=Math.floor(Date.now()/60000),key=req.socket.remoteAddress;for(const [id,bucket]of metricsBuckets)if(bucket.minute!==minute)metricsBuckets.delete(id);let bucket=metricsBuckets.get(key);if(!bucket){if(metricsBuckets.size>=1000)return {success:false};bucket={minute,count:0};metricsBuckets.set(key,bucket);}return {success:++bucket.count<=60};}});
+        }else response=await editorial(request,{user:auth.session(req),read:async()=>store.setting(editorialKey),write:async(next,version)=>store.transaction(()=>{if((store.setting(editorialKey)||empty()).version!==version)fail(409,'Content changed. Reload before saving.');store.setSetting(editorialKey,next);store.audit(auth.session(req).name,'Updated satire editorial library','satire-arena',{version:next.version});})});
+      }else if(publicEditorialPath(url.pathname)){
+        let results=null;if(url.pathname==='/satire-arena/results'){
+          const {arena}=await import('../apps/satire-arena/backend/edge.mjs'),{arenaDatabase}=require('../apps/satire-arena/backend/routes');
+          const result=await arena(new Request(origin+'/api/satire-arena/results'),{ARENA_DB:arenaDatabase(store),ARENA_COOKIE_SECRET:process.env.ARENA_COOKIE_SECRET});if(!result.ok)fail(503,'Arena results are temporarily unavailable');results=await result.json();
+        }
+        response=publicPage(new Request(new URL(req.url,origin),{method:req.method}),published(store.setting(editorialKey)||empty()),results);
+      }
+      if(response){for(const [key,value]of response.headers)res.setHeader(key,value);res.writeHead(response.status);return res.end(Buffer.from(await response.arrayBuffer()));}
+    }
     if(url.pathname==='/healthz'&&req.method==='GET')return json(200,{status:'ok'});
     if(url.pathname==='/advocate/'){res.writeHead(308,{Location:'/advocate'+url.search});return res.end();}
     if(url.pathname==='/news/'){res.writeHead(308,{Location:'/news'+url.search});return res.end();}

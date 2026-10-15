@@ -118,3 +118,38 @@ body[data-ui-app=satire-arena] .portrait-12{background-position-x:100%}
 .inkpot-icon{display:block;width:22px;height:22px;overflow:visible}
 .inkpot-body{fill:var(--arena-ink)}.inkpot-cap{fill:var(--text)}.inkpot-quill{fill:var(--arena-ink-shine);stroke:var(--arena-ink);stroke-width:1.3;stroke-linejoin:round}.inkpot-shine{fill:none;stroke:var(--arena-ink-shine);stroke-width:2;stroke-linecap:round}
 .ink-projectile .inkpot-icon{width:64px;height:64px}
+
+/* Compact feed; the full artwork remains available without changing ballots. */
+body[data-ui-app=satire-arena] .art-pending .portrait{background-image:none}
+@media screen{
+body[data-ui-app=satire-arena] .cast{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;max-width:none}
+body[data-ui-app=satire-arena] .portrait-stage{grid-template-columns:112px minmax(0,1fr);align-items:start;padding:12px;gap:12px}
+body[data-ui-app=satire-arena] .portrait{width:100%;min-height:0;aspect-ratio:1;border-radius:14px;align-self:start}
+body[data-ui-app=satire-arena] .portrait>span:not(.burst){font-size:7px;padding:3px;left:3px;bottom:3px;letter-spacing:0}
+body[data-ui-app=satire-arena] .reactions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin:0}
+body[data-ui-app=satire-arena] .reactions button{min-height:62px;border:1px solid var(--line);padding:5px 2px;gap:2px}
+body[data-ui-app=satire-arena] .reactions b{position:static;width:auto;height:auto;padding:0;margin:0;overflow:visible;clip-path:none;white-space:normal;font-size:10px;line-height:1.2}
+body[data-ui-app=satire-arena] .reactions span{font-size:19px}
+body[data-ui-app=satire-arena] .reactions strong{font-size:12px}
+body[data-ui-app=satire-arena] .is-expanded .portrait-stage{grid-template-columns:1fr}
+body[data-ui-app=satire-arena] .is-expanded .portrait{max-width:440px;justify-self:center}
+body[data-ui-app=satire-arena] .is-expanded .reactions{grid-template-columns:repeat(6,minmax(0,1fr))}
+body[data-ui-app=satire-arena] .card-body> a{font-size:12px;display:inline-flex;align-items:center;min-height:44px;margin-right:8px}
+body[data-ui-app=satire-arena] .card-body>.leader-ribbon{position:static;transform:none;width:fit-content;max-width:100%;margin:8px 0;font-size:11px}
+body[data-ui-app=satire-arena] .vote-state{min-height:0}
+.character-share-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.character-share-links button,.expand-portrait{font-size:11px}
+.arena-settings{margin:12px 0 18px;border:1px solid var(--line);border-radius:12px;padding:8px 14px}
+.arena-settings summary{min-height:44px;display:list-item;align-content:center;cursor:pointer}
+.arena .notice a{display:inline-flex;align-items:center;min-height:44px}
+.editorial-page{max-width:900px;overflow-wrap:anywhere;padding-top:32px}
+.editorial-page nav{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0}
+.editorial-page .portrait{max-width:360px}
+.editorial-page .satire-art{display:block;width:100%;height:auto;max-height:480px;object-fit:contain;margin:20px 0}
+.editorial-page .punchline{font-size:clamp(22px,4vw,32px);line-height:1.5}
+.editorial-page label{display:grid;gap:6px;margin:14px 0}
+.editorial-page input,.editorial-page textarea,.editorial-page select{max-width:100%;width:100%;min-height:44px;padding:10px;background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:8px;font:inherit}
+.editorial-page input[type=checkbox]{width:24px;min-height:24px}
+.editorial-page form{border:1px solid var(--line);border-radius:14px;padding:18px;margin:18px 0}
+@media(max-width:700px){body[data-ui-app=satire-arena] .cast{grid-template-columns:1fr}body[data-ui-app=satire-arena] .hero{margin:16px auto}body[data-ui-app=satire-arena] .hero h1{font-size:40px}body[data-ui-app=satire-arena] .portrait-stage{grid-template-columns:92px minmax(0,1fr);gap:8px}body[data-ui-app=satire-arena] .is-expanded .portrait-stage{grid-template-columns:1fr}body[data-ui-app=satire-arena] .is-expanded .reactions{grid-template-columns:repeat(3,minmax(0,1fr))}}
+}

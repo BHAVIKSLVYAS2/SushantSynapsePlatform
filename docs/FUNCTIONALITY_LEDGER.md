@@ -1,5 +1,71 @@
 # Chambers functionality ledger
 
+**Satire Arena 2 implemented and locally verified (2026-10-16):** Existing thirteen
+characters, artwork, six reaction IDs, signed identities, changeable daily ballots,
+midnight IST resets, genuine totals, privacy export/removal, reduced motion and
+themes are preserved. Compact cards show reaction labels, expandable square
+artwork, collapsed settings, explicit native/WhatsApp/copy sharing and public
+character links. Portrait/expression sheets load near the viewport. A successful
+ballot updates its selected state immediately; captured round IDs prevent a
+concurrent refresh from marking a different day's selection. Existing shared
+counts still refresh from SQL rather than invented increments.
+
+The owner-only `/satire-arena/editor` manages bounded original-text posts,
+existing local artwork, five categories, English/Hindi content, draft/published/
+hidden states, IST schedules, featured rotation, biographies, taglines and dated
+punchlines. Existing SQL settings persist editorial data with optimistic version
+checks, D1 revision guards and audit entries; **no schema migration is required**.
+The initial live library is not seeded or published by this work. Node and both
+Worker compositions server-render public posts/categories/characters/results,
+escaped canonical/Open Graph/Twitter metadata, related links, robots and sitemaps.
+Drafts, hidden entries and future schedules are excluded. Existing pre-generated
+local artwork supplies metadata images; branded canvas downloads remain local.
+Portal static/public/signed-in discovery includes Daily Satire and a small daily
+summary endpoint avoids downloading the full editorial library for the home/feed.
+
+History shows actual retained ballots for today and the preceding 29 IST dates,
+including tied leaders, most applause/laughter and explicit zero-vote days.
+Privacy removal also changes historical totals; no immutable archive is claimed.
+Optional rate-limited aggregate action reporting appears in the owner desk and
+defaults **off** (`ARENA_ANALYTICS_ENABLED=true` explicitly enables it). It records
+bounded actions/source categories without visitor identifiers, raw referrers or
+returning-person tracking. Counts are not unique visitors, downstream share
+delivery or a verified 100/day baseline. Arena ads remain off; a reviewed,
+nonpolitical after-article eligibility helper renders no ads or provider requests.
+Contact remains the report/feedback destination. New cartoon uploads, external
+search/unique-visitor measurement and automated social delivery are not connected.
+
+Verification: **229/229 isolated API/unit checks**, **37/37 D1/R2 + 25/25 Free D1
+integration checks**, and **14/14 Chrome Arena workflows** pass. Focused editorial
+checks also pass after final summary/metrics-bound refinements. Browser evidence
+covers all six animations, optional/unsupported vibration, reduced motion, saved
+ballots and privacy, lazy artwork restoration, real PNG exports, native-share
+cancellation, owner publication/draft privacy, anonymous write rejection,
+JavaScript-free public text/metadata, canonical sharing, homepage discovery and
+320/390/768/1440px light/dark layouts. Short-lived animation assertions use a
+controlled clock. The initial broad API run's 14 failures were a sandbox EPERM
+while replacing generated `dist/ads.txt`; the build-permitted rerun passes all
+229 checks. Earlier browser runs exposed the normalized-ISO date validation bug,
+stale layout assertions and wall-clock-sensitive effects; these are corrected and
+the final complete 14-test run passes. Worker integration dry-run exports only
+allowlisted assets and succeeds; final production-configuration dry-run evidence
+is recorded in `.publish/arena-v2-final-build.log` (local validation only).
+
+Evidence: ignored `.publish/arena-v2-api-approved.log`,
+`.publish/arena-v2-cloudflare.log`, `test-results/arena-v2-acceptance/`, and
+`test-results/garland-or-roast-*.png` / `test-results/arena-*-share.png`.
+See [operations and limits](SATIRE_ARENA_2.md). No production deployment, editorial
+publication, analytics activation or growth outcome is claimed. Existing runtime
+data, accounts, document blobs and legacy migration sources remain untouched;
+pre-existing untracked runtime/review files are excluded from these changes.
+
+Commit checkpoint: user requested committing the completed Arena 2 changes.
+The commit includes the app, shared composition/allowlists, portal discovery,
+focused tests and release documentation above. Existing verification remains
+applicable; final whitespace and staged-file scope are checked before committing.
+Runtime `data/`, the unrelated product-owner review and ignored build/test
+artifacts are excluded. No push or production deployment is requested.
+
 **Fund Lens release source commit (2026-10-16):** User requested committing the required release changes. Commit scope includes the app implementation, validated public references and historical snapshots, ingestion/refresh recovery workflow, Cloudflare packaging, tests and release documentation. Runtime SQL Server files, ignored deployment evidence and the unrelated product-owner review are excluded. Verification remains the release checks recorded below; whitespace/staged-scope checks are repeated for the commit. No repository push or additional deployment is requested.
 
 **Fund Lens deployed and live-verified (2026-10-16):** Production **https://apps.sushantsynapse.com/fund-overlap** now runs Worker **`a04f7b73-b8c1-4f01-9426-659ded94377f`** with final public generation **`dc4b073736021db0ebc5a19e7a89d794fd4b0b27e1481d209454b1545f9057a5`**. The newer pending refresh artifact was fully validated and restored through `restore_official.py`, preserving older immutable URLs. Final coverage supersedes the intermediate 525-portfolio audit below: **592 portfolios / 22 fund houses**, dated **2026-09-30**; 37,954 historical/current catalogue plan/options include **1,778 verified**, **17,604 unsupported**, **18,572 unavailable**, zero stale. All 592 raw disclosure digests match. Complete nationwide holdings coverage and unattended remote refresh remain unestablished.

@@ -1,5 +1,14 @@
 # Sushant Synapse Platform
 
+Satire Arena 2 adds compact labelled reaction cards, shareable character pages,
+an owner editorial desk at `/satire-arena/editor`, scheduled Daily Satire at
+`/satire-arena/daily`, and genuine retained-ballot history at
+`/satire-arena/results`. Editorial data stays in the existing SQL settings store;
+no schema migration is required. Aggregate action analytics is optional and off
+by default; Arena advertising remains off. This source change is not a production
+deployment. See [operations and limits](docs/SATIRE_ARENA_2.md) and the functionality
+ledger for verification and release status.
+
 **Focus** at `/focus` combines an adjustable timer (15/25/50-minute presets or custom 5–120 minutes) with browser-saved task cards. Drag between High/Normal/Low priorities or reorder within a group; keyboard and touch controls are also available. Estimates, completion, editing and unfinished-task carry-forward remain included. No sign-in is needed. Tasks stay in this browser profile and do not sync across devices; clearing browser data removes them. Pocket Pause stays separate at `/pocket-pause` for micro-rests. The card/timer refinements are deployed and live-verified; evidence is recorded in the functionality ledger.
 
 The selected [free Cloudflare deployment profile](docs/CLOUDFLARE_FREE_DEPLOYMENT.md) is deployed at **https://apps.sushantsynapse.com** with existing email/password accounts, Chambers on D1, private documents up to 1 MB each / 100 MB total, and hard application limits. DIGITAL SAMAJ, BatchFee, Tournament, saved News, private Fund workflows and the ritual calendar are enabled on the same Free D1 backend. Workers Free is owner-confirmed. The cloud backend runs without the laptop. No OTP, verified email ownership or Access allow-list is required. Deployment and verification evidence are recorded in the functionality ledger.

@@ -1,8 +1,10 @@
 import {handle as frontend} from './worker.mjs';
 import {edgeApi} from '../../server/edge-index.mjs';
+import {cloudPages} from '../../apps/satire-arena/backend/cloud-pages.mjs';
 export default {
  async fetch(request,env){
   const url=new URL(request.url);
+  const satirePage=await cloudPages(request,req=>edgeApi(req,env));if(satirePage)return satirePage;
   if(env.AUTH_METHOD==='access'&&url.pathname==='/access-login'){
    if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405});
    if(!env.ACCESS_TEAM_DOMAIN||!env.ACCESS_AUD)return new Response('Email-code sign-in is awaiting Cloudflare Access setup.',{status:503,headers:{'Cache-Control':'no-store'}});

@@ -1,5 +1,21 @@
 # Satire Arena
 
+## Arena 2 source update (2026-10-16)
+
+Compact labelled cards retain all thirteen characters and changeable daily
+ballots. Full illustrations expand in place; portraits and expression sheets
+load near the viewport. Character URLs, explicit link/WhatsApp/native sharing,
+daily punchlines, a Daily Satire library and genuine 30-day results are added.
+Owners publish reviewed posts and maintain character biographies/punchlines at
+`/satire-arena/editor`; future schedules and drafts stay out of public pages and
+sitemaps. Existing SQL settings provide persistence with optimistic conflict
+checks; no schema migration or data reset is needed. Optional aggregate action
+measurement defaults off and measures neither unique nor returning people.
+Arena advertising stays off. See [operations, API and limits](../../docs/SATIRE_ARENA_2.md).
+These additions are local source changes; production release status belongs to
+the functionality ledger. Historical descriptions below retain their original
+context and do not override this entry or the current architecture contract.
+
 Current public route: `/satire-arena`. The former `/arena` alias is removed locally; older route references below are historical.
 
 The public page's primary brand is **Garland or Roast**, retaining Satire Arena as the subtitle and the existing `/satire-arena` and `/arena` routes. A prominent Fans/Critics/Amused scoreboard uses authoritative API totals and `resetsAt` for its live midnight-IST countdown, polls every 30 seconds and refreshes at rollover/visibility return. A sticky mini scoreboard, compact six-button cards, selected-pick badges, explicit per-card totals and positive-count/tie-aware leader ribbons improve browsing. The daily Main Event rotates deterministically from the server's round date; it does not alter voting or ranking. Successful votes retain all original feedback and add a short toast; failures show no success toast. No animation, sprite, haptic, ballot ID or API contract is changed.

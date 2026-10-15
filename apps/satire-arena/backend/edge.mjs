@@ -11,8 +11,8 @@ async function identity(request,secret){
 }
 export async function arena(request,env,{now=new Date()}={}){
  const url=new URL(request.url),path=url.pathname,round=roundAt(now),reply=(body,status=200,cookie=null)=>new Response(status===204?null:JSON.stringify(body),{status,headers:{...headers,...(cookie?{'Set-Cookie':cookie}:{})}});
- const vote=path.match(/^\/api\/satire-arena\/([a-z-]+)\/vote$/),mine=path==='/api/satire-arena/mine';
- if(path!=='/api/satire-arena'&&!vote&&!mine)return reply({error:'Not found.'},404);
+ const vote=path.match(/^\/api\/satire-arena\/([a-z-]+)\/vote$/),mine=path==='/api/satire-arena/mine',results=path==='/api/satire-arena/results';
+ if(path!=='/api/satire-arena'&&!vote&&!mine&&!results)return reply({error:'Not found.'},404);
  if(!env.ARENA_DB||!env.ARENA_COOKIE_SECRET)return reply({error:'The shared arena is unavailable. No reactions have been recorded.'},503);
  if(!['GET','PUT','DELETE'].includes(request.method)||request.method==='GET'&&vote||request.method==='PUT'&&!vote||request.method==='DELETE'&&!mine)return reply({error:'Method not allowed.'},405);
  const write=request.method!=='GET';
@@ -22,6 +22,13 @@ export async function arena(request,env,{now=new Date()}={}){
   const limit=await env.ARENA_LIMITER.limit({key:request.headers.get('CF-Connecting-IP')||'unknown'});if(!limit.success)return reply({error:'Please wait a minute before trying again.'},429);
  }
  try{
+  if(results){
+   if(request.method!=='GET')return reply({error:'Method not allowed.'},405);
+   const start=new Date(Date.parse(round+'T00:00:00+05:30')-29*86400000),first=roundAt(start),db=env.ARENA_DB;
+   const rows=await db.prepare('SELECT round,character,reaction,COUNT(*) AS count FROM arena_all_votes WHERE round>=? AND round<=? GROUP BY round,character,reaction').bind(first,round).all();
+   const days=Array.from({length:30},(_,i)=>{const day=roundAt(new Date(now.getTime()-i*86400000)),scores=characters.map(id=>{const score={id,...Object.fromEntries(reactions.map(r=>[r,Number(rows.results.find(x=>x.round===day&&x.character===id&&x.reaction===r)?.count||0)]))};return {...score,total:reactions.reduce((n,r)=>n+score[r],0)};}).filter(c=>c.total>0).sort((a,b)=>b.total-a.total||a.id.localeCompare(b.id));return {round:day,total:scores.reduce((n,c)=>n+c.total,0),characters:scores};});
+   return reply({days,scope:'Last 30 IST days; current retained ballots, including later privacy removals. Not a political poll.'});
+  }
   const id=await identity(request,env.ARENA_COOKIE_SECRET),voter=await hmac(env.ARENA_COOKIE_SECRET,'ballot:'+id.token),db=env.ARENA_DB.withSession?env.ARENA_DB.withSession('first-primary'):env.ARENA_DB;
   if(write&&id.cookie)return reply({error:'Enable cookies and refresh the arena before reacting.'},428,id.cookie);
   if(vote){

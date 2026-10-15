@@ -14,6 +14,8 @@ import {news} from '../apps/news/backend/edge.mjs';
 import {privateFunds} from '../apps/fund-overlap/backend/edge-private.mjs';
 import {samaj} from '../apps/digital-samaj/backend/edge.mjs';
 import {arena} from '../apps/satire-arena/backend/edge.mjs';
+import {editorial,editorialKey} from '../apps/satire-arena/backend/editorial.mjs';
+import {metrics,metricsKey} from '../apps/satire-arena/backend/metrics.mjs';
 import {fail,json} from './edge-http.mjs';
 export async function edgeApi(request,env){
  let repo;
@@ -29,7 +31,9 @@ export async function edgeApi(request,env){
   if(free&&((env.FULL_APPS!=='true'&&(/^(digital-samaj|batchfee-lite|tournament-lite|news|fund-overlap)(\/|$)/.test(route)||route==='ritual-assist/calendar'))||/^(backup|backup.sql|restore)(\/|$)/.test(route)))fail(503,'This feature is unavailable in the free cloud workspace.');
   const useAccess=env.AUTH_METHOD==='access';
   const user=useAccess?await accessSession(request,repo,env):await session(request,repo),files=free?new D1PrivateFiles(repo):new PrivateFiles(env.PRIVATE_FILES,repo),context={request,route,user,repo,files,env};let result;
-  if(route==='satire-arena'||route.startsWith('satire-arena/'))result=await arena(request,{...env,ARENA_DB:env.PLATFORM_DB});
+  if(route==='arena-metrics'||route.startsWith('arena-metrics/'))result=await metrics(request,{enabled:env.ARENA_ANALYTICS_ENABLED==='true',user,read:()=>repo.setting(metricsKey),write:next=>repo.commit([repo.settingWrite(metricsKey,next)]),limit:()=>env.ARENA_LIMITER?.limit({key:'metrics:'+request.headers.get('CF-Connecting-IP')})||{success:false}});
+  else if(route==='arena-editorial'||route.startsWith('arena-editorial/'))result=await editorial(request,{user,read:()=>repo.setting(editorialKey),write:next=>repo.commit([repo.settingWrite(editorialKey,next),repo.audit(user.name,'Updated satire editorial library','satire-arena',{version:next.version})])});
+  else if(route==='satire-arena'||route.startsWith('satire-arena/'))result=await arena(request,{...env,ARENA_DB:env.PLATFORM_DB});
   else if(route.startsWith('auth/')||route==='users'||route.startsWith('users/'))result=await (useAccess?accessAuth:auth)(context);
   else if(route==='platform'||route.startsWith('platform/')||route==='support')result=await portal(context);
   else if(route==='focus'||route.startsWith('focus/'))result=await focus(context);

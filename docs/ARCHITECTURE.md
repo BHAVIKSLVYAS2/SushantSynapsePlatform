@@ -1,5 +1,20 @@
 # Code ownership and adding apps
 
+Satire Arena 2 (2026-10-16): app-owned `backend/editorial.mjs` validates the bounded
+editorial library and filters publication schedules using IST. Owner-only Node
+and D1 adapters persist it in the existing shared SQL settings table with revision
+checks and audit. `public-pages.mjs` and `cloud-pages.mjs` render escaped public
+articles, categories, characters, results and sitemaps without a framework change.
+`backend/edge.mjs` retains ballot ownership and adds aggregate-only retained-ballot
+history. Frontend enhancements own compact browsing, explicit share methods,
+character punchlines and viewport-based artwork loading; original feedback keeps
+its animation and accessibility lifecycle. `metrics.mjs` stores optional bounded
+aggregate actions in SQL settings, disabled by default and with owner reporting;
+it does not measure unique or returning people. `ad-policy.mjs` is eligibility
+readiness only and renders no ads. Portal static and JavaScript homes share an
+Arena discovery section. Existing votes, identities, accounts, schemas and app
+access remain intact. See `docs/SATIRE_ARENA_2.md` for operational limits.
+
 Fund Lens national official-data product (2026-10-12): `apps/fund-overlap/ingestion/official_sources.py` and `official-sources.json` own the fixed AMFI/AMC disclosure registry and bounded discovery; `official_parser.py` owns conservative XLS/XLSX/ZIP parsing and exact portfolio identity, date, ISIN and NAV-weight checks; `official_refresh.py` publishes immutable public snapshots with a single atomic `official-index.json` containing its coverage generation. `backend/official-library.js` and `official-reference-store.js` compose verified references and bounded coverage queries for Node and the existing Cloudflare source handler. App-owned frontend files distinguish national discovery from the verified official library and show dated coverage. Original PPFAS IDs, snapshots and authenticated legacy data remain preserved. This extends the original five-fund refresh rather than replacing business persistence. See [product contract and verification boundaries](FUND_LENS_CORE_PRODUCT.md).
 
 Moment Studio unified creation and signature certificates (2026-10-12): `apps/moment-studio/frontend/index.html`, `card-app.js` and `cards.css` own the certificate-reference warm inspector/artboard presentation, visible task fields/card language, safe editable starters, message-only replacement confirmation and form-first phone order. Invitation fields are explicit; remembrance gatherings enter rendered details only when enabled. Certificate phone order also puts the form first. `certificate-renderer.mjs` owns four original compositions (Laurel, Nocturne, Summit, Jubilee) with independent geometry, local native ornaments, whole-grapheme fitting and the existing A4 export contract. Legacy renderer template names map to these four designs; they are not extra gallery entries. `certificate-app.js` owns type-aware default selection, manual-choice preservation, explicit Summit accents and unchanged organisation/signature/batch/export handling. Both editors retain shared light/dark/system preferences, branding, private tab content and the approved organisation storage key. No external artwork/font, AI, schema, payment or persistence provider is added. This supersedes earlier five-template and preview-first mobile descriptions below.

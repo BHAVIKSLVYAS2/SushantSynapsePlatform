@@ -11,9 +11,11 @@ const timers=new WeakMap();
 const expressions={garland:'happy',applause:'happy',shoe:'annoyed',tomato:'startled',finger:'annoyed',laugh:'laughing'};
 const sheets=['expressions-original.png','expressions-expanded.png','expressions-new.png','highway-budget-expressions.png','speakers-expressions.png'];
 const ready=new Set();
-for(const [index,file]of sheets.entries()){
- const image=new Image();image.src='/satire-arena/'+file;
- image.decode().then(()=>ready.add(index)).catch(()=>{/* Keep the original portrait if artwork cannot load. */});
+const preparing=new Map();
+export function prepareReaction(card){
+ const portrait=card?.querySelector('.portrait'),number=Number([...portrait?.classList||[]].find(name=>/^portrait-\d+$/.test(name))?.split('-')[1]),index=number>=11?4:number>=9?3:Math.floor(number/3);
+ if(!sheets[index]||preparing.has(index))return preparing.get(index);
+ const image=new Image();image.src='/satire-arena/'+sheets[index];const promise=image.decode().then(()=>ready.add(index)).catch(()=>{});preparing.set(index,promise);return promise;
 }
 export function stopVibration(){try{navigator.vibrate?.(0);}catch{/* Hardware feedback must never interrupt a vote. */}}
 export function playReaction(card,reaction,{haptics=true}={}){

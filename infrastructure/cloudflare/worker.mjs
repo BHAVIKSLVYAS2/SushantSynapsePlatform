@@ -2,6 +2,7 @@ import {newsSources} from './news-sources.mjs';
 import {fundSources} from './fund-sources.mjs';
 import pages from './pages.json' with {type: 'json'};
 import adsense from '../../packages/ui/adsense.cjs';
+import {cloudPages} from '../../apps/satire-arena/backend/cloud-pages.mjs';
 const independent = new Set(['/satire-arena','/satire-arena/','/privacy', '/privacy/', '/terms', '/terms/', '/contact', '/contact/', '/legal', '/legal/', '/legal/third-party-notices', '/legal/third-party-notices/', '/showcase', '/showcase/', '/support', '/support/', '/ritual-assist', '/ritual-assist/', '/ritual-assist/calendar', '/ritual-assist/calendar/', '/take-a-break', '/take-a-break/', '/sponsor', '/sponsor/', '/moment-studio', '/moment-studio/', '/moment-studio/cards', '/moment-studio/cards/', '/moment-studio/certificates', '/moment-studio/certificates/', '/pocket-pause', '/pocket-pause/', '/team-mixer', '/team-mixer/', '/decision-wheel', '/decision-wheel/', '/daily-spark', '/daily-spark/', '/', '/fund-overlap', '/news', '/timetable-lite', '/timetable-lite/']);
 const security = {
   'Strict-Transport-Security': 'max-age=3600',
@@ -19,6 +20,7 @@ function unavailable(method) {
 // would change fetch(request) routing and must not replace this configuration.
 export async function handle(request, env, originFetch = fetch, sourceOptions = {}) {
   const url = new URL(request.url), pathname = url.pathname;
+  const satirePage=await cloudPages(request,req=>url.hostname==='apps.sushantsynapse.com'?originFetch(req):Promise.resolve(new Response(null,{status:503})));if(satirePage)return satirePage;
   if(env.MAINTENANCE_MODE==='true'&&(pathname.startsWith('/api/')||pathname==='/healthz'))return new Response(JSON.stringify({error:'The workspace is undergoing maintenance. Please try again shortly.'}),{status:503,headers:{...security,'Content-Type':'application/json; charset=utf-8','Retry-After':'60'}});
   const arenaRoute=pathname === '/api/satire-arena' || pathname.startsWith('/api/satire-arena/');
   if(arenaRoute && url.hostname==='apps.sushantsynapse.com' && ['PUT','DELETE'].includes(request.method)){
