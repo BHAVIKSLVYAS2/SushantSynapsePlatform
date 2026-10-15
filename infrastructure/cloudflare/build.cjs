@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const {staticAssets} = require('../../server/static-assets');
+const {createOfficialReferenceStore,officialArchives} = require('../../apps/fund-overlap/backend/official-reference-store');
 const root = path.resolve(__dirname, '../..');
 const output = path.join(__dirname, 'dist');
 // Export only the public allowlist, never data, credentials or backend source.
@@ -10,12 +11,15 @@ function build({fullstack=false}={}) {
     fs.rmSync(output, {recursive: true});
   }
   fs.mkdirSync(output, {recursive: true});
-  const references = {'/api/fund-overlap/fund-index.json': JSON.parse(fs.readFileSync(path.join(root, 'apps/fund-overlap/data/fund-index.json'), 'utf8'))};
-  for (const fund of references['/api/fund-overlap/fund-index.json'].funds) {
-    if (!/^\/api\/fund-overlap\/holdings\/[a-z0-9-]+\/\d{4}-\d{2}-\d{2}-[a-f0-9]{16}\.json$/.test(fund.holdingsPath)) throw Error('Invalid public snapshot path');
-    references[fund.holdingsPath] = JSON.parse(fs.readFileSync(path.join(root, 'apps/fund-overlap/data', fund.holdingsPath.slice('/api/fund-overlap/'.length)), 'utf8'));
-  }
+  const references = createOfficialReferenceStore(path.join(root,'apps/fund-overlap/data')).read();
   fs.writeFileSync(path.join(__dirname, 'fund-references.json'), JSON.stringify(references));
+  // Portfolio bytes belong in free static assets, rather than growing the
+  // compressed Worker bundle with every covered fund or reporting month.
+  const runtimeReferences=Object.fromEntries(Object.entries(references).filter(([url])=>!url.startsWith('/api/fund-overlap/holdings/')));
+  fs.writeFileSync(path.join(__dirname,'fund-runtime-references.json'),JSON.stringify(runtimeReferences));
+  const current=Object.keys(references).filter(url=>url.startsWith('/api/fund-overlap/holdings/')).map(url=>({url,relative:url.slice('/api/fund-overlap/'.length),target:'/_fund-archive/'+url.slice('/api/fund-overlap/'.length)}));
+  const archives=[...current,...officialArchives(path.join(root,'apps/fund-overlap/data'),references)];
+  fs.writeFileSync(path.join(__dirname,'fund-archives.json'),JSON.stringify(Object.fromEntries(archives.map(item=>[item.url,item.target]))));
   const pages = {}, files = new Map();
   for (const [url, source] of Object.entries(staticAssets)) {
     const target = source.endsWith('.html') ? '/_pages/' + (url.replaceAll('/', '') || 'home') + '.html' : url;
@@ -25,6 +29,7 @@ function build({fullstack=false}={}) {
   files.set('/_pages/unavailable.html', 'apps/portal/frontend/unavailable.html');
   files.set('/shared/availability.js', 'packages/ui/availability.js');
   files.set('/shared/availability.css', 'packages/ui/availability.css');
+  for(const archive of archives)files.set(archive.target,'apps/fund-overlap/data/'+archive.relative);
   for (const [url, source] of files) {
     const target = path.join(output, url);
     fs.mkdirSync(path.dirname(target), {recursive: true});

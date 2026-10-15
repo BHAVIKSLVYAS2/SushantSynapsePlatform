@@ -1,0 +1,36 @@
+{
+  "source": {
+    "id": "uti",
+    "amc": "UTI Mutual Fund",
+    "indexUrl": "https://www.utimf.com/downloads/consolidate-all-portfolio-disclosure"
+  },
+  "document": {
+    "url": "https://d3ce1o48hc5oli.cloudfront.net/utimf-job/portfolio/monthly-schemewise/EQ_September_2026.xlsx",
+    "portfolioDate": "2026-09-30",
+    "format": "xlsx"
+  },
+  "expected": {
+    "count": 53,
+    "includedNavWeight": 97.04
+  },
+  "catalogue": [
+    {
+      "schemeCode": 100668,
+      "schemeName": "UTI - Flexi Cap Fund. - Regular Plan - IDCW"
+    },
+    {
+      "schemeCode": 100669,
+      "schemeName": "UTI - Flexi Cap Fund. - Regular Plan - Growth"
+    },
+    {
+      "schemeCode": 120662,
+      "schemeName": "UTI - Flexi Cap Fund. - Direct Plan - Growth"
+    },
+    {
+      "schemeCode": 120663,
+      "schemeName": "UTI - Flexi Cap Fund. - Direct Plan - IDCW"
+    }
+  ],
+  "derivedFromSha256": "09ebc029d4bba7d49ec930a6df8e2628c0c432c2cbb3195de0f8b7b791257d6e",
+  "derivation": "Values and number formats through the grand total extracted from the public official workbook; source digest refers to the full downloaded document."
+}

@@ -1,6 +1,15 @@
 (function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.FundOverlap=factory();})(globalThis,function(){
   'use strict';
   const round=n=>Math.round(n*1e6)/1e6;
+  function portfolioFamily(name){
+    if(typeof name!=='string')return '';
+    let value=name.replace(/\s+/g,' ').trim().toLowerCase().replace(/[–—]/g,'-');
+    value=value.replace(/\s*\((?:formerly|erstwhile|previously)\b.*$/,'');
+    value=value.split(/\s*-\s*(?=(?:direct|regular|retail|institutional|growth\b|idcw\b|dividend\b))/)[0];
+    value=value.replace(/\s+(?:(?:direct|regular|retail|institutional)(?:\s+plan)?\s*)(?:(?:growth|idcw|dividend|option|payout|reinvestment)[\s()-]*)*$/,'');
+    value=value.replace(/\s+(?:growth|idcw|dividend)(?:\s+(?:option|payout|reinvestment|plan))*$/,'');
+    return value.replace(/[^a-z0-9]+/g,' ').trim();
+  }
   function validIsin(value){
     if(typeof value!=='string')return false;
     const isin=value.replace(/\s/g,'').toUpperCase();
@@ -16,7 +25,8 @@
       if(!h||!validIsin(h.isin)||typeof h.name!=='string'||!h.name.trim()||h.name.length>200||typeof h.weight!=='number'||!Number.isFinite(h.weight)||h.weight<0||h.weight>100)throw Error('Invalid holding or ISIN');
       if(!h.weight)continue;
       const isin=h.isin.replace(/\s/g,'').toUpperCase();
-      const sector=typeof h.sector==='string'&&h.sector.trim()?h.sector.trim():'Unknown';
+      const label=typeof h.sector==='string'?h.sector.trim():'';
+      const sector=!label||/^(?:n\/?a|not applicable|-|unknown)$/i.test(label)?'Unknown':label;
       const prev=map.get(isin);
       if(prev){prev.weight=round(prev.weight+h.weight);if(prev.sector!==sector)throw Error('Conflicting industry classification for '+isin);}
       else map.set(isin,{isin,name:h.name.trim(),sector,weight:h.weight});
@@ -31,7 +41,7 @@
     if(!['equity','nav'].includes(basis))throw Error('Invalid weight basis');
     if(new Set(snapshots.map(f=>f.schemeId)).size!==snapshots.length)throw Error('Select different funds');
     if(new Set(snapshots.map(f=>f.portfolioKey||f.schemeId)).size!==snapshots.length)throw Error('Direct and regular plans share a portfolio. Select different underlying funds.');
-    const names=snapshots.map(f=>f.name?.toLowerCase().replace(/\b(direct|regular|plan|growth|option|idcw|dividend|payout|reinvestment)\b/g,'').replace(/[^a-z0-9]/g,''));
+    const names=snapshots.map(f=>portfolioFamily(f.name));
     if(names.every(Boolean)&&new Set(names).size!==names.length)throw Error('Select different underlying funds, rather than variants of the same fund.');
     const funds=snapshots.map(f=>{
       if(!f.schemeId||!/^\d{4}-\d{2}-\d{2}$/.test(f.portfolioDate)||!Number.isFinite(Date.parse(f.portfolioDate))||new Date(f.portfolioDate).toISOString().slice(0,10)!==f.portfolioDate||Date.parse(f.portfolioDate)>now.getTime())throw Error('Invalid portfolio date');
@@ -62,5 +72,5 @@
     if(funds.some(f=>f.holdings.some(h=>h.sector==='Unknown')))warnings.push('Unclassified holdings are excluded from industry similarity.');
     return {funds,pairs,holdings,contributions,warnings,basis,averageOverlap:round(pairs.reduce((s,p)=>s+p.overlap,0)/pairs.length),distinct:holdings.length,repeated:holdings.filter(h=>h.count>1).length,allCommon:holdings.filter(h=>h.count===funds.length).length};
   }
-  return {analyze,normalize,validIsin,overlap};
+  return {analyze,normalize,validIsin,overlap,portfolioFamily};
 });

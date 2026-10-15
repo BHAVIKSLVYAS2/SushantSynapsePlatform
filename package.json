@@ -29,7 +29,8 @@
     "test:fund-overlap": "playwright test apps/fund-overlap/tests",
     "refresh:funds": "python apps/fund-overlap/ingestion/refresh.py",
     "refresh:funds:national": "node apps/fund-overlap/ingestion/refresh-national.js",
-    "test:ingestion": "python -m unittest discover -s apps/fund-overlap/tests -p test_ingestion.py"
+    "refresh:funds:official": "python apps/fund-overlap/ingestion/official_refresh.py",
+    "test:ingestion": "python -m unittest discover -s apps/fund-overlap/tests -p test_*.py"
   },
   "engines": {
     "node": ">=22.13"

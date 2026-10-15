@@ -6,6 +6,10 @@ const dateLabel = value => new Date(value).toLocaleDateString('en-IN', {day:'num
 const short = name => name.replace('Parag Parikh ', '').replace(/ Fund$/, '');
 let index, selected = [], excluded = new Set(), snapshots = new Map(), result, query = '', busy = false;
 let searchFunds = null, searchMessage = '', searchPending = false, searchVersion = 0, searchTimer, nextOffset = null, searchFailed = false;
+let libraryView = 'national', libraryLimit = 12, coverage = null, coverageLoading = true, coverageError = '', coverageFilter = 'all';
+let coverageByFundId = new Map(), coverageBySchemeCode = new Map();
+const coverageLabels = {verified:'Verified official',partial:'Partly verified',unavailable:'Official holdings unavailable',unsupported:'Outside equity comparison',stale:'Older official data'};
+const coverageStatuses = new Set(Object.keys(coverageLabels));
 let basis = 'equity', filter = 'common', holdingQuery = '', sort = 'repeated';
 const loadStates = new Map();
 const snapshotLoadedAt = new Map();
@@ -67,12 +71,94 @@ async function jsonFetch(url, attempt = 0, options = {}) {
   return data;
 }
 function key(i) {return `<span class="fund-key">${String.fromCharCode(65+i)}</span>`;}
+function coverageFor(fund) {
+  if (coverageByFundId.has(fund.id)) return coverageByFundId.get(fund.id);
+  const codes = fund.schemeCodes || [fund.schemeCode || (/^amfi-/.test(fund.id) ? fund.id.slice(5) : '')];
+  for (const code of codes) if (coverageBySchemeCode.has(String(code))) return coverageBySchemeCode.get(String(code));
+}
+function officialStatus(fund) {
+  const disclosure = coverageFor(fund), published = disclosure?.status || fund.coverageStatus;
+  const status = coverageStatuses.has(published) ? published : !fund.provider || fund.official ? 'verified' : '';
+  const date = Date.parse(fund.portfolioDate || disclosure?.portfolioDate);
+  return status === 'verified' && Number.isFinite(date) && Date.now()-date > 45*86400000 ? 'stale' : status;
+}
+function isOfficial(fund) {return !!fund.official || !fund.provider || !!coverageFor(fund)?.officialFundId;}
+function boundedRefreshReason(message) {
+  const reason = String(message || '').replace(/\s+/g, ' ').trim();
+  return reason.length > 220 ? reason.slice(0, 217).trimEnd() + '…' : reason;
+}
+function withOfficialSnapshotStatus(fund, snapshot) {
+  if (!isOfficial(fund) || officialStatus(fund) !== 'stale' && !fund.latestAttemptMessage && !fund.failureStatus) return snapshot;
+  const retained = !!fund.latestAttemptMessage || !!fund.failureStatus;
+  const old = Date.now() - Date.parse(snapshot.portfolioDate) > 45*86400000;
+  const warning = retained
+    ? 'Official source refresh failed. Showing its last verified portfolio with its original reporting date.' + (fund.latestAttemptMessage ? ' ' + boundedRefreshReason(fund.latestAttemptMessage) : '')
+    : old ? 'Official portfolio is over 45 days old. Its original reporting date is preserved.'
+      : 'Official source verification is stale. Showing its last verified portfolio with its original reporting date.';
+  return {...snapshot, cacheStatus:'stale', cacheWarning:snapshot.cacheWarning || warning};
+}
+function matchesLibrary(fund, search) {
+  const tokens = search.match(/[\p{L}\p{N}]+/gu) || [];
+  const words = new Set(`${fund.name} ${fund.amc} ${fund.category} ${(fund.previousNames || []).join(' ')}`.toLowerCase().match(/[\p{L}\p{N}]+/gu) || []);
+  return tokens.every(token => words.has(token));
+}
+function coverageBadge(status) {return coverageStatuses.has(status) ? `<span class="coverage-badge coverage-${status}">${coverageLabels[status]}</span>` : '';}
+function sourceCoverageStatus(source) {
+  if(['failed','not-configured','not-attempted','discovered'].includes(source.status))return 'unavailable';
+  if(source.status==='verified'&&source.portfolioDate&&Date.now()-Date.parse(source.portfolioDate)>45*86400000)return 'stale';
+  return coverageStatuses.has(source.status)?source.status:'unavailable';
+}
+function sourceCoverageMessage(source) {
+  if (source.status === 'partial') return 'Some official portfolios are verified; others await usable disclosures.';
+  if (source.status === 'not-configured') return 'Automatic retrieval for this fund house is not configured.';
+  if (source.status === 'not-attempted') return 'This fund house was not checked in the latest refresh.';
+  if (source.status === 'discovered') return 'An official source was found; its portfolio holdings still need verification.';
+  if (source.status === 'unsupported') return 'The checked disclosures are outside this equity comparison.';
+  if (sourceCoverageStatus(source) === 'stale') return 'Saved official holdings keep their original reporting dates.';
+  if (source.status === 'verified') return 'Official monthly equity disclosures passed validation.';
+  return source.retainedPortfolios ? 'The latest official refresh could not be verified. Saved portfolios keep their original reporting dates.' : 'Usable official equity holdings were unavailable in this check.';
+}
+function reportingPeriod(value) {return value ? 'Portfolio as of ' + dateLabel(value) : 'Reporting date not yet verified';}
+async function loadCoverage() {
+  coverageLoading = true; coverageError = ''; renderCoverage();
+  try {
+    const data = await jsonFetch('/api/fund-overlap/coverage.json', 0, {deadline:Date.now()+45000});
+    if (!data.summary || !Array.isArray(data.sources) || !Array.isArray(data.schemes)) throw Error('Coverage information is temporarily unavailable.');
+    coverage = data;
+    coverageByFundId = new Map(); coverageBySchemeCode = new Map();
+    for (const scheme of data.schemes) {coverageBySchemeCode.set(String(scheme.schemeCode), scheme); if (scheme.officialFundId) coverageByFundId.set(scheme.officialFundId, scheme);}
+  } catch {coverageError = 'Coverage information is temporarily unavailable. You can still select funds and compare their dated holdings.';}
+  finally {coverageLoading = false; renderCoverage(); renderFunds();}
+}
+function renderCoverage() {
+  const region = $('#official-coverage'); if (!region) return;
+  if (coverageLoading && !coverage) {region.innerHTML = '<p class="subtext" role="status">Checking official data coverage…</p>'; return;}
+  if (coverageError && !coverage) {region.innerHTML = `<h2>Official data coverage</h2><p class="subtext" role="status">${esc(coverageError)}</p><button id="retry-coverage">Retry coverage check</button>`; $('#retry-coverage').onclick = loadCoverage; return;}
+  const summary = coverage.summary;
+  const count = name => Number.isSafeInteger(summary[name]) && summary[name] >= 0 ? summary[name].toLocaleString('en-IN') : '—';
+  const sources = coverage.sources.filter(source => coverageFilter === 'all' || sourceCoverageStatus(source) === coverageFilter);
+  region.innerHTML = `<div class="coverage-heading"><div><p class="eyebrow">OFFICIAL MONTHLY DISCLOSURES</p><h2>Know what is covered.</h2><p class="subtext">National discovery helps you find funds. Verified official coverage confirms which schemes have usable equity holdings from their fund house.</p></div><p class="coverage-updated">Coverage as of<br><strong>${dateLabel(coverage.asOf || coverage.generatedAt)}</strong></p></div>
+  <div class="coverage-stats"><article><strong>${count('verifiedSchemes')}</strong><span>schemes with verified official holdings</span></article><article><strong>${count('totalSchemes')}</strong><span>schemes in national discovery</span></article><article><strong>${count('fundHouses')}</strong><span>fund houses in the coverage register</span></article></div>
+  <p class="coverage-scope">${count('unavailableSchemes')} schemes await usable official holdings · ${count('staleSchemes')} have older data · ${count('unsupportedSchemes')} are outside this equity comparison. A verified scheme can share its underlying portfolio with other plans.</p>${coverage.warning ? `<p class="notice-inline" role="status">${esc(coverage.warning)}</p>` : ''}
+  <details class="coverage-details"><summary>View fund-house coverage and reporting dates</summary><div class="coverage-controls"><label for="coverage-filter">Show fund houses</label><select id="coverage-filter"><option value="all">All statuses</option>${Object.entries(coverageLabels).map(([value,label])=>`<option value="${value}">${label}</option>`).join('')}</select></div><div class="coverage-source-list">${sources.length ? sources.map(source=>`<article class="coverage-source"><div><h3>${esc(source.amc)}</h3>${coverageBadge(sourceCoverageStatus(source))}</div><p>${Number(source.verifiedSchemes || 0).toLocaleString('en-IN')} mapped scheme options with saved official holdings · ${esc(reportingPeriod(source.portfolioDate))}</p><p>${esc(sourceCoverageMessage(source))}</p><small>Checked ${source.checkedAt ? dateLabel(source.checkedAt) : 'date unavailable'}</small>${source.message ? `<details class="source-details source-audit-details"><summary>Source verification details</summary><p>${esc(source.message)}</p></details>` : ''}</article>`).join('') : '<p class="empty">No fund houses have this status in the latest check.</p>'}</div></details>
+  <p class="coverage-explainer">Counts reflect the dated coverage check above. Fund labels also show when a portfolio is over 45 days old. Verified means published equity rows passed identifier, weight and reporting-date checks. Partly verified means some schemes remain unavailable. Older data keeps its original reporting date. Debt securities, gold and holdings inside other funds are outside the current comparison.</p>${coverageError ? `<p class="error" role="status">${esc(coverageError)}</p>` : ''}`;
+  $('#coverage-filter').value = coverageFilter;
+  $('#coverage-filter').onchange = e => {coverageFilter = e.target.value; const open = region.querySelector('details').open; renderCoverage(); region.querySelector('details').open = open; $('#coverage-filter').focus();};
+}
 function screen() {
   $('#main').innerHTML = `<section class="hero"><div class="hero-copy"><p class="eyebrow">FUND LENS / MUTUAL FUND OVERLAP ANALYZER</p><h1>More funds.<br><em>Different investments?</em></h1><p>Look beneath the fund names. Discover the equities they share, what makes each one different, and how their holdings fit together.</p><div class="pills"><span class="pill">Dated portfolio holdings</span><span class="pill">Calculated in your browser</span><span class="pill">No portfolio connection</span></div></div><div class="hero-art" aria-hidden="true"><svg viewBox="0 0 350 240"><path class="orbit-line" d="M15 120h320M175 12v210"/><circle class="orbit" cx="135" cy="112" r="81"/><circle class="orbit orbit-two" cx="215" cy="112" r="81"/><text class="art-label" x="102" y="116">FUND A</text><text class="art-label" x="225" y="116">FUND B</text><text class="art-center" x="166" y="118">∩</text><text class="art-label" x="120" y="225">SHARED HOLDINGS</text></svg><p>Different names. Sometimes the same companies.</p></div></section>
   <section class="workbench" aria-labelledby="select-title"><div class="section-head"><div><h2 id="select-title">Choose your funds</h2><p class="subtext">Compare 2–8 schemes. Search by name, category or fund house.</p></div><span class="step">01 / SELECT</span></div><div class="search-row"><label><span class="sr-only">Search funds</span><input id="fund-search" type="search" placeholder="Search any Indian mutual fund…" autocomplete="off"></label><button id="explore">Explore a comparison ↗</button></div><p id="search-status" role="status"></p><button id="retry-search" hidden>Retry fund search</button><div id="fund-grid" class="fund-grid"></div><button id="more-funds" hidden>Show more matches</button><div id="selected-funds" class="keys"></div><p class="coverage-line">Search the national MFapi catalogue across Indian fund houses, alongside five official PPFAS snapshots. Holdings come from Tickertape or Groww when verified. The catalogue includes historical schemes; a search result does not guarantee available equity holdings. Direct and regular plans share a portfolio. Debt, gold and fund-of-funds look-through are not available.</p><div class="selection"><div><strong id="selection-count"></strong><p>Only the selected snapshots are downloaded. No investment amounts needed.</p></div><div class="selection-actions"><button id="clear" class="text-button">Clear</button><button id="compare" class="primary">Compare funds →</button></div></div><p id="load-error" class="error" role="alert"></p></section>
   <section id="results" class="results" aria-live="polite"></section>
   <details class="methodology"><summary>How Fund Lens measures overlap</summary><p>Weighted overlap adds the smaller of each shared security’s weights. ISINs identify securities; names are display labels. Direct/regular plans and growth/distribution options are not counted as separate underlying portfolios.</p><ul><li><strong>Equity composition:</strong> each fund’s included equity holdings are scaled to 100%. This compares equity composition, not total fund exposure.</li><li><strong>Disclosed NAV weights:</strong> original published percentages are retained. A low-equity hybrid fund can have low NAV overlap even if its equity choices closely match another fund.</li><li>Included: positive-weight physical listed equities, including foreign shares and arbitrage legs. Excluded: cash, debt, derivatives, REIT/InvIT units and fund units. No hedge netting or fund look-through. Positions disclosed as less than 0.01% with a rounded zero are omitted.</li><li>Industry similarity uses each source’s industry classifications. Unknown classifications are excluded. Top-ten means the ten largest included equity positions, or all positions when fewer than ten exist.</li><li>Average overlap is an unweighted average of pairs. It is not a score for your personal portfolio. No buy, sell or redemption recommendations are made.</li></ul><p>Fund selections stay in browser memory. The server uses MFapi for the national catalogue and Tickertape or Groww for public holdings. No account details are sent to these sources. Verified reference data is saved for recovery during source outages. Share links contain public scheme IDs in the URL fragment; anyone can open them without signing in. Downloads identify individual public snapshots to the server. No login or financial account connection is required.</p></details><footer class="footer"><span>FUND LENS · SUSHANT SYNAPSE</span><span>Portfolio analytics, not personalized investment advice.</span></footer>`;
   $('#fund-search').value = query;
+  const switcher = document.createElement('div'); switcher.className = 'library-switch'; switcher.setAttribute('role', 'group'); switcher.setAttribute('aria-label', 'Fund discovery source');
+  switcher.innerHTML = '<button id="national-library" type="button" aria-pressed="true">Nationwide search</button><button id="official-library" type="button" aria-pressed="false">Verified official library</button>';
+  const libraryDescription = document.createElement('p'); libraryDescription.id = 'library-description'; libraryDescription.className = 'subtext';
+  $('.search-row').before(switcher, libraryDescription);
+  $('.coverage-line').textContent = 'Search across Indian fund houses, or browse verified official equity disclosures. Nationwide results may use secondary holdings sources when official data is unavailable. The national catalogue includes historical schemes; finding a scheme does not confirm that its holdings are available. Direct and regular plans share a portfolio. Debt, gold and fund-of-funds look-through are outside this comparison.';
+  const coverageRegion = document.createElement('section'); coverageRegion.id = 'official-coverage'; coverageRegion.className = 'official-coverage'; coverageRegion.setAttribute('aria-label', 'Official data coverage'); $('#results').before(coverageRegion);
+  const privacy = $('.methodology').lastElementChild;
+  privacy.textContent = privacy.textContent.replace('The server uses MFapi for the national catalogue and Tickertape or Groww for public holdings.', 'Official holdings come from published monthly fund-house disclosures, with the source and reporting date attached to each snapshot. MFapi supports national discovery; Tickertape or Groww may supply secondary holdings when official data is unavailable.');
   // Keep the selection visible above changing search results, including on mobile.
   $('#selected-funds').setAttribute('role', 'region');
   $('#selected-funds').setAttribute('aria-label', 'Selected funds');
@@ -84,15 +170,23 @@ function screen() {
   $('.selection p').textContent = 'Choose 2–8 funds. Your selection stays while you search.';
   const progress = document.createElement('div'); progress.id = 'fund-progress'; progress.setAttribute('role', 'status');
   $('#load-error').before(progress);
-  $('#fund-search').oninput = e => {query = e.target.value; clearTimeout(searchTimer); searchController?.abort(); searchVersion++; searchFunds = null; searchMessage = ''; searchFailed = false; nextOffset = null; searchPending = query.trim().length >= 2; renderFunds(); if (searchPending) searchTimer = setTimeout(() => searchLibrary(), 350);};
-  $('#more-funds').onclick = () => searchLibrary(nextOffset);
+  $('#fund-search').oninput = e => {query = e.target.value; clearTimeout(searchTimer); searchController?.abort(); searchVersion++; searchFunds = null; searchMessage = ''; searchFailed = false; nextOffset = null; libraryLimit = 12; searchPending = libraryView === 'national' && query.trim().length >= 2; renderFunds(); if (searchPending) searchTimer = setTimeout(() => searchLibrary(), 350);};
+  $('#more-funds').onclick = () => {if (libraryView === 'national' && searchFunds) searchLibrary(nextOffset); else {libraryLimit += 12; renderFunds();}};
   $('#retry-search').onclick = () => searchLibrary();
   $('#compare').onclick = () => compare(true);
   $('#clear').onclick = () => {selected = []; changed();};
   $('#explore').onclick = () => {if (selected.length) return; selected = ['ppfas-flexi-cap', 'ppfas-elss', 'ppfas-large-cap'].filter(id => index.funds.some(f => f.id === id)); changed(); compare(true);};
+  $('#national-library').onclick = () => switchLibrary('national'); $('#official-library').onclick = () => switchLibrary('official');
+  renderFunds(); renderCoverage();
+}
+function switchLibrary(view) {
+  libraryView = view; libraryLimit = 12; clearTimeout(searchTimer); searchController?.abort(); searchVersion++;
+  searchFunds = null; searchMessage = ''; searchPending = false; searchFailed = false; nextOffset = null;
   renderFunds();
+  if (view === 'national' && query.trim().length >= 2) searchLibrary();
 }
 async function searchLibrary(offset = 0) {
+  if (libraryView !== 'national') return;
   const version = ++searchVersion, term = query.trim();
   searchController?.abort();
   const controller = searchController = new AbortController();
@@ -109,15 +203,20 @@ async function searchLibrary(offset = 0) {
 }
 function renderFunds() {
   const needle = query.trim().toLowerCase();
-  const funds = searchFunds || index.funds.filter(f => !f.provider && `${f.name} ${f.amc} ${f.category}`.toLowerCase().includes(needle));
-  $('#search-status').textContent = searchPending ? 'Searching Indian mutual funds…' : searchMessage || (needle.length === 1 ? 'Type at least 2 characters to search all fund houses.' : 'Search by fund name, fund house or category.');
+  const localFunds = index.funds.filter(f => isOfficial(f) && (libraryView !== 'official' || officialStatus(f) === 'verified') && matchesLibrary(f, needle));
+  const funds = libraryView === 'national' && searchFunds ? searchFunds : localFunds.slice(0, libraryLimit);
+  $('#national-library').setAttribute('aria-pressed', String(libraryView === 'national')); $('#official-library').setAttribute('aria-pressed', String(libraryView === 'official'));
+  $('#library-description').textContent = libraryView === 'official' ? 'Published fund-house equity holdings that passed verification. Plans sharing a portfolio are grouped. Browse or search this library without a secondary data source.' : 'Find schemes across India. Search coverage is broader than verified official holdings; each result identifies its available data.';
+  $('#fund-search').placeholder = libraryView === 'official' ? 'Search verified official funds…' : 'Search any Indian mutual fund…';
+  $('#search-status').textContent = searchPending ? 'Searching Indian mutual funds…' : libraryView === 'official' ? `${funds.length} of ${localFunds.length} verified official portfolios shown.` : searchMessage || (needle.length === 1 ? 'Type at least 2 characters to search all fund houses.' : 'Start with available official portfolios below, or search by fund name, fund house or category.');
   $('#fund-grid').innerHTML = funds.length ? funds.map(f => `<article class="fund-card ${selected.includes(f.id)?'selected':''}"><span class="category">${esc(f.category)}</span><h3>${esc(f.name)}</h3><p>${esc(f.amc)}${f.holdingsCount ? ' · ' + f.holdingsCount + ' equities' : ''}</p><p>${f.portfolioDate ? dateLabel(f.portfolioDate) + ' · ' + pct(f.includedNavWeight) + ' NAV included' : esc(holdingsStatus(f))}</p><button data-select="${esc(f.id)}" aria-pressed="${selected.includes(f.id)}" aria-label="${selected.includes(f.id)?'Remove':'Add'} ${esc(f.name)}" ${busy||(!selected.includes(f.id)&&selected.length===8)?'disabled':''}>${selected.includes(f.id)?'✓ Selected':'+ Add fund'}</button></article>`).join('') : `<p class="empty">${searchPending ? 'Looking for matching funds…' : 'No matching funds found. Try a shorter name or another fund house.'}</p>`;
+  if (!funds.length && libraryView === 'official') $('#fund-grid .empty').textContent = 'No current verified official portfolios match. Nationwide search can show schemes with older or secondary holdings.';
   $('#selected-funds').innerHTML = selected.map(id => `<button class="text-button" data-select="${esc(id)}" aria-label="Remove selected ${esc(index.funds.find(f=>f.id===id).name)}" ${busy?'disabled':''}>${esc(index.funds.find(f=>f.id===id).name)} ×</button>`).join('');
   for(const id of selected){const f=index.funds.find(f=>f.id===id),p=document.createElement('p'),button=document.createElement('button');p.className='subtext';p.textContent=f.name+' · '+(f.portfolioDate?dateLabel(f.portfolioDate)+' · '+pct(f.includedNavWeight)+' NAV included':'Date and coverage not yet checked')+' · '+holdingsStatus(f);button.type='button';button.textContent='Check coverage';button.disabled=busy;button.onclick=()=>previewCoverage(id);p.append(' ',button);$('#selected-funds').append(p);}
   $('#retry-search').hidden = !searchFailed;
   $('#selected-funds').hidden = selected.length === 0;
   $('#explore').hidden = selected.length > 0;
-  $('#more-funds').hidden = nextOffset === null; $('#more-funds').disabled = searchPending;
+  $('#more-funds').hidden = libraryView === 'national' && searchFunds ? nextOffset === null : localFunds.length <= libraryLimit; $('#more-funds').disabled = searchPending;
   $('#selection-count').textContent = `${selected.length} of 8 funds selected`;
   $('#compare').disabled = busy || selected.length < 2;
   $('#compare').textContent = busy ? 'Loading and verifying holdings…' : 'Compare funds →';
@@ -129,7 +228,14 @@ function renderFunds() {
       previous.textContent = 'Previously: ' + fund.previousNames.join(' / ');
       card.querySelector('h3').after(previous);
     }
+    const status = officialStatus(fund), disclosure = coverageFor(fund);
+    const label = document.createElement('p'); label.className = 'fund-data-label';
+    label.innerHTML = isOfficial(fund) ? coverageBadge(status) : coverageBadge(status) || '<span class="coverage-badge">Nationwide listing · holdings to check</span>';
+    card.querySelector('h3').after(label);
     card.querySelector('p:last-of-type').textContent = (fund.portfolioDate ? dateLabel(fund.portfolioDate) + ' · ' + pct(fund.includedNavWeight) + ' NAV included · ' : '') + holdingsStatus(fund);
+    const coverageMessage = boundedRefreshReason(fund.coverageMessage || fund.latestAttemptMessage || disclosure?.message);
+    if (coverageMessage && status !== 'verified') {const message = document.createElement('p'); message.textContent = coverageMessage; card.querySelector('button').before(message);}
+    if (status === 'unsupported') {const button = card.querySelector('button'); button.disabled = true; button.textContent = 'Equity comparison unavailable';}
   });
   $('#fund-progress').innerHTML = selected.filter(id => loadStates.has(id)).map(id => {
     const fund = index.funds.find(f => f.id === id), state = loadStates.get(id);
@@ -140,7 +246,7 @@ function changed() {
   excluded.clear(); result = null; $('#results').innerHTML = ''; $('#load-error').textContent = ''; renderFunds();
   history.replaceState(null, '', location.pathname);
 }
-async function previewCoverage(id){if(busy||!selected.includes(id))return;const entry=index.funds.find(f=>f.id===id),controller=comparisonController=new AbortController();busy=true;loadStates.set(id,{loading:true});renderFunds();try{const data=await jsonFetch(entry.holdingsPath,0,{signal:controller.signal,deadline:Date.now()+300000,onProgress:round=>{loadStates.set(id,{loading:true,message:'Checking coverage · batch '+round});renderFunds();}});if(data.schemeId!==id||entry.portfolioDate&&!entry.provider&&data.portfolioDate!==entry.portfolioDate)throw Error('Disclosure metadata mismatch. Reload the library.');FundOverlap.normalize(data.holdings);snapshots.set(id,data);if(data.cacheStatus!=='stale')snapshotLoadedAt.set(id,Date.now());Object.assign(entry,{portfolioDate:data.portfolioDate,includedNavWeight:data.includedNavWeight,holdingsCount:data.holdings.length});loadStates.set(id,{loading:false});$('#load-error').textContent='';}catch(error){loadStates.set(id,{error:error.message});if(error.name!=='AbortError')$('#load-error').textContent=error.message;}finally{busy=false;renderFunds();}}
+async function previewCoverage(id){if(busy||!selected.includes(id))return;const entry=index.funds.find(f=>f.id===id),controller=comparisonController=new AbortController();busy=true;loadStates.set(id,{loading:true});renderFunds();try{const data=withOfficialSnapshotStatus(entry,await jsonFetch(entry.holdingsPath,0,{signal:controller.signal,deadline:Date.now()+300000,onProgress:round=>{loadStates.set(id,{loading:true,message:'Checking coverage · batch '+round});renderFunds();}}));if(data.schemeId!==id||entry.portfolioDate&&isOfficial(entry)&&data.portfolioDate!==entry.portfolioDate)throw Error('Disclosure metadata mismatch. Reload the library.');FundOverlap.normalize(data.holdings);snapshots.set(id,data);if(data.cacheStatus!=='stale')snapshotLoadedAt.set(id,Date.now());Object.assign(entry,{portfolioDate:data.portfolioDate,includedNavWeight:data.includedNavWeight,holdingsCount:data.holdings.length});loadStates.set(id,{loading:false});$('#load-error').textContent='';}catch(error){loadStates.set(id,{error:error.message});if(error.name!=='AbortError')$('#load-error').textContent=error.message;}finally{busy=false;renderFunds();}}
 async function compare(scroll = false) {
   if (busy || selected.length < 2) return;
   const comparisonIds = [...selected], selectionKey = comparisonIds.join(',');
@@ -160,7 +266,8 @@ async function compare(scroll = false) {
       try {data = await jsonFetch(entry.holdingsPath, 0, {signal:controller.signal, deadline:Date.now()+300000, onProgress: round => {
         loadStates.set(id, {loading:true, message:'Verifying holdings · batch ' + (round + 1) + '. Completed checks are saved for retry.'}); renderFunds();
       }});} catch (error) {throw Error(entry.name + ': ' + error.message);}
-      if (data.schemeId !== id || entry.portfolioDate && !entry.provider && data.portfolioDate !== entry.portfolioDate) throw Error('Disclosure metadata mismatch. Reload the fund library.');
+      if (data.schemeId !== id || entry.portfolioDate && isOfficial(entry) && data.portfolioDate !== entry.portfolioDate) throw Error('Disclosure metadata mismatch. Reload the fund library.');
+      data = withOfficialSnapshotStatus(entry, data);
       FundOverlap.normalize(data.holdings); snapshots.set(id, data);
       if (data.cacheStatus !== 'stale') snapshotLoadedAt.set(id, Date.now());
       Object.assign(entry, {name:data.name, amc:data.amc, category:data.category, portfolioDate:data.portfolioDate, includedNavWeight:data.includedNavWeight, holdingsCount:data.holdings.length});
@@ -195,7 +302,7 @@ function renderResults() {
   <section class="panel"><h2>What each fund adds</h2><p>Equities held by just one active fund, and their combined weight.</p><div class="contributions">${r.contributions.map((c,i)=>`<article class="contribution"><h3>${key(i)}${esc(short(r.funds[i].name))}</h3><strong>${c.count} <small>unique equities</small></strong><p>${pct(c.weight)} ${basis==='equity'?'of included equity':'of NAV'} · ${pct(c.navWeight)} of fund NAV</p></article>`).join('')}</div></section>
   <section class="panel"><h2>Industry exposure</h2><p>Same industries can produce similarity even when the companies differ. These are each source’s published classifications; labels may differ across sources.</p><div class="table-scroll"><table><caption class="sr-only">Industry weights by fund</caption><thead><tr><th scope="col">Industry</th>${r.funds.map((f,i)=>`<th class="num" scope="col" title="${esc(f.name)}">${key(i)}</th>`).join('')}</tr></thead><tbody>${[...new Set(r.funds.flatMap(f=>[...f.sectors.keys()]))].sort((a,b)=>r.funds.reduce((s,f)=>s+(f.sectors.get(b)||0)-(f.sectors.get(a)||0),0)).map(sector=>`<tr><th scope="row">${esc(sector)}</th>${r.funds.map(f=>`<td class="num">${pct(f.sectors.get(sector)||0)}</td>`).join('')}</tr>`).join('')}</tbody></table></div></section>
   <section class="panel simulation"><h2>Explore a different combination</h2><p>Temporarily exclude a fund to see how the comparison changes. This is a what-if calculation, not a suggestion to sell. Keep at least two funds active.</p><div class="sim-options">${selected.map(id=>`<label><input type="checkbox" data-simulate="${esc(id)}" ${excluded.has(id)?'':'checked'}>${esc(short(snapshots.get(id).name))}</label>`).join('')}</div>${baseline?`<p class="notice-inline">Compared with all ${selected.length} selected funds: distinct equities ${baseline.distinct} → ${r.distinct}; average pair overlap ${pct(baseline.averageOverlap)} → ${pct(r.averageOverlap)}. <button id="reset-simulation" class="text-button">Restore all funds</button></p>`:''}</section>
-  <section class="panel"><h2>Know the data you are comparing</h2><p>Monthly portfolio snapshots, not live holdings. Each fund lists its publisher, reporting date and included coverage. Tickertape and Groww are secondary sources; classifications may differ from AMC disclosures.</p><div class="source-list">${r.funds.map(f=>`<article class="source"><div><strong>${esc(f.name)}</strong><p>${f.holdings.length} included equities · ${pct(f.total)} of NAV included · about ${pct(Math.max(0,100-f.total))} excluded</p>${f.unresolvedHoldings?.length ? `<p class="notice-inline">Partial coverage: ${f.unresolvedHoldings.length} source equities (${pct(f.unresolvedNavWeight)} of NAV) have no verifiable identifier and are excluded: ${f.unresolvedHoldings.map(h=>esc(h.name)+' ('+pct(h.weight)+')').join(', ')}.</p>` : ''}<p>${f.belowPrecisionCount||0} positions omitted at disclosed rounding precision. Physical arbitrage positions may be hedged.</p><a href="${esc(f.source.url)}" target="_blank" rel="noopener noreferrer">${esc(f.source.publisher)} ${f.source.kind === 'aggregator' ? 'fund data' : 'spreadsheet'} ↗</a> · <a href="${esc(f.source.indexUrl)}" target="_blank" rel="noopener noreferrer">${f.source.kind === 'aggregator' ? 'Provider fund catalogue' : 'Disclosure archive'} ↗</a><p><code>Source SHA-256: ${esc(f.source.sha256)}</code></p></div><div class="date"><strong>${dateLabel(f.portfolioDate)}</strong><p>Portfolio as of · ${f.ageDays} days old</p><p>Retrieved ${dateLabel(f.source.fetchedAt)}</p>${f.source.dateBasis ? `<p>${esc(f.source.dateBasis)}</p>` : ''}</div></article>`).join('')}</div></section>`;
+  <section class="panel"><h2>Know the data you are comparing</h2><p>Monthly portfolio snapshots, not live holdings. Each fund lists its publisher, reporting date and included coverage. Tickertape and Groww are secondary sources; classifications may differ from AMC disclosures.</p><div class="source-list">${r.funds.map(f=>`<article class="source"><div><strong>${esc(f.name)}</strong><p>${f.holdings.length} included equities · ${pct(f.total)} of NAV included · about ${pct(Math.max(0,100-f.total))} excluded</p>${f.unresolvedHoldings?.length ? `<p class="notice-inline">Partial coverage: ${f.unresolvedHoldings.length} source equities (${pct(f.unresolvedNavWeight)} of NAV) have no verifiable identifier and are excluded: ${f.unresolvedHoldings.map(h=>esc(h.name)+' ('+pct(h.weight)+')').join(', ')}.</p>` : ''}<p>${f.belowPrecisionCount||0} positions omitted at disclosed rounding precision. Physical arbitrage positions may be hedged.</p><a href="${esc(f.source.url)}" target="_blank" rel="noopener noreferrer">${esc(f.source.publisher)} ${f.source.kind === 'aggregator' ? 'fund data' : 'official disclosure'} ↗</a> · <a href="${esc(f.source.indexUrl)}" target="_blank" rel="noopener noreferrer">${f.source.kind === 'aggregator' ? 'Provider fund catalogue' : 'Disclosure archive'} ↗</a><p><code>Source SHA-256: ${esc(f.source.sha256)}</code></p></div><div class="date"><strong>${dateLabel(f.portfolioDate)}</strong><p>Portfolio as of · ${f.ageDays} days old</p><p>Retrieved ${dateLabel(f.source.fetchedAt)}</p>${f.source.dateBasis ? `<p>${esc(f.source.dateBasis)}</p>` : ''}</div></article>`).join('')}</div></section>`;
   $('#basis').onchange = e => {basis = e.target.value; calculate();};
   $('#share').onclick = share;
   $('#export').onclick = exportCsv;
@@ -238,7 +345,7 @@ async function share() {
   const fragment = new URLSearchParams({funds:selected.filter(id=>!excluded.has(id)).join(','),basis});
   const url = location.origin + location.pathname + '#' + fragment;
   history.replaceState(null, '', url);
-  try {await navigator.clipboard.writeText(url); notice('Comparison link copied. Recipients need Fund Lens access.');}
+  try {await navigator.clipboard.writeText(url); notice('Comparison link copied. Anyone with the link can open these public fund snapshots.');}
   catch {notice('The comparison is now in your address bar. Copy that URL to share.');}
 }
 function exportCsv() {
@@ -271,7 +378,7 @@ function readShare() {
   selected = ids; basis = params.get('basis')==='nav'?'nav':'equity'; excluded.clear(); $('#results').innerHTML=''; $('#load-error').textContent=''; renderFunds(); compare(false);
 }
 async function boot() {
-  try {index = await jsonFetch('/api/fund-overlap/fund-index.json'); screen(); readShare();}
+  try {index = await jsonFetch('/api/fund-overlap/fund-index.json'); screen(); loadCoverage(); readShare();}
   catch (error) {
     const heading = error.status===401?'Sign in to open Fund Lens':error.status===403?'Fund Lens access is needed':'The fund library is unavailable';
     $('#main').innerHTML = `<section class="gate"><p class="eyebrow">FUND LENS</p><h1>${heading}</h1><p>${error.status===401?'Use your existing Sushant Synapse account, then open Fund Lens from the app catalogue.':error.status===403?'Ask your platform owner to enable Fund Lens in Team access.':esc(error.message)}</p><a href="/">Go to the platform →</a>${!error.status?'<p><button id="retry">Retry loading</button></p>':''}</section>`;

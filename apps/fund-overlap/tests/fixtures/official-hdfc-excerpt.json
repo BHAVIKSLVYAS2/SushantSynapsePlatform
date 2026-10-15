@@ -1,0 +1,36 @@
+{
+  "source": {
+    "id": "hdfc",
+    "amc": "HDFC Mutual Fund",
+    "indexUrl": "https://www.hdfcfund.com/statutory-disclosure/portfolio/monthly-portfolio"
+  },
+  "document": {
+    "url": "https://files.hdfcfund.com/s3fs-public/2026-10/Monthly%20HDFC%20Aggressive%20Hybrid%20Fund%20-%2030%20September%202026_0.xlsx?VersionId=MvOPVIdd7nk7bnhaw2d.SvI8DzzEfAAm",
+    "portfolioDate": "2026-09-30",
+    "format": "xlsx"
+  },
+  "expected": {
+    "count": 58,
+    "includedNavWeight": 71.78
+  },
+  "catalogue": [
+    {
+      "schemeCode": 102947,
+      "schemeName": "HDFC Aggressive Hybrid Fund - Regular Plan - IDCW Option"
+    },
+    {
+      "schemeCode": 102948,
+      "schemeName": "HDFC Aggressive Hybrid Fund - Regular Plan - Growth Option"
+    },
+    {
+      "schemeCode": 119061,
+      "schemeName": "HDFC Aggressive Hybrid Fund - Direct Plan - IDCW Option"
+    },
+    {
+      "schemeCode": 119062,
+      "schemeName": "HDFC Aggressive Hybrid Fund - Direct Plan - Growth Option"
+    }
+  ],
+  "derivedFromSha256": "6900e09c136e5ba1d7426cafa84c6b404abc9f2149f1c8dd7360da58bdc92c89",
+  "derivation": "Values and number formats through the grand total extracted from the public official workbook; source digest refers to the full downloaded document."
+}

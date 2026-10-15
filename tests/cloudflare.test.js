@@ -35,7 +35,7 @@ test('ten national searches reuse one catalogue without rewriting holdings progr
   assert.equal(reads,10); assert.equal(writes,1); assert.equal(upstream,1);
 });
 before(async () => { exported = require('../infrastructure/cloudflare/build.cjs').build(); ({handle} = await import('../infrastructure/cloudflare/worker.mjs')); });
-const assets = {ASSETS: {fetch: async request => new Response(new URL(request.url).pathname, {headers: {'Content-Type': 'text/html'}})}};
+const assets = {ASSETS: {fetch: async request => {const target=new URL(request.url).pathname;if(target.startsWith('/_fund-archive/'))return new Response(fs.readFileSync(path.join(exported.output,target)),{headers:{'Content-Type':'application/json'}});return new Response(target,{headers:{'Content-Type':'text/html'}});}}};
 test('retired page and asset URLs return 404 at the edge',async()=>{
  for(const route of ['/certificates','/certificates/','/certificates/app.js','/certificates/renderer.js','/certificates/export.js','/certificates/style.css','/certificates/branding.mjs','/celebration-studio','/celebration-studio/','/celebration-studio/app.js','/celebration-studio/renderer.mjs','/celebration-studio/style.css','/celebration-studio/branding.mjs','/arena','/arena/']){
   assert.equal(exported.pages[route],undefined);
@@ -70,7 +70,7 @@ test('AdSense has fresh response nonces only on the anonymous homepage',async()=
 test('Cloudflare export contains only allowlisted frontend files and shared outage assets', () => {
   const files = fs.readdirSync(exported.output, {recursive: true, withFileTypes: true}).filter(item => item.isFile());
   assert.equal(files.length, exported.files.size + 1);
-  for (const source of exported.files.values()) assert.match(source, /^(apps\/[^/]+\/frontend\/|packages\/ui\/)/);
+  for (const source of exported.files.values()) assert.match(source, /^(apps\/[^/]+\/frontend\/|packages\/ui\/|apps\/fund-overlap\/data\/holdings\/[a-z0-9-]{1,80}\/\d{4}-\d{2}-\d{2}-[a-f0-9]{16}\.json$)/);
   for (const name of Object.values(exported.pages)) assert.match(fs.readFileSync(path.join(exported.output, name), 'utf8'), /shared\/availability.js/);
 });
 test('independent tools load without origin calls; unavailable app routes return uncached useful HTML', async () => {
@@ -121,7 +121,10 @@ test('Fund Lens public references and provider requests work without an origin; 
   const provider = {search: async () => ({funds: [{id: 'amfi-123456', name: 'Example Equity', holdingsPath: '/api/fund-overlap/scheme/123456'}], nextOffset: null}), scheme: async code => ({schemeId: 'amfi-' + code}), snapshot: async slug => ({schemeId: 'groww-' + slug})};
   const get = (path, options = {}) => handle(new Request('https://preview.workers.dev' + path, options), env, down, {provider});
   const index = await (await get('/api/fund-overlap/fund-index.json')).json();
-  assert.equal(index.funds.length, 5);
+  assert.ok(index.funds.length >= 5);
+  const coverage=await (await get('/api/fund-overlap/coverage.json')).json();assert.ok(coverage.summary);assert.deepEqual(coverage.schemes,[]);
+  assert.equal((await get('/api/fund-overlap/coverage/schemes?limit=201')).status,400);
+  assert.ok(Array.isArray((await (await get('/api/fund-overlap/coverage/schemes?limit=2')).json()).schemes));
   for (const fund of index.funds) assert.ok((await (await get(fund.holdingsPath)).json()).holdings.length);
   assert.equal((await (await get('/api/fund-overlap/search?q=example')).json()).funds[0].id, 'amfi-123456');
   assert.equal((await (await get('/api/fund-overlap/scheme/123456')).json()).schemeId, 'amfi-123456');
@@ -149,6 +152,31 @@ test('edge reference cache reuses validated data and labels source failures/date
   const regressed = await cache.get('scheme:123456', 100, async () => ({portfolioDate: '2026-06-30'}), validate);
   assert.equal(regressed.stale, true); assert.equal(regressed.value.portfolioDate, '2026-07-31');
   await assert.rejects(cache.get('missing', 100, async () => {throw Error('Unavailable');}));
+});
+
+test('historical audited snapshots remain available at the edge after their current pointer advances',async()=>{
+  const archives=JSON.parse(fs.readFileSync(path.join(__dirname,'../infrastructure/cloudflare/fund-archives.json')));
+  const [route,target]=Object.entries(archives).find(([url])=>url.includes('/2026-07-31-'));assert.ok(route);
+  const env={ASSETS:{fetch:async request=>{assert.equal(new URL(request.url).pathname,target);return new Response(fs.readFileSync(path.join(exported.output,target)),{headers:{ETag:'"fixture-version"'}});}}};
+  const response=await handle(new Request(base+route),env,async()=>{throw Error('Historical references must not contact origin');});
+  assert.equal(response.status,200);assert.match(response.headers.get('Cache-Control'),/immutable/);assert.ok((await response.json()).holdings.length);
+  assert.equal(await (await handle(new Request(base+route,{method:'HEAD'}),env)).text(),'');
+});
+
+test('mapped official schemes use static holdings without provider credentials or conditional alias requests',async()=>{
+  const refs=JSON.parse(fs.readFileSync(path.join(__dirname,'../infrastructure/cloudflare/fund-references.json')));
+  const fund=refs['/api/fund-overlap/fund-index.json'].funds.find(entry=>entry.schemeCodes?.length);assert.ok(fund,'National official publication must include AMFI mappings');
+  let reads=0;
+  const env={ASSETS:{fetch:async request=>{
+    reads++;assert.equal(request.method,'GET');assert.equal(request.headers.get('Cookie'),null);assert.equal(request.headers.get('If-None-Match'),null);
+    assert.equal(request.headers.get('If-Modified-Since'),null);
+    return new Response(fs.readFileSync(path.join(exported.output,new URL(request.url).pathname)),{headers:{'Content-Type':'application/json'}});
+  }}};
+  const provider={scheme:async()=>{throw Error('Mapped official scheme must not call a provider');}};
+  const route=base+'/api/fund-overlap/scheme/'+fund.schemeCodes[0];
+  const response=await handle(new Request(route,{headers:{Cookie:'chambers_session=private','If-None-Match':'"old-alias"','If-Modified-Since':'Thu, 01 Jan 2026 00:00:00 GMT'}}),env,async()=>{throw Error('Official holdings must not contact origin');},{provider});
+  assert.equal(response.status,200);const snapshot=await response.json();assert.equal(snapshot.schemeId,'amfi-'+fund.schemeCodes[0]);assert.equal(snapshot.portfolioDate,fund.portfolioDate);assert.equal(snapshot.source.kind,'official');
+  const head=await handle(new Request(route,{method:'HEAD'}),env,undefined,{provider});assert.equal(head.status,200);assert.equal(await head.text(),'');assert.equal(reads,2);
 });
 
 test('large portfolios resume verified stock lookups across invocations within the free request budget', async () => {

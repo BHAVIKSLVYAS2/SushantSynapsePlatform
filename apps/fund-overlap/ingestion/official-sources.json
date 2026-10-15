@@ -1,0 +1,1633 @@
+{
+  "version": 1,
+  "directoryUrl": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+  "directoryCheckedAt": "2026-10-12",
+  "directoryMemberCount": 57,
+  "coverageNote": "57 AMFI directory entries are not complete holdings coverage. September public download signatures were verified for 25 AMCs; only workbook-validated physical listed-equity funds enter comparisons. ICICI currently uses an explicitly dated fallback and has no verified automatic renewal. See the generated coverage report for current accepted funds, unsupported assets and failures.",
+  "sources": [
+    {
+      "id": "360-one",
+      "amc": "360 ONE Mutual Fund",
+      "amfiId": "62",
+      "indexUrl": "https://www.360.one/asset/mutual-funds/downloads/",
+      "allowedHosts": [
+        "www.360.one",
+        "s3.ap-south-1.amazonaws.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.360.one/asset/mutual-funds/downloads/"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 2,
+        "latestDiscoveredDate": "2026-09-30",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 1,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://s3.ap-south-1.amazonaws.com/x-web-s3.360.one/IN_MF_MONTHLY_PORTFOLIO_Sep2026_Final_fc91906e39.xls",
+        "sampleSha256": "548e393d1a355fbb5a452bd34c0e90ef5541070576d7cccc3b2a0bdc394489b9"
+      },
+      "verifiedDocuments": [
+        {
+          "url": "https://s3.ap-south-1.amazonaws.com/x-web-s3.360.one/IN_MF_MONTHLY_PORTFOLIO_Sep2026_Final_fc91906e39.xls",
+          "portfolioDate": "2026-09-30",
+          "format": "xls",
+          "fileName": "IN_MF_MONTHLY_PORTFOLIO_Sep2026_Final_fc91906e39.xls"
+        }
+      ]
+    },
+    {
+      "id": "abakkus",
+      "amc": "Abakkus Mutual Fund",
+      "amfiId": "85",
+      "indexUrl": "https://www.abakkusmf.com/statutory-disclosures.html",
+      "allowedHosts": [
+        "www.abakkusmf.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.abakkusmf.com/statutory-disclosures.html#"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 3,
+        "latestDiscoveredDate": "2026-09-30",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 1,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://www.abakkusmf.com/uploads/Final_Monthly_Portolio_Sep30_2026_fd59e57829.xlsx",
+        "sampleSha256": "254e589129e0e0cace86d52ea58a47d2d11a4e1d62df3154ce8125d583bb87d3"
+      },
+      "documentPattern": "portf?olio|portolio"
+    },
+    {
+      "id": "aditya-birla-sun-life",
+      "amc": "Aditya Birla Sun Life Mutual Fund",
+      "amfiId": "3",
+      "indexUrl": "https://mutualfund.adityabirlacapital.com/forms-and-downloads/portfolio",
+      "allowedHosts": [
+        "mutualfund.adityabirlacapital.com",
+        "abcscprod.azureedge.net"
+      ],
+      "discoveryUrls": [
+        "https://mutualfund.adityabirlacapital.com/postlogin/CustomApi/Resources/FactsheetAccordionById?id=3ccab227-9de5-4494-b78d-2b4f7c0c054a&ctype=%2Fsitecore%2Fcontent%2FRoot%2FBSL%2FLibrary%2FLists%2FFAQ%2FCustomer%20Types%2FIndividual&month=%20&year=0"
+      ],
+      "downloadHostOverrides": {
+        "abcscprod.azureedge.net": "mutualfund.adityabirlacapital.com"
+      },
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://mutualfund.adityabirlacapital.com/forms-and-downloads/portfolio"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "downloadCheckedAt": "2026-10-15",
+        "downloadedDocumentCount": 1,
+        "downloadDate": "2026-09-30",
+        "knownLimitation": "The public page's listing API works without cookies. Its legacy CDN hostname fails DNS; the exact disclosed asset path is verified on the official AMC HTTPS origin. Workbook acceptance remains a separate parser check.",
+        "lastProbe": {
+          "checkedAt": "2026-10-15",
+          "url": "https://mutualfund.adityabirlacapital.com/-/media/bsl/files/resources/monthly-portfolio/2026/30092026_abslmf_monthlydisclosure.zip",
+          "status": "HTTP 200; 2194065-byte ZIP with PK signature"
+        }
+      }
+    },
+    {
+      "id": "alphagrep",
+      "amc": "AlphaGrep Mutual Fund",
+      "amfiId": "86",
+      "indexUrl": "https://www.alphagrepmf.ai/disclosures",
+      "allowedHosts": [
+        "www.alphagrepmf.ai"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.alphagrepmf.ai/disclosures"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated"
+      }
+    },
+    {
+      "id": "angel-one",
+      "amc": "Angel One Mutual Fund",
+      "namePrefixes": ["Angel One", "AngelOne"],
+      "amfiId": "80",
+      "indexUrl": "https://www.angelonemf.com/downloads",
+      "allowedHosts": [
+        "www.angelonemf.com",
+        "cms.angelonemf.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.angelonemf.com/downloads"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 11,
+        "latestDiscoveredDate": "2026-09-30",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 11,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://cms.angelonemf.com/amc-cms/wp-content/uploads/formidable/20/Monthly-Portfolio-September-2026-Angel-One-Gold-ETF-1-1.xlsx",
+        "sampleSha256": "3da3baf157cc6128674fd6bffe3e01e652c0af93b7bc223f6a0ca0a24c3763c9"
+      }
+    },
+    {
+      "id": "ask",
+      "amc": "ASK MUTUAL FUND",
+      "amfiId": "87",
+      "indexUrl": "https://www.askmutualfund.com/",
+      "allowedHosts": [
+        "www.askmutualfund.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.askmutualfund.com/#/downloads"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated"
+      }
+    },
+    {
+      "id": "axis",
+      "amc": "Axis Mutual Fund",
+      "amfiId": "53",
+      "indexUrl": "https://www.axismf.com/statutory-disclosures",
+      "allowedHosts": [
+        "www.axismf.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.axismf.com/statutory-disclosures"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated",
+        "knownLimitation": "The official disclosure page exposes dynamic category metadata rather than portfolio file links. A publisher-specific public listing adapter is not implemented; its previously referenced component script has since changed.",
+        "lastProbe": {
+          "checkedAt": "2026-10-15",
+          "url": "https://www.axismf.com/_next/static/chunks/183-d5580128114797d4.js",
+          "status": "HTTP 404 for the component referenced by the saved disclosure page"
+        }
+      }
+    },
+    {
+      "id": "bajaj-finserv",
+      "amc": "Bajaj Finserv Mutual Fund",
+      "amfiId": "75",
+      "indexUrl": "https://www.bajajamc.com/downloads?statutory-disclosures=",
+      "allowedHosts": [
+        "www.bajajamc.com",
+        "media.bajajamc.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.bajajamc.com/downloads?statutory-disclosures="
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated"
+      },
+      "documentPattern": "IN_MF_CONSOLIDATED_HOLDING|MONTHLY_PORTFOLIO"
+    },
+    {
+      "id": "bandhan",
+      "amc": "Bandhan Mutual Fund",
+      "amfiId": "48",
+      "indexUrl": "https://bandhanmutual.com/downloads/disclosures",
+      "allowedHosts": [
+        "bandhanmutual.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://bandhanmutual.com/downloads/disclosures"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated"
+      }
+    },
+    {
+      "id": "bank-of-india",
+      "amc": "Bank of India Mutual Fund",
+      "amfiId": "46",
+      "indexUrl": "https://www.boimf.in/investor-corner",
+      "allowedHosts": [
+        "www.boimf.in"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.boimf.in/investor-corner#t2"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated"
+      }
+    },
+    {
+      "id": "baroda-bnp-paribas",
+      "amc": "Baroda BNP Paribas Mutual Fund",
+      "amfiId": "4",
+      "indexUrl": "https://www.barodabnpparibasmf.in/downloads/monthly-portfolio-scheme",
+      "allowedHosts": [
+        "www.barodabnpparibasmf.in"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.barodabnpparibasmf.in/downloads/monthly-portfolio-scheme"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 1,
+        "latestDiscoveredDate": "2026-09-30",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 1,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://www.barodabnpparibasmf.in/assets/download_documents/BOBBNPMF_Monthly_Portfolio_30-09-2026_20376.xls",
+        "sampleSha256": "2203e6213a216293860009bfa62e6f1f7cbc32954074cac146d11dded7d150ac"
+      },
+      "verifiedDocuments": [
+        {
+          "url": "https://www.barodabnpparibasmf.in/assets/download_documents/BOBBNPMF_Monthly_Portfolio_30-09-2026_20376.xls",
+          "portfolioDate": "2026-09-30",
+          "format": "xls",
+          "fileName": "BOBBNPMF_Monthly_Portfolio_30-09-2026_20376.xls"
+        }
+      ]
+    },
+    {
+      "id": "canara-robeco",
+      "amc": "Canara Robeco Mutual Fund",
+      "amfiId": "32",
+      "indexUrl": "https://www.canararobeco.com/documents/statutory-disclosures/scheme-dashboard/scheme-monthly-portfolio/",
+      "allowedHosts": [
+        "www.canararobeco.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.canararobeco.com/documents/statutory-disclosures/scheme-dashboard/scheme-monthly-portfolio/"
+      },
+      "verification": {
+        "page": "failed",
+        "download": "not-tested",
+        "schemes": "not-validated",
+        "pageError": "HTTP Error 403: Forbidden"
+      }
+    },
+    {
+      "id": "capitalmind",
+      "amc": "Capitalmind Mutual Fund",
+      "amfiId": "81",
+      "indexUrl": "https://capitalmindmf.com/statutory-disclosures.html",
+      "allowedHosts": [
+        "capitalmindmf.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://capitalmindmf.com/statutory-disclosures.html#"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated"
+      }
+    },
+    {
+      "id": "carnelian",
+      "amc": "Carnelian Mutual Fund",
+      "amfiId": "91",
+      "indexUrl": "",
+      "allowedHosts": [],
+      "adapter": "generic",
+      "enabled": false,
+      "status": "unavailable",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": ""
+      },
+      "verification": {
+        "page": "failed",
+        "download": "not-tested",
+        "schemes": "not-validated",
+        "pageError": "no HTTPS disclosure URL"
+      }
+    },
+    {
+      "id": "choice",
+      "amc": "Choice Mutual Fund",
+      "amfiId": "84",
+      "indexUrl": "https://choicemf.com/disclosures/monthly-portfolio",
+      "allowedHosts": [
+        "choicemf.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://choicemf.com/disclosures/monthly-portfolio"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated"
+      }
+    },
+    {
+      "id": "dsp",
+      "amc": "DSP Mutual Fund",
+      "amfiId": "6",
+      "indexUrl": "https://www.dspim.com/about-us/mandatory-disclosure/portfolio-disclosures",
+      "allowedHosts": [
+        "www.dspim.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.dspim.com/about-us/mandatory-disclosure/portfolio-disclosures"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 1,
+        "latestDiscoveredDate": "2026-09-30",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 1,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://www.dspim.com/media/pages/mandatory-disclosures/portfolio-disclosures/7737577fda-1791551248/dsp-monthend-portfolio-as-on-30-september-2026.zip",
+        "sampleSha256": "06acc4ced7c29e359e40b01ff6514b437b9a46ba7ea61d470c2c53e5bb0a3a86"
+      },
+      "documentPattern": "dsp-monthend-portfolio",
+      "verifiedDocuments": [
+        {
+          "url": "https://www.dspim.com/media/pages/mandatory-disclosures/portfolio-disclosures/7737577fda-1791551248/dsp-monthend-portfolio-as-on-30-september-2026.zip",
+          "portfolioDate": "2026-09-30",
+          "format": "zip",
+          "fileName": "dsp-monthend-portfolio-as-on-30-september-2026.zip"
+        }
+      ]
+    },
+    {
+      "id": "edelweiss",
+      "amc": "Edelweiss Mutual Fund",
+      "amfiId": "47",
+      "indexUrl": "https://www.edelweissmf.com/statutory",
+      "allowedHosts": [
+        "www.edelweissmf.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.edelweissmf.com/statutory#Portfolio-of-Schemes"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated"
+      }
+    },
+    {
+      "id": "franklin-templeton",
+      "amc": "Franklin Templeton Mutual Fund",
+      "amfiId": "27",
+      "indexUrl": "https://www.franklintempletonindia.com/investor/reports?firstFilter-12",
+      "allowedHosts": [
+        "www.franklintempletonindia.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.franklintempletonindia.com/investor/reports?firstFilter-12"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated"
+      }
+    },
+    {
+      "id": "groww",
+      "amc": "Groww Mutual Fund",
+      "amfiId": "63",
+      "indexUrl": "https://growwmf.in/statutory-disclosure/portfolio",
+      "allowedHosts": [
+        "growwmf.in",
+        "assets-netstorage.growwmf.in"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://growwmf.in/statutory-disclosure/portfolio"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 3,
+        "latestDiscoveredDate": "2026-09-30",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 3,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://assets-netstorage.growwmf.in/compliance_docs/Statutory%20Disclosure/Portfolio/2026%20-2027/Fortnightly%20Portfolio%20-%20Sep%2030,%202026.xlsx",
+        "sampleSha256": "9953126a6f483e08f2f7ac88f001a2b1f1319b5ca74e391ace6e509d54d05662"
+      }
+    },
+    {
+      "id": "hdfc",
+      "amc": "HDFC Mutual Fund",
+      "amfiId": "9",
+      "indexUrl": "https://www.hdfcfund.com/statutory-disclosure/portfolio/monthly-portfolio",
+      "allowedHosts": [
+        "www.hdfcfund.com",
+        "files.hdfcfund.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.hdfcfund.com/statutory-disclosure/portfolio/monthly-portfolio"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 111,
+        "latestDiscoveredDate": "2026-09-30",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 111,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://files.hdfcfund.com/s3fs-public/2026-10/Monthly%20HDFC%20Aggressive%20Hybrid%20Fund%20-%2030%20September%202026_0.xlsx?VersionId=MvOPVIdd7nk7bnhaw2d.SvI8DzzEfAAm",
+        "sampleSha256": "6900e09c136e5ba1d7426cafa84c6b404abc9f2149f1c8dd7360da58bdc92c89"
+      },
+      "documentPattern": "Monthly.*HDFC"
+    },
+    {
+      "id": "helios",
+      "amc": "Helios Mutual Fund",
+      "amfiId": "76",
+      "indexUrl": "https://www.heliosmf.in/portfolio-disclosure/",
+      "allowedHosts": [
+        "www.heliosmf.in"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.heliosmf.in/portfolio-disclosure/"
+      },
+      "verification": {
+        "page": "failed",
+        "download": "not-tested",
+        "schemes": "not-validated",
+        "pageError": "HTTP Error 406: Not Acceptable"
+      }
+    },
+    {
+      "id": "hsbc",
+      "amc": "HSBC Mutual Fund",
+      "amfiId": "37",
+      "indexUrl": "https://www.assetmanagement.hsbc.co.in/en/mutual-funds/investor-resources/information-library",
+      "allowedHosts": [
+        "www.assetmanagement.hsbc.co.in"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.assetmanagement.hsbc.co.in/en/mutual-funds/investor-resources/information-library#&accordion1446811090=2"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 1,
+        "latestDiscoveredDate": "2026-09-30",
+        "knownLimitation": "Only closed/matured debt recovery report found; workbook is not accepted as an equity portfolio.",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 1,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://www.assetmanagement.hsbc.co.in/-/media/Files/attachments/india/mutual-funds/closed-matured-scheme-portfolio/hsbc-fmp-series-xiv-sep-30-2026.xlsx",
+        "sampleSha256": "7d3b15a7498900dfc0a15802da2b96ee095c24c81f0eb97708cb7cf6d045d53a"
+      },
+      "allowShortYears": true
+    },
+    {
+      "id": "icici-prudential",
+      "amc": "ICICI Prudential Mutual Fund",
+      "amfiId": "20",
+      "indexUrl": "https://www.icicipruamc.com/media-center/downloads",
+      "allowedHosts": [
+        "www.icicipruamc.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "automaticRenewal": false,
+      "renewalStatus": "Manual public listing verification required; fixed dated file is not evidence of the latest future month.",
+      "verifiedDocuments": [
+        {
+          "url": "https://www.icicipruamc.com/blob/downloads/Files/Monthly%20Portfolio%20Disclosures/2026/Sep/Monthly-Portfolio-Disclosure-September-2026.zip",
+          "portfolioDate": "2026-09-30",
+          "format": "zip",
+          "fileName": "Monthly-Portfolio-Disclosure-September-2026.zip",
+          "discoveryMode": "verified-dated-fallback"
+        }
+      ],
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.icicipruamc.com/news-and-media/downloads?currentTabFilter=Disclosures&&subCatTabFilter=MonthlyPortfolioDisclosures"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "downloadCheckedAt": "2026-10-15",
+        "downloadedDocumentCount": 1,
+        "downloadDate": "2026-09-30",
+        "sampleSha256": "84d4beb5d29a26d52ee30dc5ef9c30abeda25e4820f1a66fc3e5b42e3538281c",
+        "knownLimitation": "The public website's anonymous monthly listing identified this September ZIP. Its documented /blob asset base serves the file without cookies. Direct listing POST returns HTTP 405 outside that browser flow; automatic monthly selection is not verified, and the dated fallback must not imply future freshness.",
+        "lastProbe": {
+          "checkedAt": "2026-10-15",
+          "url": "https://www.icicipruamc.com/blob/downloads/Files/Monthly%20Portfolio%20Disclosures/2026/Sep/Monthly-Portfolio-Disclosure-September-2026.zip",
+          "status": "HTTP 200; 25874809-byte ZIP, 151 members and 27221799 expanded bytes"
+        }
+      }
+    },
+    {
+      "id": "il-fs-idf",
+      "amc": "IL&FS Mutual Fund (IDF)",
+      "amfiId": "65",
+      "indexUrl": "http://www.ilfsinfrafund.com/other.php",
+      "allowedHosts": [],
+      "adapter": "generic",
+      "enabled": false,
+      "status": "unavailable",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "http://www.ilfsinfrafund.com/other.php"
+      },
+      "verification": {
+        "page": "failed",
+        "download": "not-tested",
+        "schemes": "not-validated",
+        "pageError": "no HTTPS disclosure URL"
+      }
+    },
+    {
+      "id": "invesco",
+      "amc": "Invesco Mutual Fund",
+      "amfiId": "42",
+      "indexUrl": "https://invescomutualfund.com/literature-and-form?tab=Complete",
+      "allowedHosts": [
+        "invescomutualfund.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://invescomutualfund.com/literature-and-form?tab=Complete"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated"
+      }
+    },
+    {
+      "id": "iti",
+      "amc": "ITI Mutual Fund",
+      "amfiId": "70",
+      "indexUrl": "https://www.itiamc.com/statuory-disclosure",
+      "allowedHosts": [
+        "www.itiamc.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.itiamc.com/statuory-disclosure"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated"
+      }
+    },
+    {
+      "id": "jio-blackrock",
+      "amc": "Jio BlackRock Mutual Fund",
+      "amfiId": "82",
+      "indexUrl": "https://www.jioblackrockamc.com/statutory-disclosure/disclosures/monthly-portfolio-disclosure",
+      "allowedHosts": [
+        "www.jioblackrockamc.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.jioblackrockamc.com/statutory-disclosure/disclosures/monthly-portfolio-disclosure"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated"
+      }
+    },
+    {
+      "id": "jm-financial",
+      "amc": "JM Financial Mutual Fund",
+      "amfiId": "16",
+      "indexUrl": "https://www.jmfinancialmf.com/downloads/Portfolio-Disclosure",
+      "allowedHosts": [
+        "www.jmfinancialmf.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.jmfinancialmf.com/downloads/Portfolio-Disclosure"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated"
+      }
+    },
+    {
+      "id": "kotak-mahindra",
+      "amc": "Kotak Mahindra Mutual Fund",
+      "amfiId": "17",
+      "indexUrl": "https://www.kotakmf.com/Information/forms-and-downloads",
+      "allowedHosts": [
+        "www.kotakmf.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.kotakmf.com/Information/forms-and-downloads"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated",
+        "knownLimitation": "The official public forms API returned a portfolio category hierarchy (header 417), not dated workbook links. Its dependent option/month listing adapter is not implemented.",
+        "lastProbe": {
+          "checkedAt": "2026-10-15",
+          "url": "https://www.kotakmf.com/api/kotakapi/forms/user/v1/getsuperheaderlist",
+          "status": "HTTP 200; category metadata only"
+        }
+      }
+    },
+    {
+      "id": "lakshya",
+      "amc": "Lakshya Mutual Fund",
+      "amfiId": "88",
+      "indexUrl": "",
+      "allowedHosts": [],
+      "adapter": "generic",
+      "enabled": false,
+      "status": "unavailable",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": ""
+      },
+      "verification": {
+        "page": "failed",
+        "download": "not-tested",
+        "schemes": "not-validated",
+        "pageError": "no HTTPS disclosure URL"
+      }
+    },
+    {
+      "id": "lic",
+      "amc": "LIC Mutual Fund",
+      "amfiId": "18",
+      "indexUrl": "https://www.licmf.com/downloads/monthly-portfolio",
+      "allowedHosts": [
+        "www.licmf.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.licmf.com/downloads/monthly-portfolio"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 2,
+        "latestDiscoveredDate": "2026-09-30",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 2,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://www.licmf.com/assets/pdf/statuary_disclosure_new/21/LIC%20MF%20Monthly%20Debt%20Portfolio_Sep_26.xlsx",
+        "sampleSha256": "599432c41d6546b53bf8b3570b8409ad16f3108b3a2feeabe0a71067ddc5e995"
+      },
+      "allowShortYears": true,
+      "discoveryRequests": [
+        {
+          "url": "https://www.licmf.com/downloads/consolidated-portfolio-files",
+          "encoding": "form",
+          "data": {
+            "id": "639",
+            "month": "{month}",
+            "year": "{year}"
+          }
+        }
+      ],
+      "verifiedDocuments": [
+        {
+          "url": "https://www.licmf.com/assets/pdf/statuary_disclosure_new/21/LIC%20MF%20Monthly%20Debt%20Portfolio_Sep_26.xlsx",
+          "portfolioDate": "2026-09-30",
+          "format": "xlsx",
+          "fileName": "LIC MF Monthly Debt Portfolio_Sep_26.xlsx"
+        },
+        {
+          "url": "https://www.licmf.com/assets/pdf/statuary_disclosure_new/21/LIC%20MF%20Monthly%20Equity%20Portfolio_Sep_26.xlsx",
+          "portfolioDate": "2026-09-30",
+          "format": "xlsx",
+          "fileName": "LIC MF Monthly Equity Portfolio_Sep_26.xlsx"
+        }
+      ]
+    },
+    {
+      "id": "mahindra-manulife",
+      "amc": "Mahindra Manulife Mutual Fund",
+      "amfiId": "69",
+      "indexUrl": "https://www.mahindramanulife.com/downloads",
+      "allowedHosts": [
+        "www.mahindramanulife.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.mahindramanulife.com/downloads#mandatory-disclosures"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated"
+      }
+    },
+    {
+      "id": "mirae-asset",
+      "amc": "Mirae Asset Mutual Fund",
+      "amfiId": "45",
+      "indexUrl": "https://www.miraeassetmf.co.in/downloads/portfolio",
+      "allowedHosts": [
+        "www.miraeassetmf.co.in"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.miraeassetmf.co.in/downloads/portfolio"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 99,
+        "latestDiscoveredDate": "2026-09-30",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 99,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://www.miraeassetmf.co.in/docs/default-source/portfolios/1dgrowth_sept2026.xlsx",
+        "sampleSha256": "9b6f66435e47f53b93c98cffbf88ee2c82f96d217721df4164e92bddb6490874"
+      },
+      "discoveryRequests": [
+        {
+          "url": "https://www.miraeassetmf.co.in/AjaxService/GetDownloadsData",
+          "data": {
+            "request": {
+              "modulename": "portfolio_tab1",
+              "pgno": 1,
+              "pgsize": 100
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "monarch",
+      "amc": "Monarch Mutual Fund",
+      "amfiId": "89",
+      "indexUrl": "https://www.monarchamc.in/forms-downloads/portfolio-holdings/monthly",
+      "allowedHosts": [
+        "www.monarchamc.in"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.monarchamc.in/forms-downloads/portfolio-holdings/monthly"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 1,
+        "latestDiscoveredDate": "2026-09-30",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 1,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://www.monarchamc.in/uploads/Monthly_Portfolio_Monarch_Overnight_Fund_30_September_2026_8d5f63f3c7.xls",
+        "sampleSha256": "cf584628353f5fdc2db27e1168a8d82de85adbbb162914aa5c9a0e967548de23"
+      }
+    },
+    {
+      "id": "motilal-oswal",
+      "amc": "Motilal Oswal Mutual Fund",
+      "amfiId": "55",
+      "indexUrl": "https://www.motilaloswalmf.com/downloads/scheme-portfolio-details",
+      "allowedHosts": [
+        "www.motilaloswalmf.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.motilaloswalmf.com/downloads/scheme-portfolio-details"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated"
+      }
+    },
+    {
+      "id": "navi",
+      "amc": "Navi Mutual Fund",
+      "amfiId": "54",
+      "indexUrl": "https://navi.com/mutual-fund/downloads/portfolio",
+      "allowedHosts": [
+        "navi.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://navi.com/mutual-fund/downloads/portfolio"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated"
+      }
+    },
+    {
+      "id": "nippon-india",
+      "amc": "Nippon India Mutual Fund",
+      "amfiId": "21",
+      "indexUrl": "https://mf.nipponindiaim.com/investor-service/downloads/factsheet-portfolio-and-other-disclosures",
+      "allowedHosts": [
+        "mf.nipponindiaim.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://mf.nipponindiaim.com/investor-service/downloads/factsheet-portfolio-and-other-disclosures"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 1,
+        "latestDiscoveredDate": "2026-09-30",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 1,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://mf.nipponindiaim.com/InvestorServices/FactsheetsDocuments/NIMF-MONTHLY-PORTFOLIO-30-Sep-26.xls",
+        "sampleSha256": "f8b25cedeecdd9912e0b4b19f74714fc849bae4dae0cb494c4863fde42a178d1"
+      },
+      "documentPattern": "NIMF-MONTHLY-PORTFOLIO",
+      "allowShortYears": true,
+      "verifiedDocuments": [
+        {
+          "url": "https://mf.nipponindiaim.com/InvestorServices/FactsheetsDocuments/NIMF-MONTHLY-PORTFOLIO-30-Sep-26.xls",
+          "portfolioDate": "2026-09-30",
+          "format": "xls",
+          "fileName": "NIMF-MONTHLY-PORTFOLIO-30-Sep-26.xls"
+        }
+      ]
+    },
+    {
+      "id": "nj",
+      "amc": "NJ Mutual Fund",
+      "amfiId": "73",
+      "indexUrl": "https://downloads.njmutualfund.com/njmf_download.php?nme=127",
+      "allowedHosts": [
+        "downloads.njmutualfund.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://downloads.njmutualfund.com/njmf_download.php?nme=127"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated"
+      }
+    },
+    {
+      "id": "nuvama",
+      "amc": "Nuvama Mutual Fund",
+      "amfiId": "90",
+      "indexUrl": "",
+      "allowedHosts": [],
+      "adapter": "generic",
+      "enabled": false,
+      "status": "unavailable",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": ""
+      },
+      "verification": {
+        "page": "failed",
+        "download": "not-tested",
+        "schemes": "not-validated",
+        "pageError": "no HTTPS disclosure URL"
+      }
+    },
+    {
+      "id": "old-bridge",
+      "amc": "Old Bridge Mutual Fund",
+      "amfiId": "78",
+      "indexUrl": "https://oldbridgemf.com/statutory-disclosures.html",
+      "allowedHosts": [
+        "oldbridgemf.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://oldbridgemf.com/statutory-disclosures.html#v-pills-tabContent2"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 3,
+        "latestDiscoveredDate": "2026-09-30",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 3,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://oldbridgemf.com/uploads/OBMF_Arbitrage_Portfolio_Sept_26_05ec97d1b0.xlsx",
+        "sampleSha256": "85a29119e62b0894b5a0d1f37096edc140472b83a5ba59941459bafc54430d19"
+      },
+      "allowShortYears": true
+    },
+    {
+      "id": "pgim-india",
+      "amc": "PGIM India Mutual Fund",
+      "amfiId": "58",
+      "indexUrl": "https://www.pgimindia.com/mutual-funds/disclosures/Portfolios/Monthly-Portfolio",
+      "allowedHosts": [
+        "www.pgimindia.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.pgimindia.com/mutual-funds/disclosures/Portfolios/Monthly-Portfolio"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated"
+      }
+    },
+    {
+      "id": "ppfas",
+      "amc": "PPFAS Mutual Fund",
+      "amfiId": "64",
+      "indexUrl": "https://amc.ppfas.com/downloads/portfolio-disclosure/",
+      "allowedHosts": [
+        "amc.ppfas.com"
+      ],
+      "adapter": "ppfas",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://amc.ppfas.com/downloads/portfolio-disclosure/"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 8,
+        "latestDiscoveredDate": "2026-09-30",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 7,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://amc.ppfas.com/downloads/portfolio-disclosure/2026/PPAF_PPFAS_Monthly_Portfolio_Report_September_30_2026.xlsx?07102026",
+        "sampleSha256": "2691c8da101206a46574b66c4ed7025f9ad2c2ea4259acae1d36c54576ec65dc"
+      }
+    },
+    {
+      "id": "quant",
+      "amc": "quant Mutual Fund",
+      "amfiId": "13",
+      "indexUrl": "https://quantmutual.com/statutory-disclosures",
+      "allowedHosts": [
+        "quantmutual.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://quantmutual.com/statutory-disclosures"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated"
+      }
+    },
+    {
+      "id": "quantum",
+      "amc": "Quantum Mutual Fund",
+      "amfiId": "41",
+      "indexUrl": "https://www.quantumamc.com/portfolio/combined/-1/1/0/0",
+      "allowedHosts": [
+        "www.quantumamc.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.quantumamc.com/portfolio/combined/-1/1/0/0"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 1,
+        "latestDiscoveredDate": "2026-09-30",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 1,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://www.quantumamc.com/FileCDN/FactSheet/18650bf5-c7b8-47b1-a725-78a86416c1a5.xlsx",
+        "sampleSha256": "2b4a4a44927b9b0ca19dee6fa5cb23a4b8b8aa9efff6fb8f48bbcb96ca9ec8f7"
+      },
+      "documentPattern": "All Funds",
+      "verifiedDocuments": [
+        {
+          "url": "https://www.quantumamc.com/FileCDN/FactSheet/18650bf5-c7b8-47b1-a725-78a86416c1a5.xlsx",
+          "portfolioDate": "2026-09-30",
+          "format": "xlsx",
+          "fileName": "18650bf5-c7b8-47b1-a725-78a86416c1a5.xlsx"
+        }
+      ]
+    },
+    {
+      "id": "samco",
+      "amc": "Samco Mutual Fund",
+      "amfiId": "74",
+      "indexUrl": "https://www.samcomf.com/StatutoryDisclosure",
+      "allowedHosts": [
+        "www.samcomf.com",
+        "media1.samco.in"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.samcomf.com/StatutoryDisclosure"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 28,
+        "latestDiscoveredDate": "2026-09-30",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 14,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://media1.samco.in/scomamc/amc_documents/IN_MF_MONTHLY_PORTFOLIO_September_2026_SamcoDynamicAssetAllocationFund_1791526270.xlsx",
+        "sampleSha256": "58361c5dc4d1646b0233f36c0e86f9d693955570acfed903ab35ac56613e26b1"
+      }
+    },
+    {
+      "id": "sbi",
+      "amc": "SBI Mutual Fund",
+      "amfiId": "22",
+      "indexUrl": "https://www.sbimf.com/portfolios",
+      "allowedHosts": [
+        "www.sbimf.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.sbimf.com/portfolios"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 1,
+        "latestDiscoveredDate": "2026-09-30",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 1,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://www.sbimf.com/docs/default-source/scheme-portfolios/all-schemes-monthly-portfolio---as-on-30th-september-2026.xlsx?sfvrsn=2a79126c_2",
+        "sampleSha256": "0659fedaf826fdbef4eef702b99a3ac4bcfca1ebc4da1c14bd7dd24b341a67f9"
+      },
+      "documentPattern": "all-schemes-monthly-portfolio",
+      "discoveryRequests": [
+        {
+          "url": "https://www.sbimf.com/ajaxcall/CMS/GetSchemePortfolioSheets",
+          "data": {
+            "FundId": 0,
+            "PSYear": "{year}",
+            "PSMonth": "{monthName}",
+            "PSFrequency": "Monthly"
+          }
+        }
+      ],
+      "verifiedDocuments": [
+        {
+          "url": "https://www.sbimf.com/docs/default-source/scheme-portfolios/all-schemes-monthly-portfolio---as-on-30th-september-2026.xlsx?sfvrsn=2a79126c_2",
+          "portfolioDate": "2026-09-30",
+          "format": "xlsx",
+          "fileName": "all-schemes-monthly-portfolio---as-on-30th-september-2026.xlsx"
+        }
+      ]
+    },
+    {
+      "id": "shriram",
+      "amc": "Shriram Mutual Fund",
+      "amfiId": "67",
+      "indexUrl": "https://www.shriramamc.in/investor-statutory-disclosures",
+      "allowedHosts": [
+        "www.shriramamc.in",
+        "cdn.shriramamc.in"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.shriramamc.in/investor-statutory-disclosures"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 1,
+        "latestDiscoveredDate": "2026-09-30",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 1,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://cdn.shriramamc.in/uploads/Statutory-disclosure/Monthly--Fortnightly--Weekly-Portfolio-of-Scheme(s)/Monthly-Portfolio-for-the-Financial-Year/2026-2027/Monthly-Portfolio-Shriram-Mutual-Fund-September-2026.xls",
+        "sampleSha256": "0188c566bddd0e350e54a99248df67443bf0a20f14c110bc7752012a5a8553b9"
+      },
+      "documentPattern": "Monthly-Portfolio-Shriram"
+    },
+    {
+      "id": "sundaram",
+      "amc": "Sundaram Mutual Fund",
+      "amfiId": "33",
+      "indexUrl": "https://www.sundarammutual.com/Monthly-Fortnightly-Adhoc-Portfolios",
+      "allowedHosts": [
+        "www.sundarammutual.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.sundarammutual.com/Monthly-Fortnightly-Adhoc-Portfolios"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 2,
+        "latestDiscoveredDate": "2026-09-30",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 2,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://www.sundarammutual.com/uploaddir/MonthlyPortfolio/monthlyportfolio_091026155031.xlsx",
+        "sampleSha256": "6cd7a018de803c69959427b335614966de1c3e57955714a30baa5a6957dd0b01"
+      },
+      "quotedHtml": true,
+      "discoveryRequests": [
+        {
+          "url": "https://www.sundarammutual.com/ajax/Modules_Disclosure_Monthly_Fortnightly_Adhoc_Portfolios,App_Web_5pc14shn.ashx?_method=GetCategory&_session=no",
+          "encoding": "form",
+          "data": {
+            "Catid": "Monthly"
+          }
+        }
+      ],
+      "verifiedDocuments": [
+        {
+          "url": "https://www.sundarammutual.com/uploaddir/MonthlyPortfolio/monthlyportfolio_091026155031.xlsx",
+          "portfolioDate": "2026-09-30",
+          "format": "xlsx",
+          "fileName": "monthlyportfolio_091026155031.xlsx"
+        },
+        {
+          "url": "https://www.sundarammutual.com/uploaddir/MonthlyPortfolio/monthlyportfolio_091026155117.xlsx",
+          "portfolioDate": "2026-09-30",
+          "format": "xlsx",
+          "fileName": "monthlyportfolio_091026155117.xlsx"
+        }
+      ]
+    },
+    {
+      "id": "tata",
+      "amc": "Tata Mutual Fund",
+      "amfiId": "25",
+      "indexUrl": "https://www.tatamutualfund.com/schemes-related",
+      "allowedHosts": [
+        "www.tatamutualfund.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.tatamutualfund.com/schemes-related"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated"
+      },
+      "discoveryUrls": [
+        "https://www.tatamutualfund.com/schemes-related/portfolio"
+      ]
+    },
+    {
+      "id": "taurus",
+      "amc": "Taurus Mutual Fund",
+      "amfiId": "26",
+      "indexUrl": "https://taurusmutualfund.com/monthly-portfolio",
+      "allowedHosts": [
+        "taurusmutualfund.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://taurusmutualfund.com/monthly-portfolio"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated"
+      }
+    },
+    {
+      "id": "trust",
+      "amc": "Trust Mutual Fund",
+      "amfiId": "72",
+      "indexUrl": "https://www.trustmf.com/disclosures?activeTab=portfolio-disclosures",
+      "allowedHosts": [
+        "www.trustmf.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.trustmf.com/disclosures?activeTab=portfolio-disclosures"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated"
+      }
+    },
+    {
+      "id": "unifi",
+      "amc": "Unifi Mutual Fund",
+      "amfiId": "79",
+      "indexUrl": "https://unifimf.com/statutorydocuments/",
+      "allowedHosts": [
+        "unifimf.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "discovered",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://unifimf.com/statutorydocuments/#monthly-portfolio-disclosure"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "not-tested",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 1,
+        "latestDiscoveredDate": "2025-04-30"
+      }
+    },
+    {
+      "id": "union",
+      "amc": "Union Mutual Fund",
+      "amfiId": "61",
+      "indexUrl": "https://www.unionmf.com/about-us/downloads/monthly-portfolio",
+      "allowedHosts": [
+        "www.unionmf.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.unionmf.com/about-us/downloads/monthly-portfolio"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 32,
+        "latestDiscoveredDate": "2026-09-30",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 32,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://www.unionmf.com/docs/default-source/funddetail-downloads/fund-portfolio/september-2026/monthly-portfolio-report-union-active-momentum-fund-30-09-2026.xlsx?sfvrsn=b25aaed7_3",
+        "sampleSha256": "f9afe2f2bb85ae69930624e42e4ff0e3e52115fb0bd678bf02d7e9fe83fac3e7"
+      }
+    },
+    {
+      "id": "uti",
+      "amc": "UTI Mutual Fund",
+      "amfiId": "28",
+      "indexUrl": "https://www.utimf.com/downloads/consolidate-all-portfolio-disclosure",
+      "allowedHosts": [
+        "www.utimf.com",
+        "d3ce1o48hc5oli.cloudfront.net"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.utimf.com/downloads/consolidate-all-portfolio-disclosure"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveryError": "argument of type 'NoneType' is not iterable",
+        "discoveredDocumentCount": 81,
+        "latestDiscoveredDate": "2026-09-30",
+        "knownLimitation": "All 83 exact codes in the official scheme catalogue were queried; 81 September portfolio files were listed. Empty scheme listings and non-equity workbooks remain explicitly unaccepted.",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 81,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://d3ce1o48hc5oli.cloudfront.net/utimf-job/portfolio/monthly-schemewise/AS_September_2026.xlsx",
+        "sampleSha256": "b46cb64884bceaa9067ffbab41b5b429151d5a2055e338fc29f8de37160bdb42",
+        "officialSchemeCodeCount": 83,
+        "schemeListingDocumentCount": 81,
+        "schemeListingEmptyCount": 2
+      },
+      "schemeDiscovery": {
+        "codeField": "field_dofa_schcode",
+        "urlTemplate": "https://www.utimf.com/api/get-scheme-portfolio-disclosure?dofa_scheme_code={schemeCode}&year={year}&month={monthName}",
+        "maxSchemes": 160
+      }
+    },
+    {
+      "id": "the-wealth-company",
+      "amc": "The Wealth Company Mutual Fund",
+      "amfiId": "83",
+      "indexUrl": "https://www.wealthcompanyamc.in/literature-forms/portfolio-documents/monthly/",
+      "allowedHosts": [
+        "www.wealthcompanyamc.in"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.wealthcompanyamc.in/literature-forms/portfolio-documents/monthly/"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 12,
+        "latestDiscoveredDate": "2026-09-30",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 12,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://www.wealthcompanyamc.in/uploads/Monthly_Portfolio_Arbitrage_49f61aa67c.xlsx",
+        "sampleSha256": "1b6245e135ffa8f712ac1652635982c2498a7bdaed4a9e05271ecf9c5a785bad"
+      }
+    },
+    {
+      "id": "whiteoak-capital",
+      "amc": "WhiteOak Capital Mutual Fund",
+      "amfiId": "71",
+      "indexUrl": "https://mf.whiteoakamc.com/regulatory-disclosures/scheme-portfolios",
+      "allowedHosts": [
+        "mf.whiteoakamc.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "directory-only",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://mf.whiteoakamc.com/regulatory-disclosures/scheme-portfolios"
+      },
+      "verification": {
+        "page": "failed",
+        "download": "not-tested",
+        "schemes": "not-validated",
+        "pageError": "HTTP Error 403: Forbidden"
+      }
+    },
+    {
+      "id": "zerodha",
+      "amc": "Zerodha Mutual Fund",
+      "amfiId": "77",
+      "indexUrl": "https://www.zerodhafundhouse.com/resources/disclosures?source=footer",
+      "allowedHosts": [
+        "www.zerodhafundhouse.com",
+        "assets.zerodhafundhouse.com"
+      ],
+      "adapter": "generic",
+      "enabled": true,
+      "status": "download-verified",
+      "directoryEvidence": {
+        "url": "https://www.amfiindia.com/online-center/portfolio-disclosure",
+        "checkedAt": "2026-10-12",
+        "monthlyDisclosureUrl": "https://www.zerodhafundhouse.com/resources/disclosures?source=footer"
+      },
+      "verification": {
+        "page": "retrieved",
+        "download": "verified-signature",
+        "schemes": "not-validated",
+        "discoveredDocumentCount": 23,
+        "latestDiscoveredDate": "2026-09-30",
+        "downloadCheckedAt": "2026-10-12",
+        "downloadedDocumentCount": 23,
+        "downloadDate": "2026-09-30",
+        "sampleUrl": "https://assets.zerodhafundhouse.com/statutory-reports/portfolio-disclosures/ZARBI%20-%20Monthly%20Portfolio%20September%202026.xlsx",
+        "sampleSha256": "1bab2e3b32120493cac53bf735be48afd941767698ba9a8cfeb908f53f22ca20"
+      },
+      "documentPattern": "monthly.*portfolio|portfolio.*monthly"
+    }
+  ],
+  "downloadVerifiedAmcCount": 25,
+  "downloadVerifiedDocumentCount": 412
+}

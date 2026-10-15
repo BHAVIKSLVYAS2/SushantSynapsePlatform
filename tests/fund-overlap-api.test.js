@@ -18,7 +18,8 @@ test('Public Fund Lens, private account boundaries, ETags and read-only referenc
   const setup=await req('/api/auth/setup',{method:'POST',body:{name:'Test owner',email:'owner@lens.test',password:'Strong test password 2026!',firmName:'Test'}});
   assert.equal(setup.status,201);const owner=setup.headers.get('set-cookie').split(';')[0];
   const indexResponse=await req(api,{cookie:owner});assert.equal(indexResponse.status,200);assert.match(indexResponse.headers.get('cache-control'),/private.*must-revalidate/);
-  const etag=indexResponse.headers.get('etag'),index=await indexResponse.json();assert.equal(index.funds.length,5);
+  const etag=indexResponse.headers.get('etag'),index=await indexResponse.json();assert.ok(index.funds.length>=5);assert.ok(index.funds.every(f=>f.official));
+  const coverage=await req('/api/fund-overlap/coverage.json');assert.equal(coverage.status,200);assert.ok((await coverage.json()).summary);
   assert.equal((await req(api,{cookie:owner,headers:{'If-None-Match':etag}})).status,304);
   const snapshot=await req(index.funds[0].holdingsPath,{cookie:owner});assert.equal(snapshot.status,200);assert.ok((await snapshot.json()).holdings.length);
   assert.equal((await req(index.funds[0].holdingsPath,{cookie:owner,method:'HEAD'})).status,200);

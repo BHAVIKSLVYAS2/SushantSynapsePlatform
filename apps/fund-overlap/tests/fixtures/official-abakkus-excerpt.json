@@ -1,0 +1,36 @@
+{
+  "source": {
+    "id": "abakkus",
+    "amc": "Abakkus Mutual Fund",
+    "indexUrl": "https://www.abakkusmf.com/statutory-disclosures.html"
+  },
+  "document": {
+    "url": "https://www.abakkusmf.com/uploads/Final_Monthly_Portolio_Sep30_2026_fd59e57829.xlsx",
+    "portfolioDate": "2026-09-30",
+    "format": "xlsx"
+  },
+  "expected": {
+    "count": 46,
+    "includedNavWeight": 94.08
+  },
+  "catalogue": [
+    {
+      "schemeCode": 154041,
+      "schemeName": "Abakkus Flexi Cap Fund - Regular Plan - Growth"
+    },
+    {
+      "schemeCode": 154042,
+      "schemeName": "Abakkus Flexi Cap Fund - Regular Plan - IDCW"
+    },
+    {
+      "schemeCode": 154043,
+      "schemeName": "Abakkus Flexi Cap Fund - Direct Plan - Growth"
+    },
+    {
+      "schemeCode": 154045,
+      "schemeName": "Abakkus Flexi Cap Fund - Direct Plan - IDCW"
+    }
+  ],
+  "derivedFromSha256": "254e589129e0e0cace86d52ea58a47d2d11a4e1d62df3154ce8125d583bb87d3",
+  "derivation": "Values and number formats through the grand total extracted from the public official workbook; source digest refers to the full downloaded document."
+}

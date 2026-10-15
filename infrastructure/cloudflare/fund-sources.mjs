@@ -1,6 +1,10 @@
 import national from '../../apps/fund-overlap/backend/national-provider.js';
 import legacy from '../../apps/fund-overlap/backend/provider.js';
-import references from './fund-references.json' with {type: 'json'};
+import official from '../../apps/fund-overlap/backend/official-library.js';
+import references from './fund-runtime-references.json' with {type: 'json'};
+import archives from './fund-archives.json' with {type:'json'};
+// Decode compact integer tables during Worker initialization, outside request CPU.
+official.prepareReferenceSearch(references);
 
 // Public reference data only. Cache eviction may remove last-good copies.
 export function edgeReferenceCache(cache, now = () => Date.now()) {
@@ -72,14 +76,38 @@ export async function fundSources(request, env, options = {}) {
   const url = new URL(request.url), path = url.pathname;
   const headers = {'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', 'X-Fund-Lens-Service': 'cloudflare'};
   const reply = (status, body) => new Response(request.method === 'HEAD' ? null : JSON.stringify(body), {status, headers});
+  const snapshotAsset=async(path,method=request.method,conditional=true)=>{
+    if(!env.ASSETS || !Object.hasOwn(archives,path))return null;
+    const assetHeaders=new Headers();if(conditional)for(const name of ['If-None-Match','If-Modified-Since'])if(request.headers.has(name))assetHeaders.set(name,request.headers.get(name));
+    return env.ASSETS.fetch(new Request(new URL(archives[path],url),{method,headers:assetHeaders}));
+  };
   if (!['GET', 'HEAD'].includes(request.method)) return new Response(null, {status: 405, headers: {...headers, Allow: 'GET, HEAD'}});
   if (Object.hasOwn(references, path)) return reply(200, references[path]);
+  if(Object.hasOwn(archives,path)){
+    if(!env.ASSETS)return reply(503,{error:'Historical reference storage is unavailable.'});
+    const response=await snapshotAsset(path);
+    const archiveHeaders=new Headers(response.headers);archiveHeaders.set('Content-Type','application/json; charset=utf-8');archiveHeaders.set('X-Fund-Lens-Service','cloudflare');archiveHeaders.set('X-Content-Type-Options','nosniff');archiveHeaders.set('Cache-Control','public, max-age=31536000, immutable');
+    return new Response(request.method==='HEAD'?null:response.body,{status:response.status,headers:archiveHeaders});
+  }
+  if(path==='/api/fund-overlap/coverage/schemes'){
+    try{return reply(200,official.coveragePage(references,url.searchParams));}catch(error){return reply(400,{error:error.message});}
+  }
   const search = path === '/api/fund-overlap/search';
   const scheme = /^\/api\/fund-overlap\/scheme\/(\d{5,8})$/.exec(path);
   const remote = /^\/api\/fund-overlap\/remote\/([a-z0-9-]{1,160})$/.exec(path);
   if (!search && !scheme && !(remote && legacy.slugValid(remote[1]))) return reply(404, {error: 'Fund reference not found'});
   const query = (url.searchParams.get('q') || '').trim(), offset = Number(url.searchParams.get('offset') || 0);
   if (search && (query.length < 2 || query.length > 100 || /[\x00-\x1f]/.test(query) || !Number.isInteger(offset) || offset < 0 || offset > 100000)) return reply(400, {error: 'Enter 2–100 characters to search funds'});
+  if (scheme) {
+    try {
+      const entry=official.officialEntryForCode(references,scheme[1]);
+      if(entry){
+        const response=await snapshotAsset(entry.holdingsPath,'GET',false);
+        if(!response?.ok)return reply(503,{error:'Official reference storage is temporarily unavailable.'});
+        return reply(200,official.officialForCode(references,scheme[1],await response.json()));
+      }
+    }catch(error){return reply(503,{error:error.message});}
+  }
   if (!env.FUND_LIMITER || !(await env.FUND_LIMITER.limit({key: request.headers.get('CF-Connecting-IP') || 'anonymous'})).success) return reply(429, {error: 'Fund data is busy. Please retry in a minute.'});
   const bounded = options.provider ? null : await boundedProvider(request);
   const source = options.provider || bounded.source;
@@ -94,9 +122,9 @@ export async function fundSources(request, env, options = {}) {
     const funds = offset ? [] : local.filter(f => words.every(w => `${f.name} ${f.amc} ${f.category}`.toLowerCase().includes(w)));
     let page;
     try { page = await source.search(query, offset); }
-    catch { return reply(200, {funds, nextOffset: null, warning: 'National search is temporarily unavailable. Official reference matches are shown.'}); }
+    catch {const page=official.searchPublishedCatalogue(references,query,offset) || {funds, nextOffset: null, warning: 'National search is temporarily unavailable. Official reference matches are shown.'};for(const entry of funds)if(!page.funds.some(f=>f.id===entry.id))page.funds.unshift(entry);return reply(200,page);}
     for (const fund of page.funds) {
-      const entry = local.find(f => national.familyName(f.name) === national.familyName(fund.name)) || fund;
+      const entry = official.enrichDiscovery(fund,references);
       if (!funds.some(f => f.id === entry.id)) funds.push(entry);
     }
     try { await bounded?.save(); } catch { /* Search remains usable. */ }

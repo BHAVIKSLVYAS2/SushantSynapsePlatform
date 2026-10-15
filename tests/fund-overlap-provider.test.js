@@ -89,7 +89,9 @@ test('public national routes validate input and survive session expiry; search f
   };
   allowed = true; await assert.rejects(invoke('search', '/api/fund-overlap/search?q=x'), e => e.status === 400); assert.equal(calls, 0);
   const result = await invoke('search', '/api/fund-overlap/search?q=parag');
-  assert.equal(JSON.parse(result.body).funds.length, 5); assert.match(JSON.parse(result.body).warning, /temporarily unavailable/);
+  const published=JSON.parse(result.body);
+  assert.ok(published.funds.some(fund=>fund.name==='Parag Parikh Flexi Cap Fund'&&fund.official));
+  assert.ok(published.funds.length>=5); assert.match(published.warning, /(?:temporarily unavailable|published catalogue)/);
   assert.match(result.headers['Cache-Control'], /private, no-store/);
   assert.equal((await invoke('remote/hdfc-equity-fund-direct-growth')).status,200);
   assert.equal(calls, 2);

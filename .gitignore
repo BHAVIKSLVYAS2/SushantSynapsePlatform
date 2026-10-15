@@ -27,3 +27,5 @@ infrastructure/cloudflare/pages.json
 .wrangler/
 worker-configuration.d.ts
 infrastructure/cloudflare/fund-references.json
+infrastructure/cloudflare/fund-archives.json
+infrastructure/cloudflare/fund-runtime-references.json

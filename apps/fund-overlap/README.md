@@ -12,9 +12,9 @@ The national catalogue includes historical schemes; a listing does not guarantee
 
 Fund Lens searches the free [MFapi catalogue](https://www.mfapi.in/) across Indian fund houses, including historical schemes. Search by name or AMFI code; Direct/Regular and Growth/IDCW variants are grouped by underlying family. Exact names rank first. Catalogue presence does not guarantee available holdings.
 
-Holdings load from Tickertape's public website API, with Groww as an independent fallback after exact family matching. Both work without API keys but have no published service guarantee. Stock ISINs, weights and reporting dates are checked. Tickertape equity totals must reconcile with its latest dated asset allocation; this date basis is shown in source details. Unresolved equities and excluded NAV weights are explicit. Live samples from eight fund houses are recorded in the [research and resume checkpoint](../../docs/FUND_OVERLAP_PROGRESS.md).
+Holdings use the validated official-disclosure library when available, with Tickertape and Groww as independent secondary sources after fund identity checks. The official library includes 592 portfolios across 22 fund houses, dated 30 September 2026; its coverage register distinguishes fund-house discovery, file downloads and verified scheme holdings. An official-library view works without secondary-source requests. Stock ISINs, weights and reporting dates are checked, and missing or excluded coverage remains explicit. Secondary website endpoints require no API keys but have no contracted availability. See the [core-product contract](../../docs/FUND_LENS_CORE_PRODUCT.md) and [release evidence](../../docs/FUNCTIONALITY_LEDGER.md) for source maintenance and verification boundaries.
 
-Five official PPFAS July 2026 snapshots remain available as local reference examples. Their immutable IDs and older Groww share links remain supported. New national comparisons use AMFI scheme-code links. Debt, gold and fund-of-funds look-through remain unsupported.
+The original five PPFAS IDs and their July/September 2026 immutable versions remain supported. The new official library adds other fund houses only after disclosure validation. National comparisons also support AMFI scheme-code links. Debt, gold and fund-of-funds look-through remain outside this physical-equity comparison.
 
 Only disclosed positive-weight physical listed equities are included. Foreign shares and physical arbitrage legs are included; cash, debt, derivatives, fund units and REIT/InvIT units are excluded. No hedge netting or look-through. Source `$0.00%` entries are below disclosed precision and omitted with a count. The interface shows the included percentage of NAV. Sector view uses the source's **industry** labels, not a separately inferred classification.
 
@@ -32,7 +32,9 @@ This refreshes previously saved national schemes and reports failures with a non
 
 ## Official PPFAS source refresh
 
-Python 3.13 and a development-only spreadsheet dependency are needed to refresh. The serving app retains zero third-party runtime dependencies.
+For national official-source maintenance, install the pinned requirements and run `npm.cmd run refresh:funds:official`. The registry covers AMFI's fund-house directory; not every listed source has a usable automatic download or supported workbook. `official-index.json` atomically publishes validated snapshots and embeds its complete coverage audit. Individual failures preserve prior valid snapshots and reporting dates; corrected disclosures get new immutable versions. The existing PPFAS-only command below remains available for compatibility. Public reference refresh never opens the business database.
+
+Python 3.13 and the pinned development-only spreadsheet dependencies are needed to refresh. Spreadsheet parsing adds no serving-app dependency.
 
 ```powershell
 python -m pip install -r apps/fund-overlap/ingestion/requirements.txt
@@ -45,7 +47,7 @@ Each refresh reads the official index, selects the latest non-future XLSX for ea
 
 All five sources must pass before the index is atomically replaced. Missing/broken sources throw an error and retain the previous index. Unchanged source checksums reuse existing artifacts. Date regressions are rejected. Content-versioned snapshots are never overwritten; a source correction gets a new version. Do not delete old versions while browsers may reference them. Snapshots retain their actual dates after failed refreshes. A warning appears after 45 days, and different portfolio dates are flagged.
 
-`.github/workflows/refresh-holdings.yml` checks on the 2nd, 6th, 10th and 12th each month and on manual dispatch. It runs source tests, refreshes, validates the generated data and uploads a **verified-fund-holdings** artifact. It does not automatically copy files into the Windows deployment or commit data. GitHub scheduling begins only once this workflow is on the remote default branch. For this local host, run the refresh command here to publish the index without restarting Node; alternatively review and copy a validated workflow artifact, copying the index last. Automatic unattended delivery to the Windows host is not configured.
+`.github/workflows/refresh-holdings.yml` checks on the 2nd, 6th, 10th and 12th each month and on manual dispatch. It runs all ingestion tests, restores the latest successful same-branch artifact with generation/hash/date validation, refreshes official sources, validates references, builds the public assets and retains a **verified-fund-holdings** artifact for 90 days. Its existing deployment step runs only when the two Cloudflare repository secrets are configured. Remote scheduling, secret configuration and successful unattended delivery remain unverified. Local Node reads the latest atomic pointer; Cloudflare reference updates require deployment. No runtime account, document or record data enters the artifact.
 
 ## Access, privacy and cache
 
@@ -63,9 +65,9 @@ npm.cmd run test:e2e
 
 API/browser tests use isolated temporary SQLite databases. Public source fixtures under `tests/fixtures` are official July 2026 XLSX files; no user data is included. Golden totals guard omissions or accidental inclusion of debt. Browser tests cover the portal launch, anonymous access, selection, both bases, filters, minimum-two simulator, shared links, CSV, printing, missing-source retry, 320/768/1440px layouts, and light/dark/system preferences.
 
-The public comparison runs on Cloudflare without the laptop backend. Search and holdings use the existing providers and validation; larger portfolios are verified in bounded requests before comparison. Public edge caches retain last-good references for up to 30 days but may be evicted earlier. Refresh timestamps and stale-source warnings remain visible. Official reference updates require a frontend redeployment. Internet and source availability are still required for uncached funds.
+The public comparison runs on Cloudflare without the laptop backend. The prepared official-data release serves verified holdings directly and retains bounded secondary-provider verification. The published national catalogue can support discovery during MFapi outages, with its audit date displayed. Public edge caches retain last-good secondary references for up to 30 days but may be evicted earlier. Official reference updates require a frontend redeployment. Internet and source availability still apply to uncached secondary portfolios.
 
-Shared auth/access/preferences and preserved private portfolio/watchlist records remain in `data/chambers.sqlite`; those legacy private APIs still require the Windows backend. No business data is migrated. See `docs/DEPLOYMENT.md` for release verification.
+Shared auth/access/preferences and preserved private portfolio/watchlist records retain the platform's existing SQLite/SQL Server/D1 deployment boundaries and authorization. This official-reference expansion introduces no business-data migration. See `docs/DEPLOYMENT.md` and the functionality ledger for production status.
 ## Scope cleanup (2026-09-26)
 
 Removed the personal transaction/import interface, performance/risk/rolling-return panels, SIP simulator, saved-watchlist panel and amount-based exposure calculator from the served app. The public comparison retains search, 2?8 funds, overlap, holdings/industry views, what-if combinations, source provenance, share links, holdings report export and printing.

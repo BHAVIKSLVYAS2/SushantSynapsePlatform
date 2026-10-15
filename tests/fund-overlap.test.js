@@ -40,6 +40,16 @@ test('mixed dates, stale snapshots, future/invalid dates, unknown industries and
  assert.throws(()=>analyze([a,{...b,portfolioDate:'2026-02-30'}],'equity',now));
  assert.throws(()=>analyze([a,{...b,portfolioDate:'2027-01-01'}],'equity',now));
 });
+test('missing publisher industry labels do not imply shared industry exposure',()=>{
+ const a=fund('a',[holding(0,50,'Not Applicable'),holding(1,50,'Banks')]);
+ for(const label of ['N/A','NA','-','', 'Unknown']){
+  const b=fund('b',[holding(2,50,label),holding(3,50,'Banks')]);
+  const result=analyze([a,b],'nav',now);
+  assert.equal(result.pairs[0].sectorOverlap,50);
+  assert.ok(result.warnings.some(message=>message.includes('Unclassified holdings')));
+  assert.equal(a.holdings[0].sector,'Not Applicable');
+ }
+});
 test('published official snapshots have valid holdings, exact hashes and source coverage',()=>{
  const root=path.join(__dirname,'../apps/fund-overlap/data'),{createHash}=require('node:crypto');
  const index=JSON.parse(fs.readFileSync(path.join(root,'fund-index.json')));

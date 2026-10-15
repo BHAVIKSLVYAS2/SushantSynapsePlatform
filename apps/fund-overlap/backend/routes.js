@@ -1,16 +1,18 @@
-const fs = require('node:fs');
 const path = require('node:path');
 const {createHash} = require('node:crypto');
 const {fail} = require('../../../server/http');
 const {slugValid} = require('./provider');
-const {createNationalProvider, codeValid, familyName} = require('./national-provider');
+const {createNationalProvider, codeValid} = require('./national-provider');
 const {createNavProvider} = require('./nav-provider');
 const {createWatchlists} = require('./watchlists');
 const {createPortfolio} = require('./portfolio');
+const {createOfficialReferenceStore,readOfficialSnapshot} = require('./official-reference-store');
+const {officialForCode, enrichDiscovery,coveragePage,searchPublishedCatalogue} = require('./official-library');
 
-function createFundOverlap({auth, store, cacheDir, provider = createNationalProvider({cacheDir}), nav = createNavProvider({cacheDir})}) {
+function createFundOverlap({auth, store, cacheDir, referenceRoot, provider = createNationalProvider({cacheDir}), nav = createNavProvider({cacheDir})}) {
   const root = path.join(__dirname, '..', 'data');
   const cache = new Map();
+  const official = createOfficialReferenceStore(referenceRoot || root,{strict:false});
   const watchlists = store ? createWatchlists({store,auth}) : null;
   const portfolio = store ? createPortfolio({store,auth,nav}) : null;
   return async function handle({route, method, req, res, user}) {
@@ -27,6 +29,10 @@ function createFundOverlap({auth, store, cacheDir, provider = createNationalProv
     }
     if (!['GET', 'HEAD'].includes(method)) fail(405, 'Fund Lens is read-only');
     const relative = route.slice('fund-overlap/'.length);
+    if(relative==='coverage/schemes'){
+      let data;try{data=coveragePage(official.read(),new URL(req.url,'http://localhost').searchParams);}catch(error){fail(error.message==='Invalid coverage query'?400:503,error.message);}
+      res.setHeader('Content-Type','application/json; charset=utf-8');res.setHeader('Cache-Control','private, max-age=0, must-revalidate');res.writeHead(200);return res.end(method==='HEAD'?undefined:JSON.stringify(data));
+    }
     if (relative === 'plans' || relative.startsWith('nav/')) {
       let data;
       if (relative === 'plans') {
@@ -48,7 +54,8 @@ function createFundOverlap({auth, store, cacheDir, provider = createNationalProv
         const params = new URL(req.url, 'http://localhost').searchParams;
         const query = (params.get('q') || '').trim(), offset = Number(params.get('offset') || 0);
         if (query.length < 2 || query.length > 100 || /[\x00-\x1f]/.test(query) || !Number.isInteger(offset) || offset < 0 || offset > 100000) fail(400, 'Enter 2–100 characters to search funds');
-        const local = JSON.parse(fs.readFileSync(path.join(root, 'fund-index.json'), 'utf8')).funds;
+        const references = official.read();
+        const local = references['/api/fund-overlap/fund-index.json'].funds;
         const words = query.toLowerCase().split(/\s+/);
         const matches = offset ? [] : local.filter(f => words.every(w => `${f.name} ${f.amc} ${f.category}`.toLowerCase().includes(w)));
         try {
@@ -56,16 +63,17 @@ function createFundOverlap({auth, store, cacheDir, provider = createNationalProv
           const remote = Array.isArray(page) ? page : page.funds;
           const merged = [...matches];
           for (const fund of remote) {
-            const official = local.find(f => familyName(f.name) === familyName(fund.name));
-            const entry = official || fund;
+            const entry = enrichDiscovery(fund, references);
             if (!merged.some(f => f.id === entry.id)) merged.push(entry);
           }
           data = {funds: merged, nextOffset: Array.isArray(page) ? (remote.length === 20 && offset < 200 ? offset + 20 : null) : page.nextOffset, warning:page.warning, total:page.total, catalogueCount:page.catalogueCount};
-        } catch { data = {funds: matches, nextOffset: null, warning: 'National fund search is temporarily unavailable. Local verified matches are shown; retry shortly.'}; }
+        } catch { data = searchPublishedCatalogue(references,query,offset) || {funds: matches, nextOffset: null, warning: 'National fund search is temporarily unavailable. Local verified matches are shown; retry shortly.'};
+          for(const entry of matches)if(!data.funds.some(f=>f.id===entry.id))data.funds.unshift(entry);
+        }
       } else if (relative.startsWith('scheme/')) {
         const code = relative.slice('scheme/'.length);
         if (!codeValid(code)) fail(404, 'Fund not found');
-        try { data = await provider.scheme(code); }
+        try { data = officialForCode(official.read(), code) || await provider.scheme(code); }
         catch (error) { fail(503, error.message); }
       } else {
         const slug = relative.slice('remote/'.length);
@@ -76,14 +84,18 @@ function createFundOverlap({auth, store, cacheDir, provider = createNationalProv
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.writeHead(200); return res.end(method === 'HEAD' ? undefined : JSON.stringify(data));
     }
-    if (relative !== 'fund-index.json' && !/^holdings\/[a-z0-9-]{1,80}\/\d{4}-\d{2}-\d{2}-[a-f0-9]{16}\.json$/.test(relative)) fail(404, 'Snapshot not found');
-    const file = path.join(root, relative);
-    let stat;
-    try { stat = fs.statSync(file); } catch { fail(404, 'Snapshot not found'); }
-    const version = `${stat.mtimeMs}:${stat.size}`;
+    if (!['fund-index.json','coverage.json'].includes(relative) && !/^holdings\/[a-z0-9-]{1,80}\/\d{4}-\d{2}-\d{2}-[a-f0-9]{16}\.json$/.test(relative)) fail(404, 'Snapshot not found');
+    const references = official.read();
+    const value = references['/api/fund-overlap/'+relative];
+    let bytes;
+    if (relative.startsWith('holdings/')) {
+      // Older immutable public versions remain accessible for existing shares.
+      try {bytes=readOfficialSnapshot(referenceRoot || root,relative);}catch(error){fail(error.code==='ENOENT'?404:503,'Official snapshot unavailable or integrity check failed');}
+    } else if(value) bytes=Buffer.from(JSON.stringify(value));
+    else fail(404,'Snapshot not found');
+    const version = createHash('sha256').update(bytes).digest('hex');
     let item = cache.get(relative);
     if (!item || item.version !== version) {
-      const bytes = fs.readFileSync(file);
       item = {version, bytes, etag: '"' + createHash('sha256').update(bytes).digest('hex') + '"'};
       if (cache.size > 100) cache.clear();
       cache.set(relative, item);
