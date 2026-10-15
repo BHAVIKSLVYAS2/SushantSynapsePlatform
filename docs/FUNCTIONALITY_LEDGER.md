@@ -1,5 +1,30 @@
 # Chambers functionality ledger
 
+**Satire Arena 2 deployed and live verified (2026-10-16):** User requested deploying
+the completed changes. Source commit `d7841dd` is published to the existing
+production Worker at https://apps.sushantsynapse.com, version
+`e68e39c9-75db-4434-b85a-097518168b84`, using the existing Free D1/password/full-app
+configuration and preserved variables/bindings. Build exports 763 allowlisted
+frontend/reference assets; 13 changed assets uploaded successfully. No database
+migration, editorial publication, analytics activation or data replacement ran.
+
+Live read-only HTTPS checks confirm healthy D1 Free storage, the Arena, Daily
+Satire, results, character pages, editor, sitemap/robots, anonymous editor/report
+protection and 404 for an unpublished post URL. Five deployed JS/CSS assets match
+source bytes exactly. Live Chrome confirms thirteen characters, 78 reaction
+controls, expandable artwork, homepage Daily Satire discovery, anonymous editor
+protection, no page errors and no overflow at 320/390/768/1440px in both themes.
+Analytics remains disabled and the editorial library has no featured publication;
+the public empty state is intentional. Verification submits no votes or editorial
+changes and blocks analytics writes. Prior 229 API/unit, 62 Cloudflare integration
+and 14 local browser checks remain the release evidence. Logs and screenshot are
+ignored `.publish/arena-v2-deploy.log`, `.publish/arena-v2-live-check.cjs`,
+`.publish/arena-v2-live-check.log` and `.publish/arena-v2-live-mobile.png`.
+This entry supersedes the local-only deployment status in the implementation
+checkpoint below. Repository release documentation is updated after live
+verification; no push is requested. Existing runtime/unrelated files remain out
+of the release commit.
+
 **Satire Arena 2 implemented and locally verified (2026-10-16):** Existing thirteen
 characters, artwork, six reaction IDs, signed identities, changeable daily ballots,
 midnight IST resets, genuine totals, privacy export/removal, reduced motion and

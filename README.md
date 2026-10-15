@@ -5,8 +5,8 @@ an owner editorial desk at `/satire-arena/editor`, scheduled Daily Satire at
 `/satire-arena/daily`, and genuine retained-ballot history at
 `/satire-arena/results`. Editorial data stays in the existing SQL settings store;
 no schema migration is required. Aggregate action analytics is optional and off
-by default; Arena advertising remains off. This source change is not a production
-deployment. See [operations and limits](docs/SATIRE_ARENA_2.md) and the functionality
+by default; Arena advertising remains off. The upgrade was deployed and live
+verified on 2026-10-16. See [operations and limits](docs/SATIRE_ARENA_2.md) and the functionality
 ledger for verification and release status.
 
 **Focus** at `/focus` combines an adjustable timer (15/25/50-minute presets or custom 5–120 minutes) with browser-saved task cards. Drag between High/Normal/Low priorities or reorder within a group; keyboard and touch controls are also available. Estimates, completion, editing and unfinished-task carry-forward remain included. No sign-in is needed. Tasks stay in this browser profile and do not sync across devices; clearing browser data removes them. Pocket Pause stays separate at `/pocket-pause` for micro-rests. The card/timer refinements are deployed and live-verified; evidence is recorded in the functionality ledger.

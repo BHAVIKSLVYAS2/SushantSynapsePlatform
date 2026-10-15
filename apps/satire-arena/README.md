@@ -12,8 +12,8 @@ sitemaps. Existing SQL settings provide persistence with optimistic conflict
 checks; no schema migration or data reset is needed. Optional aggregate action
 measurement defaults off and measures neither unique nor returning people.
 Arena advertising stays off. See [operations, API and limits](../../docs/SATIRE_ARENA_2.md).
-These additions are local source changes; production release status belongs to
-the functionality ledger. Historical descriptions below retain their original
+These additions were deployed and live verified on 2026-10-16; production release
+evidence belongs to the functionality ledger. Historical descriptions below retain their original
 context and do not override this entry or the current architecture contract.
 
 Current public route: `/satire-arena`. The former `/arena` alias is removed locally; older route references below are historical.

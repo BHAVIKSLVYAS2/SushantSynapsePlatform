@@ -101,6 +101,8 @@ activation requires a separate explicit instruction and reviewed publisher setup
 
 ## Release boundary
 
-This implementation is local source work. Production deployment, editorial
-publication, enabling analytics, search-engine indexing and external social-card
-cache refresh are separate operational steps; no growth outcome is guaranteed.
+Source commit `d7841dd` was deployed and live verified on 2026-10-16 using the
+existing production Worker. The functionality ledger records its version and
+read-only acceptance evidence. Editorial publication, enabling analytics,
+search-engine indexing and external social-card cache refresh remain separate
+operational steps; no growth outcome is guaranteed.
