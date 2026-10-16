@@ -4,7 +4,8 @@ Crack the Code is now a clue-led three-digit puzzle: five visible clues identify
 exactly one code with no repeated digits. All five clues are necessary. A worked
 example, manual scratchpad, starting hint and clue-conflict feedback support
 deduction without a timer or guess limit. Reveals and hints are reported honestly.
-This redesign is local, not deployed; it supersedes the earlier five-digit game.
+Deployed and live-verified on 2026-10-16 from `e09a61c`, Worker
+`a06096c8-7283-4a47-84b8-5d66fd6d8fc8`; it replaces the earlier five-digit game.
 See [research, puzzle construction and limits](../../docs/TAKE_A_BREAK_CODE_DESIGN.md).
 
 The refreshed hub features Daily Spark once above compact activity tiles, with Challenge, Choose and Unwind filters instead of an all-activities default. All seven existing activities remain available. Returning from a game restores its category and keyboard focus; in-tab game progress is preserved. Daily Spark uses the same difficulty/hint controller as its standalone page. Layouts use existing light/dark tokens and support small phones.

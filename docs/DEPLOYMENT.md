@@ -1,5 +1,12 @@
 # Deploy Sushant Synapse Platform
 
+Clue-led Crack the Code is deployed/live-verified (2026-10-16): source `e09a61c`,
+Worker `a06096c8-7283-4a47-84b8-5d66fd6d8fc8`. Five clues and three distinct
+digits replace the five-digit guessing game. Three source-byte checks, eight
+themed responsive layouts, notes/hint/solve/reset/reveal workflows pass with no
+page errors or API writes. Existing Free D1 bindings/settings are retained.
+Evidence: `.publish/code-clues-live.json`; see the functionality ledger.
+
 Support Us redesign and shared Sign in/initials header are deployed and
 live-verified (2026-10-16): source `3310425` (implementation `a7422f5`), production Worker
 `e555be93-a26b-4307-85fb-2be7cf86218f`. Existing Free D1 configuration is retained.

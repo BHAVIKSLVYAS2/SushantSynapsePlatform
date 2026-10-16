@@ -1,5 +1,22 @@
 # Chambers functionality ledger
 
+**Clue-led Crack the Code deployed/live verified (2026-10-16):** User-authorized
+release `e09a61c` is live at https://apps.sushantsynapse.com/take-a-break?game=code
+on production Worker `a06096c8-7283-4a47-84b8-5d66fd6d8fc8`. Five changed assets
+uploaded; existing Free D1/password/full-app bindings and variables are preserved.
+No schema migration or account/business writes ran.
+
+Live checks confirm healthy storage, three exact JS/CSS source-byte matches, five
+expected daily clues, manual scratchpad, starting hint, successful solve with hint
+use recorded, practice reset, stable daily reset and confirmed reveal labelled
+honestly. Eight 320/390/768/1440px light/dark layouts pass without overflow or page
+errors. All API writes were blocked and none occurred. The full mobile screenshot
+was reviewed. Evidence is ignored `.publish/code-clues-live.cjs`,
+`.publish/code-clues-live.json` and `.publish/code-clues-live-mobile.png`.
+This supersedes the local-only status below; the three-digit clue-led puzzle now
+replaces the five-digit guessing game in production. Post-verification release
+records are committed separately; no repository push requested.
+
 **Crack the Code clue-led redesign implemented locally (2026-10-16):** User
 found the five-digit repeated-digit game too complex and guess-dependent.
 Research of Mastermind instructions and the publisher's three-digit Bulls and
