@@ -1,5 +1,11 @@
 # Code ownership and adding apps
 
+Export branding (2026-10-16): `packages/ui/export-brand.mjs` owns the small
+canvas credit reused by QR Maker and Team Mixer. QR exports reserve space
+outside their original QR matrix and quiet zone. App-owned text export paths
+keep their own platform credit. No payment entitlement or persistence is added;
+paid branding removal is deferred until a separately implemented verified flow.
+
 One-Minute Chaos (2026-10-16, deployed): `apps/take-a-break/frontend` owns
 `chaos-engine.mjs` (seeded active-time simulation), `chaos.mjs` (DOM controls
 and pause lifecycle) and `chaos.css` (responsive token-based playfield).

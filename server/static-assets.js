@@ -146,6 +146,7 @@ for(const id of ['qr-maker','photo-resize','bill-splitter']){
  if(id!=='qr-maker')staticAssets['/'+id+'/engine.mjs']='apps/'+id+'/frontend/engine.mjs';
 }
 staticAssets['/shared/local-tools.css']='packages/ui/local-tools.css';
+staticAssets['/shared/export-brand.mjs']='packages/ui/export-brand.mjs';
 staticAssets['/shared/local-tools.mjs']='packages/ui/local-tools.mjs';
 staticAssets['/focus/backups.mjs']='apps/focus/frontend/backups.mjs';
 staticAssets['/team-mixer/wins.css']='apps/team-mixer/frontend/wins.css';

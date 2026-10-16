@@ -1,5 +1,10 @@
 # Sushant Synapse Platform
 
+Small export credits (2026-10-16): QR PNGs, team cards/copied teams, Ritual
+Assist material lists/guide shares, copied bill settlements and wheel shares
+carry Sushant Synapse branding. QR codes retain their unmodified payload and
+quiet zone. Paid branding removal is deferred; see the ledger for release status.
+
 Deployed and live-verified (2026-10-16): One-Minute Chaos joins
 Take a Break with a 60-second touch/keyboard chai-catching game, meeting
 obstacles, alarms, calmer pace, pause and result sharing. Confessions now

@@ -1,5 +1,24 @@
 # Chambers functionality ledger
 
+**Small export branding (2026-10-16, implementation verified locally):**
+QR Maker PNGs now include a small `Created with Sushant Synapse` credit
+below the code, outside the complete four-module quiet zone. The export
+remains square; QR payloads have no redirect or tracking changes. Team Mixer
+PNG/share cards use the same small footer and copied teams include the brand.
+Ritual Assist retains its existing print/preview branding; downloaded/copied
+materials now end with a credit after custom items and arranger details, and
+shared guide messages name the platform. Bill Splitter copied settlements and
+Decision Wheel shared results include a short credit. Existing certificate,
+greeting and timetable branding remains. `packages/ui/export-brand.mjs` owns
+the shared canvas credit, exposed through the static asset allowlist.
+Verification: eight Chrome workflows passed, including intact QR module and
+quiet-zone pixels, footer visibility, PNG download, branded lists and unchanged
+bill calculation, Wi-Fi generation, bilingual materials/printing, mobile share
+cancellation, team PNG/native-share exports and 100-name layout bounds.
+Payment-based removal is deferred at the user's request;
+there is no removal checkout, entitlement or payment-verification claim.
+Deployment and remaining regression verification are recorded after release.
+
 **One-Minute Chaos and Confessions icon (2026-10-16, deployed/live verified):**
 Take a Break now has an eighth activity at `/take-a-break?game=chaos`.
 Five lanes support touch/drag, on-screen controls and keyboard movement.

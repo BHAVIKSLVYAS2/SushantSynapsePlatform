@@ -69,7 +69,7 @@ const presetTitles={lunch:"What's for lunch?",tasks:'Which task next?',team:'Whi
 document.querySelectorAll('[data-preset]').forEach(button=>button.onclick=()=>{if(spinning)return;$('#options').value=presets[button.dataset.preset].join('\n');$('#question').value=presetTitles[button.dataset.preset];update();});
 $('#clear-history').onclick=()=>{history=[];renderHistory();};
 $('#share').onclick=async()=>{
- if(!result||spinning)return;const text=`Decision Wheel\n${result.title}\n${result.last?'Remaining option':'Selected'}: ${result.value}\nTry your own wheel: ${location.origin}/decision-wheel`;
+ if(!result||spinning)return;const text=`Decision Wheel\n${result.title}\n${result.last?'Remaining option':'Selected'}: ${result.value}\nCreated with Sushant Synapse · Decision Wheel\nTry your own wheel: ${location.origin}/decision-wheel`;
  try{if(navigator.share){await navigator.share({title:'Decision Wheel',text});return;}if(navigator.clipboard){await navigator.clipboard.writeText(text);$('#status').textContent='Result copied. Paste it wherever you like.';return;}}catch(error){if(error.name==='AbortError')return;}
  $('#share-text').value=text;$('#share-fallback').hidden=false;$('#share-text').focus();$('#share-text').select();$('#status').textContent='Copy the message below to share your result.';
 };
