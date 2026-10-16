@@ -1,7 +1,7 @@
 # Loading review — 16 October 2026
 
-Measured against production; selected optimisations implemented locally.
-These changes have not been deployed.
+Measured against production; selected optimisations deployed and live-verified.
+Source commit `be82ab6`; Worker `834b578f-0d2b-4e09-b1f4-744813adf4dc`.
 
 ## Measurements
 
@@ -20,7 +20,7 @@ The first homepage document response took 2.33 s; the others took about 0.10 s.
 This does not establish a persistent backend problem. News paints early but
 has substantial startup layout movement; its LCP alone does not mean it is ready.
 
-## Implemented locally
+## Implemented and deployed
 
 - Aligned the shared header's imported premium stylesheet URL with the main
   direct link. Both cascade positions remain; only the duplicate fetch is removed.
@@ -51,6 +51,9 @@ differences are directional, not a guarantee for every visitor.
 Verification: six Chrome workflows passed, covering initial DOM/auth reuse,
 fresh account state after sign-in/out, mobile themes, no-JavaScript home,
 backend outage, News generation/comic artwork and print behaviour.
+Production Chrome additionally verified one initial homepage auth/CSS request,
+preserved initial DOM, the small responsive News cover and all four new WebP
+responses with the expected byte sizes. Zero page errors or business-data writes.
 
 ## Next priorities
 

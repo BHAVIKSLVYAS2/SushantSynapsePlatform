@@ -1,8 +1,8 @@
 # Sushant Synapse Platform
 
-Local loading audit (2026-10-16): responsive News images, duplicate stylesheet
-and initial-auth request removal, and anonymous-home DOM reuse are implemented
-and browser-tested but not deployed. Measurements and remaining priorities are
+Deployed and live-verified loading improvements (2026-10-16): responsive News
+images, duplicate stylesheet and initial-auth request removal, and anonymous-home
+DOM reuse. Measurements and remaining priorities are
 in `docs/PERFORMANCE_REVIEW_2026-10-16.md`.
 
 Deployed and live-verified (2026-10-16): Confessions uses scratch-first cards

@@ -1,6 +1,6 @@
 # Code ownership and adding apps
 
-Loading optimisation (2026-10-16, local): portal and shared header reuse a
+Loading optimisation (2026-10-16, deployed): portal and shared header reuse a
 page-local initial auth promise regardless of script order. Later visibility
 refreshes and portal boots fetch fresh status; authentication stays server-owned.
 Anonymous portal startup retains its server-provided DOM. Shared header CSS
