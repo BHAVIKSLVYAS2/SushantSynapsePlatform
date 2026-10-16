@@ -31,7 +31,7 @@ Satire uses original **local editorial templates** (v3): 36 complete three-panel
 
 ## Persistence and limits
 
-App-owned migrations register editions, stories, run snapshots and budgets for SQL exports. `repository.js` validates exactly ten stories, source URLs, publication times, satire association and atomic immutable storage. Fetches preserve their original cutoff, with a two-minute lease, five attempts per date, a one-minute global cooldown and twenty attempts per UTC day. Each attempt makes at most 28 fixed-host requests, four concurrently, with a shared 90-second deadline and 2 MB response limit. Failures never publish partial editions; completed source snapshots can be retried without refetching.
+App-owned migrations register editions, stories, run snapshots and budgets for SQL exports. `repository.js` validates exactly ten stories, source URLs, publication times, satire association and atomic immutable storage. Complete source snapshots preserve their original cutoff; failed/incomplete retries refresh the cutoff. Fetches use a two-minute lease, five attempts per date, a one-minute global cooldown and twenty attempts per UTC day. Each attempt makes at most 28 fixed-host requests, four concurrently, with a shared 90-second deadline and 2 MB response limit. Failures never publish partial editions; completed source snapshots can be retried without refetching.
 
 `POST /api/news/fetch` accepts `{}` for today or `{ "date": "YYYY-MM-DD" }` to generate/open a present or historical edition. `GET /api/news/preview/YYYY-MM-DD` is owner-only operational status. Public read APIs are `GET /api/news/editions?before=YYYY-MM-DD` (30 dates per page) and `GET /api/news/editions/YYYY-MM-DD`. Reads never trigger generation.
 

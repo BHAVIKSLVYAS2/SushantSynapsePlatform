@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**News fetch recovery (2026-10-17, local verified):**
+**News fetch recovery (2026-10-17, deployed/live verified):**
 Reproduced today's public source HTTP 502: early-IST coverage was sparse and the
 fallback omitted the publisher's top news/UK/politics/sport feeds. The bounded
 fallback now checks twelve fixed feeds, preserving same-day timestamps, cutoff,
@@ -9,7 +9,13 @@ advance their cutoff; ready snapshots and saved editions remain immutable. Spars
 coverage reports the verified count. No quota, account or schema change.
 Verification: 19 source/backend checks and four Chrome workflows pass with isolated
 data; direct publisher retrieval returns ten correctly dated real stories without
-publishing. Release/live verification pending. Satire Arena changes remain local.
+publishing. Source `d48eb12` deployed from the isolated News-only checkout as
+Worker `415dbeb5-bd93-451c-85d6-da187a4329bb`. Live retrieval returned ten same-day
+stories; the actual 2026-10-17 edition published and rendered ten mobile stories.
+All eight previously saved editions matched their pre-publication fingerprints.
+Two changed assets uploaded, 800 reused; bindings/quotas/schema retained. Evidence:
+`.publish/verify-news-recovery-live.cjs`, `.publish/news-recovery-live-mobile.png`.
+Satire Arena changes remain local and were excluded from this release.
 
 **Public copy cleanup (2026-10-16, deployed/live verified):**
 Implemented the reviewed cleanup across the public homepage and free tools.
