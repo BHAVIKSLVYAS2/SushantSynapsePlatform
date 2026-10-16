@@ -1,5 +1,23 @@
 # Chambers functionality ledger
 
+**Branded spinner and slow finish deployed/live verified (2026-10-16):**
+User-authorized source `067cbee` is live at
+https://apps.sushantsynapse.com/decision-wheel on production Worker
+`20ed9f05-ea7f-4846-a6ca-62694cd729cd`. Four changed assets uploaded. Existing
+Free D1/password/full-app bindings and variables are preserved; no database,
+account or business writes ran.
+
+Live checks pass healthy storage, three exact JS/CSS source-byte matches, loaded
+centre logo, mobile wheel-first order and eight 320/390/768/1440px light/dark
+layouts without overflow. The 6.8-second spin slows from approximately 67 degrees
+to 6 degrees per sampled 100ms interval near the finish, and lands at the selected
+slice centre. Sound defaults off and its explicit toggle works. Mid-spin reduced
+motion completes the pick and clears preview/confetti. No page errors or API
+writes; all API writes were blocked. Production mobile screenshot reviewed.
+Evidence is ignored `.publish/wheel-ticks-live.cjs`, `.publish/wheel-ticks-live.json`
+and `.publish/wheel-ticks-live-mobile.png`. This supersedes the local-only status
+below; release records are committed after verification, with no push requested.
+
 **Decision Wheel branded slow finish implemented locally (2026-10-16):** Existing
 Sushant Synapse logo replaces the centre glyph and remains upright during spins.
 App-owned styling adds a kinetic rim, hub glow, slower final-turn preview and

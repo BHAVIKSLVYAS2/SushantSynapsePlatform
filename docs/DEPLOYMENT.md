@@ -1,5 +1,12 @@
 # Deploy Sushant Synapse Platform
 
+Decision Wheel logo/slow ticking finish is deployed/live-verified (2026-10-16):
+source `067cbee`, Worker `20ed9f05-ea7f-4846-a6ca-62694cd729cd`. Exact assets,
+eight themed layouts, mobile wheel order, 6.8-second deceleration, selected-slice
+landing, sound toggle and reduced-motion cleanup pass with no API writes or page
+errors. Existing D1 bindings/settings are preserved. Evidence:
+`.publish/wheel-ticks-live.json`; see the functionality ledger.
+
 Clue-led Crack the Code is deployed/live-verified (2026-10-16): source `e09a61c`,
 Worker `a06096c8-7283-4a47-84b8-5d66fd6d8fc8`. Five clues and three distinct
 digits replace the five-digit guessing game. Three source-byte checks, eight

@@ -1,12 +1,13 @@
 # Decision Wheel
 
-The local spinner refresh adds the existing Sushant Synapse logo in an upright
+The spinner refresh adds the existing Sushant Synapse logo in an upright
 centre hub, an animated rim, settling preview and a longer 6.8-second cubic
 deceleration with a slow final revolution and pointer ticks. Tick sound is opt-in
 and generated locally; no audio file/service is loaded. Reduced motion or a
 hidden page finishes immediately, and cancels transient effects. Random selection,
 landing angle, editor locking, history and private sharing are unchanged. This
-refresh puts the wheel before the editor on phones and is not deployed yet.
+refresh puts the wheel before the editor on phones. Deployed and live-verified
+on 2026-10-16: source `067cbee`, Worker `20ed9f05-ea7f-4846-a6ca-62694cd729cd`.
 
 A public free tool at `/decision-wheel`: enter 2�30 unique choices, an optional title, and spin. Starter lists cover lunch, household tasks and team selection. Each label allows up to 60 Unicode characters. Duplicate labels are rejected after case folding and Unicode normalization so each option has one equal slice.
 
