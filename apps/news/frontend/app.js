@@ -178,7 +178,7 @@ async function openEdition(date){
     if(version!==requestVersion)return;
     if(!edition){document.querySelector('#reader-status').textContent=deviceMode?`Choose Generate to prepare ${date} on this device.`:`No saved newspaper for ${date}.`;return;}
     selectedSaved=true;updateFetchControl();
-    renderEdition(edition);showPreview({date,state:'published',cached:true,deviceOnly:edition.deviceOnly});document.querySelector('#reader-status').textContent=edition.deviceOnly?'Prepared in this tab. Use Print / Save PDF to keep a copy.':'Opened from saved editions. No news was fetched.';
+    renderEdition(edition);showPreview({date,state:'published',cached:true,deviceOnly:edition.deviceOnly});document.querySelector('#reader-status').textContent=edition.deviceOnly?'Prepared in this tab. Use Print / Save PDF to keep a copy.':'Saved edition opened.';
   }catch(error){if(version===requestVersion)document.querySelector('#reader-status').textContent=error.message;}
 }
 async function archivePage(before){
@@ -213,7 +213,7 @@ function showPreview(result){
   document.querySelector('#fetch-preview').hidden=false;
   document.querySelector('#preview-stories').replaceChildren();
   document.querySelector('#preview-heading').textContent=`Newspaper for ${result.date}`;
-  document.querySelector('#fetch-status').textContent=result.state==='published'?(result.cached?'Opened the stored newspaper. No news request was made.':'Newspaper published and saved.'):(result.error||'A previous fetch is unfinished. Click Fetch to resume.');
+  document.querySelector('#fetch-status').textContent=result.state==='published'?(result.cached?'Saved edition opened.':'Newspaper published and saved.'):(result.error||'A previous fetch is unfinished. Click Fetch to resume.');
   if(result.deviceOnly)document.querySelector('#fetch-status').textContent='Prepared on this device. Not saved to shared archives. Print or save a PDF before leaving this tab.';
   updateFetchControl();
 }

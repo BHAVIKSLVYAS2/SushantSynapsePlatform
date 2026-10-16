@@ -25,8 +25,8 @@
   <main id="main">
     <section class="intro">
       <span class="eyebrow">A LITTLE SPACE FOR YOUR BEST WORK</span>
-      <h1>A little more <em>focus.</em></h1>
-      <p>Put the important things first. Pick one, settle in, and make a little progress.</p>
+      <h1>Focus</h1>
+      <p>Choose a task and start a focus session.</p>
       <span class="local-note"><span aria-hidden="true">&#9679;</span> Your own plan. Saved in this browser.</span>
     </section>
 
@@ -51,7 +51,7 @@
           <div class="timer-dial"><output id="timer" role="timer" aria-live="off" aria-label="Focus time remaining">25:00</output><span class="timer-caption">YOUR FOCUS TIME</span></div>
           <div class="current-task-wrap"><span class="eyebrow">IN FOCUS</span><p id="current-task">Choose a task, or start an open focus session.</p></div>
           <div class="actions"><button type="button" id="startBtn" class="primary">Start</button><button type="button" id="pauseBtn" disabled>Pause</button><button type="button" id="resetBtn">Reset</button></div>
-          <p id="focus-status" role="status">Ready for 25 minutes of focus, followed by a little break.</p>
+          <p id="focus-status" role="status">Ready for a 25-minute session.</p>
         </section>
         <a class="break-link" href="/pocket-pause"><span aria-hidden="true">&#10043;</span><span>Make room for a small break<small>Visit Pocket Pause &rarr;</small></span></a>
         <p class="timer-note">The timer runs in this tab. Refresh resets it.</p>
@@ -59,7 +59,7 @@
 
       <section class="tasks-panel" aria-labelledby="tasks-heading">
         <div class="tasks-heading">
-          <div><span class="eyebrow">YOUR DAILY PLAN</span><h2 id="tasks-heading">Your day, in good order.</h2></div>
+          <div><span class="eyebrow">YOUR DAILY PLAN</span><h2 id="tasks-heading">Today's tasks</h2></div>
           <div class="day-controls"><label for="plan-date">Plan for<input type="date" id="plan-date" required></label><button type="button" id="todayBtn">Today</button></div>
         </div>
         <div class="day-overview"><p id="summary">Tasks save in this browser. No sign-in needed.</p><progress id="day-progress" value="0" max="1" aria-label="Tasks completed for selected day"></progress></div>
@@ -73,11 +73,11 @@
           </div>
         </form>
         <p id="task-status" role="status"></p>
-        <div class="board-heading"><h3>Make the next step clear.</h3><p id="board-help">Drag cards to change priority or order. You can also use each card&rsquo;s priority and move buttons.</p></div>
+        <div class="board-heading"><h3>Add a task</h3><p id="board-help">Drag cards to change priority or order. You can also use each card&rsquo;s priority and move buttons.</p></div>
         <div id="task-list" class="priority-board" role="region" aria-label="Tasks for selected date" aria-describedby="board-help"></div>
         <p id="empty-list" class="empty-list" hidden>No tasks for this day. Add one thing you want to finish.</p>
         <section id="completed-section" class="secondary-list-section" aria-labelledby="completed-heading" hidden>
-          <div class="section-heading"><h3 id="completed-heading">Done for the day</h3><span>Room for a little satisfaction.</span></div>
+          <div class="section-heading"><h3 id="completed-heading">Done for the day</h3></div>
           <ul id="completed-list" class="task-list" aria-label="Completed tasks for selected date"></ul>
         </section>
         <section id="carry-section" class="secondary-list-section" aria-labelledby="carry-heading" hidden>

@@ -206,8 +206,8 @@ test('manual newspaper publishes ten stories and satire and reopens the stored e
  await expect(page.locator('.saved-story')).toHaveCount(10);
  await expect(page.locator('.saved-satire')).toContainText('Fictional commentary');
  await expect(page.locator('#fetch-status')).toContainText('published and saved');
- await page.getByRole('button',{name:"Open today's newspaper"}).click();await expect(page.locator('#fetch-status')).toContainText('No news request');
- await page.reload();await expect(page.locator('.saved-story')).toHaveCount(10);await expect(page.locator('#fetch-status')).toContainText('No news request');
+ await page.getByRole('button',{name:"Open today's newspaper"}).click();await expect(page.locator('#fetch-status')).toContainText('Saved edition opened');
+ await page.reload();await expect(page.locator('.saved-story')).toHaveCount(10);await expect(page.locator('#fetch-status')).toContainText('Saved edition opened');
  const today=(await (await page.request.get(base+'/api/news/status')).json()).today;
  expect((await page.request.get(base+'/api/news/editions/'+today)).status()).toBe(200);
  for(const width of [320,768,1440]){await page.setViewportSize({width,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}

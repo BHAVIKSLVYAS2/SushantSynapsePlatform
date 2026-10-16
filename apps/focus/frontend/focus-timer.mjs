@@ -36,7 +36,7 @@ export function mountFocusTimer(root = document) {
   let customOpen = !PRESET_MINUTES.includes(selectedMinutes);
 
   function readyStatus() {
-    return `Ready for ${selectedMinutes} minutes of focus, followed by a little break.`;
+    return `Ready for a ${selectedMinutes}-minute session.`;
   }
 
   function updateDisplay() {

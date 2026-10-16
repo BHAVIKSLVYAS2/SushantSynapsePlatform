@@ -1,5 +1,10 @@
 # Sushant Synapse Platform
 
+Local copy cleanup (2026-10-16): shorter public-tool introductions and homepage
+cards, contextual help and removal of unconfigured ad previews are implemented.
+Workflows, privacy facts and source labels remain; see the ledger for testing.
+These changes have not been committed or deployed.
+
 Deployed and live-verified loading improvements (2026-10-16): responsive News
 images, duplicate stylesheet and initial-auth request removal, and anonymous-home
 DOM reuse. Measurements and remaining priorities are

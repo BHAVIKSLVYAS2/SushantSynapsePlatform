@@ -1,5 +1,12 @@
 # Code ownership and adding apps
 
+Public copy cleanup (2026-10-16, local): app-owned UI keeps task instructions
+and contextual help separate. Portal static/dynamic public cards share shorter
+copy; private access metadata is preserved. `packages/ui/sponsorship.js` mounts
+only a configured campaign or the existing home sponsorship invitation, without
+preview-only ad boxes. `packages/ui/language.js` includes new shared copy keys;
+native Ritual Assist retains its own bilingual strings and checklist notes.
+
 Loading optimisation (2026-10-16, deployed): portal and shared header reuse a
 page-local initial auth promise regardless of script order. Later visibility
 refreshes and portal boots fetch fresh status; authentication stays server-owned.

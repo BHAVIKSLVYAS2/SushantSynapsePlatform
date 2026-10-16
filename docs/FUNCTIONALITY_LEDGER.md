@@ -1,5 +1,34 @@
 # Chambers functionality ledger
 
+**Public copy cleanup (2026-10-16, local implementation):**
+Implemented the reviewed cleanup across the public homepage and free tools.
+Both homepage renderings use one short description per card and omit repeated
+feature/access badges in the free-tools section; private access labels remain.
+Shared sponsorship no longer mounts unconfigured ad previews. Real campaigns,
+advertisement labels, links and dismissal remain unchanged. Tool introductions,
+headings, empty states and routine statuses are shorter. Contact requests,
+wheel explanations and checklist review notes are expandable. Input limits,
+privacy/expiry facts, financial coverage, source credits, AI-art labels and
+certificate/export branding remain. New shared phrases have Hindi mappings;
+native Ritual Assist introductions are shortened in both languages.
+Local read-only copy comparison found homepage supporting text about 37%
+shorter, QR Maker about 52%, Photo Resize about 46% and Decision Wheel about
+52% shorter with the same inputs/actions. These are sampled visible-copy
+counts, not a performance or usability score. Ten pages fit 320/1440px in
+both themes with no page errors; the fund interface was checked after loading.
+Twenty-seven existing Chrome workflows passed, including exports, forms,
+languages, timer, shared news, homepage discovery, real sponsor campaigns,
+payment setup/checkout and WhatsApp drafts, copying and failure handling.
+No backend, authentication, payment connection, data or ad-policy changes.
+Not committed or deployed yet.
+
+**Public copy review (2026-10-16, review only):**
+Read-only mobile Chrome review of 15 public pages identified repeated slogans,
+duplicated instructions/privacy notes, visible unconfigured-ad placeholders and
+implementation-oriented wording. Recommendations are for discussion; no website
+copy, app code, configuration or production data changed. Any later edit should
+retain relevant validation, privacy/expiry facts, attribution and accessibility.
+
 **Loading optimisation audit (2026-10-16, deployed/live verified):**
 Production mobile-like Chrome measurements and a controlled local comparison
 are recorded in `docs/PERFORMANCE_REVIEW_2026-10-16.md`. Initial homepage auth
