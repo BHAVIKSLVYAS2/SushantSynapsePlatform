@@ -1814,7 +1814,7 @@ For the earlier Chambers release, local implementation was complete. Further wor
 Source review identified different public-home, authenticated-catalogue and Chambers navigation shells, plus app-specific presentation/theme divergence. Recommendation and acceptance criteria are recorded in `docs/UI_PLATFORM_REVIEW_2026-10-11.md`: establish a shared platform shell, distinguish app navigation, simplify the launcher and migrate shared components before extending across apps. At this review checkpoint no UI implementation, rendered browser verification, deployment or business-data changes had been performed. The subsequent implementation and release status at the top of this ledger supersede that checkpoint.
 # Free-app card spacing (2026-10-16, deployed)
 
-## Dark glass directory refinement (2026-10-16, local)
+## Dark glass directory refinement (2026-10-16, deployed)
 
 User-directed dark glass styling extends the directory refinement below, with
 Dribbble's dark glassmorphism gallery as reference
@@ -1826,7 +1826,14 @@ is preserved. Reduced-transparency preference uses solid surfaces without blur;
 unsupported blur still retains tinted surfaces. No imported art or new requests.
 Verification: both targeted portal Chrome workflows passed again (2/2), including
 four widths, light/dark, search, reduced motion, no-JavaScript and outage checks.
-Dark mobile capture reviewed. CSS cache reference refreshed. Not committed/deployed.
+Dark mobile capture reviewed. CSS cache reference refreshed.
+Deployed source `a822f50` to the existing production route; Worker version
+`70031c6a-818b-413b-85d5-62a0a1e11e00`. Three assets uploaded, 798 reused;
+existing bindings retained. Live verification confirms exact source CSS, refreshed
+homepage reference, 14 app links, glass blur and eight responsive/theme layouts
+without overflow or page errors. Existing shared styling may resolve blur to
+18px rather than the homepage's 14px. Evidence: `.publish/verify-dark-glass.cjs`
+and `.publish/dark-glass-live-{desktop,mobile}.png`. No production business writes.
 
 Dribbble references: Ildiko Gaspar's Apps List UI Design
 (https://dribbble.com/shots/10208733-Apps-List-UI-Design) and Sinem Albayir's
@@ -1839,7 +1846,7 @@ Homepage stylesheet cache version is refreshed. Authentication/data unchanged.
 Verification: targeted portal Chrome workflows (`illustrated home|AdSense loads`)
 passed 2/2, including 320/390/768/1440px light/dark, reduced motion, no-JavaScript,
 search and auth outage checks. Mobile full-page capture visually reviewed.
-This refinement is not yet committed or deployed; release below is the prior version.
+This refinement is included in the dark glass release recorded above.
 
 The portal's free/no-sign-in catalogue now uses consistent compact cards, smaller
 artwork, natural content height and readable unclipped descriptions. Previously
