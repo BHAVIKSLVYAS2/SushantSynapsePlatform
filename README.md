@@ -1,5 +1,10 @@
 # Sushant Synapse Platform
 
+Locally implemented (2026-10-16, not deployed): One-Minute Chaos joins
+Take a Break with a 60-second touch/keyboard chai-catching game, meeting
+obstacles, alarms, calmer pace, pause and result sharing. Confessions now
+uses a heart-in-a-speech-bubble icon. See the ledger for verification.
+
 Deployed and live-verified (2026-10-16): Confessions uses compact chat bubbles and shares new
 CAPTCHA-checked posts directly with everyone across browsers. Older pending
 submissions stay private. Confessions, QR Maker and Photo Resize now have

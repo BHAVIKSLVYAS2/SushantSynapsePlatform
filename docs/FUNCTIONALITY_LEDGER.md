@@ -1,5 +1,23 @@
 # Chambers functionality ledger
 
+**One-Minute Chaos and Confessions icon (2026-10-16, local implementation):**
+Take a Break now has an eighth activity at `/take-a-break?game=chaos`.
+Five lanes support touch/drag, on-screen controls and keyboard movement.
+Catch chai, dodge meeting invites and silence alarms; the active-time round
+lasts 60 seconds with three escalating phases, optional calmer pace, score
+breakdown, replay and result sharing. Explicit pause and tab/page/game exit
+pause stop the animation and timer. Reduced motion removes alarm wobble and
+tray transitions. No account, network writes, persistent score or new app ID.
+Confessions artwork and the matching small icon now use a heart in a speech
+bubble; homepage SVG cache keys are refreshed. Existing data is untouched.
+Verification: nine engine/catalogue tests pass (including frame-independent
+duration, scoring, single-use alarms, penalties, calmer pace and bounded inputs). Nine browser
+workflows pass across the existing suite and corrected targeted rerun, including
+mobile completion/pause, all existing games and signed-in catalogue fallback.
+Desktop dark, 390px mobile and 320px reduced-motion layouts pass. The refreshed
+Confessions heart artwork was visually reviewed; screenshots stay in `.publish`.
+This work has not been committed or deployed; production remains unchanged.
+
 **Confession chat and relevant tool icons (2026-10-16, deployed/live verified):**
 New CAPTCHA-checked confessions now join the public shared stream immediately,
 instead of waiting in the Owner inbox. Existing pending submissions remain

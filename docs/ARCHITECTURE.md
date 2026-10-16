@@ -1,5 +1,13 @@
 # Code ownership and adding apps
 
+One-Minute Chaos (2026-10-16, local): `apps/take-a-break/frontend` owns
+`chaos-engine.mjs` (seeded active-time simulation), `chaos.mjs` (DOM controls
+and pause lifecycle) and `chaos.css` (responsive token-based playfield).
+It is a game within the existing `daily-spark` catalogue ID, not a separate
+app or persistence service. `server/static-assets.js` exposes its modules.
+The Take a Break controller pauses it on navigation; visibility/pagehide also
+pause it. Scoring and sharing use tab-only state, with no server writes.
+
 Confession chat/icons (2026-10-16, deployed): new CAPTCHA-verified posts are public
 immediately, while historical pending entries stay private until Owner review.
 Report/Owner removal and seven-day expiry remain. The shared SQL envelope's
