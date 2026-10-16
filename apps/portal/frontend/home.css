@@ -1,8 +1,8 @@
 /* Dashboard presentation only. Shared themes, app engines and print stay intact. */
 /* Landing-page navigation and discovery; scoped away from signed-in app views. */
 @media screen {
- html[data-theme=dark] body[data-ui-app=portal]:has(.public-home) {--shell-bg:#0b131a;--shell-accent:#4ade80;--shell-on-accent:#092015}
- [data-theme=dark] .public-home {--home-accent:#4ade80;--home-bright:#4ade80}
+ body[data-ui-app=portal]:has(.public-home) {--shell-accent:#0e7490;--shell-accent-hover:#155e75;--shell-on-accent:#fff}
+ html[data-theme=dark] body[data-ui-app=portal]:has(.public-home) {--shell-bg:#0b131a;--shell-accent:#22d3ee;--shell-accent-hover:#67e8f9;--shell-on-accent:#020617}
  body:has(.public-home) .platform-account:not(.platform-account-avatar) {background:var(--shell-accent);color:var(--shell-on-accent);border-color:var(--shell-accent);min-height:48px}
  body:has(.public-home) .platform-switch {min-height:48px}
  .public-home :is(button,.primary,.secondary,.home-daily-play,.synapse-sponsor-link),body:has(.public-home) .platform-switcher :is(button,input,a) {min-height:48px}
@@ -56,19 +56,21 @@
 }
 @media print {.home-filters,.home-filter-status {display:none!important}.public-home #free-apps.home-discovery-ready .public-apps {height:auto;overflow:visible}.public-home .public-app[hidden] {display:flex!important}}
 @media screen {
- body:has(.public-home) {--ui-accent:#087866;--primary:var(--ui-accent);--on-primary:#fff}
- html[data-theme=dark] body:has(.public-home),body[data-theme=dark]:has(.public-home) {--ui-accent:#7cf2d4;--on-primary:#101a42}
+ body:has(.public-home) {--ui-accent:#0e7490;--primary:var(--ui-accent);--on-primary:#fff}
+ html[data-theme=dark] body:has(.public-home),body[data-theme=dark]:has(.public-home) {--ui-accent:#22d3ee;--on-primary:#020617}
  .public-home {
-  --home-accent:#087866;--home-bright:#19ba94;--home-halo:rgba(25,186,148,.12);
+  --home-accent:#0e7490;--home-bright:#0891b2;--home-halo:rgba(56,189,248,.12);--home-hover:#155e75;
+  --home-hover-border:rgba(8,145,178,.4);--home-feature-shadow:0 12px 30px -10px rgba(15,23,42,.18);
   --home-top:rgba(255,255,255,.82);--home-bottom:rgba(240,249,247,.68);
-  --home-border:rgba(19,95,82,.16);--home-chip:rgba(8,120,102,.08);
+  --home-border:rgba(14,116,144,.16);--home-chip:rgba(8,145,178,.08);
   --home-shadow:0 10px 26px rgba(15,65,56,.045),inset 0 1px 0 rgba(255,255,255,.85);
   --ui-accent:var(--home-accent);--primary:var(--home-accent);--accent:var(--home-accent);
  }
  [data-theme=dark] .public-home {
-  --home-accent:#4ade80;--home-bright:#4ade80;--home-halo:rgba(74,222,128,.14);
+  --home-accent:#22d3ee;--home-bright:#67e8f9;--home-halo:rgba(56,189,248,.2);--home-hover:#67e8f9;
+  --home-hover-border:rgba(56,189,248,.4);--home-feature-shadow:0 12px 30px -10px rgba(0,0,0,.5);
   --home-top:rgba(15,25,32,.96);--home-bottom:rgba(8,13,21,.94);
-  --home-border:rgba(152,200,203,.22);--home-chip:rgba(80,230,188,.08);
+  --home-border:rgba(152,190,203,.22);--home-chip:rgba(56,189,248,.08);
   --home-shadow:0 12px 28px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.035);
  }
  .public-home .public-topbar {
@@ -206,8 +208,8 @@
  .public-home .workspace-card-copy .access-label{margin:0;font-size:10px;border-color:var(--home-border);color:var(--home-accent);background:var(--home-chip)}
  .public-home .workspace-card-copy .viewer-note{font-size:11px}
  .public-home .workspace-card-copy .workspace-launch{width:100%;justify-content:space-between;margin-top:auto;min-height:48px;padding:12px 14px;font-size:12px;line-height:1.5;white-space:normal;overflow-wrap:anywhere}
- .public-home .workspace-card:focus-within{border-color:var(--home-accent);box-shadow:0 8px 32px var(--ui-mint-glow)}
- @media(hover:hover){.public-home .workspace-card:hover{border-color:var(--home-accent);box-shadow:0 8px 32px var(--ui-mint-glow)}}
+ .public-home .workspace-card:focus-within{border-color:var(--home-accent);box-shadow:0 8px 32px var(--home-halo)}
+ @media(hover:hover){.public-home .workspace-card:hover{border-color:var(--home-accent);box-shadow:0 8px 32px var(--home-halo)}}
  @media(min-width:1000px){.public-home .workspace-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.public-home .workspace-card-copy{padding:12px 18px 18px}.public-home .workspace-card-art{padding:16px 18px 0}.public-home .workspace-card-copy h3{font-size:21px}}
  @media(max-width:600px){.public-home .workspace-grid{grid-template-columns:1fr;gap:12px}.public-home .workspace-card{flex-direction:row}.public-home .workspace-card-art{width:94px;flex-shrink:0;flex-direction:column;justify-content:flex-start;padding:16px 0 0 8px}.public-home .workspace-card-art .home-sculpture{width:90px;height:80px}.public-home .workspace-lock{align-self:center;width:28px;height:28px;border-radius:9px;margin-top:6px}.public-home .workspace-lock svg{width:15px;height:15px}.public-home .workspace-card-copy{padding:18px 14px;gap:10px}.public-home .workspace-card-copy h3{font-size:20px}.public-home .workspace-card-copy p{font-size:12px}.public-home .workspace-card-copy .workspace-launch{font-size:11px;padding:10px}.public-home .workspace-card-copy .access-label{font-size:9px}}
  @media(prefers-reduced-motion:reduce){.public-home .workspace-card{transition:none}}
@@ -252,6 +254,26 @@
  @media(prefers-reduced-motion:reduce){body[data-ui-app=portal] .public-home main .public-hero.home-welcome,.home-welcome-art .art-play{animation:none!important}.home-daily-play{transition:none;transform:none!important}}
 }
 @media print{.home-welcome-art{display:none}.home-daily{border:1px solid currentColor;padding:12px}}
+
+/* Cyan finish: home-only materials and deliberate feature-card feedback. */
+@media screen {
+ .public-home .home-welcome-art {background:radial-gradient(ellipse at center,var(--home-halo),transparent 70%);border-radius:32px;padding:8px;box-sizing:border-box}
+ body[data-ui-app=portal] .public-home main .public-hero.home-welcome {grid-template-columns:minmax(0,1.25fr) minmax(180px,1fr);gap:32px}
+ .public-home .home-features .home-daily {transition:transform .25s cubic-bezier(.16,1,.3,1),border-color .25s,box-shadow .25s}
+ body[data-ui-app=portal]:has(.public-home) .platform-shell,.public-home .home-filters {
+  background:color-mix(in srgb,var(--ui-solid) 85%,transparent);
+  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+ }
+ body:has(.public-home) .platform-account:not(.platform-account-avatar) {transition:background-color .2s,box-shadow .2s;box-shadow:0 4px 18px color-mix(in srgb,var(--shell-accent) 20%,transparent)}
+ @media(hover:hover) {
+  .public-home .home-features .home-daily:hover {transform:translateY(-3px);border-color:var(--home-hover-border);box-shadow:var(--home-feature-shadow)}
+  body[data-ui-app=portal] .public-home .home-paths .primary:hover,.public-home .home-daily-play:hover,.public-home .home-filters button[aria-pressed=true]:hover {background:var(--home-hover);filter:none}
+  body[data-ui-app=portal]:has(.public-home) .platform-account:not(.platform-account-avatar):hover {background:var(--shell-accent-hover);filter:none}
+ }
+ @media(max-width:759px) {body[data-ui-app=portal] .public-home main .public-hero.home-welcome {grid-template-columns:1fr;gap:8px}}
+ @media(prefers-reduced-motion:reduce) {.public-home .home-features .home-daily {transition:none;transform:none!important}}
+ @media(prefers-reduced-transparency:reduce) {body[data-ui-app=portal]:has(.public-home) .platform-shell,.public-home .home-filters {background:var(--ui-solid);-webkit-backdrop-filter:none;backdrop-filter:none}}
+}
 
 /* Short descriptions need compact, consistent catalogue cards. */
 /* Dark glass materials stay local to the homepage and follow the saved theme. */
