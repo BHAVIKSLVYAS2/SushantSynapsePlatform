@@ -1831,8 +1831,10 @@ Deployed source `a822f50` to the existing production route; Worker version
 `70031c6a-818b-413b-85d5-62a0a1e11e00`. Three assets uploaded, 798 reused;
 existing bindings retained. Live verification confirms exact source CSS, refreshed
 homepage reference, 14 app links, glass blur and eight responsive/theme layouts
-without overflow or page errors. Existing shared styling may resolve blur to
-18px rather than the homepage's 14px. Evidence: `.publish/verify-dark-glass.cjs`
+without overflow or page errors. Actual theme-toggle checks confirm 14px blur
+with standard transparency and no blur with reduced transparency; this machine
+requests reduced transparency by default. Both settings were explicitly verified.
+Live desktop glass capture reviewed. Evidence: `.publish/verify-dark-glass.cjs`
 and `.publish/dark-glass-live-{desktop,mobile}.png`. No production business writes.
 
 Dribbble references: Ildiko Gaspar's Apps List UI Design
