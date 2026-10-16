@@ -1,5 +1,5 @@
 import {brandReady,requireBrand} from '/moment-studio/branding.mjs';
-import {occasions,designs,palettes,validate,render,filename} from '/moment-studio/card-renderer.mjs';
+import {occasions,designs,palettes,validate,render,filename} from '/moment-studio/card-renderer.mjs?v=20261016-personal-memorial';
 
 const $=selector=>document.querySelector(selector);
 const form=$('#editor'),canvas=$('#card'),media=matchMedia('(prefers-color-scheme: dark)');

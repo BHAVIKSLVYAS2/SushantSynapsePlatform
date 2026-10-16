@@ -1,5 +1,5 @@
 import {brandReady,requireBrand} from '/moment-studio/branding.mjs';
-import {render,templates,templateNotes,accentTemplates,donationAmount,disclaimer} from '/moment-studio/certificate-renderer.mjs?v=20261012-premium';
+import {render,templates,templateNotes,accentTemplates,donationAmount,disclaimer} from '/moment-studio/certificate-renderer.mjs?v=20261016-personal-memorial';
 import {pdfBlob,pngBlob,download} from '/moment-studio/certificate-export.js';
 import {certificateRows,zip} from '/moment-studio/batch.mjs';
 const $=s=>document.querySelector(s),form=$('#details'),canvas=$('#certificate'),status=$('#status'),images={},versions={logo:0,signature:0};
