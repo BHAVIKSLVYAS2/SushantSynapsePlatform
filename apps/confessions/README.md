@@ -1,8 +1,12 @@
 # Confessions
 
 Public route: `/confessions`. A shared stream of separate scratch-to-reveal cards
-with a composer below the scrollable conversation. Tap reveal is the accessible
-alternative; mouse and phone pointer scratching use the same reveal allowance.
+with a composer below the scrollable conversation. Scratch is the primary
+interaction; a reveal control appears on keyboard focus and remains available
+to screen readers. Mouse and phone scratching use the same reveal allowance.
+On phones, sideways strokes scratch and vertical swipes scroll; scrolling can
+continue into the page at feed boundaries. Starting a card does not force a
+page scroll. Own submissions stay covered until scratched or accessibly revealed.
 
 Anonymous submissions send `{message,captchaId,captchaAnswer}`; text is limited
 to 3–600 characters. New entries are

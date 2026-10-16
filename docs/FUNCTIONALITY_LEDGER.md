@@ -1,5 +1,38 @@
 # Chambers functionality ledger
 
+**Full platform name (2026-10-16, local correction):**
+The shared header now displays `Sushant Synapse` above `PLATFORM` rather than
+shortening the name to Synapse. On mobile the name stays visible alongside
+the logo and account/theme controls; the app switcher occupies a second row
+with the shared header offset adjusted accordingly. No app identifiers or
+authentication behavior changes. Not committed or deployed yet.
+Verification: five shared-header Chrome workflows passed across the full run
+and updated responsive rerun. The public-page check covers 21 routes at
+320/390/768/1440px in both themes, verifies the full visible name, control
+bounds and 44px targets, and exercises app switching and print hiding.
+
+**Confessions scratch-first and scrolling (2026-10-16, local implementation):**
+Scratch is the primary card interaction; the separate reveal button appears
+only on keyboard focus and stays available to assistive technology. Own posts
+also start covered. Starting a scratch no longer calls `scrollIntoView` or
+changes focus; loading a long message keeps the scratch surface height stable.
+Sideways touch strokes scratch while vertical swipes pan normally. The feed
+allows scroll chaining and the conversation uses `overflow:clip` to avoid an
+extra hidden scroll container. Outward single-finger vertical swipes and wheel
+movement explicitly hand off to document scrolling at feed boundaries when
+the page has room to move; horizontal scratches and pinch zoom remain native.
+Incoming
+message controls overlay reserved content instead of moving the feed layout.
+Mouse/phone scratch, accessible reveal, cross-browser sharing/reporting,
+allowances, CAPTCHA/draft handling and theme checks remain under browser tests.
+Verification: all eight Chrome workflows passed across the full run and final
+targeted rerun. Targeted real-touch tests verify vertical panning over covered
+and armed cards, sideways scratch completion and page handoff at the boundary;
+incoming-card checks verify preserved reading position and explicit latest jump.
+Other checks cover both homepage renderings, mouse/keyboard reveal, allowance
+batches, cross-browser public posts/reporting, drafts and responsive themes.
+No backend, advertising or data-storage behavior changes. Not deployed yet.
+
 **Exact brand name and logo (2026-10-16, deployed/live verified):**
 The shared QR/team export footer now pairs the existing platform logo with
 the exact name `Sushant Synapse`. It loads the logo before export and reports

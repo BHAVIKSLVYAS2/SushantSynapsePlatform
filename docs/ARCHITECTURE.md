@@ -1,5 +1,14 @@
 # Code ownership and adding apps
 
+Confessions scratch/scroll (2026-10-16, local): the app-owned card controller
+uses horizontal touch scratch strokes and native vertical panning, without
+automatic page centering. A clipped, non-scroll-container conversation shell
+lets the inner feed chain to document scrolling. Own cards follow the same
+covered lifecycle; keyboard/assistive reveal remains available on focus.
+App-owned edge handlers hand off outward touch/wheel motion only when the feed
+is at its boundary and the document can scroll. In-feed native panning and
+horizontal scratch gestures remain separate; multi-touch is left to the browser.
+
 Export branding (2026-10-16): `packages/ui/export-brand.mjs` owns the small
 canvas credit reused by QR Maker and Team Mixer. QR exports reserve space
 outside their original QR matrix and quiet zone. App-owned text export paths

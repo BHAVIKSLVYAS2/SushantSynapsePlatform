@@ -84,3 +84,13 @@
  }
 }
 @media print {.platform-shell,.platform-switcher {display:none!important}}
+@media screen and (max-width:759px){
+ body[data-ui-app].has-platform-shell{--shell-height:112px}
+ body[data-ui-app] .platform-shell{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:44px 44px;align-content:center;gap:4px 8px;padding:8px 14px}
+ .platform-shell-brand{grid-column:1;grid-row:1;font-size:14px;gap:7px;min-width:0}
+ .platform-shell-brand span{display:block;white-space:nowrap}
+ .platform-shell-brand img{width:28px;height:28px}
+ .platform-shell-brand small{font-size:7px;letter-spacing:1.5px}
+ .platform-shell-actions{grid-column:2;grid-row:1}
+ .platform-switch{grid-column:1/-1;grid-row:2;justify-self:start;max-width:100%;min-height:44px}
+}

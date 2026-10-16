@@ -52,7 +52,7 @@ test('platform frame persists across public apps with usable mobile switching',a
    await page.setViewportSize({width,height:900});
    for(const theme of ['light','dark']){
     await page.evaluate(t=>window.SynapseTheme.write(t),theme);
-    const shell=await page.locator('.platform-shell').boundingBox();expect(shell.y).toBe(0);expect(shell.height).toBe(72);
+    const shell=await page.locator('.platform-shell').boundingBox();expect(shell.y).toBe(0);expect(shell.height).toBe(width<760?112:72);await expect(page.locator('.platform-shell-brand>span')).toHaveText('Sushant SynapsePLATFORM');await expect(page.locator('.platform-shell-brand>span')).toBeVisible();
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${route} ${width} ${theme}`).toBe(true);
     for(const control of ['.platform-switch','.platform-account','.platform-shell .theme-toggle']){
      const r=await page.locator(control).boundingBox();expect(r.height).toBeGreaterThanOrEqual(44);expect(r.x).toBeGreaterThanOrEqual(0);expect(r.x+r.width).toBeLessThanOrEqual(width);
