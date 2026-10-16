@@ -1,5 +1,12 @@
 # Code ownership and adding apps
 
+Take a Break code deduction (2026-10-16): app-owned `engine.mjs` owns deterministic
+five-digit codes and duplicate-aware exact/elsewhere scoring. `app.js` owns the
+eight-attempt game, transient guesses, daily/practice resets and spoiler-free
+sharing at `?game=code`. This replaces Oddly Different, its engine and styles.
+Existing app routes, other daily seeds, assets, shared themes and persistence
+remain with their existing owners; no API or schema is introduced.
+
 Satire Arena 2 (2026-10-16): app-owned `backend/editorial.mjs` validates the bounded
 editorial library and filters publication schedules using IST. Owner-only Node
 and D1 adapters persist it in the existing shared SQL settings table with revision

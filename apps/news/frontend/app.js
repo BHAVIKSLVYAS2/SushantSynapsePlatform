@@ -199,7 +199,7 @@ async function loadArchives(today){
   try{
     await archivePage();
     const requested=new URL(location.href).searchParams.get('date');
-    if(requested||dates.length)await openEdition(requested||dates[0].date);
+    await openEdition(requested||today);
   }catch(error){document.querySelector('#reader-status').textContent=error.message;}
 }
 document.querySelector('#edition-date').addEventListener('change',event=>openEdition(event.target.value));

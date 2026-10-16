@@ -3,7 +3,14 @@ export {clues};export const version='1';
 export function random(seed){let state=2166136261;for(const c of `break-v1:${seed}`)state=Math.imul(state^c.charCodeAt(0),16777619)>>>0;return()=>{state=(Math.imul(state,1664525)+1013904223)>>>0;return state/4294967296;};}
 export function shuffle(values,seed){const result=[...values],next=random(seed);for(let i=result.length-1;i>0;i--){const j=Math.floor(next()*(i+1));[result[i],result[j]]=[result[j],result[i]];}return result;}
 export function validDay(value,today){return typeof value==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(value)&&Number.isFinite(Date.parse(value))&&new Date(value).toISOString().slice(0,10)===value&&value<=today;}
-export function oddRound(seed,round){if(!Number.isInteger(round)||round<0||round>4)throw Error('Choose a round from 1 to 5.');const next=random(`${seed}:odd:${round}`),size=[3,4,4,5,5][round],oddIndex=Math.floor(next()*size*size),glyph=['arrow','flag','key'][Math.floor(next()*3)],angle=Math.floor(next()*4)*90,offset=[90,90,45,30,15][round];return {size,oddIndex,glyph,cells:Array.from({length:size*size},(_,i)=>({glyph,angle:i===oddIndex?(angle+offset)%360:angle}))};}
+export function codeSecret(seed){const next=random(`${seed}:code:v1`);return Array.from({length:5},()=>Math.floor(next()*10)).join('');}
+export function scoreCode(secret,guess){
+ if(typeof secret!=='string'||typeof guess!=='string'||!/^\d{5}$/.test(secret)||!/^\d{5}$/.test(guess))throw Error('Use exactly five digits.');
+ let exact=0;const remainingSecret=[],remainingGuess=[];
+ for(let i=0;i<5;i++){if(secret[i]===guess[i])exact++;else{remainingSecret.push(secret[i]);remainingGuess.push(guess[i]);}}
+ let elsewhere=0;for(const digit of remainingGuess){const index=remainingSecret.indexOf(digit);if(index>=0){elsewhere++;remainingSecret.splice(index,1);}}
+ return {exact,elsewhere};
+}
 export const memorySymbols=[{mark:'★',name:'star'},{mark:'♥',name:'heart'},{mark:'◆',name:'diamond'},{mark:'☀',name:'sun'},{mark:'☂',name:'umbrella'},{mark:'♣',name:'club'}];
 export function memoryGame(seed){return {cards:shuffle([0,0,1,1,2,2,3,3,4,4,5,5],`${seed}:memory`),open:[],matched:[],moves:0};}
 export function turnMemory(state,index){if(!Number.isInteger(index)||index<0||index>=state.cards.length)throw Error('Choose a card on the board.');if(state.open.length===2||state.open.includes(index)||state.matched.includes(index))return state;const next={...state,open:[...state.open,index],matched:[...state.matched]};if(next.open.length===2){next.moves++;if(next.cards[next.open[0]]===next.cards[next.open[1]]){next.matched.push(...next.open);next.open=[];}}return next;}

@@ -1,5 +1,29 @@
 # Chambers functionality ledger
 
+**Take a Break code game implemented locally (2026-10-16):** Crack the Code
+replaces Oddly Different in the hub, Make 24 next-game action and game controller.
+Players deduce five digits (repeats and leading zeros allowed) in eight attempts;
+feedback counts exact positions and misplaced digits without double counting.
+Guess history, honest win/loss outcomes, end-of-game lockout, daily IST seeds,
+fresh practice seeds and explicit spoiler-free sharing are implemented. Old
+visual-difference engine/styles are removed; remaining games/seeds stay intact.
+All progress remains transient; no API, database, provider or account change.
+Verification: six targeted Node tests and all seven Chrome browser workflows
+passed using isolated temporary DATA_DIR, including invalid input, repeated-digit
+scoring, win/loss/reset/sharing, in-tab navigation and 320/390/1440px light/dark
+layouts with keyboard focus and no page errors. `git diff --check` passed.
+This replacement has not been deployed; existing production still needs release.
+
+**News calendar defaults to today (2026-10-16):** `/news` now opens the
+server-provided current IST date even when older shared editions exist, instead
+of replacing the date with the latest archive. Explicit `?date=` links and archive
+navigation retain their behavior. No news is automatically generated and no
+records/schema are changed. Local Chrome verification uses isolated temporary
+DATA_DIR fixtures: eight existing News browser checks passed in the initial
+suite; the new regression and the updated date-aware canonical URL check both
+passed on rerun (all ten checks verified). `git diff --check` passed. This fix
+is local and has not been deployed.
+
 **Satire Arena 2 deployed and live verified (2026-10-16):** User requested deploying
 the completed changes. Source commit `d7841dd` is published to the existing
 production Worker at https://apps.sushantsynapse.com, version

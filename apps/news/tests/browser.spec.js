@@ -19,6 +19,22 @@ test.afterEach(async()=>{
   if(dir)fs.rmSync(dir,{recursive:true,force:true});
 });
 
+test('news opens on today in IST even when older saved editions exist',async({page})=>{
+  execFileSync(process.execPath,[path.join(__dirname,'seed-fixtures.js'),dir]);
+  const today=(await (await page.request.get(base+'/api/news/status')).json()).today;
+  await page.goto(base+'/news');
+  await expect(page.getByLabel('Edition date')).toHaveValue(today);
+  await expect(page.getByRole('button',{name:"Fetch today's newspaper"})).toBeEnabled();
+  await expect(page.locator('#reader-status')).toHaveText(`No saved newspaper for ${today}.`);
+  await expect(page.locator('#archive-list button')).not.toHaveCount(0);
+  await page.locator('#latest-edition').click();
+  await expect(page.getByLabel('Edition date')).toHaveValue('2025-01-03');
+  await expect(page.locator('.saved-story')).toHaveCount(10);
+  await page.goto(base+'/news?date=2025-01-01');
+  await expect(page.getByLabel('Edition date')).toHaveValue('2025-01-01');
+  await expect(page.locator('.saved-story')).toHaveCount(10);
+});
+
 test('backend outage generates in the browser, reuses tab editions, validates dates and recovers shared archives',async({page})=>{
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
   await page.route('**/api/news/status',route=>route.fulfill({status:503,json:{error:'Backend offline'}}));
@@ -154,7 +170,7 @@ test('News access, available catalogue, empty states, responsive themes and prin
   expect((await page.request.post(base+'/api/platform/apps/news/launch',{data:{}})).status()).toBe(200);
   const catalog=await (await page.request.get(base+'/api/platform')).json();
   expect(catalog.apps.find(app=>app.id==='news')).toMatchObject({status:'Available',accessible:true});
-  await page.goto(base+'/news/');await expect(page).toHaveURL(base+'/news');
+  await page.goto(base+'/news/');await expect(page).toHaveURL(base+'/news?date='+(await status.json()).today);
   await expect(page.getByRole('heading',{name:'Sushant Synapse Times',exact:true})).toBeVisible();
   await expect(page.locator('.byline')).toHaveText('By Aakanksha');
   await expect(page.getByRole('button',{name:"Fetch today's newspaper"})).toBeEnabled();
