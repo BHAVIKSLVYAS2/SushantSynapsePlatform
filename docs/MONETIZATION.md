@@ -1,6 +1,6 @@
 # Quiet sponsorship plan
 
-## Confessions advertising preparation (2026-10-16, local)
+## Confessions advertising preparation (2026-10-16, feature deployed; ads disabled)
 
 `apps/confessions/frontend/ad-config.mjs` reuses the existing publisher ID but
 remains disabled: no individual manual-slot IDs or rewarded Google Ad Manager
@@ -17,8 +17,9 @@ free. The browser allowance is a UX mechanism, not a paid entitlement.
 Automatic approval review rejected extending the homepage's broad Google CSP
 to Confessions. That change was not applied; current self-only page scripts
 remain. Explicit permission for a page-only policy expansion and real inventory/
-account consent configuration are required before activation. No impressions,
-ad approval, earnings or production deployment are claimed. The homepage's
+account consent configuration are required before activation. No ad impressions,
+ad approval or earnings are claimed. The Confessions feature is deployed with ads
+disabled; read-only live verification is recorded in the ledger. The homepage's
 existing integration remains unchanged. New confessions are reviewed before
 publication; reports hide content for review. This follows Google's guidance to
 serve ads only with reviewed compliant user content:

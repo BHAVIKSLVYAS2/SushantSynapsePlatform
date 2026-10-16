@@ -1,6 +1,6 @@
 # Code ownership and adding apps
 
-Confessions (2026-10-16, local): `apps/confessions` owns `/confessions`, its
+Confessions (2026-10-16, deployed): `apps/confessions` owns `/confessions`, its
 scrolling scratch-card stream, composer, owner moderation and shared service.
 The versioned `confessions-v1` SQL setting stores at most 300 bounded entries;
 Node uses SQLite transactions/CAS and Cloudflare uses guarded D1 commits. No

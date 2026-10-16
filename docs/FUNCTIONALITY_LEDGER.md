@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Confessions (2026-10-16, implemented locally; ads blocked/unconfigured):**
+**Confessions (2026-10-16, deployed/live verified; ads blocked/unconfigured):**
 `/confessions` provides separate covered cards in a scrolling shared stream,
 mouse/phone scratching, accessible tap reveal, a composer below the stream,
 refresh/new-message controls and explicit tab-only sample cards. Anonymous
@@ -47,7 +47,20 @@ build succeeds with 791 exported assets; the native all-apps Free D1 suite passe
 all 13 checks (12 subtests plus parent), including Confessions and the existing
 workspace checks. The initial D1 run's ledger fixture conflicted with a
 concurrent frontend export; verification was rerun sequentially. All test data
-uses isolated temporary SQLite/D1 fixtures. No production deployment performed.
+uses isolated temporary SQLite/D1 fixtures.
+
+Source commit `03ca985` is deployed at
+https://apps.sushantsynapse.com/confessions on production Worker
+`5d272979-1ff1-49e3-bb46-fa49b18af1ee`. Deployment retains password auth,
+FULL_APPS, existing D1 storage and adds the six/minute Confessions limiter.
+Read-only live Chrome verification confirms five frontend assets match source,
+the self-only script policy, public D1 listing without message/author fields,
+anonymous moderation denial, explicit local sample-card reveal, eight responsive
+theme widths, both homepage discovery paths and the finder. Existing health and
+sign-in routes respond successfully. No page errors or API writes occurred;
+external ad/telemetry requests from the existing homepage were intercepted.
+No production confessions, accounts or records were seeded, deleted or changed.
+Advertising remains disabled pending real unit IDs and page security approval.
 
 **Bill Splitter simplification (2026-10-16, deployed/live verified):**
 The default is now a blank equal split: one bill amount, people's names and a

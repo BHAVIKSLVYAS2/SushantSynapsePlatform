@@ -1,11 +1,11 @@
 # Sushant Synapse Platform
 
-Implemented locally: `/confessions` adds a shared, reviewed scratch-card stream
+Deployed and live-verified (2026-10-16): `/confessions` adds a shared, reviewed scratch-card stream
 with no name/sign-in requested, phone/mouse/tap reveals, posting, reports and
 seven-day expiry. Data stays in the platform SQL database. Header/footer/desktop
 ad placements and five-reveal rewarded batches are prepared but disabled pending
 real unit IDs and explicit page-only ad security approval. See the functionality
-ledger and `apps/confessions/README.md`; this addition is not yet deployed.
+ledger and `apps/confessions/README.md` for release and activation details.
 
 Bill Splitter now opens with a simple equal split: bill amount, names and who
 paid. Trips, multiple payments and unequal shares sit under More options; example
