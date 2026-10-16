@@ -1,5 +1,34 @@
 # Chambers functionality ledger
 
+**Crack the Code clue-led redesign implemented locally (2026-10-16):** User
+found the five-digit repeated-digit game too complex and guess-dependent.
+Research of Mastermind instructions and the publisher's three-digit Bulls and
+Cows activity informed a simpler rule set; links, rationale and limits are in
+`docs/TAKE_A_BREAK_CODE_DESIGN.md`. The replacement presents three distinct digits
+and five exact-count clues up front. An original clue construction is transformed
+by deterministic digit, column and clue-order permutations. There is exactly one
+solution among 720 legal codes, and all five clues are needed. This is a verified
+logical property, not a measured human difficulty rating; transformed boards
+share an inference structure rather than an unlimited bank of puzzle types.
+
+Worked instructions, manual three-state digit notes, a starting hint tied to the
+zero-match clue and feedback identifying conflicting clues make progress visible.
+Checks have no timer/attempt limit; invalid and repeated submissions do not count.
+Confirmed reveals are distinguished from wins; result sharing reports hint use
+and excludes answers/history. Daily code links add `cv=2`, while other games retain
+their v1 seeds. Old unversioned code links open the current format. No API, schema,
+account or persistent game-record changes.
+
+Verification: all six targeted Node tests and all seven Take a Break Chrome
+workflows passed with isolated temporary DATA_DIR; the code workflow passed again
+after singular/plural copy cleanup. The engine exhaustively checks 720 candidates
+on each of 100 seeded boards for uniqueness and necessity of each clue. Browser
+checks cover notes, examples, invalid/duplicate input, conflicts, hints, solved/
+revealed states, sharing, daily/practice resets, preserved navigation and
+320/390/1440px light/dark layouts without page errors or overflow. Mobile screenshot
+reviewed. Script syntax and `git diff --check` pass. This redesign is local,
+uncommitted and undeployed; the production five-digit game is unchanged until release.
+
 **Support redesign and session header deployed/live verified (2026-10-16):**
 User-authorized source commits `a7422f5` and `3310425` is published at
 https://apps.sushantsynapse.com on existing production Worker version

@@ -43,3 +43,23 @@
 .code-history{padding-left:1.5rem}
 .code-row{padding:.75rem 0;border-bottom:1px solid var(--ui-edge);display:flex;gap:1rem;justify-content:space-between;flex-wrap:wrap}
 .code-digits{font-variant-numeric:tabular-nums;letter-spacing:.3em}
+.code-clues{list-style:none;padding:0;margin:20px 0}
+.code-clue{display:grid;grid-template-columns:24px 116px minmax(0,1fr);align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--ui-edge)}
+.code-clue-number{font-size:11px;color:var(--ui-muted)}
+.code-clue-digits{display:flex;gap:6px;font-variant-numeric:tabular-nums}
+.code-clue-digits span{display:grid;place-items:center;width:32px;height:40px;background:var(--ui-soft);border:1px solid var(--ui-edge);border-radius:8px;font-size:20px;font-weight:700}
+.code-clue-copy{font-size:13px;line-height:1.6}
+.code-clue-copy small{display:block;color:var(--ui-muted);font-size:11px}
+.code-clue.is-conflict{border-bottom-style:dashed}
+.code-clue.is-conflict .code-clue-check{font-weight:700;color:var(--ui-text)}
+.code-example{padding:12px 0;border-bottom:1px solid var(--ui-edge);font-size:13px}
+.code-example summary{cursor:pointer;min-height:32px;color:var(--ui-accent)}
+.code-example p{margin:10px 0}
+.code-notes{border:0;padding:0;margin:20px 0}
+.code-notes legend{font-size:13px;font-weight:600}
+.code-notepad{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:5px;margin-top:10px}
+.code-note{padding:4px;min-height:44px;min-width:0;font-size:14px;font-variant-numeric:tabular-nums}
+.code-note[data-mark="ruled out"]{text-decoration:line-through;color:var(--ui-muted);border-style:dashed}
+.code-note[data-mark="maybe"]{background:var(--ui-soft);border-color:var(--ui-accent)}
+.code-form input{max-width:12rem}
+@media(max-width:520px){.code-clue{grid-template-columns:20px minmax(0,1fr);gap:6px 10px}.code-clue-copy{grid-column:2}.code-notepad{grid-template-columns:repeat(5,minmax(0,1fr))}}

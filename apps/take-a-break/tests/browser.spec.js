@@ -6,29 +6,32 @@ test('older backend groups the play hub while preserving favourite and launch id
 });
 test('one mobile entry opens all seven breaks and preserves in-tab progress and Make 24',async({page})=>{
  const errors=[],api=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(new URL(r.url()).pathname.startsWith('/api/')&&!(r.method()==='GET'&&new URL(r.url()).pathname==='/api/auth/status'))api.push(r.url());});await page.setViewportSize({width:320,height:700});await page.goto(base+'/take-a-break');await expect(page.locator('.break-card')).toHaveCount(7);await page.locator('[data-filter=choose]').click();await expect(page.locator('.break-card:visible')).toHaveCount(2);await page.locator('[data-filter=challenge]').click();
- await page.locator('[data-game="24"]').click();await expect(page.locator('[data-pane="24"] #numbers button')).toHaveCount(4);const numbers=await page.locator('[data-pane="24"] #numbers').innerText();await page.locator('[data-pane="24"] #numbers button').first().click();await page.locator('#all-breaks').click();await page.locator('[data-game=code]').click();await page.getByLabel('Your code guess').fill('12345');await page.getByRole('button',{name:'Check code',exact:true}).click();await expect(page.locator('.code-row')).toHaveCount(1);await page.locator('#all-breaks').click();await page.locator('[data-game="24"]').click();expect(await page.locator('[data-pane="24"] #numbers').innerText()).toContain(numbers.split('\n')[0]);await expect(page.locator('[data-pane="24"] #numbers button').first()).toHaveAttribute('aria-pressed','true');
+ await page.locator('[data-game="24"]').click();await expect(page.locator('[data-pane="24"] #numbers button')).toHaveCount(4);const numbers=await page.locator('[data-pane="24"] #numbers').innerText();await page.locator('[data-pane="24"] #numbers button').first().click();await page.locator('#all-breaks').click();await page.locator('[data-game=code]').click();await page.getByLabel('Your code guess').fill('123');await page.getByRole('button',{name:'Check code',exact:true}).click();await expect(page.locator('.code-row')).toHaveCount(1);await page.locator('#all-breaks').click();await page.locator('[data-game="24"]').click();expect(await page.locator('[data-pane="24"] #numbers').innerText()).toContain(numbers.split('\n')[0]);await expect(page.locator('[data-pane="24"] #numbers button').first()).toHaveAttribute('aria-pressed','true');
  await page.locator('[data-pane="24"] .spark-details').first().locator('summary').click();await page.locator('[data-pane="24"] #reveal').click();await expect(page.locator('[data-pane="24"] #result-copy')).toContainText('24');await page.getByRole('button',{name:'Try Crack the Code'}).click();await expect(page.locator('.code-row')).toHaveCount(1);
  await page.locator('#all-breaks').click();await page.locator('[data-filter=choose]').click();await page.getByRole('link',{name:/Decision Wheel/}).click();await expect(page.locator('#spin')).toBeVisible();await page.getByRole('link',{name:'All breaks ↗',exact:true}).click();await page.locator('[data-filter=unwind]').click();await page.getByRole('link',{name:/Pocket Pause/}).click();await expect(page.locator('.modes')).toBeVisible();await page.getByRole('link',{name:'All breaks ↗',exact:true}).click();await expect(page.locator('.break-card')).toHaveCount(7);expect(api).toEqual([]);expect(errors).toEqual([]);
 });
-test('code puzzle validates guesses, tracks feedback, wins and loses, resets and shares without spoilers',async({page})=>{
- const seed='2026-10-01',{codeSecret,scoreCode}=await import('../frontend/engine.mjs'),secret=codeSecret(seed);
+test('code clues support deduction, scratchpad, validation, hints, honest reveal and sharing',async({page})=>{
+ const seed='2026-10-01',{codePuzzle}=await import('../frontend/engine.mjs'),puzzle=codePuzzle(seed),secret=puzzle.secret;
  await page.addInitScript(()=>{Object.defineProperty(navigator,'share',{value:undefined});Object.defineProperty(navigator,'clipboard',{value:undefined});});
- await page.goto(base+'/take-a-break?game=code&day='+seed+'&v=1');
+ await page.goto(base+'/take-a-break?game=code&day='+seed+'&v=1&cv=2');
+ await expect(page.locator('.code-clue')).toHaveCount(5);
+ for(let i=0;i<5;i++)await expect(page.locator('.code-clue-digits').nth(i)).toHaveText(puzzle.clues[i].guess);
+ await page.getByText('How to read a clue',{exact:true}).click();await expect(page.locator('.code-example')).toContainText('Example only');
+ await page.getByRole('button',{name:'Digit 0: unmarked',exact:true}).click();await expect(page.getByRole('button',{name:'Digit 0: ruled out',exact:true})).toBeVisible();
  const input=page.getByLabel('Your code guess'),submit=page.getByRole('button',{name:'Check code',exact:true});
- await input.fill('12a');await submit.click();await expect(page.locator('.code-row')).toHaveCount(0);
- const wrong=secret==='00000'?'11111':'00000',feedback=scoreCode(secret,wrong);
- await input.fill(wrong);await input.press('Enter');await expect(page.locator('.code-row')).toContainText(feedback.exact+' exact');
- await input.fill(secret);await submit.click();await expect(page.locator('.result-card')).toContainText('Solved in 2 of 8');
- await expect(submit).toBeDisabled();await page.getByRole('button',{name:'Share result'}).click();
- await expect(page.locator('#share-message')).toHaveValue(/Cracked in 2\/8 attempts/);
- expect(await page.locator('#share-message').inputValue()).not.toContain(secret);
- await page.locator('#close-share').click();await page.locator('#daily-mode').click();
- for(let i=0;i<8;i++){await input.fill(wrong);await submit.click();}
- await expect(page.locator('.result-card')).toContainText('The code was '+secret);await expect(submit).toBeDisabled();
- await page.locator('#practice-mode').click();await expect(page.locator('.code-row')).toHaveCount(0);await expect(submit).toBeEnabled();await expect(page.locator('#hub-edition')).toContainText('PRACTICE');
- await page.locator('#daily-mode').click();await input.fill(secret);await submit.click();await expect(page.locator('.result-card')).toContainText('Solved in 1 of 8');
- await page.reload();await expect(page.locator('.code-row')).toHaveCount(0);
- await expect(page.locator('[data-game=odd]')).toHaveCount(0);
+ await input.fill('111');await submit.click();await expect(page.locator('.code-game>.status')).toContainText('three different digits');await expect(page.locator('.code-row')).toHaveCount(0);
+ const wrong=secret==='012'?'345':'012';await input.fill(wrong);await input.press('Enter');await expect(page.locator('.code-row')).toHaveCount(1);await expect(page.locator('.code-clue.is-conflict').first()).toBeVisible();
+ await submit.click();await expect(page.locator('.code-game>.status')).toContainText('already checked');await expect(page.locator('.code-row')).toHaveCount(1);
+ await page.getByRole('button',{name:'Give me a starting hint'}).click();await expect(page.locator('.code-hint-copy')).toContainText('are all absent');
+ await input.fill(secret);await submit.click();await expect(page.locator('.result-card')).toContainText('2 checks · starting hint used');await expect(submit).toBeDisabled();
+ await page.getByRole('button',{name:'Share result'}).click();const message=await page.locator('#share-message').inputValue();expect(message).toContain('cv=2');expect(message).toContain('hint used');expect(message).not.toContain(secret);
+ await page.locator('#close-share').click();await page.locator('#daily-mode').click();await expect(page.locator('.code-row')).toHaveCount(0);await expect(page.getByRole('button',{name:'Digit 0: unmarked',exact:true})).toBeVisible();
+ page.once('dialog',dialog=>dialog.dismiss());await page.getByRole('button',{name:'Reveal solution'}).click();await expect(submit).toBeEnabled();
+ page.once('dialog',dialog=>dialog.accept());await page.getByRole('button',{name:'Reveal solution'}).click();await expect(page.locator('.result-card')).toContainText('Answer revealed');await expect(submit).toBeDisabled();
+ await page.getByRole('button',{name:'Share result'}).click();await expect(page.locator('#share-message')).toHaveValue(/Solution revealed/);expect(await page.locator('#share-message').inputValue()).not.toContain(secret);
+ await page.locator('#close-share').click();await page.locator('#practice-mode').click();await expect(page.locator('.code-row')).toHaveCount(0);await expect(page.locator('.code-clue')).toHaveCount(5);await expect(submit).toBeEnabled();await expect(page.locator('#hub-edition')).toContainText('PRACTICE');
+ await page.locator('#daily-mode').click();await input.fill(secret);await submit.click();await expect(page.locator('.result-card')).toContainText('1 check · no hints');
+ await page.reload();await expect(page.locator('.code-row')).toHaveCount(0);await expect(page.locator('.code-clue')).toHaveCount(5);
 });
 
 test('memory handles mismatch without timers and solves six pairs',async({page})=>{

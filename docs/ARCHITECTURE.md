@@ -18,10 +18,12 @@ revisions prevent stale auth responses from overwriting newer portal state.
 Account avatar sizing/theme tokens remain in `platform-shell.css`. Shared status
 reads are allowed by standalone-tool browser tests; app API traffic remains checked.
 
-Take a Break code deduction (2026-10-16): app-owned `engine.mjs` owns deterministic
-five-digit codes and duplicate-aware exact/elsewhere scoring. `app.js` owns the
-eight-attempt game, transient guesses, daily/practice resets and spoiler-free
-sharing at `?game=code`. This replaces Oddly Different, its engine and styles.
+Take a Break code deduction (2026-10-16): app-owned `engine.mjs` owns an original
+five-clue construction with a unique three-digit answer and seeded digit/position/
+row permutations (`cv=2`). `app.js` owns exact-clue validation, manual notes,
+starting hint, unlimited checks, confirmed reveal and spoiler-free sharing at
+`?game=code`. This supersedes the five-digit/eight-attempt game; research and
+generation limits are in `TAKE_A_BREAK_CODE_DESIGN.md`.
 Existing app routes, other daily seeds, assets, shared themes and persistence
 remain with their existing owners; no API or schema is introduced.
 

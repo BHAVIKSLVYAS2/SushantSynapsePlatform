@@ -3,11 +3,20 @@ export {clues};export const version='1';
 export function random(seed){let state=2166136261;for(const c of `break-v1:${seed}`)state=Math.imul(state^c.charCodeAt(0),16777619)>>>0;return()=>{state=(Math.imul(state,1664525)+1013904223)>>>0;return state/4294967296;};}
 export function shuffle(values,seed){const result=[...values],next=random(seed);for(let i=result.length-1;i>0;i--){const j=Math.floor(next()*(i+1));[result[i],result[j]]=[result[j],result[i]];}return result;}
 export function validDay(value,today){return typeof value==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(value)&&Number.isFinite(Date.parse(value))&&new Date(value).toISOString().slice(0,10)===value&&value<=today;}
-export function codeSecret(seed){const next=random(`${seed}:code:v1`);return Array.from({length:5},()=>Math.floor(next()*10)).join('');}
+// Original five-clue construction. Digit and column permutations preserve its
+// unique solution and the fact that every clue is needed. Other games keep v1.
+export const codeVersion='2';
+export function codePuzzle(seed){
+ const digits=shuffle('0123456789',`${seed}:code:v2:digits`),columns=shuffle([0,1,2],`${seed}:code:v2:columns`);
+ const transform=code=>columns.map(i=>digits[Number(code[i])]).join('');
+ const rows=[['345',0,0],['620',0,2],['582',1,0],['294',0,1],['702',1,1]];
+ return {secret:transform('012'),clues:shuffle(rows,`${seed}:code:v2:clues`).map(([guess,exact,elsewhere])=>({guess:transform(guess),exact,elsewhere}))};
+}
+export function codeSecret(seed){return codePuzzle(seed).secret;}
 export function scoreCode(secret,guess){
- if(typeof secret!=='string'||typeof guess!=='string'||!/^\d{5}$/.test(secret)||!/^\d{5}$/.test(guess))throw Error('Use exactly five digits.');
+ if(typeof secret!=='string'||typeof guess!=='string'||!/^\d{3}$/.test(secret)||!/^\d{3}$/.test(guess)||new Set(secret).size!==3||new Set(guess).size!==3)throw Error('Use three different digits from 0 to 9.');
  let exact=0;const remainingSecret=[],remainingGuess=[];
- for(let i=0;i<5;i++){if(secret[i]===guess[i])exact++;else{remainingSecret.push(secret[i]);remainingGuess.push(guess[i]);}}
+ for(let i=0;i<3;i++){if(secret[i]===guess[i])exact++;else{remainingSecret.push(secret[i]);remainingGuess.push(guess[i]);}}
  let elsewhere=0;for(const digit of remainingGuess){const index=remainingSecret.indexOf(digit);if(index>=0){elsewhere++;remainingSecret.splice(index,1);}}
  return {exact,elsewhere};
 }
