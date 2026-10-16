@@ -1,6 +1,6 @@
 # Code ownership and adding apps
 
-One-Minute Chaos (2026-10-16, local): `apps/take-a-break/frontend` owns
+One-Minute Chaos (2026-10-16, deployed): `apps/take-a-break/frontend` owns
 `chaos-engine.mjs` (seeded active-time simulation), `chaos.mjs` (DOM controls
 and pause lifecycle) and `chaos.css` (responsive token-based playfield).
 It is a game within the existing `daily-spark` catalogue ID, not a separate

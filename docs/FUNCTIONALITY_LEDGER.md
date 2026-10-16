@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**One-Minute Chaos and Confessions icon (2026-10-16, local implementation):**
+**One-Minute Chaos and Confessions icon (2026-10-16, deployed/live verified):**
 Take a Break now has an eighth activity at `/take-a-break?game=chaos`.
 Five lanes support touch/drag, on-screen controls and keyboard movement.
 Catch chai, dodge meeting invites and silence alarms; the active-time round
@@ -16,7 +16,11 @@ workflows pass across the existing suite and corrected targeted rerun, including
 mobile completion/pause, all existing games and signed-in catalogue fallback.
 Desktop dark, 390px mobile and 320px reduced-motion layouts pass. The refreshed
 Confessions heart artwork was visually reviewed; screenshots stay in `.publish`.
-This work has not been committed or deployed; production remains unchanged.
+Source commit `b422243` is deployed to `apps.sushantsynapse.com` in Worker
+version `73b2bd58-8bf6-4ed9-8119-35b836f04a16`. Live mobile Chrome completed
+a full round, verified the refreshed homepage heart symbol and reported zero
+page errors. Verification made no business-data writes. Existing production
+variables, password authentication, full apps and D1 binding were preserved.
 
 **Confession chat and relevant tool icons (2026-10-16, deployed/live verified):**
 New CAPTCHA-checked confessions now join the public shared stream immediately,
