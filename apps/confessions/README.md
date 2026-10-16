@@ -4,10 +4,14 @@ Public route: `/confessions`. A shared stream of separate scratch-to-reveal card
 with a composer below the scrollable conversation. Tap reveal is the accessible
 alternative; mouse and phone pointer scratching use the same reveal allowance.
 
-Anonymous submissions send only `{message}` (3–600 characters). New entries are
-pending and visible only to the submitting tab and signed-in platform Owners.
+Anonymous submissions send `{message,captchaId,captchaAnswer}`; text is limited
+to 3–600 characters. New entries are
+published immediately to the shared stream after the quick check. Independent
+browsers refresh the shared feed every five seconds while visible. Own messages
+appear on the right and other confessions as compact scratch cards on the left.
 An Owner signs in through the existing platform account, opens Confessions and
-uses the review queue to approve or remove entries. Reports immediately remove
+uses the review queue to remove entries or reapprove reported cards.
+Existing legacy pending submissions stay private until explicitly approved. Reports immediately remove
 approved entries from public reads until another Owner review. No author name,
 account ID, email, browser ID or IP is attached to stored entries. Hosting/network
 logs and transient rate-limit keys can still contain technical information.
@@ -21,6 +25,17 @@ write. At capacity, posting returns an explicit error rather than losing a draft
 or overwriting records. Six anonymous writes/minute are allowed per network key.
 The new Cloudflare `CONFESSIONS_LIMITER` binding is defined in fullstack/free
 staging and free production configs. Missing binding fails closed on writes.
+
+Posting also requires a first-party addition question, issued on composer focus
+or New question. At most 100 unused five-minute challenges are retained in the
+versioned SQL envelope; stale challenges are pruned on successful writes. IDs
+are opaque; the expected answer is never returned by the API. Each challenge
+works once, even with concurrent requests; a wrong attempt consumes it. Posting
+and consumption share one guarded write. Missing/expired questions fail closed.
+Questions and submissions both count against the six/minute rate limit. The
+form keeps its draft if posting fails. No external scripts or personal details
+are added. This basic maths check is friction against casual spam, not proof of
+humanity or protection against determined bots. Moderation remains in place.
 
 Public listing returns only IDs and times. Text is fetched when revealing a
 published card; drafts and pending text never appear in public responses.

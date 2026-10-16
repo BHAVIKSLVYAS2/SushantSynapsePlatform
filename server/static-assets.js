@@ -132,7 +132,7 @@ for(const file of ['app.js','engine.js','style.css','icon.svg'])staticAssets['/f
 for(const file of ['app.js','engine.js','style.css','comic.css','art/chai-comic-v1.webp','art/news-desk-v1.webp'])staticAssets['/news/'+file]='apps/news/frontend/'+file;
 staticAssets['/confessions']='apps/confessions/frontend/index.html';
 staticAssets['/confessions/']='apps/confessions/frontend/index.html';
-for(const file of ['app.js','style.css','ad-config.mjs','ads.mjs','reveal-budget.mjs'])staticAssets['/confessions/'+file]='apps/confessions/frontend/'+file;
+for(const file of ['app.js','style.css','ad-config.mjs','ads.mjs','reveal-budget.mjs','captcha.mjs'])staticAssets['/confessions/'+file]='apps/confessions/frontend/'+file;
 module.exports={staticAssets};
 staticAssets['/shared/tool-refinements.css']='packages/ui/tool-refinements.css';
 for(const file of ['presentation.mjs','presentation.css'])staticAssets['/shared/'+file]='packages/ui/'+file;

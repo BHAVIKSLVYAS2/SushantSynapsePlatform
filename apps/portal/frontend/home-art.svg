@@ -52,4 +52,13 @@
  <symbol id="satire" viewBox="0 0 180 160">
   <g filter="url(#depth)" transform="rotate(-8 90 80)"><path d="M45 36q45-20 90 0v48c0 38-30 55-45 61-15-6-45-23-45-61Z" fill="url(#mint)" stroke="url(#edge)" stroke-width="2"/><path d="M65 63q9-9 18 0m14 0q9-9 18 0" fill="none" stroke="#174d41" stroke-width="5" stroke-linecap="round"/><path d="M64 84q26 43 52 0Z" fill="#174d41"/><path d="M70 86h40" stroke="#ecfff6" stroke-width="7" stroke-linecap="round"/><circle cx="42" cy="46" r="16" fill="url(#amber)"/><circle cx="138" cy="115" r="18" fill="url(#amber)"/><circle cx="42" cy="46" r="5" fill="#784822"/><circle cx="138" cy="115" r="6" fill="#784822"/></g>
  </symbol>
+ <symbol id="confessions" viewBox="0 0 180 160">
+  <g filter="url(#depth)"><path d="M42 29h102a16 16 0 0 1 16 16v65a16 16 0 0 1-16 16H95l-28 23v-23H42a16 16 0 0 1-16-16V45a16 16 0 0 1 16-16Z" fill="url(#mint)"/><path d="M48 54h77M48 73h59M48 92h39" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><circle cx="135" cy="116" r="23" fill="url(#amber)"/><path d="M124 116h22m-11-11v22" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></g>
+ </symbol>
+ <symbol id="qr" viewBox="0 0 180 160">
+  <g filter="url(#depth)"><rect x="30" y="16" width="124" height="126" rx="18" fill="url(#mint)"/><g fill="none" stroke="currentColor" stroke-width="5"><rect x="45" y="31" width="33" height="33" rx="3"/><rect x="105" y="31" width="33" height="33" rx="3"/><rect x="45" y="91" width="33" height="33" rx="3"/></g><g fill="currentColor"><path d="M55 41h13v13H55zM115 41h13v13h-13zM55 101h13v13H55zM89 32h7v20h-7zM45 74h20v7H45zM74 74h22v17H84v-7H74zM106 76h12v12h-12zM128 76h10v23h-10zM90 101h11v23H90zM111 100h7v14h20v10h-27z"/></g></g>
+ </symbol>
+ <symbol id="photo" viewBox="0 0 180 160">
+  <g filter="url(#depth)"><rect x="34" y="30" width="112" height="94" rx="12" fill="url(#blue)"/><path d="m44 111 28-32 22 20 16-16 26 28Z" fill="url(#mint)"/><circle cx="117" cy="54" r="11" fill="url(#amber)"/><g stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M17 55V16h39M124 140h39v-39M19 18l22 22m120 98-22-22M17 31V16h15m131 109v15h-15"/></g></g>
+ </symbol>
 </svg>

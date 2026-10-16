@@ -31,8 +31,11 @@ test('native Worker integration with '+(allAppsD1?'all apps on Free D1':'D1 and 
  });
  await t.test('public confession moderation, reveal and report use shared D1 with no author fields',async()=>{
   const response=await raw('/confessions');assert.equal(response.status,200);assert.match(response.headers.get('Content-Security-Policy'),/script-src 'self';/);
-  const posted=await api('confessions','POST',{message:'A D1 confession without a name'},{Cookie:''});assert.equal(posted.status,201,JSON.stringify(posted.data));const id=posted.data.id;
-  assert.equal((await api('confessions','GET',undefined,{Cookie:''})).data.items.length,0);assert.equal((await api('confessions/'+id,'GET',undefined,{Cookie:''})).status,404);assert.equal((await api('confessions/moderation','GET',undefined,{Cookie:''})).status,403);
+  assert.equal((await api('confessions','POST',{message:'Missing CAPTCHA'},{Cookie:''})).status,400);
+  const check=(await api('confessions/challenge','POST',{}, {Cookie:''})).data;const captchaAnswer=String(check.question.match(/\d+/g).map(Number).reduce((a,b)=>a+b));
+  const posted=await api('confessions','POST',{message:'A D1 confession without a name',captchaId:check.id,captchaAnswer},{Cookie:''});assert.equal(posted.status,201,JSON.stringify(posted.data));const id=posted.data.id;
+  assert.equal((await api('confessions','POST',{message:'Replayed CAPTCHA',captchaId:check.id,captchaAnswer},{Cookie:''})).status,400);
+  assert.equal((await api('confessions','GET',undefined,{Cookie:''})).data.items.length,1);assert.equal((await api('confessions/'+id,'GET',undefined,{Cookie:''})).status,200);assert.equal((await api('confessions/moderation','GET',undefined,{Cookie:''})).status,403);
   assert.equal((await api('confessions/moderation/'+id,'POST',{action:'approve'})).status,200);const shared=await api('confessions','GET',undefined,{Cookie:''});assert.equal(shared.data.items[0].message,undefined);assert.equal((await api('confessions/'+id,'GET',undefined,{Cookie:''})).data.message,'A D1 confession without a name');
   const saved=JSON.parse((await db.prepare('SELECT data FROM settings WHERE id=?').bind('confessions-v1').first()).data);assert.deepEqual(Object.keys(saved.items[0]).sort(),['createdAt','expiresAt','id','message','status']);
   assert.equal((await api('confessions/'+id+'/report','POST',{}, {Cookie:''})).status,200);assert.equal((await api('confessions/'+id,'GET',undefined,{Cookie:''})).status,404);assert.equal((await api('confessions/moderation/'+id,'POST',{action:'remove'})).status,200);

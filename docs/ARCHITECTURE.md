@@ -1,5 +1,28 @@
 # Code ownership and adding apps
 
+Confession chat/icons (2026-10-16, local): new CAPTCHA-verified posts are public
+immediately, while historical pending entries stay private until Owner review.
+Report/Owner removal and seven-day expiry remain. The shared SQL envelope's
+version is returned with listing/post responses so a stale poll cannot remove
+a newer own-message card. Visible tabs poll every five seconds; separate browser
+processes share the same backend, with no account or browser author ID stored.
+Own bubble alignment is tab-only; own text is immediately visible, while other
+messages keep scratch/tap reveal. Compact composer CAPTCHA expands on focus.
+`home-art.svg` owns theme-aware speech/QR/photo-resize symbols; portal artwork
+mapping, 24px paths, registry metadata and both homepage renderings use them.
+
+Confessions quick check (2026-10-16, local): the app-owned `captcha.mjs` loads a
+first-party addition question on composer focus or New question. The shared
+service issues opaque IDs, retains at most 100 five-minute challenges in the
+existing versioned SQL setting, and atomically consumes a correct answer with
+posting. Incorrect attempts consume their challenge; missing/expired IDs fail
+closed. D1 guarded commits/Node CAS prevent concurrent replay. Challenge issue
+and posting both use the existing six/minute limiter; no IP/account data is
+attached to the challenges. Old settings without challenges default to empty.
+Only transient IDs/answers enter the browser form; no third-party script, new
+database, schema migration or CSP change is required. This is basic spam
+friction, not strong bot detection; moderation and rate limits retain ownership.
+
 Confessions (2026-10-16, deployed): `apps/confessions` owns `/confessions`, its
 scrolling scratch-card stream, composer, owner moderation and shared service.
 The versioned `confessions-v1` SQL setting stores at most 300 bounded entries;

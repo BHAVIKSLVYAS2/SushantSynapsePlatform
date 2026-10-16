@@ -1,5 +1,63 @@
 # Chambers functionality ledger
 
+**Confession chat and relevant tool icons (2026-10-16, local; not deployed):**
+New CAPTCHA-checked confessions now join the public shared stream immediately,
+instead of waiting in the Owner inbox. Existing pending submissions remain
+private until explicitly reviewed; no old records are republished. Messages
+sync through the same SQLite/D1 backend across independent browsers, with
+five-second visible-tab polling. Own messages appear immediately on the right;
+other messages use compact left-aligned scratch cards, with accessible reveal.
+Snapshot versions protect newly posted own cards from stale feed responses.
+The CAPTCHA stays collapsed until composing and after a successful post.
+Reporting still hides a card for review and Owners can remove/reapprove it.
+All original rate limits, expiry and no-personal-fields behavior remain.
+
+Confessions, QR Maker and Photo Resize get speech-bubble, QR-pattern and
+image/resize artwork, respectively. New SVG symbols, catalogue icon names,
+signed-in/finder artwork mappings and both homepage versions are aligned.
+Privacy/terms copy describes immediate public sharing. Ads remain disabled;
+the earlier assumption of review before all publication no longer applies to
+new posts and must be reassessed before any future ad activation.
+
+Verification: five Node checks pass, including preservation of private legacy
+pending entries and public new entries. Six Chrome workflows pass, including
+posting in one browser process and automatic appearance/reveal in a second
+without Owner approval, reporting propagating to both, Owner removal, relevant
+homepage SVG references, phone scratching and eight light/dark width checks.
+The 13 native Free D1 checks pass with immediate anonymous public availability
+and missing/replayed CAPTCHA rejection. Cloudflare dry-run exports 792 assets.
+The final collapsed-composer refinement passes both affected browser workflows;
+homepage icon discovery passes again and its screenshot was reviewed. Syntax
+and whitespace checks pass. All data fixtures are isolated; no production
+records were changed or deployed.
+
+**Confessions CAPTCHA (2026-10-16, local; not yet deployed):** Posting now needs
+a small first-party addition question. It loads when the composer is focused
+or New question is selected. An accessible labelled numeric input works on
+phones and keyboards. Questions expire after five minutes and are single-use;
+an incorrect attempt also consumes its question. The API rejects missing,
+incorrect, expired and reused answers. Concurrent submissions cannot reuse a
+challenge because consumption and post creation share the existing guarded SQL
+write. Failed posting keeps the draft and offers a new question. Reading,
+scratching, reports and owner moderation do not require a CAPTCHA.
+
+Challenges are bounded to 100 and stored in the existing SQL settings envelope;
+expired entries are pruned on successful writes, and old envelopes default to
+no challenges. Challenge issuance also uses the anonymous six/minute rate limit.
+No personal details, cookies, Google widget, external script or security-policy
+change is added. This simple maths check is casual-spam friction; determined
+bots can solve it, so existing moderation and rate limits remain necessary.
+
+Verification: five targeted Node checks pass, covering wrong/missing/expired/
+replayed answers, concurrent one-use enforcement, persistence and existing
+Confessions behavior. Six Chrome workflows pass, including actual CAPTCHA
+completion before posting, owner review/publication, failed-post draft retention,
+phone scratching and eight responsive theme widths. Cloudflare dry-run succeeds
+with 792 exported assets. All 13 native all-apps Free D1 checks pass, including
+rejection of missing/replayed CAPTCHA answers and successful checked posting.
+Tests use isolated local databases. Syntax/whitespace checks pass. No production
+records changed; this addition is not deployed and ads remain disabled.
+
 **Confessions (2026-10-16, deployed/live verified; ads blocked/unconfigured):**
 `/confessions` provides separate covered cards in a scrolling shared stream,
 mouse/phone scratching, accessible tap reveal, a composer below the stream,
