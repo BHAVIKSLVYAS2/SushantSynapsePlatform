@@ -1,5 +1,19 @@
 # Chambers functionality ledger
 
+**Combined production deployment (2026-10-17, live verified):**
+Release `9713f1a` (source `aef5ef3`) deployed from an isolated checkout as Worker
+`c71fd673-47d4-45d1-bb3a-ce9b689e81c0`. Eleven assets uploaded, 792 reused;
+existing database/auth/rate-limit bindings retained. Live Chrome checks pass six
+exact deployed asset comparisons, app-first visitor identity and root footer,
+24 homepage/Arena/Break width/theme combinations, all 78 Arena reaction controls,
+Break category counts, three-column packing and the featured two-column span.
+No page errors or business writes; the new visitor aggregate received normal
+page-visit requests during verification. No schema migration, runtime database
+file upload or account/record changes. Evidence:
+`.publish/verify-platform-release-live.cjs`, `.publish/platform-visitors-live.png`.
+The visitor, Arena and Break entries marked local below describe development
+verification; all three are now committed, deployed and live verified here.
+
 **Combined platform release validation (2026-10-17):**
 All pending source/docs committed in `aef5ef3`: platform visitor footer, Arena
 reaction/interface refinement and Take a Break bento discovery. Runtime SQL
@@ -11,7 +25,7 @@ Confessions, one platform visitor, fifteen Arena and ten Take a Break. Three
 no-business-API assertions were adjusted to permit only the newly introduced
 visitor-counter endpoint; their focused reruns pass. Visitor aggregate unit test
 also passes. Temporary isolated test databases used; deployment verification
-follows below when complete.
+is recorded above.
 
 **Platform visitor footer (2026-10-17, local):**
 Corrected scope from Confessions to the website root. Shared header loads a
