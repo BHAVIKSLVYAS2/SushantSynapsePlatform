@@ -63,7 +63,6 @@
  .public-home .public-app .access-label {font-size:9px;font-weight:600;color:var(--home-accent);background:none;padding:0;margin:0 0 10px}
  .public-home .public-app .access-label::before {content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--home-bright);margin-right:6px;box-shadow:0 0 8px var(--home-halo)}
  .public-home .public-tags {display:none}
- .public-home .public-launch {min-height:44px;background:var(--home-chip);border:1px solid var(--home-border);border-radius:10px;color:var(--home-accent);font-size:11px;padding:10px 12px;gap:6px}
  .public-home .public-app:is([href="/timetable-lite"],[href="/ritual-assist"],[href="/team-mixer"]) {
   display:grid;grid-template-columns:minmax(90px,.8fr) minmax(0,1.2fr);grid-template-rows:1fr;
   border-color:color-mix(in srgb,var(--home-bright) 70%,var(--home-border));
@@ -127,7 +126,6 @@
   .public-home .public-app-arrow {width:26px;height:26px;font-size:12px}
   .public-home .public-app :is(.news-visual,.fund-visual) {margin:12px 12px 0;width:calc(100% - 24px);height:76px}
   .public-home .home-sculpture {width:86px;height:76px}
-  .public-home .public-launch {font-size:10px;padding:9px 8px;overflow-wrap:anywhere}
   .public-home .public-app:is([href="/timetable-lite"],[href="/ritual-assist"],[href="/team-mixer"]) {min-height:225px}
   .public-home .public-app:is([href="/timetable-lite"],[href="/ritual-assist"],[href="/team-mixer"]) .public-app-copy {padding:28px 16px 16px 4px}
   .public-home .public-app:is([href="/timetable-lite"],[href="/ritual-assist"],[href="/team-mixer"]) .home-sculpture {height:130px;width:min(100%,140px)}
@@ -245,14 +243,10 @@
   background:var(--home-chip);align-items:center;justify-content:center;overflow:visible;
  }
  .public-home #free-apps .public-app .home-sculpture {width:60px;height:54px}
- .public-home #free-apps .public-app .public-app-copy {padding:16px 18px 12px;justify-content:flex-start}
+ .public-home #free-apps .public-app .public-app-copy {padding:14px 18px 18px;justify-content:flex-start}
  .public-home #free-apps .public-app h2 {font-size:20px;line-height:1.2;margin:0 0 8px}
  .public-home #free-apps .public-app-copy>p {
-  display:block;overflow:visible;font-size:13px;line-height:1.5;margin:0 0 14px;
- }
- .public-home #free-apps .public-launch {
-  min-height:44px;font-size:12px;padding:10px 0;border:0;border-top:1px solid var(--home-border);
-  border-radius:0;background:transparent;color:var(--home-accent);line-height:1.5;
+  display:block;overflow:visible;font-size:13px;line-height:1.5;margin:0;
  }
  .public-home #free-apps .public-app-head {top:18px;right:18px}
  .public-home #free-apps .public-app-arrow {background:transparent;border:0;color:var(--ui-muted)}
@@ -274,10 +268,9 @@
   .public-home #free-apps .public-app .news-visual,
   .public-home #free-apps .public-app .fund-visual {width:52px;height:52px;margin:14px 14px 0;border-radius:15px}
   .public-home #free-apps .public-app .home-sculpture {width:50px;height:44px}
-  .public-home #free-apps .public-app .public-app-copy {padding:14px 14px 8px}
+  .public-home #free-apps .public-app .public-app-copy {padding:12px 14px 16px}
   .public-home #free-apps .public-app h2 {font-size:18px}
-  .public-home #free-apps .public-app-copy>p {font-size:12px;margin-bottom:12px}
-  .public-home #free-apps .public-launch {font-size:11px;padding:10px 0}
+  .public-home #free-apps .public-app-copy>p {font-size:12px;margin-bottom:0}
   .public-home #free-apps .public-app-head {top:14px;right:10px}
  }
  @media(max-width:359px) {

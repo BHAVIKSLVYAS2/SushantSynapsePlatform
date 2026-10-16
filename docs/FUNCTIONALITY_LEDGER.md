@@ -1814,6 +1814,18 @@ For the earlier Chambers release, local implementation was complete. Further wor
 Source review identified different public-home, authenticated-catalogue and Chambers navigation shells, plus app-specific presentation/theme divergence. Recommendation and acceptance criteria are recorded in `docs/UI_PLATFORM_REVIEW_2026-10-11.md`: establish a shared platform shell, distinguish app navigation, simplify the launcher and migrate shared components before extending across apps. At this review checkpoint no UI implementation, rendered browser verification, deployment or business-data changes had been performed. The subsequent implementation and release status at the top of this ledger supersede that checkpoint.
 # Free-app card spacing (2026-10-16, deployed)
 
+## Single-action public cards (2026-10-16, local)
+
+Both portal homepage renderings remove the repeated Open/Create action row from
+all 14 free-app cards. Each full-card link retains its name, short description,
+artwork and one decorative right arrow for same-tab navigation. Existing link
+labels/routes and private access guidance remain. Removed unused homepage action
+styles and tightened copy spacing; stylesheet/controller cache versions refreshed.
+Verification: targeted portal Chrome workflows passed 2/2 (`illustrated home` and
+`AdSense loads`), covering four widths, both themes, search, no-JavaScript and
+auth outage. Source checks confirm exactly 14 decorative arrows and no duplicate
+action rows in each rendering. Mobile capture reviewed. Not committed/deployed.
+
 ## Dark glass directory refinement (2026-10-16, deployed)
 
 User-directed dark glass styling extends the directory refinement below, with
