@@ -1,5 +1,27 @@
 # Chambers functionality ledger
 
+**Public-tool quick wins deployed/live verified (2026-10-16):** Source `10e0108`
+is deployed at https://apps.sushantsynapse.com on production Worker
+`d0527169-2b6d-4bdc-a9d0-a3915d2c93d2`. Build exported 776 allowlisted public
+assets and uploaded 36 changed assets. Existing D1, password authentication,
+rate-limit and full-app bindings/variables are preserved. No migration or live
+business/account writes ran; unrelated local data and owner-review files remain
+untracked and excluded from the commit.
+
+Live Chrome checks pass four exact source-asset matches, thirteen homepage tool
+cards, Bill Splitter equal/custom settlements and copy fallback, rejection of
+mismatched totals, Ritual Assist extras/checks surviving refresh and entering
+real text/PDF exports, wheel removal undo, exact prior-team restore, Focus task
+undo/JSON backup, QR PNG and target-size JPEG downloads. Forty layouts pass for
+five public tools at 320/390/768/1440px in light/dark. No page errors or application
+API writes occurred. The browser guard blocks all non-GET/HEAD requests; any
+Cloudflare telemetry is treated separately from application writes. Mobile Bill
+Splitter screenshot reviewed. Evidence is ignored `.publish/quick-wins-live.cjs`,
+`.publish/quick-wins-live-report.json`, `.publish/bill-live-mobile.png` and actual
+download/PDF artifacts. The user's follow-up clarified that Bill Splitter means
+the newly suggested tool; it is included in this release at `/bill-splitter` and
+has now been verified live. Release records are committed after verification.
+
 **Public-tool quick wins (2026-10-16, implemented and locally verified):**
 Focus gains validated merge-only backup/import and revision-guarded removal undo;
 Decision Wheel can undo removed winners; Team Mixer can restore the previous
