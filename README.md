@@ -1,16 +1,16 @@
 # Sushant Synapse Platform
 
-Local refinement: Confessions uses compact chat bubbles and shares new
+Deployed and live-verified (2026-10-16): Confessions uses compact chat bubbles and shares new
 CAPTCHA-checked posts directly with everyone across browsers. Older pending
 submissions stay private. Confessions, QR Maker and Photo Resize now have
-relevant speech, QR and image-resize icons. These changes are not yet deployed.
+relevant speech, QR and image-resize icons. Release details are in the ledger.
 
-Local addition: Confessions posting has a server-verified, single-use maths
+Confessions posting has a server-verified, single-use maths
 CAPTCHA with a five-minute expiry. It needs no external widget or personal
 details and keeps the existing rate limits/review flow. This protection is tested
-locally and is not yet deployed; see the ledger for verification status.
+locally and deployed with the chat refinement; see the ledger for verification.
 
-Deployed and live-verified (2026-10-16): `/confessions` adds a shared, reviewed scratch-card stream
+Deployed and live-verified (2026-10-16): `/confessions` adds a shared scratch-card stream
 with no name/sign-in requested, phone/mouse/tap reveals, posting, reports and
 seven-day expiry. Data stays in the platform SQL database. Header/footer/desktop
 ad placements and five-reveal rewarded batches are prepared but disabled pending

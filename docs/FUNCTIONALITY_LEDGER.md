@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Confession chat and relevant tool icons (2026-10-16, local; not deployed):**
+**Confession chat and relevant tool icons (2026-10-16, deployed/live verified):**
 New CAPTCHA-checked confessions now join the public shared stream immediately,
 instead of waiting in the Owner inbox. Existing pending submissions remain
 private until explicitly reviewed; no old records are republished. Messages
@@ -29,9 +29,19 @@ and missing/replayed CAPTCHA rejection. Cloudflare dry-run exports 792 assets.
 The final collapsed-composer refinement passes both affected browser workflows;
 homepage icon discovery passes again and its screenshot was reviewed. Syntax
 and whitespace checks pass. All data fixtures are isolated; no production
-records were changed or deployed.
+records were changed by verification.
 
-**Confessions CAPTCHA (2026-10-16, local; not yet deployed):** Posting now needs
+Source `307b960` is deployed at https://apps.sushantsynapse.com/confessions on
+production Worker `d107b51c-2742-40b1-b195-cfcdb7edfbd4`, including the CAPTCHA
+below. Read-only live Chrome checks verify six production assets match source,
+the versioned public D1 feed, shared-publication copy, anonymous moderation
+denial, compact sample-card dimensions/reveal, eight mobile/desktop theme widths,
+the three relevant homepage SVG references and app finder. Health, sign-in,
+privacy and terms routes respond successfully. No page errors or API writes
+occurred. Existing records/authentication/D1 bindings remain intact; no test
+confessions were posted to production. Ads remain disabled.
+
+**Confessions CAPTCHA (2026-10-16, deployed/live verified):** Posting now needs
 a small first-party addition question. It loads when the composer is focused
 or New question is selected. An accessible labelled numeric input works on
 phones and keyboards. Questions expire after five minutes and are single-use;
@@ -56,7 +66,8 @@ phone scratching and eight responsive theme widths. Cloudflare dry-run succeeds
 with 792 exported assets. All 13 native all-apps Free D1 checks pass, including
 rejection of missing/replayed CAPTCHA answers and successful checked posting.
 Tests use isolated local databases. Syntax/whitespace checks pass. No production
-records changed; this addition is not deployed and ads remain disabled.
+records changed. Deployment and read-only live verification are recorded above;
+ads remain disabled.
 
 **Confessions (2026-10-16, deployed/live verified; ads blocked/unconfigured):**
 `/confessions` provides separate covered cards in a scrolling shared stream,

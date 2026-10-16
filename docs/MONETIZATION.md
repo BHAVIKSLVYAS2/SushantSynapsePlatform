@@ -1,6 +1,6 @@
 # Quiet sponsorship plan
 
-Local Confessions update (2026-10-16): new CAPTCHA-checked messages now publish
+Deployed Confessions update (2026-10-16): new CAPTCHA-checked messages now publish
 directly at the user's request, with reporting and Owner removal. Earlier
 statements below about all submissions being reviewed before publication are
 historical. Ads remain disabled; content-policy controls must be reassessed

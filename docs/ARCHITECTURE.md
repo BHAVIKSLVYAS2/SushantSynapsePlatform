@@ -1,6 +1,6 @@
 # Code ownership and adding apps
 
-Confession chat/icons (2026-10-16, local): new CAPTCHA-verified posts are public
+Confession chat/icons (2026-10-16, deployed): new CAPTCHA-verified posts are public
 immediately, while historical pending entries stay private until Owner review.
 Report/Owner removal and seven-day expiry remain. The shared SQL envelope's
 version is returned with listing/post responses so a stale poll cannot remove
@@ -11,7 +11,7 @@ messages keep scratch/tap reveal. Compact composer CAPTCHA expands on focus.
 `home-art.svg` owns theme-aware speech/QR/photo-resize symbols; portal artwork
 mapping, 24px paths, registry metadata and both homepage renderings use them.
 
-Confessions quick check (2026-10-16, local): the app-owned `captcha.mjs` loads a
+Confessions quick check (2026-10-16, deployed): the app-owned `captcha.mjs` loads a
 first-party addition question on composer focus or New question. The shared
 service issues opaque IDs, retains at most 100 five-minute challenges in the
 existing versioned SQL setting, and atomically consumes a correct answer with
