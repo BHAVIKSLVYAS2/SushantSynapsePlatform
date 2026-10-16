@@ -1,5 +1,18 @@
 # Chambers functionality ledger
 
+**Combined platform release validation (2026-10-17):**
+All pending source/docs committed in `aef5ef3`: platform visitor footer, Arena
+reaction/interface refinement and Take a Break bento discovery. Runtime SQL
+Server MDF/LDF files remain outside Git and deployment. Full API suite passes
+246/246 after rerunning with filesystem access for generated Cloudflare assets;
+the initial 14 failures were sandbox EPERM during generated-asset cleanup.
+All 35 distinct Chrome workflows pass across the main and focused runs: nine
+Confessions, one platform visitor, fifteen Arena and ten Take a Break. Three
+no-business-API assertions were adjusted to permit only the newly introduced
+visitor-counter endpoint; their focused reruns pass. Visitor aggregate unit test
+also passes. Temporary isolated test databases used; deployment verification
+follows below when complete.
+
 **Platform visitor footer (2026-10-17, local):**
 Corrected scope from Confessions to the website root. Shared header loads a
 visitor module on platform pages, including app-first entry; only the homepage
