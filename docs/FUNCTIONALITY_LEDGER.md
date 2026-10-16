@@ -1,5 +1,22 @@
 # Chambers functionality ledger
 
+**Decision Wheel bento polish (2026-10-17, local):**
+App-owned scoped CSS frames the editor and wheel in equal desktop columns with
+matching padding, rounded borders and theme-aware surfaces. Phone stacking retains
+the wheel-first order. The existing vector wheel gains a bounded ambient glow,
+geometric rendering, rounded segment joins and a refined stationary logo hub.
+Spin/Update share high-contrast primary styling and hover lift; export, fullscreen,
+presets and remaining actions use outlines with 48px targets. Fullscreen sizing
+and reduced-motion behaviour remain intact. No sampling, spin timing, persistence,
+API or provider changes. Stylesheet cache version refreshed.
+Verification: all three wheel Chrome workflows and both native/fallback fullscreen
+workflows pass with isolated DATA_DIR fixtures, covering winner/landing accuracy,
+edit locks, sharing/removal, opt-in sound, reduced motion, history, mobile/theme
+layouts and repeated fullscreen focus/state restoration. Desktop light and mobile
+dark captures reviewed; panel depth uses the existing shared shadow token. Diff
+checks pass.
+Not committed or deployed.
+
 **News fetch recovery (2026-10-17, deployed/live verified):**
 Reproduced today's public source HTTP 502: early-IST coverage was sparse and the
 fallback omitted the publisher's top news/UK/politics/sport feeds. The bounded
