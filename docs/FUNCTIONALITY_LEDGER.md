@@ -1,5 +1,15 @@
 # Chambers functionality ledger
 
+**Exact brand name and logo (2026-10-16, local correction):**
+The shared QR/team export footer now pairs the existing platform logo with
+the exact name `Sushant Synapse`. It loads the logo before export and reports
+an export error if the logo is unavailable. Both stay outside the QR quiet
+zone. Ritual Assist guides and checklist print previews now include the logo
+and name together. Plain-text shares retain their correctly spelled credit;
+plain text cannot contain an embedded image. Paid removal remains deferred.
+Verification: three Chrome checks pass, covering QR matrix/quiet-zone pixels,
+branded PNG output, exact-name/logo rendering and loaded print-preview logos.
+
 **Small export branding (2026-10-16, deployed/live verified):**
 QR Maker PNGs now include a small `Created with Sushant Synapse` credit
 below the code, outside the complete four-module quiet zone. The export
