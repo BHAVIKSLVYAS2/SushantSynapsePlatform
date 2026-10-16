@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Decision Wheel bento polish (2026-10-17, local):**
+**Decision Wheel bento polish (2026-10-17, deployed/live verified):**
 App-owned scoped CSS frames the editor and wheel in equal desktop columns with
 matching padding, rounded borders and theme-aware surfaces. Phone stacking retains
 the wheel-first order. The existing vector wheel gains a bounded ambient glow,
@@ -15,7 +15,14 @@ edit locks, sharing/removal, opt-in sound, reduced motion, history, mobile/theme
 layouts and repeated fullscreen focus/state restoration. Desktop light and mobile
 dark captures reviewed; panel depth uses the existing shared shadow token. Diff
 checks pass.
-Not committed or deployed.
+Source `6f9ad9c` deployed from an isolated checkout as Worker
+`08bd5ecb-ef66-406a-b96d-fb292c223106`; three assets uploaded, 799 reused.
+Live checks pass exact CSS/cache reference, eight responsive/theme layouts,
+equal desktop panel dimensions, 48px controls, primary hover lift, fullscreen
+state preservation, choice-list export and a reduced-motion spin without page
+errors. Existing bindings retained; no production business writes. Evidence:
+`.publish/verify-wheel-bento-live.cjs`, `.publish/wheel-bento-live-{desktop,mobile}.png`.
+Pending Satire Arena edits were excluded from this release.
 
 **News fetch recovery (2026-10-17, deployed/live verified):**
 Reproduced today's public source HTTP 502: early-IST coverage was sparse and the
