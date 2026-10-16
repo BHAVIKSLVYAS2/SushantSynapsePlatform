@@ -1814,7 +1814,7 @@ For the earlier Chambers release, local implementation was complete. Further wor
 Source review identified different public-home, authenticated-catalogue and Chambers navigation shells, plus app-specific presentation/theme divergence. Recommendation and acceptance criteria are recorded in `docs/UI_PLATFORM_REVIEW_2026-10-11.md`: establish a shared platform shell, distinguish app navigation, simplify the launcher and migrate shared components before extending across apps. At this review checkpoint no UI implementation, rendered browser verification, deployment or business-data changes had been performed. The subsequent implementation and release status at the top of this ledger supersede that checkpoint.
 # Free-app card spacing (2026-10-16, deployed)
 
-## Branded navigation transition (2026-10-17, local)
+## Branded navigation transition (2026-10-17, deployed)
 
 The existing shared shell shows the main Sushant Synapse logo and an
 indeterminate progress bar during ordinary internal link navigation. Navigation
@@ -1825,7 +1825,13 @@ eight-second fallback. Reduced motion shows a stationary bar; print hides it.
 No fake percentage, storage, API or app access change. Verification: three shared
 shell Chrome workflows pass across focused runs, covering the branded status,
 anchor skip, reduced motion, navigation/BFCache cleanup, initial auth request reuse
-and account lifecycle. Syntax/diff checks pass. Deployment pending.
+and account lifecycle. Syntax/diff checks pass. Source `1ffe633` deployed to the
+existing production route; Worker `45662b0f-1b58-4096-9746-a14b47d2cec6`.
+Three changed assets uploaded, 799 reused; existing bindings retained. Read-only
+live checks confirm exact JS/CSS, loaded brand logo, mobile/desktop loader,
+reduced motion, return cleanup and actual internal navigation with no page errors.
+Evidence: `.publish/verify-transition-live.cjs`, `.publish/transition-live-390.png`
+and `.publish/transition-live-1440.png`. No production business writes/migrations.
 
 ## Cyan landing-page polish (2026-10-16, deployed)
 
