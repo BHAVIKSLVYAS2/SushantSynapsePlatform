@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Exact brand name and logo (2026-10-16, local correction):**
+**Exact brand name and logo (2026-10-16, deployed/live verified):**
 The shared QR/team export footer now pairs the existing platform logo with
 the exact name `Sushant Synapse`. It loads the logo before export and reports
 an export error if the logo is unavailable. Both stay outside the QR quiet
@@ -9,6 +9,10 @@ and name together. Plain-text shares retain their correctly spelled credit;
 plain text cannot contain an embedded image. Paid removal remains deferred.
 Verification: three Chrome checks pass, covering QR matrix/quiet-zone pixels,
 branded PNG output, exact-name/logo rendering and loaded print-preview logos.
+Source `6c7845f` is deployed in Worker version
+`47b2fefa-5edc-4600-ba81-fd1fb45ec105`. Live Chrome verified the exact
+canvas name, platform logo and loaded print-preview image with zero page errors.
+The live check waits for the newly inserted preview image to finish loading.
 
 **Small export branding (2026-10-16, deployed/live verified):**
 QR Maker PNGs now include a small `Created with Sushant Synapse` credit
