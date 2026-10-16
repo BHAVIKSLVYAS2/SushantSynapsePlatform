@@ -130,6 +130,17 @@ for(const file of ['app.js','style.css','icon.svg','advocate.webmanifest'])stati
 for(const file of ['app.js','engine.js','style.css','icon.svg'])staticAssets['/fund-overlap/'+file]='apps/fund-overlap/frontend/'+file;
 for(const file of ['app.js','engine.js','style.css','comic.css','art/chai-comic-v1.webp','art/news-desk-v1.webp'])staticAssets['/news/'+file]='apps/news/frontend/'+file;
 module.exports={staticAssets};
+for(const id of ['qr-maker','photo-resize','bill-splitter']){
+ staticAssets['/'+id]='apps/'+id+'/frontend/index.html';
+ staticAssets['/'+id+'/']='apps/'+id+'/frontend/index.html';
+ staticAssets['/'+id+'/app.js']='apps/'+id+'/frontend/app.js';
+ if(id!=='qr-maker')staticAssets['/'+id+'/engine.mjs']='apps/'+id+'/frontend/engine.mjs';
+}
+staticAssets['/shared/local-tools.css']='packages/ui/local-tools.css';
+staticAssets['/shared/local-tools.mjs']='packages/ui/local-tools.mjs';
+staticAssets['/focus/backups.mjs']='apps/focus/frontend/backups.mjs';
+staticAssets['/team-mixer/wins.css']='apps/team-mixer/frontend/wins.css';
+staticAssets['/ritual-assist/checklist-state.mjs']='apps/ritual-assist/frontend/checklist-state.mjs';
 for(const file of ['app.js','engine.mjs','style.css'])staticAssets['/take-a-break/'+file]='apps/take-a-break/frontend/'+file;
 for(const file of ['app.js','i18n.js','style.css','print.css'])staticAssets['/digital-samaj/'+file]='apps/digital-samaj/frontend/'+file;
 for(const file of ['app.js','export.js','style.css','scheduling.js'])staticAssets['/tournament-lite/'+file]='apps/tournament-lite/frontend/'+file;

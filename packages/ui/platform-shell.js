@@ -3,6 +3,9 @@
 (() => {
  if (new URLSearchParams(location.search).get('screen') === '1') return;
  const entries = [
+  ['QR Maker','/qr-maker','Public tool'],
+  ['Photo Resize','/photo-resize','Public tool'],
+  ['Bill Splitter','/bill-splitter','Public tool'],
   ['Moment Studio','/moment-studio','Public tool'],
   ['Take a Break','/take-a-break','Public tool'],
   ['Decision Wheel','/decision-wheel','Public tool'],

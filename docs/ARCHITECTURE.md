@@ -1,5 +1,31 @@
 # Code ownership and adding apps
 
+Public-tool quick wins (2026-10-16): `apps/qr-maker`, `apps/photo-resize` and
+`apps/bill-splitter` own three public, device-only tools. Shared presentation and
+copy/download helpers live in `packages/ui/local-tools.*`; static allowlisting,
+the app registry, shared switcher and both homepage renderings expose their
+routes. QR Maker reuses the existing vendored QR encoder at `/support-qr.mjs`
+(its existing third-party notice applies), uses standard black/white modules
+and a four-module quiet zone, and adds no tracking redirect. Photo Resize owns
+bounded local decoding and JPEG quality/dimension reduction; no photo leaves
+the device. Bill Splitter validates amounts as integer paise and generates
+settlements without a payment connection. None has backend writes or storage.
+
+Focus owns validated merge-only JSON task backups and revision-guarded one-step
+removal undo in the existing browser plan. Decision Wheel keeps removal undo
+transient. Team Mixer owns an exact previous-result/settings snapshot and a
+maximum-people-per-team input that feeds the existing constrained balanced
+allocation engine. These do not change shared authentication or SQL persistence.
+
+The user explicitly authorised browser-local Ritual Assist additions and
+optional saved checklist progress on 2026-10-16. `checklist-state.mjs` validates
+the versioned `synapse-ritual-checklists-v1` key, up to 40 custom items per guide,
+and checkmark opt-in. `app.js` keeps additions separate from canonical guides,
+includes them in copy/download/print, and preserves unreadable stored data while
+falling back to tab-only operation. This supersedes the older tab-only checklist
+description below. Calendar calculations and preparation packs retain their
+existing owners and are unchanged.
+
 Daily Satire sample edition (2026-10-16): app-owned `backend/sample-edition.mjs`
 contains seven original English/Hindi examples across five categories.
 `public-pages.mjs` renders a clearly labelled, noindex preview when the public

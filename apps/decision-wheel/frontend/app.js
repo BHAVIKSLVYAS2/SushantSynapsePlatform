@@ -4,6 +4,9 @@ $('#theme').outerHTML=window.SynapseTheme.control('id="theme"');
 function theme(){const p=window.SynapseTheme.read();document.documentElement.dataset.theme=p==='system'?(media.matches?'dark':'light'):p;}
 $('#theme').addEventListener('change',theme);media.addEventListener('change',theme);theme();
 let options=[],rotation=0,spinning=false,result=null,history=[];
+let removals=[];
+const undoWinner=document.createElement('button');undoWinner.type='button';undoWinner.id='undo-winner';undoWinner.textContent='Undo removed winner';undoWinner.disabled=true;$('.play').append(undoWinner);
+undoWinner.onclick=()=>{if(spinning||!removals.length)return;options=removals.pop();$('#options').value=options.join('\n');rotation=0;clearResult();draw();undoWinner.disabled=!removals.length;$('#status').textContent='Removed winner restored. Every option has an equal chance.';};
 let soundEnabled=false,audio=null,activeAnimation=null;
 const confetti=new Set();
 const soundButton=document.createElement('button');soundButton.type='button';soundButton.className='wheel-sound';soundButton.textContent='Tick sound: off';soundButton.setAttribute('aria-pressed','false');$('#spin').after(soundButton);
@@ -30,10 +33,10 @@ function draw(){
  $('#wheel-title').textContent=$('#question').value.trim()||'Let the wheel decide.';
 }
 function clearResult(){stopEffects();result=null;$('.play').classList.remove('has-winner');$('#result').hidden=true;$('#share-fallback').hidden=true;}
-function update(preserveRotation=false){const next=parseOptions($('#options').value),same=next.length===options.length&&next.every((value,index)=>value===options[index]);options=next;if(!preserveRotation||!same)rotation=0;clearResult();draw();$('#status').textContent='Wheel ready. Every option has an equal chance.';}
+function update(preserveRotation=false){const next=parseOptions($('#options').value),same=next.length===options.length&&next.every((value,index)=>value===options[index]);if(!same){removals=[];undoWinner.disabled=true;}options=next;if(!preserveRotation||!same)rotation=0;clearResult();draw();$('#status').textContent='Wheel ready. Every option has an equal chance.';}
 $('#options-form').onsubmit=event=>{event.preventDefault();if(spinning)return;try{update();}catch(error){$('#status').textContent=error.message;}};
-for(const field of ['#options','#question'])$(field).addEventListener('input',()=>{if(!spinning){clearResult();$('#status').textContent='Update the wheel or spin to use your changes.';$('#spin').disabled=false;}});
-function lock(value){spinning=value;document.querySelectorAll('#options-form input,#options-form textarea,#options-form button,[data-preset],#spin,#remove,#share,#clear-history').forEach(control=>control.disabled=value);if(!value){$('#spin').disabled=options.length<2;$('#remove').disabled=options.length<2;$('#clear-history').disabled=history.length===0;}}
+for(const field of ['#options','#question'])$(field).addEventListener('input',()=>{if(!spinning){removals=[];undoWinner.disabled=true;clearResult();$('#status').textContent='Update the wheel or spin to use your changes.';$('#spin').disabled=false;}});
+function lock(value){spinning=value;undoWinner.disabled=value||!removals.length;document.querySelectorAll('#options-form input,#options-form textarea,#options-form button,[data-preset],#spin,#remove,#share,#clear-history').forEach(control=>control.disabled=value);if(!value){$('#spin').disabled=options.length<2;$('#remove').disabled=options.length<2;$('#clear-history').disabled=history.length===0;}}
 function showResult(value,last=false){result={value,title:$('#wheel-title').textContent,last};$('#winner').textContent=value;$('#result .eyebrow').textContent=last?'LAST OPTION REMAINING':'THE WHEEL CHOSE';$('#result').hidden=false;$('#share-fallback').hidden=true;$('#remove').disabled=options.length<2;}
 function renderHistory(){
  $('#history').replaceChildren(...history.map(pick=>{const li=document.createElement('li');li.textContent=pick.value;const subtitle=document.createElement('small');subtitle.textContent=pick.title;li.append(subtitle);return li;}));$('#empty-history').hidden=history.length>0;$('#clear-history').disabled=spinning||history.length===0;
@@ -58,7 +61,7 @@ $('#spin').onclick=async()=>{
 };
 $('#remove').onclick=()=>{
  if(spinning||!result||options.length<2)return;
- const removed=result.value;options=options.filter(value=>value!==removed);$('#options').value=options.join('\n');rotation=0;clearResult();draw();
+ removals.push([...options]);undoWinner.disabled=false;const removed=result.value;options=options.filter(value=>value!==removed);$('#options').value=options.join('\n');rotation=0;clearResult();draw();
  if(options.length===1){showResult(options[0],true);$('#status').textContent=`${removed} removed. Only ${options[0]} remains. Add more options or choose a starter list to spin again.`;}else $('#status').textContent=`${removed} removed. ${options.length} options remain.`;
 };
 const presetTitles={lunch:"What's for lunch?",tasks:'Which task next?',team:'Which team goes first?'};

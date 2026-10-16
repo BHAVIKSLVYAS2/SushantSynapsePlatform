@@ -1,5 +1,62 @@
 # Chambers functionality ledger
 
+**Public-tool quick wins (2026-10-16, implemented and locally verified):**
+Focus gains validated merge-only backup/import and revision-guarded removal undo;
+Decision Wheel can undo removed winners; Team Mixer can restore the previous
+teams/settings and split by maximum people per team. Catalogue/home copy reflects
+thirteen Arena characters and an adjustable Focus timer. Three public tools are
+implemented: QR Maker (link/text to static PNG), Photo Resize (local JPEG output
+within target dimensions/KB), and Bill Splitter (equal/individual shares and
+integer-paise settlements). Both home renderings, registry, switcher and static
+allowlist expose the tools. Versioned scripts avoid stale query-cache variants.
+
+Ritual Assist supports up to 40 extra items per guide, browser-local storage,
+individual removal, bilingual controls, and inclusion in text copy/download and
+print/PDF. Standard guide content remains immutable. Checkmarks persist only by
+opt-in; extras persist until removed or browser data is cleared. Invalid or
+blocked storage retains saved bytes and falls back to tab-only changes. No
+provider, schema, account, payment or live database changes are part of this work.
+Verification: 233 Node checks pass across the full-suite run and targeted
+reruns. The first run passed 218; fourteen Cloudflare hooks were blocked only
+by sandbox cleanup of generated dist assets and pass with that cleanup allowed.
+The remaining outdated ten-tool count now expects thirteen and passes. The final
+Cloudflare run also verifies both slash variants of all three new public routes
+with no origin calls (14/14 pass). New pure tests cover exact-paise conservation,
+custom totals, backup conflicts/invalid fields, and bounded opt-in ritual state.
+
+Thirty-seven distinct Chrome workflows pass across the affected suites/reruns:
+wheel (3), Focus (12), Team Mixer (2), existing Ritual Assist (9), new cross-tool
+workflows (8), and homepage discovery (3). These cover exports, restore/undo,
+corrupt/quota-blocked storage, per-guide extras, bilingual text download and
+print/PDF, actual QR/JPEG downloads, target bytes/dimensions, settlements/copy
+fallback, no-JavaScript discovery, and 320/390/768/1440px light/dark layouts.
+A pre-existing date-sensitive calendar-reminder fixture freezes its browser
+clock before its expected alarm; calendar logic is unchanged. Team Mixer’s new
+select uses a bounded mobile grid; its final 320px/export test passes. Public
+tool screenshots were visually reviewed; source syntax, private workspace
+manifests/lockfile and git whitespace checks pass. Tests use isolated temporary
+DATA_DIR values. No live business writes, account changes or migration occurred.
+
+Evidence is ignored `.publish/wins-api.log`, `.publish/wins-cloudflare-final.log`,
+`.publish/wins-confirmation`, `.publish/wins-final-resilience`,
+`.publish/ritual-extras-print.pdf`, new-tool mobile PNGs and existing suite
+artifacts. The log retains the initial failures; targeted reruns document their
+resolution. The user has authorised committing and deploying this release.
+Production verification will be recorded after deployment completes.
+
+**Public-tool quick-win review (2026-10-16, source audit only):** Reviewed the
+public app registry and Focus, Decision Wheel, Team Mixer and Ritual Assist
+frontend flows. Candidates: Focus task export/import and undo removal; Decision
+Wheel undo removed winner; Team Mixer restore previous mix and choose people per
+team; opt-in device-local Ritual Assist checklist restoration. Existing wheel
+choice-list export/import, team constraints and PNG/copy sharing, and ritual
+print/download/share already exist and are not proposed as new functionality.
+Registry copy still describes nine Arena characters (current Arena has thirteen)
+and Focus as a 25-minute timer despite adjustable durations. New public-tool
+candidates include local QR creation and image resize/compression. These are
+proposals, not implemented or runtime-verified changes. No app, data, account or
+deployment changes were made during this review.
+
 **Moment Studio award and memorial refinement (2026-10-16, deployed/live verified):** Removed
 Blood Donation, Event Contribution and Community Service from the award chooser;
 Volunteer Appreciation remains the shared service category. Four contribution

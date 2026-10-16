@@ -1,4 +1,5 @@
 /* Focus owns its personal workspace; colour and theme tokens come from the platform. */
+.backup-tools{margin-top:24px;padding:16px;border:1px solid var(--ui-edge);border-radius:12px}.backup-tools summary{cursor:pointer;min-height:44px;align-content:center}.backup-tools p{font-size:13px;color:var(--ui-muted)}#undo-remove{margin-bottom:16px}@media print{.backup-tools,#undo-remove{display:none!important}}
 body[data-ui-app=focus] {
   --focus-wash:color-mix(in srgb,var(--ui-accent) 6%,var(--ui-solid));
   --focus-edge:color-mix(in srgb,var(--ui-accent) 28%,var(--ui-edge));

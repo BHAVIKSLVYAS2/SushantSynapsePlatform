@@ -1,5 +1,14 @@
 # Sushant Synapse Platform
 
+New local tools are implemented at `/qr-maker`, `/photo-resize` and
+`/bill-splitter`: static QR PNGs, target-size JPEGs, and equal/individual bill
+settlements. All work without sign-in and process inputs on the device. Focus
+adds task backup/import and removal undo; Decision Wheel adds removal undo;
+Team Mixer adds previous-mix restoration and maximum team size. Ritual Assist
+supports browser-local extra checklist items in print/copy/download and optional
+checkmark retention. These quick wins are implemented and locally verified;
+production release has been authorised. Verification and release status are in the ledger.
+
 Daily Satire includes a clearly labelled, read-only sample edition with seven
 original English/Hindi examples so article/category/sharing features can be
 explored while the saved editorial library is empty. It preserves the current

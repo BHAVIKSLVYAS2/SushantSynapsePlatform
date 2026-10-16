@@ -1,5 +1,6 @@
 
 import {mountFocusTimer} from './focus-timer.mjs';
+import {validatePlan,mergeBackup} from './backups.mjs?v=20261016-wins';
 import {emptyPlan, orderedTasks, updatePlan} from './task-model.mjs';
 
 mountFocusTimer();
@@ -8,7 +9,7 @@ const today = () => new Intl.DateTimeFormat('en-CA', {timeZone: 'Asia/Kolkata'})
 const PRIORITIES = ['High', 'Normal', 'Low'];
 const STORAGE_KEY = 'synapse-focus-plan-v1';
 let plan = emptyPlan(), storageReady = false, busy = false, selected = null;
-let editing = null, drag = null;
+let editing = null, drag = null, removedPlan = null;
 $('plan-date').value = today();
 
 function node(tag, text, className) {
@@ -212,6 +213,8 @@ function command(input, successMessage = 'Saved in this browser.') {
     const current = readPlan();
     const next = updatePlan(current, {...input, revision: plan.revision});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    removedPlan=input.type==='delete'?{before:current,revision:next.revision}:null;
+    undoRemove.hidden=!removedPlan;
     plan = next;
     saved = true;
     $('task-status').textContent = successMessage;
@@ -380,3 +383,13 @@ window.addEventListener('storage', event => {
   if (event.key === STORAGE_KEY || event.key === null) load();
 });
 load();
+
+const backupTools=node('details');backupTools.className='backup-tools';
+backupTools.append(node('summary','Keep a backup of your tasks'));
+backupTools.append(node('p','Download all dates. Import merges new tasks without replacing existing tasks. Backups contain your task details; keep them somewhere private.'));
+const exportPlan=node('button','Download task backup');exportPlan.type='button';
+const importLabel=node('label','Import task backup (JSON)'),importPlan=document.createElement('input');importPlan.type='file';importPlan.accept='.json,application/json';importLabel.append(importPlan);backupTools.append(exportPlan,importLabel);$('tasks-heading').closest('section').append(backupTools);
+const undoRemove=node('button','Undo task removal');undoRemove.type='button';undoRemove.id='undo-remove';undoRemove.hidden=true;$('task-status').after(undoRemove);
+exportPlan.onclick=()=>{try{const saved=validatePlan(readPlan()),url=URL.createObjectURL(new Blob([JSON.stringify({format:'synapse-focus-v1',plan:saved},null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='focus-tasks.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);$('task-status').textContent='Task backup downloaded.';}catch(e){$('task-status').textContent=e.message;}};
+importPlan.onchange=async()=>{try{const file=importPlan.files[0];if(!file)return;if(file.size>500000)throw Error('Use a backup under 500 KB.');const data=JSON.parse(await file.text()),current=readPlan(),next=mergeBackup(current,data),added=next.tasks.length-current.tasks.length;if(!added){$('task-status').textContent='These tasks are already in your plan.';return;}if(!confirm('Add '+added+' tasks from this backup? Existing tasks will be kept.'))return;if(readPlan().revision!==current.revision)throw Error('Your plan changed. Import again.');localStorage.setItem(STORAGE_KEY,JSON.stringify(next));plan=next;storageReady=true;removedPlan=null;undoRemove.hidden=true;draw();$('task-status').textContent=added+' tasks imported.';}catch(e){$('task-status').textContent=e.message;}finally{importPlan.value='';}};
+undoRemove.onclick=()=>{try{if(!removedPlan)return;const current=readPlan();if(current.revision!==removedPlan.revision)throw Error('Your plan changed. Removal can no longer be undone.');const next=validatePlan({...removedPlan.before,revision:current.revision+1});localStorage.setItem(STORAGE_KEY,JSON.stringify(next));plan=next;draw();$('task-status').textContent='Task restored.';}catch(e){$('task-status').textContent=e.message;}finally{removedPlan=null;undoRemove.hidden=true;}};

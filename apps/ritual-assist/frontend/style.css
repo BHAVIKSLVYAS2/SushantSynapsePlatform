@@ -37,3 +37,6 @@ h1{font-size:clamp(28px,3.2vw,40px);letter-spacing:-.6px;margin:8px 0}
 
 .seedha-card{margin-top:18px;padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--calm-soft);min-width:0}.seedha-card h3,.seedha-card h5{margin:0 0 10px;color:var(--calm)}.seedha-guidance{font-size:12px;line-height:1.8;margin:16px 0 0;color:var(--muted)}
 @media print{.seedha-card{background:none;border-color:var(--line);break-inside:auto}.seedha-card h3,.seedha-card h5{color:inherit}.seedha-guidance{color:inherit}}
+
+.custom-items{margin-top:24px;border-top:1px solid var(--line);padding-top:18px}.custom-item{display:flex;align-items:center;gap:8px}.custom-item .check-item{flex:1;min-width:0;overflow-wrap:anywhere}.extra-form{display:grid;gap:12px;margin:16px 0}.extra-form input{width:100%;box-sizing:border-box}.remember-checks{display:flex;gap:10px;align-items:center}.remember-checks input{width:auto}.extra-remove{flex-shrink:0}
+@media print{.extra-form,.extra-remove,.remember-checks{display:none!important}.custom-item{break-inside:avoid}.custom-items{display:block!important}}
