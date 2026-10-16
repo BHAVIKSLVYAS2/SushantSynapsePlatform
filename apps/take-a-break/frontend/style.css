@@ -71,3 +71,39 @@
 .code-note[data-mark="maybe"]{background:var(--ui-soft);border-color:var(--ui-accent)}
 .code-form input{max-width:12rem}
 @media(max-width:520px){.code-clue{grid-template-columns:20px minmax(0,1fr);gap:6px 10px}.code-clue-copy{grid-column:2}.code-notepad{grid-template-columns:repeat(5,minmax(0,1fr))}}
+
+/* Three-column discovery with a real featured game, not a locked catalogue. */
+@media screen {
+ #break-workspace {--break-hover-edge:color-mix(in srgb,var(--ui-accent) 45%,var(--ui-edge));--break-hover-shadow:var(--ui-shadow)}
+ html[data-theme=dark] #break-workspace {--break-hover-edge:rgba(56,189,248,.4);--break-hover-shadow:0 12px 30px -10px rgba(0,0,0,.5)}
+ #break-workspace .break-grid {grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:stretch}
+ #break-workspace .break-card {min-height:190px;padding:24px 80px 24px 22px;border-radius:20px;transition:transform .25s cubic-bezier(.16,1,.3,1),border-color .25s,box-shadow .25s}
+ #break-workspace .break-card[data-game=chaos] {grid-column:span 2;background:radial-gradient(ellipse at 100% 0%,var(--break-halo),transparent 65%),linear-gradient(135deg,var(--break-card-top),var(--break-card-bottom));border-color:var(--break-edge)}
+ #break-workspace .break-card[data-game=chaos] strong {font-size:clamp(23px,2.6vw,32px)}
+ #break-workspace .break-card[data-game=chaos] .card-symbol {width:70px;height:70px;font-size:50px}
+ #break-workspace #hub[data-category=choose] .break-grid {grid-template-columns:repeat(2,minmax(0,1fr))}
+ #break-workspace #hub[data-category=unwind] .break-card {grid-column:1/-1}
+ #break-workspace .filters {display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+ #break-workspace .filters button,#break-workspace #surprise {min-height:48px;padding:12px 20px;border-radius:999px;transition:background-color .2s,border-color .2s,box-shadow .2s}
+ #break-workspace .filters button {background:var(--ui-solid);border-color:var(--ui-edge);color:var(--ui-text)}
+ #break-workspace .filters button[aria-pressed=true] {background:var(--ui-accent);color:var(--ui-on-accent);border-color:var(--ui-accent);box-shadow:none}
+ #break-workspace .filter-status {min-height:20px;font-size:12px;margin:0 0 14px;color:var(--ui-muted)}
+ #break-workspace .code-card {background:linear-gradient(145deg,var(--ui-solid),var(--ui-soft));border-style:dashed}
+ #break-workspace .code-card #code-access {display:block;font-size:11px;line-height:1.5;color:var(--ui-muted);margin-top:4px}
+ #break-workspace .code-card .card-symbol {display:grid;place-items:center;padding:10px;border:1px solid var(--ui-edge);border-radius:16px;background:var(--ui-soft);opacity:.8;transition:opacity .2s,background-color .2s}
+ #break-workspace .break-card:focus-visible,#break-workspace .filters button:focus-visible,#break-workspace #surprise:focus-visible {outline:3px solid var(--ui-accent);outline-offset:4px}
+ @media(hover:hover) {
+  #break-workspace .break-card:hover {transform:translateY(-3px);border-color:var(--break-hover-edge);box-shadow:var(--break-hover-shadow)}
+  #break-workspace .filters button:not([aria-pressed=true]):hover,#break-workspace #surprise:hover {background:var(--ui-soft);border-color:var(--ui-accent)}
+  #break-workspace .code-card:hover .card-symbol {opacity:1;background:var(--break-halo)}
+ }
+ @media(min-width:601px) and (max-width:1000px) {#break-workspace .break-grid {grid-template-columns:repeat(2,minmax(0,1fr))}}
+ @media(max-width:600px) {
+  #break-workspace .break-grid,#break-workspace #hub[data-category=choose] .break-grid {grid-template-columns:1fr;gap:12px}
+  #break-workspace .break-card[data-game=chaos] {grid-column:auto}
+  #break-workspace .break-card {min-height:150px;padding:20px 80px 20px 18px}
+  #break-workspace .break-heading {flex-wrap:wrap;gap:12px}
+  #break-workspace #surprise {font-size:13px}
+ }
+ @media(prefers-reduced-motion:reduce) {#break-workspace .break-card,#break-workspace .filters button,#break-workspace #surprise,#break-workspace .code-card .card-symbol {transition:none}#break-workspace .break-card {transform:none!important}}
+}

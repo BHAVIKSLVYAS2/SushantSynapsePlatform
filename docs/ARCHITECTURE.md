@@ -1,5 +1,21 @@
 # Code ownership and adding apps
 
+Platform visitors (2026-10-17, local): `apps/portal/backend/visitors.mjs` owns
+the bounded visitor aggregate and public `/api/platform/visitors` endpoint, with
+Node adapter `visitors.cjs`. Shared `packages/ui/visitors.mjs` records app-first
+visits using one browser-local identity and renders only the root footer,
+including portal re-renders. Existing settings persistence and transaction guards
+remain authoritative. Counter coverage follows shared header inclusion; visitor
+IDs are transiently hashed, not stored by the backend. No schema migration.
+
+Arena optimistic UI (2026-10-17, local): `apps/satire-arena/frontend/app.js`
+owns transient selected-count deltas, rollback/reconciliation, in-flight read
+revisions and existing server-reset countdown/polling. The signed HttpOnly cookie
+and atomic SQL ballot replacement remain authoritative; no browser vote database
+is introduced. `enhancements.js` owns link sharing fallbacks and delegates toast
+timing to the Arena controller. App-scoped CSS owns header context, summary depth
+and responsive three-column/two-row reaction groups. No schema/API changes.
+
 Landing discovery (2026-10-16, deployed): portal-owned `home-discovery.js` enhances
 both homepage renderings with transient category filtering. Its fixed-height,
 keyboard-focusable catalogue scroll region prevents filter-driven page shifts;

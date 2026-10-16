@@ -1,5 +1,22 @@
 # Chambers functionality ledger
 
+**Platform visitor footer (2026-10-17, local):**
+Corrected scope from Confessions to the website root. Shared header loads a
+visitor module on platform pages, including app-first entry; only the homepage
+footer displays the estimate. One platform-wide localStorage UUID deduplicates
+navigation/reloads. Existing SQLite/SQL Server settings and guarded D1 writes
+persist 1024 HyperLogLog registers under `platform-visitors-v1`, not visitor IDs.
+Estimate starts on activation, with about 3.25% standard error; clearing storage
+or using another browser can count again. Storage denial reads without counting.
+Public `/api/platform/visitors` validates input and origin, has a separate rate
+bucket and bounded storage; client retries conflicts. Platform privacy notice
+updated. No Confessions-specific counter changes remain. Deterministic aggregate
+unit test and Chrome workflow pass: app-first visit, root footer, reload dedupe,
+second browser via another app, four responsive widths, invalid ID/cross-origin
+rejection. Tests use disposable SQLite data; syntax/diff checks pass. Coverage is
+pages loading the shared header, not arbitrary non-page requests. Not committed
+or deployed; no historical counts or production writes.
+
 **Confessions interaction polish (2026-10-17, deployed/live verified):**
 Desktop sidebar sticks below the shared header with bounded internal scrolling.
 Feed/sidebar spacing and token-based button hover states are balanced; controls
@@ -42,6 +59,26 @@ exact stylesheet bytes, minimum 10px separation, contained icons and no page
 overflow/errors. Evidence: `.publish/verify-header-gap-live.cjs` and
 `.publish/header-gap-live-mobile.png`. Pending Arena/Break edits excluded;
 no production business writes or database changes.
+
+**Take a Break bento discovery (2026-10-17, local):**
+App-owned CSS presents Challenge as a three-column desktop grid with One-Minute
+Chaos spanning two cells, filling two balanced rows. Tablet uses two columns and
+phones one; smaller Choose/Unwind groups use two/full-width cards. Category and
+Surprise controls use 48px pills with distinct pressed/hover states. The existing
+Surprise action remains a random game launch, not a category filter. A shared
+filter helper adds reduced-motion-aware fades and live activity counts, and keeps
+return-to-hub focus and category restoration intact. Cards gain 3px hover lift and
+cyan-tinted dark hover edges with theme-token shadows.
+Crack the Code has no access lock: its existing puzzle-lock illustration receives
+a muted badge treatment and visible/accessible Free to play / No unlock needed guidance.
+No paywall, unlocking gate, game-engine/timer changes or persistence is added.
+App/CSS cache references refreshed. Four distinct Chrome workflows pass across
+focused runs: category/card geometry and accessibility, timed Chaos pause/return,
+mobile game navigation and in-tab progress, and all-game responsive/theme/focus
+checks. New assertions cover category counts, exact two-row desktop packing,
+48px pills, keyboard activation, reduced-motion filtering and direct code access.
+Desktop/mobile captures reviewed: `.publish/break-bento-{desktop,mobile}.png`.
+Syntax/diff checks pass. Not committed or deployed.
 
 **Decision Wheel bento polish (2026-10-17, deployed/live verified):**
 App-owned scoped CSS frames the editor and wheel in equal desktop columns with
@@ -1897,6 +1934,44 @@ For the earlier Chambers release, local implementation was complete. Further wor
 
 Source review identified different public-home, authenticated-catalogue and Chambers navigation shells, plus app-specific presentation/theme divergence. Recommendation and acceptance criteria are recorded in `docs/UI_PLATFORM_REVIEW_2026-10-11.md`: establish a shared platform shell, distinguish app navigation, simplify the launcher and migrate shared components before extending across apps. At this review checkpoint no UI implementation, rendered browser verification, deployment or business-data changes had been performed. The subsequent implementation and release status at the top of this ledger supersede that checkpoint.
 # Free-app card spacing (2026-10-16, deployed)
+
+## Satire Arena reaction and interface refinement (2026-10-17, local)
+
+App-owned UI now renders reaction selections/counts optimistically in tab memory,
+decrementing the old choice exactly once and incrementing its replacement. A
+Saving state, aria-busy and single-flight writes distinguish pending choices;
+confirmed effects/haptics retain the existing preference/reduced-motion contract.
+Snapshot rollback plus authoritative refresh handles rejects, cookie requirements,
+stale rounds, rate limits and uncertain network failures without replaying writes.
+Read revisions prevent older GETs from replacing newer optimistic state. Requests
+have a 12-second bound. Transient outage totals are retained as Last synced;
+reactions and image sharing stay disabled until successful sync. No localStorage
+ballot store, new identity, backend API contract or SQL/schema changes are added.
+
+Existing one-second visible countdown, 30-second polling, midnight IST rollover
+and visibility refresh remain and are verified. The signed HttpOnly cookie and
+atomic server-side ballot replacement continue to restore saved choices on reload.
+Native character-link sharing falls back to clipboard, legacy copy, then a focused
+selectable URL; cancellation does not copy. Copy success uses a shared toast timer.
+WhatsApp remains an explicit draft action; image sharing excludes personal picks.
+
+App-scoped styles add a distinct selector pill, blurred global header (solid under
+reduced transparency), padded summary metrics and dominant-track glow, tactile
+actions, selected/pending badges and readable two-row reaction grids. All 78
+reaction controls retain labels, focus states and at least 48px touch height.
+App/controller/enhancement cache versions are refreshed.
+
+Verification: 15 backend/API checks pass with disposable SQLite fixtures. All 15
+distinct Arena Chrome workflows pass across the main and focused runs, including
+delayed optimistic writes, changed counts, rollback, stale GET races, cookie/409/
+429 failures, actual persisted/exported/removed ballots, native-share cancellation,
+clipboard denial/manual fallback, midnight rollover, opt-out/unsupported/reduced
+motion haptics, original animations and private-safe PNG exports. One temporary
+fixture leak was corrected by deleting synthetic test ballots; the affected SQL
+workflow then passed. Two-row layout/overflow checks pass for all 13 characters at
+320/390/768/1440px in both themes. Captures reviewed under
+`.publish/garland-or-roast-{desktop-dark,mobile-top}.png`. Syntax/diff checks pass.
+Implementation is local, not committed or deployed; production votes untouched.
 
 ## Branded navigation transition (2026-10-17, deployed)
 

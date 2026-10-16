@@ -28,6 +28,7 @@ if(production&&(!process.env.SETUP_TOKEN||process.env.SETUP_TOKEN.length<24))thr
 const store=new Store(process.env.DATA_DIR||path.join(ROOT,'data'));
 const auth=createAuth({store,secureCookie:production||process.env.COOKIE_SECURE==='1',initializeWorkspace(input,user){store.setSetting('firm',cleanSettings({name:input.firmName||'My Chambers',advocate:user.name}));if(input.demo===true)store.demo();}});
 const portal=createPortal({store,auth});
+const visitorCounter=require('../apps/portal/backend/visitors.cjs').createVisitors({store});
 const support=createSupport({store,auth});
 const focus=createFocus({store});
 const ritualCalendar=createRitualCalendar();
@@ -88,6 +89,7 @@ async function dispatch(req,res) {
     if (req.headers.origin && req.headers.origin!==allowedOrigin) fail(403,'Origin rejected');
     if (req.headers['sec-fetch-site']==='cross-site') fail(403,'Cross-site request rejected');
     const route=url.pathname.slice(5), method=req.method;
+    if(url.pathname==='/api/platform/visitors')return await visitorCounter(req,res,allowedOrigin);
     if(url.pathname==='/api/confessions'||url.pathname.startsWith('/api/confessions/'))return await confessionApp(req,res,allowedOrigin);
     if(url.pathname==='/api/satire-arena'||url.pathname.startsWith('/api/satire-arena/'))return await satireArena(req,res,allowedOrigin);
     const user=auth.session(req);

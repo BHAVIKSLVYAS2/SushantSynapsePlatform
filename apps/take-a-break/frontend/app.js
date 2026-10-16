@@ -90,8 +90,17 @@ function syncMode(){const mode=controllers[active]?.mode;$('#daily-mode').setAtt
 $('#daily-mode').onclick=()=>{controllers[active]?.reset(false);syncMode();};$('#practice-mode').onclick=()=>{controllers[active]?.reset(true);syncMode();};$('#challenge-friend').onclick=()=>share(`A little challenge for you: ${games[active].name}\n${url(active)}\nTake a Break · Sushant Synapse`);
 document.querySelector('[data-feature-game]').onclick=()=>openGame('24');
 document.querySelectorAll('[data-game]').forEach(b=>b.onclick=()=>openGame(b.dataset.game));$('#surprise').onclick=()=>openGame(Object.keys(games)[crypto.getRandomValues(new Uint32Array(1))[0]%Object.keys(games).length]);
-$('#all-breaks').onclick=()=>{controllers[active]?.deactivate?.();$('#hub').hidden=false;$('#play-area').hidden=true;$('#share-box').hidden=true;document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter===document.querySelector(`[data-game="${active}"]`)?.dataset.kind)));document.querySelectorAll('.break-card').forEach(card=>card.hidden=card.dataset.kind!==document.querySelector(`[data-game="${active}"]`)?.dataset.kind);history.replaceState(null,'','/take-a-break');const card=document.querySelector(`[data-game="${active}"]`);card?.focus({preventScroll:true});scrollTo(0,0);};
-document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-filter]').forEach(button=>button.setAttribute('aria-pressed',String(button===b)));document.querySelectorAll('.break-card').forEach(card=>card.hidden=b.dataset.filter!=='all'&&card.dataset.kind!==b.dataset.filter);});
+function filterGames(kind,animate=true){
+ $('#hub').dataset.category=kind;let visible=0;
+ document.querySelectorAll('[data-filter]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.filter===kind)));
+ document.querySelectorAll('.break-card').forEach(card=>{
+  card.getAnimations().forEach(animation=>animation.cancel());card.hidden=kind!=='all'&&card.dataset.kind!==kind;
+  if(!card.hidden){visible++;if(animate&&!matchMedia('(prefers-reduced-motion:reduce)').matches)card.animate([{opacity:.3,transform:'translateY(4px)'},{opacity:1,transform:'translateY(0)'}],{duration:180,easing:'ease-out'});}
+ });
+ $('#break-filter-status').textContent=visible+(visible===1?' activity shown':' activities shown');
+}
+$('#all-breaks').onclick=()=>{controllers[active]?.deactivate?.();$('#hub').hidden=false;$('#play-area').hidden=true;$('#share-box').hidden=true;filterGames(document.querySelector(`[data-game="${active}"]`)?.dataset.kind||'challenge',false);history.replaceState(null,'','/take-a-break');const card=document.querySelector(`[data-game="${active}"]`);card?.focus({preventScroll:true});scrollTo(0,0);};
+document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>filterGames(b.dataset.filter));
 $('#daily-note').textContent=`${day} · New daily challenges at midnight IST`;
 const initial=params.get('game');if(initial&&Object.hasOwn(games,initial))openGame(initial,false);
 else if(initial==='clue'){openGame('lights');const note=element('p','quiet-note','Clue Club has been replaced by Lights Out. Try the new logic challenge.');$('#main').prepend(note);}

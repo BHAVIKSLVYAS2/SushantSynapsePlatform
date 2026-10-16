@@ -1,5 +1,16 @@
 # Satire Arena
 
+Local refinement (2026-10-17): picks and counts update immediately in tab memory,
+with a Saving state until confirmation. Changes remove the old count and add the
+new one. Failures restore/reconcile the authoritative cookie-backed ballot; stale
+reads cannot overwrite a newer optimistic change. Score outages retain labelled
+last-synced totals and disable reactions/image exports until recovery. No ballot
+is saved to localStorage; the signed browser cookie restores it on reload.
+The existing live IST countdown, 30-second polling and midnight/visibility refresh
+remain. Native character-link sharing falls back to clipboard, legacy copy and
+a selectable URL; cancellation never copies. Success haptics remain opt-in and
+respect reduced motion. Implementation/release evidence is in the ledger.
+
 To visualise Daily Satire, a labelled sample edition contains seven original
 English/Hindi posts across five categories, with articles, related posts and
 sharing. It appears on `/satire-arena/daily` while the saved public library is

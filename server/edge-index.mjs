@@ -1,3 +1,4 @@
+import {visitors,visitorKey} from '../apps/portal/backend/visitors.mjs';
 import {confessions,storageKey as confessionsKey} from '../apps/confessions/backend/service.mjs';
 import {D1Repository,Conflict} from '../packages/database/d1.mjs';
 import {PrivateFiles} from '../packages/storage/r2.mjs';
@@ -32,7 +33,11 @@ export async function edgeApi(request,env){
   if(free&&((env.FULL_APPS!=='true'&&(/^(digital-samaj|batchfee-lite|tournament-lite|news|fund-overlap)(\/|$)/.test(route)||route==='ritual-assist/calendar'))||/^(backup|backup.sql|restore)(\/|$)/.test(route)))fail(503,'This feature is unavailable in the free cloud workspace.');
   const useAccess=env.AUTH_METHOD==='access';
   const user=useAccess?await accessSession(request,repo,env):await session(request,repo),files=free?new D1PrivateFiles(repo):new PrivateFiles(env.PRIVATE_FILES,repo),context={request,route,user,repo,files,env};let result;
-  if(route==='confessions'||route.startsWith('confessions/'))result=await confessions(request,{user,read:()=>repo.setting(confessionsKey),write:next=>repo.commit([repo.settingWrite(confessionsKey,next)]),limit:()=>env.CONFESSIONS_LIMITER?.limit({key:'confessions:'+request.headers.get('CF-Connecting-IP')})||{success:false}});
+  if(route==='platform/visitors'){
+ if(!['GET','POST'].includes(request.method))fail(405,'Method not allowed');
+ if(request.method==='POST'&&!(await env.CONFESSIONS_LIMITER?.limit({key:'platform-visitors:'+request.headers.get('CF-Connecting-IP')}))?.success)fail(429,'Please try again later.');
+ result=await visitors(request,{readVisitors:()=>repo.setting(visitorKey),writeVisitors:next=>repo.commit([repo.settingWrite(visitorKey,next)])});
+ }else if(route==='confessions'||route.startsWith('confessions/'))result=await confessions(request,{user,read:()=>repo.setting(confessionsKey),write:next=>repo.commit([repo.settingWrite(confessionsKey,next)]),limit:()=>env.CONFESSIONS_LIMITER?.limit({key:'confessions:'+request.headers.get('CF-Connecting-IP')})||{success:false}});
   else if(route==='arena-metrics'||route.startsWith('arena-metrics/'))result=await metrics(request,{enabled:env.ARENA_ANALYTICS_ENABLED==='true',user,read:()=>repo.setting(metricsKey),write:next=>repo.commit([repo.settingWrite(metricsKey,next)]),limit:()=>env.ARENA_LIMITER?.limit({key:'metrics:'+request.headers.get('CF-Connecting-IP')})||{success:false}});
   else if(route==='arena-editorial'||route.startsWith('arena-editorial/'))result=await editorial(request,{user,read:()=>repo.setting(editorialKey),write:next=>repo.commit([repo.settingWrite(editorialKey,next),repo.audit(user.name,'Updated satire editorial library','satire-arena',{version:next.version})])});
   else if(route==='satire-arena'||route.startsWith('satire-arena/'))result=await arena(request,{...env,ARENA_DB:env.PLATFORM_DB});
