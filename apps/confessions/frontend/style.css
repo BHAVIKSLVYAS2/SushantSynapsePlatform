@@ -5,6 +5,13 @@ body{margin:0;background:var(--ui-bg);color:var(--ui-ink);font:16px/1.6 'Segoe U
 .conversation{position:relative;overflow:clip}#stream{overscroll-behavior:auto;overflow-anchor:auto;touch-action:auto}#new-messages{position:absolute;right:16px;top:66px;z-index:3;margin:0;max-width:calc(100% - 32px);box-shadow:0 2px 8px var(--ui-edge)}.scratch-area.is-scratching canvas{touch-action:pan-y pinch-zoom}.accessible-reveal:not(:focus){position:absolute;width:1px;height:1px;min-height:0;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}.accessible-reveal:focus{position:relative;width:auto;height:auto;clip-path:none}.card-actions{position:relative}
 
 /* Balanced feed/sidebar and keyboard-friendly, in-flow composer. */
+.scratch-area canvas{pointer-events:auto;touch-action:pan-y pinch-zoom;cursor:crosshair}
+.scratch-area.is-scratching .cover-copy{display:grid}
+.scratch-gesture{font-size:30px;line-height:1;letter-spacing:8px;margin-bottom:6px}
+.confession .scratch-area{min-height:112px;border:1px dashed var(--ui-accent)}
+.confession .cover-copy small{font-size:11px;letter-spacing:0;color:var(--ui-muted)}
+.scratch-area[aria-busy=true]{cursor:progress}
+.reveal-alternative{color:var(--ui-accent);background:transparent}
 @media screen {
  body[data-ui-app=confessions] {--confession-hover:color-mix(in srgb,var(--ui-accent) 40%,var(--ui-edge))}
  body[data-ui-app=confessions] .layout {gap:24px;align-items:start}

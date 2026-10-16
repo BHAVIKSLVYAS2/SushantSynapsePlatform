@@ -2,8 +2,11 @@
 
 Public route: `/confessions`. A shared stream of separate scratch-to-reveal cards
 with a composer below the scrollable conversation. Scratch is the primary
-interaction; a reveal control appears on keyboard focus and remains available
-to screen readers. Mouse and phone scratching use the same reveal allowance.
+interaction directly on the covered message, with an explicit sideways hint.
+A visible Reveal instead button supports taps, keyboards and screen readers.
+Mouse and phone scratching use the same reveal allowance. A loading label and
+bounded pointer buffer preserve the first stroke while fetching the message;
+vertical touch gestures do not initiate a reveal request.
 On phones, sideways strokes scratch and vertical swipes scroll; scrolling can
 continue into the page at feed boundaries. Starting a card does not force a
 page scroll. Own submissions stay covered until scratched or accessibly revealed.
