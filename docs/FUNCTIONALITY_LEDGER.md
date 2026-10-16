@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Confessions interaction polish (2026-10-17, local):**
+**Confessions interaction polish (2026-10-17, deployed/live verified):**
 Desktop sidebar sticks below the shared header with bounded internal scrolling.
 Feed/sidebar spacing and token-based button hover states are balanced; controls
 have 48px touch targets. Scratch strokes use coalesced pointer samples, a fading
@@ -15,7 +15,14 @@ scratching, vertical swipe handoff, posting/reporting and light/dark layouts at
 scratch feedback, emoji limits and submit visibility after a mobile viewport
 shrink. Mobile screenshot reviewed (`.publish/confessions-mobile.png`). Syntax
 and diff checks pass. Tests use isolated temporary SQLite data. Physical mobile
-keyboard behavior is not device-verified. Not committed or deployed.
+keyboard behavior is not device-verified. Source `95615f9` deployed from an
+isolated checkout as Worker `08232a05-b24a-403d-8456-b4dfcef856aa`; four assets
+uploaded, 798 reused, existing bindings retained. Read-only live Chrome checks
+pass exact CSS/JS bytes, eight width/theme combinations, sticky positioning,
+48px submit, near-limit warning and shortened viewport submit visibility, with
+no page errors or production writes. Evidence:
+`.publish/verify-confessions-polish-live.cjs` and
+`.publish/confessions-polish-live-mobile.png`. Pending Arena/Break edits excluded.
 
 **Header toggle spacing (2026-10-17, deployed/live verified):**
 Shared shell CSS reserves 76px desktop/64px mobile for the two-icon theme switch
