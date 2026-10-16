@@ -1,6 +1,6 @@
 # Code ownership and adding apps
 
-Public copy cleanup (2026-10-16, local): app-owned UI keeps task instructions
+Public copy cleanup (2026-10-16, deployed): app-owned UI keeps task instructions
 and contextual help separate. Portal static/dynamic public cards share shorter
 copy; private access metadata is preserved. `packages/ui/sponsorship.js` mounts
 only a configured campaign or the existing home sponsorship invitation, without

@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Public copy cleanup (2026-10-16, local implementation):**
+**Public copy cleanup (2026-10-16, deployed/live verified):**
 Implemented the reviewed cleanup across the public homepage and free tools.
 Both homepage renderings use one short description per card and omit repeated
 feature/access badges in the free-tools section; private access labels remain.
@@ -20,7 +20,13 @@ Twenty-seven existing Chrome workflows passed, including exports, forms,
 languages, timer, shared news, homepage discovery, real sponsor campaigns,
 payment setup/checkout and WhatsApp drafts, copying and failure handling.
 No backend, authentication, payment connection, data or ad-policy changes.
-Not committed or deployed yet.
+Source commit `5b57fcc` deployed to `apps.sushantsynapse.com` as Worker version
+`7ddd3e4e-17da-4cf0-b914-9a4159d6fde5`. Read-only production Chrome checks
+passed on eight pages at 390px: home, QR Maker, Photo Resize, Team Mixer,
+Decision Wheel, Support, Contact and Ritual Assist. All 14 homepage tools
+remain available; shorter copy, expandable wheel help and absence of preview
+ad boxes were verified, with no horizontal overflow or browser page errors.
+No production business records were written during verification.
 
 **Public copy review (2026-10-16, review only):**
 Read-only mobile Chrome review of 15 public pages identified repeated slogans,
