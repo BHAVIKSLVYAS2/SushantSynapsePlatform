@@ -1,5 +1,22 @@
 # Chambers functionality ledger
 
+**Confessions interaction polish (2026-10-17, local):**
+Desktop sidebar sticks below the shared header with bounded internal scrolling.
+Feed/sidebar spacing and token-based button hover states are balanced; controls
+have 48px touch targets. Scratch strokes use coalesced pointer samples, a fading
+overlay and progress readout. Touch axis detection preserves vertical feed/page
+scrolling and keyboard Reveal remains available. The in-flow mobile composer
+responds to visual viewport resizing while focused; counters warn from 540 and
+enforce 600 Unicode code points, matching API validation. Posting, CAPTCHA,
+reveal allowances, anonymous access and moderation remain unchanged.
+Verification: eight existing Chrome workflows pass, including actual CDP touch
+scratching, vertical swipe handoff, posting/reporting and light/dark layouts at
+320/390/768/1440px. A new focused regression passes sticky positioning, partial
+scratch feedback, emoji limits and submit visibility after a mobile viewport
+shrink. Mobile screenshot reviewed (`.publish/confessions-mobile.png`). Syntax
+and diff checks pass. Tests use isolated temporary SQLite data. Physical mobile
+keyboard behavior is not device-verified. Not committed or deployed.
+
 **Header toggle spacing (2026-10-17, deployed/live verified):**
 Shared shell CSS reserves 76px desktop/64px mobile for the two-icon theme switch
 and a 12px/10px account gap. More-specific rules override the homepage's previous

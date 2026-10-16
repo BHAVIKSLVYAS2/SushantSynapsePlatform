@@ -3,3 +3,26 @@ body{margin:0;background:var(--ui-bg);color:var(--ui-ink);font:16px/1.6 'Segoe U
 .captcha{border:1px solid var(--ui-edge);border-radius:12px;padding:12px;margin:12px 0;min-width:0}.captcha legend{font-size:12px;padding:0 6px;color:var(--ui-muted)}#composer .captcha label{font-size:14px}.captcha-controls{display:flex;gap:10px;align-items:center}.captcha-controls input{font:inherit;width:90px;min-width:0;min-height:44px;border:1px solid var(--ui-edge);border-radius:10px;padding:10px;background:var(--ui-solid);color:var(--ui-ink)}.captcha-controls button{font-size:12px}#captcha-status{font-size:11px;color:var(--ui-muted);margin:8px 0 0}
 .intro{margin-bottom:18px}.intro-note{display:none}h1{font-size:clamp(30px,5vw,44px)}.intro p{font-size:14px}.stream-heading h2{font:600 18px/1.4 'Segoe UI',sans-serif}#stream{height:clamp(320px,52dvh,600px);padding:10px 16px 16px}.confession{width:min(94%,440px);max-width:440px;margin:8px 0 12px;padding:10px;border-radius:14px 14px 14px 3px}.confession:nth-child(even){border-radius:14px 14px 14px 3px}.confession.is-own{margin-left:auto;background:var(--ui-soft);border-radius:14px 14px 3px 14px}.confession .scratch-area{min-height:88px;border-radius:9px}.confession .confession-message{padding:12px 14px;font:16px/1.55 'Segoe UI',sans-serif}.confession .cover-copy strong{font:600 16px/1.4 'Segoe UI',sans-serif}.confession .cover-copy small{font-size:9px;margin-top:5px}.confession-meta{font-size:10px;margin-bottom:6px}.card-actions{gap:6px;margin-top:6px}.card-actions button{font-size:11px;padding:8px 10px}#composer{padding:12px 16px}#composer textarea{min-height:62px}.captcha{padding:8px;margin:8px 0}.captcha legend{font-size:11px}#captcha-status{margin-top:4px}.little-note{padding:18px}.little-note h2{font-size:23px}@media(max-width:560px){#stream{height:43dvh;min-height:290px}.confession{width:94%}.stream-heading{padding:14px 16px 0}}
 .conversation{position:relative;overflow:clip}#stream{overscroll-behavior:auto;overflow-anchor:auto;touch-action:auto}#new-messages{position:absolute;right:16px;top:66px;z-index:3;margin:0;max-width:calc(100% - 32px);box-shadow:0 2px 8px var(--ui-edge)}.scratch-area.is-scratching canvas{touch-action:pan-y pinch-zoom}.accessible-reveal:not(:focus){position:absolute;width:1px;height:1px;min-height:0;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}.accessible-reveal:focus{position:relative;width:auto;height:auto;clip-path:none}.card-actions{position:relative}
+
+/* Balanced feed/sidebar and keyboard-friendly, in-flow composer. */
+@media screen {
+ body[data-ui-app=confessions] {--confession-hover:color-mix(in srgb,var(--ui-accent) 40%,var(--ui-edge))}
+ body[data-ui-app=confessions] .layout {gap:24px;align-items:start}
+ body[data-ui-app=confessions] .side-column {min-width:0}
+ body[data-ui-app=confessions] :is(.little-note,.privacy-note) {padding:20px}
+ body[data-ui-app=confessions] main button {min-height:48px;transition:transform .2s,border-color .2s,background-color .2s}
+ body[data-ui-app=confessions] .privacy-note summary {min-height:48px;align-content:center}
+ body[data-ui-app=confessions] #composer {padding:20px;scroll-margin-block:calc(var(--shell-height,72px) + 16px) 20px}
+ body[data-ui-app=confessions] #message {font-size:16px;min-height:96px;line-height:1.5;scroll-margin-top:calc(var(--shell-height,72px) + 16px)}
+ body[data-ui-app=confessions] .composer-actions {gap:12px;flex-wrap:wrap;min-height:48px}
+ body[data-ui-app=confessions] #character-count {font-size:12px;font-variant-numeric:tabular-nums}
+ body[data-ui-app=confessions] #character-count.near-limit {font-weight:750;color:var(--ui-text);border-bottom:2px solid var(--ui-accent);padding-bottom:3px}
+ body[data-ui-app=confessions] .scratch-area canvas {transition:opacity .1s linear}
+ body[data-ui-app=confessions] .scratch-area.is-scratching::after {content:'';position:absolute;left:0;bottom:0;height:3px;width:var(--scratch-progress,0%);background:var(--ui-accent);pointer-events:none}
+ body[data-ui-app=confessions] .scratch-progress {font-size:11px;color:var(--ui-muted);align-self:center}
+ body[data-ui-app=confessions] .captcha-controls input {min-height:48px}
+ @media(min-width:901px){body[data-ui-app=confessions] .side-column {position:sticky;top:max(96px,calc(var(--shell-height,72px) + 24px));align-self:start;max-height:calc(100dvh - var(--shell-height,72px) - 48px);overflow-y:auto;scrollbar-width:thin}}
+ @media(max-width:768px){body[data-ui-app=confessions] #composer {padding:16px;padding-bottom:max(16px,env(safe-area-inset-bottom))}body[data-ui-app=confessions] #post {flex:1 0 140px}body[data-ui-app=confessions] #character-count {flex:1 1 120px}body[data-ui-app=confessions] .captcha-controls {flex-wrap:wrap}}
+ @media(hover:hover){body[data-ui-app=confessions] main button:not(:disabled):hover {transform:translateY(-1px);border-color:var(--confession-hover);background:var(--ui-soft)}body[data-ui-app=confessions] #post:not(:disabled):hover {background:var(--ui-accent);color:var(--ui-on-accent)}}
+ @media(prefers-reduced-motion:reduce){body[data-ui-app=confessions] main button,body[data-ui-app=confessions] .scratch-area canvas {transition:none;transform:none}}
+}
