@@ -1,5 +1,5 @@
 export const emptySupport={title:'Sushant Synapse',upiId:'',paymentUrl:'',isActive:false};
-export const treats=[{name:'Chai',amount:20,icon:'☕',line:'A little encouragement'},{name:'Coffee',amount:49,icon:'♨',line:'Fuel the next improvement'},{name:'A snack',amount:99,icon:'♡',line:'Support the everyday tools'},{name:'A meal',amount:249,icon:'✦',line:'Help us keep building'}];
+export const treats=[{name:'Chai',amount:20,icon:'🫖',line:'A small sip of encouragement'},{name:'Coffee',amount:49,icon:'☕',line:'Fuel the next idea'},{name:'Pani puri',amount:99,icon:'🥣',line:'A snack for the next build'},{name:'Pizza',amount:249,icon:'🍕',line:'Keep the ideas coming'}];
 export function validateSupport(input){
  if(!input||typeof input!=='object'||Array.isArray(input))throw Error('Invalid support settings');
  const result={};for(const [key,max] of [['title',100],['upiId',321],['paymentUrl',1000]]){if(typeof input[key]!=='string'||input[key].length>max)throw Error('Invalid '+key);result[key]=input[key].trim();}

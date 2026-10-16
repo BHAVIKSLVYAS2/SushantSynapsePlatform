@@ -20,7 +20,8 @@
  .platform-switch svg {width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;flex-shrink:0}
  .platform-shell-actions {display:flex;align-items:center;gap:12px;margin-left:auto;flex-shrink:0}
  .platform-shell .theme-toggle {--header-line:var(--shell-line);--header-surface:var(--shell-bg);--header-text:var(--shell-ink);--header-muted:var(--shell-accent)}
- .platform-account {display:grid;place-items:center;min-height:44px;padding:8px 14px;border:1px solid var(--shell-line);border-radius:10px;font-size:12px;font-weight:600}
+ .platform-account {display:grid;place-items:center;min-width:44px;min-height:44px;padding:8px 14px;border:1px solid var(--shell-line);border-radius:10px;font-size:12px;font-weight:600}
+ .platform-account.platform-account-avatar {width:44px;height:44px;padding:4px;border-radius:50%;background:var(--shell-soft);color:var(--shell-ink)}
  .platform-shell :focus-visible,.platform-switcher :focus-visible {outline:3px solid var(--shell-accent);outline-offset:3px}
  .has-platform-shell :is(.skip-link,.skip):focus {position:fixed;top:10px;left:10px;z-index:70}
  .has-platform-shell main {scroll-margin-top:calc(var(--shell-height) + 16px)}

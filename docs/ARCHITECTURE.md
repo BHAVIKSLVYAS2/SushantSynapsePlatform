@@ -1,5 +1,23 @@
 # Code ownership and adding apps
 
+Support simplification (2026-10-16): portal-owned `support.html`/`support.css`
+present Buy me a coffee, compact Chai/Coffee/Pani puri/Pizza choices and secondary
+sharing/contact/sponsorship guidance. The existing WhatsApp form is under a native
+details disclosure. `support.js` keeps amount selection visible while unconfigured,
+but exposes payment links/QR only through existing validated enabled settings.
+`support-engine.mjs` retains amounts and validation with refreshed treat labels.
+Owner settings, payment adapters and SQL persistence retain their existing owners.
+
+Shared header account identity (2026-10-16): `packages/ui/platform-shell.js`
+reads the existing same-origin, no-store auth status to show Sign in or up to two
+Unicode grapheme initials linking to the profile. Identity remains in tab memory;
+no name/email is stored in browser storage. Visibility/BFCache restoration refresh
+the session; portal `platform.js` emits `synapse-auth-change` after session and
+profile changes so the persistent header updates without reloading. Request
+revisions prevent stale auth responses from overwriting newer portal state.
+Account avatar sizing/theme tokens remain in `platform-shell.css`. Shared status
+reads are allowed by standalone-tool browser tests; app API traffic remains checked.
+
 Take a Break code deduction (2026-10-16): app-owned `engine.mjs` owns deterministic
 five-digit codes and duplicate-aware exact/elsewhere scoring. `app.js` owns the
 eight-attempt game, transient guesses, daily/practice resets and spoiler-free

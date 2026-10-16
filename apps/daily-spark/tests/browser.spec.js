@@ -95,7 +95,7 @@ test('hint-assisted wins feel rewarding while reduced motion keeps the achieveme
 
 test('hub Make 24 celebrates genuine wins and stops effects when changing games or motion preferences',async({page})=>{
  const errors=[],api=[];page.on('pageerror',error=>errors.push(error.message));
- page.on('request',request=>{if(new URL(request.url()).pathname.startsWith('/api/'))api.push(request.url());});
+ page.on('request',request=>{if(new URL(request.url()).pathname.startsWith('/api/')&&!(request.method()==='GET'&&new URL(request.url()).pathname==='/api/auth/status'))api.push(request.url());});
  await page.clock.install();await page.emulateMedia({reducedMotion:'no-preference'});
  await page.setViewportSize({width:1440,height:1000});
  await page.goto(base+'/take-a-break?game=24&day=2026-10-08&v=1');

@@ -23,10 +23,35 @@
  const current=entries.find(([,route])=>(aliases[path]||path)===route||path.startsWith(route+'/'));
  const names={'/':'All apps','/signin':'Sign in','/support':'Support','/sponsor':'Sponsorship','/showcase':'Demos','/contact':'Contact','/privacy':'Privacy','/terms':'Usage terms','/legal':'Legal information','/legal/third-party-notices':'Third-party notices'};
  const header=document.createElement('header');header.className='platform-shell';header.setAttribute('aria-label','Sushant Synapse platform');
- header.innerHTML=`<a class="platform-shell-brand" href="/" aria-label="Sushant Synapse home"><img src="/logo-adaptive-192.png" width="32" height="32" alt=""><span>Synapse<small>PLATFORM</small></span></a><span class="platform-shell-divider" aria-hidden="true"></span><button class="platform-switch" type="button" aria-haspopup="dialog" aria-controls="platform-switcher"><span>${current?.[0]||names[path]||'All apps'}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></button><div class="platform-shell-actions">${window.SynapseTheme?.control()||''}<a class="platform-account" href="/signin?section=profile" aria-label="Sign in or manage your account">Account</a></div>`;
+ header.innerHTML=`<a class="platform-shell-brand" href="/" aria-label="Sushant Synapse home"><img src="/logo-adaptive-192.png" width="32" height="32" alt=""><span>Synapse<small>PLATFORM</small></span></a><span class="platform-shell-divider" aria-hidden="true"></span><button class="platform-switch" type="button" aria-haspopup="dialog" aria-controls="platform-switcher"><span>${current?.[0]||names[path]||'All apps'}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></button><div class="platform-shell-actions">${window.SynapseTheme?.control()||''}<a class="platform-account" href="/signin?section=profile" aria-label="Sign in">Sign in</a></div>`;
  const skip=document.querySelector('body>.skip-link,body>.skip');
  if(skip)skip.after(header);else document.body.prepend(header);
  document.body.classList.add('has-platform-shell');
+ const account=header.querySelector('.platform-account');
+ let authRevision=0;
+ function showAccount(user){
+  const name=typeof user?.name==='string'?user.name.trim():'';
+  const parts=name.split(/\s+/u).filter(Boolean);
+  const first=part=>{const segment=typeof Intl.Segmenter==='function'?new Intl.Segmenter(undefined,{granularity:'grapheme'}).segment(part)[Symbol.iterator]().next().value?.segment:Array.from(part)[0];return segment||'';};
+  const initials=parts.slice(0,2).map(first).join('').toLocaleUpperCase();
+  account.textContent=user?(initials||'U'):'Sign in';
+  account.setAttribute('aria-label',user?'My profile'+(name?' — '+name:''):'Sign in');
+  account.title=user?'Signed in'+(name?' as '+name:''):'Sign in';
+  account.classList.toggle('platform-account-avatar',!!user);
+ }
+ async function refreshAccount(){
+  const revision=++authRevision;
+  try{
+   const response=await fetch('/api/auth/status',{credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(6000)});
+   const status=response.ok?await response.json():null;
+   if(revision===authRevision)showAccount(status?.user||null);
+  }catch{if(revision===authRevision)showAccount(null);}
+ }
+ window.addEventListener('synapse-auth-change',event=>{authRevision++;showAccount(event.detail?.user||null);});
+ window.addEventListener('pageshow',event=>{if(event.persisted)refreshAccount();});
+ document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')refreshAccount();});
+ refreshAccount();
+
  header.addEventListener('change',event=>{
   if(!event.target.matches('[data-theme-toggle]'))return;
   // Retain app theme listeners while exposing just one platform control.

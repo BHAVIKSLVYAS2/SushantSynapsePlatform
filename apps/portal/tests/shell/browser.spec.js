@@ -1,13 +1,47 @@
 const {test,expect}=require('@playwright/test');
 const {spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 let child,base,dir;
-test.beforeAll(async()=>{
+test.beforeEach(async()=>{
  dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-shell-'));
  child=spawn(process.execPath,['server/index.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir,DATABASE_PROVIDER:'sqlite',NODE_ENV:'test'},stdio:['ignore','pipe','pipe']});
  await new Promise((resolve,reject)=>{let out='';child.stdout.on('data',c=>{out+=c;const m=out.match(/localhost:(\d+)/);if(m){base='http://127.0.0.1:'+m[1];resolve();}});child.once('error',reject);child.once('exit',code=>reject(Error('Server exited '+code)));});
 });
-test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
+test.afterEach(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
 test.beforeEach(async({context})=>{await context.route('https://pagead2.googlesyndication.com/**',r=>r.fulfill({contentType:'text/javascript',body:''}));});
+
+test('account entry follows live sign-in, profile edits, navigation and sign-out',async({page})=>{
+ const email='initials@example.com',password='Header initials password!';
+ await page.goto(base+'/take-a-break');
+ await expect(page.locator('.platform-account')).toHaveText('Sign in');
+ await expect(page.locator('.platform-account')).toHaveAccessibleName('Sign in');
+ await page.request.post(base+'/api/auth/setup',{data:{name:'Header Test',firmName:'Test',email,password}});
+ await page.goto(base+'/take-a-break?game=code');
+ await expect(page.locator('.platform-account')).toHaveText('HT');
+ await expect(page.locator('.platform-account')).toHaveAccessibleName('My profile — Header Test');
+ await page.locator('.platform-account').click();
+ await expect(page.locator('#profile-form')).toBeVisible();
+ await page.locator('#profile-form [name=name]').fill('Updated Name');
+ await page.locator('#profile-form button[type=submit]').click();
+ await expect(page.locator('.platform-account')).toHaveText('UN');
+ await page.locator('[data-action=logout]').first().click();
+ await expect(page.locator('.platform-account')).toHaveText('Sign in');
+ await page.goto(base+'/signin');
+ await page.locator('#auth-form [name=email]').fill(email);
+ await page.locator('#auth-form [name=password]').fill(password);
+ await page.locator('#auth-form button[type=submit]').click();
+ await expect(page.locator('.platform-account')).toHaveText('UN');
+ await page.request.post(base+'/api/auth/logout');
+ await page.goto(base+'/news');await expect(page.locator('.platform-account')).toHaveText('Sign in');
+});
+
+test('account initials handle Unicode and auth outages without breaking public tools',async({page})=>{
+ await page.route('**/api/auth/status',route=>route.fulfill({json:{user:{name:'किरण शर्मा'}}}));
+ await page.goto(base+'/take-a-break?game=code');
+ await expect(page.locator('.platform-account')).toHaveText('किश');
+ await page.route('**/api/auth/status',route=>route.abort());
+ await page.reload();await expect(page.locator('.platform-account')).toHaveText('Sign in');
+ await expect(page.getByLabel('Your code guess')).toBeEnabled();
+});
 
 test('platform frame persists across public apps with usable mobile switching',async({page})=>{
  test.setTimeout(180000);const errors=[];page.on('pageerror',e=>errors.push(e.message));

@@ -1,5 +1,47 @@
 # Chambers functionality ledger
 
+**Support Us simplified locally (2026-10-16):** `/support` now centres Buy me a
+coffee with a native cup illustration and four compact Chai/Coffee/Pani puri/Pizza
+choices at the existing ₹20/₹49/₹99/₹249 amounts. Secondary sharing/contact and
+sponsorship guidance replaces the long introductory content and values grid.
+The existing WhatsApp draft form is collapsed under a native details disclosure;
+owner configuration remains a separate owner-only disclosure. Unconfigured
+support shows selectable treat cards plus an explicit unavailable notice, with
+no payment link or QR. Enabled UPI, amount-specific QR, external checkout,
+clipboard fallback, destination validation and SQL persistence remain intact.
+No external Buy Me a Coffee account/provider, advertising or payment confirmation
+is introduced; the headline describes the existing voluntary support flow.
+
+Verification: two support API/unit checks and three targeted Chrome workflows
+passed using isolated temporary DATA_DIR. The enhanced owner workflow passed on
+rerun after correcting its accessible heading expectation (decorative punctuation
+is aria-hidden). Checks cover visible unavailable treat selection, owner save,
+four amount targets/QR, copy fallback, hosted checkout, disabling, outage honesty,
+light/dark mobile layouts, 320/390/768/1440px overflow, no-JS discovery and the
+collapsed WhatsApp form's draft flow. Desktop unavailable and mobile configured
+screenshots were visually reviewed. `git diff --check` passed. This redesign and
+the preceding header change remain local, uncommitted and undeployed.
+
+**Shared header sign-in and initials implemented locally (2026-10-16):** The
+shared Account link now displays Sign in for anonymous sessions or up to two
+Unicode grapheme initials for signed-in users, linking to the existing profile.
+Accessible names/tooltips include the user's name. Same-origin no-store auth
+status reads, revision guards, tab visibility/BFCache refresh and portal session/
+profile events keep the header current after login, logout and profile edits.
+The 44px circular signed-in avatar uses shared theme tokens. User identity stays
+in tab memory; no schema, account data, role enforcement or storage change.
+
+Verification: all five shared-shell Chrome checks passed on a clean rerun with
+per-test isolated temporary DATA_DIR, including actual login/logout/profile
+changes, Hindi initials, auth outage behavior, 21 public pages at four widths in
+both themes, and authenticated workspace/navigation checks. Eight selected public
+tool browser checks also passed across the initial run and a clean Ritual Assist
+rerun. Initial overlapping browser runs collided in artifact files; separate
+output directories resolved those test infrastructure failures. Public-tool
+assertions now permit only the shared GET auth-status read while retaining their
+app API checks. Both edited scripts pass syntax checks; `git diff --check` passed.
+These header changes are local and have not been committed or deployed.
+
 **News date and Crack the Code deployed and live verified (2026-10-16):**
 User-authorized release commit `de84eea` is deployed at
 https://apps.sushantsynapse.com on existing production Worker version
