@@ -1814,7 +1814,7 @@ For the earlier Chambers release, local implementation was complete. Further wor
 Source review identified different public-home, authenticated-catalogue and Chambers navigation shells, plus app-specific presentation/theme divergence. Recommendation and acceptance criteria are recorded in `docs/UI_PLATFORM_REVIEW_2026-10-11.md`: establish a shared platform shell, distinguish app navigation, simplify the launcher and migrate shared components before extending across apps. At this review checkpoint no UI implementation, rendered browser verification, deployment or business-data changes had been performed. The subsequent implementation and release status at the top of this ledger supersede that checkpoint.
 # Free-app card spacing (2026-10-16, deployed)
 
-## Landing-page discovery refactor (2026-10-16, local)
+## Landing-page discovery refactor (2026-10-16, deployed)
 
 Portal-owned modern CSS and `home-discovery.js` implement five category filters
 (All, Productivity & Utility, Games & Fun, Finance & Planning, Editorial & Media).
@@ -1843,7 +1843,14 @@ Nine platform-additions source/API checks passed with isolated fixtures; the
 language static check passed after replacing its obsolete hardcoded cache-version
 assertion with a versioned local-script check (10 distinct checks total).
 Desktop/mobile captures reviewed: `.publish/home-discovery-{desktop,mobile}.png`.
-Syntax/diff checks pass. Implementation is not committed or deployed.
+Syntax/diff checks pass. Source `5f13246` deployed to the existing production
+Cloudflare route; Worker `d001d744-d86c-49e2-95c9-b359006c839c`. Six changed assets
+uploaded, 796 reused; existing bindings retained. Read-only live verification
+passes four exact source assets, eight responsive/theme layouts, all 40 stable
+filter transitions and expected counts, 48px pills, mobile menu/Escape/focus,
+horizontal feature strip, no-JavaScript discovery and no page errors. Evidence:
+`.publish/verify-discovery-live.cjs` and `.publish/discovery-live-{desktop,mobile}.png`.
+No production business writes or database migrations.
 
 ## Single-action public cards (2026-10-16, deployed)
 

@@ -1,6 +1,6 @@
 # Code ownership and adding apps
 
-Landing discovery (2026-10-16, local): portal-owned `home-discovery.js` enhances
+Landing discovery (2026-10-16, deployed): portal-owned `home-discovery.js` enhances
 both homepage renderings with transient category filtering. Its fixed-height,
 keyboard-focusable catalogue scroll region prevents filter-driven page shifts;
 without JavaScript the complete native link grid remains. Native horizontal
