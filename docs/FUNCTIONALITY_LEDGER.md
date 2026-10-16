@@ -1,5 +1,28 @@
 # Chambers functionality ledger
 
+**Daily Satire samples deployed/live verified (2026-10-16):** User requested
+content to visualise the new publishing features without changing the current
+13-character Arena. Source `cc16f87` is live at
+https://apps.sushantsynapse.com/satire-arena/daily?sample=1 on production Worker
+`67eee0f4-4209-40ca-a677-90c68e944934`. Three changed static assets uploaded;
+the sample content/renderer are in the Worker bundle. Existing Free D1/password/
+full-app bindings and variables are preserved. No editorial, account or ballot
+writes or schema changes ran.
+
+Pre/post live fingerprints match for the current Arena HTML, app, style,
+catalogue and enhancements. Public editorial library and today's summary remain
+exactly unchanged. Chrome verifies seven samples, five categories, English/Hindi,
+preview-only article links, noindex metadata, no-JavaScript category text, eight
+320/390/768/1440px light/dark layouts, sample exclusion from sitemaps and 404 for
+an unflagged sample article. The original 13 captions and 78 reaction controls
+remain intact. All API writes were blocked; none occurred, with no page errors.
+Mobile production screenshot reviewed. Evidence is ignored
+`.publish/satire-samples-before.json`, `.publish/satire-samples-live.cjs`,
+`.publish/satire-samples-live.json`, `.publish/satire-samples-live-desktop.png` and
+`.publish/satire-samples-live-mobile.png`. This supersedes the pending publication
+status below. Preview examples remain outside the saved editorial library.
+Release records are committed after live verification; no repository push requested.
+
 **Daily Satire sample content implemented (2026-10-16):** User asked to visualise
 the publishing features with added content while preserving the current Arena's
 13 characters. Seven original examples cover office, technology, Indian life,

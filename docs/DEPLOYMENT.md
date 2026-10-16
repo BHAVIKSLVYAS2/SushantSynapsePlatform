@@ -1,5 +1,14 @@
 # Deploy Sushant Synapse Platform
 
+Daily Satire sample edition is deployed/live-verified (2026-10-16): source
+`cc16f87`, Worker `67eee0f4-4209-40ca-a677-90c68e944934`. Seven read-only original
+examples are available at `/satire-arena/daily?sample=1`. The existing Arena HTML
+and four principal assets match pre-deploy fingerprints; 13 captions, 78 controls
+and public saved editorial data are unchanged. Eight themed responsive layouts,
+sample/noindex/sitemap boundaries and no-JavaScript text pass without page errors
+or API writes. D1 bindings/settings are retained. Evidence:
+`.publish/satire-samples-live.json`; see the functionality ledger.
+
 Illustrated homepage, daily feature and Lights Out are deployed/live-verified
 (2026-10-16): source `45bc638`, Worker `a30b46e9-abba-4336-a112-f3ab1bbfa819`.
 Nine changed assets uploaded; existing D1 configuration is preserved. Six source
