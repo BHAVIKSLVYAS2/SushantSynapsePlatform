@@ -4,7 +4,8 @@ Crack the Code replaces Oddly Different: deduce a five-digit combination in eigh
 attempts using exact-position and elsewhere counts. Digits may repeat and leading
 zeros count. Daily codes are deterministic for the IST date; practice starts a
 fresh random seed. Guesses stay in the tab, and explicit result sharing excludes
-the secret and guess history. The replacement is locally verified, not deployed.
+the secret and guess history. Deployed and live-verified on 2026-10-16, source
+`de84eea`, Worker `13768c7e-7867-46ba-9f74-9d74292ab4f0`; see the ledger.
 
 The refreshed hub features Daily Spark once above compact activity tiles, with Challenge, Choose and Unwind filters instead of an all-activities default. All seven existing activities remain available. Returning from a game restores its category and keyboard focus; in-tab game progress is preserved. Daily Spark uses the same difficulty/hint controller as its standalone page. Layouts use existing light/dark tokens and support small phones.
 

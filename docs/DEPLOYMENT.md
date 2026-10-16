@@ -1,5 +1,12 @@
 # Deploy Sushant Synapse Platform
 
+News current-date default and Take a Break's Crack the Code replacement are
+deployed and live-verified (2026-10-16): source `de84eea`, production Worker
+`13768c7e-7867-46ba-9f74-9d74292ab4f0`. Existing Free D1 bindings and variables
+are preserved. Four source-byte checks, current IST selection, code solve/reset
+and eight responsive themed layouts passed with no page errors or API writes.
+See the functionality ledger and `.publish/news-code-live-verification.json`.
+
 Make 24 achievement feedback is deployed and live-verified on `/daily-spark` and `/take-a-break?game=24` (2026-10-12), application commit `4be22a0`, Worker `35e9fb8a-2e6b-4a28-b7fc-0db7b7c9863e`. Existing Free D1 bindings and secrets are preserved; verification evidence is in the functionality ledger.
 
 **Focus timer/priority cards deployed (2026-10-12):** Tested source `.publish/release-focus-cards-20261012-uMoqoP`, acceptance Worker `71269894-9089-459d-b9f0-6fb758838415`, existing https://apps.sushantsynapse.com/focus. Six changed assets uploaded; 149 reused. Live verification passes 14 checks, four exact JS/CSS matches and eight populated 320/390/768/1440px light/dark layouts, including persisted drag priority/order, duration settings/locks/completion, editor focus and browser-only task changes. Zero page errors or Focus task API calls. Existing Free D1/password/full-app settings, database binding and secrets are retained; no schema/data/account/billing changes. See the current functionality ledger and ignored `.publish/focus-cards-live-verification.json` for evidence.

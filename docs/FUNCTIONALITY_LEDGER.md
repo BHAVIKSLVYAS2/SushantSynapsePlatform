@@ -1,5 +1,24 @@
 # Chambers functionality ledger
 
+**News date and Crack the Code deployed and live verified (2026-10-16):**
+User-authorized release commit `de84eea` is deployed at
+https://apps.sushantsynapse.com on existing production Worker version
+`13768c7e-7867-46ba-9f74-9d74292ab4f0`. Six changed assets uploaded; existing
+Free D1/password/full-app bindings and variables are preserved. No database
+migration, news generation, account change or business write ran.
+
+Live checks confirm healthy storage, four exact JS/CSS source-byte matches,
+News opening on the current IST date, the code-game hub replacement, a successful
+daily code solve, practice/daily resets and eight light/dark layouts at
+320/390/768/1440px without overflow or page errors. Chrome verification blocked
+all API writes and observed none. The mobile screenshot was visually reviewed.
+Evidence is ignored `.publish/news-code-live-check.cjs`,
+`.publish/news-code-live-verification.json` and `.publish/news-code-live-mobile.png`.
+An initial asset check encountered propagation delay; the subsequent exact-byte
+and full browser checks passed. Prior local checks remain the implementation
+evidence below. This supersedes the local-only status of both changes below.
+Release documentation is committed separately after verification; no push requested.
+
 **Take a Break code game implemented locally (2026-10-16):** Crack the Code
 replaces Oddly Different in the hub, Make 24 next-game action and game controller.
 Players deduce five digits (repeats and leading zeros allowed) in eight attempts;
