@@ -1,5 +1,30 @@
 # Chambers functionality ledger
 
+**Moment Studio award and memorial refinement (2026-10-16, local):** Removed
+Blood Donation, Event Contribution and Community Service from the award chooser;
+Volunteer Appreciation remains the shared service category. Four contribution
+categories and ten personal awards remain. A fifth design, Fun Card, adds playful
+wording and smile motifs and is suggested for personal awards; manually selected
+designs remain selected. Existing PDF/PNG/print and organisation branding apply.
+
+Condolence and remembrance cards now reserve distinct portrait, headline, name,
+message, optional gathering (event, date/time and place), sender and branding
+regions in square and vertical exports. Gathering fields are opt-in and excluded
+when collapsed. Additional notes have their own reserved area. New structured
+fields retain length validation, fit checks and tab-only privacy. No database,
+accounts, uploaded records or payment settings changed. All 22 relevant Chrome
+checks pass across the certificate, greeting and Moment Studio suites after
+updating an older privacy assertion to allow only the existing read-only GET
+authentication status check. The targeted final rerun passes (2/2). Checks cover
+English/Hindi, portrait/no portrait, square/story, distinct gathering and sender
+text bounds, collapsed-event exclusion, manual design preservation, branding,
+PDF/PNG densities, print, saved organisations and 320–1440px theme layouts.
+Tests use isolated temporary SQLite directories. Artwork reviewed from ignored
+`.publish/moment-memorial-preview.png` and `test-results/certificate-Fun Card.png`;
+test evidence is in `.publish/moment-final-tests` and
+`.publish/moment-confirmation-tests`. The user authorised commit and production
+deployment; release verification will be recorded after deployment completes.
+
 **Daily Satire samples deployed/live verified (2026-10-16):** User requested
 content to visualise the new publishing features without changing the current
 13-character Arena. Source `cc16f87` is live at

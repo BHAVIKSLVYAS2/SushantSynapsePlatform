@@ -6,17 +6,17 @@ let child,base,dir;
 test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-certificates-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,DATABASE_PROVIDER:'sqlite',NODE_ENV:'test',PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe']});await new Promise((resolve,reject)=>{let out='';const timer=setTimeout(()=>reject(Error('Startup timed out')),15000);child.stdout.on('data',chunk=>{out+=chunk;const match=out.match(/localhost:(\d+)/);if(match){base='http://127.0.0.1:'+match[1];clearTimeout(timer);resolve();}});child.once('error',reject);});});
 test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
 test('anonymous local generation, all designs, exports, privacy and responsive print',async({page})=>{
- const errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r.url()));
+ const errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(!(r.method()==='GET'&&new URL(r.url()).pathname==='/api/auth/status'))requests.push(r.url());});
  await page.goto(base+'/moment-studio');await expect(page.locator('#certificate')).toBeVisible();
  await page.getByRole('button',{name:'Generate certificate'}).click();await expect(page.locator('#downloads')).toBeHidden();
  await page.getByLabel('Recipient Name',{exact:true}).fill('Aarav Sharma');await page.getByLabel('Appreciation / Contribution Description').fill('supporting education for children in our community');
  await page.getByLabel('Organization Name').fill('The Kindness Foundation');
  await page.getByText('Personalize wording & signing').click();await page.getByLabel('Signatory Name').fill('Ananya Rao');await page.getByLabel('Signatory Designation').fill('Programme Director');await page.getByLabel('Location',{exact:true}).fill('Pune, Maharashtra');
  await expect(page.getByLabel('Certificate ID',{exact:true})).toHaveValue(/^SS-\d{4}-[A-F0-9]{8}$/);
- await expect(page.locator('#templates input')).toHaveCount(4);
- for(const name of ['Laurel','Nocturne','Summit','Jubilee']){await page.getByRole('radio',{name,exact:true}).check();await expect(page.getByLabel('Recipient Name',{exact:true})).toHaveValue('Aarav Sharma');await page.locator('#certificate').screenshot({path:`test-results/certificate-${name}.png`});}
+ await expect(page.locator('#templates input')).toHaveCount(5);
+ for(const name of ['Laurel','Nocturne','Summit','Jubilee','Fun Card']){await page.getByRole('radio',{name,exact:true}).check();await expect(page.getByLabel('Recipient Name',{exact:true})).toHaveValue('Aarav Sharma');await page.locator('#certificate').screenshot({path:`test-results/certificate-${name}.png`});}
  await page.getByRole('radio',{name:'Laurel',exact:true}).check();
- await page.getByLabel('Certificate Type').selectOption('Blood Donation');await expect(page.locator('#preview-description')).toContainText('life-saving gift');
+ await page.getByLabel('Certificate Type').selectOption('Volunteer Appreciation');await expect(page.locator('#preview-description')).toContainText('selfless service');
  await page.getByText('Add logo & signature').click();
  const image=await page.locator('#certificate').screenshot();await page.locator('#logo').setInputFiles({name:'logo.png',mimeType:'image/png',buffer:image});await expect(page.locator('#status')).toHaveText('Image added locally.');
  await page.locator('[data-remove="logo"]').click();await page.locator('#signature').setInputFiles({name:'invalid.png',mimeType:'image/png',buffer:Buffer.from('invalid')});await expect(page.locator('#status')).not.toHaveText('Image added locally.');
@@ -56,14 +56,14 @@ test('fun awards provide wording and preserve personal edits when switching type
 
 test('purposeful template defaults, preserved manual choices and lossless PNG densities',async({page})=>{
  await page.goto(base+'/moment-studio');
- await expect(page.locator('[name=type] option')).toHaveCount(17);
+ await expect(page.locator('[name=type] option')).toHaveCount(14);
  for(const name of ['Social Service','Sponsorship Appreciation','Outstanding Contribution','Custom'])await expect(page.locator('[name=type] option').filter({hasText:new RegExp('^'+name+'$')})).toHaveCount(0);
  await page.getByLabel('Recipient Name',{exact:true}).fill('Priya Sharma');
- for(const [type,template]of [['Donation Appreciation','Laurel'],['Event Contribution','Nocturne'],['Teaching / Mentoring','Summit'],['General Appreciation','Laurel']]){
+ for(const [type,template]of [['Donation Appreciation','Laurel'],['Teaching / Mentoring','Summit'],['General Appreciation','Laurel']]){
   await page.getByLabel('Certificate Type').selectOption(type);await expect(page.getByRole('radio',{name:template,exact:true})).toBeChecked();
   if(template==='Summit')await expect(page.getByLabel('Accent colour')).toBeVisible();else await expect(page.locator('[name=accent]')).toBeHidden();
  }
- for(const [award,template] of [['Best Friend','Jubilee'],['Best Wife','Jubilee'],['Best Dad','Jubilee']]){
+ for(const [award,template] of [['Best Friend','Fun Card'],['Best Wife','Fun Card'],['Best Dad','Fun Card']]){
   await page.getByLabel('Certificate Type').selectOption(award);await expect(page.getByRole('radio',{name:template,exact:true})).toBeChecked();
   await expect(page.locator('[name=accent]')).toBeHidden();
   await page.locator('#certificate').screenshot({path:`test-results/playful-${template}.png`});
@@ -86,7 +86,7 @@ test('purposeful template defaults, preserved manual choices and lossless PNG de
  await page.setViewportSize({width:320,height:900});await page.getByRole('button',{name:'Generate certificate'}).click();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 
-test('four authored certificate compositions keep achievement content and optional artwork in the print area',async({page})=>{
+test('five authored certificate designs keep achievement content and optional artwork in the print area',async({page})=>{
  await page.goto(base+'/moment-studio');
  const result=await page.evaluate(async()=>{
   const {render,templates}=await import('/moment-studio/certificate-renderer.mjs');
@@ -100,7 +100,7 @@ test('four authored certificate compositions keep achievement content and option
    return {template,width:canvas.width,height:canvas.height,texts,images,pixels:canvas.toDataURL()};
   });
  });
- expect(result.map(row=>row.template)).toEqual(['Laurel','Nocturne','Summit','Jubilee']);expect(new Set(result.map(row=>row.pixels)).size).toBe(4);
+ expect(result.map(row=>row.template)).toEqual(['Laurel','Nocturne','Summit','Jubilee','Fun Card']);expect(new Set(result.map(row=>row.pixels)).size).toBe(5);
  const layouts=[];
  for(const row of result){
   expect([row.width,row.height]).toEqual([1122,793]);
@@ -134,7 +134,7 @@ test('saved organisations restore branding only and can be reused and deleted',a
  await page.getByRole('button',{name:'Delete saved organisation',exact:true}).click();await expect(page.locator('#organisation-status')).toContainText('deleted');await expect(page.locator('#saved-organisation option')).toHaveCount(2);
  await page.reload();await expect(page.getByLabel('Organization Name')).toHaveValue('');
  await expect(page.locator('#certificate-disclaimer')).toContainText('Issuer is responsible for content');
- const disclaimers=await page.evaluate(async()=>{const {render,templates,disclaimer}=await import('/moment-studio/certificate-renderer.mjs');return templates.map(template=>{const c=document.createElement('canvas'),ctx=c.getContext('2d'),texts=[];const fill=ctx.fillText.bind(ctx);ctx.fillText=(text,...args)=>{texts.push(text);fill(text,...args);};render(c,{template},{},3508/1122);return texts.includes(disclaimer);});});expect(disclaimers).toEqual(Array(4).fill(true));
+ const disclaimers=await page.evaluate(async()=>{const {render,templates,disclaimer}=await import('/moment-studio/certificate-renderer.mjs');return templates.map(template=>{const c=document.createElement('canvas'),ctx=c.getContext('2d'),texts=[];const fill=ctx.fillText.bind(ctx);ctx.fillText=(text,...args)=>{texts.push(text);fill(text,...args);};render(c,{template},{},3508/1122);return texts.includes(disclaimer);});});expect(disclaimers).toEqual(Array(5).fill(true));
 });
 
 test('invalid and unavailable browser storage do not block certificate creation',async({page})=>{
@@ -170,11 +170,11 @@ test('optional donation amounts use exact Indian wording and stay out of other t
  ]);expect(amounts.slice(6)).toEqual(Array(6).fill(null));
  await page.getByLabel('Recipient Name',{exact:true}).fill('Aarav Sharma');await page.getByLabel('Appreciation / Contribution Description').fill('supporting our community education programme');
  const amount=page.locator('[name=donationAmount]');await amount.fill('5000');await expect(page.getByLabel('Amount in words',{exact:true})).toHaveValue('Five Thousand Rupees Only');await expect(page.locator('#certificate')).toHaveAttribute('aria-label',/Donation of ₹5,000/);
- for(const template of ['Laurel','Nocturne','Summit','Jubilee']){await page.getByRole('radio',{name:template,exact:true}).check();await expect(amount).toHaveValue('5000');}
+ for(const template of ['Laurel','Nocturne','Summit','Jubilee','Fun Card']){await page.getByRole('radio',{name:template,exact:true}).check();await expect(amount).toHaveValue('5000');}
  await page.getByRole('radio',{name:'Laurel',exact:true}).check();await page.locator('#certificate').screenshot({path:'test-results/certificate-donation.png'});
  await page.getByRole('button',{name:'Generate certificate'}).click();await expect(page.locator('#downloads')).toBeVisible();for(const format of ['PDF','PNG']){const [download]=await Promise.all([page.waitForEvent('download'),page.getByRole('button',{name:'Download '+format,exact:true}).click()]);expect(await download.failure()).toBeNull();}
  await amount.fill('-1');await page.getByRole('button',{name:'Generate certificate'}).click();await expect(page.locator('#downloads')).toBeHidden();
- await page.getByLabel('Certificate Type').selectOption('Blood Donation');await expect(amount).toBeHidden();await expect(amount).toBeDisabled();await expect(page.locator('#certificate')).not.toHaveAttribute('aria-label',/Donation of/);await page.getByRole('button',{name:'Generate certificate'}).click();await expect(page.locator('#downloads')).toBeVisible();
+ await page.getByLabel('Certificate Type').selectOption('Volunteer Appreciation');await expect(amount).toBeHidden();await expect(amount).toBeDisabled();await expect(page.locator('#certificate')).not.toHaveAttribute('aria-label',/Donation of/);await page.getByRole('button',{name:'Generate certificate'}).click();await expect(page.locator('#downloads')).toBeVisible();
  await page.getByLabel('Certificate Type').selectOption('Donation Appreciation');await expect(amount).toHaveValue('');await page.getByRole('button',{name:'Generate certificate'}).click();await expect(page.locator('#downloads')).toBeVisible();await expect(page.locator('#certificate')).not.toHaveAttribute('aria-label',/Donation of/);
 });
 

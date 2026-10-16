@@ -8,9 +8,9 @@ export function donationAmount(value){
  let rest=rupees;const parts=[];for(const [unit,label]of [[10000000,'Crore'],[100000,'Lakh'],[1000,'Thousand']]){const count=Math.floor(rest/unit);if(count)parts.push(small(count)+' '+label);rest%=unit;}if(rest||!parts.length)parts.push(small(rest));
  return {number:'₹'+rupees.toLocaleString('en-IN')+(paise?'.'+String(paise).padStart(2,'0'):''),words:parts.join(' ')+(rupees===1?' Rupee':' Rupees')+(paise?' and '+small(paise)+(paise===1?' Paisa':' Paise'):'')+' Only'};
 }
-export const templates=['Laurel','Nocturne','Summit','Jubilee'];
-export const templateNotes={Laurel:'Ceremonial · engraved gold',Nocturne:'Gala · midnight & gold',Summit:'Modern · architectural',Jubilee:'Celebration · bold graphic'};
-export const playfulTemplates=['Jubilee'];
+export const templates=['Laurel','Nocturne','Summit','Jubilee','Fun Card'];
+export const templateNotes={Laurel:'Ceremonial · engraved gold',Nocturne:'Gala · midnight & gold',Summit:'Modern · architectural','Fun Card':'Personal · playful keepsake',Jubilee:'Celebration · bold graphic'};
+export const playfulTemplates=['Jubilee','Fun Card'];
 export const accentTemplates=['Summit'];
 export const disclaimer='Digitally generated; not independently verified. Issuer is responsible for content. Sushant Synapse provides the tool only.';
 export const accents={blue:'#234560',teal:'#216d68',gold:'#82652e',plum:'#68405e',digital:'#6335cf'};
@@ -27,7 +27,7 @@ export function render(canvas,data,images={},scale=1.25){
  const W=1122,H=W*210/297;
  canvas.width=Math.round(W*scale);canvas.height=Math.round(H*scale);
  const c=canvas.getContext('2d');c.scale(canvas.width/W,canvas.height/H);
- const template=templates.includes(data.template)?data.template:legacyTemplates[data.template]||'Laurel',s=styles[template];
+ const template=templates.includes(data.template)?data.template:legacyTemplates[data.template]||'Laurel',s=styles[template==='Fun Card'?'Jubilee':template];
  const ink=s.ink,muted=s.muted,paper=s.paper;
  let accent=template==='Summit'?(accents[data.accent]||s.accent):s.accent;
  const gold=c.createLinearGradient(40,0,W-40,H);gold.addColorStop(0,'#c39a56');gold.addColorStop(.35,'#efd9a2');gold.addColorStop(.65,'#a77e39');gold.addColorStop(1,'#dfbd78');
@@ -101,7 +101,7 @@ export function render(canvas,data,images={},scale=1.25){
   line(326,184,1016,184,'#c9d1d2',.8);c.fillStyle=accent;c.fillRect(326,184,104,4);
   polygon([[W-86,0],[W,0],[W,86]],'#e9edf0');line(1016,641,1016,736,'#d2d8db',.7);
  }
- if(template==='Jubilee'){
+ if(template==='Jubilee'||template==='Fun Card'){
   c.fillStyle='#382558';c.fillRect(0,0,W,18);c.fillRect(0,735,W,9);
   circle(1086,333,211,'#eed9cf');circle(1086,333,161,'#f6e9d8');
   c.fillStyle='#bd654b';c.fillRect(1019,52,27,637);c.fillStyle='#d6a548';c.fillRect(1056,52,8,637);
@@ -110,19 +110,21 @@ export function render(canvas,data,images={},scale=1.25){
   polygon([[35,184],[55,174],[55,239],[35,249]],'#bd654b');polygon([[35,258],[55,248],[55,313],[35,323]],'#68409a');
   for(const [x,y,r,color]of [[982,540,9,'#bd654b'],[968,590,6,'#68409a'],[96,668,5,'#bd654b'],[997,635,5,'#d6a548']])star(x,y,r,color,4);
   line(110,171,335,171,'#cebaab',1);
+  if(template==='Fun Card'){for(const [x,y]of [[900,465],[940,610],[80,520]]){circle(x,y,21,'#efd192');circle(x-7,y-5,2,'#382558');circle(x+7,y-5,2,'#382558');c.beginPath();c.arc(x,y+1,10,0,Math.PI);c.strokeStyle='#382558';c.lineWidth=2;c.stroke();}}
  }
 
  const logoX=data.logoPosition==='left'?95:data.logoPosition==='right'?937:516;
  image(images.logo,logoX,68,90,68,template==='Nocturne'||template==='Summit'&&data.logoPosition==='left');
  block(data.organization,s.x,142,s.w,39,23,'Arial',accent,'600',s.align);
  const isDonation=data.type==='Donation Appreciation',donation=isDonation?donationAmount(data.donationAmount):null,layout=isDonation?s.donation:s;
- const title=data.title||'Certificate of Appreciation';
+ const personal=template==='Fun Card';
+ const title=data.title||(personal?'Officially the best!':'Certificate of Appreciation');
  block(title,s.x,layout.title[0],s.w,layout.title[1],layout.title[2],s.family,accent,template==='Laurel'?'normal':'600',s.align);
- block(isDonation?'PRESENTED WITH GRATITUDE TO':'PROUDLY PRESENTED TO',s.x,layout.presented,s.w,24,11,'Arial',muted,'600',s.align);
+ block(isDonation?'PRESENTED WITH GRATITUDE TO':personal?'ONE OF A KIND. ABSOLUTELY YOU.':'PROUDLY PRESENTED TO',s.x,layout.presented,s.w,24,11,'Arial',muted,'600',s.align);
  block(data.recipient||'Recipient Name',s.x,layout.name[0],s.w,layout.name[1],layout.name[2],s.family,ink,template==='Laurel'||template==='Nocturne'?'normal':'700',s.align);
  const ruleX=s.align==='left'?s.x:W/2-130;line(ruleX,layout.rule,ruleX+(s.align==='left'?230:260),layout.rule,accent,.8);
  const bodyX=s.bodyX??s.x,bodyW=s.bodyW??s.w,bodyAlign=s.bodyAlign??s.align;
- block(isDonation?'For your generosity in supporting':'In recognition and sincere appreciation of',bodyX,layout.intro,bodyW,25,16,'Arial',muted,'normal',bodyAlign);
+ block(isDonation?'For your generosity in supporting':personal?'You deserve this because…':'In recognition and sincere appreciation of',bodyX,layout.intro,bodyW,25,16,'Arial',muted,'normal',bodyAlign);
  block(data.description||'your valuable contribution and support to our community',bodyX,layout.description[0],bodyW,layout.description[1],22,'Arial',ink,'normal',bodyAlign);
  if(donation){
   const x=bodyX,w=bodyW,y=500;

@@ -51,11 +51,12 @@ function controls(){
 }
 function cardData(){
  const data=Object.fromEntries(new FormData(form));
- const includeEvent=data.occasion==='invitation'||data.occasion==='remembrance'&&$('#remembrance-gathering').open;
+ const includeEvent=data.occasion==='invitation'||['condolence','remembrance'].includes(data.occasion)&&$('#remembrance-gathering').open;
  if(includeEvent){
   const date=$('#event-date').value;
   const dateText=date?new Intl.DateTimeFormat(data.language==='hi'?'hi-IN':'en-IN',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(date+'T00:00:00Z')):'';
-  data.details=[dateText,$('#event-time').value,$('#event-venue').value,data.details].filter(Boolean).join(' · ');
+  if(data.occasion==='invitation')data.details=[dateText,$('#event-time').value,$('#event-venue').value,data.details].filter(Boolean).join(' · ');
+  else {data.event=$('#event-name').value;data.when=[dateText,$('#event-time').value].filter(Boolean).join(' · ');data.place=$('#event-venue').value;}
  }
  return data;
 }
@@ -64,7 +65,7 @@ function draw(){
   const data=validate(cardData()),result=render(canvas,data,image);
   ready=result.fits&&brandReady;
   canvas.classList.toggle('story',data.format==='story');
-  canvas.setAttribute('aria-label',data.title+(data.name?' for '+data.name:'')+'. '+data.message+'. '+data.details+'. '+data.from+'.');
+  canvas.setAttribute('aria-label',data.title+(data.name?' for '+data.name:'')+'. '+data.message+'. '+[data.event,data.when,data.place,data.details].filter(Boolean).join('. ')+'. '+data.from+'.');
   $('#design-name').textContent=designs[data.design];
   $('#preview-description').textContent=result.width+' × '+result.height+' pixels · '+designs[data.design]+' · '+palettes[data.palette].name;
   $('#fit-status').textContent=!brandReady?'The platform logo could not load. Reload before exporting.':ready?'':'Some wording does not fit. Shorten it, remove the photo or choose Vertical status in More options.';
@@ -83,10 +84,12 @@ function syncOccasion(){
  $('#message-label').textContent=id==='condolence'?'Sympathy message':remembrance?'Tribute message':invitation?'Invitation message':'Your message';
  $('#sender-label').textContent=invitation?'Host':'From';
  form.elements.from.placeholder=invitation?'Host name':'Your name';
- $('#event-fields').hidden=!invitation&&!remembrance;
+ $('#event-fields').hidden=!invitation&&!memorial;
+ $('#memorial-event-field').hidden=!memorial;
+ $('#event-heading').textContent=id==='condolence'?'Add an event or prayer meeting':'Add a remembrance gathering';
  $('#invitation-events').hidden=!invitation;
  $('#event-heading').hidden=invitation;
- $('#remembrance-gathering').open=invitation||remembrance&&remembranceGatheringOpen;
+ $('#remembrance-gathering').open=invitation||memorial&&remembranceGatheringOpen;
  if(invitation)$('#name-field').before($('#title-field'));
  else $('#title-field').before($('#name-field'));
  const [design,palette]=presets[id];
@@ -115,7 +118,7 @@ $('#occasion').addEventListener('change',()=>{starterWording();syncOccasion();})
 $('#language').addEventListener('change',()=>{starterWording();thumbnails();draw();});
 $('#palette').addEventListener('change',()=>{customPalette=true;thumbnails();draw();});
 $('#remembrance-gathering').addEventListener('toggle',()=>{
- if(form.elements.occasion.value!=='remembrance')return;
+ if(!['condolence','remembrance'].includes(form.elements.occasion.value))return;
  remembranceGatheringOpen=$('#remembrance-gathering').open;
  dirty=true;draw();
 });

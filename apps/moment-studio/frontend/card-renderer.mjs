@@ -13,7 +13,7 @@ import {drawWatermark} from './branding.mjs';
 export const designs={quiet:'Quiet remembrance',confetti:'Confetti',elegant:'Elegant',bloom:'Bloom',bold:'Bold'};
 export const palettes={slate:{name:'Slate & ivory',bg:'#f5f3ee',ink:'#323b40',accent:'#63716e',soft:'#d9dfd8'},peach:{name:'Peach',bg:'#fff0e5',ink:'#553029',accent:'#bd513b',soft:'#f7c6b3'},lavender:{name:'Lavender',bg:'#f0eafb',ink:'#3c2e60',accent:'#7056aa',soft:'#d3c2ed'},ocean:{name:'Ocean',bg:'#e8f4f7',ink:'#193d4c',accent:'#28798f',soft:'#b4dce5'},forest:{name:'Forest',bg:'#ecf3e9',ink:'#29452e',accent:'#547d42',soft:'#c8deba'},sunshine:{name:'Sunshine',bg:'#fff7d9',ink:'#59451c',accent:'#a36b12',soft:'#f1d58a'},rose:{name:'Rose',bg:'#fcebf0',ink:'#602a42',accent:'#a74570',soft:'#eabbd0'}};
 export const sizes={square:{width:1080,height:1080,name:'Square post'},story:{width:1080,height:1920,name:'Vertical status'}};
-export function validate(raw){const data={};for(const [key,max]of Object.entries({title:100,name:80,message:600,details:200,from:80})){data[key]=String(raw[key]??'').trim();if([...data[key]].length>max)throw Error(`${key} is too long (maximum ${max} characters).`);}if(!data.title)throw Error('Add a headline before downloading.');for(const [key,values]of Object.entries({occasion:occasions,design:designs,palette:palettes,format:sizes})){if(!Object.hasOwn(values,raw[key]))throw Error('Choose a valid '+key+'.');data[key]=raw[key];}if(!['en','hi'].includes(raw.language))throw Error('Choose English or Hindi.');data.language=raw.language;return data;}
+export function validate(raw){const data={};for(const [key,max]of Object.entries({title:100,name:80,message:600,details:200,from:80,event:80,when:80,place:100})){data[key]=String(raw[key]??'').trim();if([...data[key]].length>max)throw Error(`${key} is too long (maximum ${max} characters).`);}if(!data.title)throw Error('Add a headline before downloading.');for(const [key,values]of Object.entries({occasion:occasions,design:designs,palette:palettes,format:sizes})){if(!Object.hasOwn(values,raw[key]))throw Error('Choose a valid '+key+'.');data[key]=raw[key];}if(!['en','hi'].includes(raw.language))throw Error('Choose English or Hindi.');data.language=raw.language;return data;}
 export function filename(data){const safe=data.title.normalize('NFKC').replace(/[^\p{L}\p{M}\p{N}]+/gu,'-').replace(/^-|-$/g,'').slice(0,64)||'moment';return `${safe}-${data.format}.png`;}
 const font='"Segoe UI", "Nirmala UI", Arial, sans-serif';
 function lines(ctx,text,width){const output=[];const segmenter=new Intl.Segmenter(undefined,{granularity:'grapheme'});for(const paragraph of text.split('\n')){let line='';for(const word of paragraph.split(/\s+/).filter(Boolean)){const candidate=line?line+' '+word:word;if(ctx.measureText(candidate).width<=width){line=candidate;continue;}if(line){output.push(line);line='';}if(ctx.measureText(word).width<=width){line=word;continue;}for(const {segment}of segmenter.segment(word)){if(line&&ctx.measureText(line+segment).width>width){output.push(line);line='';}line+=segment;}}output.push(line);}return output;}
@@ -37,6 +37,36 @@ export function render(canvas,raw,image=null){
  const margin=140,content=w-2*margin;let ok=true;
  const block=(text,y,height,max,min,bold=false)=>{ok=textBlock(ctx,text,{x:margin,y,width:content,height,max,min,bold,color:p.ink})&&ok;};
  block(['condolence','remembrance'].includes(d.occasion)?(d.language==='hi'?'स्नेह और स्मरण के साथ':'WITH CARE & REMEMBRANCE'):(d.language==='hi'?'एक खास पल':'A MOMENT TO SHARE'),story?155:85,48,24,20);
+ if(memorial){
+  // Fixed regions keep the portrait, name, gathering and sender distinct.
+  const portraitY=story?270:165,portraitSide=story?390:180;
+  if(image){
+   const x=(w-portraitSide)/2,y=portraitY,side=portraitSide;
+   ctx.save();ctx.strokeStyle=p.accent;ctx.lineWidth=2;ctx.beginPath();ctx.arc(w/2,y+side/2,side/2+8,0,Math.PI*2);ctx.stroke();
+   ctx.beginPath();ctx.arc(w/2,y+side/2,side/2,0,Math.PI*2);ctx.clip();
+   const scale=Math.max(side/image.width,side/image.height);
+   ctx.drawImage(image,x+(side-image.width*scale)/2,y+(side-image.height*scale)/2,image.width*scale,image.height*scale);ctx.restore();
+  }
+  const headingY=image?portraitY+portraitSide+24:story?285:175;
+  block(d.title,headingY,story?125:60,story?62:40,24,true);
+  const nameY=headingY+(story?140:70);
+  block(d.name,nameY,story?150:75,story?76:48,24,true);
+  const messageY=nameY+(story?170:90),eventY=story?1300:735;
+  const hasEvent=Boolean(d.event||d.when||d.place);
+  const detailsY=story?(hasEvent?1160:1450):(hasEvent?675:790);
+  const messageEnd=d.details?detailsY-12:hasEvent?eventY-20:story?1570:865;
+  block(d.message,messageY,Math.min(story?390:200,messageEnd-messageY),story?40:30,20);
+  if(d.details)block(d.details,detailsY,hasEvent?(story?110:48):(story?140:90),28,18);
+  if(hasEvent){
+   rule(eventY-6);
+   block(d.event,eventY+10,story?100:52,story?42:32,22,true);
+   block(d.when,eventY+(story?115:66),story?60:40,28,20);
+   block(d.place,eventY+(story?185:110),story?110:65,30,20);
+  }
+  const fromY=story?1650:925;
+  rule(fromY-12);
+  block(d.from?(d.language==='hi'?'प्रेषक: ':'From: ')+d.from:'',fromY,story?100:48,30,20,true);
+ }else{
  let titleY=story?260:170;
  if(image){const side=story?420:210,x=(w-side)/2,y=story?275:175;ctx.save();ctx.strokeStyle=p.accent;ctx.lineWidth=1.5;ctx.beginPath();ctx.roundRect(x-8,y-8,side+16,side+16,memorial?side/2+8:16);ctx.stroke();ctx.beginPath();ctx.roundRect(x,y,side,side,memorial?side/2:8);ctx.clip();const scale=Math.max(side/image.width,side/image.height),iw=image.width*scale,ih=image.height*scale;ctx.drawImage(image,x+(side-iw)/2,y+(side-ih)/2,iw,ih);ctx.restore();titleY=y+side+24;}
  const titleH=story?250:image?120:200;block(d.title,titleY,titleH,story?90:76,34,true);
@@ -46,6 +76,7 @@ export function render(canvas,raw,image=null){
  const messageH=Math.min(story?330:230,messageEnd-messageY);block(d.message,messageY,messageH,story?44:36,24);
  if(d.details)block(d.details,messageEnd+12,detailsH,30,21);
  rule(footerY-10);block(d.from,footerY+12,65,30,22,true);
+ }
  drawWatermark(ctx,{x:60,y:h-104,width:w-120,height:64,ink:p.ink,background:p.bg});
  return {fits:ok,width:w,height:h};
 }

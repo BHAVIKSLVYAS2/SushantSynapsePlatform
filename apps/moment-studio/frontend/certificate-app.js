@@ -14,9 +14,6 @@ document.querySelector('.studio-nav').addEventListener('click',event=>{
 const types={
  'Donation Appreciation':'Your generosity and commitment are greatly appreciated.',
  'Volunteer Appreciation':'Your time, dedication and selfless service make a meaningful difference.',
- 'Community Service':'Thank you for helping build a stronger, kinder community.',
- 'Blood Donation':'Your life-saving gift brings hope to those who need it most.',
- 'Event Contribution':'Your enthusiasm and support helped make this event a success.',
  'Teaching / Mentoring':'Your guidance and encouragement open doors to a brighter future.',
  'General Appreciation':'Your kindness, commitment and support are sincerely appreciated.'
 };
@@ -43,10 +40,11 @@ for(const [i,name] of templates.entries()){
  const label=document.createElement('label');label.className='template';const thumb=document.createElement('canvas');thumb.setAttribute('aria-hidden','true');
  const radio=document.createElement('input');radio.type='radio';radio.name='template';radio.value=name;radio.setAttribute('aria-label',name);radio.checked=i===0;
  label.append(thumb,radio,document.createTextNode(name));const note=document.createElement('small');note.textContent=templateNotes[name];label.append(note);$('#templates').append(label);
- render(thumb,{template:name,accent:'blue',title:'Certificate of Appreciation',recipient:'Aarav Sharma',description:'For exceptional dedication and a lasting contribution.',organization:'THE KINDNESS FOUNDATION',date:'2026-10-12'},{},.35);
+ const personal=name==='Fun Card';
+ render(thumb,{template:name,accent:'blue',title:personal?'Best Friend Award':'Certificate of Appreciation',recipient:personal?'Your favourite human':'Aarav Sharma',description:personal?'making ordinary days unforgettable':'For exceptional dedication and a lasting contribution.',organization:personal?'THE PEOPLE WHO MAKE LIFE BETTER':'THE KINDNESS FOUNDATION',message:personal?'Five stars for friendship. Would share snacks with you again.':'',date:'2026-10-12'},{},.35);
 }
 let automaticTemplate=true;
-const suggestedTemplate=()=>funAwards[form.elements.type.value]?'Jubilee':form.elements.type.value==='Event Contribution'?'Nocturne':form.elements.type.value==='Teaching / Mentoring'?'Summit':'Laurel';
+const suggestedTemplate=()=>funAwards[form.elements.type.value]?'Fun Card':form.elements.type.value==='Teaching / Mentoring'?'Summit':'Laurel';
 function syncTemplate(){
  if(automaticTemplate)form.elements.template.value=suggestedTemplate();
  const fixedPalette=!accentTemplates.includes(form.elements.template.value);
