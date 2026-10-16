@@ -1,5 +1,29 @@
 # Chambers functionality ledger
 
+**Support redesign and session header deployed/live verified (2026-10-16):**
+User-authorized source commits `a7422f5` and `3310425` is published at
+https://apps.sushantsynapse.com on existing production Worker version
+`e555be93-a26b-4307-85fb-2be7cf86218f`. Eight changed assets uploaded; existing
+Free D1/password/full-app bindings, variables and secrets are preserved. A final
+HTML spacing correction found in mobile screenshot review was published in
+`3310425` (two changed assets) and the complete live checks passed again. No
+migration, payment configuration, account change or business write ran.
+
+Live checks pass healthy storage, six exact JS/CSS source-byte matches, Buy me a
+coffee and four visible treat choices, honest unconfigured payment state,
+sponsorship/contact discovery, collapsed WhatsApp disclosure, anonymous Sign in
+and eight 320/390/768/1440px light/dark layouts. Test-browser simulated signed-in
+status verifies Hindi initials, accessible profile identity, 44px avatar sizing,
+session-change updates and auth-outage fallback. Real login/logout/profile edits
+were verified locally in isolated data as recorded below. Live checks block all
+API writes and observed none; no page errors. Production contributions remain
+unconfigured/disabled. The mobile production screenshot was visually reviewed.
+Evidence is ignored `.publish/support-header-live-check.cjs`,
+`.publish/support-header-live-verification.json`,
+`.publish/support-header-live-desktop.png` and `.publish/support-header-live-mobile.png`.
+This supersedes the local-only status of the two entries below. Release records
+are committed after live verification; no repository push was requested.
+
 **Support Us simplified locally (2026-10-16):** `/support` now centres Buy me a
 coffee with a native cup illustration and four compact Chai/Coffee/Pani puri/Pizza
 choices at the existing ₹20/₹49/₹99/₹249 amounts. Secondary sharing/contact and

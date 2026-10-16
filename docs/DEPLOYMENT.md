@@ -1,5 +1,13 @@
 # Deploy Sushant Synapse Platform
 
+Support Us redesign and shared Sign in/initials header are deployed and
+live-verified (2026-10-16): source `3310425` (implementation `a7422f5`), production Worker
+`e555be93-a26b-4307-85fb-2be7cf86218f`. Existing Free D1 configuration is retained.
+Six source-byte comparisons, eight responsive themed layouts, anonymous and
+simulated signed-in header states, auth outage and Support availability checks
+passed with no page errors or API writes. Contributions remain unconfigured.
+See the ledger and `.publish/support-header-live-verification.json`.
+
 News current-date default and Take a Break's Crack the Code replacement are
 deployed and live-verified (2026-10-16): source `de84eea`, production Worker
 `13768c7e-7867-46ba-9f74-9d74292ab4f0`. Existing Free D1 bindings and variables
