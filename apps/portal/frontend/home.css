@@ -198,3 +198,36 @@
  @media(prefers-reduced-motion:reduce){body[data-ui-app=portal] .public-home main .public-hero.home-welcome,.home-welcome-art .art-play{animation:none!important}.home-daily-play{transition:none;transform:none!important}}
 }
 @media print{.home-welcome-art{display:none}.home-daily{border:1px solid currentColor;padding:12px}}
+
+/* Short descriptions need compact, consistent catalogue cards. */
+@media screen {
+ .public-home #free-apps .public-app {
+  display:flex;flex-direction:column;grid-column:auto;min-height:0;
+  border-color:var(--home-border);box-shadow:var(--home-shadow);
+ }
+ .public-home #free-apps .public-app .news-visual,
+ .public-home #free-apps .public-app .fund-visual {
+  width:calc(100% - 32px);height:64px;margin:16px 16px 0;
+  align-items:flex-start;justify-content:center;overflow:visible;
+ }
+ .public-home #free-apps .public-app .home-sculpture {width:72px;height:64px}
+ .public-home #free-apps .public-app .public-app-copy {padding:12px 16px 16px;justify-content:flex-start}
+ .public-home #free-apps .public-app h2 {font-size:20px;line-height:1.2;margin:0 0 8px}
+ .public-home #free-apps .public-app-copy>p {
+  display:block;overflow:visible;font-size:13px;line-height:1.5;margin:0 0 14px;
+ }
+ .public-home #free-apps .public-launch {min-height:44px;font-size:12px;padding:10px 12px}
+ @media(max-width:759px) {
+  .public-home #free-apps .public-apps {gap:12px}
+  .public-home #free-apps .public-app .news-visual,
+  .public-home #free-apps .public-app .fund-visual {width:calc(100% - 24px);height:52px;margin:12px 12px 0}
+  .public-home #free-apps .public-app .home-sculpture {width:59px;height:52px}
+  .public-home #free-apps .public-app .public-app-copy {padding:10px 12px 12px}
+  .public-home #free-apps .public-app h2 {font-size:18px}
+  .public-home #free-apps .public-app-copy>p {font-size:12px;margin-bottom:12px}
+  .public-home #free-apps .public-launch {font-size:11px;padding:10px 8px}
+ }
+ @media(max-width:359px) {
+  .public-home #free-apps .public-apps {grid-template-columns:1fr}
+ }
+}
