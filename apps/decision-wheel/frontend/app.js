@@ -1,3 +1,4 @@
+import {mountPresentation} from '/shared/presentation.mjs?v=20261016-tools';
 ﻿import {parseOptions,chooseIndex,landingRotation,presets} from './engine.mjs';
 const $=s=>document.querySelector(s),svgNS='http://www.w3.org/2000/svg',media=matchMedia('(prefers-color-scheme: dark)'),motion=matchMedia('(prefers-reduced-motion: reduce)');
 $('#theme').outerHTML=window.SynapseTheme.control('id="theme"');
@@ -80,3 +81,5 @@ const loadLabel=document.createElement('label');loadLabel.textContent='Import ch
 const loadList=document.createElement('input');loadList.type='file';loadList.accept='.json,application/json';loadLabel.append(loadList);listTools.append(saveList,loadLabel);$('#options-form').append(listTools);
 saveList.onclick=()=>{if(spinning)return;try{const values=parseOptions($('#options').value),data={format:'synapse-wheel-v1',title:$('#question').value.trim(),options:values},url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='decision-wheel-list.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),60000);$('#status').textContent='List exported. Import it whenever you need these choices.';}catch(e){$('#status').textContent=e.message;}};
 loadList.onchange=async()=>{try{if(spinning)return;const file=loadList.files[0];if(!file)return;if(file.size>20000)throw Error('Keep choice backups under 20 KB.');const data=JSON.parse(await file.text());if(spinning)throw Error('Wait for the spin to finish.');if(data.format!=='synapse-wheel-v1'||typeof data.title!=='string'||data.title.length>100||!Array.isArray(data.options)||data.options.some(x=>typeof x!=='string'||/[\r\n]/.test(x)))throw Error('Invalid choice-list backup.');const values=parseOptions(data.options.join('\n'));$('#options').value=values.join('\n');$('#question').value=data.title;history=[];update();renderHistory();$('#status').textContent='Choice list imported. Previous picks cleared.';}catch(e){$('#status').textContent=e.message;}finally{loadList.value='';}};
+
+mountPresentation(document.querySelector('.play'),{label:'Present wheel fullscreen'});

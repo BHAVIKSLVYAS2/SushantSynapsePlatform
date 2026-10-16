@@ -1,3 +1,4 @@
+import {mountPresentation} from '/shared/presentation.mjs?v=20261016-tools';
 
 import {mountFocusTimer} from './focus-timer.mjs';
 import {validatePlan,mergeBackup} from './backups.mjs?v=20261016-wins';
@@ -393,3 +394,5 @@ const undoRemove=node('button','Undo task removal');undoRemove.type='button';und
 exportPlan.onclick=()=>{try{const saved=validatePlan(readPlan()),url=URL.createObjectURL(new Blob([JSON.stringify({format:'synapse-focus-v1',plan:saved},null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='focus-tasks.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);$('task-status').textContent='Task backup downloaded.';}catch(e){$('task-status').textContent=e.message;}};
 importPlan.onchange=async()=>{try{const file=importPlan.files[0];if(!file)return;if(file.size>500000)throw Error('Use a backup under 500 KB.');const data=JSON.parse(await file.text()),current=readPlan(),next=mergeBackup(current,data),added=next.tasks.length-current.tasks.length;if(!added){$('task-status').textContent='These tasks are already in your plan.';return;}if(!confirm('Add '+added+' tasks from this backup? Existing tasks will be kept.'))return;if(readPlan().revision!==current.revision)throw Error('Your plan changed. Import again.');localStorage.setItem(STORAGE_KEY,JSON.stringify(next));plan=next;storageReady=true;removedPlan=null;undoRemove.hidden=true;draw();$('task-status').textContent=added+' tasks imported.';}catch(e){$('task-status').textContent=e.message;}finally{importPlan.value='';}};
 undoRemove.onclick=()=>{try{if(!removedPlan)return;const current=readPlan();if(current.revision!==removedPlan.revision)throw Error('Your plan changed. Removal can no longer be undone.');const next=validatePlan({...removedPlan.before,revision:current.revision+1});localStorage.setItem(STORAGE_KEY,JSON.stringify(next));plan=next;draw();$('task-status').textContent='Task restored.';}catch(e){$('task-status').textContent=e.message;}finally{removedPlan=null;undoRemove.hidden=true;}};
+
+mountPresentation(document.querySelector('.focus-timer'),{label:'Distraction-free focus'});

@@ -1,5 +1,66 @@
 # Chambers functionality ledger
 
+**Bill Splitter simplification (2026-10-16, deployed/live verified):**
+The default is now a blank equal split: one bill amount, people's names and a
+single payer. Two empty name rows replace the preloaded example. Per-person
+payments, trip expenses, group titles, percentages and weights appear only when
+More options is selected; the stage navigation is hidden. Try an example
+explicitly loads the labelled advanced demonstration, while Start fresh returns
+to the simple flow. Simple and advanced amounts remain independent when toggled;
+the selected payer follows participant IDs through renaming. Hidden inputs are
+disabled so they cannot block native form validation. The existing integer-paise
+engine, settlement cards, copy breakdown and removal undo remain authoritative.
+Opening the page leaves focus/scroll at the top. Mobile simple name/remove rows
+are compact. Replacement confirmation now includes a partially entered bill.
+
+Verification: five affected Chrome workflows pass, covering the new simple
+split/payer/rename/copy flow, fractional paise, invalid amount/stale result,
+switching without losing advanced values, percentage/share/trip calculations,
+example/reset and undo. Final compact-layout/focus changes were rechecked in
+the two simple workflows. Eight light/dark mobile/desktop widths fit; mobile
+screenshot reviewed. Tests use isolated temporary DATA_DIR values; the simple
+workflow observed no page errors or API writes. Syntax and whitespace checks
+pass. This simplification and the six public-tool refinements below are deployed
+at https://apps.sushantsynapse.com on production Worker
+`a91f2bfd-f2e3-4df7-9503-ac45b5d2bd55`. The build exported 785 public frontend
+assets. Live Chrome checks confirm nine production assets match source, simple
+split/copy, all advanced split methods and trip expenses, responsive themes,
+Wi-Fi QR rendering, photo presets, team swap/undo and both fullscreen tools.
+News' four reading sizes/layout controls mount on the live page; edition reading
+behavior was verified locally with isolated fixtures. No live API writes or page
+errors were observed. Authentication, full apps and existing D1 bindings remain
+configured; no data migration or record changes were performed.
+
+**Six public-tool refinements (2026-10-16, deployed/live verified):**
+Photo Resize adds 100/200/500 KB presets, a bounded original preview and actual
+before/after byte sizes, dimensions and percentage change (including larger
+outputs). Edits invalidate stale downloads and comparisons. QR Maker adds Wi-Fi
+QRs for WPA/WPA2 Personal, WEP and open networks, hidden-network support, escaped
+network credentials and a 32-byte UTF-8 SSID bound. Passwords remain in the tab;
+open-network payloads omit passwords. Device scanning compatibility still depends
+on the phone/network; no connection to an actual Wi-Fi network was tested.
+
+Team Mixer adds two-person cross-team swaps and one-step undo, preserving sizes,
+unique membership and together/apart constraints. Copy/PNG use the adjusted
+result; new settings or another mix invalidate swap undo. Decision Wheel and
+Focus share native fullscreen with an in-page fallback, accessible exit/Escape,
+focus restoration and background isolation. Existing wheel/timer DOM and state
+remain live, including the selected Focus task. News adds four text sizes and a
+single-column reader layout with unclamped briefs, retaining sources, topic
+filters, archive navigation and the existing separate Light reading control.
+These reading preferences are tab-only. SQL, accounts and existing records are
+unchanged; all server-backed test data uses isolated temporary DATA_DIR values.
+
+Verification: 17 affected Chrome browser workflows pass, plus one native
+fullscreen check (18 total). Coverage includes bounded JPEG downloads, QR PNGs,
+credential escaping/open payloads/UTF-8 validation, swap rules and exact undo,
+timer and winner preservation through fallback fullscreen, repeated native
+entry/exit, News sources/archive/preferences, existing copy/PNG/restore flows
+and 36 mobile/desktop light/dark width checks (320/390/1440 px). New feature
+checks record no page errors or non-GET requests. Static allowlist verification
+finds all 207 routes on disk; JavaScript syntax and git whitespace checks pass.
+Production release and live verification are recorded above.
+
 **Bill/Ritual UI ease-of-use (2026-10-16, deployed/live verified):**
 Bill Splitter adds People/Expenses/Settle shortcuts, clearly labelled example
 data, confirmed fresh/example replacement, live entered totals, percentage

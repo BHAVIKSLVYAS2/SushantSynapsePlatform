@@ -1,5 +1,16 @@
 # Sushant Synapse Platform
 
+Bill Splitter now opens with a simple equal split: bill amount, names and who
+paid. Trips, multiple payments and unequal shares sit under More options; example
+data is opt-in. This simplification is deployed and live-verified on 2026-10-16;
+all existing advanced calculations remain available.
+
+Deployed and live-verified (2026-10-16): Photo Resize target-size
+presets and before/after comparisons, Wi-Fi QR codes, Team Mixer manual swaps
+with undo/rule enforcement, fullscreen Decision Wheel and Focus, and News text
+sizes/reader layout. Eighteen affected Chrome workflows pass. See the ledger
+for verification scope and release status.
+
 Local refinement: Bill Splitter now supports percentages, relative shares and
 multi-expense trips. Ritual Assist adds browser-local quantities and arranger
 names to standard/extra items, including print and text exports. These additions

@@ -1,5 +1,26 @@
 # Code ownership and adding apps
 
+Bill Splitter simple entry (2026-10-16): its frontend owns transient total and
+stable-ID payer inputs for the default equal split. Submit maps that payment
+onto participant rows for the existing integer-paise engine, without overwriting
+the advanced payment fields. More options exposes existing split/trip controls;
+hidden controls are disabled. No persistence, schema, authentication or API
+contract changes accompany this presentation simplification.
+
+Public-tool refinements (2026-10-16): Wi-Fi payload encoding/validation belongs
+to `apps/qr-maker/frontend/wifi.mjs`; deterministic team swaps and rule checks
+belong to `apps/team-mixer/frontend/swaps.mjs`. Photo Resize retains its existing
+compression engine and adds transient original/comparison state in its frontend.
+`packages/ui/presentation.*` provides native/fallback fullscreen for Wheel and
+Focus without cloning their running DOM or moving state ownership. It restores
+focus, scroll, body overflow and prior sibling inert states on exit. Scoped
+shared visual refinements live in `packages/ui/tool-refinements.css`.
+News' `reading-tools.*` owns tab-only reader preferences and a toolbar outside
+the rerendered edition container. Its observer follows reader visibility; the
+existing edition fetch/render, date logic and Light reading mode remain owned
+by News' app. New static assets are explicitly allowlisted in
+`server/static-assets.js`; no persistence/schema or API contract changes.
+
 Bill/Ritual ease-of-use (2026-10-16): Bill Splitter's frontend owns stage
 shortcuts, labelled example/fresh reset with replacement confirmation, one-step
 transient deletion undo, live entered totals/percentage remainder, settlement

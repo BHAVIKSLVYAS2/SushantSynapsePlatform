@@ -82,6 +82,7 @@ const staticAssets={
  '/moment-studio/certificate-export.js':'apps/moment-studio/frontend/certificate-export.js',
  '/moment-studio/certificates.css':'apps/moment-studio/frontend/certificates.css',
 
+
  '/pocket-pause/scenes.mjs':'apps/pocket-pause/frontend/scenes.mjs',
  '/pocket-pause':'apps/pocket-pause/frontend/index.html',
  '/pocket-pause/':'apps/pocket-pause/frontend/index.html',
@@ -130,6 +131,11 @@ for(const file of ['app.js','style.css','icon.svg','advocate.webmanifest'])stati
 for(const file of ['app.js','engine.js','style.css','icon.svg'])staticAssets['/fund-overlap/'+file]='apps/fund-overlap/frontend/'+file;
 for(const file of ['app.js','engine.js','style.css','comic.css','art/chai-comic-v1.webp','art/news-desk-v1.webp'])staticAssets['/news/'+file]='apps/news/frontend/'+file;
 module.exports={staticAssets};
+staticAssets['/shared/tool-refinements.css']='packages/ui/tool-refinements.css';
+for(const file of ['presentation.mjs','presentation.css'])staticAssets['/shared/'+file]='packages/ui/'+file;
+for(const file of ['reading-tools.mjs','reading-tools.css'])staticAssets['/news/'+file]='apps/news/frontend/'+file;
+staticAssets['/qr-maker/wifi.mjs']='apps/qr-maker/frontend/wifi.mjs';
+staticAssets['/team-mixer/swaps.mjs']='apps/team-mixer/frontend/swaps.mjs';
 for(const id of ['qr-maker','photo-resize','bill-splitter']){
  staticAssets['/'+id]='apps/'+id+'/frontend/index.html';
  staticAssets['/'+id+'/']='apps/'+id+'/frontend/index.html';
