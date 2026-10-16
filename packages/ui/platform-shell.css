@@ -1,4 +1,15 @@
 /* Final shared shell contract. Working content remains app-owned; exports are excluded. */
+/* Reserve both icons' full width so compact app styles cannot spill into account. */
+@media screen {
+ body[data-ui-app].has-platform-shell .platform-shell-actions {gap:12px}
+ body[data-ui-app].has-platform-shell .platform-shell .theme-toggle {width:76px;min-width:76px;height:48px;min-height:48px;padding:12px;gap:14px;overflow:hidden}
+ body[data-ui-app].has-platform-shell .platform-shell .theme-toggle::before {top:50%;margin-top:-15px}
+ @media(max-width:768px) {
+  body[data-ui-app].has-platform-shell .platform-shell-actions {gap:10px}
+  body[data-ui-app].has-platform-shell .platform-shell .theme-toggle {width:64px;min-width:64px;padding:9px;gap:8px}
+  body[data-ui-app].has-platform-shell .platform-shell .theme-toggle[aria-pressed=true]::before {transform:translateX(22px)}
+ }
+}
 @media screen {
  .platform-transition {position:fixed;inset:0;z-index:200;display:grid;place-items:center;pointer-events:none;background:color-mix(in srgb,var(--shell-bg) 88%,transparent)}
  .platform-transition[hidden] {display:none}

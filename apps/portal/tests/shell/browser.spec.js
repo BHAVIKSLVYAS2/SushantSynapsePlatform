@@ -9,6 +9,22 @@ test.beforeEach(async()=>{
 test.afterEach(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
 test.beforeEach(async({context})=>{await context.route('https://pagead2.googlesyndication.com/**',r=>r.fulfill({contentType:'text/javascript',body:''}));});
 
+test('theme icons stay within their control and apart from account at every width',async({page})=>{
+ const {setTheme}=require('../../../../tests/browser-theme');
+ for(const route of ['/','/take-a-break','/decision-wheel','/satire-arena']){
+  await page.goto(base+route);
+  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:900});for(const theme of ['light','dark']){
+   await setTheme(page,theme);
+   const layout=await page.locator('.platform-shell').evaluate(header=>{
+    const toggle=header.querySelector('.theme-toggle'),box=toggle.getBoundingClientRect(),account=header.querySelector('.platform-account').getBoundingClientRect();
+    return {gap:account.left-box.right,iconsFit:[...toggle.querySelectorAll('svg')].every(icon=>{const r=icon.getBoundingClientRect();return r.left>=box.left&&r.right<=box.right;}),overflow:document.documentElement.scrollWidth>innerWidth};
+   });
+   expect(layout.gap,route+' '+width+' '+theme).toBeGreaterThanOrEqual(10);expect(layout.iconsFit).toBe(true);expect(layout.overflow).toBe(false);
+  }}
+ }
+ await page.setViewportSize({width:320,height:700});await page.goto(base+'/');await page.locator('.platform-shell').screenshot({path:'.publish/header-toggle-gap-mobile.png'});
+});
+
 test('branded transition follows native navigation and clears on return',async({page})=>{
  await page.goto(base+'/');const loader=page.locator('.platform-transition');await expect(loader).toBeHidden();
  await page.locator('.home-paths .primary').click();await expect(loader).toBeHidden();

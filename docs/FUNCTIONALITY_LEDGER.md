@@ -1,5 +1,18 @@
 # Chambers functionality ledger
 
+**Header toggle spacing (2026-10-17, local):**
+Shared shell CSS reserves 76px desktop/64px mobile for the two-icon theme switch
+and a 12px/10px account gap. More-specific rules override the homepage's previous
+48px width, which let its icons spill toward Sign in. The control keeps a 48px
+height, clips decorative overflow and vertically centres the active thumb.
+Existing theme/account handlers and app-specific header layouts are preserved.
+Verification: the new Chrome regression passes 32 combinations of homepage,
+Take a Break, Wheel and Arena, four widths and both themes. It checks at least
+10px separation, both icons inside their control and zero page overflow. Two
+existing auth/account shell workflows also pass. The 320px header capture was
+reviewed (`.publish/header-toggle-gap-mobile.png`); diff checks pass. Not committed
+or deployed.
+
 **Decision Wheel bento polish (2026-10-17, deployed/live verified):**
 App-owned scoped CSS frames the editor and wheel in equal desktop columns with
 matching padding, rounded borders and theme-aware surfaces. Phone stacking retains
