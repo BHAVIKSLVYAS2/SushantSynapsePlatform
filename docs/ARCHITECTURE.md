@@ -1,5 +1,34 @@
 # Code ownership and adding apps
 
+Bill/Ritual ease-of-use (2026-10-16): Bill Splitter's frontend owns stage
+shortcuts, labelled example/fresh reset with replacement confirmation, one-step
+transient deletion undo, live entered totals/percentage remainder, settlement
+cards and a disclosure for the full copyable breakdown. Existing validated split
+engines retain calculation ownership. Ritual Assist owns compact native item
+details, in-memory all/needed/arranged/unassigned filters, section counts and a
+native checklist-preview dialog. Preview/print includes all items independently
+of screen filters, with custom items identified and saved quantities/names.
+Before/after-print handlers preserve disclosure/filter state and tolerate repeated
+events. Guided content, browser persistence key, calendar and SQL remain intact.
+
+Bill/Ritual refinement (2026-10-16, local): Bill Splitter's app-owned engine adds
+percentage and relative-weight allocation using integer units and BigInt
+largest-remainder arithmetic with stable input-order ties. `splitExpenses`
+validates 1–100 named expenses and payer indices, aggregates payments, and applies
+the selected split to the combined total. Its frontend uses transient stable
+participant IDs to retain payer selections during renaming, protects removal of
+participants referenced by expenses, and keeps all state in the tab. No payment
+connection, browser persistence or API is added.
+
+Ritual Assist extends the existing version-one checklist key with optional
+per-item `details` (quantity ≤60 characters, arranger ≤80), defaulting absent
+details for older saved lists. Canonical and custom items get bilingual fields,
+item-specific accessible names, print-only text and text-export notes. Details
+persist independently of checkmark opt-in; reset clears only checks, and removing
+an extra item also removes its details. Unreadable saved bytes retain tab-only
+fallback. Static styles and cache versions remain app-owned; SQL and calendar/
+preparation-pack ownership are unchanged.
+
 Public-tool quick wins (2026-10-16): `apps/qr-maker`, `apps/photo-resize` and
 `apps/bill-splitter` own three public, device-only tools. Shared presentation and
 copy/download helpers live in `packages/ui/local-tools.*`; static allowlisting,

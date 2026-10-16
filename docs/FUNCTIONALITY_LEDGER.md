@@ -1,5 +1,55 @@
 # Chambers functionality ledger
 
+**Bill/Ritual UI ease-of-use (2026-10-16, production release in preparation):**
+Bill Splitter adds People/Expenses/Settle shortcuts, clearly labelled example
+data, confirmed fresh/example replacement, live entered totals, percentage
+remaining/over feedback, undo for person/expense removal, prominent settlement
+cards and a collapsible full breakdown. Existing calculations and copy content
+remain authoritative. Undo is one-step and expires on subsequent edits; payers
+referenced by expenses remain protected from deletion.
+
+Ritual Assist adds collapsed empty quantity/arranger details (filled items open),
+All/Still needed/Arranged/Unassigned filtering, section progress and a keyboard-
+accessible checklist-only preview/print dialog. Unassigned means still needed
+without an arranger. Editing under filters retains focus until leaving the field.
+Print includes all items regardless of screen filters, labels custom additions,
+and shows saved quantities/arrangers without editing controls. Full-guide print
+remains available; print handlers restore filters/disclosures after printing.
+Canonical guides, existing browser lists, SQL records and calendar calculations
+are preserved. Six pure checks and eight affected Chrome workflows pass; final
+print lifecycle verification and production release follow. The previously local
+percentage/share/trip and quantity/arranger refinement is included in this release.
+
+**Bill Splitter and Ritual Assist refinement (2026-10-16, local):** Implemented
+percentages (must sum to 100%), relative shares including zero shares, and up to
+100 trip expenses with titles/payers. All splits conserve integer paise, including
+large totals; largest-remainder allocation uses BigInt and input-order tie breaks.
+The trip's selected split applies to its combined total. Payer selections survive
+renaming; referenced people cannot be removed accidentally. Group/trip title,
+expense breakdown and settlements enter explicit copy output. Existing single
+bill and custom-amount modes remain available. Homepage/card/finder descriptions
+and registry reflect the new features. No account, payments or saved trip history.
+
+Ritual Assist adds optional quantities and arranger names to standard and extra
+items, with English/Hindi labels and item-specific accessible names. Details
+remain per guide in the existing browser key, survive refresh and checkbox reset,
+and enter text download/copy and print/PDF. Legacy extras/checkmarks are preserved;
+unreadable/blocked storage retains existing bytes and allows tab-only edits.
+Canonical guides, lunar calculations, preparation packs and SQL remain unchanged.
+Six relevant Node checks and seven Chrome workflows pass; the final two focused
+Chrome workflows pass again after print grouping/accessibility refinements.
+Checks cover paise conservation and stable remainders, zero/invalid shares,
+large trip totals, payer renaming/removal protection, existing bill modes,
+legacy state preservation, blocked/corrupt storage, bilingual real downloads,
+print/PDF with saved quantities/names, unchanged canonical guides and
+320/390/768/1440px light/dark layouts. Mobile screenshots reviewed. Source syntax
+and git whitespace checks pass. Tests use isolated temporary DATA_DIR values;
+no production data or accounts were changed. Evidence is ignored
+`.publish/trip-arrangements-tests`, `.publish/trip-arrangements-final`,
+`.publish/bill-trip-mobile.png`, `.publish/ritual-arrangements-mobile.png` and
+`.publish/ritual-arrangements.pdf`. Implementation is complete locally;
+no commit or deployment has run for this refinement.
+
 **Public-tool quick wins deployed/live verified (2026-10-16):** Source `10e0108`
 is deployed at https://apps.sushantsynapse.com on production Worker
 `d0527169-2b6d-4bdc-a9d0-a3915d2c93d2`. Build exported 776 allowlisted public

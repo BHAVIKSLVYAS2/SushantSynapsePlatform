@@ -1,5 +1,12 @@
 # Sushant Synapse Platform
 
+Local refinement: Bill Splitter now supports percentages, relative shares and
+multi-expense trips. Ritual Assist adds browser-local quantities and arranger
+names to standard/extra items, including print and text exports. These additions
+are implemented and locally verified. The user authorised production release,
+including guided Bill Splitter stages/settlement cards and Ritual Assist compact
+details, filters and checklist-only print preview. Final release status is in the ledger.
+
 New local tools are implemented at `/qr-maker`, `/photo-resize` and
 `/bill-splitter`: static QR PNGs, target-size JPEGs, and equal/individual bill
 settlements. All work without sign-in and process inputs on the device. Focus
