@@ -26,9 +26,9 @@ function createFetchService({store,repository,provider,clock=()=>new Date()}){
       if(used>=20)fail(429,'The daily news request budget is exhausted. Try tomorrow.');
       store.sql.prepare('INSERT INTO [news].[news_fetch_budget] VALUES(?,1) ON CONFLICT(day) DO UPDATE SET requests=requests+1').run(day);
       const leaseUntil=new Date(now.getTime()+120000).toISOString();
-      if(existing)store.sql.prepare("UPDATE [news].[news_runs] SET state='running',attempts=attempts+1,leaseToken=?,leaseUntil=?,error=NULL,updatedAt=? WHERE date=?").run(token,leaseUntil,at,date);
+      if(existing)store.sql.prepare("UPDATE [news].[news_runs] SET state='running',cutoff=?,attempts=attempts+1,leaseToken=?,leaseUntil=?,error=NULL,updatedAt=? WHERE date=?").run(cutoff,token,leaseUntil,at,date);
       else store.sql.prepare("INSERT INTO [news].[news_runs](date,cutoff,state,attempts,leaseToken,leaseUntil,createdAt,updatedAt) VALUES(?,?,'running',1,?,?,?,?)").run(date,cutoff,token,leaseUntil,at,at);
-      return {date,cutoff:existing?.cutoff||cutoff,claimed:true};
+      return {date,cutoff,claimed:true};
     });
     if(!claim.claimed)return claim;
     try{

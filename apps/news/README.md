@@ -1,5 +1,12 @@
 # Sushant Synapse Times
 
+News fetch recovery (2026-10-17): the bounded BBC fallback now checks twelve fixed
+feeds, including top news, UK/politics and sport, while retaining strict IST dates,
+cutoff validation, deduplication and source attribution. Failed/incomplete retries
+advance to a fresh cutoff; complete source snapshots and published editions keep
+their original content/timing. Sparse dates report their verified story count.
+Quotas and cooldowns are unchanged. See the functionality ledger for verification.
+
 By **Aakanksha**, at `/news`. Any visitor can generate today's newspaper or a missing past edition. The server selects ten dated stories across available sections from The Indian Express archive, adds short credited excerpts and one clearly labelled fictional comic, and saves the edition atomically in SQLite. Repeated clicks reopen the saved edition without external calls. Shared themes, mobile layouts, source links, archives and Print / Save PDF are supported.
 
 On the Cloudflare-hosted site, News also works when the Windows backend is unavailable. The browser assembles temporary editions using the same editorial templates. The independent `GET /api/news/sources?date=YYYY-MM-DD` Worker retrieves public source metadata; it never reads or writes SQLite. Indian Express archive retrieval is attempted first; BBC News public RSS feeds provide a clearly credited recent-news fallback when that archive is unavailable. The publisher returned HTTP 403 from Cloudflare during live verification, so fallback coverage differs from the shared Indian Express edition. Feed timestamps must match the selected IST date; older dates may be unavailable and never silently use current stories.

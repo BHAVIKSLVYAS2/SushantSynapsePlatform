@@ -202,16 +202,16 @@ function parseFeed(xml,cutoff,category='World'){
 }
 async function fetchFeedStories(cutoff,fetchImpl=globalThis.fetch){
   const signal=AbortSignal.timeout(25000);
-  const feeds=[['world/asia/india/','India'],['world/','World'],['business/','Money'],['technology/','Tech'],['entertainment_and_arts/','Life & culture'],['science_and_environment/','Tech'],['health/','Life & culture'],['world/asia/','World']];
+  const feeds=[['news/world/asia/india/','India'],['news/world/','World'],['news/business/','Money'],['news/technology/','Tech'],['news/entertainment_and_arts/','Life & culture'],['news/science_and_environment/','Tech'],['news/health/','Life & culture'],['news/world/asia/','World'],['news/','World'],['news/uk/','World'],['news/politics/','World'],['sport/','Sport']];
   const results=await Promise.allSettled(feeds.map(async ([path,category])=>{
-    const response=await fetchImpl('https://feeds.bbci.co.uk/news/'+path+'rss.xml',{signal,redirect:'manual'});
+    const response=await fetchImpl('https://feeds.bbci.co.uk/'+path+'rss.xml',{signal,redirect:'manual'});
     if(!response.ok){await response.body?.cancel();fail(502,'News feed unavailable (HTTP '+response.status+')');}
     let xml='',size=0;const decoder=new TextDecoder();
     for await(const chunk of response.body){size+=chunk.length;if(size>2000000)fail(502,'News feed too large');xml+=decoder.decode(chunk,{stream:true});}
     return parseFeed(xml+decoder.decode(),cutoff,category);
   }));
   const stories=selectDiverse(results.flatMap(r=>r.status==='fulfilled'?r.value:[]));
-  if(stories.length<10)fail(502,'Ten dated feed stories unavailable. '+(results.find(r=>r.status==='rejected')?.reason.message||''));
+  if(stories.length<10)throw Object.assign(new Error(`Only ${stories.length} distinct verified stories are available for ${indiaDate(cutoff)}. Ten are needed; try later or open a saved edition.`),{status:502,available:stories.length});
   return stories;
 }
 return {createArchiveProvider,parseListing,parseArticle,selectDiverse,duplicate,desk,draftEdition,createSatire,indiaDate,parseFeed,fetchFeedStories};

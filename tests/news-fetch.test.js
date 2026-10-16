@@ -32,7 +32,7 @@ test('news fetch lease, stored preview, retry cutoff, restart cache, SQL export 
   service=createFetchService({store,repository,provider:{fetchStories:async(c)=>{cutoffs.push(c);if(failOnce){failOnce=false;throw Error('secret URL');}return stories;}},clock:()=>now});
   await assert.rejects(service.fetchDate(),/News fetch failed/);assert.equal(service.preview('2025-01-02').state,'failed');assert.doesNotMatch(service.preview('2025-01-02').error,/secret/);
   await assert.rejects(service.fetchDate(),e=>e.status===429);now=new Date('2025-01-02T18:31:00Z');
-  assert.equal((await service.fetchDate('2025-01-02')).state,'ready');assert.equal(cutoffs[0],cutoffs[1]);
+  assert.equal((await service.fetchDate('2025-01-02')).state,'ready');assert.equal(cutoffs[0],'2025-01-02T18:29:00.000Z');assert.equal(cutoffs[1],'2025-01-02T18:29:59.999Z');assert.equal(service.preview('2025-01-02').cutoff,cutoffs[1]);
   await assert.rejects(service.fetchDate('2099-01-01'),e=>e.status===400&&/Future/.test(e.message));
   now=new Date('2025-01-03T18:31:00Z');store.sql.prepare('INSERT INTO news_fetch_budget VALUES(?,20)').run('2025-01-03');
   await assert.rejects(service.fetchDate(),e=>e.status===429);assert.equal(service.preview('2025-01-04').state,'empty');

@@ -5,6 +5,13 @@ const base='https://preview.workers.dev/api/news/sources';
 const titles=['Railway connects mountain villages','Film trailer delights cinema fans','Hockey squad wins championship','Digital telescope maps distant stars','Bank reports household savings growth','Island election selects new leader','Painter opens riverfront exhibition','Schools introduce music lessons','Singer releases acoustic album','Runner breaks national record'];
 const listing='<div class="article-list"><ul>'+titles.map((title,i)=>`<a href="https://indianexpress.com/article/india/story-${i}/">${title}</a>`).join('')+'</ul>';
 const article='<meta property="article:published_time" content="2025-01-01T12:00:00+05:30"><meta name="description" content="A short dated source description for this headline.">';
+
+test('broader fixed publisher feeds recover sparse same-day coverage without using other dates',async()=>{
+ const cutoff='2025-01-01T18:29:59.999Z',visited=[];
+ const xml=(title,i,date='Wed, 01 Jan 2025 12:00:00 GMT')=>`<item><title>${title}</title><link>https://www.bbc.com/news/articles/test${i}</link><pubDate>${date}</pubDate><description>Credited source metadata for this report.</description></item>`;
+ const fetchImpl=async(url,options)=>{visited.push(url);assert.equal(new URL(url).origin,'https://feeds.bbci.co.uk');assert.equal(options.redirect,'manual');const extra=['/news/rss.xml','/news/uk/rss.xml','/news/politics/rss.xml','/sport/rss.xml'].includes(new URL(url).pathname);return new Response('<rss>'+titles.slice(extra?5:0,extra?10:5).map((title,i)=>xml(title,(extra?5:0)+i)).join('')+xml('Old report',99,'Tue, 31 Dec 2024 12:00:00 GMT')+'</rss>');};
+ const stories=await engine.fetchFeedStories(cutoff,fetchImpl);assert.equal(stories.length,10);assert.equal(visited.length,12);assert.ok(stories.every(story=>engine.indiaDate(story.publishedAt)==='2025-01-01'));assert.ok(stories.every(story=>story.title!=='Old report'));
+});
 test('independent source service validates before fetching and never reaches arbitrary URLs',async()=>{
   const {newsSources}=await import('../infrastructure/cloudflare/news-sources.mjs');
   let calls=0;
@@ -52,7 +59,7 @@ test('BBC feed fallback verifies dates, source links, deduplication, limits and 
   let calls=0;
   const fetchImpl=async(url,options)=>{calls++;assert.equal(options.redirect,'manual');return new URL(url).hostname==='indianexpress.com'?new Response(null,{status:403}):new Response(xml);};
   const response=await newsSources(new Request(base+'?date=2025-01-01'),{NEWS_LIMITER:{limit:async()=>({success:true})}},{fetchImpl});
-  assert.equal(response.status,200);const preview=await response.json();assert.equal(preview.stories.length,10);assert.equal(calls,12);
+  assert.equal(response.status,200);const preview=await response.json();assert.equal(preview.stories.length,10);assert.equal(calls,16);
   assert.ok(preview.stories.every(s=>s.provider==='BBC'&&s.source==='BBC News'&&!s.url.includes('?')));
   assert.match(engine.draftEdition(preview).stories[0].brief,/Source excerpt/);
 });

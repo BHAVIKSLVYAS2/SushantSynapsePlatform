@@ -26,7 +26,7 @@ export async function newsSources(request, env, {fetchImpl = fetch, cache = glob
       response = reply(200, {date, cutoff, stories});
     } catch (error) {
       console.warn(JSON.stringify({event:'news_source_unavailable',date,reason:error.message}));
-      response = reply(502, {error: 'Ten verified stories could not be retrieved for this date. Please try another date or retry later.'});
+      response = Number.isInteger(error.available)?reply(502,{error:`Only ${error.available} distinct verified stories are available for ${date}. Ten are needed; try later or open a saved edition.`,available:error.available}):reply(502, {error: 'Ten verified stories could not be retrieved for this date. Please try another date or retry later.'});
     }
     if (cache) {
       const stored = new Response(response.clone().body, {status: response.status, headers: {...headers, 'Cache-Control': 'public, max-age=' + (response.ok ? (date === today ? 900 : 86400) : 60)}});
