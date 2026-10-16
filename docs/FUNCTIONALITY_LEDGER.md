@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Small export branding (2026-10-16, implementation verified locally):**
+**Small export branding (2026-10-16, deployed/live verified):**
 QR Maker PNGs now include a small `Created with Sushant Synapse` credit
 below the code, outside the complete four-module quiet zone. The export
 remains square; QR payloads have no redirect or tracking changes. Team Mixer
@@ -17,7 +17,11 @@ bill calculation, Wi-Fi generation, bilingual materials/printing, mobile share
 cancellation, team PNG/native-share exports and 100-name layout bounds.
 Payment-based removal is deferred at the user's request;
 there is no removal checkout, entitlement or payment-verification claim.
-Deployment and remaining regression verification are recorded after release.
+Source commit `a70c6d1` is deployed to `apps.sushantsynapse.com` in Worker
+version `efee6fdf-664b-4d00-b418-a3d7671ff374`. Live mobile Chrome verified
+the branded square QR, copied team/material lists and Ritual Assist print
+preview; live bill/wheel modules include their share credits. No page errors
+or business-data writes occurred. Existing D1/auth/production variables remain.
 
 **One-Minute Chaos and Confessions icon (2026-10-16, deployed/live verified):**
 Take a Break now has an eighth activity at `/take-a-break?game=chaos`.
