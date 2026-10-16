@@ -1,5 +1,13 @@
 # Satire Arena
 
+To visualise Daily Satire, a labelled sample edition contains seven original
+English/Hindi posts across five categories, with articles, related posts and
+sharing. It appears on `/satire-arena/daily` while the saved public library is
+empty, and can be opened explicitly with `?sample=1`. Samples are noindex and
+remain separate from editorial storage, analytics, character captions and ballots.
+The existing 13-character Arena remains unchanged. See the functionality ledger
+for implementation and deployment status.
+
 ## Arena 2 source update (2026-10-16)
 
 Compact labelled cards retain all thirteen characters and changeable daily

@@ -9,6 +9,7 @@ const staticAssets={
  '/satire-arena/editor':'apps/satire-arena/frontend/editor.html',
  '/satire-arena/editor.js':'apps/satire-arena/frontend/editor.js',
  '/satire-arena/content.js':'apps/satire-arena/frontend/content.js',
+ '/satire-arena/sample.css':'apps/satire-arena/frontend/sample.css',
  '/satire-arena/metrics.js':'apps/satire-arena/frontend/metrics.js',
  '/satire-arena/enhancements.js':'apps/satire-arena/frontend/enhancements.js',
  '/satire-arena':'apps/satire-arena/frontend/index.html',

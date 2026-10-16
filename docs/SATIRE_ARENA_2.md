@@ -1,5 +1,15 @@
 # Satire Arena 2: implementation and operations
 
+Daily Satire now has a read-only sample edition for visualising the publishing
+features. Seven original English/Hindi examples cover all five categories. It
+appears when the public post library is empty, or through `?sample=1` on daily,
+category and article routes. Sample links retain that flag, carry a preview banner
+and noindex metadata, and label shares/downloads as samples. They do not populate
+the owner's saved library, enter sitemaps, send analytics or change character
+captions/votes. Publishing a real eligible post restores the normal library view;
+the explicit sample link stays available. This addition preserves the existing
+13-character Arena page. Release status is in the functionality ledger.
+
 The existing thirteen-character Arena, six reaction IDs, signed browser identity,
 changeable daily ballot, privacy deletion, SQL aggregate view and midnight IST
 semantics are retained. No framework, database or artwork replacement is involved.

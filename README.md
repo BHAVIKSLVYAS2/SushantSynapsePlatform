@@ -1,5 +1,10 @@
 # Sushant Synapse Platform
 
+Daily Satire includes a clearly labelled, read-only sample edition with seven
+original English/Hindi examples so article/category/sharing features can be
+explored while the saved editorial library is empty. It preserves the current
+13-character Arena, captions and votes. See the ledger for release status.
+
 The public homepage adds a compact illustrated welcome and a real daily Make 24
 feature, with mobile stacking, English/Hindi copy and reduced-motion support.
 Tool cards/search and private-workspace links remain directly accessible. This

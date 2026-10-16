@@ -1,6 +1,21 @@
 const {test,expect}=require('@playwright/test'),{spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');let child,base,dir;
 test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-satire-editor-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir,DATABASE_PROVIDER:'sqlite',NODE_ENV:'test',PUBLIC_ORIGIN:'',ARENA_COOKIE_SECRET:'isolated-editor-browser-secret',ARENA_ANALYTICS_ENABLED:'true'},stdio:['ignore','pipe','pipe'],windowsHide:true});await new Promise((resolve,reject)=>{let output='';const timer=setTimeout(()=>reject(Error('Startup timeout: '+output)),20000);child.stdout.on('data',data=>{output+=data;const match=output.match(/http:\/\/localhost:(\d+)/);if(match){base='http://127.0.0.1:'+match[1];clearTimeout(timer);resolve();}});child.stderr.on('data',data=>output+=data);child.on('error',reject);});});
 test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
+test('sample edition visualises posts without changing saved data or thirteen-character Arena',async({page,browser})=>{
+ const errors=[],metrics=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()==='POST'&&r.url().endsWith('/api/arena-metrics'))metrics.push(r.url());});
+ await page.addInitScript(()=>Object.defineProperty(navigator,'clipboard',{value:{writeText:async text=>window.sampleCopied=text},configurable:true}));
+ const before=await(await page.request.get(base+'/api/arena-editorial/public')).json();expect(before.posts).toEqual([]);
+ await page.goto(base+'/satire-arena/daily');await expect(page.locator('.sample-edition-note')).toContainText('Seven original sample posts');await expect(page.locator('article.notice')).toHaveCount(8);await expect(page.locator('meta[name=robots]')).toHaveAttribute('content','noindex,follow');
+ await page.locator('article.notice h2 a').first().click();await expect(page).toHaveURL(/sample=1/);await expect(page.locator('h1')).toHaveText('The meeting to shorten meetings');await expect(page.locator('main')).toContainText('fictional Office of Better Mondays');
+ for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:900});for(const theme of ['light','dark']){await page.evaluate(t=>SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}}
+ await page.setViewportSize({width:390,height:844});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'.publish/satire-sample-mobile.png',fullPage:true});
+ await page.getByRole('button',{name:'Copy link',exact:true}).click();expect(await page.evaluate(()=>window.sampleCopied)).toContain('?sample=1');expect(metrics).toEqual([]);
+ const context=await browser.newContext({javaScriptEnabled:false});try{const p=await context.newPage();await p.goto(base+'/satire-arena/categories/technology?sample=1');await expect(p.locator('article.notice')).toHaveCount(2);await expect(p.locator('main')).toContainText('पासवर्ड');}finally{await context.close();}
+ expect((await page.request.get(base+'/satire-arena/posts/sample-meeting-to-end-meetings')).status()).toBe(404);expect((await(await page.request.get(base+'/api/arena-editorial/public')).json())).toEqual(before);
+ await page.goto(base+'/satire-arena');await expect(page.locator('.arena-card')).toHaveCount(13);await expect(page.locator('.reactions button')).toHaveCount(78);await expect(page.locator('#daily-joke')).toHaveText('Original jokes, fictional characters and genuine daily reactions.');
+ const {cast}=await import('../frontend/catalogue.mjs');for(const c of cast)await expect(page.locator('[data-character="'+c.id+'"] .daily-punchline')).toHaveText(c.copy);expect(errors).toEqual([]);
+});
+
 test('owner publishes satire, edits character personality, verifies SEO and mobile sharing',async({page,browser})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  const setup=await page.request.post(base+'/api/auth/setup',{headers:{Origin:base},data:{name:'Editorial Owner',email:'editor@example.com',password:'Editorial-test-pass-2026',firmName:'Test workspace'}});expect(setup.status()).toBe(201);

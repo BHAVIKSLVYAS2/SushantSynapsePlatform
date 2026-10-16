@@ -1,5 +1,16 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const base='https://apps.sushantsynapse.com';
+
+test('sample edition is valid original preview content without publications or character overrides',async()=>{
+ const {sampleEdition}=await import('../apps/satire-arena/backend/sample-edition.mjs'),{validate,empty,published}=await import('../apps/satire-arena/backend/editorial.mjs'),{publicPage}=await import('../apps/satire-arena/backend/public-pages.mjs');
+ const samples=sampleEdition();assert.equal(validate({...samples,version:0}).posts.length,7);assert.equal(new Set(samples.posts.map(p=>p.category)).size,5);assert.deepEqual(new Set(samples.posts.map(p=>p.language)),new Set(['en','hi']));assert.deepEqual(samples.characters,[]);assert.ok(samples.posts.every(p=>p.status==='draft'));
+ const library=empty(),before=JSON.stringify(library),data=published(library);assert.equal(data.posts.length,0);assert.equal(data.featured,null);
+ const html=await publicPage(new Request(base+'/satire-arena/daily'),data).text();assert.match(html,/PREVIEW EDITION/);assert.match(html,/noindex,follow/);assert.match(html,/sample-meeting-to-end-meetings\?sample=1/);assert.doesNotMatch(html,/Published satire/);assert.equal(JSON.stringify(library),before);
+ assert.equal(publicPage(new Request(base+'/satire-arena/posts/sample-meeting-to-end-meetings'),data).status,404);
+ const article=await publicPage(new Request(base+'/satire-arena/posts/sample-meeting-to-end-meetings?sample=1'),data).text();assert.match(article,/The meeting to shorten meetings/);assert.match(article,/\/categories\/office\?sample=1/);assert.match(article,/canonical.*sample=1/);assert.doesNotMatch(article,/<time datetime/);
+ const xml=await publicPage(new Request(base+'/sitemap.xml?sample=1'),data).text();assert.doesNotMatch(xml,/sample-meeting|sample=1/);
+ const character=await publicPage(new Request(base+'/satire-arena/characters/namo-nimbus?sample=1'),data).text();assert.doesNotMatch(character,/PREVIEW EDITION/);
+});
 test('advertising readiness never enables political or unreviewed placements',async()=>{const {eligiblePlacements}=await import('../apps/satire-arena/backend/ad-policy.mjs'),config={enabled:true,placements:[{slot:'1234567890',position:'after-article',reviewed:true}]};assert.deepEqual(eligiblePlacements({status:'published',category:'political-parody'},config),[]);assert.deepEqual(eligiblePlacements({status:'published',category:'office'}),[]);assert.equal(eligiblePlacements({status:'published',category:'office'},config).length,1);assert.deepEqual(eligiblePlacements({status:'draft',category:'office'},config),[]);});
 const post=(overrides={})=>({slug:'office-overtime',title:'The meeting',punchline:'The agenda requested a shorter meeting.',story:'An original fictional office joke.',category:'office',language:'en',status:'draft',publishAt:'2026-10-16T00:00:00+05:30',image:'',...overrides});
 test('optional aggregate analytics has no visitor identity, validates inputs and protects reporting',async()=>{

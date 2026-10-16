@@ -1,5 +1,17 @@
 # Code ownership and adding apps
 
+Daily Satire sample edition (2026-10-16): app-owned `backend/sample-edition.mjs`
+contains seven original English/Hindi examples across five categories.
+`public-pages.mjs` renders a clearly labelled, noindex preview when the public
+library is empty or `sample=1` is explicitly selected on content routes. Sample
+article/category/canonical/share links preserve that query. Samples never enter
+editorial SQL records, public APIs, schedules, sitemaps, results or character
+overrides; published owner content takes precedence on normal pages. Preview-only
+`sample.css` is allowlisted and loaded only on these pages. `content.js` labels
+sample shares/downloads and avoids importing aggregate analytics in previews.
+The current 13-character Arena assets, captions, ballot handlers and totals are
+untouched. Editorial pages load the existing shared header stylesheet correctly.
+
 Homepage welcome (2026-10-16): portal `index.html` and `publicHome()` in
 `platform.js` ship matching compact illustrated welcomes and one real Make 24
 daily-feature link. Original inline SVG depicts creating, playing and completing

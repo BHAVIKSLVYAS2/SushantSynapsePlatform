@@ -1,5 +1,32 @@
 # Chambers functionality ledger
 
+**Daily Satire sample content implemented (2026-10-16):** User asked to visualise
+the publishing features with added content while preserving the current Arena's
+13 characters. Seven original examples cover office, technology, Indian life,
+social trends and fictional political parody, including two Hindi posts. Daily
+Satire shows the clearly labelled preview when no public posts exist; explicit
+`sample=1` supports article/category browsing even after real publication.
+Preview banners, noindex metadata, sample-preserving canonical/share links and
+sample-labelled downloads distinguish examples from saved published content.
+No sample publication dates, votes, results or character histories are invented.
+
+Examples are read-only source content, never inserted into editorial SQL, the
+public APIs, featured summary, character overrides or sitemaps. Normal owner
+publication takes priority. Sample pages avoid aggregate analytics. Existing
+Arena HTML/app/style/catalogue/enhancement files are unchanged; previews load a
+separate allowlisted stylesheet. Editorial routes also receive the existing
+shared header stylesheet, fixing theme-control presentation on those pages.
+
+Verification: nine Node tests and all four editorial Chrome workflows pass with
+isolated temporary DATA_DIR; sample/owner workflows pass again after final header,
+footer and share/analytics fixes. Checks cover schema validity of seven examples,
+five categories/two languages, no-JavaScript text, preview-only URLs, canonical/
+noindex/sitemap boundaries, real publication precedence, preserved empty public
+API, all 13 original captions/78 controls, 320/390/768/1440px light/dark layouts,
+sample sharing and no sample metric writes. Mobile screenshot reviewed; syntax
+and `git diff --check` pass. Publishing this preview to the existing site is the
+next step so the user can inspect it; no editorial-data or account writes needed.
+
 **Illustrated home and Lights Out deployed/live verified (2026-10-16):**
 User-authorized source `45bc638` is live at https://apps.sushantsynapse.com on
 production Worker `a30b46e9-abba-4336-a112-f3ab1bbfa819`. Nine changed assets
