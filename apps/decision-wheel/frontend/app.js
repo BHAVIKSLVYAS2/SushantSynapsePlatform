@@ -4,7 +4,16 @@ $('#theme').outerHTML=window.SynapseTheme.control('id="theme"');
 function theme(){const p=window.SynapseTheme.read();document.documentElement.dataset.theme=p==='system'?(media.matches?'dark':'light'):p;}
 $('#theme').addEventListener('change',theme);media.addEventListener('change',theme);theme();
 let options=[],rotation=0,spinning=false,result=null,history=[];
-$('.hub').textContent='✦';
+let soundEnabled=false,audio=null,activeAnimation=null;
+const confetti=new Set();
+const soundButton=document.createElement('button');soundButton.type='button';soundButton.className='wheel-sound';soundButton.textContent='Tick sound: off';soundButton.setAttribute('aria-pressed','false');$('#spin').after(soundButton);
+soundButton.onclick=()=>{soundEnabled=!soundEnabled;soundButton.setAttribute('aria-pressed',String(soundEnabled));soundButton.textContent='Tick sound: '+(soundEnabled?'on':'off');if(soundEnabled)prepareAudio();};
+function prepareAudio(){try{const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)return;if(!audio||audio.state==='closed')audio=new Audio();audio.resume().catch(()=>{});}catch{/* Visual ticks work without audio support. */}}
+function clickSound(){if(!soundEnabled||motion.matches||document.hidden||audio?.state!=='running')return;try{const oscillator=audio.createOscillator(),gain=audio.createGain(),now=audio.currentTime;oscillator.type='triangle';oscillator.frequency.setValueAtTime(1500,now);oscillator.frequency.exponentialRampToValueAtTime(650,now+.025);gain.gain.setValueAtTime(.045,now);gain.gain.exponentialRampToValueAtTime(.001,now+.035);oscillator.connect(gain);gain.connect(audio.destination);oscillator.start(now);oscillator.stop(now+.04);oscillator.onended=()=>{oscillator.disconnect();gain.disconnect();};}catch{}}
+function stopEffects(){for(const effect of confetti)effect.cancel();confetti.clear();$('.pointer').getAnimations().forEach(a=>a.cancel());}
+motion.addEventListener('change',()=>{if(motion.matches){activeAnimation?.finish();stopEffects();}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){activeAnimation?.finish();stopEffects();}});
+window.addEventListener('pagehide',()=>{activeAnimation?.finish();stopEffects();if(audio)audio.close().catch(()=>{});});
 function node(name,attributes={}){const element=document.createElementNS(svgNS,name);for(const [key,value]of Object.entries(attributes))element.setAttribute(key,String(value));return element;}
 function draw(){
  const wheel=$('#wheel');wheel.replaceChildren();wheel.style.transform=`rotate(${rotation}deg)`;
@@ -20,7 +29,7 @@ function draw(){
  $('#count').textContent=`${options.length} ${options.length===1?'OPTION LEFT':'EQUAL CHOICES'}`;$('#spin').disabled=spinning||options.length<2;
  $('#wheel-title').textContent=$('#question').value.trim()||'Let the wheel decide.';
 }
-function clearResult(){result=null;$('.play').classList.remove('has-winner');$('#result').hidden=true;$('#share-fallback').hidden=true;}
+function clearResult(){stopEffects();result=null;$('.play').classList.remove('has-winner');$('#result').hidden=true;$('#share-fallback').hidden=true;}
 function update(preserveRotation=false){const next=parseOptions($('#options').value),same=next.length===options.length&&next.every((value,index)=>value===options[index]);options=next;if(!preserveRotation||!same)rotation=0;clearResult();draw();$('#status').textContent='Wheel ready. Every option has an equal chance.';}
 $('#options-form').onsubmit=event=>{event.preventDefault();if(spinning)return;try{update();}catch(error){$('#status').textContent=error.message;}};
 for(const field of ['#options','#question'])$(field).addEventListener('input',()=>{if(!spinning){clearResult();$('#status').textContent='Update the wheel or spin to use your changes.';$('#spin').disabled=false;}});
@@ -31,16 +40,19 @@ function renderHistory(){
 }
 $('#spin').onclick=async()=>{
  if(spinning)return;
- try{update(true);const index=chooseIndex(options.length),next=landingRotation(rotation,index,options.length);lock(true);$('#status').textContent='Spinning\u2026';
+ try{update(true);const index=chooseIndex(options.length),next=landingRotation(rotation,index,options.length);lock(true);$('#status').textContent='Spinning\u2026';if(soundEnabled)prepareAudio();
   const play=$('.play'),pointer=$('.pointer');let frame=0,lastSlice=-1;
   play.classList.add('is-spinning');$('#spin').textContent='Spinning…';
   const preview=document.createElement('p');preview.className='spin-preview';preview.setAttribute('aria-hidden','true');preview.textContent='Round and round…';$('.wheel-stage').after(preview);
-  const animation=$('#wheel').animate([{transform:`rotate(${rotation}deg)`},{transform:`rotate(${next}deg)`}],{duration:motion.matches?0:3800,easing:'cubic-bezier(.12,.65,.12,1)',fill:'forwards'});
-  function tick(){const matrix=new DOMMatrixReadOnly(getComputedStyle($('#wheel')).transform),angle=(Math.atan2(matrix.b,matrix.a)*180/Math.PI+360)%360,slice=Math.floor(((360-angle)%360)/(360/options.length));if(slice!==lastSlice){preview.textContent=options[slice];lastSlice=slice;pointer.getAnimations().forEach(a=>a.cancel());pointer.animate([{transform:'translateX(-50%) rotate(-15deg)'},{transform:'translateX(-50%) rotate(0deg)'}],{duration:130});}frame=requestAnimationFrame(tick);}
+  // Cubic ease-out: continuous forward motion, with the last revolution taking
+  // roughly half the spin. Selection and the exact landing angle stay unchanged.
+  const duration=motion.matches||document.hidden?0:6800;
+  const animation=$('#wheel').animate([{transform:`rotate(${rotation}deg)`},{transform:`rotate(${next}deg)`}],{duration,easing:'cubic-bezier(.333333,1,.666667,1)',fill:'forwards'});activeAnimation=animation;
+  function tick(){const progress=Math.min(1,Number(animation.currentTime||0)/6800),remaining=(next-rotation)*Math.pow(1-progress,3),settling=remaining<=360;if(settling&&!play.classList.contains('is-settling'))$('#status').textContent='Final turn… tick, tick.';play.classList.toggle('is-settling',settling);const matrix=new DOMMatrixReadOnly(getComputedStyle($('#wheel')).transform),angle=(Math.atan2(matrix.b,matrix.a)*180/Math.PI+360)%360,slice=Math.floor(((360-angle)%360)/(360/options.length));if(slice!==lastSlice){preview.textContent=options[slice];if(lastSlice!==-1)clickSound();lastSlice=slice;pointer.getAnimations().forEach(a=>a.cancel());pointer.animate([{transform:'translateX(-50%) rotate(-18deg)'},{transform:'translateX(-50%) rotate(5deg)',offset:.45},{transform:'translateX(-50%) rotate(0deg)'}],{duration:settling?220:100});}frame=requestAnimationFrame(tick);}
   if(!motion.matches)frame=requestAnimationFrame(tick);
-  try{await animation.finished;rotation=next;$('#wheel').style.transform=`rotate(${rotation}deg)`;}finally{cancelAnimationFrame(frame);animation.cancel();preview.remove();play.classList.remove('is-spinning');$('#spin').textContent='Spin the wheel';}
+  try{await animation.finished;rotation=next;$('#wheel').style.transform=`rotate(${rotation}deg)`;}finally{cancelAnimationFrame(frame);activeAnimation=null;animation.cancel();pointer.getAnimations().forEach(a=>a.cancel());preview.remove();play.classList.remove('is-spinning','is-settling');$('#spin').textContent='Spin the wheel';}
   play.classList.add('has-winner');
-  if(!motion.matches){const stage=$('.wheel-stage');for(let i=0;i<24;i++){const piece=document.createElement('i');piece.className='wheel-confetti';piece.setAttribute('aria-hidden','true');piece.style.background=`var(--wheel-${i%8})`;stage.append(piece);const angle=i*Math.PI/12,distance=80+(i%4)*18;const burst=piece.animate([{transform:'translate(-50%,-50%) scale(0)',opacity:0},{offset:.15,opacity:1},{transform:`translate(${Math.cos(angle)*distance}px,${Math.sin(angle)*distance+40}px) rotate(${i*47}deg)`,opacity:0}],{duration:1100,easing:'cubic-bezier(.15,.6,.3,1)'});burst.finished.then(()=>piece.remove());}}
+  if(!motion.matches&&!document.hidden){const stage=$('.wheel-stage');for(let i=0;i<24;i++){const piece=document.createElement('i');piece.className='wheel-confetti';piece.setAttribute('aria-hidden','true');piece.style.background=`var(--wheel-${i%8})`;stage.append(piece);const angle=i*Math.PI/12,distance=80+(i%4)*18;const burst=piece.animate([{transform:'translate(-50%,-50%) scale(0)',opacity:0},{offset:.15,opacity:1},{transform:`translate(${Math.cos(angle)*distance}px,${Math.sin(angle)*distance+40}px) rotate(${i*47}deg)`,opacity:0}],{duration:1100,easing:'cubic-bezier(.15,.6,.3,1)'});confetti.add(burst);const clean=()=>{piece.remove();confetti.delete(burst);};burst.finished.then(clean,clean);}}
   showResult(options[index]);history.unshift({...result});history=history.slice(0,20);renderHistory();$('#status').textContent=`Selected: ${options[index]}.`;$('#winner').setAttribute('tabindex','-1');$('#winner').focus();
  }catch(error){$('#status').textContent=error.message;}finally{lock(false);}
 };

@@ -30,3 +30,20 @@ body[data-ui-app="decision-wheel"] main .play{background:radial-gradient(ellipse
 body[data-ui-app="decision-wheel"] main .wheel-stage{box-shadow:0 14px 0 -6px var(--line),0 24px 40px -20px var(--accent)}
 body[data-ui-app="decision-wheel"] main #spin{border-radius:999px;min-height:56px}
 body[data-ui-app="decision-wheel"] main #result{border:1px solid var(--accent);background:linear-gradient(135deg,var(--soft),var(--surface))}
+
+/* Branded centre and a kinetic outer rim, independent of the spinning SVG. */
+body[data-ui-app="decision-wheel"] main .play{position:relative;overflow:hidden;border-radius:28px;background:radial-gradient(ellipse at 50% 35%,color-mix(in srgb,var(--accent) 14%,transparent),transparent 65%),var(--surface)}
+body[data-ui-app="decision-wheel"] main .wheel-stage{padding:15px;background:repeating-conic-gradient(var(--accent) 0deg 1deg,var(--surface) 1deg 10deg);box-shadow:0 0 0 6px var(--soft),0 0 0 7px var(--line),0 18px 0 -8px var(--line),0 30px 45px -25px var(--accent)}
+body[data-ui-app="decision-wheel"] .wheel-stage::before{content:'';position:absolute;inset:-7px;border:2px dashed var(--accent);border-radius:50%;opacity:.35;pointer-events:none}
+body[data-ui-app="decision-wheel"] .is-spinning .wheel-stage::before{animation:wheel-orbit 9s linear infinite}
+body[data-ui-app="decision-wheel"] .is-settling .wheel-stage::before{animation-duration:18s;opacity:.7}
+body[data-ui-app="decision-wheel"] .hub::after{content:none}
+body[data-ui-app="decision-wheel"] .hub img{display:block;width:80%;height:80%;object-fit:contain;filter:drop-shadow(0 2px 2px var(--line))}
+body[data-ui-app="decision-wheel"] .wheel-sound{display:block;margin:16px auto 0;padding:6px 14px;min-height:44px;background:var(--soft);color:var(--text);border:1px solid var(--line);border-radius:999px;font-size:12px}
+body[data-ui-app="decision-wheel"] .wheel-sound[aria-pressed=true]{border-color:var(--accent);color:var(--accent)}
+body[data-ui-app="decision-wheel"] .is-settling .spin-preview{padding:8px 18px;border:1px solid var(--accent);border-radius:999px;display:table;margin:0 auto 12px;background:var(--soft)}
+body[data-ui-app="decision-wheel"] .has-winner .hub{animation:wheel-logo-pop .5s ease-out}
+@keyframes wheel-orbit{to{transform:rotate(360deg)}}
+@keyframes wheel-logo-pop{50%{transform:translate(-50%,-50%) scale(1.12)}}
+@media(max-width:760px){body[data-ui-app="decision-wheel"] main .workspace .play{order:-1}body[data-ui-app="decision-wheel"] main .wheel-stage{margin-top:28px}}
+@media(prefers-reduced-motion:reduce){body[data-ui-app="decision-wheel"] .is-spinning .wheel-stage::before,body[data-ui-app="decision-wheel"] .has-winner .hub{animation:none}}

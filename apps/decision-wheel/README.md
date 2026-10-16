@@ -1,5 +1,13 @@
 # Decision Wheel
 
+The local spinner refresh adds the existing Sushant Synapse logo in an upright
+centre hub, an animated rim, settling preview and a longer 6.8-second cubic
+deceleration with a slow final revolution and pointer ticks. Tick sound is opt-in
+and generated locally; no audio file/service is loaded. Reduced motion or a
+hidden page finishes immediately, and cancels transient effects. Random selection,
+landing angle, editor locking, history and private sharing are unchanged. This
+refresh puts the wheel before the editor on phones and is not deployed yet.
+
 A public free tool at `/decision-wheel`: enter 2�30 unique choices, an optional title, and spin. Starter lists cover lunch, household tasks and team selection. Each label allows up to 60 Unicode characters. Duplicate labels are rejected after case folding and Unicode normalization so each option has one equal slice.
 
 The app uses browser cryptographic randomness with rejection sampling to avoid modulo bias. The SVG animation lands on the selected slice. Input, presets and repeated spins are locked while spinning; reduced-motion users receive the result immediately. Long labels are shortened on the wheel; full labels remain in the editor and result. Remove a winner to pick without repeats; when only one option remains, it is shown directly rather than drawn randomly.

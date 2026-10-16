@@ -1,5 +1,29 @@
 # Chambers functionality ledger
 
+**Decision Wheel branded slow finish implemented locally (2026-10-16):** Existing
+Sushant Synapse logo replaces the centre glyph and remains upright during spins.
+App-owned styling adds a kinetic rim, hub glow, slower final-turn preview and
+winner animation; phones put the wheel before the editor. The 6.8-second cubic
+ease-out moves continuously forward with roughly half its duration spent on the
+last revolution. Slice crossings animate the pointer and optionally play a short
+locally generated tick. Sound is off by default and requires an explicit toggle;
+no audio asset/provider or stored sound preference is introduced.
+
+Existing cryptographic equal-choice sampling, exact landing angles, editor locks,
+history/removal, imports and private sharing are preserved. Reduced-motion changes,
+hidden pages and pagehide finish active spins and clear transient pointer/confetti
+effects; reduced motion also suppresses sound. Updating options clears old effects.
+No app API, schema, account or business persistence change.
+
+Verification: three Node engine tests and all three Chrome workflows pass; the
+browser suite passed again after final mobile-order/effect-cleanup changes.
+Checks cover real animation completion, fair landing, disabled edits, logo loading,
+sound opt-in, sampled early-vs-final angular speed (final substantially slower),
+mid-spin reduced-motion completion, effect cleanup, history/removal/sharing and
+320/390/768/1440px layouts/themes. Tests use isolated temporary DATA_DIR; mobile
+screenshot reviewed. Syntax and `git diff --check` pass. These changes are local,
+uncommitted and undeployed.
+
 **Clue-led Crack the Code deployed/live verified (2026-10-16):** User-authorized
 release `e09a61c` is live at https://apps.sushantsynapse.com/take-a-break?game=code
 on production Worker `a06096c8-7283-4a47-84b8-5d66fd6d8fc8`. Five changed assets

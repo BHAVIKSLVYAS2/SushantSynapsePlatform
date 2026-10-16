@@ -1,5 +1,13 @@
 # Code ownership and adding apps
 
+Decision Wheel finish (2026-10-16): app-owned `app.js` owns a 6.8-second continuous
+cubic slowdown, last-revolution presentation, slice-crossing pointer ticks and
+opt-in local Web Audio clicks. `index.html` reuses the existing platform logo in
+the stationary hub; `style.css` owns the rim, glow and result motion using shared
+tokens. Reduced-motion changes and hidden-page/pagehide events finish an active
+spin and cancel transient pointer/confetti effects. `engine.mjs` retains unchanged
+cryptographic sampling and exact landing angles; no persistence/API is added.
+
 Support simplification (2026-10-16): portal-owned `support.html`/`support.css`
 present Buy me a coffee, compact Chai/Coffee/Pani puri/Pizza choices and secondary
 sharing/contact/sponsorship guidance. The existing WhatsApp form is under a native
