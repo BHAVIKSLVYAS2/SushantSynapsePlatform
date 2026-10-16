@@ -31,6 +31,25 @@
  const skip=document.querySelector('body>.skip-link,body>.skip');
  if(skip)skip.after(header);else document.body.prepend(header);
  document.body.classList.add('has-platform-shell');
+ // Native navigation stays immediate; this is an indeterminate visual cue only.
+ const loader=document.createElement('div');loader.className='platform-transition';loader.hidden=true;
+ loader.setAttribute('role','status');loader.setAttribute('aria-live','polite');
+ loader.innerHTML='<div class="platform-transition-card"><img src="/logo-adaptive-192.png" width="64" height="64" alt=""><strong>Sushant Synapse</strong><span>Opening app…</span><div class="platform-transition-track" aria-hidden="true"><i></i></div></div>';
+ document.body.append(loader);
+ let loaderTimeout;
+ const clearLoader=()=>{clearTimeout(loaderTimeout);loader.hidden=true;};
+ document.addEventListener('click',event=>{
+  if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+  const link=event.target.closest('a[href]');
+  if(!link||link.hasAttribute('download')||(link.target&&link.target!=='_self'))return;
+  const destination=new URL(link.href,location.href);
+  if(destination.origin!==location.origin||!['http:','https:'].includes(destination.protocol))return;
+  if(destination.pathname===location.pathname&&destination.search===location.search)return;
+  loader.hidden=false;clearTimeout(loaderTimeout);loaderTimeout=setTimeout(clearLoader,8000);
+ });
+ window.addEventListener('pageshow',clearLoader);
+ window.addEventListener('pagehide',clearLoader);
+ window.addEventListener('popstate',clearLoader);
  const account=header.querySelector('.platform-account');
  let authRevision=0;
  function showAccount(user){

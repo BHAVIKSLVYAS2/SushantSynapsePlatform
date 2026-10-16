@@ -1814,7 +1814,20 @@ For the earlier Chambers release, local implementation was complete. Further wor
 Source review identified different public-home, authenticated-catalogue and Chambers navigation shells, plus app-specific presentation/theme divergence. Recommendation and acceptance criteria are recorded in `docs/UI_PLATFORM_REVIEW_2026-10-11.md`: establish a shared platform shell, distinguish app navigation, simplify the launcher and migrate shared components before extending across apps. At this review checkpoint no UI implementation, rendered browser verification, deployment or business-data changes had been performed. The subsequent implementation and release status at the top of this ledger supersede that checkpoint.
 # Free-app card spacing (2026-10-16, deployed)
 
-## Cyan landing-page polish (2026-10-16, local)
+## Branded navigation transition (2026-10-17, local)
+
+The existing shared shell shows the main Sushant Synapse logo and an
+indeterminate progress bar during ordinary internal link navigation. Navigation
+is immediate; downloads, new tabs, modified clicks, external links and same-page
+anchors retain native behaviour. The noninteractive status layer does not move
+focus or intercept input, clears on pagehide/pageshow/popstate, and has an
+eight-second fallback. Reduced motion shows a stationary bar; print hides it.
+No fake percentage, storage, API or app access change. Verification: three shared
+shell Chrome workflows pass across focused runs, covering the branded status,
+anchor skip, reduced motion, navigation/BFCache cleanup, initial auth request reuse
+and account lifecycle. Syntax/diff checks pass. Deployment pending.
+
+## Cyan landing-page polish (2026-10-16, deployed)
 
 Homepage-owned theme tokens replace neon green with cyan-400/cyan-300 dark fills
 and slate-950 button text; light mode uses deeper cyan with white text. Header
@@ -1829,7 +1842,12 @@ Stylesheet cache version refreshed. Two targeted portal Chrome workflows passed:
 homepage/no-JavaScript/outage navigation and category/mobile interactions across
 four widths and light/dark themes, with 40 stable filter changes. The longer
 category test exceeded its initial 60-second budget, then passed with a 120-second
-limit. Desktop cyan capture reviewed; diff checks pass. Not committed/deployed.
+limit. Desktop cyan capture reviewed; diff checks pass. Source `fd0bdd5` deployed
+as Worker `2a7aabaf-32a6-42ed-9ecd-740427a692ad`. Read-only live verification passed
+exact CSS, eight responsive/theme layouts, cyan fills, lighter sign-in hover,
+feature lift, navigation blur and reduced-preference fallbacks without page errors.
+The original attempt to record this evidence was blocked by automatic approval
+review's usage limit; this entry records the already completed deployment.
 
 ## Landing-page discovery refactor (2026-10-16, deployed)
 
