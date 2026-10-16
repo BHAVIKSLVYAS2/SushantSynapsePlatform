@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Moment Studio award and memorial refinement (2026-10-16, local):** Removed
+**Moment Studio award and memorial refinement (2026-10-16, deployed/live verified):** Removed
 Blood Donation, Event Contribution and Community Service from the award chooser;
 Volunteer Appreciation remains the shared service category. Four contribution
 categories and ten personal awards remain. A fifth design, Fun Card, adds playful
@@ -22,8 +22,20 @@ PDF/PNG densities, print, saved organisations and 320–1440px theme layouts.
 Tests use isolated temporary SQLite directories. Artwork reviewed from ignored
 `.publish/moment-memorial-preview.png` and `test-results/certificate-Fun Card.png`;
 test evidence is in `.publish/moment-final-tests` and
-`.publish/moment-confirmation-tests`. The user authorised commit and production
-deployment; release verification will be recorded after deployment completes.
+`.publish/moment-confirmation-tests`. Source commits `94429b7` and `9e38f23`
+are deployed on production Worker `9c34bcce-c5bd-4cce-b750-e02c18598759` at
+https://apps.sushantsynapse.com/moment-studio. The latter commit refreshes script
+and renderer query versions to replace cached assets and corrects visible award
+and design totals. Its targeted local check passes (1/1).
+
+Live Chrome verification confirms four source assets match local files, fourteen
+award options, five designs, automatic Fun Card selection, certificate generation,
+condolence event/place/sender text, collapsed-event exclusion, four real PNG
+downloads (English/Hindi, 1080×1080 and 1080×1920), and eight light/dark layouts
+at 320/390/768/1440px. No page errors or API writes occurred. Existing D1, password
+authentication, rate limits and full-app bindings remain preserved; no migration
+or database write ran. Evidence: ignored `.publish/moment-release-check.cjs`,
+`.publish/moment-live-report.json`, exported PNGs and mobile screenshot.
 
 **Daily Satire samples deployed/live verified (2026-10-16):** User requested
 content to visualise the new publishing features without changing the current
