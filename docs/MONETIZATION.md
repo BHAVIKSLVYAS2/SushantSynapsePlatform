@@ -1,5 +1,30 @@
 # Quiet sponsorship plan
 
+## Confessions advertising preparation (2026-10-16, local)
+
+`apps/confessions/frontend/ad-config.mjs` reuses the existing publisher ID but
+remains disabled: no individual manual-slot IDs or rewarded Google Ad Manager
+path exist in the repository. Responsive header/footer and desktop-only side
+inventory are isolated from posting/scratch controls, lazy-requested only when
+visible, never auto-refreshed and collapsed when unfilled. No other tools or
+private workspaces receive new ads. A visitor's optional ads choice gates requests.
+
+Five reveals are free, then an explicitly opted-in rewarded event can unlock
+five more. Only a genuine reward event grants an ad-earned batch; cancellation
+does not. Unavailable/unconfigured inventory permits continuing. Posting stays
+free. The browser allowance is a UX mechanism, not a paid entitlement.
+
+Automatic approval review rejected extending the homepage's broad Google CSP
+to Confessions. That change was not applied; current self-only page scripts
+remain. Explicit permission for a page-only policy expansion and real inventory/
+account consent configuration are required before activation. No impressions,
+ad approval, earnings or production deployment are claimed. The homepage's
+existing integration remains unchanged. New confessions are reviewed before
+publication; reports hide content for review. This follows Google's guidance to
+serve ads only with reviewed compliant user content:
+[user-generated content](https://support.google.com/adsense/answer/3011869?hl=en)
+and [rewarded-web API](https://developers.google.com/publisher-tag/samples/display-rewarded-ad).
+
 WhatsApp enquiries are configured for user-supplied +91 78741 66009. Contact, Support and Sponsorship forms combine messages; visitors review them, open WhatsApp and press Send. Support/Demos are prominent in shared navigation/homepage. This is an enquiry channel, not automatic delivery or payment verification. Existing payment settings and agreed sponsorship publishing remain separate. Historical local-draft-only descriptions below precede this update.
 
 ## Voluntary support

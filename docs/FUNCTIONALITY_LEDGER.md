@@ -1,5 +1,54 @@
 # Chambers functionality ledger
 
+**Confessions (2026-10-16, implemented locally; ads blocked/unconfigured):**
+`/confessions` provides separate covered cards in a scrolling shared stream,
+mouse/phone scratching, accessible tap reveal, a composer below the stream,
+refresh/new-message controls and explicit tab-only sample cards. Anonymous
+posting sends only text and requires no account fields. Pending posts appear
+only in the submitting tab and Owner review queue; approval makes them public.
+Report hides a post until review. Approved cards expire after seven days;
+expired stored entries are pruned on the next successful write. Capacity is 300
+entries and 600 characters per message. Failed posts preserve their draft.
+
+Messages persist in the platform SQL settings table with guarded version writes
+for Node SQLite and Cloudflare D1. Stored entries contain only ID, message,
+status, creation and expiry; no author/account/email/IP field is attached.
+Transient network-key rate limits and provider logs still exist, so this does
+not promise complete anonymity. No production records or schemas were reset.
+Owner checks, validation, origins and request size are enforced server-side.
+The six/minute anonymous write limiter is configured in fullstack/free staging
+and free production. Public listings withhold text until a reveal request.
+
+Five new reveals are initially free; session-only IDs/allowance avoid charging
+twice for the same card. The optional rewarded adapter grants five only after
+Google's grant event, with cancel/no-fill/unsupported behavior. This is a browser
+UX allowance, not a trusted paywall or encryption. Header/footer responsive and
+desktop-side ad placements are separate from actions, lazy-loaded, collapse
+when unconfigured/unfilled, and never auto-refresh. No ads are required to post.
+
+**Advertising activation remains incomplete:** repository search found only
+existing publisher `ca-pub-1894051755496526`, no manual slot IDs or rewarded unit
+path. Config remains disabled, and no real ad traffic or revenue is claimed.
+Automatic approval review rejected applying the homepage's broader external-ad
+CSP to Confessions because the request did not explicitly authorize that exact
+security expansion. The Node attempt was removed and Cloudflare unchanged.
+Confessions retains self-only scripts; enabling Google's external resources
+requires explicit page-only security approval and real inventory configuration.
+Existing homepage advertising remains unchanged.
+
+Verification: all 240 Node/API checks pass, including stored-field privacy,
+pending/review/report/expiry, request validation, five-reveal budgeting, mocked
+reward granted/cancelled/cleanup and SQLite reopen persistence. Five Chrome
+workflows plus a phone touch-scratch check pass, covering both homepage versions,
+finder/navigation, cross-browser review/publication/reporting, mouse/tap reveal,
+session allowance, no-ad fallback, safe HTML text, failed-post drafts and eight
+mobile/desktop theme widths. Mobile screenshot reviewed. Cloudflare dry-run
+build succeeds with 791 exported assets; the native all-apps Free D1 suite passes
+all 13 checks (12 subtests plus parent), including Confessions and the existing
+workspace checks. The initial D1 run's ledger fixture conflicted with a
+concurrent frontend export; verification was rerun sequentially. All test data
+uses isolated temporary SQLite/D1 fixtures. No production deployment performed.
+
 **Bill Splitter simplification (2026-10-16, deployed/live verified):**
 The default is now a blank equal split: one bill amount, people's names and a
 single payer. Two empty name rows replace the preloaded example. Per-person

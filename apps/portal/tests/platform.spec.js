@@ -26,7 +26,7 @@ test('illustrated home and real daily feature work on phones, without JavaScript
  await page.emulateMedia({reducedMotion:'reduce'});expect(await page.locator('.home-welcome').evaluate(el=>getComputedStyle(el).animationName)).toBe('none');
  await page.getByRole('link',{name:'Play now',exact:true}).click();await expect(page.locator('[data-pane="24"] #numbers button')).toHaveCount(4);
  await page.route('**/api/auth/status',r=>r.abort());await page.goto(base+'/');await expect(page.locator('.home-daily')).toHaveCount(1);await expect(page.locator('.home-welcome h1')).toContainText('Small tools.');
- const context=await noAdsContext(browser,{javaScriptEnabled:false});try{const p=await context.newPage();await p.goto(base+'/');await expect(p.locator('.home-welcome h1')).toContainText('Small tools.');await expect(p.locator('.home-daily-play')).toHaveAttribute('href','/take-a-break?game=24');await expect(p.locator('.public-app')).toHaveCount(13);}finally{await context.close();}
+ const context=await noAdsContext(browser,{javaScriptEnabled:false});try{const p=await context.newPage();await p.goto(base+'/');await expect(p.locator('.home-welcome h1')).toContainText('Small tools.');await expect(p.locator('.home-daily-play')).toHaveAttribute('href','/take-a-break?game=24');await expect(p.locator('.public-app')).toHaveCount(14);}finally{await context.close();}
  expect(errors).toEqual([]);
 });
 
@@ -131,7 +131,7 @@ test('app finder stays usable across small screens, themes and empty results',as
  await page.goto(base);await expect(page.locator('#app-finder-trigger')).toBeVisible();
  for(const [width,height,theme] of [[320,568,'light'],[390,844,'dark'],[1440,900,'light']]){
   await page.setViewportSize({width,height});await setTheme(page,theme);await page.evaluate(()=>scrollTo(0,500));await page.locator('#app-finder-trigger').scrollIntoViewIfNeeded();const position=await page.evaluate(()=>scrollY);
-  await page.getByRole('button',{name:'Search apps',exact:true}).click();await expect(page.getByLabel('Search apps or activities')).toBeFocused();await expect(page.locator('.finder-result')).toHaveCount(13);
+  await page.getByRole('button',{name:'Search apps',exact:true}).click();await expect(page.getByLabel('Search apps or activities')).toBeFocused();await expect(page.locator('.finder-result')).toHaveCount(14);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   const bounds=await page.locator('#app-finder-dialog').boundingBox();expect(bounds.y).toBeGreaterThanOrEqual(0);expect(bounds.y+bounds.height).toBeLessThanOrEqual(height+1);
   await page.getByLabel('Search apps or activities').fill('not-a-real-tool');await expect(page.locator('#finder-count')).toContainText('No matching apps');await expect(page.getByRole('button',{name:'Clear search',exact:true})).toBeVisible();await page.getByRole('button',{name:'Clear search',exact:true}).click();
@@ -150,8 +150,8 @@ async function expectWorkspaceDiscovery(page){
 }
 test('homepage ships real cards without JavaScript and ignores obsolete login query',async({browser,page})=>{
  const context=await noAdsContext(browser,{javaScriptEnabled:false});
- try{const fallback=await context.newPage();const response=await fallback.goto(base);expect(response.headers()['cache-control']).toBe('no-store');await expect(fallback.locator('.public-app')).toHaveCount(13);await expect(fallback.getByRole('link',{name:'Decision Wheel',exact:true})).toBeVisible();await expect(fallback.getByRole('link',{name:'Fund Lens',exact:true})).toBeVisible();await expect(fallback.getByRole('link',{name:'Open News'})).toBeVisible();await expect(fallback.getByRole('link',{name:'Sign in to Tournament Lite'})).toBeVisible();await expectWorkspaceDiscovery(fallback);}finally{await context.close();}
- await page.goto(base+'/?signin=1');await expectWorkspaceDiscovery(page);await expect(page.locator('.public-app')).toHaveCount(13);await expect(page.locator('#auth-form')).toHaveCount(0);await page.goto(base+'/signin');await expect(page).toHaveURL(base+'/signin');await expect(page.locator('#auth-form')).toBeVisible();
+ try{const fallback=await context.newPage();const response=await fallback.goto(base);expect(response.headers()['cache-control']).toBe('no-store');await expect(fallback.locator('.public-app')).toHaveCount(14);await expect(fallback.getByRole('link',{name:'Decision Wheel',exact:true})).toBeVisible();await expect(fallback.getByRole('link',{name:'Fund Lens',exact:true})).toBeVisible();await expect(fallback.getByRole('link',{name:'Open News'})).toBeVisible();await expect(fallback.getByRole('link',{name:'Sign in to Tournament Lite'})).toBeVisible();await expectWorkspaceDiscovery(fallback);}finally{await context.close();}
+ await page.goto(base+'/?signin=1');await expectWorkspaceDiscovery(page);await expect(page.locator('.public-app')).toHaveCount(14);await expect(page.locator('#auth-form')).toHaveCount(0);await page.goto(base+'/signin');await expect(page).toHaveURL(base+'/signin');await expect(page.locator('#auth-form')).toBeVisible();
 });
 test('platform setup, favourites, app launch with shared sign-in, team access and responsive themes',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.setViewportSize({width:390,height:844});await page.goto(base);
@@ -179,7 +179,7 @@ test('public tools and private destinations stay distinct through sign-in',async
  const status=await (await page.request.get(base+'/api/auth/status')).json();
  if(status.setupRequired){const setup=await page.request.post(base+'/api/auth/setup',{data:{name:'Sushant Owner',firmName:'Synapse Chambers',email:'owner@synapse.example',password:'Platform browser password!'}});expect(setup.ok()).toBe(true);await page.request.post(base+'/api/auth/logout');}
  await page.goto(base);
- await expect(page.locator('#free-apps .public-app')).toHaveCount(13);
+ await expect(page.locator('#free-apps .public-app')).toHaveCount(14);
  expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.slice(0,4).map(a=>a.getAttribute('href')))).toEqual(['/moment-studio','/take-a-break','/decision-wheel','/news']);
  expect(await page.locator('#platform-switcher nav a:not(.platform-switcher-home)').evaluateAll(links=>links.slice(0,4).map(a=>a.getAttribute('href')))).toEqual(['/moment-studio','/take-a-break','/decision-wheel','/news']);
  await expect(page.locator('#workspace-apps .workspace-card')).toHaveCount(4);

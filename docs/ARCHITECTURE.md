@@ -1,5 +1,27 @@
 # Code ownership and adding apps
 
+Confessions (2026-10-16, local): `apps/confessions` owns `/confessions`, its
+scrolling scratch-card stream, composer, owner moderation and shared service.
+The versioned `confessions-v1` SQL setting stores at most 300 bounded entries;
+Node uses SQLite transactions/CAS and Cloudflare uses guarded D1 commits. No
+schema migration or separate database is introduced. Public lists expose only
+IDs/times; reveal returns approved text; pending submissions are owner-only.
+Reports hide entries, and seven-day expiry is enforced on every read, with
+physical pruning on subsequent successful writes. Anonymous writes have a
+dedicated six/minute Cloudflare limiter and bounded in-memory Node equivalent.
+Only the existing platform Owner role can review/remove. Business data never
+moves to browser storage; only a non-security reveal UX ledger of IDs/allowance
+uses sessionStorage. Posting identity is not attached to the stored message.
+
+App-owned ad adapters/config prepare manual header/footer/desktop-side units and
+opt-in five-reveal rewarded batches. All are disabled without real units and
+page security approval. Automatic approval rejected reusing the broader homepage
+Google CSP here; that attempted Node change was removed, Cloudflare was left
+unchanged, and Confessions retains self-only scripts. Existing homepage ad code
+and private-page policies are unchanged. See the app README for activation and
+moderation constraints. Registry, static allowlist, shared switcher, finder and
+both homepage renderings expose the new route.
+
 Bill Splitter simple entry (2026-10-16): its frontend owns transient total and
 stable-ID payer inputs for the default equal split. Submit maps that payment
 onto participant rows for the existing integer-paise engine, without overwriting

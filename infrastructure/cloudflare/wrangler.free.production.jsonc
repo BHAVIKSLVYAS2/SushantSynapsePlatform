@@ -17,6 +17,7 @@
   {"name":"CALENDAR_LIMITER","namespace_id":"2026101112","simple":{"limit":6,"period":60}},
   {"name":"NEWS_LIMITER","namespace_id":"2026100101","simple":{"limit":6,"period":60}},
   {"name":"FUND_LIMITER","namespace_id":"2026100703","simple":{"limit":30,"period":60}},
+  {"name":"CONFESSIONS_LIMITER","namespace_id":"2026101601","simple":{"limit":6,"period":60}},
   {"name":"ARENA_LIMITER","namespace_id":"2026101001","simple":{"limit":30,"period":60}}
  ],
  "observability":{"enabled":false}

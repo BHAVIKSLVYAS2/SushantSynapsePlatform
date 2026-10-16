@@ -130,6 +130,9 @@ for(const file of ['platform.js','platform.css','manifest.webmanifest','logo-ada
 for(const file of ['app.js','style.css','icon.svg','advocate.webmanifest'])staticAssets['/'+file]='apps/advocate/frontend/'+file;
 for(const file of ['app.js','engine.js','style.css','icon.svg'])staticAssets['/fund-overlap/'+file]='apps/fund-overlap/frontend/'+file;
 for(const file of ['app.js','engine.js','style.css','comic.css','art/chai-comic-v1.webp','art/news-desk-v1.webp'])staticAssets['/news/'+file]='apps/news/frontend/'+file;
+staticAssets['/confessions']='apps/confessions/frontend/index.html';
+staticAssets['/confessions/']='apps/confessions/frontend/index.html';
+for(const file of ['app.js','style.css','ad-config.mjs','ads.mjs','reveal-budget.mjs'])staticAssets['/confessions/'+file]='apps/confessions/frontend/'+file;
 module.exports={staticAssets};
 staticAssets['/shared/tool-refinements.css']='packages/ui/tool-refinements.css';
 for(const file of ['presentation.mjs','presentation.css'])staticAssets['/shared/'+file]='packages/ui/'+file;
