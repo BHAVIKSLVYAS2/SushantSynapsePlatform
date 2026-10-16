@@ -164,3 +164,37 @@
 .arena-discovery svg{float:right;max-width:30%;margin-left:var(--arena-discovery-gap)}
 .arena-discovery nav{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 .arena-discovery a{display:inline-flex;min-height:44px;align-items:center}
+
+/* Compact illustrated welcome; both static and rendered homes share this markup. */
+@media screen {
+ body[data-ui-app=portal] .public-home main .public-hero.home-welcome{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(180px,1fr);align-items:center;gap:20px;padding:8px 0 20px;margin:0;animation:home-welcome-in .5s ease-out both}
+ body[data-ui-app=portal] .public-home main .public-hero.home-welcome h1{font:750 clamp(34px,4.6vw,58px)/1.08 Inter,'Segoe UI',sans-serif;letter-spacing:-.055em;text-align:left;margin:12px 0;padding:0;background:none;border:0;box-shadow:none}
+ body[data-ui-app=portal] .public-home main .public-hero.home-welcome h1 span,body[data-ui-app=portal] .public-home main .public-hero.home-welcome h1 em{display:block}
+ body[data-ui-app=portal] .public-home main .public-hero.home-welcome h1 em{font-style:normal;color:var(--home-accent);font-weight:750}
+ .home-welcome h1 em::before{content:none!important}
+ body[data-ui-app=portal] .public-home main .home-welcome p{display:block;font-size:14px;line-height:1.65;max-width:45ch;color:var(--ui-muted);margin:0}
+ body[data-ui-app=portal] .public-home main .home-welcome .eyebrow{display:block;font-size:9px;letter-spacing:.16em;color:var(--home-accent)}
+ .home-welcome-art{display:block;width:100%;max-width:320px;max-height:210px;justify-self:center;overflow:visible}
+ .home-welcome-art .art-shadow{fill:var(--home-halo)}
+ .home-welcome-art .art-paper{fill:var(--ui-solid);stroke:var(--home-border);stroke-width:2}
+ .home-welcome-art .art-soft{fill:var(--ui-soft);stroke:var(--home-border);stroke-width:2}
+ .home-welcome-art .art-outline{stroke:var(--home-border);stroke-width:1.5}
+ .home-welcome-art .art-lines{stroke:var(--home-accent);stroke-width:3;stroke-linecap:round;opacity:.65}
+ .home-welcome-art .art-accent{fill:var(--home-accent)}
+ .home-welcome-art .art-ribbon{fill:var(--ui-soft);stroke:var(--home-accent);stroke-width:2}
+ .home-welcome-art .art-check{stroke:var(--ui-on-accent);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+ .home-daily{display:flex;gap:20px;align-items:center;padding:20px 24px;margin:0 0 26px;border:1px solid var(--home-border);border-radius:20px;background:linear-gradient(120deg,var(--home-chip),var(--ui-solid));box-shadow:var(--home-shadow)}
+ .home-daily-mark{display:grid;place-items:center;flex-shrink:0;width:68px;height:68px;border-radius:18px;transform:rotate(-6deg);background:var(--home-accent);color:var(--ui-on-accent);font-size:30px;font-weight:750;line-height:1.1;padding:9px;box-shadow:0 6px 0 var(--home-chip)}
+ .home-daily-mark span{font-size:11px;letter-spacing:2px}
+ .home-daily-copy{flex:1;min-width:0}
+ .home-daily .eyebrow{font-size:9px;letter-spacing:.12em;color:var(--home-accent)}
+ .home-daily h2{font-size:clamp(17px,2vw,23px);letter-spacing:-.025em;line-height:1.25;margin:5px 0 6px;color:var(--ui-text)}
+ .home-daily p{font-size:12px;line-height:1.6;margin:0;color:var(--ui-muted)}
+ .home-daily-play{display:inline-flex;align-items:center;justify-content:center;gap:24px;flex-shrink:0;min-height:48px;padding:12px 20px;border-radius:999px;background:var(--home-accent);color:var(--ui-on-accent);font-size:13px;font-weight:650;transition:transform .2s,box-shadow .2s}
+ @media(hover:hover){.home-daily-play:hover{transform:translateY(-2px);box-shadow:0 8px 20px var(--home-halo)}.home-welcome-art:hover .art-play{animation:home-art-nudge .5s ease-in-out}}
+ @media(max-width:759px){body[data-ui-app=portal] .public-home main .public-hero.home-welcome{grid-template-columns:1fr;gap:8px;padding:0 0 16px}.home-welcome-art{width:136px;max-height:76px}body[data-ui-app=portal] .public-home main .public-hero.home-welcome h1{font-size:clamp(32px,8vw,42px);margin:10px 0}body[data-ui-app=portal] .public-home main .home-welcome .home-paths{margin-top:14px;gap:8px}body[data-ui-app=portal] .public-home main .home-welcome .home-paths a{font-size:10px;padding:8px 12px}.home-daily{display:grid;grid-template-columns:46px minmax(0,1fr);gap:12px;padding:16px;margin-bottom:22px}.home-daily-mark{width:46px;height:50px;border-radius:12px;font-size:24px;padding:6px}.home-daily-mark span{font-size:8px;letter-spacing:1px}.home-daily h2{font-size:17px}.home-daily-play{grid-column:1/-1;width:100%;min-height:46px;padding:10px}.home-daily p{font-size:11px}}
+ @keyframes home-welcome-in{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+ @keyframes home-art-nudge{50%{translate:0 -5px}}
+ @media(prefers-reduced-motion:reduce){body[data-ui-app=portal] .public-home main .public-hero.home-welcome,.home-welcome-art .art-play{animation:none!important}.home-daily-play{transition:none;transform:none!important}}
+}
+@media print{.home-welcome-art{display:none}.home-daily{border:1px solid currentColor;padding:12px}}

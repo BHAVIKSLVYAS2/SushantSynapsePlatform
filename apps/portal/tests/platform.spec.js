@@ -18,6 +18,18 @@ test('AdSense loads asynchronously only for an anonymous home and retains tool n
  const txt=await page.request.get(base+'/ads.txt');expect(txt.headers()['content-type']).toContain('text/plain');expect(await txt.text()).toContain('pub-1894051755496526');
 });
 
+test('illustrated home and real daily feature work on phones, without JavaScript and after outage',async({page,browser})=>{
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(base+'/');await expect(page.locator('.home-welcome h1')).toContainText('Small tools.');await expect(page.locator('.home-daily')).toHaveCount(1);
+ for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:900});for(const theme of ['light','dark']){await setTheme(page,theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await expect(page.locator('.home-daily-play')).toBeVisible();expect((await page.locator('.home-daily-play').boundingBox()).height).toBeGreaterThanOrEqual(44);}if(width<=390)expect((await page.locator('#free-apps .public-app').first().boundingBox()).y).toBeLessThan(950);}
+ await page.setViewportSize({width:390,height:844});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'.publish/home-welcome-mobile.png',fullPage:true});
+ await page.emulateMedia({reducedMotion:'reduce'});expect(await page.locator('.home-welcome').evaluate(el=>getComputedStyle(el).animationName)).toBe('none');
+ await page.getByRole('link',{name:'Play now',exact:true}).click();await expect(page.locator('[data-pane="24"] #numbers button')).toHaveCount(4);
+ await page.route('**/api/auth/status',r=>r.abort());await page.goto(base+'/');await expect(page.locator('.home-daily')).toHaveCount(1);await expect(page.locator('.home-welcome h1')).toContainText('Small tools.');
+ const context=await noAdsContext(browser,{javaScriptEnabled:false});try{const p=await context.newPage();await p.goto(base+'/');await expect(p.locator('.home-welcome h1')).toContainText('Small tools.');await expect(p.locator('.home-daily-play')).toHaveAttribute('href','/take-a-break?game=24');await expect(p.locator('.public-app')).toHaveCount(10);}finally{await context.close();}
+ expect(errors).toEqual([]);
+});
+
 test('premium bento keeps all tools discoverable across touch layouts and both themes',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto(base+'/');

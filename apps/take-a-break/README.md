@@ -1,5 +1,13 @@
 # Take a Break
 
+Lights Out locally replaces Clue Club: tapping a tile flips itself and its
+orthogonal neighbours. Clear solvable 3×3, 4×4 and 5×5 boards with a move counter,
+optimal move target, undo, restart and optional shortest-solution hints. Keyboard
+arrows move focus; Space/Enter flips tiles. Lit/unlit symbols and labels accompany
+colour. Daily/practice modes retain tab-only progress, and sharing records hint
+use. Old `?game=clue` links open the replacement with an explanation. This change
+is locally verified and not deployed yet; Crack the Code is unchanged.
+
 Crack the Code is now a clue-led three-digit puzzle: five visible clues identify
 exactly one code with no repeated digits. All five clues are necessary. A worked
 example, manual scratchpad, starting hint and clue-conflict feedback support
@@ -12,7 +20,7 @@ The refreshed hub features Daily Spark once above compact activity tiles, with C
 
 Refresh deployed and HTTPS-verified on 2026-10-09 in Cloudflare version `8080893b-f034-4dd0-af1f-004ffb326efb`. Combined targeted checks passed (21 Node tests, 10 Chrome workflows); live categories, featured game and Expert challenge reload also verified.
 
-One public, laptop-independent hub at `/take-a-break` for seven activities. Make 24 reuses Daily Spark; four native games offer code deduction, memory pairs, English/Hindi clues and preference brackets. Decision Wheel and Pocket Pause keep their own pages and return to the hub.
+One public, laptop-independent hub at `/take-a-break` for seven activities. Make 24 reuses Daily Spark; four native games offer code deduction, memory pairs, Lights Out and preference brackets. Decision Wheel and Pocket Pause keep their own pages and return to the hub.
 
 Daily challenges use validated IST dates and deterministic boards. Code puzzles add `cv=2` to shared links; other games keep version 1. Practice rounds use fresh seeds; progress and custom choices remain in the current tab and reset on reload. Sharing is explicit and includes a dated daily link; Face-Off shares only title/winner, never its full list. No sign-in, timer, persistent game records or app provider requests. The shared header can read existing auth status.
 

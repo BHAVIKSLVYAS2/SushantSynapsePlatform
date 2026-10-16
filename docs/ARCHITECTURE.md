@@ -1,5 +1,23 @@
 # Code ownership and adding apps
 
+Homepage welcome (2026-10-16): portal `index.html` and `publicHome()` in
+`platform.js` ship matching compact illustrated welcomes and one real Make 24
+daily-feature link. Original inline SVG depicts creating, playing and completing
+a task using theme tokens; `home.css` owns responsive layout and bounded entrance/
+hover motion with reduced-motion suppression. `packages/ui/language.js` translates
+the new text. No hero image fetch, puzzle generation, analytics or provider is
+added; the feature opens the existing IST daily game. Authentication, finder,
+app order/access, no-JavaScript discovery and workspace navigation retain owners.
+
+Lights Out replacement (2026-10-16): Take a Break `engine.mjs` owns immutable
+orthogonal toggles, deterministic solvable boards and an optimal row-chasing
+solver enumerating at most 32 first-row patterns. App-owned `app.js` owns three
+levels (3×3/4×4/5×5), move/undo/restart/hint state, keyboard focus and result sharing.
+Clue Club code/data/styles and its static data allowlist entry are removed; old
+`game=clue` links explain and open `game=lights`. Home/catalogue copy is aligned.
+Crack the Code and other daily seeds retain their owners. Progress stays transient;
+no account, database, API or provider is added.
+
 Decision Wheel finish (2026-10-16): app-owned `app.js` owns a 6.8-second continuous
 cubic slowdown, last-revolution presentation, slice-crossing pointer ticks and
 opt-in local Web Audio clicks. `index.html` reuses the existing platform logo in

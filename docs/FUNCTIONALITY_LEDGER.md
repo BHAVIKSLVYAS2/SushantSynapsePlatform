@@ -1,5 +1,51 @@
 # Chambers functionality ledger
 
+**Illustrated homepage and daily feature implemented (2026-10-16):** User
+authorized implementation, commit and deployment of a mobile-first illustrated
+opening and one daily activity feature. Static home and `publicHome()` share
+Small tools / Better everyday copy, original lightweight inline artwork and a
+Make 24 Play now link to the real default IST daily board. Existing tool cards,
+finder, app order/access and workspace links remain below. Mobile stacks the art
+in a compact 76px region and makes the daily CTA full width. Theme tokens,
+English/Hindi copy, bounded entrance/hover motion and reduced-motion suppression
+are implemented. No new artwork download, API, puzzle provider or tracking is added.
+
+Six targeted Chrome workflows pass using isolated temporary DATA_DIR: illustrated
+home, 320/390/768/1440px light/dark layouts, visible 44px+ CTA, mobile tool-card
+position, actual daily launch, backend outage fallback, no-JavaScript home, Hindi
+and blocked-storage language behavior, existing bento/app order and finder behavior.
+Mobile screenshot reviewed; script syntax and `git diff --check` pass. Previously
+verified Lights Out changes below are included in this user-authorized release.
+Deployment and live verification are pending at this implementation checkpoint.
+
+**Clue Club replaced by Lights Out locally (2026-10-16):** User confirmed that
+Clue Club, rather than Crack the Code, should be removed. The hub now offers
+Lights Out: flip a tile and its orthogonal neighbours, clearing three solvable
+3×3/4×4/5×5 boards. Minimum initial solution targets are 3/6/9 moves (subject to a
+bounded generation fallback); exact optimal move counts are computed and shown.
+An immutable engine generates boards by legal moves and solves via first-row
+enumeration/row chasing. Undo, same-level restart, keyboard arrows/Space/Enter,
+explicit on/off symbols, optional shortest-solution hints and honest hint counts
+are implemented. Hint use survives same-level restart. Daily/practice seeds,
+in-tab progress, next-game actions and explicit result sharing are supported.
+
+Clue Club's controller, data, styles and data-asset allowlist entry are removed.
+Old `game=clue` links open Lights Out with a replacement explanation. Home/catalogue
+copy is aligned, including stale Oddly Different discovery text. Crack the Code
+and other game rules/seeds are unchanged. No app API, account, schema or business
+persistence change. Runtime data and unrelated files remain untouched.
+
+Verification: six Node checks and seven Take a Break Chrome workflows pass using
+isolated temporary DATA_DIR. The Lights Out workflow and a Make 24 effect/switch
+regression pass again after final cleanup. Independent BFS verifies shortest
+solutions across every reachable 3×3 board; 40 seeds across all three levels are
+deterministic, nonempty, solvable and meet target bounds in the checked sample.
+Browser checks cover three complete levels, hint/undo/restart, keyboard controls,
+mobile 5×5 tiles at least 44px wide, daily/practice resets, preserved navigation,
+legacy link explanation and retired data asset 404. Theme/responsive checks and
+mobile screenshot review pass. This replacement is local, uncommitted and not
+deployed; production still has Clue Club until release.
+
 **Branded spinner and slow finish deployed/live verified (2026-10-16):**
 User-authorized source `067cbee` is live at
 https://apps.sushantsynapse.com/decision-wheel on production Worker

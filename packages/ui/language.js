@@ -17,6 +17,7 @@
   'Seven ways to reset.':'फिर ताज़ा होने के सात तरीके।','Take a little break.':'थोड़ा विराम लें।','Play, choose or unwind.':'खेलें, चुनें या आराम करें।','Daily & practice games':'दैनिक और अभ्यास खेल','Challenge a friend':'दोस्त को चुनौती दें','Open Take a Break ↗':'Take a Break खोलें ↗','Balanced teams':'संतुलित टीमें','PNG & team list':'PNG और टीम सूची','Mix your teams ↗':'अपनी टीमें बनाएँ ↗','Spin the wheel ↗':'पहिया घुमाएँ ↗','Equal chances':'बराबर संभावना','Remove winners':'विजेताओं को हटाएँ'
  };
  const nativePage=/^\/(ritual-assist(?:\/|$)|digital-samaj(?:\/|$))/.test(location.pathname);
+ Object.assign(dictionary,{'Small tools.':'छोटे टूल।','Better everyday.':'बेहतर हर दिन।','A LITTLE MORE POSSIBLE':'हर दिन कुछ बेहतर','Create something thoughtful, clear a task, or take a little break.':'कुछ खास बनाएँ, कोई काम पूरा करें या थोड़ा विराम लें।','TRY SOMETHING TODAY':'आज कुछ आज़माएँ','Four numbers. One little challenge.':'चार अंक। एक छोटी चुनौती।','Use every number once to make 24. A fresh puzzle daily, no sign-in.':'हर अंक एक बार इस्तेमाल करके 24 बनाएँ। रोज़ नई पहेली, बिना साइन इन।','Play now':'अभी खेलें'});
  const native=()=>nativePage?document.querySelector('#language'):null;
  function remember(value){language=value;try{localStorage.setItem(key,value);}catch{}}
  function translate(root){
