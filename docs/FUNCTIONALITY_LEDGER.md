@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Confessions direct scratch (2026-10-17, release preparation):**
+**Confessions direct scratch (2026-10-17, deployed/live verified):**
 Covered cards accept direct mouse drags and horizontal touch strokes without a
 Scratch button. A bordered cover shows a sideways arrow, Scratch here to reveal
 and Rub sideways to uncover. Reveal instead is visible to pointer/keyboard and
@@ -12,7 +12,15 @@ the cover and restore retry controls. Cache references refreshed; README updated
 All nine existing Chrome workflows pass with updated direct-gesture coverage;
 one additional slow-load/buffer/retry regression passes. Tests use isolated
 SQLite data. Mobile capture reviewed, including correction of a shell-encoded
-hint glyph. No backend/schema change. Production verification follows.
+hint glyph. No backend/schema change. Source `338fdaa` deployed from an isolated
+checkout as Worker `8770cf2b-e8e9-4815-87f9-6d08c0a53a65`. Four assets uploaded,
+799 reused; bindings retained. Live checks pass exact CSS/JS bytes, correct
+arrow/hint, absent Scratch button, visible Reveal instead, eight width/theme
+layouts, actual CDP touch scratching and tap reveal. No page errors or production
+writes. The verifier stubs visitor requests to avoid triggering the availability
+overlay by aborting them and awaits asynchronous reveal completion. Evidence:
+`.publish/verify-confessions-direct-live.cjs`,
+`.publish/confessions-direct-live-mobile.png` (reviewed).
 
 **Combined production deployment (2026-10-17, live verified):**
 Release `9713f1a` (source `aef5ef3`) deployed from an isolated checkout as Worker
