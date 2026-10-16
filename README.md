@@ -1,5 +1,10 @@
 # Sushant Synapse Platform
 
+Deployed and live-verified (2026-10-16): Confessions uses scratch-first cards
+with accessible reveal, vertical phone scrolling and feed-edge handoff to the
+page. The shared header displays the full Sushant Synapse Platform name,
+including on mobile. See the ledger for release and verification details.
+
 Small export credits (2026-10-16): QR PNGs, team cards/copied teams, Ritual
 Assist material lists/guide shares, copied bill settlements and wheel shares
 carry Sushant Synapse branding. QR codes retain their unmodified payload and

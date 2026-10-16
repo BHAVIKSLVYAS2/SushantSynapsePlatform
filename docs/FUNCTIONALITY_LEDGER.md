@@ -1,17 +1,17 @@
 # Chambers functionality ledger
 
-**Full platform name (2026-10-16, local correction):**
+**Full platform name (2026-10-16, deployed/live verified):**
 The shared header now displays `Sushant Synapse` above `PLATFORM` rather than
 shortening the name to Synapse. On mobile the name stays visible alongside
 the logo and account/theme controls; the app switcher occupies a second row
 with the shared header offset adjusted accordingly. No app identifiers or
-authentication behavior changes. Not committed or deployed yet.
+authentication behavior changes.
 Verification: five shared-header Chrome workflows passed across the full run
 and updated responsive rerun. The public-page check covers 21 routes at
 320/390/768/1440px in both themes, verifies the full visible name, control
 bounds and 44px targets, and exercises app switching and print hiding.
 
-**Confessions scratch-first and scrolling (2026-10-16, local implementation):**
+**Confessions scratch-first and scrolling (2026-10-16, deployed/live verified):**
 Scratch is the primary card interaction; the separate reveal button appears
 only on keyboard focus and stays available to assistive technology. Own posts
 also start covered. Starting a scratch no longer calls `scrollIntoView` or
@@ -31,7 +31,13 @@ and armed cards, sideways scratch completion and page handoff at the boundary;
 incoming-card checks verify preserved reading position and explicit latest jump.
 Other checks cover both homepage renderings, mouse/keyboard reveal, allowance
 batches, cross-browser public posts/reporting, drafts and responsive themes.
-No backend, advertising or data-storage behavior changes. Not deployed yet.
+No backend, advertising or data-storage behavior changes.
+Source commit `b8a472e` deploys both changes to `apps.sushantsynapse.com` in
+Worker version `c2969907-e182-46fe-9238-07000347ba5a`. Live mobile Chrome
+verified the full visible name at 320/390px, sample-card touch scratching
+without an activation jump, and feed-to-page gesture handoff. Zero page
+errors or business-data writes occurred. Existing production variables,
+password authentication, full apps and the D1 binding were preserved.
 
 **Exact brand name and logo (2026-10-16, deployed/live verified):**
 The shared QR/team export footer now pairs the existing platform logo with

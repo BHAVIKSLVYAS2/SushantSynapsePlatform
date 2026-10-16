@@ -1,6 +1,6 @@
 # Code ownership and adding apps
 
-Confessions scratch/scroll (2026-10-16, local): the app-owned card controller
+Confessions scratch/scroll (2026-10-16, deployed): the app-owned card controller
 uses horizontal touch scratch strokes and native vertical panning, without
 automatic page centering. A clipped, non-scroll-container conversation shell
 lets the inner feed chain to document scrolling. Own cards follow the same
