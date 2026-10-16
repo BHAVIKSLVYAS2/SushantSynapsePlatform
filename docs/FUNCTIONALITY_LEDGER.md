@@ -1814,7 +1814,7 @@ For the earlier Chambers release, local implementation was complete. Further wor
 Source review identified different public-home, authenticated-catalogue and Chambers navigation shells, plus app-specific presentation/theme divergence. Recommendation and acceptance criteria are recorded in `docs/UI_PLATFORM_REVIEW_2026-10-11.md`: establish a shared platform shell, distinguish app navigation, simplify the launcher and migrate shared components before extending across apps. At this review checkpoint no UI implementation, rendered browser verification, deployment or business-data changes had been performed. The subsequent implementation and release status at the top of this ledger supersede that checkpoint.
 # Free-app card spacing (2026-10-16, deployed)
 
-## Single-action public cards (2026-10-16, local)
+## Single-action public cards (2026-10-16, deployed)
 
 Both portal homepage renderings remove the repeated Open/Create action row from
 all 14 free-app cards. Each full-card link retains its name, short description,
@@ -1824,7 +1824,14 @@ styles and tightened copy spacing; stylesheet/controller cache versions refreshe
 Verification: targeted portal Chrome workflows passed 2/2 (`illustrated home` and
 `AdSense loads`), covering four widths, both themes, search, no-JavaScript and
 auth outage. Source checks confirm exactly 14 decorative arrows and no duplicate
-action rows in each rendering. Mobile capture reviewed. Not committed/deployed.
+action rows in each rendering. Mobile capture reviewed.
+Deployed source `4208747` to the existing production route; Worker version
+`37bc6cb7-d0bb-4e07-9764-81e4c08e6894`. Four assets uploaded, 797 reused;
+existing bindings retained. Read-only live Chrome checks pass exact CSS/controller
+matches, 14 single-arrow cards with no repeated actions, eight responsive/theme
+layouts, no-JavaScript discovery and no page errors. Evidence:
+`.publish/verify-single-action.cjs` and `.publish/single-action-live-{desktop,mobile}.png`.
+No production business writes or schema changes.
 
 ## Dark glass directory refinement (2026-10-16, deployed)
 
