@@ -1,5 +1,12 @@
 # Original News illustrations
 
+Performance variants (2026-10-16): `*-768.webp` and `*-1280.webp` are
+mechanically resized/re-encoded copies of the existing illustrations at WebP
+quality 0.78, created with browser Canvas. Original `*-v1.webp` files remain
+unchanged. Responsive source sets choose by viewport/pixel density; comic
+artwork loads lazily. The combined 768px files are 198,450 bytes (77% smaller
+than the originals). Attribution and fictional-artwork labels remain in place.
+
 Created with the built-in imagegen tool for this app. These are fictional editorial illustrations, not photographs or depictions of reported events. The UI labels them accordingly. Accessible story text and comic dialogue remain HTML; no publisher photographs are hotlinked.
 
 - `chai-comic-v1.webp`: fictional friends reading over chai, used for the comic panels.

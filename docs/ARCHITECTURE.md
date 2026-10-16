@@ -1,5 +1,13 @@
 # Code ownership and adding apps
 
+Loading optimisation (2026-10-16, local): portal and shared header reuse a
+page-local initial auth promise regardless of script order. Later visibility
+refreshes and portal boots fetch fresh status; authentication stays server-owned.
+Anonymous portal startup retains its server-provided DOM. Shared header CSS
+imports the same premium URL as the main pages. News owns responsive image
+variants under `apps/news/frontend/art`, exposed by the static asset allowlist;
+the original artwork stays available for larger sources and existing links.
+
 Confessions scratch/scroll (2026-10-16, deployed): the app-owned card controller
 uses horizontal touch scratch strokes and native vertical panning, without
 automatic page centering. A clipped, non-scroll-container conversation shell

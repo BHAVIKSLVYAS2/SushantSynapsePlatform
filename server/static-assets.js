@@ -129,7 +129,7 @@ for(const route of ['/privacy','/terms','/contact','/legal','/legal/third-party-
 for(const file of ['platform.js','platform.css','manifest.webmanifest','logo-adaptive.png','logo-adaptive-192.png','logo-adaptive-512.png','logo-adaptive-uhd.png'])staticAssets['/'+file]='apps/portal/frontend/'+file;
 for(const file of ['app.js','style.css','icon.svg','advocate.webmanifest'])staticAssets['/'+file]='apps/advocate/frontend/'+file;
 for(const file of ['app.js','engine.js','style.css','icon.svg'])staticAssets['/fund-overlap/'+file]='apps/fund-overlap/frontend/'+file;
-for(const file of ['app.js','engine.js','style.css','comic.css','art/chai-comic-v1.webp','art/news-desk-v1.webp'])staticAssets['/news/'+file]='apps/news/frontend/'+file;
+for(const file of ['app.js','engine.js','style.css','comic.css','art/chai-comic-v1.webp','art/news-desk-v1.webp','art/chai-comic-768.webp','art/chai-comic-1280.webp','art/news-desk-768.webp','art/news-desk-1280.webp'])staticAssets['/news/'+file]='apps/news/frontend/'+file;
 staticAssets['/confessions']='apps/confessions/frontend/index.html';
 staticAssets['/confessions/']='apps/confessions/frontend/index.html';
 for(const file of ['app.js','style.css','ad-config.mjs','ads.mjs','reveal-budget.mjs','captcha.mjs'])staticAssets['/confessions/'+file]='apps/confessions/frontend/'+file;

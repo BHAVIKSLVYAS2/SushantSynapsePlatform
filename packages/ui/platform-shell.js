@@ -43,18 +43,18 @@
   account.title=user?'Signed in'+(name?' as '+name:''):'Sign in';
   account.classList.toggle('platform-account-avatar',!!user);
  }
- async function refreshAccount(){
+ async function refreshAccount(initial=false){
   const revision=++authRevision;
   try{
-   const response=await fetch('/api/auth/status',{credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(6000)});
-   const status=response.ok?await response.json():null;
+   const request=async()=>{const response=await fetch('/api/auth/status',{credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(6000)});if(!response.ok)throw Error('Account status unavailable');return response.json();};
+   const status=await(initial?(window.synapseInitialAuthStatus??=request()):request());
    if(revision===authRevision)showAccount(status?.user||null);
   }catch{if(revision===authRevision)showAccount(null);}
  }
  window.addEventListener('synapse-auth-change',event=>{authRevision++;showAccount(event.detail?.user||null);});
  window.addEventListener('pageshow',event=>{if(event.persisted)refreshAccount();});
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')refreshAccount();});
- refreshAccount();
+ refreshAccount(true);
 
  header.addEventListener('change',event=>{
   if(!event.target.matches('[data-theme-toggle]'))return;

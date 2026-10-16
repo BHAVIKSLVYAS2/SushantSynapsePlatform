@@ -83,7 +83,7 @@ function storyTopic(story){
   return 'India';
 }
 function artwork(name,alt,className){
-  const img=element('img','',className);img.src='/news/art/'+name+'-v1.webp';img.alt=alt;img.width=1536;img.height=1024;img.decoding='async';
+  const img=element('img','',className);img.src='/news/art/'+name+'-768.webp';img.srcset=`/news/art/${name}-768.webp 768w, /news/art/${name}-1280.webp 1280w, /news/art/${name}-v1.webp 1536w`;img.sizes='(max-width:700px) calc(100vw - 64px), 420px';img.loading='lazy';img.alt=alt;img.width=1536;img.height=1024;img.decoding='async';
   img.addEventListener('error',()=>{img.hidden=true;});return img;
 }
 function renderEdition(edition){

@@ -1,5 +1,10 @@
 # Sushant Synapse Platform
 
+Local loading audit (2026-10-16): responsive News images, duplicate stylesheet
+and initial-auth request removal, and anonymous-home DOM reuse are implemented
+and browser-tested but not deployed. Measurements and remaining priorities are
+in `docs/PERFORMANCE_REVIEW_2026-10-16.md`.
+
 Deployed and live-verified (2026-10-16): Confessions uses scratch-first cards
 with accessible reveal, vertical phone scrolling and feed-edge handoff to the
 page. The shared header displays the full Sushant Synapse Platform name,

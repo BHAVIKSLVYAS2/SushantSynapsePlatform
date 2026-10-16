@@ -1,5 +1,17 @@
 # Chambers functionality ledger
 
+**Loading optimisation audit (2026-10-16, local implementation):**
+Production mobile-like Chrome measurements and a controlled local comparison
+are recorded in `docs/PERFORMANCE_REVIEW_2026-10-16.md`. Initial homepage auth
+and premium CSS requests each fall from two to one. Anonymous startup reuses
+the static homepage DOM; later auth refreshes remain fresh. News adds responsive
+768/1280px WebP copies and lazy comic artwork; originals remain available.
+The 768px copies are 77% smaller combined than the original two illustrations.
+Six Chrome workflows pass, including account freshness, DOM identity, mobile
+themes, outage/no-JavaScript home, News comics and printing. No production data,
+ad policy, backend auth enforcement or HTTP cache policy changed. News/header
+layout shifts and ad startup costs remain follow-up opportunities. Not deployed.
+
 **Full platform name (2026-10-16, deployed/live verified):**
 The shared header now displays `Sushant Synapse` above `PLATFORM` rather than
 shortening the name to Synapse. On mobile the name stays visible alongside

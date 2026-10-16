@@ -9,6 +9,9 @@ test.beforeEach(async()=>{
 test.afterEach(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
 test.beforeEach(async({context})=>{await context.route('https://pagead2.googlesyndication.com/**',r=>r.fulfill({contentType:'text/javascript',body:''}));});
 
+test('anonymous home retains its first render and shares only the initial auth request',async({page})=>{
+ let calls=0,release;const gate=new Promise(resolve=>release=resolve);await page.route('**/api/auth/status',async route=>{calls++;await gate;await route.fulfill({json:{user:null,setupRequired:true,authMethod:'password',fullApps:true}});});await page.goto(base+'/',{waitUntil:'domcontentloaded'});await page.evaluate(()=>window.firstHome=document.querySelector('#free-apps'));await expect(page.locator('#free-apps')).toBeVisible();release();await expect(page.locator('.platform-account')).toHaveText('Sign in');await page.waitForFunction(()=>!!window.synapseInitialAuthStatus);await page.evaluate(()=>window.synapseInitialAuthStatus);expect(calls).toBe(1);expect(await page.evaluate(()=>window.firstHome===document.querySelector('#free-apps'))).toBe(true);await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));await expect.poll(()=>calls).toBe(2);
+});
 test('account entry follows live sign-in, profile edits, navigation and sign-out',async({page})=>{
  const email='initials@example.com',password='Header initials password!';
  await page.goto(base+'/take-a-break');
