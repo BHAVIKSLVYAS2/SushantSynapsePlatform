@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Bill/Ritual UI ease-of-use (2026-10-16, production release in preparation):**
+**Bill/Ritual UI ease-of-use (2026-10-16, deployed/live verified):**
 Bill Splitter adds People/Expenses/Settle shortcuts, clearly labelled example
 data, confirmed fresh/example replacement, live entered totals, percentage
 remaining/over feedback, undo for person/expense removal, prominent settlement
@@ -16,9 +16,29 @@ Print includes all items regardless of screen filters, labels custom additions,
 and shows saved quantities/arrangers without editing controls. Full-guide print
 remains available; print handlers restore filters/disclosures after printing.
 Canonical guides, existing browser lists, SQL records and calendar calculations
-are preserved. Six pure checks and eight affected Chrome workflows pass; final
-print lifecycle verification and production release follow. The previously local
-percentage/share/trip and quantity/arranger refinement is included in this release.
+are preserved. Six pure checks and eight affected Chrome workflows pass, plus
+the final print lifecycle check (1/1), including repeated print events and
+restoration of the prior screen filter. Mobile screenshots were reviewed; syntax
+and git whitespace checks pass. Tests use isolated temporary DATA_DIR fixtures.
+
+Source `c0447ac` is deployed at https://apps.sushantsynapse.com on production
+Worker `46f0081a-2381-4db3-a285-dd529d4ea9c8`. The build exports 778 allowlisted
+assets; eleven changed assets uploaded. Existing D1/password/full-app/rate-limit
+bindings and variables remain preserved. No migrations or live business/account
+writes occurred. The earlier local percentage/share/trip and quantity/arranger
+refinement is included in this release.
+
+Live Chrome verifies five exact source-asset matches; Bill stages, fresh/example
+controls, live percentages, weighted trip expenses, payer-preserving deletion
+undo, settlement cards and copying; Ritual compact fields, saved quantities/
+names/checks, filters, section counts, English/Hindi preview and a real checklist-
+only PDF. All sixteen 320/390/768/1440px light/dark layouts pass with no page
+errors or application API writes. Mobile captures reviewed. Evidence is ignored
+`.publish/ease-ui-tests`, `.publish/ease-print-final`,
+`.publish/bill-ritual-ease-live.cjs`, `.publish/bill-ritual-ease-live-report.json`,
+`.publish/bill-ease-live-mobile.png`, `.publish/ritual-ease-live-mobile.png` and
+`.publish/ritual-ease-live-checklist.pdf`. Release records are committed after
+verification; unrelated local data and owner-review files remain excluded.
 
 **Bill Splitter and Ritual Assist refinement (2026-10-16, local):** Implemented
 percentages (must sum to 100%), relative shares including zero shares, and up to
@@ -47,8 +67,8 @@ and git whitespace checks pass. Tests use isolated temporary DATA_DIR values;
 no production data or accounts were changed. Evidence is ignored
 `.publish/trip-arrangements-tests`, `.publish/trip-arrangements-final`,
 `.publish/bill-trip-mobile.png`, `.publish/ritual-arrangements-mobile.png` and
-`.publish/ritual-arrangements.pdf`. Implementation is complete locally;
-no commit or deployment has run for this refinement.
+`.publish/ritual-arrangements.pdf`. This refinement was subsequently committed
+and deployed together with the UI release recorded above.
 
 **Public-tool quick wins deployed/live verified (2026-10-16):** Source `10e0108`
 is deployed at https://apps.sushantsynapse.com on production Worker
