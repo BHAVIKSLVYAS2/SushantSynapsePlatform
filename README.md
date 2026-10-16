@@ -3,7 +3,7 @@
 The public homepage adds a compact illustrated welcome and a real daily Make 24
 feature, with mobile stacking, English/Hindi copy and reduced-motion support.
 Tool cards/search and private-workspace links remain directly accessible. This
-refresh and the Lights Out replacement are being prepared for deployment;
+refresh and the Lights Out replacement are deployed and live-verified on 2026-10-16;
 verification and final release status are recorded in the functionality ledger.
 
 Satire Arena 2 adds compact labelled reaction cards, shareable character pages,
@@ -41,7 +41,7 @@ Fund Lens comparison is deployed on Cloudflare and works without the laptop back
 
 Quiet direct sponsorships are prepared for selected public pages: one labelled, dismissible text card outside the working controls, with no popups, autoplay, advertiser scripts or tracking pixels. Private workspaces and sensitive tools remain ad-free. `/sponsor` provides the partnership information, brief and local enquiry drafts; WhatsApp enquiry contact is configured; actual paid campaigns and payments are not connected yet. See [the earning plan and publishing guide](docs/MONETIZATION.md).
 
-**Take a Break** at `/take-a-break` brings seven activities into one mobile-friendly hub: Make 24 (Daily Spark), Crack the Code, Memory Minute, Lights Out, Face-Off, Decision Wheel and Pocket Pause. The Crack the Code redesign replaces the five-digit guessing game with three distinct digits and five visible clues leading to one solution, plus a scratchpad, optional starting hint and unlimited checks. Daily challenges use IST dates, with practice rounds and explicit sharing. Free, no login, no backend dependency; progress stays in the current tab. Existing `/daily-spark`, `/decision-wheel` and `/pocket-pause` links continue to work. The clue-led redesign was deployed and live-verified on 2026-10-16. The local Lights Out replacement for Clue Club adds three solvable boards, undo and optional hints; it is not deployed yet.
+**Take a Break** at `/take-a-break` brings seven activities into one mobile-friendly hub: Make 24 (Daily Spark), Crack the Code, Memory Minute, Lights Out, Face-Off, Decision Wheel and Pocket Pause. The Crack the Code redesign replaces the five-digit guessing game with three distinct digits and five visible clues leading to one solution, plus a scratchpad, optional starting hint and unlimited checks. Daily challenges use IST dates, with practice rounds and explicit sharing. Free, no login, no backend dependency; progress stays in the current tab. Existing `/daily-spark`, `/decision-wheel` and `/pocket-pause` links continue to work. The clue-led redesign was deployed and live-verified on 2026-10-16. The Lights Out replacement for Clue Club adds three solvable boards, undo and optional hints; it was deployed and live-verified on 2026-10-16.
 
 ## Repository structure
 

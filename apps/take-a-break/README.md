@@ -1,12 +1,13 @@
 # Take a Break
 
-Lights Out locally replaces Clue Club: tapping a tile flips itself and its
+Lights Out replaces Clue Club: tapping a tile flips itself and its
 orthogonal neighbours. Clear solvable 3×3, 4×4 and 5×5 boards with a move counter,
 optimal move target, undo, restart and optional shortest-solution hints. Keyboard
 arrows move focus; Space/Enter flips tiles. Lit/unlit symbols and labels accompany
 colour. Daily/practice modes retain tab-only progress, and sharing records hint
 use. Old `?game=clue` links open the replacement with an explanation. This change
-is locally verified and not deployed yet; Crack the Code is unchanged.
+was deployed and live-verified on 2026-10-16 from `45bc638`, Worker
+`a30b46e9-abba-4336-a112-f3ab1bbfa819`; Crack the Code is unchanged.
 
 Crack the Code is now a clue-led three-digit puzzle: five visible clues identify
 exactly one code with no repeated digits. All five clues are necessary. A worked

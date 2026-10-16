@@ -1,5 +1,27 @@
 # Chambers functionality ledger
 
+**Illustrated home and Lights Out deployed/live verified (2026-10-16):**
+User-authorized source `45bc638` is live at https://apps.sushantsynapse.com on
+production Worker `a30b46e9-abba-4336-a112-f3ab1bbfa819`. Nine changed assets
+uploaded; 762 allowlisted public frontend assets are exported after removal of
+Clue Club data. Existing Free D1/password/full-app bindings and variables are
+preserved. No migration, account or business writes ran.
+
+Live checks pass healthy storage, six exact JS/CSS source-byte matches, illustrated
+welcome, one daily feature linking to the real Make 24 game, ten public cards,
+eight 320/390/768/1440px light/dark layouts, mobile card proximity, 44px+ CTA,
+English/Hindi, reduced motion and no-JavaScript discovery. Desktop capture waits
+for the bounded entrance animation to finish; desktop/mobile screenshots reviewed.
+Lights Out passes all three level completions, shortest-solution hint, restart,
+honest hint count and legacy Clue Club link forwarding. Retired clue data returns
+404 and Crack the Code remains available. All API writes were blocked and none
+occurred; ad requests were intercepted to avoid live advertising traffic. No page
+errors. Evidence is ignored `.publish/home-lights-live.cjs`,
+`.publish/home-lights-live.json`, `.publish/home-live-desktop.png` and
+`.publish/home-live-mobile.png`. These results supersede the pending/local status
+of the two checkpoints below. Release records are committed after verification;
+no repository push requested.
+
 **Illustrated homepage and daily feature implemented (2026-10-16):** User
 authorized implementation, commit and deployment of a mobile-first illustrated
 opening and one daily activity feature. Static home and `publicHome()` share
