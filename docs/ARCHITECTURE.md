@@ -1,5 +1,14 @@
 # Code ownership and adding apps
 
+Landing discovery (2026-10-16, local): portal-owned `home-discovery.js` enhances
+both homepage renderings with transient category filtering. Its fixed-height,
+keyboard-focusable catalogue scroll region prevents filter-driven page shifts;
+without JavaScript the complete native link grid remains. Native horizontal
+scroll snapping owns the two featured links on phones. Homepage CSS alone adapts
+the existing shared app-switcher trigger into a mobile hamburger and distinguishes
+restricted workspaces; shared authentication, switcher/dialog lifecycle and app
+access remain unchanged. The controller is explicitly statically allowlisted.
+
 Public copy cleanup (2026-10-16, deployed): app-owned UI keeps task instructions
 and contextual help separate. Portal static/dynamic public cards share shorter
 copy; private access metadata is preserved. `packages/ui/sponsorship.js` mounts

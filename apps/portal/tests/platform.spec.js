@@ -20,14 +20,45 @@ test('AdSense loads asynchronously only for an anonymous home and retains tool n
 
 test('illustrated home and real daily feature work on phones, without JavaScript and after outage',async({page,browser})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto(base+'/');await expect(page.locator('.home-welcome h1')).toContainText('Small tools.');await expect(page.locator('.home-daily')).toHaveCount(1);
- for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:900});for(const theme of ['light','dark']){await setTheme(page,theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await expect(page.locator('.home-daily-play')).toBeVisible();expect((await page.locator('.home-daily-play').boundingBox()).height).toBeGreaterThanOrEqual(44);}if(width<=390)expect((await page.locator('#free-apps .public-app').first().boundingBox()).y).toBeLessThan(950);}
+ await page.goto(base+'/');await expect(page.locator('.home-welcome h1')).toContainText('Small tools.');await expect(page.locator('.home-daily')).toHaveCount(2);
+ for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:900});for(const theme of ['light','dark']){await setTheme(page,theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await expect(page.locator('.home-daily-play').first()).toBeVisible();expect((await page.locator('.home-daily-play').first().boundingBox()).height).toBeGreaterThanOrEqual(44);}if(width<=390)expect((await page.locator('#free-apps .public-app').first().boundingBox()).y).toBeLessThan(950);}
  await page.setViewportSize({width:390,height:844});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'.publish/home-welcome-mobile.png',fullPage:true});
  await page.emulateMedia({reducedMotion:'reduce'});expect(await page.locator('.home-welcome').evaluate(el=>getComputedStyle(el).animationName)).toBe('none');
  await page.getByRole('link',{name:'Play now',exact:true}).click();await expect(page.locator('[data-pane="24"] #numbers button')).toHaveCount(4);
- await page.route('**/api/auth/status',r=>r.abort());await page.goto(base+'/');await expect(page.locator('.home-daily')).toHaveCount(1);await expect(page.locator('.home-welcome h1')).toContainText('Small tools.');
- const context=await noAdsContext(browser,{javaScriptEnabled:false});try{const p=await context.newPage();await p.goto(base+'/');await expect(p.locator('.home-welcome h1')).toContainText('Small tools.');await expect(p.locator('.home-daily-play')).toHaveAttribute('href','/take-a-break?game=24');await expect(p.locator('.public-app')).toHaveCount(14);}finally{await context.close();}
+ await page.route('**/api/auth/status',r=>r.abort());await page.goto(base+'/');await expect(page.locator('.home-daily')).toHaveCount(2);await expect(page.locator('.home-welcome h1')).toContainText('Small tools.');
+ const context=await noAdsContext(browser,{javaScriptEnabled:false});try{const p=await context.newPage();await p.goto(base+'/');await expect(p.locator('.home-welcome h1')).toContainText('Small tools.');await expect(p.locator('.home-daily-play').first()).toHaveAttribute('href','/take-a-break?game=24');await expect(p.locator('.public-app')).toHaveCount(14);}finally{await context.close();}
  expect(errors).toEqual([]);
+});
+
+test('landing categories keep layout stable and support mobile navigation and features',async({page})=>{
+ await page.goto(base+'/');await expect(page.locator('.home-filters')).toBeVisible();
+ for(const width of [320,390,768,1440]){
+  await page.setViewportSize({width,height:900});
+  for(const theme of ['light','dark']){
+   await setTheme(page,theme);
+   const workspaceTop=await page.locator('#workspace-apps').evaluate(el=>el.getBoundingClientRect().top+scrollY);
+   const gridHeight=await page.locator('.public-apps').evaluate(el=>el.getBoundingClientRect().height);
+   for(const [key,count] of [['utility',4],['games',5],['planning',4],['media',2],['all',14]]){
+    const pill=page.locator(`[data-tool-filter="${key}"]`);await pill.click();
+    await expect(pill).toHaveAttribute('aria-pressed','true');
+    await expect(page.locator('.public-app:not([hidden])')).toHaveCount(count);
+    expect(await page.locator('.public-app:not([hidden])').evaluateAll(cards=>cards.every(card=>card.querySelector('.public-app-copy').getBoundingClientRect().bottom<=card.getBoundingClientRect().bottom+1))).toBe(true);
+    expect(await page.locator('.public-apps').evaluate(el=>el.getBoundingClientRect().height)).toBe(gridHeight);
+    expect(await page.locator('#workspace-apps').evaluate(el=>el.getBoundingClientRect().top+scrollY)).toBeCloseTo(workspaceTop,0);
+    expect((await pill.boundingBox()).height).toBeGreaterThanOrEqual(48);
+   }
+   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  }
+ }
+ await page.setViewportSize({width:390,height:844});
+ const switcher=page.locator('.platform-switch');await switcher.click();await expect(page.locator('#platform-switcher')).toBeVisible();await page.keyboard.press('Escape');await expect(switcher).toBeFocused();
+ const features=page.locator('.home-features');expect(await features.evaluate(el=>el.scrollWidth>el.clientWidth)).toBe(true);
+ await features.evaluate(el=>el.scrollTo({left:el.scrollWidth}));await expect.poll(()=>features.evaluate(el=>el.scrollLeft)).toBeGreaterThan(0);
+ await page.emulateMedia({reducedMotion:'reduce'});await page.locator('[data-tool-filter="utility"]').click();
+ expect(await page.locator('.public-app:not([hidden])').first().evaluate(el=>el.getAnimations().length)).toBe(0);
+ await page.locator('[data-tool-filter="all"]').click();await features.evaluate(el=>el.scrollTo({left:0}));await page.evaluate(()=>scrollTo(0,0));
+ await page.screenshot({path:'.publish/home-discovery-mobile.png',fullPage:true});
+ await page.setViewportSize({width:1440,height:1000});await page.screenshot({path:'.publish/home-discovery-desktop.png',fullPage:true});
 });
 
 test('premium bento keeps all tools discoverable across touch layouts and both themes',async({page})=>{

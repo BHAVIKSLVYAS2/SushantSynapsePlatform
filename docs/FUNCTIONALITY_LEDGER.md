@@ -1814,6 +1814,37 @@ For the earlier Chambers release, local implementation was complete. Further wor
 Source review identified different public-home, authenticated-catalogue and Chambers navigation shells, plus app-specific presentation/theme divergence. Recommendation and acceptance criteria are recorded in `docs/UI_PLATFORM_REVIEW_2026-10-11.md`: establish a shared platform shell, distinguish app navigation, simplify the launcher and migrate shared components before extending across apps. At this review checkpoint no UI implementation, rendered browser verification, deployment or business-data changes had been performed. The subsequent implementation and release status at the top of this ledger supersede that checkpoint.
 # Free-app card spacing (2026-10-16, deployed)
 
+## Landing-page discovery refactor (2026-10-16, local)
+
+Portal-owned modern CSS and `home-discovery.js` implement five category filters
+(All, Productivity & Utility, Games & Fun, Finance & Planning, Editorial & Media).
+Satire Arena intentionally appears in Games and Editorial. Filters use native
+buttons with aria-pressed, labelled controlled region, live result count, hidden
+nonmatching links and reduced-motion-aware fades. A bounded, focusable vertical
+catalogue scroll region keeps page geometry constant through filtering and avoids
+an empty all-app-height spacer; no-JavaScript retains the full native link grid.
+Sticky category pills and native mobile feature scroll snapping keep discovery
+compact. Both home renderings include Make 24 and Decision Wheel feature links.
+
+Homepage-only overrides adapt the existing shared dialog trigger to a left
+hamburger on phones, with one-row branding/theme/primary sign-in. Dark tokens use
+slate #0b131a and mint #4ade80; light/system choices remain. Hero depth/CTA contrast,
+48px interaction targets, card lift/focus, a dashed Restricted Workspaces panel
+and mobile footer columns are implemented without changing access enforcement.
+New visible copy has Hindi dictionary entries; static allowlist and cache versions
+include the new controller. No app engine, schema, provider or persistence changes.
+
+Verification: 4/4 targeted Chrome workflows pass, including all five filters at
+320/390/768/1440px in light/dark themes, exact stable grid height/downstream section
+position through 40 filter changes, unclipped card content, 48px pills, keyboard
+menu open/Escape/focus restoration, horizontal feature scrolling, reduced motion,
+no-JavaScript discovery, auth outage, app search and Hindi switching/reload.
+Nine platform-additions source/API checks passed with isolated fixtures; the
+language static check passed after replacing its obsolete hardcoded cache-version
+assertion with a versioned local-script check (10 distinct checks total).
+Desktop/mobile captures reviewed: `.publish/home-discovery-{desktop,mobile}.png`.
+Syntax/diff checks pass. Implementation is not committed or deployed.
+
 ## Single-action public cards (2026-10-16, deployed)
 
 Both portal homepage renderings remove the repeated Open/Create action row from

@@ -5,6 +5,7 @@
  // Capture the incoming URL before native apps add their default language to it.
  const requestedLanguage=new URL(performance.getEntriesByType('navigation')[0]?.name||location.href).searchParams.get('lang');
  const dictionary={
+  'Productivity & Utility':'उत्पादकता और उपयोगिता','Games & Fun':'खेल और मनोरंजन','Finance & Planning':'वित्त और योजना','Editorial & Media':'संपादकीय और मीडिया','Restricted Workspaces':'प्रतिबंधित कार्यक्षेत्र','LET CHANCE CHOOSE':'किस्मत को चुनने दें','Can’t decide?':'तय नहीं कर पा रहे?','Add your options and spin the wheel.':'अपने विकल्प जोड़ें और पहिया घुमाएँ।','Spin now':'पहिया घुमाएँ','tools':'टूल',
   'Your apps, together.':'आपके ऐप, एक साथ।','Open a public tool or sign in to your workspace.':'सार्वजनिक टूल खोलें या अपने कार्यक्षेत्र में साइन इन करें।','Account':'खाता','Switch app':'ऐप बदलें','Find an app':'ऐप खोजें','Public tool':'सार्वजनिक टूल','Private workspace':'निजी कार्यक्षेत्र',
 
   'PLATFORM':'प्लेटफ़ॉर्म','All apps':'सभी ऐप','All apps ↗':'सभी ऐप ↗','Sign in':'साइन इन','Support us':'सहयोग करें','Watch demos':'डेमो देखें','Contact':'संपर्क','WhatsApp':'WhatsApp','WhatsApp ↗':'WhatsApp ↗','Privacy':'गोपनीयता','Usage terms':'उपयोग की शर्तें','Third-party notices':'तृतीय-पक्ष सूचनाएँ','Sponsorship':'प्रायोजन','Ritual guides ↗':'अनुष्ठान मार्गदर्शिकाएँ ↗',

@@ -3,6 +3,7 @@ const staticAssets={
  '/shared/platform-shell.js':'packages/ui/platform-shell.js',
  '/shared/platform-shell.css':'packages/ui/platform-shell.css',
  '/home.css':'apps/portal/frontend/home.css',
+ '/home-discovery.js':'apps/portal/frontend/home-discovery.js',
  '/home-art.svg':'apps/portal/frontend/home-art.svg',
  '/ads.txt':'packages/ui/ads.txt',
  '/shared/premium.css':'packages/ui/premium.bundle.css',

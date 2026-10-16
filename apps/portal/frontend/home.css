@@ -1,4 +1,60 @@
 /* Dashboard presentation only. Shared themes, app engines and print stay intact. */
+/* Landing-page navigation and discovery; scoped away from signed-in app views. */
+@media screen {
+ html[data-theme=dark] body[data-ui-app=portal]:has(.public-home) {--shell-bg:#0b131a;--shell-accent:#4ade80;--shell-on-accent:#092015}
+ [data-theme=dark] .public-home {--home-accent:#4ade80;--home-bright:#4ade80}
+ body:has(.public-home) .platform-account:not(.platform-account-avatar) {background:var(--shell-accent);color:var(--shell-on-accent);border-color:var(--shell-accent);min-height:48px}
+ body:has(.public-home) .platform-switch {min-height:48px}
+ .public-home :is(button,.primary,.secondary,.home-daily-play,.synapse-sponsor-link),body:has(.public-home) .platform-switcher :is(button,input,a) {min-height:48px}
+ .public-home .arena-discovery nav a {min-height:48px}
+ .public-home main>footer>span:last-child {display:inline-flex;gap:16px;flex-wrap:wrap}
+ body[data-ui-app=portal] .public-home main .home-welcome.home-welcome {box-shadow:inset 0 1px 0 var(--home-border),0 0 36px var(--home-halo)}
+ body[data-ui-app=portal] .public-home .home-paths .primary {background:var(--home-accent);color:var(--ui-on-accent);min-height:48px;font-size:13px;font-weight:750;box-shadow:0 6px 22px var(--home-halo)}
+ .public-home .home-features {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:26px}
+ .public-home .home-features .home-daily {margin:0;gap:14px;padding:20px;flex-wrap:wrap}
+ .public-home .home-features .home-daily-play {min-height:48px}
+ .public-home .home-filters {position:sticky;top:calc(var(--shell-height,72px) + 8px);z-index:20;display:flex;gap:8px;padding:10px;margin:0 0 16px;overflow-x:auto;scrollbar-width:thin;border:1px solid var(--home-border);border-radius:18px;background:var(--ui-solid)}
+ .public-home .home-filters[hidden] {display:none}
+ .public-home .home-filters button {flex-shrink:0;min-height:48px;padding:12px 18px;border-radius:12px;font-size:13px;font-weight:650;color:var(--ui-text);border:1px solid transparent}
+ .public-home .home-filters button[aria-pressed=true] {background:var(--home-accent);color:var(--ui-on-accent)}
+ .public-home #free-apps.home-discovery-ready .public-apps {height:clamp(440px,65vh,720px);overflow-y:auto;align-content:start;grid-auto-rows:max-content;scrollbar-gutter:stable;padding:6px;overscroll-behavior-y:auto}
+ .public-home #free-apps.home-discovery-ready .public-app {min-height:190px;flex-shrink:0}
+ .public-home #free-apps .public-app[hidden] {display:none!important}
+ .public-home #free-apps .public-app {min-height:48px;transition:transform .2s,border-color .2s,background-color .2s}
+ .public-home :is(.home-filters button,.home-features,.public-apps):focus-visible {outline:3px solid var(--home-accent);outline-offset:3px}
+ .public-home .sr-only {position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+ body[data-ui-app=portal] .public-home #workspace-apps {padding:24px;margin-top:32px;border:1px dashed var(--home-accent);border-radius:24px;background:var(--home-chip)}
+ .public-home #workspace-apps .access-heading {margin-top:0}
+ .public-home #workspace-apps .workspace-badge {width:auto;padding:8px 12px;border:1px solid var(--home-border);border-radius:999px;background:var(--ui-solid);color:var(--home-accent);font-size:11px}
+ .public-home #workspace-apps .workspace-launch {min-height:48px}
+ @media(hover:hover) {body[data-ui-app=portal] .public-home #free-apps .public-app:hover {transform:translateY(-4px);border-color:var(--home-accent);background-color:var(--home-chip)}}
+ @media(max-width:768px) {
+  html body[data-ui-app=portal]:has(.public-home) {--shell-height:72px}
+  body[data-ui-app=portal]:has(.public-home) .platform-shell {display:flex;gap:8px;padding:0 12px}
+  body:has(.public-home) .platform-switch {order:-1;width:48px;max-width:none;min-width:48px;justify-content:center;padding:0}
+  body:has(.public-home) .platform-switch::before {content:'☰';font-size:23px}
+  body:has(.public-home) .platform-switch span {position:absolute;clip-path:inset(50%);width:1px;height:1px;overflow:hidden}
+  body:has(.public-home) .platform-switch svg,body:has(.public-home) .platform-shell-divider {display:none}
+  body:has(.public-home) .platform-shell-brand {flex:1;min-width:0;font-size:12px;gap:6px}
+  body:has(.public-home) .platform-shell-brand span {display:block!important;max-width:105px;white-space:normal!important;line-height:1.15}
+  body:has(.public-home) .platform-shell-brand img {width:26px;height:26px}
+  body:has(.public-home) .platform-shell-actions {gap:6px}
+  body:has(.public-home) .platform-shell .theme-toggle {width:48px;min-width:48px;min-height:48px}
+  body:has(.public-home) .synapse-language-toggle {min-height:48px}
+  .public-home .home-features {display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding:3px 2px 12px;scrollbar-width:thin}
+  .public-home .home-features .home-daily {flex:0 0 92%;scroll-snap-align:start;display:grid;padding:16px;grid-template-columns:46px minmax(0,1fr);box-sizing:border-box}
+  .public-home .home-filters {top:var(--shell-height,72px);border-radius:12px;padding:6px;gap:4px}
+  .public-home .home-filters button {padding:12px 14px;font-size:12px}
+  body[data-ui-app=portal] .public-home #workspace-apps {padding:18px 12px}
+  body:has(.public-home) .synapse-legal-footer nav {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:4px 16px}
+  body:has(.public-home) .synapse-legal-footer nav a,.public-home main>footer a {display:flex;align-items:center;min-height:48px}
+  .public-home main>footer {display:grid;gap:12px}
+  .public-home main>footer>span:last-child {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));font-size:0;gap:8px}
+  .public-home main>footer>span:last-child a {font-size:12px}
+ }
+ @media(prefers-reduced-motion:reduce) {.public-home #free-apps .public-app {transition:none;transform:none!important}}
+}
+@media print {.home-filters,.home-filter-status {display:none!important}.public-home #free-apps.home-discovery-ready .public-apps {height:auto;overflow:visible}.public-home .public-app[hidden] {display:flex!important}}
 @media screen {
  body:has(.public-home) {--ui-accent:#087866;--primary:var(--ui-accent);--on-primary:#fff}
  html[data-theme=dark] body:has(.public-home),body[data-theme=dark]:has(.public-home) {--ui-accent:#7cf2d4;--on-primary:#101a42}
@@ -10,7 +66,7 @@
   --ui-accent:var(--home-accent);--primary:var(--home-accent);--accent:var(--home-accent);
  }
  [data-theme=dark] .public-home {
-  --home-accent:#7cf2d4;--home-bright:#50e6bc;--home-halo:rgba(64,231,184,.14);
+  --home-accent:#4ade80;--home-bright:#4ade80;--home-halo:rgba(74,222,128,.14);
   --home-top:rgba(15,25,32,.96);--home-bottom:rgba(8,13,21,.94);
   --home-border:rgba(152,200,203,.22);--home-chip:rgba(80,230,188,.08);
   --home-shadow:0 12px 28px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.035);
