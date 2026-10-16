@@ -1812,7 +1812,7 @@ For the earlier Chambers release, local implementation was complete. Further wor
 # Platform UI continuity review (2026-10-11)
 
 Source review identified different public-home, authenticated-catalogue and Chambers navigation shells, plus app-specific presentation/theme divergence. Recommendation and acceptance criteria are recorded in `docs/UI_PLATFORM_REVIEW_2026-10-11.md`: establish a shared platform shell, distinguish app navigation, simplify the launcher and migrate shared components before extending across apps. At this review checkpoint no UI implementation, rendered browser verification, deployment or business-data changes had been performed. The subsequent implementation and release status at the top of this ledger supersede that checkpoint.
-# Free-app card spacing (2026-10-16, local)
+# Free-app card spacing (2026-10-16, deployed)
 
 The portal's free/no-sign-in catalogue now uses consistent compact cards, smaller
 artwork, natural content height and readable unclipped descriptions. Previously
@@ -1821,4 +1821,8 @@ wide featured cards occupy one grid cell like the other tools; screens below
 The shared homepage stylesheet reference has a refreshed cache version.
 Verification: `npx.cmd playwright test apps/portal/tests/platform.spec.js --grep
 "illustrated home"` passed (1 test), covering 320/390/768/1440px, light/dark,
-no-JavaScript discovery, daily navigation and auth-status outage. Not deployed.
+no-JavaScript discovery, daily navigation and auth-status outage.
+Deployed source `86fedaa` to the existing production Cloudflare route; Worker
+`e0e884ef-47b1-42f2-98b5-bf6ea6afd7c9`. Live HTTPS verification confirms exact
+stylesheet bytes and the homepage's refreshed stylesheet reference. Three assets
+uploaded, 798 reused; existing bindings retained. No database migration or writes.
