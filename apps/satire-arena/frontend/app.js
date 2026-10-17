@@ -83,4 +83,4 @@ async function shareStandings(character=null){
  }catch(e){notice(e.message);}finally{shareBusy=false;render();}
 }
 $('#share-arena').onclick=()=>shareStandings();
-import('./enhancements.js?v=20261017-arena');
+import('./enhancements.js?v=20261017-cinematic');

@@ -188,3 +188,51 @@ body[data-ui-app=satire-arena] .vote-state{min-height:0}
  body[data-ui-app=satire-arena] .is-expanded .portrait {flex-basis:100%;width:100%;margin-inline:auto}
  body[data-ui-app=satire-arena] .is-expanded .reactions {flex-basis:100%;grid-template-columns:repeat(3,minmax(0,1fr))}
 }
+
+/* Cinematic feed, using the original square portrait cells and shared themes. */
+body[data-ui-app=satire-arena]{--arena-gold:#f5cd64;--arena-mint:#58dfbd;--arena-purple:#c783f6;--arena-blue:#65bdea;--arena-red:#f47a86;--arena-stage:var(--surface);background:var(--bg);color:var(--text)}
+html[data-theme=dark] body[data-ui-app=satire-arena]{--bg:#041222;--surface:#091d30;--text:#f1f6ff;--muted:#afbed1;--line:#294159;--tint:#132b42;--arena-stage:#102237}
+@media screen{
+body[data-ui-app=satire-arena] .arena{max-width:960px;padding:12px 16px 48px}
+body[data-ui-app=satire-arena].has-platform-shell{padding-top:0;background:var(--bg);--shell-bg:var(--bg);--shell-surface:var(--surface);--shell-line:var(--line);--shell-ink:var(--text)}
+body[data-ui-app=satire-arena] .platform-shell{position:relative;backdrop-filter:none}
+body[data-ui-app=satire-arena].has-platform-shell main .hero{margin:4px 0 16px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+body[data-ui-app=satire-arena] .hero h1{font-size:20px;margin:0;letter-spacing:-.03em}
+body[data-ui-app=satire-arena] .hero>small,body[data-ui-app=satire-arena] .arena-subtitle,body[data-ui-app=satire-arena] .mini-score,body[data-ui-app=satire-arena] .lineup-heading{display:none}
+body[data-ui-app=satire-arena] .hero p{font-size:clamp(13px,3vw,21px);font-style:italic;line-height:1.25;margin:0;text-align:right;color:var(--muted)}
+body[data-ui-app=satire-arena] .cast{display:flex;flex-direction:column;gap:20px;max-width:none}
+body[data-ui-app=satire-arena] .arena-card{border:1px solid var(--line);border-radius:22px;background:var(--surface);box-shadow:0 8px 28px color-mix(in srgb,var(--bg) 65%,transparent);overflow:visible}
+.character-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;overflow:hidden;border-radius:21px 21px 0 0;background:radial-gradient(ellipse at 80% 10%,color-mix(in srgb,var(--arena-gold) 45%,var(--arena-stage)),transparent 70%),var(--arena-stage)}
+body[data-ui-app=satire-arena] .character-hero .card-body{padding:24px;min-width:0;z-index:1}
+body[data-ui-app=satire-arena] .card-body>small{letter-spacing:.08em;font-size:10px;color:var(--muted)}
+body[data-ui-app=satire-arena] .card-body h2{font-size:clamp(30px,5.6vw,58px);line-height:1;letter-spacing:-.045em;margin:7px 0 4px;text-wrap:balance;color:var(--arena-gold);overflow-wrap:normal}
+body[data-ui-app=satire-arena] .arena-card:nth-child(3n+2) h2{color:var(--arena-purple)}
+body[data-ui-app=satire-arena] .arena-card:nth-child(3n) h2{color:var(--arena-blue)}
+html[data-theme=light] .character-hero h2{filter:brightness(.55)}
+body[data-ui-app=satire-arena] .card-body p{font-size:clamp(12px,2.3vw,16px);line-height:1.35;margin:10px 0;color:var(--muted)}
+body[data-ui-app=satire-arena] .character-hero .portrait{width:100%;flex:none;aspect-ratio:1;min-height:0;max-width:none;border-radius:0;align-self:center;background-color:var(--arena-art)}
+body[data-ui-app=satire-arena] .portrait>span:not(.burst){left:auto;right:8px;bottom:12px;transform:rotate(-7deg);font-size:9px;padding:7px}
+body[data-ui-app=satire-arena] .card-body>a,body[data-ui-app=satire-arena] .expand-portrait{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:7px 10px;text-decoration:none;min-height:44px;display:inline-flex;align-items:center;margin:3px 3px 0 0;background:var(--tint);color:var(--text)}
+body[data-ui-app=satire-arena] .card-body>.leader-ribbon{background:var(--arena-gold);color:var(--arena-badge-ink);border-radius:999px;padding:9px 12px;margin:10px 0 0}
+.character-voting{padding:12px;border-top:1px solid var(--line);border-radius:18px 18px 0 0;background:var(--surface)}
+.reaction-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 2px 10px}
+.reaction-heading>strong{font-size:10px;letter-spacing:.16em;color:var(--muted)}
+.reaction-heading .card-total{font-size:10px;background:var(--tint);border-radius:999px;padding:6px 10px;text-align:right}
+body[data-ui-app=satire-arena] .character-voting .reactions{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:0}
+body[data-ui-app=satire-arena] .reactions button{position:relative;min-height:104px;border-radius:16px;background:var(--bg);transition:transform .18s,border-color .18s,box-shadow .18s}
+.character-voting .reactions{--reaction-accent:var(--arena-gold)}
+.reactions [data-reaction=applause]{--reaction-accent:var(--arena-mint)}.reactions [data-reaction=shoe]{--reaction-accent:var(--arena-blue)}.reactions [data-reaction=finger],.reactions [data-reaction=tomato]{--reaction-accent:var(--arena-red)}.reactions [data-reaction=laugh]{--reaction-accent:var(--arena-purple)}
+body[data-ui-app=satire-arena] .reactions button[aria-pressed=true]{border-color:var(--reaction-accent);outline:1px solid var(--reaction-accent);background:color-mix(in srgb,var(--reaction-accent) 16%,var(--surface));box-shadow:0 0 16px color-mix(in srgb,var(--reaction-accent) 30%,transparent);color:var(--text)}
+.reactions button[aria-pressed=true]:after{content:'✓';position:absolute;right:6px;top:5px;background:var(--reaction-accent);color:var(--bg);border-radius:50%;width:18px;height:18px;font-size:12px;font-weight:900}
+body[data-ui-app=satire-arena] .reactions span{font-size:29px}body[data-ui-app=satire-arena] .reactions b{font-size:12px;white-space:normal}body[data-ui-app=satire-arena] .reactions strong{font-size:18px}.reactions .inkpot-icon{width:29px;height:29px}
+.vote-confirmation{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 12px 12px;padding:10px 12px;border:1px solid var(--line);border-radius:16px;background:var(--tint)}
+.vote-confirmation:has(.choice-badge:not([hidden])){border-color:var(--arena-mint);background:color-mix(in srgb,var(--arena-mint) 10%,var(--surface))}
+.vote-confirmation-copy{min-width:0}.vote-confirmation .vote-state{font-size:11px;line-height:1.4;min-height:0;margin:4px 0;color:var(--muted)}
+body[data-ui-app=satire-arena] .choice-badge{border:0;background:none;padding:0;font-size:13px;color:var(--text)}
+.character-share-menu{position:relative;flex-shrink:0}.character-share-menu summary{cursor:pointer;border:1px solid var(--line);border-radius:999px;padding:12px;min-height:44px;font-size:12px;list-style:none}.character-share-menu[open]{display:flex;flex-direction:column;gap:6px;max-width:180px}.character-share-menu .character-share-links{margin:0;gap:4px}.character-share-menu button{width:100%}
+body[data-ui-app=satire-arena] .is-expanded .character-hero{grid-template-columns:1fr}body[data-ui-app=satire-arena] .is-expanded .portrait{width:min(100%,520px);justify-self:center}
+body[data-ui-app=satire-arena] .score{margin:24px 0}.arena-settings{margin-top:16px}
+@media(hover:hover){body[data-ui-app=satire-arena] .reactions button:not(:disabled):hover{transform:translateY(-3px);border-color:var(--reaction-accent)}}
+@media(max-width:599px){body[data-ui-app=satire-arena] .arena{padding-inline:10px}.character-hero{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}body[data-ui-app=satire-arena] .character-hero .card-body{padding:14px 10px 14px 14px}body[data-ui-app=satire-arena] .card-body h2{font-size:clamp(27px,7vw,40px)}body[data-ui-app=satire-arena] .card-body>small{font-size:8px;letter-spacing:.05em}body[data-ui-app=satire-arena] .card-body>a,body[data-ui-app=satire-arena] .expand-portrait{font-size:10px;padding:5px 8px}body[data-ui-app=satire-arena] .character-voting .reactions{grid-template-columns:repeat(3,minmax(0,1fr))}body[data-ui-app=satire-arena] .reactions button{min-height:88px}.character-voting{padding:10px}.vote-confirmation{margin-inline:10px}.reaction-heading>strong{letter-spacing:.08em;font-size:9px}body[data-ui-app=satire-arena] .portrait>span:not(.burst){font-size:7px;right:4px;bottom:8px;padding:5px}.character-share-menu[open]{max-width:120px}}
+@media(prefers-reduced-motion:reduce){body[data-ui-app=satire-arena] .reactions button{transition:none;transform:none}}
+}

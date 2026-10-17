@@ -2854,3 +2854,35 @@ Deployed source `86fedaa` to the existing production Cloudflare route; Worker
 `e0e884ef-47b1-42f2-98b5-bf6ea6afd7c9`. Live HTTPS verification confirms exact
 stylesheet bytes and the homepage's refreshed stylesheet reference. Three assets
 uploaded, 798 reused; existing bindings retained. No database migration or writes.
+
+## Satire Arena cinematic feed redesign (2026-10-18, local)
+
+Recomposed the existing thirteen-character Arena into one continuous vertical
+feed. Each card integrates its original proportion-preserving portrait, title,
+daily punchline, biography link, expandable illustration and genuine leader badge
+with six reactions and a compact vote confirmation/share menu. Native sharing,
+WhatsApp, copying links and genuine standings-image downloads remain available.
+Shared authentication/navigation, daily ballot replacement, optimistic rollback,
+score refresh, privacy export/removal and expression effects retain their existing
+handlers. No API, schema, database, character or artwork changes.
+
+App-owned theme tokens provide navy surfaces, warm hero gradients, colourful
+selected borders/checkmarks, pointer hover feedback and reduced-motion support.
+Phones use three columns/two rows; tablet/desktop use six columns. Header stays
+in document flow; scoreboard, editorial results and settings follow the feed.
+Asset cache references refreshed. Existing biography pages remain the destination
+for Biography & punchlines; Full illustration expands the unchanged portrait.
+
+Verification: full Node/API suite **339/339 passed**, using isolated fixtures.
+Initial sandbox build/test failures came from generated-output filesystem access;
+the authorised build and full Node rerun succeeded. The new Chrome layout check
+passes 320/360/375/390/412/430/768/1440px in both themes, checking overflow,
+44px targets, section order and illustration expansion. Mobile dark screenshot
+visually reviewed (`test-results/arena-redesign-mobile-dark.png`). Final complete
+Arena Chrome run passed 19/20; the animation/vibration workflow failed while the
+run crossed midnight IST, then passed its isolated post-midnight rerun (1/1).
+All twenty workflows are therefore verified across the run and rerun. Includes
+vote persistence/replacement, failed saves, sharing/downloads, expressions,
+privacy controls, editorial publishing and access checks. Final frontend build
+exported 803 public assets; JavaScript syntax and `git diff --check` pass.
+No production deployment or data changes performed for this redesign.
