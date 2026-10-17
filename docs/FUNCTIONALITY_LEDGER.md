@@ -2885,4 +2885,16 @@ All twenty workflows are therefore verified across the run and rerun. Includes
 vote persistence/replacement, failed saves, sharing/downloads, expressions,
 privacy controls, editorial publishing and access checks. Final frontend build
 exported 803 public assets; JavaScript syntax and `git diff --check` pass.
-No production deployment or data changes performed for this redesign.
+Production release (2026-10-18 IST): implementation commit `8e1ef93` deployed to
+the existing Cloudflare production route, Worker version
+`90d6c66b-9283-4a48-bb82-cf0e726596c5`. Five changed assets uploaded; existing
+organisation mode, bindings and secrets retained. Live verification passed three
+exact asset comparisons, 13 cards/78 enabled reaction controls, all sixteen
+width/theme combinations listed above, illustration expansion and compact share
+controls. Public home and `/healthz` return 200; legacy `/api/records` remains
+denied with the expected organisation-mode 409. Zero page errors; all API writes
+and advertising were blocked during browser verification (one visitor-count
+attempt blocked). No production test votes, migration, bootstrap or data edits.
+Evidence: `.publish/arena-redesign-deploy.log`,
+`.publish/arena-redesign-live-verification.json`,
+`.publish/arena-redesign-live-mobile.png`. No repository push performed.
