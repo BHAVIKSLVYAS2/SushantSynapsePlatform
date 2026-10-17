@@ -1,5 +1,12 @@
 # Code ownership and adding apps
 
+Homepage apps-first refinement (2026-10-17, local): portal static/dynamic public
+markup shares a compact welcome section; `home.css` restores document scrolling
+for the catalogue. Shared shell owns the relocated Make 24/Decision Wheel
+suggestions in All apps. Existing public card routing, finder, filters and private
+access enforcement remain unchanged. Category selection may change document
+height intentionally; it no longer confines the catalogue to an inner scroller.
+
 Break victory presentation (2026-10-17): `apps/take-a-break/frontend/celebration.mjs`
 decorates genuine completion results for Code, Memory, Lights Out, Face-Off and
 Chaos. It reuses Daily Spark's bounded celebration engine with optional result

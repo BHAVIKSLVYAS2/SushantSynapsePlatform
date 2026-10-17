@@ -355,3 +355,14 @@
   .public-home #free-apps .public-apps {grid-template-columns:1fr}
  }
 }
+/* Apps first: compact introduction and one page scroll for the full catalogue. */
+@media screen {
+ body[data-ui-app=portal] .public-home main .public-hero.home-welcome{display:block;min-height:0;height:auto;padding:12px 0;margin:0 0 8px;border:0;border-radius:0;background:none;box-shadow:none}
+ body[data-ui-app=portal] .public-home main .public-hero.home-welcome h1{font-size:clamp(24px,3vw,32px);line-height:1.2;letter-spacing:-.035em;margin:0 0 4px;padding:0;border:0;background:none;box-shadow:none;text-align:left}
+ body[data-ui-app=portal] .public-home main .public-hero.home-welcome p{display:block;margin:0;font-size:13px;line-height:1.5;color:var(--ui-muted)}
+ .public-home #free-apps.home-discovery-ready .public-apps{height:auto;max-height:none;overflow:visible;scrollbar-gutter:auto;align-content:start}
+ .public-home #free-apps{scroll-margin-top:calc(var(--shell-height,72px) + 12px)}
+ .public-home #free-apps .access-heading{margin:8px 0 12px}
+ .public-home #free-apps .access-heading>.eyebrow,.public-home #free-apps .access-heading>p{display:none}
+ @media(max-width:759px){.public-home #free-apps .access-heading .app-finder-trigger{width:auto;margin:0 0 0 auto}.public-home #free-apps .access-heading h2{font-size:18px}.public-home .home-filters{margin-bottom:10px}}
+}

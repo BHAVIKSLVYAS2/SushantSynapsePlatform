@@ -118,3 +118,4 @@
  .platform-shell-actions{grid-column:2;grid-row:1}
  .platform-switch{grid-column:1/-1;grid-row:2;justify-self:start;max-width:100%;min-height:44px}
 }
+.platform-switcher .platform-switcher-group{grid-column:1/-1;margin:12px 0 2px;font-size:11px;font-weight:750;color:var(--shell-muted);letter-spacing:.06em;text-transform:uppercase}

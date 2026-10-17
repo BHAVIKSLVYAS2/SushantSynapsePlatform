@@ -1,5 +1,25 @@
 # Chambers functionality ledger
 
+**Homepage apps-first layout (2026-10-17, local):**
+Both static and dynamically rendered anonymous homes replace the tall illustrated
+welcome banner with a compact title/subtitle. Make 24 and Decision Wheel featured
+suggestions move into the All apps switcher under Try something today; search
+filters those links and suppresses empty group headings. The public catalogue no
+longer has a fixed-height inner scroll container: cards use normal document
+scrolling, with existing sticky filter pills and accessible search/navigation.
+Mobile first app row is around 317px from the viewport top in the reviewed 390px
+capture, rather than below the banner/features. App routes, sign-in and private
+workspace enforcement remain unchanged. Two focused Chrome workflows pass across
+320/390/768/1440px and both themes, plus JavaScript-disabled layout and real CDP
+vertical swipes starting over cards and category tabs. No horizontal page
+overflow or nested grid scrolling. Mobile and desktop screenshots reviewed under
+`.publish/home-apps-first-{mobile,desktop}.png`. Both shared-shell workflows pass:
+theme/account spacing and 21-route mobile/desktop app switching in both themes,
+including search, empty results, Escape focus restoration and print. The latter
+test's stale homepage height expectation was corrected to the existing compact
+72px header. Syntax and diff checks pass.
+No data/schema changes, commit or deployment performed for this refinement.
+
 **Break victory celebrations (2026-10-17, deployed/live verified):**
 Code, Memory, three-board Lights Out, Face-Off and completed Chaos rounds now
 show a trophy, game-specific achievement badge and gold-accented result panel,

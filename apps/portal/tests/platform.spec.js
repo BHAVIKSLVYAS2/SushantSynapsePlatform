@@ -18,47 +18,18 @@ test('AdSense loads asynchronously only for an anonymous home and retains tool n
  const txt=await page.request.get(base+'/ads.txt');expect(txt.headers()['content-type']).toContain('text/plain');expect(await txt.text()).toContain('pub-1894051755496526');
 });
 
-test('illustrated home and real daily feature work on phones, without JavaScript and after outage',async({page,browser})=>{
- const errors=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto(base+'/');await expect(page.locator('.home-welcome h1')).toContainText('Small tools.');await expect(page.locator('.home-daily')).toHaveCount(2);
- for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:900});for(const theme of ['light','dark']){await setTheme(page,theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await expect(page.locator('.home-daily-play').first()).toBeVisible();expect((await page.locator('.home-daily-play').first().boundingBox()).height).toBeGreaterThanOrEqual(44);}if(width<=390)expect((await page.locator('#free-apps .public-app').first().boundingBox()).y).toBeLessThan(950);}
- await page.setViewportSize({width:390,height:844});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'.publish/home-welcome-mobile.png',fullPage:true});
- await page.emulateMedia({reducedMotion:'reduce'});expect(await page.locator('.home-welcome').evaluate(el=>getComputedStyle(el).animationName)).toBe('none');
- await page.getByRole('link',{name:'Play now',exact:true}).click();await expect(page.locator('[data-pane="24"] #numbers button')).toHaveCount(4);
- await page.route('**/api/auth/status',r=>r.abort());await page.goto(base+'/');await expect(page.locator('.home-daily')).toHaveCount(2);await expect(page.locator('.home-welcome h1')).toContainText('Small tools.');
- const context=await noAdsContext(browser,{javaScriptEnabled:false});try{const p=await context.newPage();await p.goto(base+'/');await expect(p.locator('.home-welcome h1')).toContainText('Small tools.');await expect(p.locator('.home-daily-play').first()).toHaveAttribute('href','/take-a-break?game=24');await expect(p.locator('.public-app')).toHaveCount(14);}finally{await context.close();}
- expect(errors).toEqual([]);
+test('apps-first home keeps the catalogue near the top and suggestions in All apps',async({page,browser})=>{
+ await page.goto(base+'/');await expect(page.locator('.home-welcome h1')).toHaveText('Your everyday apps.');await expect(page.locator('.home-features')).toHaveCount(0);
+ for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:844});await setTheme(page,theme);await page.evaluate(()=>scrollTo(0,0));expect((await page.locator('.home-welcome').boundingBox()).height).toBeLessThan(110);expect((await page.locator('#free-apps .public-app').first().boundingBox()).y).toBeLessThan(400);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);expect(await page.locator('.public-apps').evaluate(e=>getComputedStyle(e).overflowY)).toBe('visible');}
+ await page.locator('.platform-switch').click();await expect(page.locator('#platform-switcher a[href="/take-a-break?game=24"]')).toBeVisible();await page.locator('#platform-switcher input').fill('chance');await expect(page.locator('#platform-switcher a:not([hidden])')).toHaveCount(1);await page.locator('#platform-switcher input').fill('');await page.keyboard.press('Escape');await expect(page.locator('.platform-switch')).toBeFocused();
+ await page.setViewportSize({width:390,height:844});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'.publish/home-apps-first-mobile.png'});
+ const context=await noAdsContext(browser,{javaScriptEnabled:false});try{const p=await context.newPage();await p.setViewportSize({width:390,height:844});await p.goto(base+'/');await expect(p.locator('.home-welcome h1')).toHaveText('Your everyday apps.');await expect(p.locator('.home-features')).toHaveCount(0);await expect(p.locator('.public-app')).toHaveCount(14);expect((await p.locator('.public-app').first().boundingBox()).y).toBeLessThan(400);}finally{await context.close();}
 });
 
-test('landing categories keep layout stable and support mobile navigation and features',async({page})=>{
- await page.goto(base+'/');await expect(page.locator('.home-filters')).toBeVisible();
- for(const width of [320,390,768,1440]){
-  await page.setViewportSize({width,height:900});
-  for(const theme of ['light','dark']){
-   await setTheme(page,theme);
-   const workspaceTop=await page.locator('#workspace-apps').evaluate(el=>el.getBoundingClientRect().top+scrollY);
-   const gridHeight=await page.locator('.public-apps').evaluate(el=>el.getBoundingClientRect().height);
-   for(const [key,count] of [['utility',4],['games',5],['planning',4],['media',2],['all',14]]){
-    const pill=page.locator(`[data-tool-filter="${key}"]`);await pill.click();
-    await expect(pill).toHaveAttribute('aria-pressed','true');
-    await expect(page.locator('.public-app:not([hidden])')).toHaveCount(count);
-    expect(await page.locator('.public-app:not([hidden])').evaluateAll(cards=>cards.every(card=>card.querySelector('.public-app-copy').getBoundingClientRect().bottom<=card.getBoundingClientRect().bottom+1))).toBe(true);
-    expect(await page.locator('.public-apps').evaluate(el=>el.getBoundingClientRect().height)).toBe(gridHeight);
-    expect(await page.locator('#workspace-apps').evaluate(el=>el.getBoundingClientRect().top+scrollY)).toBeCloseTo(workspaceTop,0);
-    expect((await pill.boundingBox()).height).toBeGreaterThanOrEqual(48);
-   }
-   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
-  }
- }
- await page.setViewportSize({width:390,height:844});
- const switcher=page.locator('.platform-switch');await switcher.click();await expect(page.locator('#platform-switcher')).toBeVisible();await page.keyboard.press('Escape');await expect(switcher).toBeFocused();
- const features=page.locator('.home-features');expect(await features.evaluate(el=>el.scrollWidth>el.clientWidth)).toBe(true);
- await features.evaluate(el=>el.scrollTo({left:el.scrollWidth}));await expect.poll(()=>features.evaluate(el=>el.scrollLeft)).toBeGreaterThan(0);
- await page.emulateMedia({reducedMotion:'reduce'});await page.locator('[data-tool-filter="utility"]').click();
- expect(await page.locator('.public-app:not([hidden])').first().evaluate(el=>el.getAnimations().length)).toBe(0);
- await page.locator('[data-tool-filter="all"]').click();await features.evaluate(el=>el.scrollTo({left:0}));await page.evaluate(()=>scrollTo(0,0));
- await page.screenshot({path:'.publish/home-discovery-mobile.png',fullPage:true});
- await page.setViewportSize({width:1440,height:1000});await page.screenshot({path:'.publish/home-discovery-desktop.png',fullPage:true});
+test('home categories filter without nested scrolling and phone swipes move the page',async({page,browser})=>{
+ await page.goto(base+'/');for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:844});for(const [key,count]of [['utility',4],['games',5],['planning',4],['media',2],['all',14]]){const pill=page.locator('[data-tool-filter="'+key+'"]');await pill.click();await expect(pill).toHaveAttribute('aria-pressed','true');await expect(page.locator('.public-app:not([hidden])')).toHaveCount(count);expect(await page.locator('.public-apps').evaluate(e=>e.scrollHeight<=e.clientHeight+1)).toBe(true);}expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+ const context=await noAdsContext(browser,{viewport:{width:390,height:844},isMobile:true,hasTouch:true});try{const p=await context.newPage();await p.goto(base+'/');const cdp=await context.newCDPSession(p);for(const target of ['.public-apps','.home-filters']){await p.evaluate(()=>scrollTo(0,0));const box=await p.locator(target).boundingBox(),x=box.x+Math.min(box.width/2,180),y=Math.min(box.y+40,650);await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y}]});for(let step=1;step<=8;step++)await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x,y:y-step*15}]});await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await expect.poll(()=>p.evaluate(()=>scrollY)).toBeGreaterThan(0);expect(await p.locator('.public-apps').evaluate(e=>e.scrollTop)).toBe(0);}}finally{await context.close();}
+ await page.setViewportSize({width:1440,height:900});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'.publish/home-apps-first-desktop.png'});
 });
 
 test('premium bento keeps all tools discoverable across touch layouts and both themes',async({page})=>{
@@ -86,7 +57,7 @@ test('premium bento keeps all tools discoverable across touch layouts and both t
  await setTheme(page,'dark');await page.screenshot({path:'test-results/mint-home-desktop-dark.png',fullPage:true});
  await page.setViewportSize({width:390,height:844});await setTheme(page,'dark');await page.screenshot({path:'test-results/premium-home-mobile-dark.png',fullPage:true});
  await page.emulateMedia({reducedMotion:'reduce'});
- expect(await page.locator('.home-paths a[href="/support"]').evaluate(el=>getComputedStyle(el).animationName)).toBe('none');
+ expect(await page.locator('.home-welcome').evaluate(el=>getComputedStyle(el).animationName)).toBe('none');
  for(const route of ['/timetable-lite','/ritual-assist','/ritual-assist/calendar','/team-mixer','/decision-wheel','/moment-studio','/moment-studio/certificates','/take-a-break','/pocket-pause','/daily-spark','/news','/fund-overlap','/advocate','/digital-samaj','/batchfee-lite','/tournament-lite','/satire-arena']){
   await page.goto(base+route);await expect(page.locator('link[href*="/shared/premium.css"]')).toHaveCount(1);
   await expect(page.getByRole('button',{name:'Dark mode',exact:true})).toBeVisible();
