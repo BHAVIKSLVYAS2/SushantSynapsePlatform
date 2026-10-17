@@ -1,4 +1,8 @@
 -- Shared identity, app access, preferences and audit tables.
+-- Organisation/licence/identity extensions live in migrations/ and the owning
+-- app schemas. Workers/D1 uses additive migration 0005; native SQLite uses
+-- migrateOrganisationSchema on an explicitly supplied connection. Default
+-- single-workspace startup does not apply organisation migrations automatically.
 PRAGMA foreign_keys = ON;
 PRAGMA user_version = 2;
 

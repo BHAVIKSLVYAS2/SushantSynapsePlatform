@@ -1,5 +1,11 @@
 # Sushant Synapse Platform
 
+Organisation/licensing is live on Cloudflare D1 (2026-10-17), with Super Admin,
+Master Admin, scoped Chambers access and the minimal client portal. Existing data
+was retained. See the [production cutover](docs/ORGANISATION_PRODUCTION_CUTOVER.md)
+for verification and current boundaries, and the
+[continuation plan](docs/ORGANISATION_LICENSING_PLAN.md) to resume implementation.
+
 Deployed copy cleanup (2026-10-16): shorter public-tool introductions and homepage
 cards, contextual help and removal of unconfigured ad previews are implemented.
 Workflows, privacy facts and source labels remain; see the ledger for testing.

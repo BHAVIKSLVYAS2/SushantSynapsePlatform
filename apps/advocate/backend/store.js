@@ -38,17 +38,22 @@ class Store extends PlatformDatabase {
     return { format: 'chambers-backup', version: 2, exportedAt: new Date().toISOString(), settings: this.setting('firm'), records,
       files: this.sql.prepare('SELECT * FROM [chambers].[files]').all().map(f => ({ ...f, content: Buffer.from(f.content).toString('base64') })) };
   }
-  exportSql() {
+  exportSql({beforeExport} = {}) {
     if(this.provider==='sqlserver')return require('../../../packages/database/sqlserver-transfer').exportSqlServer(this);
+    return this.transaction(()=>{
+      if(beforeExport)beforeExport();
     const literal = value => value === null ? 'NULL' : value instanceof Uint8Array ? "X'" + Buffer.from(value).toString('hex') + "'" : typeof value === 'number' ? String(value) : "CAST(X'" + Buffer.from(String(value),'utf8').toString('hex') + "' AS TEXT)";
-    const lines = ['-- Chambers full SQLite export. Import into a NEW, empty database.', '-- Includes account password hashes, audit records and documents; excludes live sessions.', '-- Exported '+new Date().toISOString(), this.schemaSql, 'BEGIN TRANSACTION;'];
+    const extension=require('../../../packages/database/organisation-recovery.cjs').organisationRecovery(this.sql,literal);
+    const lines = ['-- Chambers full SQLite export. Import into a NEW, empty database.', '-- Includes account password hashes, audit records and documents; excludes live sessions.', '-- Exported '+new Date().toISOString(), this.schemaSql, extension.schema, 'BEGIN TRANSACTION;'];
     for (const table of ['users','app_access','platform_preferences','records','files','settings','audit',...(this.extraExportTables||[])]) {
       for (const row of this.sql.prepare(`SELECT * FROM ${table}`).all()) {
         lines.push(`INSERT INTO ${table} (${Object.keys(row).map(k=>'"'+k+'"').join(', ')}) VALUES (${Object.values(row).map(literal).join(', ')});`);
       }
     }
+    lines.push(...extension.inserts);
     lines.push('COMMIT;');
     return lines.join('\n');
+    });
   }
   snapshot(force = false) {
     const dir = path.join(this.root, 'backups'); fs.mkdirSync(dir, { recursive: true });

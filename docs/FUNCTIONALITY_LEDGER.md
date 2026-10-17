@@ -1,5 +1,605 @@
 # Chambers functionality ledger
 
+**Source release reconciliation (2026-10-17):** User authorised committing and
+republishing the verified organisation/licensing implementation. Reviewed and
+staged the programme's source, app-owned SQL, D1 metadata, tests and continuation
+documentation. Runtime data/private recovery artifacts are excluded; local SQL
+Server MDF/LDF files are now explicitly ignored. Updated stale administration and
+schema status notes without changing immutable organisation migrations. Staged
+source passed runtime-file and credential-pattern checks. Fresh full verification:
+**339/339 pass**, `.publish/organisation-commit-tests.log`; whitespace checks pass.
+No bootstrap, migration, data reset or account changes are part of this republish.
+
+**Organisation/licensing production release (2026-10-17, live verified):**
+Cloudflare Workers/D1 now serves Super Admin/Master Admin, account navigation,
+organisation provisioning/onboarding, memberships/Chambers assignments, licences,
+staff/client seats, scoped business records/files/settings/activity, explicit
+client links/minimal portal, and separate organisation/platform audit. Native
+SQLite preview remains separate. Other private apps are marked unavailable until
+tenant integration. Legacy global private APIs and direct internal admin assets
+are denied in organisation mode. Super Admin receives no implicit Chambers access.
+
+Created the user-selected `superadmin@sushantsynapse.com` as an active platform
+Super Admin with salted password hash, global compatibility Clerk role and no
+business memberships/assignments. The supplied temporary password is not stored
+in source/documentation. It can be changed through My account. Retained the
+existing Owner as primary Master Admin, all four prior identities/app roles and
+twenty records. Production now has five users, one org, four memberships and four
+assignments. No data reset/deletion was required. Migration 0005 is additive;
+cutover revision 72→73 and foreign keys verified before reopening maintenance.
+
+Automatic approval review initially rejected a full sensitive D1 export. The user
+explicitly approved its exact private local destination/payload; the export and
+offline recovery verification then completed (54 tables, zero documents, sessions
+excluded from restore). Offline cutover preparation validates a second restored
+copy, refuses account/patch overwrite and emits no raw password. The recovery
+tool now also retains organisation authorities, licences, ownership and audit.
+Browser recovery/snapshot/import UI remains unavailable on D1; encrypted/off-device
+backup/retention and additional client releases remain unconnected/separate work.
+
+Verification: **339/339 clean full checks**, exact Wrangler bundle D1/Chrome
+acceptance **2/2**, cutover/recovery/credential-safe preparation **3/3**, final
+extended D1/Master Admin browser rerun **2/2** pass. Includes atomic payment
+competition, hearing validation rollback, identity activation, explicit client
+release/projection, revocation, live licence restrictions and cross-org isolation.
+One overlapping dry-run build caused two generated Fund Lens asset-read failures;
+the clean full rerun passed. Production dry-run succeeded. Initial final publish
+hit a network failure; the identical candidate retried successfully.
+
+Live Worker `24ee36a4-2ce2-4f9c-be2c-6c25c95ada0a` at
+`https://apps.sushantsynapse.com`: Super Admin sign-in, no Chambers access,
+governance/audit, account navigation, legacy-route denial, cross-origin rejection,
+internal-asset 404, public home and health pass. 320/390/768/1440px light/dark checks
+pass with zero page errors; no live business-record writes for verification.
+Evidence: `.publish/organisation-production-tests-clean.log`,
+`.publish/organisation-release-bundle-tests.log`, `.publish/organisation-cutover-final.log`,
+`.publish/organisation-d1-master-browser.log`,
+`.publish/organisation-production-cutover-verification.json`,
+`.publish/organisation-production-deploy-retry.log`,
+`.publish/organisation-live-verification.json`. See
+`docs/ORGANISATION_PRODUCTION_CUTOVER.md`. Earlier no-deployment/preview-only entries
+below are historical and superseded for this D1 release.
+
+**Conditional deployment authorisation / runtime review (2026-10-17):** User now
+permits deletion of existing data if needed and deployment when readiness is
+established, superseding the previous absolute prohibition. Source review confirms
+the configured production Worker uses PLATFORM_DB/D1, whereas organisation admin
+requires native SQLite and a guarded temporary Node runtime. Admin assets/routes
+are excluded from cloud serving. No deployment was attempted: readiness for that
+runtime is not established. No data was deleted, no migration applied and the
+requested Super Admin account remains uncreated. Continuation priority is D1
+adapter/authenticated tenant routing and isolated production-path verification.
+An optional read of local-host.json was denied by filesystem permissions; it is
+unnecessary to establish the configured Worker/D1 mismatch and was not retried.
+
+**Requested Super Admin account (2026-10-17, not created):** User selected
+`superadmin@sushantsynapse.com`. Read-only inspection of local `data/chambers.sqlite`
+confirmed that neither organisation migration metadata nor the Super Admin table
+exists, and the requested account does not exist. No credentials were written or
+stored in source/documentation. Creating a usable Super Admin in this database
+requires the organisation schema migration and a deliberate runtime activation
+decision; no migration, account creation, role assignment or deployment occurred.
+
+**Organisation readiness and restored-runtime drill (2026-10-17, local only):**
+Added `npm.cmd run test:organisation-readiness` and a full recovery restart test.
+The drill creates private records/document bytes through scoped APIs, revokes a
+membership, suspends another org's licence, exports with Super Admin password
+verification, and opens the SQL in a new empty temporary database/runtime. Original
+cookies fail; fresh logins work. Record/file isolation, exact binary download,
+persisted revocation/licence suspension, audit history and legacy-route denial
+are verified; the source fixture remains operational and restricted as before.
+The recovery option exists only in the test helper; no runtime restore API changed.
+`docs/ORGANISATION_READINESS.md` records the evidence, activation blockers and next
+local snapshot-list/download increment. README and continuation plan link it.
+Verification: **88/88 organisation checks**, **334/334 full Node/API checks**,
+**1/1 administration Chrome smoke workflow**, syntax and whitespace checks pass.
+Logs: `.publish/organisation-readiness-drill.log`,
+`.publish/organisation-readiness-suite.log`, `.publish/organisation-readiness-full.log`,
+`.publish/organisation-readiness-browser.log`. An initial browser command had a
+Windows quoting error before running tests; the corrected command passed.
+All database restores were into new disposable OS-temporary directories. No live
+data inspection/change, live migration, runtime restart or deployment. This does
+not establish production readiness or verify any live recovery copy.
+
+**Platform audit viewer (2026-10-17, guarded local preview):** Super Admin-only
+`/platform-audit` and `GET /api/organisation-admin/platform-audit` show null-org
+bootstrap/full-recovery-export metadata. Separate platform/org action allowlists
+share bounded keyset pagination, strict queries and current authority checks.
+Only masked reason, exact recovery scope and boolean inclusion flags are exposed;
+unknown actions have no raw details. Reads create no events or backup downloads.
+Super Admin console link, filtering, older/latest controls, IST dates and lifecycle/
+expiry clearing are implemented. Export creation is explicitly distinct from
+confirmed delivery/restoration. Default runtime/cloud routes remain unavailable.
+Verification: **333/333 full Node/API**, **5/5 focused audit API**, **3/3 default-guard
+API**, **8/8 final platform/account Chrome** pass. Initial admin Chrome run passed
+15/16; corrected the new test's expected denial text (actual Super Admin required).
+All eight unchanged administration Chrome workflows passed that initial run.
+Real fixture export-to-audit metadata, authority revocation, null-org isolation,
+query bounds, stable pagination, no-write reads and secret projection are covered.
+320/390/768/1440px light/dark checks pass; platform mobile screenshot visually
+reviewed. Syntax/whitespace checks pass. Logs: `.publish/platform-audit-tests.log`,
+`.publish/platform-audit-api.log`, `.publish/platform-audit-default-guard.log`,
+`.publish/platform-audit-browser.log`, `.publish/platform-audit-browser-final.log`.
+No live data changes, schema migration, runtime restart or deployment.
+
+**Scoped organisation audit viewer (2026-10-17, guarded local preview):** Added
+read-only governance history for Super Admin and each authorised primary Master
+Admin's active org. Descending event-ID pagination (20 default/50 maximum), action
+filter, explicit scope and per-request authority checks. Response projects approved
+IDs/state/role/licence/seat metadata and reasons, excluding raw details, private
+client identifiers, credential fields and unknown nested values. Common credential
+patterns in reasons are masked; free-form governance reasons remain visible to
+the permitted audience. No business record queries or implicit Chambers access.
+Viewer has readable labels, IST timestamps, refresh/older/filter controls and
+visibility/session-expiry clearing. Global null-org events remain pending.
+Verification: **331/331 full Node/API**, **15/15 admin/account Chrome**, final
+focused API **3/3**, final audit Chrome **2/2** pass. Includes scope, revocation,
+projection/masking, pagination stability across new events and query limits.
+320/390/768/1440px light/dark checks pass; updated mobile screenshot visually
+reviewed. Syntax/whitespace checks pass. Logs:
+`.publish/organisation-audit-tests.log`, `.publish/organisation-audit-browser.log`,
+`.publish/organisation-audit-api-final.log`,
+`.publish/organisation-audit-browser-final.log`. No schema change, live data changes,
+runtime restart or deployment.
+
+**Own-account password and session recovery (2026-10-17, guarded local preview):**
+My account provides current/new/confirmation password controls for clients and staff
+through the existing own-account auth API. Passwords clear after every attempt and
+on pagehide/hidden visibility. Current session renews; other sessions invalidate.
+Account expiry clears DOM and shows the sign-in form; portal/link pages direct
+expired sessions to My account. No admin resets or auth/schema changes. Client
+multi-org navigation is verified with distinct licensed links and no mixed cases.
+Full Node/API suite **328/328 passes** and initial account/client Chrome workflows
+**12/12 pass**. Final focused password/multi-org/portal-expiry Chrome rerun **3/3
+passes**. Coverage includes incorrect current password, confirmation mismatch,
+cleared fields, current-session renewal, expired other-session reauthentication,
+and distinct licensed client portals with no case mixing. Password form checked
+at 320/390/768/1440px in light/dark; `.publish/account-password-mobile.png` visually
+reviewed. Syntax/whitespace checks pass. Logs: `.publish/account-security-tests.log`,
+`.publish/account-security-browser.log`, `.publish/account-security-browser-final.log`.
+All tests used disposable fixtures. No live changes, runtime restart or deployment.
+
+**Client portal and entitlement screens (2026-10-17, guarded local preview):**
+Added read-only client page and live-eligibility portal link from My account.
+Only approved client names and basic own-case fields appear. Staff APIs, notes,
+case titles, contacts, hearings, documents and finances remain inaccessible.
+Administrator link management shows released fields, separate client-seat usage,
+assignment status and explicit Enable/Revoke controls with reasons/revisions.
+Zero-seat activation fails; grace disables writes. Portal clears DOM on pagehide/
+hidden visibility and revalidates on return, with stale-response protection.
+Default/cloud routes remain unavailable. No schema changes or external connections.
+Verification: **328/328 full Node/API checks pass**, **4/4 Chrome workflows pass**.
+End-to-end includes grant, seat denial/allocation, activation, client navigation,
+field filtering and revocation; an old held response cannot repaint after denial.
+Mobile/theme checks at 320/390/768/1440px pass; mobile screenshot visually reviewed.
+The initial browser failure was an exact-label selector for the portal status
+dropdown; corrected to its accessible combobox selector before final passing run.
+Syntax/whitespace checks pass. Logs: `.publish/client-portal-ui-tests.log`,
+`.publish/client-portal-ui-browser-final.log`. All tests used disposable fixtures;
+no live account/data changes, runtime restart or deployment.
+
+**Read-only client portal API (2026-10-17, guarded API only):** Added a separate
+client read endpoint with live identity/membership/org/licence/assignment/link
+checks and explicit projection of linked client names and basic own-case fields
+(number/CNR/court/stage/status). Notes, case titles, contacts, staff, hearings,
+documents, finances and audit are excluded. Writes/child routes unavailable and
+staff APIs remain denied. Explicit Client app assignments require primary Master
+Admin + Chambers Owner, a live link, reason and org revision, with atomic audit
+and separate licence client-seat admission. Zero client seats grants none. Grace
+remains read-only; revocation/expiry/suspension/inactive identities fail closed on
+subsequent requests. Full SQL recovery preserves links and entitlements; scoped
+restore clears links and requires new approval. No new schema/UI; portal screen
+and entitlement controls remain pending. Focused final API checks **5/5 pass**,
+including full recovery and scoped-restore denial. An initial full run failed its
+new recovery test because the fixture confused its server URL with a relative API
+path; corrected and focused rerun passes. Final full regression **328/328 passes**.
+Syntax/whitespace checks pass; browser workflows were not rerun because no frontend
+or browser navigation changed. Logs: `.publish/client-portal-api-final.log`,
+`.publish/client-portal-tests-final.log`. All fixtures were disposable. No live
+changes or deployment.
+
+**Client-link management screen (2026-10-17, guarded local preview):** Added
+Chambers-owned `/client-access` screen, reachable from My account only for eligible
+primary Master Admin + Chambers Owner. Minimal scoped choices show active Client
+members and unarchived client record names; no internal notes/full records or other
+organisations. Explicit grant/revoke requires reason and current version. Conflicts
+retain input for explicit refresh; grace disables writes. DOM clears on pagehide/
+visibility change, with revalidation and stale-response protection. Client portal
+remains unavailable. Default/cloud routes and assets remain unregistered.
+Verification: **323/323 full Node/API checks pass**, **3/3 new Chrome workflows
+pass**. Covers grant/revoke, minimal scope, Super Admin/direct-scope denial, stale
+revision and grace. Mobile/theme checks at 320/390/768/1440px pass; screenshot
+`.publish/client-links-mobile.png` visually reviewed. Initial browser issues were
+the theme control's accessible label and an assertion expecting a different denial
+message; corrected before passing rerun. Syntax/whitespace checks pass. Logs:
+`.publish/client-links-ui-tests.log`, `.publish/client-links-browser-final.log`.
+No schema change, live data changes, runtime restart or deployment.
+
+**Client access link foundation (2026-10-17, guarded API only):** Opt-in Chambers
+migration 005 adds explicit membership-to-client-record links with same-org foreign
+keys and Active/Revoked status. Scoped link reads/writes require primary Master
+Admin plus current Chambers Owner access; Super Admin alone is insufficient.
+Grants require an active Client membership and unarchived owned record, with
+revision/reason validation and atomic audit. No implicit matching or app grant.
+Scoped JSON restore clears links, audits removal and increments org version;
+its dialog explains reapproval. Full SQL recovery preserves links and supports
+version-four upgrades. Client portal/read APIs/link-management UI remain pending;
+Clients still cannot enter staff APIs. **323/323 full Node/API checks** and **5/5
+focused link checks** pass; scoped Chambers Chrome workflows **4/4 pass**, covering
+restore and existing mobile/theme/access flows. Syntax/whitespace checks pass.
+Logs: `.publish/client-access-tests.log`, `.publish/client-access-focused-final.log`,
+`.publish/client-access-browser.log`. Initial error handling incorrectly classified
+a SQLite audit failure as a client error; corrected to a generic server error,
+then verified rollback and successful full-suite completion. No live migration,
+account/data change, runtime restart or deployment.
+
+**Organisation suspension/reactivation (2026-10-17, guarded local preview):**
+Super Admin-only service/API/form supports Active <-> Suspended. Requires exact
+org revision, organisation-name confirmation and reason; audit/version/status commit
+atomically. Unsupported/no-op states are rejected. Suspension blocks existing
+sessions on subsequent scoped reads/writes/downloads, primary administration and
+invitation acceptance, while other organisations continue. Memberships, records,
+assignments, licences and reservations are preserved; expiry clocks continue.
+Reactivation rechecks all entitlements and cannot bypass a suspended licence.
+Account links reflect current eligibility on refresh/revalidation. No migration or
+default/cloud exposure, live data changes or deployment. Focused service **24/24**
+and lifecycle API **1/1** pass. Full Node/API suite **318/318 passes** and admin/
+account Chrome workflows **13/13 pass**. Coverage includes Super Admin enforcement,
+wrong confirmation, stale revisions, unsupported states, atomic audit failure,
+existing-session read/write/download denial, other-org continuity, pending invite
+acceptance, independent licence suspension and restored eligible access. Mobile
+form screenshot `.publish/organisation-lifecycle-mobile.png` visually reviewed;
+syntax/whitespace checks pass. Logs: `.publish/organisation-lifecycle-tests.log`,
+`.publish/organisation-lifecycle-browser.log`,
+`.publish/organisation-lifecycle-service.log`. Tests used disposable workspaces.
+
+**Organisation-aware account navigation (2026-10-17, guarded local preview):**
+Added `/account` and session-scoped account metadata API. Membership cards separate
+organisation role/status from current Chambers assignment and licence eligibility.
+App links preserve explicit org scope and grace is read-only. Primary management
+links preserve org scope; unavailable requested admin scope fails explicitly.
+Super Admin has a platform link without automatic memberships/app access. Clients
+see the portal as unavailable; unassigned members get assignment guidance. Shared
+sign-in/invitation flows and preview-only admin/Chambers account links connect the
+pages. Account data clears on pagehide/hidden visibility and revalidates on return,
+with stale-response protection. Default/cloud availability remains unchanged.
+Verification: **315/315 full Node/API checks pass**, **8/8 existing administration
+Chrome workflows pass**, and final account Chrome checks **4/4 pass**. Account
+coverage includes two-org scoped links, primary-only management, invalid requested
+scope, sign-in/invitation acceptance, unavailable client portal, Super Admin without
+memberships, revoked app links and delayed stale response after session loss.
+Layouts checked at 320/390/768/1440px in light/dark; mobile screenshot visually
+reviewed. Syntax/whitespace checks pass. Logs:
+`.publish/organisation-account-tests.log`, `.publish/organisation-account-browser.log`,
+`.publish/organisation-account-browser-final.log`. All fixtures were disposable.
+No migration, live data changes or deployment.
+
+**Super Admin recovery export (2026-10-17, guarded local preview):** Added a
+separate full-platform SQLite backup download requiring current Super Admin
+authority, password re-entry, reason and explicit all-organisations confirmation.
+Includes private records/documents and account hashes; excludes live sessions.
+Five attempts/minute and a 4 KiB body limit bound password work. Audit creation
+shares the export snapshot transaction and rolls back if export fails. No-store
+attachment download; no server-side backup file. UI clears password on completion/
+pagehide and is hidden from Master Admins. Recovery requires offline import into a
+new empty database; no web overwrite/import or ordinary Chambers-access bypass.
+Verification: **313/313 full Node/API checks pass**, final recovery API **2/2
+passes**, and final administration Chrome workflows **8/8 pass**. Recovery browser
+checks include wrong-password retry and field clearing, downloaded SQL contents,
+Master Admin form denial and 320/390/768/1440px light/dark layout. Mobile form
+screenshot `.publish/recovery-controls-mobile.png` visually reviewed. API verifies
+separate-database roundtrip with exact document bytes, identity/membership/audit
+preservation, session exclusion, export/audit rollback and bounded attempts. An
+initial browser failure exposed wrong-password handling that hid the workspace;
+corrected and rerun successfully. Temporary SQLite handles now close before
+fixture cleanup on Windows. Syntax/whitespace checks pass. Logs:
+`.publish/recovery-controls-tests.log`, `.publish/recovery-controls-api-final.log`,
+`.publish/recovery-controls-browser-final.log`. No live database change or deployment.
+
+**New staff/client identity onboarding (2026-10-17, guarded local preview):** Master
+Admin/Super Admin can invite new or pending identities through the existing scoped
+invite form/API. Staff and client seats reserve separately; reissue rotates secrets,
+revocation releases the scoped seat, and pool conversion checks destination limits.
+Existing disabled accounts cannot be claimed. Pending identities can have distinct
+org invitations; activation sets credentials once and accepts only the target
+membership. Remaining invitations require signed-in acceptance without password
+replacement. Activation shares primary onboarding's body/attempt limits and preview
+guards. No implicit app access/global authority; staff need explicit licensed app
+assignment and Clients cannot receive Chambers staff access. Client portal/delivery
+remain pending. No schema change beyond opt-in 004, live data change or deployment.
+Verification: **311/311 full Node/API checks pass**, **7/7 administration Chrome
+workflows pass**, and the focused administration service run **22/22 passes**.
+Coverage includes new Staff/Client activation and sign-in, no implicit assignment,
+explicit staff assignment/client denial, cross-org pending identities, protected
+disabled accounts, replay/expiry/reissue/revoke, pool conversion, rollback and
+competing-connection seat admission. Activation layout retains mobile/theme checks;
+the updated mobile screenshot was visually reviewed. Syntax/whitespace checks pass.
+Logs: `.publish/member-onboarding-tests.log`,
+`.publish/member-onboarding-browser.log`,
+`.publish/member-onboarding-service-tests.log`. All databases were disposable.
+
+**New Master Admin HTTP/UI onboarding (2026-10-17, guarded local preview):** Super
+Admin provisioning explicitly chooses an existing account or a new identity.
+Signed-out recipients can activate a new primary account and then sign in on the
+administration entry. No automatic app assignment or global Owner authority is
+granted. Existing invitation acceptance remains intact. The activation endpoint
+has the preview's host/origin/loopback guards, a 4 KiB request limit and a bounded
+process-wide 20-attempt/minute bucket, with generic invalid-invitation failures.
+Signed-in callers cannot use it to replace credentials or sessions. Forms clear
+credentials on success/pagehide; sign-out clears the displayed workspace. Default
+runtime/cloud routes remain unavailable. **303/303 full Node/API checks pass**;
+**5/5 administration Chrome workflows pass**. The new-primary workflow also
+passes a focused rerun with 320/390/768/1440px light/dark activation-form checks.
+Mobile screenshot `.publish/admin-new-master-mobile.png` was visually reviewed.
+Syntax/whitespace checks pass. Logs:
+`.publish/organisation-onboarding-integration-tests.log`,
+`.publish/organisation-onboarding-browser.log` and
+`.publish/organisation-onboarding-browser-focused.log`. PowerShell reports a
+native-command warning for Playwright's colour environment; Playwright reports
+all workflows passed. Tests used disposable temporary SQLite workspaces. Delivery, new
+staff/client identities and production integration remain pending. No deployment
+or live database changes.
+
+**New Master Admin identity foundation (2026-10-17, service-only):** Added opt-in
+migration 004 and transactional provisioning/activation for new primary identities.
+Super Admin provisioning creates a disabled Clerk account with no private-app or
+platform grants; existing or disabled emails cannot be claimed. A valid unexpired
+invitation plus matching email and recipient-selected password activates only the
+intended primary membership/org. Replay, revoked and expired tokens fail. Pending
+primary tokens can be rotated/revoked, and recovery preserves pending identity
+state while retaining version-three support. Seven focused SQLite checks and
+**301/301 full npm.cmd test checks pass**. Log:
+`.publish/organisation-onboarding-tests.log`. Whitespace/syntax checks pass;
+browser tests were not rerun because this checkpoint adds no UI or HTTP routes.
+HTTP/UI onboarding, new staff/client identities and delivery remain pending.
+No live migration/account changes or deployment. Resume details are in
+`docs/ORGANISATION_LICENSING_PLAN.md`.
+
+
+**Chambers frontend organisation selection (2026-10-17, guarded local preview):**
+Connected the existing Chambers controller to explicit organisation scope, including
+record APIs, document downloads, ledger, backup and restore. Multiple assignments
+require selection; invalid scope never silently opens another workspace. Selected
+organisation is visible and retained in the URL, without business browser storage.
+Direct existing-account sign-in works on the Chambers entry. Scoped settings uses
+the assigned staff directory, authorised organisation-admin links and scoped recovery;
+global team/account creation and SQL export controls are removed from that mode.
+
+Trusted state capabilities drive read-only grace and admin access. Mutation actions
+are hidden/blocked in grace mode; task completion is disabled. Revoked access clears
+records, dossiers and print content. Org switches reload the document, block during
+pending saves and confirm open-form discard. Visibility/BFCache revalidate access;
+pagehide clears sensitive state/DOM, and response revisions prevent an old successful
+read from repainting data after denial. Backend role/licence checks remain enforced.
+Local hook assets remain outside public/cloud exports; default runtime is unchanged.
+
+Verification: **294/294 npm.cmd test checks pass**, focused API **10/10 passes**,
+combined admin/legacy/scoped Chambers Chrome **11/11 passes**. Final scoped browser
+rerun after sign-in addition **4/4 passes**; strengthened delayed-response revocation
+check **1/1 passes**. Workflows cover clients/cases, exact document bytes, fees/
+payments, reports/CSV, scoped backup/restore, two-org switch/search/roles, read-only/
+revocation, sign-in/denied context, 320/390/768/1440px layouts and light/dark/system.
+Desktop/mobile screenshots visually reviewed under `.publish/chambers-scoped-*.png`.
+Node log: `.publish/chambers-scoped-frontend-tests.log`. Syntax/whitespace checks pass.
+Initial browser assertions needed locator scoping and recognition of the unchanged
+public visitor counter; corrected before passing. Test teardown bounds waiting for
+owned disposable server processes. No live data/account changes, migration, running
+server restart or deployment. Resume point: safe new-identity invitation onboarding,
+including new primary Master Admins, then platform recovery and portal navigation.
+
+**Chambers organisation-scoped API (2026-10-17, temporary preview only):**
+Added an app-owned scoped store/router reusing the existing business validation.
+Explicit organisation paths scope state, records, linked references/staff, document
+blobs, CNR uniqueness, settings, audit, backup and restore. App roles derive from
+stored assignments; platform/global roles grant no business bypass. Current user,
+membership, licence and assignment are revalidated; clients are denied staff APIs.
+Suspension/revocation denies access and expiry grace is read-only. Writes persist
+ownership atomically, with validation/mutation in one transaction and staged output
+after commit. Preview serializes API dispatch and blocks unscoped private APIs,
+including global state/team/SQL export, to prevent fallback bypass.
+
+App-owned migration 003 adds per-org firm settings, activity and SQLite snapshots;
+only the explicitly mapped legacy firm profile is copied. Existing settings/audit
+and migrations 001/002 remain preserved. Full SQL recovery supports versions 1–3.
+Scoped JSON backups carry organisation identity; validated restore replaces only
+that workspace and rejects other-org/unmapped ID collisions. Daily/pre-restore
+snapshots, accounts, other organisations and audit survive recovery. Global SQL
+export is denied through Chambers; explicit Super Admin recovery controls remain
+pending. Historical unscoped audit is preserved globally, not copied into org feeds.
+
+Verification: **293/293 full npm.cmd test checks pass**; final scoped Chambers
+**7/7 passes**, including an additional version-two upgrade test after the full run.
+Legacy API **14/14 passes**; administration Chrome **4/4 passes**. Tests verify
+two-org state/settings/activity/reference/file isolation, role/licence/grace denial,
+legacy route blocking, simultaneous payments without overpayment, atomic hearing
+failure/success, scoped restore rollback, full SQL recovery, integrity/FKs and mapped
+profile upgrade. Log: `.publish/organisation-chambers-tests.log`. Whitespace checks
+pass. All work used isolated temporary fixtures; no real data access/migration,
+account changes, server restart or deployment. Normal runtime is unchanged.
+
+Frontend organisation selection, safe onboarding, platform recovery controls and
+SQL Server/D1 adapters remain pending. The old Chambers UI uses blocked unscoped
+routes in this temporary preview and is not yet adapted. Resume tracker updated;
+see `apps/advocate/backend/ORGANISATION_SCOPE.md` for precise boundaries.
+
+**Administration screens and authenticated local routes (2026-10-17; not deployed):**
+Added `apps/admin` and `apps/super-admin` workspace packages with responsive scoped
+administration screens. Master Admin manages existing-account invitations,
+membership status/roles, Chambers assignments and seat overview. Super Admin also
+provisions organisations, manages licences/limits, transfers the primary Master
+Admin and rotates initial activation invitations. Invitation acceptance is explicit
+and identity-bound. Secrets are page-memory only, with clearing on demand/pagehide/
+organisation switch/successful acceptance; no URL or business browser persistence.
+Conflict errors preserve entered forms and require explicit refresh.
+
+The Node adapter derives actor IDs from sessions, rejects body identity/scope
+overrides, authorises route scope before email lookup and uses the existing
+transactional services. Existing origin/host/content-type protections apply.
+Preview is disabled by default: `/admin`, `/super-admin`, assets and administration
+API return 404 unless explicitly enabled on a prepared disposable OS-temporary
+SQLite workspace, in test/development mode with loopback binding/requests. Resolved
+filesystem destinations are checked; no automatic migrations or bootstrap occur.
+Local asset ownership is separate from the public/cloud allowlist. No catalogue
+availability or production/cloud route is added.
+
+Verification: **287/287 npm.cmd test checks pass**, including three new API tests
+covering disabled defaults, unsafe workspace rejection, authentication, cross-org
+denial, body actor spoofing, origin/content-type rejection, stale revisions and
+audited HTTP licence/transfer writes. **4/4 headless Chrome workflows pass** on the
+final UI: provisioning/licence edits, intended-account invitation acceptance,
+Chambers assignment, stale-input preservation, signed-out/forbidden views,
+320/390/768/1440px layouts and light/dark/system themes. Desktop/mobile screenshots
+visually reviewed: `.publish/admin-desktop.png`, `.publish/admin-mobile.png`.
+Node log: `.publish/organisation-admin-ui-tests.log`. Syntax/whitespace checks pass.
+Playwright fixture preparation uses a separate Node process for native SQLite;
+first browser failures were a loader limitation and a test locator ambiguity,
+corrected before the successful final run. Lockfile adds only the two workspace
+packages/links; no dependency versions were changed.
+
+No real database access/migration, account changes, running-server restart or
+deployment. Tests clean up their temporary databases/servers. Existing business
+routes still use legacy single-workspace access and do not enforce these licences.
+Resume tracker and `apps/admin/README.md` describe limitations. Next: Chambers-wide
+organisation scoping, safe new-account onboarding and scoped export/restore
+authority before any broader administration activation.
+
+**Master Admin and licence services (2026-10-17, local backend only):**
+Added `packages/database/organisation-administration.mjs`: Super Admin-only primary
+Master Admin transfer and manual licence creation/renewal/suspension/revocation;
+organisation and per-app staff/client capacity controls; primary Master Admin
+existing-identity invitations, revoke/reissue and single-use acceptance; member
+deactivation/role edits; explicit Chambers staff assignments; scoped overview with
+safe member/invitation metadata and seat usage. Exactly one primary is preserved
+at transfer commit. Clients cannot receive staff Chambers assignments. Invited
+members reserve seats until acceptance or explicit revocation (including expired
+invitations). Deactivation releases that membership's reservations/assignments,
+without disabling the global account or other organisation memberships.
+
+All mutations re-read authority, check organisation revisions, require a bounded
+reason and commit audit atomically. Licence edits also check licence revisions;
+capacity reductions below occupied/reserved seats are rejected. Reactivation and
+staff/client conversion require new invitation acceptance; old app assignments do
+not reactivate automatically. No global Owner inference or platform-role grants.
+Licence feature/resource terms and other-app role adapters remain pending.
+
+Verification: **284/284 npm.cmd test checks pass**, including **38/38 focused
+organisation checks** and 15 new administration tests. Coverage includes scoped
+authority, protected primary transfer, hashed invitation replay/expiry/reissue,
+separate seat pools/reservations, licence lifecycle/date validation, competing stale
+assignments through two SQLite connections, forced audit rollback, persisted
+revocation and full SQL recovery preserving original global accounts. All fixtures
+are disposable temporary databases. Full log:
+`.publish/organisation-administration-tests.log`. Diff whitespace checks pass.
+
+No UI/browser changes, new migration, real account/data changes, runtime restart or
+deployment. These are internal SQLite services; existing app/login routes still
+use legacy access. New licence status is not yet enforced by those routes.
+Updated `docs/ORGANISATION_LICENSING_PLAN.md`: next is authenticated administration
+adapters and local UI, followed by safe onboarding, app-wide organisation isolation
+and scoped recovery/export authorisation before runtime activation. Do not deploy.
+
+**Legacy Chambers mapping and organisation recovery (2026-10-17, local only):**
+Added ordered migration 002 for the selected legacy workspace and record/file
+ownership, without modifying migration 001. Explicit offline Super Admin preview/
+apply requires every existing account to be mapped or excluded, retains one primary
+Master Admin, preserves existing Chambers app roles/grants, checks licence/capacity
+and rejects stale preview fingerprints. Apply atomically records memberships,
+assignments, ownership and audit; audit failure rolls back all changes. Existing
+business rows, files, accounts, sessions, global grants/preferences and settings
+remain unchanged. This is ownership preparation, not runtime tenant isolation.
+
+Full SQLite export now includes known organisation migration schema/state, licences,
+hashed invitations, audit and ownership in a consistent transaction; live sessions
+remain excluded. Empty-database restore, version-one export/upgrade and checksum/
+partial-schema rejection are verified. Chambers JSON backup/restore retains its
+single-workspace format; scoped restore and multi-org export authorisation remain
+pending. SQL Server/D1 recovery is unchanged and unverified for this extension.
+
+Verification: **269/269 npm.cmd test checks pass**, using elevated local Windows
+filesystem access for generated Cloudflare output. **23/23 focused organisation
+checks pass**; final mapping/recovery rerun **8/8 passes**, including additional
+version-one recovery and partial-schema cases. Legacy byte preservation, stale
+document/account/mapping denial, capacity/access checks, rollback and SQL recovery
+integrity/FK checks use disposable temporary databases only. Log:
+`.publish/organisation-mapping-tests.log`. Diff whitespace checks pass; no UI change
+or browser run. No real database access/migration, account mapping, runtime restart
+or deployment. Resume tracker updated: next is transactional primary Master Admin
+transfer and membership/licence/seat services, followed by safe onboarding/routes.
+
+**Organisation provisioning persistence (2026-10-17, local only; no deployment):**
+Added the opt-in checksummed SQLite migration
+`packages/database/migrations/001-organisations.sql` and internal
+`packages/database/organisation-repository.mjs`. Existing user/business tables stay
+unchanged. New tables model organisations, exactly one primary Master Admin,
+memberships, licences, app assignments, hashed invitations and scoped audit.
+Repository supports explicit single-use offline Super Admin bootstrap, atomic
+organisation/licence/Master Admin provisioning for existing identities, 48-hour
+single-use activation, versioned invitation revoke/reissue and scoped organisation
+administration reads. Persisted authority is re-read for each operation. Invitation
+secrets never enter stored audit. Creation, activation and reissue roll back if
+audit persistence fails. No app assignment or legacy app access is implicitly granted.
+
+Verification: **261/261 full npm.cmd test checks pass** with the Windows filesystem
+access needed for generated Cloudflare build output; previous EPERM setup failures
+were environmental, with no product fix required. Final focused policy/repository
+run **15/15 passes**, including final migration-constructor safety guards. Evidence
+includes additive upgrade preservation of representative legacy accounts, records,
+document bytes, grants and preferences; migration checksum/idempotency and failed-DDL
+rollback; invitation replay/expiry/rotation; revoked authority; two-organisation
+administrative scope; reopen and integrity/FK checks. Log:
+`.publish/organisation-provisioning-tests.log`. Diff whitespace check passes.
+
+No UI changes/browser run, runtime wiring, live database access/migration, role
+selection on real accounts, deployment or server restart. Foundation uses explicit
+native SQLite connections only; SQL Server/D1, account onboarding, legacy workspace
+mapping, recovery/export inclusion, membership/licence services, administration UI
+and private app record isolation remain pending. Updated resume point and detailed
+limits: `docs/ORGANISATION_LICENSING_PLAN.md`. Do not apply the migration to existing
+user data or enable multiple-organisation app access until recovery/scoping is ready.
+
+**Organisation/licensing programme started (2026-10-17, local only; do not deploy):**
+Approved requirements, milestone tracker, runtime caveats and exact resume point
+are saved in `docs/ORGANISATION_LICENSING_PLAN.md`, linked from AGENTS.md.
+Super Admin provisions organisations/licences and their one primary Master Admin;
+organisation memberships, app assignments, app roles and client access remain
+separate. `packages/auth/organisation-policy.mjs` implements runtime-neutral,
+deny-by-default checks for platform provisioning, primary Master Admin management,
+private app licence/assignment/permission matching, licence expiry/read-only grace
+and separate staff/client seat admission. No automatic Owner promotion or business
+access bypass. No runtime wiring, organisation tables, provisioning UI, client app,
+record isolation or migration has been implemented. Existing single-workspace
+authentication and business behaviour remain unchanged. No live database access,
+data migration, deployment or server restart was performed.
+
+Verification: focused policy tests **4/4 pass**, including cross-organisation/user/
+app mismatch denial, planned apps, revocation, permission requirements, exact UTC
+licence boundaries, invalid dates, administration separation and seat limits.
+`npm.cmd test` reports **236 passed / 14 failed**; all 14 failures are Cloudflare
+suite setup-hook failures (`EPERM` unlinking the generated
+`infrastructure/cloudflare/dist/ads.txt`), rather than policy assertion failures.
+Final rerun log: `.publish/organisation-foundation-tests.log` (local ignored file).
+Diff whitespace check passes. Browser tests were not run: no UI changes.
+Next: additive persistence/migration design and transactional provisioning using
+isolated temporary SQLite fixtures; app access must remain single-workspace until
+complete organisation scoping is verified. Deployment remains prohibited.
+
+**Platform promotional MP4 (2026-10-17, produced locally):**
+Created `.publish/promotional-video/Sushant-Synapse-Promo.mp4`: 32 seconds,
+1080x1920 portrait, H.264/yuv420p at 24fps, stereo AAC 192kbps/48kHz, 4.46 MB.
+Uses current public platform imagery, the main logo, beat-timed motion graphics,
+an original synthesized 120 BPM electronic score and synthetic Indian-English
+narration (en-IN-NeerjaNeural). Music ducks under speech. Six product highlights
+cover Moment Studio, game wins, Decision Wheel, QR Maker, Bill Splitter and home
+discovery; closing CTA shows the root URL and private-workspace sign-in qualifier.
+Captures use local example inputs without production writes. Source tools and
+isolated rendering dependencies remain under ignored `.publish/`; no application
+or database changes. English SRT captions, poster, contact sheet, production notes
+and quality report accompany the MP4. Full decode passes, duration/resolution/
+codecs and fast-start container verified. Measured audio: -16.47 LUFS integrated,
+-4.85 dBTP; no clipping. Encoded-video contact sheet reviewed. Not published to
+hosting or social networks. Evidence: `.publish/render-promo.py`,
+`.publish/check-promo.py`, `.publish/promotional-video/quality-report.json`.
+
 **Homepage apps-first layout (2026-10-17, deployed/live verified):**
 Both static and dynamically rendered anonymous homes replace the tall illustrated
 welcome banner with a compact title/subtitle. Make 24 and Decision Wheel featured

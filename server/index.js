@@ -23,6 +23,14 @@ const {fail}=require('./http');
 const ROOT=path.resolve(__dirname,'..');
 const production=process.env.NODE_ENV==='production';
 const publicOrigin=process.env.PUBLIC_ORIGIN?new URL(process.env.PUBLIC_ORIGIN).origin:'';
+const adminPreview=process.env.ORG_ADMIN_PREVIEW==='1';
+if(adminPreview){
+ const previewRoot=fs.realpathSync(path.resolve(process.env.DATA_DIR||path.join(ROOT,'data')));
+ const relative=path.relative(require('node:os').tmpdir(),previewRoot);
+ if(!['test','development'].includes(process.env.NODE_ENV)||!process.env.DATA_DIR||!relative||relative.startsWith('..')||path.isAbsolute(relative)||!['127.0.0.1','localhost','::1'].includes(process.env.HOST||'127.0.0.1')||(process.env.DATABASE_PROVIDER&&process.env.DATABASE_PROVIDER!=='sqlite'))throw Error('Organisation admin preview requires a disposable DATA_DIR under the OS temporary directory, loopback binding and non-production SQLite');
+}
+let administration;
+let organisationChambers,previewQueue=Promise.resolve();
 if(production&&(!publicOrigin||!publicOrigin.startsWith('https://')))throw Error('Production requires an HTTPS PUBLIC_ORIGIN');
 if(production&&(!process.env.SETUP_TOKEN||process.env.SETUP_TOKEN.length<24))throw Error('Production requires a SETUP_TOKEN of at least 24 characters');
 const store=new Store(process.env.DATA_DIR||path.join(ROOT,'data'));
@@ -73,12 +81,14 @@ async function dispatch(req,res) {
     if(url.pathname==='/advocate/'){res.writeHead(308,{Location:'/advocate'+url.search});return res.end();}
     if(url.pathname==='/news/'){res.writeHead(308,{Location:'/news'+url.search});return res.end();}
     if (!url.pathname.startsWith('/api/')) {
-      const assets=staticAssets;
+      if(['/admin','/super-admin'].includes(url.pathname)&&!adminPreview){res.writeHead(404);return res.end('Not found');}
+      const assets=adminPreview?{...staticAssets,...require('../apps/admin/backend/preview-assets.cjs')}:staticAssets;
       const name=assets[url.pathname];if(!name){res.writeHead(404);return res.end('Not found');}
       if(req.method!=='GET'&&req.method!=='HEAD')fail(405,'Method not allowed');
       res.setHeader('Content-Type',(name.endsWith('.js')||name.endsWith('.mjs'))?'text/javascript; charset=utf-8':name.endsWith('.css')?'text/css; charset=utf-8':name.endsWith('.png')?'image/png':name.endsWith('.webp')?'image/webp':name.endsWith('.svg')?'image/svg+xml':name.endsWith('.webmanifest')?'application/manifest+json':'text/html; charset=utf-8');
       if(name.endsWith('.txt'))res.setHeader('Content-Type','text/plain; charset=utf-8');
       let contents=req.method==='HEAD'?undefined:fs.readFileSync(path.join(ROOT,name));
+      if(adminPreview&&name==='apps/advocate/frontend/index.html'&&contents)contents=Buffer.from(contents.toString().replace('</head>','<link rel="stylesheet" href="/advocate/organisation-preview.css"></head>').replace('<script src="/app.js"></script>','<script src="/advocate/organisation-preview.js"></script><script src="/app.js"></script>'));
       if(eligibleHome(url.pathname,req.headers.cookie)){const nonce=randomUUID();res.setHeader('Content-Security-Policy',homePolicy(nonce));if(contents)contents=renderHome(contents.toString(),nonce);}
       res.setHeader('Cache-Control',name.endsWith('.html')?'no-store':'no-cache');return res.end(contents);
     }
@@ -94,6 +104,20 @@ async function dispatch(req,res) {
     if(url.pathname==='/api/satire-arena'||url.pathname.startsWith('/api/satire-arena/'))return await satireArena(req,res,allowedOrigin);
     const user=auth.session(req);
     const context={route,method,req,res,json,user};
+    if(route==='organisation-admin'||route.startsWith('organisation-admin/')){
+      if(!adminPreview)return json(404,{error:'Not found'});
+      if(!['127.0.0.1','::1','::ffff:127.0.0.1'].includes(req.socket.remoteAddress))return json(403,{error:'Local preview only'});
+      if(!user&&!(['organisation-admin/activate-new-master','organisation-admin/activate-new-member'].includes(route)&&method==='POST'))return json(401,{error:'Please sign in'});
+      try{administration ||= import('../apps/admin/backend/routes.mjs').then(({createOrganisationAdmin})=>createOrganisationAdmin({db:store.nativeSqlite,exportSql:options=>store.exportSql(options)}));return await (await administration)(context);}
+      catch{return json(503,{error:'Administration preview requires a prepared temporary workspace'});}
+    }
+    if(route==='chambers'||route.startsWith('chambers/')||route.startsWith('client-portal/')){
+      if(!adminPreview)return json(404,{error:'Not found'});
+      if(!user)return json(401,{error:'Please sign in'});
+      organisationChambers ||= import('../apps/advocate/backend/organisation-routes.mjs').then(({createOrganisationChambers})=>createOrganisationChambers({db:store.nativeSqlite}));
+      return await (await organisationChambers)(context);
+    }
+    if(adminPreview&&!['auth/status','auth/login','auth/logout','auth/profile','auth/password'].includes(route))return json(409,{error:'This temporary preview requires explicit organisation-scoped APIs; legacy workspace access is disabled'});
     if(route.startsWith('auth/')||route==='users'||route.startsWith('users/'))return await auth.handle(context);
     if(route==='support'||route==='platform/support')return await support(context);
     if(route==='focus'||route.startsWith('focus/'))return await focus(context);
@@ -116,6 +140,9 @@ const server=http.createServer(async(req,res)=>{
    const staged={headersSent:false,setHeader(name,value){headers.set(name,value);},writeHead(status,values={}){code=status;for(const [name,value]of Object.entries(values))headers.set(name,value);},end(value){body=value;}};
    await store.requestContext(()=>dispatch(req,staged));
    for(const [name,value]of headers)res.setHeader(name,value);res.writeHead(code);res.end(body);
+  }else if(adminPreview&&req.url.startsWith('/api/')){
+   const previous=previewQueue;let release;previewQueue=new Promise(resolve=>{release=resolve;});await previous;
+   try{await dispatch(req,res);}finally{release();}
   }else await dispatch(req,res);
  }catch(error){if(!res.headersSent){res.writeHead(error.status||400,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify({error:error.message.includes('UNIQUE constraint')?'This record already exists':error.message}));}else res.end();}
 });

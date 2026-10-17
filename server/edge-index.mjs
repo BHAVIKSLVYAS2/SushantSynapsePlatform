@@ -19,6 +19,8 @@ import {arena} from '../apps/satire-arena/backend/edge.mjs';
 import {editorial,editorialKey} from '../apps/satire-arena/backend/editorial.mjs';
 import {metrics,metricsKey} from '../apps/satire-arena/backend/metrics.mjs';
 import {fail,json} from './edge-http.mjs';
+import {organisationAdmin} from '../apps/admin/backend/edge.mjs';
+import {organisationChambers} from '../apps/advocate/backend/organisation-edge.mjs';
 export async function edgeApi(request,env){
  let repo;
  try{
@@ -33,6 +35,21 @@ export async function edgeApi(request,env){
   if(free&&((env.FULL_APPS!=='true'&&(/^(digital-samaj|batchfee-lite|tournament-lite|news|fund-overlap)(\/|$)/.test(route)||route==='ritual-assist/calendar'))||/^(backup|backup.sql|restore)(\/|$)/.test(route)))fail(503,'This feature is unavailable in the free cloud workspace.');
   const useAccess=env.AUTH_METHOD==='access';
   const user=useAccess?await accessSession(request,repo,env):await session(request,repo),files=free?new D1PrivateFiles(repo):new PrivateFiles(env.PRIVATE_FILES,repo),context={request,route,user,repo,files,env};let result;
+  if(env.ORGANISATIONS_ENABLED==='true'){
+   if(useAccess)fail(503,'Organisation accounts require password authentication');
+   if(route==='organisation-admin'||route.startsWith('organisation-admin/'))result=await organisationAdmin(context);
+   else if(route==='chambers'||route.startsWith('chambers/')||route.startsWith('client-portal/'))result=await organisationChambers(context);
+   else if(['auth/status','auth/login','auth/logout','auth/profile','auth/password'].includes(route))result=await auth(context);
+   else if(route==='platform'||route==='platform/preferences'||/^platform\/apps\/[^/]+\/launch$/.test(route)){
+    if(!user)fail(401,'Please sign in');
+    // Keep shared preferences while deriving private app access from live org policy.
+    const response=await organisationChambers({...context,route:'chambers',request:new Request(request.url,{headers:request.headers})});
+    const {organisations}=await response.json();
+    result=await portal({...context,user:{...user,role:'Clerk',appIds:organisations.length?['advocate']:[]}});
+    if(route==='platform'&&result.ok){const data=await result.json();data.apps=data.apps.map(app=>!app.public&&app.id!=='advocate'?{...app,status:'Unavailable',accessible:false,description:'Organisation integration is not available for this app yet.'}:app);result=json(data);}
+   }else if(!(/^(platform\/visitors|confessions|arena-metrics|arena-editorial|satire-arena|news)(\/|$)/.test(route)||route==='support'||route==='ritual-assist/calendar'))fail(409,'Use organisation-scoped APIs. Other private applications are unavailable.');
+   if(result){if(request.method==='GET'&&!await repo.unchanged())throw new Conflict();return result;}
+  }
   if(route==='platform/visitors'){
  if(!['GET','POST'].includes(request.method))fail(405,'Method not allowed');
  if(request.method==='POST'&&!(await env.CONFESSIONS_LIMITER?.limit({key:'platform-visitors:'+request.headers.get('CF-Connecting-IP')}))?.success)fail(429,'Please try again later.');
@@ -54,6 +71,7 @@ export async function edgeApi(request,env){
   else result=await chambers(context);
   if(request.method==='GET'&&!await repo.unchanged())throw new Conflict();return result;
  }catch(e){
+  if(e.name==='OrganisationError'||e.constructor?.name==='OrganisationError')return json({error:e.message,code:e.code},{forbidden:403,conflict:409,'invalid-state':409,'seat-limit-reached':409}[e.code]||400);
   if(e instanceof Conflict)return json({error:e.message},409);
   if(e.status)return json({error:e.message},e.status);
   if(String(e.message).includes('free_document_capacity'))return json({error:'The 100 MB document storage limit has been reached. No changes were saved.'},409);

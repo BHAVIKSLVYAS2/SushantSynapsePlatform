@@ -9,6 +9,7 @@ class PlatformDatabase {
   if(provider==='sqlserver')this.sql=database||new (require('./sqlserver').SqlServerDatabase)({connection,migrate});
   else if(provider==='sqlite'){
    const native=new DatabaseSync(path.join(root,'chambers.sqlite'));
+   this.nativeSqlite=native;
    this.sql={prepare:sql=>native.prepare(sqliteSql(sql)),exec:sql=>native.exec(sqliteSql(sql)),close:()=>native.close()};
   }else throw Error('Unsupported DATABASE_PROVIDER');
   this.schemaSql=fs.readFileSync(path.join(__dirname,'schema.sql'),'utf8')+'\n'+fs.readFileSync(appSchema,'utf8');

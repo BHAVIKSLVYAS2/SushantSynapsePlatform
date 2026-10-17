@@ -4,6 +4,16 @@ import {cloudPages} from '../../apps/satire-arena/backend/cloud-pages.mjs';
 export default {
  async fetch(request,env){
   const url=new URL(request.url);
+  if(env.ORGANISATIONS_ENABLED==='true'&&['/signin','/signin/'].includes(url.pathname)&&['GET','HEAD'].includes(request.method))return Response.redirect(url.origin+'/account',302);
+  const {default:organisationPages}=await import('./organisation-pages.json',{with:{type:'json'}});
+  if(organisationPages[url.pathname]){
+   if(env.ORGANISATIONS_ENABLED!=='true')return new Response('Not found',{status:404});
+   if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405});
+   const asset=await env.ASSETS.fetch(new Request(new URL(organisationPages[url.pathname],url)));
+   const headers=new Headers(asset.headers);headers.set('Cache-Control','no-store');headers.set('X-Content-Type-Options','nosniff');headers.set('X-Frame-Options','DENY');headers.set('Referrer-Policy','no-referrer');headers.set('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'");
+   return new Response(request.method==='HEAD'?null:asset.body,{status:asset.status,headers});
+  }
+  if(url.pathname.startsWith('/_organisations/'))return new Response('Not found',{status:404});
   const satirePage=await cloudPages(request,req=>edgeApi(req,env));if(satirePage)return satirePage;
   if(env.AUTH_METHOD==='access'&&url.pathname==='/access-login'){
    if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405});
@@ -30,6 +40,7 @@ export default {
    // Preserve the existing anonymous-home advertising policy and nonce handling.
    if(canonical==='/'){const {default:ads}=await import('../../packages/ui/adsense.cjs');if(ads.eligibleHome(canonical,request.headers.get('Cookie')||'')&&response.ok){const nonce=crypto.randomUUID();headers.set('Content-Security-Policy',ads.homePolicy(nonce));headers.delete('Content-Length');headers.delete('ETag');return new Response(request.method==='HEAD'?null:ads.renderHome(await response.text(),nonce),{status:response.status,headers});}}
    if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405,headers});
+   if(env.ORGANISATIONS_ENABLED==='true'&&canonical==='/advocate'&&response.ok){const html=(await response.text()).replace('</head>','<link rel="stylesheet" href="/advocate/organisation-preview.css"></head>').replace('<script src="/app.js"></script>','<script src="/advocate/organisation-preview.js"></script><script src="/app.js"></script>');headers.delete('Content-Length');headers.delete('ETag');return new Response(request.method==='HEAD'?null:html,{status:response.status,headers});}
    return new Response(request.method==='HEAD'?null:response.body,{status:response.status,headers});
   }
   let assetPath;try{assetPath=decodeURIComponent(url.pathname);}catch{return new Response('Not found',{status:404});}

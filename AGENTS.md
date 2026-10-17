@@ -1,5 +1,7 @@
 # Sushant Synapse Platform continuation
 
+- Active programme: read `docs/ORGANISATION_LICENSING_PLAN.md` and `docs/ORGANISATION_PRODUCTION_CUTOVER.md` first. The user subsequently authorised production changes and explicitly approved the sensitive recovery export. Organisation/licensing is now live on Workers/D1 with verified Super Admin and preserved legacy data. Default Node mode remains separate. Do not repeat bootstrap/legacy mapping or revert production to unscoped private APIs; older preview-only checkpoints are historical.
+
 - Read `docs/ARCHITECTURE.md` for ownership and new-app conventions. Keep app code under `apps/<id>` and shared code under `packages/`. Use `server/index.js` for composition; `server.js` is only a compatibility launcher.
 - Platform home lives at `/`; Chambers lives at `/advocate`. Preserve shared authentication, app access enforcement and SQLite preferences. Planned apps must remain clearly unavailable until implemented.
 - Target users: advocates and chamber staff in India. This is one chambers workspace.

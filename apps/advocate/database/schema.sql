@@ -1,4 +1,7 @@
 -- Chambers-owned business tables and reporting views. Preserve names for existing databases.
+-- Organisation extensions: 003-organisation-workspaces.sql and 005-client-access.sql.
+-- Workers/D1 applies these through its additive 0005 migration. Native SQLite
+-- applies them explicitly; default single-workspace startup remains separate.
 CREATE TABLE IF NOT EXISTS records (
     kind TEXT NOT NULL,
     id TEXT NOT NULL,

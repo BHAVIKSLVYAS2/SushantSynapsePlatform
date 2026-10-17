@@ -5,7 +5,7 @@ const {createOfficialReferenceStore,officialArchives} = require('../../apps/fund
 const root = path.resolve(__dirname, '../..');
 const output = path.join(__dirname, 'dist');
 // Export only the public allowlist, never data, credentials or backend source.
-function build({fullstack=false}={}) {
+function build({fullstack=false,organisations=false}={}) {
   if (fs.existsSync(output)) {
     if (fs.realpathSync(output) !== output || path.relative(root, output) !== path.join('infrastructure', 'cloudflare', 'dist')) throw Error('Unsafe export path');
     fs.rmSync(output, {recursive: true});
@@ -42,6 +42,19 @@ function build({fullstack=false}={}) {
     fs.mkdirSync(path.join(output, '_edge'), {recursive:true});
     fs.copyFileSync(path.join(root, 'docs/FUNCTIONALITY_LEDGER.md'), path.join(output, '_edge/functionality-ledger.md'));
   }
+  if(organisations){
+    require('./build-organisations.cjs').build();
+    const mappings=require('../../apps/admin/backend/preview-assets.cjs');
+    const manifest={};
+    for(const [url,source]of Object.entries(mappings)){
+      const target='/_organisations/'+url.slice(1)+(source.endsWith('.html')?'.html':'');
+      manifest[url]=target;const filename=path.join(output,target);fs.mkdirSync(path.dirname(filename),{recursive:true});
+      let content=fs.readFileSync(path.join(root,source),'utf8');
+      if(source.endsWith('.html'))content=content.replace('<html lang="en">','<html lang="en" data-runtime="cloud">').replace(/Local preview[^<]*/g,'Organisation workspace');
+      fs.writeFileSync(filename,content);
+    }
+    fs.writeFileSync(path.join(__dirname,'organisation-pages.json'),JSON.stringify(manifest));
+  }
   fs.writeFileSync(path.join(output, '_headers'), `/*
   X-Synapse-Frontend: cloudflare
   X-Content-Type-Options: nosniff
@@ -57,5 +70,5 @@ function build({fullstack=false}={}) {
   console.log(`Exported ${files.size} public frontend assets; no database or credentials included.`);
   return {output, pages, files};
 }
-if (require.main === module) build({fullstack:process.argv.includes('--fullstack')});
+if (require.main === module) build({fullstack:process.argv.includes('--fullstack'),organisations:process.argv.includes('--organisations')});
 module.exports = {build};

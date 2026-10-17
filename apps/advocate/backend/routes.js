@@ -3,7 +3,8 @@ const {randomUUID}=require('node:crypto');
 const {schemas,validate,indiaToday}=require('./schema');
 const {cleanSettings}=require('./settings');
 const {fail,readBody}=require('../../../server/http');
-function createAdvocate({store,auth}){
+function createAdvocate({store,auth,readRequestBody=readBody}){
+const readBody=readRequestBody;
 const {owner,hasAppAccess}=auth;
 function canWrite(user, kind) { if (user.role === 'Clerk' && ['invoices', 'payments', 'expenses'].includes(kind)) fail(403, 'Billing changes require an advocate or owner'); }
 function assertMoney(kind, record, id) {
@@ -59,7 +60,7 @@ function restoreBackup(backup, actor) {
   }
   store.snapshot(true);
   store.transaction(() => {
-    store.sql.exec('DELETE FROM [chambers].[records]; DELETE FROM [chambers].[files];');
+    if(store.clearBusinessData)store.clearBusinessData();else store.sql.exec('DELETE FROM [chambers].[records]; DELETE FROM [chambers].[files];');
     for (const [kind, records] of Object.entries(validRecords)) for (const r of records) store.put(kind,r);
     for (const [id,f] of files) store.addFile(id,f.name,f.mime,f.bytes);
     store.setSetting('firm', settings);store.audit(actor,'Restored backup','workspace',{name:backup.exportedAt || 'Backup'});
