@@ -2938,4 +2938,18 @@ Reviewed `test-results/home-hub-mobile-dark.png`,
 `test-results/home-hub-desktop-dark.png`. Final frontend build exports 803 public
 assets; JavaScript syntax and `git diff --check` pass. API test log:
 `.publish/home-hub-node.log`. Fixtures use temporary DATA_DIR values. No live
-database changes, commit or production deployment performed for this increment.
+database changes performed for this increment.
+
+Production release (2026-10-18 IST): implementation `4993a11` deployed to the
+existing Cloudflare production route, Worker
+`5fbdf6ba-ed1a-4a90-b043-e77f802b3627`, preserving organisation mode, D1 binding
+and secrets. Live verification passed five exact source-asset comparisons,
+fourteen distinct direct app links, search/category/empty/clear behaviour,
+sixteen width/theme combinations, mobile Games/Home navigation, English/Hindi
+switching, sign-in destination and the no-JavaScript fourteen-app catalogue.
+Home, `/healthz` and Satire Arena return 200; legacy private APIs retain the
+expected organisation-mode 409 denial. No page errors; API writes and ad traffic
+were blocked during browser verification. No production test records or account
+changes, migration, bootstrap or repository push. Evidence:
+`.publish/home-hub-deploy.log`, `.publish/home-hub-live-verification.json`,
+`.publish/home-hub-live-mobile.png`, `.publish/home-hub-live-desktop.png`.
