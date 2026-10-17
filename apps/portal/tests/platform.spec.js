@@ -4,6 +4,15 @@ const {noAdsContext}=require('../../../tests/browser-ads');
 // Never generate real advertising traffic from disposable test accounts.
 test.beforeEach(async({context})=>{await context.route('https://pagead2.googlesyndication.com/**',r=>r.fulfill({contentType:'text/javascript',body:''}));});
 
+test('hub search combines categories, clears empty results and keeps mobile destinations usable',async({page})=>{
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/');const search=page.getByRole('searchbox',{name:'Search web apps'});
+ await search.fill('QR');await expect(page.locator('.public-app:not([hidden])')).toHaveCount(1);await expect(page.locator('.public-app:not([hidden])')).toHaveAttribute('href','/qr-maker');await expect(page.locator('.home-featured')).toBeHidden();
+ await page.locator('[data-tool-filter=games]').click();await expect(page.locator('.public-app:not([hidden])')).toHaveCount(0);await expect(page.locator('.home-search-empty')).toBeVisible();await page.getByRole('button',{name:'Clear app search'}).click();await expect(search).toBeFocused();await expect(page.locator('.public-app:not([hidden])')).toHaveCount(5);
+ await page.locator('[data-tool-filter=all]').click();await expect(page.locator('.public-app:not([hidden])')).toHaveCount(14);await expect(page.locator('.home-featured')).toBeVisible();await expect(page.locator('.home-feature-card')).toHaveAttribute('href','/confessions');await expect(page.locator('.home-entry-workspace')).toHaveAttribute('href','/signin');
+ for(const width of [320,360,375,390,412,430,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await setTheme(page,theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),width+' '+theme).toBe(true);expect(await page.locator('.home-search input').evaluate(e=>e.getBoundingClientRect().height)).toBeGreaterThanOrEqual(44);}
+ await page.setViewportSize({width:390,height:900});await page.locator('[data-home-games]').click();await expect(page.locator('[data-tool-filter=games]')).toHaveAttribute('aria-pressed','true');await page.locator('.home-mobile-dock a').nth(1).click();await expect(page.locator('.public-app:not([hidden])')).toHaveCount(14);
+ await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'test-results/home-hub-mobile-dark.png'});await page.locator('#free-apps').screenshot({path:'test-results/home-hub-catalogue-dark.png'});await page.setViewportSize({width:1440,height:1000});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'test-results/home-hub-desktop-dark.png'});expect(errors).toEqual([]);
+});
 test('AdSense loads asynchronously only for an anonymous home and retains tool navigation',async({page,context})=>{
  const requests=[],violations=[];page.on('request',r=>{if(r.url().includes('adsbygoogle.js'))requests.push(r.url());});
  await page.addInitScript(()=>{window.cspViolations=[];document.addEventListener('securitypolicyviolation',e=>window.cspViolations.push(e.effectiveDirective));});
@@ -18,12 +27,12 @@ test('AdSense loads asynchronously only for an anonymous home and retains tool n
  const txt=await page.request.get(base+'/ads.txt');expect(txt.headers()['content-type']).toContain('text/plain');expect(await txt.text()).toContain('pub-1894051755496526');
 });
 
-test('apps-first home keeps the catalogue near the top and suggestions in All apps',async({page,browser})=>{
- await page.goto(base+'/');await expect(page.locator('.home-welcome h1')).toHaveText('Your everyday apps.');await expect(page.locator('.home-features')).toHaveCount(0);
- for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:844});await setTheme(page,theme);await page.evaluate(()=>scrollTo(0,0));expect((await page.locator('.home-welcome').boundingBox()).height).toBeLessThan(110);expect((await page.locator('#free-apps .public-app').first().boundingBox()).y).toBeLessThan(400);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);expect(await page.locator('.public-apps').evaluate(e=>getComputedStyle(e).overflowY)).toBe('visible');}
+test('glossy hub keeps direct apps, shared navigation and a no-JavaScript catalogue',async({page,browser})=>{
+ await page.goto(base+'/');await expect(page.locator('.home-welcome h1')).toContainText('Everything you need,');await expect(page.locator('.home-features')).toHaveCount(0);
+ for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:844});await setTheme(page,theme);await page.evaluate(()=>scrollTo(0,0));expect((await page.locator('.home-welcome').boundingBox()).height).toBeLessThan(370);expect((await page.locator('#free-apps .public-app').first().boundingBox()).y).toBeLessThan(1250);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);expect(await page.locator('.public-apps').evaluate(e=>getComputedStyle(e).overflowY)).toBe('visible');}
  await page.locator('.platform-switch').click();await expect(page.locator('#platform-switcher a[href="/take-a-break?game=24"]')).toBeVisible();await page.locator('#platform-switcher input').fill('chance');await expect(page.locator('#platform-switcher a:not([hidden])')).toHaveCount(1);await page.locator('#platform-switcher input').fill('');await page.keyboard.press('Escape');await expect(page.locator('.platform-switch')).toBeFocused();
  await page.setViewportSize({width:390,height:844});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'.publish/home-apps-first-mobile.png'});
- const context=await noAdsContext(browser,{javaScriptEnabled:false});try{const p=await context.newPage();await p.setViewportSize({width:390,height:844});await p.goto(base+'/');await expect(p.locator('.home-welcome h1')).toHaveText('Your everyday apps.');await expect(p.locator('.home-features')).toHaveCount(0);await expect(p.locator('.public-app')).toHaveCount(14);expect((await p.locator('.public-app').first().boundingBox()).y).toBeLessThan(400);}finally{await context.close();}
+ const context=await noAdsContext(browser,{javaScriptEnabled:false});try{const p=await context.newPage();await p.setViewportSize({width:390,height:844});await p.goto(base+'/');await expect(p.locator('.home-welcome h1')).toContainText('Everything you need,');await expect(p.locator('.home-features')).toHaveCount(0);await expect(p.locator('.public-app')).toHaveCount(14);expect((await p.locator('.public-app').first().boundingBox()).y).toBeLessThan(1250);}finally{await context.close();}
 });
 
 test('home categories filter without nested scrolling and phone swipes move the page',async({page,browser})=>{
@@ -33,20 +42,21 @@ test('home categories filter without nested scrolling and phone swipes move the 
 });
 
 test('premium bento keeps all tools discoverable across touch layouts and both themes',async({page})=>{
+ test.setTimeout(120000); // This cross-app regression opens seventeen destinations after the layout matrix.
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto(base+'/');
  for(const width of [320,390,768,1440]){
   await page.setViewportSize({width,height:900});
   for(const theme of ['light','dark']){
    await setTheme(page,theme);
-   expect(await page.locator('.public-app').first().evaluate(el=>getComputedStyle(el).backgroundColor)).toBe(theme==='dark'?'rgb(25, 37, 47)':'rgb(255, 255, 255)');
+   expect(await page.locator('.public-app').first().evaluate(el=>getComputedStyle(el).backgroundImage)).toContain('linear-gradient');
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${width}px ${theme}`).toBe(true);
-   expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.map(a=>({path:a.getAttribute('href'),box:a.getBoundingClientRect()})).sort((a,b)=>Math.abs(a.box.top-b.box.top)>2?a.box.top-b.box.top:a.box.left-b.box.left).slice(0,4).map(a=>a.path))).toEqual(['/moment-studio','/take-a-break','/decision-wheel','/news']);
+   expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.map(a=>({path:a.getAttribute('href'),box:a.getBoundingClientRect()})).sort((a,b)=>Math.abs(a.box.top-b.box.top)>2?a.box.top-b.box.top:a.box.left-b.box.left).slice(0,4).map(a=>a.path))).toEqual(['/confessions','/qr-maker','/photo-resize','/bill-splitter']);
    const columns=await page.locator('.public-apps').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length);
-   expect(columns).toBe(width>=760?3:width>=380?2:1);
+   expect(columns).toBe(width>1000?3:width>=360?2:1);
    await expect(page.locator('.platform-shell')).toBeVisible();
    await expect(page.locator('#free-apps .access-heading #app-finder-trigger')).toBeVisible();
-   await expect(page.locator('.public-app .home-sculpture')).toHaveCount(9);
+   await expect(page.locator('.public-app .home-sculpture')).toHaveCount(13);
    for(const href of ['/timetable-lite','/ritual-assist','/team-mixer']){
     const tile=page.locator(`.public-app[href="${href}"]`);
     await expect(tile).toBeVisible();expect(await tile.evaluate(el=>getComputedStyle(el).gridColumnStart)).toBe('auto');
@@ -126,14 +136,14 @@ test('reviewed sponsor cards use safe links and stay outside workflows and print
  expect(outside).toEqual([]);expect(errors).toEqual([]);
 });
 test('sponsorship enquiry prepares WhatsApp details without platform writes or downloads',async({page,context})=>{
- await context.route('https://wa.me/**',r=>r.fulfill({contentType:'text/html',body:'Draft intercepted; not sent'}));const writes=[];page.on('request',r=>{if(r.url().startsWith(base)&&!['GET','HEAD'].includes(r.method()))writes.push(r.url());});await page.goto(base+'/sponsor');await expect(page.locator('#contact-status')).toContainText('WhatsApp');await page.setViewportSize({width:320,height:700});await setTheme(page,'dark');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await context.route('https://wa.me/**',r=>r.fulfill({contentType:'text/html',body:'Draft intercepted; not sent'}));const writes=[];page.on('request',r=>{if(r.url().startsWith(base)&&!r.url().endsWith('/api/platform/visitors')&&!['GET','HEAD'].includes(r.method()))writes.push(r.url());});await page.goto(base+'/sponsor');await expect(page.locator('#contact-status')).toContainText('WhatsApp');await page.setViewportSize({width:320,height:700});await setTheme(page,'dark');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  const form=page.locator('#sponsor-enquiry-form');await form.locator('[name=name]').fill('Sponsor');await form.locator('[name=business]').fill('Example business');await form.locator('[name=email]').fill('business@example.com');await form.locator('[name=website]').fill('https://example.com');await form.locator('[name=message]').fill('A reviewed education offer.');const opened=page.waitForEvent('popup');await form.getByRole('button',{name:'Continue on WhatsApp'}).click();const popup=await opened;await popup.waitForLoadState();const target=new URL(popup.url());expect(target.origin+target.pathname).toBe('https://wa.me/917874166009');for(const value of ['Sponsor','Example business','business@example.com','https://example.com','A reviewed education offer.'])expect(target.searchParams.get('text')).toContain(value);await popup.close();await expect(page.getByRole('button',{name:/Download.*(brief|draft)/})).toHaveCount(0);await page.reload();await expect(form.locator('[name=business]')).toHaveValue('');expect(writes).toEqual([]);
 });
 test('app finder stays usable across small screens, themes and empty results',async({page})=>{
  await page.goto(base);await expect(page.locator('#app-finder-trigger')).toBeVisible();
  for(const [width,height,theme] of [[320,568,'light'],[390,844,'dark'],[1440,900,'light']]){
-  await page.setViewportSize({width,height});await setTheme(page,theme);await page.evaluate(()=>scrollTo(0,500));await page.locator('#app-finder-trigger').scrollIntoViewIfNeeded();const position=await page.evaluate(()=>scrollY);
-  await page.getByRole('button',{name:'Search apps',exact:true}).click();await expect(page.getByLabel('Search apps or activities')).toBeFocused();await expect(page.locator('.finder-result')).toHaveCount(14);
+  await page.setViewportSize({width,height});await setTheme(page,theme);await page.evaluate(()=>scrollTo(0,500));await page.locator('#app-finder-trigger').scrollIntoViewIfNeeded();let position;
+  await page.getByRole('button',{name:'Search apps',exact:true}).click();await expect(page.getByLabel('Search apps or activities')).toBeFocused();position=await page.evaluate(()=>scrollY);await expect(page.locator('.finder-result')).toHaveCount(14);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   const bounds=await page.locator('#app-finder-dialog').boundingBox();expect(bounds.y).toBeGreaterThanOrEqual(0);expect(bounds.y+bounds.height).toBeLessThanOrEqual(height+1);
   await page.getByLabel('Search apps or activities').fill('not-a-real-tool');await expect(page.locator('#finder-count')).toContainText('No matching apps');await expect(page.getByRole('button',{name:'Clear search',exact:true})).toBeVisible();await page.getByRole('button',{name:'Clear search',exact:true}).click();
@@ -182,11 +192,11 @@ test('public tools and private destinations stay distinct through sign-in',async
  if(status.setupRequired){const setup=await page.request.post(base+'/api/auth/setup',{data:{name:'Sushant Owner',firmName:'Synapse Chambers',email:'owner@synapse.example',password:'Platform browser password!'}});expect(setup.ok()).toBe(true);await page.request.post(base+'/api/auth/logout');}
  await page.goto(base);
  await expect(page.locator('#free-apps .public-app')).toHaveCount(14);
- expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.slice(0,4).map(a=>a.getAttribute('href')))).toEqual(['/moment-studio','/take-a-break','/decision-wheel','/news']);
- expect(await page.locator('#platform-switcher nav a:not(.platform-switcher-home)').evaluateAll(links=>links.slice(0,4).map(a=>a.getAttribute('href')))).toEqual(['/moment-studio','/take-a-break','/decision-wheel','/news']);
+ expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.slice(0,4).map(a=>a.getAttribute('href')))).toEqual(['/confessions','/qr-maker','/photo-resize','/bill-splitter']);
+ expect(await page.locator('#platform-switcher nav a:not(.platform-switcher-home)').evaluateAll(links=>links.slice(0,4).map(a=>a.getAttribute('href')))).toEqual(['/take-a-break?game=24','/decision-wheel','/confessions','/qr-maker']);
  await expect(page.locator('#workspace-apps .workspace-card')).toHaveCount(4);
  await expect(page.locator('#free-apps a[href*="tournament"]')).toHaveCount(0);
- const {apps}=require('../../../packages/app-registry');expect(apps.slice(0,4).map(a=>a.path)).toEqual(['/moment-studio','/take-a-break','/decision-wheel','/news']);
+ const {apps}=require('../../../packages/app-registry');expect(apps.slice(0,4).map(a=>a.path)).toEqual(['/confessions','/qr-maker','/photo-resize','/bill-splitter']);
  expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.map(a=>a.getAttribute('href')).sort())).toEqual(apps.filter(a=>a.public&&a.status==='Available'&&!a.catalogueParent).map(a=>a.path).sort());
  for(const [width,theme] of [[390,'dark'],[1440,'light']]){
   await page.setViewportSize({width,height:1000});

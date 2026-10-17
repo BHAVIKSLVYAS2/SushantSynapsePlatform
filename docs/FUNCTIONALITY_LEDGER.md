@@ -2898,3 +2898,44 @@ attempt blocked). No production test votes, migration, bootstrap or data edits.
 Evidence: `.publish/arena-redesign-deploy.log`,
 `.publish/arena-redesign-live-verification.json`,
 `.publish/arena-redesign-live-mobile.png`. No repository push performed.
+
+## Premium web application hub (2026-10-18, local)
+
+Redesigned the public homepage in the existing vanilla JavaScript/CSS portal.
+Homepage-scoped navy/cyan tokens, light-theme equivalents, glossy gradients,
+edge reflections and restrained shadows follow the supplied reference. Indigo
+distinguishes the workspace entry. A lightweight native SVG illustration shows
+web tools emerging from a box; existing app icons and original routing remain.
+No generated raster images, new framework, dependencies, API or schema changes.
+Inherited card/hero blur is disabled; only the existing header uses glass blur.
+
+The homepage now presents a hero, Explore Apps/My Workspace entry links, inline
+search, category pills, a curated Confessions feature and all fourteen direct
+browser-app links. The feature is editorial selection, not a popularity metric.
+Search and category filters compose, with clear/empty feedback and a live result
+count; no catalogue state is persisted. A mobile Home/Apps/Games/Workspace dock
+uses existing destinations. Existing app finder, private access enforcement,
+sign-in, shared preferences, visitor counting, static SEO and no-JavaScript
+catalogue links remain. English/Hindi copy uses the existing shared dictionary.
+Styles are scoped to the public home; signed-in workspaces retain their UI.
+
+Verification: **339 distinct Node/API checks verified** (338/339 initial full
+run; one Fund Lens static-asset check returned 503 during concurrent asset
+generation, then passed its isolated 1/1 rerun). **19 distinct portal/language
+Chrome workflows verified** (16/19 initial run; three corrected checks passed
+the final 4/4 focused rerun, which also rechecked the new homepage search/layout
+workflow after readability refinements). The broad cross-app workflow needed a
+120-second budget; it passed in 45.5 seconds on rerun. Existing test expectations
+were updated for the new palette/headline, current catalogue/switcher order and
+the separate visitor counter. No production functionality was altered for tests.
+
+Checks cover 320/360/375/390/412/430/768/1440px light/dark layouts, search and
+category composition, empty/clear states, mobile destinations, keyboard finder,
+reduced motion, static no-JavaScript links, Hindi preference, storage denial,
+authentication, favourites, launches, staff access and seventeen other app pages.
+Reviewed `test-results/home-hub-mobile-dark.png`,
+`test-results/home-hub-catalogue-dark.png` and
+`test-results/home-hub-desktop-dark.png`. Final frontend build exports 803 public
+assets; JavaScript syntax and `git diff --check` pass. API test log:
+`.publish/home-hub-node.log`. Fixtures use temporary DATA_DIR values. No live
+database changes, commit or production deployment performed for this increment.

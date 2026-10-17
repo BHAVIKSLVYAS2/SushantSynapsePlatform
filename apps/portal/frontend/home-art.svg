@@ -7,6 +7,17 @@
   <linearGradient id="amber" x2=".65" y2="1"><stop stop-color="#fff0bd"/><stop offset=".4" stop-color="#ffd17a"/><stop offset="1" stop-color="#b66c33"/></linearGradient>
   <filter id="depth" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="9" stdDeviation="7" flood-color="#071713" flood-opacity=".24"/></filter>
  </defs>
+ <symbol id="hub" viewBox="0 0 360 300">
+  <defs><linearGradient id="hub-wall" x2=".8" y2="1"><stop stop-color="#4b799e"/><stop offset=".45" stop-color="#1d3c63"/><stop offset="1" stop-color="#0c1b35"/></linearGradient><linearGradient id="hub-rim"><stop stop-color="#8ce5ff"/><stop offset=".5" stop-color="#5270bb"/><stop offset="1" stop-color="#c0dcff"/></linearGradient></defs>
+  <ellipse cx="185" cy="274" rx="139" ry="16" fill="#061525" opacity=".3"/>
+  <path d="m55 170 129-44 127 49-127 54Z" fill="#09192e" stroke="#6386b4" stroke-width="2"/>
+  <g transform="translate(73 39) rotate(-16 45 45)"><rect width="82" height="86" rx="19" fill="url(#blue)" stroke="#a8d9ff" stroke-opacity=".6"/><path d="M22 36q18-9 38 0l6 22q-3 12-14 0H32q-13 13-16 0Z" fill="#e4f3ff"/><path d="M30 39v13m-6-6h12" stroke="#2b568d" stroke-width="4"/><circle cx="52" cy="44" r="3" fill="#2b568d"/><circle cx="59" cy="50" r="3" fill="#2b568d"/><path d="M12 15q25-9 57 0" fill="none" stroke="#fff" opacity=".25" stroke-width="2"/></g>
+  <g transform="translate(215 18) rotate(13 40 40)"><rect width="76" height="79" rx="18" fill="url(#blue)" stroke="#a8d9ff" stroke-opacity=".6"/><path d="m25 23 30 31m0-31L25 54" stroke="#e4f3ff" stroke-width="8" stroke-linecap="round"/><circle cx="24" cy="23" r="7" fill="none" stroke="#e4f3ff" stroke-width="4"/><path d="m52 50 7 7" stroke="#e4f3ff" stroke-width="6"/></g>
+  <g transform="translate(142 115) rotate(-10 40 40)"><rect width="82" height="83" rx="19" fill="url(#blue)" stroke="#a8d9ff" stroke-opacity=".6"/><path d="m14 63 20-25 15 16 9-11 14 20Z" fill="#e4f3ff"/><circle cx="57" cy="23" r="8" fill="#a4edff"/></g>
+  <g transform="translate(254 115) rotate(15 32 32)"><rect width="63" height="67" rx="15" fill="url(#blue)"/><path d="M19 14h22l8 8v33H19Z" fill="#e4f3ff"/><path d="M25 29h18m-18 8h18m-18 8h12" stroke="#395c93" stroke-width="4"/></g>
+  <path d="m55 170 129 49v65L65 238Z" fill="url(#hub-wall)" stroke="url(#hub-rim)" stroke-width="2"/><path d="m184 219 127-44-10 67-117 42Z" fill="url(#blue)" stroke="url(#hub-rim)" stroke-width="2"/>
+  <path d="m59 174 123 48 125-44" fill="none" stroke="#c3eaff" stroke-width="3" opacity=".7"/>
+ </symbol>
  <symbol id="teams" viewBox="0 0 180 160">
   <g filter="url(#depth)"><path d="M47 91 96 42 127 113Z" fill="none" stroke="#569e9c" stroke-width="8" stroke-linejoin="round"/><path d="m47 87 49-49 31 71" fill="none" stroke="#b0efdc" stroke-opacity=".6" stroke-width="2"/><circle cx="96" cy="39" r="20" fill="url(#blue)"/><circle cx="44" cy="89" r="23" fill="url(#mint)"/><circle cx="127" cy="117" r="31" fill="url(#mint)"/><ellipse cx="118" cy="103" rx="12" ry="6" fill="#edfff8" opacity=".16"/></g>
  </symbol>
