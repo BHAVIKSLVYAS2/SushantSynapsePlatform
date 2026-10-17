@@ -1,5 +1,15 @@
 # Deploy Sushant Synapse Platform
 
+Organisation/licensing source is committed and live-verified (2026-10-17):
+implementation `dcb843b`, Worker `71146d50-e086-48d3-b29d-87c72bf193f6`. All 339
+full checks pass; live Super Admin sign-in, account navigation, audit, tenant
+denials, public home/health and responsive light/dark layouts pass with zero page
+errors. The republish preserved existing accounts/data and ran no migration or
+bootstrap. See `docs/ORGANISATION_PRODUCTION_CUTOVER.md` for the current D1 boundary
+and rollback constraints; older single-workspace instructions are not a tenant
+rollback procedure. Evidence: `.publish/organisation-source-deploy.log` and
+`.publish/organisation-live-verification.json`.
+
 Daily Satire sample edition is deployed/live-verified (2026-10-16): source
 `cc16f87`, Worker `67eee0f4-4209-40ca-a677-90c68e944934`. Seven read-only original
 examples are available at `/satire-arena/daily?sample=1`. The existing Arena HTML

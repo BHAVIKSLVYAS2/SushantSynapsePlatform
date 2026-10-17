@@ -7,7 +7,9 @@ Last updated: 2026-10-17 (Asia/Kolkata).
 **Production is now active (2026-10-17).** Read
 `docs/ORGANISATION_PRODUCTION_CUTOVER.md` for the deployed D1 boundary, exact release,
 verified cutover and remaining features. Worker
-`24ee36a4-2ce2-4f9c-be2c-6c25c95ada0a` enables organisation mode. The requested
+`71146d50-e086-48d3-b29d-87c72bf193f6` (implementation commit `dcb843b`) enables
+organisation mode; the committed source republish passed 339/339 checks and live
+verification without another migration or bootstrap. The requested
 `superadmin@sushantsynapse.com` account exists and live sign-in is verified.
 Existing four accounts and twenty records were preserved; their Owner is retained
 as primary Master Admin. Super Admin has no Chambers business assignment.

@@ -1,5 +1,19 @@
 # Chambers functionality ledger
 
+**Committed source republished (2026-10-17, live verified):** Implementation commit
+`dcb843b` is deployed as Worker `71146d50-e086-48d3-b29d-87c72bf193f6` at
+`https://apps.sushantsynapse.com`. Fresh full checks **339/339 pass**; live Super
+Admin sign-in, separate Chambers access denial, account navigation, governance/
+audit, cross-origin rejection, private internal-asset 404, public home/health and
+320/390/768/1440px light/dark layouts pass with zero page errors. Existing four
+memberships/assignments remain intact. No migration/bootstrap, reset, business
+record write or account change was part of this republish. Only the internal
+ledger asset needed upload; existing public assets and D1 binding were retained.
+Logs: `.publish/organisation-commit-tests.log`,
+`.publish/organisation-source-deploy.log`, `.publish/organisation-source-live-check.log`;
+current live report: `.publish/organisation-live-verification.json`.
+This final release record is a separate documentation commit from the deployed code.
+
 **Source release reconciliation (2026-10-17):** User authorised committing and
 republishing the verified organisation/licensing implementation. Reviewed and
 staged the programme's source, app-owned SQL, D1 metadata, tests and continuation

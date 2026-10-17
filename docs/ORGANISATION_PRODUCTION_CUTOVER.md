@@ -1,7 +1,10 @@
 # Organisation licensing production cutover
 
 Live on 2026-10-17 at `https://apps.sushantsynapse.com`.
-Production Worker: `24ee36a4-2ce2-4f9c-be2c-6c25c95ada0a`.
+Current production Worker: `71146d50-e086-48d3-b29d-87c72bf193f6`, deployed from
+implementation commit `dcb843b`. The original cutover Worker was
+`24ee36a4-2ce2-4f9c-be2c-6c25c95ada0a`; subsequent source reconciliation preserved
+its data and runtime behaviour. Fresh 339/339 checks and live verification passed.
 
 ## Current state
 
@@ -87,6 +90,9 @@ Evidence: `.publish/organisation-production-tests-clean.log`,
 `.publish/organisation-production-cutover-verification.json`,
 `.publish/organisation-production-deploy-retry.log`,
 `.publish/organisation-live-verification.json`.
+
+Committed-source republish evidence: `.publish/organisation-commit-tests.log`,
+`.publish/organisation-source-deploy.log`, `.publish/organisation-source-live-check.log`.
 
 ## Further releases
 
