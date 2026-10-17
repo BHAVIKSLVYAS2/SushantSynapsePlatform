@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Break victory celebrations (2026-10-17, release preparation):**
+**Break victory celebrations (2026-10-17, deployed/live verified):**
 Code, Memory, three-board Lights Out, Face-Off and completed Chaos rounds now
 show a trophy, game-specific achievement badge and gold-accented result panel,
 with the same bounded confetti/poppers/fireworks as Daily Spark. Focus/scroll
@@ -17,7 +17,14 @@ New coverage checks all five completion badges plus genuine-win effects, bounds,
 cleanup, neutral reveals and reduced motion. Two old no-game-API assertions now
 allow only auth status/website visitor requests. Syntax/diff checks pass; mobile
 Code and Chaos captures reviewed (`.publish/break-victory-mobile.png`,
-`.publish/chaos-mobile.png`). Deployment verification follows.
+`.publish/chaos-mobile.png`). Source `d7ddf22` deployed from an isolated checkout
+as Worker `4b62fb99-b8ac-4e9c-9c4e-8e63811c79a7`; seven assets uploaded, 797 reused,
+existing bindings retained. Live Chrome checks pass five exact asset comparisons
+and actual completion flows for all five new celebrations, confetti, hide/undo
+cleanup, reduced motion and neutral answer reveal. No page errors or production
+writes (visitor endpoint stubbed by the verifier). Evidence:
+`.publish/verify-break-victories-live.cjs`,
+`.publish/break-victory-live-mobile.png` (reviewed).
 
 **Confessions direct scratch (2026-10-17, deployed/live verified):**
 Covered cards accept direct mouse drags and horizontal touch strokes without a
