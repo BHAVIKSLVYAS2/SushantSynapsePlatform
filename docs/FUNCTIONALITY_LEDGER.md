@@ -1,5 +1,24 @@
 # Chambers functionality ledger
 
+**Break victory celebrations (2026-10-17, release preparation):**
+Code, Memory, three-board Lights Out, Face-Off and completed Chaos rounds now
+show a trophy, game-specific achievement badge and gold-accented result panel,
+with the same bounded confetti/poppers/fireworks as Daily Spark. Focus/scroll
+bring results into view without a modal. Game rules, scores, hints and sharing
+remain intact; revealed Code answers are neutral. Face-Off celebrates the chosen
+favourite, and Chaos celebrates round completion rather than inventing a win.
+The shared Daily Spark engine accepts optional result selectors; its existing
+Make 24 defaults remain unchanged. Reset, hidden panes, navigation, pagehide and
+reduced motion clear effects; reduced motion retains the static result/trophy.
+No audio, API writes, schema or persistence changes. New helper is allowlisted;
+Break CSS/controller cache references refreshed. All 17 Chrome workflows pass
+using isolated temporary data, including six Daily Spark and eleven Break tests.
+New coverage checks all five completion badges plus genuine-win effects, bounds,
+cleanup, neutral reveals and reduced motion. Two old no-game-API assertions now
+allow only auth status/website visitor requests. Syntax/diff checks pass; mobile
+Code and Chaos captures reviewed (`.publish/break-victory-mobile.png`,
+`.publish/chaos-mobile.png`). Deployment verification follows.
+
 **Confessions direct scratch (2026-10-17, deployed/live verified):**
 Covered cards accept direct mouse drags and horizontal touch strokes without a
 Scratch button. A bordered cover shows a sideways arrow, Scratch here to reveal

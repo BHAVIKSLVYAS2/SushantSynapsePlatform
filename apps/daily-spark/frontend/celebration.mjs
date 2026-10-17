@@ -1,6 +1,6 @@
-// A short, local celebration shared by both Make 24 entry points.
+// A short, local celebration shared by Make 24 and the Break game results.
 // It never creates a score or sends a request.
-export function createSparkCelebration(root) {
+export function createSparkCelebration(root, {resultSelector = '#result', titleSelector = '#result-title'} = {}) {
   const document = root.ownerDocument, view = document.defaultView;
   const motion = view.matchMedia('(prefers-reduced-motion: reduce)');
   const colors = ['mint', 'gold', 'coral', 'sky', 'lilac'];
@@ -37,8 +37,8 @@ export function createSparkCelebration(root) {
   function celebrate() {
     clear();
     if (!visible()) return;
-    const result = root.querySelector('#result');
-    const title = root.querySelector('#result-title');
+    const result = root.querySelector(resultSelector);
+    const title = root.querySelector(titleSelector);
     // Bring the achievement into view on small phones without opening a modal.
     title?.focus({preventScroll: true});
     result?.scrollIntoView({block: 'center', behavior: motion.matches ? 'instant' : 'smooth'});

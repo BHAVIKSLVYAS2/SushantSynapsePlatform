@@ -1,5 +1,12 @@
 # Code ownership and adding apps
 
+Break victory presentation (2026-10-17): `apps/take-a-break/frontend/celebration.mjs`
+decorates genuine completion results for Code, Memory, Lights Out, Face-Off and
+Chaos. It reuses Daily Spark's bounded celebration engine with optional result
+selectors; Make 24 defaults remain intact. Results retain their existing scores,
+sharing and replay controls. Effects clear on reset/hide/navigation and reduced
+motion retains the static trophy and result. Revealed Code answers are neutral.
+
 Platform visitors (2026-10-17, local): `apps/portal/backend/visitors.mjs` owns
 the bounded visitor aggregate and public `/api/platform/visitors` endpoint, with
 Node adapter `visitors.cjs`. Shared `packages/ui/visitors.mjs` records app-first
