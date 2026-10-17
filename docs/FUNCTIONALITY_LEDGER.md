@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Homepage apps-first layout (2026-10-17, local):**
+**Homepage apps-first layout (2026-10-17, deployed/live verified):**
 Both static and dynamically rendered anonymous homes replace the tall illustrated
 welcome banner with a compact title/subtitle. Make 24 and Decision Wheel featured
 suggestions move into the All apps switcher under Try something today; search
@@ -18,7 +18,14 @@ theme/account spacing and 21-route mobile/desktop app switching in both themes,
 including search, empty results, Escape focus restoration and print. The latter
 test's stale homepage height expectation was corrected to the existing compact
 72px header. Syntax and diff checks pass.
-No data/schema changes, commit or deployment performed for this refinement.
+Source `1d1d351` deployed from an isolated checkout as Worker
+`94254c62-d723-4a91-b742-1b44cc99e0df`; six assets uploaded, 798 reused, existing
+bindings retained. Live Chrome checks pass four exact asset comparisons, eight
+viewport/theme layouts, first app row above 400px, real CDP touch scrolling from
+cards/category tabs, relocated menu suggestions, menu search and Escape focus.
+No page errors, production writes or data/schema changes. Evidence:
+`.publish/verify-home-apps-first-live.cjs`,
+`.publish/home-apps-first-live-{mobile,menu}.png` (reviewed).
 
 **Break victory celebrations (2026-10-17, deployed/live verified):**
 Code, Memory, three-board Lights Out, Face-Off and completed Chaos rounds now
