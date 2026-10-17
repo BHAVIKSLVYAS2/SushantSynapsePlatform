@@ -1,5 +1,24 @@
 # Chambers functionality ledger
 
+**Normal Super Admin sign-in and account switching (2026-10-17):** Diagnosed the
+reported login issue: the live account and Super Admin assignment are active, and
+the supplied credential succeeds in a fresh browser. Updated the ordinary account
+sign-in flow so a successful Super Admin login opens `/super-admin` directly;
+manual My account visits still expose password/profile controls. A different
+signed-in identity now gets an explicit Switch account action on the protected
+console. It signs out through the existing API, clears previous governance/secret
+DOM and opens sign-in; expired sessions can switch too. No password reset, account
+change, role bypass or migration. Staff/client normal sign-in remains on My account.
+Verification: **17/17 administration/account Chrome**, **2/2 D1/Chrome** pass,
+including ordinary entry redirect, role-based landing and switching identities.
+The broader suite passed 337 checks; its two failures came from the synthetic-host
+browser harness following a fulfilled HTTP redirect onto the real network. The
+harness now verifies the Worker 302 directly and starts Chrome at its account
+target; the corrected two D1 checks pass. Logs:
+`.publish/super-admin-signin-browser.log`,
+`.publish/super-admin-signin-d1-verified.log`, `.publish/super-admin-signin-full-tests.log`.
+Existing production sign-in diagnosis: `.publish/super-admin-login-diagnosis.log`.
+
 **Committed source republished (2026-10-17, live verified):** Implementation commit
 `dcb843b` is deployed as Worker `71146d50-e086-48d3-b29d-87c72bf193f6` at
 `https://apps.sushantsynapse.com`. Fresh full checks **339/339 pass**; live Super

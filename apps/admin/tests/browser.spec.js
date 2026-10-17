@@ -35,6 +35,15 @@ test('signed-out and non-Super Admin visitors receive useful access states',asyn
  await page.goto(fixture.base+'/admin');await expect(page.getByRole('status')).toHaveText('Please sign in');await expect(page.locator('#signin')).toBeVisible();await expect(page.locator('#workspace')).toBeHidden();await login(page,'master');await page.goto(fixture.base+'/super-admin');await expect(page.getByRole('status')).toContainText('Super Admin access is required');await expect(page.locator('#workspace')).toBeHidden();
 });
 
+test('normal sign-in opens Super Admin and a different account can explicitly switch',async({page})=>{
+ await page.goto(fixture.base+'/account');const signin=page.locator('#admin-login');
+ await signin.getByLabel('Account email').fill('super@example.com');await signin.getByLabel('Password',{exact:true}).fill(fixture.password);await signin.getByRole('button',{name:'Sign in',exact:true}).click();
+ await expect(page).toHaveURL(fixture.base+'/super-admin');await expect(page.getByRole('status')).toHaveText('Workspace ready.');
+ await login(page,'master');await page.goto(fixture.base+'/super-admin');await expect(page.locator('#workspace')).toBeHidden();await expect(page.locator('#panels')).toBeEmpty();
+ await page.getByRole('button',{name:'Switch account',exact:true}).click();await expect(page.locator('#signin')).toBeVisible();await expect(page.getByRole('status')).toHaveText('Please sign in');
+ await signin.getByLabel('Account email').fill('super@example.com');await signin.getByLabel('Password',{exact:true}).fill(fixture.password);await signin.getByRole('button',{name:'Sign in',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Workspace ready.');await expect(page).toHaveURL(fixture.base+'/super-admin');
+});
+
 test('new Master Admin invitation activates an account and signs into only its organisation',async({page,browser})=>{
  await login(page,'super');await page.goto(fixture.base+'/super-admin');
  await expect(page.getByRole('status')).toHaveText('Workspace ready.');

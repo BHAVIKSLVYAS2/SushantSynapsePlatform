@@ -3,7 +3,7 @@ const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;
 let index,view,busy=false,revision=0;
 let accountSessionSeen=false;
 const accountPage=location.pathname==='/account';
-$('.admin-header').insertAdjacentHTML('afterend','<nav class="admin-footer" aria-label="Account navigation"><a href="/account">My account</a></nav>');
+$('.admin-header').insertAdjacentHTML('afterend','<nav class="admin-footer" aria-label="Account navigation"><a href="/account">My account</a><button id="switch-account" type="button" hidden>Switch account</button></nav>');
 if(accountPage){document.title='My account · Sushant Synapse';$('.intro h1').textContent='My account';$('.intro p').textContent='Your organisations, memberships and assigned apps.';$('#organisation').closest('label').hidden=true;}
 const themeControl=$('[data-theme-select]');
 themeControl.value=window.SynapseTheme.read();
@@ -78,7 +78,11 @@ async function load(selected,strict=false){
  }
  const current=++revision;index=await api();if(current!==revision)return;
  if(strict&&selected&&!index.organisations.some(o=>o.id===selected))throw new Error('Organisation administration is unavailable for this account.');
- if(location.pathname==='/super-admin'&&!index.superAdmin)throw new Error('Super Admin access is required for this page.');
+ $('#switch-account').hidden=true;
+ if(location.pathname==='/super-admin'&&!index.superAdmin){
+  clearSecret();clearCredentials();view=null;$('#panels').replaceChildren();$('#summary').replaceChildren();$('#organisation').replaceChildren();$('#workspace').hidden=true;$('#accept-panel').hidden=true;$('#switch-account').hidden=false;
+  throw new Error('Super Admin access is required for this page. Switch account to sign in with your Super Admin email.');
+ }
  $('#workspace').hidden=false;$('#accept-panel').hidden=false;$('#signin').hidden=true;clearCredentials();
  $('#organisation').innerHTML=opts(index.organisations.map(o=>[o.id,`${o.name} · ${o.status}`]),selected);
  if(selected&&index.organisations.some(o=>o.id===selected))$('#organisation').value=selected;
@@ -105,7 +109,8 @@ document.addEventListener('submit',event=>{
    }else{
     const response=await fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data),cache:'no-store'});
     const result=await response.json();if(!response.ok)throw new Error(result.error||'Sign-in failed');
-    clearCredentials();if(location.pathname==='/super-admin'&&document.documentElement.dataset.runtime!=='cloud')location.assign('/admin');else await load(new URLSearchParams(location.search).get('organisation'),true);
+    clearCredentials();await load(new URLSearchParams(location.search).get('organisation'),true);
+    if(accountPage&&index?.superAdmin)location.assign('/super-admin');
    }
   });return;
  }
@@ -139,13 +144,14 @@ document.addEventListener('submit',event=>{
 $('#organisation').addEventListener('change',()=>{clearSecret();run(()=>load($('#organisation').value));});
 $('#refresh').addEventListener('click',()=>run(()=>load($('#organisation').value)));
 $('#dismiss-secret').addEventListener('click',clearSecret);
-$('#admin-signout').addEventListener('click',()=>run(async()=>{
+const signOut=()=>run(async()=>{
  const response=await fetch('/api/auth/logout',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});
- if(!response.ok)throw new Error('Sign-out failed');
+ if(!response.ok&&response.status!==401)throw new Error('Sign-out failed');
  clearSecret();clearCredentials();view=null;index=null;revision++;accountSessionSeen=false;
  $('#panels').replaceChildren();$('#summary').replaceChildren();$('#organisation').replaceChildren();
- $('#workspace').hidden=true;$('#accept-panel').hidden=true;$('#signin').hidden=false;status('Please sign in');
-}));
+ $('#workspace').hidden=true;$('#accept-panel').hidden=true;$('#signin').hidden=false;$('#switch-account').hidden=true;status('Please sign in');
+});
+$('#admin-signout').addEventListener('click',signOut);$('#switch-account').addEventListener('click',signOut);
 addEventListener('pagehide',()=>{clearSecret();clearCredentials();});
 function clearAccount(){if(!accountPage)return;revision++;clearCredentials();index=null;view=null;$('#workspace').hidden=true;$('#accept-panel').hidden=true;$('#summary').replaceChildren();$('#panels').replaceChildren();$('#account-security')?.remove();}
 addEventListener('pagehide',clearAccount);

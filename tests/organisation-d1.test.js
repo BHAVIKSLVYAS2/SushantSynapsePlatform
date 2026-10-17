@@ -73,6 +73,7 @@ test('production D1 organisations enforce provisioning, atomic capacity, tenant 
  assert.equal((await api('organisation-admin',{headers:{Origin:'https://foreign.test'}})).status,403);
  const integrity=await db.prepare('PRAGMA foreign_key_check').all();assert.equal(integrity.results.length,0);
  await t.test('D1 Super Admin browser signs in, provisions an organisation and supports mobile themes',async()=>{
+  const normalEntry=await mf.dispatchFetch(origin+'/signin',{redirect:'manual'});assert.equal(normalEntry.status,302);assert.equal(normalEntry.headers.get('location'),origin+'/account');
   const {chromium,expect}=require('@playwright/test'),browser=await chromium.launch({headless:true,channel:'chrome'});
   try{
    const page=await browser.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
@@ -81,7 +82,9 @@ test('production D1 organisations enforce provisioning, atomic capacity, tenant 
     const r=await mf.dispatchFetch(origin+url.pathname+url.search,{method:req.method(),headers,body:['GET','HEAD'].includes(req.method())?undefined:req.postData()});
     await route.fulfill({status:r.status,headers:Object.fromEntries(r.headers),body:Buffer.from(await r.arrayBuffer())});
    });
-   await page.goto('https://organisation-ui.test/super-admin');
+   // Browser routing starts at the HTTP redirect target; intercepted synthetic
+   // hosts cannot follow a fulfilled 302 through the real network.
+   await page.goto('https://organisation-ui.test/account');
    await page.locator('#admin-login [name="email"]').fill('super@example.test');await page.locator('#admin-login [name="password"]').fill(password);await page.locator('#admin-login button').click();await expect(page.getByRole('status')).toHaveText('Workspace ready.');
    await expect(page.getByRole('heading',{name:'Super Admin',exact:true})).toBeVisible();await expect(page.locator('form[data-command="recovery-export"]')).toHaveCount(0);
    const form=page.locator('form[data-command="provision"]');await form.locator('..').locator('summary').click();
@@ -93,7 +96,9 @@ test('production D1 organisations enforce provisioning, atomic capacity, tenant 
    await page.locator('#admin-login [name="email"]').fill('other@example.test');await page.locator('#admin-login [name="password"]').fill(password);await page.locator('#admin-login button').click();await expect(page.getByRole('status')).toHaveText('Account ready.');
    await page.getByRole('link',{name:'Open Chambers',exact:true}).click();await expect(page.getByRole('heading',{name:'Chambers overview',exact:true})).toBeVisible();
    await page.goto('https://organisation-ui.test/advocate?organisation='+second+'#clients');await expect(page.getByRole('button',{name:'Other D1 private client',exact:true})).toBeVisible();await expect(page.locator('#app')).not.toContainText('First D1 private client');
-   await page.goto('https://organisation-ui.test/advocate?organisation='+second+'#settings');await expect(page.getByRole('link',{name:'Download organisation backup',exact:true})).toHaveCount(0);assert.deepEqual(errors,[]);
+   await page.goto('https://organisation-ui.test/advocate?organisation='+second+'#settings');await expect(page.getByRole('link',{name:'Download organisation backup',exact:true})).toHaveCount(0);
+   await page.goto('https://organisation-ui.test/super-admin');await expect(page.getByRole('status')).toContainText('Super Admin access is required');await expect(page.locator('#workspace')).toBeHidden();await page.getByRole('button',{name:'Switch account',exact:true}).click();await expect(page.locator('#admin-login')).toBeVisible();
+   await page.locator('#admin-login [name="email"]').fill('super@example.test');await page.locator('#admin-login [name="password"]').fill(password);await page.locator('#admin-login button').click();await expect(page.getByRole('status')).toHaveText('Workspace ready.');await expect(page.getByRole('heading',{name:'Super Admin',exact:true})).toBeVisible();assert.deepEqual(errors,[]);
   }finally{await browser.close();}
  });
 });
