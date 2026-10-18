@@ -1,9 +1,14 @@
 # Chambers functionality ledger
 
-**Homepage heading wording (2026-10-19, local):** Changed “Explore web apps”
+**Homepage heading wording (2026-10-19, live verified):** Changed “Explore web apps”
 to “Explore apps” in the static homepage and dynamic discovery renderer; updated
 the Hindi translation key. Verified matching wording and clean diff whitespace.
-Text-only change; no data changes. Not yet committed or deployed.
+Text-only change; no data changes. Source `0ccf0cf` committed and pushed to main,
+deployed as Worker `da790fe8-2d64-43cd-a1e1-d74f93ad4940` with existing variables
+and bindings preserved. Live read-only HTTP/Chrome checks verify static and
+dynamic headings plus both versioned discovery/language assets, with no browser
+errors. Writes/external requests blocked. Evidence: `.publish/explore-apps-live.json`
+and `.publish/explore-apps-deploy.log`.
 
 **Implemented-app catalogue cleanup (2026-10-19):** Removed the unimplemented
 Projects, Finance and Knowledge entries from the shared registry, static home,

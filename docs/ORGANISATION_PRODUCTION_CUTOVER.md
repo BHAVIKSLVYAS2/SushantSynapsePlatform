@@ -1,7 +1,12 @@
 # Organisation licensing production cutover
 
 Live on 2026-10-17 at `https://apps.sushantsynapse.com`.
-Current production Worker: `5d87a97e-4c2f-41a4-b7aa-e6eacd2af446` (2026-10-19),
+Current production Worker: `da790fe8-2d64-43cd-a1e1-d74f93ad4940` (2026-10-19),
+from heading wording `0ccf0cf`, pushed to main. Static/dynamic “Explore apps”
+heading and versioned discovery/language assets verified live in HTTP/Chrome,
+with no browser errors or forwarded writes. Production variables and bindings
+preserved; no migration or stored-data changes. See the functionality ledger.
+Prior production Worker: `5d87a97e-4c2f-41a4-b7aa-e6eacd2af446` (2026-10-19),
 from catalogue cleanup `0ee925c`, pushed to GitHub main. Unimplemented Projects,
 Finance and Knowledge placeholders removed. All 349 Node/API checks and fourteen
 portal Chrome workflows pass across runs/reruns. Live read-only asset/catalogue/
