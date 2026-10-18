@@ -1,5 +1,16 @@
 # Chambers functionality ledger
 
+**Newsroom topic fallback correction (2026-10-18):** Live review found legacy BBC
+editions without provider/category fields were all displayed as India, including
+boxing stories. Topic grouping now respects known category metadata and URL sections,
+then clear headline/excerpt cues for sport/technology/business/culture/India. BBC
+global stories fall back to World; unrecognised sources/topics stay General. These
+are local browsing groups, not rewritten publisher metadata. No stored stories,
+source URLs, dates or provider integrations change. All 11 News Chrome workflows
+now pass in one clean run, including missing-metadata topic regression cases,
+search/reading/print, archives, generation failure/retry and concurrency. Evidence:
+`.publish/newsroom-release-tests`. Final corrected publication follows.
+
 **Newsroom design published (2026-10-18, live verified):** Implementation `dab4bbc`
 plus editorial-font correction `433d0af` are live as Worker
 `6f302969-d1fd-4701-9def-9ca374c119a5`. Initial deployment was

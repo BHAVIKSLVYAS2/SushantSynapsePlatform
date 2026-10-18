@@ -73,7 +73,8 @@ async function getJson(url){
   return response.json();
 }
 function storyTopic(story){
-  if(story.provider==='BBC')return story.category||'World';
+  const labels={india:'India',world:'World',business:'Money',money:'Money',technology:'Tech',tech:'Tech',sports:'Sport',sport:'Sport',entertainment:'Masala',masala:'Masala'};
+  const category=String(story.category||'').trim().toLowerCase();if(labels[category])return labels[category];
   const path=new URL(story.url).pathname;
   if(path.includes('/entertainment/'))return 'Masala';
   if(path.includes('/sports/'))return 'Sport';
@@ -82,7 +83,16 @@ function storyTopic(story){
   if(path.includes('/world/'))return 'World';
   if(/\/(lifestyle|trending)\//.test(path))return 'Life & culture';
   if(/\/(education|health)\//.test(path))return 'Learning & health';
-  return 'India';
+  // Older saved editions retain excerpts/URLs but may lack provider/category fields.
+  // Use clear topic cues for browsing; an unknown topic stays general.
+  const text=(story.title+' '+story.brief).normalize('NFKC').toLowerCase();
+  if(/\b(boxing|heavyweight|cricket|football|tennis|rugby|olympics?|athletics|fifa|premier league)\b/.test(text))return 'Sport';
+  if(/\b(technology|artificial intelligence|ai|cyber|software|spacecraft|satellite|isro|robotics)\b/.test(text))return 'Tech';
+  if(/\b(stock markets?|stock exchange|inflation|interest rates?|banking|economy|economic|financial|share prices?|business)\b/.test(text))return 'Money';
+  if(/\b(cinema|bollywood|hollywood|film festival|movie|film star|entertainment)\b/.test(text))return 'Masala';
+  if(/\b(india|indian|delhi|mumbai|kolkata|chennai|bengaluru)\b/.test(text))return 'India';
+  if(story.provider==='BBC'||/bbc/i.test(story.source||'')||/(^|\.)bbc\.(com|co\.uk)$/.test(new URL(story.url).hostname))return 'World';
+  return 'General';
 }
 function artwork(name,alt,className){
   const img=element('img','',className);img.src='/news/art/'+name+'-768.webp';img.srcset=`/news/art/${name}-768.webp 768w, /news/art/${name}-1280.webp 1280w, /news/art/${name}-v1.webp 1536w`;img.sizes='(max-width:700px) calc(100vw - 64px), 420px';img.loading='lazy';img.alt=alt;img.width=1536;img.height=1024;img.decoding='async';
