@@ -1,8 +1,10 @@
 # Organisation licensing production cutover
 
 Live on 2026-10-17 at `https://apps.sushantsynapse.com`.
-Current production Worker: `d339655d-0737-48b4-83ba-7ac4b88fb631` (2026-10-18),
-from `1efe455`, adding compact playful Arena heroes and stronger distinct audio.
+Current production Worker: `d861d9fc-5303-4d99-b537-7a8d200e067f` (2026-10-18),
+from `da9fc3d`, adding inline wheel-list diagnostics and stronger tick audio.
+Playful Arena source `1efe455` is included; its prior Worker was
+`d339655d-0737-48b4-83ba-7ac4b88fb631`.
 Homepage footer source `b107547` is included; prior Worker
 `6715853d-f1d4-4754-b377-7947f169368a` consolidated that footer and visitor count.
 Arena/theme source `62c9c6f` is included. Organisation/D1/auth bindings are preserved.

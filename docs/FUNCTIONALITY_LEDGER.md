@@ -1,5 +1,16 @@
 # Chambers functionality ledger
 
+**Wheel diagnostics/tick release published (2026-10-18, live verified):** Source
+`da9fc3d` is deployed as Worker `d861d9fc-5303-4d99-b537-7a8d200e067f`.
+Five changed assets uploaded with existing organisation/D1/auth/rate-limit settings
+preserved. Live read-only Chrome checks match three source assets, reproduce the
+exact reported battle-axe duplicate at lines 3/10, preserve all typed text and the
+old six-choice wheel, then successfully build/spin the corrected 20-choice list.
+Inline error remains readable without overflow across 320/390/768/1440px light/dark
+layouts. Default sound toggle/mute works; no page errors. Mobile screenshot reviewed.
+All production data writes were blocked. Evidence: `.publish/wheel-validation-live.json`
+and `.publish/wheel-validation-live-mobile.png`.
+
 **Decision Wheel list diagnostics and louder ticks (2026-10-18):** Reproduced the
 reported 21-line list: battle axe repeats on original lines 3 and 10; deleting only
 the second occurrence yields 20 valid choices. Parsing now names repeated labels
