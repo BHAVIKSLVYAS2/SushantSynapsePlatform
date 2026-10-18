@@ -27,7 +27,7 @@ test('Mobile registration autosaves, resumes, submits atomically and renders pri
  await page.setViewportSize({width:390,height:844});await page.screenshot({path:'test-results/digital-samaj-mobile.png',fullPage:true});expect(errors).toEqual([]);
 });
 test('Signed out access requires shared login and database APIs stay protected',async({page})=>{
- await page.goto(base+'/digital-samaj');await expect(page.getByRole('link',{name:'Sign in',exact:true})).toHaveAttribute('href','/signin?next=digital-samaj');
+ await page.goto(base+'/digital-samaj');await expect(page.locator('#content').getByRole('link',{name:'Sign in',exact:true})).toHaveAttribute('href','/signin?next=digital-samaj');
  expect((await page.request.get(base+'/api/digital-samaj')).status()).toBe(401);
  await page.locator('#language').selectOption('hi');await expect(page.getByRole('link',{name:'साइन इन',exact:true})).toBeVisible();await expect(page.locator('#notice')).not.toHaveClass('show');
 });

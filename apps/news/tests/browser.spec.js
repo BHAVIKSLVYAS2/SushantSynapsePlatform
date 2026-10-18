@@ -60,7 +60,7 @@ test('backend outage generates in the browser, reuses tab editions, validates da
 
 test('fresh comic takes work on archives without writes, restore originals and print on mobile',async({page})=>{
   execFileSync(process.execPath,[path.join(__dirname,'seed-fixtures.js'),dir]);
-  const writes=[];page.on('request',request=>{if(request.method()!=='GET')writes.push(request.url());});
+  const writes=[];page.on('request',request=>{if(new URL(request.url()).pathname!=='/api/platform/visitors'&&request.method()!=='GET')writes.push(request.url());});
   await page.goto(base+'/news?date=2025-01-03');
   const original=await page.locator('.satire-body').innerText();
   const saved=await (await page.request.get(base+'/api/news/editions/2025-01-03')).json();
@@ -242,7 +242,7 @@ test('saved editions render ten stories and satire, reopen by date, handle gaps 
   await expect(page.locator('#preview-heading')).toHaveText('Newspaper for 2025-01-03');
   await page.getByRole('button',{name:'Previous edition',exact:true}).click();
   await expect(page.getByLabel('Edition date')).toHaveValue('2025-01-01');
-  await expect(page.locator('#reader-status')).toContainText('Opened from saved editions');
+  await expect(page.locator('#reader-status')).toHaveText('Saved edition opened.');
   await page.reload();await expect(page.locator('.saved-story')).toHaveCount(10);await expect(page.getByLabel('Edition date')).toHaveValue('2025-01-01');
   await page.getByLabel('Edition date').fill('2025-01-02');
   await expect(page.locator('#reader-status')).toHaveText('No saved newspaper for 2025-01-02.');

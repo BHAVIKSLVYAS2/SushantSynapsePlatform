@@ -2953,3 +2953,10 @@ were blocked during browser verification. No production test records or account
 changes, migration, bootstrap or repository push. Evidence:
 `.publish/home-hub-deploy.log`, `.publish/home-hub-live-verification.json`,
 `.publish/home-hub-live-mobile.png`, `.publish/home-hub-live-desktop.png`.
+
+
+## Platform-wide visual refinement ? 2026-10-18
+
+Audited every maintained app, governance/client screen, shared shell and game before implementation; detailed scope and evidence: `docs/PLATFORM_UI_REFINEMENT_2026-10-18.md`. Added reusable light/dark navy, slate and mint materials, glossy surfaces, restrained depth, shared typography, compact cards and accessible controls. Refined Moment Studio, Take a Break, editorial footers and showcase fitting; refreshed shared styles across all maintained HTML and generated editorial pages. Public passive header/counter failures no longer mislabel independent tools as offline; actual API responses remain unchanged.
+
+Validation: 339/339 Node/API tests; 14/14 focused Cloudflare Node tests; 228 route/size/theme combinations; 112 main and 42 governance audit captures plus 40 focused review checks without overflow or page errors. The full existing browser suite executed 242 cases; initial stale assertions and fixture failures are resolved through focused reruns recorded in the audit document. Organisation-enabled build succeeds with 803 exported assets. All test data is isolated; no records, blobs, accounts, schema, API/business logic, authentication, game engines or production bindings changed.

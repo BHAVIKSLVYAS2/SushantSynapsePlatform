@@ -1,0 +1,198 @@
+/* Platform materials. Screen chrome only: no canvas, print or game-state overrides. */
+@media screen {
+  :root, body[data-ui-app] {
+    --ss-font:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI","Nirmala UI",sans-serif;
+    --ss-bg:#f2f5f8;
+    --ss-bg-secondary:#e9eff4;
+    --ss-surface:#ffffff;
+    --ss-surface-raised:#f8fbfd;
+    --ss-surface-soft:#eaf3f0;
+    --ss-text:#1c3043;
+    --ss-muted:#52697d;
+    --ss-border:#cbd8e2;
+    --ss-accent:#116b61;
+    --ss-accent-hover:#0d5b53;
+    --ss-on-accent:#ffffff;
+    --ss-reflection:#ffffffd9;
+    --ss-shadow:inset 0 1px 0 var(--ss-reflection),0 5px 16px #142d4410;
+    --ss-shadow-raised:inset 0 1px 0 var(--ss-reflection),0 12px 28px #142d441a;
+    --ss-radius:16px;
+    --ss-radius-control:11px;
+    --ss-motion:160ms ease;
+  }
+  html[data-theme=dark], html[data-theme=dark] body[data-ui-app], body[data-theme=dark] {
+    --ss-bg:#0a1523;
+    --ss-bg-secondary:#101f30;
+    --ss-surface:#142638;
+    --ss-surface-raised:#1a3044;
+    --ss-surface-soft:#1d393c;
+    --ss-text:#edf3f8;
+    --ss-muted:#a5bacb;
+    --ss-border:#30485c;
+    --ss-accent:#77d6bf;
+    --ss-accent-hover:#9be4d3;
+    --ss-on-accent:#082923;
+    --ss-reflection:#ffffff12;
+    --ss-shadow:inset 0 1px 0 var(--ss-reflection),0 5px 18px #00000025;
+    --ss-shadow-raised:inset 0 1px 0 var(--ss-reflection),0 12px 30px #00000038;
+  }
+  body[data-ui-app] {
+    --ui-bg:var(--ss-bg);--ui-solid:var(--ss-surface);--ui-glass:var(--ss-surface);
+    --ui-panel:var(--ss-surface);--ui-ink:var(--ss-text);--ui-text:var(--ss-text);
+    --ui-muted:var(--ss-muted);--ui-edge:var(--ss-border);--ui-soft:var(--ss-surface-soft);
+    --ui-accent:var(--ss-accent);--ui-on-accent:var(--ss-on-accent);
+    --ui-highlight:var(--ss-reflection);--ui-shadow:var(--ss-shadow);
+    --ui-bloom:transparent;--ui-product-halo:transparent;
+    --ui-product-panel:var(--ss-surface);--ui-product-edge:var(--ss-border);
+    --ui-product-shadow:var(--ss-shadow);--ui-mint-wash:var(--ss-surface-soft);
+    --ui-mint-edge:var(--ss-border);--radius:var(--ss-radius);
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI","Nirmala UI",sans-serif;
+    line-height:1.5;
+  }
+  html[data-theme] body[data-ui-app].has-platform-shell,
+  html[data-theme] body[data-ui-app=admin] {
+    --shell-bg:var(--ss-bg);--shell-surface:var(--ss-surface);
+    --shell-ink:var(--ss-text);--shell-muted:var(--ss-muted);--shell-line:var(--ss-border);
+    --shell-accent:var(--ss-accent);--shell-on-accent:var(--ss-on-accent);
+    --shell-soft:var(--ss-surface-soft);
+    --bg:var(--ss-bg);--surface:var(--ss-surface);--text:var(--ss-text);--ink:var(--ss-text);
+    --muted:var(--ss-muted);--line:var(--ss-border);--border:var(--ss-border);
+    --primary:var(--ss-accent);--accent:var(--ss-accent);
+    --on-primary:var(--ss-on-accent);--on-accent:var(--ss-on-accent);
+    background:var(--ss-bg);color:var(--ss-text);
+  }
+  body[data-ui-app] :is(.panel,.card,.stat,.app-card,.public-app,.workspace-card,
+    .library,.game-card,.break-card,.score,.game,.workbench,.playground,.registration,
+    .support-card,.support-partner,.support-hero,.sponsor-enquiry,.sponsor-boundaries,
+    .demo-player,.notice,.metric,.person,.licence,.summary-card,.studio-featured,.tool-tile) {
+    border-color:var(--ss-border);
+    border-radius:var(--ss-radius);
+    box-shadow:var(--ss-shadow);
+    background-image:linear-gradient(145deg,var(--ss-surface-raised),var(--ss-surface));
+  }
+  /* Opaque glossy layers do not need dozens of backdrop-filter passes. */
+  body[data-ui-app] :is(.panel,.card,.library,.public-app,.workspace-card,.game,
+    .workbench,.score,.notice,.intro,.hero,.page-heading,.studio-intro,.tool-tile,
+    .studio-featured,.support-card,.support-hero,.synapse-sponsor,.arena-discovery) {
+    -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+  }
+  body[data-ui-app] :is(.support-card,.support-hero,.support-partner) {animation:none}
+  body[data-ui-app] :is(.topbar,.mobile-nav,.bottom-nav,.admin-header) {
+    border-color:var(--ss-border);background:var(--ss-surface);box-shadow:inset 0 1px 0 var(--ss-reflection);
+    -webkit-backdrop-filter:none;backdrop-filter:none;
+  }
+  body[data-ui-app] :is(.intro,.hero,.page-heading,.page-top,.studio-intro) h1 {
+    font-family:var(--ss-font);font-size:clamp(28px,3.4vw,42px);font-weight:750;line-height:1.15;letter-spacing:-.035em;
+  }
+  /* UI headings share a face; print and canvas artwork keep authored typography. */
+  html[data-theme] body[data-ui-app] :is(h1,h2,h3):not(.scene-stage :is(h1,h2,h3)) {font-family:var(--ss-font)!important}
+  body[data-ui-app=portal].has-platform-shell main :is(p,li) {font-family:var(--ss-font)}
+  body[data-ui-app] :is(.intro,.hero,.page-heading,.page-top) p {line-height:1.6}
+  body[data-ui-app] :is(.panel,.card,.library,.game-card,.break-card)>:is(h2,h3),
+  body[data-ui-app] :is(.section-heading,.card-heading,.collection-heading) :is(h2,h3) {
+    font-family:inherit;font-weight:700;letter-spacing:-.02em;line-height:1.3;
+  }
+  body[data-ui-app] :is(button,.primary,.secondary,.button,.launch,.all-apps) {
+    transition:background-color var(--ss-motion),border-color var(--ss-motion),box-shadow var(--ss-motion),transform var(--ss-motion);
+  }
+  body[data-ui-app] :is(.primary,.secondary,.button,.launch,.all-apps,.public-launch) {
+    border-radius:var(--ss-radius-control);font-weight:650;min-height:var(--ss-control-min,44px);
+    box-shadow:inset 0 1px 0 var(--ss-reflection),0 2px 5px #00000010;
+  }
+  body[data-ui-app] :is(.primary,.launch,.public-launch) {
+    background:var(--ss-accent);border-color:var(--ss-accent);color:var(--ss-on-accent);
+  }
+  body[data-ui-app] :is(.toolbar,.actions,.filters,.tabs,.modes,.presets,.round-controls,
+    .report-toolbar,.game-actions,.editor-actions) button {
+    min-height:var(--ss-control-min,44px);border-radius:var(--ss-radius-control);font-weight:600;
+  }
+  body[data-ui-app] :is(.panel,.form-grid,.settings-grid,.auth-form,.auth-panel,.editorial-page,
+    .toolbar,.filters,dialog,.admin-header) :is(input:not([type=checkbox]):not([type=radio]):not([type=color]):not([type=range]),select,textarea) {
+    min-height:var(--ss-control-min,44px);border-radius:var(--ss-radius-control);border-color:var(--ss-border);
+    background:var(--ss-bg-secondary);color:var(--ss-text);box-shadow:inset 0 1px 2px #0000000a;
+    font-size:16px;line-height:1.4;
+  }
+  body[data-ui-app] :is(input,textarea)::placeholder {color:var(--ss-muted);opacity:.9}
+  body[data-ui-app] input:is([type=checkbox],[type=radio],[type=range]) {accent-color:var(--ss-accent)}
+  body[data-ui-app] :is(a,button,input,select,textarea,summary):focus-visible {
+    outline:2px solid var(--ss-accent);outline-offset:3px;
+  }
+  body[data-ui-app] :is(.table-wrap,.table-scroll,.scroll) {
+    border-color:var(--ss-border);border-radius:12px;box-shadow:inset 0 1px 0 var(--ss-reflection);
+  }
+  body[data-ui-app] :is(.record-row,.team-row,.member-row,.person,.licence) {border-color:var(--ss-border)}
+  body[data-ui-app] :is(.nav-item,.bottom-item,.section-tabs button,.tabs button) {font-weight:600}
+  body[data-ui-app] :is(.nav-item.active,.nav-item.selected,.nav-item[aria-current=page],
+    .bottom-item.active,.tabs button[aria-selected=true]) {
+    background:var(--ss-surface-soft);color:var(--ss-accent);box-shadow:inset 0 0 0 1px var(--ss-border);
+  }
+  body[data-ui-app] dialog:not(#platform-switcher) {
+    border:1px solid var(--ss-border);border-radius:20px;box-shadow:var(--ss-shadow-raised);
+    background:var(--ss-surface);color:var(--ss-text);
+  }
+  body[data-ui-app] dialog::backdrop {background:#06111dcc;backdrop-filter:none}
+  body[data-ui-app] :is(.public-app,.app-card,.break-card,.guide-option,.tool-tile,.workspace-card) {
+    transition:transform var(--ss-motion),border-color var(--ss-motion),box-shadow var(--ss-motion);
+  }
+  @media(hover:hover) and (pointer:fine) {
+    body[data-ui-app] :is(.public-app,.app-card,.break-card,.tool-tile,.workspace-card):hover {
+      transform:translateY(-2px);box-shadow:var(--ss-shadow-raised);border-color:var(--ss-accent);
+    }
+    body[data-ui-app] :is(.primary,.launch,.public-launch):not(:disabled):hover {
+      background:var(--ss-accent-hover);border-color:var(--ss-accent-hover);transform:translateY(-1px);
+    }
+  }
+  /* App adapters: presentation wrappers only; board geometry and art stay app-owned. */
+  body[data-ui-app=confessions] {--ss-control-min:48px}
+  body[data-ui-app=portal]:not(:has(.public-home)) :is(.app-card,.panel) {border-radius:16px}
+  body[data-ui-app=portal] .app-card-top {min-height:76px}
+  body[data-ui-app=portal] .app-art-wrap,body[data-ui-app=portal] .app-sculpture {width:84px;height:76px}
+  body[data-ui-app=portal] .synapse-sponsor-label {box-shadow:none;border-color:var(--ss-border);background:var(--ss-surface-soft);color:var(--ss-accent)}
+  body[data-ui-app=advocate] :is(.card-heading,.list-toolbar) {padding:16px 18px}
+  body[data-ui-app=advocate] :is(.record-main>strong,.case-link) {font-size:13px}
+  body[data-ui-app=advocate] :is(.record-main p,.record-main small,.case-row small) {font-size:12px;line-height:1.5}
+  body[data-ui-app=advocate] .sidebar {background:var(--ss-bg-secondary);border-color:var(--ss-border)}
+  body[data-ui-app=advocate] .page-heading h1 {font-size:clamp(27px,3vw,36px)}
+  body[data-ui-app=admin] .admin-header {box-shadow:var(--ss-shadow);padding-block:12px}
+  body[data-ui-app=admin] main {padding-top:24px}
+  body[data-ui-app=admin] :is(.card,.metric,.person,.licence) {background-color:var(--ss-surface)}
+  body[data-ui-app=admin] .metric {padding:14px}
+  body[data-ui-app=admin] .metric strong {font-size:26px}
+  body[data-ui-app=admin] button {border:1px solid var(--ss-border);box-shadow:inset 0 1px 0 var(--ss-reflection);border-radius:11px}
+  body[data-ui-app=digital-samaj] :is(.panel,.registration,.member-card,.family-card) {box-shadow:var(--ss-shadow);border-color:var(--ss-border)}
+  body[data-ui-app=batchfee-lite] :is(.metric,.summary,.stat,.panel) {border-color:var(--ss-border);box-shadow:var(--ss-shadow)}
+  body[data-ui-app=tournament-lite] :is(.tournament-card,.match-card,.tournament-panel) {border-color:var(--ss-border);box-shadow:var(--ss-shadow)}
+  body[data-ui-app=timetable-lite] :is(.panel,.setup-card,.tabs) {border-color:var(--ss-border)}
+  body[data-ui-app=news] :is(.edition-cover,.edition-tools,.news-filter) {box-shadow:var(--ss-shadow);border-color:var(--ss-border)}
+  body[data-ui-app=fund-overlap] :is(.selection,.coverage-note,.comparison) {border-color:var(--ss-border);border-radius:14px}
+  body[data-ui-app=moment-studio] :is(.studio-nav,.studio-panel,.studio-intro) {background:var(--ss-surface);border-color:var(--ss-border);box-shadow:var(--ss-shadow)}
+  body[data-ui-app=ritual-assist] :is(.guide-option,.pack-card,.result-card) {border-color:var(--ss-border);box-shadow:var(--ss-shadow)}
+  body[data-ui-app=ritual-assist] :is(.library,.results-heading) {border-radius:16px}
+  body[data-ui-app=ritual-assist] :is(.help-toggle,.disclosure-toggle,summary) {min-height:44px;align-content:center}
+  body[data-ui-app=take-a-break] .break-card {padding:18px;gap:8px}
+  body[data-ui-app=take-a-break] .break-card strong {font-family:inherit;font-size:21px;font-weight:700;line-height:1.25}
+  body[data-ui-app=take-a-break] .card-symbol {box-shadow:inset 0 1px 0 var(--ss-reflection);border-radius:14px}
+  body[data-ui-app=pocket-pause] .playground,body[data-ui-app=daily-spark] .game {box-shadow:var(--ss-shadow);border-color:var(--ss-border)}
+  body[data-ui-app=decision-wheel] .editor,body[data-ui-app=team-mixer] .workspace>form,
+  body[data-ui-app=focus] :is(.timer-panel,.task-panel) {box-shadow:var(--ss-shadow);border-color:var(--ss-border);border-radius:16px}
+  body[data-ui-app=qr-maker] :is(.qr-panel,.preview-panel),body[data-ui-app=photo-resize] :is(.tool-panel,.preview-panel),
+  body[data-ui-app=bill-splitter] :is(.bill-panel,.result-panel) {box-shadow:var(--ss-shadow);border-color:var(--ss-border)}
+  body[data-ui-app=satire-arena] .arena-card {box-shadow:var(--ss-shadow)}
+  body[data-ui-app=satire-arena] .reactions button[aria-pressed=true] {box-shadow:inset 0 1px 0 var(--ss-reflection)}
+  body[data-ui-app=satire-arena] .editorial-page :is(.notice,form) {border-color:var(--ss-border);box-shadow:var(--ss-shadow);border-radius:16px}
+  body[data-ui-app=satire-arena] .editorial-page footer {display:block;font-size:12px;line-height:1.6;padding:20px 0}
+  body[data-ui-app=satire-arena] .editorial-page footer p {margin:12px 0}
+  body[data-ui-app=satire-arena] .editorial-page footer a {display:inline-flex;align-items:center;min-height:44px;margin-right:12px}
+  @media(max-width:760px) {
+    body[data-ui-app]:not(:has(.public-home)) :is(.intro,.hero,.page-heading,.page-top) {margin-block:12px;padding:16px;border-radius:16px}
+    body[data-ui-app]:not(:has(.public-home)) :is(.intro,.hero,.page-heading,.page-top) h1 {font-size:29px;line-height:1.17}
+    body[data-ui-app] :is(.panel,.library,.workbench) {border-radius:16px}
+    body[data-ui-app=portal] .app-card {padding:16px}
+    body[data-ui-app=advocate] :is(.record-row,.case-row) {padding-block:14px}
+    body[data-ui-app=advocate] .page-heading {padding:12px 0}
+    body[data-ui-app=admin] .metrics {grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}
+  }
+  @media(prefers-reduced-motion:reduce) {
+    body[data-ui-app] :is(button,a,.panel,.card,.app-card,.break-card,.public-app,.workspace-card) {transition:none!important;transform:none!important}
+  }
+}

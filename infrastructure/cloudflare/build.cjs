@@ -34,7 +34,7 @@ function build({fullstack=false,organisations=false}={}) {
     const target = path.join(output, url);
     fs.mkdirSync(path.dirname(target), {recursive: true});
     let contents = fs.readFileSync(path.join(root, source));
-    if (source.endsWith('.html')) contents = Buffer.from(contents.toString().replace('<head>', '<head><link rel="stylesheet" href="/shared/availability.css"><script src="/shared/availability.js"></script>'));
+    if (source.endsWith('.html')) contents = Buffer.from(contents.toString().replace('<head>', '<head><link rel="stylesheet" href="/shared/availability.css"><script src="/shared/availability.js?v=20261018-refined"></script>'));
     fs.writeFileSync(target, contents);
   }
   fs.writeFileSync(path.join(__dirname, 'pages.json'), JSON.stringify(pages, null, 2) + '\n');

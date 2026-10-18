@@ -219,8 +219,10 @@ test('public tools and private destinations stay distinct through sign-in',async
   await page.getByLabel('Password',{exact:true}).fill('Platform browser password!');
   await page.locator('#auth-form button[type=submit]').click();
   await expect(page).toHaveURL(base+'/'+app);
-  await page.goto(base+'/signin?next='+app);
+  await page.goto(base+'/signin?next='+app,{waitUntil:'commit'});
   await expect(page).toHaveURL(base+'/'+app);
+  // Leave the loading private document before invalidating its session.
+  await page.goto('about:blank');
   await page.request.post(base+'/api/auth/logout');
  }
  await page.goto(base+'/signin?next=https://example.com');

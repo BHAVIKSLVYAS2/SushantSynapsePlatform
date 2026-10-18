@@ -119,3 +119,16 @@
  .platform-switch{grid-column:1/-1;grid-row:2;justify-self:start;max-width:100%;min-height:44px}
 }
 .platform-switcher .platform-switcher-group{grid-column:1/-1;margin:12px 0 2px;font-size:11px;font-weight:750;color:var(--shell-muted);letter-spacing:.06em;text-transform:uppercase}
+@media screen {
+ body[data-ui-app] .platform-shell{background:linear-gradient(145deg,var(--shell-surface),var(--shell-bg));box-shadow:inset 0 1px 0 var(--ss-reflection,transparent),0 3px 14px #00000012;-webkit-backdrop-filter:none;backdrop-filter:none}
+ body[data-ui-app] .platform-shell :is(.platform-switch,.platform-account){border-radius:12px;box-shadow:inset 0 1px 0 var(--ss-reflection,transparent);transition:background-color 160ms ease,border-color 160ms ease,box-shadow 160ms ease}
+ body[data-ui-app] .platform-switcher{border-radius:20px;box-shadow:var(--ss-shadow-raised,0 16px 36px #00000025)}
+ body[data-ui-app] .platform-switcher nav a{border-radius:14px;box-shadow:inset 0 1px 0 var(--ss-reflection,transparent)}
+ body[data-ui-app] .platform-shell :focus-visible{outline:2px solid var(--shell-accent);outline-offset:3px}
+ body[data-ui-app] .platform-shell .platform-shell-brand{color:var(--shell-ink)}
+ body[data-ui-app] .platform-shell :is(button,a){font-family:var(--ss-font,Inter,"Segoe UI",sans-serif)}
+ body[data-ui-app] .platform-shell .theme-toggle{display:inline-flex;align-items:center;justify-content:center;border-radius:999px}
+ body[data-ui-app] .platform-shell .theme-toggle svg{width:18px;height:18px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+ @media(hover:hover){body[data-ui-app] .platform-shell :is(.platform-switch,.platform-account):hover{border-color:var(--shell-accent)}}
+ @media(prefers-reduced-motion:reduce){body[data-ui-app] .platform-shell :is(.platform-switch,.platform-account){transition:none}}
+}

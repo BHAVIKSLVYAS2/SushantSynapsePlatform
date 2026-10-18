@@ -2,11 +2,11 @@
 :root{color-scheme:light}
 :root[data-theme=dark]{color-scheme:dark}
 html[data-theme] body#moment-cards[data-ui-app=moment-studio]{
-  --ui-bg:#f3f0eb;--ui-solid:#fff;--ui-ink:#292421;--ui-muted:#756b64;--ui-edge:#ded7cf;--ui-soft:#ece5dd;--ui-accent:#a65e43;--ui-on-accent:#fff;--ui-bloom:#b8755320;--studio-shadow:0 10px 30px #30251d18;--danger:#a53a32;
+  --ui-bg:var(--ss-bg);--ui-solid:var(--ss-surface);--ui-ink:var(--ss-text);--ui-muted:var(--ss-muted);--ui-edge:var(--ss-border);--ui-soft:var(--ss-surface-soft);--ui-accent:var(--ss-accent);--ui-on-accent:var(--ss-on-accent);--ui-bloom:transparent;--studio-shadow:var(--ss-shadow);--danger:#a53a32;
   --bg:var(--ui-bg);--surface:var(--ui-solid);--ink:var(--ui-ink);--text:var(--ui-ink);--muted:var(--ui-muted);--line:var(--ui-edge);--accent:var(--ui-accent);--soft:var(--ui-soft);--on-accent:var(--ui-on-accent);
   margin:0;background:radial-gradient(ellipse at 95% 15%,var(--ui-bloom),transparent 50%),var(--ui-bg);color:var(--ui-ink);font:14px/1.6 'Segoe UI',Arial,sans-serif;
 }
-html[data-theme=dark] body#moment-cards[data-ui-app=moment-studio]{--ui-bg:#151311;--ui-solid:#26211e;--ui-ink:#f7eee6;--ui-muted:#bcb0a6;--ui-edge:#493d35;--ui-soft:#332b25;--ui-accent:#e9aa8c;--ui-on-accent:#2a180f;--ui-bloom:#b8755316;--studio-shadow:0 10px 30px #0004;--danger:#ffb4a9}
+html[data-theme=dark] body#moment-cards[data-ui-app=moment-studio]{--ui-bg:var(--ss-bg);--ui-solid:var(--ss-surface);--ui-ink:var(--ss-text);--ui-muted:var(--ss-muted);--ui-edge:var(--ss-border);--ui-soft:var(--ss-surface-soft);--ui-accent:var(--ss-accent);--ui-on-accent:var(--ss-on-accent);--ui-bloom:transparent;--studio-shadow:var(--ss-shadow);--danger:#ffb4a9}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 #moment-cards a{color:var(--ui-accent)}
