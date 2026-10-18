@@ -1,5 +1,16 @@
 # Chambers functionality ledger
 
+**Final Newsroom release (2026-10-18, live verified):** Topic correction `a1497d0`
+is live as Worker `2306a539-b078-4811-ad96-cc9ff8cc1226`, including design `dab4bbc`
+and typography `433d0af`. Two changed assets uploaded with production bindings and
+variables retained. Clean full News browser run 11/11; prior focused backend 9/9.
+Final live checks on the existing 2026-10-18 edition pass three asset matches,
+search/empty/reset, brief expansion, print and eight light/dark responsive layouts.
+The live edition now groups into India, Sport and World instead of all India;
+editorial headline font resolves to Georgia. No page errors or News writes.
+Final mobile screenshot reviewed. Evidence: `.publish/newsroom-live.json`,
+`.publish/newsroom-live-mobile.png`, `.publish/newsroom-release-tests`.
+
 **Newsroom topic fallback correction (2026-10-18):** Live review found legacy BBC
 editions without provider/category fields were all displayed as India, including
 boxing stories. Topic grouping now respects known category metadata and URL sections,

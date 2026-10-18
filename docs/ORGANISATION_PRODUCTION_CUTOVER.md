@@ -1,9 +1,10 @@
 # Organisation licensing production cutover
 
 Live on 2026-10-17 at `https://apps.sushantsynapse.com`.
-Current production Worker: `6f302969-d1fd-4701-9def-9ca374c119a5` (2026-10-18),
-from Newsroom redesign `dab4bbc` plus typography correction `433d0af`, adding a
-compact source-credited feed and edition search. Prior wheel release `da9fc3d`
+Current production Worker: `2306a539-b078-4811-ad96-cc9ff8cc1226` (2026-10-18),
+from Newsroom topic correction `a1497d0`, including redesign `dab4bbc` and typography
+`433d0af`. Prior Newsroom Worker: `6f302969-d1fd-4701-9def-9ca374c119a5`.
+The compact source-credited feed and edition search are live. Wheel release `da9fc3d`
 is included; its Worker was `d861d9fc-5303-4d99-b537-7a8d200e067f`.
 Playful Arena source `1efe455` is included; its prior Worker was
 `d339655d-0737-48b4-83ba-7ac4b88fb631`.
