@@ -94,10 +94,6 @@ function storyTopic(story){
   if(story.provider==='BBC'||/bbc/i.test(story.source||'')||/(^|\.)bbc\.(com|co\.uk)$/.test(new URL(story.url).hostname))return 'World';
   return 'General';
 }
-function artwork(name,alt,className){
-  const img=element('img','',className);img.src='/news/art/'+name+'-768.webp';img.srcset=`/news/art/${name}-768.webp 768w, /news/art/${name}-1280.webp 1280w, /news/art/${name}-v1.webp 1536w`;img.sizes='(max-width:700px) calc(100vw - 64px), 420px';img.loading='lazy';img.alt=alt;img.width=1536;img.height=1024;img.decoding='async';
-  img.addEventListener('error',()=>{img.hidden=true;});return img;
-}
 const topicSymbols={
  India:'<path d="M18 52h60M24 52V31h48v21M31 31V20h34v11M48 12v8M32 38v14m16-14v14m16-14v14M18 60h60M28 68h40"/>',
  World:'<circle cx="48" cy="44" r="28"/><ellipse cx="48" cy="44" rx="13" ry="28"/><path d="M20 44h56M25 29h46M25 59h46"/>',
@@ -116,10 +112,10 @@ searchBox.addEventListener('keydown',event=>{if(event.key==='Escape'){event.prev
 function renderEdition(edition){
   const reader=document.querySelector('#saved-reader');reader.replaceChildren();
   const overview=element('div','','reader-overview');
-  overview.append(element('h2','The daily dispatch'),element('span',edition.stories.length+' stories · One chai break','reading-time'));
+  overview.append(element('h2','The daily dispatch'),element('span',edition.stories.length+' stories','reading-time'));
   const info=element('details','','edition-info');info.append(element('summary','Edition '+edition.date+' · Sources & timing'));
   info.append(element('p',(edition.deviceOnly?'Prepared on this device ':'Published ')+new Date(edition.publishedAt).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})+' IST. News through '+new Date(edition.cutoff).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})+' IST.','saved-meta'));
-  info.append(element('p','Short credited source excerpts. Follow each original for full context. Topic art is decorative illustration, not news photography. Comic artwork is AI-generated.','saved-meta'));
+  info.append(element('p','Short credited source excerpts. Follow each original for full context. Topic art is decorative illustration, not news photography.','saved-meta'));
   const filters=element('div','','topic-filters');filters.setAttribute('role','group');filters.setAttribute('aria-label','Filter stories by topic');
   const count=element('p','Showing all '+edition.stories.length+' stories','filter-count');count.setAttribute('role','status');
   const grid=element('div','','saved-stories');
@@ -149,47 +145,7 @@ function renderEdition(edition){
       activeTopic=topic;filterStories();
     });const symbol=element('span',({'All stories':'\u2726',India:'\u{1f1ee}\u{1f1f3}',World:'\u{1f310}',Money:'\u2197',Tech:'\u2318',Sport:'\u{1f3c6}',Masala:'\u2727'})[topic]||'\u2022','topic-symbol');symbol.setAttribute('aria-hidden','true');button.prepend(symbol);filters.append(button);
   }
-  const satire=element('aside','','saved-satire');satire.id='lighter-side';
-  let variant=edition.promptVersion==='news-comic-v3'?1:0;
-  const comicContent=element('div');
-  const controls=element('div','','comic-controls');
-  const another=element('button','Try another take');another.type='button';
-  const original=element('button','Show edition original');original.type='button';original.hidden=true;
-  const takeStatus=element('p','','comic-caption');takeStatus.setAttribute('role','status');
-  another.addEventListener('click',()=>{
-    renderComic(SynapseNews.createSatire(edition.stories,{date:edition.date,variant:variant++}),'news-comic-v3');
-    original.hidden=false;takeStatus.textContent='Fresh take for this reading. The edition original is unchanged. Takes cycle when all available jokes have been shown.';
-  });
-  original.addEventListener('click',()=>{renderComic(edition.satire,edition.promptVersion);original.hidden=true;takeStatus.textContent='Showing the edition original.';});
-  controls.append(another,original);satire.append(controls,takeStatus,comicContent);
-  function renderComic(comic,version){
-  comicContent.replaceChildren();
-  const satireHead=element('div','','satire-heading');
-  satireHead.append(element('p','The chai-break comic','section-label'),element('h2',comic.title),element('span','Satire · Fictional commentary','badge'));
-  comicContent.append(satireHead);
-  if(['news-comic-v2','news-comic-v3'].includes(version)){
-    const body=element('div','','comic-strip');
-    for(const [i,text]of comic.body.split('\n\n').entries()){
-      if(i>0&&i<4){
-        const panel=element('section','','comic-panel');
-        panel.append(element('span',String(i).padStart(2,'0'),'panel-number'),artwork('chai-comic','', 'comic-scene'));
-        const dialogue=text.replace(/^Panel \d+:\s*/,'');const split=dialogue.indexOf(':');
-        const bubble=element('div','','speech-bubble');bubble.append(element('span',split<0?'Reader':dialogue.slice(0,split),'speaker'),element('p',split<0?dialogue:dialogue.slice(split+1).trim()));
-        panel.append(bubble);body.append(panel);
-      }else body.append(element('p',text,'comic-caption'));
-    }
-    comicContent.append(body);
-  }else{
-    comicContent.append(artwork('chai-comic','Two fictional friends sharing news over chai','legacy-comic-art'),element('p',comic.body,'satire-body'));
-  }
-  comicContent.append(element('p','AI-generated illustration · Fictional characters, not a depiction of the reported event.','art-credit'));
-  if(!comic.body.startsWith('Reading-room comic:')){
-    const reference=element('a','Inspired by story '+comic.storyPosition+': '+edition.stories[comic.storyPosition-1].title,'satire-reference');
-    reference.href='#story-'+comic.storyPosition;reference.addEventListener('click',()=>filters.firstElementChild.click());comicContent.append(reference);
-  }
-  }
-  renderComic(edition.satire,edition.promptVersion);
-  reader.append(filters,count,grid,empty,overview,info,satire);reader.hidden=false;
+  reader.append(filters,count,grid,empty,overview,info);reader.hidden=false;
   searchBox.disabled=false;searchToggle.disabled=false;searchBox.oninput=filterStories;filterStories();
   document.title=edition.name+' · Newsroom';
   document.querySelector('.byline strong').textContent=edition.author==='Bhavik'?'Aakanksha':edition.author;
@@ -226,7 +182,7 @@ async function loadArchives(today){
   document.querySelector('#edition-date').disabled=false;document.querySelector('#edition-date').max=today;
   document.querySelector('#edition-navigation').hidden=false;
   document.querySelector('#archive-note').textContent='Choose today or a past date to generate or open its newspaper.';
-  document.querySelector('.preview-note p').textContent='Ten stories, one satire, a newspaper to keep.';
+  document.querySelector('.preview-note p').textContent='Ten credited stories, a newspaper to keep.';
   if(deviceMode)useDevice();
   try{
     await archivePage();
@@ -254,7 +210,7 @@ function updateFetchControl(){
   const button=document.querySelector('#fetch-news'),isToday=selection===editionToday;
   button.disabled=fetching||!validSelection(selection);
   button.textContent=fetching?'Preparing newspaper...':selectedSaved?(isToday?"Open today's newspaper":`Open newspaper for ${selection}`):(isToday?"Fetch today's newspaper":`Generate newspaper for ${selection}`);
-  document.querySelector('#fetch-note').textContent=!validSelection(selection)?'Choose today or a past date. Future editions cannot be generated.':selectedSaved?'Open the saved edition without fetching again.':'Generate ten varied stories for this date, plus a fictional comic. Historical coverage depends on the source archive.';
+  document.querySelector('#fetch-note').textContent=!validSelection(selection)?'Choose today or a past date. Future editions cannot be generated.':selectedSaved?'Open the saved edition without fetching again.':'Generate ten credited stories for this date. Historical coverage depends on the source archive.';
 }
 async function setupFetching(){updateFetchControl();}
 

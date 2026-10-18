@@ -1,5 +1,14 @@
 # Chambers functionality ledger
 
+**News-only Newsroom (2026-10-18):** Removed the chai-break comic from saved,
+newly generated and device-only edition views, including alternate-take controls,
+satire navigation, empty-state promotion and related copy. Comic artwork is no
+longer requested by the reader. Historical edition payloads and persistence stay
+compatible; no stored news or satire records are deleted. All 11 isolated News
+Chrome workflows pass, including absence of comic controls/art requests, unchanged
+saved edition payloads, generation, archives, mobile themes and print. Production
+publication follows.
+
 **Final Newsroom release (2026-10-18, live verified):** Topic correction `a1497d0`
 is live as Worker `2306a539-b078-4811-ad96-cc9ff8cc1226`, including design `dab4bbc`
 and typography `433d0af`. Two changed assets uploaded with production bindings and

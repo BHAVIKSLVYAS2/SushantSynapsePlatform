@@ -70,7 +70,7 @@ test('backend outage generates in the browser, reuses tab editions, validates da
   await page.goto(base+'/news?date=2025-01-01');
   await expect(page.locator('#device-note')).toBeVisible();
   await page.locator('#fetch-news').click();
-  await expect(page.locator('.saved-story')).toHaveCount(10);await expect(page.locator('.comic-panel')).toHaveCount(3);
+  await expect(page.locator('.saved-story')).toHaveCount(10);await expect(page.locator('.comic-panel')).toHaveCount(0);
   await expect(page.locator('#fetch-status')).toContainText('Not saved to shared archives');
   await expect(page.locator('#print-edition')).toBeEnabled();
   await page.locator('#fetch-news').click();await expect(page.locator('#fetch-news')).toBeEnabled();expect(calls).toBe(1);
@@ -81,32 +81,24 @@ test('backend outage generates in the browser, reuses tab editions, validates da
   expect(errors).toEqual([]);
 });
 
-test('fresh comic takes work on archives without writes, restore originals and print on mobile',async({page})=>{
+test('news-only archives preserve stored editions and omit comic controls and artwork',async({page})=>{
   execFileSync(process.execPath,[path.join(__dirname,'seed-fixtures.js'),dir]);
-  const writes=[];page.on('request',request=>{if(new URL(request.url()).pathname!=='/api/platform/visitors'&&request.method()!=='GET')writes.push(request.url());});
-  await page.goto(base+'/news?date=2025-01-03');
-  const original=await page.locator('.satire-body').innerText();
+  const writes=[],art=[];
+  page.on('request',request=>{if(request.url().includes('/news/art/chai'))art.push(request.url());if(new URL(request.url()).pathname.startsWith('/api/news/')&&request.method()!=='GET')writes.push(request.url());});
   const saved=await (await page.request.get(base+'/api/news/editions/2025-01-03')).json();
-  const takes=[];
-  for(let i=0;i<4;i++){
-    await page.getByRole('button',{name:'Try another take'}).click();
-    await expect(page.locator('.comic-panel')).toHaveCount(3);
-    takes.push(await page.locator('.comic-strip').innerText());
-  }
-  expect(new Set(takes).size).toBe(4);
-  await expect(page.locator('.satire-reference')).toHaveCount(0);
+  await page.goto(base+'/news?date=2025-01-03');
+  await expect(page.locator('.saved-story')).toHaveCount(10);
+  await expect(page.locator('.saved-satire,.satire,.comic-panel,#lighter-side')).toHaveCount(0);
+  await expect(page.getByRole('button',{name:'Try another take'})).toHaveCount(0);
+  await expect(page.locator('#main')).not.toContainText(/satire|chai.break|fictional comic/i);
   for(const width of [320,768,1440]){
     await page.setViewportSize({width,height:900});
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   }
-  await setTheme(page,'dark');
-  await page.emulateMedia({media:'print'});
-  await expect(page.locator('.comic-controls')).toBeHidden();await expect(page.locator('.comic-panel').first()).toBeVisible();
-  await page.emulateMedia({media:'screen'});
-  await page.getByRole('button',{name:'Show edition original'}).click();
-  await expect(page.locator('.satire-body')).toHaveText(original);
+  await setTheme(page,'dark');await page.emulateMedia({media:'print'});
+  await expect(page.locator('.saved-story:visible')).toHaveCount(10);
   expect(await (await page.request.get(base+'/api/news/editions/2025-01-03')).json()).toEqual(saved);
-  expect(writes).toEqual([]);
+  expect(writes).toEqual([]);expect(art).toEqual([]);
 });
 
 test('device generation failures can retry and pending generation preserves the selected date',async({page})=>{
@@ -153,26 +145,22 @@ test('News public failures offer retry without asking for platform sign-in',asyn
  await page.unroute('**/api/news/status');await page.locator('#retry').click();await expect(page.locator('#newspaper')).toBeVisible();await expect(page.locator('#fetch-news')).toBeEnabled();
 });
 
-test('past dates generate comics and future dates show validation without fetching',async({page})=>{
+test('past dates generate news and future dates show validation without fetching',async({page})=>{
  await page.goto(base+'/news?date=2099-01-01');
  await expect(page.locator('#reader-status')).toContainText('Future dates');await expect(page.locator('#fetch-news')).toBeDisabled();
  expect((await page.request.post(base+'/api/news/fetch',{data:{date:'2099-01-01'}})).status()).toBe(400);
  await page.getByLabel('Edition date').fill('2025-01-02');
  await page.getByRole('button',{name:'Generate newspaper for 2025-01-02'}).click();
- await expect(page.locator('.saved-story')).toHaveCount(10);await expect(page.locator('.comic-panel')).toHaveCount(3);
+ await expect(page.locator('.saved-story')).toHaveCount(10);await expect(page.locator('.comic-panel')).toHaveCount(0);
  await expect(page.locator('#saved-reader')).toContainText('Masala');
  await expect(page.locator('.cover-art')).toHaveCount(0);await expect(page.locator('.story-thumb').first()).toBeVisible();
- await page.locator('.comic-panel').first().scrollIntoViewIfNeeded();
- await expect.poll(()=>page.locator('.comic-scene').evaluateAll(images=>images.every(img=>img.complete&&img.naturalWidth>0))).toBe(true);
- const art=await page.request.get(base+'/news/art/chai-comic-v1.webp');expect(art.status()).toBe(200);expect(art.headers()['content-type']).toBe('image/webp');
  await page.getByRole('button',{name:'Masala',exact:true}).click();
  await expect(page.locator('.saved-story:visible')).toHaveCount(2);await expect(page.getByRole('button',{name:'Masala',exact:true})).toHaveAttribute('aria-pressed','true');
  await page.emulateMedia({media:'print'});await expect(page.locator('.saved-story:visible')).toHaveCount(10);await expect(page.locator('.topic-filters')).toBeHidden();await page.emulateMedia({media:'screen'});
  await page.getByRole('button',{name:'All stories',exact:true}).click();await expect(page.locator('.saved-story:visible')).toHaveCount(10);
- await page.reload();await expect(page.locator('.comic-panel')).toHaveCount(3);
+ await page.reload();await expect(page.locator('.comic-panel')).toHaveCount(0);
  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await setTheme(page,'light');await page.screenshot({path:'test-results/news-illustrated-desktop.png',fullPage:true});
- await page.locator('.saved-satire').screenshot({path:'test-results/news-illustrated-comic.png'});
  await setTheme(page,'dark');await page.setViewportSize({width:390,height:844});await page.screenshot({path:'test-results/news-comic-mobile.png',fullPage:true});
 });
 test('News access, available catalogue, empty states, responsive themes and print',async({page})=>{
@@ -224,10 +212,10 @@ test('News access, available catalogue, empty states, responsive themes and prin
   expect(errors).toEqual([]);
 });
 
-test('manual newspaper publishes ten stories and satire and reopens the stored edition',async({page})=>{
+test('manual newspaper publishes ten news stories and reopens the stored edition',async({page})=>{
  await page.goto(base+'/news');await page.getByRole('button',{name:"Fetch today's newspaper"}).click();
  await expect(page.locator('.saved-story')).toHaveCount(10);
- await expect(page.locator('.saved-satire')).toContainText('Fictional commentary');
+ await expect(page.locator('.saved-satire')).toHaveCount(0);
  await expect(page.locator('#fetch-status')).toContainText('published and saved');
  await page.getByRole('button',{name:"Open today's newspaper"}).click();await expect(page.locator('#fetch-status')).toContainText('Saved edition opened');
  await page.reload();await expect(page.locator('.saved-story')).toHaveCount(10);await expect(page.locator('#fetch-status')).toContainText('Saved edition opened');
@@ -246,7 +234,7 @@ test('manual newspaper publishes ten stories and satire and reopens the stored e
  await page.reload();await expect(page.locator('.saved-story')).toHaveCount(10);await expect(page.locator('#fetch-news')).toBeVisible();
 });
 
-test('saved editions render ten stories and satire, reopen by date, handle gaps and suppress stale responses',async({page})=>{
+test('saved editions render ten news stories, reopen by date, handle gaps and suppress stale responses',async({page})=>{
   execFileSync(process.execPath,[path.join(__dirname,'seed-fixtures.js'),dir]);
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(base+'/news?date=2025-01-03');
@@ -254,7 +242,7 @@ test('saved editions render ten stories and satire, reopen by date, handle gaps 
   expect((await page.request.get(base+'/api/news/preview/2025-01-03')).status()).toBe(401);
   await expect(page.locator('.saved-story')).toHaveCount(10);
   await expect(page.getByLabel('Edition date')).toHaveValue('2025-01-03');
-  await expect(page.locator('.saved-satire')).toContainText('Satire');
+  await expect(page.locator('.saved-satire')).toHaveCount(0);
   expect(await page.evaluate(()=>window.injected)).toBeUndefined();
   await expect(page.locator('.saved-story a').first()).toHaveAttribute('href','https://example.com/2025-01-03/1');
   const fetchRequest=page.waitForRequest(request=>request.url().endsWith('/api/news/fetch'));
