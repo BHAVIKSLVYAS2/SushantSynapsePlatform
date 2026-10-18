@@ -105,3 +105,9 @@ tests pass 8/8. Final evidence is in `.publish/platform-*-final.log`,
 `.publish/platform-last-checks.log` and `.publish/platform-refinement-build.log`.
 All fixtures use temporary DATA_DIR values. No records, schema, credentials,
 organisation boundaries, authentication or game engines were changed.
+
+## Released verification
+
+All initial browser failures and blocked cases now have passing focused reruns. The final batch passed 26 cases; its Fund Lens reference-dependent failure passed separately after adopting saved reference fixtures. Two new design-system cases pass. Existing 242-case coverage is therefore verified across the complete run and focused reruns, rather than claimed as one clean run.
+
+Implementation `bc9657a` is live at https://apps.sushantsynapse.com under Worker `d89391af-4494-41bc-b35b-33ed214674a8`. Live checks passed six byte-for-byte source assets and 96 route/width/theme combinations across 24 routes, with no page errors or horizontal overflow. Health/Arena return 200 and the legacy private API retains its 409 organisation-mode denial. All browser API writes were blocked during verification. Deployment preserved organisation mode, D1 binding, variables and existing data. Evidence: `.publish/platform-refinement-live.json`, `.publish/platform-refinement-deploy.log` and final mobile/desktop screenshots.
