@@ -5,7 +5,7 @@ test('only approved, active sponsorships appear on explicitly selected public pa
  const config={enabled:true,contact:null,campaigns:[{...creative,id:'unreviewed',approved:false},creative]};
  assert.equal(validateSponsorConfig(config),config);
  assert.equal(chooseSponsor(config,'home',Date.parse('2026-10-09')),creative);
- for(const page of ['news','advocate','signin','fund-overlap','pocket-pause','moment-studio','profile','search'])assert.equal(chooseSponsor(config,page,Date.parse('2026-10-09')),null);
+ for(const page of ['news','advocate','signin','fund-overlap','moment-studio','profile','search'])assert.equal(chooseSponsor(config,page,Date.parse('2026-10-09')),null);
  assert.equal(chooseSponsor(config,'home',Date.parse(creative.startsAt)-1),null);
  assert.equal(chooseSponsor(config,'home',Date.parse(creative.endsAt)),null);
  assert.equal(chooseSponsor({...config,enabled:false},'home',Date.parse('2026-10-09')),null);

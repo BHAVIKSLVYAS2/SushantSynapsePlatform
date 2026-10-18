@@ -53,7 +53,6 @@ test('offline home keeps public tools usable and every dependent app shows a res
   await page.goto(base + '/moment-studio/certificates');
   await expect(page.locator('#backend-notice')).toHaveCount(0);
   await expect(page.locator('canvas').first()).toBeVisible();
-  await page.goto(base + '/pocket-pause'); await page.locator('.bubble').first().click(); await expect(page.locator('.bubble').first()).toHaveAttribute('aria-pressed','true'); await expect(page.locator('#backend-notice')).toHaveCount(0);
   await page.goto(base + '/team-mixer'); await page.locator('#mix').click(); await expect(page.locator('#exports')).toBeVisible(); await expect(page.locator('#backend-notice')).toHaveCount(0);
   await page.goto(base + '/moment-studio/cards'); await expect(page.locator('#card')).toBeVisible(); await expect(page.locator('#download')).toBeEnabled(); await expect(page.locator('#backend-notice')).toHaveCount(0);
   await page.goto(base + '/decision-wheel'); await expect(page.locator('#spin')).toBeVisible(); await page.locator('#spin').click(); await expect(page.locator('#winner')).toBeVisible({timeout:10000}); await expect(page.locator('#backend-notice')).toHaveCount(0);

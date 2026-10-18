@@ -78,7 +78,7 @@ test('account initials handle Unicode and auth outages without breaking public t
 
 test('platform frame persists across public apps with usable mobile switching',async({page})=>{
  test.setTimeout(300000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
- const routes=['/','/signin','/moment-studio','/moment-studio/cards','/ritual-assist','/ritual-assist/calendar','/timetable-lite','/fund-overlap','/news','/satire-arena','/take-a-break','/daily-spark','/decision-wheel','/team-mixer','/pocket-pause','/support','/sponsor','/contact','/privacy','/terms','/legal/third-party-notices'];
+ const routes=['/','/signin','/moment-studio','/moment-studio/cards','/ritual-assist','/ritual-assist/calendar','/timetable-lite','/fund-overlap','/news','/satire-arena','/take-a-break','/daily-spark','/decision-wheel','/team-mixer','/support','/sponsor','/contact','/privacy','/terms','/legal/third-party-notices'];
  for(const route of routes){
   await page.goto(base+route,{waitUntil:'domcontentloaded'});await expect(page.locator('.platform-shell')).toHaveCount(1);
   for(const width of [320,390,768,1440]){

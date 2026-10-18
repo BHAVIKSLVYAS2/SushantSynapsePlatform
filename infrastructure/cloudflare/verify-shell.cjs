@@ -12,7 +12,7 @@ async function main(){
   // Forbid writes, including accidental application actions, on the live account/data origin.
   await context.route(base+'/api/**',async route=>{if(!['GET','HEAD'].includes(route.request().method())){writes.push(route.request().url());await route.abort();}else await route.continue();});
   const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
-  for(const route of ['/','/signin','/moment-studio','/moment-studio/cards','/ritual-assist','/ritual-assist/calendar','/timetable-lite','/fund-overlap','/news','/satire-arena','/take-a-break','/daily-spark','/decision-wheel','/team-mixer','/pocket-pause','/support','/sponsor','/contact','/privacy','/terms','/legal/third-party-notices','/advocate','/digital-samaj','/batchfee-lite','/tournament-lite']){
+  for(const route of ['/','/signin','/moment-studio','/moment-studio/cards','/ritual-assist','/ritual-assist/calendar','/timetable-lite','/fund-overlap','/news','/satire-arena','/take-a-break','/daily-spark','/decision-wheel','/team-mixer','/support','/sponsor','/contact','/privacy','/terms','/legal/third-party-notices','/advocate','/digital-samaj','/batchfee-lite','/tournament-lite']){
    await page.goto(base+route,{waitUntil:'domcontentloaded'});await page.locator('.platform-shell').waitFor();assert.equal(await page.locator('.platform-shell').count(),1,route);
    for(const width of [320,390,768,1440])for(const theme of ['light','dark']){
     await page.setViewportSize({width,height:900});await page.evaluate(t=>SynapseTheme.write(t),theme);

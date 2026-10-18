@@ -239,7 +239,7 @@
   body[data-ui-app=fund-overlap] .selection {background:var(--ui-mint-wash);border-color:var(--ui-mint-edge);border-radius:14px}
   body[data-ui-app=take-a-break] .break-card {border-radius:20px;border-color:var(--ui-edge)}
   body[data-ui-app=take-a-break] .card-symbol {border-radius:16px;box-shadow:inset 0 1px 0 var(--ui-highlight)}
-  body[data-ui-app=pocket-pause] .playground,body[data-ui-app=daily-spark] .game {border-color:var(--ui-mint-edge);background:var(--ui-panel)}
+  body[data-ui-app=daily-spark] .game {border-color:var(--ui-mint-edge);background:var(--ui-panel)}
   body[data-ui-app=daily-spark] .tile {border-radius:18px;box-shadow:var(--ui-shadow)}
   body[data-ui-app=satire-arena] .score {border-color:var(--ui-mint-edge);background:var(--ui-panel)}
   body[data-ui-app=satire-arena] .arena-card {border-radius:20px}

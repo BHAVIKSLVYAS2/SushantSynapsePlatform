@@ -101,7 +101,7 @@ by default; Arena advertising remains off. The upgrade was deployed and live
 verified on 2026-10-16. See [operations and limits](docs/SATIRE_ARENA_2.md) and the functionality
 ledger for verification and release status.
 
-**Focus** at `/focus` combines an adjustable timer (15/25/50-minute presets or custom 5–120 minutes) with browser-saved task cards. Drag between High/Normal/Low priorities or reorder within a group; keyboard and touch controls are also available. Estimates, completion, editing and unfinished-task carry-forward remain included. No sign-in is needed. Tasks stay in this browser profile and do not sync across devices; clearing browser data removes them. Pocket Pause stays separate at `/pocket-pause` for micro-rests. The card/timer refinements are deployed and live-verified; evidence is recorded in the functionality ledger.
+**Focus** at `/focus` combines an adjustable timer (15/25/50-minute presets or custom 5–120 minutes) with browser-saved task cards. Drag between High/Normal/Low priorities or reorder within a group; keyboard and touch controls are also available. Estimates, completion, editing and unfinished-task carry-forward remain included. No sign-in is needed. Tasks stay in this browser profile and do not sync across devices; clearing browser data removes them. The card/timer refinements are deployed and live-verified; evidence is recorded in the functionality ledger.
 
 The selected [free Cloudflare deployment profile](docs/CLOUDFLARE_FREE_DEPLOYMENT.md) is deployed at **https://apps.sushantsynapse.com** with existing email/password accounts, Chambers on D1, private documents up to 1 MB each / 100 MB total, and hard application limits. DIGITAL SAMAJ, BatchFee, Tournament, saved News, private Fund workflows and the ritual calendar are enabled on the same Free D1 backend. Workers Free is owner-confirmed. The cloud backend runs without the laptop. No OTP, verified email ownership or Access allow-list is required. Deployment and verification evidence are recorded in the functionality ledger.
 
@@ -127,7 +127,7 @@ Fund Lens comparison is deployed on Cloudflare and works without the laptop back
 
 Quiet direct sponsorships are prepared for selected public pages: one labelled, dismissible text card outside the working controls, with no popups, autoplay, advertiser scripts or tracking pixels. Private workspaces and sensitive tools remain ad-free. `/sponsor` provides the partnership information, brief and local enquiry drafts; WhatsApp enquiry contact is configured; actual paid campaigns and payments are not connected yet. See [the earning plan and publishing guide](docs/MONETIZATION.md).
 
-**Take a Break** at `/take-a-break` brings seven activities into one mobile-friendly hub: Make 24 (Daily Spark), Crack the Code, Memory Minute, Lights Out, Face-Off, Decision Wheel and Pocket Pause. The Crack the Code redesign replaces the five-digit guessing game with three distinct digits and five visible clues leading to one solution, plus a scratchpad, optional starting hint and unlimited checks. Daily challenges use IST dates, with practice rounds and explicit sharing. Free, no login, no backend dependency; progress stays in the current tab. Existing `/daily-spark`, `/decision-wheel` and `/pocket-pause` links continue to work. The clue-led redesign was deployed and live-verified on 2026-10-16. The Lights Out replacement for Clue Club adds three solvable boards, undo and optional hints; it was deployed and live-verified on 2026-10-16.
+**Take a Break** at `/take-a-break` brings seven activities into one mobile-friendly hub: One-Minute Chaos, Make 24 (Daily Spark), Crack the Code, Memory Minute, Lights Out, Face-Off and Decision Wheel. The Crack the Code redesign replaces the five-digit guessing game with three distinct digits and five visible clues leading to one solution, plus a scratchpad, optional starting hint and unlimited checks. Daily challenges use IST dates, with practice rounds and explicit sharing. Free, no login, no backend dependency; progress stays in the current tab. Existing `/daily-spark` and `/decision-wheel` links continue to work. The clue-led redesign was deployed and live-verified on 2026-10-16. The Lights Out replacement for Clue Club adds three solvable boards, undo and optional hints; it was deployed and live-verified on 2026-10-16.
 
 ## Repository structure
 
@@ -318,9 +318,7 @@ Public /daily-spark is a free daily make-24 puzzle: a deterministic IST challeng
 
 Team Mixer is live at https://apps.sushantsynapse.com/team-mixer (2026-10-09); production and local verification are recorded in the functionality ledger.
 
-Pocket Pause (/pocket-pause) adds a ninth free public tool: bubble popping, sand drawing and an optional one-minute circle. Sound is opt-in; activities and drawings stay in the tab.
 
-Pocket Pause now includes seven modes: Computer meltdown, Retro TV tantrum, Crockery crash, Inbox shredder, Bubble pop, Sand garden and Breathing circle. All props and office memos are fictional.
 
 ## Ritual Assist
 

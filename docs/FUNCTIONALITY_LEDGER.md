@@ -1,5 +1,23 @@
 # Chambers functionality ledger
 
+**Pocket Pause removal (2026-10-19):** Removed the complete app directory,
+workspace package/lock entries, dedicated Node/browser tests, registry entry,
+static/edge routes, navigation alias, search keywords, hub card/category, shared
+CSS selectors and cross-app test coverage. Removed its outage/sponsor links and
+copy. Focus now links to Take a Break, whose seven remaining activities are
+unchanged. Showcase uses a Memory Minute illustration; obsolete bubble animation
+code/styles are removed. Shared navigation, premium and home bundles regenerated.
+Current README/ownership/monetisation docs updated. Earlier release/audit entries
+below are historical, superseded by this removal. Stored account preferences are
+preserved; existing registry filtering excludes retired IDs from API responses.
+Verification: 26/26 focused catalogue/game/sponsorship/Cloudflare checks; browser
+run 31/33, followed by 2/2 passing rechecks after updating the old eight-card
+expectation and isolating overlapping Playwright artifact directories. Focus,
+discovery, favourites, break filters and all remaining game workflows passed.
+Local read-only smoke confirms all six retired page/asset URLs return 404 and
+home/hub/Focus/showcase have no retired links/copy or browser errors. No stored
+data or schema changes. Production deployment pending.
+
 **Arena detail portrait crop correction (2026-10-19):** Fixed Highway Hari,
 Budget Beena, Rally Raja and Debate Dastan heroes displaying entire expression
 sheets. Their two-column/five-row sheets now use 200% by 500% backgrounds in

@@ -101,18 +101,12 @@ const staticAssets={
  '/moment-studio/certificates.css':'apps/moment-studio/frontend/certificates.css',
 
 
- '/pocket-pause/scenes.mjs':'apps/pocket-pause/frontend/scenes.mjs',
- '/pocket-pause':'apps/pocket-pause/frontend/index.html',
- '/pocket-pause/':'apps/pocket-pause/frontend/index.html',
- '/pocket-pause/app.js':'apps/pocket-pause/frontend/app.js',
- '/pocket-pause/engine.mjs':'apps/pocket-pause/frontend/engine.mjs',
  '/focus':'apps/focus/frontend/index.html',
  '/focus/':'apps/focus/frontend/index.html',
  '/focus/app.js':'apps/focus/frontend/app.js',
  '/focus/focus-timer.mjs':'apps/focus/frontend/focus-timer.mjs',
  '/focus/task-model.mjs':'apps/focus/frontend/task-model.mjs',
  '/focus/style.css':'apps/focus/frontend/style.css',
- '/pocket-pause/style.css':'apps/pocket-pause/frontend/style.css',
  '/digital-samaj':'apps/digital-samaj/frontend/index.html',
  '/digital-samaj/':'apps/digital-samaj/frontend/index.html',
  '/tournament-lite':'apps/tournament-lite/frontend/index.html',

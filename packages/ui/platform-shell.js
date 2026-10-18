@@ -3,7 +3,7 @@
 (() => {
  if (new URLSearchParams(location.search).get('screen') === '1') return;
  const entries=(window.SynapseCatalogue?.visibleApps()||[]).filter(a=>a.path&&a.status==='Available').map(a=>[a.name,a.path,a.public?'Public tool':'Private workspace']);
- const aliases={'/moment-studio/cards':'/moment-studio','/daily-spark':'/take-a-break','/pocket-pause':'/take-a-break'};
+ const aliases={'/moment-studio/cards':'/moment-studio','/daily-spark':'/take-a-break'};
  const path=location.pathname.replace(/\/$/,'')||'/';
  const current=entries.find(([,route])=>(aliases[path]||path)===route||path.startsWith(route+'/'));
  const names={'/':'All apps','/signin':'Sign in','/support':'Support','/sponsor':'Sponsorship','/showcase':'Demos','/contact':'Contact','/privacy':'Privacy','/terms':'Usage terms','/legal':'Legal information','/legal/third-party-notices':'Third-party notices'};

@@ -3,7 +3,7 @@ import {fundSources} from './fund-sources.mjs';
 import pages from './pages.json' with {type: 'json'};
 import adsense from '../../packages/ui/adsense.cjs';
 import {cloudPages} from '../../apps/satire-arena/backend/cloud-pages.mjs';
-const independent = new Set(['/confessions','/confessions/','/qr-maker','/qr-maker/','/photo-resize','/photo-resize/','/bill-splitter','/bill-splitter/','/satire-arena','/satire-arena/','/privacy', '/privacy/', '/terms', '/terms/', '/contact', '/contact/', '/legal', '/legal/', '/legal/third-party-notices', '/legal/third-party-notices/', '/showcase', '/showcase/', '/support', '/support/', '/ritual-assist', '/ritual-assist/', '/ritual-assist/calendar', '/ritual-assist/calendar/', '/take-a-break', '/take-a-break/', '/sponsor', '/sponsor/', '/moment-studio', '/moment-studio/', '/moment-studio/cards', '/moment-studio/cards/', '/moment-studio/certificates', '/moment-studio/certificates/', '/pocket-pause', '/pocket-pause/', '/team-mixer', '/team-mixer/', '/decision-wheel', '/decision-wheel/', '/daily-spark', '/daily-spark/', '/', '/fund-overlap', '/news', '/timetable-lite', '/timetable-lite/']);
+const independent = new Set(['/confessions','/confessions/','/qr-maker','/qr-maker/','/photo-resize','/photo-resize/','/bill-splitter','/bill-splitter/','/satire-arena','/satire-arena/','/privacy', '/privacy/', '/terms', '/terms/', '/contact', '/contact/', '/legal', '/legal/', '/legal/third-party-notices', '/legal/third-party-notices/', '/showcase', '/showcase/', '/support', '/support/', '/ritual-assist', '/ritual-assist/', '/ritual-assist/calendar', '/ritual-assist/calendar/', '/take-a-break', '/take-a-break/', '/sponsor', '/sponsor/', '/moment-studio', '/moment-studio/', '/moment-studio/cards', '/moment-studio/cards/', '/moment-studio/certificates', '/moment-studio/certificates/', '/team-mixer', '/team-mixer/', '/decision-wheel', '/decision-wheel/', '/daily-spark', '/daily-spark/', '/', '/fund-overlap', '/news', '/timetable-lite', '/timetable-lite/']);
 const security = {
   'Strict-Transport-Security': 'max-age=3600',
   'X-Synapse-Frontend': 'cloudflare',
@@ -12,7 +12,7 @@ const security = {
   'Content-Security-Policy': "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
 };
 function unavailable(method) {
-  return new Response(method === 'HEAD' ? null : JSON.stringify({error: 'The backend is currently unavailable. Please try again later. Fund Lens, News temporary editions, Moment Studio, Timetable Lite, Daily Spark, Decision Wheel, Team Mixer and Pocket Pause remain available with an internet connection. Chambers, DIGITAL SAMAJ, Tournament Lite, BatchFee Lite and News saved editions need the server connection to return.', code: 'BACKEND_UNAVAILABLE'}), {
+  return new Response(method === 'HEAD' ? null : JSON.stringify({error: 'The backend is currently unavailable. Please try again later. Fund Lens, News temporary editions, Moment Studio, Timetable Lite, Daily Spark, Decision Wheel, Team Mixer remain available with an internet connection. Chambers, DIGITAL SAMAJ, Tournament Lite, BatchFee Lite and News saved editions need the server connection to return.', code: 'BACKEND_UNAVAILABLE'}), {
     status: 503, headers: {...security, 'Content-Type': 'application/json; charset=utf-8', 'Retry-After': '30'},
   });
 }

@@ -172,7 +172,7 @@
   body[data-ui-app=take-a-break] .break-card {padding:18px;gap:8px}
   body[data-ui-app=take-a-break] .break-card strong {font-family:inherit;font-size:21px;font-weight:700;line-height:1.25}
   body[data-ui-app=take-a-break] .card-symbol {box-shadow:inset 0 1px 0 var(--ss-reflection);border-radius:14px}
-  body[data-ui-app=pocket-pause] .playground,body[data-ui-app=daily-spark] .game {box-shadow:var(--ss-shadow);border-color:var(--ss-border)}
+  body[data-ui-app=daily-spark] .game {box-shadow:var(--ss-shadow);border-color:var(--ss-border)}
   body[data-ui-app=decision-wheel] .editor,body[data-ui-app=team-mixer] .workspace>form,
   body[data-ui-app=focus] :is(.timer-panel,.task-panel) {box-shadow:var(--ss-shadow);border-color:var(--ss-border);border-radius:16px}
   body[data-ui-app=qr-maker] :is(.qr-panel,.preview-panel),body[data-ui-app=photo-resize] :is(.tool-panel,.preview-panel),

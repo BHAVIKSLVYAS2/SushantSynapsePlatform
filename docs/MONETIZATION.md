@@ -75,7 +75,7 @@ Future optional branded/export upgrades can diversify revenue while preserving f
 | Timetable Lite | One card after its workspace, before the footer |
 | News | One card after the newspaper/archive, before the footer |
 | Sign-in, signed-in catalogue, search, Chambers, DIGITAL SAMAJ, Tournament Lite, BatchFee Lite | No placements |
-| Pocket Pause, Fund Lens, all Moment Studio/legacy certificate and celebration routes | No placements |
+| Fund Lens, all Moment Studio/legacy certificate and celebration routes | No placements |
 
 Cards are ordinary document flow, never fixed/sticky/overlay. No popups, autoplay, countdowns, forced clicks, interstitials, auto-refresh or blocked downloads. At most one creative per page; where campaigns overlap, the first active approved match wins, with no automatic rotation. Paid cards say **Advertisement · Paid sponsorship**, name the advertiser and provide a single explicit link. External links use `sponsored nofollow noopener noreferrer` and open a new tab to preserve app work. Advertisers receive no app inputs, account details or outgoing referrer from the card.
 
