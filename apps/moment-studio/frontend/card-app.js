@@ -1,3 +1,4 @@
+import {downloadBlob as download} from '/shared/download.mjs';
 import {brandReady,requireBrand} from '/moment-studio/branding.mjs';
 import {occasions,designs,palettes,validate,render,filename} from '/moment-studio/card-renderer.mjs?v=20261016-personal-memorial';
 
@@ -190,10 +191,6 @@ $('#remove-photo').onclick=()=>{
 };
 function blob(){
  return new Promise((resolve,reject)=>canvas.toBlob(value=>value?resolve(value):reject(Error('Could not create the image. Please try again.')),'image/png'));
-}
-function download(file,name){
- const url=URL.createObjectURL(file),link=document.createElement('a');
- link.href=url;link.download=name;link.click();setTimeout(()=>URL.revokeObjectURL(url),60000);
 }
 async function exportCard(share){
  if(!ready||pending||busy)return;

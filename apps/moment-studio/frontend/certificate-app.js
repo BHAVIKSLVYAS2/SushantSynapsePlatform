@@ -1,7 +1,8 @@
 import {brandReady,requireBrand} from '/moment-studio/branding.mjs';
 import {render,templates,templateNotes,accentTemplates,donationAmount,disclaimer} from '/moment-studio/certificate-renderer.mjs?v=20261016-personal-memorial';
 import {pdfBlob,pngBlob,download} from '/moment-studio/certificate-export.js';
-import {certificateRows,zip} from '/moment-studio/batch.mjs';
+import {certificateRows} from '/moment-studio/batch.mjs';
+import {zip} from '/shared/archive.mjs';
 const $=s=>document.querySelector(s),form=$('#details'),canvas=$('#certificate'),status=$('#status'),images={},versions={logo:0,signature:0};
 // The shared platform owns initial and saved light/dark/system preferences.
 $('#certificate-disclaimer').textContent=disclaimer;

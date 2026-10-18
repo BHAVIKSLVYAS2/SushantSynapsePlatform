@@ -1,4 +1,5 @@
-const $=s=>document.querySelector(s),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+import {escapeHtml as esc} from '/shared/text.mjs';
+const $=s=>document.querySelector(s);
 const platform=location.pathname==='/platform-audit';
 if(platform){document.title='Platform audit';$('h1').textContent='Platform audit';$('.preview-note').textContent=(document.documentElement.dataset.runtime==='cloud'?'Organisation workspace: ':'Local preview: ')+'Super Admin bootstrap and recovery export metadata. Export creation does not confirm delivery or restoration.';}
 const organisation=new URLSearchParams(location.search).get('organisation');let revision=0,next=null;

@@ -1,5 +1,5 @@
+import {escapeHtml as esc} from '/shared/text.mjs';
 const $=selector=>document.querySelector(selector);
-const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let index,view,busy=false,revision=0;
 let accountSessionSeen=false;
 const accountPage=location.pathname==='/account';

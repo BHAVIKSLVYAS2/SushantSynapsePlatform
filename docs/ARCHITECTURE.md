@@ -1,5 +1,15 @@
 # Code ownership and adding apps
 
+Shared browser helpers (2026-10-19): `packages/ui/download.mjs` owns temporary
+download URLs with caller-selected cleanup timing; `archive.mjs` owns stored ZIP
+output with explicit filename flags, using `crc32.mjs`, also reused by certificate
+PNG density metadata. `text.mjs` owns HTML escaping for module-based admin/client
+screens and timetable exports. All four have explicit `/shared/` static routes
+and participate in versioned Cloudflare builds. App-owned export layouts, file
+names, CSV validation, money units and access decisions remain app-owned. Existing
+export modules keep their download exports; Local Tools retains its one-second
+cleanup wrapper. See the ledger for local and production verification.
+
 Public static caching (2026-10-19, implemented locally): Cloudflare export uses
 `infrastructure/cloudflare/build-static-cache.cjs` to fingerprint the complete
 allowlisted public asset graph and copy it below `/_static/<digest>/`. Keeping

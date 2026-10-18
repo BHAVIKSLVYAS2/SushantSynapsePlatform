@@ -1,5 +1,31 @@
 # Chambers functionality ledger
 
+**Shared browser helper extraction (2026-10-19, local verification):** Added
+allowlisted `packages/ui/download.mjs`, `text.mjs`, `archive.mjs` and `crc32.mjs`.
+Moment Studio cards/certificates, Timetable, Team Mixer and Local Tools reuse
+download handling; Local Tools retains its one-second cleanup and the other
+callers retain sixty seconds. Cleanup also runs if triggering a download fails.
+Timetable and certificates share the stored ZIP writer with their existing
+filename flags; byte comparisons against both prior writers match exactly.
+Certificate PNG density metadata reuses CRC32. Module-based administration,
+audit, client-access/portal and timetable exports share HTML escaping. Export
+layouts, filenames, CSV validation, money units, business APIs and role checks
+are unchanged. No new runtime dependency, schema migration or live data change.
+
+Verification: 349/349 full Node/API checks and 18/18 selected Chrome workflows
+pass. Includes shared ZIP integrity/offsets/Unicode flags, download failure
+cleanup/timing and escaping tests; real card/certificate PNG/PDF, batch ZIP,
+timetable exports, Team Mixer exports/share cancellation, QR and photo downloads,
+Bill Splitter, administration, audit expiry/scope and client multi-org isolation.
+Logs: `.publish/shared-helpers-api.log`, `.publish/shared-helpers-browser.log`,
+`.publish/shared-helpers-extra-browser.log`. All fixtures use isolated databases.
+Production-style local Worker verification passes 28 responsive layouts across
+fourteen routes with no missing assets/browser errors, deferred module loading,
+scoped Chambers bootstrap and 18 browser-cache hits. Evidence:
+`.publish/shared-helpers-edge.cjs`, `.publish/shared-helpers-edge.json`.
+Syntax/whitespace checks pass. Release verification is recorded after deployment;
+this release also includes the prior committed static-cache change.
+
 **Public static-asset caching (2026-10-19, local; not deployed):** Cloudflare
 builds create a content-versioned copy of 178 explicitly allowlisted public
 assets under `/_static/<digest>/`. The complete graph is fingerprinted together
