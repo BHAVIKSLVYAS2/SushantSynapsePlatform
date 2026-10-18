@@ -1,5 +1,15 @@
 # Satire Arena
 
+Voting update (2026-10-18): ballots now last for the calendar year and reset only
+at 00:00 IST on 1 January. The API round key is YYYY-01-01; resetsAt is the next
+1 January. One changeable choice per browser and character counts each year.
+Existing daily rows are retained, with the most recently updated choice per
+browser/character included in yearly totals. New choices upsert the annual key;
+no migration, deletion, scheduled reset or cookie-secret rotation is needed.
+The 30-day activity view groups retained ballots by their last-update IST day,
+independently of the yearly scoreboard. Editorial posts and spotlight remain daily.
+This entry supersedes the historical daily-voting descriptions below.
+
 Local refinement (2026-10-17): picks and counts update immediately in tab memory,
 with a Saving state until confirmation. Changes remove the old count and add the
 new one. Failures restore/reconcile the authoritative cookie-backed ballot; stale
