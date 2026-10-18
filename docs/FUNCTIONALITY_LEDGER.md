@@ -1,5 +1,19 @@
 # Chambers functionality ledger
 
+**Newsroom design published (2026-10-18, live verified):** Implementation `dab4bbc`
+plus editorial-font correction `433d0af` are live as Worker
+`6f302969-d1fd-4701-9def-9ca374c119a5`. Initial deployment was
+`92db6591-f4c8-4dcc-958d-8b2d18243387`; the final CSS correction scopes the shared
+heading token so Georgia editorial headlines survive platform styling. Existing
+organisation/D1/auth/rate-limit configuration is retained; no news generation,
+migration or stored-edition changes ran. Live checks match three frontend assets
+and read the existing 2026-10-18 edition. Ten stories, search/empty/reset, brief
+expansion, print, source/IST labels and eight 320/390/768/1440px light/dark layouts
+pass with no overflow or page errors. A first full-load navigation timed out; the
+explicit document-ready retry passed all checks. Mobile screenshot reviewed.
+Live verification blocked writes and observed no News writes. Evidence:
+`.publish/newsroom-live.json`, `.publish/newsroom-live-mobile.png`.
+
 **Newsroom reading design (2026-10-18):** Replaces the large illustrated cover with
 a compact Newsroom masthead, edition metadata, search/settings shortcuts, a featured
 lead and compact article rows. Horizontal topic pills combine with edition-local
@@ -16,7 +30,7 @@ Verification: all 11 News Chrome workflows pass across the full run and focused
 reruns after resolving a renamed-label collision and removing the redundant toolbar;
 9/9 focused News/archive/device checks pass. New coverage exercises search + topics,
 empty/reset/print, direct source links, reader text size and six viewport widths in
-both themes, without writes. Source bytes/saved fixture remain unchanged. Evidence:
+both themes, without writes. Saved fixture edition data remains unchanged. Evidence:
 `.publish/newsroom-final-tests`, `.publish/newsroom-layout-final`,
 `.publish/newsroom-mobile-preview.png`. Publication/live verification follow.
 
