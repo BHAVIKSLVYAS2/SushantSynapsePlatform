@@ -1,7 +1,15 @@
 # Organisation licensing production cutover
 
 Live on 2026-10-17 at `https://apps.sushantsynapse.com`.
-Current production Worker: `7af0cd10-bc25-4469-89bf-a062224eb08a` (2026-10-18),
+Current production Worker: `3d854686-6eae-40f5-8971-272840e0aa18` (2026-10-18),
+from character detail pages `e64db20`. All thirteen profiles are live with
+biographies, signature lines, existing editorial overrides and annual reactions.
+Focused API/editorial tests pass 16/16 and browser editorial workflows 6/6.
+Live read-only checks pass all thirteen canonical pages, two asset matches and
+104 responsive light/dark layouts with no page errors or vote writes. Annual
+reset remains 1 January 2027 at 00:00 IST. D1/auth bindings and variables retained;
+no migration or stored record changes. Evidence: `.publish/character-live.json`.
+Prior production Worker: `7af0cd10-bc25-4469-89bf-a062224eb08a`,
 from annual Arena voting `62e1d11`. Resets occur only on 1 January at 00:00 IST;
 legacy daily records are retained and latest yearly choices counted once per
 browser/character. API/editorial tests pass 16/16 and browser workflows 24/24
