@@ -1,7 +1,15 @@
 # Organisation licensing production cutover
 
 Live on 2026-10-17 at `https://apps.sushantsynapse.com`.
-Current production Worker: `75ad93ab-a3aa-4320-aeb8-899f9a6a1a84` (2026-10-19),
+Current production Worker: `deafd24e-522f-4d8a-9fd2-e5740334a9e1` (2026-10-19),
+from homepage CSS/duplicate-helper cleanup `de4cb81`. Home CSS is 12.60% smaller
+before compression. Live read-only checks pass five asset matches, fourteen
+public cards, eight theme/width layouts, simulated account navigation and public
+cross-app navigation with no browser errors or attempted preference/launch writes.
+Account/Chambers entry pages respond successfully. Production bindings/variables
+preserved; no database migration or account/data changes. Evidence:
+`.publish/css-cleanup-live.json` and the functionality ledger.
+Prior production Worker: `75ad93ab-a3aa-4320-aeb8-899f9a6a1a84` (2026-10-19),
 from Pocket Pause removal `5b42252`. App code, tests, package, static routes and
 discovery links removed; Take a Break retains seven activities. Live read-only
 checks confirm six retired URLs return 404, updated home/hub/Focus/showcase and

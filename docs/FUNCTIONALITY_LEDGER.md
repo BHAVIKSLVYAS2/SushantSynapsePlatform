@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Homepage CSS and duplication cleanup (2026-10-19, local):** The home build
+**Homepage CSS and duplication cleanup (2026-10-19, live verified):** The home build
 now drops complete CSS rules exclusively scoped to other apps using build-only
 Lightning CSS, declared explicitly at the already installed/locked version.
 Shared/portal rules, mixed selector lists and nested pseudo-class alternatives
@@ -11,7 +11,7 @@ payload measurements, not page-speed or production Lighthouse results.
 The portal reuses the registry's HTML escaping helper, Chambers reuses its
 courthouse icon for Overview, and an immediately redundant public-card active
 rule is removed. Shared navigation and CSS bundles regenerated. Caching,
-record searches, rendering, data, permissions and production are unchanged.
+record searches, rendering, data and permissions are unchanged.
 
 Verification: 18/18 focused Node checks pass (CSS scoping, registry, Cloudflare
 export/routes); frontend export succeeds with 814 allowlisted assets. Two focused
@@ -25,7 +25,14 @@ changing product behaviour. Coverage includes sign-in/out, favourites/recent,
 unavailable apps, no-JavaScript catalogue, responsive themes, app finder,
 sponsorship, Chambers records, printing and recovery. All 22 distinct browser
 workflows pass. Fixtures use disposable temporary databases. Syntax and
-whitespace checks pass. No deployment or live account/data changes.
+whitespace checks pass. Source `de4cb81` deployed with existing bindings and
+variables preserved as Worker `deafd24e-522f-4d8a-9fd2-e5740334a9e1`.
+Read-only live checks pass five exact asset matches, fourteen public cards,
+eight responsive theme layouts, simulated account-preview navigation and three
+public app routes without browser errors or attempted preference/launch writes.
+Account/Chambers entry pages return 200; no production account was used.
+Evidence: `.publish/css-cleanup-live.cjs`, `.publish/css-cleanup-live.json`.
+No database migration or live account/data changes.
 
 **Pocket Pause removal (2026-10-19):** Removed the complete app directory,
 workspace package/lock entries, dedicated Node/browser tests, registry entry,
