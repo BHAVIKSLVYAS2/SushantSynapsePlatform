@@ -10,7 +10,7 @@ names, CSV validation, money units and access decisions remain app-owned. Existi
 export modules keep their download exports; Local Tools retains its one-second
 cleanup wrapper. See the ledger for local and production verification.
 
-Public static caching (2026-10-19, implemented locally): Cloudflare export uses
+Public static caching (2026-10-19, live verified): Cloudflare export uses
 `infrastructure/cloudflare/build-static-cache.cjs` to fingerprint the complete
 allowlisted public asset graph and copy it below `/_static/<digest>/`. Keeping
 the directory structure preserves relative module/worker/CSS dependencies.

@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Shared browser helper extraction (2026-10-19, local verification):** Added
+**Shared browser helper extraction (2026-10-19, live verified):** Added
 allowlisted `packages/ui/download.mjs`, `text.mjs`, `archive.mjs` and `crc32.mjs`.
 Moment Studio cards/certificates, Timetable, Team Mixer and Local Tools reuse
 download handling; Local Tools retains its one-second cleanup and the other
@@ -23,11 +23,19 @@ Production-style local Worker verification passes 28 responsive layouts across
 fourteen routes with no missing assets/browser errors, deferred module loading,
 scoped Chambers bootstrap and 18 browser-cache hits. Evidence:
 `.publish/shared-helpers-edge.cjs`, `.publish/shared-helpers-edge.json`.
-Syntax/whitespace checks pass. Release verification is recorded after deployment;
-this release also includes the prior committed static-cache change.
+Syntax/whitespace checks pass. Source `b5f93c8` deployed as Worker
+`296a2388-796f-4043-b83f-32305a98bec0`, preserving production variables/bindings.
+This also activates the prior static-cache change. Live read-only verification
+passes eight helper asset byte/header comparisons, sixteen light/dark responsive
+layouts across eight pages, scoped Chambers bootstrap and private/API/error
+no-store policies. Shared ZIP/CRC/escaping/download exports execute in Chrome;
+there are no missing versioned assets or browser errors. Eight visitor write
+attempts were blocked; no production account was used and no business writes
+were forwarded. Evidence: `.publish/shared-helpers-live.cjs`,
+`.publish/shared-helpers-live.json`. No migration or stored-data changes.
 
-**Public static-asset caching (2026-10-19, local; not deployed):** Cloudflare
-builds create a content-versioned copy of 178 explicitly allowlisted public
+**Public static-asset caching (2026-10-19, live verified):** Cloudflare
+builds create a content-versioned copy of 182 explicitly allowlisted public
 assets under `/_static/<digest>/`. The complete graph is fingerprinted together
 and its relative directory structure is preserved. Build-time HTML/JS/CSS/SVG
 references select the versioned assets. Changed bytes select a new namespace;
@@ -36,7 +44,7 @@ public browser caching. Existing asset URLs still revalidate; HTML, admin assets
 APIs, records and authenticated downloads keep their existing cache policies.
 Missing versioned assets and non-read requests are explicitly `no-store`.
 Scoped Chambers bootstrap ordering is preserved with versioned controller URLs.
-No service worker, offline records, schema/data changes or deployment.
+No service worker, offline records or schema/data changes.
 
 Verification: focused Node/build checks pass 16/16 before adding the scoped
 bootstrap regression. Local Cloudflare preview confirms actual immutable
@@ -52,8 +60,9 @@ Corrected that expected count. Final language/cache/Cloudflare checks pass 18/18
 including the new scoped bootstrap regression. Logs:
 `.publish/static-cache-api-tests.log`, `.publish/static-cache-final-checks.log`.
 Syntax and whitespace checks pass. Preview persistence and all test databases
-are isolated; production accounts/data are untouched. Prepared for commit/push;
-no production deployment performed.
+are isolated; production accounts/data are untouched. Initially committed as
+`4b76320`; now deployed with the shared-helper release above. That release adds
+four helpers to the initial 178-asset graph and verifies immutable headers live.
 
 **Homepage CSS and duplication cleanup (2026-10-19, live verified):** The home build
 now drops complete CSS rules exclusively scoped to other apps using build-only

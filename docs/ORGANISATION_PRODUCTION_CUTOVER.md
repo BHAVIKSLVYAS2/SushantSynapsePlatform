@@ -1,7 +1,18 @@
 # Organisation licensing production cutover
 
 Live on 2026-10-17 at `https://apps.sushantsynapse.com`.
-Current production Worker: `deafd24e-522f-4d8a-9fd2-e5740334a9e1` (2026-10-19),
+Current production Worker: `296a2388-796f-4043-b83f-32305a98bec0` (2026-10-19),
+from shared browser helpers `b5f93c8`, including static caching `4b76320`.
+Shared download/ZIP/CRC32/HTML escaping preserves app-specific timing, ZIP flags
+and scoped access behavior. Full Node/API checks pass 349/349, selected Chrome
+workflows 18/18, plus 28 production-style local layouts. Live read-only checks
+pass eight helper asset matches, sixteen responsive layouts, shared module
+execution, immutable asset headers, uncached private/API/error responses and
+Chambers bootstrap ordering, with no browser errors or missing versioned assets.
+Visitor write attempts are blocked; no production account was used. Existing
+D1/auth bindings and variables retained; no migration or stored-data changes.
+Evidence: `.publish/shared-helpers-live.json` and the functionality ledger.
+Prior production Worker: `deafd24e-522f-4d8a-9fd2-e5740334a9e1` (2026-10-19),
 from homepage CSS/duplicate-helper cleanup `de4cb81`. Home CSS is 12.60% smaller
 before compression. Live read-only checks pass five asset matches, fourteen
 public cards, eight theme/width layouts, simulated account navigation and public
