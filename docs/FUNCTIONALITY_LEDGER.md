@@ -1,5 +1,23 @@
 # Chambers functionality ledger
 
+**Homepage selection and Take a Break deployed (2026-10-18, live verified):**
+User-authorized implementation commit `cb33370` is live at
+https://apps.sushantsynapse.com on production Worker
+`e37f0d77-b9db-4fcb-82de-084388fca4be`. Eight changed assets uploaded using the
+existing production configuration and `--keep-vars`; organisation mode, D1 and
+rate-limit bindings remain enabled. No migrations, account or business writes.
+Production dry-run passed before release. Live verification confirms healthy
+storage, five exact JS/CSS source matches, removed welcome banner, Moment Studio
+and Take a Break featured, and Fund Lens / Decision Wheel / Ritual Assist catalogue
+order including no-JavaScript rendering. Both pages pass 24 light/dark layouts
+across 320/360/390/430/768/1280px without overflow. All eight activities, category
+counts, Daily Spark difficulty navigation and Lights Out tap/undo/hint pass; no
+page errors or API writes. Advertising and visitor tracking were blocked during
+verification. Production mobile screenshot visually reviewed. Evidence:
+`.publish/break-release-live.cjs`, `.publish/break-release-live.json`,
+`.publish/break-release-live-mobile.png`, `.publish/break-release-live-lights.png`.
+This supersedes the local-only release status of the two entries below.
+
 **Take a Break restrained dimensional redesign (2026-10-18, local):** Adapted the
 supplied references using coordinated navy/theme surfaces and one teal accent,
 subtle reflections, compact horizontal cards and original inline SVG controller,
