@@ -1,5 +1,22 @@
 # Chambers functionality ledger
 
+**Decision Wheel list diagnostics and louder ticks (2026-10-18):** Reproduced the
+reported 21-line list: battle axe repeats on original lines 3 and 10; deleting only
+the second occurrence yields 20 valid choices. Parsing now names repeated labels
+and original line numbers, counts out-of-range lists and identifies overlong lines.
+Unicode/case uniqueness, original labels and existing 2–30/60/4096 limits remain.
+No spelling changes, splitting multiword entries or silent duplicate removal.
+Update/Spin validation errors appear next to the textarea with alert semantics,
+invalid-state/focus and edit guidance; input/success clears the error. Failed updates
+retain the previous wheel and typed text and cannot spin an invalid list.
+Tick peak gain rises from .045 to .18 with a longer envelope and click frequency
+audible on small speakers; default-on/mute/reduced-motion behaviour is preserved.
+Verification: 4/4 focused Node tests and 4/4 Chrome workflows, including the exact
+reported list, duplicate correction, Unicode/blank-line diagnostics, old-wheel
+preservation, spin rejection, normal selection/removal and mobile themes. Whitespace
+checks pass. No API/schema/data changes. Evidence: `.publish/wheel-validation-tests`.
+Publication/live verification follow.
+
 **Playful compact Arena published (2026-10-18, live verified):** Source `1efe455`
 is live as Worker `d339655d-0737-48b4-83ba-7ac4b88fb631`. Six changed assets uploaded
 with organisation/D1/auth/rate-limit bindings retained; no data/schema changes.

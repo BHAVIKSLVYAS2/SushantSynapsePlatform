@@ -4,6 +4,13 @@ test('wheel lists enforce bounds, Unicode uniqueness and literal labels',async()
  for(const list of ['','Only one','a\nA','Ａ\na',Array.from({length:31},(_,i)=>String(i)).join('\n'),'x'.repeat(61)+'\na','x'.repeat(4097)])assert.throws(()=>parseOptions(list));
  assert.equal(parseOptions(Array.from({length:30},(_,i)=>'Option '+i).join('\n')).length,30);
 });
+test('reported options identify duplicates by original line and preserve all other labels',async()=>{
+ const {parseOptions}=await import('../apps/decision-wheel/frontend/engine.mjs'),list=require('../apps/decision-wheel/tests/option-list.cjs');
+ assert.throws(()=>parseOptions(list.join('\n')),error=>error.name==='OptionsValidationError'&&/"battle axe" on lines 3, 10/.test(error.message));
+ const corrected=list.filter((_,index)=>index!==9);assert.deepEqual(parseOptions(corrected.join('\n')),corrected);assert.equal(corrected.length,20);
+ assert.throws(()=>parseOptions('\n Axe \r\n\nＡＸＥ\nOther'),/"Axe" on lines 2, 4/);
+ assert.throws(()=>parseOptions('OK\n\n'+'x'.repeat(61)),/Line 3 has 61 characters/);
+});
 test('random selection rejects the biased tail, validates counts and bounds failed randomness',async()=>{
  const {chooseIndex}=await import('../apps/decision-wheel/frontend/engine.mjs');let values=[4294967295,4];assert.equal(chooseIndex(3,()=>values.shift()),1);for(let n=2;n<=30;n++)for(let i=0;i<n;i++)assert.equal(chooseIndex(n,()=>i),i);
  for(const n of [0,1,31,2.5])assert.throws(()=>chooseIndex(n,()=>0));assert.throws(()=>chooseIndex(3,()=>-1));assert.throws(()=>chooseIndex(3,()=>NaN));assert.throws(()=>chooseIndex(3,()=>4294967295),/failed/);

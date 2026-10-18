@@ -80,3 +80,5 @@ body[data-ui-app="decision-wheel"] .has-winner .hub{animation:wheel-logo-pop .5s
  }
  @media(prefers-reduced-motion:reduce) {body[data-ui-app=decision-wheel] main :is(#spin,#update) {transition:none;transform:none!important}}
 }
+.options-error{border:1px solid var(--accent);border-radius:12px;background:var(--soft);color:var(--text);padding:12px;margin:0 0 14px;font-size:13px;overflow-wrap:anywhere}
+#options[aria-invalid=true]{border:2px solid var(--accent)}
