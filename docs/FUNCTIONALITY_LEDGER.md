@@ -1,5 +1,24 @@
 # Chambers functionality ledger
 
+**Playful compact Arena and stronger sound (2026-10-18):** Removed Full illustration
+and the separate biography button. Each character hero is now a native, keyboard-
+accessible biography/punchline link covering its name/artwork. Cards use two-line
+accented names, stage beams, softly edged original artwork, visible mobile reaction
+labels and stronger selection glow while retaining the six-button mobile row.
+Hero controls no longer consume vertical space. Light/dark/reduced-motion styles
+and existing artwork, vote IDs, score/private share rules remain intact.
+Audio unlock begins on pointer/key press. Action-specific clap bursts, shoe
+whoosh/impact, ink drops/splash, tomato splat, voiced laughter and garland chime are
+longer and stronger, with master gain, compression and bounded waveform shaping.
+Sounds remain synthetic and device volume still controls perceived loudness.
+Verification: initial Arena Chrome suite 18/19; the title-spacing regression was
+fixed and affected character/mobile workflows reran 2/2. Immediate/mute checks pass;
+new offline audio render verifies six distinct envelopes, RMS > .025 and peaks
+between .12 and 1 after correcting transient overshoot. All 20 distinct workflows
+pass across the full run and focused reruns. No API/schema/data changes.
+Evidence: `.publish/arena-playful-tests`, `.publish/arena-playful-layout-final`,
+`.publish/arena-playful-audio-bounded`. Publication/live checks follow.
+
 **Homepage footer fix published (2026-10-18, live verified):** Source `b107547`
 is deployed as Worker `6715853d-f1d4-4754-b377-7947f169368a`. Four changed assets
 uploaded; existing organisation/D1/auth/rate-limit configuration is preserved.

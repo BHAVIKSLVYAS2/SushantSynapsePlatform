@@ -1,10 +1,10 @@
-let audio,noise;
+let audio,noise,output;
 const active=new Set();
 export function prepareSound(){
- try{const Context=window.AudioContext||window.webkitAudioContext;if(!Context)return;if(!audio||audio.state==='closed'){audio=new Context({latencyHint:'interactive'});noise=audio.createBuffer(1,audio.sampleRate,audio.sampleRate);const samples=noise.getChannelData(0);for(let i=0;i<samples.length;i++)samples[i]=Math.random()*2-1;}if(audio.state==='suspended')audio.resume().catch(()=>{});}catch{/* Audio support is optional. */}
+ try{const Context=window.AudioContext||window.webkitAudioContext;if(!Context)return;if(!audio||audio.state==='closed'){audio=new Context({latencyHint:'interactive'});output=audio.createGain();output.gain.value=2;const limiter=audio.createDynamicsCompressor();limiter.threshold.value=-10;limiter.knee.value=8;limiter.ratio.value=6;limiter.attack.value=.003;limiter.release.value=.12;output.connect(limiter);const saturator=audio.createWaveShaper(),curve=new Float32Array(2048);for(let i=0;i<curve.length;i++)curve[i]=.9*Math.tanh((i/(curve.length-1)*2-1)*1.7);saturator.curve=curve;saturator.oversample='none';limiter.connect(saturator);saturator.connect(audio.destination);noise=audio.createBuffer(1,audio.sampleRate,audio.sampleRate);const samples=noise.getChannelData(0);for(let i=0;i<samples.length;i++)samples[i]=Math.random()*2-1;}if(audio.state==='suspended')audio.resume().catch(()=>{});}catch{/* Audio support is optional. */}
 }
 export function stopSound(){for(const oscillator of active){try{oscillator.stop();}catch{}}active.clear();}
-function envelope(start,duration,volume){const gain=audio.createGain();gain.gain.setValueAtTime(0,start);gain.gain.linearRampToValueAtTime(volume,start+.006);gain.gain.exponentialRampToValueAtTime(.0001,start+duration);gain.connect(audio.destination);return gain;}
+function envelope(start,duration,volume){const gain=audio.createGain();gain.gain.setValueAtTime(0,start);gain.gain.linearRampToValueAtTime(volume,start+.004);gain.gain.setValueAtTime(volume*.65,start+duration*.25);gain.gain.exponentialRampToValueAtTime(.0001,start+duration);gain.connect(output);return gain;}
 function track(source,nodes,start,duration){active.add(source);source.onended=()=>{active.delete(source);source.disconnect();nodes.forEach(node=>node.disconnect());};source.start(start);source.stop(start+duration+.01);}
 function tone(start,duration,from,to,volume,type='sine',voice=false){
  const source=audio.createOscillator(),gain=envelope(start,duration,volume);source.type=type;source.frequency.setValueAtTime(from,start);source.frequency.exponentialRampToValueAtTime(to,start+duration);
@@ -19,11 +19,11 @@ export function playSound(reaction){
  stopSound();const now=audio.currentTime;
  // Schedule on the tap, including while resume() unlocks a suspended context.
  try{switch(reaction){
- case 'garland':[523,659,784].forEach((f,i)=>tone(now+i*.065,.18,f,f,.06));break;
- case 'applause':[0,.09,.19,.29].forEach(t=>{hiss(now+t,.075,1700,.25);hiss(now+t+.009,.055,950,.11,'highpass');});break;
- case 'shoe':hiss(now,.17,500,.12,'bandpass',2600);tone(now+.13,.16,150,48,.19,'triangle');hiss(now+.13,.08,280,.17,'lowpass');break;
- case 'finger':hiss(now,.13,1800,.13,'bandpass',500);hiss(now+.08,.23,750,.2,'lowpass',150);[0,.06,.13].forEach((t,i)=>tone(now+.13+t,.09,650-i*90,220,.055));break;
- case 'tomato':tone(now,.22,180,45,.18);hiss(now,.23,1200,.24,'lowpass',120);break;
- case 'laugh':[0,.12,.24,.37,.5].forEach((t,i)=>tone(now+t,.105,210+i%2*65,150+i%2*40,.15,'sawtooth',true));break;
+ case 'garland':[659,831,988].forEach((f,i)=>tone(now+i*.09,.3,f,f,.14));break;
+ case 'applause':[0,.11,.23,.35,.48].forEach(t=>{hiss(now+t,.1,2000,.5);hiss(now+t+.012,.085,1100,.23,'highpass');});break;
+ case 'shoe':hiss(now,.22,650,.2,'bandpass',3400);tone(now+.2,.23,280,95,.36,'triangle');hiss(now+.2,.13,650,.4,'lowpass');break;
+ case 'finger':hiss(now,.17,2400,.23,'bandpass',600);hiss(now+.12,.3,1200,.35,'lowpass',350);[0,.085,.19].forEach((t,i)=>tone(now+.21+t,.14,1000-i*180,300,.14));break;
+ case 'tomato':tone(now,.32,240,80,.32,'triangle');hiss(now,.32,2000,.5,'lowpass',160);break;
+ case 'laugh':[0,.16,.33,.51,.7].forEach((t,i)=>tone(now+t,.14,340+i%2*100,210+i%2*65,.58,'sawtooth',true));break;
  }}catch{/* Feedback must never interrupt voting. */}
 }

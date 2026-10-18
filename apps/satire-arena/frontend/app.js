@@ -1,5 +1,8 @@
-import {prepareSound,playSound,stopSound} from './sound.mjs?v=20261018-immediate';
-import {enhanceArena} from './enhancements.js?v=20261018-stable';
+import {prepareSound,playSound,stopSound} from './sound.mjs?v=20261018-playful';
+import {enhanceArena} from './enhancements.js?v=20261018-playful';
+// Unlock audio on press so setup finishes before the click feedback.
+document.addEventListener('pointerdown',event=>{const button=event.target.closest('[data-reaction]');if(button&&!button.disabled&&document.querySelector('#reaction-sound').checked)prepareSound();});
+document.addEventListener('keydown',event=>{if(['Enter',' '].includes(event.key)&&event.target.matches('[data-reaction]:not(:disabled)')&&document.querySelector('#reaction-sound').checked)prepareSound();});
 document.addEventListener('change',event=>{if(event.target.id==='reaction-sound'&&!event.target.checked)stopSound();});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)stopSound();});
 window.addEventListener('pagehide',stopSound);

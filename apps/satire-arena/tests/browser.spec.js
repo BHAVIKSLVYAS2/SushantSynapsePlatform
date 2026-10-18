@@ -9,12 +9,26 @@ test('distinct reaction sounds start before save responses and mute stops feedba
  await card.locator('[data-reaction=garland]').click();
  try{await expect.poll(()=>page.evaluate(()=>window.tones||0)).toBe(3);await expect(card).toHaveAttribute('aria-busy','true');}finally{release();}
  await expect(card).toHaveAttribute('aria-busy','false');await page.unroute('**/api/satire-arena/*/vote');
- for(const [reaction,tones,noises]of [['applause',0,8],['shoe',1,2],['finger',3,2],['tomato',1,1],['laugh',5,0]]){
+ for(const [reaction,tones,noises]of [['applause',0,10],['shoe',1,2],['finger',3,2],['tomato',1,1],['laugh',5,0]]){
   const before=await page.evaluate(()=>({tones:window.tones||0,noises:window.noises||0}));await card.locator('[data-reaction='+reaction+']').click();await expect(card).toHaveAttribute('aria-busy','false');expect(await page.evaluate(()=>({tones:window.tones||0,noises:window.noises||0}))).toEqual({tones:before.tones+tones,noises:before.noises+noises});
  }
  await page.locator('.arena-settings summary').click();await page.locator('#reaction-sound').uncheck();const muted=await page.evaluate(()=>({tones:window.tones,noises:window.noises}));await card.locator('[data-reaction=shoe]').click();await expect(card).toHaveAttribute('aria-busy','false');expect(await page.evaluate(()=>({tones:window.tones,noises:window.noises}))).toEqual(muted);
  await page.locator('#reaction-sound').check();await page.route('**/api/satire-arena/*/vote',r=>r.fulfill({status:503,json:{error:'Sound test unavailable'}}));await card.locator('[data-reaction=tomato]').click();await expect(page.locator('#notice')).toContainText('Sound test unavailable');await expect(card.locator('[data-reaction=shoe]')).toHaveAttribute('aria-pressed','true');expect(await page.evaluate(()=>window.tones)).toBe(muted.tones+1);
  await page.evaluate(()=>fetch('/api/satire-arena/mine',{method:'DELETE',headers:{'X-Arena-Confirm':'DELETE'}}));
+});
+test('effects have audible output, distinct envelopes and bounded peaks',async({page})=>{
+ await page.goto(base+'/satire-arena');
+ const rendered=await page.evaluate(async()=>{
+  const Original=window.AudioContext,results=[];
+  try{for(const reaction of ['garland','applause','shoe','finger','tomato','laugh']){
+   let context;window.AudioContext=class{constructor(){context=new OfflineAudioContext(1,48000,48000);context.resume=()=>Promise.resolve();return context;}};
+   const sound=await import('/satire-arena/sound.mjs?render='+reaction);sound.prepareSound();sound.playSound(reaction);const buffer=await context.startRendering(),samples=buffer.getChannelData(0),energy=[];let peak=0,total=0;
+   for(let block=0;block<20;block++){let sum=0;for(let i=block*2400;i<(block+1)*2400;i++){const value=samples[i];sum+=value*value;peak=Math.max(peak,Math.abs(value));}energy.push(Math.sqrt(sum/2400));total+=sum;}
+   results.push({reaction,peak,rms:Math.sqrt(total/samples.length),energy});
+  }}finally{window.AudioContext=Original;}return results;
+ });
+ for(const effect of rendered){expect(effect.peak,effect.reaction).toBeGreaterThan(.12);expect(effect.peak,effect.reaction).toBeLessThan(1);expect(effect.rms,effect.reaction).toBeGreaterThan(.025);}
+ for(let i=0;i<rendered.length;i++)for(let j=0;j<i;j++)expect(rendered[i].energy.reduce((sum,v,k)=>sum+Math.abs(v-rendered[j].energy[k]),0)).toBeGreaterThan(.08);
 });
 test('saved theme resolves before body and delayed enhancement never paints the old layout',async({page})=>{
  await page.addInitScript(()=>{if(!localStorage.getItem('synapse-theme'))localStorage.setItem('synapse-theme','dark');window.badArenaFrames=[];const watch=()=>{if(document.body&&document.documentElement.dataset.theme!=='dark')window.badArenaFrames.push('theme');for(const card of document.querySelectorAll('.arena-card'))if(!card.querySelector('.character-hero'))window.badArenaFrames.push('layout');requestAnimationFrame(watch);};requestAnimationFrame(watch);});
@@ -30,7 +44,7 @@ test('loading scoreboard never overflows before the app module arrives',async({p
  await expect(page.locator('.arena-card')).toHaveCount(13);
 });
 
-test('cinematic feed fits narrow phones, keeps all reactions usable and expands original art',async({page})=>{
+test('playful compact feed fits phones and opens biographies from the hero',async({page})=>{
  await page.addInitScript(()=>{const Original=window.AudioContext;if(Original)window.AudioContext=class extends Original{createOscillator(){window.reactionNotes=(window.reactionNotes||0)+1;return super.createOscillator();}};});
  await page.goto(base+'/satire-arena');const cards=page.locator('.arena-card'),first=cards.first();await expect(first.locator('.character-hero')).toBeVisible();
  await expect(page.locator('#reaction-sound')).toBeChecked();
@@ -41,8 +55,8 @@ test('cinematic feed fits narrow phones, keeps all reactions usable and expands 
   }
  }
  await page.setViewportSize({width:390,height:900});await page.screenshot({path:'test-results/arena-redesign-mobile-dark.png'});
- const expand=first.locator('.expand-portrait');await expand.click();await expect(expand).toHaveAttribute('aria-expanded','true');await expect(first.locator('.portrait')).toBeVisible();await expand.click();await expect(expand).toHaveAttribute('aria-expanded','false');
- await expect(first.getByRole('link',{name:'Biography & punchlines'})).toHaveAttribute('href','/satire-arena/characters/namo-nimbus');await expect(cards).toHaveCount(13);
+ await expect(page.locator('.expand-portrait')).toHaveCount(0);await expect(first.locator('.character-hero')).toHaveAttribute('href','/satire-arena/characters/namo-nimbus');
+ await expect(first.getByRole('link',{name:'Biography and punchlines for Namo Nimbus'})).toBeVisible();await expect(cards).toHaveCount(13);
 });
 test('optimistic changes count once, persist and roll back rejected saves',async({page})=>{
  await page.goto(base+'/satire-arena');const card=page.locator('[data-character=namo-nimbus]'),shoe=card.locator('[data-reaction=shoe]'),garland=card.locator('[data-reaction=garland]');

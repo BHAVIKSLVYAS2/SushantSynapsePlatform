@@ -240,6 +240,7 @@ body[data-ui-app=satire-arena] .score{margin:24px 0}.arena-settings{margin-top:1
 /* Keep later content out of the loading viewport until its existing panel mounts. */
 @media screen and (scripting:enabled){#cast:empty{min-height:100vh}}
 /* Six reactions stay in one accessible row on narrow phones. */
+/* This row contract is retained by the compact playful treatment below. */
 @media screen and (max-width:599px){
 body[data-ui-app=satire-arena] .character-voting{padding-inline:6px}
 body[data-ui-app=satire-arena] .character-voting .reactions{grid-template-columns:repeat(6,minmax(0,1fr));gap:2px}
@@ -248,4 +249,46 @@ body[data-ui-app=satire-arena] .character-voting .reactions b{position:absolute;
 body[data-ui-app=satire-arena] .character-voting .reactions span{font-size:24px}
 body[data-ui-app=satire-arena] .character-voting .reactions strong{font-size:13px}
 .character-voting .reactions .inkpot-icon{width:24px;height:24px}
+}
+
+/* Compact, playful stage cards. The complete hero is a native biography link. */
+@media screen{
+body[data-ui-app=satire-arena] .arena-card{--character-accent:var(--arena-gold);border-radius:20px;border-color:color-mix(in srgb,var(--character-accent) 35%,var(--line));box-shadow:0 7px 0 color-mix(in srgb,var(--character-accent) 9%,var(--surface)),0 16px 32px color-mix(in srgb,var(--bg) 65%,transparent)}
+body[data-ui-app=satire-arena] .arena-card:nth-child(3n+2){--character-accent:var(--arena-purple)}
+body[data-ui-app=satire-arena] .arena-card:nth-child(3n){--character-accent:var(--arena-blue)}
+body[data-ui-app=satire-arena] a.character-hero{position:relative;grid-template-columns:minmax(0,1fr) minmax(0,1fr);color:var(--text);text-decoration:none;isolation:isolate;background:radial-gradient(ellipse at 76% 0%,color-mix(in srgb,var(--character-accent) 60%,transparent),transparent 66%),repeating-conic-gradient(from -28deg at 76% -15%,transparent 0deg 12deg,color-mix(in srgb,var(--character-accent) 11%,transparent) 13deg 22deg,transparent 23deg 38deg),var(--arena-stage);border-radius:19px 19px 0 0}
+body[data-ui-app=satire-arena] .character-hero .card-body{padding:18px 12px 18px 20px}
+body[data-ui-app=satire-arena] .card-body h2{font-size:clamp(36px,5.8vw,66px);line-height:.98;letter-spacing:-.055em;color:var(--character-accent);margin:8px 0 4px;filter:none}
+body[data-ui-app=satire-arena] .character-name-lead{display:block;color:var(--text)}
+body[data-ui-app=satire-arena] .card-body>small{font-size:9px;letter-spacing:.14em}
+body[data-ui-app=satire-arena] .card-body .daily-punchline{font-size:14px;max-width:24ch;margin:9px 0;line-height:1.3}
+body[data-ui-app=satire-arena] .character-hero .portrait{max-width:330px;justify-self:end;background-repeat:no-repeat;mask-image:radial-gradient(ellipse 85% 85% at 55% 50%,black 48%,transparent 84%)}
+body[data-ui-app=satire-arena] .card-body>.leader-ribbon{font-size:10px;padding:7px 10px;line-height:1.2;transform:rotate(-2deg);margin-top:7px;max-width:100%}
+body[data-ui-app=satire-arena] .character-voting{border-color:color-mix(in srgb,var(--character-accent) 25%,var(--line));position:relative}
+body[data-ui-app=satire-arena] .character-voting .reactions button{background:color-mix(in srgb,var(--reaction-accent) 5%,var(--bg));border-color:color-mix(in srgb,var(--reaction-accent) 22%,var(--line));min-height:92px;gap:4px}
+body[data-ui-app=satire-arena] .character-voting .reactions button[aria-pressed=true]{background:color-mix(in srgb,var(--reaction-accent) 22%,var(--surface));box-shadow:0 0 18px color-mix(in srgb,var(--reaction-accent) 40%,transparent),inset 0 0 0 1px var(--reaction-accent);border-color:var(--reaction-accent)}
+body[data-ui-app=satire-arena] .character-voting .reactions button[aria-pressed=true]:after{display:grid;place-items:center;top:3px;right:3px;bottom:auto;width:14px;height:14px;font-size:10px}
+body[data-ui-app=satire-arena] .reactions button>span{filter:drop-shadow(0 3px 3px color-mix(in srgb,var(--reaction-accent) 35%,transparent))}
+body[data-ui-app=satire-arena] .vote-confirmation{padding:8px 10px;gap:8px}
+body[data-ui-app=satire-arena] .vote-confirmation:has(.choice-badge:not([hidden])){background:linear-gradient(115deg,color-mix(in srgb,var(--arena-mint) 17%,var(--surface)),var(--surface));box-shadow:0 0 13px color-mix(in srgb,var(--arena-mint) 15%,transparent)}
+body[data-ui-app=satire-arena] .choice-badge{font-weight:800;font-size:12px}
+body[data-ui-app=satire-arena] .hero p{position:relative;transform:rotate(-3deg);font-family:Georgia,serif;font-weight:700;max-width:46%}
+body[data-ui-app=satire-arena] .hero h1{white-space:nowrap}
+body[data-ui-app=satire-arena] .hero p:after{content:'';position:absolute;right:0;bottom:-5px;width:65%;height:3px;border-radius:100%;background:var(--arena-red);transform:rotate(-3deg)}
+html[data-theme=light] body[data-ui-app=satire-arena] .card-body h2{color:color-mix(in srgb,var(--character-accent) 48%,var(--text))}
+@media(max-width:599px){
+body[data-ui-app=satire-arena] .character-hero .card-body{padding:13px 4px 13px 13px}
+body[data-ui-app=satire-arena] .card-body h2{font-size:clamp(29px,8.6vw,42px)}
+body[data-ui-app=satire-arena] .card-body>small{font-size:7px;letter-spacing:.1em}
+body[data-ui-app=satire-arena] .card-body .daily-punchline{font-size:12px;margin:7px 0}
+body[data-ui-app=satire-arena] .card-body>.leader-ribbon{font-size:9px;padding:6px 8px}
+body[data-ui-app=satire-arena] .character-voting .reactions button{min-height:86px;padding:6px 1px;gap:3px}
+body[data-ui-app=satire-arena] .character-voting .reactions b{position:static;width:auto;height:auto;margin:0;overflow:visible;clip-path:none;white-space:normal;font-size:9px;line-height:1.15;min-height:21px;display:flex;align-items:center;justify-content:center}
+body[data-ui-app=satire-arena] .character-voting .reactions span{font-size:25px}
+body[data-ui-app=satire-arena] .character-voting .reactions strong{font-size:14px}
+body[data-ui-app=satire-arena] .vote-confirmation .vote-state{font-size:10px}
+body[data-ui-app=satire-arena] .character-share-menu summary{padding:9px;font-size:11px}
+}
+@media(hover:hover){body[data-ui-app=satire-arena] a.character-hero:hover h2{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}}
+@media(prefers-reduced-motion:reduce){body[data-ui-app=satire-arena] .hero p,body[data-ui-app=satire-arena] .leader-ribbon{transform:none}}
 }

@@ -21,8 +21,7 @@ const board=document.createElement('p');board.id='today-results';$('#yesterday-r
 for(const c of cast){
  const card=$(`[data-character="${c.id}"]`),body=card.querySelector('.card-body'),p=body.querySelector('p');p.classList.add('daily-punchline');
  const ribbon=card.querySelector('.leader-ribbon');body.insertBefore(ribbon,body.querySelector('.card-meta'));
- const expand=document.createElement('button');expand.className='expand-portrait';expand.type='button';expand.textContent='Full illustration';expand.setAttribute('aria-expanded','false');expand.onclick=()=>{const open=card.classList.toggle('is-expanded');expand.setAttribute('aria-expanded',String(open));expand.textContent=open?'Compact illustration':'Full illustration';};
- const profile=document.createElement('a');profile.href='/satire-arena/characters/'+c.id;profile.textContent='Biography & punchlines';p.after(profile,expand);
+ const heading=body.querySelector('h2'),words=c.name.split(' '),lead=document.createElement('span');lead.className='character-name-lead';lead.textContent=words.shift();heading.replaceChildren(lead,document.createTextNode(' '+words.join(' ')));
  const links=document.createElement('div');links.className='character-share-links';
  for(const [method,label]of [['native','Share link'],['whatsapp','WhatsApp'],['copy','Copy link']]){const button=document.createElement('button');button.type='button';button.textContent=label;button.onclick=async()=>{
   const url=location.origin+'/satire-arena/characters/'+c.id,text=c.name+' — '+p.textContent+' · Fictional parody';
@@ -36,7 +35,7 @@ for(const c of cast){
 // Keep the existing ballot controls and handlers while composing a continuous feed.
 for(const c of cast){
  const card=$(`[data-character="${c.id}"]`),body=card.querySelector('.card-body'),stage=card.querySelector('.portrait-stage');
- const hero=document.createElement('div');hero.className='character-hero';card.prepend(hero);hero.append(body,stage.querySelector('.portrait'));
+ const hero=document.createElement('a');hero.className='character-hero';hero.href='/satire-arena/characters/'+c.id;hero.setAttribute('aria-label','Biography and punchlines for '+c.name);card.prepend(hero);hero.append(body,stage.querySelector('.portrait'));
  const voting=document.createElement('section');voting.className='character-voting';voting.setAttribute('aria-label','Reaction voting for '+c.name);voting.innerHTML='<div class="reaction-heading"><strong>▥ &nbsp; PICK YOUR REACTION</strong></div>';card.append(voting);voting.append(stage.querySelector('.reactions'));voting.querySelector('.reaction-heading').append(body.querySelector('.card-total'));
  const confirmation=document.createElement('div');confirmation.className='vote-confirmation';const copy=document.createElement('div');copy.className='vote-confirmation-copy';copy.append(body.querySelector('.choice-badge'),body.querySelector('.vote-state'));confirmation.append(copy);card.append(confirmation);
  const menu=document.createElement('details');menu.className='character-share-menu';menu.innerHTML='<summary>Share ↗</summary>';menu.append(body.querySelector('[data-share-character]'),body.querySelector('.character-share-links'));confirmation.append(menu);
