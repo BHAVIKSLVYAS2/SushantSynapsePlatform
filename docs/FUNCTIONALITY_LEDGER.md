@@ -1,5 +1,17 @@
 # Chambers functionality ledger
 
+**Playful compact Arena published (2026-10-18, live verified):** Source `1efe455`
+is live as Worker `d339655d-0737-48b4-83ba-7ac4b88fb631`. Six changed assets uploaded
+with organisation/D1/auth/rate-limit bindings retained; no data/schema changes.
+Live checks match 13 assets, confirm all 13 heroes are biography links with no
+illustration controls, visible reaction labels and one row of 44px+ targets across
+320/390/768/1440px in both themes. The first mobile hero measures 184px tall at
+390px width. Initial theme/layout checks remain clean; reaction audio scheduling
+measured 5.7ms from click after pointer-press unlock (not speaker latency).
+Read-only verification intercepted the vote and confirmed failure rollback.
+No page errors. Mobile screenshot reviewed. Evidence:
+`.publish/arena-playful-live.json`, `.publish/arena-playful-live-mobile.png`.
+
 **Playful compact Arena and stronger sound (2026-10-18):** Removed Full illustration
 and the separate biography button. Each character hero is now a native, keyboard-
 accessible biography/punchline link covering its name/artwork. Cards use two-line
