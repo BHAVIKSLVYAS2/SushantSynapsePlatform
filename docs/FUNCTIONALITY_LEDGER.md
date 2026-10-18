@@ -1,5 +1,14 @@
 # Chambers functionality ledger
 
+**Homepage footer fix published (2026-10-18, live verified):** Source `b107547`
+is deployed as Worker `6715853d-f1d4-4754-b377-7947f169368a`. Four changed assets
+uploaded; existing organisation/D1/auth/rate-limit configuration is preserved.
+Live read-only Chrome verification passes a single footer, one of each retained
+destination, visitor-count placement and eight mobile/desktop light/dark layouts,
+with no overflow or page errors. Mobile screenshot reviewed. Verification blocked
+data writes and used GET for the visitor count. Evidence: `.publish/footer-live.json`
+and `.publish/footer-live-mobile.png`. This supersedes pending publication below.
+
 **Homepage footer consolidation (2026-10-18):** Removed the duplicate inner footer
 from the initial homepage HTML and the JavaScript fallback template. The shared
 legal footer retains support, demos, WhatsApp, privacy, terms, contact, notices and
