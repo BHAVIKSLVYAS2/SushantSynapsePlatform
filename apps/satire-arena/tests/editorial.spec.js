@@ -52,6 +52,18 @@ test('all thirteen cast files fit phones and desktops in both themes',async({pag
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),c.id+' '+theme+' '+width).toBe(true);
    const boxes=await page.locator('.file-voting [data-reaction]').evaluateAll(buttons=>buttons.map(b=>{const r=b.getBoundingClientRect();return {top:Math.round(r.top),width:r.width,height:r.height};}));expect(new Set(boxes.map(r=>r.top)).size).toBe(1);expect(boxes.every(r=>r.width>=44&&r.height>=44),c.id+' tap targets at '+width).toBe(true);
    expect(await page.locator('#character-name').evaluate(el=>el.scrollWidth<=el.clientWidth+1),c.id+' title at '+width).toBe(true);
+   const portrait=page.locator('.file-hero .portrait'),hero=page.locator('.file-hero');
+   const fiveRows=c.portrait>=9;
+   for(const expression of ['', 'happy','startled','annoyed','laughing']){
+    await hero.evaluate((el,value)=>{if(value)el.dataset.expression=value;else delete el.dataset.expression;},expression);
+    const crop=await portrait.evaluate(async el=>{const css=getComputedStyle(el),image=new Image();image.src=css.backgroundImage.match(/url\(["']?(.*?)["']?\)/)[1];await image.decode();return {size:css.backgroundSize,x:parseFloat(css.backgroundPositionX),y:parseFloat(css.backgroundPositionY),ratio:image.naturalWidth/image.naturalHeight};});
+    expect(crop.size,c.id+' '+expression+' crop').toBe(fiveRows?'200% 500%':expression?'300% 400%':'300% 100%');
+    expect(crop.x).toBe(fiveRows?(c.portrait%2===1?0:100):(c.portrait%3)*50);
+    const row=expression?['happy','startled','annoyed','laughing'].indexOf(expression):0;
+    expect(crop.y).toBeCloseTo(fiveRows?(expression?(row+1)*25:0):expression?row*100/3:50,4);
+    expect(crop.ratio).toBeCloseTo(fiveRows?2/5:expression?3/4:3,1);
+   }
+   await hero.evaluate(el=>delete el.dataset.expression);
   }
   await page.setViewportSize({width:390,height:844});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'.publish/character-review/'+c.id+'-mobile.png',fullPage:true});
   if(c.id==='namo-nimbus'){await page.setViewportSize({width:1440,height:1000});await page.screenshot({path:'.publish/character-review/namo-nimbus-desktop.png',fullPage:true});}

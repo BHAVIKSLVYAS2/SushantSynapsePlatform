@@ -1,5 +1,16 @@
 # Chambers functionality ledger
 
+**Arena detail portrait crop correction (2026-10-19):** Fixed Highway Hari,
+Budget Beena, Rally Raja and Debate Dastan heroes displaying entire expression
+sheets. Their two-column/five-row sheets now use 200% by 500% backgrounds in
+neutral and reaction states, rather than shrinking multiple rows into the hero.
+The detail stylesheet URL is versioned to refresh cached copies. Browser checks
+pass all thirteen pages, four widths and both themes (104 layouts), decoding and
+checking source geometry, column, row and crop for neutral plus four expressions
+in every layout. Highway Hari and Debate Dastan mobile screenshots were reviewed.
+Focused Arena/editorial API checks pass 16/16. No artwork or stored data changes.
+Deployment verification pending.
+
 **Unified app catalogue (2026-10-19, live verified):** Guests and
 signed-in accounts now share the public-home cards, categories, search and mobile
 destinations. Sign-in adds favourites, recent apps, profile and authorised
