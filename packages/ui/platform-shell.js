@@ -2,26 +2,7 @@
 // Shared navigation only. App permissions and business state remain app-owned.
 (() => {
  if (new URLSearchParams(location.search).get('screen') === '1') return;
- const entries = [
-  ['Confessions','/confessions','Public confession stream'],
-  ['QR Maker','/qr-maker','Public tool'],
-  ['Photo Resize','/photo-resize','Public tool'],
-  ['Bill Splitter','/bill-splitter','Public tool'],
-  ['Moment Studio','/moment-studio','Public tool'],
-  ['Take a Break','/take-a-break','Public tool'],
-  ['Decision Wheel','/decision-wheel','Public tool'],
-  ['News','/news','Public tool'],
-  ['Focus','/focus','Browser-saved tasks and timer'],
-  ['Chambers','/advocate','Private workspace'],
-  ['DIGITAL SAMAJ','/digital-samaj','Private workspace'],
-  ['Tournament Lite','/tournament-lite','Organizer sign-in'],
-  ['BatchFee Lite','/batchfee-lite','Private workspace'],
-  ['Team Mixer','/team-mixer','Public tool'],
-  ['Timetable Lite','/timetable-lite','Public tool'],
-  ['Fund Lens','/fund-overlap','Public tool'],
-  ['Ritual Assist','/ritual-assist','Public tool'],
-  ['Satire Arena','/satire-arena','Public tool']
- ];
+ const entries=(window.SynapseCatalogue?.visibleApps()||[]).filter(a=>a.path&&a.status==='Available').map(a=>[a.name,a.path,a.public?'Public tool':'Private workspace']);
  const aliases={'/moment-studio/cards':'/moment-studio','/daily-spark':'/take-a-break','/pocket-pause':'/take-a-break'};
  const path=location.pathname.replace(/\/$/,'')||'/';
  const current=entries.find(([,route])=>(aliases[path]||path)===route||path.startsWith(route+'/'));

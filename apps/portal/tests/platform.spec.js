@@ -69,7 +69,7 @@ test('premium bento keeps all tools discoverable across touch layouts and both t
  await page.emulateMedia({reducedMotion:'reduce'});
  await expect(page.locator('.home-welcome')).toHaveCount(0);
  for(const route of ['/timetable-lite','/ritual-assist','/ritual-assist/calendar','/team-mixer','/decision-wheel','/moment-studio','/moment-studio/certificates','/take-a-break','/pocket-pause','/daily-spark','/news','/fund-overlap','/advocate','/digital-samaj','/batchfee-lite','/tournament-lite','/satire-arena']){
-  await page.goto(base+route);await expect(page.locator('link[href*="/shared/premium.css"]')).toHaveCount(1);
+  await page.goto(base+route);await expect(page.locator('link[href*="/shared/premium.css"],link[href*="/home.bundle.css"]')).toHaveCount(1);
   await expect(page.getByRole('button',{name:'Dark mode',exact:true})).toBeVisible();
   await expect(page.locator('html'),route).toHaveAttribute('data-theme','dark');
   // App-owned dark palettes may differ while retaining a readable dark canvas.
@@ -143,7 +143,7 @@ test('app finder stays usable across small screens, themes and empty results',as
  await page.goto(base);await expect(page.locator('#app-finder-trigger')).toBeVisible();
  for(const [width,height,theme] of [[320,568,'light'],[390,844,'dark'],[1440,900,'light']]){
   await page.setViewportSize({width,height});await setTheme(page,theme);await page.evaluate(()=>scrollTo(0,500));await page.locator('#app-finder-trigger').scrollIntoViewIfNeeded();let position;
-  await page.getByRole('button',{name:'Search apps',exact:true}).click();await expect(page.getByLabel('Search apps or activities')).toBeFocused();position=await page.evaluate(()=>scrollY);await expect(page.locator('.finder-result')).toHaveCount(14);
+  await page.getByRole('button',{name:'Search apps',exact:true}).click();await expect(page.getByLabel('Search apps or activities')).toBeFocused();position=await page.evaluate(()=>scrollY);await expect(page.locator('.finder-result')).toHaveCount(21);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   const bounds=await page.locator('#app-finder-dialog').boundingBox();expect(bounds.y).toBeGreaterThanOrEqual(0);expect(bounds.y+bounds.height).toBeLessThanOrEqual(height+1);
   await page.getByLabel('Search apps or activities').fill('not-a-real-tool');await expect(page.locator('#finder-count')).toContainText('No matching apps');await expect(page.getByRole('button',{name:'Clear search',exact:true})).toBeVisible();await page.getByRole('button',{name:'Clear search',exact:true}).click();
@@ -154,37 +154,37 @@ test('app finder stays usable across small screens, themes and empty results',as
  await page.goto(base+'/signin');await expect(page.locator('#auth-form')).toBeVisible();await expect(page.locator('#app-finder-trigger')).toHaveCount(0);
 });
 async function expectWorkspaceDiscovery(page){
- await expect(page.locator('.workspace-card-art .home-sculpture use')).toHaveCount(4);
- await expect(page.locator('.workspace-card-art[aria-hidden=true]')).toHaveCount(4);
+ await expect(page.locator('.workspace-card-art .home-sculpture use')).toHaveCount(7);
+ await expect(page.locator('.workspace-card-art[aria-hidden=true]')).toHaveCount(7);
  for(const [name,destination]of [['DIGITAL SAMAJ','digital-samaj'],['Chambers','advocate'],['Tournament Lite','tournament-lite'],['BatchFee Lite','batchfee-lite']]){
-  await expect(page.getByRole('link',{name:'Sign in to '+name+' →',exact:true})).toHaveAttribute('href','/signin?next='+destination);
+  await expect(page.getByRole('link',{name:'Sign in to '+name,exact:true})).toHaveAttribute('href','/signin?next='+destination);
  }
 }
 test('homepage ships real cards without JavaScript and ignores obsolete login query',async({browser,page})=>{
  const context=await noAdsContext(browser,{javaScriptEnabled:false});
- try{const fallback=await context.newPage();const response=await fallback.goto(base);expect(response.headers()['cache-control']).toBe('no-store');await expect(fallback.locator('.public-app')).toHaveCount(14);await expect(fallback.getByRole('link',{name:'Decision Wheel',exact:true})).toBeVisible();await expect(fallback.getByRole('link',{name:'Fund Lens',exact:true})).toBeVisible();await expect(fallback.getByRole('link',{name:'Open News'})).toBeVisible();await expect(fallback.getByRole('link',{name:'Sign in to Tournament Lite'})).toBeVisible();await expectWorkspaceDiscovery(fallback);}finally{await context.close();}
+ try{const fallback=await context.newPage();const response=await fallback.goto(base);expect(response.headers()['cache-control']).toBe('no-store');await expect(fallback.locator('.public-app')).toHaveCount(14);await expect(fallback.getByRole('link',{name:'Decision Wheel',exact:true})).toBeVisible();await expect(fallback.getByRole('link',{name:'Fund Lens',exact:true})).toBeVisible();await expect(fallback.getByRole('link',{name:'Sushant Synapse Times',exact:true})).toBeVisible();await expect(fallback.getByRole('link',{name:'Sign in to Tournament Lite',exact:true})).toBeVisible();await expectWorkspaceDiscovery(fallback);}finally{await context.close();}
  await page.goto(base+'/?signin=1');await expectWorkspaceDiscovery(page);await expect(page.locator('.public-app')).toHaveCount(14);await expect(page.locator('#auth-form')).toHaveCount(0);await page.goto(base+'/signin');await expect(page).toHaveURL(base+'/signin');await expect(page.locator('#auth-form')).toBeVisible();
 });
 test('platform setup, favourites, app launch with shared sign-in, team access and responsive themes',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.setViewportSize({width:390,height:844});await page.goto(base);
- await expect(page.locator('#auth-form')).toHaveCount(0);await expect(page.getByRole('link',{name:'Fund Lens',exact:true})).toBeVisible();await expect(page.getByRole('link',{name:'Open News'})).toBeVisible();
+ await expect(page.locator('#auth-form')).toHaveCount(0);await expect(page.getByRole('link',{name:'Fund Lens',exact:true})).toBeVisible();await expect(page.getByRole('link',{name:'Sushant Synapse Times',exact:true})).toBeVisible();
  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await page.setViewportSize({width:390,height:844});await page.goto(base+'/signin');
  await page.getByLabel('Your name',{exact:true}).fill('Sushant Owner');await page.getByLabel('Workspace name',{exact:true}).fill('Synapse Chambers');await page.getByLabel('Email address').fill('owner@synapse.example');await page.getByLabel('Password',{exact:true}).fill('Platform browser password!');await page.getByRole('button',{name:'Create platform'}).click();
- await expect(page.getByRole('heading',{name:'Welcome, Sushant.'})).toBeVisible();await expect(page.getByRole('button',{name:'Open Chambers'})).toBeVisible();await expect(page.getByText('Planned',{exact:true})).toHaveCount(3);
- await expect(page.locator('.app-card .app-sculpture')).toHaveCount(await page.locator('.app-card').count());
- await expect(page.locator('.app-card.planned .launch,.app-card.planned .favorite')).toHaveCount(0);
- await expect(page.locator('.app-card[data-app-id="advocate"] use')).toHaveAttribute('href',/home-art\.svg.*#chambers$/);
+ await expect(page.locator('#catalogue-account strong')).toBeVisible();await expect(page.getByRole('button',{name:'Open Chambers'})).toBeVisible();await expect(page.getByText('Planned',{exact:true})).toHaveCount(3);
+ await expect(page.locator('.public-home')).toHaveCount(1);await expect(page.locator('.app-card,.app-grid')).toHaveCount(0);
+ await expect(page.locator('.workspace-card[data-app-id=projects] [data-action],.workspace-card[data-app-id=finance] [data-action],.workspace-card[data-app-id=knowledge] [data-action]')).toHaveCount(0);
+ await expect(page.locator('.workspace-card[data-app-id="advocate"] use')).toHaveAttribute('href',/home-art\.svg.*#chambers$/);
  await page.getByRole('button',{name:'Search apps',exact:true}).click();await page.getByLabel('Search apps or activities').fill('Chambers');await expect(page.locator('.finder-result')).toHaveCount(1);await expect(page.locator('.finder-result')).toContainText('Chambers');await expect(page.locator('.finder-result .finder-sculpture')).toHaveAttribute('aria-hidden','true');await page.keyboard.press('Escape');await expect(page.getByRole('button',{name:'Search apps',exact:true})).toBeFocused();
- await page.getByRole('button',{name:'Add Chambers to favourites'}).click();await page.getByRole('navigation',{name:'Mobile platform navigation'}).getByRole('button',{name:'Favourites',exact:true}).click();await expect(page.locator('.app-card')).toHaveCount(1);
+ await page.getByRole('button',{name:'Add Chambers to favourites'}).click();await page.getByRole('navigation',{name:'Platform navigation'}).getByRole('button',{name:'Favourites',exact:true}).click();await expect(page.locator('.catalogue-item')).toHaveCount(1);
  await page.getByRole('button',{name:'Open Chambers'}).click();await expect(page).toHaveURL(base+'/advocate');await expect(page.getByRole('heading',{name:'Chambers overview'})).toBeVisible();
- await page.locator('.platform-shell-brand').click();await page.getByRole('navigation',{name:'Mobile platform navigation'}).getByRole('button',{name:'Recent',exact:true}).click();await expect(page.getByRole('heading',{name:'Chambers',exact:true})).toBeVisible();
- await page.getByRole('navigation',{name:'Mobile platform navigation'}).getByRole('button',{name:'All apps',exact:true}).click();await setTheme(page,'dark');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await page.screenshot({path:'test-results/platform-mobile-dark.png',fullPage:true});
+ await page.locator('.platform-shell-brand').click();await page.getByRole('navigation',{name:'Platform navigation'}).getByRole('button',{name:'Recent',exact:true}).click();await expect(page.getByRole('heading',{name:'Chambers',exact:true})).toBeVisible();
+ await page.getByRole('navigation',{name:'Platform navigation'}).getByRole('button',{name:'All apps',exact:true}).click();await setTheme(page,'dark');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await page.screenshot({path:'test-results/platform-mobile-dark.png',fullPage:true});
  for(const width of [320,768,1440]){await page.setViewportSize({width,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await setTheme(page,'light');await page.screenshot({path:'test-results/platform-desktop-light.png',fullPage:true});
  await page.getByRole('navigation',{name:'Platform navigation'}).getByRole('button',{name:'Team access'}).click();await page.getByRole('button',{name:'Add member'}).click();await page.getByLabel('Name',{exact:true}).fill('Member One');await page.getByLabel('Email',{exact:true}).fill('member@synapse.example');await page.getByLabel('Initial password').fill('Member browser password!');await page.getByRole('button',{name:'Save member'}).click();await expect(page.getByText('Member One',{exact:true})).toBeVisible();
  const row=page.locator('.team-row').filter({hasText:'Member One'});await row.getByRole('checkbox',{name:'Chambers'}).uncheck();await expect(row.getByRole('checkbox',{name:'Chambers'})).not.toBeChecked();
- await page.getByRole('button',{name:'Sign out',exact:true}).click();await expect(page.locator('#auth-form')).toHaveCount(0);await page.goto(base+'/signin');await page.getByLabel('Email address').fill('member@synapse.example');await page.getByLabel('Password',{exact:true}).fill('Member browser password!');await page.locator('#auth-form button[type=submit]').click();await expect(page.getByText('Access required',{exact:true})).toHaveCount(4);await expect(page.getByRole('button',{name:'Open Fund Lens'})).toBeVisible();await expect(page.getByRole('button',{name:'Open Sushant Synapse Times'})).toBeVisible();await expect(page.getByRole('button',{name:'Open Chambers'})).toHaveCount(0);expect((await page.request.get(base+'/api/state')).status()).toBe(403);
+ await page.getByRole('button',{name:'Sign out',exact:true}).click();await expect(page.locator('#auth-form')).toHaveCount(0);await page.goto(base+'/signin');await page.getByLabel('Email address').fill('member@synapse.example');await page.getByLabel('Password',{exact:true}).fill('Member browser password!');await page.locator('#auth-form button[type=submit]').click();await expect(page.getByText('Access required',{exact:true})).toHaveCount(4);await expect(page.getByRole('link',{name:'Fund Lens',exact:true})).toBeVisible();await expect(page.getByRole('link',{name:'Sushant Synapse Times',exact:true})).toBeVisible();await expect(page.getByRole('button',{name:'Open Chambers'})).toHaveCount(0);expect((await page.request.get(base+'/api/state')).status()).toBe(403);
  await page.getByRole('navigation',{name:'Platform navigation'}).getByRole('button',{name:'My profile',exact:true}).click();await page.locator('#profile-form').getByLabel('Name',{exact:true}).fill('Updated Member');await page.getByRole('button',{name:'Save profile'}).click();await expect(page.locator('#profile-form input[name="name"]')).toHaveValue('Updated Member');expect(errors).toEqual([]);
 });
 test('public tools and private destinations stay distinct through sign-in',async({page})=>{
@@ -193,10 +193,10 @@ test('public tools and private destinations stay distinct through sign-in',async
  await page.goto(base);
  await expect(page.locator('#free-apps .public-app')).toHaveCount(14);
  expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.slice(0,4).map(a=>a.getAttribute('href')))).toEqual(['/fund-overlap','/decision-wheel','/ritual-assist','/confessions']);
- expect(await page.locator('#platform-switcher nav a:not(.platform-switcher-home)').evaluateAll(links=>links.slice(0,4).map(a=>a.getAttribute('href')))).toEqual(['/take-a-break?game=24','/decision-wheel','/confessions','/qr-maker']);
- await expect(page.locator('#workspace-apps .workspace-card')).toHaveCount(4);
+ expect(await page.locator('#platform-switcher nav a:not(.platform-switcher-home)').evaluateAll(links=>links.slice(0,4).map(a=>a.getAttribute('href')))).toEqual(['/take-a-break?game=24','/decision-wheel','/fund-overlap','/decision-wheel']);
+ await expect(page.locator('#workspace-apps .workspace-card')).toHaveCount(7);
  await expect(page.locator('#free-apps a[href*="tournament"]')).toHaveCount(0);
- const {apps}=require('../../../packages/app-registry');expect(apps.slice(0,4).map(a=>a.path)).toEqual(['/fund-overlap','/decision-wheel','/ritual-assist','/confessions']);
+ const {apps,visibleApps}=require('../../../packages/app-registry');expect(visibleApps().slice(0,4).map(a=>a.path)).toEqual(['/fund-overlap','/decision-wheel','/ritual-assist','/confessions']);
  expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.map(a=>a.getAttribute('href')).sort())).toEqual(apps.filter(a=>a.public&&a.status==='Available'&&!a.catalogueParent).map(a=>a.path).sort());
  for(const [width,theme] of [[390,'dark'],[1440,'light']]){
   await page.setViewportSize({width,height:1000});
@@ -206,7 +206,7 @@ test('public tools and private destinations stay distinct through sign-in',async
  for(const app of ['advocate','tournament-lite','batchfee-lite','digital-samaj']){
   await page.goto(base+'/signin?next='+app);
   await expect(page.locator('#auth-form')).toBeVisible();
-  await expect(page.getByRole('navigation',{name:'Public apps'}).locator('.auth-public-links a')).toHaveCount(7);
+  await expect(page.getByRole('link',{name:/Back to all apps/})).toBeVisible();
   for(const theme of ['light','dark','system']){
    await setTheme(page,theme);
    for(const width of [320,390,768,1440]){

@@ -1,5 +1,24 @@
 # Chambers functionality ledger
 
+**Unified app catalogue (2026-10-19, verification in progress):** Guests and
+signed-in accounts now share the public-home cards, categories, search and mobile
+destinations. Sign-in adds favourites, recent apps, profile and authorised
+workspace launch controls. App metadata and card/featured renderers live in
+`packages/app-registry/index.js`, shared by browser, backend and app switcher.
+`infrastructure/build-catalogue.cjs` generates the no-JavaScript home snapshot
+and embeds the registry in the shared navigation bundle, with no extra request.
+Removed the second public-home template, signed-in app-grid renderer, legacy
+name normalisers and separate switcher app list. Server permission checks,
+preferences, stored aliases and the visitor-module import remain intact.
+Focused catalogue/alias/game tests pass 13/13; navigation/export checks pass 17/17.
+The final portal/navigation/performance browser run passes 28/28. Full API run:
+342/344; the two failures (new export boundary and a load-sensitive timetable
+fixture) pass targeted rechecks (20/20), with the original frontend allowlist
+retained and no timetable changes. Supplementary catalogue browser checks pass
+4/4, covering nested-app preferences and public launch during tracking outages.
+Production publication follows. Guest and signed-in mobile/desktop screenshots were reviewed in
+`.publish/unified-home-*.png`. Nested-app favourites/history remain accessible.
+
 **Arena character detail designs (2026-10-18, live verified):** All thirteen
 canonical character routes now use playful cast-file pages with portrait heroes,
 individual fictional sketches/traits/signature lines, editor-supplied biography

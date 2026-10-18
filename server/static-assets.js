@@ -2,7 +2,7 @@
 const staticAssets={
  '/shared/visitors.mjs':'packages/ui/visitors.mjs',
  '/news/newsroom.css':'apps/news/frontend/newsroom.css',
- '/shared/platform-shell.js':'packages/ui/platform-shell.js',
+ '/shared/platform-shell.js':'packages/ui/platform-shell.bundle.js',
  '/shared/platform-shell.css':'packages/ui/platform-shell.css',
  '/home.css':'apps/portal/frontend/home.css',
  '/home.bundle.css':'apps/portal/frontend/home.bundle.css',

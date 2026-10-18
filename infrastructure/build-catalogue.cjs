@@ -1,0 +1,16 @@
+// Static no-JavaScript home cards and browser hydration use the same renderer.
+const fs=require('node:fs'),path=require('node:path');
+const catalogue=require('../packages/app-registry');
+function navigationBundle(){return '// Generated from app-registry/index.js and ui/platform-shell.js.\n'+fs.readFileSync(path.join(__dirname,'../packages/app-registry/index.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'../packages/ui/platform-shell.js'),'utf8');}
+function buildCatalogue({write=true}={}){
+ const file=path.join(__dirname,'../apps/portal/frontend/index.html');let html=fs.readFileSync(file,'utf8');
+ function grid(className,apps,render=catalogue.renderCard){const start=html.indexOf('<div class="'+className+'">');if(start<0)throw Error('Missing '+className);const content=start+('<div class="'+className+'">').length;let depth=1,end;
+  for(const match of html.slice(content).matchAll(/<\/?div\b[^>]*>/g)){depth+=match[0].startsWith('</')?-1:1;if(!depth){end=content+match.index;break;}}
+  if(end===undefined)throw Error('Unclosed '+className);html=html.slice(0,content)+apps.map(a=>render(a)).join('')+html.slice(end);
+ }
+ grid('public-apps',catalogue.visibleApps().filter(a=>a.public));grid('workspace-grid',catalogue.visibleApps().filter(a=>!a.public));
+ grid('home-feature-grid',catalogue.visibleApps().filter(a=>a.featured),catalogue.renderFeatured);
+ if(write){fs.writeFileSync(file,html);fs.writeFileSync(path.join(__dirname,'../packages/ui/platform-shell.bundle.js'),navigationBundle());}return html;
+}
+if(require.main===module)buildCatalogue();
+module.exports={buildCatalogue,navigationBundle};

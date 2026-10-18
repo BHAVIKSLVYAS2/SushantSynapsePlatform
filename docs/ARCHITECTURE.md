@@ -1,5 +1,17 @@
 # Code ownership and adding apps
 
+App discovery (2026-10-19): `packages/app-registry/index.js` owns code-reviewed
+app names/routes, display metadata, groups and catalogue renderers. Its CommonJS
+export serves backend callers; the home build embeds that source into the
+generated `packages/ui/platform-shell.bundle.js`, served at the existing
+`/shared/platform-shell.js` route for home/search/navigation. There is no extra
+registry request during navigation. `infrastructure/build-catalogue.cjs` also
+refreshes no-JavaScript cards and featured links. Signed-in home hydrates the
+same cards with `/api/platform` access flags.
+Keep app IDs and aliases stable for favourites and recent activity. Registry
+visibility is presentation only; API and organisation/role checks remain the
+server's responsibility.
+
 Organisation production (2026-10-17): Cloudflare/D1 organisation mode is live.
 Shared asynchronous governance lives in `organisation-repository-d1.mjs` and
 `organisation-administration-d1.mjs`, with app-owned edge route/account/audit/client

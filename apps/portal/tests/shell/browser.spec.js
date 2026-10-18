@@ -107,7 +107,7 @@ test('platform frame persists across public apps with usable mobile switching',a
 
 test('home, account, Chambers and switching retain the frame after authentication',async({page})=>{
  const setup=await page.request.post(base+'/api/auth/setup',{data:{name:'Shell Owner',firmName:'Test Chambers',email:'shell@example.com',password:'Platform shell password!'}});expect(setup.ok()).toBe(true);
- await page.goto(base+'/');await expect(page.locator('#app-results')).toBeVisible();
+ await page.goto(base+'/');await expect(page.locator('.public-home #free-apps')).toBeVisible();await expect(page.locator('#catalogue-account')).toBeVisible();
  await page.locator('.platform-switch').click();await page.locator('#platform-switcher input').fill('Chambers');await page.locator('#platform-switcher nav a:visible').click();
  await expect(page.getByRole('heading',{name:'Chambers overview',exact:true})).toBeVisible();
  for(const width of [320,390,768,1440]){
@@ -120,7 +120,7 @@ test('home, account, Chambers and switching retain the frame after authenticatio
  await page.setViewportSize({width:1440,height:1000});await page.screenshot({path:'test-results/shell-chambers-desktop.png',fullPage:true});
  await page.setViewportSize({width:390,height:850});await page.screenshot({path:'test-results/shell-chambers-mobile.png',fullPage:true});
  await page.locator('.platform-account').click();await expect(page.locator('#profile-form')).toBeVisible();await expect(page.locator('.platform-shell')).toBeVisible();
- await page.locator('.platform-shell-brand').click();await expect(page.locator('#app-results')).toBeVisible();
+ await page.locator('.platform-shell-brand').click();await expect(page.locator('.public-home #free-apps')).toBeVisible();
  await page.goto(base+'/batchfee-lite');await page.setViewportSize({width:768,height:900});
  expect(await page.locator('body>aside').evaluate(el=>getComputedStyle(el).position)).toBe('static');
  await page.setViewportSize({width:1440,height:900});expect((await page.locator('body>aside').boundingBox()).y).toBe(72);

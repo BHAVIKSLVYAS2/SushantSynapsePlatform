@@ -2,6 +2,7 @@
 const fs=require('node:fs'),path=require('node:path'),{transformSync}=require('esbuild');
 const root=path.resolve(__dirname,'..');
 function buildHome(){
+ require('./build-catalogue.cjs').buildCatalogue();
  const files=['apps/portal/frontend/platform.css','packages/ui/platform-header.css','packages/ui/sponsorship.css','packages/ui/legal-footer.css','packages/ui/whatsapp.css','packages/ui/premium.bundle.css','apps/portal/frontend/home.css','packages/ui/platform-shell.css'];
  const css=files.map(file=>fs.readFileSync(path.join(root,file),'utf8')).join('\n');
  const {code}=transformSync(css,{loader:'css',minify:true,target:'chrome114',legalComments:'inline'});

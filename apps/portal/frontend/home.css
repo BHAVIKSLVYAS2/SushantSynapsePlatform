@@ -433,3 +433,14 @@
 @media print{.home-mobile-dock,.home-entry-paths,.home-search,.home-hub-art{display:none!important}}
 
 @media(scripting:none){.home-search,.home-filters,.home-mobile-dock{display:none!important}}
+/* Same app cards before and after sign-in. */
+.public-home .catalogue-item{position:relative;min-width:0;display:flex;flex-direction:column}
+.public-home .catalogue-item>.public-app{height:100%;flex:1}
+.public-home .catalogue-favorite{position:absolute;right:12px;bottom:12px;min-width:44px;min-height:44px;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--primary);font-size:22px;z-index:1}
+.public-home .catalogue-item:has(.catalogue-favorite) .public-app-copy{padding-right:54px}
+.public-home .workspace-card .catalogue-favorite{top:12px;bottom:auto}
+.public-home .catalogue-account{display:flex;align-items:center;flex-wrap:wrap;gap:16px;margin:12px 0 24px;padding:18px;border:1px solid var(--line);border-radius:18px;background:var(--surface)}
+.catalogue-account>div{display:grid;gap:5px}.catalogue-account>div span{font-size:12px;color:var(--muted)}
+.public-home .catalogue-account nav{display:flex;flex-wrap:wrap;gap:6px;flex:1}.catalogue-account .nav-item{width:auto;min-height:44px;font-size:12px;padding:8px 12px}.catalogue-account .nav-item .icon{width:16px;height:16px}.catalogue-account>.secondary{min-height:44px}
+.public-home .catalogue-item[hidden]{display:none!important}
+@media(max-width:700px){.public-home .catalogue-account{padding:12px;gap:12px}.public-home .catalogue-account nav{flex-basis:100%}.catalogue-account>.secondary{font-size:12px}.catalogue-account .nav-item{padding:8px;font-size:11px}}
