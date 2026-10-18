@@ -8,7 +8,7 @@ test('hub search combines categories, clears empty results and keeps mobile dest
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/');const search=page.getByRole('searchbox',{name:'Search web apps'});
  await search.fill('QR');await expect(page.locator('.public-app:not([hidden])')).toHaveCount(1);await expect(page.locator('.public-app:not([hidden])')).toHaveAttribute('href','/qr-maker');await expect(page.locator('.home-featured')).toBeHidden();
  await page.locator('[data-tool-filter=games]').click();await expect(page.locator('.public-app:not([hidden])')).toHaveCount(0);await expect(page.locator('.home-search-empty')).toBeVisible();await page.getByRole('button',{name:'Clear app search'}).click();await expect(search).toBeFocused();await expect(page.locator('.public-app:not([hidden])')).toHaveCount(5);
- await page.locator('[data-tool-filter=all]').click();await expect(page.locator('.public-app:not([hidden])')).toHaveCount(14);await expect(page.locator('.home-featured')).toBeVisible();await expect(page.locator('.home-feature-card')).toHaveAttribute('href','/confessions');await expect(page.locator('.home-entry-workspace')).toHaveAttribute('href','/signin');
+ await page.locator('[data-tool-filter=all]').click();await expect(page.locator('.public-app:not([hidden])')).toHaveCount(14);await expect(page.locator('.home-featured')).toBeVisible();expect(await page.locator('.home-feature-card').evaluateAll(cards=>cards.map(c=>c.getAttribute('href')))).toEqual(['/moment-studio','/take-a-break']);await expect(page.locator('.home-entry-workspace')).toHaveAttribute('href','/signin');
  for(const width of [320,360,375,390,412,430,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await setTheme(page,theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),width+' '+theme).toBe(true);expect(await page.locator('.home-search input').evaluate(e=>e.getBoundingClientRect().height)).toBeGreaterThanOrEqual(44);}
  await page.setViewportSize({width:390,height:900});await page.locator('[data-home-games]').click();await expect(page.locator('[data-tool-filter=games]')).toHaveAttribute('aria-pressed','true');await page.locator('.home-mobile-dock a').nth(1).click();await expect(page.locator('.public-app:not([hidden])')).toHaveCount(14);
  await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'test-results/home-hub-mobile-dark.png'});await page.locator('#free-apps').screenshot({path:'test-results/home-hub-catalogue-dark.png'});await page.setViewportSize({width:1440,height:1000});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'test-results/home-hub-desktop-dark.png'});expect(errors).toEqual([]);
@@ -28,11 +28,11 @@ test('AdSense loads asynchronously only for an anonymous home and retains tool n
 });
 
 test('glossy hub keeps direct apps, shared navigation and a no-JavaScript catalogue',async({page,browser})=>{
- await page.goto(base+'/');await expect(page.locator('.home-welcome h1')).toContainText('Everything you need,');await expect(page.locator('.home-features')).toHaveCount(0);
- for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:844});await setTheme(page,theme);await page.evaluate(()=>scrollTo(0,0));expect((await page.locator('.home-welcome').boundingBox()).height).toBeLessThan(370);expect((await page.locator('#free-apps .public-app').first().boundingBox()).y).toBeLessThan(1250);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);expect(await page.locator('.public-apps').evaluate(e=>getComputedStyle(e).overflowY)).toBe('visible');}
+ await page.goto(base+'/');await expect(page.locator('.home-welcome')).toHaveCount(0);await expect(page.locator('.home-features')).toHaveCount(0);
+ for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:844});await setTheme(page,theme);await page.evaluate(()=>scrollTo(0,0));expect((await page.locator('#free-apps .public-app').first().boundingBox()).y).toBeLessThan(1250);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);expect(await page.locator('.public-apps').evaluate(e=>getComputedStyle(e).overflowY)).toBe('visible');}
  await page.locator('.platform-switch').click();await expect(page.locator('#platform-switcher a[href="/take-a-break?game=24"]')).toBeVisible();await page.locator('#platform-switcher input').fill('chance');await expect(page.locator('#platform-switcher a:not([hidden])')).toHaveCount(1);await page.locator('#platform-switcher input').fill('');await page.keyboard.press('Escape');await expect(page.locator('.platform-switch')).toBeFocused();
  await page.setViewportSize({width:390,height:844});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'.publish/home-apps-first-mobile.png'});
- const context=await noAdsContext(browser,{javaScriptEnabled:false});try{const p=await context.newPage();await p.setViewportSize({width:390,height:844});await p.goto(base+'/');await expect(p.locator('.home-welcome h1')).toContainText('Everything you need,');await expect(p.locator('.home-features')).toHaveCount(0);await expect(p.locator('.public-app')).toHaveCount(14);expect((await p.locator('.public-app').first().boundingBox()).y).toBeLessThan(1250);}finally{await context.close();}
+ const context=await noAdsContext(browser,{javaScriptEnabled:false});try{const p=await context.newPage();await p.setViewportSize({width:390,height:844});await p.goto(base+'/');await expect(p.locator('.home-welcome')).toHaveCount(0);expect(await p.locator('.public-app').evaluateAll(cards=>cards.slice(0,3).map(c=>c.getAttribute('href')))).toEqual(['/fund-overlap','/decision-wheel','/ritual-assist']);await expect(p.locator('.home-features')).toHaveCount(0);await expect(p.locator('.public-app')).toHaveCount(14);expect((await p.locator('.public-app').first().boundingBox()).y).toBeLessThan(1250);}finally{await context.close();}
 });
 
 test('home categories filter without nested scrolling and phone swipes move the page',async({page,browser})=>{
@@ -51,7 +51,7 @@ test('premium bento keeps all tools discoverable across touch layouts and both t
    await setTheme(page,theme);
    expect(await page.locator('.public-app').first().evaluate(el=>getComputedStyle(el).backgroundImage)).toContain('linear-gradient');
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${width}px ${theme}`).toBe(true);
-   expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.map(a=>({path:a.getAttribute('href'),box:a.getBoundingClientRect()})).sort((a,b)=>Math.abs(a.box.top-b.box.top)>2?a.box.top-b.box.top:a.box.left-b.box.left).slice(0,4).map(a=>a.path))).toEqual(['/confessions','/qr-maker','/photo-resize','/bill-splitter']);
+   expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.map(a=>({path:a.getAttribute('href'),box:a.getBoundingClientRect()})).sort((a,b)=>Math.abs(a.box.top-b.box.top)>2?a.box.top-b.box.top:a.box.left-b.box.left).slice(0,4).map(a=>a.path))).toEqual(['/fund-overlap','/decision-wheel','/ritual-assist','/confessions']);
    const columns=await page.locator('.public-apps').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length);
    expect(columns).toBe(width>1000?3:width>=360?2:1);
    await expect(page.locator('.platform-shell')).toBeVisible();
@@ -67,7 +67,7 @@ test('premium bento keeps all tools discoverable across touch layouts and both t
  await setTheme(page,'dark');await page.screenshot({path:'test-results/mint-home-desktop-dark.png',fullPage:true});
  await page.setViewportSize({width:390,height:844});await setTheme(page,'dark');await page.screenshot({path:'test-results/premium-home-mobile-dark.png',fullPage:true});
  await page.emulateMedia({reducedMotion:'reduce'});
- expect(await page.locator('.home-welcome').evaluate(el=>getComputedStyle(el).animationName)).toBe('none');
+ await expect(page.locator('.home-welcome')).toHaveCount(0);
  for(const route of ['/timetable-lite','/ritual-assist','/ritual-assist/calendar','/team-mixer','/decision-wheel','/moment-studio','/moment-studio/certificates','/take-a-break','/pocket-pause','/daily-spark','/news','/fund-overlap','/advocate','/digital-samaj','/batchfee-lite','/tournament-lite','/satire-arena']){
   await page.goto(base+route);await expect(page.locator('link[href*="/shared/premium.css"]')).toHaveCount(1);
   await expect(page.getByRole('button',{name:'Dark mode',exact:true})).toBeVisible();
@@ -192,11 +192,11 @@ test('public tools and private destinations stay distinct through sign-in',async
  if(status.setupRequired){const setup=await page.request.post(base+'/api/auth/setup',{data:{name:'Sushant Owner',firmName:'Synapse Chambers',email:'owner@synapse.example',password:'Platform browser password!'}});expect(setup.ok()).toBe(true);await page.request.post(base+'/api/auth/logout');}
  await page.goto(base);
  await expect(page.locator('#free-apps .public-app')).toHaveCount(14);
- expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.slice(0,4).map(a=>a.getAttribute('href')))).toEqual(['/confessions','/qr-maker','/photo-resize','/bill-splitter']);
+ expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.slice(0,4).map(a=>a.getAttribute('href')))).toEqual(['/fund-overlap','/decision-wheel','/ritual-assist','/confessions']);
  expect(await page.locator('#platform-switcher nav a:not(.platform-switcher-home)').evaluateAll(links=>links.slice(0,4).map(a=>a.getAttribute('href')))).toEqual(['/take-a-break?game=24','/decision-wheel','/confessions','/qr-maker']);
  await expect(page.locator('#workspace-apps .workspace-card')).toHaveCount(4);
  await expect(page.locator('#free-apps a[href*="tournament"]')).toHaveCount(0);
- const {apps}=require('../../../packages/app-registry');expect(apps.slice(0,4).map(a=>a.path)).toEqual(['/confessions','/qr-maker','/photo-resize','/bill-splitter']);
+ const {apps}=require('../../../packages/app-registry');expect(apps.slice(0,4).map(a=>a.path)).toEqual(['/fund-overlap','/decision-wheel','/ritual-assist','/confessions']);
  expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.map(a=>a.getAttribute('href')).sort())).toEqual(apps.filter(a=>a.public&&a.status==='Available'&&!a.catalogueParent).map(a=>a.path).sort());
  for(const [width,theme] of [[390,'dark'],[1440,'light']]){
   await page.setViewportSize({width,height:1000});

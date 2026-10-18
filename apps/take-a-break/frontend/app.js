@@ -97,7 +97,7 @@ function filterGames(kind,animate=true){
  $('#hub').dataset.category=kind;let visible=0;
  document.querySelectorAll('[data-filter]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.filter===kind)));
  document.querySelectorAll('.break-card').forEach(card=>{
-  card.getAnimations().forEach(animation=>animation.cancel());card.hidden=kind!=='all'&&card.dataset.kind!==kind;
+  card.getAnimations().forEach(animation=>animation.cancel());card.hidden=kind!=='all'&&card.dataset.kind!==kind&&!card.dataset.tags?.split(' ').includes(kind);
   if(!card.hidden){visible++;if(animate&&!matchMedia('(prefers-reduced-motion:reduce)').matches)card.animate([{opacity:.3,transform:'translateY(4px)'},{opacity:1,transform:'translateY(0)'}],{duration:180,easing:'ease-out'});}
  });
  $('#break-filter-status').textContent=visible+(visible===1?' activity shown':' activities shown');

@@ -4,16 +4,31 @@ test('bento filters balance cards and keep the logic puzzle available',async({pa
  await page.goto(base+'/take-a-break');
  for(const width of [320,768,1440]){await page.setViewportSize({width,height:900});for(const theme of ['light','dark']){
   await setTheme(page,theme);
-  for(const [kind,count]of [['challenge',5],['choose',2],['unwind',1]]){
+  for(const [kind,count]of [['all',8],['puzzle',3],['memory',1],['logic',3],['quick',3],['challenge',5],['choose',2],['unwind',1]]){
    const pill=page.locator(`[data-filter=${kind}]`);await pill.click();await expect(pill).toHaveAttribute('aria-pressed','true');await expect(page.locator('.break-card:not([hidden])')).toHaveCount(count);await expect(page.locator('#break-filter-status')).toHaveText(count+(count===1?' activity shown':' activities shown'));expect((await pill.boundingBox()).height).toBeGreaterThanOrEqual(48);
   }
   await page.locator('[data-filter=challenge]').click();
-  if(width===1440){expect(await page.locator('.break-grid').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length)).toBe(3);expect(await page.locator('[data-game=chaos]').evaluate(el=>getComputedStyle(el).gridColumnStart)).toBe('span 2');const positions=await page.locator('.break-card:not([hidden])').evaluateAll(cards=>cards.map(card=>Math.round(card.getBoundingClientRect().top)));expect(new Set(positions).size).toBe(2);}
+  if(width===1440){expect(await page.locator('.break-grid').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length)).toBe(2);expect(await page.locator('[data-game=chaos]').evaluate(el=>getComputedStyle(el).gridColumnStart)).toBe('auto');}
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  }}
  await page.screenshot({path:'.publish/break-bento-desktop.png',fullPage:true});await page.setViewportSize({width:390,height:844});await page.screenshot({path:'.publish/break-bento-mobile.png',fullPage:true});
  await page.emulateMedia({reducedMotion:'reduce'});await page.locator('[data-filter=choose]').press('Enter');await expect(page.locator('[data-filter=choose]')).toHaveAttribute('aria-pressed','true');expect(await page.locator('.break-card:not([hidden])').first().evaluate(el=>el.getAnimations().length)).toBe(0);
  await page.locator('[data-filter=challenge]').click();await expect(page.locator('[data-game=code]')).toBeEnabled();await expect(page.locator('#code-access')).toBeVisible();await expect(page.locator('[data-game=code]')).toHaveAccessibleDescription('Free to play · No unlock needed');await page.locator('[data-game=code]').click();await expect(page.locator('#play-title')).toHaveText('Crack the Code');
+});
+
+test('restrained hub fits reference widths, keeps daily navigation and keyboard focus',async({page})=>{
+ const errors=[];page.on('pageerror',error=>errors.push(error.message));await page.goto(base+'/take-a-break');
+ await expect(page.locator('#hub h1')).toHaveText('Take a Break');await expect(page.locator('.break-card:not([hidden])')).toHaveCount(8);
+ expect(await page.locator('.break-card').evaluateAll(cards=>cards.slice(0,4).map(c=>c.dataset.game))).toEqual(['24','code','memory','lights']);
+ await expect(page.locator('.break-hero-art svg')).toHaveCount(1);await expect(page.locator('[data-game=lights] .card-symbol rect')).toHaveCount(16);
+ for(const width of [320,360,390,430,768,1280])for(const theme of ['light','dark']){
+  await page.setViewportSize({width,height:900});await setTheme(page,theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),width+' '+theme).toBe(true);
+  for(const card of await page.locator('.break-card').all())expect(await card.evaluate(c=>c.scrollWidth<=c.clientWidth)).toBe(true);
+ }
+ await page.setViewportSize({width:390,height:900});await page.screenshot({path:'.publish/break-polish-mobile.png',fullPage:true});
+ await page.setViewportSize({width:1280,height:900});await page.screenshot({path:'.publish/break-polish-desktop.png',fullPage:true});
+ await page.emulateMedia({reducedMotion:'reduce'});await page.locator('[data-filter=memory]').focus();await page.keyboard.press('Enter');await expect(page.locator('[data-filter=memory]')).toBeFocused();await expect(page.locator('.break-card:not([hidden])')).toHaveCount(1);
+ await page.locator('.spark-feature').click();await expect(page.locator('#play-title')).toHaveText('Make 24');await expect(page.locator('[data-pane="24"] #practice-difficulty')).toBeVisible();expect(errors).toEqual([]);
 });
 
 test('chaos supports keyboard, pause, completion and a mobile layout',async({page})=>{

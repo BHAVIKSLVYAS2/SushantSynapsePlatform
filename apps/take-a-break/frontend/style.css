@@ -112,3 +112,44 @@
 .result-card .break-win-badge{display:inline-flex;margin:0;padding:6px 12px;border-radius:999px;border:1px solid color-mix(in srgb,var(--ui-accent) 25%,var(--ui-edge));color:var(--ui-accent);background:color-mix(in srgb,var(--ui-accent) 9%,var(--ui-solid));font-size:12px;font-weight:700}
 .result-card .break-win-title{font-size:clamp(26px,5vw,36px);line-height:1.2;margin:16px 0 12px;overflow-wrap:anywhere}
 .break-won .actions{justify-content:center;flex-wrap:wrap}
+
+/* Quiet dimensional surfaces; a single accent shared by all activities. */
+@media screen {
+ #break-workspace{--tb-art-top:color-mix(in srgb,var(--ui-accent) 16%,var(--ui-solid));--tb-art-bottom:var(--ui-bg);--tb-art-edge:color-mix(in srgb,var(--ui-accent) 35%,var(--ui-edge));--tb-art-light:color-mix(in srgb,var(--ui-accent) 45%,var(--ui-text));--tb-art-accent:var(--ui-accent);--tb-art-ink:var(--ui-bg);--tb-reflection:color-mix(in srgb,var(--ui-text) 9%,transparent);background:var(--ui-bg)}
+ #break-workspace main{max-width:1180px}
+ #break-workspace main::before{display:none}
+ #break-workspace #hub{padding-top:24px}
+ #break-workspace .break-heading{position:relative;overflow:hidden;min-height:186px;padding:28px 32px;margin-bottom:18px;border:1px solid var(--break-edge);border-radius:24px;background:radial-gradient(ellipse at 95% 20%,var(--break-halo),transparent 65%),linear-gradient(135deg,var(--break-card-top),var(--break-card-bottom));box-shadow:inset 0 1px 0 var(--tb-reflection),var(--ui-shadow)}
+ #break-workspace .break-heading h1{font:650 clamp(28px,4vw,42px)/1.15 var(--ss-font);letter-spacing:-.035em;margin:8px 0 10px}
+ #break-workspace .break-heading p{font-size:15px;max-width:none}
+ .break-hero-art{width:150px;flex:0 0 150px;transform:rotate(-9deg);pointer-events:none}
+ .break-hero-art svg{display:block;width:100%;height:auto}
+ #break-workspace .break-toolbar{display:flex;align-items:start;gap:12px;margin-bottom:10px;min-width:0}
+ #break-workspace .filters{flex:1;min-width:0;display:flex;flex-wrap:nowrap;overflow-x:auto;gap:8px;padding:3px 2px 9px;margin:0;scrollbar-width:thin}
+ #break-workspace .filters button{flex-shrink:0;min-height:48px;border-radius:999px;background:var(--ui-solid);padding:10px 18px;transition:background .2s,border-color .2s}
+ #break-workspace .filters button[aria-pressed=true]{background:var(--ui-soft);border-color:var(--ui-accent);color:var(--ui-accent);font-weight:750;box-shadow:inset 0 -2px 0 var(--ui-accent)}
+ #break-workspace #surprise{min-height:48px;margin-top:3px}
+ #break-workspace .filter-status{margin:0 0 14px}
+ #break-workspace #hub .break-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+ #break-workspace #hub .break-card{display:grid;grid-template-columns:84px minmax(0,1fr) 40px;grid-template-rows:auto auto auto;column-gap:16px;row-gap:5px;align-content:center;align-items:center;min-height:150px;padding:20px;grid-column:auto;border-radius:22px;background:linear-gradient(145deg,var(--break-card-top),var(--break-card-bottom));box-shadow:inset 0 1px 0 var(--tb-reflection),0 8px 20px color-mix(in srgb,var(--ui-bg) 45%,transparent);transition:transform .22s,border-color .22s}
+ #break-workspace #hub .break-card[hidden]{display:none}
+ #break-workspace #hub .break-card .card-symbol{position:static;grid-column:1;grid-row:1 / 4;display:grid;place-items:center;width:84px;height:88px;padding:0;margin:0;min-height:0;transform:none;background:none;color:var(--ui-accent);opacity:1;filter:none}
+ #break-workspace #hub .break-card .card-kicker{display:block;grid-column:2;grid-row:1;font-size:10px;line-height:1.5;letter-spacing:.07em;color:var(--ui-muted)}
+ #break-workspace #hub .break-card strong{grid-column:2;grid-row:2;font:650 21px/1.25 var(--ss-font);letter-spacing:-.025em;overflow-wrap:anywhere}
+ #break-workspace #hub .break-card>span:not(.card-symbol):not(.card-kicker){grid-column:2;grid-row:3;font-size:13px;line-height:1.55;overflow-wrap:anywhere}
+ #break-workspace #hub .break-card small{display:none}
+ #break-workspace #hub .break-card #code-access{display:block;position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);padding:0}
+ #break-workspace #hub .break-card::after{content:'→';position:static;grid-column:3;grid-row:1 / 4;display:grid;place-items:center;width:40px;height:44px;border:1px solid var(--ui-edge);border-radius:999px;background:var(--ui-soft);color:var(--ui-accent);font-size:24px;box-shadow:inset 0 1px 0 var(--tb-reflection);transition:transform .22s}
+ #break-workspace .hub-meta{display:block;margin-top:20px}
+ #break-workspace .spark-feature{width:100%;min-height:64px;gap:12px;padding:12px 20px;border:1px solid var(--break-edge);border-radius:18px;background:var(--ui-solid);color:var(--ui-accent);font-weight:650;box-shadow:inset 0 1px 0 var(--tb-reflection)}
+ #break-workspace .spark-detail{font-weight:400}
+ #break-workspace #daily-note{margin-top:10px}
+ #break-workspace :is(.break-card,.filters button,#surprise,.spark-feature,.lights-tile):focus-visible{outline:3px solid var(--ui-accent);outline-offset:3px}
+ #break-workspace .lights-board{padding:12px;gap:8px;border:1px solid var(--break-edge);border-radius:24px;background:linear-gradient(145deg,var(--break-card-top),var(--tb-art-bottom));box-shadow:inset 0 2px 4px var(--tb-reflection),var(--ui-shadow)}
+ #break-workspace .lights-tile{border:1px solid var(--tb-art-edge);background:linear-gradient(145deg,var(--break-card-top),var(--tb-art-bottom));box-shadow:inset 0 2px 0 var(--tb-reflection),0 3px 0 var(--tb-art-bottom);color:var(--ui-muted);border-radius:16px}
+ #break-workspace .lights-tile.is-on{background:linear-gradient(145deg,var(--tb-art-light),var(--tb-art-accent));color:var(--tb-art-ink);border-color:var(--tb-art-light);box-shadow:inset 0 2px 0 var(--tb-reflection),0 3px 0 var(--tb-art-bottom)}
+ @media(hover:hover){#break-workspace #hub .break-card:hover{transform:translateY(-2px);border-color:var(--ui-accent)}#break-workspace #hub .break-card:hover::after{transform:translateX(2px)}}
+ @media(max-width:767px){#break-workspace main{padding:0 16px}#break-workspace #hub .break-grid{grid-template-columns:1fr}#break-workspace .break-heading{min-height:145px;padding:20px;gap:12px}#break-workspace .break-heading .eyebrow{font-size:8px}.break-hero-art{width:100px;flex-basis:100px}#break-workspace .break-heading p{font-size:13px}#break-workspace #surprise{font-size:11px;padding:8px 10px}#break-workspace #hub .break-card{min-height:136px;grid-template-columns:76px minmax(0,1fr) 36px;column-gap:12px;padding:16px}#break-workspace #hub .break-card .card-symbol{width:76px;height:80px}#break-workspace #hub .break-card::after{width:36px}#break-workspace #hub .break-card strong{font-size:20px}#break-workspace .spark-feature{flex-wrap:wrap;gap:6px 10px}}
+ @media(max-width:359px){#break-workspace .break-heading{padding:16px}.break-hero-art{width:68px;flex-basis:68px}#break-workspace .break-heading h1{font-size:27px}#break-workspace #hub .break-card{grid-template-columns:62px minmax(0,1fr) 28px;column-gap:10px;padding:14px}#break-workspace #hub .break-card .card-symbol{width:62px;height:68px}#break-workspace #hub .break-card::after{width:28px;font-size:20px}#break-workspace #hub .break-card strong{font-size:19px}#break-workspace #hub .break-card>span:not(.card-symbol):not(.card-kicker){font-size:12px}#break-workspace .lights-board{padding:8px;gap:5px}#break-workspace .lights-tile{border-radius:10px}}
+ @media(prefers-reduced-motion:reduce){#break-workspace #hub *,#break-workspace #hub *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important;transform:none!important}}
+}

@@ -1,5 +1,29 @@
 # Chambers functionality ledger
 
+**Take a Break restrained dimensional redesign (2026-10-18, local):** Adapted the
+supplied references using coordinated navy/theme surfaces and one teal accent,
+subtle reflections, compact horizontal cards and original inline SVG controller,
+number tiles, lock, brain, chai and actual 3×3 Lights Out artwork. No new dependency,
+external artwork request or replacement logo. Light/dark/system themes and shared
+header remain intact. All eight activities appear by default; All/Puzzle/Memory/
+Logic/Quick Play filters use explicit card metadata alongside retained Challenge,
+Choose and Unwind groups. Daily Spark and existing routes, in-tab progress, game
+rules, hints, sharing and difficulty controls remain. Lights Out gains tactile
+on/off surfaces without invented timers/best scores or changed game logic.
+
+Verification: frontend build exports 803 allowlisted assets; 9/9 targeted Node
+checks and 8/8 selected Chrome workflows pass across the final runs. Covers filters,
+navigation/progress, Daily Spark difficulty, code, memory, Chaos, victory cleanup,
+Lights Out three levels/hints/undo/restart, keyboard/reduced motion and layouts at
+320/360/390/430/768/1280px in both themes. Mobile screenshot visually reviewed;
+syntax and whitespace checks pass. Initial new layout test used a nonexistent
+`#difficulty` selector; corrected to existing `#practice-difficulty` and passed.
+Evidence: `.publish/break-polish-tests`, `.publish/break-polish-regressions`,
+`.publish/break-polish-layout-final`, `.publish/break-polish-mobile.png` and
+`.publish/break-polish-desktop.png`. No deployment, schema or live data changes.
+
+**Homepage app selection (2026-10-18, local):** Removed the entire Everything you need welcome banner from static and fallback home rendering. Featured apps now show Moment Studio and Take a Break; the full catalogue starts with Fund Lens, Decision Wheel and Ritual Assist. Remaining apps, search and category filters are retained. Verification: responsive catalogue/theme and no-JavaScript ordering checks passed; mobile screenshot reviewed, syntax and whitespace checks passed. Language/storage-blocked browser check passed. Initial overlapping browser runs collided in trace artifacts; search/layout rerun passed with a separate output folder and extended timeout. No deployment or data changes.
+
 **Normal Super Admin sign-in and account switching (2026-10-17):** Diagnosed the
 reported login issue: the live account and Super Admin assignment are active, and
 the supplied credential succeeds in a fresh browser. Updated the ordinary account

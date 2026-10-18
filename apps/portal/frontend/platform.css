@@ -22,3 +22,5 @@
 @media(min-width:1050px){.app-finder-trigger,.finder-workspace .app-finder-trigger{right:32px;bottom:28px}.has-app-finder main>footer{padding-bottom:110px}}
 
 .arena-home-art{display:block;width:100%;height:auto;aspect-ratio:3/1;object-fit:cover}
+
+.home-feature-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.home-feature-grid .home-feature-card{min-width:0;grid-template-columns:80px minmax(0,1fr);padding:20px;gap:16px}.home-feature-grid .home-feature-icon{width:80px;height:90px}@media(max-width:700px){.home-feature-grid{grid-template-columns:1fr}}
