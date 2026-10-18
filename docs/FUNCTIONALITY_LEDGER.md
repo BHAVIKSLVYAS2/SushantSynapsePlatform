@@ -1,5 +1,15 @@
 # Chambers functionality ledger
 
+**Homepage footer consolidation (2026-10-18):** Removed the duplicate inner footer
+from the initial homepage HTML and the JavaScript fallback template. The shared
+legal footer retains support, demos, WhatsApp, privacy, terms, contact, notices and
+language controls, and now includes the homepage sponsorship link. Visitor count
+mounts directly in that footer. Chrome visitor workflow 1/1 passes, including a
+single-footer assertion, unique destination links and 320/390/768/1440px light/dark
+layouts. Whitespace checks pass; no data/schema changes. Prior Arena source commit
+`62c9c6f` was republished as Worker `f8c5684e-9d22-4710-8e67-bbea9b13e170`.
+Footer publication and live verification follow.
+
 **Arena startup/image/audio correction deployed (2026-10-18, live verified):**
 Worker `5608233f-22d5-43b5-834a-aadbc49d0f35` is live at
 https://apps.sushantsynapse.com. The first publish's verification caught the build's
