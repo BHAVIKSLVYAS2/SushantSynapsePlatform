@@ -58,6 +58,7 @@ function build({fullstack=false,organisations=false}={}) {
     }
     fs.writeFileSync(path.join(__dirname,'organisation-pages.json'),JSON.stringify(manifest));
   }
+  const cached=require('./build-static-cache.cjs').cacheStaticAssets(output,files);
   fs.writeFileSync(path.join(output, '_headers'), `/*
   X-Synapse-Frontend: cloudflare
   X-Content-Type-Options: nosniff
@@ -69,6 +70,10 @@ function build({fullstack=false,organisations=false}={}) {
 
 /_pages/home.html
   ! Content-Security-Policy
+
+${cached.prefix}/*
+  ! Cache-Control
+  Cache-Control: public, max-age=31536000, immutable
 `);
   console.log(`Exported ${files.size} public frontend assets; no database or credentials included.`);
   return {output, pages, files};

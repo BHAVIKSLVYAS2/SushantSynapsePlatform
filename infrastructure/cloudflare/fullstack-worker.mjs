@@ -4,6 +4,13 @@ import {cloudPages} from '../../apps/satire-arena/backend/cloud-pages.mjs';
 export default {
  async fetch(request,env){
   const url=new URL(request.url);
+  if(url.pathname.startsWith('/_static/')){
+   if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405,headers:{'Cache-Control':'no-store'}});
+   const asset=await env.ASSETS.fetch(request),headers=new Headers(asset.headers);
+   // Missing/retired release URLs must never become long-lived cached errors.
+   if(![200,206,304].includes(asset.status))headers.set('Cache-Control','no-store');
+   return new Response(request.method==='HEAD'?null:asset.body,{status:asset.status,headers});
+  }
   if(env.ORGANISATIONS_ENABLED==='true'&&['/signin','/signin/'].includes(url.pathname)&&['GET','HEAD'].includes(request.method))return Response.redirect(url.origin+'/account',302);
   const {default:organisationPages}=await import('./organisation-pages.json',{with:{type:'json'}});
   if(organisationPages[url.pathname]){
@@ -40,7 +47,7 @@ export default {
    // Preserve the existing anonymous-home advertising policy and nonce handling.
    if(canonical==='/'){const {default:ads}=await import('../../packages/ui/adsense.cjs');if(ads.eligibleHome(canonical,request.headers.get('Cookie')||'')&&response.ok){const nonce=crypto.randomUUID();headers.set('Content-Security-Policy',ads.homePolicy(nonce));headers.delete('Content-Length');headers.delete('ETag');return new Response(request.method==='HEAD'?null:ads.renderHome(await response.text(),nonce),{status:response.status,headers});}}
    if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405,headers});
-   if(env.ORGANISATIONS_ENABLED==='true'&&canonical==='/advocate'&&response.ok){const html=(await response.text()).replace('</head>','<link rel="stylesheet" href="/advocate/organisation-preview.css"></head>').replace('<script src="/app.js"></script>','<script src="/advocate/organisation-preview.js"></script><script src="/app.js"></script>');headers.delete('Content-Length');headers.delete('ETag');return new Response(request.method==='HEAD'?null:html,{status:response.status,headers});}
+   if(env.ORGANISATIONS_ENABLED==='true'&&canonical==='/advocate'&&response.ok){const html=(await response.text()).replace('</head>','<link rel="stylesheet" href="/advocate/organisation-preview.css"></head>').replace(/<script src="((?:\/_static\/[a-f0-9]{32})?\/app\.js)"><\/script>/,(_,src)=>'<script src="/advocate/organisation-preview.js"></script><script src="'+src+'"></script>');headers.delete('Content-Length');headers.delete('ETag');return new Response(request.method==='HEAD'?null:html,{status:response.status,headers});}
    return new Response(request.method==='HEAD'?null:response.body,{status:response.status,headers});
   }
   let assetPath;try{assetPath=decodeURIComponent(url.pathname);}catch{return new Response('Not found',{status:404});}

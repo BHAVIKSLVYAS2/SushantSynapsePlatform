@@ -1,5 +1,34 @@
 # Chambers functionality ledger
 
+**Public static-asset caching (2026-10-19, local; not deployed):** Cloudflare
+builds create a content-versioned copy of 178 explicitly allowlisted public
+assets under `/_static/<digest>/`. The complete graph is fingerprinted together
+and its relative directory structure is preserved. Build-time HTML/JS/CSS/SVG
+references select the versioned assets. Changed bytes select a new namespace;
+unchanged builds are deterministic. Only these immutable URLs receive one-year
+public browser caching. Existing asset URLs still revalidate; HTML, admin assets,
+APIs, records and authenticated downloads keep their existing cache policies.
+Missing versioned assets and non-read requests are explicitly `no-store`.
+Scoped Chambers bootstrap ordering is preserved with versioned controller URLs.
+No service worker, offline records, schema/data changes or deployment.
+
+Verification: focused Node/build checks pass 16/16 before adding the scoped
+bootstrap regression. Local Cloudflare preview confirms actual immutable
+headers for CSS/JS/images, revalidating original URLs, uncached page/API/error
+responses, and scoped bootstrap ordering. Chrome observes 18 versioned resources
+served from browser cache on repeat navigation. All 28 mobile/desktop layouts
+across fourteen public routes pass without missing versioned assets or browser
+errors, including deferred game loading. Evidence:
+`.publish/static-cache-smoke.cjs`, `.publish/static-cache-smoke.json`.
+Full Node/API regression run: 345/346 passed; the only failure was the existing
+footer-language fixture expecting 27 pages after the prior app removal left 26.
+Corrected that expected count. Final language/cache/Cloudflare checks pass 18/18,
+including the new scoped bootstrap regression. Logs:
+`.publish/static-cache-api-tests.log`, `.publish/static-cache-final-checks.log`.
+Syntax and whitespace checks pass. Preview persistence and all test databases
+are isolated; production accounts/data are untouched. Prepared for commit/push;
+no production deployment performed.
+
 **Homepage CSS and duplication cleanup (2026-10-19, live verified):** The home build
 now drops complete CSS rules exclusively scoped to other apps using build-only
 Lightning CSS, declared explicitly at the already installed/locked version.

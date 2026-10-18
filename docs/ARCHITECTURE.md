@@ -1,5 +1,21 @@
 # Code ownership and adding apps
 
+Public static caching (2026-10-19, implemented locally): Cloudflare export uses
+`infrastructure/cloudflare/build-static-cache.cjs` to fingerprint the complete
+allowlisted public asset graph and copy it below `/_static/<digest>/`. Keeping
+the directory structure preserves relative module/worker/CSS dependencies.
+Exported HTML and complete allowlisted root-relative references in copied
+JS/CSS/SVG select that namespace; page/API/external URLs are unchanged. A change
+to any asset or the rewriting code produces a new namespace. Only the current
+versioned namespace receives `public, max-age=31536000, immutable` in `_headers`.
+Original URLs retain `no-cache`; HTML, admin assets and private APIs retain their
+existing policies. The fullstack Worker preserves asset validators and makes
+missing versioned assets/write requests `no-store`. Chambers inserts its scoped
+bootstrap before either original or versioned controller URLs. No service worker
+or business-data caching is introduced. Fresh page navigations select the latest
+namespace; retired namespaces are not retained in subsequent exports. Default
+Node delivery is unchanged. See the ledger for verification and release status.
+
 Homepage CSS cleanup (2026-10-19, live): `infrastructure/home-css.cjs` uses
 build-only Lightning CSS to remove complete rules exclusively scoped to a
 different `data-ui-app` from the home bundle. Shared rules, portal rules, mixed
