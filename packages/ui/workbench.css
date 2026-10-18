@@ -67,7 +67,6 @@
  body[data-ui-app=portal] .app-card .feature-tags {gap:6px;margin:0 0 16px}.app-card .feature-tags span {font-size:10px}
  body[data-ui-app=portal] .app-card-bottom {margin-top:auto;padding-top:12px;border-top:1px solid var(--ui-product-edge)}
  body[data-ui-app=portal] .launch {width:100%;background:var(--ui-mint-wash);color:var(--ui-accent);border:1px solid var(--ui-mint-edge);border-radius:11px;font-size:12px;justify-content:space-between}
- body[data-ui-app=portal] .app-card.planned {box-shadow:none;opacity:.75}.app-card.planned .app-art-wrap {filter:grayscale(.65)}
  .collection-art {display:flex;gap:4px;flex-shrink:0}.collection-art .app-sculpture {width:100px;height:100px}
  body[data-ui-app=portal] .intro-banner {padding:20px 24px;gap:18px}
  body[data-ui-app=portal] .intro-banner h2 {font-weight:750;letter-spacing:-.035em;font-size:24px;margin:6px 0}.intro-banner .collection-art {margin-right:12px}.intro-banner .collection-art .app-sculpture {width:70px;height:64px}
@@ -75,7 +74,7 @@
  @media(max-width:760px) {body[data-ui-app=portal] .intro-banner {padding:16px 20px}body[data-ui-app=portal] .intro-banner h2 {font-size:21px}body[data-ui-app=portal] .intro-banner .eyebrow {display:none}body[data-ui-app=portal] .intro-banner p {font-size:12px}}
  body[data-ui-app=portal] .finder-glyph {background:transparent;width:62px;height:56px}.finder-sculpture {width:62px;height:56px;flex-shrink:0;overflow:visible}
  body[data-ui-app=portal] .welcome h1 {font-family:inherit;font-weight:800;letter-spacing:-.045em}.welcome h1 em {font-family:inherit!important;font-style:normal}
- @media(hover:hover) {body[data-ui-app=portal] .app-card:not(.planned):hover {border-color:var(--ui-accent);box-shadow:0 8px 32px var(--ui-mint-glow),var(--ui-product-shadow);transform:translateY(-3px)}}
+ @media(hover:hover) {body[data-ui-app=portal] .app-card:hover {border-color:var(--ui-accent);box-shadow:0 8px 32px var(--ui-mint-glow),var(--ui-product-shadow);transform:translateY(-3px)}}
  @media(min-width:1260px) {body[data-ui-app=portal] .app-grid {grid-template-columns:repeat(3,minmax(0,1fr))}}
  @media(max-width:760px) {body[data-ui-app] .ui-workspace-heading {padding-right:80px!important}.ui-workspace-art {width:64px;height:58px;right:12px;top:24px;transform:none}.ui-section-art {width:34px;height:30px}.collection-art {display:none}body[data-ui-app]:not(:has(.public-home)) :is(.stat,.summary-card) {padding:16px}
   body[data-ui-app=portal] .app-grid {gap:10px}body[data-ui-app=portal] .app-card {padding:14px}

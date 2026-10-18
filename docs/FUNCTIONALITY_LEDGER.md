@@ -1,5 +1,22 @@
 # Chambers functionality ledger
 
+**Implemented-app catalogue cleanup (2026-10-19):** Removed the unimplemented
+Projects, Finance and Knowledge entries from the shared registry, static home,
+signed-in catalogue and app finder. Existing implemented private workspaces keep
+their access checks and unavailable state. Renamed shared icon keys to calendar,
+receipt and book, removed obsolete planned-card styles and rebuilt UI assets.
+Removed app IDs are rejected for favourites and launches; no stored preferences,
+accounts, records, schemas or organisation bindings are modified.
+
+Verification: 349/349 Node/API checks pass across the main run (335 passing,
+14 blocked by sandbox build permissions) and sequential Cloudflare rerun (14/14).
+A concurrent dry-run build initially invalidated one asset-count assertion;
+sequential rerun passes. All 14 portal Chrome workflows pass across the main
+run (13/14) and isolated theme rerun (1/1); the original theme timeout occurred
+during Chrome page creation. UI rebuild, production-config dry run and whitespace
+checks pass. Evidence is under `.publish/catalogue-cleanup-*`; all API/browser
+fixtures are disposable. Production release verification follows separately.
+
 **Shared browser helper extraction (2026-10-19, live verified):** Added
 allowlisted `packages/ui/download.mjs`, `text.mjs`, `archive.mjs` and `crc32.mjs`.
 Moment Studio cards/certificates, Timetable, Team Mixer and Local Tools reuse

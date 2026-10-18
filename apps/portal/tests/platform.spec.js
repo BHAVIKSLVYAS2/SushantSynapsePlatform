@@ -143,7 +143,7 @@ test('app finder stays usable across small screens, themes and empty results',as
  await page.goto(base);await expect(page.locator('#app-finder-trigger')).toBeVisible();
  for(const [width,height,theme] of [[320,568,'light'],[390,844,'dark'],[1440,900,'light']]){
   await page.setViewportSize({width,height});await setTheme(page,theme);await page.evaluate(()=>scrollTo(0,500));await page.locator('#app-finder-trigger').scrollIntoViewIfNeeded();let position;
-  await page.getByRole('button',{name:'Search apps',exact:true}).click();await expect(page.getByLabel('Search apps or activities')).toBeFocused();position=await page.evaluate(()=>scrollY);await expect(page.locator('.finder-result')).toHaveCount(21);
+  await page.getByRole('button',{name:'Search apps',exact:true}).click();await expect(page.getByLabel('Search apps or activities')).toBeFocused();position=await page.evaluate(()=>scrollY);await expect(page.locator('.finder-result')).toHaveCount(18);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   const bounds=await page.locator('#app-finder-dialog').boundingBox();expect(bounds.y).toBeGreaterThanOrEqual(0);expect(bounds.y+bounds.height).toBeLessThanOrEqual(height+1);
   await page.getByLabel('Search apps or activities').fill('not-a-real-tool');await expect(page.locator('#finder-count')).toContainText('No matching apps');await expect(page.getByRole('button',{name:'Clear search',exact:true})).toBeVisible();await page.getByRole('button',{name:'Clear search',exact:true}).click();
@@ -154,8 +154,8 @@ test('app finder stays usable across small screens, themes and empty results',as
  await page.goto(base+'/signin');await expect(page.locator('#auth-form')).toBeVisible();await expect(page.locator('#app-finder-trigger')).toHaveCount(0);
 });
 async function expectWorkspaceDiscovery(page){
- await expect(page.locator('.workspace-card-art .home-sculpture use')).toHaveCount(7);
- await expect(page.locator('.workspace-card-art[aria-hidden=true]')).toHaveCount(7);
+ await expect(page.locator('.workspace-card-art .home-sculpture use')).toHaveCount(4);
+ await expect(page.locator('.workspace-card-art[aria-hidden=true]')).toHaveCount(4);
  for(const [name,destination]of [['DIGITAL SAMAJ','digital-samaj'],['Chambers','advocate'],['Tournament Lite','tournament-lite'],['BatchFee Lite','batchfee-lite']]){
   await expect(page.getByRole('link',{name:'Sign in to '+name,exact:true})).toHaveAttribute('href','/signin?next='+destination);
  }
@@ -171,9 +171,9 @@ test('platform setup, favourites, app launch with shared sign-in, team access an
  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await page.setViewportSize({width:390,height:844});await page.goto(base+'/signin');
  await page.getByLabel('Your name',{exact:true}).fill('Sushant Owner');await page.getByLabel('Workspace name',{exact:true}).fill('Synapse Chambers');await page.getByLabel('Email address').fill('owner@synapse.example');await page.getByLabel('Password',{exact:true}).fill('Platform browser password!');await page.getByRole('button',{name:'Create platform'}).click();
- await expect(page.locator('#catalogue-account strong')).toBeVisible();await expect(page.getByRole('button',{name:'Open Chambers'})).toBeVisible();await expect(page.getByText('Planned',{exact:true})).toHaveCount(3);
+ await expect(page.locator('#catalogue-account strong')).toBeVisible();await expect(page.getByRole('button',{name:'Open Chambers'})).toBeVisible();await expect(page.getByText('Planned',{exact:true})).toHaveCount(0);
  await expect(page.locator('.public-home')).toHaveCount(1);await expect(page.locator('.app-card,.app-grid')).toHaveCount(0);
- await expect(page.locator('.workspace-card[data-app-id=projects] [data-action],.workspace-card[data-app-id=finance] [data-action],.workspace-card[data-app-id=knowledge] [data-action]')).toHaveCount(0);
+ await expect(page.locator('.workspace-card[data-app-id=projects],.workspace-card[data-app-id=finance],.workspace-card[data-app-id=knowledge]')).toHaveCount(0);
  await expect(page.locator('.workspace-card[data-app-id="advocate"] use')).toHaveAttribute('href',/home-art\.svg.*#chambers$/);
  await page.getByRole('button',{name:'Search apps',exact:true}).click();await page.getByLabel('Search apps or activities').fill('Chambers');await expect(page.locator('.finder-result')).toHaveCount(1);await expect(page.locator('.finder-result')).toContainText('Chambers');await expect(page.locator('.finder-result .finder-sculpture')).toHaveAttribute('aria-hidden','true');await page.keyboard.press('Escape');await expect(page.getByRole('button',{name:'Search apps',exact:true})).toBeFocused();
  await page.getByRole('button',{name:'Add Chambers to favourites'}).click();await page.getByRole('navigation',{name:'Platform navigation'}).getByRole('button',{name:'Favourites',exact:true}).click();await expect(page.locator('.catalogue-item')).toHaveCount(1);
@@ -194,7 +194,7 @@ test('public tools and private destinations stay distinct through sign-in',async
  await expect(page.locator('#free-apps .public-app')).toHaveCount(14);
  expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.slice(0,4).map(a=>a.getAttribute('href')))).toEqual(['/fund-overlap','/decision-wheel','/ritual-assist','/confessions']);
  expect(await page.locator('#platform-switcher nav a:not(.platform-switcher-home)').evaluateAll(links=>links.slice(0,4).map(a=>a.getAttribute('href')))).toEqual(['/take-a-break?game=24','/decision-wheel','/fund-overlap','/decision-wheel']);
- await expect(page.locator('#workspace-apps .workspace-card')).toHaveCount(7);
+ await expect(page.locator('#workspace-apps .workspace-card')).toHaveCount(4);
  await expect(page.locator('#free-apps a[href*="tournament"]')).toHaveCount(0);
  const {apps,visibleApps}=require('../../../packages/app-registry');expect(visibleApps().slice(0,4).map(a=>a.path)).toEqual(['/fund-overlap','/decision-wheel','/ritual-assist','/confessions']);
  expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.map(a=>a.getAttribute('href')).sort())).toEqual(apps.filter(a=>a.public&&a.status==='Available'&&!a.catalogueParent).map(a=>a.path).sort());

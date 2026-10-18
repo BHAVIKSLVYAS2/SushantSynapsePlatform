@@ -127,7 +127,7 @@ test('SQL database export restores schema, accounts, records, documents and quer
 test('platform catalogue, favourites, recent launches and app-access enforcement',async()=>{
  const p=await request('platform');assert.equal(p.status,200);assert.equal(p.data.name,'Sushant Synapse Platform');assert.equal(p.data.apps.find(a=>a.id==='advocate').path,'/advocate');
  assert.equal((await request('platform/preferences','PATCH',{favorites:['advocate']})).status,200);
- assert.equal((await request('platform/preferences','PATCH',{favorites:['projects']})).status,400);
+ for(const id of ['projects','finance','knowledge']){assert.ok(!p.data.apps.some(a=>a.id===id));assert.equal((await request('platform/preferences','PATCH',{favorites:[id]})).status,400);assert.equal((await request('platform/apps/'+id+'/launch','POST',{})).status,404);}
  assert.equal((await request('platform/apps/advocate/launch','POST',{})).data.path,'/advocate');
  assert.equal((await request('platform/apps/projects/launch','POST',{})).status,404);
  let info=(await request('platform')).data;assert.deepEqual(info.preferences.favorites,['advocate']);assert.equal(info.preferences.recent[0].id,'advocate');

@@ -13,7 +13,7 @@ return async function handle({route,method,req,json,user}){
       const preferences={...store.preferences(user.id),favorites};store.setPreferences(user.id,preferences);return json(200,preferences);
     }
     if(/^platform\/apps\/[^/]+\/launch$/.test(route)&&method==='POST'){
-      const app=apps.find(a=>a.id===resolveAppId(route.split('/')[2]));if(!app||app.status!=='Available')fail(404,'This app is not available yet');
+      const app=apps.find(a=>a.id===resolveAppId(route.split('/')[2]));if(!app||app.status!=='Available')fail(404,'This app is unavailable');
       if(!app.public&&!hasAppAccess(user,app.id))fail(403,'Ask the platform owner for app access');
       const prefs=store.preferences(user.id);prefs.recent=[{id:app.id,at:new Date().toISOString()},...prefs.recent.filter(r=>r.id!==app.id)].slice(0,12);store.setPreferences(user.id,prefs);return json(200,{path:app.path});
     }

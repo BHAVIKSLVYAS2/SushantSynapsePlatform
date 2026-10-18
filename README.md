@@ -1,5 +1,7 @@
 # Sushant Synapse Platform
 
+The app catalogue lists implemented tools and workspaces only.
+
 Unified app discovery is live (2026-10-19): guests and signed-in accounts share
 one catalogue and home layout, with account-specific workspace access, favourites
 and recent apps. The registry generates static no-JavaScript cards and the shared
