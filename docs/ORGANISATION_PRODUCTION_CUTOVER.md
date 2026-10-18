@@ -1,7 +1,14 @@
 # Organisation licensing production cutover
 
 Live on 2026-10-17 at `https://apps.sushantsynapse.com`.
-Current production Worker: `1ee88a67-edb8-4dcc-973e-016e4e6b28d3` (2026-10-18),
+Current production Worker: `7af0cd10-bc25-4469-89bf-a062224eb08a` (2026-10-18),
+from annual Arena voting `62e1d11`. Resets occur only on 1 January at 00:00 IST;
+legacy daily records are retained and latest yearly choices counted once per
+browser/character. API/editorial tests pass 16/16 and browser workflows 24/24
+across the main run and corrected assertion rerun. Live read-only checks confirm
+the next reset (1 January 2027 IST), thirteen characters, eight responsive theme
+layouts, no page errors and no vote writes. D1/auth bindings and variables retained.
+Prior production Worker: `1ee88a67-edb8-4dcc-973e-016e4e6b28d3`,
 from news-only Newsroom removal `78e8288`. All 11 isolated News browser workflows
 pass; read-only live mobile checks show ten stories without chai-break satire,
 comic controls, comic requests or page errors. Historical payloads are retained.

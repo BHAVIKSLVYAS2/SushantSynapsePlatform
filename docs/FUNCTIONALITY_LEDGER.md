@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Annual Arena voting (2026-10-18, locally verified):** Voting rounds
+**Annual Arena voting (2026-10-18, live verified):** Voting rounds
 now follow the IST calendar year, resetting at 00:00 on 1 January. Annual totals
 count each browser/character's latest choice, including legacy daily rows without
 rewriting or deleting records. Changes use the existing atomic yearly-key UPSERT.
@@ -12,8 +12,13 @@ boundary, stale ballot rejection, exports/removal and activity grouping. All 24
 Arena browser workflows pass across the main run (22) and corrected assertion
 rerun (2). Updated a stale pre-existing illustration-expansion test to use the
 current biography link. Browser coverage includes annual rollover, responsive
-themes, real saves, audio, sharing and editorial publication. Deployment follows;
-no schema or cookie-secret changes are needed.
+themes, real saves, audio, sharing and editorial publication. Commit `62e1d11`
+is live as Worker `7af0cd10-bc25-4469-89bf-a062224eb08a`. Read-only production
+checks confirm round `2026-01-01`, reset `2026-12-31T18:30:00.000Z` (1 January
+2027, 00:00 IST), thirteen characters and eight responsive light/dark layouts.
+No page errors or vote writes occurred. Production variables and D1/auth bindings
+were retained; no schema or cookie-secret changes. Evidence:
+`.publish/arena-yearly-live.cjs`, `.publish/arena-yearly-live-mobile.png`.
 
 **News-only Newsroom (2026-10-18):** Removed the chai-break comic from saved,
 newly generated and device-only edition views, including alternate-take controls,
