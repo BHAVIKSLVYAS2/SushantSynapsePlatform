@@ -1,5 +1,71 @@
 # Chambers functionality ledger
 
+**Arena startup/image/audio correction deployed (2026-10-18, live verified):**
+Worker `5608233f-22d5-43b5-834a-aadbc49d0f35` is live at
+https://apps.sushantsynapse.com. The first publish's verification caught the build's
+availability stylesheet being inserted ahead of the early-theme script; insertion
+order was corrected and republished. Final bundle checks 35 public HTML exports
+for theme-before-styles ordering. Organisation mode/D1/auth/rate limits are retained
+with `--keep-vars`; no migrations or business-data writes ran.
+Live checks match 13 JS/CSS/image assets byte-for-byte, see no light-theme or legacy
+card frames before intentional theme changes, and pass all eight 320/390/768/1440px
+light/dark layouts. Initial Arena image requests use only the 92 KB cast and 217 KB
+expression WebPs. Sound scheduling measured 104.7ms from the first click while its
+vote response was held locally; this is scheduling time, not measured speaker latency.
+The intercepted response fails deliberately, confirming ordinary rollback without a
+live vote write. No page errors. Mobile screenshot reviewed. Evidence:
+`.publish/arena-fast-live.json`, `.publish/arena-fast-live-mobile.png`.
+This supersedes the local-only publication status immediately below.
+
+**Arena startup/image/audio correction (2026-10-18, verified locally):**
+Saved appearance now resolves through a synchronous theme script before styles/body
+in public static HTML and organisation build templates; Node serves the same order.
+Arena's final feed composition runs in the initial module task, removing the later
+legacy-card-to-feed repaint. First cast artwork preloads; remaining cards retain
+viewport-based loading. Eight additive compressed WebP assets preserve original
+artwork files: main cast 1,533,768 to 91,912 bytes; expression sheets 178–218 KB.
+CSS, expression decoding and share export use the smaller assets.
+Reaction sound starts directly on the tap, independent of vote/image requests.
+Claps use noise bursts, shoe uses whoosh/thud, ink uses splash/drops, tomato a
+splat, laugh voiced pulses and garland a chime. These are synthetic cartoon effects.
+Sound is tap feedback; only the existing successful API result confirms a saved vote.
+Mute/hidden/page-exit cancellation remains. No backend/data/schema changes.
+Verification: 21/21 Arena+wheel Chrome workflows; separate first-frame/theme and
+held-enhancement check 1/1; held vote proves sound is scheduled before its response,
+all six sound patterns differ, mute and failed-save rollback pass. Full Node/API
+rerun outside the restricted sandbox 339/339 (initial restricted run 325/339).
+Production dry-run passes with existing organisation/D1/auth bindings. Evidence:
+`.publish/arena-image-savings.json`, `.publish/arena-fast-api.log`,
+`.publish/arena-fast-tests`, `.publish/arena-startup-final`. Publication follows.
+
+**Arena mobile/sound release published (2026-10-18, live verified):**
+User-authorised production deploy is Worker `2d0e4bf5-bb05-4d2c-a71d-26c0b4ee5bbf`
+at https://apps.sushantsynapse.com. Production dry-run passed; six changed assets
+uploaded using the existing organisation-enabled configuration and `--keep-vars`.
+No database migration or business-data changes. Four live JS/CSS/module responses
+match source bytes. All thirteen cards keep six reactions in one row with 44px+
+touch targets at 320/390/768/1440px in light/dark themes, without page overflow.
+Live reaction-sound checkbox and spinner sound default on; spinner mute works.
+Read-only Chrome checks blocked API writes/third parties and saw no page errors.
+Evidence: `.publish/arena-sound-live.json`, `.publish/arena-sound-live-mobile.png`.
+This supersedes the local-only publication status below.
+
+**Arena mobile reactions and default sounds (2026-10-18, local implementation):**
+All six reactions stay in one row on phones, with compact icons/counts, accessible
+full names and at least 44px touch targets at tested 320–1440px widths in both themes.
+Each successful reaction plays a short distinct synthesised sound; Reaction sounds
+is enabled by default under Appearance, sound & vibration. Audio unlocks on the
+reaction gesture, skips failed saves and stops on mute/hidden/page exit. Unsupported
+audio does not block voting. Decision Wheel tick sound now defaults on with its
+existing mute control and reduced-motion behaviour. No data/schema or live changes.
+Verification: wheel Chrome suite 3/3; new reaction sound and responsive checks 2/2;
+updated scoreboard/share and animation/vibration checks pass on focused reruns.
+The initial combined run passed 17/20: two old layout/label expectations were
+updated; a portrait teardown hit a shared Playwright output-directory collision
+from overlapping verification runs; its isolated-output rerun passed 1/1.
+All 20 original workflows plus the new sound workflow have now passed across
+the combined run and focused reruns. Whitespace checks pass. Not deployed.
+
 **Performance release published (2026-10-18, live verified):** User-authorised
 `536b143` plus loading-meter correction `e883c29` are live at
 https://apps.sushantsynapse.com on Worker

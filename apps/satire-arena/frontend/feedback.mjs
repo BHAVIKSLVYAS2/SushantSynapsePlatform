@@ -9,7 +9,7 @@ const effects={
 };
 const timers=new WeakMap();
 const expressions={garland:'happy',applause:'happy',shoe:'annoyed',tomato:'startled',finger:'annoyed',laugh:'laughing'};
-const sheets=['expressions-original.webp','expressions-expanded.png','expressions-new.png','highway-budget-expressions.png','speakers-expressions.png'];
+const sheets=['expressions-original-fast.webp','expressions-expanded-fast.webp','expressions-new-fast.webp','highway-budget-fast.webp','speakers-fast.webp'];
 const ready=new Set();
 const preparing=new Map();
 export function prepareReaction(card){

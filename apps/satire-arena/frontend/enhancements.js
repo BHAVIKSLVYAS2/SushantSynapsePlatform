@@ -1,6 +1,7 @@
 import {cast} from './catalogue.mjs';
 import {record} from './metrics.js';
-import {prepareReaction} from './feedback.mjs?v=20261011-speakers';
+import {prepareReaction} from './feedback.mjs?v=20261018-fast';
+export function enhanceArena(){
 const $=s=>document.querySelector(s);
 if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){entry.target.classList.remove('art-pending');prepareReaction(entry.target);observer.unobserve(entry.target);}},{rootMargin:'240px'});document.querySelectorAll('.art-pending').forEach(card=>observer.observe(card));}else document.querySelectorAll('.art-pending').forEach(card=>{card.classList.remove('art-pending');prepareReaction(card);});
 const settings=$('.arena-settings')||document.createElement('details');settings.className='arena-settings';if(!settings.hasChildNodes())settings.innerHTML='<summary>Appearance &amp; vibration</summary><p>Choose light, dark or system appearance in the platform header.</p>';
@@ -48,3 +49,4 @@ async function refresh(){
  try{const r=await fetch('/api/satire-arena/results',{cache:'no-store'});if(!r.ok)throw Error();const data=await r.json(),day=data.days[1];const score=data.days[0],leaders=key=>{const max=Math.max(0,...score.characters.map(c=>c[key]||0));return max?score.characters.filter(c=>c[key]===max).map(c=>cast.find(x=>x.id===c.id)?.name).join(', '):'No reactions yet';};$('#today-results').textContent='Today · '+score.total+' reactions · Most reacted: '+leaders('total')+' · Most applauded: '+leaders('applause')+' · Most laughter: '+leaders('laugh');$('#yesterday-results').textContent=day.total?`Yesterday · ${day.total} recorded reactions · Most reacted: ${day.characters.filter(c=>c.total===day.characters[0].total).map(c=>cast.find(x=>x.id===c.id)?.name).join(', ')}`:'Yesterday · No reactions recorded.';}catch{$('#yesterday-results').textContent='Yesterday’s results are temporarily unavailable.';}
 }
 refresh();let day=new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Kolkata'});setInterval(()=>{const next=new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Kolkata'});if(!document.hidden&&next!==day){day=next;refresh();}},30000);
+}

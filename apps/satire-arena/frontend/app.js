@@ -1,5 +1,10 @@
+import {prepareSound,playSound,stopSound} from './sound.mjs?v=20261018-immediate';
+import {enhanceArena} from './enhancements.js?v=20261018-stable';
+document.addEventListener('change',event=>{if(event.target.id==='reaction-sound'&&!event.target.checked)stopSound();});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stopSound();});
+window.addEventListener('pagehide',stopSound);
 import {cast,reactions,tally} from './catalogue.mjs?v=20261011-speakers';
-import {playReaction,stopVibration,prepareReaction} from './feedback.mjs?v=20261011-speakers';
+import {playReaction,stopVibration,prepareReaction} from './feedback.mjs?v=20261018-fast';
 const $=s=>document.querySelector(s),api='/api/satire-arena';let round=null,busy=false,pending=null,loading=null,lastLoaded=0,shareBusy=false,toastTimer,rolloverAttempt=0,revision=0,saving=null,syncError=false;
 const media=matchMedia('(prefers-color-scheme: dark)');function applyTheme(){const value=window.SynapseTheme.read();document.documentElement.dataset.theme=value==='system'?(media.matches?'dark':'light'):value;}
 document.querySelector('[data-theme-toggle]').outerHTML=window.SynapseTheme.control();document.addEventListener('change',event=>{if(event.target.matches('[data-theme-toggle]'))applyTheme();});media.addEventListener('change',applyTheme);applyTheme();
@@ -26,6 +31,7 @@ async function vote(character,reaction){
  if(busy||!round)return;
  const snapshot=structuredClone(round),ballotRound=round.round,score=round.characters.find(c=>c.id===character);
  if(!score)return;
+ if($('#reaction-sound').checked){prepareSound();playSound(reaction);}
  revision++;busy=true;saving=character;
  if(score.selected!==reaction){if(score.selected)score[score.selected]=Math.max(0,(score[score.selected]||0)-1);score[reaction]=(score[reaction]||0)+1;score.selected=reaction;}
  render();notice('');clearTimeout(toastTimer);$('#reaction-toast').hidden=true;
@@ -45,7 +51,7 @@ async function vote(character,reaction){
  }finally{busy=false;saving=null;render();}
 }
 for(const [i,c]of cast.entries()){
- const article=document.createElement('article');article.className='arena-card art-pending';article.id='character-'+c.id;article.dataset.character=c.id;article.innerHTML=`<div class="portrait-stage"><div class="portrait portrait-${c.portrait}" role="img" aria-label="${c.name}, a fictional political cartoon"><span>FICTIONAL PARODY</span><div class="leader-ribbon" hidden></div></div><div class="reactions" role="group" aria-label="Reactions for ${c.name}">${reactions.map(r=>`<button type="button" data-reaction="${r.id}" data-side="${r.side}" title="${r.name}" disabled aria-pressed="false" aria-label="${r.name} for ${c.name}"><span aria-hidden="true">${r.icon}</span><b>${r.name}</b><strong>—</strong></button>`).join('')}</div></div><div class="card-body"><small>${c.tag}</small><h2>${c.name}</h2><p>${c.copy}</p><div class="card-meta"><strong class="card-total">Loading scores…</strong><button type="button" data-share-character="${c.id}" aria-label="Share ${c.name} standings" disabled>Share ↗</button></div><span class="choice-badge" hidden></span><p class="vote-state" role="status">Loading shared scores…</p></div>`;article.querySelectorAll('[data-reaction]').forEach(b=>b.onclick=()=>vote(c.id,b.dataset.reaction));article.querySelector('[data-share-character]').onclick=()=>shareStandings(c.id);$('#cast').append(article);
+ const article=document.createElement('article');article.className='arena-card'+(i===0?'':' art-pending');article.id='character-'+c.id;article.dataset.character=c.id;article.innerHTML=`<div class="portrait-stage"><div class="portrait portrait-${c.portrait}" role="img" aria-label="${c.name}, a fictional political cartoon"><span>FICTIONAL PARODY</span><div class="leader-ribbon" hidden></div></div><div class="reactions" role="group" aria-label="Reactions for ${c.name}">${reactions.map(r=>`<button type="button" data-reaction="${r.id}" data-side="${r.side}" title="${r.name}" disabled aria-pressed="false" aria-label="${r.name} for ${c.name}"><span aria-hidden="true">${r.icon}</span><b>${r.name}</b><strong>—</strong></button>`).join('')}</div></div><div class="card-body"><small>${c.tag}</small><h2>${c.name}</h2><p>${c.copy}</p><div class="card-meta"><strong class="card-total">Loading scores…</strong><button type="button" data-share-character="${c.id}" aria-label="Share ${c.name} standings" disabled>Share ↗</button></div><span class="choice-badge" hidden></span><p class="vote-state" role="status">Loading shared scores…</p></div>`;article.querySelectorAll('[data-reaction]').forEach(b=>b.onclick=()=>vote(c.id,b.dataset.reaction));article.querySelector('[data-share-character]').onclick=()=>shareStandings(c.id);$('#cast').append(article);
 }
 const query=new URLSearchParams(location.search),character=query.get('character'),reaction=query.get('reaction');if(cast.some(c=>c.id===character)&&reactions.some(r=>r.id===reaction)){pending={character,reaction};$('#pending-copy').textContent=`Your reaction is ready: ${cast.find(c=>c.id===character).name} · ${reactions.find(r=>r.id===reaction).name}. Confirm to make it count.`;$('#pending').hidden=false;}
 $('#confirm').onclick=()=>pending&&vote(pending.character,pending.reaction);$('#cancel').onclick=()=>{pending=null;$('#pending').hidden=true;history.replaceState(null,'','/satire-arena');};$('#refresh').onclick=()=>{notice('');load();};
@@ -60,7 +66,7 @@ function artwork(src){if(!shareArtwork.has(src))shareArtwork.set(src,new Promise
 async function shareStandings(character=null){
  if(!round||shareBusy||busy||syncError)return;shareBusy=true;render();const snapshot={round:round.round,characters:round.characters.map(({selected,...publicScore})=>({...publicScore}))};
  try{
-  const people=character?cast.filter(c=>c.id===character):cast,files=['cartoon-cast.png','extra-cast-v2.png','new-cast.png','highway-budget-expressions.png','speakers-expressions.png'];
+  const people=character?cast.filter(c=>c.id===character):cast,files=['cast-fast.webp','extra-cast-fast.webp','new-cast-fast.webp','highway-budget-fast.webp','speakers-fast.webp'];
   const images=await Promise.all(people.map(c=>artwork('/satire-arena/'+files[c.portrait>=11?4:c.portrait>=9?3:Math.floor(c.portrait/3)]))),logo=await artwork('/logo-adaptive-192.png');
   const canvas=document.createElement('canvas');canvas.width=1080;canvas.height=character?1080:1890;const ctx=canvas.getContext('2d');
   // Fixed export-art palette; interface theme never changes the shared image.
@@ -83,4 +89,4 @@ async function shareStandings(character=null){
  }catch(e){notice(e.message);}finally{shareBusy=false;render();}
 }
 $('#share-arena').onclick=()=>shareStandings();
-import('./enhancements.js?v=20261017-cinematic');
+enhanceArena();

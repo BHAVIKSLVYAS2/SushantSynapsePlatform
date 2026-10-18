@@ -11,13 +11,15 @@ test('spin locks edits, lands on winner, shares privately and removes without re
  await page.emulateMedia({reducedMotion:'reduce'});await page.locator('#options').fill('A\nB');await page.locator('#spin').focus();await page.keyboard.press('Space');await expect(page.locator('#winner')).toHaveText('B');await page.locator('#remove').click();await expect(page.locator('#winner')).toHaveText('A');await expect(page.locator('#spin')).toBeDisabled();await expect(page.locator('#remove')).toBeDisabled();await page.locator('#share').click();await expect(page.locator('#share-text')).toHaveValue(/Remaining option: A/);
  await expect(page.locator('#history li')).toHaveCount(2);await page.locator('#clear-history').click();await expect(page.locator('#history li')).toHaveCount(0);await page.reload();await expect(page.locator('#options')).toHaveValue(/Dosa/);await expect(page.locator('#result')).toBeHidden();expect(api).toEqual([]);expect(errors).toEqual([]);
 });
-test('branded hub, opt-in sound, slow final ticks and motion cancellation keep the selected winner',async({page})=>{
+test('branded hub, default sound, slow final ticks and motion cancellation keep the selected winner',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(()=>{const Original=window.AudioContext;if(Original)window.AudioContext=class extends Original{constructor(...args){super(...args);window.audioCreated=(window.audioCreated||0)+1;}};});
  await page.goto(base+'/decision-wheel');
  await expect(page.locator('.hub img')).toHaveAttribute('src','/logo-adaptive-192.png');
  expect(await page.locator('.hub img').evaluate(img=>img.complete&&img.naturalWidth>0)).toBe(true);
  expect(await page.evaluate(()=>window.audioCreated||0)).toBe(0);
+ await expect(page.getByRole('button',{name:'Tick sound: on'})).toHaveAttribute('aria-pressed','true');
+ await page.getByRole('button',{name:'Tick sound: on'}).click();await expect(page.locator('.wheel-sound')).toHaveAttribute('aria-pressed','false');
  await page.getByRole('button',{name:'Tick sound: off'}).click();await expect(page.locator('.wheel-sound')).toHaveAttribute('aria-pressed','true');
  await page.locator('#spin').click();
  const measure=async time=>page.evaluate(async time=>{const animation=document.querySelector('#wheel').getAnimations()[0];animation.pause();animation.currentTime=time;await new Promise(requestAnimationFrame);await new Promise(requestAnimationFrame);const m=new DOMMatrixReadOnly(getComputedStyle(document.querySelector('#wheel')).transform);return (Math.atan2(m.b,m.a)*180/Math.PI+360)%360;},time);

@@ -1,5 +1,15 @@
 # Satire Arena cartoon artwork
 
+## Delivery copies — 18 October 2026
+
+The eight `*-fast.webp` files are compressed derivatives of the existing lineups
+and expression sheets, made with Sharp WebP quality 76/effort 6. Lineups are 1536px
+wide (512px per character); expression sheets retain their existing dimensions,
+apart from the two five-row sheets being reduced from 793px to 792px wide.
+These copies serve the Arena, expressions and share cards. Original artwork and
+generation provenance below are preserved. The first cast sheet is 91,912 bytes;
+all expression delivery sheets are below 219 KB. No new artwork was generated.
+
 ## Third lineup — 10 October 2026
 
 `frontend/new-cast.png` was generated using the built-in imagegen tool. Both earlier raster lineups were style references only. Prompt: “Create one 3:1 wide lineup, three equal square portrait cells, chest-up recognizable playful caricatures: Yogi Adityanath with shaved head, saffron robe and friendly conversational gesture; Akhilesh Yadav with red cap, black waistcoat and white kurta; Shashi Tharoor with swept dark/silver hair, blue Nehru jacket and small closed book. Match the original detailed editorial caricatures, oversized expressive heads, dark outlines, dimensional comic shading and cream background. Equal scale, complete heads, nothing crossing cell boundaries, no text, logos, flags, watermark or photorealism.” Fictional names: Saffron Sage, Cycle Captain, Lexicon Lord. No downloaded photograph or cartoon used.

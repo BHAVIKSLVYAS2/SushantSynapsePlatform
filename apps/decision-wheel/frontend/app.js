@@ -8,9 +8,9 @@ let options=[],rotation=0,spinning=false,result=null,history=[];
 let removals=[];
 const undoWinner=document.createElement('button');undoWinner.type='button';undoWinner.id='undo-winner';undoWinner.textContent='Undo removed winner';undoWinner.disabled=true;$('.play').append(undoWinner);
 undoWinner.onclick=()=>{if(spinning||!removals.length)return;options=removals.pop();$('#options').value=options.join('\n');rotation=0;clearResult();draw();undoWinner.disabled=!removals.length;$('#status').textContent='Removed winner restored. Every option has an equal chance.';};
-let soundEnabled=false,audio=null,activeAnimation=null;
+let soundEnabled=true,audio=null,activeAnimation=null;
 const confetti=new Set();
-const soundButton=document.createElement('button');soundButton.type='button';soundButton.className='wheel-sound';soundButton.textContent='Tick sound: off';soundButton.setAttribute('aria-pressed','false');$('#spin').after(soundButton);
+const soundButton=document.createElement('button');soundButton.type='button';soundButton.className='wheel-sound';soundButton.textContent='Tick sound: on';soundButton.setAttribute('aria-pressed','true');$('#spin').after(soundButton);
 soundButton.onclick=()=>{soundEnabled=!soundEnabled;soundButton.setAttribute('aria-pressed',String(soundEnabled));soundButton.textContent='Tick sound: '+(soundEnabled?'on':'off');if(soundEnabled)prepareAudio();};
 function prepareAudio(){try{const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)return;if(!audio||audio.state==='closed')audio=new Audio();audio.resume().catch(()=>{});}catch{/* Visual ticks work without audio support. */}}
 function clickSound(){if(!soundEnabled||motion.matches||document.hidden||audio?.state!=='running')return;try{const oscillator=audio.createOscillator(),gain=audio.createGain(),now=audio.currentTime;oscillator.type='triangle';oscillator.frequency.setValueAtTime(1500,now);oscillator.frequency.exponentialRampToValueAtTime(650,now+.025);gain.gain.setValueAtTime(.045,now);gain.gain.exponentialRampToValueAtTime(.001,now+.035);oscillator.connect(gain);gain.connect(audio.destination);oscillator.start(now);oscillator.stop(now+.04);oscillator.onended=()=>{oscillator.disconnect();gain.disconnect();};}catch{}}

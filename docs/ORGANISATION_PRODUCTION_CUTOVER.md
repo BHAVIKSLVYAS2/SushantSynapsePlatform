@@ -1,7 +1,11 @@
 # Organisation licensing production cutover
 
 Live on 2026-10-17 at `https://apps.sushantsynapse.com`.
-Current production Worker: `3e2f2830-a42d-4a0e-adc9-cc7672c5eda3` (2026-10-18),
+Current production Worker: `5608233f-22d5-43b5-834a-aadbc49d0f35` (2026-10-18),
+adding verified early-theme startup, stable Arena composition, compressed artwork
+and immediate distinct reaction sounds. Organisation/D1/auth bindings are preserved.
+Prior Arena mobile/sound Worker: `2d0e4bf5-bb05-4d2c-a71d-26c0b4ee5bbf`.
+Prior performance Worker: `3e2f2830-a42d-4a0e-adc9-cc7672c5eda3`,
 from performance release `536b143` plus loading-meter correction `e883c29`.
 This frontend release preserves the organisation/D1 cutover and bindings; see
 `PERFORMANCE_REVIEW_2026-10-18.md` for live verification and remaining targets.
