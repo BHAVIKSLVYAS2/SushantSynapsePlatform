@@ -1,5 +1,37 @@
 # Chambers functionality ledger
 
+**Performance release published (2026-10-18, live verified):** User-authorised
+`536b143` plus loading-meter correction `e883c29` are live at
+https://apps.sushantsynapse.com on Worker
+`3e2f2830-a42d-4a0e-adc9-cc7672c5eda3`. Production dry-run passed; 49 changed
+assets uploaded initially and one CSS asset for the correction. Existing
+organisation mode, D1, password authentication and rate-limit bindings/variables
+are preserved via the existing production configuration and `--keep-vars`.
+No migration, bootstrap, account or Chambers/business-data mutation ran.
+
+Live verification passes ten source-byte matches, healthy storage, initial home
+markup/search, zero idle helper mutations, 48 themed layouts, Daily Spark and
+Lights Out. Account entry remains `/account`, unscoped state returns 409 and
+internal page assets return 404. Functional verification blocked ads/tracking/API
+writes and observed no page errors or attempted writes; mobile screenshot reviewed.
+The initial live test exposed three loading scoreboard segments at 50% each,
+briefly making the Arena 422px wide at a 320px viewport. They now start at zero;
+real totals are unchanged. Held-module/layout/optimistic-ballot checks **3/3 pass**
+and the complete live rerun passes. Local full **339/339** and prior 29 distinct
+browser checks remain recorded below; the fix adds one distinct regression.
+
+Normal-ad live Lighthouse single-run observations: mobile **4 → 64**, desktop
+**43 → 69**. Mobile LCP **9.95 → 3.68 s**, TBT **11,229 → 813 ms**, CLS **0.752 →
+0**; desktop LCP **2.65 → 2.56 s**, TBT **144 → 56 ms**, CLS **1.250 → 0.0028**.
+Live 90+ targets remain unmet; desktop FCP did not improve. Do not present the
+earlier local desktop 100 as a live score or these observations as field CWV.
+The full report now records publication, exact live timings and remaining work:
+`docs/PERFORMANCE_REVIEW_2026-10-18.md`. Evidence:
+`.publish/performance-release-live.json`, `.publish/performance-meter-tests`,
+`.publish/performance-release-home.png`, `.publish/performance-release-break.png`,
+`.publish/lighthouse-production-after-{mobile,desktop}.report.{json,html}`.
+This supersedes the local-only publication status of the next entry.
+
 **Measured performance work (2026-10-18, local; not deployed):** Investigated the
 production home and shared delivery, swept 28 public/private-entry routes, and
 recorded root causes before implementation in

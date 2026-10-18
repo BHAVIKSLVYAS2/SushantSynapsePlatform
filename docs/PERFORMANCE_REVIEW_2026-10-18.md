@@ -1,8 +1,10 @@
 # Performance investigation — 18 October 2026
 
 Baseline source: `1e6fb25`; production implementation: `cb33370`.
-This investigation does not authorise deployment. Existing tenant routing, data,
-authentication, UI design and advertising eligibility must remain intact.
+Initially investigated and verified locally; the user subsequently authorised
+commit and deployment on 18 October 2026. Publication and live measurements are
+recorded below. Existing tenant routing, data, authentication, UI design and
+advertising eligibility remain intact.
 
 ## Findings recorded before implementation
 
@@ -84,7 +86,8 @@ comparing uncompressed development delivery with compressed production delivery.
 
 These are single lab observations, not medians, GTmetrix results, a real-user
 Core Web Vitals assessment or a claim of production improvement. Third-party
-responses vary. The new source has **not been deployed**.
+responses vary. These were pre-deployment measurements; see the production
+follow-up below for the subsequently authorised publication.
 
 | Metric | Mobile before | Mobile after | Desktop before | Desktop after |
 | --- | ---: | ---: | ---: | ---: |
@@ -197,8 +200,9 @@ contains 807 assets. No hosting plan, binding, migration or provider changed.
   Before/after full-page dimensions match for Home, Take a Break and News; News
   screenshot pixels match exactly. Homepage raster resampling and transient
   rendering states are not represented as a global pixel-identical claim.
-- Syntax and `git diff --check` pass. No production deployment, account changes,
-  migration or Chambers/business-data writes were performed.
+- Syntax and `git diff --check` pass. During this local implementation stage, no
+  production deployment, account changes, migration or Chambers/business-data
+  writes were performed. Subsequent publication is recorded below.
 
 Browser evidence: `.publish/performance-final-browser`,
 `.publish/performance-games-final`; sweeps:
@@ -222,5 +226,56 @@ Browser evidence: `.publish/performance-final-browser`,
 4. Add dependency-aware content hashes before immutable caching. Existing
    revalidation remains intentional. Public/private API cache boundaries must
    remain unchanged.
-5. After explicit publication authorisation, deploy through the current tenant-aware
-   Worker configuration and repeat normal production mobile/desktop audits.
+5. Publication and normal production mobile/desktop follow-up audits are now
+   complete. Continue repeating production checks after future changes, retaining
+   the current tenant-aware Worker configuration.
+
+## Production publication and follow-up
+
+User-authorised performance commit `536b143` and loading-meter correction
+`e883c29` are live at https://apps.sushantsynapse.com. Final Worker version:
+`3e2f2830-a42d-4a0e-adc9-cc7672c5eda3`. The first performance publish used Worker
+`a4b33c90-bf77-465b-9541-5e7fb1173ef0`; verification found the transient issue
+described below and the final publish includes its fix. The existing production
+configuration and `--keep-vars` preserve organisation mode, D1 and rate limits.
+No migration, bootstrap, account or Chambers/business-data mutation ran.
+
+Live checks confirm ten exact asset matches, healthy storage, initial homepage
+markup, working search, zero monitored language-helper mutations, 48 responsive
+light/dark layouts across six routes, Daily Spark and Lights Out launch. Account
+entry still redirects to `/account`; unscoped `/api/state` returns 409 and internal
+`/_pages/home.html` returns 404. The functional browser blocked ads, tracking and
+API writes and observed no page errors or attempted writes. Live screenshot
+review confirms the existing design.
+
+The initial live narrow-screen check exposed a loading-only Arena issue: three
+scoreboard segments defaulted to 50% each before the app module assigned real
+values. At 320px they could extend the document to 422px. Initial widths now start
+at zero; real totals and the final visual presentation are unchanged. A held-module
+browser regression plus cinematic-layout and optimistic-ballot tests all pass
+(**3/3**). The complete live layout matrix then passed without waiting away this
+loading state. This adds one distinct regression workflow to the earlier 29.
+
+Normal-ad production Lighthouse follow-up, same tool/default form-factor settings
+as the initial live baseline:
+
+| Metric | Mobile live before | Mobile live after | Desktop live before | Desktop live after |
+| --- | ---: | ---: | ---: | ---: |
+| Performance | 4 | 64 | 43 | 69 |
+| FCP | 4.05 s | 2.94 s | 1.65 s | 2.32 s |
+| LCP | 9.95 s | 3.68 s | 2.65 s | 2.56 s |
+| TBT | 11,229 ms | 813 ms | 144 ms | 56 ms |
+| CLS | 0.752 | 0 | 1.250 | 0.0028 |
+| Speed Index | 15.39 s | 4.04 s | 4.80 s | 4.19 s |
+
+These are single live lab observations, not field measurements or an equivalent
+environment to the local compressed fixture. The local desktop score of 100 did
+not reproduce on the live delivery path. **The live 90+ targets remain unmet on
+both form factors**, and desktop FCP did not improve in these observations.
+Normal third-party resources remain enabled in both live Lighthouse runs.
+
+Evidence: `.publish/performance-release-live.cjs`,
+`.publish/performance-release-live.json`, `.publish/performance-release-home.png`,
+`.publish/performance-release-break.png`, `.publish/performance-meter-tests`,
+`.publish/lighthouse-production-after-{mobile,desktop}.report.{json,html}` and
+`.publish/performance-release-lighthouse.cjs`.
