@@ -1,16 +1,16 @@
 /* Final shared shell contract. Working content remains app-owned; exports are excluded. */
 /* Reserve both icons' full width so compact app styles cannot spill into account. */
-@media screen {
- body[data-ui-app].has-platform-shell .platform-shell-actions {gap:12px}
- body[data-ui-app].has-platform-shell .platform-shell .theme-toggle {width:76px;min-width:76px;height:48px;min-height:48px;padding:12px;gap:14px;overflow:hidden}
- body[data-ui-app].has-platform-shell .platform-shell .theme-toggle::before {top:50%;margin-top:-15px}
+@media screen and (scripting: enabled) {
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .platform-shell-actions {gap:12px}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .platform-shell .theme-toggle {width:76px;min-width:76px;height:48px;min-height:48px;padding:12px;gap:14px;overflow:hidden}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .platform-shell .theme-toggle::before {top:50%;margin-top:-15px}
  @media(max-width:768px) {
-  body[data-ui-app].has-platform-shell .platform-shell-actions {gap:10px}
-  body[data-ui-app].has-platform-shell .platform-shell .theme-toggle {width:64px;min-width:64px;padding:9px;gap:8px}
-  body[data-ui-app].has-platform-shell .platform-shell .theme-toggle[aria-pressed=true]::before {transform:translateX(22px)}
+  body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .platform-shell-actions {gap:10px}
+  body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .platform-shell .theme-toggle {width:64px;min-width:64px;padding:9px;gap:8px}
+  body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .platform-shell .theme-toggle[aria-pressed=true]::before {transform:translateX(22px)}
  }
 }
-@media screen {
+@media screen and (scripting: enabled) {
  .platform-transition {position:fixed;inset:0;z-index:200;display:grid;place-items:center;pointer-events:none;background:color-mix(in srgb,var(--shell-bg) 88%,transparent)}
  .platform-transition[hidden] {display:none}
  .platform-transition-card {display:flex;flex-direction:column;align-items:center;gap:12px;min-width:220px;max-width:calc(100vw - 32px);padding:28px;border:1px solid var(--shell-line);border-radius:24px;background:var(--shell-surface);color:var(--shell-ink);box-shadow:0 16px 48px color-mix(in srgb,var(--shell-ink) 12%,transparent)}
@@ -23,15 +23,15 @@
  @media(prefers-reduced-motion:reduce) {.platform-transition-track i {animation:none;transform:translateX(60%)}}
 }
 @media print {.platform-transition {display:none!important}}
-@media screen {
- html:has(body.has-platform-shell) {scroll-padding-top:88px}
- body.has-platform-shell {
+@media screen and (scripting: enabled) {
+ html:has(body:is(.has-platform-shell,.platform-shell-pending)) {scroll-padding-top:88px}
+ body:is(.has-platform-shell,.platform-shell-pending) {
   --shell-height:72px;--shell-bg:#f5f7f8;--shell-surface:#fff;--shell-ink:#20323d;--shell-muted:#596c78;--shell-line:#dce4e7;--shell-accent:#087866;--shell-on-accent:#fff;--shell-soft:#e7f2ee;
   --ui-bg:var(--shell-bg);--ui-solid:var(--shell-surface);--ui-glass:var(--shell-surface);--ui-panel:var(--shell-surface);--ui-ink:var(--shell-ink);--ui-text:var(--shell-ink);--ui-muted:var(--shell-muted);--ui-edge:var(--shell-line);--ui-accent:var(--shell-accent);--ui-on-accent:var(--shell-on-accent);--ui-soft:var(--shell-soft);
   --bg:var(--shell-bg);--surface:var(--shell-surface);--text:var(--shell-ink);--ink:var(--shell-ink);--muted:var(--shell-muted);--border:var(--shell-line);--line:var(--shell-line);--sidebar:var(--shell-surface);--header-bg:var(--shell-surface);--primary:var(--shell-accent);--accent:var(--shell-accent);
   margin:0;padding-top:var(--shell-height);background:var(--shell-bg);color:var(--shell-ink);font-family:Inter,"Segoe UI",Arial,sans-serif;
  }
- html[data-theme=dark] body.has-platform-shell {--shell-bg:#101820;--shell-surface:#19252f;--shell-ink:#e8f0f3;--shell-muted:#a5b6bf;--shell-line:#33434e;--shell-accent:#7ce0c1;--shell-on-accent:#102820;--shell-soft:#233c38}
+ html[data-theme=dark] body:is(.has-platform-shell,.platform-shell-pending) {--shell-bg:#101820;--shell-surface:#19252f;--shell-ink:#e8f0f3;--shell-muted:#a5b6bf;--shell-line:#33434e;--shell-accent:#7ce0c1;--shell-on-accent:#102820;--shell-soft:#233c38}
  .platform-shell,.platform-shell *,.platform-switcher,.platform-switcher * {box-sizing:border-box}
  .platform-shell {position:fixed;inset:0 0 auto;z-index:60;height:var(--shell-height);display:flex;align-items:center;gap:20px;padding:0 28px;background:var(--shell-surface);border-bottom:1px solid var(--shell-line);color:var(--shell-ink);font:14px/1.4 Inter,"Segoe UI",Arial,sans-serif}
  .platform-shell a {text-decoration:none;color:inherit}
@@ -47,9 +47,9 @@
  .platform-account {display:grid;place-items:center;min-width:44px;min-height:44px;padding:8px 14px;border:1px solid var(--shell-line);border-radius:10px;font-size:12px;font-weight:600}
  .platform-account.platform-account-avatar {width:44px;height:44px;padding:4px;border-radius:50%;background:var(--shell-soft);color:var(--shell-ink)}
  .platform-shell :focus-visible,.platform-switcher :focus-visible {outline:3px solid var(--shell-accent);outline-offset:3px}
- .has-platform-shell :is(.skip-link,.skip):focus {position:fixed;top:10px;left:10px;z-index:70}
- .has-platform-shell main {scroll-margin-top:calc(var(--shell-height) + 16px)}
- .has-platform-shell :is([id],button,input,select,textarea,canvas) {scroll-margin-top:calc(var(--shell-height) + 16px)}
+ :is(.has-platform-shell,.platform-shell-pending) :is(.skip-link,.skip):focus {position:fixed;top:10px;left:10px;z-index:70}
+ :is(.has-platform-shell,.platform-shell-pending) main {scroll-margin-top:calc(var(--shell-height) + 16px)}
+ :is(.has-platform-shell,.platform-shell-pending) :is([id],button,input,select,textarea,canvas) {scroll-margin-top:calc(var(--shell-height) + 16px)}
  .platform-switcher {width:min(640px,calc(100% - 24px));max-width:640px;max-height:calc(100dvh - 32px);padding:24px;border:1px solid var(--shell-line);border-radius:16px;background:var(--shell-surface);color:var(--shell-ink);box-shadow:var(--ui-shadow);font:14px/1.5 Inter,"Segoe UI",Arial,sans-serif;overflow:auto}
  .platform-switcher::backdrop {background:color-mix(in srgb,var(--shell-ink) 40%,transparent)}
  .platform-switcher-heading {display:flex;gap:16px;align-items:flex-start;justify-content:space-between;margin-bottom:18px}
@@ -66,50 +66,50 @@
  .platform-switcher .platform-switcher-note,.platform-switcher-empty {margin-top:16px}
  .platform-switcher [hidden] {display:none!important}
  /* The platform header owns identity/theme/account. App headers retain only local actions. */
- .has-platform-shell .platform-app-toolbar {position:relative;top:auto;min-height:56px;height:auto;max-width:none;margin:0;padding:6px 24px;background:var(--shell-bg);border-bottom:1px solid var(--shell-line);justify-content:flex-end;border-radius:0;box-shadow:none}
- .has-platform-shell .platform-app-toolbar :is(.brand,.all-apps[href="/"],#all-apps,[data-theme-toggle],.theme-control,.theme-picker,.theme-label,.profile-button) {display:none!important}
- .has-platform-shell .platform-toolbar-empty,.has-platform-shell .synapse-help-nav,.has-platform-shell .home-rail {display:none!important}
- .has-platform-shell .auth-theme {display:none}
- .has-platform-shell .sidebar {background:var(--shell-surface);border-color:var(--shell-line)}
- body[data-ui-app].has-platform-shell:not(:has(.public-home)) :is(main .page-heading h1,main .page-top h1,main .intro h1,main .hero h1) {font-family:Inter,"Segoe UI",Arial,sans-serif;font-size:clamp(26px,3vw,34px);font-weight:650;line-height:1.2;letter-spacing:-.8px}
- body[data-ui-app].has-platform-shell:not(:has(.public-home)) :is(main .page-heading,main .page-top,main .intro,main .hero) {padding:0;background:none;border:0;box-shadow:none;border-radius:0;min-height:0;margin-top:0;margin-bottom:24px}
- body[data-ui-app].has-platform-shell :is(main .panel,main .card,main .stat) {border-radius:12px;backdrop-filter:none;box-shadow:none;background:var(--shell-surface)}
- .has-platform-shell :is(.ui-workspace-art,.ui-section-art,.ui-tool-art,main .hero-mark) {display:none}
- html[data-theme] body.has-platform-shell[data-ui-app=moment-studio]:has(.studio-bento) {--ui-bg:var(--shell-bg);--ui-solid:var(--shell-surface);--ui-text:var(--shell-ink);--ui-muted:var(--shell-muted);--ui-edge:var(--shell-line);--ui-accent:var(--shell-accent);--ui-soft:var(--shell-soft);--ui-glass:var(--shell-surface);--ui-on-accent:var(--shell-on-accent);--studio-glow:transparent;--studio-amber:var(--shell-muted);background:var(--shell-bg)}
- body.has-platform-shell[data-ui-app=moment-studio]:has(.studio-bento) :is(.panel,.studio-featured,.tool-tile,.studio-intro) {backdrop-filter:none;box-shadow:none}
- body[data-ui-app].has-platform-shell .public-home {padding-left:0}
- body[data-ui-app].has-platform-shell .public-home main {max-width:1280px;padding:24px}
- body[data-ui-app].has-platform-shell .public-home .public-hero {padding:0;margin:0 0 20px;display:block}
- body[data-ui-app].has-platform-shell .public-home .public-hero h1 {margin:0;padding:0;text-align:left;background:none;border:0;box-shadow:none;font:650 32px/1.2 Inter,"Segoe UI",Arial,sans-serif;letter-spacing:-.8px}
- body[data-ui-app].has-platform-shell .public-home .public-hero>p {display:block;margin-top:10px;max-width:65ch;font-size:14px}
- body[data-ui-app].has-platform-shell .public-home .public-hero>.eyebrow {display:none}
- body[data-ui-app].has-platform-shell .public-home .home-paths {display:flex;flex-wrap:wrap;margin-top:16px}
- body[data-ui-app].has-platform-shell .public-home .home-paths a[href="/showcase"],body[data-ui-app].has-platform-shell .public-home .home-paths a[href="/support"] {display:none}
- body[data-ui-app].has-platform-shell .public-home .public-apps {grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
- body[data-ui-app].has-platform-shell .public-home .public-app {display:flex;flex-direction:column;grid-column:auto!important;min-height:0;border-radius:12px;background:var(--shell-surface);box-shadow:none;border-color:var(--shell-line)}
- body[data-ui-app].has-platform-shell .public-home .public-app::after {display:none}
- body[data-ui-app].has-platform-shell .public-home .public-app :is(.news-visual,.fund-visual) {height:64px;width:auto;margin:16px 18px 0;justify-content:flex-start;align-items:center;grid-column:auto;grid-row:auto}
- body[data-ui-app].has-platform-shell .public-home .public-app .home-sculpture {width:72px;height:64px}
- body[data-ui-app].has-platform-shell .public-home .public-app .public-app-copy {padding:12px 18px 18px;flex:1;justify-content:flex-start;grid-column:auto;grid-row:auto}
- body[data-ui-app].has-platform-shell .public-home .public-app-copy h2 {font:650 20px/1.25 Inter,"Segoe UI",Arial,sans-serif;letter-spacing:-.4px}
- body[data-ui-app].has-platform-shell .public-home .public-app-copy p {font-size:13px;line-height:1.6;-webkit-line-clamp:3}
- body[data-ui-app].has-platform-shell .public-home .public-launch {margin-top:auto}
- body[data-ui-app].has-platform-shell .public-home .arena-home-art {height:80px;object-fit:contain;margin-top:8px}
- body[data-ui-app].has-platform-shell .public-home .workspace-card {border-radius:12px;background:var(--shell-surface);box-shadow:none}
- @media(min-width:1000px) {.has-platform-shell .sidebar,.has-platform-shell[data-ui-app=batchfee-lite]>aside {top:var(--shell-height);width:240px;padding:22px 16px 16px}.has-platform-shell[data-ui-app=advocate] .workspace,.has-platform-shell[data-ui-app=portal] .shell,.has-platform-shell[data-ui-app=batchfee-lite] .workspace {margin-left:240px}.has-platform-shell .sidebar .nav-item {font-size:13px;min-height:44px}.has-platform-shell .sidebar>.brand {font:650 20px Inter,"Segoe UI",Arial,sans-serif}.has-platform-shell .sidebar .brand img {width:28px;height:28px}}
- @media(max-width:759px) {.platform-shell {gap:10px;padding:0 14px}.platform-shell-divider {display:none}.platform-shell-brand span {display:none}.platform-switch {font-size:12px;gap:4px;padding:8px;max-width:calc(100vw - 192px)}.platform-shell-actions {gap:6px}.platform-account {padding:8px;font-size:11px}.platform-shell .theme-toggle {width:64px;min-width:64px;gap:8px;padding:9px}.platform-shell .theme-toggle[aria-pressed=true]::before {transform:translateX(22px)}body[data-ui-app].has-platform-shell .public-home main {padding:22px 16px}body[data-ui-app].has-platform-shell .public-home .public-apps {grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}body[data-ui-app].has-platform-shell .public-home .public-app-copy h2 {font-size:18px}body[data-ui-app].has-platform-shell .public-home .public-app-copy {padding:10px 12px 14px}.platform-switcher {padding:18px}.has-platform-shell .platform-app-toolbar {padding:6px 16px}}
- @media(max-width:379px) {body[data-ui-app].has-platform-shell .public-home .public-apps {grid-template-columns:1fr}.platform-switcher nav {grid-template-columns:1fr}}
+ :is(.has-platform-shell,.platform-shell-pending) .platform-app-toolbar {position:relative;top:auto;min-height:56px;height:auto;max-width:none;margin:0;padding:6px 24px;background:var(--shell-bg);border-bottom:1px solid var(--shell-line);justify-content:flex-end;border-radius:0;box-shadow:none}
+ :is(.has-platform-shell,.platform-shell-pending) .platform-app-toolbar :is(.brand,.all-apps[href="/"],#all-apps,[data-theme-toggle],.theme-control,.theme-picker,.theme-label,.profile-button) {display:none!important}
+ :is(.has-platform-shell,.platform-shell-pending) .platform-toolbar-empty,:is(.has-platform-shell,.platform-shell-pending) .synapse-help-nav,:is(.has-platform-shell,.platform-shell-pending) .home-rail {display:none!important}
+ :is(.has-platform-shell,.platform-shell-pending) .auth-theme {display:none}
+ :is(.has-platform-shell,.platform-shell-pending) .sidebar {background:var(--shell-surface);border-color:var(--shell-line)}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending):not(:has(.public-home)) :is(main .page-heading h1,main .page-top h1,main .intro h1,main .hero h1) {font-family:Inter,"Segoe UI",Arial,sans-serif;font-size:clamp(26px,3vw,34px);font-weight:650;line-height:1.2;letter-spacing:-.8px}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending):not(:has(.public-home)) :is(main .page-heading,main .page-top,main .intro,main .hero) {padding:0;background:none;border:0;box-shadow:none;border-radius:0;min-height:0;margin-top:0;margin-bottom:24px}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) :is(main .panel,main .card,main .stat) {border-radius:12px;backdrop-filter:none;box-shadow:none;background:var(--shell-surface)}
+ :is(.has-platform-shell,.platform-shell-pending) :is(.ui-workspace-art,.ui-section-art,.ui-tool-art,main .hero-mark) {display:none}
+ html[data-theme] body:is(.has-platform-shell,.platform-shell-pending)[data-ui-app=moment-studio]:has(.studio-bento) {--ui-bg:var(--shell-bg);--ui-solid:var(--shell-surface);--ui-text:var(--shell-ink);--ui-muted:var(--shell-muted);--ui-edge:var(--shell-line);--ui-accent:var(--shell-accent);--ui-soft:var(--shell-soft);--ui-glass:var(--shell-surface);--ui-on-accent:var(--shell-on-accent);--studio-glow:transparent;--studio-amber:var(--shell-muted);background:var(--shell-bg)}
+ body:is(.has-platform-shell,.platform-shell-pending)[data-ui-app=moment-studio]:has(.studio-bento) :is(.panel,.studio-featured,.tool-tile,.studio-intro) {backdrop-filter:none;box-shadow:none}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home {padding-left:0}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home main {max-width:1280px;padding:24px}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-hero {padding:0;margin:0 0 20px;display:block}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-hero h1 {margin:0;padding:0;text-align:left;background:none;border:0;box-shadow:none;font:650 32px/1.2 Inter,"Segoe UI",Arial,sans-serif;letter-spacing:-.8px}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-hero>p {display:block;margin-top:10px;max-width:65ch;font-size:14px}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-hero>.eyebrow {display:none}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .home-paths {display:flex;flex-wrap:wrap;margin-top:16px}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .home-paths a[href="/showcase"],body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .home-paths a[href="/support"] {display:none}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-apps {grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-app {display:flex;flex-direction:column;grid-column:auto!important;min-height:0;border-radius:12px;background:var(--shell-surface);box-shadow:none;border-color:var(--shell-line)}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-app::after {display:none}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-app :is(.news-visual,.fund-visual) {height:64px;width:auto;margin:16px 18px 0;justify-content:flex-start;align-items:center;grid-column:auto;grid-row:auto}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-app .home-sculpture {width:72px;height:64px}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-app .public-app-copy {padding:12px 18px 18px;flex:1;justify-content:flex-start;grid-column:auto;grid-row:auto}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-app-copy h2 {font:650 20px/1.25 Inter,"Segoe UI",Arial,sans-serif;letter-spacing:-.4px}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-app-copy p {font-size:13px;line-height:1.6;-webkit-line-clamp:3}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-launch {margin-top:auto}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .arena-home-art {height:80px;object-fit:contain;margin-top:8px}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .workspace-card {border-radius:12px;background:var(--shell-surface);box-shadow:none}
+ @media(min-width:1000px) {:is(.has-platform-shell,.platform-shell-pending) .sidebar,:is(.has-platform-shell,.platform-shell-pending)[data-ui-app=batchfee-lite]>aside {top:var(--shell-height);width:240px;padding:22px 16px 16px}:is(.has-platform-shell,.platform-shell-pending)[data-ui-app=advocate] .workspace,:is(.has-platform-shell,.platform-shell-pending)[data-ui-app=portal] .shell,:is(.has-platform-shell,.platform-shell-pending)[data-ui-app=batchfee-lite] .workspace {margin-left:240px}:is(.has-platform-shell,.platform-shell-pending) .sidebar .nav-item {font-size:13px;min-height:44px}:is(.has-platform-shell,.platform-shell-pending) .sidebar>.brand {font:650 20px Inter,"Segoe UI",Arial,sans-serif}:is(.has-platform-shell,.platform-shell-pending) .sidebar .brand img {width:28px;height:28px}}
+ @media(max-width:759px) {.platform-shell {gap:10px;padding:0 14px}.platform-shell-divider {display:none}.platform-shell-brand span {display:none}.platform-switch {font-size:12px;gap:4px;padding:8px;max-width:calc(100vw - 192px)}.platform-shell-actions {gap:6px}.platform-account {padding:8px;font-size:11px}.platform-shell .theme-toggle {width:64px;min-width:64px;gap:8px;padding:9px}.platform-shell .theme-toggle[aria-pressed=true]::before {transform:translateX(22px)}body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home main {padding:22px 16px}body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-apps {grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-app-copy h2 {font-size:18px}body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-app-copy {padding:10px 12px 14px}.platform-switcher {padding:18px}:is(.has-platform-shell,.platform-shell-pending) .platform-app-toolbar {padding:6px 16px}}
+ @media(max-width:379px) {body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-apps {grid-template-columns:1fr}.platform-switcher nav {grid-template-columns:1fr}}
  @media(min-width:1000px) {
-  body.has-platform-shell[data-ui-app=digital-samaj]:has(#app>.nav) #app {max-width:none;margin-left:240px;padding:32px}
-  body.has-platform-shell[data-ui-app=digital-samaj] #app>.nav {position:fixed;inset:var(--shell-height) auto 0 0;width:240px;z-index:30;display:flex;flex-direction:column;align-items:stretch;gap:6px;overflow:auto;margin:0;padding:24px 16px;border:0;border-right:1px solid var(--shell-line);border-radius:0;background:var(--shell-surface)}
-  body.has-platform-shell[data-ui-app=digital-samaj] #app>.nav::before {content:'DIGITAL SAMAJ';font-size:18px;font-weight:650;color:var(--shell-ink);padding:8px 12px 20px}
-  body.has-platform-shell[data-ui-app=digital-samaj] #app>.nav button {text-align:left;min-height:44px;font-size:13px;flex-shrink:0}
-  body.has-platform-shell[data-ui-app=digital-samaj]:has(#app>.nav) .platform-app-toolbar {margin-left:240px;width:calc(100% - 240px)}
+  body:is(.has-platform-shell,.platform-shell-pending)[data-ui-app=digital-samaj]:has(#app>.nav) #app {max-width:none;margin-left:240px;padding:32px}
+  body:is(.has-platform-shell,.platform-shell-pending)[data-ui-app=digital-samaj] #app>.nav {position:fixed;inset:var(--shell-height) auto 0 0;width:240px;z-index:30;display:flex;flex-direction:column;align-items:stretch;gap:6px;overflow:auto;margin:0;padding:24px 16px;border:0;border-right:1px solid var(--shell-line);border-radius:0;background:var(--shell-surface)}
+  body:is(.has-platform-shell,.platform-shell-pending)[data-ui-app=digital-samaj] #app>.nav::before {content:'DIGITAL SAMAJ';font-size:18px;font-weight:650;color:var(--shell-ink);padding:8px 12px 20px}
+  body:is(.has-platform-shell,.platform-shell-pending)[data-ui-app=digital-samaj] #app>.nav button {text-align:left;min-height:44px;font-size:13px;flex-shrink:0}
+  body:is(.has-platform-shell,.platform-shell-pending)[data-ui-app=digital-samaj]:has(#app>.nav) .platform-app-toolbar {margin-left:240px;width:calc(100% - 240px)}
  }
 }
 @media print {.platform-shell,.platform-switcher {display:none!important}}
-@media screen and (max-width:759px){
- body[data-ui-app].has-platform-shell{--shell-height:112px}
+@media screen and (scripting: enabled) and (max-width:759px){
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending){--shell-height:112px}
  body[data-ui-app] .platform-shell{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:44px 44px;align-content:center;gap:4px 8px;padding:8px 14px}
  .platform-shell-brand{grid-column:1;grid-row:1;font-size:14px;gap:7px;min-width:0}
  .platform-shell-brand span{display:block;white-space:nowrap}
@@ -119,7 +119,7 @@
  .platform-switch{grid-column:1/-1;grid-row:2;justify-self:start;max-width:100%;min-height:44px}
 }
 .platform-switcher .platform-switcher-group{grid-column:1/-1;margin:12px 0 2px;font-size:11px;font-weight:750;color:var(--shell-muted);letter-spacing:.06em;text-transform:uppercase}
-@media screen {
+@media screen and (scripting: enabled) {
  body[data-ui-app] .platform-shell{background:linear-gradient(145deg,var(--shell-surface),var(--shell-bg));box-shadow:inset 0 1px 0 var(--ss-reflection,transparent),0 3px 14px #00000012;-webkit-backdrop-filter:none;backdrop-filter:none}
  body[data-ui-app] .platform-shell :is(.platform-switch,.platform-account){border-radius:12px;box-shadow:inset 0 1px 0 var(--ss-reflection,transparent);transition:background-color 160ms ease,border-color 160ms ease,box-shadow 160ms ease}
  body[data-ui-app] .platform-switcher{border-radius:20px;box-shadow:var(--ss-shadow-raised,0 16px 36px #00000025)}

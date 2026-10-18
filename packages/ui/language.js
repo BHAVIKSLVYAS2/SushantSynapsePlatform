@@ -24,6 +24,7 @@
  const native=()=>nativePage?document.querySelector('#language'):null;
  function remember(value){language=value;try{localStorage.setItem(key,value);}catch{}}
  function translate(root){
+  if(root.lang!==language)root.lang=language;
   const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
   while(walker.nextNode()){
    const text=walker.currentNode,parent=text.parentElement;
@@ -32,9 +33,8 @@
    const value=record.source.trim().replace(/\s+/g,' '),translated=language==='hi'?dictionary[value]:null;
    const next=translated?record.source.replace(record.source.trim(),translated):record.source;
    if(text.data!==next)text.data=next;record.last=next;
-   if(/[A-Za-z\u0900-\u097f]/.test(next))parent.lang=translated||/[\u0900-\u097f]/.test(next)?'hi':'en';
+   if(/[A-Za-z\u0900-\u097f]/.test(next)){const nextLanguage=translated||/[\u0900-\u097f]/.test(next)?'hi':'en';const inherited=parent.lang||parent.parentElement?.closest('[lang]')?.lang||document.documentElement.lang;if(inherited!==nextLanguage)parent.lang=nextLanguage;}
   }
-  root.lang=language;
  }
  function refresh(){
   document.documentElement.dataset.language=language;
@@ -49,7 +49,7 @@
     buttons[0]?.before(toggle);for(const button of buttons){if(button.dataset.interfaceLanguage==='en'){button.textContent='EN';button.setAttribute('aria-label','English');}toggle.append(button);}
    }
    for(const button of footer.querySelectorAll('[data-interface-language]')){const active=button.dataset.interfaceLanguage===language;button.setAttribute('aria-pressed',String(active));if(button.disabled!==busy)button.disabled=busy;}
-   const help=footer.querySelector('[data-language-help]');if(help){help.hidden=nativePage||language==='en';help.textContent='कुछ ऐप की सामग्री अभी अंग्रेज़ी में है।';}
+   const help=footer.querySelector('[data-language-help]');if(help){help.hidden=nativePage||language==='en';if(help.textContent!=='कुछ ऐप की सामग्री अभी अंग्रेज़ी में है।')help.textContent='कुछ ऐप की सामग्री अभी अंग्रेज़ी में है।';}
   }
  }
  function choose(value,bridge=true){

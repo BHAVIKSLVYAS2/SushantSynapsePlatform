@@ -3,11 +3,11 @@ import {record} from './metrics.js';
 import {prepareReaction} from './feedback.mjs?v=20261011-speakers';
 const $=s=>document.querySelector(s);
 if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){entry.target.classList.remove('art-pending');prepareReaction(entry.target);observer.unobserve(entry.target);}},{rootMargin:'240px'});document.querySelectorAll('.art-pending').forEach(card=>observer.observe(card));}else document.querySelectorAll('.art-pending').forEach(card=>{card.classList.remove('art-pending');prepareReaction(card);});
-const settings=document.createElement('details');settings.className='arena-settings';settings.innerHTML='<summary>Appearance &amp; vibration</summary><p>Choose light, dark or system appearance in the platform header.</p>';
-const feedback=$('.feedback-options');feedback.before(settings);settings.append(feedback);
+const settings=$('.arena-settings')||document.createElement('details');settings.className='arena-settings';if(!settings.hasChildNodes())settings.innerHTML='<summary>Appearance &amp; vibration</summary><p>Choose light, dark or system appearance in the platform header.</p>';
+const feedback=$('.feedback-options');if(feedback.parentElement!==settings){feedback.before(settings);settings.append(feedback);}
 $('.hero p').textContent='Same News. More Laughter.';
 $('.lineup-heading small').textContent='THIRTEEN FICTIONAL CHARACTERS · YOUR MOVE';
-const today=document.createElement('section');today.className='notice';today.innerHTML='<h2>Today in the Arena</h2><p id="daily-joke">Original jokes, fictional characters and genuine daily reactions.</p><a href="/satire-arena/daily">Daily Satire</a> · <a href="/satire-arena/results">Results &amp; history</a><p id="yesterday-results">Yesterday’s results are loading…</p><p id="enhancement-status" role="status"></p>';$('.lineup-heading').before(today);
+const today=$('#arena-today')||document.createElement('section');today.className='notice';if(!today.hasChildNodes())today.innerHTML='<h2>Today in the Arena</h2><p id="daily-joke">Original jokes, fictional characters and genuine daily reactions.</p><a href="/satire-arena/daily">Daily Satire</a> · <a href="/satire-arena/results">Results &amp; history</a><p id="yesterday-results">Yesterday’s results are loading…</p><p id="enhancement-status" role="status"></p>';if(!today.isConnected)$('.lineup-heading').before(today);
 const report=message=>$('#enhancement-status').textContent=message;
 function shareNotice(message){report(message);document.dispatchEvent(new CustomEvent('arena-toast',{detail:{message}}));}
 async function copyLink(url){

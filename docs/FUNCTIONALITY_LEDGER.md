@@ -1,5 +1,45 @@
 # Chambers functionality ledger
 
+**Measured performance work (2026-10-18, local; not deployed):** Investigated the
+production home and shared delivery, swept 28 public/private-entry routes, and
+recorded root causes before implementation in
+`docs/PERFORMANCE_REVIEW_2026-10-18.md`. Fixed the language helper's observer
+feedback loop and redundant language attributes, duplicate premium stylesheet
+download and late homepage insertion/reparenting. Existing homepage markup now
+arrives in HTML and nine CSS requests become one generated bundle in the original
+cascade order. Shared header space is reserved with scripting-aware CSS and static
+annotations in 32 entry points. Existing anonymous-home ads start after a paint
+opportunity with a bounded idle wait; publisher, nonce/CSP and eligibility remain.
+No audit/user-agent detection, advertising removal or longer API cache lifetime.
+
+News shows its public cover before status resolves; controls retain readiness and
+retry rules. Take a Break defers Chaos/Daily Spark controllers with stale-launch
+guards and handled module failures. Arena sections start in their final positions;
+Daily Spark and Ritual Assist reserve their loading panel space. Added lossless
+WebP copies and a small homepage derivative; original images remain available and
+full-size copies have identical decoded RGBA pixels. No runtime dependency added.
+
+Final compressed, production-prepared Lighthouse lab comparison: desktop **57 →
+100**, mobile **15 → 50**. Mobile LCP **8.17 → 6.40 s**, TBT **2,383 → 728 ms**,
+CLS **0.774 → 0.0013**; desktop LCP **3.56 → 0.52 s**, TBT **124 → 47 ms**.
+Mobile targets are **not met**: final FCP and Speed Index did not improve, and
+normal third-party work remains material. No claim of deployed or field-CWV gains.
+Normal advertising is enabled for both Lighthouse revisions; functional sweeps
+block ads/tracking/writes equally and are separately labelled. Home resource
+payload falls **2,721,985 → 610,759 bytes** (78%) and **26 → 17 requests**.
+Separate browser CLS checks: News **0.692 → 0.002**, Arena **0.774 → 0.031**,
+Daily Spark **0.612 → 0**, Ritual Assist **0.653 → 0.0063**.
+
+Verification: **339/339 full Node/API checks**, **29 distinct Chrome workflows**
+(32 successful final executions), final production asset build **807** allowlisted
+assets, syntax/whitespace checks pass. Includes all Take a Break games, module
+loading/failure races, real signed-in governance fixtures and access boundaries,
+31-route materials/responsive matrix, Hindi, no-JavaScript, ad eligibility/nonce,
+News retry, Arena reactions, Ritual guides/export/print and visual review. No
+native-device Safari claim. Report contains exact conditions, tables, file groups,
+remaining mobile/app-specific work and ignored evidence paths. No deployment,
+schema migration, account or Chambers/business-data changes were performed.
+
 **Homepage selection and Take a Break deployed (2026-10-18, live verified):**
 User-authorized implementation commit `cb33370` is live at
 https://apps.sushantsynapse.com on production Worker

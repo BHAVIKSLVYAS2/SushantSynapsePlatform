@@ -431,3 +431,5 @@
 }
 .home-mobile-dock svg{width:24px;height:24px;display:block}
 @media print{.home-mobile-dock,.home-entry-paths,.home-search,.home-hub-art{display:none!important}}
+
+@media(scripting:none){.home-search,.home-filters,.home-mobile-dock{display:none!important}}

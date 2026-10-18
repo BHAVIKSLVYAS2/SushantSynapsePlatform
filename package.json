@@ -16,7 +16,7 @@
     "db:d1:local": "wrangler d1 migrations apply synapse-platform-staging --config infrastructure/cloudflare/wrangler.fullstack.jsonc --local",
     "db:cloudflare:transfer": "node infrastructure/cloudflare/transfer.cjs",
     "test:cloudflare": "node infrastructure/cloudflare/test.cjs",
-    "build:ui": "tailwindcss -i packages/ui/premium.tailwind.css -o packages/ui/premium.bundle.css --minify",
+    "build:ui": "tailwindcss -i packages/ui/premium.tailwind.css -o packages/ui/premium.bundle.css --minify && node infrastructure/build-home.cjs",
     "build:frontend": "npm run build:ui && node infrastructure/cloudflare/build.cjs",
     "deploy:frontend:preview": "wrangler deploy --config infrastructure/cloudflare/wrangler.jsonc --env preview",
     "deploy:frontend": "wrangler deploy --config infrastructure/cloudflare/wrangler.free.production.jsonc --keep-vars",

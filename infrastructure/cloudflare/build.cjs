@@ -6,6 +6,7 @@ const root = path.resolve(__dirname, '../..');
 const output = path.join(__dirname, 'dist');
 // Export only the public allowlist, never data, credentials or backend source.
 function build({fullstack=false,organisations=false}={}) {
+  require('../build-home.cjs').buildHome();
   if (fs.existsSync(output)) {
     if (fs.realpathSync(output) !== output || path.relative(root, output) !== path.join('infrastructure', 'cloudflare', 'dist')) throw Error('Unsafe export path');
     fs.rmSync(output, {recursive: true});

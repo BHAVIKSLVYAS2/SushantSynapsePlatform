@@ -1,14 +1,11 @@
 import {createBreakCelebration} from './celebration.mjs';
-import {mountChaos} from './chaos.mjs';
 import {istDate} from '/daily-spark/engine.mjs';
-import {mountSpark} from '/daily-spark/play.mjs';
-import {sparkMarkup} from '/daily-spark/view.mjs';
 import {version,validDay,codePuzzle,codeVersion,scoreCode,memoryGame,memorySymbols,turnMemory,closeMemoryPair,lightsLevel,toggleLights,solveLights,parseChoices,faceOff,chooseFace,shuffle} from './engine.mjs';
 const $=s=>document.querySelector(s),media=matchMedia('(prefers-color-scheme: dark)');
 $('#theme').outerHTML=SynapseTheme.control('id="theme"');function theme(){const p=SynapseTheme.read();document.documentElement.dataset.theme=p==='system'?(media.matches?'dark':'light'):p;}$('#theme').addEventListener('change',theme);media.addEventListener('change',theme);theme();
 const params=new URLSearchParams(location.search),today=istDate(),day=validDay(params.get('day'),today)&&(!params.get('v')||params.get('v')===version)?params.get('day'):today;
 const games={chaos:{name:'One-Minute Chaos',description:'Catch falling chai, dodge meeting invites and silence alarms. Sixty seconds of escalating office absurdity.',next:'24'},24:{name:'Make 24',description:'The original Daily Spark number game. Use every number once to make 24.',next:'code'},code:{name:'Crack the Code',description:'Three digits. Five clues. One solution. Read the clues and work out the code—no blind guessing needed.',next:'memory'},memory:{name:'Memory Minute',description:'Turn over two cards and find six matching pairs. “Minute” is a little break, not a time limit.',next:'lights'},lights:{name:'Lights Out',description:'Turn every light off. Tapping a tile flips it and its neighbours above, below, left and right. Clear three increasingly challenging boards.',next:'face'},face:{name:'Face-Off',description:'Choose between two options until your favourite is left. This is your preference, not a random draw.',next:'24'}};
-const controllers={},panes={};let active=null;
+const controllers={},panes={};let active=null,launchRevision=0,mountChaos,mountSpark,sparkMarkup;
 const element=(tag,className,text)=>{const e=document.createElement(tag);e.className=className;e.textContent=text;return e;};
 const nonce=()=>String(crypto.getRandomValues(new Uint32Array(1))[0]);
 function url(game,date=day){const u=new URL('/take-a-break',location.origin);u.searchParams.set('game',game);if(game==='code')u.searchParams.set('cv',codeVersion);if(game!=='face'&&game!=='chaos'){u.searchParams.set('day',date);u.searchParams.set('v',version);}return u.href;}
@@ -82,7 +79,18 @@ function mountFace(root){
  function start(){try{const choices=parseChoices(form.elements.choices.value),newTitle=form.elements.title.value.trim();if(newTitle.length>100)throw Error('Keep the title under 100 characters.');title=newTitle||'My favourite';state=faceOff(choices,day);undo=[];error.textContent='';render();return true;}catch(e){error.textContent=e.message;return false;}}
  form.onsubmit=e=>{e.preventDefault();if(start())pair.children[0]?.focus();};root.querySelector('.face-sample').onclick=()=>{form.elements.choices.value=['A walk','A film','A book','Cooking','A nap','Calling a friend'].join('\n');form.elements.title.value='A little weekend plan';start();};root.querySelector('.face-undo').onclick=()=>{state=undo.pop();render();pair.children[0]?.focus();};start();return {mode:'custom',reset:start};
 }
-function openGame(id,update=true){if(!Object.hasOwn(games,id))return;controllers[active]?.deactivate?.();active=id;$('#hub').hidden=true;$('#play-area').hidden=false;$('#share-box').hidden=true;$('#play-title').textContent=games[id].name;$('#play-description').textContent=games[id].description;$('#hub-edition').textContent=id==='face'?'YOUR CHOICES · NO UPLOAD':`${day} · IST`;
+async function openGame(id,update=true){if(!Object.hasOwn(games,id))return;
+ const revision=++launchRevision,trigger=document.querySelector(`[data-game="${id}"]`);
+ if((id==='24'&&!mountSpark)||(id==='chaos'&&!mountChaos)){
+  trigger?.setAttribute('aria-busy','true');
+  try{
+   if(id==='24'){const [play,view]=await Promise.all([import('/daily-spark/play.mjs'),import('/daily-spark/view.mjs')]);mountSpark=play.mountSpark;sparkMarkup=view.sparkMarkup;}
+   else ({mountChaos}=await import('./chaos.mjs'));
+  }catch{if(revision===launchRevision){const message=$('#hub').hidden?$('#link-note'):$('#break-filter-status');message.textContent='This game could not load. Reload the page to try again.';}return;}
+  finally{trigger?.removeAttribute('aria-busy');}
+ }
+ if(revision!==launchRevision)return;
+ controllers[active]?.deactivate?.();active=id;$('#hub').hidden=true;$('#play-area').hidden=false;$('#share-box').hidden=true;$('#play-title').textContent=games[id].name;$('#play-description').textContent=games[id].description;$('#hub-edition').textContent=id==='face'?'YOUR CHOICES · NO UPLOAD':`${day} · IST`;
  if(!panes[id]){const root=element('div','game-pane','');root.dataset.pane=id;$('#game-panes').append(root);panes[id]=root;
   if(id==='24'){root.innerHTML=sparkMarkup;mountSpark(root,{day,challengeUrl:date=>url('24',date),onComplete:()=>{const section=root.querySelector('#result');if(!section.querySelector('[data-next-break]')){const next=element('button','','Try Crack the Code');next.type='button';next.dataset.nextBreak='1';next.onclick=()=>openGame('code');section.append(next);}}});}
   else controllers[id]=({code:mountCode,memory:mountMemory,lights:mountLights,face:mountFace,chaos:r=>mountChaos(r,{share})}[id])(root);
@@ -102,7 +110,7 @@ function filterGames(kind,animate=true){
  });
  $('#break-filter-status').textContent=visible+(visible===1?' activity shown':' activities shown');
 }
-$('#all-breaks').onclick=()=>{controllers[active]?.deactivate?.();$('#hub').hidden=false;$('#play-area').hidden=true;$('#share-box').hidden=true;filterGames(document.querySelector(`[data-game="${active}"]`)?.dataset.kind||'challenge',false);history.replaceState(null,'','/take-a-break');const card=document.querySelector(`[data-game="${active}"]`);card?.focus({preventScroll:true});scrollTo(0,0);};
+$('#all-breaks').onclick=()=>{launchRevision++;controllers[active]?.deactivate?.();$('#hub').hidden=false;$('#play-area').hidden=true;$('#share-box').hidden=true;filterGames(document.querySelector(`[data-game="${active}"]`)?.dataset.kind||'challenge',false);history.replaceState(null,'','/take-a-break');const card=document.querySelector(`[data-game="${active}"]`);card?.focus({preventScroll:true});scrollTo(0,0);};
 document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>filterGames(b.dataset.filter));
 $('#daily-note').textContent=`${day} · New daily challenges at midnight IST`;
 const initial=params.get('game');if(initial&&Object.hasOwn(games,initial))openGame(initial,false);

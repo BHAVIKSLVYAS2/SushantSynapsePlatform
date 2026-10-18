@@ -40,3 +40,6 @@ h1{font-size:clamp(28px,3.2vw,40px);letter-spacing:-.6px;margin:8px 0}
 
 .custom-items{margin-top:24px;border-top:1px solid var(--line);padding-top:18px}.custom-item{display:flex;align-items:center;gap:8px}.custom-item .check-item{flex:1;min-width:0;overflow-wrap:anywhere}.extra-form{display:grid;gap:12px;margin:16px 0}.extra-form input{width:100%;box-sizing:border-box}.remember-checks{display:flex;gap:10px;align-items:center}.remember-checks input{width:auto}.extra-remove{flex-shrink:0}
 @media print{.extra-form,.extra-remove,.remember-checks{display:none!important}.custom-item{break-inside:avoid}.custom-items{display:block!important}}
+
+/* Keep later content out of the loading viewport until its existing panel mounts. */
+@media screen and (scripting:enabled){body[data-ui-app=ritual-assist]:not(.ready) .workspace{display:grid;visibility:hidden;min-height:100vh}body[data-ui-app=ritual-assist]:not(.ready) .language{display:flex;visibility:hidden}}
