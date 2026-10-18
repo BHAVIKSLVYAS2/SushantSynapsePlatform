@@ -26,7 +26,7 @@ test('Newsroom search combines with topics, preserves print and reading controls
  await page.route('**/api/news/editions/2025-01-03',route=>route.fulfill({json:edition}));
  const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET'&&new URL(r.url()).pathname!=='/api/platform/visitors')writes.push(r.url());});
  await page.setViewportSize({width:390,height:844});await page.goto(base+'/news?date=2025-01-03');await expect(page.getByRole('heading',{name:'Newsroom',exact:true})).toBeVisible();await expect(page.locator('.saved-story')).toHaveCount(10);
- expect((await page.locator('.saved-story').first().boundingBox()).y).toBeLessThan(450);await expect(page.locator('.cover-art')).toHaveCount(0);
+ expect((await page.locator('.saved-story').first().boundingBox()).y).toBeLessThan(450);await expect(page.locator('.cover-art')).toHaveCount(0);expect(await page.locator('.saved-story h2').first().evaluate(e=>getComputedStyle(e).fontFamily)).toContain('Georgia');
  await expect(page.locator('.story-thumb figcaption').first()).toHaveText('Topic art');await expect(page.locator('.saved-story h2 a').first()).toHaveAttribute('href',edition.stories[0].url);await expect(page.locator('.story-time').first()).toContainText('IST');
  const search=page.getByRole('searchbox',{name:'Search this edition'});await page.getByRole('button',{name:'Search this edition',exact:true}).click();await expect(search).toBeFocused();await search.fill('headline 2');await expect(page.locator('.saved-story:visible')).toHaveCount(1);
  await page.getByRole('button',{name:'World',exact:true}).click();await expect(page.locator('.saved-story:visible')).toHaveCount(0);await expect(page.locator('.newsroom-empty')).toBeVisible();

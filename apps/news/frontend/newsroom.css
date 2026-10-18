@@ -2,6 +2,8 @@
 body[data-ui-app=news]{--news-serif:Georgia,'Times New Roman',serif;--news-gold:var(--gold);--news-coral:var(--coral);--news-sky:var(--accent);background:var(--bg);color:var(--ink)}
 html[data-theme=dark] body[data-ui-app=news]{--bg:#071724;--paper:#0c2434;--ink:#edf6ff;--muted:#acc0cf;--line:#294657;--accent:#55d8ed;--accent-ink:#062331;--soft:#102f43;--news-gold:#e9c46c;--news-coral:#f3a1b0;--news-sky:#88c4ff}
 @media screen{
+ /* Shared heading rules resolve this token on each newsroom heading. */
+ #newspaper :is(.masthead h1,.saved-story h2,.reader-overview h2){--ss-font:var(--news-serif)}
  body[data-ui-app=news] main{max-width:1000px;padding:12px 18px 40px}
  #newspaper>.preview-note:not(#device-note){display:none}
  #newspaper .masthead{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:8px 14px;align-items:center;padding:12px 0 0;margin:0;text-align:left;border:0}
