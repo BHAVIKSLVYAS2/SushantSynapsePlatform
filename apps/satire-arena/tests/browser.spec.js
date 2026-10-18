@@ -1,6 +1,12 @@
 const {test,expect}=require('@playwright/test'),{spawn}=require('node:child_process');let child,base;
 test.beforeAll(async()=>{child=spawn(process.execPath,['apps/satire-arena/tests/server.cjs'],{stdio:['ignore','pipe','pipe']});await new Promise((resolve,reject)=>{let output='';const timer=setTimeout(()=>reject(Error('Startup timeout')),15000);child.stdout.on('data',chunk=>{output+=chunk;const found=output.match(/http:\/\/127\.0\.0\.1:\d+/);if(found){base=found[0];clearTimeout(timer);resolve();}});child.on('error',reject);});});
 test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});});
+test('loading scoreboard never overflows before the app module arrives',async({page})=>{
+ let release;const gate=new Promise(resolve=>release=resolve);await page.setViewportSize({width:320,height:900});await page.route('**/satire-arena/app.js*',async route=>{await gate;await route.continue();});
+ try{await page.goto(base+'/satire-arena',{waitUntil:'commit'});await page.locator('.meter').waitFor({state:'attached'});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);expect(await page.locator('.meter>span').evaluateAll(spans=>spans.every(span=>span.getBoundingClientRect().width===0))).toBe(true);}finally{release();}
+ await expect(page.locator('.arena-card')).toHaveCount(13);
+});
+
 test('cinematic feed fits narrow phones, keeps all reactions usable and expands original art',async({page})=>{
  await page.goto(base+'/satire-arena');const cards=page.locator('.arena-card'),first=cards.first();await expect(first.locator('.character-hero')).toBeVisible();
  for(const theme of ['light','dark']){await page.evaluate(t=>{window.SynapseTheme.write(t);document.querySelector('[data-theme-toggle]').dispatchEvent(new Event('change',{bubbles:true}));},theme);
