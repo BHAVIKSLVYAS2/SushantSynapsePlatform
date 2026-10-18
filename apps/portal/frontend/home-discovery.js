@@ -8,7 +8,7 @@
   const status=section.querySelector('.home-filter-status'),search=home.querySelector('.home-search');
   const feature=home.querySelector('.home-featured')||document.createElement('section');feature.className='home-featured';feature.setAttribute('aria-labelledby','home-featured-title');
   feature.innerHTML='<div class="home-section-heading"><h2 id="home-featured-title">Featured apps</h2></div><div class="home-feature-grid">'+catalogue.visibleApps().filter(a=>a.featured&&grid.querySelector('[data-app-id="'+a.id+'"].public-app')).map(catalogue.renderFeatured).join('')+'</div>';
-  if(!feature.isConnected)bar.after(feature);const heading=section.querySelector('.access-heading');if(feature.nextElementSibling!==heading)feature.after(heading);section.querySelector('#free-title').textContent='Explore web apps';
+  if(!feature.isConnected)bar.after(feature);const heading=section.querySelector('.access-heading');if(feature.nextElementSibling!==heading)feature.after(heading);section.querySelector('#free-title').textContent='Explore apps';
   const empty=home.querySelector('.home-search-empty')||document.createElement('p');empty.className='home-search-empty';empty.hidden=true;empty.setAttribute('role','status');empty.textContent='No apps match your search. Try another word or category.';if(!empty.isConnected)grid.after(empty);
   let selected=bar.querySelector('[aria-pressed=true]')?.dataset.toolFilter||'all';
   function filter(){
