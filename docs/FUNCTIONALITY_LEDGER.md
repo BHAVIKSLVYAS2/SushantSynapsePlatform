@@ -1,5 +1,22 @@
 # Chambers functionality ledger
 
+**Arena character detail designs (2026-10-18, publication authorised):** All thirteen
+canonical character routes now use playful cast-file pages with portrait heroes,
+individual fictional sketches/traits/signature lines, editor-supplied biography
+and punchline overrides, published history, cast browsing and previous/next links.
+Six labelled reactions remain in one mobile row, backed by the existing yearly
+voting API with immediate sounds, optimistic changes and authoritative recovery.
+Sharing/canonical metadata and no-JavaScript reading are preserved. Existing WebP
+artwork and app-owned modules/CSS are reused; no schema or production writes.
+Final focused API/editorial tests pass 16/16 and the full six-workflow editorial
+browser suite passes 6/6, including all thirteen layouts at 320/390/768/1440 in
+light/dark (104 combinations), six reaction targets at least 44px wide, one-row
+controls, persistence/change/failure/retry and published overrides without JS.
+Screenshots in `.publish/character-review/` were visually reviewed; the local
+preview runs at `http://localhost:3035` against disposable data. Local review guide:
+`docs/SATIRE_ARENA_CHARACTER_REVIEW.md`. User authorised commit and deployment;
+production publication and read-only verification follow. No data migration.
+
 **Annual Arena voting (2026-10-18, live verified):** Voting rounds
 now follow the IST calendar year, resetting at 00:00 on 1 January. Annual totals
 count each browser/character's latest choice, including legacy daily rows without

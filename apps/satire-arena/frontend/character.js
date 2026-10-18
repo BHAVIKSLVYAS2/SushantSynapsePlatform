@@ -1,0 +1,31 @@
+import {reactions} from './catalogue.mjs';
+import {prepareSound,playSound,stopSound} from './sound.mjs?v=20261018-playful';
+import {playReaction,prepareReaction} from './feedback.mjs?v=20261018-fast';
+
+const root=document.querySelector('.character-file');
+if(root){
+ const api='/api/satire-arena',buttons=[...root.querySelectorAll('[data-reaction]')],status=root.querySelector('#character-vote-status'),total=root.querySelector('#character-total'),sound=root.querySelector('#character-sound'),refresh=root.querySelector('#character-refresh');
+ let snapshot=null,busy=false,loading=null,revision=0,offline=true;
+ async function request(path='',options={}){const response=await fetch(api+path,{credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(12000),...options});const data=response.status===204?null:await response.json().catch(()=>null);if(!response.ok){const error=Error(data?.error||'Scores could not load. Please try again.');error.status=response.status;throw error;}return data;}
+ const score=()=>snapshot?.characters.find(c=>c.id===root.dataset.character);
+ function render(){const current=score();for(const button of buttons){button.disabled=busy||offline||!current;button.setAttribute('aria-pressed',String(current?.selected===button.dataset.reaction));button.querySelector('strong').textContent=current?current[button.dataset.reaction]||0:'—';}total.textContent=current?reactions.reduce((n,r)=>n+(current[r.id]||0),0)+' reactions this year':'Scores unavailable';refresh.disabled=busy;root.querySelector('.file-voting').setAttribute('aria-busy',String(busy));}
+ function selectedMessage(){const selected=reactions.find(r=>r.id===score()?.selected);return selected?'You chose '+selected.name+'. Tap another to change your yearly pick.':'Your move. One changeable pick for this year.';}
+ async function load(){if(loading)return loading;const version=revision;loading=(async()=>{try{const data=await request();if(version!==revision)return;snapshot=data;offline=false;render();status.textContent=selectedMessage();}catch(e){if(version!==revision)return;offline=true;render();status.textContent=(snapshot?'Showing last synced scores. ':'')+e.message;}finally{loading=null;}})();return loading;}
+ for(const button of buttons){
+  const unlock=()=>{if(!button.disabled&&sound.checked)prepareSound();};button.addEventListener('pointerdown',unlock);button.addEventListener('keydown',event=>{if(['Enter',' '].includes(event.key))unlock();});
+  button.onclick=async()=>{
+   if(busy||offline||!score())return;
+   const reaction=button.dataset.reaction,previous=structuredClone(snapshot),round=snapshot.round;
+   if(sound.checked){prepareSound();playSound(reaction);}
+   const current=score();if(current.selected!==reaction){if(current.selected)current[current.selected]=Math.max(0,(current[current.selected]||0)-1);current[reaction]=(current[reaction]||0)+1;current.selected=reaction;}
+   revision++;busy=true;render();status.textContent='Saving your pick…';const hero=root.querySelector('.file-hero');prepareReaction(hero).catch(()=>{});
+   try{await request('/'+root.dataset.character+'/vote',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({round,reaction})});playReaction(hero,reaction,{haptics:false});if(loading)await loading;await load();if(!offline)status.textContent='Saved! '+selectedMessage();}
+   catch(e){snapshot=previous;render();if(loading)await loading;await load();status.textContent=e.status===409?'A new yearly round has started. Scores refreshed; choose again.':e.status===428?'Enable cookies, then refresh scores before reacting.':e.message+' Check the refreshed scores before trying again.';}
+   finally{busy=false;render();}
+  };
+ }
+ refresh.onclick=()=>load();sound.onchange=()=>{sound.parentElement.lastChild.textContent=sound.checked?' Sound on':' Sound off';if(!sound.checked)stopSound();};
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)stopSound();else if(!busy)load();});window.addEventListener('pagehide',stopSound);
+ setInterval(()=>{if(!document.hidden&&!busy)load();},30000);
+ load();
+}

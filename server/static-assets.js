@@ -13,6 +13,8 @@ const staticAssets={
  '/satire-arena/editor':'apps/satire-arena/frontend/editor.html',
  '/satire-arena/editor.js':'apps/satire-arena/frontend/editor.js',
  '/satire-arena/content.js':'apps/satire-arena/frontend/content.js',
+ '/satire-arena/character.js':'apps/satire-arena/frontend/character.js',
+ '/satire-arena/character.css':'apps/satire-arena/frontend/character.css',
  '/satire-arena/sample.css':'apps/satire-arena/frontend/sample.css',
  '/satire-arena/metrics.js':'apps/satire-arena/frontend/metrics.js',
  '/satire-arena/enhancements.js':'apps/satire-arena/frontend/enhancements.js',

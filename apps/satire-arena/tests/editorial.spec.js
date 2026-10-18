@@ -39,3 +39,31 @@ test('public character shares use its canonical link and download genuine artwor
  await page.addInitScript(()=>{window.shareCalls=[];Object.defineProperty(navigator,'share',{value:async data=>window.shareCalls.push(data),configurable:true});Object.defineProperty(navigator,'clipboard',{value:{writeText:async text=>window.copiedLink=text},configurable:true});window.open=(url)=>{window.openedShare=url;return null;};window.artworkDraws=0;const draw=CanvasRenderingContext2D.prototype.drawImage;CanvasRenderingContext2D.prototype.drawImage=function(...args){window.artworkDraws++;return draw.apply(this,args);};});
  await page.goto(base+'/satire-arena/characters/namo-nimbus');await page.getByRole('button',{name:'Share',exact:true}).click();await expect(page.locator('#share-status')).toContainText('handed to your device');expect(await page.evaluate(()=>window.shareCalls[0].url)).toBe(base+'/satire-arena/characters/namo-nimbus');await page.getByRole('button',{name:'Copy link'}).click();await expect(page.locator('#share-status')).toHaveText('Link copied.');expect(await page.evaluate(()=>window.copiedLink)).toBe(base+'/satire-arena/characters/namo-nimbus');await page.getByRole('button',{name:'WhatsApp'}).click();expect(await page.evaluate(()=>window.openedShare)).toContain('https://wa.me/?text=');const download=page.waitForEvent('download');await page.getByRole('button',{name:'Download image'}).click();expect((await download).suggestedFilename()).toBe('satire-arena.png');expect(await page.evaluate(()=>window.artworkDraws)).toBeGreaterThan(0);
 });
+
+test('all thirteen cast files fit phones and desktops in both themes',async({page})=>{
+ test.setTimeout(180000);
+ const {cast}=await import('../frontend/catalogue.mjs'),errors=[];page.on('pageerror',error=>errors.push(error.message));
+ fs.mkdirSync('.publish/character-review',{recursive:true});
+ for(const c of cast){
+  await page.goto(base+'/satire-arena/characters/'+c.id);await expect(page.locator('#character-name')).toHaveText(c.name);await expect(page.locator('.file-voting [data-reaction]')).toHaveCount(6);await expect(page.locator('.file-signatures blockquote')).toHaveCount(3);await expect(page.locator('.file-cast [aria-current=page]')).toContainText(c.name);await expect(page.locator('#character-sound')).toBeChecked();
+  await expect(page.locator('.file-hero .portrait')).toHaveAttribute('aria-label',c.name+', a fictional parody cartoon');
+  for(const theme of ['light','dark'])for(const width of [320,390,768,1440]){
+   await page.setViewportSize({width,height:900});await page.evaluate(t=>window.SynapseTheme.write(t),theme);
+   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),c.id+' '+theme+' '+width).toBe(true);
+   const boxes=await page.locator('.file-voting [data-reaction]').evaluateAll(buttons=>buttons.map(b=>{const r=b.getBoundingClientRect();return {top:Math.round(r.top),width:r.width,height:r.height};}));expect(new Set(boxes.map(r=>r.top)).size).toBe(1);expect(boxes.every(r=>r.width>=44&&r.height>=44),c.id+' tap targets at '+width).toBe(true);
+   expect(await page.locator('#character-name').evaluate(el=>el.scrollWidth<=el.clientWidth+1),c.id+' title at '+width).toBe(true);
+  }
+  await page.setViewportSize({width:390,height:844});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'.publish/character-review/'+c.id+'-mobile.png',fullPage:true});
+  if(c.id==='namo-nimbus'){await page.setViewportSize({width:1440,height:1000});await page.screenshot({path:'.publish/character-review/namo-nimbus-desktop.png',fullPage:true});}
+ }
+ expect(errors).toEqual([]);
+});
+
+test('character detail votes persist, replace one annual choice and reconcile failures',async({page})=>{
+ await page.goto(base+'/satire-arena/characters/namo-nimbus');const garland=page.getByRole('button',{name:'Garland for Namo Nimbus'}),laugh=page.getByRole('button',{name:'Just laughing for Namo Nimbus'}),shoe=page.getByRole('button',{name:'Shoe for Namo Nimbus'});
+ await expect(garland).toBeEnabled();await garland.click();await expect(page.locator('#character-vote-status')).toContainText('Saved!');await page.reload();await expect(garland).toHaveAttribute('aria-pressed','true');const total=await page.locator('#character-total').innerText();await laugh.click();await expect(page.locator('#character-vote-status')).toContainText('Saved!');await expect(garland).toHaveAttribute('aria-pressed','false');await expect(laugh).toHaveAttribute('aria-pressed','true');await expect(page.locator('#character-total')).toHaveText(total);
+ const data=await(await page.request.get(base+'/api/satire-arena')).json();expect(data.characters.find(c=>c.id==='namo-nimbus').selected).toBe('laugh');expect(data.round).toMatch(/^\d{4}-01-01$/);
+ await page.route('**/api/satire-arena/namo-nimbus/vote',route=>route.fulfill({status:503,json:{error:'Save unavailable.'}}));await shoe.click();await expect(page.locator('#character-vote-status')).toContainText('Save unavailable');await expect(laugh).toHaveAttribute('aria-pressed','true');await expect(shoe).toHaveAttribute('aria-pressed','false');
+ await page.locator('#character-sound').uncheck();await expect(page.locator('.file-vote-footer label')).toContainText('Sound off');
+ await page.route('**/api/satire-arena',route=>route.fulfill({status:503,json:{error:'Scores offline.'}}));await page.getByRole('button',{name:'Refresh scores'}).click();await expect(page.locator('#character-vote-status')).toContainText('Showing last synced scores');await expect(laugh).toBeDisabled();await page.unroute('**/api/satire-arena');await page.getByRole('button',{name:'Refresh scores'}).click();await expect(laugh).toBeEnabled();await expect(laugh).toHaveAttribute('aria-pressed','true');
+});
