@@ -1,7 +1,17 @@
 # Organisation licensing production cutover
 
 Live on 2026-10-17 at `https://apps.sushantsynapse.com`.
-Current production Worker: `3d854686-6eae-40f5-8971-272840e0aa18` (2026-10-18),
+Current production Worker: `98fd8b58-65ed-4d5e-8539-58080b91bf8e` (2026-10-19),
+from unified app discovery `5f045e3`. Guests and signed-in accounts share one
+registry, card renderer and home/search/navigation catalogue. Account capabilities
+and server permissions remain separate; existing favourites/history are preserved.
+Portal/navigation/performance browser checks pass 28/28, supplementary catalogue
+checks 4/4. Live read-only checks confirm fourteen guest cards, matching simulated
+account cards through intercepted GET responses, eight responsive theme layouts,
+three asset matches and cross-app navigation, without page errors or writes.
+No production account was used for this check. D1/auth bindings and variables
+retained, no data migration. Evidence: `.publish/unified-live.json`.
+Prior production Worker: `3d854686-6eae-40f5-8971-272840e0aa18` (2026-10-18),
 from character detail pages `e64db20`. All thirteen profiles are live with
 biographies, signature lines, existing editorial overrides and annual reactions.
 Focused API/editorial tests pass 16/16 and browser editorial workflows 6/6.

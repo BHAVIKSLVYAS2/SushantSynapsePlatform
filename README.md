@@ -1,5 +1,11 @@
 # Sushant Synapse Platform
 
+Unified app discovery is live (2026-10-19): guests and signed-in accounts share
+one catalogue and home layout, with account-specific workspace access, favourites
+and recent apps. The registry generates static no-JavaScript cards and the shared
+navigation bundle. Server permissions and stored preferences are preserved; see
+the [functionality ledger](docs/FUNCTIONALITY_LEDGER.md) for verification.
+
 Organisation/licensing is live on Cloudflare D1 (2026-10-17), with Super Admin,
 Master Admin, scoped Chambers access and the minimal client portal. Existing data
 was retained. See the [production cutover](docs/ORGANISATION_PRODUCTION_CUTOVER.md)

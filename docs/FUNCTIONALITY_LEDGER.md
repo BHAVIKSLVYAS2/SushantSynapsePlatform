@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Unified app catalogue (2026-10-19, verification in progress):** Guests and
+**Unified app catalogue (2026-10-19, live verified):** Guests and
 signed-in accounts now share the public-home cards, categories, search and mobile
 destinations. Sign-in adds favourites, recent apps, profile and authorised
 workspace launch controls. App metadata and card/featured renderers live in
@@ -16,7 +16,15 @@ The final portal/navigation/performance browser run passes 28/28. Full API run:
 fixture) pass targeted rechecks (20/20), with the original frontend allowlist
 retained and no timetable changes. Supplementary catalogue browser checks pass
 4/4, covering nested-app preferences and public launch during tracking outages.
-Production publication follows. Guest and signed-in mobile/desktop screenshots were reviewed in
+Source `5f045e3` is deployed as Worker `98fd8b58-65ed-4d5e-8539-58080b91bf8e`.
+Production D1/auth bindings and variables are retained; no migration or user data
+changes. Live read-only checks pass three asset matches, fourteen guest cards,
+matching account-preview cards with intercepted GET responses, eight theme/width
+layouts, unavailable workspace controls, shared search and QR/News/Arena navigation.
+No page errors or attempted preference/launch writes. Real account/API transitions
+were verified against disposable local data, not production accounts. Evidence:
+`.publish/unified-live.json`, `.publish/unified-live-account-preview.png`.
+Guest and signed-in mobile/desktop screenshots were reviewed in
 `.publish/unified-home-*.png`. Nested-app favourites/history remain accessible.
 
 **Arena character detail designs (2026-10-18, live verified):** All thirteen
