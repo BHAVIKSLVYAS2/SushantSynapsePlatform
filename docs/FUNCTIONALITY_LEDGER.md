@@ -6,8 +6,11 @@ satire navigation, empty-state promotion and related copy. Comic artwork is no
 longer requested by the reader. Historical edition payloads and persistence stay
 compatible; no stored news or satire records are deleted. All 11 isolated News
 Chrome workflows pass, including absence of comic controls/art requests, unchanged
-saved edition payloads, generation, archives, mobile themes and print. Production
-publication follows.
+saved edition payloads, generation, archives, mobile themes and print. Commit
+`78e8288` is live as Worker `1ee88a67-edb8-4dcc-973e-016e4e6b28d3`, with production
+variables and D1/auth bindings preserved. Read-only live mobile verification of
+the 2026-10-18 edition confirms ten stories, no satire/controls/comic requests and
+no page errors. Evidence: `.publish/news-only-live-mobile.png`.
 
 **Final Newsroom release (2026-10-18, live verified):** Topic correction `a1497d0`
 is live as Worker `2306a539-b078-4811-ad96-cc9ff8cc1226`, including design `dab4bbc`
