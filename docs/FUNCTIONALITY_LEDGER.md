@@ -15,7 +15,14 @@ sequential rerun passes. All 14 portal Chrome workflows pass across the main
 run (13/14) and isolated theme rerun (1/1); the original theme timeout occurred
 during Chrome page creation. UI rebuild, production-config dry run and whitespace
 checks pass. Evidence is under `.publish/catalogue-cleanup-*`; all API/browser
-fixtures are disposable. Production release verification follows separately.
+fixtures are disposable. Source `0ee925c` is pushed to GitHub main and deployed
+as Worker `5d87a97e-4c2f-41a4-b7aa-e6eacd2af446`, retaining production variables
+and D1/auth bindings. Live read-only verification passes exact versioned CSS/JS
+asset comparisons, fourteen public cards, four private workspace cards, eighteen
+finder results without the removed placeholders, and eight light/dark layouts
+at 320/390/768/1440px. No browser errors; one visitor write attempt blocked,
+no production account used, no migration or stored-data changes. Evidence:
+`.publish/catalogue-cleanup-live.json` and `.publish/catalogue-cleanup-deploy.log`.
 
 **Shared browser helper extraction (2026-10-19, live verified):** Added
 allowlisted `packages/ui/download.mjs`, `text.mjs`, `archive.mjs` and `crc32.mjs`.
