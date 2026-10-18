@@ -1,5 +1,25 @@
 # Chambers functionality ledger
 
+**Newsroom reading design (2026-10-18):** Replaces the large illustrated cover with
+a compact Newsroom masthead, edition metadata, search/settings shortcuts, a featured
+lead and compact article rows. Horizontal topic pills combine with edition-local
+headline/brief/source search, reset/Escape and an explicit empty result. Headlines
+link to credited originals; rows expose briefs without navigating. Source timestamps
+show IST. Small native SVG topic illustrations are explicitly labelled Topic art;
+no article photos are supplied/inferred. Existing AI comic attribution remains.
+Reading controls move below the feed and remain reachable from the header; light
+reading no longer leaves a second toolbar above the masthead. Reader layout, text
+size, date selection, immutable archives, device-only outage messaging, satire and
+print-all-stories behaviour are preserved. No backend/schema/provider changes or
+live edition generation. Themes use app tokens; narrow phones retain 44px controls.
+Verification: all 11 News Chrome workflows pass across the full run and focused
+reruns after resolving a renamed-label collision and removing the redundant toolbar;
+9/9 focused News/archive/device checks pass. New coverage exercises search + topics,
+empty/reset/print, direct source links, reader text size and six viewport widths in
+both themes, without writes. Source bytes/saved fixture remain unchanged. Evidence:
+`.publish/newsroom-final-tests`, `.publish/newsroom-layout-final`,
+`.publish/newsroom-mobile-preview.png`. Publication/live verification follow.
+
 **Wheel diagnostics/tick release published (2026-10-18, live verified):** Source
 `da9fc3d` is deployed as Worker `d861d9fc-5303-4d99-b537-7a8d200e067f`.
 Five changed assets uploaded with existing organisation/D1/auth/rate-limit settings

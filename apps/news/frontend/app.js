@@ -1,6 +1,7 @@
 'use strict';
 const theme=document.querySelector('#theme');
 const readingButton=document.querySelector('#reading-mode');readingButton.onclick=()=>{const active=document.body.classList.toggle('light-reading');readingButton.setAttribute('aria-pressed',String(active));readingButton.textContent=active?'Illustrated reading':'Light reading';};
+document.querySelector('#newsroom-tools').append(readingButton);
 const systemTheme=matchMedia('(prefers-color-scheme: dark)');
 function applyTheme(){document.documentElement.dataset.theme=theme.value==='system'?(systemTheme.matches?'dark':'light'):theme.value;}
 theme.value=window.SynapseTheme.read();
@@ -49,6 +50,7 @@ load();
 let dates=[],nextBefore=null,selection='',requestVersion=0,editionToday='',fetching=false,selectedSaved=false;
 const element=(tag,content,className)=>{const node=document.createElement(tag);node.textContent=content;if(className)node.className=className;return node;};
 function clearReader(){
+  document.querySelector('#news-search').disabled=true;document.querySelector('#news-search').oninput=null;document.querySelector('#news-search-toggle').disabled=true;
   document.querySelector('#saved-reader').replaceChildren();
   document.querySelector('#saved-reader').hidden=true;
   document.querySelector('.paper-grid').hidden=true;
@@ -86,37 +88,56 @@ function artwork(name,alt,className){
   const img=element('img','',className);img.src='/news/art/'+name+'-768.webp';img.srcset=`/news/art/${name}-768.webp 768w, /news/art/${name}-1280.webp 1280w, /news/art/${name}-v1.webp 1536w`;img.sizes='(max-width:700px) calc(100vw - 64px), 420px';img.loading='lazy';img.alt=alt;img.width=1536;img.height=1024;img.decoding='async';
   img.addEventListener('error',()=>{img.hidden=true;});return img;
 }
+const topicSymbols={
+ India:'<path d="M18 52h60M24 52V31h48v21M31 31V20h34v11M48 12v8M32 38v14m16-14v14m16-14v14M18 60h60M28 68h40"/>',
+ World:'<circle cx="48" cy="44" r="28"/><ellipse cx="48" cy="44" rx="13" ry="28"/><path d="M20 44h56M25 29h46M25 59h46"/>',
+ Money:'<path d="M20 67h56M25 58V44h10v14m9 0V32h10v26m9 0V20h10v38M21 32l18-13 13 5 23-13"/>',
+ Tech:'<rect x="25" y="21" width="46" height="46" rx="9"/><rect x="37" y="33" width="22" height="22" rx="3"/><path d="M35 12v9m13-9v9m13-9v9M35 67v9m13-9v9m13-9v9M16 31h9m-9 13h9m-9 13h9m46-26h9m-9 13h9m-9 13h9"/>',
+ Sport:'<path d="M32 17h32v21a16 16 0 0 1-32 0V17Zm0 7H20v9c0 12 12 14 14 14m30-23h12v9c0 12-12 14-14 14M48 54v15m-16 5h32"/>',
+ Masala:'<path d="M20 31h56v40H20zM20 31l-3-14 55-9 3 14-55 9Zm12-16 9 12m9-15 9 12m7-15 8 11"/><path d="m42 42 18 9-18 9V42Z"/>',
+ default:'<rect x="20" y="16" width="52" height="58" rx="6"/><path d="M30 29h32M30 39h13v13H30zM51 40h11m-11 9h11M30 61h32"/>'
+};
+function topicArtwork(topic){const figure=element('figure','','story-thumb story-art');figure.setAttribute('aria-hidden','true');figure.innerHTML='<svg viewBox="0 0 96 88" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">'+(topicSymbols[topic]||topicSymbols.default)+'</svg>';figure.append(element('figcaption','Topic art'));return figure;}
+const searchBox=document.querySelector('#news-search'),searchPanel=document.querySelector('#news-search-panel'),searchToggle=document.querySelector('#news-search-toggle');
+function closeSearch(){searchPanel.hidden=true;searchToggle.setAttribute('aria-expanded','false');searchBox.value='';searchBox.oninput?.();searchToggle.focus();}
+searchToggle.onclick=()=>{if(!searchPanel.hidden){closeSearch();return;}searchPanel.hidden=false;searchToggle.setAttribute('aria-expanded','true');searchBox.focus();};
+document.querySelector('#news-search-clear').onclick=()=>{searchBox.value='';searchBox.oninput?.();searchBox.focus();};
+searchBox.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();closeSearch();}});
 function renderEdition(edition){
   const reader=document.querySelector('#saved-reader');reader.replaceChildren();
   const overview=element('div','','reader-overview');
   overview.append(element('h2','The daily dispatch'),element('span',edition.stories.length+' stories · One chai break','reading-time'));
   const info=element('details','','edition-info');info.append(element('summary','Edition '+edition.date+' · Sources & timing'));
   info.append(element('p',(edition.deviceOnly?'Prepared on this device ':'Published ')+new Date(edition.publishedAt).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})+' IST. News through '+new Date(edition.cutoff).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})+' IST.','saved-meta'));
-  info.append(element('p','Short credited source excerpts. Follow each original for full context. The artwork is AI-generated editorial illustration, not news photography.','saved-meta'));
+  info.append(element('p','Short credited source excerpts. Follow each original for full context. Topic art is decorative illustration, not news photography. Comic artwork is AI-generated.','saved-meta'));
   const filters=element('div','','topic-filters');filters.setAttribute('role','group');filters.setAttribute('aria-label','Filter stories by topic');
   const count=element('p','Showing all '+edition.stories.length+' stories','filter-count');count.setAttribute('role','status');
   const grid=element('div','','saved-stories');
+  const empty=element('p','No stories match. Try another search or choose All stories.','newsroom-empty');empty.hidden=true;
+  let activeTopic='All stories';
+  function filterStories(){const query=searchBox.value.trim().normalize('NFKC').toLocaleLowerCase('en-IN');let visible=0;for(const article of grid.children){article.hidden=(activeTopic!=='All stories'&&article.dataset.topic!==activeTopic)||(query&&!article.dataset.search.includes(query));if(!article.hidden)visible++;}empty.hidden=visible!==0;count.textContent=query?`${visible} ${visible===1?'story':'stories'} matching your search`:(activeTopic==='All stories'?'Showing all '+visible+' stories':visible+' '+activeTopic+' '+(visible===1?'story':'stories'));document.querySelector('#news-search-clear').hidden=!searchBox.value;}
   for(const story of edition.stories){
-    const article=element('article','','saved-story');article.dataset.topic=storyTopic(story);article.id='story-'+story.position;
+    const article=element('article','','saved-story');article.dataset.topic=storyTopic(story);article.dataset.search=[story.title,story.brief,story.source].join(' ').normalize('NFKC').toLocaleLowerCase('en-IN');article.id='story-'+story.position;
+    article.append(topicArtwork(storyTopic(story)));
     const topline=element('div','','story-topline');
     topline.append(element('span',storyTopic(story),'topic-tag'),element('span',String(story.position).padStart(2,'0'),'story-number'));
+    if(Number.isFinite(Date.parse(story.publishedAt))){const time=element('time',new Date(story.publishedAt).toLocaleString('en-IN',{timeZone:'Asia/Kolkata',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+' IST','story-time');time.dateTime=story.publishedAt;topline.append(time);}
     article.append(topline);
     if(story.position===1)article.append(element('p','The lead','section-label lead-label'));
     article.append(element('h2',story.title),element('p',story.brief,story.brief.length>250?'story-brief is-long':'story-brief'));
-    const actions=element('div','','story-actions'),link=element('a','Read original · '+story.source);const url=new URL(story.url);
-    if(['http:','https:'].includes(url.protocol)&&!url.username&&!url.password){link.href=url.href;link.target='_blank';link.rel='noopener noreferrer';actions.append(link);}
-    const toggle=element('button','Read full brief','expand-brief');toggle.setAttribute('aria-expanded','false');
-    toggle.addEventListener('click',()=>{const expanded=article.classList.toggle('expanded');toggle.setAttribute('aria-expanded',String(expanded));toggle.textContent=expanded?'Show less':'Read full brief';});
-    if(story.brief.length>250)actions.append(toggle);
+    const actions=element('div','','story-actions'),link=element('a',story.source+' ↗');link.setAttribute('aria-label','Read original · '+story.source);const url=new URL(story.url);
+    if(['http:','https:'].includes(url.protocol)&&!url.username&&!url.password){link.href=url.href;link.target='_blank';link.rel='noopener noreferrer';actions.append(link);const headline=link.cloneNode(false);headline.removeAttribute('aria-label');headline.textContent=story.title;article.querySelector('h2').replaceChildren(headline);}
+    const toggle=element('button','Brief','expand-brief');toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Read brief: '+story.title);
+    toggle.addEventListener('click',()=>{const expanded=article.classList.toggle('expanded');toggle.setAttribute('aria-expanded',String(expanded));toggle.textContent=expanded?'Less':'Brief';});
+    if(story.position!==1||story.brief.length>250)actions.append(toggle);
     article.append(actions);grid.append(article);
   }
   for(const topic of ['All stories',...new Set(edition.stories.map(storyTopic))]){
     const button=element('button',topic);button.setAttribute('aria-pressed',String(topic==='All stories'));
     button.addEventListener('click',()=>{
       for(const other of filters.children)other.setAttribute('aria-pressed',String(other===button));
-      let visible=0;for(const article of grid.children){article.hidden=topic!=='All stories'&&article.dataset.topic!==topic;if(!article.hidden)visible++;}
-      count.textContent=topic==='All stories'?'Showing all '+visible+' stories':visible+' '+topic+' '+(visible===1?'story':'stories');
-    });filters.append(button);
+      activeTopic=topic;filterStories();
+    });const symbol=element('span',({'All stories':'\u2726',India:'\u{1f1ee}\u{1f1f3}',World:'\u{1f310}',Money:'\u2197',Tech:'\u2318',Sport:'\u{1f3c6}',Masala:'\u2727'})[topic]||'\u2022','topic-symbol');symbol.setAttribute('aria-hidden','true');button.prepend(symbol);filters.append(button);
   }
   const satire=element('aside','','saved-satire');satire.id='lighter-side';
   let variant=edition.promptVersion==='news-comic-v3'?1:0;
@@ -158,8 +179,9 @@ function renderEdition(edition){
   }
   }
   renderComic(edition.satire,edition.promptVersion);
-  reader.append(overview,info,filters,count,grid,satire);reader.hidden=false;
-  document.querySelector('.masthead h1').textContent=edition.name;
+  reader.append(filters,count,grid,empty,overview,info,satire);reader.hidden=false;
+  searchBox.disabled=false;searchToggle.disabled=false;searchBox.oninput=filterStories;filterStories();
+  document.title=edition.name+' · Newsroom';
   document.querySelector('.byline strong').textContent=edition.author==='Bhavik'?'Aakanksha':edition.author;
   document.querySelector('.edition-line span:nth-child(2)').textContent=(edition.deviceOnly?'On-device edition · ':'Saved edition · ')+edition.date;
   document.querySelector('#print-edition').disabled=false;

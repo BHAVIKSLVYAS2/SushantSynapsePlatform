@@ -19,6 +19,27 @@ test.afterEach(async()=>{
   if(dir)fs.rmSync(dir,{recursive:true,force:true});
 });
 
+test('Newsroom search combines with topics, preserves print and reading controls and fits phones',async({page})=>{
+ execFileSync(process.execPath,[path.join(__dirname,'seed-fixtures.js'),dir]);
+ const original=await(await page.request.get(base+'/api/news/editions/2025-01-03')).json(),edition=structuredClone(original);
+ edition.stories.forEach((story,index)=>{story.provider='BBC';story.category=index<5?'Tech':'World';});
+ await page.route('**/api/news/editions/2025-01-03',route=>route.fulfill({json:edition}));
+ const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET'&&new URL(r.url()).pathname!=='/api/platform/visitors')writes.push(r.url());});
+ await page.setViewportSize({width:390,height:844});await page.goto(base+'/news?date=2025-01-03');await expect(page.getByRole('heading',{name:'Newsroom',exact:true})).toBeVisible();await expect(page.locator('.saved-story')).toHaveCount(10);
+ expect((await page.locator('.saved-story').first().boundingBox()).y).toBeLessThan(450);await expect(page.locator('.cover-art')).toHaveCount(0);
+ await expect(page.locator('.story-thumb figcaption').first()).toHaveText('Topic art');await expect(page.locator('.saved-story h2 a').first()).toHaveAttribute('href',edition.stories[0].url);await expect(page.locator('.story-time').first()).toContainText('IST');
+ const search=page.getByRole('searchbox',{name:'Search this edition'});await page.getByRole('button',{name:'Search this edition',exact:true}).click();await expect(search).toBeFocused();await search.fill('headline 2');await expect(page.locator('.saved-story:visible')).toHaveCount(1);
+ await page.getByRole('button',{name:'World',exact:true}).click();await expect(page.locator('.saved-story:visible')).toHaveCount(0);await expect(page.locator('.newsroom-empty')).toBeVisible();
+ await page.getByRole('button',{name:'Clear search'}).click();await expect(page.locator('.saved-story:visible')).toHaveCount(5);await page.getByRole('button',{name:'All stories',exact:true}).click();await expect(page.locator('.saved-story:visible')).toHaveCount(10);
+ await search.fill('headline 2');await page.emulateMedia({media:'print'});await expect(page.locator('.saved-story:visible')).toHaveCount(10);await expect(page.locator('#news-search-panel')).toBeHidden();await page.emulateMedia({media:'screen'});
+ await search.press('Escape');await expect(page.locator('#news-search-panel')).toBeHidden();await expect(page.locator('.saved-story:visible')).toHaveCount(10);
+ const row=page.locator('.saved-story').nth(1);await expect(row.locator('.story-brief')).toBeHidden();await row.locator('.expand-brief').click();await expect(row.locator('.story-brief')).toBeVisible();await row.locator('.expand-brief').click();
+ await page.locator('#reader-layout').click();await expect(row.locator('.story-brief')).toBeVisible();await page.locator('#reading-size').selectOption('largest');expect(await row.locator('.story-brief').evaluate(e=>parseFloat(getComputedStyle(e).fontSize))).toBe(24);
+ await page.locator('#reader-layout').click();await page.locator('#reading-size').selectOption('normal');
+ for(const width of [320,360,390,430,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await setTheme(page,theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+ await page.setViewportSize({width:390,height:844});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'.publish/newsroom-mobile-preview.png'});
+ expect(await(await page.request.get(base+'/api/news/editions/2025-01-03')).json()).toEqual(original);expect(errors).toEqual([]);expect(writes).toEqual([]);
+});
 test('news opens on today in IST even when older saved editions exist',async({page})=>{
   execFileSync(process.execPath,[path.join(__dirname,'seed-fixtures.js'),dir]);
   const today=(await (await page.request.get(base+'/api/news/status')).json()).today;
@@ -138,7 +159,7 @@ test('past dates generate comics and future dates show validation without fetchi
  await page.getByRole('button',{name:'Generate newspaper for 2025-01-02'}).click();
  await expect(page.locator('.saved-story')).toHaveCount(10);await expect(page.locator('.comic-panel')).toHaveCount(3);
  await expect(page.locator('#saved-reader')).toContainText('Masala');
- await expect(page.locator('.cover-art img')).toBeVisible();
+ await expect(page.locator('.cover-art')).toHaveCount(0);await expect(page.locator('.story-thumb').first()).toBeVisible();
  await page.locator('.comic-panel').first().scrollIntoViewIfNeeded();
  await expect.poll(()=>page.locator('.comic-scene').evaluateAll(images=>images.every(img=>img.complete&&img.naturalWidth>0))).toBe(true);
  const art=await page.request.get(base+'/news/art/chai-comic-v1.webp');expect(art.status()).toBe(200);expect(art.headers()['content-type']).toBe('image/webp');
@@ -171,8 +192,8 @@ test('News access, available catalogue, empty states, responsive themes and prin
   const catalog=await (await page.request.get(base+'/api/platform')).json();
   expect(catalog.apps.find(app=>app.id==='news')).toMatchObject({status:'Available',accessible:true});
   await page.goto(base+'/news/');await expect(page).toHaveURL(base+'/news?date='+(await status.json()).today);
-  await expect(page.getByRole('heading',{name:'Sushant Synapse Times',exact:true})).toBeVisible();
-  await expect(page.locator('.byline')).toHaveText('By Aakanksha');
+  await expect(page.getByRole('heading',{name:'Newsroom',exact:true})).toBeVisible();
+  await expect(page.locator('.byline')).toContainText('By Aakanksha');
   await expect(page.getByRole('button',{name:"Fetch today's newspaper"})).toBeEnabled();
   await expect(page.getByLabel('Edition date')).toBeEnabled();
   await expect(page.getByRole('heading',{name:'Previous editions'})).toBeVisible();
