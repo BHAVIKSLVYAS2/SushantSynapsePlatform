@@ -1,5 +1,32 @@
 # Chambers functionality ledger
 
+**Homepage CSS and duplication cleanup (2026-10-19, local):** The home build
+now drops complete CSS rules exclusively scoped to other apps using build-only
+Lightning CSS, declared explicitly at the already installed/locked version.
+Shared/portal rules, mixed selector lists and nested pseudo-class alternatives
+remain; app bundles retain their own styles. Existing esbuild minification and
+cascade order remain. Home CSS falls from 163,286 to 142,714 bytes (12.60%);
+local gzip comparison falls from 28,383 to 25,215 bytes (11.16%). These are
+payload measurements, not page-speed or production Lighthouse results.
+The portal reuses the registry's HTML escaping helper, Chambers reuses its
+courthouse icon for Overview, and an immediately redundant public-card active
+rule is removed. Shared navigation and CSS bundles regenerated. Caching,
+record searches, rendering, data, permissions and production are unchanged.
+
+Verification: 18/18 focused Node checks pass (CSS scoping, registry, Cloudflare
+export/routes); frontend export succeeds with 814 allowlisted assets. Two focused
+Chrome checks pass, including computed-style and element-geometry parity against
+the unfiltered styles at 320/390/768/1440px in light/dark and existing loading/
+language checks. All 20 additional catalogue/Chambers/platform browser workflows
+pass across the main run (18/20) and two passing focused rechecks. The main run
+found two stale fixtures from the earlier app removal: an empty route array
+entry and a retired activity search keyword. Corrected the fixtures without
+changing product behaviour. Coverage includes sign-in/out, favourites/recent,
+unavailable apps, no-JavaScript catalogue, responsive themes, app finder,
+sponsorship, Chambers records, printing and recovery. All 22 distinct browser
+workflows pass. Fixtures use disposable temporary databases. Syntax and
+whitespace checks pass. No deployment or live account/data changes.
+
 **Pocket Pause removal (2026-10-19):** Removed the complete app directory,
 workspace package/lock entries, dedicated Node/browser tests, registry entry,
 static/edge routes, navigation alias, search keywords, hub card/category, shared

@@ -4,7 +4,7 @@ async function refreshSatireDiscovery(){const target=document.querySelector('[da
 new MutationObserver(refreshSatireDiscovery).observe(document.documentElement,{childList:true,subtree:true});
 const $=s=>document.querySelector(s);
 const catalogue=window.SynapseCatalogue,homeMarkup=document.querySelector('#platform>.public-home').outerHTML;
-const escapeHtml=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const escapeHtml=catalogue.escapeHtml;
 const paths={
  chat:'<path d="M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-8l-5 4v-4H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/><path d="m12 15-4-4c-3-3 1-6 4-3 3-3 7 0 4 3Z"/>',
  qr:'<path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h3v3h-3zM20 14v7h-6v-2M6 6h1m10 0h1M6 17h1"/>',

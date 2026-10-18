@@ -2,6 +2,24 @@ const {test,expect}=require('@playwright/test'),{spawn}=require('node:child_proc
 let child,base,dir;
 test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-performance-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe']});base=await new Promise((resolve,reject)=>{let out='';child.stdout.on('data',chunk=>{out+=chunk;const m=out.match(/localhost:(\d+)/);if(m)resolve('http://127.0.0.1:'+m[1]);});child.once('error',reject);});});
 test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
+test('home stylesheet cleanup preserves computed appearance across widths and themes',async({page})=>{
+ const files=['apps/portal/frontend/platform.css','packages/ui/platform-header.css','packages/ui/sponsorship.css','packages/ui/legal-footer.css','packages/ui/whatsapp.css','packages/ui/premium.bundle.css','apps/portal/frontend/home.css','packages/ui/platform-shell.css'];
+ const original=require('esbuild').transformSync(files.map(file=>fs.readFileSync(file,'utf8')).join('\n'),{loader:'css',minify:true,target:'chrome114'}).code;
+ await page.goto(base+'/');await expect(page.locator('.home-feature-card')).toHaveCount(2);
+ await page.addStyleTag({content:'*,*::before,*::after{animation:none!important;transition:none!important}'});
+ for(const width of [320,390,768,1440])for(const theme of ['light','dark']){
+  await page.setViewportSize({width,height:900});await page.evaluate(theme=>document.documentElement.dataset.theme=theme,theme);
+  const differences=await page.evaluate(original=>{
+   const nodes=[...document.querySelectorAll('body,body *')].filter(node=>!node.matches('script,style,link'));
+   const properties=['display','position','font-family','font-size','font-weight','line-height','color','background-color','background-image','border-radius','padding','margin','gap','grid-template-columns','box-shadow'];
+   function snapshot(){return nodes.map(node=>{const css=getComputedStyle(node),r=node.getBoundingClientRect();return JSON.stringify([properties.map(p=>css.getPropertyValue(p)),[r.x,r.y,r.width,r.height].map(n=>Math.round(n*100)/100)]);});}
+   const before=snapshot(),link=document.querySelector('link[href*="home.bundle.css"]'),style=document.createElement('style');style.textContent=original;link.after(style);link.disabled=true;
+   const after=snapshot();style.remove();link.disabled=false;
+   return nodes.flatMap((node,i)=>before[i]===after[i]?[]:[node.tagName+'.'+node.className]);
+  },original);
+  expect(differences,`${width}px ${theme}`).toEqual([]);
+ }
+});
 test.beforeEach(async({context})=>{await context.route('https://pagead2.googlesyndication.com/**',r=>r.fulfill({contentType:'text/javascript',body:''}));});
 
 test('home arrives complete, fetches premium CSS once and language settles after changes',async({page})=>{

@@ -44,7 +44,7 @@ function renderCard(app,options={}){
  const action=status!=='Available'?'<span class="not-live">'+(status==='Planned'?'Not available yet':'Currently unavailable')+'</span>':signedIn?(available?'<button class="secondary workspace-launch" data-action="launch" data-id="'+e(app.id)+'">Open '+e(app.name)+' <span aria-hidden="true">&#8594;</span></button>':'<span class="not-live">Contact your platform owner</span>'):'<a class="secondary workspace-launch" href="/signin?next='+e(app.id)+'">Sign in to '+e(app.name)+' <span aria-hidden="true">&#8594;</span></a>';
  return '<article class="workspace-card catalogue-item" data-app-id="'+e(app.id)+'"><div class="workspace-card-art" aria-hidden="true">'+art+'</div><div class="workspace-card-copy"><span class="access-label private">'+label+'</span><h3>'+e(app.name)+'</h3><p>'+e(access.description&&status==='Unavailable'?access.description:app.description)+'</p>'+action+'</div>'+favourite+'</article>';
 }
-const catalogue={apps,resolveAppId,visibleApps,renderCard,renderFeatured};
+const catalogue={apps,resolveAppId,visibleApps,renderCard,renderFeatured,escapeHtml};
 if(typeof module==='object'&&module.exports)module.exports=catalogue;
 else root.SynapseCatalogue=catalogue;
 

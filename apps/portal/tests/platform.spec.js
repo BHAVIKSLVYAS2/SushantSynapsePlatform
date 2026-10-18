@@ -121,7 +121,7 @@ test('sponsorship invitation is quiet, dismissible and absent from sensitive app
  await page.setViewportSize({width:320,height:700});await page.goto(base);await expect(page.locator('[data-sponsor-slot=home]')).toBeVisible();await expect(page.locator('.synapse-sponsor-link')).toHaveAttribute('href','/sponsor');await expect(page.locator('.synapse-sponsor')).toHaveCount(1);
  expect(await page.locator('.synapse-sponsor').evaluate(el=>getComputedStyle(el).position)).toBe('static');await page.getByRole('button',{name:'Hide for this visit'}).click();await expect(page.locator('[data-sponsor-slot=home]')).toBeHidden();await page.reload();await expect(page.locator('[data-sponsor-slot=home]')).toBeHidden();
  for(const route of ['/team-mixer','/decision-wheel','/daily-spark','/timetable-lite','/news']){await page.goto(base+route);await expect(page.locator('[data-sponsor-slot]')).toBeHidden();}
- for(const route of [,'/fund-overlap','/moment-studio','/moment-studio/certificates','/signin']){await page.goto(base+route);await expect(page.locator('[data-sponsor-slot]')).toHaveCount(0);}
+ for(const route of ['/fund-overlap','/moment-studio','/moment-studio/certificates','/signin']){await page.goto(base+route);await expect(page.locator('[data-sponsor-slot]')).toHaveCount(0);}
  const context=await noAdsContext(browser,{javaScriptEnabled:false});try{const fallback=await context.newPage();await fallback.goto(base);await expect(fallback.getByRole('link',{name:'Explore sponsorship'})).toBeVisible();await fallback.goto(base+'/sponsor');await expect(fallback.getByRole('heading',{name:/Sponsor a little/})).toBeVisible();await expect(fallback.locator('#sponsor-enquiry-form')).toBeHidden();}finally{await context.close();}
 });
 test('reviewed sponsor cards use safe links and stay outside workflows and printouts',async({page})=>{
@@ -150,7 +150,7 @@ test('app finder stays usable across small screens, themes and empty results',as
   await page.getByLabel('Search apps or activities').fill('condolence');await expect(page.locator('.finder-result')).toHaveCount(1);await expect(page.locator('.finder-result')).toContainText('Moment Studio');await page.getByLabel('Search apps or activities').fill('');
   await page.screenshot({path:`test-results/app-finder-${width}-${theme}.png`});await page.keyboard.press('Escape');await expect(page.locator('#app-finder-dialog')).not.toBeVisible();expect(await page.evaluate(()=>scrollY)).toBe(position);await expect(page.locator('#app-finder-trigger')).toBeFocused();
  }
- await page.locator('#app-finder-trigger').click();await page.getByLabel('Search apps or activities').fill('quilt');await page.locator('.finder-result').click();await expect(page).toHaveURL(base+'/take-a-break');
+ await page.locator('#app-finder-trigger').click();await page.getByLabel('Search apps or activities').fill('Take a Break');await page.locator('.finder-result').click();await expect(page).toHaveURL(base+'/take-a-break');
  await page.goto(base+'/signin');await expect(page.locator('#auth-form')).toBeVisible();await expect(page.locator('#app-finder-trigger')).toHaveCount(0);
 });
 async function expectWorkspaceDiscovery(page){

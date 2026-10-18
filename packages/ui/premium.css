@@ -81,7 +81,6 @@
     transition:transform .4s var(--ui-ease),box-shadow .4s var(--ui-ease),border-color .4s var(--ui-ease);
   }
   :is(.public-app,.break-card,.guide-option,.design-choice,.template):active {transform:scale(.97)}
-  .public-app:active {transform:scale(.97)}
   :is(input:not([type=checkbox]):not([type=radio]),select,textarea) {border-radius:12px;font-size:16px}
   :is(button,a,input,select,textarea,summary):focus-visible {outline:3px solid var(--ui-accent);outline-offset:4px}
   :is(.tabs,.filters,.presets,.modes,.studio-nav) {gap:8px}

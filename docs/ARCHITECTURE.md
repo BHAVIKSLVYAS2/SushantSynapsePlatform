@@ -1,5 +1,14 @@
 # Code ownership and adding apps
 
+Homepage CSS cleanup (2026-10-19, local): `infrastructure/home-css.cjs` uses
+build-only Lightning CSS to remove complete rules exclusively scoped to a
+different `data-ui-app` from the home bundle. Shared rules, portal rules, mixed
+selector lists and nested pseudo-class alternatives remain. App stylesheets
+are unchanged by this filtering; the existing esbuild delivery minifier remains.
+The registry exports its HTML escaping helper for the portal controller as well
+as catalogue rendering. Rebuild shared/home assets with `npm.cmd run build:ui`.
+See the ledger for measured payload reduction and verification; no new deployment.
+
 App discovery (2026-10-19): `packages/app-registry/index.js` owns code-reviewed
 app names/routes, display metadata, groups and catalogue renderers. Its CommonJS
 export serves backend callers; the home build embeds that source into the

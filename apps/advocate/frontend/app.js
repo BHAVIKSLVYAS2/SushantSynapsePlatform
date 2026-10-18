@@ -4,7 +4,6 @@ const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;',
 const glyphs = {
   scales:'<path d="M12 3v17m-4 1h8M4 7h16M6 7l-3 7h6L6 7zm12 0-3 7h6l-3-7z"/><path d="M3 14a3 3 0 0 0 6 0m6 0a3 3 0 0 0 6 0"/><circle cx="12" cy="5" r="1"/>',
   courthouse:'<path d="m3 8 9-5 9 5H3zm1 12h16M3 22h18M6 11v6m6-6v6m6-6v6"/><path d="M5 11h2m4 0h2m4 0h2M5 17h2m4 0h2m4 0h2"/>',
-  dashboard:'<path d="m3 8 9-5 9 5H3zm1 12h16M3 22h18M6 11v6m6-6v6m6-6v6"/><path d="M5 11h2m4 0h2m4 0h2M5 17h2m4 0h2m4 0h2"/>',
   cases:'<rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12a25 25 0 0 0 18 0m-9 0v4m-2-2h4"/>',
   clients:'<circle cx="9" cy="8" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3m1-16a3 3 0 0 1 0 6m2 3a5 5 0 0 1 3 4v3"/>',
   hearings:'<path d="m9 3 7 7-4 4-7-7 4-4zm-5 3 2-2m8 8 2-2m-5 3 7 7 3-3-7-7M3 19h7v3H3z"/>',
@@ -33,6 +32,7 @@ const glyphs = {
   ledger:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 12h8m-8 5h5"/>',
   logout:'<path d="M10 3H4v18h6m5-15 6 6-6 6m-6-6h12"/>',
 };
+glyphs.dashboard=glyphs.courthouse;
 const icon = (name, cls='') => `<svg class="icon ${cls}" data-icon="${name}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${glyphs[name] || glyphs.notes}</svg>`;
 const pages = {dashboard:'Overview',cases:'Casebook',clients:'Clients',hearings:'Hearing diary',tasks:'Tasks',documents:'Documents',notes:'Notes & calls',billing:'Fees & payments',reports:'Reports',activity:'Activity log',archive:'Archive',settings:'Settings',ledger:'Feature ledger'};
 const descriptions = {dashboard:'Every matter. Every next step. A little more clarity.',cases:'Your matters, from the first filing to the final order.',clients:'The people and organisations behind your practice.',hearings:'Court appearances and outcomes, organised in one diary.',tasks:'Keep your next steps and deadlines in sight.',documents:'Petitions, orders, evidence, and working documents.',notes:'A reliable record of conversations and case developments.',billing:'Professional fees, received payments, and practice expenses.',reports:'Understand your practice with figures from your own records.',activity:'A record of who changed what, and when.',archive:'Restore records while keeping their linked history intact.',settings:'Make Chambers work for your practice.',ledger:'Implementation status and a durable checkpoint for future sessions.'};
