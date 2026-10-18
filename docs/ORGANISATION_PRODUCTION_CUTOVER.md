@@ -1,7 +1,13 @@
 # Organisation licensing production cutover
 
 Live on 2026-10-17 at `https://apps.sushantsynapse.com`.
-Current production Worker: `bd1e2fed-1ab6-4786-afb2-a94f052bb8a9` (2026-10-19),
+Current production Worker: `75ad93ab-a3aa-4320-aeb8-899f9a6a1a84` (2026-10-19),
+from Pocket Pause removal `5b42252`. App code, tests, package, static routes and
+discovery links removed; Take a Break retains seven activities. Live read-only
+checks confirm six retired URLs return 404, updated home/hub/Focus/showcase and
+no page errors. Production bindings/variables retained; no migration or account
+data changes. See the ledger for local verification and historical boundaries.
+Prior production Worker: `bd1e2fed-1ab6-4786-afb2-a94f052bb8a9` (2026-10-19),
 from Arena portrait crop correction `40dddcf`. Four five-row character sheets
 now show one portrait in default and reaction states. All thirteen profiles pass
 104 local theme/width layouts plus 26 live layouts and deployed CSS parity.

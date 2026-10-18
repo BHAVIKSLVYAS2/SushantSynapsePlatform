@@ -16,7 +16,13 @@ expectation and isolating overlapping Playwright artifact directories. Focus,
 discovery, favourites, break filters and all remaining game workflows passed.
 Local read-only smoke confirms all six retired page/asset URLs return 404 and
 home/hub/Focus/showcase have no retired links/copy or browser errors. No stored
-data or schema changes. Production deployment pending.
+data or schema changes. Source `5b42252` deployed as Worker
+`75ad93ab-a3aa-4320-aeb8-899f9a6a1a84`, preserving production bindings/variables.
+Live read-only smoke passes all six retired URLs (404), the four updated public
+pages, seven hub activities and replacement showcase without browser errors.
+No Pocket Pause references remain in tracked app/shared/server/infrastructure/
+test code, README or package lock. Historical release/audit records are retained.
+Evidence: `.publish/pocket-removal-smoke.cjs`.
 
 **Arena detail portrait crop correction (2026-10-19):** Fixed Highway Hari,
 Budget Beena, Rally Raja and Debate Dastan heroes displaying entire expression
