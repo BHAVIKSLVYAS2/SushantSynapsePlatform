@@ -9,7 +9,11 @@ pass all thirteen pages, four widths and both themes (104 layouts), decoding and
 checking source geometry, column, row and crop for neutral plus four expressions
 in every layout. Highway Hari and Debate Dastan mobile screenshots were reviewed.
 Focused Arena/editorial API checks pass 16/16. No artwork or stored data changes.
-Deployment verification pending.
+Source `40dddcf` deployed as Worker `bd1e2fed-1ab6-4786-afb2-a94f052bb8a9`.
+Read-only live checks pass all thirteen pages at mobile and desktop widths (26
+layouts), the versioned stylesheet reference and exact CSS bytes, with no page
+errors. Production bindings and variables retained; no migration or vote writes.
+Verification script: `.publish/portrait-live.cjs`.
 
 **Unified app catalogue (2026-10-19, live verified):** Guests and
 signed-in accounts now share the public-home cards, categories, search and mobile

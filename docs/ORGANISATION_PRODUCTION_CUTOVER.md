@@ -1,7 +1,13 @@
 # Organisation licensing production cutover
 
 Live on 2026-10-17 at `https://apps.sushantsynapse.com`.
-Current production Worker: `98fd8b58-65ed-4d5e-8539-58080b91bf8e` (2026-10-19),
+Current production Worker: `bd1e2fed-1ab6-4786-afb2-a94f052bb8a9` (2026-10-19),
+from Arena portrait crop correction `40dddcf`. Four five-row character sheets
+now show one portrait in default and reaction states. All thirteen profiles pass
+104 local theme/width layouts plus 26 live layouts and deployed CSS parity.
+Focused API checks pass 16/16. Production bindings and variables retained;
+no migration or stored data changes.
+Prior production Worker: `98fd8b58-65ed-4d5e-8539-58080b91bf8e` (2026-10-19),
 from unified app discovery `5f045e3`. Guests and signed-in accounts share one
 registry, card renderer and home/search/navigation catalogue. Account capabilities
 and server permissions remain separate; existing favourites/history are preserved.
