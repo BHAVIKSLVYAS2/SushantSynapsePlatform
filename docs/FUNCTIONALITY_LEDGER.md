@@ -1,5 +1,33 @@
 # Chambers functionality ledger
 
+**Loading release readiness (2026-10-19):** Final production-style local smoke
+passes 20 pages, 160 responsive light/dark layouts and 86 versioned asset byte
+comparisons, with no page errors or missing assets. Chambers scoped bootstrap
+ordering and hidden/missing asset boundaries pass. All browser writes are blocked
+in this smoke; no database is attached. News and certificate mobile screenshots
+visually reviewed. Evidence: `.publish/loading-local.json`,
+`.publish/loading-local-smoke.log`, `.publish/loading-final-build.log` and
+`.publish/loading-local-{news,moment-studio}.png`. Implementation commits:
+`746be27` (cleanup), `0bb6ffe` (delivery), `40d7ca0` (cache dependencies).
+Production deployment and read-only verification are pending at this checkpoint.
+
+**Loading cache step 3 (2026-10-19, local verified):** Public fingerprints now
+include each asset and its transitive static dependencies, including cycles.
+Unrelated edits retain other cache URLs; dependency changes invalidate parents.
+Known relative imports/worker/CSS references become absolute versioned URLs,
+preserving query strings/fragments. Manifests participate; private assets/APIs
+remain excluded and original URLs remain available. One `/_static/*` immutable
+header rule avoids per-asset rule limits; Worker tests verify missing/error/write
+responses stay `no-store`. Full isolated API/build checks pass 358/358.
+All 31 News/Arena and 17 shared portal/Feedback Chrome workflows are covered
+across runs and focused reruns; 3/3 exported Cloudflare workflows pass. The shared
+layout rerun corrects an output-directory trace collision, not an app failure.
+Retired public artwork totals 20,826,630 bytes; repository source is preserved.
+Evidence: `.publish/loading-full-api.log`, `.publish/loading-build-tests.log`,
+`.publish/loading-shared-browser.log`, `.publish/loading-portal-rerun.log`,
+`.publish/loading-cloudflare-browser.log` and the step-1 logs below. Final
+production-style smoke and release verification follow; no stored-data changes.
+
 **Loading delivery step 2 (2026-10-19, local checks):** Cloudflare export now
 filters the shared premium stylesheet for each page's explicit app scope,
 preserving shared/mixed selectors and cascade order. Pages without an explicit
