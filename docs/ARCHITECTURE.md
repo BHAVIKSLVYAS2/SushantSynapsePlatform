@@ -1,5 +1,12 @@
 # Code ownership and adding apps
 
+Tournament cloud organisations: `apps/tournament-lite/backend/organisation-edge.mjs`
+owns scoped APIs and policy checks; its `database/002-organisation.sql` owns the
+additive ownership boundary (D1 migration 0006). The frontend discovers organisation
+mode from the API, selects a workspace and honours read-only licences. Default Node
+remains account-owned. D1 account/admin adapters expose Tournament licences and
+assignments; other private app guards remain. See `docs/TOURNAMENT_ORGANISATION_SETUP.md`.
+
 Beta notice (2026-10-19, live verified): `packages/ui/beta-html.cjs` owns idempotent shared
 markup; `beta-notice.js`/`.css` own the English/Hindi first-visit acknowledgement,
 static footer note and explicit WhatsApp draft. Node HTML composition, Cloudflare

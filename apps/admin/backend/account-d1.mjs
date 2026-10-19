@@ -8,18 +8,21 @@ export async function accountOverview(repo,userId){
  const identity=(await db.prepare('SELECT name,email FROM users WHERE id=?').get(userId));
  const memberships=(await Promise.all((await db.prepare('SELECT o.*,m.role AS membershipRole,m.status AS membershipStatus FROM platform_organisations o JOIN platform_memberships m ON m.organisationId=o.id WHERE m.userId=? ORDER BY o.name,o.id').all(userId)).map(async org=>{
   const membership={organisationId:org.id,userId,role:org.membershipRole,status:org.membershipStatus};
-  const assignment=(await db.prepare("SELECT * FROM platform_app_assignments WHERE organisationId=? AND userId=? AND appId='advocate'").get(org.id,userId));
-  const licence=(await db.prepare("SELECT * FROM platform_app_licences WHERE organisationId=? AND appId='advocate'").get(org.id));
-  const staff=membership.role!=='Client'&&['Owner','Advocate','Clerk'].includes(assignment?.role);
-  const access=evaluateAppAccess({...authority,organisation:org,membership,assignment,licence,app:registry.apps.find(a=>a.id==='advocate'),permissions:staff?['advocate:read']:[],action:'read',now:repo.now()});
+  const apps=[];let access={allowed:false},assignment;
+  for(const appId of ['advocate','tournament-lite']){
+   const currentAssignment=await db.prepare('SELECT * FROM platform_app_assignments WHERE organisationId=? AND userId=? AND appId=?').get(org.id,userId,appId);
+   const licence=await db.prepare('SELECT * FROM platform_app_licences WHERE organisationId=? AND appId=?').get(org.id,appId);
+   const staff=membership.role!=='Client'&&(appId==='advocate'?['Owner','Advocate','Clerk']:['Owner','Advocate']).includes(currentAssignment?.role);
+   const granted=evaluateAppAccess({...authority,organisation:org,membership,assignment:currentAssignment,licence,app:registry.apps.find(a=>a.id===appId),permissions:staff?[appId+':read']:[],action:'read',now:repo.now()});
+   apps.push({id:appId,name:registry.apps.find(a=>a.id===appId).name,assigned:currentAssignment?.status==='Active',role:currentAssignment?.role??null,available:staff&&granted.allowed,mode:granted.allowed?granted.mode:null,reason:!staff?'missing-assignment':granted.allowed?null:granted.reason});
+   if(appId==='advocate'){access=granted;assignment=currentAssignment;}
+  }
   let portal=false;if(membership.role==='Client')try{(await clientPortalScope(repo,{actorUserId:userId,organisationId:org.id}));portal=true;}catch(error){if(!(error instanceof OrganisationError))throw error;}
   return {id:org.id,name:org.name,status:org.status,role:membership.role,membershipStatus:membership.status,
    administration:canManageOrganisation({...authority,organisation:org,membership}).allowed,
    clientAccessManagement:access.allowed&&assignment?.role==='Owner'&&membership.role==='MasterAdmin'&&org.masterAdminUserId===userId,
    clientPortal:membership.role==='Client'?(portal?'Available':'Unavailable'):null,
-   apps:[{id:'advocate',name:'Chambers',assigned:assignment?.status==='Active',role:assignment?.role??null,
-    available:staff&&access.allowed,mode:access.allowed?access.mode:null,
-    reason:membership.role==='Client'?'client-portal-unavailable':!staff?'missing-assignment':access.allowed?null:access.reason}]};
+   apps};
  })));
  return {identity,superAdmin:authority.platformRole?.active===true,memberships};
 }

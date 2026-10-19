@@ -29,6 +29,12 @@ test('offline D1 recovery includes organisation authorities, licences, ownership
   db.exec('PRAGMA foreign_keys=ON');db.exec(base);
   for(const file of ['0003-document-blobs.sql','0004-samaj-blobs.sql'])db.exec(fs.readFileSync(path.join('infrastructure/cloudflare/d1-free-migrations',file),'utf8'));
   const prepared=prepareOrganisationCutover(db,{email:'recovery-super@example.test',password:'Isolated recovery password!',legacyMasterAdminUserId:'old-owner'});
+  db.exec(fs.readFileSync('apps/tournament-lite/database/002-organisation.sql','utf8'));
+  db.prepare('INSERT INTO tournament_lite_events VALUES(?,?,?,?,?)').run('retained-cup','old-owner',1,'retained-public-token',JSON.stringify(require('../apps/tournament-lite/backend/engine').create({name:'Retained Cup',sport:'Chess',mode:'Singles',format:'Knockout'})));
+  const {prepareTournamentCutover}=require('../infrastructure/cloudflare/tournament-cutover.cjs');
+  db.prepare("UPDATE platform_memberships SET status='Inactive' WHERE userId='old-owner'").run();assert.throws(()=>prepareTournamentCutover(db),/unambiguous/);assert.equal(db.prepare('SELECT COUNT(*) n FROM tournament_lite_ownership').get().n,0);db.prepare("UPDATE platform_memberships SET status='Active' WHERE userId='old-owner'").run();
+  const restoredAccess=prepareTournamentCutover(db);assert.equal(restoredAccess.summary.events,1);assert.equal(restoredAccess.summary.assignments,1);
+  db.exec(restoredAccess.sql);assert.throws(()=>prepareTournamentCutover(db),/already mapped/);
   db.prepare('INSERT INTO sessions VALUES(?,?,?)').run('excluded-session','old-owner',Date.now()+60000);
   const literal=v=>v===null?'NULL':typeof v==='number'?String(v):"'"+String(v).replaceAll("'","''")+"'";
   const tables=db.prepare("SELECT name,sql FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'").all();
@@ -38,7 +44,7 @@ test('offline D1 recovery includes organisation authorities, licences, ownership
   const target=new DatabaseSync(':memory:');try{
    target.exec(schema());for(const file of ['0002-free-guards.sql','0003-document-blobs.sql','0004-samaj-blobs.sql'])target.exec(fs.readFileSync(path.join('infrastructure/cloudflare/d1-free-migrations',file),'utf8'));
    target.exec('PRAGMA foreign_keys=ON;BEGIN');target.exec(fs.readFileSync(path.join(dir,'restored/d1-restore.sql'),'utf8'));target.exec('COMMIT');
-   for(const table of ['platform_super_admins','platform_organisations','platform_memberships','platform_app_licences','platform_app_assignments','chambers_record_ownership','platform_organisation_audit'])assert.deepEqual(target.prepare('SELECT * FROM '+table).all(),db.prepare('SELECT * FROM '+table).all(),table);
+   for(const table of ['platform_super_admins','platform_organisations','platform_memberships','platform_app_licences','platform_app_assignments','chambers_record_ownership','platform_organisation_audit','tournament_lite_ownership','tournament_lite_events'])assert.deepEqual(target.prepare('SELECT * FROM '+table).all(),db.prepare('SELECT * FROM '+table).all(),table);
    assert.equal(target.prepare('SELECT COUNT(*) n FROM sessions').get().n,0);assert.deepEqual(target.prepare('PRAGMA foreign_key_check').all(),[]);assert.ok(prepared.summary.organisationId);
   }finally{target.close();}
  }finally{db.close();fs.rmSync(dir,{recursive:true,force:true});}

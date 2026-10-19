@@ -21,6 +21,7 @@ import {editorial,editorialKey} from '../apps/satire-arena/backend/editorial.mjs
 import {metrics,metricsKey} from '../apps/satire-arena/backend/metrics.mjs';
 import {fail,json} from './edge-http.mjs';
 import {organisationAdmin} from '../apps/admin/backend/edge.mjs';
+import {organisationTournament} from '../apps/tournament-lite/backend/organisation-edge.mjs';
 import {organisationChambers} from '../apps/advocate/backend/organisation-edge.mjs';
 export async function edgeApi(request,env){
  let repo;
@@ -39,6 +40,7 @@ export async function edgeApi(request,env){
   if(env.ORGANISATIONS_ENABLED==='true'){
    if(useAccess)fail(503,'Organisation accounts require password authentication');
    if(route==='organisation-admin'||route.startsWith('organisation-admin/'))result=await organisationAdmin(context);
+   else if(route==='tournament-lite'||route.startsWith('tournament-lite/'))result=await organisationTournament(context);
    else if(route==='chambers'||route.startsWith('chambers/')||route.startsWith('client-portal/'))result=await organisationChambers(context);
    else if(['auth/status','auth/login','auth/logout','auth/profile','auth/password'].includes(route))result=await auth(context);
    else if(route==='platform'||route==='platform/preferences'||/^platform\/apps\/[^/]+\/launch$/.test(route)){
@@ -46,8 +48,10 @@ export async function edgeApi(request,env){
     // Keep shared preferences while deriving private app access from live org policy.
     const response=await organisationChambers({...context,route:'chambers',request:new Request(request.url,{headers:request.headers})});
     const {organisations}=await response.json();
-    result=await portal({...context,user:{...user,role:'Clerk',appIds:organisations.length?['advocate']:[]}});
-    if(route==='platform'&&result.ok){const data=await result.json();data.apps=data.apps.map(app=>!app.public&&app.id!=='advocate'?{...app,status:'Unavailable',accessible:false,description:'Organisation integration is not available for this app yet.'}:app);result=json(data);}
+    const tournamentResponse=await organisationTournament({...context,route:'tournament-lite',request:new Request(request.url,{headers:request.headers})});
+    const tournamentAccess=await tournamentResponse.json();
+    result=await portal({...context,user:{...user,role:'Clerk',appIds:[...(organisations.length?['advocate']:[]),...(tournamentAccess.organisations.length?['tournament-lite']:[])]}});
+    if(route==='platform'&&result.ok){const data=await result.json();data.apps=data.apps.map(app=>!app.public&&!['advocate','tournament-lite'].includes(app.id)?{...app,status:'Unavailable',accessible:false,description:'Organisation integration is not available for this app yet.'}:app);result=json(data);}
    }else if(!(/^(platform\/visitors|feedback|confessions|arena-metrics|arena-editorial|satire-arena|news)(\/|$)/.test(route)||route==='support'||route==='ritual-assist/calendar'))fail(409,'Use organisation-scoped APIs. Other private applications are unavailable.');
    if(result){if(request.method==='GET'&&!await repo.unchanged())throw new Conflict();return result;}
   }

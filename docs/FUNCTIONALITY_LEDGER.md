@@ -1,5 +1,31 @@
 # Chambers functionality ledger
 
+**Tournament organisation repair (2026-10-19, release preparation):** The cause
+was the deliberate organisation guard: only Chambers had a scoped adapter.
+Tournament now has scoped D1 list/create/update, live licence/membership/role
+checks, atomic event ownership, read-only expiry, organisation selection and
+account/catalogue launch integration. Super Admin licence controls and Master
+Admin app assignments include Tournament; other unintegrated apps stay blocked.
+Public sharing strips contact/rosters and stops on inactive organisation or
+expired licence. Default Node Tournament persistence is retained. Invitation and
+hierarchy redesign is deferred. Setup: `docs/TOURNAMENT_ORGANISATION_SETUP.md`.
+
+Full isolated API/build checks pass **360/360** (`.publish/tournament-full-api.log`).
+Focused D1/Chrome checks pass workspace creation, participants, fixtures, sharing,
+account launch and eight responsive layouts, with no browser errors. Offline
+cutover/recovery checks preserve exact events and ownership. Production read-only
+inspection finds four tournaments with unambiguous organisation membership; the
+private pre-change export has passed an offline recovery verification (54 tables,
+sessions excluded). The prepared cutover preserves all four event rows and
+restores one existing organiser assignment. All 25 Tournament/admin Chrome
+regressions pass, plus the final assignment-form rerun. Final isolated D1/browser
+and cutover/recovery checks pass 6/6, including capacity enforcement and inactive
+owner refusal. Production Worker dry-run builds successfully. Evidence:
+`.publish/tournament-browser.log`, `.publish/tournament-admin-final.log`,
+`.publish/tournament-final-d1.log`, `.publish/tournament-build.log` and
+`.publish/tournament-before-recovery/manifest.json`. Production migration and
+deployment remain pending at this checkpoint.
+
 **Beta notice release (2026-10-19, live verified):** Implementation `57fdffc`
 is pushed to main and deployed as Worker
 `084a3680-7727-4cb4-b41b-d5073a9a5f37`. Shared static beta note, English/Hindi

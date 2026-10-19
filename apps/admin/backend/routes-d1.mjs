@@ -27,7 +27,7 @@ export async function createOrganisationAdmin({db}){
    if(route==='organisation-admin/recovery-export')return json(503,{error:'Cloud recovery uses the offline D1 export tool; browser SQL export is unavailable.'});
    if(route==='organisation-admin'&&method==='GET'){
     const organisations=superAdmin?(await db.prepare('SELECT id,name,status FROM platform_organisations ORDER BY name,id').all()):(await db.prepare("SELECT o.id,o.name,o.status FROM platform_organisations o JOIN platform_memberships m ON m.organisationId=o.id AND m.userId=o.masterAdminUserId WHERE m.userId=? AND m.role='MasterAdmin' AND m.status='Active' AND o.status='Active' ORDER BY o.name,o.id").all(actorUserId));
-    return json(200,{superAdmin,organisations,recoveryExportAvailable:false,apps:registry.apps.filter(a=>a.id==='advocate'&&a.status==='Available').map(({id,name})=>({id,name}))});
+    return json(200,{superAdmin,organisations,recoveryExportAvailable:false,assignmentApps:['advocate','tournament-lite'],apps:registry.apps.filter(a=>['advocate','tournament-lite'].includes(a.id)&&a.status==='Available').map(({id,name})=>({id,name}))});
    }
    const match=/^organisation-admin\/organisations\/([a-zA-Z0-9-]{1,200})(?:\/([a-z-]+))?$/.exec(route);
    if(route==='organisation-admin/platform-audit'&&method==='GET')return json(200,(await platformAudit(repo,{actorUserId,params:new URL(req.url,'http://localhost').searchParams})));
@@ -62,7 +62,7 @@ export async function createOrganisationAdmin({db}){
     }
     case 'member':return json(200,(await admin.updateMember({...base,...pick(['userId','role','status'])})));
     case 'revoke-invitation':return json(200,(await admin.revokeMemberInvitation({...base,userId:body.userId})));
-    case 'assignment':return json(200,(await admin.assignChambers({...base,...pick(['userId','role','status'])})));
+    case 'assignment':return json(200,(await admin.assignChambers({...base,...pick(['appId','userId','role','status'])})));
     case 'licence':return json(200,(await admin.updateLicence({...base,...pick(['appId','licenceVersion','status','startsAt','endsAt','readOnlyUntil','staffLimit','clientLimit'])})));
     case 'limits':return json(200,(await admin.updateOrganisationLimits({...base,...pick(['staffLimit','clientLimit'])})));
     case 'status':return json(200,(await admin.updateOrganisationStatus({...base,...pick(['status','confirmation'])})));

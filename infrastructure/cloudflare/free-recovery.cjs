@@ -4,7 +4,7 @@
 const fs=require('node:fs'),path=require('node:path'),{DatabaseSync}=require('node:sqlite'),{createHash}=require('node:crypto');
 const {tables}=require('../../packages/database/catalog'),{digest}=require('../../packages/database/sqlserver-transfer');
 const {schema}=require('./build-d1.cjs'),{statements}=require('./sql-statements.cjs'),{importSql}=require('./transfer.cjs'),{documentSql}=require('./free-import.cjs');
-const {organisationRecovery}=require('../../packages/database/organisation-recovery.cjs');
+const {organisationRecovery,extraTables}=require('../../packages/database/organisation-recovery.cjs');
 const {tables:organisationTables}=require('../../packages/database/organisation-schema.cjs');
 const literal=v=>v===null?'NULL':typeof v==='number'?String(v):"'"+String(v).replaceAll("'","''")+"'";
 function prepareRecovery(sqlFile,output){
@@ -13,13 +13,14 @@ function prepareRecovery(sqlFile,output){
  try{
   const dump=fs.readFileSync(sqlFile,'utf8');
   for(const statement of statements(dump)){if(!/^(CREATE\s+(?:TABLE|INDEX|UNIQUE\s+INDEX|TRIGGER|VIEW)\b|DROP\s+(?:VIEW|TRIGGER)\b|INSERT\s+(?:OR\s+IGNORE\s+)?INTO\b|BEGIN\b|COMMIT\b|DELETE\s+FROM\s+sqlite_sequence\s*;?$|PRAGMA\s+(?:defer_foreign_keys|foreign_keys)\s*=\s*(?:ON|OFF|TRUE|FALSE|0|1)\s*;?$)/i.test(statement.trim()))throw Error('Unsupported D1 export statement');}
-  source.exec(dump);if(source.prepare('PRAGMA integrity_check').get().integrity_check!=='ok'||source.prepare('PRAGMA foreign_key_check').all().length)throw Error('Source export integrity failed');
+  // D1 exports tables in dependency-independent order, without a transaction.
+  source.exec('PRAGMA foreign_keys=OFF');source.exec(dump);source.exec('PRAGMA foreign_keys=ON');if(source.prepare('PRAGMA integrity_check').get().integrity_check!=='ok'||source.prepare('PRAGMA foreign_key_check').all().length)throw Error('Source export integrity failed');
   if(source.prepare('SELECT COUNT(*) n FROM edge_objects').get().n)throw Error('This tool only restores D1-only workspaces');
   const exported={};for(const meta of Object.values(tables)){if(meta.name==='sessions')continue;const rows=source.prepare('SELECT '+meta.columns.map(c=>c.name).join(',')+(meta.name==='records'?',rowid AS __rowid':'')+' FROM '+meta.name).all();exported[meta.name]={rows,sha256:digest(rows)};}
   const objects=source.prepare("SELECT id,name,mime,size,sha256,created_at,'chambers' scope FROM edge_document_blobs ORDER BY id").all();
   if(source.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='edge_samaj_blobs'").get())objects.push(...source.prepare("SELECT id,name,mime,size,sha256,created_at,'samaj' scope,CASE WHEN file_id IS NOT NULL THEN 'samaj_files' ELSE 'samaj_message_attachments' END kind FROM edge_samaj_blobs ORDER BY id").all());
   const extension=organisationRecovery(source,literal),organisationChecks={};
-  if(extension.schema)for(const name of organisationTables)if(source.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name=?").get(name))organisationChecks[name]=digest(source.prepare('SELECT * FROM '+name).all());
+  if(extension.schema)for(const name of [...organisationTables,...extraTables])if(source.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name=?").get(name))organisationChecks[name]=digest(source.prepare('SELECT * FROM '+name).all());
   const manifest={format:'synapse-d1-only-recovery',version:1,createdAt:new Date().toISOString(),sessionsMigrated:false,tables:exported,objects,organisationChecks};
   const manifestHash=createHash('sha256').update(JSON.stringify(manifest)).digest('hex');
   const sql=importSql({...manifest,objects:[]},manifestHash)+'\n'+documentSql(objects,object=>Buffer.from(source.prepare('SELECT content FROM '+(object.scope==='samaj'?'edge_samaj_blobs':'edge_document_blobs')+' WHERE id=?').get(object.id).content))+'\n'+extension.schema+'\nPRAGMA defer_foreign_keys=ON;\n'+extension.inserts.join('\n');

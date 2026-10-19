@@ -1,5 +1,10 @@
 # Tournament Lite
 
+Cloud organisation mode uses a licensed, assigned organisation workspace. Open
+`/account` and choose Tournament Lite; existing active members need no new invite.
+See [organisation setup](../../docs/TOURNAMENT_ORGANISATION_SETUP.md) for access,
+sharing and administration. Default Node mode retains the account-owned flow below.
+
 Open `/tournament-lite`. Organizers use the platform account; Owner and app-authorized Advocate roles can organize their own tournaments. Players need no accounts. The app supports 2–64 entries and all six sports: Cricket, Badminton, Table Tennis, Pickleball, Chess and Carrom.
 
 1. Create a tournament, choose a sport/format and review local rules.
