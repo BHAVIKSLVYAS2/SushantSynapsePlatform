@@ -1,5 +1,18 @@
 # Chambers functionality ledger
 
+**Android bottom-navigation spacing (2026-10-19, APK built; device confirmation
+pending):** User confirmed certificate downloads work in 1.0.1, then supplied an
+APK screenshot showing excessive blank area beneath Home/Apps/Games/Workspace.
+Native API 30+ layout applied system-bar/cutout/keyboard padding but forwarded
+the same WindowInsets to WebView. It now returns WindowInsets.CONSUMED after
+applying that padding so descendants do not apply the same safe area twice.
+API 26–29 retain decor fitting. Built signed 1.0.2/code 3 with existing certificate;
+SDK compilation, alignment/signature, package/version metadata and existing
+download/print bridge regression checks pass. APK/hash are in wrapper RELEASES.md;
+build log `.publish/android-insets-build.log`. No real device/emulator available:
+visual gap correction, gesture/three-button navigation, keyboard and rotation
+need device confirmation. No website changes, deployment or business-data writes.
+
 **Android correction release (2026-10-19, live verified):** Implementation
 `63a41ab` pushed to main and deployed to production Worker
 `3dea7884-350e-4178-be4c-479ab7344291`. Live Chrome checks pass Donation

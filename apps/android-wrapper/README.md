@@ -1,7 +1,7 @@
 # Sushant Synapse Platform for Android
 
 Maintained native Java/WebView wrapper for `https://apps.sushantsynapse.com/`.
-App ID: `com.sushantsynapse.platform`; current version: 1.0.1 (version code 2).
+App ID: `com.sushantsynapse.platform`; current version: 1.0.2 (version code 3).
 Requires Android 8.0/API 26 or newer and an up-to-date Android System WebView.
 The company icon is copied from `apps/portal/frontend/logo-adaptive-512.png`.
 This is a direct-install APK project, not a Google Play publication.
@@ -67,7 +67,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File apps/android-wrapper/build-a
 ```
 
 The default script compiles, signs and verifies the release APK. Output:
-`.publish/android/Sushant-Synapse-Platform-1.0.1.apk`. Source belongs here;
+`.publish/android/Sushant-Synapse-Platform-1.0.2.apk`. Source belongs here;
 generated builds, local SDK paths, APKs and signing material are ignored by Git.
 Open this folder in Android Studio for development (Gradle 8.14.3 / Android Gradle
 plugin 8.13.0). The optional Gradle build downloads missing dependencies and runs

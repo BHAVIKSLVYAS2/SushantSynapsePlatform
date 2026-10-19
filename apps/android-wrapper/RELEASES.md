@@ -1,5 +1,18 @@
 # Android wrapper releases
 
+## 1.0.2 — 19 October 2026
+
+- Version code 3; same package and release certificate.
+- Native API 30+ root consumes system-bar/cutout/keyboard insets after applying
+  its padding, preventing WebView from applying them again as CSS safe areas.
+  Addresses the reported blank area below the homepage bottom navigation.
+- SDK build, alignment/signature, version metadata and download/print bridge
+  checks pass. Real-device visual correction, keyboard, rotation and both Android
+  navigation modes remain unverified. No website release required.
+- APK: `.publish/android/Sushant-Synapse-Platform-1.0.2.apk`.
+- SHA-256: `c580b5d030f3884742a7f1c1572891647e3613e80eb2730d3a02451bfa464a5e`.
+- Install over 1.0.1 without uninstalling. User confirmed downloads in 1.0.1.
+
 ## 1.0.1 — 19 October 2026
 
 - Version code 2; same package and signing certificate as 1.0.0.

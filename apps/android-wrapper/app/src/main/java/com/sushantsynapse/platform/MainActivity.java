@@ -105,7 +105,11 @@ public class MainActivity extends Activity {
         if (android.os.Build.VERSION.SDK_INT >= 30) root.setOnApplyWindowInsetsListener((v, insets) -> {
             android.graphics.Insets bars = insets.getInsets(WindowInsets.Type.systemBars() | WindowInsets.Type.displayCutout());
             android.graphics.Insets keyboard = insets.getInsets(WindowInsets.Type.ime());
-            v.setPadding(bars.left, bars.top, bars.right, Math.max(bars.bottom, keyboard.bottom)); return insets;
+            v.setPadding(bars.left, bars.top, bars.right, Math.max(bars.bottom, keyboard.bottom));
+            // The native root already keeps every child outside system bars,
+            // cutouts and the keyboard. Do not pass those same insets into
+            // WebView, which would add them again to CSS safe-area padding.
+            return WindowInsets.CONSUMED;
         });
         // API 26-29 use the decor's normal system-bar fitting instead of the API 30 inset API.
         LinearLayout toolbar = new LinearLayout(this); toolbar.setGravity(Gravity.CENTER_VERTICAL); toolbar.setPadding(dp(12), 0, dp(4), 0);
