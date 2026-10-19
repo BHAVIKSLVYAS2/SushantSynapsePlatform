@@ -1,5 +1,58 @@
 # Chambers functionality ledger
 
+**Stress Buster feasibility review (2026-10-19):** Read the external Unity/C#
+project at `C:/Code/StressBuster`, actual gameplay/build source, documentation,
+art and existing APK metadata/logs; compared with Take a Break's browser-native
+activity structure. Integration is feasible through a JavaScript/Canvas adaptation
+or a separately verified Unity Web export, not by embedding its Android APK.
+Recommended browser-native activity for platform fit. Unity Web build module is
+absent; no Web build found or gameplay executed. Actual source is landscape
+v2.1.2/code 11 with illustrated assets, unlike the older README. Premium/payment
+and customization hooks are not connected production features. Recorded browser
+input, responsive controls, pause/audio, asset provenance and hosting/CSP work,
+plus source inconsistencies, in `docs/STRESS_BUSTER_INTEGRATION_REVIEW.md`.
+Assessment/documentation only: no source copying/modification, game integration,
+APK changes, business-data access or deployment. Existing Android wrapper work
+remains preserved. No application tests run for this review.
+
+**Android APK wrapper (2026-10-19, built; device verification pending):** Added
+maintained native source under `apps/android-wrapper/`, with app name Sushant
+Synapse Platform and the existing company logo. It loads the live HTTPS website,
+with no website bundle or business database in the APK. Native offline/captive-
+network screen offers Check your internet connection, Retry and Network settings;
+connection recovery waits for Retry and does not replay POSTs. Separate main-page
+server/TLS failures are handled. Website app/access availability stays server-owned.
+Android Back, first-party sessions/DOM storage, document picker uploads, bounded
+blob/data/first-party GET downloads with Save as, and Android printing are included.
+Only the exact production origin stays inside WebView; external links open other
+apps, TLS/mixed-content/file/unknown-scheme navigation is blocked. MessagePort
+export/print handling avoids a global JavaScript interface. Only internet and
+network-state permissions; no broad storage/camera permissions or Android backup.
+Native light/dark colour resources, scrollable offline UI and keyboard/system-bar
+insets are included. Web themes retain existing website behaviour.
+
+Built signed version 1.0.0/code 1 (`com.sushantsynapse.platform`, Android 8.0+,
+target 36), using installed JDK 21 and official SDK 36 tools. APK signature and
+package name/label/icon/minimum/target/permissions verified; 26 Java navigation/
+filename policy checks and isolated Chrome bridge checks pass (detached/connected
+downloads, exact bytes, chunk bounds, repeat injection, print, origin restriction).
+APK: `.publish/android/Sushant-Synapse-Platform-1.0.0.apk`; private release key and
+matching password config are ignored under `.publish/android-signing/` and must
+be backed up privately for future compatible updates. Version/build/update guidance
+is in the wrapper README; version.properties is the single release-version source.
+Gradle dependency download stalled, so the verified default build uses aapt2,
+javac, D8, zipalign and apksigner without Maven dependencies. Android Studio/Gradle
+project and standard wrapper are included, but Gradle build/lint is not verified.
+No device/emulator attached: real Android installation, offline UI, sign-in,
+pickers/printing/downloads and every app workflow remain unverified on-device.
+Native file sharing, direct camera capture and complex popup/iframe printing are
+not implemented/verified; browser fallback is available. No claim all website apps
+work identically in WebView. No production website deployment or business-data
+changes. Evidence: `.publish/android-wrapper-build-final.log`,
+`.publish/android-bridge-test-final.log`, `.publish/android/release.json` and
+wrapper policy test source. Exact delivered APK hash/certificate and remaining
+device verification are recorded in `apps/android-wrapper/RELEASES.md`.
+
 **Homepage heading wording (2026-10-19, live verified):** Changed “Explore web apps”
 to “Explore apps” in the static homepage and dynamic discovery renderer; updated
 the Hindi translation key. Verified matching wording and clean diff whitespace.

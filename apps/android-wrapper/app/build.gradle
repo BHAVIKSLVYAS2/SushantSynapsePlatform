@@ -1,0 +1,31 @@
+apply plugin: 'com.android.application'
+def releaseVersion = new Properties()
+rootProject.file('version.properties').withInputStream { releaseVersion.load(it) }
+
+android {
+    namespace 'com.sushantsynapse.platform'
+    compileSdk 36
+    defaultConfig {
+        applicationId 'com.sushantsynapse.platform'
+        minSdk 26
+        targetSdk 36
+        versionCode releaseVersion.getProperty('versionCode').toInteger()
+        versionName releaseVersion.getProperty('versionName')
+        buildConfigField 'String', 'SITE_URL', '"https://apps.sushantsynapse.com/"'
+    }
+    buildFeatures { buildConfig true }
+    signingConfigs {
+        release {
+            if (System.getenv('SYNAPSE_ANDROID_KEYSTORE')) {
+                storeFile file(System.getenv('SYNAPSE_ANDROID_KEYSTORE'))
+                storePassword System.getenv('SYNAPSE_ANDROID_STORE_PASSWORD')
+                keyAlias 'synapse-platform'
+                keyPassword System.getenv('SYNAPSE_ANDROID_STORE_PASSWORD')
+            }
+        }
+    }
+    buildTypes {
+        release { signingConfig signingConfigs.release; minifyEnabled false }
+    }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+}

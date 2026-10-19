@@ -1,5 +1,8 @@
 # Sushant Synapse Platform
 
+Android APK wrapper source, build instructions, offline handling and website-versus-APK
+update guidance are maintained in [apps/android-wrapper](apps/android-wrapper/README.md).
+
 The app catalogue lists implemented tools and workspaces only.
 
 Unified app discovery is live (2026-10-19): guests and signed-in accounts share

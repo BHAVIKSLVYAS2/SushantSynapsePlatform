@@ -1,5 +1,12 @@
 # Code ownership and adding apps
 
+Android packaging: `apps/android-wrapper/` owns the native Java/WebView shell,
+launcher resources, connectivity screen, Android build/signing script and update
+guide. It loads the live production origin rather than bundling app code. Keep
+website changes in their existing app/shared owners; wrapper changes require an
+APK version increment and the same private signing key. Never commit signing
+material, APK outputs or SDK paths. No new catalogue app or business API is added.
+
 Shared browser helpers (2026-10-19): `packages/ui/download.mjs` owns temporary
 download URLs with caller-selected cleanup timing; `archive.mjs` owns stored ZIP
 output with explicit filename flags, using `crc32.mjs`, also reused by certificate
