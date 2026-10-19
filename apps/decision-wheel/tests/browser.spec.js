@@ -4,6 +4,12 @@ let child,base,dir;
 test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-wheel-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe']});await new Promise((resolve,reject)=>{let out='';const timer=setTimeout(()=>reject(Error('Startup timed out')),15000);child.stdout.on('data',chunk=>{out+=chunk;const match=out.match(/localhost:(\d+)/);if(match){base='http://127.0.0.1:'+match[1];clearTimeout(timer);resolve();}});child.once('error',reject);});});
 test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
 test.beforeEach(async({page})=>{await page.addInitScript(()=>{crypto.getRandomValues=array=>{array.fill(1);return array;};Object.defineProperty(navigator,'share',{value:undefined});Object.defineProperty(navigator,'clipboard',{value:undefined});});});
+test('wheel starts while the optional fullscreen module is stalled',async({page})=>{
+ let release;const gate=new Promise(resolve=>release=resolve);
+ await page.route('**/shared/presentation.mjs*',async route=>{await gate;await route.abort();});
+ try{await page.goto(base+'/decision-wheel',{waitUntil:'domcontentloaded'});await expect(page.locator('#wheel path')).toHaveCount(6);await expect(page.locator('#spin')).toBeEnabled();await page.emulateMedia({reducedMotion:'reduce'});await page.locator('#spin').click();await expect(page.locator('#winner')).not.toBeEmpty();}finally{release();}
+});
+
 test('reported list explains the duplicate beside the editor and recovers without altering data',async({page})=>{
  const list=require('./option-list.cjs');await page.setViewportSize({width:390,height:844});await page.goto(base+'/decision-wheel');await page.locator('#options').fill(list.join('\n'));await page.locator('#update').click();
  await expect(page.locator('#options-error')).toContainText('"battle axe" on lines 3, 10');await expect(page.locator('#options-error')).toContainText('Wheel not updated');await expect(page.locator('#options')).toHaveAttribute('aria-invalid','true');await expect(page.locator('#options')).toBeFocused();await expect(page.locator('#options')).toHaveValue(list.join('\n'));await expect(page.locator('#wheel path')).toHaveCount(6);

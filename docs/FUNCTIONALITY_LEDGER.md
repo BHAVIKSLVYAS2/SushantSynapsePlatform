@@ -1,5 +1,25 @@
 # Chambers functionality ledger
 
+**Ritual Assist gallery and Decision Wheel startup (2026-10-19, release verification):**
+Ritual Assist now presents the reference-inspired remembrance banner, illustrated
+two-column guide cards, category pills and selected-card highlight. All 15 existing
+English/Hindi guides, search, arrangements, checklists and calendar remain available.
+Inline vector artwork adds no image requests; dark colours use app tokens and light/
+system themes remain supported. The gallery no longer uses the desktop sticky sidebar.
+Decision Wheel's optional fullscreen module now loads after core initialization, so
+a delayed/unavailable helper cannot hold up drawing or spinning. A production Chrome
+trace observed that helper taking 4.8 seconds as a blocking static dependency; this
+is one trace, not a promised speedup on every network. No spin timing or random
+selection changes. New browser coverage stalls the helper and verifies a working
+wheel; gallery coverage checks 320/390/768/1440 widths, light/dark and search/selection.
+Full Node/API/build checks pass **360/360** (`.publish/ritual-wheel-api.log`);
+frontend export passes. All **15 Chrome workflows** pass across the initial run
+and focused reruns after fixing sticky gallery overlap and updating the intentional
+mobile open-gallery expectation. Includes bilingual exports, calendar plans, guide
+checks, print, theme preferences and delayed fullscreen startup. Production release
+verification follows the implementation commit.
+No data migration, business writes, authentication or organisation changes.
+
 **Tournament organisation repair (2026-10-19, deployed):** Implementation
 `e461ec3` is pushed to main and deployed as Worker
 `2a26cf1a-9fb2-4207-8d94-66a46348f1d4`. Additive D1 migration 0006 and the

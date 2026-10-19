@@ -85,6 +85,7 @@ const staticAssets={
  '/ritual-assist/mourning.mjs':'apps/ritual-assist/frontend/mourning.mjs',
  '/ritual-assist/materials-review.mjs':'apps/ritual-assist/frontend/materials-review.mjs',
  '/ritual-assist/style.css':'apps/ritual-assist/frontend/style.css',
+ '/ritual-assist/gallery.css':'apps/ritual-assist/frontend/gallery.css',
  '/moment-studio':'apps/moment-studio/frontend/certificates.html',
  '/moment-studio/':'apps/moment-studio/frontend/certificates.html',
  '/moment-studio/cards':'apps/moment-studio/frontend/index.html',
