@@ -1,21 +1,27 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 const {cacheStaticAssets}=require('../infrastructure/cloudflare/build-static-cache.cjs');
 
-test('public asset graph is deterministic, versioned together and keeps private URLs untouched',()=>{
+test('asset dependency fingerprints preserve imports and isolate unrelated changes',()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-static-cache-'));
  try{
-  function build(change=''){
+  function build(change='',childChange=''){
    const sources={'/entry.js':"import './child.mjs';fetch('/api/private');const image='/icon.svg#mark';"+change,'/child.mjs':"export const value=1",'/style.css':"body{background:url('/icon.svg#mark')}",'/icon.svg':'<svg/>','/_pages/home.html':'<script src="/entry.js?v=old"></script><link href="/style.css"><a href="/account">Account</a><img src="https://example.test/icon.svg">','/_edge/private.json':'private'};
+   sources['/child.mjs']="import './entry.js';export const value=1"+childChange;
    const files=new Map();for(const [url,text]of Object.entries(sources)){const filename=path.join(dir,url);fs.mkdirSync(path.dirname(filename),{recursive:true});fs.writeFileSync(filename,text);files.set(url,url.endsWith('.html')?'apps/portal/frontend/index.html':'apps/portal/frontend'+url);}
    const result=cacheStaticAssets(dir,files);return {...result,read:url=>fs.readFileSync(path.join(dir,url),'utf8')};
   }
-  const first=build(),second=build();assert.equal(first.prefix,second.prefix);assert.equal(first.count,4);
-  const html=first.read('/_pages/home.html');assert.ok(html.includes(first.prefix+'/entry.js?v=old'));assert.ok(html.includes('href="/account"'));assert.ok(html.includes('https://example.test/icon.svg'));
-  const script=first.read(first.prefix+'/entry.js');assert.ok(script.includes("import './child.mjs'"));assert.ok(script.includes("fetch('/api/private')"));assert.ok(script.includes(first.prefix+'/icon.svg#mark'));
+  const first=build(),second=build();assert.deepEqual(first.urls,second.urls);assert.equal(first.count,4);
+  const html=first.read('/_pages/home.html');assert.ok(html.includes(first.urls.get('/entry.js')+'?v=old'));assert.ok(html.includes('href="/account"'));assert.ok(html.includes('https://example.test/icon.svg'));
+  const script=first.read(first.urls.get('/entry.js'));assert.ok(script.includes("import '"+first.urls.get('/child.mjs')+"'"));assert.ok(script.includes("fetch('/api/private')"));assert.ok(script.includes(first.urls.get('/icon.svg')+'#mark'));
   assert.ok(first.read('/entry.js').includes("const image='/icon.svg#mark'"));
-  assert.equal(first.read(first.prefix+'/child.mjs'),'export const value=1');assert.ok(first.read(first.prefix+'/style.css').includes(first.prefix+'/icon.svg#mark'));
+  assert.ok(first.read(first.urls.get('/child.mjs')).includes(first.urls.get('/entry.js')));assert.ok(first.read(first.urls.get('/style.css')).includes(first.urls.get('/icon.svg')+'#mark'));
   assert.equal(fs.existsSync(path.join(dir,first.prefix,'_edge/private.json')),false);
-  assert.notEqual(build('// changed').prefix,first.prefix);
+  const changed=build('// changed');assert.notEqual(changed.urls.get('/entry.js'),first.urls.get('/entry.js'));
+  assert.notEqual(changed.urls.get('/child.mjs'),first.urls.get('/child.mjs'));
+  assert.equal(changed.urls.get('/style.css'),first.urls.get('/style.css'));
+  assert.equal(changed.urls.get('/icon.svg'),first.urls.get('/icon.svg'));
+  const childChanged=build('','// changed dependency');
+  assert.notEqual(childChanged.urls.get('/entry.js'),first.urls.get('/entry.js'));
  }finally{fs.rmSync(dir,{recursive:true,force:true});}
 });
 
