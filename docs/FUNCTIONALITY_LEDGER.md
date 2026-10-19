@@ -1,5 +1,19 @@
 # Chambers functionality ledger
 
+**Loading delivery step 2 (2026-10-19, local checks):** Cloudflare export now
+filters the shared premium stylesheet for each page's explicit app scope,
+preserving shared/mixed selectors and cascade order. Pages without an explicit
+scope and guarded organisation assets retain their existing styles. App premium
+CSS is about 29–34 KB versus 52 KB before compression. Export-only JS/CSS
+minification preserves classic-script global names and readable source; measured
+aggregate public delivery saves 131,078 bytes after filtering. Availability
+interception remains early, now before its stylesheet to avoid waiting for that
+CSS. Historical laptop/Azure-only wording is replaced with service-connection
+wording. Focused build regressions pass 6/6, full isolated API/build checks
+358/358. Browser/release verification continues in the next checkpoint. Evidence:
+`.publish/loading-build-tests.log`, `.publish/loading-build.log`,
+`.publish/loading-full-api.log`. No database or production changes yet.
+
 **Loading cleanup step 1 (2026-10-19, local verified):** Removed retired comic,
 satire and cover selectors from News styles while preserving reader, responsive
 and print rules. Removed six unused News artwork exports and eight original

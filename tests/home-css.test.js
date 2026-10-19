@@ -1,6 +1,6 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
-const {homeCss}=require('../infrastructure/home-css.cjs');
+const {homeCss,appCss}=require('../infrastructure/home-css.cjs');
 
 test('home CSS removes only rules exclusively scoped to another app',()=>{
  const css=homeCss(`
@@ -14,4 +14,10 @@ test('home CSS removes only rules exclusively scoped to another app',()=>{
  `);
  assert.doesNotMatch(css,/sidebar|color:\s*red/);
  for(const name of ['workspace-card','panel','keep-negation','keep-alternatives','keep-mixed'])assert.ok(css.includes(name),name);
+});
+
+test('app CSS keeps its own scope, shared and mixed rules',()=>{
+ const css=appCss('body[data-ui-app=news] .news{color:red} body[data-ui-app=advocate] .case{color:blue} .shared{color:green} body[data-ui-app=advocate] .case,.mixed{color:blue}','news');
+ assert.ok(css.includes('.news'));assert.ok(css.includes('.shared'));assert.ok(css.includes('.mixed'));
+ assert.equal((css.match(/\.case/g)||[]).length,1);
 });

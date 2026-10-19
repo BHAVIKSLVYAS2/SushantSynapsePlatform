@@ -35,7 +35,8 @@ function build({fullstack=false,organisations=false}={}) {
     const target = path.join(output, url);
     fs.mkdirSync(path.dirname(target), {recursive: true});
     let contents = fs.readFileSync(path.join(root, source));
-    if (source.endsWith('.html')) contents = Buffer.from(contents.toString().replace('<head>', '<head><link rel="stylesheet" href="/shared/availability.css"><script src="/shared/availability.js?v=20261018-refined"></script>'));
+    // Install fetch interception before app scripts; avoid waiting on its CSS.
+    if (source.endsWith('.html')) contents = Buffer.from(contents.toString().replace('<head>', '<head><script src="/shared/availability.js?v=20261019-delivery"></script><link rel="stylesheet" href="/shared/availability.css">'));
     if(source.endsWith('.html'))contents=Buffer.from(require('../../packages/ui/theme-html.cjs').earlyTheme(contents.toString()));
     fs.writeFileSync(target, contents);
   }
@@ -58,6 +59,7 @@ function build({fullstack=false,organisations=false}={}) {
     }
     fs.writeFileSync(path.join(__dirname,'organisation-pages.json'),JSON.stringify(manifest));
   }
+  require('./build-delivery.cjs').prepareDelivery(output,files);
   const cached=require('./build-static-cache.cjs').cacheStaticAssets(output,files);
   fs.writeFileSync(path.join(output, '_headers'), `/*
   X-Synapse-Frontend: cloudflare
