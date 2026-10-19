@@ -1,5 +1,37 @@
 # Chambers functionality ledger
 
+**Android release verification (2026-10-19):** Real Donation Appreciation form
+passes with local PNG logo/signature uploads, PDF and 300/600 DPI PNG bridge
+exports, exact output size/header/dimensions, and invalid-file rejection under
+production CSP. Automated fixture uses a disposable temporary SQLite workspace;
+all HTTPS requests are intercepted to that local server. Standalone bridge tests
+and all 26 Java navigation/filename checks pass. APK 1.0.1 signature/hash rechecked
+against RELEASES.md. No attached Android device or installed emulator; native
+picker, Save as, physical-device memory and install/update remain unverified.
+Full API run: 333 pass; sandbox-blocked Cloudflare builds and one D1 browser
+timeout corrected by isolated elevated rerun (16/16 including parent/subtest),
+covering all 349 checks across runs. Studio run: 9/11; card teardown artifact
+collision passes isolated rerun. Updated stale catalogue test markup and fixture
+to the released unified catalogue and canonical preference/launch API contract.
+Evidence: `.publish/android-wrapper-workflow-final.log`,
+`.publish/android-release-api-tests.log`, `.publish/android-release-api-rerun.log`,
+`.publish/android-release-studio-tests.log`, `.publish/android-release-studio-final.log`
+and `.publish/android-catalogue-final.log`. APK installation remains separate
+from website deployment. No production business-data writes or schema changes.
+
+**Android download correction (2026-10-19, APK built; device check pending):**
+User reported Donation Appreciation certificate PDF and PNG failing in Android
+while browser downloads worked. Reproduced bridge failure with production CSP:
+fetching blob/data URLs is blocked by connect-src. Wrapper now retains generated
+Blob objects until URL revocation and decodes data URLs without network requests.
+Regression checks pass under restrictive CSP with fetch explicitly disabled,
+including PDF/PNG names/MIME/exact bytes and immediate object-URL cleanup, existing
+data/chunk/print/reinjection/origin tests. Built signed 1.0.1/code 2 using the same
+private release key; signature verified. APK and hash are in wrapper RELEASES.md;
+build evidence: `.publish/android-wrapper-download-fix-build.log`. Real Android
+Save as and actual certificate workflow still require device verification. Install
+the updated APK over 1.0.0; no business-data changes or website deployment.
+
 **Remaining-changes release (2026-10-19, live verified):** Source commit 221b8e2 pushed to main; production Worker e8d4e107-d65f-4758-a577-3836bb9bc470 deployed the updated ledger. Isolated Chrome bridge checks, 26 Java policy checks, APK signature and recorded hashes pass. Live read-only checks: home/Chambers 200, anonymous platform API 401, internal ledger asset 404. Production variables/D1 bindings preserved; no migrations or business writes. APK remains a separate direct-install file with device verification pending; Stress Buster remains assessment only. Evidence: .publish/remaining-changes-deploy.log and .publish/remaining-changes-live.json. This subsequent documentation commit records release verification.
 
 **Stress Buster feasibility review (2026-10-19):** Read the external Unity/C#

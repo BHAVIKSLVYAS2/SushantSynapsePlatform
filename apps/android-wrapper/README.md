@@ -1,7 +1,7 @@
 # Sushant Synapse Platform for Android
 
 Maintained native Java/WebView wrapper for `https://apps.sushantsynapse.com/`.
-App ID: `com.sushantsynapse.platform`; initial version: 1.0.0 (version code 1).
+App ID: `com.sushantsynapse.platform`; current version: 1.0.1 (version code 2).
 Requires Android 8.0/API 26 or newer and an up-to-date Android System WebView.
 The company icon is copied from `apps/portal/frontend/logo-adaptive-512.png`.
 This is a direct-install APK project, not a Google Play publication.
@@ -67,7 +67,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File apps/android-wrapper/build-a
 ```
 
 The default script compiles, signs and verifies the release APK. Output:
-`.publish/android/Sushant-Synapse-Platform-1.0.0.apk`. Source belongs here;
+`.publish/android/Sushant-Synapse-Platform-1.0.1.apk`. Source belongs here;
 generated builds, local SDK paths, APKs and signing material are ignored by Git.
 Open this folder in Android Studio for development (Gradle 8.14.3 / Android Gradle
 plugin 8.13.0). The optional Gradle build downloads missing dependencies and runs
@@ -91,6 +91,11 @@ Run `node apps/android-wrapper/test-bridge.cjs` and compile/run the standalone
 `tests/NavigationPolicyTest.java` with `NavigationPolicy.java` into an ignored
 temporary directory. `build-apk.ps1` runs `apksigner verify`; use `-UseGradle`
 for Android lint when its build dependencies are available.
+Run `npx.cmd playwright test apps/android-wrapper/tests` for the real Donation
+Appreciation form with uploaded logo/signature, PDF and 300/600 DPI PNG exports
+through the bridge under CSP, plus invalid-image validation. This uses a temporary
+local SQLite workspace and intercepted HTTPS requests, never production records.
+Use a separate `--output` directory if running another Playwright suite alongside it.
 Record APK hash/certificate fingerprint and evidence in `docs/FUNCTIONALITY_LEDGER.md`.
 
 Before wider distribution test a real device: install/update with the same key,

@@ -1,5 +1,20 @@
 # Android wrapper releases
 
+## 1.0.1 — 19 October 2026
+
+- Version code 2; same package and signing certificate as 1.0.0.
+- Fix generated downloads (including Donation Appreciation PDF/PNG): read
+  retained Blob objects and decode data URLs directly instead of fetching URLs
+  blocked by the website's `connect-src 'self'` policy. Native Save as, origin
+  restrictions and the 32 MiB limit remain in effect.
+- Regression reproduced with production CSP before the fix; bridge checks now
+  pass with fetch disabled, PDF/PNG filenames/MIME/bytes, immediate URL cleanup,
+  data downloads, chunks, repeat injection, printing and origin restriction.
+- Signed APK: `.publish/android/Sushant-Synapse-Platform-1.0.1.apk`.
+- SHA-256: `c69b0be6ea630773c2e227caad7351228401095cb3a2a732861c7dfbe8f9332f`.
+- Signature verified with existing certificate. Real-device verification remains
+  pending. Install over the existing app; no uninstall or website deployment needed.
+
 ## 1.0.0 — 19 October 2026
 
 - Package: `com.sushantsynapse.platform`; version code: 1.
