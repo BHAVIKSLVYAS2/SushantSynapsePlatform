@@ -1,5 +1,29 @@
 # Chambers functionality ledger
 
+**Tournament organisation repair (2026-10-19, deployed):** Implementation
+`e461ec3` is pushed to main and deployed as Worker
+`2a26cf1a-9fb2-4207-8d94-66a46348f1d4`. Additive D1 migration 0006 and the
+revision-guarded offline-prepared cutover preserve all four tournament rows,
+creator IDs, revisions and public tokens; four ownership links, one licence
+(using existing licence terms) and one legacy-authorised organiser assignment
+restore access in the existing organisation. No Chambers mapping/bootstrap,
+account changes or data reset. Six source tables compare exactly before/after:
+tournaments, accounts, records, files and Chambers record/file ownership.
+Foreign keys pass. Private pre/post exports remain ignored under `.publish/`.
+
+Live read-only Chrome checks pass Tournament/account/Super Admin pages, six
+protected API/hidden boundaries, eight responsive read-only fixture layouts and
+eight deployed script byte matches, with no page errors. Three browser writes
+were blocked; no live test tournament was created. Authenticated organisation
+workflows were verified against isolated D1, not a production password session.
+Existing production D1/auth bindings, variables, organisation mode and rate
+limits are retained. Evidence: `.publish/tournament-live.json`,
+`.publish/tournament-production-data-check.log`, `.publish/tournament-enable.log`
+and `.publish/tournament-production-deploy.log`. The final verification record
+is included in a documentation republish; its runtime identifier is recorded in
+`.publish/tournament-documentation-deploy.log`. Setup and invitation distinctions
+are in `docs/TOURNAMENT_ORGANISATION_SETUP.md`; hierarchy redesign stays deferred.
+
 **Tournament organisation repair (2026-10-19, release preparation):** The cause
 was the deliberate organisation guard: only Chambers had a scoped adapter.
 Tournament now has scoped D1 list/create/update, live licence/membership/role

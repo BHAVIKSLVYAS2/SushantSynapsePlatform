@@ -1,6 +1,19 @@
 # Organisation licensing production cutover
 
 Live on 2026-10-17 at `https://apps.sushantsynapse.com`.
+Current production release (2026-10-19): Tournament organisation integration
+`e461ec3`, initially Worker `2a26cf1a-9fb2-4207-8d94-66a46348f1d4`. Scoped
+Tournament APIs, account launch, licences and staff assignments are live. D1
+migration 0006 and a guarded, offline-verified patch preserve four tournaments
+and restore their existing organiser to the current organisation. The four
+ownership links are additive; original event bytes, accounts and Chambers data
+compare exactly before/after. No legacy Chambers mapping or bootstrap repeated.
+Full checks pass 360/360, 25 browser regressions plus final focused checks pass;
+live guest/fixture browser checks and private recovery verification are recorded
+in the functionality ledger. Existing production variables/bindings preserved.
+Setup: `docs/TOURNAMENT_ORGANISATION_SETUP.md`. Invitation/hierarchy redesign is
+deferred. Final documentation republish identifier is recorded in
+`.publish/tournament-documentation-deploy.log`.
 Current production release (2026-10-19): beta notice implementation `57fdffc`,
 initially Worker `084a3680-7727-4cb4-b41b-d5073a9a5f37`, with a shared footer
 note, first-visit English/Hindi acknowledgement and explicit WhatsApp reporting.
