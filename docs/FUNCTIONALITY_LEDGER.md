@@ -10,7 +10,15 @@ Reduced motion removes transitions; selection retains outlines and pressed state
 CSS only, scoped to Make 24 on both entry points; puzzle logic is unchanged.
 Six existing Chrome workflows pass, with focused theme/layout and hub reruns after
 palette cleanup. Mobile dark and desktop light screenshots visually reviewed.
-Production build and live verification follow the implementation commit.
+Implementation `2e0d7d6` is pushed to main and live as Worker
+`c87473f8-6bd8-4448-9b50-bc379f645a74`. Production build passes. Live Chrome
+passes 16 responsive/theme layouts, reflection layers, tile selection and reduced
+motion on both entry points with no page errors. Live board screenshots visually
+reviewed. Shared performance rules suppress backdrop blur; optical glass is drawn
+with gradients/reflections instead of relying on blur. Evidence:
+`.publish/make24-glass-deploy.log`, `.publish/make24-glass-live.json` and
+`.publish/make24-glass-{daily,hub}.png`. No migrations or business writes;
+production configuration preserved.
 
 **Make 24 dimensional main screen (2026-10-19):** App-owned shared celebration
 stylesheet now also styles the live board on `/daily-spark` and Take a Break's
