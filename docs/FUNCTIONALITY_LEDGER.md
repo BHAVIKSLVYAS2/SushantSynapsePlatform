@@ -11,7 +11,10 @@ guides, downloads/print, navigation and theme controls), plus the strengthened
 gallery rerun checks actual title/text/icon dimensions at 320/390px and eight
 light/dark layouts. The 390px screenshot was visually reviewed and the banner
 wrapping corrected before release. No business data or Decision Wheel changes.
-Deployment and live verification follow this correction.
+Live visual review additionally caught the original selected-only description
+rule; all 15 card descriptions now remain visible, with a browser regression
+assertion. Initial correction `1baed17` passed 16 live bilingual/theme layouts;
+the description correction is included in the final republish.
 
 **Ritual Assist gallery and Decision Wheel startup (2026-10-19, deployed):**
 Ritual Assist now presents the reference-inspired remembrance banner, illustrated

@@ -41,7 +41,7 @@ body[data-ui-app=ritual-assist]{--ritual-gold:#a36b20;--ritual-flame:#d67723;--r
 html[data-theme=dark] body[data-ui-app=ritual-assist]{--ritual-gold:#efd18c;--ritual-flame:#ffac52;--ritual-petal:#f5a5bf}
 body[data-ui-app=ritual-assist] .library>summary:before{content:'🙏';font-size:30px;line-height:1;flex-shrink:0}
 body[data-ui-app=ritual-assist] .guide-option strong{grid-column:2;grid-row:1;overflow-wrap:normal;word-break:normal;hyphens:none}
-body[data-ui-app=ritual-assist] .guide-option small{grid-column:2;grid-row:2;overflow-wrap:normal;word-break:normal}
+body[data-ui-app=ritual-assist] .guide-option small{display:block;grid-column:2;grid-row:2;overflow-wrap:normal;word-break:normal}
 body[data-ui-app=ritual-assist] .ritual-art{grid-column:1;grid-row:1/3}
 body[data-ui-app=ritual-assist] .ritual-art svg{stroke-width:2;fill:color-mix(in srgb,var(--ritual-gold) 35%,var(--surface));filter:drop-shadow(0 5px 6px color-mix(in srgb,var(--bg) 70%,transparent))}
 body[data-ui-app=ritual-assist] [data-guide=daily-puja] .ritual-art path:first-child{fill:var(--ritual-flame)}
