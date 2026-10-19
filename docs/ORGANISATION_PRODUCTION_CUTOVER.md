@@ -1,7 +1,20 @@
 # Organisation licensing production cutover
 
 Live on 2026-10-17 at `https://apps.sushantsynapse.com`.
-Current production release (2026-10-19): loading improvements through `decfd31`,
+Current production release (2026-10-19): beta notice implementation `57fdffc`,
+initially Worker `084a3680-7727-4cb4-b41b-d5073a9a5f37`, with a shared footer
+note, first-visit English/Hindi acknowledgement and explicit WhatsApp reporting.
+Acknowledgement is a browser preference, not an authority/consent audit or legal
+waiver. Full API/build checks pass 359/359; 62 browser workflows are covered
+across runs/reruns. Live read-only checks pass six fresh-entry routes, 20 pages,
+160 layouts, asset parity, readable legal/no-JavaScript pages and protected APIs,
+without page errors or business writes. Existing D1/auth bindings, organisation
+mode, variables and rate limits retained; no migrations, recovery operations or
+APK changes. Evidence: `.publish/beta-production-deploy.log`,
+`.publish/beta-live.json` and the functionality ledger. This documentation is
+included in a follow-up republish of the same implementation; the final runtime
+identifier is recorded in `.publish/beta-documentation-deploy.log`.
+Prior production release (2026-10-19): loading improvements through `decfd31`,
 initially deployed as Worker `d3b6cdd9-281a-46d8-bf3c-dfc14f117013`. Public
 asset dependency fingerprints, app-specific premium CSS, export minification and
 retired News/artwork cleanup are live. All 358 API/build checks and 51 browser

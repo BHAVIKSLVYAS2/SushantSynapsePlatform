@@ -1,6 +1,6 @@
 # Code ownership and adding apps
 
-Beta notice (2026-10-19): `packages/ui/beta-html.cjs` owns idempotent shared
+Beta notice (2026-10-19, live verified): `packages/ui/beta-html.cjs` owns idempotent shared
 markup; `beta-notice.js`/`.css` own the English/Hindi first-visit acknowledgement,
 static footer note and explicit WhatsApp draft. Node HTML composition, Cloudflare
 export (including guarded admin/client pages) and generated Arena HTML use the

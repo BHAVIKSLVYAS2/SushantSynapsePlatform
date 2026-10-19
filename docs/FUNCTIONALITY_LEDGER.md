@@ -1,5 +1,28 @@
 # Chambers functionality ledger
 
+**Beta notice release (2026-10-19, live verified):** Implementation `57fdffc`
+is pushed to main and deployed as Worker
+`084a3680-7727-4cb4-b41b-d5073a9a5f37`. Shared static beta note, English/Hindi
+first-visit acknowledgement, explicit WhatsApp issue/licensing draft and
+review/forget controls are live on public, account/client/admin and generated
+Arena pages. The unchecked checkbox acknowledges this notice only; no rights
+waiver, licence clearance, optional processing permission or server consent audit
+is claimed. Terms/privacy/contact/notices remain readable before acknowledging.
+
+Live read-only Chrome checks pass six fresh-entry routes, 20 pages and 160
+responsive theme/width layouts, including bounded dialogs, cross-app remembering,
+reopening, English/Hindi, no-JavaScript fallback and both versioned asset byte
+matches/cache headers. No page errors or missing assets. Private API/hidden asset
+boundaries remain protected. Browser writes were blocked (24 attempts), with no
+production account use or business-record reads/writes. Existing D1/auth bindings,
+organisation mode, variables and rate limits preserved; no migrations or APK
+changes. Source/database/record retention is unchanged. Native device behavior is
+not separately verified. Evidence: `.publish/beta-live.json`,
+`.publish/beta-live-verification.log`, `.publish/beta-production-deploy.log` and
+`.publish/beta-live-{english,hindi,footer}.png`. The completed release record is
+included in a documentation-only republish; its final Worker identifier is in
+`.publish/beta-documentation-deploy.log`. Local verification is recorded below.
+
 **Beta notice release readiness (2026-10-19, locally verified):** Shared beta
 footer and English/Hindi acknowledgement are ready for release. Full API/build
 checks pass **359/359**; **62 browser workflows** are covered across runs and
