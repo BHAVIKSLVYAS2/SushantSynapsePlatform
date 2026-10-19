@@ -1,5 +1,16 @@
 # Chambers functionality ledger
 
+**Make 24 dimensional main screen (2026-10-19):** App-owned shared celebration
+stylesheet now also styles the live board on `/daily-spark` and Take a Break's
+Make 24 entry. Raised number tiles, recessed tray, beveled operation controls,
+layered board and dimensional target badge use existing theme tokens. Selected
+tiles/operations press into the board with explicit outlines; reduced motion
+removes transitions. Phone sizing preserves four readable tiles. Other hub games
+and puzzle logic/persistence are unchanged. Mobile screenshot visually reviewed;
+six existing Chrome workflows cover solves, undo, hints/reveal, difficulty,
+sharing, themes/layouts, reduced motion and genuine-win effects on both entry
+points. Production build and live visual verification follow the source commit.
+
 **Ritual Assist readability correction (2026-10-19):** Phone cards now place
 80px illustrations above 15px titles and 12px descriptions, with explicit grid
 positions and normal word wrapping. This replaces the cramped icon/text columns.
