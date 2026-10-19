@@ -7,9 +7,16 @@ layered board and dimensional target badge use existing theme tokens. Selected
 tiles/operations press into the board with explicit outlines; reduced motion
 removes transitions. Phone sizing preserves four readable tiles. Other hub games
 and puzzle logic/persistence are unchanged. Mobile screenshot visually reviewed;
-six existing Chrome workflows cover solves, undo, hints/reveal, difficulty,
+six existing Chrome workflows pass, covering solves, undo, hints/reveal, difficulty,
 sharing, themes/layouts, reduced motion and genuine-win effects on both entry
-points. Production build and live visual verification follow the source commit.
+points. Implementation `32ec13b` is pushed to main and live as Worker
+`19787cb7-1b32-4081-b819-c82a8b11d1a5`. Production export passes; live Chrome
+passes 16 layouts (two entry points, two themes, 320/390/768/1440px), tile selection,
+reduced motion and presence of the dimensional styles, with zero page errors.
+Local and production board screenshots visually reviewed. Evidence:
+`.publish/make24-depth-deploy.log`, `.publish/make24-depth-live.json` and
+`.publish/make24-depth-{daily,hub}.png`. Production bindings/variables retained;
+no migration or business writes.
 
 **Ritual Assist readability correction (2026-10-19):** Phone cards now place
 80px illustrations above 15px titles and 12px descriptions, with explicit grid
