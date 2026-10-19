@@ -14,7 +14,13 @@ wrapping corrected before release. No business data or Decision Wheel changes.
 Live visual review additionally caught the original selected-only description
 rule; all 15 card descriptions now remain visible, with a browser regression
 assertion. Initial correction `1baed17` passed 16 live bilingual/theme layouts;
-the description correction is included in the final republish.
+the description correction `278e113` is pushed to main and deployed as Worker
+`319ba748-6da2-415d-a166-efe79c90b6a0`. Final live Chrome checks pass 16
+English/Hindi light/dark layouts, all 15 descriptions visible, actual text/icon/
+banner widths and no page errors. Evidence: `.publish/ritual-readability-live.json`,
+`.publish/ritual-corrected-en.png`, `.publish/ritual-corrected-hi.png` and
+`.publish/ritual-readability-final-deploy.log`. Production configuration retained;
+no migration or business writes.
 
 **Ritual Assist gallery and Decision Wheel startup (2026-10-19, deployed):**
 Ritual Assist now presents the reference-inspired remembrance banner, illustrated
