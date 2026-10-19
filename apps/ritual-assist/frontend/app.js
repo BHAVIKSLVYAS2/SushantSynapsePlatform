@@ -28,14 +28,14 @@ function syncUrl(){history.replaceState(null,'',url());}
 function translations(){document.documentElement.lang=language;$('#language').value=language;document.querySelectorAll('[data-copy]').forEach(e=>{if(e.dataset.copy==='headline'){const parts=text('headline').split('\n');e.replaceChildren(document.createTextNode(parts[0]),document.createElement('br'),node('em','',parts[1]));}else e.textContent=text(e.dataset.copy);});$('#language').setAttribute('aria-label',text('language'));$('#filters').setAttribute('aria-label',language==='hi'?'मार्गदर्शिका श्रेणी':'Guide categories');$('#scope').textContent=scope[language];$('#guide-count').textContent=String(guides.length);}
 // Inline vector illustrations avoid an additional image request per guide.
 const ritualShapes={
- lamp:'<path d="M20 65Q50 97 80 65ZM50 65C28 48 53 28 52 12C70 37 70 53 50 65ZM50 82V90M32 92H68"/>',
+ lamp:'<path d="M50 63C32 48 49 31 52 13C68 38 70 52 50 63Z"/><path d="M16 65Q50 95 84 65ZM21 65H79M50 81V90M30 92H70"/><path d="M26 51L21 20M32 49L32 12" fill="none"/>',
  lotus:'<path d="M50 76Q5 72 16 41Q40 40 50 76ZM50 76Q95 72 84 41Q60 40 50 76ZM50 76Q26 43 50 19Q74 43 50 76ZM25 79Q50 92 75 79"/>',
  book:'<path d="M50 27Q28 15 9 27V78Q30 65 50 79Q70 65 91 78V27Q72 15 50 27ZM50 27V79M20 36L40 33M20 46L40 43M60 33L80 36M60 43L80 46"/>',
  home:'<path d="M21 48V88H79V48L50 21ZM10 49L50 12L90 49M40 88V61H60V88M27 49H36V58H27M66 49H75V58H66"/>',
  scroll:'<path d="M24 20H82L72 83H15ZM24 20Q11 9 12 24H27M15 83Q5 96 72 91L72 83M35 37H67M32 48H62M30 59H58M62 74L90 22"/>',
  rings:'<ellipse cx="34" cy="57" rx="26" ry="18" transform="rotate(-25 34 57)"/><ellipse cx="66" cy="57" rx="26" ry="18" transform="rotate(25 66 57)"/>',
  fire:'<path d="M15 73H85L76 88H24ZM28 69Q17 48 45 31Q39 50 53 48Q67 31 59 13Q94 50 73 69ZM37 69Q32 58 49 48Q46 60 59 57Q73 69 59 73"/>',
- ganesh:'<path d="M28 37Q5 30 14 56Q20 69 35 57M72 37Q95 30 86 56Q80 69 65 57M34 33Q50 17 66 33V55Q62 68 53 65V80Q68 90 73 75M40 47H42M58 47H60M26 83Q50 95 76 83M34 25L50 8L66 25Z"/>',
+ ganesh:'<path d="M32 35C6 19 2 65 28 68L38 57ZM68 35C94 19 98 65 72 68L62 57Z"/><path d="M32 31Q50 21 68 31L66 55Q64 64 56 67V76Q56 85 65 80Q68 77 65 74L72 71Q82 88 65 93Q45 97 44 78V66Q34 63 33 53Z"/><path d="M31 28L36 16L44 20L50 7L57 20L64 16L69 28ZM38 35H62M39 47H43M57 47H61M48 36V44" fill="none"/><path d="M34 57L27 64L39 62M65 57L73 64L61 62"/>',
  leaf:'<path d="M19 80Q8 23 85 15Q86 83 19 80ZM19 80L72 29M38 59L35 38M51 47L72 48"/>'
 };
 const ritualArt={'daily-puja':'lamp','ganesh-puja':'ganesh','lakshmi-puja':'lotus',satyanarayan:'book','griha-pravesh':'home',namkaran:'scroll',vivah:'rings',havan:'fire'};
@@ -75,6 +75,7 @@ addEventListener('beforeprint',()=>{if(printing)return;printing=true;if(preview.
 addEventListener('afterprint',()=>{if(!printing)return;printing=false;document.body.classList.remove('checklist-print');for(const [el,open]of detailPrintState)el.open=open;applyFilters();$('#guide .reference').open=referenceWasOpen;});
 $('#language').onchange=()=>{language=$('#language').value;translations();renderList();renderGuide();syncUrl();$('#status').textContent='';$('#copy-fallback').hidden=true;};$('#search').oninput=renderList;translations();renderList();renderGuide();syncUrl();
 if(storageNotice)$('#status').textContent=storageNotice;
+const calendarSymbol=document.querySelector('.calendar-symbol');calendarSymbol.innerHTML='<svg viewBox="0 0 32 32" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="7" width="24" height="22" rx="3"/><path d="M4 14H28M10 3V11M22 3V11M10 20H13M19 20H22M10 25H13"/></svg>';
 const calendarArt=illustration('daily-puja');calendarArt.classList.add('calendar-art');document.querySelector('.calendar-launch').append(calendarArt);
 document.body.classList.add('ready');
 matchMedia('(min-width: 761px)').addEventListener('change',event=>{if(event.matches)$('#library').open=true;});

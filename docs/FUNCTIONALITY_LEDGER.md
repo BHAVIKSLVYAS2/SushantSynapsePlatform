@@ -1,5 +1,18 @@
 # Chambers functionality ledger
 
+**Ritual Assist readability correction (2026-10-19):** Phone cards now place
+80px illustrations above 15px titles and 12px descriptions, with explicit grid
+positions and normal word wrapping. This replaces the cramped icon/text columns.
+The remembrance banner uses a separate button row on phones so its heading and
+description retain their width. Category pills scroll within their own row.
+Redrawn lamp/Ganesh artwork, warm illustration tokens and a calendar SVG replace
+the previous thin symbols. Four focused Chrome workflows pass (all bilingual
+guides, downloads/print, navigation and theme controls), plus the strengthened
+gallery rerun checks actual title/text/icon dimensions at 320/390px and eight
+light/dark layouts. The 390px screenshot was visually reviewed and the banner
+wrapping corrected before release. No business data or Decision Wheel changes.
+Deployment and live verification follow this correction.
+
 **Ritual Assist gallery and Decision Wheel startup (2026-10-19, deployed):**
 Ritual Assist now presents the reference-inspired remembrance banner, illustrated
 two-column guide cards, category pills and selected-card highlight. All 15 existing

@@ -35,3 +35,37 @@ body[data-ui-app=ritual-assist] .library{position:static;border-radius:24px;padd
 @media(max-width:600px){.calendar-launch .calendar-art{position:absolute;right:8px;top:10px;width:68px;height:80px;opacity:.3;pointer-events:none}.calendar-launch>div:nth-child(2),.calendar-launch>a{position:relative;z-index:1}}
 @media(max-width:350px){.library .guide-option{grid-template-columns:1fr}.ritual-art{grid-row:auto;height:56px;width:56px}.library .guide-option strong{align-self:start}}
 @media print{body[data-ui-app=ritual-assist] main{padding:0}.calendar-launch{display:none!important}}
+
+/* Keep an adequate text column instead of squeezing words beside the artwork. */
+body[data-ui-app=ritual-assist]{--ritual-gold:#a36b20;--ritual-flame:#d67723;--ritual-petal:#c56b8c}
+html[data-theme=dark] body[data-ui-app=ritual-assist]{--ritual-gold:#efd18c;--ritual-flame:#ffac52;--ritual-petal:#f5a5bf}
+body[data-ui-app=ritual-assist] .library>summary:before{content:'🙏';font-size:30px;line-height:1;flex-shrink:0}
+body[data-ui-app=ritual-assist] .guide-option strong{grid-column:2;grid-row:1;overflow-wrap:normal;word-break:normal;hyphens:none}
+body[data-ui-app=ritual-assist] .guide-option small{grid-column:2;grid-row:2;overflow-wrap:normal;word-break:normal}
+body[data-ui-app=ritual-assist] .ritual-art{grid-column:1;grid-row:1/3}
+body[data-ui-app=ritual-assist] .ritual-art svg{stroke-width:2;fill:color-mix(in srgb,var(--ritual-gold) 35%,var(--surface));filter:drop-shadow(0 5px 6px color-mix(in srgb,var(--bg) 70%,transparent))}
+body[data-ui-app=ritual-assist] [data-guide=daily-puja] .ritual-art path:first-child{fill:var(--ritual-flame)}
+body[data-ui-app=ritual-assist] [data-guide=lakshmi-puja] .ritual-art{color:var(--ritual-petal)}
+body[data-ui-app=ritual-assist] [data-guide=lakshmi-puja] .ritual-art svg{fill:color-mix(in srgb,var(--ritual-petal) 50%,var(--surface))}
+body[data-ui-app=ritual-assist] [data-guide=havan] .ritual-art{color:var(--ritual-flame)}
+body[data-ui-app=ritual-assist] .library .guide-option{border-width:2px}
+body[data-ui-app=ritual-assist] .library .guide-option[aria-pressed=true]{box-shadow:inset 0 0 18px color-mix(in srgb,var(--accent) 14%,transparent)}
+body[data-ui-app=ritual-assist] #guide-count{white-space:nowrap}
+@media(max-width:600px){
+ body[data-ui-app=ritual-assist] .library .guide-option{grid-template-columns:minmax(0,1fr);grid-template-rows:82px auto 1fr;gap:8px;padding:14px 12px 34px;min-height:246px;align-content:start}
+ body[data-ui-app=ritual-assist] .guide-option .ritual-art{grid-column:1;grid-row:1;width:80px;height:82px;justify-self:center}
+ body[data-ui-app=ritual-assist] .guide-option strong{grid-column:1;grid-row:2;font-size:15px;line-height:1.4;align-self:start;padding:0}
+ body[data-ui-app=ritual-assist] .guide-option small{grid-column:1;grid-row:3;font-size:12px;line-height:1.6;margin:0;align-self:start}
+ body[data-ui-app=ritual-assist] .library .filters{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:8px;padding-bottom:6px}
+ body[data-ui-app=ritual-assist] .library .filters button{flex:0 0 auto;font-size:12px;min-height:44px;padding:10px 14px;text-align:left;white-space:nowrap}
+ body[data-ui-app=ritual-assist] .library>summary{font-size:21px;gap:4px}
+ body[data-ui-app=ritual-assist] .calendar-launch .calendar-symbol{align-self:flex-start;font-size:28px}
+ body[data-ui-app=ritual-assist] .calendar-launch h2{font-size:21px;line-height:1.35;margin:6px 0 10px}
+ body[data-ui-app=ritual-assist] .calendar-launch p{font-size:13px;line-height:1.7}
+ body[data-ui-app=ritual-assist] .calendar-launch .calendar-art{display:none}
+ body[data-ui-app=ritual-assist] main .calendar-launch{display:grid;grid-template-columns:48px minmax(0,1fr);gap:12px;align-items:start}
+ body[data-ui-app=ritual-assist] .calendar-launch .calendar-symbol{grid-column:1;grid-row:1}
+ body[data-ui-app=ritual-assist] .calendar-launch>div:nth-child(2){grid-column:2;grid-row:1;min-width:0}
+ body[data-ui-app=ritual-assist] .calendar-launch .calendar-open{grid-column:2;grid-row:2;justify-self:start;margin:0;width:auto}
+ body[data-ui-app=ritual-assist] .calendar-launch .eyebrow{font-size:12px;line-height:1.5;letter-spacing:0;color:var(--muted)}
+}
