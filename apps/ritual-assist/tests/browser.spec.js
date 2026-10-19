@@ -1,4 +1,4 @@
-const {test,expect}=require('@playwright/test');const {spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');let child,base,dir;
+const {test,expect}=require('../../../tests/browser-fixture.js');const {spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');let child,base,dir;
 test('calendar reminders and preparation pack retain tithi dates, local checks, assignments and bilingual PDF',async({page})=>{
  await page.clock.setFixedTime(new Date('2026-10-15T00:00:00Z'));
  const errors=[],requests=[];page.on('pageerror',error=>errors.push(error.message));page.on('request',r=>{if(r.url().includes('/api/')&&new URL(r.url()).pathname!=='/api/platform/visitors'&&!(r.method()==='GET'&&new URL(r.url()).pathname==='/api/auth/status'))requests.push(r.url());});await page.goto(base+'/ritual-assist/calendar');await page.locator('#date').fill('2025-10-01');await page.locator('#time').fill('12:00');await page.locator('#pincode').fill('110001');await page.locator('#calculate').click();await expect(page.locator('.future-plan tbody tr')).toHaveCount(11);
@@ -45,7 +45,7 @@ test('mobile navigation, themes, copy fallback, native sharing cancellation and 
 });
 test('public homepage finder and no-JavaScript discovery link to the new app',async({page,browser})=>{
  await page.goto(base+'/');await page.getByRole('button',{name:'Search apps',exact:true}).click();await page.getByLabel('Search apps or activities').fill('samagri');await expect(page.locator('.finder-result')).toHaveCount(1);await page.locator('.finder-result').click();await expect(page).toHaveURL(/\/ritual-assist/);await expect(page.locator('#guide-title')).toBeVisible();
- const context=await browser.newContext({javaScriptEnabled:false});try{const nojs=await context.newPage();await nojs.goto(base+'/');await nojs.getByRole('link',{name:'Ritual Assist',exact:true}).click();await expect(nojs.locator('noscript .scope')).toContainText('Enable JavaScript');}finally{await context.close();}
+ const context=await require('../../../tests/browser-fixture.js').acknowledgedContext(browser,{javaScriptEnabled:false});try{const nojs=await context.newPage();await nojs.goto(base+'/');await nojs.getByRole('link',{name:'Ritual Assist',exact:true}).click();await expect(nojs.locator('noscript .scope')).toContainText('Enable JavaScript');}finally{await context.close();}
 });
 test('compact language controls and calendar theme follow shared preferences',async({page})=>{
  await page.addInitScript(()=>{if(!localStorage.getItem('synapse-theme'))localStorage.setItem('synapse-theme','system');});

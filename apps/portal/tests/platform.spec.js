@@ -1,5 +1,5 @@
 const {setTheme}=require('../../../tests/browser-theme');
-const {test,expect}=require('@playwright/test');
+const {test,expect}=require('../../../tests/browser-fixture.js');
 const {noAdsContext}=require('../../../tests/browser-ads');
 // Never generate real advertising traffic from disposable test accounts.
 test.beforeEach(async({context})=>{await context.route('https://pagead2.googlesyndication.com/**',r=>r.fulfill({contentType:'text/javascript',body:''}));});

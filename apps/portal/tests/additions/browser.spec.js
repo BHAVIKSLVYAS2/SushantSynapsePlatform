@@ -1,4 +1,4 @@
-const {test,expect}=require('@playwright/test'),{spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');let child,base,dir;
+const {test,expect}=require('../../../../tests/browser-fixture.js'),{spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');let child,base,dir;
 const {interceptAds}=require('../../../../tests/browser-ads');
 test.beforeEach(async({page})=>{
  const index=require('../../../fund-overlap/data/fund-index.json');

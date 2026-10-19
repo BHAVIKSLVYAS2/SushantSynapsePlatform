@@ -1,4 +1,4 @@
-const {test,expect}=require('@playwright/test');
+const {test,expect}=require('../../../../tests/browser-fixture.js');
 const {spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 let child,base,dir;
 test.beforeEach(async()=>{
@@ -114,7 +114,7 @@ test('home, account, Chambers and switching retain the frame after authenticatio
   await page.setViewportSize({width,height:900});
   for(const theme of ['light','dark']){
    await page.evaluate(t=>window.SynapseTheme.write(t),theme);await expect(page.locator('.platform-shell')).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
-   if(width>=1000){const sidebar=await page.locator('.sidebar').boundingBox();expect(sidebar.y).toBe(72);}
+   if(width>=1000){const sidebar=await page.locator('.sidebar').boundingBox();expect(sidebar.y).toBe(72);expect((await page.locator('[data-synapse-beta]').boundingBox()).x).toBeGreaterThanOrEqual(240);}
   }
  }
  await page.setViewportSize({width:1440,height:1000});await page.screenshot({path:'test-results/shell-chambers-desktop.png',fullPage:true});
@@ -124,9 +124,11 @@ test('home, account, Chambers and switching retain the frame after authenticatio
  await page.goto(base+'/batchfee-lite');await page.setViewportSize({width:768,height:900});
  expect(await page.locator('body>aside').evaluate(el=>getComputedStyle(el).position)).toBe('static');
  await page.setViewportSize({width:1440,height:900});expect((await page.locator('body>aside').boundingBox()).y).toBe(72);
+ expect((await page.locator('[data-synapse-beta]').boundingBox()).x).toBeGreaterThanOrEqual(240);
  await page.goto(base+'/digital-samaj');await page.getByLabel('Samaj name',{exact:true}).fill('Shell Test Samaj');await page.getByRole('button',{name:'Create Samaj',exact:true}).click();
  await page.getByRole('button',{name:'Shell Test Samaj',exact:true}).click();
  await expect(page.locator('#app>.nav')).toBeVisible();expect((await page.locator('#app>.nav').boundingBox()).y).toBe(72);
+ expect((await page.locator('[data-synapse-beta]').boundingBox()).x).toBeGreaterThanOrEqual(240);
  await page.setViewportSize({width:768,height:900});expect(await page.locator('#app>.nav').evaluate(el=>getComputedStyle(el).position)).toBe('static');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.request.post(base+'/api/auth/logout');await page.goto(base+'/');
  await page.setViewportSize({width:1440,height:1000});await page.evaluate(()=>SynapseTheme.write('light'));await page.screenshot({path:'test-results/shell-home-desktop.png',fullPage:true});
@@ -134,7 +136,7 @@ test('home, account, Chambers and switching retain the frame after authenticatio
 });
 
 test('Studio starts with the platform theme and system preferences follow the device',async({browser})=>{
- const context=await browser.newContext();try{
+ const context=await require('../../../../tests/browser-fixture.js').acknowledgedContext(browser);try{
   const page=await context.newPage();await page.goto(base+'/moment-studio/cards');await expect(page.locator('html')).toHaveAttribute('data-theme','light');
   await page.evaluate(()=>SynapseTheme.write('system'));await page.emulateMedia({colorScheme:'dark'});await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
   await page.goto(base+'/moment-studio');await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await page.emulateMedia({colorScheme:'light'});await expect(page.locator('html')).toHaveAttribute('data-theme','light');

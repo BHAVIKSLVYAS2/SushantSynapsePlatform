@@ -1,4 +1,4 @@
-const {test,expect}=require('@playwright/test');
+const {test,expect}=require('../../../../tests/browser-fixture.js');
 const {startPreview}=require('../../../../tests/organisation-preview-fixture.cjs');
 let runtime;
 test.beforeAll(async()=>{runtime=await startPreview({enabled:false});});

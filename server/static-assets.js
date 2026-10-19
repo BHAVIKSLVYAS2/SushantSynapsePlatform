@@ -1,5 +1,7 @@
 // Explicit URL allowlist. Filesystem paths are never accepted from requests.
 const staticAssets={
+ '/shared/beta-notice.js':'packages/ui/beta-notice.js',
+ '/shared/beta-notice.css':'packages/ui/beta-notice.css',
  '/feedback':'apps/feedback/frontend/index.html',
  '/feedback/':'apps/feedback/frontend/index.html',
  '/feedback/app.js':'apps/feedback/frontend/app.js',

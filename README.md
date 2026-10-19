@@ -1,5 +1,12 @@
 # Sushant Synapse Platform
 
+The platform's shared beta notice explains experimental/AI-assisted content and
+third-party limitations, with explicit WhatsApp reporting. The English/Hindi
+first-visit acknowledgement is remembered only on this browser; review/forget
+controls remain available. It does not waive rights or replace licence review.
+See [Beta notice details](docs/BETA_NOTICE.md) and the functionality ledger for
+implementation and release status.
+
 `/feedback` is the community ideas board: search, suggest features, vote and discuss
 without signing in. Browser voting and administrator moderation use shared SQL
 persistence. See [Feedback details](apps/feedback/README.md) and the functionality

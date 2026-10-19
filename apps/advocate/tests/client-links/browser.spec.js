@@ -1,4 +1,4 @@
-const {test,expect}=require('@playwright/test');
+const {test,expect}=require('../../../../tests/browser-fixture.js');
 const {startPreview}=require('../../../../tests/organisation-preview-fixture.cjs');
 let f,cookies,clientId;
 const post=(path,body,actor='master')=>fetch(f.base+'/api/'+path,{method:'POST',headers:{Cookie:cookies[actor],'Content-Type':'application/json'},body:JSON.stringify(body)});
@@ -44,7 +44,7 @@ test('administrator enables a licensed client portal, client sees only approved 
  expect((await post(admin()+'/licence',{...body,clientLimit:1,version:v.organisation.version,licenceVersion:l.version,reason:'Allocate client seat'},'super')).status).toBe(200);
  await page.getByRole('button',{name:'Refresh links',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Links ready.');
  await page.getByLabel('Reason for portal access change').fill('Approve read-only case access');await page.getByRole('button',{name:'Save portal access',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Portal access saved.');
- const context=await browser.newContext();
+ const context=await require('../../../../tests/browser-fixture.js').acknowledgedContext(browser);
  try{
   const client=await context.newPage();await login(client,'client');await client.goto(f.base+'/account');await client.getByRole('link',{name:'Open client portal',exact:true}).click();await expect(client.getByRole('status')).toHaveText('Portal ready.');
   await expect(client.locator('#workspace')).toContainText('Private client');await expect(client.locator('#workspace')).toContainText('CASE-1');await expect(client.locator('#workspace')).toContainText('Delhi');
@@ -64,7 +64,7 @@ test('administrator enables a licensed client portal, client sees only approved 
 
 for(const actor of ['master','client'])test(`${actor} changes only their password and expired sessions can sign in again`,async({page,browser})=>{
  await login(page,actor);await page.goto(f.base+'/account');await expect(page.getByRole('status')).toHaveText('Account ready.');
- const context=await browser.newContext();
+ const context=await require('../../../../tests/browser-fixture.js').acknowledgedContext(browser);
  try{
   const other=await context.newPage();await login(other,actor);await other.goto(f.base+'/account');await expect(other.getByRole('status')).toHaveText('Account ready.');
   await page.locator('#account-security summary').click();const form=page.locator('#own-password');

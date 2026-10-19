@@ -1,4 +1,4 @@
-const {test,expect}=require('@playwright/test');
+const {test,expect}=require('../../../tests/browser-fixture.js');
 const {spawn,execFileSync}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 let child,base,dir;
 test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-news-tools-'));execFileSync(process.execPath,['apps/news/tests/seed-fixtures.js',dir]);child=spawn(process.execPath,['server/index.js'],{env:{...process.env,DATABASE_PROVIDER:'sqlite',NODE_ENV:'test',PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe'],windowsHide:true});await new Promise((resolve,reject)=>{let out='';child.stderr.on('data',data=>out+=data);child.once('exit',code=>reject(Error('Server exited '+code+': '+out)));const timer=setTimeout(()=>reject(Error('Startup timeout: '+out)),15000);child.stdout.on('data',data=>{out+=data;const match=out.match(/localhost:(\d+)/);if(match){base='http://127.0.0.1:'+match[1];clearTimeout(timer);resolve();}});child.once('error',reject);});});

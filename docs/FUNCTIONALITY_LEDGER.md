@@ -1,5 +1,43 @@
 # Chambers functionality ledger
 
+**Beta notice release readiness (2026-10-19, locally verified):** Shared beta
+footer and English/Hindi acknowledgement are ready for release. Full API/build
+checks pass **359/359**; **62 browser workflows** are covered across runs and
+focused reruns (account/navigation, News, Studio exports, first-visit and exported
+Cloudflare behavior). Corrected a decline-label encoding artifact, replaced the
+note's root aside to avoid app sidebar rules, and isolated dialog/label geometry
+with dedicated IDs. Final layout checks pass 3/3; authenticated private-sidebar
+checks pass. Production-style local smoke passes six fresh entry routes,
+20 pages and 160 theme/width layouts, with no page errors/missing assets; legal
+pages and no-JavaScript fallback remain readable. English/Hindi screenshots
+visually reviewed. No runtime test bypass is introduced: workflow fixtures use
+an acknowledged visitor, while first-visit tests use real controls.
+
+Evidence: `.publish/beta-full-api.log`, `.publish/beta-regression.log`,
+`.publish/beta-final-browser.log`, `.publish/beta-dialog-final.log`,
+`.publish/beta-layout-final.log`, `.publish/beta-sidebar-verification.log`,
+`.publish/beta-unit-final.log`, `.publish/beta-local.json` and
+`.publish/beta-local-final.log`. The latest local CSS refinement is covered by
+the focused layout checks; production build/live checks follow. No database
+migration, production business write or native APK change. Actual Android device
+behavior is not separately verified. Deployment is pending at this checkpoint.
+
+**Beta notice implementation (2026-10-19, local verification in progress):**
+Added a shared static beta note, English/Hindi first-visit dialog, unchecked
+acknowledgement, readable terms/privacy/notices/contact before acknowledging,
+and explicit WhatsApp issue/licensing draft. Review and forget remain available;
+only a notice-version preference is kept locally, with session/tab fallback.
+No legal waiver, licence clearance, new processing permission or server consent
+audit is claimed. Shared injection covers Node, Cloudflare and generated Arena
+HTML; APIs and business persistence are unchanged. See `docs/BETA_NOTICE.md`.
+Full isolated API/build suite passes **359/359**. Initial first-visit suite passed
+6/6; screenshot review then found language synchronization needed correction,
+and the decline destination was adjusted to readable terms for Android wrapper
+compatibility. Corrected flow and regression verification are running. Evidence:
+`.publish/beta-unit.log`, `.publish/beta-full-api.log`,
+`.publish/beta-first-visit.log` and `.publish/beta-regression.log`.
+No deployment, migrations, account changes or production business writes yet.
+
 **Loading improvements release (2026-10-19, live verified):** Commits
 `746be27`, `0bb6ffe`, `40d7ca0` and readiness `decfd31` are pushed to main and
 deployed as Worker `d3b6cdd9-281a-46d8-bf3c-dfc14f117013`. Existing D1 binding,

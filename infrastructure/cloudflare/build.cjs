@@ -37,7 +37,7 @@ function build({fullstack=false,organisations=false}={}) {
     let contents = fs.readFileSync(path.join(root, source));
     // Install fetch interception before app scripts; avoid waiting on its CSS.
     if (source.endsWith('.html')) contents = Buffer.from(contents.toString().replace('<head>', '<head><script src="/shared/availability.js?v=20261019-delivery"></script><link rel="stylesheet" href="/shared/availability.css">'));
-    if(source.endsWith('.html'))contents=Buffer.from(require('../../packages/ui/theme-html.cjs').earlyTheme(contents.toString()));
+    if(source.endsWith('.html'))contents=Buffer.from(require('../../packages/ui/beta-html.cjs').betaHtml(require('../../packages/ui/theme-html.cjs').earlyTheme(contents.toString())));
     fs.writeFileSync(target, contents);
   }
   fs.writeFileSync(path.join(__dirname, 'pages.json'), JSON.stringify(pages, null, 2) + '\n');
@@ -53,7 +53,7 @@ function build({fullstack=false,organisations=false}={}) {
       const target='/_organisations/'+url.slice(1)+(source.endsWith('.html')?'.html':'');
       manifest[url]=target;const filename=path.join(output,target);fs.mkdirSync(path.dirname(filename),{recursive:true});
       let content=fs.readFileSync(path.join(root,source),'utf8');
-      if(source.endsWith('.html'))content=require('../../packages/ui/theme-html.cjs').earlyTheme(content);
+      if(source.endsWith('.html'))content=require('../../packages/ui/beta-html.cjs').betaHtml(require('../../packages/ui/theme-html.cjs').earlyTheme(content));
       if(source.endsWith('.html'))content=content.replace('<html lang="en">','<html lang="en" data-runtime="cloud">').replace(/Local preview[^<]*/g,'Organisation workspace');
       fs.writeFileSync(filename,content);
     }

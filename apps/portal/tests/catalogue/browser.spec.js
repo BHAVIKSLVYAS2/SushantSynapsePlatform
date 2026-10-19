@@ -1,5 +1,5 @@
 const {noAdsContext}=require('../../../../tests/browser-ads');
-const {test,expect}=require('@playwright/test');
+const {test,expect}=require('../../../../tests/browser-fixture.js');
 const {spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 let child,base,dir;
 test.beforeEach(async({context})=>{await context.route('https://pagead2.googlesyndication.com/**',route=>route.fulfill({contentType:'text/javascript',body:''}));dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-catalogue-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,DATABASE_PROVIDER:'sqlite',NODE_ENV:'test',PORT:'0',DATA_DIR:dir},windowsHide:true,stdio:['ignore','pipe','pipe']});await new Promise((resolve,reject)=>{let out='';child.stdout.on('data',data=>{out+=data;const match=out.match(/localhost:(\d+)/);if(match){base='http://127.0.0.1:'+match[1];resolve();}});child.once('error',reject);});});

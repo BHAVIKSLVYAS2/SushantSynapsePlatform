@@ -1,5 +1,14 @@
 # Code ownership and adding apps
 
+Beta notice (2026-10-19): `packages/ui/beta-html.cjs` owns idempotent shared
+markup; `beta-notice.js`/`.css` own the English/Hindi first-visit acknowledgement,
+static footer note and explicit WhatsApp draft. Node HTML composition, Cloudflare
+export (including guarded admin/client pages) and generated Arena HTML use the
+same injection. The notice version is a browser-only UI preference, with review,
+forget, session-storage fallback and readable legal pages before acknowledging.
+No API, account authority, tracking permission or server consent audit is added.
+See `docs/BETA_NOTICE.md` and the functionality ledger for behavior and evidence.
+
 Feedback: `apps/feedback/` owns the public `/feedback` board, visitor cookie,
 request/comment/vote validation, moderation and responsive UI. The same service
 runs through Node composition and Workers, using the existing SQLite/D1 settings

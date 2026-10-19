@@ -1,4 +1,4 @@
-const {test, expect} = require('@playwright/test');
+const {test, expect} = require('../../../tests/browser-fixture.js');
 const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -86,7 +86,7 @@ test('an outage during sign-in preserves input and connection checks never reloa
   await expect(page.getByLabel('Email address')).toHaveValue('draft@example.com');
 });
 test('fallback and independent links work without JavaScript; retry keeps the original URL', async ({browser}) => {
-  const context = await browser.newContext({javaScriptEnabled: false});
+  const context = await require('../../../tests/browser-fixture.js').acknowledgedContext(browser,{javaScriptEnabled: false});
   const page = await context.newPage();
   const target = base + '/tournament-lite?share=retain-this';
   await page.goto(target); await expect(page.getByRole('link', {name: 'Moment Studio', exact: true})).toBeVisible();

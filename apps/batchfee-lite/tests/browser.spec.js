@@ -1,5 +1,5 @@
 const {setTheme}=require('../../../tests/browser-theme');
-const {test,expect}=require('@playwright/test');
+const {test,expect}=require('../../../tests/browser-fixture.js');
 const {spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 let child,base,dir;
 test.beforeEach(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'batchfee-browser-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe']});await new Promise((resolve,reject)=>{let out='';child.stdout.on('data',c=>{out+=c;const m=out.match(/localhost:(\d+)/);if(m){base='http://127.0.0.1:'+m[1];resolve();}});child.once('error',reject);child.once('exit',code=>reject(Error('Server exited '+code)));});});

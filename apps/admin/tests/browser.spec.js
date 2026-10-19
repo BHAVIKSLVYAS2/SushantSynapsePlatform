@@ -1,4 +1,4 @@
-const {test,expect}=require('@playwright/test');
+const {test,expect}=require('../../../tests/browser-fixture.js');
 const {startPreview}=require('../../../tests/organisation-preview-fixture.cjs');
 let fixture;
 test.beforeEach(async()=>{fixture=await startPreview();});
@@ -17,7 +17,7 @@ test('Super Admin manages licences and provisions an organisation',async({page})
 test('Master Admin invites a client and the intended account accepts',async({page,browser})=>{
  await login(page,'master');await page.goto(fixture.base+'/admin');await expect(page.getByRole('status')).toHaveText('Workspace ready.');await expect(page.locator('form[data-command="licence"]')).toHaveCount(0);
  const invite=await openForm(page,'invite');await invite.getByLabel('Existing account email').fill('client@example.com');await invite.getByLabel('Membership role').selectOption('Client');await invite.getByLabel('Reason for change').fill('Client membership invitation');await invite.getByRole('button',{name:'Create invitation'}).click();await expect(page.getByRole('status')).toHaveText('Change saved.');const token=await page.locator('#secret').inputValue();
- const context=await browser.newContext();try{const client=await context.newPage();await login(client,'client');await client.goto(fixture.base+'/admin');await expect(client.getByRole('status')).toHaveText('Workspace ready.');await client.getByLabel('Invitation secret',{exact:true}).fill(token);await client.getByRole('button',{name:'Accept invitation',exact:true}).click();await expect(client.getByRole('status')).toHaveText('Change saved.');await expect(client.getByLabel('Invitation secret',{exact:true})).toHaveValue('');}finally{await context.close();}
+ const context=await require('../../../tests/browser-fixture.js').acknowledgedContext(browser);try{const client=await context.newPage();await login(client,'client');await client.goto(fixture.base+'/admin');await expect(client.getByRole('status')).toHaveText('Workspace ready.');await client.getByLabel('Invitation secret',{exact:true}).fill(token);await client.getByRole('button',{name:'Accept invitation',exact:true}).click();await expect(client.getByRole('status')).toHaveText('Change saved.');await expect(client.getByLabel('Invitation secret',{exact:true})).toHaveValue('');}finally{await context.close();}
  await page.getByRole('button',{name:'Refresh',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Workspace ready.');await expect(page.locator('.person').filter({hasText:'client@example.com'})).toContainText('Active');
 });
 test('membership assignment, stale edit handling and responsive themes',async({page})=>{
@@ -55,7 +55,7 @@ test('new Master Admin invitation activates an account and signs into only its o
  await create.getByRole('button',{name:'Create organisation',exact:true}).click();
  await expect(page.getByRole('status')).toHaveText('Change saved.');
  const token=await page.locator('#secret').inputValue();
- const context=await browser.newContext();
+ const context=await require('../../../tests/browser-fixture.js').acknowledgedContext(browser);
  try{
   const recipient=await context.newPage();await recipient.goto(fixture.base+'/admin');
   await expect(recipient.locator('#signin')).toBeVisible();
@@ -93,7 +93,7 @@ for(const role of ['Staff','Client'])test(`Master Admin invites a new ${role} id
  await invite.getByLabel('New or pending account email').fill('new-member@example.com');await invite.getByLabel('Membership role').selectOption(role);
  await invite.getByLabel('Reason for change').fill('New '+role+' invitation');await invite.getByRole('button',{name:'Create invitation',exact:true}).click();
  await expect(page.getByRole('status')).toHaveText('Change saved.');const token=await page.locator('#secret').inputValue();
- const context=await browser.newContext();
+ const context=await require('../../../tests/browser-fixture.js').acknowledgedContext(browser);
  try{
   const recipient=await context.newPage();await recipient.goto(fixture.base+'/admin');await expect(recipient.locator('#signin')).toBeVisible();
   await recipient.getByText('Activate a new account',{exact:true}).click();const activate=recipient.locator('#new-master');

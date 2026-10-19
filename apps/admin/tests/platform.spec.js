@@ -1,4 +1,4 @@
-const {test,expect}=require('@playwright/test');
+const {test,expect}=require('../../../tests/browser-fixture.js');
 const {startPreview}=require('../../../tests/organisation-preview-fixture.cjs');
 let fixture;
 
@@ -44,7 +44,7 @@ test('Super Admin suspends and reactivates an organisation with explicit confirm
  await form.getByRole('button',{name:'Update organisation status',exact:true}).click();await expect(page.getByRole('status')).toContainText('Type the organisation name exactly');
  await form.getByLabel('Type organisation name to confirm').fill('First Chambers');
  await form.getByRole('button',{name:'Update organisation status',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Change saved.');await expect(page.locator('#summary')).toContainText('Suspended');
- const context=await browser.newContext();
+ const context=await require('../../../tests/browser-fixture.js').acknowledgedContext(browser);
  try{
   const member=await context.newPage();await login(member,'master');await member.goto(fixture.base+'/account');await expect(member.getByRole('status')).toHaveText('Account ready.');
   const own=member.locator('#panels section').filter({has:member.getByRole('heading',{name:'First Chambers',exact:true})});

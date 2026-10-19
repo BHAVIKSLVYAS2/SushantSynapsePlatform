@@ -1,4 +1,4 @@
-const {test,expect}=require('@playwright/test');
+const {test,expect}=require('../../../tests/browser-fixture.js');
 const fs=require('node:fs');
 const {setTheme}=require('../../../tests/browser-theme');
 const {startPreview}=require('../../../tests/organisation-preview-fixture.cjs');

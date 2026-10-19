@@ -1,5 +1,5 @@
 const {setTheme}=require('../../../tests/browser-theme');
-const {test,expect}=require('@playwright/test');
+const {test,expect}=require('../../../tests/browser-fixture.js');
 const {spawn}=require('node:child_process');
 const fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 let child,base,dir;

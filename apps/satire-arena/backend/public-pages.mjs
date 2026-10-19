@@ -1,6 +1,7 @@
 import {characterContent} from './character-page.mjs';
 import {cast} from '../frontend/catalogue.mjs';
 import {sampleEdition} from './sample-edition.mjs';
+import beta from '../../../packages/ui/beta-html.cjs';
 export const publicEditorialPath=path=>path==='/satire-arena/daily'||path.startsWith('/satire-arena/posts/')||path.startsWith('/satire-arena/categories/')||path.startsWith('/satire-arena/characters/')||path==='/satire-arena/results'||path==='/satire-arena/sitemap.xml'||path==='/sitemap.xml'||path==='/robots.txt';
 export const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function leaders(scores,key){const max=Math.max(0,...scores.map(c=>c[key]||0));return max?scores.filter(c=>c[key]===max).map(c=>cast.find(x=>x.id===c.id)?.name||c.id).join(', ')+' ('+max+')':'No reactions yet';}
@@ -12,7 +13,7 @@ export function publicPage(request,data,results=null){
  const posts=data.posts||[],suffix=sample?'?sample=1':'',link=p=>'/satire-arena/posts/'+p.slug+suffix;
  const stamp=p=>sample?'<span class="sample-label">Sample edition · Original fictional satire</span>':'<time datetime="'+e(p.publishAt)+'">'+e(new Date(p.publishAt).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'}))+' IST</time>';
  const xml=paths=>'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+paths.map(p=>'<url><loc>'+e(origin+p)+'</loc></url>').join('')+'</urlset>';
- const respond=(content,type='text/html; charset=utf-8',status=200)=>new Response(request.method==='HEAD'?null:content,{status,headers:{'Content-Type':type,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','X-Frame-Options':'DENY','Referrer-Policy':'same-origin','Content-Security-Policy':"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"}});
+ const respond=(content,type='text/html; charset=utf-8',status=200)=>new Response(request.method==='HEAD'?null:(type.startsWith('text/html')?beta.betaHtml(content):content),{status,headers:{'Content-Type':type,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','X-Frame-Options':'DENY','Referrer-Policy':'same-origin','Content-Security-Policy':"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"}});
  if(!['GET','HEAD'].includes(request.method))return respond('Method not allowed','text/plain',405);
  if(path==='/robots.txt')return respond('User-agent: *\nDisallow: /api/\nDisallow: /satire-arena/editor\nSitemap: '+origin+'/sitemap.xml\n','text/plain');
  if(path.endsWith('sitemap.xml'))return respond(xml(['/', '/satire-arena','/satire-arena/daily','/satire-arena/results',...cast.map(c=>'/satire-arena/characters/'+c.id),...posts.map(link),...[...new Set(posts.map(p=>p.category))].map(c=>'/satire-arena/categories/'+c)]),'application/xml');
