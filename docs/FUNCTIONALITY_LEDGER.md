@@ -1,5 +1,32 @@
 # Chambers functionality ledger
 
+**Loading cleanup step 1 (2026-10-19, local verified):** Removed retired comic,
+satire and cover selectors from News styles while preserving reader, responsive
+and print rules. Removed six unused News artwork exports and eight original
+Arena image exports; source artwork remains available in the repository. Arena
+browser checks now decode the actual delivered WebP assets. All 31 News/Arena
+Chrome workflows covered: 27 initial passes and four corrected legacy-image
+checks passing in focused reruns. Disposable temporary SQLite only. Evidence:
+`.publish/loading-step1-browser.log`, `.publish/loading-step1-rerun.log` and
+`.publish/loading-step1-rerun-extra.log`. No deployment or stored-data changes
+at this checkpoint.
+
+**Loading/code audit (2026-10-19, source inspection only):** Reviewed static
+allowlist, frontend entry points, shared styles, Cloudflare export and cache
+fingerprinting. Remaining candidates: obsolete comic-specific News selectors
+in still-loaded `comic.css`/`style.css` (retain shared reader/print rules);
+unreferenced original News artwork and Arena expression variants in the public
+allowlist (retain source artwork/test fixtures separately); app-scoped filtering
+of the shared premium CSS; delivery minification of JS/CSS copied unchanged by
+the static exporter; and finer-grained asset fingerprints to avoid invalidating
+every public app on unrelated asset changes. The exported availability script
+also blocks HTML parsing and contains historical laptop-only Chambers wording;
+any loading change must preserve its early fetch interception. Existing home
+CSS filtering, immutable public caching and shared initial auth request are
+already implemented. Byte measurements and reference searches are local source
+evidence, not browser timing or proof of production impact. No runtime code,
+assets, data or deployment changed; no API/browser test run for this audit.
+
 **Latest committed-source republish (2026-10-19):** At the user's request,
 commit `b97d0b3` was republished to production Worker
 `edfd733f-decb-497d-ba3a-44ee039791f2`, including the completed Feedback release

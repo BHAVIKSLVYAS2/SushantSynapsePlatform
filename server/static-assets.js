@@ -39,19 +39,11 @@ const staticAssets={
  '/satire-arena/highway-budget-fast.webp':'apps/satire-arena/frontend/highway-budget-fast.webp',
  '/satire-arena/speakers-fast.webp':'apps/satire-arena/frontend/speakers-fast.webp',
  '/satire-arena/extra-cast.svg':'apps/satire-arena/frontend/extra-cast.svg',
- '/satire-arena/highway-budget-expressions.png':'apps/satire-arena/frontend/highway-budget-expressions.png',
- '/satire-arena/speakers-expressions.png':'apps/satire-arena/frontend/speakers-expressions.png',
- '/satire-arena/new-cast.png':'apps/satire-arena/frontend/new-cast.png',
- '/satire-arena/expressions-original.png':'apps/satire-arena/frontend/expressions-original.png',
- '/satire-arena/expressions-expanded.png':'apps/satire-arena/frontend/expressions-expanded.png',
- '/satire-arena/expressions-new.png':'apps/satire-arena/frontend/expressions-new.png',
- '/satire-arena/extra-cast-v2.png':'apps/satire-arena/frontend/extra-cast-v2.png',
  '/satire-arena/feedback.mjs':'apps/satire-arena/frontend/feedback.mjs',
  '/satire-arena/app.js':'apps/satire-arena/frontend/app.js',
  '/satire-arena/style.css':'apps/satire-arena/frontend/style.css',
  '/satire-arena/cartoon-cast-768.webp':'apps/satire-arena/frontend/cartoon-cast-768.webp',
  '/satire-arena/cartoon-cast.webp':'apps/satire-arena/frontend/cartoon-cast.webp',
- '/satire-arena/expressions-original.webp':'apps/satire-arena/frontend/expressions-original.webp',
  '/satire-arena/cartoon-cast.png':'apps/satire-arena/frontend/cartoon-cast.png',
  '/privacy':'apps/portal/frontend/privacy.html',
  '/terms':'apps/portal/frontend/terms.html',
@@ -149,7 +141,7 @@ for(const route of ['/privacy','/terms','/contact','/legal','/legal/third-party-
 for(const file of ['platform.js','platform.css','manifest.webmanifest','logo-adaptive.png','logo-adaptive-192.png','logo-adaptive-512.png','logo-adaptive-uhd.png'])staticAssets['/'+file]='apps/portal/frontend/'+file;
 for(const file of ['app.js','style.css','icon.svg','advocate.webmanifest'])staticAssets['/'+file]='apps/advocate/frontend/'+file;
 for(const file of ['app.js','engine.js','style.css','icon.svg'])staticAssets['/fund-overlap/'+file]='apps/fund-overlap/frontend/'+file;
-for(const file of ['app.js','engine.js','style.css','comic.css','art/chai-comic-v1.webp','art/news-desk-v1.webp','art/chai-comic-768.webp','art/chai-comic-1280.webp','art/news-desk-768.webp','art/news-desk-1280.webp'])staticAssets['/news/'+file]='apps/news/frontend/'+file;
+for(const file of ['app.js','engine.js','style.css','comic.css'])staticAssets['/news/'+file]='apps/news/frontend/'+file;
 staticAssets['/confessions']='apps/confessions/frontend/index.html';
 staticAssets['/confessions/']='apps/confessions/frontend/index.html';
 for(const file of ['app.js','style.css','ad-config.mjs','ads.mjs','reveal-budget.mjs','captcha.mjs'])staticAssets['/confessions/'+file]='apps/confessions/frontend/'+file;
