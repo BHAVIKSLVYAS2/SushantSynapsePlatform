@@ -1,5 +1,6 @@
 import {visitors,visitorKey} from '../apps/portal/backend/visitors.mjs';
 import {confessions,storageKey as confessionsKey} from '../apps/confessions/backend/service.mjs';
+import {feedback,storageKey as feedbackKey} from '../apps/feedback/backend/service.mjs';
 import {D1Repository,Conflict} from '../packages/database/d1.mjs';
 import {PrivateFiles} from '../packages/storage/r2.mjs';
 import {session,auth} from '../packages/auth/edge.mjs';
@@ -47,10 +48,13 @@ export async function edgeApi(request,env){
     const {organisations}=await response.json();
     result=await portal({...context,user:{...user,role:'Clerk',appIds:organisations.length?['advocate']:[]}});
     if(route==='platform'&&result.ok){const data=await result.json();data.apps=data.apps.map(app=>!app.public&&app.id!=='advocate'?{...app,status:'Unavailable',accessible:false,description:'Organisation integration is not available for this app yet.'}:app);result=json(data);}
-   }else if(!(/^(platform\/visitors|confessions|arena-metrics|arena-editorial|satire-arena|news)(\/|$)/.test(route)||route==='support'||route==='ritual-assist/calendar'))fail(409,'Use organisation-scoped APIs. Other private applications are unavailable.');
+   }else if(!(/^(platform\/visitors|feedback|confessions|arena-metrics|arena-editorial|satire-arena|news)(\/|$)/.test(route)||route==='support'||route==='ritual-assist/calendar'))fail(409,'Use organisation-scoped APIs. Other private applications are unavailable.');
    if(result){if(request.method==='GET'&&!await repo.unchanged())throw new Conflict();return result;}
   }
-  if(route==='platform/visitors'){
+  if(route==='feedback'||route.startsWith('feedback/')){
+   const canModerate=!!user&&(env.ORGANISATIONS_ENABLED==='true'?(await repo.first('SELECT active FROM platform_super_admins WHERE userId=?',user.id))?.active===1:user.role==='Owner');
+   result=await feedback(request,{canModerate,read:()=>repo.setting(feedbackKey),write:next=>repo.commit([repo.settingWrite(feedbackKey,next)]),limit:()=>env.CONFESSIONS_LIMITER?.limit({key:'feedback:'+request.headers.get('CF-Connecting-IP')})||{success:false}});
+  }else if(route==='platform/visitors'){
  if(!['GET','POST'].includes(request.method))fail(405,'Method not allowed');
  if(request.method==='POST'&&!(await env.CONFESSIONS_LIMITER?.limit({key:'platform-visitors:'+request.headers.get('CF-Connecting-IP')}))?.success)fail(429,'Please try again later.');
  result=await visitors(request,{readVisitors:()=>repo.setting(visitorKey),writeVisitors:next=>repo.commit([repo.settingWrite(visitorKey,next)])});

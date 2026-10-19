@@ -1,5 +1,10 @@
 # Sushant Synapse Platform
 
+`/feedback` is the community ideas board: search, suggest features, vote and discuss
+without signing in. Browser voting and administrator moderation use shared SQL
+persistence. See [Feedback details](apps/feedback/README.md) and the functionality
+ledger for current verification and deployment status.
+
 Android APK wrapper source, build instructions, offline handling and website-versus-APK
 update guidance are maintained in [apps/android-wrapper](apps/android-wrapper/README.md).
 

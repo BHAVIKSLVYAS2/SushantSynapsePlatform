@@ -1,5 +1,13 @@
 # Code ownership and adding apps
 
+Feedback: `apps/feedback/` owns the public `/feedback` board, visitor cookie,
+request/comment/vote validation, moderation and responsive UI. The same service
+runs through Node composition and Workers, using the existing SQLite/D1 settings
+table with optimistic transaction guards and explicit capacity limits. No private
+app access or schema migration. Organisation moderation is platform Super Admin
+only; default Node uses Owner. Shared navigation exposes Feedback separately
+from the app catalogue. See its README and functionality ledger for release status.
+
 Android packaging: `apps/android-wrapper/` owns the native Java/WebView shell,
 launcher resources, connectivity screen, Android build/signing script and update
 guide. It loads the live production origin rather than bundling app code. Keep

@@ -1,5 +1,9 @@
 // Explicit URL allowlist. Filesystem paths are never accepted from requests.
 const staticAssets={
+ '/feedback':'apps/feedback/frontend/index.html',
+ '/feedback/':'apps/feedback/frontend/index.html',
+ '/feedback/app.js':'apps/feedback/frontend/app.js',
+ '/feedback/style.css':'apps/feedback/frontend/style.css',
  '/shared/download.mjs':'packages/ui/download.mjs',
  '/shared/text.mjs':'packages/ui/text.mjs',
  '/shared/crc32.mjs':'packages/ui/crc32.mjs',

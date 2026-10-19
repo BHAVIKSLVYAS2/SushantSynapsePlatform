@@ -1,5 +1,38 @@
 # Chambers functionality ledger
 
+**Community Feedback (2026-10-19, locally verified; release pending):** Added
+public `/feedback` with searchable/paginated requests, top/new sorting, status
+filters, duplicate suggestions, feature/bug/improvement submissions, per-browser
+vote/unvote, shareable discussion links, comments and reports. No sign-in or
+account name/email is required or exposed. A year-lived HttpOnly/SameSite cookie
+identifies the browser; only its hash is stored. Clearing cookies/another browser
+can create another identity; votes are not verified unique people. Default Node
+Owner or active production platform Super Admin can update statuses and hide/show
+requests/comments. Chambers roles alone do not grant production moderation.
+Hidden text and contributor hashes are absent from public projections. Reports
+queue for review. No notification, delivery or release-date promises.
+
+App-owned service uses existing SQLite/D1 settings with transactional revision
+guards; no schema migration, private API exposure or business-data replacement.
+Bounded capacity/rate limits, same-origin writes, input/body/query validation and
+honeypot apply; limits/retention are documented in the app README and privacy
+notice. Shared footer/switcher expose Feedback outside the app catalogue. Uses
+theme tokens and escaped rendering; no client-side business persistence.
+
+Verification: focused feedback service + real D1 **7/7**; full API **355/356**
+initially, unrelated timetable search-time limit passes isolated **6/6** rerun
+(all 356 checks covered across runs). Feedback Chrome **3/3**, shared catalogue/
+shell Chrome **11/11**. Covers separate-browser identity, reload persistence,
+comment/report flow, owner and Super Admin enforcement/revocation, concurrency,
+capacity/input bounds, hidden projections, local SQLite reopen, link navigation,
+320/390/768/1440px light/dark layouts. Mobile screenshot visually reviewed.
+Fixed discussion links triggering the shared navigation overlay; regression checks
+it stays hidden. Syntax/whitespace pass. Tests use disposable temporary workspaces;
+no production contribution or business-data write. Evidence:
+`.publish/feedback-api-tests.log`, `.publish/feedback-full-api.log`,
+`.publish/feedback-timetable-rerun.log`, `.publish/feedback-complete-browser.log`,
+`.publish/feedback-shell-tests.log` and `.publish/feedback-mobile.png`.
+
 **Android bottom-navigation spacing (2026-10-19, APK built; device confirmation
 pending):** User confirmed certificate downloads work in 1.0.1, then supplied an
 APK screenshot showing excessive blank area beneath Home/Apps/Games/Workspace.

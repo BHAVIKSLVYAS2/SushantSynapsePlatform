@@ -4,6 +4,7 @@ import pages from './pages.json' with {type: 'json'};
 import adsense from '../../packages/ui/adsense.cjs';
 import {cloudPages} from '../../apps/satire-arena/backend/cloud-pages.mjs';
 const independent = new Set(['/confessions','/confessions/','/qr-maker','/qr-maker/','/photo-resize','/photo-resize/','/bill-splitter','/bill-splitter/','/satire-arena','/satire-arena/','/privacy', '/privacy/', '/terms', '/terms/', '/contact', '/contact/', '/legal', '/legal/', '/legal/third-party-notices', '/legal/third-party-notices/', '/showcase', '/showcase/', '/support', '/support/', '/ritual-assist', '/ritual-assist/', '/ritual-assist/calendar', '/ritual-assist/calendar/', '/take-a-break', '/take-a-break/', '/sponsor', '/sponsor/', '/moment-studio', '/moment-studio/', '/moment-studio/cards', '/moment-studio/cards/', '/moment-studio/certificates', '/moment-studio/certificates/', '/team-mixer', '/team-mixer/', '/decision-wheel', '/decision-wheel/', '/daily-spark', '/daily-spark/', '/', '/fund-overlap', '/news', '/timetable-lite', '/timetable-lite/']);
+independent.add('/feedback');independent.add('/feedback/');
 const security = {
   'Strict-Transport-Security': 'max-age=3600',
   'X-Synapse-Frontend': 'cloudflare',

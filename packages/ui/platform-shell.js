@@ -7,6 +7,7 @@
  const path=location.pathname.replace(/\/$/,'')||'/';
  const current=entries.find(([,route])=>(aliases[path]||path)===route||path.startsWith(route+'/'));
  const names={'/':'All apps','/signin':'Sign in','/support':'Support','/sponsor':'Sponsorship','/showcase':'Demos','/contact':'Contact','/privacy':'Privacy','/terms':'Usage terms','/legal':'Legal information','/legal/third-party-notices':'Third-party notices'};
+ names['/feedback']='Feedback';
  const header=document.createElement('header');header.className='platform-shell';header.setAttribute('aria-label','Sushant Synapse platform');
  header.innerHTML=`<a class="platform-shell-brand" href="/" aria-label="Sushant Synapse home"><img src="/logo-adaptive-192.png" width="32" height="32" alt=""><span>Sushant Synapse<small>PLATFORM</small></span></a><span class="platform-shell-divider" aria-hidden="true"></span><button class="platform-switch" type="button" aria-haspopup="dialog" aria-controls="platform-switcher"><span>${current?.[0]||names[path]||'All apps'}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></button><div class="platform-shell-actions">${window.SynapseTheme?.control()||''}<a class="platform-account" href="/signin?section=profile" aria-label="Sign in">Sign in</a></div>`;
  const skip=document.querySelector('body>.skip-link,body>.skip');
@@ -64,6 +65,7 @@
  const modal=document.createElement('dialog');modal.id='platform-switcher';modal.className='platform-switcher';modal.setAttribute('aria-labelledby','platform-switcher-title');
  modal.innerHTML='<div class="platform-switcher-heading"><div><h2 id="platform-switcher-title">Switch app</h2><p>One platform. Choose your workspace or tool.</p></div><button type="button" aria-label="Close app switcher">×</button></div><label class="platform-switcher-search">Find an app<input type="search" placeholder="Search apps" autocomplete="off"></label><nav aria-label="Available platform apps"><p class="platform-switcher-group">Try something today</p><a href="/take-a-break?game=24"><strong>Make 24</strong><span>Daily number puzzle</span></a><a href="/decision-wheel" class="platform-switcher-feature"><strong>Let chance choose</strong><span>Spin the Decision Wheel</span></a><p class="platform-switcher-group">All apps</p><a href="/" class="platform-switcher-home">All apps<span>Home and your collection</span></a>'+entries.map(([name,route,status])=>`<a href="${route}"${current?.[1]===route?' aria-current="page"':''}><strong>${name}</strong><span>${status}${current?.[1]===route?' · Current app':''}</span></a>`).join('')+'</nav><p class="platform-switcher-empty" hidden>No apps match your search.</p><p class="platform-switcher-note">Private workspaces require sign-in and assigned access.</p>';
  document.body.append(modal);
+ const feedbackLink=document.createElement('a');feedbackLink.href='/feedback';feedbackLink.innerHTML='<strong>Feedback &amp; ideas</strong><span>Suggest, vote and help improve the platform</span>';modal.querySelector('nav').append(feedbackLink);
  const trigger=header.querySelector('.platform-switch'),input=modal.querySelector('input');
  trigger.addEventListener('click',()=>{modal.showModal();input.focus();});
  modal.querySelector('button').addEventListener('click',()=>modal.close());
@@ -73,6 +75,7 @@
  input.addEventListener('input',()=>{modal.querySelectorAll('.platform-switcher-group').forEach(label=>label.hidden=!!input.value.trim());const words=input.value.trim().toLowerCase().split(/\s+/);let count=0;modal.querySelectorAll('nav a').forEach(link=>{link.hidden=!words.every(word=>link.textContent.toLowerCase().includes(word));if(!link.hidden)count++;});modal.querySelector('.platform-switcher-empty').hidden=!!count;});
  // Existing headers keep their local action handlers; classify them after app rerenders.
  function reconcile(){
+  document.querySelectorAll('.synapse-legal-footer nav').forEach(nav=>{if(!nav.querySelector('a[href="/feedback"]')){const link=document.createElement('a');link.href='/feedback';link.textContent='Feedback & ideas';nav.append(link);}});
   document.querySelectorAll('.synapse-header').forEach(local=>{
    local.classList.add('platform-app-toolbar');
    const actions=[...local.querySelectorAll('.header-actions a,.header-actions button,.top-actions button,.header-actions select')].filter(el=>!el.matches('[data-theme-toggle],#all-apps,.profile-button')&&!el.closest('.theme-control,.theme-picker')&&el.getAttribute('href')!=='/'&&!el.getAttribute('href')?.startsWith('/signin'));
