@@ -1,5 +1,15 @@
 # Chambers functionality ledger
 
+**Latest committed-source republish (2026-10-19):** At the user's request,
+commit `b97d0b3` was republished to production Worker
+`edfd733f-decb-497d-ba3a-44ee039791f2`, including the completed Feedback release
+documentation. Existing variables, organisation mode, D1 binding and rate limits
+preserved. Only the updated ledger asset required upload; no migrations or
+production-data changes. Deployment log: `.publish/feedback-latest-deploy.log`.
+Feedback's existing read-only Chrome verification is rerun after publication;
+no live contributions are created. This later documentation entry records the
+new Worker version without changing application behaviour.
+
 **Community Feedback release (2026-10-19, live verified):** Implementation
 `c1615d7` (including preceding native-only APK checkpoint `b457563`) is pushed to
 main and deployed to production Worker `03da1fe6-ee86-4ad3-9fe0-82c0a7368813`.

@@ -1,7 +1,12 @@
 # Organisation licensing production cutover
 
 Live on 2026-10-17 at `https://apps.sushantsynapse.com`.
-Current production Worker: `03da1fe6-ee86-4ad3-9fe0-82c0a7368813` (2026-10-19),
+Current production Worker: `edfd733f-decb-497d-ba3a-44ee039791f2` (2026-10-19),
+republishing committed Feedback source/documentation `b97d0b3` at the user's
+request. Variables, D1 binding, organisation mode and rate limits preserved;
+no migrations or stored-data changes. See the functionality ledger and
+`.publish/feedback-latest-deploy.log`.
+Prior production Worker: `03da1fe6-ee86-4ad3-9fe0-82c0a7368813` (2026-10-19),
 from public Feedback `c1615d7`, pushed to main. Public search, browser votes,
 requests/comments and administrator moderation use existing D1 settings;
 organisation mode requires current platform Super Admin for moderation. No schema
