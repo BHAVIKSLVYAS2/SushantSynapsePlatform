@@ -1,7 +1,16 @@
 # Organisation licensing production cutover
 
 Live on 2026-10-17 at `https://apps.sushantsynapse.com`.
-Current production Worker: `3dea7884-350e-4178-be4c-479ab7344291` (2026-10-19),
+Current production Worker: `03da1fe6-ee86-4ad3-9fe0-82c0a7368813` (2026-10-19),
+from public Feedback `c1615d7`, pushed to main. Public search, browser votes,
+requests/comments and administrator moderation use existing D1 settings;
+organisation mode requires current platform Super Admin for moderation. No schema
+migration or private business-data changes. All 356 API checks covered across
+runs/rerun, 3 Feedback Chrome and 11 shared catalogue/shell Chrome checks pass.
+Live read-only checks pass page/API/cookie/navigation, eight responsive theme
+layouts and private/hidden API boundaries, without page errors or live writes.
+Production variables/bindings preserved. See functionality ledger for evidence.
+Prior production Worker: `3dea7884-350e-4178-be4c-479ab7344291` (2026-10-19),
 from Android download fix and verification `63a41ab`, pushed to main. Updated
 ledger published; native download correction ships separately in signed APK
 1.0.1/code 2. Real certificate logo/signature uploads and PDF/PNG bridge exports

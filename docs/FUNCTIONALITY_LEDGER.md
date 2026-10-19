@@ -1,6 +1,21 @@
 # Chambers functionality ledger
 
-**Community Feedback (2026-10-19, locally verified; release pending):** Added
+**Community Feedback release (2026-10-19, live verified):** Implementation
+`c1615d7` (including preceding native-only APK checkpoint `b457563`) is pushed to
+main and deployed to production Worker `03da1fe6-ee86-4ad3-9fe0-82c0a7368813`.
+Live read-only Chrome checks pass `/feedback`, public D1 list, Secure/HttpOnly/
+SameSite browser identity cookie, populated app selector, footer/switcher entry
+and eight responsive light/dark layouts. No page errors. Guest moderation is
+403, private platform API 401, unscoped state API 409 and internal ledger asset
+404. All production write attempts during checks were blocked; no fake public
+contributions or private records were created. Existing D1 bindings, organisation
+mode, rate limits and variables preserved; no migrations or backend restart.
+Evidence: `.publish/feedback-production-deploy.log`, `.publish/feedback-live.json`
+and `.publish/feedback-live-mobile.png`. Physical Android interaction is not
+separately verified; reopening the website in the existing APK loads this feature.
+This subsequent documentation commit records completed release verification.
+
+**Community Feedback implementation (2026-10-19, verified before release):** Added
 public `/feedback` with searchable/paginated requests, top/new sorting, status
 filters, duplicate suggestions, feature/bug/improvement submissions, per-browser
 vote/unvote, shareable discussion links, comments and reports. No sign-in or
