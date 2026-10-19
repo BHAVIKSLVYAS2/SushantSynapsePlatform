@@ -1,5 +1,17 @@
 # Chambers functionality ledger
 
+**Make 24 blue glossy glass correction (2026-10-19):** Replaces the earlier
+mint raised-board treatment with a dedicated blue optical-glass palette. Sapphire
+number tiles/target use specular top reflections, thin illuminated edges and
+soft blue depth. Frosted operation buttons and a blue-lit board have separate
+light/dark tokens; primary action and selected mode match the palette. The hub
+also uses an explicit four-column operation grid and full-width primary action.
+Reduced motion removes transitions; selection retains outlines and pressed states.
+CSS only, scoped to Make 24 on both entry points; puzzle logic is unchanged.
+Six existing Chrome workflows pass, with focused theme/layout and hub reruns after
+palette cleanup. Mobile dark and desktop light screenshots visually reviewed.
+Production build and live verification follow the implementation commit.
+
 **Make 24 dimensional main screen (2026-10-19):** App-owned shared celebration
 stylesheet now also styles the live board on `/daily-spark` and Take a Break's
 Make 24 entry. Raised number tiles, recessed tray, beveled operation controls,
