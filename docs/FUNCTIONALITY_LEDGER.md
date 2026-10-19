@@ -1,5 +1,7 @@
 # Chambers functionality ledger
 
+**Remaining-changes release (2026-10-19, live verified):** Source commit 221b8e2 pushed to main; production Worker e8d4e107-d65f-4758-a577-3836bb9bc470 deployed the updated ledger. Isolated Chrome bridge checks, 26 Java policy checks, APK signature and recorded hashes pass. Live read-only checks: home/Chambers 200, anonymous platform API 401, internal ledger asset 404. Production variables/D1 bindings preserved; no migrations or business writes. APK remains a separate direct-install file with device verification pending; Stress Buster remains assessment only. Evidence: .publish/remaining-changes-deploy.log and .publish/remaining-changes-live.json. This subsequent documentation commit records release verification.
+
 **Stress Buster feasibility review (2026-10-19):** Read the external Unity/C#
 project at `C:/Code/StressBuster`, actual gameplay/build source, documentation,
 art and existing APK metadata/logs; compared with Take a Break's browser-native
