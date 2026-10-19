@@ -1,7 +1,20 @@
 # Organisation licensing production cutover
 
 Live on 2026-10-17 at `https://apps.sushantsynapse.com`.
-Current production Worker: `edfd733f-decb-497d-ba3a-44ee039791f2` (2026-10-19),
+Current production release (2026-10-19): loading improvements through `decfd31`,
+initially deployed as Worker `d3b6cdd9-281a-46d8-bf3c-dfc14f117013`. Public
+asset dependency fingerprints, app-specific premium CSS, export minification and
+retired News/artwork cleanup are live. All 358 API/build checks and 51 browser
+workflows covered across runs/reruns; live read-only verification passes 20 pages,
+160 responsive layouts, 86 asset matches, cache reuse, module execution and
+private/hidden boundaries, without page errors or production browser writes.
+Existing D1/auth bindings, variables, organisation mode and rate limits retained;
+no migrations or business-data changes. Release documentation is included in a
+follow-up republish of the same implementation. Final runtime identifier is
+recorded in `.publish/loading-documentation-deploy.log`; initial deployment and
+live evidence are `.publish/loading-production-deploy.log` and
+`.publish/loading-live.json`. See the functionality ledger.
+Prior production Worker: `edfd733f-decb-497d-ba3a-44ee039791f2` (2026-10-19),
 republishing committed Feedback source/documentation `b97d0b3` at the user's
 request. Variables, D1 binding, organisation mode and rate limits preserved;
 no migrations or stored-data changes. See the functionality ledger and

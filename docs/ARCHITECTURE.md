@@ -25,7 +25,7 @@ names, CSV validation, money units and access decisions remain app-owned. Existi
 export modules keep their download exports; Local Tools retains its one-second
 cleanup wrapper. See the ledger for local and production verification.
 
-Public static caching (2026-10-19, dependency refinement locally verified):
+Public static caching (2026-10-19, dependency refinement live verified):
 Cloudflare export uses `infrastructure/cloudflare/build-static-cache.cjs` to
 fingerprint each allowlisted public asset together with its transitive
 dependencies, including cycles, below `/_static/<digest>/`. Copied modules,

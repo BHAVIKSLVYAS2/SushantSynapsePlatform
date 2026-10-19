@@ -1,5 +1,30 @@
 # Chambers functionality ledger
 
+**Loading improvements release (2026-10-19, live verified):** Commits
+`746be27`, `0bb6ffe`, `40d7ca0` and readiness `decfd31` are pushed to main and
+deployed as Worker `d3b6cdd9-281a-46d8-bf3c-dfc14f117013`. Existing D1 binding,
+organisation mode, authentication, variables and rate limits preserved. No
+migrations or business-data changes. Removes 20.8 MB of unused public artwork
+exports while preserving repository originals; app premium CSS drops from
+52 KB to 29–34 KB before compression. Delivery minification saves an additional
+131,078 aggregate public JS/CSS bytes. Asset fingerprints retain unrelated
+cached files while invalidating changed dependencies.
+
+Live read-only Chrome verification passes 20 pages, 160 responsive theme/width
+layouts, 86 deployed asset byte comparisons and 18 observed cache reuses. Shared
+ZIP/CRC32/escaping/download modules execute successfully through versioned URLs;
+Chambers bootstrap order, retired artwork 404s, missing-static `no-store`, hidden
+assets and private API boundaries pass. No page errors or missing assets. Browser
+writes are blocked (20 attempts); no production account or private records used.
+The cache measurement uses a separate Chrome context with APIs blocked directly:
+Playwright request routing disables HTTP caching, and blank-document probes do
+not establish normal navigation reuse. Final evidence is
+`.publish/loading-live.json`, `.publish/loading-live-verified.log`,
+`.publish/loading-production-deploy.log` and mobile screenshots. Full local
+verification is recorded below. This release record is included in a subsequent
+documentation-only republish; `.publish/loading-documentation-deploy.log` records
+that final Worker identifier without changing application behaviour.
+
 **Loading release readiness (2026-10-19):** Final production-style local smoke
 passes 20 pages, 160 responsive light/dark layouts and 86 versioned asset byte
 comparisons, with no page errors or missing assets. Chambers scoped bootstrap
