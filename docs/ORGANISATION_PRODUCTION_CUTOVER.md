@@ -1,7 +1,19 @@
 # Organisation licensing production cutover
 
 Live on 2026-10-17 at `https://apps.sushantsynapse.com`.
-Current production Worker: `da790fe8-2d64-43cd-a1e1-d74f93ad4940` (2026-10-19),
+Current production Worker: `3dea7884-350e-4178-be4c-479ab7344291` (2026-10-19),
+from Android download fix and verification `63a41ab`, pushed to main. Updated
+ledger published; native download correction ships separately in signed APK
+1.0.1/code 2. Real certificate logo/signature uploads and PDF/PNG bridge exports
+pass live read-only Chrome verification with no page errors. All 349 API and
+eleven Studio workflows covered across runs/reruns, plus isolated wrapper workflow,
+bridge and 26 Java policy checks. No Android device/emulator available; native
+picker/Save as and installation remain unverified. Production bindings/variables
+preserved; no migrations or stored-data writes. See functionality ledger.
+Prior production Worker: `e8d4e107-d65f-4758-a577-3836bb9bc470` (2026-10-19),
+from wrapper source/review `221b8e2`; updated ledger published and read-only
+availability/access checks passed. APK remained separate from website deployment.
+Prior production Worker: `da790fe8-2d64-43cd-a1e1-d74f93ad4940` (2026-10-19),
 from heading wording `0ccf0cf`, pushed to main. Static/dynamic “Explore apps”
 heading and versioned discovery/language assets verified live in HTTP/Chrome,
 with no browser errors or forwarded writes. Production variables and bindings

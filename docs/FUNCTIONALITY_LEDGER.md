@@ -1,5 +1,18 @@
 # Chambers functionality ledger
 
+**Android correction release (2026-10-19, live verified):** Implementation
+`63a41ab` pushed to main and deployed to production Worker
+`3dea7884-350e-4178-be4c-479ab7344291`. Live Chrome checks pass Donation
+Appreciation logo/signature uploads and valid PDF/300 DPI PNG output through
+the updated bridge. No page errors; visitor POST blocked, no production writes.
+Home/Chambers return 200, anonymous platform API 401 and internal ledger asset
+404. All eleven Studio browser workflows pass across runs/reruns, including the
+corrected canonical catalogue fixture. Production D1 bindings and variables
+preserved. Evidence: `.publish/android-download-release-deploy.log` and
+`.publish/android-download-live.json`. Native fix requires installing signed APK
+1.0.1 over the existing app; physical-device picker/Save as still unverified.
+This subsequent documentation commit records completed release verification.
+
 **Android release verification (2026-10-19):** Real Donation Appreciation form
 passes with local PNG logo/signature uploads, PDF and 300/600 DPI PNG bridge
 exports, exact output size/header/dimensions, and invalid-file rejection under
