@@ -1,96 +1,134 @@
-/* Reference-inspired gallery; the calendar page retains its own layout. */
-body[data-ui-app=ritual-assist]{--ritual-gold:var(--accent);--ritual-glow:var(--soft)}
-html[data-theme=dark] body[data-ui-app=ritual-assist]{--bg:#061420;--surface:#132437;--text:#f1f5f7;--muted:#b6c4d4;--line:#34475f;--accent:#7ce0c1;--soft:#123f3d;--ritual-gold:#efd18c;--ritual-glow:#3a3024;--shell-bg:var(--bg);--shell-surface:var(--surface)}
-body[data-ui-app=ritual-assist] main{max-width:1120px;padding:24px 20px}
-body[data-ui-app=ritual-assist] main .intro{display:flex;justify-content:flex-end;margin:0 0 12px}
-body[data-ui-app=ritual-assist] .intro>div:first-of-type{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
-body[data-ui-app=ritual-assist] main .calendar-launch{position:relative;overflow:hidden;min-height:180px;border-radius:22px;padding:26px;background:linear-gradient(115deg,var(--surface),var(--ritual-glow));border-color:var(--line);gap:20px}
-.calendar-launch .calendar-symbol{display:grid;place-items:center;width:70px;height:70px;border:1px solid var(--line);border-radius:18px;background:var(--ritual-glow);color:var(--ritual-gold)}
-.calendar-launch h2{font:650 clamp(21px,3vw,29px)/1.3 'Segoe UI',sans-serif}
-.calendar-launch .eyebrow{color:var(--muted);letter-spacing:0;font-size:13px}
-.calendar-launch p{max-width:62ch;line-height:1.7}
-.calendar-launch .calendar-art{width:130px;height:140px;flex-shrink:0}
-.calendar-launch .calendar-open{background:var(--soft);color:var(--accent);border:1px solid var(--line);border-radius:30px;white-space:normal;text-align:center}
-body[data-ui-app=ritual-assist] .workspace{display:block}
-body[data-ui-app=ritual-assist] .workspace>.library{position:static;top:auto}
-body[data-ui-app=ritual-assist] .library{position:static;border-radius:24px;padding:12px;background:linear-gradient(145deg,var(--surface),var(--bg));margin-bottom:32px;max-height:none}
-.library>summary{font-size:clamp(22px,3vw,28px);padding:20px 14px;font-weight:650;align-items:center}
-.library>summary:before{content:'♧';color:var(--ritual-gold);font-size:34px;margin-right:16px}
-.library #guide-count{font-size:14px}
-.library-body{padding:0 14px 18px}
-.library-body>label{font-size:14px;color:var(--muted)}
-.library-body #search{border-radius:18px;padding:16px 18px;min-height:56px;margin:8px 0 20px}
-.library .filters{gap:10px}
-.library .filters button{border-radius:24px;padding:12px 18px;font-size:14px}
-.library .filters button[aria-pressed=true]{border-color:var(--accent);background:var(--soft);box-shadow:inset 0 0 16px color-mix(in srgb,var(--accent) 18%,transparent)}
-.library .guide-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-height:none;overflow:visible;padding:0}
-.library .guide-option{position:relative;display:grid;grid-template-columns:86px minmax(0,1fr);grid-template-rows:auto 1fr;column-gap:14px;align-items:center;border:1px solid var(--line);background:var(--surface);border-radius:22px;min-height:150px;padding:18px;text-align:left;color:var(--text)}
-.library .guide-option strong{font-size:17px;line-height:1.4;align-self:end;padding-right:8px}
-.library .guide-option small{font-size:13px;line-height:1.6;align-self:start;margin:8px 0 16px}
-.library .guide-option:after{content:'›';position:absolute;right:12px;bottom:10px;display:grid;place-items:center;width:28px;height:28px;border:1px solid var(--line);border-radius:50%;color:var(--muted);font-size:24px}
-.library .guide-option[aria-pressed=true]{border:2px solid var(--accent);background:linear-gradient(120deg,var(--soft),var(--surface));box-shadow:inset 0 0 18px color-mix(in srgb,var(--accent) 14%,transparent)}
-.ritual-art{grid-row:1/3;display:grid;place-items:center;color:var(--ritual-gold);background:radial-gradient(ellipse,var(--ritual-glow),transparent 72%);width:86px;height:104px}
-.ritual-art svg{width:100%;height:100%;fill:color-mix(in srgb,var(--ritual-gold) 16%,transparent);stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 4px 6px var(--bg))}
-@media(max-width:600px){body[data-ui-app=ritual-assist] main{padding:16px 12px}.calendar-launch .calendar-symbol{width:48px;height:48px;font-size:30px}.calendar-launch>div:nth-child(2){flex-basis:65%}.calendar-launch .calendar-open{width:auto;margin-left:auto;min-height:42px;padding:8px 16px}body[data-ui-app=ritual-assist] main .calendar-launch{padding:18px;gap:12px}.library-body{padding:0 4px 12px}.library>summary{padding:16px 4px}.library .guide-list{gap:9px}.library .guide-option{grid-template-columns:54px minmax(0,1fr);column-gap:8px;padding:12px 8px;min-height:148px;border-radius:18px}.ritual-art{width:54px;height:88px}.library .guide-option strong{font-size:13px}.library .guide-option small{font-size:11px;line-height:1.5}.library .filters{gap:6px}.library .filters button{font-size:11px;padding:9px 10px}.library #guide-count{font-size:11px}.library>summary:before{margin-right:8px}}
-@media(max-width:600px){.calendar-launch .calendar-art{position:absolute;right:8px;top:10px;width:68px;height:80px;opacity:.3;pointer-events:none}.calendar-launch>div:nth-child(2),.calendar-launch>a{position:relative;z-index:1}}
-@media(max-width:350px){.library .guide-option{grid-template-columns:1fr}.ritual-art{grid-row:auto;height:56px;width:56px}.library .guide-option strong{align-self:start}}
-@media print{body[data-ui-app=ritual-assist] main{padding:0}.calendar-launch{display:none!important}}
-/* Keep an adequate text column instead of squeezing words beside the artwork. */
-body[data-ui-app=ritual-assist]{--ritual-gold:#a36b20;--ritual-flame:#d67723;--ritual-petal:#c56b8c}
-html[data-theme=dark] body[data-ui-app=ritual-assist]{--ritual-gold:#efd18c;--ritual-flame:#ffac52;--ritual-petal:#f5a5bf}
-body[data-ui-app=ritual-assist] .library>summary:before{content:'🙏';font-size:30px;line-height:1;flex-shrink:0}
-body[data-ui-app=ritual-assist] .guide-option strong{grid-column:2;grid-row:1;overflow-wrap:normal;word-break:normal;hyphens:none}
-body[data-ui-app=ritual-assist] .guide-option small{display:block;grid-column:2;grid-row:2;overflow-wrap:normal;word-break:normal}
-body[data-ui-app=ritual-assist] .ritual-art{grid-column:1;grid-row:1/3}
-body[data-ui-app=ritual-assist] .ritual-art svg{stroke-width:2;fill:color-mix(in srgb,var(--ritual-gold) 35%,var(--surface));filter:drop-shadow(0 5px 6px color-mix(in srgb,var(--bg) 70%,transparent))}
-body[data-ui-app=ritual-assist] [data-guide=daily-puja] .ritual-art path:first-child{fill:var(--ritual-flame)}
-body[data-ui-app=ritual-assist] [data-guide=lakshmi-puja] .ritual-art{color:var(--ritual-petal)}
-body[data-ui-app=ritual-assist] [data-guide=lakshmi-puja] .ritual-art svg{fill:color-mix(in srgb,var(--ritual-petal) 50%,var(--surface))}
-body[data-ui-app=ritual-assist] [data-guide=havan] .ritual-art{color:var(--ritual-flame)}
-body[data-ui-app=ritual-assist] .library .guide-option{border-width:2px}
-body[data-ui-app=ritual-assist] .library .guide-option[aria-pressed=true]{box-shadow:inset 0 0 18px color-mix(in srgb,var(--accent) 14%,transparent)}
-body[data-ui-app=ritual-assist] #guide-count{white-space:nowrap}
-@media(max-width:600px){
- body[data-ui-app=ritual-assist] .library .guide-option{grid-template-columns:minmax(0,1fr);grid-template-rows:82px auto 1fr;gap:8px;padding:14px 12px 34px;min-height:246px;align-content:start}
- body[data-ui-app=ritual-assist] .guide-option .ritual-art{grid-column:1;grid-row:1;width:80px;height:82px;justify-self:center}
- body[data-ui-app=ritual-assist] .guide-option strong{grid-column:1;grid-row:2;font-size:15px;line-height:1.4;align-self:start;padding:0}
- body[data-ui-app=ritual-assist] .guide-option small{grid-column:1;grid-row:3;font-size:12px;line-height:1.6;margin:0;align-self:start}
- body[data-ui-app=ritual-assist] .library .filters{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:8px;padding-bottom:6px}
- body[data-ui-app=ritual-assist] .library .filters button{flex:0 0 auto;font-size:12px;min-height:44px;padding:10px 14px;text-align:left;white-space:nowrap}
- body[data-ui-app=ritual-assist] .library>summary{font-size:21px;gap:4px}
- body[data-ui-app=ritual-assist] .calendar-launch .calendar-symbol{align-self:flex-start;font-size:28px}
- body[data-ui-app=ritual-assist] .calendar-launch h2{font-size:21px;line-height:1.35;margin:6px 0 10px}
- body[data-ui-app=ritual-assist] .calendar-launch p{font-size:13px;line-height:1.7}
- body[data-ui-app=ritual-assist] .calendar-launch .calendar-art{display:none}
- body[data-ui-app=ritual-assist] main .calendar-launch{display:grid;grid-template-columns:48px minmax(0,1fr);gap:12px;align-items:start}
- body[data-ui-app=ritual-assist] .calendar-launch .calendar-symbol{grid-column:1;grid-row:1}
- body[data-ui-app=ritual-assist] .calendar-launch>div:nth-child(2){grid-column:2;grid-row:1;min-width:0}
- body[data-ui-app=ritual-assist] .calendar-launch .calendar-open{grid-column:2;grid-row:2;justify-self:start;margin:0;width:auto}
- body[data-ui-app=ritual-assist] .calendar-launch .eyebrow{font-size:12px;line-height:1.5;letter-spacing:0;color:var(--muted)}
+/* Ritual landing page. One layout and palette, scoped away from the calendar. */
+body.ritual-landing{
+ --ritual-bg:#f4f7f6;--ritual-panel:#fff;--ritual-raised:#eef4f5;--ritual-ink:#162f3f;--ritual-muted:#536b7a;--ritual-line:#cad8de;--ritual-gold:#916015;
+ --ritual-emerald:#007d5e;--ritual-emerald-deep:#00634c;--ritual-on-emerald:#fff;--ritual-teal:#e3f3ed;--ritual-teal-line:#9dd8c5;--ritual-highlight:#fff;--ritual-shadow:#152e4014;--ritual-warm:#f4e6cf;
+ --bg:var(--ritual-bg);--surface:var(--ritual-panel);--text:var(--ritual-ink);--ink:var(--ritual-ink);--muted:var(--ritual-muted);--line:var(--ritual-line);--accent:var(--ritual-emerald);--soft:var(--ritual-teal);
+ --shell-bg:var(--ritual-bg);--shell-surface:var(--ritual-panel);--shell-ink:var(--ritual-ink);--shell-muted:var(--ritual-muted);--shell-line:var(--ritual-line);--shell-accent:var(--ritual-emerald);--shell-soft:var(--ritual-teal);
+ --ritual-flame:#d98b29;--ritual-petal:#cb7990;--calm-soft:var(--ritual-teal);--shadow:0 8px 24px var(--ritual-shadow);
+ background:var(--ritual-bg);color:var(--ritual-ink);font:14px/1.5 'Segoe UI','Nirmala UI',Arial,sans-serif;
 }
-/* Independent calendar hero and compact guide surfaces. */
-body[data-ui-app=ritual-assist]{--ritual-paper:#fae6be;--ritual-bronze:#97601e;--ritual-depth:0 8px 22px #0002}
-body[data-ui-app=ritual-assist] main .calendar-launch{position:relative;display:block;min-height:280px;padding:28px 32px;border-color:color-mix(in srgb,var(--ritual-gold) 45%,var(--line));box-shadow:inset 0 1px color-mix(in srgb,var(--ritual-gold) 18%,transparent),var(--ritual-depth)}
-.calendar-launch>div:nth-child(2){max-width:65%;position:relative}
-.calendar-launch h2{font:650 clamp(27px,3.8vw,40px)/1.2 'Segoe UI','Nirmala UI',sans-serif;max-width:18ch;margin:10px 0 12px;letter-spacing:-.5px}
-.calendar-launch .eyebrow{color:var(--ritual-gold);font-size:11px;letter-spacing:1.6px}
-.calendar-launch p{line-height:1.6;font-size:14px}
-.calendar-launch .calendar-symbol{position:absolute;right:65px;top:30px;width:170px;height:190px;border:0;background:none;transform:rotate(8deg);filter:drop-shadow(8px 12px 8px var(--bg))}
-.calendar-symbol svg{width:100%;height:100%}
-.calendar-launch .calendar-art{position:absolute;right:20px;bottom:10px;width:80px;height:90px}
-.calendar-launch .calendar-open{position:static;display:inline-flex;margin-top:18px;padding:11px 22px;border-color:var(--accent);font-weight:650;box-shadow:var(--ritual-depth)}
-.calendar-open:after{content:'';position:absolute;inset:0;z-index:3;border-radius:22px}
-.calendar-launch:has(a:focus-visible){outline:3px solid var(--accent);outline-offset:4px}
-body[data-ui-app=ritual-assist] #scope{display:flex;flex-wrap:wrap;gap:2px 12px;background:var(--calm-soft);border-color:var(--accent);border-radius:12px;margin-bottom:20px;padding:12px 16px;color:var(--muted)}
-#scope strong{color:var(--ink)}
-body[data-ui-app=ritual-assist] .library{padding:8px 16px 16px;border-radius:20px}
-.library>summary{padding:14px 0}
-.library-body{padding:0}
-.library-body #search{min-height:46px;padding:10px 14px;margin:6px 0 12px;border-radius:12px}
-.library .filters{flex-wrap:nowrap;overflow-x:auto;padding:2px 2px 6px}
-.library .filters button{flex:0 0 auto;white-space:nowrap;min-height:44px;border-radius:12px;padding:9px 14px;font-size:12px}
-.library .guide-list{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-body[data-ui-app=ritual-assist] .library .guide-option{border-width:1px;border-radius:16px;box-shadow:inset 0 1px color-mix(in srgb,var(--muted) 10%,transparent),var(--ritual-depth);min-height:135px}
-@media(max-width:850px){.library .guide-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:600px){body[data-ui-app=ritual-assist] main .calendar-launch{display:block;min-height:265px;padding:20px 16px}.calendar-launch>div:nth-child(2){max-width:none;padding-right:78px}.calendar-launch h2{font-size:27px}.calendar-launch p{font-size:12px}.calendar-launch .calendar-symbol{width:82px;height:110px;right:12px;top:40px}.calendar-launch .calendar-art{display:grid;width:48px;height:58px;right:12px;top:auto;bottom:16px;opacity:1}.calendar-launch .calendar-open{position:static;margin-top:16px;font-size:12px;padding:10px 16px}.library .guide-option .ritual-art{height:80px}.library .guide-option{min-height:210px}.library .guide-option small{line-height:1.5}.library>summary{font-size:20px}}
-body[data-ui-app=ritual-assist] .library>summary:before{content:none}
+html[data-theme=dark] body.ritual-landing{
+ --ritual-bg:#051522;--ritual-panel:#0a2032;--ritual-raised:#142e45;--ritual-ink:#f2f6fa;--ritual-muted:#afc1d2;--ritual-line:#29445b;--ritual-gold:#f1d28a;
+ --ritual-emerald:#009c71;--ritual-emerald-deep:#006d54;--ritual-teal:#073937;--ritual-teal-line:#12635a;--ritual-highlight:#d8f4ff18;--ritual-shadow:#0005;--ritual-warm:#5d442932;
+ --shell-bg:var(--ritual-bg);--shell-surface:var(--ritual-panel);--shell-ink:var(--ritual-ink);--shell-muted:var(--ritual-muted);--shell-line:var(--ritual-line);--shell-accent:#70e1bf;--shell-soft:var(--ritual-teal);
+ --accent:#70e1bf;--on-accent:#05281e;
+}
+body.ritual-landing main{max-width:1120px;padding:22px 24px;margin:auto}
+body.ritual-landing main :is(h1,h2,h3,strong,button,input){font-family:'Segoe UI','Nirmala UI',Arial,sans-serif}
+body.ritual-landing .landing-toolbar:empty{display:none}
+body.ritual-landing .landing-toolbar{display:flex;justify-content:flex-end;margin-bottom:12px}
+body.ritual-landing .calendar-launch{position:relative;isolation:isolate;display:flex;align-items:center;min-height:300px;margin:0 0 16px;padding:32px 36px;overflow:hidden;border:1px solid color-mix(in srgb,var(--ritual-gold) 42%,var(--ritual-line));border-radius:20px;background:radial-gradient(ellipse at 88% 45%,var(--ritual-warm),transparent 66%),var(--ritual-panel);box-shadow:inset 0 1px var(--ritual-highlight),0 10px 30px var(--ritual-shadow)}
+body.ritual-landing .calendar-copy{position:static;z-index:2;flex:0 0 58%;min-width:0}
+body.ritual-landing .calendar-launch .eyebrow{font:700 12px/1.5 'Segoe UI',sans-serif;letter-spacing:1.8px;color:var(--ritual-gold)}
+body.ritual-landing #calendar-launch-title{font:700 clamp(28px,3.5vw,42px)/1.14 'Segoe UI','Nirmala UI',sans-serif;letter-spacing:-.8px;max-width:18ch;color:var(--ritual-ink);margin:9px 0 12px}
+body.ritual-landing .calendar-copy>p{font-size:15px;line-height:1.6;max-width:42ch;color:var(--ritual-muted);margin:0 0 18px}
+body.ritual-landing .calendar-art{position:absolute;right:0;bottom:0;width:43%;height:100%;object-fit:contain;z-index:1;pointer-events:none;filter:drop-shadow(0 12px 10px var(--ritual-shadow))}
+body.ritual-landing .calendar-open{position:static;display:inline-flex;align-items:center;justify-content:center;gap:11px;min-height:48px;padding:11px 21px;border:1px solid color-mix(in srgb,var(--ritual-on-emerald) 40%,var(--ritual-emerald));border-radius:999px;background:linear-gradient(145deg,var(--ritual-emerald),var(--ritual-emerald-deep))!important;color:var(--ritual-on-emerald)!important;font-size:15px;font-weight:650;text-decoration:none;box-shadow:inset 0 1px 3px var(--ritual-highlight),0 5px 14px var(--ritual-shadow);white-space:nowrap;width:auto}
+body.ritual-landing .calendar-open:after{content:'';position:absolute;inset:0;z-index:4}
+body.ritual-landing .calendar-launch:has(.calendar-open:focus-visible){outline:3px solid var(--accent);outline-offset:3px}
+body.ritual-landing .calendar-open svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;flex-shrink:0}
+body.ritual-landing .guidance-notice{display:flex;align-items:center;gap:14px;padding:15px 18px;margin:0 0 18px;border:1px solid var(--ritual-teal-line);border-left:3px solid var(--accent);border-radius:15px;background:var(--ritual-teal);box-shadow:inset 0 1px var(--ritual-highlight)}
+body.ritual-landing .guidance-icon{display:grid;place-items:center;flex:0 0 44px;height:44px;border-radius:50%;background:color-mix(in srgb,var(--accent) 13%,transparent);color:var(--accent)}
+body.ritual-landing .guidance-icon svg{width:27px;height:27px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+body.ritual-landing .guidance-notice strong{font-size:14px;font-weight:650;color:var(--ritual-ink)}
+body.ritual-landing #scope{font-size:13px;line-height:1.55;color:var(--ritual-muted);margin:3px 0 0;padding:0;background:none;border:0;border-radius:0}
+body.ritual-landing .workspace{display:block}
+body.ritual-landing .workspace>.library{position:static;max-height:none;padding:18px 22px 22px;margin:0 0 32px;background:linear-gradient(145deg,var(--ritual-panel),var(--ritual-bg));border:1px solid var(--ritual-line);border-radius:20px;box-shadow:inset 0 1px var(--ritual-highlight),0 10px 24px var(--ritual-shadow);overflow:visible}
+body.ritual-landing .library>summary{position:relative;display:flex;align-items:center;gap:10px;list-style:none;padding:0 0 12px;font-size:26px;line-height:1.25;font-weight:650;color:var(--ritual-ink)}
+body.ritual-landing .library>summary::-webkit-details-marker{display:none}
+body.ritual-landing .library>summary:after{content:'⌄';position:absolute;right:10px;top:calc(50% - 8px);transform:translateY(-50%);font-size:20px;color:var(--ritual-muted)}
+body.ritual-landing #guide-count{margin-left:auto;margin-right:0;border:1px solid var(--ritual-line);border-radius:12px;padding:10px 30px 10px 12px;white-space:nowrap;font-size:12px;font-weight:400;color:var(--ritual-muted)}
+body.ritual-landing .library-body{padding:0}
+body.ritual-landing .library-body>label{display:block;font-size:14px;color:var(--ritual-muted);margin:0 0 8px}
+body.ritual-landing .guide-search{position:relative;margin-bottom:14px}
+body.ritual-landing .guide-search>svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:22px;height:22px;fill:none;stroke:var(--ritual-muted);stroke-width:1.8;pointer-events:none}
+body.ritual-landing #search{display:block;min-height:48px;margin:0;padding:11px 14px 11px 47px;background:var(--ritual-panel)!important;color:var(--ritual-ink)!important;border:1px solid var(--ritual-line)!important;border-radius:14px;font-size:14px;box-shadow:inset 0 2px 5px var(--ritual-shadow)}
+body.ritual-landing #search::placeholder{color:var(--ritual-muted);opacity:1}
+body.ritual-landing .library .filters{display:flex;flex-wrap:nowrap;gap:9px;overflow-x:auto;padding:2px 2px 8px;scrollbar-width:thin}
+body.ritual-landing .library .filters button{flex:0 0 auto;min-height:44px;border-radius:12px;padding:10px 16px;background:linear-gradient(160deg,var(--ritual-raised),var(--ritual-panel))!important;color:var(--ritual-ink)!important;border:1px solid var(--ritual-line)!important;font:500 13px/1.3 'Segoe UI','Nirmala UI',sans-serif;white-space:nowrap;box-shadow:inset 0 1px var(--ritual-highlight),0 5px 10px var(--ritual-shadow)}
+body.ritual-landing .library .filters button[aria-pressed=true]{background:linear-gradient(145deg,var(--ritual-emerald),var(--ritual-emerald-deep))!important;color:var(--ritual-on-emerald)!important;border-color:color-mix(in srgb,var(--ritual-on-emerald) 40%,var(--ritual-emerald))!important}
+body.ritual-landing #results{margin:0;height:8px;font-size:0}
+body.ritual-landing #results:not(:has(+.guide-list>button)){height:auto;font-size:13px;padding:12px 0;color:var(--ritual-muted)}
+body.ritual-landing .library .guide-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-height:none;overflow:visible;padding:0}
+body.ritual-landing .library .guide-option{position:relative;display:flex;align-items:center;gap:8px;min-height:96px;height:100%;padding:12px 27px 12px 10px;border-radius:14px;border:1px solid var(--ritual-line)!important;background:linear-gradient(150deg,var(--ritual-raised),var(--ritual-panel))!important;color:var(--ritual-ink)!important;text-align:left;box-shadow:inset 0 1px var(--ritual-highlight),0 7px 12px var(--ritual-shadow)}
+body.ritual-landing .library .guide-option strong{font-size:15px;font-weight:500;line-height:1.4;overflow-wrap:normal;word-break:normal;hyphens:none;padding:0;min-width:0}
+body.ritual-landing .library .guide-option small{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;margin:0;padding:0}
+body.ritual-landing .library .guide-option:after{content:'›';position:absolute;right:10px;top:50%;transform:translateY(-50%);font:300 26px/1 'Segoe UI',sans-serif;color:var(--ritual-muted)}
+body.ritual-landing .library .guide-option[aria-pressed=true]{border-color:var(--accent)!important;background:linear-gradient(145deg,var(--ritual-teal),var(--ritual-panel))!important}
+body.ritual-landing .library .guide-option:hover{border-color:var(--accent)!important}
+body.ritual-landing .ritual-art{display:block;flex:0 0 64px;width:64px;height:64px;background-image:url('/ritual-assist/guide-icons.webp');background-size:400% 400%;background-position:var(--art-x,0%) var(--art-y,0%);background-repeat:no-repeat;filter:drop-shadow(0 4px 3px var(--ritual-shadow))}
+body.ritual-landing .guides-symbol{--art-x:100%;--art-y:100%;flex-basis:36px;width:36px;height:36px;margin-right:1px}
+body.ritual-landing .ritual-art{clip-path:inset(3%)}
+body.ritual-landing .category-symbol{display:inline-block;width:19px;height:19px;vertical-align:middle;margin-right:7px;fill:none;stroke:var(--ritual-gold);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+/* Keep shared account/theme/app behavior; correct their palette only on this page. */
+body.ritual-landing .platform-shell{background:var(--ritual-panel)!important;border-color:var(--ritual-line);color:var(--ritual-ink);box-shadow:0 3px 15px var(--ritual-shadow)}
+body.ritual-landing .platform-shell :is(.platform-switch,.platform-account,.theme-toggle){background:var(--ritual-panel)!important;color:var(--ritual-ink)!important;border:1px solid var(--ritual-line)!important;box-shadow:inset 0 1px var(--ritual-highlight)}
+body.ritual-landing .platform-shell .theme-toggle{--header-text:var(--ritual-ink);--header-muted:var(--ritual-gold);--header-surface:var(--ritual-raised);--header-line:var(--ritual-line);border-radius:999px}
+body.ritual-landing .platform-shell .theme-toggle:before{background:var(--ritual-raised)!important;box-shadow:0 2px 5px var(--ritual-shadow)}
+body.ritual-landing .language{padding:3px;background:var(--ritual-panel);border:1px solid var(--ritual-line);border-radius:999px;gap:3px}
+body.ritual-landing .language button{background:transparent!important;color:var(--ritual-muted)!important;border:0!important;min-height:36px;padding:7px 13px;font:500 13px/1.4 'Segoe UI','Nirmala UI',sans-serif;box-shadow:none}
+body.ritual-landing .language button[aria-pressed=true]{background:linear-gradient(145deg,var(--ritual-emerald),var(--ritual-emerald-deep))!important;color:var(--ritual-on-emerald)!important;box-shadow:inset 0 1px 2px var(--ritual-highlight)}
+body.ritual-landing .platform-shell .language{margin-left:8px;order:4}
+/* Theme colours switch together; inherited background transitions otherwise show
+   pale intermediate controls during a dark-mode change. */
+body.ritual-landing :is(.platform-shell,.platform-switch,.platform-account,.theme-toggle,.language button,.filters button,.guide-option){transition:border-color .15s ease,box-shadow .15s ease!important}
+body.ritual-landing :is(.guide-option,.calendar-open,.filters button,.language button):focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+@media(max-width:768px){
+ body.ritual-landing{--shell-height:112px}
+ body.ritual-landing .platform-shell{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:50px 44px;align-items:center;gap:3px 8px;height:112px;padding:7px 14px}
+ body.ritual-landing .platform-shell-brand{grid-column:1;grid-row:1;font-size:16px;gap:7px}
+ body.ritual-landing .platform-shell-brand img{width:32px;height:32px}
+ body.ritual-landing .platform-shell-actions{grid-column:2;grid-row:1;gap:8px;margin:0}
+ body.ritual-landing .platform-shell .platform-switch{grid-column:1;grid-row:2;justify-self:start;width:auto;max-width:100%;min-height:38px;font-size:13px;gap:8px}
+ body.ritual-landing .platform-shell .language{grid-column:2;grid-row:2;margin:0;justify-self:end}
+ body.ritual-landing .platform-shell .platform-shell-divider{display:none}
+ body.ritual-landing main{padding:14px 13px}
+ body.ritual-landing .calendar-launch{padding:23px 22px;min-height:260px;border-radius:17px}
+ body.ritual-landing #calendar-launch-title{font-size:30px}
+ body.ritual-landing .calendar-copy{flex-basis:59%}
+ body.ritual-landing .calendar-art{width:44%;right:-2px}
+ body.ritual-landing .calendar-copy>p{font-size:13px}
+ body.ritual-landing .workspace>.library{padding:15px;border-radius:17px}
+ body.ritual-landing .library .guide-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ body.ritual-landing .library .guide-option{min-height:84px;padding:10px 20px 10px 5px;gap:5px}
+ body.ritual-landing .library .guide-option strong{font-size:14px}
+ body.ritual-landing .library .guide-option:after{right:7px;font-size:22px}
+ body.ritual-landing .library .ritual-art{flex-basis:48px;width:48px;height:56px}
+ body.ritual-landing .library .guides-symbol{flex-basis:32px;width:32px;height:32px}
+}
+@media(max-width:480px){
+ body.ritual-landing .calendar-launch{padding:20px 17px;min-height:244px;margin-bottom:12px}
+ body.ritual-landing #calendar-launch-title{font-size:25px;letter-spacing:-.5px;margin:7px 0 10px}
+ body.ritual-landing .calendar-launch .eyebrow{font-size:10px;letter-spacing:1.4px}
+ body.ritual-landing .calendar-copy>p{font-size:12px;line-height:1.6;margin-bottom:14px}
+ body.ritual-landing .calendar-open{min-height:43px;font-size:12px;padding:9px 12px;gap:8px}
+ body.ritual-landing .calendar-open svg{width:18px;height:18px}
+ body.ritual-landing .guidance-notice{padding:11px 12px;gap:10px;margin-bottom:14px;border-radius:13px}
+ body.ritual-landing .guidance-icon{flex-basis:36px;height:36px}
+ body.ritual-landing .guidance-notice strong{font-size:12px}
+ body.ritual-landing #scope{font-size:11px;line-height:1.5}
+ body.ritual-landing .workspace>.library{padding:13px 11px}
+ body.ritual-landing .library>summary{font-size:21px;gap:6px}
+ body.ritual-landing #guide-count{font-size:10px;padding:8px 26px 8px 8px}
+ body.ritual-landing .library-body>label{font-size:13px}
+ body.ritual-landing .library .filters button{font-size:11px;padding:9px 11px}
+ body.ritual-landing .library .guide-option strong{font-size:13px}
+ body.ritual-landing .library .ritual-art{flex-basis:44px;width:44px;height:50px}
+ body.ritual-landing .library .guides-symbol{flex-basis:30px;width:30px;height:30px}
+}
+@media(max-width:360px){
+ body.ritual-landing .platform-shell{padding-inline:10px}
+ body.ritual-landing .platform-shell-brand{font-size:13px;gap:5px}
+ body.ritual-landing .platform-shell-brand img{width:27px;height:27px}
+ body.ritual-landing .platform-shell-actions{gap:5px}
+ body.ritual-landing .platform-account{font-size:10px;padding:7px}
+ body.ritual-landing #calendar-launch-title{font-size:23px}
+ body.ritual-landing .calendar-copy{flex-basis:63%}
+ body.ritual-landing .calendar-art{width:40%;right:-7px}
+ body.ritual-landing .library>summary{font-size:18px}
+ body.ritual-landing .library .guide-option{padding-left:3px;gap:3px}
+ body.ritual-landing .library .ritual-art{flex-basis:34px;width:34px;height:44px}
+ body.ritual-landing .library .guides-symbol{flex-basis:26px;width:26px;height:26px}
+ body.ritual-landing .library .guide-option strong{font-size:12px}
+}
+@media print{body.ritual-landing .calendar-launch,body.ritual-landing .guidance-notice,body.ritual-landing .landing-toolbar{display:none!important}body.ritual-landing main{padding:0}}

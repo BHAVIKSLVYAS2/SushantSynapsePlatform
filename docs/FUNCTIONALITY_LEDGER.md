@@ -1,5 +1,25 @@
 # Chambers functionality ledger
 
+**Ritual Assist illustrated landing refresh (2026-10-22, deployed):** The
+independent calendar entry now has a locally generated calendar-and-diya hero,
+with the whole card navigating to the calendar. The guide catalogue uses a
+decorative 4×4 WebP illustration atlas, compact responsive cards and refreshed
+category symbols. Shared language controls remain in the platform shell and
+continue to drive the guide copy; real shared theme controls work in both
+palettes. Existing guide data, checklist behavior, calendar calculations and
+server/API boundaries are unchanged. The generated image prompts and artwork
+mapping are documented in `apps/ritual-assist/ARTWORK.md`. No new dependency,
+database migration or business API.
+
+Verification: **361/361 API checks** and **11/11 Ritual Assist Chrome workflows**
+pass using disposable test data. The exact Free production Worker dry-run passes
+with organisation mode, D1 and existing production bindings. Worker
+`b6a10665-18b4-4bac-86e2-ce558b46732f` is live. The page, module and both WebP
+assets return HTTP 200; live browser checks pass all 16 English/Hindi, light/dark
+and 320/390/768/1440px combinations with all 15 guides, loaded artwork and no
+horizontal overflow. Reload produced no page errors or non-read API requests.
+No migration, account changes or business writes. No remote repository push.
+
 **Ritual Assist compact personal checklist (2026-10-22, deployed):** Standalone
 guides now show a flat checklist in source order, followed by personal additions.
 Readiness uses a green left checkbox; independent Pandit Ji responsibility uses
