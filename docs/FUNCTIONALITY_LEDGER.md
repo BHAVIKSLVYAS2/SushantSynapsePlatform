@@ -1,16 +1,24 @@
 # Chambers functionality ledger
 
-**Ritual Assist calendar hierarchy redesign (2026-10-22, local):** Independent
+**Ritual Assist calendar hierarchy redesign (2026-10-22, deployed):** Independent
 calendar entry now leads with bilingual Important Dates copy, dimensional calendar
 and lamp artwork, and a full-card navigation target. Compact family-custom guidance,
 dynamic guide count, responsive three/two-column catalogue and raised navy surfaces
 preserve existing guide, checklist, search, category and calendar functionality.
 Light/dark tokens and English/Hindi controls remain supported. No new calendar
-calculations, provider connection, data migration or production deployment.
+calculations, provider connection or data migration.
 Verification: all 10 existing Ritual Assist Chrome workflows pass, including
 bilingual guides/exports, reminder and preparation-pack downloads, navigation,
 calendar error handling and responsive light/dark layouts. Syntax check passes;
 mobile screenshot reviewed, with a legacy decorative heading glyph removed.
+Final gallery rerun passes. Implementation `0166ddf` is committed locally and live
+as Worker `472c115e-ec19-44e8-9042-f665933af0bf`; existing production variables,
+organisation mode and D1 binding retained. Live read-only Chrome passes 16
+English/Hindi light/dark layouts, all 15 guides and calendar navigation, with no
+page errors or forwarded writes. Evidence: `.publish/ritual-redesign-deploy.log`,
+`.publish/ritual-redesign-live.json` and `.publish/ritual-redesign-live.png`.
+Remote main push was rejected by automatic approval review because separate
+explicit push authorization was absent; implementation commit remains local.
 
 **Make 24 blue glossy glass correction (2026-10-19):** Replaces the earlier
 mint raised-board treatment with a dedicated blue optical-glass palette. Sapphire
