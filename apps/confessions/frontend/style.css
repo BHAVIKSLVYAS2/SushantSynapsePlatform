@@ -42,19 +42,6 @@ body{margin:0;background:var(--ui-bg);color:var(--ui-ink);font:16px/1.6 'Segoe U
   }
   html[data-theme=dark] body[data-ui-app=confessions] {--confession-scratch:color-mix(in srgb,var(--ui-solid) 72%,var(--ui-bg))}
   body[data-ui-app=confessions] main {max-width:1120px;padding-top:28px}
-  body[data-ui-app=confessions] .intro {
-   position:relative;overflow:hidden;min-height:154px;margin:8px 0 24px;padding:24px 28px;
-   border:1px solid var(--ui-edge);border-radius:24px;
-   background:radial-gradient(ellipse at 100% 0%,var(--confession-wash),transparent 62%),linear-gradient(135deg,var(--ui-solid),var(--confession-card));
-  }
-  body[data-ui-app=confessions] .intro>div:first-child {position:relative;z-index:1}
-  body[data-ui-app=confessions] .intro .eyebrow {
-   display:inline-flex;align-items:center;min-height:28px;padding:5px 10px;
-   border:1px solid var(--ui-edge);border-radius:999px;background:var(--ui-soft);
-   font-size:9px;letter-spacing:1.5px;
-  }
-  body[data-ui-app=confessions] .intro h1 {font-size:clamp(32px,5vw,46px);margin:8px 0 2px}
-  body[data-ui-app=confessions] .intro p {margin:4px 0 0;font-size:14px}
   body[data-ui-app=confessions] .layout {gap:22px}
   body[data-ui-app=confessions] .conversation {
    border-radius:24px;border-color:var(--ui-edge);
@@ -65,8 +52,8 @@ body{margin:0;background:var(--ui-bg);color:var(--ui-ink);font:16px/1.6 'Segoe U
    padding:20px 22px 14px;border-bottom:1px solid var(--ui-edge);
    background:linear-gradient(110deg,var(--confession-wash),transparent 75%);
   }
-  body[data-ui-app=confessions] .stream-heading .eyebrow {font-size:9px;letter-spacing:1.5px}
-  body[data-ui-app=confessions] .stream-heading h2 {font:650 21px/1.3 'Segoe UI',sans-serif;letter-spacing:-.35px}
+  body[data-ui-app=confessions] .stream-heading h1 {margin:0;font:650 21px/1.3 'Segoe UI',sans-serif;letter-spacing:-.35px}
+  body[data-ui-app=confessions] .stream-subtitle {margin:2px 0 0;color:var(--ui-muted);font-size:12px}
   body[data-ui-app=confessions] .stream-heading button {
    min-width:96px;border-color:var(--ui-edge);border-radius:999px;background:var(--ui-solid);
    color:var(--ui-ink);font-size:12px;font-weight:600;
@@ -140,14 +127,11 @@ body{margin:0;background:var(--ui-bg);color:var(--ui-ink);font:16px/1.6 'Segoe U
   body[data-ui-app=confessions] .privacy-note summary {font-weight:650}
   @media(max-width:768px) {
    body[data-ui-app=confessions] main {padding-top:8px;padding-inline:10px}
-   body[data-ui-app=confessions] .intro {min-height:0;margin:0 0 8px;padding:6px 4px;border:0;border-radius:0;background:none;box-shadow:none}
-   body[data-ui-app=confessions] .intro .eyebrow,body[data-ui-app=confessions] .intro p {display:none}
-   body[data-ui-app=confessions] .intro h1 {font-size:23px;letter-spacing:-.5px;margin:0}
    body[data-ui-app=confessions] .layout {gap:14px}
    body[data-ui-app=confessions] .conversation {border-radius:16px}
    body[data-ui-app=confessions] .stream-heading {padding:9px 10px 6px}
-   body[data-ui-app=confessions] .stream-heading .eyebrow {font-size:8px;letter-spacing:1px}
-   body[data-ui-app=confessions] .stream-heading h2 {font-size:16px;margin:2px 0}
+   body[data-ui-app=confessions] .stream-heading h1 {font-size:18px;letter-spacing:-.25px}
+   body[data-ui-app=confessions] .stream-subtitle {font-size:10px}
    body[data-ui-app=confessions] .stream-heading button {min-width:70px;min-height:36px;padding:5px 10px}
    body[data-ui-app=confessions] #feed-status {margin:3px 10px;padding:4px 8px}
    body[data-ui-app=confessions] #stream {height:clamp(300px,42dvh,440px);min-height:280px;padding:4px 8px 8px}

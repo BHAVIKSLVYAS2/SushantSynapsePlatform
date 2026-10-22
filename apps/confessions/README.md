@@ -3,6 +3,8 @@
 Public route: `/confessions`. A shared stream of separate scratch-to-reveal cards
 with a composer below the scrollable conversation. Scratch is the primary
 interaction directly on the covered message, with an explicit sideways hint.
+The page heading is integrated into the stream panel to keep the phone layout
+compact.
 The covered message is keyboard-accessible: Enter or Space reveals it without
 scratching. There is no separate reveal or report button in the current UI.
 Mouse and phone scratching use the same reveal allowance. A loading label and
