@@ -19,3 +19,9 @@ test('ritual quantities and arrangers extend version-one state without losing ex
  legacy.guides.puja.details={water:{quantity:'2 litres',arranger:'आकांक्षा'},'extra-one':{quantity:'1 basket',arranger:'Meera'},unknown:{quantity:'Ignore',arranger:'Unknown'}};const state=readState(JSON.stringify(legacy),guides);assert.equal(state.guides.puja.details.water.arranger,'आकांक्षा');assert.equal(state.guides.puja.extras[0].label,'Flowers');assert.equal(state.guides.puja.details.unknown,undefined);
  legacy.guides.puja.details.water.quantity='x'.repeat(61);assert.throws(()=>readState(JSON.stringify(legacy),guides));
 });
+
+test('personal checklist names, removals and dates survive validation without reviving removed checks',async()=>{
+ const {readState}=await import('../apps/ritual-assist/frontend/checklist-state.mjs');const guides=[{id:'puja',items:[{id:'water'}]}],raw={version:1,remember:true,guides:{puja:{extras:[],checked:['water'],date:'2026-10-25',details:{water:{quantity:'2 L',arranger:'Pandit Ji',name:'Family water',removed:true}}}}};
+ const state=readState(JSON.stringify(raw),guides);assert.equal(state.guides.puja.date,'2026-10-25');assert.equal(state.guides.puja.details.water.name,'Family water');assert.equal(state.guides.puja.details.water.removed,true);assert.deepEqual(state.guides.puja.checked,[]);
+ raw.guides.puja.details.water.name=' ';assert.throws(()=>readState(JSON.stringify(raw),guides));raw.guides.puja.details.water.name='Family water';raw.guides.puja.details.water.removed='yes';assert.throws(()=>readState(JSON.stringify(raw),guides));
+});

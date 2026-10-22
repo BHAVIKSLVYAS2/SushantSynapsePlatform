@@ -1,5 +1,32 @@
 # Chambers functionality ledger
 
+**Ritual Assist compact personal checklist (2026-10-22, local):** Standalone
+guides now show a flat checklist in source order, followed by personal additions.
+Readiness uses a green left checkbox; independent Pandit Ji responsibility uses
+a blue right checkbox. Optional quantities appear as inline badges; no empty
+quantity placeholder or Self label. Three-dot menus provide edit, delete and
+existing item guidance. A bilingual native dialog requires an item name and
+accepts optional quantity/unit and Pandit Ji assignment. The header shows the
+chosen optional date, completed/total count and slim progress bar. Completed
+names are muted and struck through. Original guide items can be restored after
+removal; guide definitions remain unchanged. Existing quantities, custom items
+and arranger names survive the additive version-one state reader; checkmarks
+retain existing opt-in persistence. Personalized names/removals/date are local
+to the existing browser checklist storage. Text downloads and print previews
+use the edited list; full-page print retains item guidance. Calendar calculation,
+reminders and preparation-pack behavior are unchanged. No new dependency, API,
+account sync, database migration or production deployment.
+
+Verification: **11 Node checks pass** (guide/export and storage suites). All
+**11 Ritual Assist Chrome workflows pass across runs and focused reruns**, including
+legacy data, edit/add/delete/restore, reload, checkmark isolation, bilingual
+downloads/print, calendar error handling and navigation. The new personal-list
+workflow passes after final visual polish, exercising real shared light/dark
+preferences and English/Hindi at 320/390/768/1440px, dialog overflow and distinct
+checkbox accent colors. Mobile light/dark screenshots reviewed:
+`test-results/compact-checklist-{light,dark}.png`. Syntax and whitespace checks
+pass. Tests use disposable DATA_DIR fixtures; existing user records untouched.
+
 **Ritual Assist calendar hierarchy redesign (2026-10-22, deployed):** Independent
 calendar entry now leads with bilingual Important Dates copy, dimensional calendar
 and lamp artwork, and a full-card navigation target. Compact family-custom guidance,
