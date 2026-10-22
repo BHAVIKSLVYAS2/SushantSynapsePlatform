@@ -8,6 +8,11 @@ const owner={name:'Catalogue Owner',firmName:'Isolated workspace',email:'owner@c
 test('public tools open if recent tracking is offline while private launch failures remain blocked',async({page})=>{
  await page.request.post(base+'/api/auth/setup',{data:owner});await page.goto(base+'/');await expect(page.locator('#catalogue-account')).toBeVisible();await page.route('**/api/platform/apps/qr-maker/launch',r=>r.fulfill({status:503,json:{error:'Recent tracking offline.'}}));await page.locator('.public-app[data-app-id=qr-maker]').click();await expect(page).toHaveURL(base+'/qr-maker');await page.goto(base+'/');await page.route('**/api/platform/apps/advocate/launch',r=>r.fulfill({status:503,json:{error:'Workspace offline.'}}));await page.getByRole('button',{name:'Open Chambers',exact:true}).click();await expect(page.locator('#notice')).toContainText('Workspace offline.');await expect(page).toHaveURL(base+'/');
 });
+test('compact mobile entry cards keep featured apps clear of the bottom dock',async({page})=>{
+ await page.setViewportSize({width:390,height:446});await page.goto(base+'/');
+ const entry=await page.locator('.home-entry-paths').boundingBox(),featured=await page.locator('.home-featured h2').boundingBox(),dock=await page.locator('.home-mobile-dock').boundingBox();
+ expect(entry.height).toBeLessThanOrEqual(100);expect(featured.y+featured.height).toBeLessThanOrEqual(dock.y);
+});
 test('one catalogue survives sign-in, favourites, recent apps and sign-out',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/');await expect(page.locator('.public-app')).toHaveCount(14);
  const snapshot=()=>page.locator('.public-app').evaluateAll(cards=>cards.map(a=>({id:a.dataset.appId,name:a.querySelector('h2').textContent,copy:a.querySelector('p').textContent,href:a.getAttribute('href')})));const before=await snapshot();

@@ -29,6 +29,14 @@ script/feed and both responsive Arena images return HTTP 200. Cold-load
 performance has not yet been remeasured. Deployment commit `655220f` is live as
 Worker `3fb340f9-fc31-41cb-8fab-6b577da1d129`; no business-data changes.
 
+**Mobile homepage first-fold quick win (2026-10-23, implemented locally):**
+Compacted the Explore Apps and My Workspace entry cards on phone widths without
+changing desktop styling or their content. At a 390×446 viewport, the entry row
+is now at most 100px tall (previously about 125px), and a browser regression
+checks that the Featured apps heading clears the fixed bottom navigation. The
+frontend build passes; no app data or APIs changed. Production deployment
+pending.
+
 **Mobile UI usability refinements (2026-10-22, implemented locally):** The
 homepage discovery heading is now the page-level heading; featured cards form
 a compact, swipeable phone carousel and the horizontally clipped category row
