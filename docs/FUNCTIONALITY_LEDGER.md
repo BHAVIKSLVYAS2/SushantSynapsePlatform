@@ -1,5 +1,45 @@
 # Chambers functionality ledger
 
+**Mobile UI usability refinements (2026-10-22, implemented locally):** The
+homepage discovery heading is now the page-level heading; featured cards form
+a compact, swipeable phone carousel and the horizontally clipped category row
+has a visible continuation cue. Search and editable app fields use 16px text on
+phones to avoid automatic input zoom, and the shared app/language controls meet
+44px minimum touch targets. Existing catalogue filtering, app availability,
+permissions and business data are unchanged. Verification: the new 320px/390px
+mobile regression passes; the Portal browser suite passed **60/63**, with three
+failures in performance, shell-navigation and showcase workflows not investigated
+in this session. 14 Cloudflare tests pass, including AdSense homepage
+scoping/nonces. No production deployment or data changes. A Cloudflare Insights
+beacon is still reported as blocked by the strict non-homepage CSP; it is
+injected by hosting configuration and has not been allowlisted in source,
+pending a hosting-side decision.
+
+**Confessions UI refresh (2026-10-22, implemented locally):** Updated the
+Confessions stream with a compact mobile header, wider and shorter scratch cards,
+and a smaller composer, using shared theme tokens for light and dark modes.
+Removed the separate reveal and report buttons: the covered card itself remains
+keyboard-accessible (Enter/Space), while scratch gestures continue to work.
+The scratch canvas redraws with the selected theme while preserving partially
+scratched progress.
+Owner moderation and the public report API remain; the browser UI no longer
+exposes a report action. Posting, anonymity, reveal limits and ad policy are
+otherwise unchanged; no unsupported social features were added and Confessions
+ads remain disabled. Verification: **10/10 Confessions browser workflows** pass,
+including cross-browser publishing/reveal, owner moderation, touch scratching,
+short-screen composer visibility, dark/light scratch appearance and preserved
+scratch progress. No production deployment or data changes.
+
+**AdSense status rechecked (2026-10-22):** The anonymous app homepage serves the
+publisher meta tag and deferred AdSense loader under a fresh nonce-based CSP;
+signed-in home and other routes remain excluded. Live read-only checks confirm
+`apps.sushantsynapse.com/ads.txt` returns the publisher record and the root
+`sushantsynapse.com/ads.txt` returns the same record plus the app-subdomain
+directive. No manual ad slot markup is present. AdSense account approval,
+Auto ads activation/rendering, privacy-message configuration and earnings still
+require verification in the publisher account; no live ad traffic or revenue is
+claimed.
+
 **Ritual Assist illustrated landing refresh (2026-10-22, deployed):** The
 independent calendar entry now has a locally generated calendar-and-diya hero,
 with the whole card navigating to the calendar. The guide catalogue uses a

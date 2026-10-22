@@ -3,7 +3,8 @@
 Public route: `/confessions`. A shared stream of separate scratch-to-reveal cards
 with a composer below the scrollable conversation. Scratch is the primary
 interaction directly on the covered message, with an explicit sideways hint.
-A visible Reveal instead button supports taps, keyboards and screen readers.
+The covered message is keyboard-accessible: Enter or Space reveals it without
+scratching. There is no separate reveal or report button in the current UI.
 Mouse and phone scratching use the same reveal allowance. A loading label and
 bounded pointer buffer preserve the first stroke while fetching the message;
 vertical touch gestures do not initiate a reveal request.
@@ -17,7 +18,9 @@ published immediately to the shared stream after the quick check. Independent
 browsers refresh the shared feed every five seconds while visible. Own messages
 appear on the right and other confessions as compact scratch cards on the left.
 An Owner signs in through the existing platform account, opens Confessions and
-uses the review queue to remove entries or reapprove reported cards.
+uses the review queue to remove entries or reapprove reported cards. The public
+report API remains available to compatible clients, but the browser UI does not
+currently expose a report action.
 Existing legacy pending submissions stay private until explicitly approved. Reports immediately remove
 approved entries from public reads until another Owner review. No author name,
 account ID, email, browser ID or IP is attached to stored entries. Hosting/network
