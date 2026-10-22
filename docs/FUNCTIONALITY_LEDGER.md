@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**AdSense on free public tools (2026-10-23, implemented locally):** Extended
+**AdSense on free public tools (2026-10-23, implemented and deployed):** Extended
 the existing nonce-based AdSense loader from the homepage to an explicit
 allowlist of anonymous public/free app pages, including generated Satire Arena
 articles. Signed-in requests and private, sign-in, Confessions and Feedback
@@ -8,10 +8,14 @@ pages do not receive the loader or expanded ad CSP. The privacy policy now
 discloses Google ad processing. Confessions and Feedback remain excluded because
 they display user submissions and need separate content-policy review. No
 publisher account approval, Auto ads activation or live ad rendering is claimed;
-those settings still require account verification. Cloudflare Worker, fullstack Worker and Node delivery paths have been updated.
-No production deployment or data changes.
+those settings still require account verification. Cloudflare Worker, fullstack
+Worker and Node delivery paths have been updated. Production verification
+confirmed nonce CSP and loader on anonymous homepage, QR tool and privacy page;
+no loader on Confessions, Feedback or a request with a session cookie. Deployment
+commit `655220f` is live as Worker `3fb340f9-fc31-41cb-8fab-6b577da1d129`. No
+business-data changes.
 
-**Public-page loading refinements (2026-10-23, implemented locally):** The
+**Public-page loading refinements (2026-10-23, implemented and deployed):** The
 homepage now serves a compressed 768px Arena illustration (~32 KiB versus
 236 KiB) and a 384px responsive version (~11 KiB) for smaller layouts. Eligible
 public pages use a 344-byte SVG favicon instead of downloading the 192px PNG as
@@ -20,8 +24,10 @@ polls the shared feed every 25 seconds rather than every five (80% fewer
 background refreshes while continuously visible). No app data or APIs changed.
 Verification: **35/35 targeted API/Cloudflare/static-delivery checks**,
 **11/11 Confessions browser workflows**, and **3/3 Portal catalogue browser
-workflows** pass; the final frontend build passes. No production deployment or
-business-data changes yet.
+workflows** pass; the frontend build passes. Production favicon, Confessions app
+script/feed and both responsive Arena images return HTTP 200. Cold-load
+performance has not yet been remeasured. Deployment commit `655220f` is live as
+Worker `3fb340f9-fc31-41cb-8fab-6b577da1d129`; no business-data changes.
 
 **Mobile UI usability refinements (2026-10-22, implemented locally):** The
 homepage discovery heading is now the page-level heading; featured cards form
@@ -71,7 +77,7 @@ browser load measured 475 ms to first response and 1.25 s to DOMContentLoaded,
 so the cold timings are variable observations, not a stable service-level
 baseline.
 
-Follow-up implemented locally on 2026-10-23: the shared 192px favicon request
+Follow-up implemented and deployed on 2026-10-23: the shared 192px favicon request
 is replaced by a 344-byte SVG, the homepage Arena artwork is compressed to
 31.8 KiB with a 10.9 KiB responsive mobile variant, Confessions ad/reward
 modules load only when needed, and visible-feed polling is reduced from five
