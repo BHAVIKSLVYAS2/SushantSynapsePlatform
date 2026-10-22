@@ -15,20 +15,49 @@ beacon is still reported as blocked by the strict non-homepage CSP; it is
 injected by hosting configuration and has not been allowlisted in source,
 pending a hosting-side decision.
 
-**Confessions UI refresh (2026-10-22, implemented locally):** Updated the
-Confessions stream with a compact mobile header, wider and shorter scratch cards,
-and a smaller composer, using shared theme tokens for light and dark modes.
-Removed the separate reveal and report buttons: the covered card itself remains
-keyboard-accessible (Enter/Space), while scratch gestures continue to work.
-The scratch canvas redraws with the selected theme while preserving partially
-scratched progress.
-Owner moderation and the public report API remain; the browser UI no longer
-exposes a report action. Posting, anonymity, reveal limits and ad policy are
-otherwise unchanged; no unsupported social features were added and Confessions
-ads remain disabled. Verification: **10/10 Confessions browser workflows** pass,
-including cross-browser publishing/reveal, owner moderation, touch scratching,
-short-screen composer visibility, dark/light scratch appearance and preserved
-scratch progress. No production deployment or data changes.
+**Confessions UI refresh (2026-10-22, deployed):** Updated the stream with a
+compact mobile header integrated into the shared-confessions panel, wider and
+shorter scratch cards, and a smaller composer, using shared theme tokens for
+light and dark modes. Removed the separate reveal and report buttons: the
+covered card itself remains keyboard-accessible (Enter/Space), while scratch
+gestures continue to work. Theme changes redraw the scratch canvas while
+preserving partially scratched progress. Owner moderation and the public report
+API remain; the browser UI no longer exposes a report action. Posting,
+anonymity, reveal limits and ad policy are otherwise unchanged; no unsupported
+social features were added and Confessions ads remain disabled. Verification:
+**10/10 Confessions browser workflows** pass, including cross-browser
+publishing/reveal, owner moderation, touch scratching, short-screen composer
+visibility, dark/light scratch appearance, preserved scratch progress and the
+single merged page heading. Production page, versioned app CSS/JS and public
+feed GET returned HTTP 200. The merged-header follow-up is commit `11d83e8`,
+deployed as Worker `ed0843e5-eaf0-4536-a502-d4598edc829f`; no business data or
+schema changes.
+
+**Read-only loading performance review (2026-10-22):** Isolated mobile Chrome
+guest runs at 390×844 blocked all non-GET/HEAD requests, including visitor
+counting and Cloudflare RUM. One cold run measured the homepage at 407 KiB of
+same-origin transfer over 20 resources (HTML TTFB 4.1 s; DOMContentLoaded 9.2 s)
+and Confessions at 150 KiB over 21 resources (TTFB 3.5 s; DOMContentLoaded 7.7 s).
+The Confessions feed GET itself took about 154 ms and transferred 511 bytes.
+The shared 50.6 KiB logo was fetched twice per page (image and favicon). The
+homepage's 236 KiB Arena illustration was its largest resource. On Confessions,
+the 4.8 KiB app stylesheet and 127-byte ad configuration module each had an
+approximately 3.6–3.9 s wait before response in this run; the app's initial
+feed request waits for its static ES-module imports. A separate already-warm
+browser load measured 475 ms to first response and 1.25 s to DOMContentLoaded,
+so the cold timings are variable observations, not a stable service-level
+baseline.
+
+Suggested follow-up, not implemented: measure across repeat cold runs and
+regions before attributing the long waits; investigate edge/static-asset
+response consistency; serve a small favicon distinct from the 192px header
+logo (roughly 48 KiB saved per uncached page); provide a smaller/compressed
+mobile Arena illustration (potentially 100–150 KiB saved on home, subject to
+visual review); and defer nonessential Confessions ad configuration/reward
+modules from the initial import graph. The visible-feed poll currently repeats
+every five seconds; a longer interval could cut background requests by about
+80% if changed to 25 seconds, with a freshness tradeoff. No performance code
+changes were made.
 
 **AdSense status rechecked (2026-10-22):** The anonymous app homepage serves the
 publisher meta tag and deferred AdSense loader under a fresh nonce-based CSP;
