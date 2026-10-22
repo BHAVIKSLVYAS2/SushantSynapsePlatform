@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Ritual Assist compact personal checklist (2026-10-22, local):** Standalone
+**Ritual Assist compact personal checklist (2026-10-22, deployed):** Standalone
 guides now show a flat checklist in source order, followed by personal additions.
 Readiness uses a green left checkbox; independent Pandit Ji responsibility uses
 a blue right checkbox. Optional quantities appear as inline badges; no empty
@@ -15,7 +15,7 @@ retain existing opt-in persistence. Personalized names/removals/date are local
 to the existing browser checklist storage. Text downloads and print previews
 use the edited list; full-page print retains item guidance. Calendar calculation,
 reminders and preparation-pack behavior are unchanged. No new dependency, API,
-account sync, database migration or production deployment.
+account sync or database migration.
 
 Verification: **11 Node checks pass** (guide/export and storage suites). All
 **11 Ritual Assist Chrome workflows pass across runs and focused reruns**, including
@@ -26,6 +26,16 @@ preferences and English/Hindi at 320/390/768/1440px, dialog overflow and distinc
 checkbox accent colors. Mobile light/dark screenshots reviewed:
 `test-results/compact-checklist-{light,dark}.png`. Syntax and whitespace checks
 pass. Tests use disposable DATA_DIR fixtures; existing user records untouched.
+Implementation `5fc4b68` is committed locally and deployed as Worker
+`9690cdd7-6ca0-475b-bca4-18e80bdb8356`. Production build passes; existing
+variables, organisation mode and D1 binding retained. Live Chrome passes 16
+English/Hindi light/dark layouts, dialog overflow, all 15 guides, add/edit/delete,
+optional quantity removal, independent readiness/Pandit assignment, opt-in reload,
+print preview and distinct checkbox colors, with zero page errors. Verification
+uses a disposable browser context with server writes blocked. Evidence:
+`.publish/checklist-redesign-build.log`, `.publish/checklist-redesign-deploy.log`,
+`.publish/checklist-redesign-live.json` and `.publish/checklist-redesign-live.png`.
+No remote repository push performed.
 
 **Ritual Assist calendar hierarchy redesign (2026-10-22, deployed):** Independent
 calendar entry now leads with bilingual Important Dates copy, dimensional calendar
