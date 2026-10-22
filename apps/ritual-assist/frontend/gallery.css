@@ -35,7 +35,6 @@ body[data-ui-app=ritual-assist] .library{position:static;border-radius:24px;padd
 @media(max-width:600px){.calendar-launch .calendar-art{position:absolute;right:8px;top:10px;width:68px;height:80px;opacity:.3;pointer-events:none}.calendar-launch>div:nth-child(2),.calendar-launch>a{position:relative;z-index:1}}
 @media(max-width:350px){.library .guide-option{grid-template-columns:1fr}.ritual-art{grid-row:auto;height:56px;width:56px}.library .guide-option strong{align-self:start}}
 @media print{body[data-ui-app=ritual-assist] main{padding:0}.calendar-launch{display:none!important}}
-
 /* Keep an adequate text column instead of squeezing words beside the artwork. */
 body[data-ui-app=ritual-assist]{--ritual-gold:#a36b20;--ritual-flame:#d67723;--ritual-petal:#c56b8c}
 html[data-theme=dark] body[data-ui-app=ritual-assist]{--ritual-gold:#efd18c;--ritual-flame:#ffac52;--ritual-petal:#f5a5bf}
@@ -69,3 +68,29 @@ body[data-ui-app=ritual-assist] #guide-count{white-space:nowrap}
  body[data-ui-app=ritual-assist] .calendar-launch .calendar-open{grid-column:2;grid-row:2;justify-self:start;margin:0;width:auto}
  body[data-ui-app=ritual-assist] .calendar-launch .eyebrow{font-size:12px;line-height:1.5;letter-spacing:0;color:var(--muted)}
 }
+/* Independent calendar hero and compact guide surfaces. */
+body[data-ui-app=ritual-assist]{--ritual-paper:#fae6be;--ritual-bronze:#97601e;--ritual-depth:0 8px 22px #0002}
+body[data-ui-app=ritual-assist] main .calendar-launch{position:relative;display:block;min-height:280px;padding:28px 32px;border-color:color-mix(in srgb,var(--ritual-gold) 45%,var(--line));box-shadow:inset 0 1px color-mix(in srgb,var(--ritual-gold) 18%,transparent),var(--ritual-depth)}
+.calendar-launch>div:nth-child(2){max-width:65%;position:relative}
+.calendar-launch h2{font:650 clamp(27px,3.8vw,40px)/1.2 'Segoe UI','Nirmala UI',sans-serif;max-width:18ch;margin:10px 0 12px;letter-spacing:-.5px}
+.calendar-launch .eyebrow{color:var(--ritual-gold);font-size:11px;letter-spacing:1.6px}
+.calendar-launch p{line-height:1.6;font-size:14px}
+.calendar-launch .calendar-symbol{position:absolute;right:65px;top:30px;width:170px;height:190px;border:0;background:none;transform:rotate(8deg);filter:drop-shadow(8px 12px 8px var(--bg))}
+.calendar-symbol svg{width:100%;height:100%}
+.calendar-launch .calendar-art{position:absolute;right:20px;bottom:10px;width:80px;height:90px}
+.calendar-launch .calendar-open{position:static;display:inline-flex;margin-top:18px;padding:11px 22px;border-color:var(--accent);font-weight:650;box-shadow:var(--ritual-depth)}
+.calendar-open:after{content:'';position:absolute;inset:0;z-index:3;border-radius:22px}
+.calendar-launch:has(a:focus-visible){outline:3px solid var(--accent);outline-offset:4px}
+body[data-ui-app=ritual-assist] #scope{display:flex;flex-wrap:wrap;gap:2px 12px;background:var(--calm-soft);border-color:var(--accent);border-radius:12px;margin-bottom:20px;padding:12px 16px;color:var(--muted)}
+#scope strong{color:var(--ink)}
+body[data-ui-app=ritual-assist] .library{padding:8px 16px 16px;border-radius:20px}
+.library>summary{padding:14px 0}
+.library-body{padding:0}
+.library-body #search{min-height:46px;padding:10px 14px;margin:6px 0 12px;border-radius:12px}
+.library .filters{flex-wrap:nowrap;overflow-x:auto;padding:2px 2px 6px}
+.library .filters button{flex:0 0 auto;white-space:nowrap;min-height:44px;border-radius:12px;padding:9px 14px;font-size:12px}
+.library .guide-list{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+body[data-ui-app=ritual-assist] .library .guide-option{border-width:1px;border-radius:16px;box-shadow:inset 0 1px color-mix(in srgb,var(--muted) 10%,transparent),var(--ritual-depth);min-height:135px}
+@media(max-width:850px){.library .guide-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){body[data-ui-app=ritual-assist] main .calendar-launch{display:block;min-height:265px;padding:20px 16px}.calendar-launch>div:nth-child(2){max-width:none;padding-right:78px}.calendar-launch h2{font-size:27px}.calendar-launch p{font-size:12px}.calendar-launch .calendar-symbol{width:82px;height:110px;right:12px;top:40px}.calendar-launch .calendar-art{display:grid;width:48px;height:58px;right:12px;top:auto;bottom:16px;opacity:1}.calendar-launch .calendar-open{position:static;margin-top:16px;font-size:12px;padding:10px 16px}.library .guide-option .ritual-art{height:80px}.library .guide-option{min-height:210px}.library .guide-option small{line-height:1.5}.library>summary{font-size:20px}}
+body[data-ui-app=ritual-assist] .library>summary:before{content:none}
