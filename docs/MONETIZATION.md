@@ -12,8 +12,10 @@ before enabling advertising on this now directly published public stream.
 remains disabled: no individual manual-slot IDs or rewarded Google Ad Manager
 path exist in the repository. Responsive header/footer and desktop-only side
 inventory are isolated from posting/scratch controls, lazy-requested only when
-visible, never auto-refreshed and collapsed when unfilled. No other tools or
-private workspaces receive new ads. A visitor's optional ads choice gates requests.
+visible, never auto-refreshed and collapsed when unfilled. A separate site-level
+AdSense loader covers allowlisted free public tools for signed-out visitors; it
+excludes Confessions and other unmoderated submission pages, account/private
+routes and this optional manual/rewarded inventory.
 
 Five reveals are free, then an explicitly opted-in rewarded event can unlock
 five more. Only a genuine reward event grants an ad-earned batch; cancellation
@@ -25,8 +27,9 @@ to Confessions. That change was not applied; current self-only page scripts
 remain. Explicit permission for a page-only policy expansion and real inventory/
 account consent configuration are required before activation. No ad impressions,
 ad approval or earnings are claimed. The Confessions feature is deployed with ads
-disabled; read-only live verification is recorded in the ledger. The homepage's
-existing integration remains unchanged. New confessions are reviewed before
+disabled; read-only live verification is recorded in the ledger. The same
+nonce-based site-level integration now serves the allowlisted free public tools.
+New confessions are reviewed before
 publication; reports hide content for review. This follows Google's guidance to
 serve ads only with reviewed compliant user content:
 [user-generated content](https://support.google.com/adsense/answer/3011869?hl=en)
@@ -40,19 +43,46 @@ WhatsApp enquiries are configured for user-supplied +91 78741 66009. Contact, Su
 
 UPI takes priority when both destinations exist. ₹20 Chai, ₹49 Coffee, ₹99 snack and ₹249 meal choices build a UPI deep link and matching local QR with recipient, INR amount and contribution note. HTTPS-only checkout gets its own QR/link; amount tiles are hidden because a generic hosted URL cannot guarantee the amount. Copy uses clipboard with a manual selection fallback. No static third-party QR images, payment credentials, confirmation, receipts, recurring charges, paid entitlements or payment-history records are implemented. Visitors must check the recipient in their external app. Backend failure hides payment controls rather than reusing an old recipient. No contributions or revenue have been observed or claimed.
 
-The sponsorship panel links to the existing `/sponsor` workflow. No AdSense account or ad-view reward is connected, and this page loads no advertising scripts. The source's ad-view promotion is replaced with the platform's existing partnership opportunity. QR implementation is vendored from the source's installed `qrcode` package (1.5.4), bundled with its `dijkstrajs` dependency using esbuild's ESM browser output. The source project is unchanged. Licenses: `apps/portal/SUPPORT-QR-LICENSE.txt`. Existing sponsorship publishing rules below still apply.
+The sponsorship panel links to the existing `/sponsor` workflow. This page has
+no AdSense placement; publisher approval and account Auto ads settings remain
+unverified. The source's ad-view promotion is replaced with the platform's
+existing partnership opportunity. QR implementation is vendored from the
+source's installed `qrcode` package (1.5.4), bundled with its `dijkstrajs`
+dependency using esbuild's ESM browser output. The source project is unchanged.
+Licenses: `apps/portal/SUPPORT-QR-LICENSE.txt`. Existing sponsorship publishing
+rules below still apply.
 
 ## Google advertisement placement preview
 
-The six existing public sponsorship locations also show a separate responsive placeholder labelled "Advertisement · Preview", "Google ads will appear here" and "Reserved ad space · Integration pending". It is a visual layout preview only, excluded from print. No Google script, publisher account, ad request, consent service or revenue integration is connected. Private workspaces have no preview. Direct sponsorship remains separate.
+The six existing public sponsorship locations still show a separate responsive
+placeholder labelled "Advertisement · Preview", "Google ads will appear here"
+and "Reserved ad space · Integration pending". It is a visual layout preview
+only, excluded from print; it is not a manual AdSense unit and is separate from
+the site-level Auto ads loader. Private workspaces have no preview. Direct
+sponsorship remains separate.
 
 This release prepares **direct sponsorships**, not an ad-network connection. There are no booked advertisers, connected payment services, measured revenue or verified audience figures. The public homepage invites potential sponsors; empty app slots are hidden. The public enquiry contact remains unset until the owner supplies a public business address.
 
 ## Why this model
 
-Sell a reviewed text placement for an agreed period and fixed fee. It gives the platform control over copy, destinations and density, without loading third-party ad scripts. Start with a useful education, stationery, printing, workshop or everyday-service advertiser. Do not accept misleading claims, gambling, adult content, invasive tracking destinations or disguised editorial endorsements. Sponsors never influence random selections, puzzles, scheduling or news coverage.
+Sell a reviewed text placement for an agreed period and fixed fee. It gives the
+platform control over copy, destinations and density, separate from the
+site-level AdSense Auto ads loader. Start with a useful education, stationery,
+printing, workshop or everyday-service advertiser. Do not accept misleading
+claims, gambling, adult content, invasive tracking destinations or disguised
+editorial endorsements. Sponsors never influence random selections, puzzles,
+scheduling or news coverage.
 
-Google requires site approval before AdSense can serve ads, and its placement guidance cautions against misleading headings and ads close to interactive controls. Its policies are not approval of this platform. See [site approval](https://support.google.com/adsense/answer/12169212?hl=en) and [placement policies](https://support.google.com/adsense/answer/1346295?hl=en). Consider network ads later only with an actual approved publisher account, a deliberately reviewed consent/privacy setup and manual placements; keep automatic overlays, anchors, vignettes and autoplay disabled. No network adapter or consent platform is installed in this release.
+Google requires site approval before AdSense can serve ads, and its placement
+guidance cautions against misleading headings and ads close to interactive
+controls. Its policies are not approval of this platform. The site-level loader
+is implemented, but approval, Auto ads activation, privacy-message configuration
+and actual ad rendering remain unverified in the publisher account. See
+[site approval](https://support.google.com/adsense/answer/12169212?hl=en) and
+[placement policies](https://support.google.com/adsense/answer/1346295?hl=en).
+Review placement and consent/privacy settings in the publisher account before
+claiming ads are serving. Confessions and Feedback remain excluded because they
+contain user submissions requiring separate content-policy review.
 
 ## Earning sequence
 

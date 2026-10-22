@@ -17,7 +17,7 @@ const {createDigitalSamaj}=require('../apps/digital-samaj/backend/routes');
 const {createConfessions}=require('../apps/confessions/backend/routes.cjs');
 const {createArena}=require('../apps/satire-arena/backend/routes');
 const {staticAssets}=require('./static-assets');
-const {eligibleHome,renderHome,homePolicy}=require('../packages/ui/adsense.cjs');
+const adsense=require('../packages/ui/adsense.cjs');
 const {randomUUID}=require('node:crypto');
 const {fail}=require('./http');
 const ROOT=path.resolve(__dirname,'..');
@@ -76,7 +76,7 @@ async function dispatch(req,res) {
         }
         response=publicPage(new Request(new URL(req.url,origin),{method:req.method}),published(store.setting(editorialKey)||empty()),results);
       }
-      if(response){for(const [key,value]of response.headers)res.setHeader(key,value);res.writeHead(response.status);return res.end(Buffer.from(await response.arrayBuffer()));}
+      if(response){response=await adsense.responseWithAds(response,url.pathname,req.headers.cookie||'',randomUUID(),req.method);for(const [key,value]of response.headers)res.setHeader(key,value);res.writeHead(response.status);return res.end(Buffer.from(await response.arrayBuffer()));}
     }
     if(url.pathname==='/healthz'&&req.method==='GET')return json(200,{status:'ok'});
     if(url.pathname==='/advocate/'){res.writeHead(308,{Location:'/advocate'+url.search});return res.end();}
@@ -91,7 +91,7 @@ async function dispatch(req,res) {
       let contents=req.method==='HEAD'?undefined:fs.readFileSync(path.join(ROOT,name));
       if(contents&&name.endsWith('.html'))contents=Buffer.from(require('../packages/ui/beta-html.cjs').betaHtml(require('../packages/ui/theme-html.cjs').earlyTheme(contents.toString())));
       if(adminPreview&&name==='apps/advocate/frontend/index.html'&&contents)contents=Buffer.from(contents.toString().replace('</head>','<link rel="stylesheet" href="/advocate/organisation-preview.css"></head>').replace('<script src="/app.js"></script>','<script src="/advocate/organisation-preview.js"></script><script src="/app.js"></script>'));
-      if(eligibleHome(url.pathname,req.headers.cookie)){const nonce=randomUUID();res.setHeader('Content-Security-Policy',homePolicy(nonce));if(contents)contents=renderHome(contents.toString(),nonce);}
+      if(adsense.eligiblePage(url.pathname,req.headers.cookie||'')){const nonce=randomUUID();res.setHeader('Content-Security-Policy',adsense.pagePolicy(nonce));if(contents)contents=Buffer.from(adsense.renderPage(contents.toString(),nonce));}
       res.setHeader('Cache-Control',name.endsWith('.html')?'no-store':'no-cache');return res.end(contents);
     }
     const host = req.headers.host || '';

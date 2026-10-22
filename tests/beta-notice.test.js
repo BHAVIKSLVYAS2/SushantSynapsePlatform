@@ -1,8 +1,9 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const {betaHtml,whatsapp}=require('../packages/ui/beta-html.cjs');
 test('beta markup is idempotent, readable without JS and preserves app scripts',()=>{
- const html=betaHtml('<html><head></head><body><main>App</main><script src="/app.js"></script><footer class="synapse-legal-footer">Legal</footer></body></html>');
+ const html=betaHtml('<html><head><link rel="icon" href="/logo-adaptive-192.png"></head><body><main>App</main><script src="/app.js"></script><footer class="synapse-legal-footer">Legal</footer></body></html>');
  assert.equal(betaHtml(html),html);assert.equal((html.match(/data-synapse-beta/g)||[]).length,1);
+ assert.match(html,/rel="icon" href="\/favicon\.svg"/);
  assert.ok(html.includes('<script src="/app.js"></script>'));assert.ok(html.indexOf('data-synapse-beta')<html.indexOf('<footer'));
  assert.match(html,/beta-notice.js" defer/);assert.match(html,/Verify important information/);
  assert.equal(betaHtml('<svg/>'),'<svg/>');assert.ok(betaHtml('<head></head><body>Admin</body>').includes('data-synapse-beta'));

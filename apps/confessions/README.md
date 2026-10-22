@@ -17,7 +17,7 @@ page scroll. Own submissions stay covered until scratched or accessibly revealed
 Anonymous submissions send `{message,captchaId,captchaAnswer}`; text is limited
 to 3–600 characters. New entries are
 published immediately to the shared stream after the quick check. Independent
-browsers refresh the shared feed every five seconds while visible. Own messages
+browsers refresh the shared feed every 25 seconds while visible. Own messages
 appear on the right and other confessions as compact scratch cards on the left.
 An Owner signs in through the existing platform account, opens Confessions and
 uses the review queue to remove entries or reapprove reported cards. The public
@@ -62,6 +62,8 @@ explicitly labelled examples, stay in the tab and do not use the allowance.
 
 Header/footer responsive inventory and a desktop-only side placement are built,
 separated from posting/reveal actions, lazy-loaded and never auto-refreshed.
+Ad configuration and reward modules load only when their settings or reward
+flow is opened.
 Unfilled/unconfigured placements collapse. The optional rewarded-ad dialog only
 appears after five new reveals and a real Google readiness event. Grants depend
 on Google's reward event; closing an incomplete ad does not grant a batch.

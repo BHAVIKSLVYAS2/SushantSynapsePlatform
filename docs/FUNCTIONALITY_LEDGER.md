@@ -1,5 +1,28 @@
 # Chambers functionality ledger
 
+**AdSense on free public tools (2026-10-23, implemented locally):** Extended
+the existing nonce-based AdSense loader from the homepage to an explicit
+allowlist of anonymous public/free app pages, including generated Satire Arena
+articles. Signed-in requests and private, sign-in, Confessions and Feedback
+pages do not receive the loader or expanded ad CSP. The privacy policy now
+discloses Google ad processing. Confessions and Feedback remain excluded because
+they display user submissions and need separate content-policy review. No
+publisher account approval, Auto ads activation or live ad rendering is claimed;
+those settings still require account verification. Cloudflare Worker, fullstack Worker and Node delivery paths have been updated.
+No production deployment or data changes.
+
+**Public-page loading refinements (2026-10-23, implemented locally):** The
+homepage now serves a compressed 768px Arena illustration (~32 KiB versus
+236 KiB) and a 384px responsive version (~11 KiB) for smaller layouts. Eligible
+public pages use a 344-byte SVG favicon instead of downloading the 192px PNG as
+the favicon. Confessions defers its ad/reward modules until opened/needed and
+polls the shared feed every 25 seconds rather than every five (80% fewer
+background refreshes while continuously visible). No app data or APIs changed.
+Verification: **35/35 targeted API/Cloudflare/static-delivery checks**,
+**11/11 Confessions browser workflows**, and **3/3 Portal catalogue browser
+workflows** pass; the final frontend build passes. No production deployment or
+business-data changes yet.
+
 **Mobile UI usability refinements (2026-10-22, implemented locally):** The
 homepage discovery heading is now the page-level heading; featured cards form
 a compact, swipeable phone carousel and the horizontally clipped category row
@@ -48,16 +71,15 @@ browser load measured 475 ms to first response and 1.25 s to DOMContentLoaded,
 so the cold timings are variable observations, not a stable service-level
 baseline.
 
-Suggested follow-up, not implemented: measure across repeat cold runs and
-regions before attributing the long waits; investigate edge/static-asset
-response consistency; serve a small favicon distinct from the 192px header
-logo (roughly 48 KiB saved per uncached page); provide a smaller/compressed
-mobile Arena illustration (potentially 100–150 KiB saved on home, subject to
-visual review); and defer nonessential Confessions ad configuration/reward
-modules from the initial import graph. The visible-feed poll currently repeats
-every five seconds; a longer interval could cut background requests by about
-80% if changed to 25 seconds, with a freshness tradeoff. No performance code
-changes were made.
+Follow-up implemented locally on 2026-10-23: the shared 192px favicon request
+is replaced by a 344-byte SVG, the homepage Arena artwork is compressed to
+31.8 KiB with a 10.9 KiB responsive mobile variant, Confessions ad/reward
+modules load only when needed, and visible-feed polling is reduced from five
+seconds to 25 seconds (80% fewer periodic refreshes, with the corresponding
+freshness tradeoff). Browser visual review and targeted regression tests pass.
+These changes have not yet been measured in production. Repeat cold runs across
+regions and investigation of edge/static-asset response consistency remain
+open; the observed multi-second TTFB is not claimed as improved.
 
 **AdSense status rechecked (2026-10-22):** The anonymous app homepage serves the
 publisher meta tag and deferred AdSense loader under a fresh nonce-based CSP;

@@ -18,9 +18,22 @@ async function patch(kind,record,body){return request(kind+'/'+record.id,'PATCH'
 before(start);after(async()=>{await stop();fs.rmSync(dir,{recursive:true,force:true});});
 
 test('monorepo serves app assets and shared theme without exposing source or SQL',async()=>{
- for(const asset of ['/','/advocate','/platform.js','/app.js','/shared/theme.js','/platform.css','/style.css'])assert.equal((await fetch(base+asset)).status,200,asset);
+ for(const asset of ['/','/advocate','/platform.js','/app.js','/shared/theme.js','/platform.css','/style.css','/favicon.svg'])assert.equal((await fetch(base+asset)).status,200,asset);
  for(const source of ['/server/index.js','/apps/advocate/backend/routes.js','/packages/database/schema.sql','/data/chambers.sqlite'])assert.equal((await fetch(base+source)).status,404,source);
  assert.match(await (await fetch(base+'/shared/theme.js')).text(),/SynapseTheme/);
+});
+
+test('AdSense is injected only on anonymous public free tools in Node delivery',async()=>{
+ const home=await fetch(base+'/'),html=await home.text(),policy=home.headers.get('content-security-policy');
+ assert.match(html,/google-adsense-account/);assert.match(policy,/nonce-/);
+ for(const path of ['/qr-maker','/ritual-assist/calendar','/fund-overlap']){
+  const response=await fetch(base+path);assert.match(await response.text(),/google-adsense-account/,path);assert.match(response.headers.get('content-security-policy'),/nonce-/,path);
+ }
+ for(const path of ['/confessions','/feedback','/signin','/advocate']){
+  const response=await fetch(base+path);assert.doesNotMatch(await response.text(),/google-adsense-account/,path);assert.match(response.headers.get('content-security-policy'),/script-src 'self';/,path);
+ }
+ const signed=await fetch(base+'/qr-maker',{headers:{Cookie:'chambers_session='+('a'.repeat(64))}});
+ assert.doesNotMatch(await signed.text(),/google-adsense-account/);assert.match(signed.headers.get('content-security-policy'),/script-src 'self';/);
 });
 
 test('owner setup, session cookie, authentication boundary and setup lock',async()=>{

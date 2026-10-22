@@ -35,6 +35,33 @@ test('Chambers organisation bootstrap precedes either original or versioned cont
  }
 });
 
+test('fullstack delivery adds AdSense only to anonymous public free-app pages',async()=>{
+ const {default:worker}=await import('../infrastructure/cloudflare/fullstack-worker.mjs');
+ const env={ASSETS:{fetch:async()=>new Response('<html><head></head><body><script src="/app.js"></script></body></html>',{headers:{'Content-Type':'text/html','Cache-Control':'no-store'}})}};
+ for(const route of ['/','/qr-maker','/ritual-assist/calendar']){
+  const response=await worker.fetch(new Request('https://example.test'+route),env),html=await response.text();
+  assert.equal(response.status,200);assert.match(html,/google-adsense-account/);assert.match(response.headers.get('Content-Security-Policy'),/nonce-/);
+ }
+ for(const [route,cookie]of [['/','chambers_session=private'],['/confessions',''],['/feedback',''],['/advocate','']]){
+  const response=await worker.fetch(new Request('https://example.test'+route,{headers:{Cookie:cookie}}),env);
+  assert.doesNotMatch(await response.text(),/google-adsense-account/);assert.match(response.headers.get('Content-Security-Policy'),/script-src 'self';/);
+ }
+ const head=await worker.fetch(new Request('https://example.test/qr-maker',{method:'HEAD'}),env);
+ assert.equal(await head.text(),'');assert.match(head.headers.get('Content-Security-Policy'),/nonce-/);
+});
+
+test('homepage uses responsive compressed Arena artwork and a small shared favicon',async()=>{
+ const {staticAssets}=require('../server/static-assets'),{apps,renderCard}=require('../packages/app-registry');
+ const home=renderCard(apps.find(app=>app.id==='satire-arena'));
+ assert.match(home,/cartoon-cast-384\.webp 384w/);
+ assert.equal(staticAssets['/favicon.svg'],'apps/portal/frontend/favicon.svg');
+ assert.equal(staticAssets['/satire-arena/cartoon-cast-384.webp'],'apps/satire-arena/frontend/cartoon-cast-384.webp');
+ const large=fs.statSync(path.join(__dirname,'../apps/satire-arena/frontend/cartoon-cast-768.webp')).size;
+ const small=fs.statSync(path.join(__dirname,'../apps/satire-arena/frontend/cartoon-cast-384.webp')).size;
+ assert.ok(large<40000,`Optimized desktop illustration is ${large} bytes`);
+ assert.ok(small<15000,`Mobile illustration is ${small} bytes`);
+});
+
 test('versioned static responses preserve validators and never cache missing assets or writes',async()=>{
  const {default:worker}=await import('../infrastructure/cloudflare/fullstack-worker.mjs');
  for(const status of [200,206,304,404,500]){

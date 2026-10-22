@@ -45,6 +45,7 @@ const staticAssets={
  '/satire-arena/app.js':'apps/satire-arena/frontend/app.js',
  '/satire-arena/style.css':'apps/satire-arena/frontend/style.css',
  '/satire-arena/cartoon-cast-768.webp':'apps/satire-arena/frontend/cartoon-cast-768.webp',
+ '/satire-arena/cartoon-cast-384.webp':'apps/satire-arena/frontend/cartoon-cast-384.webp',
  '/satire-arena/cartoon-cast.webp':'apps/satire-arena/frontend/cartoon-cast.webp',
  '/satire-arena/cartoon-cast.png':'apps/satire-arena/frontend/cartoon-cast.png',
  '/privacy':'apps/portal/frontend/privacy.html',
@@ -145,6 +146,7 @@ const staticAssets={
 };
 for(const route of ['/privacy','/terms','/contact','/legal','/legal/third-party-notices'])staticAssets[route+'/']=staticAssets[route];
 for(const file of ['platform.js','platform.css','manifest.webmanifest','logo-adaptive.png','logo-adaptive-192.png','logo-adaptive-512.png','logo-adaptive-uhd.png'])staticAssets['/'+file]='apps/portal/frontend/'+file;
+staticAssets['/favicon.svg']='apps/portal/frontend/favicon.svg';
 for(const file of ['app.js','style.css','icon.svg','advocate.webmanifest'])staticAssets['/'+file]='apps/advocate/frontend/'+file;
 for(const file of ['app.js','engine.js','style.css','icon.svg'])staticAssets['/fund-overlap/'+file]='apps/fund-overlap/frontend/'+file;
 for(const file of ['app.js','engine.js','style.css','comic.css'])staticAssets['/news/'+file]='apps/news/frontend/'+file;

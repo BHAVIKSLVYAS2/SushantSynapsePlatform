@@ -21,7 +21,7 @@ function unavailable(method) {
 // would change fetch(request) routing and must not replace this configuration.
 export async function handle(request, env, originFetch = fetch, sourceOptions = {}) {
   const url = new URL(request.url), pathname = url.pathname;
-  const satirePage=await cloudPages(request,req=>url.hostname==='apps.sushantsynapse.com'?originFetch(req):Promise.resolve(new Response(null,{status:503})));if(satirePage)return satirePage;
+  const satirePage=await cloudPages(request,req=>url.hostname==='apps.sushantsynapse.com'?originFetch(req):Promise.resolve(new Response(null,{status:503})));if(satirePage)return adsense.responseWithAds(satirePage,pathname,request.headers.get('Cookie')||'',crypto.randomUUID(),request.method);
   if(env.MAINTENANCE_MODE==='true'&&(pathname.startsWith('/api/')||pathname==='/healthz'))return new Response(JSON.stringify({error:'The workspace is undergoing maintenance. Please try again shortly.'}),{status:503,headers:{...security,'Content-Type':'application/json; charset=utf-8','Retry-After':'60'}});
   const arenaRoute=pathname === '/api/satire-arena' || pathname.startsWith('/api/satire-arena/');
   if(arenaRoute && url.hostname==='apps.sushantsynapse.com' && ['PUT','DELETE'].includes(request.method)){
@@ -62,11 +62,7 @@ export async function handle(request, env, originFetch = fetch, sourceOptions = 
   const headers = new Headers(response.headers);
   for (const [name, value] of Object.entries(security)) headers.set(name, value);
   if (offline) headers.set('Retry-After', '30');
-  if(adsense.eligibleHome(canonical,request.headers.get('Cookie')||'')&&response.ok){
-    const nonce=crypto.randomUUID();headers.set('Content-Security-Policy',adsense.homePolicy(nonce));
-    headers.delete('Content-Length');headers.delete('ETag');
-    return new Response(request.method==='HEAD'?null:adsense.renderHome(await response.text(),nonce),{status:response.status,headers});
-  }
-  return new Response(request.method === 'HEAD' ? null : response.body, {status: offline ? 503 : response.status, headers});
+  const pageResponse=new Response(request.method === 'HEAD' ? null : response.body, {status: offline ? 503 : response.status, headers});
+  return adsense.responseWithAds(pageResponse,canonical,request.headers.get('Cookie')||'',crypto.randomUUID(),request.method);
 }
 export default {fetch(request, env) { return handle(request, env); }};
