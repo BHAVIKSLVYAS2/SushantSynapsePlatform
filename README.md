@@ -23,6 +23,12 @@ and recent apps. The registry generates static no-JavaScript cards and the share
 navigation bundle. Server permissions and stored preferences are preserved; see
 the [functionality ledger](docs/FUNCTIONALITY_LEDGER.md) for verification.
 
+The homepage uses one inline search and a swipe carousel with dots/arrows for
+Featured apps. Explore apps retains its original responsive grid, with compact
+spacing between the sections. Filters, favourites, recent apps and static
+no-JavaScript cards remain available. See the functionality ledger for verification
+and deployment status.
+
 Organisation/licensing is live on Cloudflare D1 (2026-10-17), with Super Admin,
 Master Admin, scoped Chambers access and the minimal client portal. Existing data
 was retained. See the [production cutover](docs/ORGANISATION_PRODUCTION_CUTOVER.md)

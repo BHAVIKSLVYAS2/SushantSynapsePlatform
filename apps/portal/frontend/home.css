@@ -435,6 +435,19 @@
 @media print{.home-mobile-dock,.home-entry-paths,.home-search,.home-hub-art{display:none!important}}
 
 @media(scripting:none){.home-search,.home-filters,.home-mobile-dock{display:none!important}}
+/* Featured apps swipe; Explore retains its original responsive grid. */
+.public-home .home-featured{margin-bottom:8px}
+.home-carousel-arrows[hidden],.home-carousel-dots[hidden]{display:none!important}
+.public-home .home-feature-grid.home-carousel-track{display:flex!important;grid-template-columns:none!important;overflow-x:auto!important;overflow-y:hidden!important;gap:14px!important;scroll-snap-type:x mandatory;scrollbar-width:none;padding:3px 1px 8px!important;overscroll-behavior-x:contain}
+.public-home .home-feature-grid.home-carousel-track::-webkit-scrollbar{display:none}
+.public-home .home-feature-grid.home-carousel-track .home-feature-card{flex:0 0 calc((100% - 14px)/2);min-width:0;min-height:138px!important;scroll-snap-align:start;padding:16px!important;display:grid!important;grid-template-columns:64px minmax(0,1fr)!important;gap:14px!important;border-radius:18px!important;box-sizing:border-box}
+.public-home .home-feature-grid.home-carousel-track .home-feature-icon{width:64px!important;height:76px!important}.public-home .home-feature-grid.home-carousel-track .home-feature-card h3{font-size:20px!important;margin:0 0 7px!important}.public-home .home-feature-grid.home-carousel-track .home-feature-card p{font-size:13px!important;line-height:1.5!important;margin:0 0 9px!important}.public-home .home-feature-grid.home-carousel-track .home-feature-open{font-size:12px!important}
+.home-carousel-heading{display:flex;justify-content:space-between;gap:12px;align-items:center}.home-carousel-arrows{display:flex;gap:5px}.public-home .home-carousel-arrows button{display:grid;place-items:center;min-width:44px;min-height:44px;padding:0;border-radius:50%;font-size:23px;border:1px solid var(--ss-border);background:var(--ss-surface);color:var(--ss-text)}.home-carousel-arrows button:disabled{opacity:.35}
+.home-carousel-dots{display:flex;align-items:center;justify-content:center;gap:2px;min-height:40px;margin:0}.public-home .home-carousel-dots button{display:grid;place-items:center;border:0!important;min-height:44px;min-width:44px;padding:0;background:transparent!important;box-shadow:none!important}.home-carousel-dots button span{display:block;width:7px;height:7px;border-radius:10px;background:var(--ss-border);transition:width .16s}.home-carousel-dots button[aria-current=true] span{width:23px;background:var(--ss-accent)}
+@media(prefers-reduced-motion:reduce){.home-carousel-dots button span{transition:none}}
+@media(max-width:700px){.public-home .home-feature-grid.home-carousel-track .home-feature-card{flex-basis:87%;min-height:146px!important;grid-template-columns:52px minmax(0,1fr)!important;padding:14px!important;gap:12px!important}.public-home .home-feature-grid.home-carousel-track .home-feature-icon{width:52px!important;height:67px!important}.public-home .home-feature-grid.home-carousel-track .home-feature-card h3{font-size:18px!important}.public-home .home-feature-grid.home-carousel-track .home-feature-card p{font-size:12px!important}.home-carousel-heading h2{font-size:20px!important}}
+@media print{.home-carousel-arrows,.home-carousel-dots{display:none!important}.public-home .home-feature-grid.home-carousel-track{display:grid!important;overflow:visible!important}}
+
 /* Same app cards before and after sign-in. */
 .public-home .catalogue-item{position:relative;min-width:0;display:flex;flex-direction:column}
 .public-home .catalogue-item>.public-app{height:100%;flex:1}

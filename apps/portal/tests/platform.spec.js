@@ -19,7 +19,7 @@ test('AdSense loads asynchronously only for an anonymous home and retains tool n
  const response=await page.goto(base+'/');await expect(page.locator('head script[src*="adsbygoogle.js"]')).toHaveCount(1);
  const ad=page.locator('head script[src*="adsbygoogle.js"]');await expect(ad).toHaveAttribute('async','');await expect(ad).toHaveAttribute('crossorigin','anonymous');
  const nonce=await ad.evaluate(e=>e.nonce);expect(response.headers()['content-security-policy']).toContain(`'nonce-${nonce}'`);
- await page.getByRole('button',{name:'Search apps',exact:true}).click();await page.getByLabel('Search apps or activities').fill('teams');await expect(page.locator('.finder-result')).toHaveCount(1);
+ await page.getByRole('searchbox',{name:'Search web apps'}).fill('teams');await expect(page.locator('.public-app:not([hidden])')).toHaveCount(1);
  violations.push(...await page.evaluate(()=>window.cspViolations));
  for(const route of ['/signin','/team-mixer','/ritual-assist/calendar','/privacy']){await page.goto(base+route);await expect(page.locator('script[src*="adsbygoogle.js"]')).toHaveCount(0);}
  await context.addCookies([{name:'chambers_session',value:'invalid-test-session',url:base}]);await page.goto(base+'/');await expect(page.locator('script[src*="adsbygoogle.js"]')).toHaveCount(0);
@@ -51,11 +51,11 @@ test('premium bento keeps all tools discoverable across touch layouts and both t
    await setTheme(page,theme);
    expect(await page.locator('.public-app').first().evaluate(el=>getComputedStyle(el).backgroundImage)).toContain('linear-gradient');
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${width}px ${theme}`).toBe(true);
-   expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.map(a=>({path:a.getAttribute('href'),box:a.getBoundingClientRect()})).sort((a,b)=>Math.abs(a.box.top-b.box.top)>2?a.box.top-b.box.top:a.box.left-b.box.left).slice(0,4).map(a=>a.path))).toEqual(['/fund-overlap','/decision-wheel','/ritual-assist','/confessions']);
+   expect(await page.locator('.public-app').evaluateAll(links=>links.slice(0,4).map(a=>a.getAttribute('href')))).toEqual(['/fund-overlap','/decision-wheel','/ritual-assist','/confessions']);
    const columns=await page.locator('.public-apps').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length);
    expect(columns).toBe(width>1000?3:width>=360?2:1);
    await expect(page.locator('.platform-shell')).toBeVisible();
-   await expect(page.locator('#free-apps .access-heading #app-finder-trigger')).toBeVisible();
+   await expect(page.getByRole('searchbox',{name:'Search web apps'})).toBeVisible();await expect(page.locator('#app-finder-trigger')).toHaveCount(0);
    await expect(page.locator('.public-app .home-sculpture')).toHaveCount(13);
    for(const href of ['/timetable-lite','/ritual-assist','/team-mixer']){
     const tile=page.locator(`.public-app[href="${href}"]`);
@@ -139,19 +139,13 @@ test('sponsorship enquiry prepares WhatsApp details without platform writes or d
  await context.route('https://wa.me/**',r=>r.fulfill({contentType:'text/html',body:'Draft intercepted; not sent'}));const writes=[];page.on('request',r=>{if(r.url().startsWith(base)&&!r.url().endsWith('/api/platform/visitors')&&!['GET','HEAD'].includes(r.method()))writes.push(r.url());});await page.goto(base+'/sponsor');await expect(page.locator('#contact-status')).toContainText('WhatsApp');await page.setViewportSize({width:320,height:700});await setTheme(page,'dark');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  const form=page.locator('#sponsor-enquiry-form');await form.locator('[name=name]').fill('Sponsor');await form.locator('[name=business]').fill('Example business');await form.locator('[name=email]').fill('business@example.com');await form.locator('[name=website]').fill('https://example.com');await form.locator('[name=message]').fill('A reviewed education offer.');const opened=page.waitForEvent('popup');await form.getByRole('button',{name:'Continue on WhatsApp'}).click();const popup=await opened;await popup.waitForLoadState();const target=new URL(popup.url());expect(target.origin+target.pathname).toBe('https://wa.me/917874166009');for(const value of ['Sponsor','Example business','business@example.com','https://example.com','A reviewed education offer.'])expect(target.searchParams.get('text')).toContain(value);await popup.close();await expect(page.getByRole('button',{name:/Download.*(brief|draft)/})).toHaveCount(0);await page.reload();await expect(form.locator('[name=business]')).toHaveValue('');expect(writes).toEqual([]);
 });
-test('app finder stays usable across small screens, themes and empty results',async({page})=>{
- await page.goto(base);await expect(page.locator('#app-finder-trigger')).toBeVisible();
+test('single inline home search stays usable across small screens, themes and empty results',async({page})=>{
+ await page.goto(base);await expect(page.locator('#app-finder-trigger,#app-finder-dialog')).toHaveCount(0);const search=page.getByRole('searchbox',{name:'Search web apps'});
  for(const [width,height,theme] of [[320,568,'light'],[390,844,'dark'],[1440,900,'light']]){
-  await page.setViewportSize({width,height});await setTheme(page,theme);await page.evaluate(()=>scrollTo(0,500));await page.locator('#app-finder-trigger').scrollIntoViewIfNeeded();let position;
-  await page.getByRole('button',{name:'Search apps',exact:true}).click();await expect(page.getByLabel('Search apps or activities')).toBeFocused();position=await page.evaluate(()=>scrollY);await expect(page.locator('.finder-result')).toHaveCount(18);
-  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
-  const bounds=await page.locator('#app-finder-dialog').boundingBox();expect(bounds.y).toBeGreaterThanOrEqual(0);expect(bounds.y+bounds.height).toBeLessThanOrEqual(height+1);
-  await page.getByLabel('Search apps or activities').fill('not-a-real-tool');await expect(page.locator('#finder-count')).toContainText('No matching apps');await expect(page.getByRole('button',{name:'Clear search',exact:true})).toBeVisible();await page.getByRole('button',{name:'Clear search',exact:true}).click();
-  await page.getByLabel('Search apps or activities').fill('condolence');await expect(page.locator('.finder-result')).toHaveCount(1);await expect(page.locator('.finder-result')).toContainText('Moment Studio');await page.getByLabel('Search apps or activities').fill('');
-  await page.screenshot({path:`test-results/app-finder-${width}-${theme}.png`});await page.keyboard.press('Escape');await expect(page.locator('#app-finder-dialog')).not.toBeVisible();expect(await page.evaluate(()=>scrollY)).toBe(position);await expect(page.locator('#app-finder-trigger')).toBeFocused();
+  await page.setViewportSize({width,height});await setTheme(page,theme);await search.fill('not-a-real-tool');await expect(page.locator('.home-search-empty')).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.getByRole('button',{name:'Clear app search'}).click();await expect(search).toBeFocused();
+  await search.fill('condolence');await expect(page.locator('.public-app:not([hidden])')).toHaveCount(1);await expect(page.locator('.public-app:not([hidden])')).toContainText('Moment Studio');await search.press('Escape');await expect(search).toHaveValue('');
  }
- await page.locator('#app-finder-trigger').click();await page.getByLabel('Search apps or activities').fill('Take a Break');await page.locator('.finder-result').click();await expect(page).toHaveURL(base+'/take-a-break');
- await page.goto(base+'/signin');await expect(page.locator('#auth-form')).toBeVisible();await expect(page.locator('#app-finder-trigger')).toHaveCount(0);
+ await search.fill('Take a Break');await page.locator('.public-app:not([hidden])').click();await expect(page).toHaveURL(base+'/take-a-break');await page.goto(base+'/signin');await expect(page.locator('#auth-form')).toBeVisible();await expect(page.locator('#app-finder-trigger')).toHaveCount(0);
 });
 async function expectWorkspaceDiscovery(page){
  await expect(page.locator('.workspace-card-art .home-sculpture use')).toHaveCount(4);
@@ -175,7 +169,7 @@ test('platform setup, favourites, app launch with shared sign-in, team access an
  await expect(page.locator('.public-home')).toHaveCount(1);await expect(page.locator('.app-card,.app-grid')).toHaveCount(0);
  await expect(page.locator('.workspace-card[data-app-id=projects],.workspace-card[data-app-id=finance],.workspace-card[data-app-id=knowledge]')).toHaveCount(0);
  await expect(page.locator('.workspace-card[data-app-id="advocate"] use')).toHaveAttribute('href',/home-art\.svg.*#chambers$/);
- await page.getByRole('button',{name:'Search apps',exact:true}).click();await page.getByLabel('Search apps or activities').fill('Chambers');await expect(page.locator('.finder-result')).toHaveCount(1);await expect(page.locator('.finder-result')).toContainText('Chambers');await expect(page.locator('.finder-result .finder-sculpture')).toHaveAttribute('aria-hidden','true');await page.keyboard.press('Escape');await expect(page.getByRole('button',{name:'Search apps',exact:true})).toBeFocused();
+ await page.getByRole('searchbox',{name:'Search web apps'}).fill('Chambers');await expect(page.locator('.workspace-card:not([hidden])')).toHaveCount(1);await expect(page.locator('.workspace-card:not([hidden])')).toContainText('Chambers');await expect(page.locator('.workspace-card:not([hidden]) .home-sculpture')).toHaveAttribute('aria-hidden','true');await page.keyboard.press('Escape');await expect(page.getByRole('searchbox',{name:'Search web apps'})).toBeFocused();
  await page.getByRole('button',{name:'Add Chambers to favourites'}).click();await page.getByRole('navigation',{name:'Platform navigation'}).getByRole('button',{name:'Favourites',exact:true}).click();await expect(page.locator('.catalogue-item')).toHaveCount(1);
  await page.getByRole('button',{name:'Open Chambers'}).click();await expect(page).toHaveURL(base+'/advocate');await expect(page.getByRole('heading',{name:'Chambers overview'})).toBeVisible();
  await page.locator('.platform-shell-brand').click();await page.getByRole('navigation',{name:'Platform navigation'}).getByRole('button',{name:'Recent',exact:true}).click();await expect(page.getByRole('heading',{name:'Chambers',exact:true})).toBeVisible();

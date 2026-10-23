@@ -1,5 +1,64 @@
 # Chambers functionality ledger
 
+**Homepage Explore restoration (2026-10-23, release verification in progress):**
+The latest user correction supersedes the carousel scope below: Explore apps is
+restored to its original flat responsive grid (one/two/three columns), without
+pagination or carousel controls. Only Featured apps swipes. Removed the stacked
+pagination/section margins; the measured gap to Explore is now 8px. Single inline
+search, existing card styling, filters and account collections remain intact.
+10/10 catalogue/CSS/cache checks and all five catalogue browser workflows pass,
+including real touch, keyboard, search, account transitions and eight theme/width
+layouts. No schema, API or production data changes. The user now explicitly
+requests commit and deployment, superseding the previous no-commit instruction.
+
+**Homepage search and carousels (2026-10-23, deployed and live verified):**
+Implemented the approved preview: a single inline search replaces the duplicate
+floating search/modal, Featured apps use native swipe with a next-card cue and
+arrows/dots, and public apps use four-card pages (2×2 on phones, four columns on
+desktop). Native touch, keyboard arrows/Home/End, reduced motion and 44px controls
+are supported. Filters repack matching results from every page; empty results
+hide the track. Signed-in favourites/recent collections and access controls are
+preserved; carousel listeners/observers are cleaned up on catalogue rebuild.
+Static/no-JavaScript cards retain their grid. Uses existing artwork and theme
+tokens, no new dependency, API, schema or business-data change. Verification:
+10/10 catalogue/CSS/static-cache checks and 14 browser workflows covered across
+the regression run and isolated reruns pass, including real CDP touch swipes,
+keyboard/dots/arrows, no-JavaScript discovery, filters, favourites/recent/sign-out,
+cross-app navigation and light/dark layouts at 320/390/768/1440px. One initial
+run hit a shared Playwright artifact-folder collision; affected workflows pass
+in the isolated final run (3/3). Frontend generation and the exact production
+Worker dry-run pass, preserving organisation mode, D1 and current bindings.
+Worker `05bedebd-41d5-47a4-a230-5224beb5dc99` is live with production variables
+and D1/auth bindings preserved. Live read-only Chrome checks pass single search,
+Featured dots, all four app pages, search for an app from the last page, empty
+results, category repagination and fourteen no-JavaScript cards. Eight light/dark
+layouts at 320/390/768/1440px pass without overflow or page errors. Live mobile
+screenshots visually reviewed. No production business writes were allowed during
+verification. Evidence: `.publish/home-carousel-live.json`,
+`.publish/home-carousel-live-mobile-light.png`,
+`.publish/home-carousel-live-mobile-dark.png`, `.publish/home-carousel-live-desktop.png`,
+`.publish/home-carousel-deploy.log`. Mobile light/dark screenshots visually reviewed.
+All test accounts/databases are disposable; no production business writes.
+User explicitly requested no commit; changes remain uncommitted on base
+`d4c00cd`. Logs: `.publish/home-carousel-node.log`,
+`.publish/home-carousel-regressions.log`, `.publish/home-carousel-final-browser.log`,
+`.publish/home-carousel-build.log`.
+
+**Homepage carousel design preview (2026-10-23, review only):** Prepared a
+browser-only proposal retaining the inline home search and removing the duplicate
+floating finder button. Featured apps use a horizontal card carousel with a
+next-card cue, arrows and page dots. The app catalogue uses four-card horizontal
+pages (2×2 on phones, four columns on desktop), with page dots and arrows.
+Prototype screenshots cover 390px light/dark and 1440px desktop; dot navigation
+was exercised and the phone preview has no horizontal page overflow. Art, theme
+tokens and existing catalogue content are reused. Artifacts:
+`.publish/homepage-carousel-preview.html`, `.publish/homepage-after-mobile.png`,
+`.publish/homepage-after-desktop.png`, `.publish/homepage-after-mobile-dark.png`,
+and `.publish/homepage-before-mobile.png`. This is a design preview only, as
+requested: no application source implementation, production deployment or data
+changes at the preview checkpoint. User subsequently approved implementation
+and deployment, explicitly without a commit; see the implementation entry above.
+
 **Ritual calendar core expansion (2026-10-23, deployed and live verified):** Calendar
 entry now offers Vrats & dates and a separate preserved Shraddha/Barsi tab.
 The PIN/month-only general calendar supports India/IST, 2025–2030, English/Hindi,
