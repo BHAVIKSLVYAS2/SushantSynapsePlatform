@@ -1,5 +1,18 @@
 # Code ownership and adding apps
 
+Satire reaction parity (2026-10-23): app-owned `feedback.mjs` selects all eight
+expression sheets, including six-column/four-row anchor, actor and corporate
+sheets. `style.css` applies their reaction crops on arena and detail pages and
+keeps pending portraits hidden despite the newer base-grid overrides.
+`enhancements.js` observes every card, including the first, and prepares only
+near-viewport expression art with low fetch priority/async decoding. Explicit
+asset URLs give JS preloading and CSS the same fingerprinted cache key.
+Artwork preparation is deduplicated and capped at 3s, with retry after failure;
+only decoded sheets swap faces. Shared voting entry generation retains each
+arena's own high-priority base-grid preload and shared early theme/layout setup.
+`character.js` uses the same prepare/save/play sequence as `app.js`.
+Artwork provenance and final prompts are in `apps/satire-arena/ARTWORK.md`.
+
 Satire applause (2026-10-23): app-owned `sound.mjs` loads the allowlisted
 `applause.mp3` and decodes it in the gesture-created Web Audio context. The
 normal applause effect uses a short faded recorded excerpt through the existing

@@ -9,14 +9,17 @@ const effects={
 };
 const timers=new WeakMap();
 const expressions={garland:'happy',applause:'happy',shoe:'annoyed',tomato:'startled',finger:'annoyed',laugh:'laughing'};
-const sheets=['expressions-original-fast.webp','expressions-expanded-fast.webp','expressions-new-fast.webp','highway-budget-fast.webp','speakers-fast.webp'];
+const sheets=['/satire-arena/expressions-original-fast.webp','/satire-arena/expressions-expanded-fast.webp','/satire-arena/expressions-new-fast.webp','/satire-arena/highway-budget-fast.webp','/satire-arena/speakers-fast.webp','/satire-arena/anchors-expressions-fast.webp','/satire-arena/actors-expressions-fast.webp','/satire-arena/corporates-expressions-fast.webp'];
+const sheetFor=number=>number>=25?7:number>=19?6:number>=13?5:number>=11?4:number>=9?3:Math.floor(number/3);
 const ready=new Set();
 const preparing=new Map();
 export function prepareReaction(card){
- const portrait=card?.querySelector('.portrait'),number=Number([...portrait?.classList||[]].find(name=>/^portrait-\d+$/.test(name))?.split('-')[1]),index=number>=11?4:number>=9?3:Math.floor(number/3);
- if(number>=13)return Promise.resolve();
- if(!sheets[index]||preparing.has(index))return preparing.get(index);
- const image=new Image();image.src='/satire-arena/'+sheets[index];const promise=image.decode().then(()=>ready.add(index)).catch(()=>{});preparing.set(index,promise);return promise;
+ const portrait=card?.querySelector('.portrait'),number=Number([...portrait?.classList||[]].find(name=>/^portrait-\d+$/.test(name))?.split('-')[1]),index=sheetFor(number);
+ if(!sheets[index]||ready.has(index))return Promise.resolve();
+ if(preparing.has(index))return preparing.get(index);
+ const image=new Image();image.fetchPriority='low';image.decoding='async';image.src=sheets[index];let timeout;
+ // Optional artwork must not hold saved-vote feedback indefinitely on a slow link.
+ const promise=Promise.race([image.decode().then(()=>ready.add(index)).catch(()=>{}),new Promise(resolve=>timeout=setTimeout(()=>{image.removeAttribute('src');resolve();},3000))]).finally(()=>{clearTimeout(timeout);preparing.delete(index);});preparing.set(index,promise);return promise;
 }
 export function stopVibration(){try{navigator.vibrate?.(0);}catch{/* Hardware feedback must never interrupt a vote. */}}
 export function playReaction(card,reaction,{haptics=true}={}){
@@ -26,7 +29,7 @@ export function playReaction(card,reaction,{haptics=true}={}){
  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
  card.dataset.effect=reaction;card.classList.remove('reaction-active');void card.offsetWidth;card.classList.add('reaction-active');button?.classList.add('reaction-confirmed');
  const index=Number([...portrait.classList].find(name=>/^portrait-\d+$/.test(name))?.split('-')[1]);
- if(index<13&&ready.has(index>=11?4:index>=9?3:Math.floor(index/3)))card.dataset.expression=expressions[reaction];
+ if(ready.has(sheetFor(index)))card.dataset.expression=expressions[reaction];
  const layer=document.createElement('div');layer.className='reaction-effect'+(reduced?' reaction-still':'');layer.setAttribute('aria-hidden','true');
  const hero=document.createElement('span');hero.className='reaction-hero';if(reaction==='finger')hero.innerHTML=inkpot;else hero.textContent=effect.icon;layer.append(hero);
  if(reaction==='finger'){

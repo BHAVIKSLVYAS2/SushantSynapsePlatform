@@ -57,6 +57,7 @@ test('homepage uses a generic Arena icon and a small shared favicon',async()=>{
  assert.doesNotMatch(home,/cartoon-cast|<img/);
  assert.equal(staticAssets['/favicon.svg'],'apps/portal/frontend/favicon.svg');
  assert.equal(staticAssets['/satire-arena/cartoon-cast-384.webp'],'apps/satire-arena/frontend/cartoon-cast-384.webp');
+ for(const name of ['anchors','actors','corporates'])assert.equal(staticAssets[`/satire-arena/${name}-expressions-fast.webp`],`apps/satire-arena/frontend/${name}-expressions-fast.webp`);
  const large=fs.statSync(path.join(__dirname,'../apps/satire-arena/frontend/cartoon-cast-768.webp')).size;
  const small=fs.statSync(path.join(__dirname,'../apps/satire-arena/frontend/cartoon-cast-384.webp')).size;
  assert.ok(large<40000,`Optimized desktop illustration is ${large} bytes`);

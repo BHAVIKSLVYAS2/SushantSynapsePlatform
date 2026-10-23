@@ -32,6 +32,24 @@ show their existing descriptions; sharing and contact paths are distinct,
 scannable paths. Payment processing, amounts, owner settings and persistence are
 unchanged.
 
+**Satire reaction/loading parity (2026-10-24, implementation verified; deployment pending):**
+All eighteen anchors/actors/corporates gain happy, startled, annoyed and laughing
+portrait rows, using the existing saved-only animation, ink splash, haptics,
+cleanup and reduced-motion lifecycle. Detail pages use the same prepare/save/
+play sequence. Three new built-in-imagegen expression sheets are compressed to
+232,616 / 240,532 / 232,946 bytes; originals and share crops remain intact.
+Provenance and final prompts: `apps/satire-arena/ARTWORK.md`.
+The newer base-grid `!important` rules no longer defeat off-screen artwork
+deferral. The first and near-viewport cards prepare only their own expression
+sheet at low priority; preparation is deduplicated, bounded to 3s and retryable.
+Explicit URLs unify preloader/CSS fingerprinted cache keys, avoiding duplicate
+plain/versioned image requests. Each generated entry keeps its own high-priority
+base preload and the shared politician theme/layout/controller refinements.
+Entry chooser stays lightweight. IDs, ballots, artwork used in shares and all
+database schemas remain unchanged. The complete Satire Arena/detail Chrome
+suite passes (35/35); static asset/cache tests pass (5/5). Production-config
+dry-run and live verification remain pending.
+
 **Recorded applause correction (2026-10-23, deployed and live verified):**
 Implementation `9063d4a` is live as Worker
 `f431806b-c6e7-4298-99e6-82deab54ec94` with variables retained and no migration.

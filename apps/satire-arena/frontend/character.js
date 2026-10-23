@@ -4,6 +4,7 @@ import {playReaction,prepareReaction} from './feedback.mjs?v=20261018-fast';
 
 const root=document.querySelector('.character-file');
 if(root){
+ prepareReaction(root.querySelector('.file-hero')).catch(()=>{});
  const comedy=root.querySelector('[data-comedy-lines]');
  if(comedy){
   let lines=[];try{lines=JSON.parse(comedy.dataset.comedyLines);}catch{}
@@ -37,8 +38,8 @@ if(root){
    const reaction=button.dataset.reaction,previous=structuredClone(snapshot),round=snapshot.round;
    if(sound.checked){prepareSound();playSound(reaction);}
    const current=score();if(current.selected!==reaction){if(current.selected)current[current.selected]=Math.max(0,(current[current.selected]||0)-1);current[reaction]=(current[reaction]||0)+1;current.selected=reaction;}
-   revision++;busy=true;render();status.textContent='Saving your pick…';const hero=root.querySelector('.file-hero');prepareReaction(hero).catch(()=>{});
-   try{await request('/'+root.dataset.character+'/vote',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({round,reaction})});playReaction(hero,reaction,{haptics:false});if(loading)await loading;await load();if(!offline)status.textContent='Saved! '+selectedMessage();}
+   revision++;busy=true;render();status.textContent='Saving your pick…';const hero=root.querySelector('.file-hero'),prepared=prepareReaction(hero).catch(()=>{});
+   try{await request('/'+root.dataset.character+'/vote',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({round,reaction})});await prepared;playReaction(hero,reaction,{haptics:false});if(loading)await loading;await load();if(!offline)status.textContent='Saved! '+selectedMessage();}
    catch(e){snapshot=previous;render();if(loading)await loading;await load();status.textContent=e.status===409?'A new yearly round has started. Scores refreshed; choose again.':e.status===428?'Enable cookies, then refresh scores before reacting.':e.message+' Check the refreshed scores before trying again.';}
    finally{busy=false;render();}
   };

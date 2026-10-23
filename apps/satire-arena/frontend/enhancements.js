@@ -3,7 +3,7 @@ import {record} from './metrics.js';
 import {prepareReaction} from './feedback.mjs?v=20261018-fast';
 export function enhanceArena(cast,activeArena){
 const $=s=>document.querySelector(s);
-if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){entry.target.classList.remove('art-pending');prepareReaction(entry.target);observer.unobserve(entry.target);}},{rootMargin:'240px'});document.querySelectorAll('.art-pending').forEach(card=>observer.observe(card));}else document.querySelectorAll('.art-pending').forEach(card=>{card.classList.remove('art-pending');prepareReaction(card);});
+if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){entry.target.classList.remove('art-pending');prepareReaction(entry.target);observer.unobserve(entry.target);}},{rootMargin:'240px'});document.querySelectorAll('.arena-card').forEach(card=>observer.observe(card));}else document.querySelectorAll('.arena-card').forEach(card=>{card.classList.remove('art-pending');prepareReaction(card);});
 const settings=$('.arena-settings')||document.createElement('details');settings.className='arena-settings';if(!settings.hasChildNodes())settings.innerHTML='<summary>Appearance &amp; vibration</summary><p>Choose light, dark or system appearance in the platform header.</p>';
 const feedback=$('.feedback-options');if(feedback.parentElement!==settings){feedback.before(settings);settings.append(feedback);}
 $('.hero p').textContent='Public life. Pop culture. Plenty to laugh about.';

@@ -1,5 +1,42 @@
 # Satire Arena cartoon artwork
 
+## Anchor, actor and corporate reaction expressions - 23 October 2026
+
+Created with the built-in imagegen tool, using each corresponding existing
+`*-fast.webp` six-person grid as its edit target. No new external photographs
+were used. Final workspace assets, WebP quality 76/effort 6, 1536x1024:
+
+- `frontend/anchors-expressions-fast.webp`: 232,616 bytes.
+- `frontend/actors-expressions-fast.webp`: 240,532 bytes.
+- `frontend/corporates-expressions-fast.webp`: 232,946 bytes.
+
+Each sheet has six character columns in catalogue order and four expression
+rows: happy, startled, annoyed and laughing. All three outputs were visually
+reviewed; original base grids remain unchanged. Generated PNG sources remain
+in the tool's generated-image library. This supersedes earlier statements that
+the newer casts have no expression rows. Default/share images still use the
+existing three-by-two base grids.
+
+Final prompt set (one call per anchors/actors/corporates, with its own grid):
+"Use case: identity-preserve. Edit target: the supplied six-character satire
+portrait grid. Create a production reaction-expression SPRITE SHEET, EXACTLY
+SIX COLUMNS and FOUR ROWS, 24 equal square portrait tiles, canvas 3:2 landscape.
+This is a grid of repeated expressions, not a poster. Flatten the reference's
+six identities into columns: reference TOP LEFT is column 1, TOP MIDDLE column
+2, TOP RIGHT column 3, BOTTOM LEFT column 4, BOTTOM MIDDLE column 5, BOTTOM RIGHT
+column 6. Each column repeats that SAME character in all FOUR rows. Preserve
+identity, hair, glasses, facial hair, clothing colours, props, hand positions,
+chest-up framing and warm cream background. Preserve the polished dimensional
+editorial cartoon art. Change facial expressions only. ROW 1: delighted
+grateful broad smile with lifted cheeks, happy eyes. ROW 2: startled surprised
+wide eyes and small open O mouth. ROW 3: clearly annoyed offended scowl, lowered
+brows, downturned mouth. ROW 4: hearty laughter, eyes squeezed shut, wide
+laughing mouth. Strong distinct readable facial expressions. Complete heads
+inside each tile with cream margin. NO gutters, borders, labels, reaction icons,
+text, logos, watermark, extra people or crossing tile boundaries. EXACTLY 6
+columns x 4 rows. All identities repeated in same column. Save as an image for
+the [anchors/actors/corporates] lineup's reaction animations."
+
 ## Actors and Corporates grids — 23 October 2026
 
 New assets `frontend/actors-fast.webp` (284,788 bytes) and

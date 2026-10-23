@@ -1,5 +1,15 @@
 const {test,expect}=require('../../../tests/browser-fixture.js'),{spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');let child,base,dir;
 
+test('spotlight detail reactions change faces only after saving and restore the base portraits',async({page})=>{
+ test.setTimeout(120000);const expressions={garland:'happy',applause:'happy',shoe:'annoyed',finger:'annoyed',tomato:'startled',laugh:'laughing'};
+ await page.clock.install();await page.clock.pauseAt(new Date(Date.now()+10000));
+ try{for(const [id,sheet]of [['roar-nab','anchors'],['king-khanvas','actors'],['mukesh-megaplan','corporates']]){
+  await page.goto(base+'/satire-arena/characters/'+id);const hero=page.locator('.file-hero');
+  for(const [reaction,expression]of Object.entries(expressions)){await page.locator('[data-reaction='+reaction+']').click();await expect(page.locator('#character-vote-status')).toContainText('Saved!');await expect(hero).toHaveAttribute('data-expression',expression);expect(await hero.locator('.portrait').evaluate(e=>getComputedStyle(e).backgroundImage)).toContain('/'+sheet+'-expressions-fast.webp');expect(await hero.locator('.portrait').evaluate(e=>getComputedStyle(e).backgroundSize)).toBe('600% 400%');if(reaction==='finger')await expect(hero.locator('.ink-splash')).toBeVisible();await page.clock.fastForward(2000);await expect(hero).not.toHaveAttribute('data-expression');expect(await hero.locator('.portrait').evaluate(e=>getComputedStyle(e).backgroundImage)).toContain('/'+sheet+'-fast.webp');}
+  await page.route('**/api/satire-arena/'+id+'/vote',r=>r.fulfill({status:503,json:{error:'Detail save unavailable'}}));await page.locator('[data-reaction=shoe]').click();await expect(page.locator('#character-vote-status')).toContainText('Detail save unavailable');await expect(hero).not.toHaveAttribute('data-expression');await expect(hero.locator('.reaction-effect')).toHaveCount(0);await expect(page.locator('[data-reaction=laugh]')).toHaveAttribute('aria-pressed','true');await page.unroute('**/api/satire-arena/'+id+'/vote');
+ }}finally{await page.evaluate(()=>fetch('/api/satire-arena/mine',{method:'DELETE',headers:{'X-Arena-Confirm':'DELETE'}}));}
+});
+
 test('fictional personas have attractive dossiers and encore/copy interactions that never change a ballot',async({page,browser})=>{
  test.setTimeout(180000);
  const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET'&&/\/api\/satire-arena\//.test(r.url()))writes.push(r.url());});
@@ -162,7 +172,7 @@ test('all cast files fit phones and desktops in both themes',async({page})=>{
     const crop=await portrait.evaluate(async el=>{const css=getComputedStyle(el),image=new Image();image.src=css.backgroundImage.match(/url\(["']?(.*?)["']?\)/)[1];await image.decode();return {size:css.backgroundSize,x:parseFloat(css.backgroundPositionX),y:parseFloat(css.backgroundPositionY),ratio:image.naturalWidth/image.naturalHeight};});
     if(c.portrait>=13){
      const start=c.portrait>=25?25:c.portrait>=19?19:13;
-     expect(crop.size).toBe('300% 200%');expect(crop.x).toBe((c.portrait-start)%3*50);expect(crop.y).toBe(Math.floor((c.portrait-start)/3)*100);expect(crop.ratio).toBeCloseTo(1.5,2);continue;
+     expect(crop.size).toBe(expression?'600% 400%':'300% 200%');expect(crop.x).toBe(expression?(c.portrait-start)*20:(c.portrait-start)%3*50);expect(crop.y).toBeCloseTo(expression?['happy','startled','annoyed','laughing'].indexOf(expression)*100/3:Math.floor((c.portrait-start)/3)*100,4);expect(crop.ratio).toBeCloseTo(1.5,2);continue;
     }
     expect(crop.size,c.id+' '+expression+' crop').toBe(fiveRows?'200% 500%':expression?'300% 400%':'300% 100%');
     expect(crop.x).toBe(fiveRows?(c.portrait%2===1?0:100):(c.portrait%3)*50);

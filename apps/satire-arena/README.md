@@ -1,5 +1,14 @@
 # Satire Arena
 
+Reaction/loading parity (2026-10-23): anchors, actors and corporates now have
+happy/startled/annoyed/laughing portraits, using the same saved-only reaction
+effects, cleanup and reduced-motion behavior as politicians. The same effects
+work on character detail pages. Original portraits and share-image crops remain.
+New compressed expression grids are prepared at low priority near the viewport;
+pending cards defer artwork, and each voting entry preloads its own base sheet.
+JS/CSS share versioned image URLs, and a 3s optional-art deadline prevents slow
+images blocking saved feedback. See `ARTWORK.md` for assets and generation prompts.
+
 Creative entry (2026-10-23): `entry.html`/`entry.css` own the comedy-ticket
 hero, four original decorative SVG arena icons and themed punchline cards.
 The front-row link scrolls to the native chooser. Inline graphics need no

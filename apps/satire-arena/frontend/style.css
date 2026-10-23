@@ -314,3 +314,31 @@ body[data-ui-app=satire-arena] .character-share-menu summary{padding:9px;font-si
 .portrait-28{background-image:url(/satire-arena/corporates-fast.webp)!important;background-size:300% 200%!important;background-position:0% 100%!important}
 .portrait-29{background-image:url(/satire-arena/corporates-fast.webp)!important;background-size:300% 200%!important;background-position:50% 100%!important}
 .portrait-30{background-image:url(/satire-arena/corporates-fast.webp)!important;background-size:300% 200%!important;background-position:100% 100%!important}
+
+/* The newer casts use the same expression lifecycle and deferred art as politics. */
+body[data-ui-app=satire-arena] [data-expression] :is(.portrait-13,.portrait-14,.portrait-15,.portrait-16,.portrait-17,.portrait-18){background-image:url(/satire-arena/anchors-expressions-fast.webp)!important;background-size:600% 400%!important}
+body[data-ui-app=satire-arena] [data-expression] .portrait-13{background-position-x:0%!important}
+body[data-ui-app=satire-arena] [data-expression] .portrait-14{background-position-x:20%!important}
+body[data-ui-app=satire-arena] [data-expression] .portrait-15{background-position-x:40%!important}
+body[data-ui-app=satire-arena] [data-expression] .portrait-16{background-position-x:60%!important}
+body[data-ui-app=satire-arena] [data-expression] .portrait-17{background-position-x:80%!important}
+body[data-ui-app=satire-arena] [data-expression] .portrait-18{background-position-x:100%!important}
+body[data-ui-app=satire-arena] [data-expression] :is(.portrait-19,.portrait-20,.portrait-21,.portrait-22,.portrait-23,.portrait-24){background-image:url(/satire-arena/actors-expressions-fast.webp)!important;background-size:600% 400%!important}
+body[data-ui-app=satire-arena] [data-expression] .portrait-19{background-position-x:0%!important}
+body[data-ui-app=satire-arena] [data-expression] .portrait-20{background-position-x:20%!important}
+body[data-ui-app=satire-arena] [data-expression] .portrait-21{background-position-x:40%!important}
+body[data-ui-app=satire-arena] [data-expression] .portrait-22{background-position-x:60%!important}
+body[data-ui-app=satire-arena] [data-expression] .portrait-23{background-position-x:80%!important}
+body[data-ui-app=satire-arena] [data-expression] .portrait-24{background-position-x:100%!important}
+body[data-ui-app=satire-arena] [data-expression] :is(.portrait-25,.portrait-26,.portrait-27,.portrait-28,.portrait-29,.portrait-30){background-image:url(/satire-arena/corporates-expressions-fast.webp)!important;background-size:600% 400%!important}
+body[data-ui-app=satire-arena] [data-expression] .portrait-25{background-position-x:0%!important}
+body[data-ui-app=satire-arena] [data-expression] .portrait-26{background-position-x:20%!important}
+body[data-ui-app=satire-arena] [data-expression] .portrait-27{background-position-x:40%!important}
+body[data-ui-app=satire-arena] [data-expression] .portrait-28{background-position-x:60%!important}
+body[data-ui-app=satire-arena] [data-expression] .portrait-29{background-position-x:80%!important}
+body[data-ui-app=satire-arena] [data-expression] .portrait-30{background-position-x:100%!important}
+body[data-ui-app=satire-arena] [data-expression=happy] :is(.portrait-13,.portrait-14,.portrait-15,.portrait-16,.portrait-17,.portrait-18,.portrait-19,.portrait-20,.portrait-21,.portrait-22,.portrait-23,.portrait-24,.portrait-25,.portrait-26,.portrait-27,.portrait-28,.portrait-29,.portrait-30){background-position-y:0%!important}
+body[data-ui-app=satire-arena] [data-expression=startled] :is(.portrait-13,.portrait-14,.portrait-15,.portrait-16,.portrait-17,.portrait-18,.portrait-19,.portrait-20,.portrait-21,.portrait-22,.portrait-23,.portrait-24,.portrait-25,.portrait-26,.portrait-27,.portrait-28,.portrait-29,.portrait-30){background-position-y:33.333333%!important}
+body[data-ui-app=satire-arena] [data-expression=annoyed] :is(.portrait-13,.portrait-14,.portrait-15,.portrait-16,.portrait-17,.portrait-18,.portrait-19,.portrait-20,.portrait-21,.portrait-22,.portrait-23,.portrait-24,.portrait-25,.portrait-26,.portrait-27,.portrait-28,.portrait-29,.portrait-30){background-position-y:66.666667%!important}
+body[data-ui-app=satire-arena] [data-expression=laughing] :is(.portrait-13,.portrait-14,.portrait-15,.portrait-16,.portrait-17,.portrait-18,.portrait-19,.portrait-20,.portrait-21,.portrait-22,.portrait-23,.portrait-24,.portrait-25,.portrait-26,.portrait-27,.portrait-28,.portrait-29,.portrait-30){background-position-y:100%!important}
+body[data-ui-app=satire-arena] .art-pending .portrait{background-image:none!important}
