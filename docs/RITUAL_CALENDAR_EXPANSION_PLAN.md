@@ -26,6 +26,13 @@ planning aid. Stage 3's additional monthly families, Sankranti and annual festiv
 policies are not implemented; optional stages 4–5 also remain unavailable.
 The original estimates and wider candidate catalogue below remain the roadmap.
 
+Core release `d861abf` deployed on 23 October 2026 as Worker
+`156f909b-16df-433a-ab78-0aa6830485ee`. Full checks pass 371/371, Ritual Assist
+browser workflows 15/15, final focused calculation/export checks 16/16, and exact
+production dry-run/compiled-Worker routing checks pass. Live general calculations,
+exception withholding, ICS, existing remembrance and 16 responsive bilingual/theme
+layouts pass. No business-data changes; see the functionality ledger for evidence.
+
 ## Existing implementation
 
 - `apps/ritual-assist/frontend/panchang.mjs` uses vendored MIT Astronomy Engine

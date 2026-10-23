@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Ritual calendar core expansion (2026-10-23, implemented locally):** Calendar
+**Ritual calendar core expansion (2026-10-23, deployed and live verified):** Calendar
 entry now offers Vrats & dates and a separate preserved Shraddha/Barsi tab.
 The PIN/month-only general calendar supports India/IST, 2025–2030, English/Hindi,
 list/month views, filters, next occurrence and seven event types: ordinary Smarta
@@ -35,7 +35,18 @@ remain unverified; this is a calculated planning aid. The exact production
 configuration dry-run and compiled organisation-mode Worker smoke pass, including
 new public routing, invalid/cross-origin denial, unchanged private API blocking
 and zero D1 revision writes. Local Worker response observations: 220ms/89ms for
-two months, not production CPU measurements. Deployment verification follows.
+two months, not production CPU measurements. Source `d861abf` is live as Worker
+`156f909b-16df-433a-ab78-0aa6830485ee`, retaining existing production variables,
+D1/auth bindings and organisation mode. Live Chrome passes two public monthly
+calculations, separate October Purnima/fasting dates, the January 2027 confirmation
+guard, real ICS download excluding the exceptional fast, and the preserved
+eleven-year remembrance plan. Sixteen English/Hindi, light/dark, 320/390/768/1440px
+layouts pass without overflow or page errors; private legacy API remains blocked.
+Only public calculation POSTs were allowed during live browser verification;
+other writes were blocked. No migration, account changes or business-data writes.
+Live screenshots visually reviewed. Evidence: `.publish/calendar-live.json`,
+`.publish/calendar-live-mobile-light.png`, `.publish/calendar-live-grid.png` and
+`.publish/calendar-production-deploy.log`.
 Logs: `.publish/calendar-expansion-api.log`, `.publish/calendar-focused-final.log`,
 `.publish/calendar-production-dryrun.log`, `.publish/calendar-worker-smoke.log`.
 
