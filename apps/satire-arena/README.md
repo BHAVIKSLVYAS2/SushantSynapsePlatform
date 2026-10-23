@@ -1,5 +1,11 @@
 # Satire Arena
 
+Creative entry (2026-10-23): `entry.html`/`entry.css` own the comedy-ticket
+hero, four original decorative SVG arena icons and themed punchline cards.
+The front-row link scrolls to the native chooser. Inline graphics need no
+external library, raster assets or extra JS. Light/dark/system, reduced-motion
+and no-JS navigation remain supported; release evidence is in the ledger.
+
 Fictional cast refinement (2026-10-23): eighteen anchors, actors and corporate
 characters now have original names such as Decibel Dada, Slowmo Sultan and
 Rocket Raees. `frontend/personas.mjs` owns their copy; `spotlight.mjs` selects

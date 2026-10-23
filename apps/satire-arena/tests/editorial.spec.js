@@ -49,14 +49,19 @@ test('arena entry is a lightweight chooser with native routes, no voting downloa
  const requests=[],errors=[];page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(e.message));
  await page.goto(base+'/satire-arena');
  await expect(page.getByRole('heading',{name:'Pick your arena'})).toBeVisible();
+ await expect(page.getByRole('heading',{name:'Big egos. Bigger laughs.'})).toBeVisible();
+ await expect(page.locator('.entry-card-art svg')).toHaveCount(4);
+ await expect(page.locator('.entry-card-joke')).toHaveCount(4);
+ await page.getByRole('link',{name:'Find your front-row seat'}).click();await expect(page).toHaveURL(/#choose-arena$/);
  await expect(page.locator('.entry-card[href]')).toHaveCount(4);await expect(page.locator('.entry-card[href="/satire-arena/actors"]')).toBeVisible();
  await expect(page.locator('.entry-card[href="/satire-arena/corporates"]')).toBeVisible();
  for(const theme of ['light','dark'])for(const width of [320,390,768,1440]){
   await page.setViewportSize({width,height:850});await page.evaluate(t=>SynapseTheme.write(t),theme);
-  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  const overflow=await page.evaluate(()=>({fits:document.documentElement.scrollWidth<=innerWidth,items:[...document.querySelectorAll('.satire-entry *')].filter(e=>e.getBoundingClientRect().right>innerWidth).map(e=>e.className?.baseVal||e.className)}));expect(overflow.fits,JSON.stringify({theme,width,items:overflow.items})).toBe(true);
  }
  expect(requests.filter(url=>/\/api\/(satire-arena|arena-editorial|arena-metrics)|\/satire-arena\/(app\.js|style\.css|catalogue\.mjs|sound\.mjs|feedback\.mjs|enhancements\.js|.*\.(webp|png))/.test(url))).toEqual([]);
- await page.setViewportSize({width:390,height:850});await page.screenshot({path:'.publish/arena-entry-mobile.png',fullPage:true});
+ for(const theme of ['light','dark']){await page.evaluate(t=>SynapseTheme.write(t),theme);for(const width of [390,1440]){await page.setViewportSize({width,height:900});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'.publish/creative-entry-'+theme+'-'+width+'.png',fullPage:true});}}
+ await page.setViewportSize({width:390,height:850});
  await page.locator('.entry-card[href="/satire-arena/news-anchors"]').click();await expect(page.locator('.arena-card')).toHaveCount(6);
  await expect(page.locator('link[rel=canonical]')).toHaveAttribute('href','https://apps.sushantsynapse.com/satire-arena/news-anchors');
  expect(requests.filter(url=>/\/satire-arena\/cast-fast\.webp/.test(url))).toEqual([]);

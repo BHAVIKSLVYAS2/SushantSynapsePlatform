@@ -1,5 +1,11 @@
 # Code ownership and adding apps
 
+Satire entry artwork (2026-10-23): the comedy-ticket hero and four original
+arena icons are inline, decorative SVG/CSS in app-owned `entry.html`/`entry.css`.
+Theme tokens colour the four cards; responsive styling and reduced-motion
+overrides stay app-owned. No icon library, image request or JavaScript was added.
+Native chooser links, legacy routing and the lightweight entry boundary remain.
+
 Fictional cast refinement (2026-10-23): app-owned `frontend/personas.mjs` owns
 the eighteen anchor/actor/corporate display names, biographies, signature lines,
 encores and backstage sketches. Stable IDs retain published links and ballots.

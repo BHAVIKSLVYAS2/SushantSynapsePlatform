@@ -1,5 +1,21 @@
 # Chambers functionality ledger
 
+**Creative Satire Arena entry (2026-10-23, verified; release pending):**
+The chooser gains a comedy-festival ticket hero, front-row anchor link,
+four original inline SVG icons (podium, television, clapperboard, briefcase),
+themed illustrated cards, cast counts and original teaser punchlines. Daily
+Satire and results links gain matching small icons. Colours follow shared
+light/dark/system tokens, hover motion respects reduced-motion, and all four
+arena links work without JS. Entry still downloads no voting module, portraits,
+sound or score polling. Existing `entry.js`, voting and persistence are unchanged.
+Validation: six targeted catalogue/profile/arena API checks and both entry/
+legacy-link browser workflows pass. Eight light/dark viewport combinations
+(320/390/768/1440px), front-row anchor, inline graphics, no-JS navigation and
+no voting/portrait downloads are verified. Desktop/mobile screenshots reviewed
+in both themes. The rotated decorative orbit is clipped within its illustration
+to prevent narrow-screen overflow. Production-config dry-run and diff checks
+pass. Production deployment/read-only verification follows.
+
 **Satire fictional cast and comic dossiers (2026-10-23, deployed and live verified):**
 Implementation commit `b8fdc04` is live as Worker
 `8b460386-ba0a-4089-8018-ddcd90ee3088`, deployed with `--keep-vars` and no
