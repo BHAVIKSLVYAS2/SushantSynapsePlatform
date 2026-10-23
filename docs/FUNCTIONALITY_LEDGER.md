@@ -1,5 +1,16 @@
 # Chambers functionality ledger
 
+**Featured-first ordering and highlighted badges (2026-10-23, release pending):**
+Explore now starts with Ritual Assist, Moment Studio, Take a Break and Satire
+Arena in that exact order, followed by the other apps in their existing order.
+The shared registry applies ordering to static and signed-in catalogues. Compact
+badges retain their 9px label and padding, with a filled theme-primary background,
+contrasting text and an 8px decorative star. No separate Featured section added.
+10/10 catalogue/CSS/cache checks and all five catalogue browser workflows pass,
+including account transitions, search, no-JavaScript access and eight light/dark
+width layouts. Local mobile screenshot reviewed. No schema/API/data changes.
+Evidence: `.publish/featured-highlight-tests.log`.
+
 **Explore-first homepage with Featured badges (2026-10-23, deployed and live verified):**
 The latest user request supersedes the Featured carousel below. Removed the
 separate Featured section from static and hydrated home, its controls, listeners

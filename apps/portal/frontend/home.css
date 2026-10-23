@@ -448,6 +448,8 @@
 @media(max-width:700px){.public-home .catalogue-account{padding:12px;gap:12px}.public-home .catalogue-account nav{flex-basis:100%}.catalogue-account>.secondary{font-size:12px}.catalogue-account .nav-item{padding:8px;font-size:11px}}
 
 /* Compact Featured indication within the existing Explore cards. */
-.public-home .home-feature-badge{position:absolute;top:8px;right:10px;display:inline-flex;align-items:center;padding:2px 6px;border:1px solid var(--ss-border);border-radius:999px;background:var(--ss-bg-secondary);color:var(--ss-primary);font-size:9px;font-weight:700;line-height:1.3;white-space:nowrap}
+.public-home .home-feature-badge{position:absolute;top:8px;right:10px;display:inline-flex;align-items:center;gap:3px;padding:2px 6px;border:1px solid var(--ss-primary);border-radius:999px;background:var(--ss-primary);color:var(--shell-on-accent);box-shadow:0 1px 4px color-mix(in srgb,var(--ss-primary) 25%,transparent);font-size:9px;font-weight:700;line-height:1.3;white-space:nowrap}
 body[data-ui-app=portal] .public-home #free-apps .public-app.is-featured{padding-top:30px}
 body[data-ui-app=portal] .public-home #free-apps .public-app.is-featured .public-app-head{top:auto;bottom:8px}
+
+.public-home .home-feature-badge svg{width:8px;height:8px;flex-shrink:0;fill:currentColor}
