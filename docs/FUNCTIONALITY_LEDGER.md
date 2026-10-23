@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Homepage Explore restoration (2026-10-23, release verification in progress):**
+**Homepage Explore restoration (2026-10-23, deployed and live verified):**
 The latest user correction supersedes the carousel scope below: Explore apps is
 restored to its original flat responsive grid (one/two/three columns), without
 pagination or carousel controls. Only Featured apps swipes. Removed the stacked
@@ -10,6 +10,19 @@ search, existing card styling, filters and account collections remain intact.
 including real touch, keyboard, search, account transitions and eight theme/width
 layouts. No schema, API or production data changes. The user now explicitly
 requests commit and deployment, superseding the previous no-commit instruction.
+Implementation commit: `a128491`. Production Worker dry-run passes. The broader
+browser run passes 15/19 workflows; the private-destination assertion was corrected
+and its isolated rerun passes (1/1). Three other checks remain unresolved: an old
+ad test expects no ads on routes now explicitly eligible in `adsense.cjs`, and
+legal-page/sponsor-card layout checks fail. Those features were not changed in
+this release. Evidence: `.publish/home-grid-tests.log`,
+`.publish/home-grid-signin-rerun.log`, `.publish/home-grid-dry-run.log`.
+Production Worker `64f3bfd2-d160-4bcb-bb3d-61fdc8b2857d` is live with existing
+variables and D1 bindings preserved. Read-only Chrome checks confirm fourteen
+direct grid cards, Featured controls, single search and exactly 8px section gap
+at 320/390/768/1440px in light and dark themes, without overflow or page errors.
+Evidence: `.publish/home-grid-live.log`, `.publish/home-grid-live.png`,
+`.publish/home-grid-deploy.log`. No production business writes were allowed.
 
 **Homepage search and carousels (2026-10-23, deployed and live verified):**
 Implemented the approved preview: a single inline search replaces the duplicate
