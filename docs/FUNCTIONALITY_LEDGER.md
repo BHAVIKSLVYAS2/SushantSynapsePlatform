@@ -1,15 +1,21 @@
 # Chambers functionality ledger
 
-**Sponsorship and ad-placement cleanup (2026-10-23, implementation verified; deployment pending):**
+**Sponsorship and ad-placement cleanup (2026-10-23, deployed and live verified):**
 Removed the sponsor page, campaign UI and manual placement slots. Kept one shared
 Google AdSense Auto Ads loader in the document head on eligible anonymous public
 pages only; Google manages any placements. It is excluded from sign-in, private
 workspaces, Confessions and Feedback. The AdSense publisher file remains.
 Confessions reading is free without an ad-dependent reveal cap. `/support`
-remains voluntary with contact options. Focused API/edge checks pass (39/39),
-and the relevant browser workflows pass (12/12), including unlimited free
-Confessions reading, support/contact, and responsive portal pages. Production
-configuration dry-run and live deployment verification remain pending.
+remains voluntary with contact options. The API/unit suite passes (373/373);
+focused browser workflows pass (20/20), including unlimited free Confessions
+reading, support/contact, and responsive portal pages. The production-config
+dry run retained D1, all eight rate-limit bindings and environment variables.
+Commits `b45d108` and `241629f` are deployed as Worker version
+`962ef7d9-6913-4323-90a7-e6d5eb1b7671`; no database migration was run. Live
+checks confirmed the loader on eligible public pages and absent on sign-in,
+account, private workspace, Confessions and Feedback routes; `/sponsor` and
+`/sponsor/` return 404, `/ads.txt` serves the publisher record, and no manual
+ad slots are present.
 
 **Support Us refresh (2026-10-23, deployed and live verified):**
 Implementation `8804839` is live on production Worker
