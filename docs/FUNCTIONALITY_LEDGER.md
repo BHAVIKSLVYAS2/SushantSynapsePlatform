@@ -9,7 +9,11 @@ Both sheets visually reviewed; combined WebP size falls 475,564 to 421,888 bytes
 (-11.3%). Reference and edit prompts: `apps/satire-arena/ARTWORK.md`.
 Verification: focused sprite/deferred-artwork and genuine share-download browser
 checks both pass (2 tests); production Wrangler dry-run succeeds. No code, schema
-or data changes. Production visual/hash verification follows deployment.
+or data changes. Deployed commit `a1dbce9` as Worker version
+`24e55535-2f9b-4fac-bddc-e9c1fee8830b` with `--keep-vars` and no migration.
+Read-only production verification passes the base portrait and four expression
+crops on both arena and detail pages, matching local/deployed SHA-256 image
+hashes, six responsive layouts, zero page errors and zero ballot writes.
 
 **Satire loading/reuse cleanup (2026-10-24, deployed and live verified):**
 Implementation commits `6c5a5af` and `965cffd` are live as Worker
