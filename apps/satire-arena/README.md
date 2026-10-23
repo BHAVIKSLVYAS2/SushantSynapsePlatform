@@ -1,6 +1,6 @@
 # Satire Arena
 
-Actors and Corporates expansion (2026-10-23): `/satire-arena/actors` and
+Actors and Corporates expansion (2026-10-23, deployed and live verified): `/satire-arena/actors` and
 `/satire-arena/corporates` each add six recognisable fictional spoofs, with
 the same annual reactions, separate standings, profile voting and sharing.
 The chooser now has four native destinations. New content belongs to
@@ -20,7 +20,7 @@ This entry supersedes the older Actors Coming next statements below.
 Entry optimisation (2026-10-23, deployed and live verified): `/satire-arena` is the arena chooser.
 It loads no voting, score polling, portraits or sound; links work without
 JavaScript. Voting lives at `/satire-arena/politicians` and
-`/satire-arena/news-anchors`. Actors remains Coming next. Root character query/
+`/satire-arena/news-anchors`, with Actors and Corporates at their own routes. Root character query/
 hash links still route to their lineup and never auto-submit a reaction.
 Each voting entry has its own canonical and correct portrait preload. Run
 `node apps/satire-arena/build-entry.cjs` after changing the voting template;
@@ -31,8 +31,7 @@ contains six recognisable fictional television-anchor spoofs with the existing
 six reactions, annual browser ballots, shared counts, profile voting, fictional
 biographies, original punchlines and link/image sharing. Politics remains at
 `/satire-arena` and `/satire-arena/politicians`. The arena selector and shared app
-discovery cover politics, television and pop culture. Actors is marked Coming
-next and has no ballots or profiles. Scores, leaders, spotlight, daily activity
+discovery cover politics, television, cinema and business. Scores, leaders, spotlight, daily activity
 summaries and exported standings are filtered to the current lineup; browser
 privacy export/removal deliberately covers all arenas.
 

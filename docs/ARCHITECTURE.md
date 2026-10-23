@@ -1,6 +1,6 @@
 # Code ownership and adding apps
 
-Actors/Corporates expansion (2026-10-23): app-owned `frontend/spotlight.mjs`
+Actors/Corporates expansion (2026-10-23, live): app-owned `frontend/spotlight.mjs`
 defines twelve fictional personas and their detail content. Shared `catalogue.mjs`
 owns four-arena membership and `portraitArt` crops/sources used by both image
 export paths and page metadata. `build-entry.cjs` generates News Anchors, Actors
@@ -8,12 +8,13 @@ and Corporates pages from the voting template, each with its own title/canonical
 and sheet preload. Chooser entry remains independent of voting/artwork modules.
 New ballots share constrained `arena_spotlight_votes`; additive app/native/D1
 migrations extend the deduplicated view without altering earlier generations.
+D1 migration 0008 is live; its migration boundary preserved 83 existing ballots.
 Release status and validation evidence belong to the functionality ledger.
 
 Satire entry (2026-10-23, live): app-owned `entry.html`/`entry.css` provide
 the lightweight `/satire-arena` chooser without voting or artwork dependencies.
 `entry.js` imports the catalogue only to route legacy character query/hash links;
-it never records a vote. Explicit politicians/news-anchors routes load voting.
+it never records a vote. All four explicit arena routes load voting.
 `build-entry.cjs`, called by the shared frontend build, derives the anchor HTML
 from the voting template with its own canonical/title and anchor-only preload.
 The generated `news-anchors.html` is retained for default Node serving too.
@@ -23,8 +24,8 @@ owns arena availability and character membership. Node/Workers validation uses
 that same cast. `/satire-arena/news-anchors` and `/satire-arena/politicians` reuse
 the existing frontend; the controller scopes public scores/activity/shares to
 the active lineup, while privacy export/removal spans the browser's full history.
-App-owned `character-page.mjs` scopes related profiles and pagination. Actors
-is unavailable. Additive app/D1/native SQL migrations extend ballot storage and
+App-owned `character-page.mjs` scopes related profiles and pagination. All four
+lineups are active. Additive app/D1/native SQL migrations extend ballot storage and
 the shared deduplicated view; keep each D1 compound SELECT below six terms.
 `anchors-fast.webp` is the original generated three-by-two portrait grid.
 Production uses additive D1 migration 0007, applied before the updated Worker;

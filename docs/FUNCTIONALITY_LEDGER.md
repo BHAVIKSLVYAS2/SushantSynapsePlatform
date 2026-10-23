@@ -1,6 +1,13 @@
 # Chambers functionality ledger
 
-**Actors and Corporates arenas (2026-10-23, implementation pending release):**
+**Actors and Corporates arenas (2026-10-23, deployed and live verified):**
+Implementation commit `9cb0100` is live as Worker
+`f67180ee-08b1-40b1-bc2f-53594fbbf568`. Only additive production D1 migration
+`0008-spotlight-arenas.sql` was pending and applied before deployment. Aggregate
+before/after checks preserve all 83 existing ballots across six generations,
+including the saved anchor ballot; the new spotlight table started empty.
+The previous release's Actors Coming next state is superseded.
+
 Separate `/satire-arena/actors` and `/satire-arena/corporates` routes each add
 six recognisable fictional public-persona spoofs, original biographies/traits and
 three signature lines, full profile voting, all six reactions, annual IST ballot
@@ -38,12 +45,27 @@ downloads with arena-specific sources and no unnecessary image preloads. Chooser
 still loads no ballot/controller/artwork dependencies and works without JavaScript.
 Both mobile arena/profile screenshots visually reviewed. Production-config
 Worker dry-run, syntax and whitespace pass. SQL Server DDL is prepared but has
-not run on live SQL Server. All test databases are disposable. Release evidence
-will follow production verification.
+not run on live SQL Server. All test databases are disposable.
+
+Live Chrome verification passes all four native chooser destinations, zero
+voting/artwork dependencies at entry, six cards in each new arena, all twelve
+new profiles and their reactions/signature lines/same-arena navigation, own
+canonical/preload/crop sources, 40 light/dark width combinations, unchanged
+politician/anchor lineup counts, legacy-link confirmation and no-JavaScript
+discovery. Public API exposes all 31 registered characters. Zero page errors,
+zero Arena/editorial/metrics writes and no votes cast during live checks. Live
+chooser, both arenas and both lead-profile screenshots visually reviewed.
+Existing variables, bindings and organisation protections retained with
+`--keep-vars`; no signing-secret rotation, bootstrap, legacy mapping or data reset.
 Evidence: `.publish/spotlight-full-api.log`, `.publish/spotlight-language-rerun.log`,
 `.publish/spotlight-full-browser.log`, `.publish/spotlight-scoreboard-final.log`,
 `.publish/spotlight-browser-first.log`, `.publish/spotlight-dryrun.log`,
 `.publish/actors-arena-mobile.png`, `.publish/corporates-arena-mobile.png`.
+Release evidence: `.publish/spotlight-release-migration-list.log`,
+`.publish/spotlight-release-migration.log`, `.publish/spotlight-release-counts-before.json`,
+`.publish/spotlight-release-counts-after.json`, `.publish/spotlight-release-deploy.log`,
+`.publish/spotlight-release-live.log`, `.publish/spotlight-release-live-entry.png`,
+`.publish/spotlight-release-live-actors.png`, `.publish/spotlight-release-live-corporates.png`.
 
 **Satire Arena release (2026-10-23, deployed and live verified):**
 Implementation commit `b87df2e` is live as Worker

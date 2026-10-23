@@ -1,6 +1,6 @@
 # Sushant Synapse Platform
 
-Actors and Corporates are implemented as additional Satire Arena lineups, each
+Actors and Corporates are deployed, live-verified Satire Arena lineups, each
 with six fictional spoofs and the same voting/profile/share features. The main
 chooser retains lightweight entry and links to all four arenas. See the
 functionality ledger for current verification and production release status.
@@ -13,7 +13,7 @@ for verification and deployment status.
 Satire Arena now has a deployed, live-verified News Anchors lineup with six
 recognisable fictional spoofs, the same voting and detail pages, and navigation
 across politics and television. Its framing now includes public life and pop
-culture; Actors is marked Coming next. Existing political ballots are preserved.
+culture; Actors and Corporates are also available. Existing ballots are preserved.
 See the [functionality ledger](docs/FUNCTIONALITY_LEDGER.md) for verification and
 deployment status.
 
