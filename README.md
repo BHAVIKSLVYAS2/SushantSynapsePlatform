@@ -1,5 +1,12 @@
 # Sushant Synapse Platform
 
+Sponsorship pages and manual ad placements have been removed. Google AdSense
+Auto Ads code loads globally on eligible anonymous public pages; Google manages
+any resulting placements. It is excluded from private workspaces, sign-in,
+Confessions and Feedback. The voluntary one-time [Support Us page](/support)
+remains available.
+See the functionality ledger for current implementation and verification status.
+
 Satire Arena's anchors, actors and corporates use eighteen original fictional
 names, including Decibel Dada, Baahon Badshah and Rocket Raees. Detail pages add
 comic exchanges, backstage notes and copyable Encore punchlines. Existing
@@ -142,7 +149,8 @@ an owner editorial desk at `/satire-arena/editor`, scheduled Daily Satire at
 `/satire-arena/daily`, and genuine retained-ballot history at
 `/satire-arena/results`. Editorial data stays in the existing SQL settings store;
 no schema migration is required. Aggregate action analytics is optional and off
-by default; Arena advertising remains off. The upgrade was deployed and live
+by default; Arena has no app-specific ad placements. Any site-level Auto Ads
+placements are controlled by Google. The upgrade was deployed and live
 verified on 2026-10-16. See [operations and limits](docs/SATIRE_ARENA_2.md) and the functionality
 ledger for verification and release status.
 
@@ -158,19 +166,18 @@ All served apps use one persistent platform header with searchable app switching
 
 The retained local backend uses **one SQL Server LocalDB database, `SushantSynapsePlatform`, with eight separate schemas**, including Satire Arena's `satire`. Local flow remains UI → Node API → SQL Server. Production now uses Cloudflare Workers → D1 directly, with no forwarding of private APIs to the laptop. SQL Server, SQLite recovery files and legacy JSON remain preserved; cloud writes do not synchronize back to the old source. See [SQL Server setup and recovery](docs/SQLSERVER_MIGRATION.md).
 
-WhatsApp contact is available through `/contact`, `/support` and `/sponsor`. Submitting a form opens WhatsApp with combined details; visitors review the draft and press Send. Shared navigation and homepage links expose Support Us and Watch demos. Forms are not saved by the platform; payment settings remain separate.
+WhatsApp contact is available through `/contact` and `/support`. Submitting a form opens WhatsApp with combined details; visitors review the draft and press Send. Shared navigation and homepage links expose Support Us and Watch demos. Forms are not saved by the platform; payment settings remain separate.
 
 Ritual Assist provides 15 bilingual guides, expanded Havan materials, Antyeshti considerations and day 10–12 checklists. Its Shraddha & Barsi Calendar requires date, IST time and Indian PIN code; stateless backend calculation returns first-year observances and the current year plus next ten years. Calendar reminders export individual resolved dates to an ICS file. A selectable bilingual preparation pack includes ceremony materials, checks, responsibilities and print/PDF or text export. Family-specific and uncertain dates require confirmation. See [scope](apps/ritual-assist/README.md).
 
 Public [privacy/data-use information](/privacy), [usage responsibilities](/terms), [contact status](/contact) and [third-party notices](/legal/third-party-notices) are linked across every app. Operator/contact details and some rights/retention workflows remain pending; these pages do not claim legal clearance. The internal audit and source register are in `docs/COPYRIGHT_LEGAL_AUDIT_2026-10-10.md` and `docs/LEGAL_SOURCE_REGISTER.md`.
 
-**Support Us** at `/support` offers ₹20/₹49/₹99/₹249 UPI contributions, amount-specific QR codes, external payment links, copy fallback and sponsorship. The redesign centres Buy me a coffee with Chai, Coffee, Pani puri and Pizza choices, smaller secondary links and an expandable WhatsApp form; deployed and live-verified on 2026-10-16. Signed-in owners configure verified recipient details on the page; settings persist in SQLite. Contributions default to disabled. No recipient is configured, no payment is verified. See [support setup](docs/MONETIZATION.md#voluntary-support).
+**Support Us** at `/support` offers ₹20/₹49/₹99/₹249 UPI contributions, amount-specific QR codes, external payment links, copy fallback and contact options. The redesign centres Buy me a coffee with Chai, Coffee, Pani puri and Pizza choices, smaller secondary links and an expandable WhatsApp form; deployed and live-verified on 2026-10-23. Signed-in owners configure verified recipient details on the page; settings persist in SQLite. Contributions default to disabled. No recipient is configured, no payment is verified. See [support setup](docs/MONETIZATION.md#voluntary-support).
 
 **Watch demos** at `/showcase` is a promotional HTML player with eleven looping scenes, including Decision Wheel and all four private workspaces, playback controls, full-screen display mode (`?screen=1`) with no HTML download. Sample workflows are clearly labelled; no accounts or payments are created. See [player usage](apps/portal/SHOWCASE.md).
 
 Fund Lens comparison is deployed on Cloudflare and works without the laptop backend. See [deployment status](docs/DEPLOYMENT.md).
 
-Quiet direct sponsorships are prepared for selected public pages: one labelled, dismissible text card outside the working controls, with no popups, autoplay, advertiser scripts or tracking pixels. Private workspaces and sensitive tools remain ad-free. `/sponsor` provides the partnership information, brief and local enquiry drafts; WhatsApp enquiry contact is configured; actual paid campaigns and payments are not connected yet. See [the earning plan and publishing guide](docs/MONETIZATION.md).
 
 **Take a Break** at `/take-a-break` brings seven activities into one mobile-friendly hub: One-Minute Chaos, Make 24 (Daily Spark), Crack the Code, Memory Minute, Lights Out, Face-Off and Decision Wheel. The Crack the Code redesign replaces the five-digit guessing game with three distinct digits and five visible clues leading to one solution, plus a scratchpad, optional starting hint and unlimited checks. Daily challenges use IST dates, with practice rounds and explicit sharing. Free, no login, no backend dependency; progress stays in the current tab. Existing `/daily-spark` and `/decision-wheel` links continue to work. The clue-led redesign was deployed and live-verified on 2026-10-16. The Lights Out replacement for Clue Club adds three solvable boards, undo and optional hints; it was deployed and live-verified on 2026-10-16.
 

@@ -5,7 +5,7 @@
  html[data-theme=dark] body[data-ui-app=portal]:has(.public-home) {--shell-bg:#0b131a;--shell-accent:#22d3ee;--shell-accent-hover:#67e8f9;--shell-on-accent:#020617}
  body:has(.public-home) .platform-account:not(.platform-account-avatar) {background:var(--shell-accent);color:var(--shell-on-accent);border-color:var(--shell-accent);min-height:48px}
  body:has(.public-home) .platform-switch {min-height:48px}
- .public-home :is(button,.primary,.secondary,.home-daily-play,.synapse-sponsor-link),body:has(.public-home) .platform-switcher :is(button,input,a) {min-height:48px}
+ .public-home :is(button,.primary,.secondary,.home-daily-play),body:has(.public-home) .platform-switcher :is(button,input,a) {min-height:48px}
  .public-home .arena-discovery nav a {min-height:48px}
  .public-home main>footer>span:last-child {display:inline-flex;gap:16px;flex-wrap:wrap}
  body[data-ui-app=portal] .public-home main .home-welcome.home-welcome {box-shadow:inset 0 1px 0 var(--home-border),0 0 36px var(--home-halo)}
@@ -134,7 +134,6 @@
  .public-home .workspace-card {border-radius:18px;border-color:var(--home-border);background-image:linear-gradient(145deg,var(--home-top),var(--home-bottom));padding:20px}
  .public-home .workspace-card h3 {font-size:20px;font-weight:750}
  .public-home .workspace-card .secondary {background:var(--home-chip);border-color:var(--home-border);color:var(--home-accent);border-radius:10px}
- .public-home .synapse-sponsor {margin-top:20px;border-radius:18px}
  .home-rail {display:none}
  @media(min-width:760px) {
   .public-home .public-hero h1 br {display:none}
@@ -288,11 +287,11 @@
   --home-shadow:var(--home-panel-shadow);
   background:radial-gradient(ellipse 600px 700px at 0% 5%,var(--home-halo),transparent 75%),radial-gradient(ellipse 500px 900px at 100% 35%,var(--home-chip),transparent 80%);
  }
- [data-theme=dark] .public-home :is(.home-welcome,.home-daily,.workspace-card,.synapse-sponsor,.arena-discovery) {
+ [data-theme=dark] .public-home :is(.home-welcome,.home-daily,.workspace-card,.arena-discovery) {
   border-color:var(--home-border);box-shadow:var(--home-panel-shadow);
   -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
  }
- [data-theme=dark] .public-home :is(.workspace-card,.synapse-sponsor,.arena-discovery) {background:var(--home-card)}
+ [data-theme=dark] .public-home :is(.workspace-card,.arena-discovery) {background:var(--home-card)}
  [data-theme=dark] .public-home #free-apps .public-app {
   -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
  }
@@ -306,7 +305,7 @@
  }
  @media(prefers-reduced-transparency:reduce) {
   [data-theme=dark] .public-home {--home-card:var(--ui-solid);--home-welcome-surface:var(--ui-solid)}
-  [data-theme=dark] .public-home :is(.public-app,.home-welcome,.home-daily,.workspace-card,.synapse-sponsor,.arena-discovery) {-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+  [data-theme=dark] .public-home :is(.public-app,.home-welcome,.home-daily,.workspace-card,.arena-discovery) {-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
  }
 }
 @media screen {
@@ -422,7 +421,7 @@
  @media(prefers-reduced-motion:reduce){body[data-ui-app=portal] .public-home main .public-hero.home-welcome,body[data-ui-app=portal] .public-home #free-apps .public-app,.public-home .home-entry,.public-home .home-feature-card{animation:none;transition:none;transform:none!important}}
 }
 @media screen{
- body[data-ui-app=portal] .public-home :is(.public-app,.home-welcome,.home-entry,.home-feature-card,.workspace-card,.synapse-sponsor,.arena-discovery){-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+ body[data-ui-app=portal] .public-home :is(.public-app,.home-welcome,.home-entry,.home-feature-card,.workspace-card,.arena-discovery){-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
  body[data-ui-app=portal] .public-home main .home-welcome h1 br{display:block}
  body[data-ui-app=portal] .public-home main .home-welcome h1 em{font-family:inherit}
  @media(max-width:600px){

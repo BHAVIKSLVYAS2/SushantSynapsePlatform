@@ -1,5 +1,16 @@
 # Chambers functionality ledger
 
+**Sponsorship and ad-placement cleanup (2026-10-23, implementation verified; deployment pending):**
+Removed the sponsor page, campaign UI and manual placement slots. Kept one shared
+Google AdSense Auto Ads loader in the document head on eligible anonymous public
+pages only; Google manages any placements. It is excluded from sign-in, private
+workspaces, Confessions and Feedback. The AdSense publisher file remains.
+Confessions reading is free without an ad-dependent reveal cap. `/support`
+remains voluntary with contact options. Focused API/edge checks pass (39/39),
+and the relevant browser workflows pass (12/12), including unlimited free
+Confessions reading, support/contact, and responsive portal pages. Production
+configuration dry-run and live deployment verification remain pending.
+
 **Support Us refresh (2026-10-23, deployed and live verified):**
 Implementation `8804839` is live on production Worker
 `8ee42fb4-9ed0-447c-bf94-9680f77a6de9`. The production-config dry run retained
@@ -11,7 +22,7 @@ and no payment or business write was submitted. Focused API/unit checks pass
 (2/2); browser workflows pass (2/2).
 `/support` leads with a clearer, optional one-time support message and direct
 links to the contribution and alternate support options. Contribution cards now
-show their existing descriptions; sharing and sponsorship have distinct,
+show their existing descriptions; sharing and contact paths are distinct,
 scannable paths. Payment processing, amounts, owner settings and persistence are
 unchanged.
 

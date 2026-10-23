@@ -245,7 +245,7 @@
   body[data-ui-app=news] .edition-cover {border-radius:20px;border:1px solid var(--ui-mint-edge);background:var(--ui-panel)}
   body[data-ui-app=news] .edition-tools {border-radius:16px;background:var(--ui-glass)}
   body[data-ui-app=news] .reading-nav {gap:8px}
-  body[data-ui-app=portal] :is(.support-card,.support-partner,.sponsor-enquiry,.sponsor-boundaries,.demo-player) {border-radius:20px;border-color:var(--ui-edge);background:var(--ui-glass)}
+  body[data-ui-app=portal] :is(.support-card,.support-partner,.demo-player) {border-radius:20px;border-color:var(--ui-edge);background:var(--ui-glass)}
   @media(min-width:1000px) {
     body[data-ui-app=team-mixer] .workspace>form,body[data-ui-app=decision-wheel] .editor {position:sticky;top:24px}
     body[data-ui-app=ritual-assist] .workspace>.library {position:sticky;top:24px}

@@ -70,7 +70,7 @@
     const arenaHandlesOutages = url.pathname === '/api/satire-arena' || url.pathname.startsWith('/api/satire-arena/');
     // Passive chrome is not evidence that the current public tool is offline.
     // Its counter has its own unavailable label; sign-in/private pages still warn.
-    const publicPage = /^\/(?:showcase|support|sponsor|contact|privacy|terms|legal|qr-maker|photo-resize|bill-splitter|focus|news|fund-overlap|timetable-lite|ritual-assist|moment-studio|take-a-break|daily-spark|decision-wheel|team-mixer|confessions|satire-arena)(?:\/|$)/.test(location.pathname) && location.pathname !== '/satire-arena/editor';
+    const publicPage = /^\/(?:showcase|support|contact|privacy|terms|legal|qr-maker|photo-resize|bill-splitter|focus|news|fund-overlap|timetable-lite|ritual-assist|moment-studio|take-a-break|daily-spark|decision-wheel|team-mixer|confessions|satire-arena)(?:\/|$)/.test(location.pathname) && location.pathname !== '/satire-arena/editor';
     const passiveChrome = url.pathname === '/api/platform/visitors' || (publicPage && url.pathname === '/api/auth/status');
     const backend = !passiveChrome && !arenaHandlesOutages && !newsHandlesOutages && !fundHandlesOutages && !supportHandlesOutages && url.origin === location.origin && (url.pathname.startsWith('/api/') || url.pathname === '/healthz');
     try { const response = await nativeFetch(input, options); if (backend && response.status >= 500) show(); return response; }

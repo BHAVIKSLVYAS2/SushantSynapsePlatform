@@ -10,14 +10,6 @@ test('CAPTCHA rejects missing, wrong, expired and replayed answers, including co
  const concurrent=await captchaRequest(confessions,context,'One concurrent confession'),clone=concurrent.clone(),results=await Promise.allSettled([confessions(concurrent,context),confessions(clone,context)]);assert.equal(results.filter(result=>result.status==='fulfilled').length,1);assert.equal(results.find(result=>result.status==='rejected').reason.status,409);assert.equal(state.items.length,2);
  await assert.rejects(confessions(req('/challenge',{name:'not needed'}),context),{status:400});await assert.rejects(confessions(req('/challenge'),{...context,limit:async()=>({success:false})}),{status:429});
 });
-test('rewarded adapter requires consent and real grant event; closed ads do not grant reveals',async()=>{
- const {adConfig}=await import('../apps/confessions/frontend/ad-config.mjs'),{allowAds,prepareReward}=await import('../apps/confessions/frontend/ads.mjs');assert.equal((await prepareReward()).status,'unavailable');
- const previous={document:global.document,window:global.window,googletag:global.googletag},original={...adConfig};let grant=true,destroyed=0;const listeners=new Map(),slot={addService(){}};
- const ads={addEventListener:(name,fn)=>listeners.set(name,fn),removeEventListener:name=>listeners.delete(name)};
- global.googletag={cmd:{push:fn=>fn()},pubads:()=>ads,defineOutOfPageSlot:()=>slot,enums:{OutOfPageFormat:{REWARDED:1}},enableServices(){},destroySlots(){destroyed++;},display(){listeners.get('rewardedSlotReady')({slot,makeRewardedVisible(){queueMicrotask(()=>{if(grant)listeners.get('rewardedSlotGranted')({slot});listeners.get('rewardedSlotClosed')({slot});});}});}};
- global.window={googletag:global.googletag};global.document={querySelector:()=>null,createElement:()=>({remove(){}}),head:{append:node=>queueMicrotask(()=>node.onload())}};
- try{adConfig.enabled=true;adConfig.rewardedUnit='/123456/confessions-test';allowAds(true);let reward=await prepareReward();assert.equal(reward.status,'ready');assert.equal((await reward.watch()).status,'granted');grant=false;reward=await prepareReward();assert.equal((await reward.watch()).status,'cancelled');reward=await prepareReward();reward.cancel();assert.equal(destroyed,3);assert.equal(listeners.size,0);}finally{Object.assign(adConfig,original);allowAds(false);for(const [key,value]of Object.entries(previous))if(value===undefined)delete global[key];else global[key]=value;}
-});
 test('new confessions are public, legacy pending text stays private, and reports and expiry apply',async()=>{
  const {confessions,empty}=await import('../apps/confessions/backend/service.mjs');let state=empty(),writes=0;const now=Date.now(),context={now,read:async()=>structuredClone(state),write:async(next,version)=>{assert.equal(version,state.version);state=next;writes++;},limit:async()=>({success:true})};
  const request=(path='',method='GET',data)=>new Request('https://example.test/api/confessions'+path,{method,headers:{'Content-Type':'application/json'},...(data?{body:JSON.stringify(data)}:{})});
@@ -27,12 +19,12 @@ test('new confessions are public, legacy pending text stays private, and reports
  await confessions(request('/'+created.id+'/report','POST',{}),context);assert.equal(state.items[0].status,'reported');await assert.rejects(confessions(request('/'+created.id),context),{status:404});await confessions(request('/moderation/'+created.id,'POST',{action:'approve'}),owner);
  const expired={...context,now:now+8*86400000};assert.equal((await(await confessions(request(),expired)).json()).items.length,0);await assert.rejects(confessions(request('/'+created.id),expired),{status:404});assert.equal(writes,5);
 });
-test('confession validation, request bounds, rate limit and reveal batches fail safely',async()=>{
- const {confessions,empty}=await import('../apps/confessions/backend/service.mjs'),{RevealBudget}=await import('../apps/confessions/frontend/reveal-budget.mjs');const context={read:async()=>empty(),write:async()=>assert.fail('Must not write'),limit:async()=>({success:true})};
+test('confession validation, request bounds and rate limits fail safely',async()=>{
+ const {confessions,empty}=await import('../apps/confessions/backend/service.mjs');const context={read:async()=>empty(),write:async()=>assert.fail('Must not write'),limit:async()=>({success:true})};
  for(const value of ['', 'ab','x'.repeat(601),'bad\u0000text'])await assert.rejects(confessions(new Request('https://example.test/api/confessions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:value})}),context),{status:400});
  const req=(data,headers={})=>new Request('https://example.test/api/confessions',{method:'POST',headers:{'Content-Type':'application/json',...headers},body:JSON.stringify(data)});
  await assert.rejects(confessions(req({message:'A thought',email:'not-required@example.com'}),context),{status:400});await assert.rejects(confessions(req({message:'x'.repeat(5000)}),context),{status:413});await assert.rejects(confessions(req({message:'A thought'},{Origin:'https://other.test'}),context),{status:403});await assert.rejects(confessions(req({message:'A thought'}),{...context,limit:async()=>({success:false})}),{status:429});
- const budget=new RevealBudget();for(let i=0;i<5;i++)budget.use('card-'+i);assert.equal(budget.needsAd('sixth'),true);budget.use('card-0');assert.equal(budget.remaining,0);const restored=new RevealBudget(budget.snapshot());assert.equal(restored.needsAd('card-0'),false);assert.throws(()=>restored.use('sixth'));restored.grant();restored.use('sixth');assert.equal(restored.remaining,4);
+
 });
 test('confessions persist in isolated SQLite and the setting write is shared with existing storage',async()=>{
  const fs=require('node:fs'),os=require('node:os'),path=require('node:path'),{Store}=require('../apps/advocate/backend/store'),{confessions,storageKey}=await import('../apps/confessions/backend/service.mjs');const dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-confession-sql-'));let store=new Store(dir);

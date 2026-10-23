@@ -51,7 +51,7 @@ test('support choices, owner settings, payment links and disabling', async ({pag
   await expect(page.locator('.treat small').first()).toContainText('A small sip of encouragement');
   await expect(page.locator('.support-contact')).not.toHaveAttribute('open', '');
   await expect(page.locator('#share')).toContainText('Share a tool');
-  await expect(page.locator('#share')).toContainText('Explore sponsorship');
+  await expect(page.locator('#share')).toContainText('Contact us');
   await page.getByRole('link', {name: 'Choose a one-time amount'}).click();
   await expect(page).toHaveURL(/\/support#contribute$/);
   await page.getByRole('button', {name: 'Pani puri · ₹99', exact: true}).click();
@@ -136,7 +136,7 @@ test('mobile themes, outage honesty and homepage discovery', async ({page, brows
     await nojs.goto(base + '/');
     await nojs.getByRole('link', {name: 'Support us', exact: true}).first().click();
     await expect(nojs.locator('noscript p').filter({hasText: 'Enable JavaScript'})).toContainText('Enable JavaScript');
-    await expect(nojs.getByRole('link', {name: 'Explore sponsorship'})).toBeVisible();
+    await expect(nojs.getByRole('navigation', {name: 'Support and contact'}).getByRole('link', {name: 'Contact'})).toBeVisible();
   } finally {
     await context.close();
   }

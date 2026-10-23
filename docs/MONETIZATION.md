@@ -1,4 +1,34 @@
-# Quiet sponsorship plan
+# Support and monetization status
+
+## Current status (2026-10-23)
+
+Sponsorship pages, campaigns, manual placements and enquiry flows have been
+retired. A single Google AdSense Auto Ads loader remains in the shared page
+head on eligible anonymous public pages; Google controls whether and where
+advertisements appear. It is not loaded for sign-in, authenticated/private
+workspaces, Confessions or Feedback. The former `/sponsor` route is retired.
+`/ads.txt` remains published for the existing AdSense publisher account.
+
+`/support` remains a voluntary, one-time support page. Contributions are
+optional; payment processing and support settings have not been changed by the
+advertising cleanup. Availability and verification status are recorded in the
+functionality ledger. No recipient is configured and contributions are
+currently unavailable; no payment details were changed by the cleanup.
+
+## Voluntary support
+
+The support page offers optional one-time contributions using owner-configured
+UPI or an HTTPS payment destination. It displays the existing contribution
+amounts and provides QR, copy and contact options. Payment occurs outside the
+platform; no payment provider, receipt, confirmation or payment-history feature
+is connected. Owner support settings remain in SQLite. The page fails closed
+when verified payment details are unavailable. See the functionality ledger
+for current live status.
+
+Do not use the archived implementation notes below as current deployment
+instructions.
+
+## Archived implementation notes (historical; not current)
 
 Deployed Confessions update (2026-10-16): new CAPTCHA-checked messages now publish
 directly at the user's request, with reporting and Owner removal. Earlier
@@ -37,7 +67,7 @@ and [rewarded-web API](https://developers.google.com/publisher-tag/samples/displ
 
 WhatsApp enquiries are configured for user-supplied +91 78741 66009. Contact, Support and Sponsorship forms combine messages; visitors review them, open WhatsApp and press Send. Support/Demos are prominent in shared navigation/homepage. This is an enquiry channel, not automatic delivery or payment verification. Existing payment settings and agreed sponsorship publishing remain separate. Historical local-draft-only descriptions below precede this update.
 
-## Voluntary support
+### Historical support implementation notes
 
 `/support` is deployed, adapted from `C:\Code\ContemptUniverse\src\web\app\support\page.tsx` with platform styling. No payment recipient is configured. Sign in as the platform Owner, open `/support`, expand **Manage support settings**, enter a recipient display name and verified UPI ID or HTTPS payment link, then enable and save. The public destination changes immediately on the running Node instance. Only owners can read drafts or write settings; invalid UPI IDs, non-HTTPS/credential-bearing links and enabled empty configurations are rejected server-side. Details persist under `platform-support` in SQLite and full SQL export; disabled drafts are excluded from public responses. Both server and frontend are deployed; configure the recipient through the production Owner account.
 

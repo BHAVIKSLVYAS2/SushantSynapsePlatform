@@ -23,17 +23,26 @@ test('monorepo serves app assets and shared theme without exposing source or SQL
  assert.match(await (await fetch(base+'/shared/theme.js')).text(),/SynapseTheme/);
 });
 
-test('AdSense is injected only on anonymous public free tools in Node delivery',async()=>{
- const home=await fetch(base+'/'),html=await home.text(),policy=home.headers.get('content-security-policy');
- assert.match(html,/google-adsense-account/);assert.match(policy,/nonce-/);
- for(const path of ['/qr-maker','/ritual-assist/calendar','/fund-overlap']){
-  const response=await fetch(base+path);assert.match(await response.text(),/google-adsense-account/,path);assert.match(response.headers.get('content-security-policy'),/nonce-/,path);
+test('AdSense Auto Ads loads globally on eligible anonymous public pages only',async()=>{
+ for(const path of ['/','/qr-maker','/moment-studio/cards','/ritual-assist/calendar','/fund-overlap','/support','/satire-arena']){
+  const response=await fetch(base+path),html=await response.text();
+  assert.match(html,/google-adsense-account/,path);
+  assert.match(html,/pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js\?client=ca-pub-1894051755496526/,path);
+  assert.match(response.headers.get('content-security-policy'),/nonce-/,path);
+  assert.doesNotMatch(html,/data-ad-placement|<ins[^>]+adsbygoogle/i,path);
  }
  for(const path of ['/confessions','/feedback','/signin','/advocate']){
-  const response=await fetch(base+path);assert.doesNotMatch(await response.text(),/google-adsense-account/,path);assert.match(response.headers.get('content-security-policy'),/script-src 'self';/,path);
+  const response=await fetch(base+path),html=await response.text();
+  assert.doesNotMatch(html,/google-adsense-account|pagead2\.googlesyndication\.com/,path);
+  assert.match(response.headers.get('content-security-policy'),/script-src 'self';/,path);
  }
  const signed=await fetch(base+'/qr-maker',{headers:{Cookie:'chambers_session='+('a'.repeat(64))}});
- assert.doesNotMatch(await signed.text(),/google-adsense-account/);assert.match(signed.headers.get('content-security-policy'),/script-src 'self';/);
+ assert.doesNotMatch(await signed.text(),/google-adsense-account|pagead2\.googlesyndication\.com/);
+ assert.match(signed.headers.get('content-security-policy'),/script-src 'self';/);
+ const ads=await fetch(base+'/ads.txt');assert.equal(ads.status,200);assert.match(await ads.text(),/pub-1894051755496526/);
+ for(const path of ['/sponsor','/sponsor/','/sponsor.js','/sponsor.css']){
+  assert.equal((await fetch(base+path)).status,404,path);
+ }
 });
 
 test('owner setup, session cookie, authentication boundary and setup lock',async()=>{

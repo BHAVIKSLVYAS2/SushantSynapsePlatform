@@ -4,8 +4,9 @@ const publicPages=new Set([
  '/moment-studio/cards', '/moment-studio/certificates', '/take-a-break',
  '/daily-spark', '/decision-wheel', '/focus', '/news', '/ritual-assist',
  '/ritual-assist/calendar', '/team-mixer', '/timetable-lite', '/fund-overlap',
- '/satire-arena', '/privacy', '/terms', '/contact', '/legal',
- '/legal/third-party-notices', '/showcase', '/support', '/sponsor',
+ '/satire-arena', '/satire-arena/politicians', '/satire-arena/news-anchors',
+ '/satire-arena/actors', '/satire-arena/corporates', '/privacy', '/terms',
+ '/contact', '/legal', '/legal/third-party-notices', '/showcase', '/support',
 ]);
 const eligiblePage=(pathname,cookie='')=>{
  const route=pathname.length>1?pathname.replace(/\/+$/,''):pathname;

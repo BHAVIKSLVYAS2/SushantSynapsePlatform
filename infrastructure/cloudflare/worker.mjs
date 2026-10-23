@@ -1,9 +1,9 @@
 import {newsSources} from './news-sources.mjs';
 import {fundSources} from './fund-sources.mjs';
-import pages from './pages.json' with {type: 'json'};
 import adsense from '../../packages/ui/adsense.cjs';
+import pages from './pages.json' with {type: 'json'};
 import {cloudPages} from '../../apps/satire-arena/backend/cloud-pages.mjs';
-const independent = new Set(['/confessions','/confessions/','/qr-maker','/qr-maker/','/photo-resize','/photo-resize/','/bill-splitter','/bill-splitter/','/satire-arena','/satire-arena/','/privacy', '/privacy/', '/terms', '/terms/', '/contact', '/contact/', '/legal', '/legal/', '/legal/third-party-notices', '/legal/third-party-notices/', '/showcase', '/showcase/', '/support', '/support/', '/ritual-assist', '/ritual-assist/', '/ritual-assist/calendar', '/ritual-assist/calendar/', '/take-a-break', '/take-a-break/', '/sponsor', '/sponsor/', '/moment-studio', '/moment-studio/', '/moment-studio/cards', '/moment-studio/cards/', '/moment-studio/certificates', '/moment-studio/certificates/', '/team-mixer', '/team-mixer/', '/decision-wheel', '/decision-wheel/', '/daily-spark', '/daily-spark/', '/', '/fund-overlap', '/news', '/timetable-lite', '/timetable-lite/']);
+const independent = new Set(['/confessions','/confessions/','/qr-maker','/qr-maker/','/photo-resize','/photo-resize/','/bill-splitter','/bill-splitter/','/satire-arena','/satire-arena/','/privacy', '/privacy/', '/terms', '/terms/', '/contact', '/contact/', '/legal', '/legal/', '/legal/third-party-notices', '/legal/third-party-notices/', '/showcase', '/showcase/', '/support', '/support/', '/ritual-assist', '/ritual-assist/', '/ritual-assist/calendar', '/ritual-assist/calendar/', '/take-a-break', '/take-a-break/', '/moment-studio', '/moment-studio/', '/moment-studio/cards', '/moment-studio/cards/', '/moment-studio/certificates', '/moment-studio/certificates/', '/team-mixer', '/team-mixer/', '/decision-wheel', '/decision-wheel/', '/daily-spark', '/daily-spark/', '/', '/fund-overlap', '/news', '/timetable-lite', '/timetable-lite/']);
 independent.add('/feedback');independent.add('/feedback/');
 const security = {
   'Strict-Transport-Security': 'max-age=3600',
@@ -43,6 +43,11 @@ export async function handle(request, env, originFetch = fetch, sourceOptions = 
     } catch { return unavailable(request.method); }
   }
   if (!['GET', 'HEAD'].includes(request.method)) return new Response('Method not allowed', {status: 405, headers: {...security, Allow: 'GET, HEAD'}});
+  if(pathname==='/ads.txt'){
+    const asset=await env.ASSETS.fetch(new Request(new URL('/ads.txt',url))),headers=new Headers(security);
+    headers.set('Content-Type','text/plain; charset=utf-8');headers.set('Cache-Control','public, max-age=86400');
+    return new Response(request.method==='HEAD'?null:asset.body,{status:asset.status,headers});
+  }
   const canonical = ['/news/', '/advocate/', '/fund-overlap/', '/signin/'].includes(pathname) ? pathname.slice(0, -1) : pathname;
   let page = pages[canonical];
   if (!page) return new Response('Not found', {status: 404, headers: security});

@@ -1,5 +1,6 @@
 // Explicit URL allowlist. Filesystem paths are never accepted from requests.
 const staticAssets={
+ '/ads.txt':'packages/ui/ads.txt',
  '/shared/beta-notice.js':'packages/ui/beta-notice.js',
  '/shared/beta-notice.css':'packages/ui/beta-notice.css',
  '/feedback':'apps/feedback/frontend/index.html',
@@ -18,7 +19,6 @@ const staticAssets={
  '/home.bundle.css':'apps/portal/frontend/home.bundle.css',
  '/home-discovery.js':'apps/portal/frontend/home-discovery.js',
  '/home-art.svg':'apps/portal/frontend/home-art.svg',
- '/ads.txt':'packages/ui/ads.txt',
  '/shared/premium.css':'packages/ui/premium.bundle.css',
  '/satire-arena/editor':'apps/satire-arena/frontend/editor.html',
  '/satire-arena/editor.js':'apps/satire-arena/frontend/editor.js',
@@ -44,6 +44,9 @@ const staticAssets={
  '/satire-arena/catalogue.mjs':'apps/satire-arena/frontend/catalogue.mjs',
  '/satire-arena/sound.mjs':'apps/satire-arena/frontend/sound.mjs',
  '/satire-arena/applause.mp3':'apps/satire-arena/frontend/applause.mp3',
+ '/satire-arena/anchors-expressions-fast.webp':'apps/satire-arena/frontend/anchors-expressions-fast.webp',
+ '/satire-arena/actors-expressions-fast.webp':'apps/satire-arena/frontend/actors-expressions-fast.webp',
+ '/satire-arena/corporates-expressions-fast.webp':'apps/satire-arena/frontend/corporates-expressions-fast.webp',
  '/satire-arena/cast-fast.webp':'apps/satire-arena/frontend/cast-fast.webp',
  '/satire-arena/extra-cast-fast.webp':'apps/satire-arena/frontend/extra-cast-fast.webp',
  '/satire-arena/new-cast-fast.webp':'apps/satire-arena/frontend/new-cast-fast.webp',
@@ -151,14 +154,6 @@ const staticAssets={
  '/daily-spark/play.mjs':'apps/daily-spark/frontend/play.mjs',
  '/daily-spark/view.mjs':'apps/daily-spark/frontend/view.mjs',
  '/shared/platform-header.css':'packages/ui/platform-header.css',
- '/shared/sponsorship.js':'packages/ui/sponsorship.js',
- '/shared/sponsorship-engine.mjs':'packages/ui/sponsorship-engine.mjs',
- '/shared/sponsorship.css':'packages/ui/sponsorship.css',
- '/sponsor':'apps/portal/frontend/sponsor.html',
- '/sponsor/':'apps/portal/frontend/sponsor.html',
- '/sponsor.js':'apps/portal/frontend/sponsor.js',
- '/sponsor.css':'apps/portal/frontend/sponsor.css',
- '/sponsor-config.mjs':'apps/portal/frontend/sponsor-config.mjs',
 };
 for(const route of ['/privacy','/terms','/contact','/legal','/legal/third-party-notices'])staticAssets[route+'/']=staticAssets[route];
 for(const file of ['platform.js','platform.css','manifest.webmanifest','logo-adaptive.png','logo-adaptive-192.png','logo-adaptive-512.png','logo-adaptive-uhd.png'])staticAssets['/'+file]='apps/portal/frontend/'+file;
@@ -168,7 +163,7 @@ for(const file of ['app.js','engine.js','style.css','icon.svg'])staticAssets['/f
 for(const file of ['app.js','engine.js','style.css','comic.css'])staticAssets['/news/'+file]='apps/news/frontend/'+file;
 staticAssets['/confessions']='apps/confessions/frontend/index.html';
 staticAssets['/confessions/']='apps/confessions/frontend/index.html';
-for(const file of ['app.js','style.css','ad-config.mjs','ads.mjs','reveal-budget.mjs','captcha.mjs'])staticAssets['/confessions/'+file]='apps/confessions/frontend/'+file;
+for(const file of ['app.js','style.css','captcha.mjs'])staticAssets['/confessions/'+file]='apps/confessions/frontend/'+file;
 module.exports={staticAssets};
 staticAssets['/shared/tool-refinements.css']='packages/ui/tool-refinements.css';
 for(const file of ['presentation.mjs','presentation.css'])staticAssets['/shared/'+file]='packages/ui/'+file;

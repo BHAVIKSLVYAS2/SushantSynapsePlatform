@@ -52,12 +52,12 @@
     font-family: inherit; font-weight: 750; letter-spacing: -.045em; line-height: 1.08;
   }
   :is(.intro,.hero,.public-hero) h1 em {font-family:inherit;font-style:normal;font-weight:inherit;color:var(--ui-accent)}
-  :is(.panel,.card,.workspace-card,.app-card,.public-app,.client-card,.stat,.library,.game-card,.break-card,.arena-card,.score,.game,.empty,.intro-banner,.synapse-sponsor,.support-card,.support-partner) {
+  :is(.panel,.card,.workspace-card,.app-card,.public-app,.client-card,.stat,.library,.game-card,.break-card,.arena-card,.score,.game,.empty,.intro-banner,.support-card,.support-partner) {
     background: var(--ui-glass); border-color: var(--ui-edge); border-radius: 22px;
     box-shadow: var(--ui-shadow);
   }
   /* Blur only major surfaces, rather than every nested card. */
-  :is(.panel,.library,.public-app,.workspace-card,.synapse-header,.topbar,.mobile-nav,.bottom-nav,.synapse-sponsor) {
+  :is(.panel,.library,.public-app,.workspace-card,.synapse-header,.topbar,.mobile-nav,.bottom-nav) {
     -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
   }
   .synapse-header {
@@ -92,12 +92,6 @@
   /* Rapid game taps retain their original short feedback duration. */
   .bubble {transition:transform .12s var(--ui-ease),opacity .12s var(--ui-ease)}
   .synapse-help-nav a {min-height:44px;display:inline-flex;align-items:center}
-  .synapse-sponsor-label {
-    display:inline-flex;align-items:center;min-height:30px;padding:5px 12px;border-radius:999px;
-    border:1px solid transparent;
-    background:linear-gradient(var(--ui-solid),var(--ui-solid)) padding-box,linear-gradient(120deg,var(--ui-gold),var(--ui-gold-ink),var(--ui-gold)) border-box;
-    color:var(--ui-gold-ink);box-shadow:0 0 18px color-mix(in srgb,var(--ui-gold) 14%,transparent);
-  }
   :is(.support-card,.support-hero,.home-paths a[href="/support"]) {animation:ui-support-bloom 4s ease-in-out infinite}
   @keyframes ui-support-bloom {
     0%,100% {box-shadow:0 0 0 0 transparent}

@@ -3,7 +3,7 @@ let child,base,dir;
 test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-performance-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe']});base=await new Promise((resolve,reject)=>{let out='';child.stdout.on('data',chunk=>{out+=chunk;const m=out.match(/localhost:(\d+)/);if(m)resolve('http://127.0.0.1:'+m[1]);});child.once('error',reject);});});
 test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
 test('home stylesheet cleanup preserves computed appearance across widths and themes',async({page})=>{
- const files=['apps/portal/frontend/platform.css','packages/ui/platform-header.css','packages/ui/sponsorship.css','packages/ui/legal-footer.css','packages/ui/whatsapp.css','packages/ui/premium.bundle.css','apps/portal/frontend/home.css','packages/ui/platform-shell.css'];
+ const files=['apps/portal/frontend/platform.css','packages/ui/platform-header.css','packages/ui/legal-footer.css','packages/ui/whatsapp.css','packages/ui/premium.bundle.css','apps/portal/frontend/home.css','packages/ui/platform-shell.css'];
  const original=require('esbuild').transformSync(files.map(file=>fs.readFileSync(file,'utf8')).join('\n'),{loader:'css',minify:true,target:'chrome114'}).code;
  await page.goto(base+'/');await expect(page.locator('.home-feature-card')).toHaveCount(2);
  await page.addStyleTag({content:'*,*::before,*::after{animation:none!important;transition:none!important}'});
@@ -20,8 +20,6 @@ test('home stylesheet cleanup preserves computed appearance across widths and th
   expect(differences,`${width}px ${theme}`).toEqual([]);
  }
 });
-test.beforeEach(async({context})=>{await context.route('https://pagead2.googlesyndication.com/**',r=>r.fulfill({contentType:'text/javascript',body:''}));});
-
 test('home arrives complete, fetches premium CSS once and language settles after changes',async({page})=>{
  const response=await page.goto(base+'/');const html=await response.text();for(const name of ['home-entry-paths','home-featured','home-search'])expect(html).toContain('class="'+name+'"');
  await expect(page.locator('.home-feature-card')).toHaveCount(2);await expect(page.locator('.synapse-legal-footer [data-language-control]')).toBeVisible();

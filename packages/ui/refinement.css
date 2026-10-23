@@ -63,7 +63,7 @@
   }
   body[data-ui-app] :is(.panel,.card,.stat,.app-card,.public-app,.workspace-card,
     .library,.game-card,.break-card,.score,.game,.workbench,.playground,.registration,
-    .support-card,.support-partner,.support-hero,.sponsor-enquiry,.sponsor-boundaries,
+    .support-card,.support-partner,.support-hero,
     .demo-player,.notice,.metric,.person,.licence,.summary-card,.studio-featured,.tool-tile) {
     border-color:var(--ss-border);
     border-radius:var(--ss-radius);
@@ -73,7 +73,7 @@
   /* Opaque glossy layers do not need dozens of backdrop-filter passes. */
   body[data-ui-app] :is(.panel,.card,.library,.public-app,.workspace-card,.game,
     .workbench,.score,.notice,.intro,.hero,.page-heading,.studio-intro,.tool-tile,
-    .studio-featured,.support-card,.support-hero,.synapse-sponsor,.arena-discovery) {
+    .studio-featured,.support-card,.support-hero,.arena-discovery) {
     -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
   }
   body[data-ui-app] :is(.support-card,.support-hero,.support-partner) {animation:none}
@@ -147,7 +147,6 @@
   body[data-ui-app=portal]:not(:has(.public-home)) :is(.app-card,.panel) {border-radius:16px}
   body[data-ui-app=portal] .app-card-top {min-height:76px}
   body[data-ui-app=portal] .app-art-wrap,body[data-ui-app=portal] .app-sculpture {width:84px;height:76px}
-  body[data-ui-app=portal] .synapse-sponsor-label {box-shadow:none;border-color:var(--ss-border);background:var(--ss-surface-soft);color:var(--ss-accent)}
   body[data-ui-app=advocate] :is(.card-heading,.list-toolbar) {padding:16px 18px}
   body[data-ui-app=advocate] :is(.record-main>strong,.case-link) {font-size:13px}
   body[data-ui-app=advocate] :is(.record-main p,.record-main small,.case-row small) {font-size:12px;line-height:1.5}

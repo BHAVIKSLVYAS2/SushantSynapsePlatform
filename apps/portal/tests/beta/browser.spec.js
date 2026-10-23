@@ -9,7 +9,6 @@ test.beforeAll(async()=>{
  await new Promise((resolve,reject)=>{let out='';child.stdout.on('data',chunk=>{out+=chunk;const match=out.match(/localhost:(\d+)/);if(match){base='http://127.0.0.1:'+match[1];resolve();}});child.once('error',reject);child.once('exit',code=>reject(Error('Fixture exited '+code)));});
 });
 test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir&&path.dirname(dir)===os.tmpdir())fs.rmSync(dir,{recursive:true,force:true});});
-test.beforeEach(async({context})=>{await context.route('https://pagead2.googlesyndication.com/**',route=>route.fulfill({contentType:'text/javascript',body:''}));});
 const dialog=page=>page.getByRole('dialog',{name:'Before you use this beta'});
 async function accept(page){await dialog(page).getByRole('checkbox').check();await dialog(page).getByRole('button',{name:'Acknowledge & continue'}).click();}
 test('first visit requires an unchecked acknowledgement and remembers it across apps',async({page})=>{

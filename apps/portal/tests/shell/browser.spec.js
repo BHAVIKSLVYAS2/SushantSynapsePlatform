@@ -7,8 +7,6 @@ test.beforeEach(async()=>{
  await new Promise((resolve,reject)=>{let out='';child.stdout.on('data',c=>{out+=c;const m=out.match(/localhost:(\d+)/);if(m){base='http://127.0.0.1:'+m[1];resolve();}});child.once('error',reject);child.once('exit',code=>reject(Error('Server exited '+code)));});
 });
 test.afterEach(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
-test.beforeEach(async({context})=>{await context.route('https://pagead2.googlesyndication.com/**',r=>r.fulfill({contentType:'text/javascript',body:''}));});
-
 test('theme icons stay within their control and apart from account at every width',async({page})=>{
  const {setTheme}=require('../../../../tests/browser-theme');
  for(const route of ['/','/take-a-break','/decision-wheel','/satire-arena']){
@@ -78,7 +76,7 @@ test('account initials handle Unicode and auth outages without breaking public t
 
 test('platform frame persists across public apps with usable mobile switching',async({page})=>{
  test.setTimeout(300000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
- const routes=['/','/signin','/moment-studio','/moment-studio/cards','/ritual-assist','/ritual-assist/calendar','/timetable-lite','/fund-overlap','/news','/satire-arena','/take-a-break','/daily-spark','/decision-wheel','/team-mixer','/support','/sponsor','/contact','/privacy','/terms','/legal/third-party-notices'];
+ const routes=['/','/signin','/moment-studio','/moment-studio/cards','/ritual-assist','/ritual-assist/calendar','/timetable-lite','/fund-overlap','/news','/satire-arena','/take-a-break','/daily-spark','/decision-wheel','/team-mixer','/support','/contact','/privacy','/terms','/legal/third-party-notices'];
  for(const route of routes){
   await page.goto(base+route,{waitUntil:'domcontentloaded'});await expect(page.locator('.platform-shell')).toHaveCount(1);
   for(const width of [320,390,768,1440]){

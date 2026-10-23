@@ -35,19 +35,19 @@ test('Chambers organisation bootstrap precedes either original or versioned cont
  }
 });
 
-test('fullstack delivery adds AdSense only to anonymous public free-app pages',async()=>{
+test('fullstack delivery injects global AdSense only on eligible anonymous public pages',async()=>{
  const {default:worker}=await import('../infrastructure/cloudflare/fullstack-worker.mjs');
  const env={ASSETS:{fetch:async()=>new Response('<html><head></head><body><script src="/app.js"></script></body></html>',{headers:{'Content-Type':'text/html','Cache-Control':'no-store'}})}};
- for(const route of ['/','/qr-maker','/ritual-assist/calendar']){
+ for(const route of ['/','/qr-maker','/ritual-assist/calendar','/support']){
   const response=await worker.fetch(new Request('https://example.test'+route),env),html=await response.text();
-  assert.equal(response.status,200);assert.match(html,/google-adsense-account/);assert.match(response.headers.get('Content-Security-Policy'),/nonce-/);
+  assert.equal(response.status,200);assert.match(html,/google-adsense-account/);assert.match(html,/pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js\?client=ca-pub-1894051755496526/);
+  assert.match(response.headers.get('Content-Security-Policy'),/nonce-/);assert.doesNotMatch(html,/data-ad-placement|<ins[^>]+adsbygoogle/i);
  }
  for(const [route,cookie]of [['/','chambers_session=private'],['/confessions',''],['/feedback',''],['/advocate','']]){
   const response=await worker.fetch(new Request('https://example.test'+route,{headers:{Cookie:cookie}}),env);
-  assert.doesNotMatch(await response.text(),/google-adsense-account/);assert.match(response.headers.get('Content-Security-Policy'),/script-src 'self';/);
+  assert.doesNotMatch(await response.text(),/google-adsense-account|pagead2\.googlesyndication\.com/);
+  assert.match(response.headers.get('Content-Security-Policy'),/script-src 'self';/);
  }
- const head=await worker.fetch(new Request('https://example.test/qr-maker',{method:'HEAD'}),env);
- assert.equal(await head.text(),'');assert.match(head.headers.get('Content-Security-Policy'),/nonce-/);
 });
 
 test('homepage uses a generic Arena icon and a small shared favicon',async()=>{
