@@ -1,6 +1,17 @@
 # Chambers functionality ledger
 
-**Satire loading/reuse cleanup (2026-10-24, verified; release pending):**
+**Satire loading/reuse cleanup (2026-10-24, deployed and live verified):**
+Implementation commits `6c5a5af` and `965cffd` are live as Worker
+`977d2244-99ed-483d-b31f-545c6464963b`, deployed with `--keep-vars` and no migration.
+Four fresh-context production measurements average 53,868.5 to 43,775.5 encoded
+startup JS bytes (-18.7%), and 624,430.25 to 577,330.5 first-party resource bytes
+(-7.5%). Metadata URLs fall 2 to 1; rich script requests 2 to 0; entry applause
+transfer 36,360 to 0 bytes. Initial card-layout moves/removals fall 52 to 0 for
+politicians and 24 to 0 per other arena. These are transfer/DOM measurements,
+excluding ads, API bodies and main HTML, not a latency benchmark.
+Live checks pass eighteen reaction portraits, all reaction types, three detail
+examples and 56 layouts, with zero page errors, arena writes or duplicate
+expression URLs. Detailed results/method: `docs/SATIRE_PERFORMANCE.md`.
 One canonical lightweight cast replaces rich profile dependencies on voting
 pages; full server-rendered scripts remain available for profiles. Source imports
 use consistent URLs to avoid duplicate module instances. Cards render their final
@@ -27,8 +38,10 @@ Production-config dry-run, syntax and whitespace checks pass. CSS is 48,518 to
 44,235 minified bytes (-8.8%), or 8,438 to 7,917 gzip bytes (-6.2%). All 64
 computed-style comparisons match. Live baseline records 52 layout-node removals/
 moves for politicians and 24 for each other arena; the new renderer records zero.
-Measurement method and tradeoffs: `docs/SATIRE_PERFORMANCE.md`. Production
-deployment and final live transfer measurements follow.
+The added delayed-shell check and final focused checks also pass: 37 distinct
+browser workflows are covered across the full suite and focused runs. Measurement
+artifacts: `.publish/satire-network-before.json`, `satire-network-after.json`,
+`satire-performance-gains.json`, `cleanup-live.log` and `cleanup-clap-live.log`.
 
 **Sponsorship and ad-placement cleanup (2026-10-23, deployed and live verified):**
 Removed the sponsor page, campaign UI and manual placement slots. Kept one shared

@@ -1,7 +1,34 @@
 # Satire Arena loading and reuse review
 
-24 October 2026. Baseline: live production before the cleanup. Final production
-measurements will be recorded after deployment.
+24 October 2026. Baseline: live production before the cleanup. Implementation
+commits `6c5a5af` and `965cffd` are deployed as Worker
+`977d2244-99ed-483d-b31f-545c6464963b`, with existing variables retained and no
+database migration. Final measurements are from that live deployment.
+
+## Measured gain
+
+Cold-context encoded resource bodies, decimal KB. Four-arena averages:
+
+| Metric | Before | After | Change |
+| --- | ---: | ---: | ---: |
+| First-party startup JavaScript | 53.9 KB | 43.8 KB | -18.7% |
+| All first-party startup resources | 624.4 KB | 577.3 KB | -7.5% |
+| Metadata module URLs per arena | 2 | 1 | One module instance |
+| Rich-profile script requests at entry | 2 | 0 | Removed |
+| Applause transfer at entry | 36.4 KB | 0 | Deferred to interaction |
+| Card-layout moves/removals, politicians | 52 | 0 | Removed |
+| Card-layout moves/removals, each other arena | 24 | 0 | Removed |
+
+| Arena | First-party bytes before | After | Reduction | Requests before/after |
+| --- | ---: | ---: | ---: | ---: |
+| Politicians | 483,471 | 436,608 | 9.7% | 30 / 28 |
+| News Anchors | 650,002 | 603,194 | 7.2% | 30 / 28 |
+| Actors | 699,708 | 652,806 | 6.7% | 30 / 28 |
+| Corporates | 664,540 | 616,714 | 7.2% | 30 / 27 |
+
+These are transfer/DOM-work reductions, not a claimed percentage reduction in
+page-load time. Small differences in shared lazy resources account for the
+request/JS-byte variation between arenas.
 
 ## Changes
 
@@ -48,8 +75,15 @@ for the sampled interface elements. The shared action-button rule is retained.
 
 ## Validation and tradeoffs
 
-373 API tests and all 36 Satire browser workflows pass. The production-config
-dry-run and syntax/whitespace checks pass. Final production verification follows.
+373 API tests and the complete 36-workflow Satire browser suite pass. The final
+lazy-share, early-theme/lean-entry and added delayed-shell checks pass too (37
+distinct browser workflows covered across the full suite and focused checks).
+The production-config dry-run and syntax/whitespace checks pass. Live verification
+passes all eighteen non-political reaction portraits, all six reaction types,
+three detail-page examples and 56 theme/viewport combinations: zero page errors,
+duplicate expression URLs or arena writes. All four arenas show one metadata URL,
+no rich scripts/audio at entry and no layout-node moves/removals. Applause's live
+asset/playback is checked separately without submitting a vote.
 Actual existing records, character IDs, portrait originals, privacy boundaries
 and ballot schemas are preserved. No database migration is needed.
 
