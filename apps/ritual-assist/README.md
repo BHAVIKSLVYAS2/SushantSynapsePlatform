@@ -6,6 +6,40 @@ Standalone checklists use one list in original item order, followed by personal 
 
 ## Shraddha & Barsi Calendar
 
+The calendar entry now defaults to **Vrats & dates**, with a separate Shraddha &
+Barsi tab (`/ritual-assist/calendar?view=remembrance`). The general calendar needs
+only a PIN code and month, supports 2025–2030, English/Hindi, upcoming list/month
+views, category filters and a next-occurrence shortcut. Seven event types are
+available: Ekadashi, Amavasya, sunrise Purnima/Poonam, Purnima fasting, Sankashti
+Chauth, Vinayaka Chaturthi and Pradosh. Purnima fasting can precede the sunrise
+calendar date. Chauth here does not calculate named Karwa/Sakat annual rules.
+
+`POST /api/ritual-assist/observances` validates a bounded month, offline PIN,
+Amanta/Purnimanta labels and the explicit Smarta household planning policy. Node
+uses the existing two-thread/six-requests-per-minute calendar budget; Workers use
+the existing calendar limiter and a bounded 24-entry, one-hour in-memory public
+result cache keyed by location, month, convention and policy version. No saved
+death record, account, new schema, external date API or scraping is involved.
+`frontend/lunar-core.mjs` shares the unchanged astronomy primitives with the
+remembrance engine. `backend/observances.mjs` owns public occurrence selection.
+
+Each result records the engine/policy version and exposes local timing and its
+rule. Missing/repeated sunrise tithis, skipped following-Dwadashi sunrise,
+multiple moonrise candidates, close day overlaps and five-minute boundary cases
+are confirmation-only and excluded from reminders. Ordinary morning Parana is
+available; exceptional Parana windows are withheld. No Vaishnava/ISKCON rule,
+independent priest certification, additional monthly/annual festivals, Sankranti,
+calendar subscription or automatic notification delivery is claimed.
+
+General-calendar ICS exports selected future resolved dates, with single-event
+exports, optional previous-evening/day-offset alarms and separate resolved
+moonrise/Parana entries. Timed reminders use 15 minutes before the event. Past
+alarms are omitted; UIDs remain stable across languages and include location.
+Files use individually calculated dates rather than Gregorian recurrence rules.
+Import and actual alarm delivery depend on the user's calendar client and have
+not been provider-verified. Inputs/results stay in transient tab memory; calendar
+imports share the selected dates and PIN-area location with that provider.
+
 Enter a past/present death date, exact IST time and a six-digit Indian PIN. The Node backend resolves approximate coordinates from its offline GeoNames directory; unknown/inconsistent PINs fail without nearest-city substitution. See [postal provenance](data/README.md). The same PIN area supplies the observance location. Optional family settings override Amanta/Purnimanta labels, civil/sunrise day counting, confirmed death tithi and day 13. Defaults are conveniences, not a determination of family tradition.
 
 The result includes first-year Chautha, days 10–13, Masik, first Barsi and first matching Pitru Paksha after Barsi. The yearly overview has the current year and next ten display years, retaining earlier current-year dates and multiple applicable observances. Masik/Barsi/Pitru dates use lunar tithis and local Aparahna; early mourning days use inclusive day counts. The post-first-Barsi Pitru policy is explicitly selected, not universal. Ten upcoming occurrence arrays remain internally for compatibility. Changing inputs clears results; no death record is stored.

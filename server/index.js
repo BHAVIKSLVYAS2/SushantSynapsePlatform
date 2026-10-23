@@ -124,7 +124,7 @@ async function dispatch(req,res) {
     if(route.startsWith('auth/')||route==='users'||route.startsWith('users/'))return await auth.handle(context);
     if(route==='support'||route==='platform/support')return await support(context);
     if(route==='focus'||route.startsWith('focus/'))return await focus(context);
-    if(route==='ritual-assist/calendar')return await ritualCalendar(context);
+    if(route==='ritual-assist/calendar'||route==='ritual-assist/observances')return await ritualCalendar(context);
     if(route==='news'||route.startsWith('news/'))return await news(context);
     if(route==='tournament-lite'||route.startsWith('tournament-lite/'))return await tournament(context);
     if(route==='digital-samaj'||route.startsWith('digital-samaj/'))return await digitalSamaj(context);

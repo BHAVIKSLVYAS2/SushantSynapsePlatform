@@ -14,3 +14,13 @@ test('server rejects malformed input, foreign locations, extra personal fields, 
  const {calendarInput}=await import('../apps/ritual-assist/backend/calendar-input.mjs');assert.equal(calendarInput({...details,pincode:'400001'}).calendar,'amanta');assert.equal(calendarInput({...details,calendar:'amanta',counting:'sunrise',include13:false}).include13,false);
 });
 test('public calculation budget bounds repeat work',async()=>{for(let i=0;i<5;i++)assert.equal((await post(details)).status,200);assert.equal((await post(details)).status,429);});
+
+test('general observances API is public, bounded, no-store and does not write any stored records',async()=>{
+ const {DatabaseSync}=require('node:sqlite'),db=new DatabaseSync(path.join(dir,'chambers.sqlite'),{readOnly:true});
+ const counts=()=>db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'").all().map(({name})=>[name,db.prepare('SELECT COUNT(*) AS n FROM "'+name+'"').get().n]);const before=counts();
+ const request=(input,headers={})=>fetch(base+'/api/ritual-assist/observances',{method:'POST',headers:{'Content-Type':'application/json','CF-Connecting-IP':'192.0.2.25',...headers},body:JSON.stringify(input)}),input={month:'2026-10',pincode:'110001'};
+ const response=await request(input);assert.equal(response.status,200);assert.equal(response.headers.get('cache-control'),'no-store');const {result}=await response.json();assert.equal(result.month,'2026-10');assert.equal(result.events.find(e=>e.type==='sankashti').date,'2026-10-29');assert.equal(result.calculation.processing,'server');assert.equal(result.calculation.stored,false);assert.deepEqual(counts(),before);db.close();
+ for(const bad of [{...input,month:'2031-01'},{...input,tradition:'vaishnava'},{...input,name:'Private'}])assert.equal((await request(bad)).status,400);
+ assert.equal((await request(input,{Origin:'https://example.org'})).status,403);assert.equal((await fetch(base+'/api/ritual-assist/observances')).status,405);
+ for(let i=0;i<5;i++)assert.equal((await request(input)).status,200);assert.equal((await request(input)).status,429);
+});

@@ -3,11 +3,11 @@ const {isIP}=require('node:net');
 const {readBody,fail}=require('../../../server/http');
 function createRitualCalendar(){
  let active=0;const budget=new Map();
- return async({method,req,json})=>{
-  if(method!=='POST')fail(405,'Use POST to calculate a remembrance plan');
+ return async({method,req,json,route})=>{
+  if(method!=='POST')fail(405,'Use POST to calculate a calendar');
   const input=await readBody(req,2048),{calendarInput}=await import('./calendar-input.mjs');
   const forwarded=req.headers['cf-connecting-ip'],local=['127.0.0.1','::1','::ffff:127.0.0.1'].includes(req.socket.remoteAddress);
-  const data=calendarInput(input),now=Date.now(),key=local&&typeof forwarded==='string'&&isIP(forwarded)?forwarded:req.socket.remoteAddress||'local';
+  const data=route==='ritual-assist/observances'?(await import('./observance-input.mjs')).observanceInput(input):calendarInput(input),now=Date.now(),key=local&&typeof forwarded==='string'&&isIP(forwarded)?forwarded:req.socket.remoteAddress||'local';
   for(const [ip,value]of budget)if(now-value.start>=60000)budget.delete(ip);
   const slot=budget.get(key)||{start:now,count:0};if(slot.count>=6||active>=2||budget.size>=1000&&!budget.has(key))fail(429,'The calendar is busy. Please try again in a minute');slot.count++;budget.set(key,slot);active++;
   try{const result=await new Promise((resolve,reject)=>{

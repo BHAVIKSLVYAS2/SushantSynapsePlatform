@@ -1,5 +1,52 @@
 # Chambers functionality ledger
 
+**Ritual calendar core expansion (2026-10-23, implemented locally):** Calendar
+entry now offers Vrats & dates and a separate preserved Shraddha/Barsi tab.
+The PIN/month-only general calendar supports India/IST, 2025–2030, English/Hindi,
+list/month views, filters, next occurrence and seven event types: ordinary Smarta
+Ekadashi, Amavasya, sunrise Purnima/Poonam, separate Purnima fasting, Sankashti
+Chauth, Vinayaka Chaturthi and Pradosh. Local sunrise, midday, moonrise and evening
+rules are displayed with tithi intervals; ordinary morning Parana is separate.
+Missing/repeated sunrise, skipped following-Dwadashi sunrise, multiple moonrise,
+close two-day overlap and five-minute boundary cases need confirmation and cannot
+enter reminders. Named annual Karwa/Sakat rules are not implied by Chauth.
+
+Public `POST /api/ritual-assist/observances` has strict bounded validation and the
+existing calendar request/concurrency protection in Node and Workers. Shared
+astronomy primitives preserve remembrance calculations. Edge memory caching is
+bounded to 24 public location/month/policy results for one hour; no private death
+inputs or business records are cached. No external date API, scraping, migration,
+new account requirement or stored personal record. ICS downloads support selected
+categories/single events, day offsets/previous evening, optional resolved timed
+moonrise/Parana and stable location-scoped UIDs. Past/uncertain dates and expired
+alarms are excluded; import, alarm delivery, subscriptions and automatic push are
+not verified/connected. Additional monthly families, Sankranti, annual festivals
+and Vaishnava/ISKCON policies remain unavailable pending separate rule work.
+
+Verification: **371/371 full API/build checks**, **15/15 Ritual Assist Chrome
+workflows**, and final **16/16 focused calendar/export/astronomy checks** pass.
+Coverage includes 2026 published fixtures, the 2027 skipped-Dwadashi exception,
+cross-city moonrise selection, leap-year/year boundaries, no-write API counts,
+rate limits, real ICS downloads, stale-request cancellation, existing remembrance
+packs/checklists and 16 bilingual/theme/width combinations. Mobile grid screenshot
+`test-results/vrat-calendar-mobile-dark.png` visually reviewed. Fixtures use
+disposable DATA_DIR values. Independent priest review and regional certification
+remain unverified; this is a calculated planning aid. The exact production
+configuration dry-run and compiled organisation-mode Worker smoke pass, including
+new public routing, invalid/cross-origin denial, unchanged private API blocking
+and zero D1 revision writes. Local Worker response observations: 220ms/89ms for
+two months, not production CPU measurements. Deployment verification follows.
+Logs: `.publish/calendar-expansion-api.log`, `.publish/calendar-focused-final.log`,
+`.publish/calendar-production-dryrun.log`, `.publish/calendar-worker-smoke.log`.
+
+**Calendar expansion planning (2026-10-23, proposal only):** Reviewed current
+Node/production edge calculation paths and Drik Panchang's observance references.
+Existing dates are already computed locally with bundled Astronomy Engine, not
+a Drik API. `docs/RITUAL_CALENDAR_EXPANSION_PLAN.md` records twelve candidate
+feature families, staged reminders, calculation/validation work and effort ranges.
+No calendar implementation, test run, production deployment or data changes in
+this planning review. Current reminders remain ICS export, not automatic delivery.
+
 **Ritual Assist checklist column headings (2026-10-23, deployed):** Added bilingual
 Item / Mark when ready and Pandit Ji / Will arrange headings aligned with the
 list controls, replacing the directional help text. Item names retain flexible
