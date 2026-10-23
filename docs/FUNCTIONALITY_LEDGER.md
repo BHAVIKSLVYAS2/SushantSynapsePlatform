@@ -32,7 +32,7 @@ show their existing descriptions; sharing and contact paths are distinct,
 scannable paths. Payment processing, amounts, owner settings and persistence are
 unchanged.
 
-**Satire reaction/loading parity (2026-10-24, implementation verified; deployment pending):**
+**Satire reaction/loading parity (2026-10-24, deployed and live verified):**
 All eighteen anchors/actors/corporates gain happy, startled, annoyed and laughing
 portrait rows, using the existing saved-only animation, ink splash, haptics,
 cleanup and reduced-motion lifecycle. Detail pages use the same prepare/save/
@@ -48,7 +48,11 @@ base preload and the shared politician theme/layout/controller refinements.
 Entry chooser stays lightweight. IDs, ballots, artwork used in shares and all
 database schemas remain unchanged. The complete Satire Arena/detail Chrome
 suite passes (35/35); static asset/cache tests pass (5/5). Production-config
-dry-run and live verification remain pending.
+dry-run retained D1, all eight rate-limit bindings and environment variables.
+Implementation `84a778d` is live on Worker version
+`3d572823-a18e-4204-ac01-58b7f235ea44`. Live checks returned 200 for all three
+expression-sheet image routes and the Arena, anchors, actors and corporates
+pages. No votes or other production writes were submitted.
 
 **Recorded applause correction (2026-10-23, deployed and live verified):**
 Implementation `9063d4a` is live as Worker
