@@ -1,6 +1,13 @@
 # Chambers functionality ledger
 
-**Creative Satire Arena entry (2026-10-23, verified; release pending):**
+**Creative Satire Arena entry (2026-10-23, deployed and live verified):**
+Implementation `e51a84c` is live as Worker
+`2e5e33bc-404b-4e0b-8ecb-9b4d4d17138e`, with variables retained and no migration.
+Live Chrome verification passes twelve layouts (light/dark/system, four widths),
+four inline icons, front-row anchor, reduced-motion and no-JS navigation.
+Zero page errors, heavy arena requests or arena writes. Existing shared visitor
+counting and Cloudflare RUM remain active; these are not arena voting writes.
+Evidence: `.publish/creative-entry-live.log` and theme/viewport screenshots.
 The chooser gains a comedy-festival ticket hero, front-row anchor link,
 four original inline SVG icons (podium, television, clapperboard, briefcase),
 themed illustrated cards, cast counts and original teaser punchlines. Daily
@@ -14,7 +21,7 @@ legacy-link browser workflows pass. Eight light/dark viewport combinations
 no voting/portrait downloads are verified. Desktop/mobile screenshots reviewed
 in both themes. The rotated decorative orbit is clipped within its illustration
 to prevent narrow-screen overflow. Production-config dry-run and diff checks
-pass. Production deployment/read-only verification follows.
+pass. Production verification also passes as recorded above.
 
 **Satire fictional cast and comic dossiers (2026-10-23, deployed and live verified):**
 Implementation commit `b8fdc04` is live as Worker
