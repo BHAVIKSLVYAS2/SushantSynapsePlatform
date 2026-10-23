@@ -1,5 +1,16 @@
 # Chambers functionality ledger
 
+**Adalat Uncle artwork correction (2026-10-24):** Replaced the inaccurate
+moustached portrait with a clean-shaven Rajat Sharma-inspired caricature in
+formal suit, and matched all four reaction expressions to the corrected face.
+The existing base/expression sprite paths and dimensions cover arena cards,
+detail/related portraits and shared artwork without changing IDs or ballots.
+Both sheets visually reviewed; combined WebP size falls 475,564 to 421,888 bytes
+(-11.3%). Reference and edit prompts: `apps/satire-arena/ARTWORK.md`.
+Verification: focused sprite/deferred-artwork and genuine share-download browser
+checks both pass (2 tests); production Wrangler dry-run succeeds. No code, schema
+or data changes. Production visual/hash verification follows deployment.
+
 **Satire loading/reuse cleanup (2026-10-24, deployed and live verified):**
 Implementation commits `6c5a5af` and `965cffd` are live as Worker
 `977d2244-99ed-483d-b31f-545c6464963b`, deployed with `--keep-vars` and no migration.

@@ -126,6 +126,33 @@ Full generation prompt: Use case: illustration-story. Reference image is style o
 Inkpot: original app-owned SVG in catalogue.mjs, reused in reaction controls and the throw projectile. No downloaded icon, font or raster is required. Blue ink and existing splash feedback remain unchanged.
 # News-anchor portraits (2026-10-23)
 
+### Adalat Uncle likeness correction (2026-10-24)
+
+Replaced his base portrait (bottom centre) and all four reaction portraits
+(fifth column: happy, startled, annoyed, laughing) using built-in imagegen.
+Visual reference: [India TV's Rajat Sharma studio portrait](https://www.indiatvnews.com/entertainment/celebrities/india-tv-editor-in-chief-rajat-sharma-birthday-wishes-from-bollywood-salman-khan-srk-kangana-ranaut-2022-02-18-760225).
+The reference photograph is not distributed with the app. Corrected features:
+clean-shaven face, neat dark side-parted hair, thin rectangular glasses and
+charcoal suit with white shirt and patterned tie. Other cast identities, grids,
+asset paths, character IDs and vote records are retained.
+
+Base edit prompt: Edit only the bottom-centre portrait in the existing 3-by-2
+sheet to a recognisable Rajat Sharma editorial caricature, using the supplied
+photograph for facial identity. Absolutely no moustache or beard; short dark
+side-parted hair, slightly receding hairline, thin rectangular glasses, broad
+oval face and rounded cheeks. Charcoal suit, white shirt, patterned grey tie,
+pocket square and pen. Preserve the other five portraits, warm cream background,
+complete head/chest framing and exact equal-square grid, without text or logos.
+
+Expression edit prompt: Replace only column five of the existing 6-by-4 sheet
+with the corrected base identity and clothing. Rows: delighted beaming smile;
+startled wide eyes and open O mouth; offended scowl with lowered eyebrows and
+downturned lips; hearty open-mouth laughter with eyes squeezed shut. Preserve
+the other five columns and exact square-cell boundaries. Both sheets were
+visually reviewed and encoded at their existing 1536-by-1024 size, WebP qualities
+85 (base) and 76 (expressions). Shared sprite crops cover cards, profiles,
+related cast and downloaded artwork.
+
 `frontend/anchors-fast.webp` is a new AI-generated cartoon sprite grid, created
 with the built-in imagegen tool for this project. Six deliberately fictional
 spoofs draw on recognisable public on-air appearances of Arnab Goswami, Ravish
