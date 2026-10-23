@@ -16,11 +16,15 @@ Dead expand/burst selectors/tracking and 266 overridden CSS declarations are
 removed, retaining the shared action-button rule. Computed-style comparison
 matches 64 viewport/theme/page combinations. Compatibility module endpoints,
 all character IDs, artwork, ballots, schemas and production variables remain.
+The pending shell class and compact hero layout reserve the same first-paint
+space before the shared header mounts. The delayed-shell regression passes
+with no hero position change; the initial upload was interrupted before Worker
+activation to retain this first-paint reservation in the release.
 All 373 API tests and all 36 Satire Chrome workflows pass, including the new
 lean-entry/daily-summary regression and all 31 profiles in both themes at four
 widths. Six initial focused checks and the final lazy-image-sharing check pass.
 Production-config dry-run, syntax and whitespace checks pass. CSS is 48,518 to
-44,206 minified bytes (-8.9%), or 8,438 to 7,906 gzip bytes (-6.3%). All 64
+44,235 minified bytes (-8.8%), or 8,438 to 7,917 gzip bytes (-6.2%). All 64
 computed-style comparisons match. Live baseline records 52 layout-node removals/
 moves for politicians and 24 for each other arena; the new renderer records zero.
 Measurement method and tradeoffs: `docs/SATIRE_PERFORMANCE.md`. Production

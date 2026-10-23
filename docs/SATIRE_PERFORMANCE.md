@@ -21,6 +21,8 @@ measurements will be recorded after deployment.
 - Native HTML owns the navigation/static panels. The shared platform shell owns
   the header/theme control. Old expand/burst controls, tracking and unused
   temporary-layout styles are removed; overridden CSS declarations are pruned.
+- The shared header reservation and compact hero layout apply before shell JS
+  arrives as well as afterward; a delayed-script check confirms no hero movement.
 
 ## Measurement method
 
@@ -58,6 +60,6 @@ not a reduction in polling traffic. Hidden tabs still pause score polling.
 Raw measurement artifacts are ignored under `.publish/`: `satire-network-before.json`,
 the after-release counterpart, `satire-css-equivalence.json`, and verification logs.
 
-CSS delivery (same esbuild settings before/after): 48,518 to 44,206 minified
-bytes (-8.9%); 8,438 to 7,906 gzip bytes (-6.3%). Source is now formatted for
+CSS delivery (same esbuild settings before/after): 48,518 to 44,235 minified
+bytes (-8.8%); 8,438 to 7,917 gzip bytes (-6.2%). Source is now formatted for
 maintenance; source-file byte size is not the delivery measurement.

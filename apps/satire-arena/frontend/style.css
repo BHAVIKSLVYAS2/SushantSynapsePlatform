@@ -1441,7 +1441,7 @@ html[data-theme=dark] body[data-ui-app=satire-arena] {
     position: relative;
     backdrop-filter: none;
   }
-  body[data-ui-app=satire-arena].has-platform-shell main .hero {
+  body[data-ui-app=satire-arena]:is(.has-platform-shell,.platform-shell-pending) main .hero {
     margin: 4px 0 16px;
     display: flex;
     align-items: center;

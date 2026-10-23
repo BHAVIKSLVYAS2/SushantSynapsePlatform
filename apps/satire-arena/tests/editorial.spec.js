@@ -1,5 +1,10 @@
 const {test,expect}=require('../../../tests/browser-fixture.js'),{spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');let child,base,dir;
 
+test('native arena reserves shared header space before a delayed shell mounts',async({page})=>{
+ let release;const gate=new Promise(resolve=>release=resolve);await page.route('**/shared/platform-shell.js*',async route=>{await gate;await route.continue();});
+ try{await page.goto(base+'/satire-arena/news-anchors',{waitUntil:'commit'});await expect(page.locator('.hero')).toBeVisible();await expect(page.locator('body')).toHaveClass(/platform-shell-pending/);const before=await page.locator('.hero').evaluate(e=>({top:e.getBoundingClientRect().top,padding:getComputedStyle(document.body).paddingTop}));expect(before.padding).toBe('72px');release();await expect(page.locator('.platform-shell')).toHaveCount(1);expect(await page.locator('.hero').evaluate(e=>e.getBoundingClientRect().top)).toBeCloseTo(before.top,0);}finally{release();}
+});
+
 test('lean arena renders once, loads one metadata module and keeps daily results current after votes and polling',async({page})=>{
  const requests=[];page.on('request',r=>requests.push(r.url()));await page.addInitScript(()=>{window.layoutRemovals=0;new MutationObserver(records=>{for(const record of records)for(const node of record.removedNodes)if(node.nodeType===1&&node.matches('.portrait-stage,.card-meta,.portrait,.card-body'))window.layoutRemovals++;}).observe(document,{childList:true,subtree:true});});
  await page.clock.install();await page.clock.pauseAt(new Date(Date.now()+10000));await page.goto(base+'/satire-arena/news-anchors');await expect(page.locator('#today-results')).toContainText(/Today · \d+ reactions/);
