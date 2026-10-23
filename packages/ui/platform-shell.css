@@ -131,3 +131,18 @@
  @media(hover:hover){body[data-ui-app] .platform-shell :is(.platform-switch,.platform-account):hover{border-color:var(--shell-accent)}}
  @media(prefers-reduced-motion:reduce){body[data-ui-app] .platform-shell :is(.platform-switch,.platform-account){transition:none}}
 }
+
+/* One interface-language menu in the shared header; source footer is the fallback. */
+@media screen {
+ .platform-shell .platform-language{position:relative;flex:none;margin:0}
+ .platform-shell .platform-language>summary{display:grid;place-items:center;list-style:none;min-width:44px;height:44px;padding:0 7px;border:1px solid var(--shell-line);border-radius:12px;background:var(--shell-surface);color:var(--shell-ink);font-size:12px;cursor:pointer}
+ .platform-language>summary::-webkit-details-marker{display:none}
+ .platform-shell .platform-language .synapse-language{position:absolute;right:0;top:calc(100% + 10px);z-index:10;box-sizing:border-box;width:240px;padding:14px;border:1px solid var(--shell-line);border-radius:16px;background:var(--shell-surface);color:var(--shell-ink);box-shadow:0 8px 24px color-mix(in srgb,var(--shell-ink) 15%,transparent);--legal-line:var(--shell-line);--legal-ink:var(--shell-ink);--legal-muted:var(--shell-muted)}
+ .platform-shell .platform-language .synapse-language>span:first-child{width:100%;font-size:12px}
+ .platform-shell .platform-language .synapse-language-toggle{margin:0}
+ @media(max-width:400px){body[data-ui-app] .platform-shell-actions{gap:4px!important}.platform-shell .platform-switch{min-width:0;max-width:94px;padding-left:8px;padding-right:8px}}
+}
+
+[data-interface-language-source]{display:none!important}
+
+@media screen and (max-width:759px){.platform-shell .platform-language .synapse-language{position:fixed;top:calc(var(--shell-height) + 8px);right:12px;max-width:calc(100vw - 24px)}}

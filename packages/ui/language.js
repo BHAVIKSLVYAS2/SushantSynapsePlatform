@@ -36,7 +36,18 @@
    if(/[A-Za-z\u0900-\u097f]/.test(next)){const nextLanguage=translated||/[\u0900-\u097f]/.test(next)?'hi':'en';const inherited=parent.lang||parent.parentElement?.closest('[lang]')?.lang||document.documentElement.lang;if(inherited!==nextLanguage)parent.lang=nextLanguage;}
   }
  }
+ function mountControl(){
+  const control=document.querySelector('.platform-language [data-language-control]')||document.querySelector('.synapse-legal-footer [data-language-control]')||document.querySelector('[data-language-control]'),actions=document.querySelector('.platform-shell-actions');
+  if(!control||!actions)return;
+  let menu=actions.querySelector('.platform-language');
+  if(!menu){menu=document.createElement('details');menu.className='platform-language';const summary=document.createElement('summary');summary.setAttribute('aria-label','Interface language / \u092d\u093e\u0937\u093e');menu.append(summary);actions.prepend(menu);}
+  if(control.parentElement!==menu)menu.append(control);
+  for(const duplicate of document.querySelectorAll('[data-language-control]'))if(duplicate!==control){duplicate.removeAttribute('data-language-control');duplicate.querySelectorAll('[data-interface-language]').forEach(button=>button.remove());duplicate.hidden=true;duplicate.dataset.interfaceLanguageSource='';}
+  const label=language==='hi'?'\u0939\u093f\u0928\u094d\u0926\u0940':'EN';if(menu.firstElementChild.textContent!==label)menu.firstElementChild.textContent=label;
+  const select=native();if(select){const wrapper=select.closest('label')||select;wrapper.hidden=true;wrapper.dataset.interfaceLanguageSource="";}
+ }
  function refresh(){
+  mountControl();
   document.documentElement.dataset.language=language;
   for(const root of document.querySelectorAll('.platform-shell,.platform-switcher-heading,.platform-switcher nav,.synapse-header,.synapse-help-nav,.synapse-legal-footer,.public-home'))translate(root);
   if(document.querySelector('.public-home'))document.documentElement.lang=language;
@@ -56,7 +67,8 @@
   if(!valid(value))return;const control=native();if(bridge&&control?.disabled)return;
   remember(value);if(bridge&&control&&control.value!==value){control.value=value;control.dispatchEvent(new Event('change',{bubbles:true}));}refresh();
  }
- document.addEventListener('click',event=>{const button=event.target.closest('[data-interface-language]');if(button&&!button.disabled)choose(button.dataset.interfaceLanguage);});
+ document.addEventListener('click',event=>{const button=event.target.closest('[data-interface-language]');if(button&&!button.disabled){choose(button.dataset.interfaceLanguage);button.closest('.platform-language')?.removeAttribute('open');}else if(!event.target.closest('.platform-language'))document.querySelector('.platform-language')?.removeAttribute('open');});
+ document.addEventListener('keydown',event=>{if(event.key==='Escape'){const menu=document.querySelector('.platform-language[open]');if(menu){menu.removeAttribute('open');menu.querySelector('summary').focus();}}});
  document.addEventListener('change',event=>{if(event.target===native())choose(event.target.value,false);});
  function start(){
   let saved;try{saved=localStorage.getItem(key);}catch{}

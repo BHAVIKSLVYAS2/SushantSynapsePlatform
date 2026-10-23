@@ -1,5 +1,22 @@
 # Chambers functionality ledger
 
+**One interface-language control (2026-10-24):** The existing
+shared English/Hindi selector now moves into one compact header menu. Footer
+markup remains the fallback when there is no shared shell. Duplicate app button
+groups are retired; their native adapters remain present but hidden so Ritual
+Assist and DIGITAL SAMAJ still change language without losing inputs/results.
+Moment Studio artwork language remains independent. The modal beta notice keeps
+its own accessible language choice while the background page is inert.
+Homepage CSS is regenerated from the shared source. Preferences, URL language,
+disabled-state bridging and blocked-storage behaviour retain the existing logic.
+Verification: five language workflows and two homepage loading/CSS regressions
+pass; seven beta-notice workflows pass; static language contract passes. Added
+small-screen single-control/menu-bounds and Escape-focus coverage. Existing
+untranslated editorial detail pages retain their current translation scope.
+A broader performance run also exposed an unrelated stale Take-a-Break card
+count assertion (expects eight; current catalogue shows seven); game code was
+not changed. Release and read-only production verification follow.
+
 **Satire detail/card layout parity (2026-10-24):**
 Voting feeds and server-rendered character details share `cardFace` markup in
 `frontend/cards.mjs`, including name, tag, daily joke, portrait and parody stamp.
