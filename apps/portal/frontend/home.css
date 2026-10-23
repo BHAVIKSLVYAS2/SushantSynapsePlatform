@@ -459,3 +459,15 @@
 .public-home .catalogue-account nav{display:flex;flex-wrap:wrap;gap:6px;flex:1}.catalogue-account .nav-item{width:auto;min-height:44px;font-size:12px;padding:8px 12px}.catalogue-account .nav-item .icon{width:16px;height:16px}.catalogue-account>.secondary{min-height:44px}
 .public-home .catalogue-item[hidden]{display:none!important}
 @media(max-width:700px){.public-home .catalogue-account{padding:12px;gap:12px}.public-home .catalogue-account nav{flex-basis:100%}.catalogue-account>.secondary{font-size:12px}.catalogue-account .nav-item{padding:8px;font-size:11px}}
+
+/* Two complete Featured cards per page on phones as well as desktop. */
+.public-home .home-feature-grid.home-carousel-track .home-feature-card:nth-child(even){scroll-snap-align:none}
+@media(max-width:700px){
+ .public-home .home-feature-grid.home-carousel-track{gap:10px!important}
+ .public-home .home-feature-grid.home-carousel-track .home-feature-card{flex-basis:calc((100% - 10px)/2);display:flex!important;flex-direction:column;align-items:flex-start;padding:12px!important;gap:6px!important;min-height:210px!important}
+ .public-home .home-feature-grid.home-carousel-track .home-feature-icon{width:44px!important;height:48px!important}
+ .public-home .home-feature-grid.home-carousel-track .home-feature-card>div{display:flex;flex:1;flex-direction:column;min-width:0}
+ .public-home .home-feature-grid.home-carousel-track .home-feature-card h3{font-size:15px!important;line-height:1.25!important;margin-bottom:6px!important}
+ .public-home .home-feature-grid.home-carousel-track .home-feature-card p{font-size:11px!important;line-height:1.4!important;margin-bottom:8px!important}
+ .public-home .home-feature-grid.home-carousel-track .home-feature-open{margin-top:auto;align-self:flex-start;font-size:11px!important;padding:6px 9px;gap:6px;white-space:nowrap}
+}

@@ -11,7 +11,7 @@
   function offsets(){const bounds=track.getBoundingClientRect(),max=Math.max(0,track.scrollWidth-track.clientWidth);return targets.map(el=>Math.min(max,Math.max(0,el.getBoundingClientRect().left-bounds.left+track.scrollLeft)));}
   function go(index){const values=offsets();if(!values.length)return;track.scrollTo({left:values[Math.max(0,Math.min(index,values.length-1))],behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}
   function update(){
-   const items=[...track.children].filter(el=>!el.hidden),perPage=featured&&!matchMedia('(max-width:700px)').matches?2:1;targets=items.filter((_,i)=>i%perPage===0);
+   const items=[...track.children].filter(el=>!el.hidden),perPage=2;targets=items.filter((_,i)=>i%perPage===0);
    const values=offsets();active=values.reduce((best,left,i)=>Math.abs(left-track.scrollLeft)<Math.abs(values[best]-track.scrollLeft)?i:best,0);
    if(dots.childElementCount!==targets.length){dots.replaceChildren(...targets.map((_,i)=>{const button=document.createElement('button'),mark=document.createElement('span');button.type='button';button.setAttribute('aria-label',label+' page '+(i+1)+' of '+targets.length);button.setAttribute('aria-controls',track.id);button.append(mark);button.onclick=()=>go(i);return button;}));}
    [...dots.children].forEach((button,i)=>button.setAttribute('aria-current',String(i===active)));previous.disabled=active===0;next.disabled=active>=targets.length-1;controls.hidden=dots.hidden=targets.length<2;
@@ -27,7 +27,7 @@
   dispose();section.dataset.discoveryReady='true';grid.id='home-tool-grid';grid.setAttribute('role','region');grid.setAttribute('aria-label','Free tools');grid.tabIndex=0;bar.hidden=false;section.classList.add('home-discovery-ready');
   const status=section.querySelector('.home-filter-status'),search=home.querySelector('.home-search');
   const feature=home.querySelector('.home-featured')||document.createElement('section');feature.className='home-featured';feature.setAttribute('aria-labelledby','home-featured-title');
-  feature.innerHTML='<div class="home-section-heading"><h2 id="home-featured-title">Featured apps</h2></div><div class="home-feature-grid">'+catalogue.visibleApps().filter(a=>a.featured&&grid.querySelector('[data-app-id="'+a.id+'"].public-app')).map(catalogue.renderFeatured).join('')+'</div>';
+  feature.innerHTML='<div class="home-section-heading"><h2 id="home-featured-title">Featured apps</h2></div><div class="home-feature-grid">'+catalogue.featuredApps().filter(a=>grid.querySelector('[data-app-id="'+a.id+'"].public-app')).map(catalogue.renderFeatured).join('')+'</div>';
   if(!feature.isConnected)bar.after(feature);const heading=section.querySelector('.access-heading');if(feature.nextElementSibling!==heading)feature.after(heading);section.querySelector('#free-title').textContent='Explore apps';
   const empty=home.querySelector('.home-search-empty')||document.createElement('p');empty.className='home-search-empty';empty.hidden=true;empty.setAttribute('role','status');empty.textContent='No apps match your search. Try another word or category.';if(!empty.isConnected)grid.after(empty);
   const featuredCarousel=carousel(feature.querySelector('.home-feature-grid'),feature.querySelector('.home-section-heading'),'Featured apps',{featured:true});

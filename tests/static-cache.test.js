@@ -50,10 +50,11 @@ test('fullstack delivery adds AdSense only to anonymous public free-app pages',a
  assert.equal(await head.text(),'');assert.match(head.headers.get('Content-Security-Policy'),/nonce-/);
 });
 
-test('homepage uses responsive compressed Arena artwork and a small shared favicon',async()=>{
+test('homepage uses a generic Arena icon and a small shared favicon',async()=>{
  const {staticAssets}=require('../server/static-assets'),{apps,renderCard}=require('../packages/app-registry');
  const home=renderCard(apps.find(app=>app.id==='satire-arena'));
- assert.match(home,/cartoon-cast-384\.webp 384w/);
+ assert.match(home,/home-art\.svg#satire/);
+ assert.doesNotMatch(home,/cartoon-cast|<img/);
  assert.equal(staticAssets['/favicon.svg'],'apps/portal/frontend/favicon.svg');
  assert.equal(staticAssets['/satire-arena/cartoon-cast-384.webp'],'apps/satire-arena/frontend/cartoon-cast-384.webp');
  const large=fs.statSync(path.join(__dirname,'../apps/satire-arena/frontend/cartoon-cast-768.webp')).size;
