@@ -1,6 +1,12 @@
 # Chambers functionality ledger
 
-**Recorded applause correction (2026-10-23, verified; release pending):**
+**Recorded applause correction (2026-10-23, deployed and live verified):**
+Implementation `9063d4a` is live as Worker
+`f431806b-c6e7-4298-99e6-82deab54ec94` with variables retained and no migration.
+Live Chrome checks verify exact sample-byte parity and `audio/mpeg`, actual
+recording decode/playback on voting and detail pages (1.6s excerpt, peak 0.772,
+RMS 0.142), zero chooser audio requests, zero page errors and zero arena writes.
+Evidence: `.publish/clap-live.log`.
 The Applause reaction replaces its normal synthetic noise bursts with a locally
 hosted CC0 recording of real group clapping (Breviceps, Freesound 462362).
 The 36,360-byte MP3 plays a 1.6s excerpt with attack/fade and the existing output
@@ -13,8 +19,8 @@ Voting, records, ballot validation and schemas are unchanged.
 Validation: three sound browser workflows pass (gesture timing/other effects,
 audible offline rendering with bounded peaks, delayed cancellation/mute and
 unavailable-file fallback). Twelve arena API/static-cache tests, syntax/diff
-checks and the production-config Worker dry-run pass. Live release evidence
-follows. No production ballots are submitted by the verifier.
+checks and the production-config Worker dry-run pass. No production ballots
+are submitted by the verifier.
 
 **Creative Satire Arena entry (2026-10-23, deployed and live verified):**
 Implementation `e51a84c` is live as Worker
