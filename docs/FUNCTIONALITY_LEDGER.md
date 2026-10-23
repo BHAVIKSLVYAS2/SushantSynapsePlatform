@@ -15,7 +15,12 @@ small-screen single-control/menu-bounds and Escape-focus coverage. Existing
 untranslated editorial detail pages retain their current translation scope.
 A broader performance run also exposed an unrelated stale Take-a-Break card
 count assertion (expects eight; current catalogue shows seven); game code was
-not changed. Release and read-only production verification follow.
+not changed. The new single-menu/mobile-bounds/Escape regression and final header
+preference regression pass (2). Deployed commit `73c7e5b` as Worker
+`ef2e427a-5eca-464d-a13a-0e1fdb995e1f` with `--keep-vars`, no migration.
+Read-only live verification passes five routes and 30 language/viewport
+combinations: one header group, zero footer duplicates, in-bounds menus,
+native adapter synchronization and zero page errors.
 
 **Satire detail/card layout parity (2026-10-24):**
 Voting feeds and server-rendered character details share `cardFace` markup in
