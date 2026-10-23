@@ -1,5 +1,20 @@
 # Chambers functionality ledger
 
+**Mobile app usability pass (2026-10-23, implemented and deployed):** Improved
+phone-sized text and touch targets in Ritual Assist, Fund Lens and Timetable
+Lite. Photo Resize now keeps maximum-dimension controls behind a collapsed
+“More size controls” disclosure with a 44px interactive summary; opening it
+retains the existing dimension and resize workflow. No app data, APIs or image
+processing behavior changed. Verification: **4/4 focused browser regressions**
+pass, including the Photo Resize dimension, target-size and download workflow;
+the frontend build and Free production Worker deployment succeed. Live
+production pages and the updated stylesheet return HTTP 200; the Photo Resize
+disclosure markup and touch-target styling were checked. Worker version
+`c335bc31-c529-4d9f-9479-0d64a864f3ab`. A separate full browser run passed
+28/32 tests; four Timetable Lite workflows were blocked by the shared beta
+dialog intercepting clicks, reproduced in isolation. No commit or business-data
+changes.
+
 **AdSense on free public tools (2026-10-23, implemented and deployed):** Extended
 the existing nonce-based AdSense loader from the homepage to an explicit
 allowlist of anonymous public/free app pages, including generated Satire Arena

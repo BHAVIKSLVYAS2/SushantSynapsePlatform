@@ -74,13 +74,15 @@ body.ritual-landing .platform-shell .language{margin-left:8px;order:4}
 body.ritual-landing :is(.platform-shell,.platform-switch,.platform-account,.theme-toggle,.language button,.filters button,.guide-option){transition:border-color .15s ease,box-shadow .15s ease!important}
 body.ritual-landing :is(.guide-option,.calendar-open,.filters button,.language button):focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 @media(max-width:768px){
- body.ritual-landing{--shell-height:112px}
- body.ritual-landing .platform-shell{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:50px 44px;align-items:center;gap:3px 8px;height:112px;padding:7px 14px}
- body.ritual-landing .platform-shell-brand{grid-column:1;grid-row:1;font-size:16px;gap:7px}
- body.ritual-landing .platform-shell-brand img{width:32px;height:32px}
- body.ritual-landing .platform-shell-actions{grid-column:2;grid-row:1;gap:8px;margin:0}
- body.ritual-landing .platform-shell .platform-switch{grid-column:1;grid-row:2;justify-self:start;width:auto;max-width:100%;min-height:38px;font-size:13px;gap:8px}
- body.ritual-landing .platform-shell .language{grid-column:2;grid-row:2;margin:0;justify-self:end}
+ body.ritual-landing{--shell-height:72px}
+ body.ritual-landing .platform-shell{display:flex;align-items:center;gap:4px;height:72px;padding:0 8px}
+ body.ritual-landing .platform-shell-brand{flex:0 0 auto;font-size:16px;gap:7px}
+ body.ritual-landing .platform-shell-brand img{width:24px;height:24px}
+ body.ritual-landing .platform-shell-actions{gap:4px;margin:0}
+ body.ritual-landing .platform-shell .theme-toggle{width:48px;min-width:48px;padding:7px;gap:4px}
+ body.ritual-landing .platform-shell .platform-switch{flex:0 1 auto;width:auto;max-width:calc(100vw - 250px);min-height:44px;padding:6px;font-size:11px;gap:3px}
+ body.ritual-landing .platform-shell .language{flex:0 0 auto;margin:0}
+ body.ritual-landing .platform-shell .language button{min-height:40px;padding:6px 7px;font-size:11px}
  body.ritual-landing .platform-shell .platform-shell-divider{display:none}
  body.ritual-landing main{padding:14px 13px}
  body.ritual-landing .calendar-launch{padding:23px 22px;min-height:260px;border-radius:17px}
@@ -116,6 +118,7 @@ body.ritual-landing :is(.guide-option,.calendar-open,.filters button,.language b
  body.ritual-landing .library .ritual-art{flex-basis:44px;width:44px;height:50px}
  body.ritual-landing .library .guides-symbol{flex-basis:30px;width:30px;height:30px}
 }
+@media(max-width:600px){body.ritual-landing .guide-option{min-height:56px;font-size:14px}body.ritual-landing .guide-option small,body.ritual-landing .check-item small,body.ritual-landing .fine,body.ritual-landing .reference li,body.ritual-landing .reference small{font-size:12px;line-height:1.5}body.ritual-landing .check-item{min-height:56px;font-size:14px}body.ritual-landing #guide .checklist-controls :is(button,select){min-height:44px;font-size:14px}body.ritual-landing .guide-top>p,body.ritual-landing .variation p{font-size:14px}body.ritual-landing .filters button,body.ritual-landing .progress-row button,body.ritual-landing .actions button,body.ritual-landing .reference summary{min-height:44px;font-size:12px}}
 @media(max-width:360px){
  body.ritual-landing .platform-shell{padding-inline:10px}
  body.ritual-landing .platform-shell-brand{font-size:13px;gap:5px}

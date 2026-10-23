@@ -86,6 +86,11 @@ test('Cloudflare verification continues before returning a complete snapshot', a
  await expect(page.evaluate(()=>jsonFetch('/api/fund-overlap/scheme/123456',0,{deadline:Date.now()-1}))).rejects.toThrow('taking longer than expected');
 });
 
+test('mobile portfolio labels are readable and primary fund actions remain tappable',async({page})=>{
+ await page.setViewportSize({width:390,height:844});await page.goto(base+'/fund-overlap');await expect(page.locator('.fund-card').first()).toBeVisible();
+ const sizes=await page.evaluate(()=>({category:parseFloat(getComputedStyle(document.querySelector('.fund-card .category')).fontSize),description:parseFloat(getComputedStyle(document.querySelector('.fund-card p')).fontSize),button:document.querySelector('.fund-card button').getBoundingClientRect().height,badge:parseFloat(getComputedStyle(document.querySelector('.coverage-badge')).fontSize)}));
+ expect(sizes.category).toBeGreaterThanOrEqual(12);expect(sizes.description).toBeGreaterThanOrEqual(12);expect(sizes.button).toBeGreaterThanOrEqual(44);expect(sizes.badge).toBeGreaterThanOrEqual(12);
+});
 test('Fund Lens: selection, analysis, simulation, share, export, themes and responsive layout',async({page,context})=>{
  const errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push({url:r.url(),method:r.method(),body:r.postData()}));
  await page.setViewportSize({width:390,height:844});await page.goto(base+'/fund-overlap');

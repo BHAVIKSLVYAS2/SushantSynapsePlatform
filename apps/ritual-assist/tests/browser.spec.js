@@ -19,6 +19,11 @@ test('ritual gallery keeps compact illustrated cards and readable real theme con
  await page.evaluate(()=>window.scrollTo(0,0));const hero=await page.locator('.calendar-launch').boundingBox();await page.mouse.click(hero.x+hero.width-10,hero.y+hero.height-10);await expect(page.locator('#calendar-form')).toBeVisible();expect(errors).toEqual([]);
 });
 
+test('mobile checklist text and ritual controls stay readable and tappable',async({page})=>{
+ await page.setViewportSize({width:390,height:844});await page.goto(base+'/ritual-assist?guide=ganesh-puja');await expect(page.locator('.check-item').first()).toBeVisible();
+ const sizes=await page.evaluate(()=>({check:parseFloat(getComputedStyle(document.querySelector('.check-item')).fontSize),detail:parseFloat(getComputedStyle(document.querySelector('#filter-status')).fontSize),resetHeight:document.querySelector('#reset').getBoundingClientRect().height,filterHeight:document.querySelector('#item-filter').getBoundingClientRect().height,checkHeight:document.querySelector('.check-item').getBoundingClientRect().height}));
+ expect(sizes.check).toBeGreaterThanOrEqual(14);expect(sizes.detail).toBeGreaterThanOrEqual(12);expect(sizes.resetHeight).toBeGreaterThanOrEqual(44);expect(sizes.filterHeight).toBeGreaterThanOrEqual(44);expect(sizes.checkHeight).toBeGreaterThanOrEqual(56);
+});
 test('calendar reminders and preparation pack retain tithi dates, local checks, assignments and bilingual PDF',async({page})=>{
  await page.clock.setFixedTime(new Date('2026-10-15T00:00:00Z'));
  const errors=[],requests=[];page.on('pageerror',error=>errors.push(error.message));page.on('request',r=>{if(r.url().includes('/api/')&&new URL(r.url()).pathname!=='/api/platform/visitors'&&!(r.method()==='GET'&&new URL(r.url()).pathname==='/api/auth/status'))requests.push(r.url());});await page.goto(base+'/ritual-assist/calendar');await page.locator('#date').fill('2025-10-01');await page.locator('#time').fill('12:00');await page.locator('#pincode').fill('110001');await page.locator('#calculate').click();await expect(page.locator('.future-plan tbody tr')).toHaveCount(11);

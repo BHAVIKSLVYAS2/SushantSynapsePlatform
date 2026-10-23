@@ -85,7 +85,7 @@ test('platform frame persists across public apps with usable mobile switching',a
    await page.setViewportSize({width,height:900});
    for(const theme of ['light','dark']){
     await page.evaluate(t=>window.SynapseTheme.write(t),theme);
-    const shell=await page.locator('.platform-shell').boundingBox();expect(shell.y).toBe(0);expect(shell.height).toBe(route==='/'?72:width<760?112:72);await expect(page.locator('.platform-shell-brand>span')).toHaveText('Sushant SynapsePLATFORM');await expect(page.locator('.platform-shell-brand>span')).toBeVisible();
+    const shell=await page.locator('.platform-shell').boundingBox();expect(shell.y).toBe(0);expect(shell.height).toBe(72);await expect(page.locator('.platform-shell-brand>span')).toHaveText('Sushant SynapsePLATFORM');if(route==='/'||width>=760)await expect(page.locator('.platform-shell-brand>span')).toBeVisible();else await expect(page.locator('.platform-shell-brand>span')).toBeHidden();
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${route} ${width} ${theme}`).toBe(true);
     for(const control of ['.platform-switch','.platform-account','.platform-shell .theme-toggle']){
      const r=await page.locator(control).boundingBox();expect(r.height).toBeGreaterThanOrEqual(44);expect(r.x).toBeGreaterThanOrEqual(0);expect(r.x+r.width).toBeLessThanOrEqual(width);
@@ -101,6 +101,7 @@ test('platform frame persists across public apps with usable mobile switching',a
  await page.keyboard.press('Escape');await expect(page.locator('.platform-switch')).toBeFocused();
  await page.locator('.platform-switch').click();await page.locator('#platform-switcher input').fill('nothingmatches');await expect(page.locator('.platform-switcher-empty')).toBeVisible();
  await page.locator('#platform-switcher input').fill('Moment');await page.locator('#platform-switcher nav a:visible').click();await expect(page).toHaveURL(base+'/moment-studio');
+ await page.locator('.platform-switch').click();await page.locator('.platform-switcher-home').click();await expect(page).toHaveURL(base+'/');
  await page.emulateMedia({media:'print'});await expect(page.locator('.platform-shell')).toBeHidden();await page.emulateMedia({media:'screen'});
  expect(errors).toEqual([]);
 });
