@@ -10,6 +10,9 @@ function buildArenaEntry(){
    .replace(/<meta name="description" content="[^"]*">/,`<meta name="description" content="${description}">`)
    .replace(/<meta property="og:description" content="[^"]*">/,`<meta property="og:description" content="${description}">`)
    .replace(/<meta property="og:image" content="[^"]*">/,`<meta property="og:image" content="https://apps.sushantsynapse.com/satire-arena/${image}">`)
+   .replace('<h2>Politicians Arena</h2>','<h2>'+name+' Arena</h2>')
+   .replace('href="/satire-arena/politicians" aria-current="page"','href="/satire-arena/politicians"')
+   .replace('href="/satire-arena/'+id+'"','href="/satire-arena/'+id+'" aria-current="page"')
    .replace('THIRTEEN FICTIONAL CHARACTERS','SIX FICTIONAL '+label+' SPOOFS');
   fs.writeFileSync(path.join(folder,id+'.html'),html);
  }

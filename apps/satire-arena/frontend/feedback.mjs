@@ -1,4 +1,4 @@
-import {inkpot} from './catalogue.mjs?v=20261011-speakers';
+import {inkpot} from './cast.mjs';
 const effects={
  garland:{icon:'🌼',particles:['🌼','🌸','🌼','🍃','🌸'],pulse:[20,35,20]},
  applause:{icon:'👏',particles:['✨','👏','✨'],pulse:[20,30,20,30,20]},

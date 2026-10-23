@@ -1,23 +1,14 @@
-import {prepareSound,playSound,stopSound} from './sound.mjs?v=20261018-playful';
-import {enhanceArena} from './enhancements.js?v=20261018-yearly';
-// Unlock audio on press so setup finishes before the click feedback.
-document.addEventListener('pointerdown',event=>{const button=event.target.closest('[data-reaction]');if(button&&!button.disabled&&document.querySelector('#reaction-sound').checked)prepareSound();});
-document.addEventListener('keydown',event=>{if(['Enter',' '].includes(event.key)&&event.target.matches('[data-reaction]:not(:disabled)')&&document.querySelector('#reaction-sound').checked)prepareSound();});
-document.addEventListener('change',event=>{if(event.target.id==='reaction-sound'&&!event.target.checked)stopSound();});
-document.addEventListener('visibilitychange',()=>{if(document.hidden)stopSound();});
-window.addEventListener('pagehide',stopSound);
-import {cast as allCast,arenas,portraitArt,reactions,tally} from './catalogue.mjs?v=20261011-speakers';
-import {playReaction,stopVibration,prepareReaction} from './feedback.mjs?v=20261018-fast';
+import {createReactionController} from './reaction-controller.mjs';
+import {createCard} from './cards.mjs';
+import {enhanceArena} from './enhancements.js';
+import {cast as allCast,arenas,portraitArt,reactions,tally} from './cast.mjs';
 const activeArena=arenas.find(a=>location.pathname.replace(/\/$/,'')==='/satire-arena/'+a.id)?.id||'politicians',cast=allCast.filter(c=>c.arena===activeArena),arenaPath=location.pathname.replace(/\/$/,'')||'/satire-arena';
-const $=s=>document.querySelector(s),api='/api/satire-arena';let round=null,busy=false,pending=null,loading=null,lastLoaded=0,shareBusy=false,toastTimer,rolloverAttempt=0,revision=0,saving=null,syncError=false;
-const media=matchMedia('(prefers-color-scheme: dark)');function applyTheme(){const value=window.SynapseTheme.read();document.documentElement.dataset.theme=value==='system'?(media.matches?'dark':'light'):value;}
-document.querySelector('[data-theme-toggle]').outerHTML=window.SynapseTheme.control();document.addEventListener('change',event=>{if(event.target.matches('[data-theme-toggle]'))applyTheme();});media.addEventListener('change',applyTheme);applyTheme();
-async function request(path='',options={}){const response=await fetch(api+path,{cache:'no-store',credentials:'same-origin',signal:AbortSignal.timeout(12000),...options});const body=response.status===204?null:await response.json().catch(()=>null);if(!response.ok){const error=Error(body?.error||'The arena could not load. Try again.');error.status=response.status;throw error;}return body;}
+const $=s=>document.querySelector(s);let round=null,busy=false,pending=null,lastLoaded=0,shareBusy=false,toastTimer,rolloverAttempt=0,saving=null,syncError=false;
 function notice(message){$('#notice').textContent=message;$('#notice').hidden=!message;}
 function toast(message){clearTimeout(toastTimer);$('#reaction-toast').textContent=message;$('#reaction-toast').hidden=false;toastTimer=setTimeout(()=>$('#reaction-toast').hidden=true,4200);}
 document.addEventListener('arena-toast',event=>{if(typeof event.detail?.message==='string')toast(event.detail.message);});
 function reactionMessage(character,reaction){const name=cast.find(c=>c.id===character).name;return {garland:`A garland for ${name}!`,applause:`Applause for ${name}!`,shoe:`Shoe thrown at ${name}!`,finger:`Ink thrown at ${name}!`,tomato:`Tomato tossed at ${name}!`,laugh:`Laughing with ${name}!`}[reaction];}
-function countdown(){const remaining=Date.parse(round?.resetsAt)-Date.now();if(!round||!Number.isFinite(remaining)){$('#reset-countdown').textContent='Resets 1 January, midnight IST';$('#mini-countdown').textContent='1 January IST';return;}if(remaining<=0){$('#reset-countdown').textContent='New round starting · Refreshing scores…';$('#mini-countdown').textContent='New round';if(!busy&&!loading&&!document.hidden&&Date.now()-rolloverAttempt>10000){rolloverAttempt=Date.now();load();}return;}const minutes=Math.ceil(remaining/60000),days=Math.floor(minutes/1440),text=`Resets 1 Jan in ${days?days+"d ":""}${Math.floor(minutes/60)%24}h ${minutes%60}m`;$('#reset-countdown').textContent=text;$('#mini-countdown').textContent=text;}
+function countdown(){const remaining=Date.parse(round?.resetsAt)-Date.now();if(!round||!Number.isFinite(remaining)){$('#reset-countdown').textContent='Resets 1 January, midnight IST';$('#mini-countdown').textContent='1 January IST';return;}if(remaining<=0){$('#reset-countdown').textContent='New round starting · Refreshing scores…';$('#mini-countdown').textContent='New round';if(!busy&&!document.hidden&&Date.now()-rolloverAttempt>10000){rolloverAttempt=Date.now();load();}return;}const minutes=Math.ceil(remaining/60000),days=Math.floor(minutes/1440),text=`Resets 1 Jan in ${days?days+"d ":""}${Math.floor(minutes/60)%24}h ${minutes%60}m`;$('#reset-countdown').textContent=text;$('#mini-countdown').textContent=text;}
 function render(){
  const {fans,critics,amused}=tally(round?.characters);$('#amused').textContent=round?amused:'—';
  $('#fans').textContent=round?fans:'—';$('#critics').textContent=round?critics:'—';$('#round').textContent=round?.round?.slice(0,4)||'—';$('#verdict').textContent=!round?'Shared scores unavailable':fans+critics===0?(amused?'The crowd is just laughing.':'Who will make the first move?'):fans===critics?'A dead heat!':fans>critics?'Fans have the edge.':'Critics have the edge.';
@@ -30,39 +21,22 @@ function render(){
  for(const c of cast){const card=$(`[data-character="${c.id}"]`),score=round?.characters.find(s=>s.id===c.id),leader=leaders.find(s=>s.id===c.id),selected=reactions.find(r=>r.id===score?.selected);card.querySelector('.card-total').textContent=score?reactions.reduce((n,r)=>n+(score[r.id]||0),0)+' reactions this year':'Scores unavailable';const badge=card.querySelector('.choice-badge');card.classList.toggle('is-saving',saving===c.id);card.setAttribute('aria-busy',String(saving===c.id));badge.hidden=!selected;badge.textContent=selected?'✓ You chose '+selected.name:'';card.querySelector('.vote-state').textContent=saving===c.id?'Saving your pick…':syncError?'Scores are temporarily offline. Refresh before reacting.':selected?'Your yearly pick is saved. Tap another to change it.':round?'One pick per year. Make your move.':'Connect to the shared arena to react.';const ribbon=card.querySelector('.leader-ribbon'),labels=[];if(leader&&mostRoasts>0&&leader.roasts===mostRoasts)labels.push(leaders.filter(s=>s.roasts===mostRoasts).length>1?'Joint most roasted':'Most roasted this year');if(leader&&mostGarlands>0&&leader.garlands===mostGarlands)labels.push(leaders.filter(s=>s.garlands===mostGarlands).length>1?'Joint top garlanded':'Top garlanded');ribbon.hidden=!labels.length;ribbon.textContent=labels.join(' · ');card.classList.toggle('main-event',c.id===spotlight?.id);card.querySelector('[data-share-character]').disabled=!round||shareBusy||syncError||busy;}
  $('#confirm').disabled=busy||!round||syncError;$('#refresh').disabled=busy;$('#remove').disabled=busy;$('#share-arena').disabled=!round||shareBusy||syncError||busy;
 }
-async function load(){if(loading)return loading;const requestedRevision=revision;loading=(async()=>{try{const fresh=await request();if(requestedRevision!==revision)return;round={...fresh,characters:fresh.characters.filter(s=>cast.some(c=>c.id===s.id))};syncError=false;lastLoaded=Date.now();render();}catch(e){if(requestedRevision!==revision)return;syncError=true;render();notice(round?'Scores could not sync. Showing the last known totals. Try Refresh arena.':e.message);}finally{loading=null;}})();return loading;}
-async function vote(character,reaction){
- if(busy||!round)return;
- const snapshot=structuredClone(round),ballotRound=round.round,score=round.characters.find(c=>c.id===character);
- if(!score)return;
- if($('#reaction-sound').checked){prepareSound();playSound(reaction);}
- revision++;busy=true;saving=character;
- if(score.selected!==reaction){if(score.selected)score[score.selected]=Math.max(0,(score[score.selected]||0)-1);score[reaction]=(score[reaction]||0)+1;score.selected=reaction;}
- render();notice('');clearTimeout(toastTimer);$('#reaction-toast').hidden=true;
- const card=$('[data-character="'+character+'"]'),prepared=prepareReaction(card).catch(()=>{});
- try{
-  await request('/'+character+'/vote',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({reaction,round:ballotRound})});
-  saving=null;render();await prepared;
-  document.dispatchEvent(new CustomEvent('arena-measure',{detail:{event:'reaction_saved',method:'none',content:character}}));
-  pending=null;$('#pending').hidden=true;history.replaceState(null,'',arenaPath);
-  playReaction(card,reaction,{haptics:$('#haptics').checked});toast(reactionMessage(character,reaction));
-  if(loading)await loading;await load();if(!syncError)notice('Reaction saved. You can change it until 1 January, midnight IST.');
- }catch(e){
-  round=snapshot;saving=null;render();
-  if(loading)await loading;
-  // A network timeout may follow a committed write: reconcile without replaying it.
-  await load();notice(e.status===428?'Enable cookies, then refresh the arena before reacting. Your pick was not saved.':e.status===409?'The yearly round changed. Scores refreshed; choose again.':e.message+' Your pick could not be confirmed. Check the refreshed scores before retrying.');
- }finally{busy=false;saving=null;render();}
-}
-for(const [i,c]of cast.entries()){
- const article=document.createElement('article');article.className='arena-card'+(i===0?'':' art-pending');article.id='character-'+c.id;article.dataset.character=c.id;article.innerHTML=`<div class="portrait-stage"><div class="portrait portrait-${c.portrait}" role="img" aria-label="${c.name}, a fictional parody cartoon"><span>FICTIONAL PARODY</span><div class="leader-ribbon" hidden></div></div><div class="reactions" role="group" aria-label="Reactions for ${c.name}">${reactions.map(r=>`<button type="button" data-reaction="${r.id}" data-side="${r.side}" title="${r.name}" disabled aria-pressed="false" aria-label="${r.name} for ${c.name}"><span aria-hidden="true">${r.icon}</span><b>${r.name}</b><strong>—</strong></button>`).join('')}</div></div><div class="card-body"><small>${c.tag}</small><h2>${c.name}</h2><p>${c.copy}</p><div class="card-meta"><strong class="card-total">Loading scores…</strong><button type="button" data-share-character="${c.id}" aria-label="Share ${c.name} standings" disabled>Share ↗</button></div><span class="choice-badge" hidden></span><p class="vote-state" role="status">Loading shared scores…</p></div>`;article.querySelectorAll('[data-reaction]').forEach(b=>b.onclick=()=>vote(c.id,b.dataset.reaction));article.querySelector('[data-share-character]').onclick=()=>shareStandings(c.id);$('#cast').append(article);
-}
+let extras;
+const controller=createReactionController({root:document.querySelector('.arena'),ids:cast.map(c=>c.id),target:id=>$('[data-character="'+id+'"]'),sound:()=>$('#reaction-sound').checked,haptics:()=>$('#haptics').checked,
+ change:state=>{round=state.snapshot;busy=state.busy;saving=state.saving;syncError=state.syncError;lastLoaded=state.lastLoaded;render();},
+ synced:()=>extras?.refreshResults(),start:()=>{notice('');clearTimeout(toastTimer);$('#reaction-toast').hidden=true;},
+ confirmed:(character,reaction)=>{document.dispatchEvent(new CustomEvent('arena-measure',{detail:{event:'reaction_saved',method:'none',content:character}}));pending=null;$('#pending').hidden=true;history.replaceState(null,'',arenaPath);toast(reactionMessage(character,reaction));},
+ saved:()=>notice('Reaction saved. You can change it until 1 January, midnight IST.'),
+ error:(error,phase)=>notice(phase==='load'?(round?'Scores could not sync. Showing the last known totals. Try Refresh arena.':error.message):error.status===428?'Enable cookies, then refresh the arena before reacting. Your pick was not saved.':error.status===409?'The yearly round changed. Scores refreshed; choose again.':error.message+' Your pick could not be confirmed. Check the refreshed scores before retrying.')
+});
+const load=()=>controller.load(),vote=(id,reaction)=>controller.vote(id,reaction),request=(...args)=>controller.request(...args);
+const fragment=document.createDocumentFragment();for(const [i,c]of cast.entries())fragment.append(createCard(c,i,{vote,share:shareStandings}));$('#cast').append(fragment);
 const query=new URLSearchParams(location.search),character=query.get('character'),reaction=query.get('reaction');if(cast.some(c=>c.id===character)&&reactions.some(r=>r.id===reaction)){pending={character,reaction};$('#pending-copy').textContent=`Your reaction is ready: ${cast.find(c=>c.id===character).name} · ${reactions.find(r=>r.id===reaction).name}. Confirm to make it count.`;$('#pending').hidden=false;}
 $('#confirm').onclick=()=>pending&&vote(pending.character,pending.reaction);$('#cancel').onclick=()=>{pending=null;$('#pending').hidden=true;history.replaceState(null,'',arenaPath);};$('#refresh').onclick=()=>{notice('');load();};
 $('#export').onclick=async()=>{try{const data=await request('/mine'),url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),link=document.createElement('a');link.href=url;link.download='satire-arena-my-reactions.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);notice('Your browser’s reactions exported. Keep the file private.');}catch(e){notice(e.message);}};
-$('#remove').onclick=async()=>{if(busy||!confirm('Remove every reaction saved under this browser identity? This also updates the shared scores.'))return;busy=true;render();try{await request('/mine',{method:'DELETE',headers:{'X-Arena-Confirm':'DELETE'}});if(loading)await loading;await load();if(round)notice('Your saved reactions were removed.');}catch(e){notice(e.message);}finally{busy=false;render();}};
-$('#haptics').addEventListener('change',()=>{if(!$('#haptics').checked)stopVibration();});if(typeof navigator.vibrate!=='function'){$('#haptics').checked=false;$('#haptics').disabled=true;$('#haptic-help').textContent='Animations are on. Vibration is unavailable in this browser.';}document.addEventListener('visibilitychange',()=>{if(document.hidden)stopVibration();});
-load();setInterval(()=>{if(!document.hidden&&!busy)load();},30000);setInterval(()=>{if(!document.hidden)countdown();},1000);document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!busy)load();});
+$('#remove').onclick=async()=>{if(busy||!confirm('Remove every reaction saved under this browser identity? This also updates the shared scores.'))return;try{if(await controller.remove())notice('Your saved reactions were removed.');}catch(error){notice(error.message);}};
+if(typeof navigator.vibrate!=='function'){$('#haptics').checked=false;$('#haptics').disabled=true;$('#haptic-help').textContent='Animations are on. Vibration is unavailable in this browser.';}
+setInterval(()=>{if(!document.hidden)countdown();},1000);
 
 // Share only a snapshot of public totals, never cookie identity or selected ballots.
 const shareArtwork=new Map();
@@ -93,4 +67,5 @@ async function shareStandings(character=null){
  }catch(e){notice(e.message);}finally{shareBusy=false;render();}
 }
 $('#share-arena').onclick=()=>shareStandings();
-enhanceArena(cast,activeArena);
+extras=enhanceArena(cast,activeArena);
+load();

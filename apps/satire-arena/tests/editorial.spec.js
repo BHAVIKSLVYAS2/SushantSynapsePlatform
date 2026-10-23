@@ -1,5 +1,13 @@
 const {test,expect}=require('../../../tests/browser-fixture.js'),{spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');let child,base,dir;
 
+test('lean arena renders once, loads one metadata module and keeps daily results current after votes and polling',async({page})=>{
+ const requests=[];page.on('request',r=>requests.push(r.url()));await page.addInitScript(()=>{window.layoutRemovals=0;new MutationObserver(records=>{for(const record of records)for(const node of record.removedNodes)if(node.nodeType===1&&node.matches('.portrait-stage,.card-meta,.portrait,.card-body'))window.layoutRemovals++;}).observe(document,{childList:true,subtree:true});});
+ await page.clock.install();await page.clock.pauseAt(new Date(Date.now()+10000));await page.goto(base+'/satire-arena/news-anchors');await expect(page.locator('#today-results')).toContainText(/Today · \d+ reactions/);
+ expect(requests.filter(u=>/\/cast\.mjs(?:\?|$)/.test(u))).toHaveLength(1);expect(requests.filter(u=>/\/(catalogue|personas|spotlight)\.mjs|applause\.mp3/.test(u))).toEqual([]);expect(await page.evaluate(()=>window.layoutRemovals)).toBe(0);await expect(page.locator('.portrait-stage,.card-meta,.synapse-header')).toHaveCount(0);await expect(page.locator('.platform-shell')).toHaveCount(1);
+ const total=Number((await page.locator('#today-results').textContent()).match(/Today · (\d+)/)[1]);
+ try{await page.locator('.arena-settings summary').click();await page.locator('#reaction-sound').uncheck();await page.locator('[data-character=roar-nab] [data-reaction=laugh]').click();await expect(page.locator('#today-results')).toContainText('Today · '+(total+1)+' reactions');expect(requests.filter(u=>u.includes('applause.mp3'))).toEqual([]);const results=requests.filter(u=>u.endsWith('/api/satire-arena/results')).length,editorial=requests.filter(u=>u.endsWith('/api/arena-editorial/today')).length;await page.clock.fastForward(30000);await expect.poll(()=>requests.filter(u=>u.endsWith('/api/satire-arena/results')).length).toBeGreaterThan(results);expect(requests.filter(u=>u.endsWith('/api/arena-editorial/today')).length).toBe(editorial);}finally{await page.evaluate(()=>fetch('/api/satire-arena/mine',{method:'DELETE',headers:{'X-Arena-Confirm':'DELETE'}}));}
+});
+
 test('spotlight detail reactions change faces only after saving and restore the base portraits',async({page})=>{
  test.setTimeout(120000);const expressions={garland:'happy',applause:'happy',shoe:'annoyed',finger:'annoyed',tomato:'startled',laugh:'laughing'};
  await page.clock.install();await page.clock.pauseAt(new Date(Date.now()+10000));

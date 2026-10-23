@@ -7,4 +7,3 @@ export function record(event,method='none',content=location.pathname.split('/').
 }
 document.addEventListener('click',event=>{const target=event.target.closest('a,button');if(!target)return;if(target.matches('[data-share]'))record(target.dataset.share==='image'?'share_selected':'share_selected',target.dataset.share);if(target.matches('[data-share-character],#share-arena'))record('share_selected','image',target.dataset.shareCharacter||'standings');if(target.matches('a[href="/daily-spark"],a[href="/decision-wheel"],a[href="/moment-studio"]'))record('tool_click','none',target.getAttribute('href').slice(1));});
 document.addEventListener('arena-measure',event=>record(event.detail.event,event.detail.method,event.detail.content));
-document.addEventListener('click',event=>{const button=event.target.closest('.expand-portrait');if(button?.getAttribute('aria-expanded')==='true')record('character_open','none',button.closest('[data-character]').dataset.character);});

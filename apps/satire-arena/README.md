@@ -1,5 +1,15 @@
 # Satire Arena
 
+Loading/reuse cleanup (2026-10-24): `cast.mjs` owns lightweight identities and
+card copy; full personality scripts stay in `personas.mjs`/server `catalogue.mjs`.
+`cards.mjs` renders final cards once. `reaction-controller.mjs` shares the ballot
+lifecycle across feeds and details. Browser imports use consistent URLs, and
+the existing production build supplies cache fingerprints. Native entry HTML
+owns navigation and static panels; the shared shell owns the header/theme.
+Daily results refresh with successful score reads, while editorial content loads
+once per IST day. Applause loads on interaction. Legacy expand/burst styling and
+tracking are removed; original artwork, IDs, links and persistent ballots remain.
+
 Reaction/loading parity (2026-10-23): anchors, actors and corporates now have
 happy/startled/annoyed/laughing portraits, using the same saved-only reaction
 effects, cleanup and reduced-motion behavior as politicians. The same effects

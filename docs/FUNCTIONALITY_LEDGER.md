@@ -1,5 +1,31 @@
 # Chambers functionality ledger
 
+**Satire loading/reuse cleanup (2026-10-24, verified; release pending):**
+One canonical lightweight cast replaces rich profile dependencies on voting
+pages; full server-rendered scripts remain available for profiles. Source imports
+use consistent URLs to avoid duplicate module instances. Cards render their final
+structure once in one fragment; temporary portrait-stage/card-meta wrappers,
+fallback panel builders, post-render rearrangement, and redundant local header/
+theme controls are removed. Native HTML now owns navigation and static panels.
+One reaction controller supplies both arena/detail ballot state, stale-read
+protection, optimistic replacement, rollback/reconciliation, polling, privacy
+removal and sound/animation hooks. Daily results refresh on successful score
+syncs, including votes and polling; stale result requests are cancelled. Editorial
+content refreshes once per IST day. Applause is loaded on sound interaction.
+Dead expand/burst selectors/tracking and 266 overridden CSS declarations are
+removed, retaining the shared action-button rule. Computed-style comparison
+matches 64 viewport/theme/page combinations. Compatibility module endpoints,
+all character IDs, artwork, ballots, schemas and production variables remain.
+All 373 API tests and all 36 Satire Chrome workflows pass, including the new
+lean-entry/daily-summary regression and all 31 profiles in both themes at four
+widths. Six initial focused checks and the final lazy-image-sharing check pass.
+Production-config dry-run, syntax and whitespace checks pass. CSS is 48,518 to
+44,206 minified bytes (-8.9%), or 8,438 to 7,906 gzip bytes (-6.3%). All 64
+computed-style comparisons match. Live baseline records 52 layout-node removals/
+moves for politicians and 24 for each other arena; the new renderer records zero.
+Measurement method and tradeoffs: `docs/SATIRE_PERFORMANCE.md`. Production
+deployment and final live transfer measurements follow.
+
 **Sponsorship and ad-placement cleanup (2026-10-23, deployed and live verified):**
 Removed the sponsor page, campaign UI and manual placement slots. Kept one shared
 Google AdSense Auto Ads loader in the document head on eligible anonymous public

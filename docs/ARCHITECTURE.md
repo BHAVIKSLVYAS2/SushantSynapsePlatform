@@ -1,5 +1,23 @@
 # Code ownership and adding apps
 
+Satire loading cleanup (2026-10-24): `frontend/cast.mjs` is the canonical light
+card metadata/reaction/art mapping. `personas.mjs` contains only rich scripts
+and joins that metadata; the server's `catalogue.mjs` composes full profiles.
+Browser controllers import the light cast through one unversioned source path;
+the existing production export fingerprints it and all dependencies. Compatibility
+module URLs remain available for previously cached pages.
+`cards.mjs` creates the final feed card structure once into one fragment.
+Generated voting HTML owns native arena navigation, headings, settings, summaries
+and footer links; only the shared platform shell owns the JS header/theme controls.
+`reaction-controller.mjs` owns score requests, stale-read protection, optimistic
+replacement/rollback/reconciliation, polling, removal and sound/feedback hooks
+for both feeds and details. Views retain their own presentation/messages.
+`enhancements.js` handles lazy art, delegated sharing, once-per-day editorial
+content and cancellable daily results refresh after successful score syncs.
+Applause bytes load on a sound-enabled interaction rather than module import.
+The stylesheet retains active responsive/print/reduced-motion rules after
+removing legacy expand/burst/temporary-layout selectors and overridden declarations.
+
 Satire reaction parity (2026-10-23): app-owned `feedback.mjs` selects all eight
 expression sheets, including six-column/four-row anchor, actor and corporate
 sheets. `style.css` applies their reaction crops on arena and detail pages and

@@ -1,4 +1,4 @@
-import {cast} from './catalogue.mjs';
+import {cast} from './cast.mjs';
 let library,originalSlug='';const $=s=>document.querySelector(s),status=$('#editor-status'),form=$('#post-form'),characters=$('#character-form');
 async function request(options){const r=await fetch('/api/arena-editorial',{cache:'no-store',...options}),data=await r.json();if(!r.ok)throw Error(data.error||'Could not load editor');return data;}
 function options(){const select=$('#post-select');select.replaceChildren(new Option('New post',''),...library.posts.map(p=>new Option(p.title+' · '+p.status,p.slug)));select.value=originalSlug;}

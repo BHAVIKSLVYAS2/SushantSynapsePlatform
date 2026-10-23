@@ -1,4 +1,3 @@
-import {cast,portraitArt} from './catalogue.mjs';
 const status=document.querySelector('#share-status');
 const url=document.querySelector('link[rel=canonical]')?.href||location.href;
 const sample=!!document.querySelector('.sample-preview');
@@ -14,6 +13,7 @@ document.querySelectorAll('[data-share]').forEach(button=>button.onclick=async()
   if(method==='whatsapp'){window.open('https://wa.me/?text='+encodeURIComponent(title+' — '+punchline+'\nFictional satire\n'+url),'_blank','noopener,noreferrer');status.textContent='WhatsApp opened. Choose a recipient and send there.';}
   if(method==='native'){if(navigator.share){await navigator.share({title,text:punchline+' · Fictional satire',url});status.textContent='Share handed to your device.';}else{await navigator.clipboard.writeText(url);status.textContent='Link copied. Paste it into your preferred app.';}}
   if(method==='image'){
+   const {cast,portraitArt}=await import('./cast.mjs');
    const canvas=document.createElement('canvas');canvas.width=1080;canvas.height=1080;const ctx=canvas.getContext('2d');ctx.fillStyle='#fff6e5';ctx.fillRect(0,0,1080,1080);ctx.fillStyle='#172a31';
    const lines=(text,y,size,max=950)=>{ctx.font=`600 ${size}px sans-serif`;let line='';for(const word of text.split(/\s+/)){if(ctx.measureText(line+' '+word).width>max){ctx.fillText(line,64,y);y+=size*1.4;line=word;}else line+=(line?' ':'')+word;}ctx.fillText(line,64,y);return y+size*1.4;};
    lines('SUSHANT SYNAPSE · SATIRE ARENA',90,28);let y=lines(title,180,48);y=lines(punchline,y+30,34);

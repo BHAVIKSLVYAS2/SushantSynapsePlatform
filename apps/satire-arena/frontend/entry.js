@@ -2,7 +2,7 @@
 // never imports voting, artwork, sound or the catalogue.
 const query=new URLSearchParams(location.search),legacy=query.get('character')||location.hash.match(/^#character-([a-z-]+)$/)?.[1];
 if(legacy){
- const {cast,reactions}=await import('./catalogue.mjs');
+ const {cast,reactions}=await import('./cast.mjs');
  const character=cast.find(c=>c.id===legacy);
  if(character){
   const target=new URL('/satire-arena/'+character.arena,location.origin),reaction=query.get('reaction');

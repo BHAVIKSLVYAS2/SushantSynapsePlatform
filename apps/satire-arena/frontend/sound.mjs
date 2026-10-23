@@ -1,8 +1,10 @@
 let audio,noise,output,applause,applauseReady,playback=0;
 // Only voting/detail pages import this module. The chooser never fetches audio.
-const applauseBytes=fetch('/satire-arena/applause.mp3').then(r=>r.ok?r.arrayBuffer():null).catch(()=>null);
+let applauseBytes;
+function loadApplause(){return applauseBytes||=fetch('/satire-arena/applause.mp3',{signal:AbortSignal.timeout(6000)}).then(r=>{if(!r.ok)throw Error('Audio unavailable');return r.arrayBuffer();}).catch(()=>{applauseBytes=null;return null;});}
 const active=new Set();
 export function prepareSound(){
+ loadApplause();
  try{const Context=window.AudioContext||window.webkitAudioContext;if(!Context)return;if(!audio||audio.state==='closed'){applause=null;applauseReady=null;audio=new Context({latencyHint:'interactive'});output=audio.createGain();output.gain.value=2;const limiter=audio.createDynamicsCompressor();limiter.threshold.value=-10;limiter.knee.value=8;limiter.ratio.value=6;limiter.attack.value=.003;limiter.release.value=.12;output.connect(limiter);const saturator=audio.createWaveShaper(),curve=new Float32Array(2048);for(let i=0;i<curve.length;i++)curve[i]=.9*Math.tanh((i/(curve.length-1)*2-1)*1.7);saturator.curve=curve;saturator.oversample='none';limiter.connect(saturator);saturator.connect(audio.destination);noise=audio.createBuffer(1,audio.sampleRate,audio.sampleRate);const samples=noise.getChannelData(0);for(let i=0;i<samples.length;i++)samples[i]=Math.random()*2-1;}if(audio.state==='suspended')audio.resume().catch(()=>{});}catch{/* Audio support is optional. */}
 }
 export function stopSound(){playback++;for(const oscillator of active){try{oscillator.stop();}catch{}}active.clear();}
@@ -14,7 +16,7 @@ function recordedApplause(start){
 function applauseSound(version){
  if(applause){recordedApplause(audio.currentTime);return;}
  const context=audio;
- applauseReady||=applauseBytes.then(bytes=>bytes?context.decodeAudioData(bytes.slice(0)):null).then(buffer=>{if(audio===context)applause=buffer;return buffer;}).catch(()=>null);
+ applauseReady||=loadApplause().then(bytes=>bytes?context.decodeAudioData(bytes.slice(0)):null).then(buffer=>{if(audio===context)applause=buffer;return buffer;}).catch(()=>null);
  return applauseReady.then(buffer=>{
   if(version!==playback||document.hidden||audio!==context||audio.state==='closed')return;
   if(buffer)recordedApplause(audio.currentTime);

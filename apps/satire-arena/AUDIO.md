@@ -10,5 +10,6 @@ by **Breviceps**, Freesound sound 462362, published 4 March 2019.
 
 The app hosts the file itself. Playback uses 1.6 seconds starting at 0.15s,
 with a short attack, 0.2s fade-out and the existing output limiter. The file is
-unchanged. It loads only where the reaction sound module is imported, never
-on the ordinary arena chooser. No runtime dependency on Freesound is required.
+unchanged. Bytes load when a sound-enabled interaction calls `prepareSound`,
+never merely from importing the module or entering the ordinary arena chooser.
+No runtime dependency on Freesound is required.
