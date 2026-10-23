@@ -1,5 +1,33 @@
 # Chambers functionality ledger
 
+**Satire Arena release (2026-10-23, deployed and live verified):**
+Implementation commit `b87df2e` is live as Worker
+`02d7dff2-f45b-4c15-977a-380ac9f0511e` at `apps.sushantsynapse.com`.
+The lightweight `/satire-arena` chooser, separate Politicians/News Anchors
+routes, six fictional anchor spoofs and their full voting/detail pages are active.
+Actors remains Coming next. This supersedes the local-only release status below.
+
+Only additive production D1 migration `0007-news-anchors.sql` was pending and
+applied. Before/after aggregate checks confirm all 82 older ballots remain:
+71 cast, six additions, five speakers and zero in the two historical tables.
+The anchor table started empty and the deduplicated view still exposed 82 rows.
+No data reset, cookie-secret rotation, bootstrap or legacy ownership mapping.
+Production variables, D1 bindings and organisation mode retained with `--keep-vars`.
+
+Live Chrome verification passes both chooser links, 13 political cards, six
+anchor cards, all six anchor profiles with voting controls/biographies/three
+signature lines and same-lineup navigation, 32 light/dark width combinations,
+anchor-only preload, zero voting dependencies/score calls at the chooser,
+legacy-link confirmation and no-JavaScript discovery. Zero page errors and
+zero Arena/editorial/metrics writes during live verification; no votes cast.
+Live chooser, anchor and profile screenshots visually reviewed. Earlier local
+API, export, browser and production dry-run evidence remains below.
+Release evidence: `.publish/arena-release-migration-list.log`,
+`.publish/arena-release-migration.log`, `.publish/arena-release-counts-before.json`,
+`.publish/arena-release-counts-after.json`, `.publish/arena-release-deploy.log`,
+`.publish/arena-release-live.log`, `.publish/arena-release-live-entry.png`,
+`.publish/arena-release-live-anchors.png`, `.publish/arena-release-live-profile.png`.
+
 **Satire Arena entry optimisation (2026-10-23, local):**
 `/satire-arena` is now a static arena chooser, superseding the previous direct
 politician entry. Separate `/satire-arena/politicians` and

@@ -1,6 +1,6 @@
 # Satire Arena
 
-Entry optimisation (2026-10-23, local): `/satire-arena` is the arena chooser.
+Entry optimisation (2026-10-23, deployed and live verified): `/satire-arena` is the arena chooser.
 It loads no voting, score polling, portraits or sound; links work without
 JavaScript. Voting lives at `/satire-arena/politicians` and
 `/satire-arena/news-anchors`. Actors remains Coming next. Root character query/
@@ -9,7 +9,7 @@ Each voting entry has its own canonical and correct portrait preload. Run
 `node apps/satire-arena/build-entry.cjs` after changing the voting template;
 the shared frontend build also refreshes the generated anchor entry.
 
-News Anchors (2026-10-23, local implementation): `/satire-arena/news-anchors`
+News Anchors (2026-10-23, deployed and live verified): `/satire-arena/news-anchors`
 contains six recognisable fictional television-anchor spoofs with the existing
 six reactions, annual browser ballots, shared counts, profile voting, fictional
 biographies, original punchlines and link/image sharing. Politics remains at

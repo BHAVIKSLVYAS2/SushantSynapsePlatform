@@ -1,6 +1,6 @@
 # Code ownership and adding apps
 
-Satire entry (2026-10-23, local): app-owned `entry.html`/`entry.css` provide
+Satire entry (2026-10-23, live): app-owned `entry.html`/`entry.css` provide
 the lightweight `/satire-arena` chooser without voting or artwork dependencies.
 `entry.js` imports the catalogue only to route legacy character query/hash links;
 it never records a vote. Explicit politicians/news-anchors routes load voting.
@@ -8,7 +8,7 @@ it never records a vote. Explicit politicians/news-anchors routes load voting.
 from the voting template with its own canonical/title and anchor-only preload.
 The generated `news-anchors.html` is retained for default Node serving too.
 
-Satire Arena lineups (2026-10-23, local): `apps/satire-arena/frontend/catalogue.mjs`
+Satire Arena lineups (2026-10-23, live): `apps/satire-arena/frontend/catalogue.mjs`
 owns arena availability and character membership. Node/Workers validation uses
 that same cast. `/satire-arena/news-anchors` and `/satire-arena/politicians` reuse
 the existing frontend; the controller scopes public scores/activity/shares to
@@ -17,7 +17,8 @@ App-owned `character-page.mjs` scopes related profiles and pagination. Actors
 is unavailable. Additive app/D1/native SQL migrations extend ballot storage and
 the shared deduplicated view; keep each D1 compound SELECT below six terms.
 `anchors-fast.webp` is the original generated three-by-two portrait grid.
-Production activation requires the additive D1 migration before updated API code.
+Production uses additive D1 migration 0007, applied before the updated Worker;
+all 82 existing ballots were preserved at that migration boundary.
 
 Tournament cloud organisations: `apps/tournament-lite/backend/organisation-edge.mjs`
 owns scoped APIs and policy checks; its `database/002-organisation.sql` owns the
