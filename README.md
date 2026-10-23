@@ -1,5 +1,17 @@
 # Sushant Synapse Platform
 
+Satire Arena's local entry is now a lightweight chooser at `/satire-arena`;
+Politicians and News Anchors have separate voting routes. The chooser loads
+neither voting/portrait assets nor score polling. See the functionality ledger
+for verification and deployment status.
+
+Satire Arena now has a locally implemented News Anchors lineup with six
+recognisable fictional spoofs, the same voting and detail pages, and navigation
+across politics and television. Its framing now includes public life and pop
+culture; Actors is marked Coming next. Existing political ballots are preserved.
+See the [functionality ledger](docs/FUNCTIONALITY_LEDGER.md) for verification and
+deployment status.
+
 The platform's shared beta notice explains experimental/AI-assisted content and
 third-party limitations, with explicit WhatsApp reporting. The English/Hindi
 first-visit acknowledgement is remembered only on this browser; review/forget

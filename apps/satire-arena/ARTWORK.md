@@ -49,3 +49,27 @@ Original built-in-imagegen sprite saved as frontend/speakers-expressions.png. Th
 Full generation prompt: Use case: illustration-story. Reference image is style only. Create an original sprite sheet for two political parody caricatures matching its polished bold dark outlines, dimensional comic shading, oversized expressive heads and warm cream background. EXACTLY TWO COLUMNS and FIVE ROWS of equal SQUARE cells, edge-to-edge without gutters or borders, canvas aspect ratio 2:5. Left column every row: recognizable Tejashwi Yadav, younger Indian man with rounded face, short dense black hair, trimmed black beard and moustache, white kurta and muted green waistcoat, confident conversational gesture. Right column every row: recognizable Asaduddin Owaisi, glasses, salt-and-pepper beard, dark traditional skullcap, charcoal sherwani, one raised conversational hand. Chest-up complete heads with breathing room; same framing, scale, clothing and pose in each row. Row 1 neutral friendly wry smile. Row 2 delighted smile. Row 3 startled wide eyes and O mouth. Row 4 clearly angry offended scowl with lowered eyebrows and downturned mouth. Row 5 hearty laughter with closed eyes. Ten complete portraits strictly inside their own square cells. No labels, text, logos, flags, party symbols, watermark, photographs, extra characters or reaction icons.
 
 Inkpot: original app-owned SVG in catalogue.mjs, reused in reaction controls and the throw projectile. No downloaded icon, font or raster is required. Blue ink and existing splash feedback remain unchanged.
+# News-anchor portraits (2026-10-23)
+
+`frontend/anchors-fast.webp` is a new AI-generated cartoon sprite grid, created
+with the built-in imagegen tool for this project. Six deliberately fictional
+spoofs draw on recognisable public on-air appearances of Arnab Goswami, Ravish
+Kumar, Sudhir Chaudhary, Anjana Om Kashyap, Rajat Sharma and Rubika Liyaquat,
+in that order. Their fictional names, biographies and signature lines are original
+satire, with no actual quotation, endorsement or factual-reporting implication.
+
+Final prompt: “Preserve the six anchor caricatures and their clothing/expressions;
+arrange them into exactly three columns and two rows, six equal square tiles,
+3:2 overall ratio, no gaps, borders, text or logos, warm cream backgrounds,
+complete heads and shoulders at consistent scale.” Initial art direction:
+“Polished humorous Indian editorial caricature, bold ink outlines, warm painterly
+shading, expressive enlarged heads; black-glasses/red-tie prime-time host,
+silver-haired blue-shirt questioner with notebook, dark-suit bulletin host,
+red-blazer panel moderator, grey-haired Nehru-jacket courtroom host and teal-blazer
+debate moderator.” No source news photographs were used.
+
+The final generated 1536×1024 PNG was encoded as WebP at quality 0.85 without
+resizing (242,948 bytes). Source stays in the tool's generated-image library;
+the workspace contains the final production asset. CSS and canvas sharing crop
+the same three-by-two grid. These portraits use shared reaction particles and
+sound; there is no generated per-expression sheet for this lineup.

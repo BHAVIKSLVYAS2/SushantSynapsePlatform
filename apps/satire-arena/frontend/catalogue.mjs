@@ -13,6 +13,16 @@ export const cast=[
  {id:'rally-raja',name:'Rally Raja',tag:'THE COMEBACK CAPTAIN',copy:'One more rally. Another innings.',portrait:11},
  {id:'debate-dastan',name:'Debate Dastan',tag:'THE DEBATE MAESTRO',copy:'A pause is just another argument.',portrait:12}
 ];
+export const arenas=[{id:"politicians",name:"Politicians",description:"Rallies, promises and grand entrances."},{id:"news-anchors",name:"News Anchors",description:"Prime-time personalities, breaking banners and panel-show chaos."},{id:"actors",name:"Actors",description:"Red carpets, dramatic entrances and blockbuster egos.",available:false}];
+for(const c of cast)c.arena="politicians";
+cast.push(
+ {"id": "roar-nab", "name": "Roar-nab", "tag": "THE PRIME-TIME THUNDER", "copy": "The nation wants a quieter microphone.", "portrait": 13, "arena": "news-anchors"},
+ {"id": "ravish-reflection", "name": "Ravish Reflection", "tag": "THE PATIENT QUESTIONER", "copy": "One small question. A very long silence.", "portrait": 14, "arena": "news-anchors"},
+ {"id": "sudhir-studio", "name": "Sudhir Studio", "tag": "THE BREAKING-NEWS BOSS", "copy": "Breaking: the breaking banner has broken.", "portrait": 15, "arena": "news-anchors"},
+ {"id": "anjana-awaaz", "name": "Anjana Awaaz", "tag": "THE PANEL RINGMASTER", "copy": "Six guests. One question. Zero spare microphones.", "portrait": 16, "arena": "news-anchors"},
+ {"id": "rajat-ruling", "name": "Rajat Ruling", "tag": "THE STUDIO COURTROOM CHIEF", "copy": "The witness is the commercial break.", "portrait": 17, "arena": "news-anchors"},
+ {"id": "rubika-rapid", "name": "Rubika Rapid", "tag": "THE DEBATE REFEREE", "copy": "The closing remarks need another episode.", "portrait": 18, "arena": "news-anchors"}
+);
 export const inkpot='<svg class="inkpot-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path class="inkpot-quill" d="M18 16 22 5 30 2 27 10 18 18Z"/><path class="inkpot-body" d="M9 13h12v4l4 3v8a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-8l4-3Z"/><rect class="inkpot-cap" x="8" y="11" width="14" height="5" rx="1.5"/><path class="inkpot-shine" d="M9 22v4m3-5h7"/></svg>';
 export const reactions=[{id:'garland',icon:'🌼',name:'Garland',side:'fans'},{id:'applause',icon:'👏',name:'Applause',side:'fans'},{id:'shoe',icon:'👟',name:'Shoe',side:'critics'},{id:'finger',icon:inkpot,name:'Throw ink',side:'critics'},{id:'tomato',icon:'🍅',name:'Tomato',side:'critics'},{id:'laugh',icon:'😂',name:'Just laughing',side:'amused'}];
 export function tally(scores){const totals={fans:0,critics:0,amused:0};for(const score of scores||[])for(const reaction of reactions)totals[reaction.side]+=score[reaction.id]||0;return totals;}

@@ -1,4 +1,57 @@
 const {test,expect}=require('../../../tests/browser-fixture.js'),{spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');let child,base,dir;
+
+test('arena entry is a lightweight chooser with native routes, no voting downloads and no-JavaScript access',async({page,browser})=>{
+ const requests=[],errors=[];page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(base+'/satire-arena');
+ await expect(page.getByRole('heading',{name:'Pick your arena'})).toBeVisible();
+ await expect(page.locator('.entry-card[href]')).toHaveCount(2);await expect(page.locator('.entry-coming')).toContainText('Coming next');
+ await expect(page.locator('.entry-coming a')).toHaveCount(0);
+ for(const theme of ['light','dark'])for(const width of [320,390,768,1440]){
+  await page.setViewportSize({width,height:850});await page.evaluate(t=>SynapseTheme.write(t),theme);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ }
+ expect(requests.filter(url=>/\/api\/(satire-arena|arena-editorial|arena-metrics)|\/satire-arena\/(app\.js|style\.css|catalogue\.mjs|sound\.mjs|feedback\.mjs|enhancements\.js|.*\.(webp|png))/.test(url))).toEqual([]);
+ await page.setViewportSize({width:390,height:850});await page.screenshot({path:'.publish/arena-entry-mobile.png',fullPage:true});
+ await page.locator('.entry-card[href="/satire-arena/news-anchors"]').click();await expect(page.locator('.arena-card')).toHaveCount(6);
+ await expect(page.locator('link[rel=canonical]')).toHaveAttribute('href','https://apps.sushantsynapse.com/satire-arena/news-anchors');
+ expect(requests.filter(url=>/\/satire-arena\/cast-fast\.webp/.test(url))).toEqual([]);
+ const context=await require('../../../tests/browser-fixture.js').acknowledgedContext(browser,{javaScriptEnabled:false});
+ try{const p=await context.newPage();await p.goto(base+'/satire-arena');await expect(p.locator('.entry-card[href]')).toHaveCount(2);await p.locator('.entry-card[href="/satire-arena/politicians"]').click();await expect(p).toHaveURL(/\/satire-arena\/politicians$/);}finally{await context.close();}
+ expect(errors).toEqual([]);
+});
+
+test('old character links choose the right arena and still require ballot confirmation',async({page})=>{
+ await page.goto(base+'/satire-arena?character=roar-nab&reaction=laugh');
+ await expect(page).toHaveURL(/\/satire-arena\/news-anchors\?character=roar-nab&reaction=laugh#character-roar-nab$/);
+ await expect(page.locator('#pending')).toBeVisible();await expect(page.locator('[data-character=roar-nab] [data-reaction=laugh]')).toHaveAttribute('aria-pressed','false');
+ await page.goto(base+'/satire-arena#character-namo-nimbus');await expect(page).toHaveURL(/\/satire-arena\/politicians#character-namo-nimbus$/);
+ await page.goto(base+'/satire-arena?character=https://example.com&reaction=laugh');await expect(page.getByRole('heading',{name:'Pick your arena'})).toBeVisible();
+});
+
+test('news-anchor arena keeps scores separate, retains choices on detail pages and fits phone themes',async({page})=>{
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(base+'/satire-arena/news-anchors');
+ await expect(page.locator('.arena-card')).toHaveCount(6);
+ await expect(page.locator('.arena-navigation a[aria-current]')).toHaveText('News Anchors');
+ await expect(page.locator('.arena-navigation [aria-disabled]')).toContainText('Actors');
+ const card=page.locator('.arena-card').first(),id=await card.getAttribute('data-character');
+ const laugh=card.locator('[data-reaction=laugh]');await expect(laugh).toBeEnabled();await laugh.click();await expect(laugh).toHaveAttribute('aria-pressed','true');
+ await expect(page.locator('#amused')).toHaveText('1');
+ await card.locator('.character-hero').click();await expect(page).toHaveURL(new RegExp('/characters/'+id+'$'));
+ await expect(page.locator('[data-reaction=laugh]')).toHaveAttribute('aria-pressed','true');
+ await page.locator('[data-reaction=applause]').click();await expect(page.locator('[data-reaction=applause]')).toHaveAttribute('aria-pressed','true');
+ await page.getByRole('link',{name:'Back to the Arena',exact:false}).click();await expect(page).toHaveURL(/\/satire-arena\/news-anchors$/);
+ await expect(page.locator('#fans')).toHaveText('1');await expect(page.locator('#amused')).toHaveText('0');
+ for(const theme of ['light','dark'])for(const width of [320,390,768,1440]){
+  await page.setViewportSize({width,height:850});await page.evaluate(t=>{document.documentElement.dataset.theme=t;},theme);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),theme+' '+width).toBe(true);
+ }
+ await page.setViewportSize({width:390,height:850});await page.screenshot({path:'.publish/news-anchors-mobile.png'});
+ await page.locator('.arena-navigation').getByRole('link',{name:'Politicians',exact:true}).click();
+ await expect(page.locator('.arena-card')).toHaveCount(13);await expect(page.locator('#fans')).toHaveText('0');
+ await page.locator('.arena-navigation').getByRole('link',{name:'News Anchors',exact:true}).click();await expect(page.locator('#fans')).toHaveText('1');
+ expect(errors).toEqual([]);
+});
 test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-satire-editor-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir,DATABASE_PROVIDER:'sqlite',NODE_ENV:'test',PUBLIC_ORIGIN:'',ARENA_COOKIE_SECRET:'isolated-editor-browser-secret',ARENA_ANALYTICS_ENABLED:'true'},stdio:['ignore','pipe','pipe'],windowsHide:true});await new Promise((resolve,reject)=>{let output='';const timer=setTimeout(()=>reject(Error('Startup timeout: '+output)),20000);child.stdout.on('data',data=>{output+=data;const match=output.match(/http:\/\/localhost:(\d+)/);if(match){base='http://127.0.0.1:'+match[1];clearTimeout(timer);resolve();}});child.stderr.on('data',data=>output+=data);child.on('error',reject);});});
 test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
 test('sample edition visualises posts without changing saved data or thirteen-character Arena',async({page,browser})=>{
@@ -12,8 +65,8 @@ test('sample edition visualises posts without changing saved data or thirteen-ch
  await page.getByRole('button',{name:'Copy link',exact:true}).click();expect(await page.evaluate(()=>window.sampleCopied)).toContain('?sample=1');expect(metrics).toEqual([]);
  const context=await require('../../../tests/browser-fixture.js').acknowledgedContext(browser,{javaScriptEnabled:false});try{const p=await context.newPage();await p.goto(base+'/satire-arena/categories/technology?sample=1');await expect(p.locator('article.notice')).toHaveCount(2);await expect(p.locator('main')).toContainText('पासवर्ड');}finally{await context.close();}
  expect((await page.request.get(base+'/satire-arena/posts/sample-meeting-to-end-meetings')).status()).toBe(404);expect((await(await page.request.get(base+'/api/arena-editorial/public')).json())).toEqual(before);
- await page.goto(base+'/satire-arena');await expect(page.locator('.arena-card')).toHaveCount(13);await expect(page.locator('.reactions button')).toHaveCount(78);await expect(page.locator('#daily-joke')).toHaveText('Original jokes, fictional characters and genuine yearly reactions.');
- const {cast}=await import('../frontend/catalogue.mjs');for(const c of cast)await expect(page.locator('[data-character="'+c.id+'"] .daily-punchline')).toHaveText(c.copy);expect(errors).toEqual([]);
+ await page.goto(base+'/satire-arena/politicians');await expect(page.locator('.arena-card')).toHaveCount(13);await expect(page.locator('.reactions button')).toHaveCount(78);await expect(page.locator('#daily-joke')).toHaveText('Original jokes, fictional characters and genuine yearly reactions.');
+ const {cast}=await import('../frontend/catalogue.mjs');for(const c of cast.filter(c=>c.arena==='politicians'))await expect(page.locator('[data-character="'+c.id+'"] .daily-punchline')).toHaveText(c.copy);expect(errors).toEqual([]);
 });
 
 test('owner publishes satire, edits character personality, verifies SEO and mobile sharing',async({page,browser})=>{
@@ -27,7 +80,7 @@ test('owner publishes satire, edits character personality, verifies SEO and mobi
  const other=await require('../../../tests/browser-fixture.js').acknowledgedContext(browser,{javaScriptEnabled:false});try{const visitor=await other.newPage();await visitor.goto(base+'/satire-arena/posts/meeting-about-meetings');await expect(visitor.getByRole('heading',{level:1})).toHaveText('The meeting that needed a meeting');await expect(visitor.locator('meta[property="og:description"]')).toHaveAttribute('content','The agenda asked to work from home.');await expect(visitor.locator('link[rel=canonical]')).toHaveAttribute('href',base+'/satire-arena/posts/meeting-about-meetings');await visitor.goto(base+'/satire-arena/characters/namo-nimbus');await expect(visitor.locator('.punchline')).toHaveText('Applause has a calendar appointment.');}finally{await other.close();}
  await page.goto(base+'/satire-arena/posts/meeting-about-meetings');const download=page.waitForEvent('download');await page.getByRole('button',{name:'Download image'}).click();expect((await download).suggestedFilename()).toBe('satire-arena.png');
  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:900});for(const theme of ['light','dark']){await page.evaluate(t=>window.SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}}
- await page.goto(base+'/satire-arena');await expect(page.locator('#daily-joke')).toContainText('The agenda asked to work from home.');await expect(page.locator('[data-character=namo-nimbus] .daily-punchline')).toHaveText('Applause has a calendar appointment.');await expect(page.locator('#yesterday-results')).toHaveText('Yesterday · No reactions recorded.');await page.getByRole('link',{name:'Biography and punchlines for Namo Nimbus'}).click();await expect(page).toHaveURL(base+'/satire-arena/characters/namo-nimbus');await expect(page.locator('main')).toContainText('Applause has a calendar appointment.');
+ await page.goto(base+'/satire-arena/politicians');await expect(page.locator('#daily-joke')).toContainText('The agenda asked to work from home.');await expect(page.locator('[data-character=namo-nimbus] .daily-punchline')).toHaveText('Applause has a calendar appointment.');await expect(page.locator('#yesterday-results')).toHaveText('Yesterday · No reactions recorded.');await page.getByRole('link',{name:'Biography and punchlines for Namo Nimbus'}).click();await expect(page).toHaveURL(base+'/satire-arena/characters/namo-nimbus');await expect(page.locator('main')).toContainText('Applause has a calendar appointment.');
  const xml=await(await page.request.get(base+'/sitemap.xml')).text();expect(xml).toContain('/satire-arena/posts/meeting-about-meetings');expect(xml).not.toContain('/editor');
  await page.goto(base+'/');await expect(page.locator('[data-home-satire]')).toContainText('The agenda asked to work from home.');await expect(page.getByRole('link',{name:'Daily Satire',exact:true})).toBeVisible();expect(errors).toEqual([]);
 });
@@ -40,8 +93,8 @@ test('public character shares use its canonical link and download genuine artwor
  await page.goto(base+'/satire-arena/characters/namo-nimbus');await page.getByRole('button',{name:'Share',exact:true}).click();await expect(page.locator('#share-status')).toContainText('handed to your device');expect(await page.evaluate(()=>window.shareCalls[0].url)).toBe(base+'/satire-arena/characters/namo-nimbus');await page.getByRole('button',{name:'Copy link'}).click();await expect(page.locator('#share-status')).toHaveText('Link copied.');expect(await page.evaluate(()=>window.copiedLink)).toBe(base+'/satire-arena/characters/namo-nimbus');await page.getByRole('button',{name:'WhatsApp'}).click();expect(await page.evaluate(()=>window.openedShare)).toContain('https://wa.me/?text=');const download=page.waitForEvent('download');await page.getByRole('button',{name:'Download image'}).click();expect((await download).suggestedFilename()).toBe('satire-arena.png');expect(await page.evaluate(()=>window.artworkDraws)).toBeGreaterThan(0);
 });
 
-test('all thirteen cast files fit phones and desktops in both themes',async({page})=>{
- test.setTimeout(180000);
+test('all cast files fit phones and desktops in both themes',async({page})=>{
+ test.setTimeout(300000);
  const {cast}=await import('../frontend/catalogue.mjs'),errors=[];page.on('pageerror',error=>errors.push(error.message));
  fs.mkdirSync('.publish/character-review',{recursive:true});
  for(const c of cast){
@@ -57,6 +110,9 @@ test('all thirteen cast files fit phones and desktops in both themes',async({pag
    for(const expression of ['', 'happy','startled','annoyed','laughing']){
     await hero.evaluate((el,value)=>{if(value)el.dataset.expression=value;else delete el.dataset.expression;},expression);
     const crop=await portrait.evaluate(async el=>{const css=getComputedStyle(el),image=new Image();image.src=css.backgroundImage.match(/url\(["']?(.*?)["']?\)/)[1];await image.decode();return {size:css.backgroundSize,x:parseFloat(css.backgroundPositionX),y:parseFloat(css.backgroundPositionY),ratio:image.naturalWidth/image.naturalHeight};});
+    if(c.arena==='news-anchors'){
+     expect(crop.size).toBe('300% 200%');expect(crop.x).toBe((c.portrait-13)%3*50);expect(crop.y).toBe(Math.floor((c.portrait-13)/3)*100);expect(crop.ratio).toBeCloseTo(1.5,2);continue;
+    }
     expect(crop.size,c.id+' '+expression+' crop').toBe(fiveRows?'200% 500%':expression?'300% 400%':'300% 100%');
     expect(crop.x).toBe(fiveRows?(c.portrait%2===1?0:100):(c.portrait%3)*50);
     const row=expression?['happy','startled','annoyed','laughing'].indexOf(expression):0;

@@ -1,5 +1,34 @@
 # Satire Arena
 
+Entry optimisation (2026-10-23, local): `/satire-arena` is the arena chooser.
+It loads no voting, score polling, portraits or sound; links work without
+JavaScript. Voting lives at `/satire-arena/politicians` and
+`/satire-arena/news-anchors`. Actors remains Coming next. Root character query/
+hash links still route to their lineup and never auto-submit a reaction.
+Each voting entry has its own canonical and correct portrait preload. Run
+`node apps/satire-arena/build-entry.cjs` after changing the voting template;
+the shared frontend build also refreshes the generated anchor entry.
+
+News Anchors (2026-10-23, local implementation): `/satire-arena/news-anchors`
+contains six recognisable fictional television-anchor spoofs with the existing
+six reactions, annual browser ballots, shared counts, profile voting, fictional
+biographies, original punchlines and link/image sharing. Politics remains at
+`/satire-arena` and `/satire-arena/politicians`. The arena selector and shared app
+discovery cover politics, television and pop culture. Actors is marked Coming
+next and has no ballots or profiles. Scores, leaders, spotlight, daily activity
+summaries and exported standings are filtered to the current lineup; browser
+privacy export/removal deliberately covers all arenas.
+
+Apply all six SQLite app migrations for a new database. Existing D1 deployments
+require additive `0007-news-anchors.sql`; SQL Server requires additive
+`004-news-anchors.sql`. Do not rebuild or edit deployed historical migrations.
+Existing votes and cookie signing keys stay intact. Anchor votes use
+`arena_anchors_votes` and the shared latest-ballot view. D1's compound-query limit
+requires grouping its six generations into two subqueries of three terms each.
+The 1536×1024 generated portrait grid is `frontend/anchors-fast.webp`; anchor
+feedback uses the existing particle effects/sound without expression-sheet swaps.
+See the functionality ledger for final verification and release status.
+
 Voting update (2026-10-18): ballots now last for the calendar year and reset only
 at 00:00 IST on 1 January. The API round key is YYYY-01-01; resetsAt is the next
 1 January. One changeable choice per browser and character counts each year.

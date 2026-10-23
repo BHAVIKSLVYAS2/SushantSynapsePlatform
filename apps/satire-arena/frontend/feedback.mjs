@@ -14,6 +14,7 @@ const ready=new Set();
 const preparing=new Map();
 export function prepareReaction(card){
  const portrait=card?.querySelector('.portrait'),number=Number([...portrait?.classList||[]].find(name=>/^portrait-\d+$/.test(name))?.split('-')[1]),index=number>=11?4:number>=9?3:Math.floor(number/3);
+ if(number>=13)return Promise.resolve();
  if(!sheets[index]||preparing.has(index))return preparing.get(index);
  const image=new Image();image.src='/satire-arena/'+sheets[index];const promise=image.decode().then(()=>ready.add(index)).catch(()=>{});preparing.set(index,promise);return promise;
 }
@@ -25,7 +26,7 @@ export function playReaction(card,reaction,{haptics=true}={}){
  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
  card.dataset.effect=reaction;card.classList.remove('reaction-active');void card.offsetWidth;card.classList.add('reaction-active');button?.classList.add('reaction-confirmed');
  const index=Number([...portrait.classList].find(name=>/^portrait-\d+$/.test(name))?.split('-')[1]);
- if(ready.has(index>=11?4:index>=9?3:Math.floor(index/3)))card.dataset.expression=expressions[reaction];
+ if(index<13&&ready.has(index>=11?4:index>=9?3:Math.floor(index/3)))card.dataset.expression=expressions[reaction];
  const layer=document.createElement('div');layer.className='reaction-effect'+(reduced?' reaction-still':'');layer.setAttribute('aria-hidden','true');
  const hero=document.createElement('span');hero.className='reaction-hero';if(reaction==='finger')hero.innerHTML=inkpot;else hero.textContent=effect.icon;layer.append(hero);
  if(reaction==='finger'){

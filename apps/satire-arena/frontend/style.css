@@ -292,3 +292,12 @@ body[data-ui-app=satire-arena] .character-share-menu summary{padding:9px;font-si
 @media(hover:hover){body[data-ui-app=satire-arena] a.character-hero:hover h2{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}}
 @media(prefers-reduced-motion:reduce){body[data-ui-app=satire-arena] .hero p,body[data-ui-app=satire-arena] .leader-ribbon{transform:none}}
 }
+
+/* Arena selection and original television cast. */
+.arena-navigation{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:20px 0 32px}.arena-navigation a,.arena-navigation>span{display:flex;gap:8px;align-items:center;min-height:44px;padding:10px 16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--text)}.arena-navigation [aria-current]{background:var(--tint);border-color:var(--primary);color:var(--primary)}.arena-navigation small{font-size:10px}.arena-navigation [aria-disabled]{opacity:.65}
+.portrait-13{background-image:url(/satire-arena/anchors-fast.webp)!important;background-size:300% 200%!important;background-position:0% 0%!important}
+.portrait-14{background-image:url(/satire-arena/anchors-fast.webp)!important;background-size:300% 200%!important;background-position:50% 0%!important}
+.portrait-15{background-image:url(/satire-arena/anchors-fast.webp)!important;background-size:300% 200%!important;background-position:100% 0%!important}
+.portrait-16{background-image:url(/satire-arena/anchors-fast.webp)!important;background-size:300% 200%!important;background-position:0% 100%!important}
+.portrait-17{background-image:url(/satire-arena/anchors-fast.webp)!important;background-size:300% 200%!important;background-position:50% 100%!important}
+.portrait-18{background-image:url(/satire-arena/anchors-fast.webp)!important;background-size:300% 200%!important;background-position:100% 100%!important}

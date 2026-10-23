@@ -1,5 +1,80 @@
 # Chambers functionality ledger
 
+**Satire Arena entry optimisation (2026-10-23, local):**
+`/satire-arena` is now a static arena chooser, superseding the previous direct
+politician entry. Separate `/satire-arena/politicians` and
+`/satire-arena/news-anchors` routes open their own voting lineups. The chooser
+uses native links and small app-owned HTML/CSS; it loads no voting controller,
+portrait/expression sheets, audio/feedback modules, score requests or polling.
+No-JavaScript discovery works. Actors remains Coming next without an active link.
+Subarenas link back to All arenas. Existing root query/hash character links resolve
+to the matching arena; pending reactions still require explicit confirmation.
+Unknown characters cannot create an external redirect.
+
+Each voting entry has its own canonical URL. The generated News Anchors entry
+preloads only its anchor sheet, eliminating the earlier politician preload.
+`apps/satire-arena/build-entry.cjs` derives it from the shared voting template;
+the shared frontend build refreshes it automatically. No schema/API/business
+data changes or production deployment in this increment.
+
+Verification: 18/18 Arena/editorial API checks, 14/14 Cloudflare export checks,
+20/20 existing voting browser workflows and 3/3 entry/legacy-link/anchor browser
+workflows pass. Entry tests verify zero voting/portrait/audio dependencies and
+zero score/editorial/metrics requests, native no-JavaScript links, own canonical,
+anchor-only preload, no auto-votes or external redirects, and 320/390/768/1440px
+light/dark layouts without overflow. Final phone screenshot visually reviewed.
+App-specific entry sources total 7,665 bytes before delivery processing, excluding
+the shared platform shell. Production-config Worker dry-run, syntax and whitespace
+checks pass. Tests use temporary fixtures; no live data or runtime changes.
+Evidence: `.publish/arena-entry-api.log`, `.publish/arena-entry-cloudflare.log`,
+`.publish/arena-entry-voting-regression.log`, `.publish/arena-entry-final-browser.log`,
+`.publish/arena-entry-dryrun.log`, `.publish/arena-entry-mobile.png`.
+
+**Satire Arena: News Anchors and broader arena navigation (2026-10-23, local implementation):**
+`/satire-arena/news-anchors` adds six recognisable fictional spoofs of Indian
+television anchors: Roar-nab, Ravish Reflection, Sudhir Studio, Anjana Awaaz,
+Rajat Ruling and Rubika Rapid. They reuse all six reactions, annual IST ballots,
+optimistic saving/reconciliation, sound, cartoon feedback, private export/removal,
+public sharing and full biography/signature-line/voting detail pages. New
+AI-generated cartoon portraits are delivered as a 243 KB, three-by-two WebP grid.
+Anchor detail pagination and related cast remain within the anchor lineup.
+Political entry remains at `/satire-arena`, with `/satire-arena/politicians`
+as an explicit destination. Arena navigation, introductions and app discovery
+now cover public life, television and pop culture. Actors is visibly **Coming
+next**, without voting or fabricated profiles. Each arena filters its scoreboard,
+leader ribbons, spotlight, activity summaries and standings export to its own cast.
+
+Additive SQLite `006-news-anchors.sql`, SQL Server `004-news-anchors.sql` and
+D1 `0007-news-anchors.sql` migrations introduce separate constrained anchor
+ballots and extend the latest-ballot view. Its two groups of three UNION terms
+respect D1 compound-query limits. Previous migrations, records, ballots and
+cookie identities are preserved. Shared catalog/schema ownership and explicit
+Arena import coverage include the new table. No live migrations or deployment
+have been performed. SQL Server DDL is prepared; no live SQL Server execution.
+
+Verification: focused Arena/editorial API 18/18 and D1/schema integration 8/8
+pass. All 373 API checks are verified across the final full run (359 passed;
+14 export checks could not write generated files inside the sandbox) and the
+permitted export rerun (14/14 pass). Earlier D1 compound-query/schema-count
+failures are fixed. All 27 Arena browser workflows are verified across the
+final 26/27 run and the corrected scoreboard + news-anchor rerun (2/2 pass).
+The remaining scoreboard failure came from a misencoded selected-checkmark;
+the original character is restored. Includes every profile at 320/390/768/1440px
+in light/dark, real ballot persistence/replacement/removal, private-safe exports,
+same-lineup navigation and anchor/politician scoreboard isolation. Final mobile
+artwork screenshot reviewed; syntax and whitespace checks pass. The final
+production-config Worker dry-run passes, including the new routes and versioned
+portrait asset (`.publish/news-anchors-dryrun-final.log`). No deployment or remote
+migration was run. Browser fixtures use isolated temporary
+DATA_DIRs. No production data or private workspace changes.
+Evidence: `.publish/news-anchors-api-final.log`,
+`.publish/news-anchors-api-focused-final.log`,
+`.publish/news-anchors-cloudflare-final.log`,
+`.publish/news-anchors-d1-rerun.log`,
+`.publish/news-anchors-browser-final.log`,
+`.publish/news-anchors-release-smoke.log`, `.publish/news-anchors-mobile.png`.
+
+
 **Ritual Assist Up Next calendar correction (2026-10-23, deployed and live verified):**
 The Vrats & dates **Up Next** list now excludes dates earlier than the current
 India/IST date. Month view retains all selected events and their details,

@@ -1,5 +1,24 @@
 # Code ownership and adding apps
 
+Satire entry (2026-10-23, local): app-owned `entry.html`/`entry.css` provide
+the lightweight `/satire-arena` chooser without voting or artwork dependencies.
+`entry.js` imports the catalogue only to route legacy character query/hash links;
+it never records a vote. Explicit politicians/news-anchors routes load voting.
+`build-entry.cjs`, called by the shared frontend build, derives the anchor HTML
+from the voting template with its own canonical/title and anchor-only preload.
+The generated `news-anchors.html` is retained for default Node serving too.
+
+Satire Arena lineups (2026-10-23, local): `apps/satire-arena/frontend/catalogue.mjs`
+owns arena availability and character membership. Node/Workers validation uses
+that same cast. `/satire-arena/news-anchors` and `/satire-arena/politicians` reuse
+the existing frontend; the controller scopes public scores/activity/shares to
+the active lineup, while privacy export/removal spans the browser's full history.
+App-owned `character-page.mjs` scopes related profiles and pagination. Actors
+is unavailable. Additive app/D1/native SQL migrations extend ballot storage and
+the shared deduplicated view; keep each D1 compound SELECT below six terms.
+`anchors-fast.webp` is the original generated three-by-two portrait grid.
+Production activation requires the additive D1 migration before updated API code.
+
 Tournament cloud organisations: `apps/tournament-lite/backend/organisation-edge.mjs`
 owns scoped APIs and policy checks; its `database/002-organisation.sql` owns the
 additive ownership boundary (D1 migration 0006). The frontend discovers organisation
