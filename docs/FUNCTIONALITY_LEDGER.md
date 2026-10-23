@@ -13,7 +13,10 @@ All 31 characters pass four viewport sizes in both themes (248 layouts),
 including five portrait states per layout, name fitting and 44px reaction targets.
 Final shared-header, lean-feed/daily-results and share-download checks pass (3),
 including square portraits across four arena types. Production dry-run succeeds.
-Production deployment and read-only verification follow this implementation.
+Deployed commit `f8b9ff1` as Worker `9e33f67f-008d-4e63-a138-8a249445d61b`
+with `--keep-vars`, no migration. Live read-only checks pass all four arena types
+at 320/390/1440px in both themes (24 layouts): shared card markup, square portraits,
+44px reaction targets, zero page errors and zero arena writes.
 
 **Adalat Uncle artwork correction (2026-10-24):** Replaced the inaccurate
 moustached portrait with a clean-shaven Rajat Sharma-inspired caricature in
