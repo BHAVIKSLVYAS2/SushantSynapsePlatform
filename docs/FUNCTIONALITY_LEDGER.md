@@ -1,6 +1,12 @@
 # Chambers functionality ledger
 
-**Satire fictional cast and comic dossiers (2026-10-23, verified; release pending):**
+**Satire fictional cast and comic dossiers (2026-10-23, deployed and live verified):**
+Implementation commit `b8fdc04` is live as Worker
+`8b460386-ba0a-4089-8018-ddcd90ee3088`, deployed with `--keep-vars` and no
+database migration. Read-only production Chrome checks verify all eighteen
+renamed cards/profiles, Encore controls, all 31 catalogue IDs, 56 theme/viewport
+combinations, lightweight chooser and no-JS content, with zero page errors or
+vote writes. The verifier reads source text to avoid CSS text-transform effects.
 All eighteen anchor/actor/corporate characters have original fictional display
 names instead of actual first names: Decibel Dada, Sannata Sahay, Ticker Tiwari,
 Panel Poonam, Adalat Uncle, Deadline Disha; Baahon Badshah, Slowmo Sultan,
@@ -21,7 +27,7 @@ no-JS content and no extra voting writes from the comedy controls. Shared UI
 build, production-config Worker dry-run and diff whitespace checks pass.
 Disposable test ballots are removed before shared-fixture tally assertions.
 The initial concurrent browser run hit a screenshot/font timeout; the separate
-complete rerun passes. Production release/live verification follows.
+complete rerun passes. Production verification log: `.publish/persona-live.log`.
 
 **Actors and Corporates arenas (2026-10-23, deployed and live verified):**
 Implementation commit `9cb0100` is live as Worker
