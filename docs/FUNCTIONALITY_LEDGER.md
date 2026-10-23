@@ -1,5 +1,21 @@
 # Chambers functionality ledger
 
+**Recorded applause correction (2026-10-23, verified; release pending):**
+The Applause reaction replaces its normal synthetic noise bursts with a locally
+hosted CC0 recording of real group clapping (Breviceps, Freesound 462362).
+The 36,360-byte MP3 plays a 1.6s excerpt with attack/fade and the existing output
+limiter. Provenance: `apps/satire-arena/AUDIO.md`. Node serves `audio/mpeg`;
+the public allowlist and hashed static export include the clip. Only voting/
+profile imports fetch audio; the ordinary chooser remains free of audio loads.
+Playback cancellation prevents late claps after mute, another reaction or
+backgrounding. A procedural fallback remains if loading/decoding fails.
+Voting, records, ballot validation and schemas are unchanged.
+Validation: three sound browser workflows pass (gesture timing/other effects,
+audible offline rendering with bounded peaks, delayed cancellation/mute and
+unavailable-file fallback). Twelve arena API/static-cache tests, syntax/diff
+checks and the production-config Worker dry-run pass. Live release evidence
+follows. No production ballots are submitted by the verifier.
+
 **Creative Satire Arena entry (2026-10-23, deployed and live verified):**
 Implementation `e51a84c` is live as Worker
 `2e5e33bc-404b-4e0b-8ecb-9b4d4d17138e`, with variables retained and no migration.

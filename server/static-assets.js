@@ -43,6 +43,7 @@ const staticAssets={
  '/satire-arena/anchors-fast.webp':'apps/satire-arena/frontend/anchors-fast.webp',
  '/satire-arena/catalogue.mjs':'apps/satire-arena/frontend/catalogue.mjs',
  '/satire-arena/sound.mjs':'apps/satire-arena/frontend/sound.mjs',
+ '/satire-arena/applause.mp3':'apps/satire-arena/frontend/applause.mp3',
  '/satire-arena/cast-fast.webp':'apps/satire-arena/frontend/cast-fast.webp',
  '/satire-arena/extra-cast-fast.webp':'apps/satire-arena/frontend/extra-cast-fast.webp',
  '/satire-arena/new-cast-fast.webp':'apps/satire-arena/frontend/new-cast-fast.webp',

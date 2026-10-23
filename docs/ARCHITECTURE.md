@@ -1,5 +1,12 @@
 # Code ownership and adding apps
 
+Satire applause (2026-10-23): app-owned `sound.mjs` loads the allowlisted
+`applause.mp3` and decodes it in the gesture-created Web Audio context. The
+normal applause effect uses a short faded recorded excerpt through the existing
+limiter. A playback revision cancels deferred sound after stop/mute/new reaction;
+sample failure retains optional procedural feedback. `AUDIO.md` owns provenance.
+The entry chooser does not import sound. Node adds the `audio/mpeg` MIME mapping.
+
 Satire entry artwork (2026-10-23): the comedy-ticket hero and four original
 arena icons are inline, decorative SVG/CSS in app-owned `entry.html`/`entry.css`.
 Theme tokens colour the four cards; responsive styling and reduced-motion

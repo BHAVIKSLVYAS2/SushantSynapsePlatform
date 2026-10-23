@@ -88,6 +88,7 @@ async function dispatch(req,res) {
       if(req.method!=='GET'&&req.method!=='HEAD')fail(405,'Method not allowed');
       res.setHeader('Content-Type',(name.endsWith('.js')||name.endsWith('.mjs'))?'text/javascript; charset=utf-8':name.endsWith('.css')?'text/css; charset=utf-8':name.endsWith('.png')?'image/png':name.endsWith('.webp')?'image/webp':name.endsWith('.svg')?'image/svg+xml':name.endsWith('.webmanifest')?'application/manifest+json':'text/html; charset=utf-8');
       if(name.endsWith('.txt'))res.setHeader('Content-Type','text/plain; charset=utf-8');
+      if(name.endsWith('.mp3'))res.setHeader('Content-Type','audio/mpeg');
       let contents=req.method==='HEAD'?undefined:fs.readFileSync(path.join(ROOT,name));
       if(contents&&name.endsWith('.html'))contents=Buffer.from(require('../packages/ui/beta-html.cjs').betaHtml(require('../packages/ui/theme-html.cjs').earlyTheme(contents.toString())));
       if(adminPreview&&name==='apps/advocate/frontend/index.html'&&contents)contents=Buffer.from(contents.toString().replace('</head>','<link rel="stylesheet" href="/advocate/organisation-preview.css"></head>').replace('<script src="/app.js"></script>','<script src="/advocate/organisation-preview.js"></script><script src="/app.js"></script>'));

@@ -9,7 +9,7 @@ test('distinct reaction sounds start before save responses and mute stops feedba
  await card.locator('[data-reaction=garland]').click();
  try{await expect.poll(()=>page.evaluate(()=>window.tones||0)).toBe(3);await expect(card).toHaveAttribute('aria-busy','true');}finally{release();}
  await expect(card).toHaveAttribute('aria-busy','false');await page.unroute('**/api/satire-arena/*/vote');
- for(const [reaction,tones,noises]of [['applause',0,10],['shoe',1,2],['finger',3,2],['tomato',1,1],['laugh',5,0]]){
+ for(const [reaction,tones,noises]of [['applause',0,1],['shoe',1,2],['finger',3,2],['tomato',1,1],['laugh',5,0]]){
   const before=await page.evaluate(()=>({tones:window.tones||0,noises:window.noises||0}));await card.locator('[data-reaction='+reaction+']').click();await expect(card).toHaveAttribute('aria-busy','false');expect(await page.evaluate(()=>({tones:window.tones||0,noises:window.noises||0}))).toEqual({tones:before.tones+tones,noises:before.noises+noises});
  }
  await page.locator('.arena-settings summary').click();await page.locator('#reaction-sound').uncheck();const muted=await page.evaluate(()=>({tones:window.tones,noises:window.noises}));await card.locator('[data-reaction=shoe]').click();await expect(card).toHaveAttribute('aria-busy','false');expect(await page.evaluate(()=>({tones:window.tones,noises:window.noises}))).toEqual(muted);
@@ -22,7 +22,7 @@ test('effects have audible output, distinct envelopes and bounded peaks',async({
   const Original=window.AudioContext,results=[];
   try{for(const reaction of ['garland','applause','shoe','finger','tomato','laugh']){
    let context;window.AudioContext=class{constructor(){context=new OfflineAudioContext(1,48000,48000);context.resume=()=>Promise.resolve();return context;}};
-   const sound=await import('/satire-arena/sound.mjs?render='+reaction);sound.prepareSound();sound.playSound(reaction);const buffer=await context.startRendering(),samples=buffer.getChannelData(0),energy=[];let peak=0,total=0;
+   const sound=await import('/satire-arena/sound.mjs?render='+reaction);sound.prepareSound();await sound.playSound(reaction);const buffer=await context.startRendering(),samples=buffer.getChannelData(0),energy=[];let peak=0,total=0;
    for(let block=0;block<20;block++){let sum=0;for(let i=block*2400;i<(block+1)*2400;i++){const value=samples[i];sum+=value*value;peak=Math.max(peak,Math.abs(value));}energy.push(Math.sqrt(sum/2400));total+=sum;}
    results.push({reaction,peak,rms:Math.sqrt(total/samples.length),energy});
   }}finally{window.AudioContext=Original;}return results;
@@ -30,6 +30,18 @@ test('effects have audible output, distinct envelopes and bounded peaks',async({
  for(const effect of rendered){expect(effect.peak,effect.reaction).toBeGreaterThan(.12);expect(effect.peak,effect.reaction).toBeLessThan(1);expect(effect.rms,effect.reaction).toBeGreaterThan(.025);}
  for(let i=0;i<rendered.length;i++)for(let j=0;j<i;j++)expect(rendered[i].energy.reduce((sum,v,k)=>sum+Math.abs(v-rendered[j].energy[k]),0)).toBeGreaterThan(.08);
 });
+test('recorded applause cancels while loading, stops on mute and falls back if the clip is unavailable',async({page})=>{
+ await page.addInitScript(()=>{const Original=window.AudioContext;window.audioSources=[];window.AudioContext=class extends Original{createBufferSource(){const source=super.createBufferSource(),item={stopped:false};window.audioSources.push(item);const stop=source.stop.bind(source);source.stop=(...args)=>{item.stopped||=args.length===0;return stop(...args);};return source;}};});
+ let release;const gate=new Promise(resolve=>release=resolve);await page.route('**/satire-arena/applause.mp3',async route=>{await gate;await route.continue();});
+ await page.goto(base+'/satire-arena/politicians');
+ await page.evaluate(async()=>{const sound=await import('/satire-arena/sound.mjs?cancel-test');sound.prepareSound();window.pendingClap=sound.playSound('applause');sound.stopSound();window.clapTest=sound;});
+ release();await page.evaluate(()=>window.pendingClap);expect(await page.evaluate(()=>audioSources.length)).toBe(0);
+ await page.evaluate(()=>clapTest.playSound('applause'));expect(await page.evaluate(()=>audioSources.length)).toBe(1);await page.evaluate(()=>clapTest.stopSound());expect(await page.evaluate(()=>audioSources.every(s=>s.stopped))).toBe(true);
+ await page.route('**/satire-arena/applause.mp3',route=>route.fulfill({status:503,body:'Unavailable'}));
+ await page.evaluate(async()=>{window.audioSources=[];const sound=await import('/satire-arena/sound.mjs?fallback-test');sound.prepareSound();await sound.playSound('applause');sound.stopSound();});
+ expect(await page.evaluate(()=>audioSources.length)).toBe(10);expect(await page.evaluate(()=>audioSources.every(s=>s.stopped))).toBe(true);
+});
+
 test('saved theme resolves before body and delayed enhancement never paints the old layout',async({page})=>{
  await page.addInitScript(()=>{if(!localStorage.getItem('synapse-theme'))localStorage.setItem('synapse-theme','dark');window.badArenaFrames=[];const watch=()=>{if(document.body&&document.documentElement.dataset.theme!=='dark')window.badArenaFrames.push('theme');for(const card of document.querySelectorAll('.arena-card'))if(!card.querySelector('.character-hero'))window.badArenaFrames.push('layout');requestAnimationFrame(watch);};requestAnimationFrame(watch);});
  let release,arrived;const gate=new Promise(resolve=>release=resolve),requested=new Promise(resolve=>arrived=resolve);await page.route('**/satire-arena/enhancements.js*',async route=>{arrived();await gate;await route.continue();});
@@ -101,7 +113,7 @@ test('Garland or Roast scoreboard, leader badges, sticky mobile scores and priva
  await page.addInitScript(()=>{window.exportText=[];const fill=CanvasRenderingContext2D.prototype.fillText;CanvasRenderingContext2D.prototype.fillText=function(text,...args){window.exportText.push(text);return fill.call(this,text,...args);};Object.defineProperty(navigator,'canShare',{value:undefined,configurable:true});});
  await page.route('**/api/satire-arena',async route=>{const {cast,reactions}=await import('../frontend/catalogue.mjs');const characters=cast.map((c,i)=>({id:c.id,...Object.fromEntries(reactions.map(r=>[r.id,0])),garland:i===0?5:0,shoe:i===0?2:i===1?4:0,laugh:i===0?3:0,selected:i===0?'shoe':null}));await route.fulfill({json:{round:'2026-10-11',resetsAt:new Date(Date.now()+3660000).toISOString(),characters}});});
  await page.goto(base+'/satire-arena/politicians');await expect(page).toHaveTitle(/Garland or Roast/);await expect(page.locator('#verdict')).toHaveText('Critics have the edge.');await expect(page.locator('#fans')).toHaveText('5');await expect(page.locator('#critics')).toHaveText('6');await expect(page.locator('#amused')).toHaveText('3');await expect(page.locator('#reset-countdown')).toContainText('1h 1m');await expect(page.locator('#live-state')).toContainText('Live');
- const first=page.locator('[data-character=namo-nimbus]');await expect(first.locator('.choice-badge')).toHaveText('✓ You chose Shoe');await expect(first.locator('.card-total')).toHaveText('10 reactions this year');await expect(first.locator('.leader-ribbon')).toHaveText('Top garlanded');await expect(page.locator('[data-character=rally-rohan] .leader-ribbon')).toHaveText('Most roasted this year');await expect(page.locator('.main-event')).toHaveCount(1);
+ const first=page.locator('[data-character=namo-nimbus]');await expect(first.locator('.choice-badge')).toHaveText('âœ“ You chose Shoe');await expect(first.locator('.card-total')).toHaveText('10 reactions this year');await expect(first.locator('.leader-ribbon')).toHaveText('Top garlanded');await expect(page.locator('[data-character=rally-rohan] .leader-ribbon')).toHaveText('Most roasted this year');await expect(page.locator('.main-event')).toHaveCount(1);
  expect(await page.locator('.meter').evaluate(el=>[...el.children].reduce((n,s)=>n+parseFloat(s.style.width),0))).toBeCloseTo(100);
  for(const [selector,height]of [['#share-arena',1890],['[data-character=namo-nimbus] [data-share-character]',1080]]){if(selector.includes('data-character'))await first.locator('.character-share-menu summary').click();const event=page.waitForEvent('download');await page.locator(selector).click();const download=await event;expect(download.suggestedFilename()).toMatch(/^garland-or-roast-.*\.png$/);const file='test-results/'+(height===1890?'arena-standings-share':'arena-character-share')+'.png';await download.saveAs(file);const bytes=require('node:fs').readFileSync(file);expect(bytes.readUInt32BE(16)).toBe(1080);expect(bytes.readUInt32BE(20)).toBe(height);}
  const text=await page.evaluate(()=>window.exportText.join('\n'));expect(text).toContain('NOT A POLL');expect(text).toContain('NO ENDORSEMENT');expect(text).not.toMatch(/You chose|Your pick|selected|voter|cookie/i);
