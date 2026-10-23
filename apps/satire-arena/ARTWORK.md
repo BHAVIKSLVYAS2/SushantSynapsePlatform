@@ -1,5 +1,43 @@
 # Satire Arena cartoon artwork
 
+## Actors and Corporates grids — 23 October 2026
+
+New assets `frontend/actors-fast.webp` (284,788 bytes) and
+`frontend/corporates-fast.webp` (257,154 bytes) were created with the built-in
+imagegen tool for this project, then WebP-encoded at quality 0.85 without resizing.
+Both are 1536×1024 three-column/two-row grids. No external photographs or logos
+were used. The final assets are in the workspace; generated PNG originals remain
+in the tool's generated-image library. Fictional biographies and original jokes
+are separate from real people's biographies or quotations.
+
+Actors prompt: “Production editorial cartoon sprite sheet for a playful Indian
+satire website. Exactly three columns and two rows, six equal square bust-portrait
+tiles, 3:2 overall. No gaps, borders, letters, captions, logos or watermark.
+Complete heads/shoulders with cream-paper margin. Bold ink outlines, rich warm
+painterly shading, expressive enlarged heads and polished Indian magazine style.
+Friendly theatrical public-persona parody. Top row: Shah Rukh Khan-inspired
+arms-wide welcome/dimpled smile/dark jacket; Salman Khan-inspired muscular face,
+black shirt/sunglasses; Aamir Khan-inspired thoughtful face/script/pen. Bottom:
+Akshay Kumar-inspired angular face/blue action jacket/playful gesture; Deepika
+Padukone-inspired expressive eyes/red jacket/wave; Alia Bhatt-inspired expressive
+round face/teal jacket/blank clapperboard. Consistent framing and distinct faces.”
+
+Corporates prompt: “Production editorial cartoon sprite sheet for a playful
+Indian satire website. Exactly three columns and two rows, six equal square
+bust tiles, 3:2 overall, no gaps, borders, text, logos or watermark. Complete
+heads/shoulders, uniform cream-paper backgrounds, bold ink outlines, warm rich
+painterly shading, expressive enlarged heads. Friendly fictional conference and
+boardroom persona parody; no allegations or financial advice. Top row: Mukesh
+Ambani-inspired rounded face/dark swept hair/navy suit/red tie/expansive gesture;
+Gautam Adani-inspired moustache/neat dark hair/blue tie/hand on chin;
+Elon Musk-inspired swept hair/black jacket/tiny blank rocket. Bottom: Sundar
+Pichai-inspired slim face/glasses/light beard/teal shirt/open-palm presentation;
+Satya Nadella-inspired bald head/glasses/dark sweater/blank notebook; Indra
+Nooyi-inspired short dark hair/glasses/purple blazer/pearls/warm host gesture.”
+
+Shared reaction particles and sounds animate these portraits. Separate generated
+expression rows are not provided for either grid.
+
 ## Delivery copies — 18 October 2026
 
 The eight `*-fast.webp` files are compressed derivatives of the existing lineups

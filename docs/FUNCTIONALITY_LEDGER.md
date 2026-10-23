@@ -1,5 +1,50 @@
 # Chambers functionality ledger
 
+**Actors and Corporates arenas (2026-10-23, implementation pending release):**
+Separate `/satire-arena/actors` and `/satire-arena/corporates` routes each add
+six recognisable fictional public-persona spoofs, original biographies/traits and
+three signature lines, full profile voting, all six reactions, annual IST ballot
+replacement, sound/particles, standings/link/image sharing and browser privacy
+export/removal. Actors: King Khanvas, Salman Slowmo, Aamir Again, Akshay Action,
+Deepika Drama and Alia Encore. Corporates: Mukesh Megaplan, Gautam Grandplan,
+Elon Launchpad, Sundar Slidechai, Satya Synergy and Indra Boardroom.
+
+The lightweight chooser has four live native destination cards, with no portrait,
+voting or polling dependency at entry. Each voting page preloads only its own
+sheet and has its own canonical/title. `portraitArt` centralises crop/source
+selection for standings, profile image exports and share metadata; new portraits
+use separate compressed 1536×1024 three-by-two grids (actors 284,788 bytes;
+corporates 257,154 bytes). No expression-sheet swap is claimed for these grids.
+`spotlight.mjs` owns the new fictional content. The shared voting-template build
+generates all three non-political entries. Discovery metadata covers all four arenas.
+
+Additive SQLite `007-spotlight-arenas.sql`, native SQL Server
+`005-spotlight-arenas.sql` and D1 `0008-spotlight-arenas.sql` introduce constrained
+`arena_spotlight_votes`. The latest-ballot view groups its seven storage
+generations into three/four UNION terms to retain D1 compatibility. All existing
+migrations, records, cookies and ballots are preserved. API validation restricts
+identities/reactions/annual round, with the existing same-origin and rate limits.
+Full privacy removal includes the new generation; unrelated browsers remain intact.
+SQL import/catalog metadata includes the new table.
+
+Local verification: all 375 API checks are covered by the full 374/375 run and
+the corrected language-layout-count rerun (1/1). All 30 Arena browser workflows
+are covered by the 29/30 run and the corrected scoreboard measurement rerun
+(1/1). The grid check now uses layout offsets rather than hover-transformed paint
+coordinates. All 31 profiles pass 320/390/768/1440px light/dark layouts, including
+all artwork cells and tap targets. Focused new-arena workflows verify saved/replaced
+choices, isolated scores, profile navigation, private export/removal, real PNG
+downloads with arena-specific sources and no unnecessary image preloads. Chooser
+still loads no ballot/controller/artwork dependencies and works without JavaScript.
+Both mobile arena/profile screenshots visually reviewed. Production-config
+Worker dry-run, syntax and whitespace pass. SQL Server DDL is prepared but has
+not run on live SQL Server. All test databases are disposable. Release evidence
+will follow production verification.
+Evidence: `.publish/spotlight-full-api.log`, `.publish/spotlight-language-rerun.log`,
+`.publish/spotlight-full-browser.log`, `.publish/spotlight-scoreboard-final.log`,
+`.publish/spotlight-browser-first.log`, `.publish/spotlight-dryrun.log`,
+`.publish/actors-arena-mobile.png`, `.publish/corporates-arena-mobile.png`.
+
 **Satire Arena release (2026-10-23, deployed and live verified):**
 Implementation commit `b87df2e` is live as Worker
 `02d7dff2-f45b-4c15-977a-380ac9f0511e` at `apps.sushantsynapse.com`.

@@ -1,5 +1,15 @@
 # Code ownership and adding apps
 
+Actors/Corporates expansion (2026-10-23): app-owned `frontend/spotlight.mjs`
+defines twelve fictional personas and their detail content. Shared `catalogue.mjs`
+owns four-arena membership and `portraitArt` crops/sources used by both image
+export paths and page metadata. `build-entry.cjs` generates News Anchors, Actors
+and Corporates pages from the voting template, each with its own title/canonical
+and sheet preload. Chooser entry remains independent of voting/artwork modules.
+New ballots share constrained `arena_spotlight_votes`; additive app/native/D1
+migrations extend the deduplicated view without altering earlier generations.
+Release status and validation evidence belong to the functionality ledger.
+
 Satire entry (2026-10-23, live): app-owned `entry.html`/`entry.css` provide
 the lightweight `/satire-arena` chooser without voting or artwork dependencies.
 `entry.js` imports the catalogue only to route legacy character query/hash links;

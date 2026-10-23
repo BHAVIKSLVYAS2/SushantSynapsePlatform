@@ -1,5 +1,5 @@
 import {characterContent} from './character-page.mjs';
-import {cast} from '../frontend/catalogue.mjs';
+import {cast,portraitArt} from '../frontend/catalogue.mjs';
 import {sampleEdition} from './sample-edition.mjs';
 import beta from '../../../packages/ui/beta-html.cjs';
 export const publicEditorialPath=path=>path==='/satire-arena/daily'||path.startsWith('/satire-arena/posts/')||path.startsWith('/satire-arena/categories/')||path.startsWith('/satire-arena/characters/')||path==='/satire-arena/results'||path==='/satire-arena/sitemap.xml'||path==='/sitemap.xml'||path==='/robots.txt';
@@ -25,7 +25,7 @@ export function publicPage(request,data,results=null){
   content=`<article><p>FICTIONAL SATIRE · ${e(p.language)} · <a href="/satire-arena/categories/${p.category}${suffix}">${e(p.category)}</a></p><h1>${e(p.title)}</h1>${stamp(p)}${p.image?`<img class="satire-art" src="${e(p.image)}" alt="${e(p.imageAlt)}" width="900" height="600">`:''}<p class="punchline">${e(p.punchline)}</p>${p.story.split('\n').filter(Boolean).map(line=>'<p>'+e(line)+'</p>').join('')}</article><h2>Related satire</h2>${cards(posts.filter(q=>q.slug!==p.slug&&q.category===p.category).slice(0,3))}`;
  }else if(path.startsWith('/satire-arena/characters/')){
   const c=cast.find(c=>path==='/satire-arena/characters/'+c.id);if(!c)return respond('Not found','text/plain',404);
-  const profile=data.characters?.find(p=>p.id===c.id);if(c.arena==='news-anchors')image='/satire-arena/anchors-fast.webp';title=c.name;description=profile?.daily||c.copy;
+  const profile=data.characters?.find(p=>p.id===c.id);if(c.arena!=='politicians')image='/satire-arena/'+portraitArt(c).file;title=c.name;description=profile?.daily||c.copy;
   content=characterContent(c,profile,e);
  }else if(path==='/satire-arena/results'){
   title='Daily Arena Results';description='Genuine browser reactions to fictional cartoons. Entertainment, not a political poll.';

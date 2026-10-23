@@ -27,7 +27,7 @@ personalities.push(
 );
 
 export function characterContent(c,profile,e){
- const index=cast.findIndex(x=>x.id===c.id),[headline,bio,trait,move,prop,lines]=personalities[index];
+ const index=cast.findIndex(x=>x.id===c.id),[headline,bio,trait,move,prop,lines]=c.persona||personalities[index];
  const lineup=cast.filter(x=>x.arena===c.arena),position=lineup.findIndex(x=>x.id===c.id),arenaHref='/satire-arena/'+c.arena;
  const prev=lineup[(position+lineup.length-1)%lineup.length],next=lineup[(position+1)%lineup.length];
  const href=x=>'/satire-arena/characters/'+x.id;

@@ -1,5 +1,10 @@
 # Sushant Synapse Platform
 
+Actors and Corporates are implemented as additional Satire Arena lineups, each
+with six fictional spoofs and the same voting/profile/share features. The main
+chooser retains lightweight entry and links to all four arenas. See the
+functionality ledger for current verification and production release status.
+
 Satire Arena's live entry is now a lightweight chooser at `/satire-arena`;
 Politicians and News Anchors have separate voting routes. The chooser loads
 neither voting/portrait assets nor score polling. See the functionality ledger

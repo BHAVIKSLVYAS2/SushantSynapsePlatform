@@ -1,5 +1,22 @@
 # Satire Arena
 
+Actors and Corporates expansion (2026-10-23): `/satire-arena/actors` and
+`/satire-arena/corporates` each add six recognisable fictional spoofs, with
+the same annual reactions, separate standings, profile voting and sharing.
+The chooser now has four native destinations. New content belongs to
+`frontend/spotlight.mjs`; `portraitArt` shares crop definitions across exports.
+The two new sheets are 3×2 WebP grids. All non-political voting entry pages are
+generated from the same template, with their own metadata and portrait preload.
+
+Fresh SQLite databases require all seven app migrations. Existing production
+D1 needs additive `0008-spotlight-arenas.sql`; SQL Server needs native
+`005-spotlight-arenas.sql`. New actors/corporates ballots use
+`arena_spotlight_votes`, with current character/reaction constraints. The shared
+latest-ballot view uses groups of three/four terms to respect D1 limits.
+Existing signing keys, ballots and data are retained. Browser privacy exports
+and removal span all four arenas. See the functionality ledger for release status.
+This entry supersedes the older Actors Coming next statements below.
+
 Entry optimisation (2026-10-23, deployed and live verified): `/satire-arena` is the arena chooser.
 It loads no voting, score polling, portraits or sound; links work without
 JavaScript. Voting lives at `/satire-arena/politicians` and

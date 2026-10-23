@@ -6,9 +6,9 @@ document.addEventListener('keydown',event=>{if(['Enter',' '].includes(event.key)
 document.addEventListener('change',event=>{if(event.target.id==='reaction-sound'&&!event.target.checked)stopSound();});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)stopSound();});
 window.addEventListener('pagehide',stopSound);
-import {cast as allCast,reactions,tally} from './catalogue.mjs?v=20261011-speakers';
+import {cast as allCast,arenas,portraitArt,reactions,tally} from './catalogue.mjs?v=20261011-speakers';
 import {playReaction,stopVibration,prepareReaction} from './feedback.mjs?v=20261018-fast';
-const activeArena=location.pathname.includes('/news-anchors')?'news-anchors':'politicians',cast=allCast.filter(c=>c.arena===activeArena),arenaPath=location.pathname.replace(/\/$/,'')||'/satire-arena';
+const activeArena=arenas.find(a=>location.pathname.replace(/\/$/,'')==='/satire-arena/'+a.id)?.id||'politicians',cast=allCast.filter(c=>c.arena===activeArena),arenaPath=location.pathname.replace(/\/$/,'')||'/satire-arena';
 const $=s=>document.querySelector(s),api='/api/satire-arena';let round=null,busy=false,pending=null,loading=null,lastLoaded=0,shareBusy=false,toastTimer,rolloverAttempt=0,revision=0,saving=null,syncError=false;
 const media=matchMedia('(prefers-color-scheme: dark)');function applyTheme(){const value=window.SynapseTheme.read();document.documentElement.dataset.theme=value==='system'?(media.matches?'dark':'light'):value;}
 document.querySelector('[data-theme-toggle]').outerHTML=window.SynapseTheme.control();document.addEventListener('change',event=>{if(event.target.matches('[data-theme-toggle]'))applyTheme();});media.addEventListener('change',applyTheme);applyTheme();
@@ -70,15 +70,15 @@ function artwork(src){if(!shareArtwork.has(src))shareArtwork.set(src,new Promise
 async function shareStandings(character=null){
  if(!round||shareBusy||busy||syncError)return;shareBusy=true;render();const snapshot={round:round.round,characters:round.characters.map(({selected,...publicScore})=>({...publicScore}))};
  try{
-  const people=character?cast.filter(c=>c.id===character):cast,files=['cast-fast.webp','extra-cast-fast.webp','new-cast-fast.webp','highway-budget-fast.webp','speakers-fast.webp'];
-  const images=await Promise.all(people.map(c=>artwork('/satire-arena/'+(c.arena==='news-anchors'?'anchors-fast.webp':files[c.portrait>=11?4:c.portrait>=9?3:Math.floor(c.portrait/3)])))),logo=await artwork('/logo-adaptive-192.png');
+  const people=character?cast.filter(c=>c.id===character):cast;
+  const images=await Promise.all(people.map(c=>artwork('/satire-arena/'+portraitArt(c).file))),logo=await artwork('/logo-adaptive-192.png');
   const canvas=document.createElement('canvas');canvas.width=1080;canvas.height=character?1080:1890;const ctx=canvas.getContext('2d');
   // Fixed export-art palette; interface theme never changes the shared image.
   const ink='#172a31',paper='#fff6e5',fan='#16715c',critic='#b94139',amused='#7355ad';ctx.fillStyle=paper;ctx.fillRect(0,0,canvas.width,canvas.height);
   function text(value,x,y,size=28,color=ink,weight=600){ctx.fillStyle=color;ctx.font=`${weight} ${size}px "Segoe UI", Arial, sans-serif`;ctx.fillText(value,x,y);}
-  function portrait(c,img,x,y,size){const anchor=c.arena==='news-anchors',cell=img.naturalWidth/(anchor?3:c.portrait>=9?2:3);ctx.save();ctx.beginPath();ctx.roundRect(x,y,size,size,20);ctx.clip();ctx.drawImage(img,(anchor?(c.portrait-13)%3:c.portrait>=11?c.portrait-11:c.portrait>=9?c.portrait-9:c.portrait%3)*cell,anchor?Math.floor((c.portrait-13)/3)*cell:0,cell,c.portrait>=9?cell:img.naturalHeight,x,y,size,size);ctx.restore();}
+  function portrait(c,img,x,y,size){const art=portraitArt(c),cell=img.naturalWidth/art.columns;ctx.save();ctx.beginPath();ctx.roundRect(x,y,size,size,20);ctx.clip();ctx.drawImage(img,art.column*cell,art.row*cell,cell,cell,x,y,size,size);ctx.restore();}
   const short=n=>new Intl.NumberFormat('en-IN',{notation:'compact',maximumFractionDigits:1}).format(n);
-  ctx.drawImage(logo,54,42,56,56);text('SUSHANT SYNAPSE · SATIRE ARENA',128,80,22);text('Garland or Roast',54,166,64);text((activeArena==='news-anchors'?'News Anchors':'Politicians')+' · Yearly reactions · '+snapshot.round.slice(0,4)+' · IST',54,212,25,ink,400);
+  ctx.drawImage(logo,54,42,56,56);text('SUSHANT SYNAPSE · SATIRE ARENA',128,80,22);text('Garland or Roast',54,166,64);text(arenas.find(a=>a.id===activeArena).name+' · Yearly reactions · '+snapshot.round.slice(0,4)+' · IST',54,212,25,ink,400);
   if(character){
    const c=people[0],score=snapshot.characters.find(s=>s.id===c.id);portrait(c,images[0],315,246,450);text(c.name,54,760,46);const joke=$('[data-character="'+c.id+'"] .daily-punchline')?.textContent||c.copy;ctx.font='400 26px "Segoe UI", Arial';let words=joke.split(/\s+/),first='';while(words.length&&ctx.measureText(first+' '+words[0]).width<950)first+=(first?' ':'')+words.shift();text(first,54,805,26,ink,400);if(words.length){let second=words.join(' ');while(ctx.measureText(second).width>920)second=second.slice(0,-1);text(second+(second!==words.join(' ')?'…':''),54,839,26,ink,400);}const values=tally([score]);
    [['Fans',values.fans,fan],['Critics',values.critics,critic],['Amused',values.amused,amused]].forEach(([label,value,color],i)=>{const x=54+i*324;text(label,x,873,24,color);text(short(value),x,934,52,color);});
