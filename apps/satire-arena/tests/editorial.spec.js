@@ -1,5 +1,25 @@
 const {test,expect}=require('../../../tests/browser-fixture.js'),{spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');let child,base,dir;
 
+test('fictional personas have attractive dossiers and encore/copy interactions that never change a ballot',async({page,browser})=>{
+ test.setTimeout(180000);
+ const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET'&&/\/api\/satire-arena\//.test(r.url()))writes.push(r.url());});
+ await page.addInitScript(()=>Object.defineProperty(navigator,'clipboard',{value:{writeText:async text=>window.copiedPunchline=text},configurable:true}));
+ for(const [id,name]of [['roar-nab','Decibel Dada'],['king-khanvas','Baahon Badshah'],['elon-launchpad','Rocket Raees']]){
+  await page.goto(base+'/satire-arena/characters/'+id);await expect(page.locator('#character-name')).toHaveText(name);await expect(page.locator('.file-notes article')).toHaveCount(3);await expect(page.locator('.file-dialogue')).toHaveCount(2);
+  const laugh=page.locator('[data-reaction=laugh]');await expect(laugh).toBeEnabled();await laugh.click();await expect(laugh).toHaveAttribute('aria-pressed','true');const count=await page.locator('#character-total').textContent(),before=writes.length;
+  const initial=await page.locator('[data-comedy-line]').textContent();await page.getByRole('button',{name:'Encore!'}).click();await expect(page.locator('[data-comedy-line]')).not.toHaveText(initial);await expect(page.locator('[data-comedy-take]')).toHaveText('02');
+  await page.getByRole('button',{name:'Copy punchline',exact:true}).click();await expect(page.locator('[data-comedy-status]')).toHaveText('Punchline copied. Pass the laugh along.');expect(await page.evaluate(()=>window.copiedPunchline)).toContain(name);expect(await page.evaluate(()=>window.copiedPunchline)).toContain('Fictional satire');
+  await page.getByRole('button',{name:'Encore!'}).click();await page.getByRole('button',{name:'Encore!'}).click();await expect(page.locator('[data-comedy-line]')).toHaveText(initial);await expect(laugh).toHaveAttribute('aria-pressed','true');await expect(page.locator('#character-total')).toHaveText(count);expect(writes.length).toBe(before);
+  for(const theme of ['light','dark'])for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:900});await page.evaluate(t=>SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+  await page.setViewportSize({width:390,height:900});await page.locator('.file-comedy').scrollIntoViewIfNeeded();await page.screenshot({path:'.publish/persona-'+id+'-comedy.png'});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'.publish/persona-'+id+'-hero.png'});
+ }
+ await page.evaluate(()=>{Object.defineProperty(navigator,'clipboard',{value:undefined,configurable:true});document.execCommand=()=>false;});await page.getByRole('button',{name:'Copy punchline',exact:true}).click();await expect(page.getByRole('textbox',{name:'Copy this fictional punchline'})).toHaveValue(/Rocket Raees/);await page.getByRole('button',{name:'Encore!'}).click();await expect(page.locator('.file-copy-field')).toHaveCount(0);
+ const context=await require('../../../tests/browser-fixture.js').acknowledgedContext(browser,{javaScriptEnabled:false});try{const p=await context.newPage();await p.goto(base+'/satire-arena/characters/roar-nab');await expect(p.locator('[data-comedy-line]')).toBeVisible();await expect(p.locator('[data-comedy-controls]')).toBeHidden();await expect(p.locator('.file-notes article')).toHaveCount(3);}finally{await context.close();}
+ // Remove this test browser's disposable ballots before the shared-fixture count checks.
+ expect(await page.evaluate(async()=>{const r=await fetch('/api/satire-arena/mine',{method:'DELETE',headers:{'X-Arena-Confirm':'DELETE'}});return r.ok;})).toBe(true);
+ expect(errors).toEqual([]);
+});
+
 test('actors and corporates retain separate saved choices, profile votes, image shares and mobile layouts',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(()=>{Object.defineProperty(navigator,'canShare',{value:undefined,configurable:true});window.portraitDraws=[];const draw=CanvasRenderingContext2D.prototype.drawImage;CanvasRenderingContext2D.prototype.drawImage=function(...args){if(args[0]?.src?.includes('/satire-arena/'))window.portraitDraws.push({src:args[0].src,crop:args.slice(1,5)});return draw.apply(this,args);};});

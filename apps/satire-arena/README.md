@@ -1,10 +1,19 @@
 # Satire Arena
 
+Fictional cast refinement (2026-10-23): eighteen anchors, actors and corporate
+characters now have original names such as Decibel Dada, Slowmo Sultan and
+Rocket Raees. `frontend/personas.mjs` owns their copy; `spotlight.mjs` selects
+actors/corporates. Their existing IDs, links, artwork and ballots remain valid.
+All 31 detail pages add a comic exchange, backstage dossier and themed Encore
+panel with copy support. The eighteen revised characters each have three
+signature lines and three distinct encores. Initial jokes work without JS;
+cycling/copying never submits a reaction. No database migration is required.
+
 Actors and Corporates expansion (2026-10-23, deployed and live verified): `/satire-arena/actors` and
 `/satire-arena/corporates` each add six recognisable fictional spoofs, with
 the same annual reactions, separate standings, profile voting and sharing.
 The chooser now has four native destinations. New content belongs to
-`frontend/spotlight.mjs`; `portraitArt` shares crop definitions across exports.
+`frontend/personas.mjs`; `portraitArt` shares crop definitions across exports.
 The two new sheets are 3×2 WebP grids. All non-political voting entry pages are
 generated from the same template, with their own metadata and portrait preload.
 
@@ -29,8 +38,8 @@ the shared frontend build also refreshes the generated anchor entry.
 News Anchors (2026-10-23, deployed and live verified): `/satire-arena/news-anchors`
 contains six recognisable fictional television-anchor spoofs with the existing
 six reactions, annual browser ballots, shared counts, profile voting, fictional
-biographies, original punchlines and link/image sharing. Politics remains at
-`/satire-arena` and `/satire-arena/politicians`. The arena selector and shared app
+biographies, original punchlines and link/image sharing. Politics lives at
+`/satire-arena/politicians`; `/satire-arena` is the chooser. The arena selector and shared app
 discovery cover politics, television, cinema and business. Scores, leaders, spotlight, daily activity
 summaries and exported standings are filtered to the current lineup; browser
 privacy export/removal deliberately covers all arenas.

@@ -1,5 +1,11 @@
 # Sushant Synapse Platform
 
+Satire Arena's anchors, actors and corporates use eighteen original fictional
+names, including Decibel Dada, Baahon Badshah and Rocket Raees. Detail pages add
+comic exchanges, backstage notes and copyable Encore punchlines. Existing
+character links, portraits and saved votes are preserved. See the functionality
+ledger for verification and release status.
+
 Actors and Corporates are deployed, live-verified Satire Arena lineups, each
 with six fictional spoofs and the same voting/profile/share features. The main
 chooser retains lightweight entry and links to all four arenas. See the

@@ -1,7 +1,15 @@
 # Code ownership and adding apps
 
+Fictional cast refinement (2026-10-23): app-owned `frontend/personas.mjs` owns
+the eighteen anchor/actor/corporate display names, biographies, signature lines,
+encores and backstage sketches. Stable IDs retain published links and ballots.
+`spotlight.mjs` filters this single source for actors/corporates; the catalogue
+adds anchors directly. `character-page.mjs` renders the dossier and initial joke
+without JavaScript; `character.js` cycles/copies jokes without ballot writes.
+App-owned character CSS handles responsive scenes, cards and theme tokens.
+
 Actors/Corporates expansion (2026-10-23, live): app-owned `frontend/spotlight.mjs`
-defines twelve fictional personas and their detail content. Shared `catalogue.mjs`
+selects twelve fictional personas and their detail content. Shared `catalogue.mjs`
 owns four-arena membership and `portraitArt` crops/sources used by both image
 export paths and page metadata. `build-entry.cjs` generates News Anchors, Actors
 and Corporates pages from the voting template, each with its own title/canonical

@@ -1,5 +1,28 @@
 # Chambers functionality ledger
 
+**Satire fictional cast and comic dossiers (2026-10-23, verified; release pending):**
+All eighteen anchor/actor/corporate characters have original fictional display
+names instead of actual first names: Decibel Dada, Sannata Sahay, Ticker Tiwari,
+Panel Poonam, Adalat Uncle, Deadline Disha; Baahon Badshah, Slowmo Sultan,
+Retake Ratan, Alarm Arjun, Spotlight Sitara, Closeup Chutki; Launch Lalaji,
+Blueprint Babu, Rocket Raees, Slide Shastri, Synergy Seth and Agenda Aunty.
+Each has a fuller fictional sketch, three signature lines, three distinct
+encores and a two-line comic scene (108 one-liners across the revised cast).
+All 31 details gain genre chips, themed Encore cards, comic dialogue and three
+backstage notes; political pages reuse their existing persona copy as fallback.
+Encore/copy is browser-only, accessible and progressively enhanced; the initial
+joke and dossier render without JS. Clipboard failure offers selectable text.
+Voting stays immediately below the portrait. Stable IDs, URLs, portraits and
+ballots remain intact; no schema, identity, migration or persistence change.
+Validation: all 377 API tests and all 31 Satire browser tests pass, including
+all 31 profile layouts in light/dark at 320/390/768/1440px, saved ballot
+replacement/failure recovery, image/link sharing, Encore cycling/copy/fallback,
+no-JS content and no extra voting writes from the comedy controls. Shared UI
+build, production-config Worker dry-run and diff whitespace checks pass.
+Disposable test ballots are removed before shared-fixture tally assertions.
+The initial concurrent browser run hit a screenshot/font timeout; the separate
+complete rerun passes. Production release/live verification follows.
+
 **Actors and Corporates arenas (2026-10-23, deployed and live verified):**
 Implementation commit `9cb0100` is live as Worker
 `f67180ee-08b1-40b1-bc2f-53594fbbf568`. Only additive production D1 migration

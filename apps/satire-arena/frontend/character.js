@@ -4,6 +4,25 @@ import {playReaction,prepareReaction} from './feedback.mjs?v=20261018-fast';
 
 const root=document.querySelector('.character-file');
 if(root){
+ const comedy=root.querySelector('[data-comedy-lines]');
+ if(comedy){
+  let lines=[];try{lines=JSON.parse(comedy.dataset.comedyLines);}catch{}
+  if(Array.isArray(lines)&&lines.length&&lines.every(line=>typeof line==='string')){
+   const line=comedy.querySelector('[data-comedy-line]'),take=comedy.querySelector('[data-comedy-take]'),message=comedy.querySelector('[data-comedy-status]'),copy=comedy.querySelector('[data-comedy-copy]');let index=0,copying=false;
+   comedy.querySelector('[data-comedy-controls]').hidden=false;
+   comedy.querySelector('[data-comedy-next]').onclick=()=>{index=(index+1)%lines.length;line.textContent=lines[index];take.textContent=String(index+1).padStart(2,'0');message.textContent='';comedy.querySelector('.file-copy-field')?.remove();};
+   copy.onclick=async()=>{
+    if(copying)return;copying=true;copy.disabled=true;
+    const selected=index,text=lines[index]+' — '+comedy.dataset.comedyName+' · Fictional satire · Sushant Synapse';let copied=false;
+    try{if(!navigator.clipboard?.writeText)throw Error();await navigator.clipboard.writeText(text);copied=true;}catch{
+     const field=document.createElement('textarea');field.value=text;field.readOnly=true;field.className='file-copy-field';field.setAttribute('aria-label','Copy this fictional punchline');comedy.append(field);field.select();
+     try{copied=document.execCommand('copy');}catch{}
+     if(copied)field.remove();
+    }finally{copying=false;copy.disabled=false;}
+    if(selected===index)message.textContent=copied?'Punchline copied. Pass the laugh along.':'Select and copy the punchline below.';
+   };
+  }
+ }
  const api='/api/satire-arena',buttons=[...root.querySelectorAll('[data-reaction]')],status=root.querySelector('#character-vote-status'),total=root.querySelector('#character-total'),sound=root.querySelector('#character-sound'),refresh=root.querySelector('#character-refresh');
  let snapshot=null,busy=false,loading=null,revision=0,offline=true;
  async function request(path='',options={}){const response=await fetch(api+path,{credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(12000),...options});const data=response.status===204?null:await response.json().catch(()=>null);if(!response.ok){const error=Error(data?.error||'Scores could not load. Please try again.');error.status=response.status;throw error;}return data;}

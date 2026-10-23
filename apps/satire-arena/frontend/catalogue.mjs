@@ -1,4 +1,5 @@
 import {spotlightCast} from './spotlight.mjs';
+import {parodyCast} from './personas.mjs';
 export const cast=[
  {id:'namo-nimbus',name:'Namo Nimbus',tag:'THE GRAND SHOWMAN',copy:'Every entrance deserves a drumroll.',portrait:0},
  {id:'rally-rohan',name:'Rally Rohan',tag:'THE ETERNAL CAMPAIGNER',copy:'One more rally. One more comeback.',portrait:1},
@@ -16,14 +17,7 @@ export const cast=[
 ];
 export const arenas=[{id:"politicians",name:"Politicians",description:"Rallies, promises and grand entrances."},{id:"news-anchors",name:"News Anchors",description:"Prime-time personalities, breaking banners and panel-show chaos."},{id:"actors",name:"Actors",description:"Red carpets, dramatic entrances and blockbuster egos."},{id:"corporates",name:"Corporates",description:"Boardrooms, keynote stages and grand launch plans."}];
 for(const c of cast)c.arena="politicians";
-cast.push(
- {"id": "roar-nab", "name": "Roar-nab", "tag": "THE PRIME-TIME THUNDER", "copy": "The nation wants a quieter microphone.", "portrait": 13, "arena": "news-anchors"},
- {"id": "ravish-reflection", "name": "Ravish Reflection", "tag": "THE PATIENT QUESTIONER", "copy": "One small question. A very long silence.", "portrait": 14, "arena": "news-anchors"},
- {"id": "sudhir-studio", "name": "Sudhir Studio", "tag": "THE BREAKING-NEWS BOSS", "copy": "Breaking: the breaking banner has broken.", "portrait": 15, "arena": "news-anchors"},
- {"id": "anjana-awaaz", "name": "Anjana Awaaz", "tag": "THE PANEL RINGMASTER", "copy": "Six guests. One question. Zero spare microphones.", "portrait": 16, "arena": "news-anchors"},
- {"id": "rajat-ruling", "name": "Rajat Ruling", "tag": "THE STUDIO COURTROOM CHIEF", "copy": "The witness is the commercial break.", "portrait": 17, "arena": "news-anchors"},
- {"id": "rubika-rapid", "name": "Rubika Rapid", "tag": "THE DEBATE REFEREE", "copy": "The closing remarks need another episode.", "portrait": 18, "arena": "news-anchors"}
-);
+cast.push(...parodyCast.filter(c=>c.arena==='news-anchors'));
 cast.push(...spotlightCast);
 export function portraitArt(c){
  const grids={'news-anchors':['anchors-fast.webp',13],actors:['actors-fast.webp',19],corporates:['corporates-fast.webp',25]},grid=grids[c.arena];
