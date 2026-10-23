@@ -1,5 +1,14 @@
 # Chambers functionality ledger
 
+**Support Us refresh (2026-10-23, locally verified):**
+`/support` leads with a clearer, optional one-time support message and direct
+links to the contribution and alternate support options. Contribution cards now
+show their existing descriptions; sharing and sponsorship have distinct,
+scannable paths. Payment processing, amounts, owner settings and persistence are
+unchanged. The focused support API/unit checks (2/2) and browser workflows (2/2,
+including responsive themes, no-JS discovery and owner/payment flows) pass.
+Local only; no payment settings changed and no deployment performed.
+
 **Recorded applause correction (2026-10-23, deployed and live verified):**
 Implementation `9063d4a` is live as Worker
 `f431806b-c6e7-4298-99e6-82deab54ec94` with variables retained and no migration.
