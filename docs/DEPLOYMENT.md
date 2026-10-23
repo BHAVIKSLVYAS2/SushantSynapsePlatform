@@ -1,5 +1,14 @@
 # Deploy Sushant Synapse Platform
 
+**Ritual Assist Up Next correction (2026-10-23):** Commit `6a95dc6` is live on
+production Worker `e5fc749e-75ad-4929-b6ea-556bd7a64053`. The Up Next list hides
+past dates; Month view retains the full month and visually de-emphasizes past
+days. Production-config dry-run and live 390px Chrome verification pass (four
+upcoming, nine total month events, no overflow or page errors). Existing
+production variables and D1 bindings were retained; no business data changed.
+The focused regression passes; the Ritual Assist suite is 15/16 because of an
+unrelated existing gallery title assertion timeout. See the functionality ledger.
+
 Organisation/licensing source is committed and live-verified (2026-10-17):
 implementation `dcb843b`, Worker `71146d50-e086-48d3-b29d-87c72bf193f6`. All 339
 full checks pass; live Super Admin sign-in, account navigation, audit, tenant

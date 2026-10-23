@@ -1,5 +1,21 @@
 # Chambers functionality ledger
 
+**Ritual Assist Up Next calendar correction (2026-10-23, deployed and live verified):**
+The Vrats & dates **Up Next** list now excludes dates earlier than the current
+India/IST date. Month view retains all selected events and their details,
+including past dates; past day cells and event links are visually de-emphasized.
+When a selected month has only past dates, Up Next explains there are no upcoming
+dates without implying the month is empty. English and Hindi labels/messages are
+provided. Focused regression verifies future-only list entries, past-event
+details in month view and the empty-upcoming state. Production-config dry-run
+passes. Ritual Assist browser suite passes 15/16 workflows; the remaining failure
+is an unrelated gallery test whose Ganesh guide title assertion times out.
+Production Chrome verification at 390px confirms four upcoming events, all nine
+month events (five past), no overflow and zero page errors. Commit `6a95dc6`,
+Worker `e5fc749e-75ad-4929-b6ea-556bd7a64053`; production variables and D1
+bindings retained. No schema or business-data changes; only public calculation
+requests were made during live verification.
+
 **Featured-first ordering and highlighted badges (2026-10-23, deployed and live verified):**
 Explore now starts with Ritual Assist, Moment Studio, Take a Break and Satire
 Arena in that exact order, followed by the other apps in their existing order.
