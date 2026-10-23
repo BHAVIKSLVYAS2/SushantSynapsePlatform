@@ -1,12 +1,16 @@
 # Chambers functionality ledger
 
-**Ritual Assist checklist column headings (2026-10-23, local):** Added bilingual
+**Ritual Assist checklist column headings (2026-10-23, deployed):** Added bilingual
 Item / Mark when ready and Pandit Ji / Will arrange headings aligned with the
 list controls, replacing the directional help text. Item names retain flexible
 space; responsibility has a compact fixed-width column. Existing checklist
 storage and checkbox behavior are unchanged. The focused compact-checklist
 Chrome workflow passes, including editing, assignment, persistence, exports and
-responsive bilingual themes; whitespace checks pass. No deployment or data changes.
+responsive bilingual themes; whitespace checks and frontend build pass. Commit
+`50bc0d6` is live as Worker `a0175e8c-60af-46a7-8086-2507893849ab`.
+Read-only live Chrome checks pass at 320/390/768/1440px: headings are visible,
+responsibility labels align with checkboxes and there is no horizontal overflow.
+Existing production variables and bindings are preserved; no data changes.
 
 **Mobile app usability pass (2026-10-23, implemented and deployed):** Improved
 phone-sized text and touch targets in Ritual Assist, Fund Lens and Timetable
