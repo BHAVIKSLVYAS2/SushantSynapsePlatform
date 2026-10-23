@@ -1,5 +1,20 @@
 # Chambers functionality ledger
 
+**Satire detail/card layout parity (2026-10-24):**
+Voting feeds and server-rendered character details share `cardFace` markup in
+`frontend/cards.mjs`, including name, tag, daily joke, portrait and parody stamp.
+Detail pages use the same two-column stage, square artwork, fade, colour accent
+and unified card border with voting immediately below. Removed the separate tall
+poster, stretched mobile artwork and unused poster decoration/CTA styles.
+Biographies, original headline, comedy, related cast and sharing remain below.
+No new asset or module request, migration or ballot change. Initial focused
+reaction/persistence browser checks pass (2); character/API checks pass (6).
+All 31 characters pass four viewport sizes in both themes (248 layouts),
+including five portrait states per layout, name fitting and 44px reaction targets.
+Final shared-header, lean-feed/daily-results and share-download checks pass (3),
+including square portraits across four arena types. Production dry-run succeeds.
+Production deployment and read-only verification follow this implementation.
+
 **Adalat Uncle artwork correction (2026-10-24):** Replaced the inaccurate
 moustached portrait with a clean-shaven Rajat Sharma-inspired caricature in
 formal suit, and matched all four reaction expressions to the corrected face.

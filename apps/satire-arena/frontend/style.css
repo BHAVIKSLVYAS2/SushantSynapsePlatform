@@ -109,7 +109,7 @@
 .card-body {
   padding: 20px;
 }
-.card-body h2 {
+.card-body :is(h1,h2) {
   margin: 8px 0;
 }
 .card-body p {
@@ -818,7 +818,7 @@
 .arena-card {
   scroll-margin-top: 120px;
 }
-.card-body h2 {
+.card-body :is(h1,h2) {
   font-size: 25px;
 }
 .card-total {
@@ -1510,7 +1510,7 @@ html[data-theme=dark] body[data-ui-app=satire-arena] {
   body[data-ui-app=satire-arena] .card-body > small {
     color: var(--muted);
   }
-  body[data-ui-app=satire-arena] .card-body h2 {
+  body[data-ui-app=satire-arena] .card-body :is(h1,h2) {
     text-wrap: balance;
     overflow-wrap: normal;
   }
@@ -1520,7 +1520,7 @@ html[data-theme=dark] body[data-ui-app=satire-arena] {
   body[data-ui-app=satire-arena] .arena-card:nth-child(3n) h2 {
     color: var(--arena-blue);
   }
-  html[data-theme=light] .character-hero h2 {
+  html[data-theme=light] .character-hero :is(h1,h2) {
     filter: brightness(.55);
   }
   body[data-ui-app=satire-arena] .card-body p {
@@ -1823,7 +1823,7 @@ html[data-theme=dark] body[data-ui-app=satire-arena] {
   body[data-ui-app=satire-arena] .arena-card:nth-child(3n) {
     --character-accent: var(--arena-blue);
   }
-  body[data-ui-app=satire-arena] a.character-hero {
+  body[data-ui-app=satire-arena] .character-hero {
     position: relative;
     grid-template-columns: minmax(0px, 1fr) minmax(0px, 1fr);
     color: var(--text);
@@ -1845,7 +1845,7 @@ html[data-theme=dark] body[data-ui-app=satire-arena] {
   body[data-ui-app=satire-arena] .character-hero .card-body {
     padding: 18px 12px 18px 20px;
   }
-  body[data-ui-app=satire-arena] .card-body h2 {
+  body[data-ui-app=satire-arena] .card-body :is(h1,h2) {
     font-size: clamp(36px, 5.8vw, 66px);
     line-height: .98;
     letter-spacing: -.055em;
@@ -1955,14 +1955,14 @@ html[data-theme=dark] body[data-ui-app=satire-arena] {
     background: var(--arena-red);
     transform: rotate(-3deg);
   }
-  html[data-theme=light] body[data-ui-app=satire-arena] .card-body h2 {
+  html[data-theme=light] body[data-ui-app=satire-arena] .card-body :is(h1,h2) {
     color: color-mix(in srgb, var(--character-accent) 48%, var(--text));
   }
   @media (max-width: 599px) {
     body[data-ui-app=satire-arena] .character-hero .card-body {
       padding: 13px 4px 13px 13px;
     }
-    body[data-ui-app=satire-arena] .card-body h2 {
+    body[data-ui-app=satire-arena] .card-body :is(h1,h2) {
       font-size: clamp(29px, 8.6vw, 42px);
     }
     body[data-ui-app=satire-arena] .card-body > small {

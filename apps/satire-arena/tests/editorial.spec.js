@@ -166,6 +166,20 @@ test('public character shares use its canonical link and download genuine artwor
  await page.goto(base+'/satire-arena/characters/namo-nimbus');await page.getByRole('button',{name:'Share',exact:true}).click();await expect(page.locator('#share-status')).toContainText('handed to your device');expect(await page.evaluate(()=>window.shareCalls[0].url)).toBe(base+'/satire-arena/characters/namo-nimbus');await page.getByRole('button',{name:'Copy link'}).click();await expect(page.locator('#share-status')).toHaveText('Link copied.');expect(await page.evaluate(()=>window.copiedLink)).toBe(base+'/satire-arena/characters/namo-nimbus');await page.getByRole('button',{name:'WhatsApp'}).click();expect(await page.evaluate(()=>window.openedShare)).toContain('https://wa.me/?text=');const download=page.waitForEvent('download');await page.getByRole('button',{name:'Download image'}).click();expect((await download).suggestedFilename()).toBe('satire-arena.png');expect(await page.evaluate(()=>window.artworkDraws)).toBeGreaterThan(0);
 });
 
+test('detail headers retain the arena card face and square portraits',async({page})=>{
+ for(const id of ['namo-nimbus','rajat-ruling','king-khanvas','mukesh-megaplan']){
+  await page.goto(base+'/satire-arena/characters/'+id);
+  for(const width of [320,390,1440]){
+   await page.setViewportSize({width,height:900});
+   const hero=page.locator('.file-card .file-hero.character-hero');await expect(hero.locator('.card-body h1')).toBeVisible();
+   const face=await hero.locator('.portrait').boundingBox();expect(Math.abs(face.width-face.height)).toBeLessThan(1);
+   await expect(hero.locator('.portrait > span')).toHaveText('FICTIONAL PARODY');
+   await expect(page.locator('.file-card > .character-voting')).toHaveCount(1);
+   await expect(page.locator('.file-art,.file-intro,.file-orbit')).toHaveCount(0);
+  }
+ }
+});
+
 test('all cast files fit phones and desktops in both themes',async({page})=>{
  test.setTimeout(480000);
  const {cast}=await import('../frontend/catalogue.mjs'),errors=[];page.on('pageerror',error=>errors.push(error.message));
@@ -179,6 +193,8 @@ test('all cast files fit phones and desktops in both themes',async({page})=>{
    const boxes=await page.locator('.file-voting [data-reaction]').evaluateAll(buttons=>buttons.map(b=>{const r=b.getBoundingClientRect();return {top:Math.round(r.top),width:r.width,height:r.height};}));expect(new Set(boxes.map(r=>r.top)).size).toBe(1);expect(boxes.every(r=>r.width>=44&&r.height>=44),c.id+' tap targets at '+width).toBe(true);
    expect(await page.locator('#character-name').evaluate(el=>el.scrollWidth<=el.clientWidth+1),c.id+' title at '+width).toBe(true);
    const portrait=page.locator('.file-hero .portrait'),hero=page.locator('.file-hero');
+   const face=await portrait.boundingBox();expect(Math.abs(face.width-face.height),c.id+' square card portrait at '+width).toBeLessThan(1);
+   await expect(hero).toHaveClass(/character-hero/);await expect(hero.locator('.card-body')).toHaveCount(1);
    const fiveRows=c.portrait>=9;
    for(const expression of ['', 'happy','startled','annoyed','laughing']){
     await hero.evaluate((el,value)=>{if(value)el.dataset.expression=value;else delete el.dataset.expression;},expression);
