@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Featured app pairs and generic Satire icon (2026-10-23, release pending):**
+**Featured app pairs and generic Satire icon (2026-10-23, deployed and live verified):**
 Featured now contains four apps in explicit order: Ritual Assist, Moment Studio,
 Take a Break and Satire Arena. Two complete cards appear together on phones and
 desktop, with two dot-controlled pages; native swipes snap only at pair boundaries.
@@ -12,6 +12,15 @@ focused final swipe check pass. Light/dark layouts at 320/390/768/1440px verify
 two-card sizing, original Explore columns, compact spacing and no overflow.
 No dependencies, schema, API or business-data changes. Evidence:
 `.publish/featured-pairs-tests.log`, `.publish/featured-snap-test.log`.
+Implementation commit `764776e`; production Worker
+`90061318-037c-4312-8c50-dbeae0cf0567`. Existing production variables and database
+bindings preserved. Final pair-position check passes. Read-only live checks pass
+the four-app order, complete second pair, versioned generic icon, search and eight
+light/dark width combinations, with two Featured cards, 8px section gap, original
+Explore grid and no page errors or overflow. Evidence:
+`.publish/featured-pair-position.log`, `.publish/featured-pairs-live.log`,
+`.publish/featured-pairs-live-page-one.png`, `.publish/featured-pairs-live-page-two.png`,
+`.publish/featured-pairs-deploy.log`. No production business writes.
 
 **Homepage Explore restoration (2026-10-23, deployed and live verified):**
 The latest user correction supersedes the carousel scope below: Explore apps is
