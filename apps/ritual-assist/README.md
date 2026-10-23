@@ -13,6 +13,10 @@ views, category filters and a next-occurrence shortcut. Seven event types are
 available: Ekadashi, Amavasya, sunrise Purnima/Poonam, Purnima fasting, Sankashti
 Chauth, Vinayaka Chaturthi and Pradosh. Purnima fasting can precede the sunrise
 calendar date. Chauth here does not calculate named Karwa/Sakat annual rules.
+The **Up Next** list hides dates earlier than today in IST. Month view retains
+all events, including past dates and their details, with earlier days visually
+de-emphasized. When the selected month has no future dates, the list says so
+without implying the month has no events.
 
 `POST /api/ritual-assist/observances` validates a bounded month, offline PIN,
 Amanta/Purnimanta labels and the explicit Smarta household planning policy. Node
