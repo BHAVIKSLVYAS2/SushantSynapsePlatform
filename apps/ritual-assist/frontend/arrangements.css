@@ -3,6 +3,13 @@ details.item-arrangement{margin:0 0 12px 32px;border:1px solid var(--line);borde
 .export-brand{display:flex;align-items:center;justify-content:center;gap:6px;color:var(--muted);font:11px "Segoe UI",Arial,sans-serif;margin:16px 0;break-inside:avoid}.export-brand img{width:20px;height:20px;object-fit:contain;flex:none}
 
 /* Compact personal checklist: preparation and priest responsibility are independent. */
+.checklist-columns{display:grid;grid-template-columns:minmax(0,1fr) 78px 36px;gap:2px;align-items:end;padding:10px 0 8px;border-bottom:1px solid var(--line)}
+.checklist-columns strong,.checklist-columns small{display:block;overflow-wrap:anywhere}
+.checklist-columns strong{font-size:13px;font-weight:600;color:var(--ink)}
+.checklist-columns small{font-size:11px;line-height:1.4;color:var(--muted);margin-top:2px}
+.checklist-priest-heading{text-align:center}
+.puja-checklist .checklist .compact-item{grid-template-columns:minmax(0,1fr) 78px 36px}
+@media print{.checklist-columns{display:none!important}}
 .puja-checklist,.item-editor{--check-ready:#169c4b;--check-priest:#1870db}
 html[data-theme=dark] .puja-checklist,html[data-theme=dark] .item-editor{--check-ready:#54ce8a;--check-priest:#68aaff}
 .puja-checklist{box-shadow:var(--shadow);padding:18px}
