@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Featured-first ordering and highlighted badges (2026-10-23, release pending):**
+**Featured-first ordering and highlighted badges (2026-10-23, deployed and live verified):**
 Explore now starts with Ritual Assist, Moment Studio, Take a Break and Satire
 Arena in that exact order, followed by the other apps in their existing order.
 The shared registry applies ordering to static and signed-in catalogues. Compact
@@ -10,6 +10,16 @@ contrasting text and an 8px decorative star. No separate Featured section added.
 including account transitions, search, no-JavaScript access and eight light/dark
 width layouts. Local mobile screenshot reviewed. No schema/API/data changes.
 Evidence: `.publish/featured-highlight-tests.log`.
+Responsive app navigation passes; the private-destination test's old switcher
+order expectation was updated for the shared Featured-first order and its rerun
+passes (7 relevant browser workflows total). Commit `b2c4b6a` deployed as Worker
+`09edb152-9277-47a8-b9b1-f9b15afec780`, retaining production variables/D1 bindings.
+Read-only live checks pass top-four ordering, four star badges, search, fourteen
+cards, no-JavaScript discovery and eight width/theme layouts without overflow,
+badge/title overlap or page errors. Live mobile screenshot reviewed. Evidence:
+`.publish/featured-highlight-layout.log`, `.publish/featured-highlight-navigation.log`,
+`.publish/featured-highlight-deploy.log`, `.publish/featured-highlight-live.log`,
+`.publish/featured-highlight-live.png`. No production business writes.
 
 **Explore-first homepage with Featured badges (2026-10-23, deployed and live verified):**
 The latest user request supersedes the Featured carousel below. Removed the
