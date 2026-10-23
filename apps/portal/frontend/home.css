@@ -435,19 +435,6 @@
 @media print{.home-mobile-dock,.home-entry-paths,.home-search,.home-hub-art{display:none!important}}
 
 @media(scripting:none){.home-search,.home-filters,.home-mobile-dock{display:none!important}}
-/* Featured apps swipe; Explore retains its original responsive grid. */
-.public-home .home-featured{margin-bottom:8px}
-.home-carousel-arrows[hidden],.home-carousel-dots[hidden]{display:none!important}
-.public-home .home-feature-grid.home-carousel-track{display:flex!important;grid-template-columns:none!important;overflow-x:auto!important;overflow-y:hidden!important;gap:14px!important;scroll-snap-type:x mandatory;scrollbar-width:none;padding:3px 1px 8px!important;overscroll-behavior-x:contain}
-.public-home .home-feature-grid.home-carousel-track::-webkit-scrollbar{display:none}
-.public-home .home-feature-grid.home-carousel-track .home-feature-card{flex:0 0 calc((100% - 14px)/2);min-width:0;min-height:138px!important;scroll-snap-align:start;padding:16px!important;display:grid!important;grid-template-columns:64px minmax(0,1fr)!important;gap:14px!important;border-radius:18px!important;box-sizing:border-box}
-.public-home .home-feature-grid.home-carousel-track .home-feature-icon{width:64px!important;height:76px!important}.public-home .home-feature-grid.home-carousel-track .home-feature-card h3{font-size:20px!important;margin:0 0 7px!important}.public-home .home-feature-grid.home-carousel-track .home-feature-card p{font-size:13px!important;line-height:1.5!important;margin:0 0 9px!important}.public-home .home-feature-grid.home-carousel-track .home-feature-open{font-size:12px!important}
-.home-carousel-heading{display:flex;justify-content:space-between;gap:12px;align-items:center}.home-carousel-arrows{display:flex;gap:5px}.public-home .home-carousel-arrows button{display:grid;place-items:center;min-width:44px;min-height:44px;padding:0;border-radius:50%;font-size:23px;border:1px solid var(--ss-border);background:var(--ss-surface);color:var(--ss-text)}.home-carousel-arrows button:disabled{opacity:.35}
-.home-carousel-dots{display:flex;align-items:center;justify-content:center;gap:2px;min-height:40px;margin:0}.public-home .home-carousel-dots button{display:grid;place-items:center;border:0!important;min-height:44px;min-width:44px;padding:0;background:transparent!important;box-shadow:none!important}.home-carousel-dots button span{display:block;width:7px;height:7px;border-radius:10px;background:var(--ss-border);transition:width .16s}.home-carousel-dots button[aria-current=true] span{width:23px;background:var(--ss-accent)}
-@media(prefers-reduced-motion:reduce){.home-carousel-dots button span{transition:none}}
-@media(max-width:700px){.public-home .home-feature-grid.home-carousel-track .home-feature-card{flex-basis:87%;min-height:146px!important;grid-template-columns:52px minmax(0,1fr)!important;padding:14px!important;gap:12px!important}.public-home .home-feature-grid.home-carousel-track .home-feature-icon{width:52px!important;height:67px!important}.public-home .home-feature-grid.home-carousel-track .home-feature-card h3{font-size:18px!important}.public-home .home-feature-grid.home-carousel-track .home-feature-card p{font-size:12px!important}.home-carousel-heading h2{font-size:20px!important}}
-@media print{.home-carousel-arrows,.home-carousel-dots{display:none!important}.public-home .home-feature-grid.home-carousel-track{display:grid!important;overflow:visible!important}}
-
 /* Same app cards before and after sign-in. */
 .public-home .catalogue-item{position:relative;min-width:0;display:flex;flex-direction:column}
 .public-home .catalogue-item>.public-app{height:100%;flex:1}
@@ -460,14 +447,7 @@
 .public-home .catalogue-item[hidden]{display:none!important}
 @media(max-width:700px){.public-home .catalogue-account{padding:12px;gap:12px}.public-home .catalogue-account nav{flex-basis:100%}.catalogue-account>.secondary{font-size:12px}.catalogue-account .nav-item{padding:8px;font-size:11px}}
 
-/* Two complete Featured cards per page on phones as well as desktop. */
-.public-home .home-feature-grid.home-carousel-track .home-feature-card:nth-child(even){scroll-snap-align:none}
-@media(max-width:700px){
- .public-home .home-feature-grid.home-carousel-track{gap:10px!important}
- .public-home .home-feature-grid.home-carousel-track .home-feature-card{flex-basis:calc((100% - 10px)/2);display:flex!important;flex-direction:column;align-items:flex-start;padding:12px!important;gap:6px!important;min-height:210px!important}
- .public-home .home-feature-grid.home-carousel-track .home-feature-icon{width:44px!important;height:48px!important}
- .public-home .home-feature-grid.home-carousel-track .home-feature-card>div{display:flex;flex:1;flex-direction:column;min-width:0}
- .public-home .home-feature-grid.home-carousel-track .home-feature-card h3{font-size:15px!important;line-height:1.25!important;margin-bottom:6px!important}
- .public-home .home-feature-grid.home-carousel-track .home-feature-card p{font-size:11px!important;line-height:1.4!important;margin-bottom:8px!important}
- .public-home .home-feature-grid.home-carousel-track .home-feature-open{margin-top:auto;align-self:flex-start;font-size:11px!important;padding:6px 9px;gap:6px;white-space:nowrap}
-}
+/* Compact Featured indication within the existing Explore cards. */
+.public-home .home-feature-badge{position:absolute;top:8px;right:10px;display:inline-flex;align-items:center;padding:2px 6px;border:1px solid var(--ss-border);border-radius:999px;background:var(--ss-bg-secondary);color:var(--ss-primary);font-size:9px;font-weight:700;line-height:1.3;white-space:nowrap}
+body[data-ui-app=portal] .public-home #free-apps .public-app.is-featured{padding-top:30px}
+body[data-ui-app=portal] .public-home #free-apps .public-app.is-featured .public-app-head{top:auto;bottom:8px}

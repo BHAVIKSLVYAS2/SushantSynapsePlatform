@@ -72,7 +72,7 @@ function unifiedHome(){
  function cards(list){return list.map(a=>catalogue.renderCard(a,{signedIn:!!state,access:state?.apps.find(x=>x.id===a.id),favorite:state?.preferences.favorites.includes(a.id)})).join('');}
  home.querySelector('.public-apps').innerHTML=cards(visible.filter(a=>a.public));
  home.querySelector('.workspace-grid').innerHTML=cards(visible.filter(a=>!a.public));
- home.querySelector('.home-featured')?.remove();home.querySelector('#free-apps').dataset.discoveryReady='';home.querySelector('.home-search-empty')?.remove();
+ home.querySelector('#free-apps').dataset.discoveryReady='';home.querySelector('.home-search-empty')?.remove();
  const empty=home.querySelector('#catalogue-empty')||document.createElement('p');empty.id='catalogue-empty';empty.setAttribute('role','status');empty.textContent=state&&section==='favorites'?'No favourites yet. Use the star on an available app to save it here.':'No recent apps yet. Open an app to see it here.';empty.hidden=visible.length>0;if(!empty.isConnected)home.querySelector('.workspace-grid').after(empty);
  window.dispatchEvent(new CustomEvent('synapse-catalogue-change'));refreshSatireDiscovery();
 }

@@ -1,5 +1,18 @@
 # Chambers functionality ledger
 
+**Explore-first homepage with Featured badges (2026-10-23, release pending):**
+The latest user request supersedes the Featured carousel below. Removed the
+separate Featured section from static and hydrated home, its controls, listeners
+and carousel CSS. Explore follows the single search/category controls directly.
+Ritual Assist, Moment Studio, Take a Break and Satire Arena have compact top-right
+Featured badges within the original Explore grid. The generic Satire mask remains.
+Shared rendering preserves badges for signed-in accounts and no-JavaScript guests;
+card titles and favourite controls remain clear. 10/10 catalogue/CSS/cache checks
+and all five catalogue browser workflows pass. Eight light/dark width layouts
+verify badge placement, no section gap or horizontal overflow and original grid
+columns. Local phone screenshot reviewed. No schema, API or business-data changes.
+Evidence: `.publish/explore-badges-tests.log`, `.publish/explore-badges-local.png`.
+
 **Featured app pairs and generic Satire icon (2026-10-23, deployed and live verified):**
 Featured now contains four apps in explicit order: Ritual Assist, Moment Studio,
 Take a Break and Satire Arena. Two complete cards appear together on phones and
