@@ -1,13 +1,19 @@
 # Chambers functionality ledger
 
-**Support Us refresh (2026-10-23, locally verified):**
+**Support Us refresh (2026-10-23, deployed and live verified):**
+Implementation `8804839` is live on production Worker
+`8ee42fb4-9ed0-447c-bf94-9680f77a6de9`. The production-config dry run retained
+the existing D1, rate-limit and environment bindings. Live browser verification
+confirms the updated page title, four contribution choices, two alternate
+support options, and no horizontal overflow at 320/390/768/1440px. The live
+support API reports contributions unavailable; no payment details were changed
+and no payment or business write was submitted. Focused API/unit checks pass
+(2/2); browser workflows pass (2/2).
 `/support` leads with a clearer, optional one-time support message and direct
 links to the contribution and alternate support options. Contribution cards now
 show their existing descriptions; sharing and sponsorship have distinct,
 scannable paths. Payment processing, amounts, owner settings and persistence are
-unchanged. The focused support API/unit checks (2/2) and browser workflows (2/2,
-including responsive themes, no-JS discovery and owner/payment flows) pass.
-Local only; no payment settings changed and no deployment performed.
+unchanged.
 
 **Recorded applause correction (2026-10-23, deployed and live verified):**
 Implementation `9063d4a` is live as Worker
