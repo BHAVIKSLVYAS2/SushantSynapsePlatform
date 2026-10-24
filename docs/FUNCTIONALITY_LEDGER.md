@@ -1,5 +1,19 @@
 # Chambers functionality ledger
 
+**Arena reaction sounds and tomato burst (2026-10-24):** Garland plays a short
+Wow voice clip, shoe plays Ye le, tomato plays Dishoom, and ink uses a wet
+filtered-noise/water-drop splash. Three original local synthesized WAV clips
+total 56,356 bytes and load only on the chosen sound-enabled reaction; fetch and
+decode work is shared and pending playback cancels on mute/new taps/page hiding.
+Existing applause/laughter and audio failure fallbacks remain. Tomato now throws
+and bursts into red pulp/drops/seeds on the portrait using the existing ink
+impact choreography; reduced motion shows a still splash and failed saves add
+no visual effect. Shared controller/effects supply all four arenas and details.
+Removed the superseded tomato emoji-impact CSS/keyframes. Seven sound/effect
+browser workflows, two detail/entry workflows and sixteen Cloudflare/delivery
+contracts pass on isolated fixtures. Local actor-card splash screenshot visually
+reviewed. Audio provenance is in `apps/satire-arena/AUDIO.md`. Deployment pending.
+
 **Arena cartoon artwork (2026-10-24):** Applied the approved news-anchor style
 to all eighteen anchors, actors and corporates. Replaced the three portrait and
 three reaction sheets with recognisable caricatures: larger heads, bold outlines

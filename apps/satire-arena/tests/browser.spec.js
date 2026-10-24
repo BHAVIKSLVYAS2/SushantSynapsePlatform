@@ -7,13 +7,13 @@ test('distinct reaction sounds start before save responses and mute stops feedba
  const card=page.locator('.arena-card').first();let release;const gate=new Promise(resolve=>release=resolve);
  await page.route('**/api/satire-arena/*/vote',async route=>{await gate;await route.continue();});
  await card.locator('[data-reaction=garland]').click();
- try{await expect.poll(()=>page.evaluate(()=>window.tones||0)).toBe(3);await expect(card).toHaveAttribute('aria-busy','true');}finally{release();}
+ try{await expect.poll(()=>page.evaluate(()=>window.noises||0)).toBe(1);await expect(card).toHaveAttribute('aria-busy','true');}finally{release();}
  await expect(card).toHaveAttribute('aria-busy','false');await page.unroute('**/api/satire-arena/*/vote');
- for(const [reaction,tones,noises]of [['applause',0,1],['shoe',1,2],['finger',3,2],['tomato',1,1],['laugh',5,0]]){
-  const before=await page.evaluate(()=>({tones:window.tones||0,noises:window.noises||0}));await card.locator('[data-reaction='+reaction+']').click();await expect(card).toHaveAttribute('aria-busy','false');expect(await page.evaluate(()=>({tones:window.tones||0,noises:window.noises||0}))).toEqual({tones:before.tones+tones,noises:before.noises+noises});
+ for(const [reaction,tones,noises]of [['applause',0,1],['shoe',0,1],['finger',3,2],['tomato',0,1],['laugh',5,0]]){
+  const before=await page.evaluate(()=>({tones:window.tones||0,noises:window.noises||0}));await card.locator('[data-reaction='+reaction+']').click();await expect(card).toHaveAttribute('aria-busy','false');await expect.poll(()=>page.evaluate(()=>({tones:window.tones||0,noises:window.noises||0}))).toEqual({tones:before.tones+tones,noises:before.noises+noises});
  }
  await page.locator('.arena-settings summary').click();await page.locator('#reaction-sound').uncheck();const muted=await page.evaluate(()=>({tones:window.tones,noises:window.noises}));await card.locator('[data-reaction=shoe]').click();await expect(card).toHaveAttribute('aria-busy','false');expect(await page.evaluate(()=>({tones:window.tones,noises:window.noises}))).toEqual(muted);
- await page.locator('#reaction-sound').check();await page.route('**/api/satire-arena/*/vote',r=>r.fulfill({status:503,json:{error:'Sound test unavailable'}}));await card.locator('[data-reaction=tomato]').click();await expect(page.locator('#notice')).toContainText('Sound test unavailable');await expect(card.locator('[data-reaction=shoe]')).toHaveAttribute('aria-pressed','true');expect(await page.evaluate(()=>window.tones)).toBe(muted.tones+1);
+ await page.locator('#reaction-sound').check();await page.route('**/api/satire-arena/*/vote',r=>r.fulfill({status:503,json:{error:'Sound test unavailable'}}));await card.locator('[data-reaction=tomato]').click();await expect(page.locator('#notice')).toContainText('Sound test unavailable');await expect(card.locator('[data-reaction=shoe]')).toHaveAttribute('aria-pressed','true');await expect.poll(()=>page.evaluate(()=>window.noises)).toBe(muted.noises+1);
  await page.evaluate(()=>fetch('/api/satire-arena/mine',{method:'DELETE',headers:{'X-Arena-Confirm':'DELETE'}}));
 });
 test('effects have audible output, distinct envelopes and bounded peaks',async({page})=>{
@@ -22,7 +22,7 @@ test('effects have audible output, distinct envelopes and bounded peaks',async({
   const Original=window.AudioContext,results=[];
   try{for(const reaction of ['garland','applause','shoe','finger','tomato','laugh']){
    let context;window.AudioContext=class{constructor(){context=new OfflineAudioContext(1,48000,48000);context.resume=()=>Promise.resolve();return context;}};
-   const sound=await import('/satire-arena/sound.mjs?render='+reaction);sound.prepareSound();await sound.playSound(reaction);const buffer=await context.startRendering(),samples=buffer.getChannelData(0),energy=[];let peak=0,total=0;
+   const sound=await import('/satire-arena/sound.mjs?render='+reaction);sound.prepareSound(reaction);await sound.playSound(reaction);const buffer=await context.startRendering(),samples=buffer.getChannelData(0),energy=[];let peak=0,total=0;
    for(let block=0;block<20;block++){let sum=0;for(let i=block*2400;i<(block+1)*2400;i++){const value=samples[i];sum+=value*value;peak=Math.max(peak,Math.abs(value));}energy.push(Math.sqrt(sum/2400));total+=sum;}
    results.push({reaction,peak,rms:Math.sqrt(total/samples.length),energy});
   }}finally{window.AudioContext=Original;}return results;
@@ -40,6 +40,32 @@ test('recorded applause cancels while loading, stops on mute and falls back if t
  await page.route('**/satire-arena/applause.mp3',route=>route.fulfill({status:503,body:'Unavailable'}));
  await page.evaluate(async()=>{window.audioSources=[];const sound=await import('/satire-arena/sound.mjs?fallback-test');sound.prepareSound();await sound.playSound('applause');sound.stopSound();});
  expect(await page.evaluate(()=>audioSources.length)).toBe(10);expect(await page.evaluate(()=>audioSources.every(s=>s.stopped))).toBe(true);
+});
+
+test('voice clips load only for the chosen reaction and cancel before delayed playback',async({page})=>{
+ await page.addInitScript(()=>{const Original=window.AudioContext;window.voiceSources=[];window.AudioContext=class extends Original{createBufferSource(){const source=super.createBufferSource(),item={stopped:false};window.voiceSources.push(item);const stop=source.stop.bind(source);source.stop=(...args)=>{item.stopped||=args.length===0;return stop(...args);};return source;}};});
+ const requests=[];page.on('request',r=>{if(/\.(wav|mp3)(?:\?|$)/.test(r.url()))requests.push(new URL(r.url()).pathname);});
+ await page.goto(base+'/satire-arena/politicians');expect(requests).toEqual([]);
+ for(const [reaction,file]of [['garland','wow'],['shoe','ye-le'],['tomato','dishoom']]){
+  let release;const gate=new Promise(resolve=>release=resolve);await page.route('**/satire-arena/'+file+'.wav',async route=>{await gate;await route.continue();});
+  await page.evaluate(async reaction=>{const sound=await import('/satire-arena/sound.mjs?voice-cancel='+reaction);sound.prepareSound(reaction);window.voicePending=sound.playSound(reaction);sound.stopSound();window.voiceSound=sound;},reaction);
+  release();await page.evaluate(()=>window.voicePending);expect(await page.evaluate(()=>voiceSources.length)).toBe(0);
+  await page.evaluate(reaction=>voiceSound.playSound(reaction),reaction);expect(await page.evaluate(()=>voiceSources.length)).toBe(1);await page.evaluate(()=>voiceSound.stopSound());expect(await page.evaluate(()=>voiceSources.every(s=>s.stopped))).toBe(true);await page.evaluate(()=>voiceSources=[]);
+ }
+ expect(requests).toEqual(['/satire-arena/wow.wav','/satire-arena/ye-le.wav','/satire-arena/dishoom.wav']);
+});
+
+test('tomatoes burst on the face only after saved votes and remain still with reduced motion',async({page})=>{
+ test.setTimeout(120000);
+ for(const route of ['/satire-arena/politicians','/satire-arena/news-anchors','/satire-arena/actors','/satire-arena/corporates']){
+  await page.goto(base+route);const card=page.locator('.arena-card,.character-hero').first(),button=card.locator('[data-reaction=tomato]');await expect(button).toBeEnabled();
+  let release;const gate=new Promise(resolve=>release=resolve);await page.route('**/api/satire-arena/*/vote',async r=>{await gate;await r.continue();});
+  try{await button.click();await expect(card.locator('.tomato-splash')).toHaveCount(0);}finally{release();}
+  await expect(card.locator('.tomato-splash')).toBeAttached();await page.unroute('**/api/satire-arena/*/vote');await page.waitForTimeout(700);
+  await expect(card.locator('.tomato-seeds ellipse')).toHaveCount(4);const portrait=await card.locator('.portrait').boundingBox(),splash=await card.locator('.tomato-splash').boundingBox();expect(Math.abs((splash.x+splash.width/2-portrait.x)/portrait.width-.5)).toBeLessThan(.05);expect(Math.abs((splash.y+splash.height/2-portrait.y)/portrait.height-.35)).toBeLessThan(.05);
+  await expect(card.locator('.tomato-splash')).toHaveCount(0);await page.emulateMedia({reducedMotion:'reduce'});await button.click();await expect(card.locator('.reaction-still .tomato-splash')).toBeVisible();expect(await card.locator('.tomato-splash').evaluate(el=>getComputedStyle(el).animationName)).toBe('none');await expect(card.locator('.tomato-projectile')).toBeHidden();await expect(card.locator('.tomato-splash')).toHaveCount(0);
+  await page.route('**/api/satire-arena/*/vote',r=>r.fulfill({status:503,json:{error:'Vote unavailable'}}));await button.click();await expect(card.locator('.tomato-splash')).toHaveCount(0);await page.unroute('**/api/satire-arena/*/vote');await page.emulateMedia({reducedMotion:'no-preference'});
+ }
 });
 
 test('saved theme resolves before body and delayed enhancement never paints the old layout',async({page})=>{

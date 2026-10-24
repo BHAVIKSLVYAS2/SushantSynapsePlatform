@@ -27,7 +27,10 @@ replacement/rollback/reconciliation, polling, removal and sound/feedback hooks
 for both feeds and details. Views retain their own presentation/messages.
 `enhancements.js` handles lazy art, delegated sharing, once-per-day editorial
 content and cancellable daily results refresh after successful score syncs.
-Applause bytes load on a sound-enabled interaction rather than module import.
+Reaction clips (Wow, applause, Ye le, Dishoom) load only for the selected
+sound-enabled interaction rather than module import. `sound.mjs` owns clip
+fetch/decode deduplication, playback cancellation and synthesized fallbacks;
+`feedback.mjs` shares ink/tomato face-impact choreography across feeds/details.
 The stylesheet retains active responsive/print/reduced-motion rules after
 removing legacy expand/burst/temporary-layout selectors and overridden declarations.
 

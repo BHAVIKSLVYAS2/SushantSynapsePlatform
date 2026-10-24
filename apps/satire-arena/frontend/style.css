@@ -302,11 +302,6 @@
 [data-expression] .reaction-particle {
   font-size: 22px;
 }
-[data-expression][data-effect=tomato] .reaction-particle {
-  left: 76%;
-  top: 72%;
-  font-size: 50px;
-}
 .feedback-options {
   display: flex;
   align-items: center;
@@ -391,15 +386,6 @@
 [data-effect=shoe] .reaction-hero {
   animation: 1.25s ease 0s 1 normal both running shoe-tumble;
 }
-[data-effect=tomato] .reaction-hero {
-  animation: 1.25s ease 0s 1 normal both running tomato-impact;
-}
-[data-effect=tomato] .reaction-particle {
-  left: 42%;
-  top: 40%;
-  font-size: 100px;
-  animation: 1.25s ease 0s 1 normal both running impact-splat;
-}
 [data-effect=laugh] .reaction-hero {
   animation: 1.25s ease 0s 1 normal both running laugh-wobble;
 }
@@ -465,38 +451,6 @@
   to {
     opacity: 0;
     transform: translate(80px, 85px) rotate(80deg) scale(.7);
-  }
-}
-@keyframes tomato-impact {
-  0% {
-    opacity: 0;
-    transform: translateY(-60px) scale(.25);
-  }
-  35%, 55% {
-    opacity: 1;
-    transform: scale(1.35);
-  }
-  70% {
-    opacity: .8;
-    transform: scale(.95, 1.1);
-  }
-  to {
-    opacity: 0;
-    transform: scale(.8);
-  }
-}
-@keyframes impact-splat {
-  0%, 30% {
-    opacity: 0;
-    transform: scale(.1);
-  }
-  45% {
-    opacity: 1;
-    transform: scale(1.5);
-  }
-  to {
-    opacity: 0;
-    transform: scale(1.8);
   }
 }
 @keyframes laugh-wobble {
@@ -567,8 +521,12 @@
 :root {
   --arena-ink: #2439ad;
   --arena-ink-shine: #7c96ff;
+  --arena-tomato-pulp: #e7352b;
+  --arena-tomato-shine: #ff9180;
+  --arena-tomato-seed: #ffe7a3;
 }
-.ink-effect .ink-projectile {
+.ink-effect .ink-projectile,
+[data-effect=tomato] .tomato-projectile {
   position: absolute;
   left: 50%;
   top: 35%;
@@ -576,7 +534,8 @@
   padding: 0;
   animation: 1.6s ease 0s 1 normal both running ink-throw;
 }
-.ink-splash {
+.ink-splash,
+.tomato-splash {
   position: absolute;
   left: 50%;
   top: 35%;
@@ -597,6 +556,10 @@
   stroke-linecap: round;
   opacity: .65;
 }
+.tomato-pulp,
+.tomato-drops { fill: var(--arena-tomato-pulp); }
+.tomato-seeds { fill: var(--arena-tomato-seed); }
+.tomato-shine { fill: none; stroke: var(--arena-tomato-shine); stroke-width: 7; stroke-linecap: round; }
 @keyframes ink-throw {
   0% {
     opacity: 0;
@@ -633,10 +596,12 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ink-effect .ink-projectile {
+  .ink-effect .ink-projectile,
+  [data-effect=tomato] .tomato-projectile {
     display: none;
   }
-  .ink-splash {
+  .ink-splash,
+  .tomato-splash {
     opacity: 1;
     transform: translate(-50%, -50%);
     animation: auto ease 0s 1 normal none running none !important;
