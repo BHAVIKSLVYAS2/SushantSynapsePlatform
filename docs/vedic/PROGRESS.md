@@ -5,6 +5,26 @@ Started: 2026-10-24 (Asia/Kolkata).
 ## Resume here
 
 Active request (2026-10-25): enable the app in production for verification.
+COMPLETED: https://apps.sushantsynapse.com/rashifal-kundli is live, with its home
+card and Kundli/Rashifal/Time Machine/Matching screens. Implementation 46c81a6,
+hosting-injection correction 420572b; final Worker
+0ad599ab-aaa6-4ff4-8a71-a5c15bfa8e70. Existing variables/D1 bindings preserved.
+Live four-page Chrome run passes 4/4, including synthetic birth calculation,
+sensitivity worker, mobile/theme layouts and no third-party requests. Settled
+HTTP verification passes 28 checks: pages/HEAD/privacy headers, home card,
+health/Ritual, exact asset parity, hidden source/unknown path 404 and private API
+409. No migrations, bootstrap or business-data writes. No-transform prevents
+Cloudflare's initially injected analytics markup; initial CSP already blocked
+its execution. First immediate header rerun saw old deployment headers during
+propagation; settled rerun confirms no beacon markup. Focused correction checks
+pass 2/2. Evidence: .publish/vedic-preview-no-transform-{test,deploy}.log,
+vedic-preview-live-final-browser.log, vedic-preview-live-settled.log and
+vedic-preview-live.json. Earlier unsuccessful browser/propagation logs retained.
+Next: user verification on production and fixes from that feedback; independent
+source, sunrise, physical-bound, editorial, rulebook and general-release gates
+remain OPEN. Preview availability is not certification. No P18 is invented.
+
+Preparation history for this completed release:
 Implemented one public preview card and browser-only Kundli/Rashifal/Time Machine/
 Matching routes. Explicit preview warnings and isolated network/privacy headers
 retain all independent validation gates. See PRODUCTION_PREVIEW.md. Production

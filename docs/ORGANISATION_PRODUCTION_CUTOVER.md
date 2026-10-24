@@ -1,5 +1,16 @@
 # Organisation licensing production cutover
 
+Latest production release (2026-10-25): public Vedic verification preview,
+implementation 46c81a6 plus no-transform privacy correction 420572b, Worker
+0ad599ab-aaa6-4ff4-8a71-a5c15bfa8e70. User explicitly authorised production testing.
+One catalogue card and four browser-only screens are live at /rashifal-kundli.
+Final live browser 4/4 and settled HTTP 28/28 pass; no hosting beacon injection,
+protected API boundary retained and assets match the build. Existing variables,
+organisation mode, D1 bindings and rate limits preserved. No migrations, bootstrap
+or business-data writes. Source/traditional/editorial acceptance remains open.
+Evidence and continuation: docs/vedic/PROGRESS.md. Previous releases below are
+historical; their Vedic-404 status is superseded by this authorised preview.
+
 Latest production release (2026-10-25): Vedic internal implementation and Ritual
 shared-engine integration commit b933ef2, Worker
 fff881cb-1375-41d7-b769-abd63726751f. Organisation-enabled production dry run and

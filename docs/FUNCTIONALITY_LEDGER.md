@@ -1,6 +1,16 @@
 # Chambers functionality ledger
 
-**Vedic public verification preview (2026-10-25, release in progress):** User
+**Vedic public verification preview (2026-10-25, live and smoke-tested):**
+Available at https://apps.sushantsynapse.com/rashifal-kundli with one home card.
+Implementation 46c81a6 plus hosting-injection correction 420572b are deployed as
+Worker 0ad599ab-aaa6-4ff4-8a71-a5c15bfa8e70. Final live Chrome passes 4/4 and
+settled HTTP checks pass 28/28, including asset parity, protected routes and no
+hosting beacon markup. No-transform suppresses initially observed Cloudflare
+analytics injection (already blocked by CSP); focused correction checks pass
+2/2. Existing variables/D1 bindings preserved; no migrations or business writes.
+Independent acceptance remains open. See docs/vedic/PROGRESS.md for evidence.
+
+Release preparation: User
 explicitly authorised production routes to start verification. One preview card
 and four browser-only screens are implemented, with no birth API or persistence.
 Pages display unfinished source/traditional/editorial review status and enforce

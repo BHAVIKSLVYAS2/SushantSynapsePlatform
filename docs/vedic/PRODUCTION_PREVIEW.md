@@ -1,5 +1,11 @@
 # Production verification preview
 
+LIVE: implementation 46c81a6 plus privacy correction 420572b, final Worker
+0ad599ab-aaa6-4ff4-8a71-a5c15bfa8e70. Final live Chrome passes all four workflows;
+settled HTTP verification passes 28 checks including absent hosting analytics
+markup. Initial injection and deployment-propagation failures are retained in the
+ignored evidence logs; see PROGRESS.md. No migration or business-data writes.
+
 The user explicitly authorised public production routes on 2026-10-25 to begin
 verification there. This supersedes earlier no-public-route checkpoints, without
 accepting independent calculation, editorial or traditional-source gates.
