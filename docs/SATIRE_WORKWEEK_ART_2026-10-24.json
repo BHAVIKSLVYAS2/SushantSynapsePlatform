@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-24",
+  "tool": "built-in image_gen",
+  "asset": "apps/satire-arena/frontend/corporate-workweek-fast.webp",
+  "width": 960,
+  "height": 1600,
+  "bytes": 259240,
+  "encoding": {
+    "format": "WebP",
+    "quality": 80,
+    "effort": 6
+  },
+  "columns": [
+    "Ghanta Guru",
+    "Sunday Seth",
+    "Mileage Maharaj"
+  ],
+  "rows": [
+    "base",
+    "happy",
+    "startled",
+    "annoyed",
+    "laughing"
+  ],
+  "likenessReferences": [
+    "https://www.amacad.org/sites/default/files/person/headshots/N.R.NarayanaMurthy.jpg",
+    "https://2025prodstorageaccount-eqdyc8g8hpccdfez.a02.azurefd.net/ltprod/media/aapeqn2s/s-n-subrahmanyan.webp",
+    "https://insights.techmahindra.com/images/am.jpg"
+  ],
+  "styleReference": "apps/satire-arena/frontend/corporates-fast.webp",
+  "sourceFile": "exec-1a696df9-7ac3-49d9-b8e5-f9f42f4f86fe.png",
+  "prompt": "Create an original cartoon sprite sheet for Satire Arena: EXACTLY THREE COLUMNS and FIVE ROWS, 15 equal cells, entire canvas portrait aspect 3:5, no gutters/borders/text. Reference images 1,2,3 are likeness references for the THREE distinct characters, in that left-to-right column order: Narayana Murthy, S N Subrahmanyan, Anand Mahindra. Image4 is ART STYLE reference only; do not include its six people. Every column repeats its ONE recognisable fictional caricature consistently across five expressions. ROW1 base personality (thoughtful professor, stern timekeeper, wry optimistic innovator); ROW2 happy smiling; ROW3 startled wide eyes O mouth; ROW4 annoyed frown; ROW5 laughing squeezed eyes open mouth. All five rows present, all three columns present. Column1: older silver side-parted short-haired man from photo1, distinctive red rectangular glasses, broad rounded forehead, clean-shaven, light blue shirt and maroon sweater vest, holding oversized pocket watch and pointing at it. Column2: photo2's face, round black spectacles, receding short dark salt-and-pepper hair, clean-shaven, navy blazer light blue shirt open collar, holding blank spiral desk calendar and gesturing to it. Do not make him completely bald or add moustache. Column3: photo3's swept-back silver/dark hair, thick salt-and-pepper moustache, distinctive strong broad jaw, no glasses, navy suit blue shirt, holding small unbranded red toy SUV and tea cup. Make each face immediately recognisable, but clearly CARTOON: oversized heads, compact busts, strong clean thick black ink contours, simplified hair masses, rounded exaggerated noses/cheeks/eyebrows, warm flat colour fills with cel shading, very little realistic texture. Match image4's cohesive playful editorial caricature look. Each portrait fully contained in its cell; poses/props/clothing identical down each column, change facial expression only. Warm pale cream backgrounds. No real company logos, lettering, numeric labels, banners, speech balloons or signatures."
+}

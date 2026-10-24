@@ -11,14 +11,15 @@ Satire Arena's news anchors, actors and corporates now use coordinated cartoon
 caricatures, with matching happy, startled, annoyed and laughing reaction faces.
 Cards, character details and share images use the same optimized artwork.
 
-Satire Arena's anchors, actors and corporates use eighteen original fictional
+Satire Arena's anchors, actors and corporates use twenty-one original fictional
 names, including Decibel Dada, Baahon Badshah and Rocket Raees. Detail pages add
 comic exchanges, backstage notes and copyable Encore punchlines. Existing
 character links, portraits and saved votes are preserved. See the functionality
 ledger for verification and release status.
 
-Actors and Corporates are deployed, live-verified Satire Arena lineups, each
-with six fictional spoofs and the same voting/profile/share features. The main
+Actors and Corporates are Satire Arena lineups with six actor spoofs and nine
+corporate spoofs, with the same voting/profile/share features. Ghanta Guru,
+Sunday Seth and Mileage Maharaj add workweek and quality-of-work humour. The main
 chooser retains lightweight entry and links to all four arenas. See the
 functionality ledger for current verification and production release status.
 

@@ -3,13 +3,13 @@ const fs=require('node:fs'),path=require('node:path');
 const {Readable}=require('node:stream');
 const {createHash}=require('node:crypto');
 const {qualified}=require('../../../packages/database/catalog');
-const ballotTables=['arena_votes','arena_expanded_votes','arena_cast_votes','arena_additions_votes','arena_speakers_votes','arena_anchors_votes','arena_spotlight_votes'];
+const ballotTables=['arena_votes','arena_expanded_votes','arena_cast_votes','arena_additions_votes','arena_speakers_votes','arena_anchors_votes','arena_spotlight_votes','arena_boardroom_votes'];
 function registerArena(store){
- const schema=['001-arena.sql','002-expanded-arena.sql','003-nine-character-arena.sql','004-highway-budget.sql','005-speakers.sql','006-news-anchors.sql','007-spotlight-arenas.sql'].map(file=>fs.readFileSync(path.join(__dirname,'../database',file),'utf8')).join('\n');
+ const schema=['001-arena.sql','002-expanded-arena.sql','003-nine-character-arena.sql','004-highway-budget.sql','005-speakers.sql','006-news-anchors.sql','007-spotlight-arenas.sql','008-workweek-corporates.sql'].map(file=>fs.readFileSync(path.join(__dirname,'../database',file),'utf8')).join('\n');
  store.registerAppSchema('satire-arena',schema,ballotTables);
 }
 function arenaDatabase(store){
- const qualify=sql=>sql.replace(/\b(arena_votes|arena_expanded_votes|arena_cast_votes|arena_additions_votes|arena_speakers_votes|arena_anchors_votes|arena_spotlight_votes|arena_all_votes)\b/g,name=>qualified(name));
+ const qualify=sql=>sql.replace(/\b(arena_votes|arena_expanded_votes|arena_cast_votes|arena_additions_votes|arena_speakers_votes|arena_anchors_votes|arena_spotlight_votes|arena_boardroom_votes|arena_all_votes)\b/g,name=>qualified(name));
  return {
   prepare(sql){return {bind(...args){return {all(){return {results:store.sql.prepare(qualify(sql)).all(...args)};}};}};},
   batch(statements){return store.transaction(()=>statements.map(statement=>statement.all()));}

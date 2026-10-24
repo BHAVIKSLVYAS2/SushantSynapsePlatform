@@ -48,14 +48,14 @@ test('actors and corporates retain separate saved choices, profile votes, image 
  await page.addInitScript(()=>{Object.defineProperty(navigator,'canShare',{value:undefined,configurable:true});window.portraitDraws=[];const draw=CanvasRenderingContext2D.prototype.drawImage;CanvasRenderingContext2D.prototype.drawImage=function(...args){if(args[0]?.src?.includes('/satire-arena/'))window.portraitDraws.push({src:args[0].src,crop:args.slice(1,5)});return draw.apply(this,args);};});
  for(const [arena,id]of [['actors','king-khanvas'],['corporates','mukesh-megaplan']]){
   const images=[];const watch=r=>{if(/\.webp/.test(r.url()))images.push(r.url());};page.on('request',watch);
-  await page.goto(base+'/satire-arena/'+arena);await expect(page.locator('.arena-card')).toHaveCount(6);await expect(page.locator('.arena-navigation [aria-current]')).toHaveText(arena==='actors'?'Actors':'Corporates');
+  await page.goto(base+'/satire-arena/'+arena);await expect(page.locator('.arena-card')).toHaveCount(arena==='corporates'?9:6);await expect(page.locator('.arena-navigation [aria-current]')).toHaveText(arena==='actors'?'Actors':'Corporates');
   await expect(page.locator('link[rel=canonical]')).toHaveAttribute('href','https://apps.sushantsynapse.com/satire-arena/'+arena);
   expect(images.some(url=>/\/(anchors|cast|corporates|actors)-fast\.webp/.test(url)&&!url.includes('/'+arena+'-fast.webp'))).toBe(false);page.off('request',watch);
   const card=page.locator('[data-character='+id+']'),laugh=card.locator('[data-reaction=laugh]');await expect(laugh).toBeEnabled();await laugh.click();await expect(laugh).toHaveAttribute('aria-pressed','true');await expect(page.locator('#amused')).toHaveText('1');
   await page.reload();await expect(page.locator('[data-character='+id+'] [data-reaction=laugh]')).toHaveAttribute('aria-pressed','true');
   const download=page.waitForEvent('download');await page.locator('#share-arena').click();expect((await download).suggestedFilename()).toContain('standings');
-  expect(await page.evaluate(arena=>window.portraitDraws.every(d=>d.src.includes('/'+arena+'-fast.webp')),arena)).toBe(true);
-  await page.locator('[data-character='+id+'] .character-hero').click();await expect(page.locator('[data-reaction=laugh]')).toHaveAttribute('aria-pressed','true');await expect(page.locator('.file-cast nav a')).toHaveCount(6);
+  expect(await page.evaluate(arena=>window.portraitDraws.every(d=>d.src.includes('/'+arena+'-fast.webp')||(arena==='corporates'&&d.src.includes('/corporate-workweek-fast.webp'))),arena)).toBe(true);
+  await page.locator('[data-character='+id+'] .character-hero').click();await expect(page.locator('[data-reaction=laugh]')).toHaveAttribute('aria-pressed','true');await expect(page.locator('.file-cast nav a')).toHaveCount(arena==='corporates'?9:6);
   await page.locator('[data-reaction=applause]').click();await expect(page.locator('[data-reaction=applause]')).toHaveAttribute('aria-pressed','true');
   for(const theme of ['light','dark'])for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:850});await page.evaluate(t=>SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
   const image=page.waitForEvent('download');await page.getByRole('button',{name:'Download image',exact:true}).click();expect((await image).suggestedFilename()).toBe('satire-arena.png');
@@ -180,6 +180,21 @@ test('detail headers retain the arena card face and square portraits',async({pag
  }
 });
 
+test('workweek corporate spoofs retain nine-card voting, complete dossiers, expression crops and share portraits',async({page})=>{
+ test.setTimeout(180000);const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.addInitScript(()=>{window.boardroomDraws=[];const draw=CanvasRenderingContext2D.prototype.drawImage;CanvasRenderingContext2D.prototype.drawImage=function(...args){if(args[0]?.src?.includes('corporate-workweek'))window.boardroomDraws.push(args.slice(1,5));return draw.apply(this,args);};});
+ await page.clock.install();await page.clock.pauseAt(new Date(Date.now()+10000));
+ const people=[['ghanta-guru','Ghanta Guru'],['sunday-seth','Sunday Seth'],['mileage-maharaj','Mileage Maharaj']],rows={garland:25,applause:25,shoe:75,finger:75,tomato:50,laugh:100};
+ try{await page.goto(base+'/satire-arena/corporates');await expect(page.locator('.arena-card')).toHaveCount(9);await expect(page.locator('meta[name=description]')).toHaveAttribute('content',/Nine fictional/);
+ for(const [index,[id,name]]of people.entries()){
+  await page.goto(base+'/satire-arena/characters/'+id);await expect(page.locator('#character-name')).toHaveText(name);await expect(page.locator('.file-cast nav a')).toHaveCount(9);await expect(page.locator('.file-dialogue')).toHaveCount(2);const hero=page.locator('.file-hero');
+  for(const [reaction,row]of Object.entries(rows)){await page.locator('[data-reaction='+reaction+']').click();await expect(page.locator('#character-vote-status')).toContainText('Saved!');const crop=await hero.locator('.portrait').evaluate(e=>{const s=getComputedStyle(e);return {src:s.backgroundImage,size:s.backgroundSize,x:parseFloat(s.backgroundPositionX),y:parseFloat(s.backgroundPositionY)};});expect(crop.src).toContain('corporate-workweek-fast.webp');expect(crop.size).toBe('300% 500%');expect(crop.x).toBe(index*50);expect(crop.y).toBe(row);if(reaction==='tomato')await expect(hero.locator('.tomato-splash')).toBeVisible();await page.clock.fastForward(2000);}
+  await page.reload();await expect(page.locator('[data-reaction=laugh]')).toHaveAttribute('aria-pressed','true');const download=page.waitForEvent('download');await page.getByRole('button',{name:'Download image',exact:true}).click();expect((await download).suggestedFilename()).toBe('satire-arena.png');expect(await page.evaluate(()=>boardroomDraws.at(-1))).toEqual([index*320,0,320,320]);
+  for(const theme of ['light','dark'])for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:900});await page.evaluate(t=>SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+  await page.setViewportSize({width:390,height:844});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'.publish/'+id+'-profile.png'});
+ }
+ }finally{await page.evaluate(()=>fetch('/api/satire-arena/mine',{method:'DELETE',headers:{'X-Arena-Confirm':'DELETE'}}));}expect(errors).toEqual([]);
+});
+
 test('all cast files fit phones and desktops in both themes',async({page})=>{
  test.setTimeout(480000);
  const {cast}=await import('../frontend/catalogue.mjs'),errors=[];page.on('pageerror',error=>errors.push(error.message));
@@ -199,6 +214,7 @@ test('all cast files fit phones and desktops in both themes',async({page})=>{
    for(const expression of ['', 'happy','startled','annoyed','laughing']){
     await hero.evaluate((el,value)=>{if(value)el.dataset.expression=value;else delete el.dataset.expression;},expression);
     const crop=await portrait.evaluate(async el=>{const css=getComputedStyle(el),image=new Image();image.src=css.backgroundImage.match(/url\(["']?(.*?)["']?\)/)[1];await image.decode();return {size:css.backgroundSize,x:parseFloat(css.backgroundPositionX),y:parseFloat(css.backgroundPositionY),ratio:image.naturalWidth/image.naturalHeight};});
+    if(c.portrait>=31){expect(crop.size).toBe('300% 500%');expect(crop.x).toBe((c.portrait-31)*50);expect(crop.y).toBe(expression?(['happy','startled','annoyed','laughing'].indexOf(expression)+1)*25:0);expect(crop.ratio).toBeCloseTo(.6,2);continue;}
     if(c.portrait>=13){
      const start=c.portrait>=25?25:c.portrait>=19?19:13;
      expect(crop.size).toBe(expression?'600% 400%':'300% 200%');expect(crop.x).toBe(expression?(c.portrait-start)*20:(c.portrait-start)%3*50);expect(crop.y).toBeCloseTo(expression?['happy','startled','annoyed','laughing'].indexOf(expression)*100/3:Math.floor((c.portrait-start)/3)*100,4);expect(crop.ratio).toBeCloseTo(1.5,2);continue;

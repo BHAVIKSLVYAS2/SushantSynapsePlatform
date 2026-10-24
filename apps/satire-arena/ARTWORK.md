@@ -1,5 +1,15 @@
 # Satire Arena cartoon artwork
 
+## Workweek corporate trio — 24 October 2026
+
+`frontend/corporate-workweek-fast.webp` adds Ghanta Guru, Sunday Seth and Mileage
+Maharaj as columns in that order. Rows are base, happy, startled, annoyed and
+laughing. The single 960×1600 WebP (quality 80, effort 6; 259,240 bytes) supplies
+both portraits and expressions; the first row supplies share-image crops.
+Created with built-in image_gen from public likeness references and the existing
+corporate cartoon style. The original six-person corporate sheets are unchanged.
+Exact prompt, source attribution and encoding: `docs/SATIRE_WORKWEEK_ART_2026-10-24.json`.
+
 ## Anchor, actor and corporate reaction expressions - 23 October 2026
 
 Created with the built-in imagegen tool, using each corresponding existing

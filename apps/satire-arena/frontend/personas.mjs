@@ -522,6 +522,93 @@ const scripts=[
     "Let us circle back only if the circle reaches a decision."
    ]
   }
- }
+ },
+{
+  "id": "ghanta-guru",
+  "persona": [
+    "Seventy hours. Even the stopwatch looks tired.",
+    "Guru runs a fictional academy where the only subject is more hours. He measures ambition with a wall clock and marks a tea break absent. His calendar has a motivational quote where the weekend used to be. When somebody finishes early, he suspects the assignment was not long enough. The office clock has started hiding behind the annual report.",
+    "Clock-powered conviction",
+    "The seventy-hour pep talk",
+    "A pocket watch with no off switch",
+    [
+      "The timesheet needs a timesheet.",
+      "I have streamlined the weekend into a motivational email.",
+      "Your out-of-office message lacks commitment."
+    ]
+  ],
+  "backstage": {
+    "scene": [
+      "Employee: I finished the work in four hours.",
+      "Guru: Excellent. What is your plan for the other sixty-six?"
+    ],
+    "spotted": "Giving the wall clock a performance improvement plan.",
+    "weakness": "A finished task and a switched-off laptop.",
+    "comeback": "Rest assured. But can the assurance work late?",
+    "encore": [
+      "The office chair has requested a standing ovation and a day off.",
+      "His five-minute break comes with a seventy-slide justification.",
+      "The alarm clock is networking with the snooze button."
+    ]
+  }
+},
+{
+  "id": "sunday-seth",
+  "persona": [
+    "Sunday is just Monday wearing casuals.",
+    "Seth chairs a fictional committee investigating why the calendar contains days without meetings. His ninety-hour master plan has a special annexure for Sunday, followed by a quick call about the annexure. He treats the weekend like an unfinished construction project: surely another shift will fix it. The desk calendar has asked to be transferred to a greeting-card shop.",
+    "Seven-day seriousness",
+    "The Sunday calendar takeover",
+    "A desk calendar with every day circled",
+    [
+      "The weekend has been moved to a later phase.",
+      "Work-life balance? I have balanced the laptop on the dining table.",
+      "The Sunday call is optional. Attendance will explain your ambition."
+    ]
+  ],
+  "backstage": {
+    "scene": [
+      "Employee: Is Sunday still a holiday?",
+      "Seth: Of course. We are just holding a meeting to celebrate it."
+    ],
+    "spotted": "Colouring every day of the desk calendar office blue.",
+    "weakness": "An empty meeting room at noon on Sunday.",
+    "comeback": "Let us not lose momentum just because the week has ended.",
+    "encore": [
+      "His calendar has seven Mondays and a maintenance window.",
+      "Sunday declined the meeting. He sent a recurring invite.",
+      "The out-of-office reply has been asked to join from home."
+    ]
+  }
+},
+{
+  "id": "mileage-maharaj",
+  "persona": [
+    "Better mileage. Fewer laps around the meeting room.",
+    "Maharaj takes the fictional boardroom debate for a test drive. While the others count hours, he asks whether anybody built something useful before lunch. He likes a clever prototype, a cup of tea and a caption ready for the group chat. Sometimes the caption reaches production before the prototype. The stopwatch suspects its job has been outsourced to common sense.",
+    "Wry, road-trip optimism",
+    "The quality-over-quantity pit stop",
+    "A toy SUV and a tea cup with excellent mileage",
+    [
+      "The engine is running. Why is the meeting still idling?",
+      "A good idea needs a test drive, not a ninety-hour parking ticket.",
+      "Quality time is also a productivity feature."
+    ]
+  ],
+  "backstage": {
+    "scene": [
+      "Manager: We logged ninety hours on the presentation.",
+      "Maharaj: Wonderful. Does the prototype work for ninety seconds?"
+    ],
+    "spotted": "Taking a useful idea for a drive before the committee finds it.",
+    "weakness": "An inspirational caption attached to a very ordinary speed bump.",
+    "comeback": "Less time in the parking lot. More distance on the road.",
+    "encore": [
+      "He posted the prototype. The comments requested a discount.",
+      "The brainstorm has torque. The meeting has a flat tyre.",
+      "His stopwatch now measures how quickly everyone can go home."
+    ]
+  }
+}
 ];
 export const parodyCast=scripts.map(script=>({...cast.find(c=>c.id===script.id),...script}));

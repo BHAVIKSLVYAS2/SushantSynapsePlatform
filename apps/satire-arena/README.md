@@ -29,10 +29,18 @@ Fictional cast refinement (2026-10-23): eighteen anchors, actors and corporate
 characters now have original names such as Decibel Dada, Slowmo Sultan and
 Rocket Raees. `frontend/personas.mjs` owns their copy; `spotlight.mjs` selects
 actors/corporates. Their existing IDs, links, artwork and ballots remain valid.
-All 31 detail pages add a comic exchange, backstage dossier and themed Encore
-panel with copy support. The eighteen revised characters each have three
+All 34 detail pages add a comic exchange, backstage dossier and themed Encore
+panel with copy support. The twenty-one non-political characters each have three
 signature lines and three distinct encores. Initial jokes work without JS;
-cycling/copying never submits a reaction. No database migration is required.
+cycling/copying never submits a reaction. Editing jokes alone needs no migration.
+
+Workweek trio (2026-10-24): Corporates now has nine characters. Ghanta Guru,
+Sunday Seth and Mileage Maharaj use one additional 3×5 base/expression sheet.
+Apply additive D1 `0009-workweek-corporates.sql` before deploying this expansion;
+Node SQLite registers app migration `008-workweek-corporates.sql` automatically,
+and SQL Server uses ordered migration `006-workweek-corporates.sql`. The new
+`arena_boardroom_votes` table extends the retained-ballot view without changing
+any existing vote table or character ID. Current profile count is 34.
 
 Actors and Corporates expansion (2026-10-23, deployed and live verified): `/satire-arena/actors` and
 `/satire-arena/corporates` each add six recognisable fictional spoofs, with
@@ -42,7 +50,7 @@ The chooser now has four native destinations. New content belongs to
 The two new sheets are 3×2 WebP grids. All non-political voting entry pages are
 generated from the same template, with their own metadata and portrait preload.
 
-Fresh SQLite databases require all seven app migrations. Existing production
+Fresh SQLite databases require all eight app migrations. Existing production
 D1 needs additive `0008-spotlight-arenas.sql`; SQL Server needs native
 `005-spotlight-arenas.sql`. New actors/corporates ballots use
 `arena_spotlight_votes`, with current character/reaction constraints. The shared

@@ -247,10 +247,35 @@ export const cast=[
   "portrait": 30,
   "tag": "THE BOARDROOM BELL-RINGER",
   "copy": "The coffee has a deadline. So does your introduction."
- }
+ },
+{
+  "id": "ghanta-guru",
+  "name": "Ghanta Guru",
+  "arena": "corporates",
+  "portrait": 31,
+  "tag": "THE SEVENTY-HOUR SCHOLAR",
+  "copy": "The clock asked for a break. He assigned it overtime."
+},
+{
+  "id": "sunday-seth",
+  "name": "Sunday Seth",
+  "arena": "corporates",
+  "portrait": 32,
+  "tag": "THE NINETY-HOUR NEGOTIATOR",
+  "copy": "Sunday applied for leave. The calendar rejected it."
+},
+{
+  "id": "mileage-maharaj",
+  "name": "Mileage Maharaj",
+  "arena": "corporates",
+  "portrait": 33,
+  "tag": "THE QUALITY-TIME TEST DRIVER",
+  "copy": "He measures output. The stopwatch feels unemployed."
+}
 ];
 export const arenas=[{id:"politicians",name:"Politicians",description:"Rallies, promises and grand entrances."},{id:"news-anchors",name:"News Anchors",description:"Prime-time personalities, breaking banners and panel-show chaos."},{id:"actors",name:"Actors",description:"Red carpets, dramatic entrances and blockbuster egos."},{id:"corporates",name:"Corporates",description:"Boardrooms, keynote stages and grand launch plans."}];
 export function portraitArt(c){
+ if(c.portrait>=31)return {file:"corporate-workweek-fast.webp",columns:3,column:c.portrait-31,row:0};
  const grids={'news-anchors':['anchors-fast.webp',13],actors:['actors-fast.webp',19],corporates:['corporates-fast.webp',25]},grid=grids[c.arena];
  if(grid){const index=c.portrait-grid[1];return {file:grid[0],columns:3,column:index%3,row:Math.floor(index/3)};}
  const files=['cast-fast.webp','extra-cast-fast.webp','new-cast-fast.webp','highway-budget-fast.webp','speakers-fast.webp'];

@@ -1,5 +1,24 @@
 # Chambers functionality ledger
 
+**Corporate workweek trio (2026-10-24):** Added original spoofs Ghanta Guru
+(70-hour-week theme), Sunday Seth (90-hour/Sunday theme), and Mileage Maharaj
+(quality-of-work/test-drive theme), expanding Corporates to nine and the full cast
+to 34. Each has a complete dossier, original dialogue, signature/encore jokes,
+six reaction choices, private export/removal and share art. Existing six corporate
+characters and all prior artwork/ballot IDs remain. One lazy 3×5 cartoon sheet
+supplies base and all expressions (259,240 bytes), with shared feed/detail crops.
+Additive `008-workweek-corporates.sql` creates `arena_boardroom_votes` and extends
+the deduplicated view without rewriting existing ballot tables; equivalent D1
+`0009-workweek-corporates.sql` and SQL Server `006-workweek-corporates.sql` supplied.
+Migration preservation/idempotence and profile/ballot contracts pass. Full API
+run: 380 pass, one previous schema-table-count expectation updated; corrected
+SQL/schema plus migration contracts pass 6/6. Five affected browser workflows
+pass, including every profile across four widths/two themes, nine-card voting,
+all new reaction crops and genuine share exports (old single-sheet share
+expectation corrected and rerun). New profile screenshots visually reviewed.
+Production has only migration 0009 pending; rollout verification pending. Likeness references
+and final prompt: `docs/SATIRE_WORKWEEK_ART_2026-10-24.json`.
+
 **Arena reaction sounds and tomato burst (2026-10-24):** Garland plays a short
 Wow voice clip, shoe plays Ye le, tomato plays Dishoom, and ink uses a wet
 filtered-noise/water-drop splash. Three original local synthesized WAV clips

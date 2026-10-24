@@ -38,6 +38,7 @@ const staticAssets={
  '/satire-arena/corporates':'apps/satire-arena/frontend/corporates.html',
  '/satire-arena/actors-fast.webp':'apps/satire-arena/frontend/actors-fast.webp',
  '/satire-arena/corporates-fast.webp':'apps/satire-arena/frontend/corporates-fast.webp',
+ '/satire-arena/corporate-workweek-fast.webp':'apps/satire-arena/frontend/corporate-workweek-fast.webp',
  '/satire-arena/personas.mjs':'apps/satire-arena/frontend/personas.mjs',
  '/satire-arena/spotlight.mjs':'apps/satire-arena/frontend/spotlight.mjs',
  '/satire-arena/anchors-fast.webp':'apps/satire-arena/frontend/anchors-fast.webp',

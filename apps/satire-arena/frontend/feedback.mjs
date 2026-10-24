@@ -9,8 +9,8 @@ const effects={
 };
 const timers=new WeakMap();
 const expressions={garland:'happy',applause:'happy',shoe:'annoyed',tomato:'startled',finger:'annoyed',laugh:'laughing'};
-const sheets=['/satire-arena/expressions-original-fast.webp','/satire-arena/expressions-expanded-fast.webp','/satire-arena/expressions-new-fast.webp','/satire-arena/highway-budget-fast.webp','/satire-arena/speakers-fast.webp','/satire-arena/anchors-expressions-fast.webp','/satire-arena/actors-expressions-fast.webp','/satire-arena/corporates-expressions-fast.webp'];
-const sheetFor=number=>number>=25?7:number>=19?6:number>=13?5:number>=11?4:number>=9?3:Math.floor(number/3);
+const sheets=['/satire-arena/expressions-original-fast.webp','/satire-arena/expressions-expanded-fast.webp','/satire-arena/expressions-new-fast.webp','/satire-arena/highway-budget-fast.webp','/satire-arena/speakers-fast.webp','/satire-arena/anchors-expressions-fast.webp','/satire-arena/actors-expressions-fast.webp','/satire-arena/corporates-expressions-fast.webp','/satire-arena/corporate-workweek-fast.webp'];
+const sheetFor=number=>number>=31?8:number>=25?7:number>=19?6:number>=13?5:number>=11?4:number>=9?3:Math.floor(number/3);
 const ready=new Set();
 const preparing=new Map();
 export function prepareReaction(card){

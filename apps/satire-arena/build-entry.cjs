@@ -3,7 +3,8 @@ const fs=require('node:fs'),path=require('node:path');
 function buildArenaEntry(){
  const folder=path.join(__dirname,'frontend'),source=fs.readFileSync(path.join(folder,'index.html'),'utf8');
  for(const [id,name,image,label]of [['news-anchors','News Anchors','anchors-fast.webp','ANCHOR'],['actors','Actors','actors-fast.webp','ACTOR'],['corporates','Corporates','corporates-fast.webp','BOARDROOM']]){
-  const description=`Six fictional ${name.toLowerCase()} spoofs. Six reactions. Genuine yearly scores.`;
+  const count=id==='corporates'?'Nine':'Six';
+  const description=`${count} fictional ${name.toLowerCase()} spoofs. Six reactions. Genuine yearly scores.`;
   const html=source.replaceAll('https://apps.sushantsynapse.com/satire-arena/politicians"','https://apps.sushantsynapse.com/satire-arena/'+id+'"')
    .replace('href="/satire-arena/cast-fast.webp"','href="/satire-arena/'+image+'"')
    .replace(/<title>[^<]+<\/title>/,`<title>${name} · Garland or Roast · Satire Arena</title>`)
@@ -13,7 +14,7 @@ function buildArenaEntry(){
    .replace('<h2>Politicians Arena</h2>','<h2>'+name+' Arena</h2>')
    .replace('href="/satire-arena/politicians" aria-current="page"','href="/satire-arena/politicians"')
    .replace('href="/satire-arena/'+id+'"','href="/satire-arena/'+id+'" aria-current="page"')
-   .replace('THIRTEEN FICTIONAL CHARACTERS','SIX FICTIONAL '+label+' SPOOFS');
+   .replace('THIRTEEN FICTIONAL CHARACTERS',count.toUpperCase()+' FICTIONAL '+label+' SPOOFS');
   fs.writeFileSync(path.join(folder,id+'.html'),html);
  }
 }

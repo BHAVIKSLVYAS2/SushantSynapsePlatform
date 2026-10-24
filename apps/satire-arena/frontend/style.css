@@ -1,4 +1,13 @@
 /* Consolidated active Arena styles. Portrait sprites, feed, effects and responsive rules. */
+/* The workweek trio shares one 3-column, 5-row base/expression sheet. */
+body[data-ui-app=satire-arena] :is(.portrait-31,.portrait-32,.portrait-33) { background-image:url(/satire-arena/corporate-workweek-fast.webp) !important; background-size:300% 500% !important; background-position-y:0%; }
+body[data-ui-app=satire-arena] .portrait-31 { background-position-x:0%; }
+body[data-ui-app=satire-arena] .portrait-32 { background-position-x:50%; }
+body[data-ui-app=satire-arena] .portrait-33 { background-position-x:100%; }
+body[data-ui-app=satire-arena] [data-expression=happy] :is(.portrait-31,.portrait-32,.portrait-33) { background-position-y:25%; }
+body[data-ui-app=satire-arena] [data-expression=startled] :is(.portrait-31,.portrait-32,.portrait-33) { background-position-y:50%; }
+body[data-ui-app=satire-arena] [data-expression=annoyed] :is(.portrait-31,.portrait-32,.portrait-33) { background-position-y:75%; }
+body[data-ui-app=satire-arena] [data-expression=laughing] :is(.portrait-31,.portrait-32,.portrait-33) { background-position-y:100%; }
 :root {
   --arena-shadow: var(--line);
   --arena-fan: var(--green);

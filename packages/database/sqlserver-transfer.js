@@ -62,7 +62,7 @@ function importArena(db,source){
   if(/\b(ATTACH|DETACH|VACUUM|load_extension|writable_schema)\b/i.test(dump))throw Error('Unsupported command in Arena dump');
   input=new DatabaseSync(':memory:');try{input.exec(dump);}catch(error){input.close();throw error;}
  }else input=new DatabaseSync(resolved,{readOnly:true});
- const names=['arena_votes','arena_expanded_votes','arena_cast_votes','arena_additions_votes','arena_speakers_votes','arena_anchors_votes','arena_spotlight_votes'],checks=[];
+ const names=['arena_votes','arena_expanded_votes','arena_cast_votes','arena_additions_votes','arena_speakers_votes','arena_anchors_votes','arena_spotlight_votes','arena_boardroom_votes'],checks=[];
  try{
   input.exec('BEGIN');if(input.prepare('PRAGMA integrity_check').get().integrity_check!=='ok')throw Error('Arena source integrity failed');
   const existing=input.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'").all().map(row=>row.name);
