@@ -7,6 +7,10 @@ Confessions and Feedback. The voluntary one-time [Support Us page](/support)
 remains available.
 See the functionality ledger for current implementation and verification status.
 
+Satire Arena's news anchors, actors and corporates now use coordinated cartoon
+caricatures, with matching happy, startled, annoyed and laughing reaction faces.
+Cards, character details and share images use the same optimized artwork.
+
 Satire Arena's anchors, actors and corporates use eighteen original fictional
 names, including Decibel Dada, Baahon Badshah and Rocket Raees. Detail pages add
 comic exchanges, backstage notes and copyable Encore punchlines. Existing

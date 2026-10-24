@@ -1,5 +1,29 @@
 # Chambers functionality ledger
 
+**Arena cartoon artwork (2026-10-24):** Applied the approved news-anchor style
+to all eighteen anchors, actors and corporates. Replaced the three portrait and
+three reaction sheets with recognisable caricatures: larger heads, bold outlines
+and simplified shading, preserving distinctive hair/glasses/props and character
+order. All six final assets are 1536×1024 WebP in the existing frontend paths;
+portrait sheets retain 3×2 cells and expressions retain 6×4 cells (happy,
+startled, annoyed, laughing). Shared mappings supply cards, profiles and exported
+art. Combined asset size: 1,437,308 → 1,425,568 bytes. Generated with built-in
+image_gen; final prompts and encoding settings are recorded in
+`docs/SATIRE_CARTOON_ART_2026-10-24.json`. Eight targeted browser workflows pass,
+including all 31 profile crops across four widths/two themes, new-cast reaction
+states, detail restoration, delayed expression loads, saved choices and genuine
+share image exports. Screenshots were visually reviewed for the anchor detail
+pages. Production deployment verification pending for this artwork release.
+
+**Arena cartoon-style review (2026-10-24, preview only):** Inspected current
+anchor, actor, corporate and politician portrait sheets plus anchor reaction
+expressions. Newer casts retain realistic facial proportions and detailed skin
+shading. Generated a separate six-anchor caricature preview with the built-in
+image tool: larger heads, bold contours, simplified shading, preserved character
+order/props and recognisable facial cues. Preview is displayed in conversation;
+no production assets, mappings or deployment changed. Any rollout must update
+both portrait and expression sheets consistently for cards and detail pages.
+
 **Performance/reuse implementation (2026-10-24):** Implemented lazy Fund Lens
 Worker partitions, scoped shared UI observation, minute-boundary Arena countdowns,
 combined/grouped Arena results, early public dispatch, shared HTTP/download/escape

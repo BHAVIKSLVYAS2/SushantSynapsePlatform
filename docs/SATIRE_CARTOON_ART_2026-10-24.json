@@ -1,0 +1,68 @@
+{
+  "date": "2026-10-24",
+  "tool": "built-in image_gen",
+  "outputDirectory": "apps/satire-arena/frontend",
+  "encoding": {
+    "width": 1536,
+    "height": 1024,
+    "format": "WebP",
+    "portraitQuality": 84,
+    "expressionQuality": 76,
+    "effort": 6
+  },
+  "entries": [
+    {
+      "asset": "anchors-fast.webp",
+      "prompt": "Edit this six-character news-anchor portrait sprite sheet into a MUCH MORE CARTOONISH playful editorial caricature style. This is a preview for Satire Arena. Preserve each of the six distinct recognisable facial likenesses, exact character order, clothing colours, signature props and gestures from the source. Keep exact 3-column by 2-row grid, equally sized square cells, no gutters, no text. Each character must stay within their own cell. Top left loud bespectacled black-haired anchor red tie raised finger, top middle grey-haired bespectacled thoughtful anchor blue shirt notebook, top right curly dark-haired stern anchor black suit papers, bottom left woman red jacket open palm, bottom middle older male courtroom interview anchor with receding side-parted black hair rectangular glasses rounded cheeks black suit patterned grey tie and pen: preserve his distinct source face rather than generic newsreader, bottom right woman teal jacket questioning palm. Style: unmistakably 2D hand-drawn comic caricatures, oversized heads and smaller torsos, exaggerated characteristic noses/chins/eyebrows/cheeks while retaining likeness, lively expressive eyes, strong bold clean black ink contours, simplified hair masses and flat warm colour fills with only two-tone cel shadows. Rounded humorous shapes, charming theatrical attitude, readable at small card size. Remove realistic skin pores, fine wrinkles, glossy skin gradients, photoreal lighting and individual hair rendering. Not a photo with a cartoon filter. Preserve warm pale cream backgrounds and bust portrait composition. Professional cohesive Indian newspaper cartoon aesthetic across all six. No added writing, logos, frames or speech balloons.",
+      "source": "exec-d37911d3-7cfe-407c-a8b3-82124bb1f5ad.png",
+      "inputs": [
+        "previous anchors-fast.webp"
+      ]
+    },
+    {
+      "asset": "actors-fast.webp",
+      "source": "exec-b074386b-2e52-44ae-84e6-6cef1576cfe2.png",
+      "inputs": [
+        "previous actors-fast.webp",
+        "approved anchors cartoon preview"
+      ],
+      "prompt": "Use case: style-transfer. Image 1 is the edit target: six actors portraits. Image 2 is STYLE REFERENCE ONLY, do not include its people. Redraw Image 1 in the cartoon style of Image 2. Preserve all six recognisable individual faces, character order, hair silhouettes, clothing colours, props and poses. Exact three columns by two rows, each cell square, full image aspect 3:2. Unmistakably 2D hand-drawn Indian newspaper comic caricature, oversized heads and compact torsos, exaggerated distinctive noses/chins/eyebrows/cheeks retaining recognisable likeness, expressive eyes, thick clean black outlines, simplified hair masses, flat warm colours and two-tone cel shadows. No photoreal skin texture, fine wrinkles, fine hair rendering or realistic lighting. Warm pale cream background. No text, logos, labels, borders or gutters. Each character completely confined to its equal square cell. Match the bold cartoon style of the supporting six-anchor preview exactly. Preserve top row: swept-haired charming man black open shirt arms spread, muscular man black T-shirt aviator glasses, short-haired thoughtful man olive shirt script and pen. Bottom row: grinning man blue jacket finger guns, woman red jacket gold earrings wave, younger woman teal jacket hoop earrings clapperboard."
+    },
+    {
+      "asset": "corporates-fast.webp",
+      "source": "exec-6aaf41e2-4280-4cbb-a1b5-9b5f1c05d947.png",
+      "inputs": [
+        "previous corporates-fast.webp",
+        "approved anchors cartoon preview"
+      ],
+      "prompt": "Use case: style-transfer. Image 1 is the edit target: six corporates portraits. Image 2 is STYLE REFERENCE ONLY, do not include its people. Redraw Image 1 in the cartoon style of Image 2. Preserve all six recognisable individual faces, character order, hair silhouettes, clothing colours, props and poses. Exact three columns by two rows, each cell square, full image aspect 3:2. Unmistakably 2D hand-drawn Indian newspaper comic caricature, oversized heads and compact torsos, exaggerated distinctive noses/chins/eyebrows/cheeks retaining recognisable likeness, expressive eyes, thick clean black outlines, simplified hair masses, flat warm colours and two-tone cel shadows. No photoreal skin texture, fine wrinkles, fine hair rendering or realistic lighting. Warm pale cream background. No text, logos, labels, borders or gutters. Each character completely confined to its equal square cell. Match the bold cartoon style of the supporting six-anchor preview exactly. Preserve top row: rounded-faced black-haired man navy suit red tie open palm, moustached man navy suit blue tie hand at chin, brown-haired man black jacket toy rocket. Bottom row: slim salt-and-pepper bearded man glasses teal shirt open hands, bald man glasses navy sweater notebook hand at chin, short curly-haired woman glasses purple jacket pearl necklace open hands."
+    },
+    {
+      "asset": "anchors-expressions-fast.webp",
+      "source": "exec-69c1a657-30bf-401a-9e72-eb6e4517dc26.png",
+      "inputs": [
+        "previous anchors-expressions-fast.webp",
+        "new anchors-fast.webp"
+      ],
+      "prompt": "Use case: style-transfer, reaction sprite sheet for Satire Arena. Image 1 is the edit target 6 columns x 4 rows anchor expression sheet. Image 2 is the approved replacement base portraits and exact target cartoon style/identity reference. Redraw the entire Image 1 with Image 2's strongly cartoonish, enlarged-headed likenesses. Preserve EXACT six columns and four rows, 24 equal square cells. Full image aspect 3:2. Each column is ONE same character across all four rows. Columns left to right correspond to Image 2 top left, top middle, top right, bottom left, bottom middle, bottom right. Rows top to bottom: happy smiling; startled wide eyes and O mouth; annoyed frowning; laughing eyes squeezed mouth wide open. Keep source costumes/props/poses and character order. Fifth column must retain the receding side-part hair rectangular glasses rounded cheeks of the courtroom anchor. No missing cells, no extra rows, no inter-cell spill. Unmistakably 2D hand-drawn Indian newspaper comic caricature, oversized heads and compact torsos, exaggerated distinctive noses/chins/eyebrows/cheeks retaining recognisable likeness, expressive eyes, thick clean black outlines, simplified hair masses, flat warm colours and two-tone cel shadows. No photoreal skin texture, fine wrinkles, fine hair rendering or realistic lighting. Warm pale cream background. No text, logos, labels, borders or gutters. Each character completely confined to its equal square cell. Match the bold cartoon style of the supporting six-anchor preview exactly."
+    },
+    {
+      "asset": "actors-expressions-fast.webp",
+      "source": "exec-3c81be38-7d34-452d-bb28-9bd070d328a6.png",
+      "inputs": [
+        "previous actors-expressions-fast.webp",
+        "new actors-fast.webp"
+      ],
+      "prompt": "Use case: style-transfer. Image 1 is the edit target: 6-column x 4-row actors reaction expression sheet. Image 2 is the approved new base portraits: exact target cartoon style AND faces. Redraw every cell of Image 1 to match Image 2's simplified enlarged-headed caricatures. EXACT GRID six columns by four rows, 24 equal square cells, entire sheet aspect 3:2. Columns left to right match Image 2 top-left, top-middle, top-right, bottom-left, bottom-middle, bottom-right. Keep each same character, distinctive likeness, hairstyle, clothes, accessories and held props consistent down its entire column. Rows top to bottom: 1 happy smiling, 2 startled wide eyes O-shaped mouth, 3 annoyed knitted brows and frown, 4 laughing eyes squeezed shut mouth wide open. Each expression must be clearly distinct. Preserve source character order and cell geometry; zero missing/extra cells. Unmistakably 2D hand-drawn Indian newspaper comic caricature, oversized heads and compact torsos, exaggerated distinctive noses/chins/eyebrows/cheeks retaining recognisable likeness, expressive eyes, thick clean black outlines, simplified hair masses, flat warm colours and two-tone cel shadows. No photoreal skin texture, fine wrinkles, fine hair rendering or realistic lighting. Warm pale cream background. No text, logos, labels, borders or gutters. Each character completely confined to its equal square cell. Match the bold cartoon style of the supporting six-anchor preview exactly."
+    },
+    {
+      "asset": "corporates-expressions-fast.webp",
+      "source": "exec-968afa8e-da59-4fa8-8844-96ea9973fc7e.png",
+      "inputs": [
+        "previous corporates-expressions-fast.webp",
+        "new corporates-fast.webp"
+      ],
+      "prompt": "Use case: style-transfer. Image 1 is the edit target: 6-column x 4-row corporates reaction expression sheet. Image 2 is the approved new base portraits: exact target cartoon style AND faces. Redraw every cell of Image 1 to match Image 2's simplified enlarged-headed caricatures. EXACT GRID six columns by four rows, 24 equal square cells, entire sheet aspect 3:2. Columns left to right match Image 2 top-left, top-middle, top-right, bottom-left, bottom-middle, bottom-right. Keep each same character, distinctive likeness, hairstyle, clothes, accessories and held props consistent down its entire column. Rows top to bottom: 1 happy smiling, 2 startled wide eyes O-shaped mouth, 3 annoyed knitted brows and frown, 4 laughing eyes squeezed shut mouth wide open. Each expression must be clearly distinct. Preserve source character order and cell geometry; zero missing/extra cells. Unmistakably 2D hand-drawn Indian newspaper comic caricature, oversized heads and compact torsos, exaggerated distinctive noses/chins/eyebrows/cheeks retaining recognisable likeness, expressive eyes, thick clean black outlines, simplified hair masses, flat warm colours and two-tone cel shadows. No photoreal skin texture, fine wrinkles, fine hair rendering or realistic lighting. Warm pale cream background. No text, logos, labels, borders or gutters. Each character completely confined to its equal square cell. Match the bold cartoon style of the supporting six-anchor preview exactly."
+    }
+  ]
+}
