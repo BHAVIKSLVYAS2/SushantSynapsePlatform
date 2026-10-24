@@ -1,0 +1,5449 @@
+{
+  "phase": "P16",
+  "scope": "Internal candidate subset: D7/D10/D12, raw D1 BAV/SAV, Uccha Bala; full Shadbala unavailable",
+  "hashes": {
+    "advanced-vargas": "3f5b050440368bc14e140251f4bac79cad455e7899fc6d048a33e3fd9bdc949e",
+    "ashtakavarga": "aefdf666a8a6fc89ec0909dd0e6740a0f1ed440db4b9b8effb314364864135ae",
+    "strength": "854cbb1cc1776e86e8fa131613dae0f8fc7a7d2bc28acdcf38361d7ed4a225a3",
+    "birth-advanced": "3a101b96781990c5a40dac6ee72e33c2e8feee621abbb60e238dad253b409790"
+  },
+  "models": {
+    "advancedVargaModels": {
+      "D7": {
+        "id": "parasari-d7-half-open-v1",
+        "chartType": "D7",
+        "divisions": 7,
+        "method": "odd-self-even-seventh",
+        "source": {
+          "title": "P.V.R. Narasimha Rao: Vedic Astrology, An Integrated Approach",
+          "url": "https://vedicastrologer.org/articles/vedic_astro_textbook.pdf",
+          "locator": "6.2.7 / example 14"
+        },
+        "boundaries": "canonical sign*30 + division*30/N; start inclusive, end exclusive",
+        "releaseStatus": "internal-candidate-individual-algorithm-signoff-pending",
+        "coordinateKind": "divisional-sign-not-physical-longitude"
+      },
+      "D10": {
+        "id": "parasari-d10-half-open-v1",
+        "chartType": "D10",
+        "divisions": 10,
+        "method": "odd-self-even-ninth",
+        "source": {
+          "title": "P.V.R. Narasimha Rao: Vedic Astrology, An Integrated Approach",
+          "url": "https://vedicastrologer.org/articles/vedic_astro_textbook.pdf",
+          "locator": "6.2.10 / example 17"
+        },
+        "boundaries": "canonical sign*30 + division*30/N; start inclusive, end exclusive",
+        "releaseStatus": "internal-candidate-individual-algorithm-signoff-pending",
+        "coordinateKind": "divisional-sign-not-physical-longitude"
+      },
+      "D12": {
+        "id": "parasari-d12-half-open-v1",
+        "chartType": "D12",
+        "divisions": 12,
+        "method": "all-self",
+        "source": {
+          "title": "P.V.R. Narasimha Rao: Vedic Astrology, An Integrated Approach",
+          "url": "https://vedicastrologer.org/articles/vedic_astro_textbook.pdf",
+          "locator": "6.2.12 / example 19"
+        },
+        "boundaries": "canonical sign*30 + division*30/N; start inclusive, end exclusive",
+        "releaseStatus": "internal-candidate-individual-algorithm-signoff-pending",
+        "coordinateKind": "divisional-sign-not-physical-longitude"
+      }
+    },
+    "ashtakavargaModel": {
+      "id": "pvr-raw-seven-bav-eight-contributors-v1",
+      "source": {
+        "title": "P.V.R. Narasimha Rao: Vedic Astrology, An Integrated Approach",
+        "url": "https://vedicastrologer.org/articles/vedic_astro_textbook.pdf",
+        "locator": "chapter 12, tables 19–25"
+      },
+      "contributors": [
+        "Sun",
+        "Moon",
+        "Mars",
+        "Mercury",
+        "Jupiter",
+        "Venus",
+        "Saturn",
+        "Lagna"
+      ],
+      "recipients": [
+        "Sun",
+        "Moon",
+        "Mars",
+        "Mercury",
+        "Jupiter",
+        "Venus",
+        "Saturn"
+      ],
+      "pointConvention": "1 = positive contribution (rekha in this source); 0 = no contribution; terminology differs by school",
+      "reduction": "none; no Trikona/Ekadhipatya or Sodhya Pinda",
+      "scope": "D1 sign inputs only; excludes nodes and a separate Lagna recipient row",
+      "releaseStatus": "internal-candidate-independent-table-review-pending"
+    },
+    "ucchaBalaModel": {
+      "id": "uccha-bala-shortest-arc-v1",
+      "source": {
+        "title": "Phaladeepika, G.S. Kapoor translation/commentary",
+        "url": "https://www.panchanga.lv/wp-content/uploads/2020/06/Phaladipika_Shri-Mantreswara.pdf",
+        "locator": "chapter 1 deep-exaltation points; chapter 4 opening commentary"
+      },
+      "unit": "virupa",
+      "maximum": 60,
+      "meaning": "one positional component, not full Shadbala",
+      "releaseStatus": "internal-candidate-independent-acceptance-pending",
+      "exaltationDegrees": {
+        "Sun": 10,
+        "Moon": 33,
+        "Mars": 298,
+        "Mercury": 165,
+        "Jupiter": 95,
+        "Venus": 357,
+        "Saturn": 200
+      }
+    }
+  },
+  "reference": {
+    "source": {
+      "title": "P.V.R. Narasimha Rao, Vedic Astrology: An Integrated Approach",
+      "url": "https://vedicastrologer.org/articles/vedic_astro_textbook.pdf",
+      "accessed": "2026-10-24"
+    },
+    "mappings": [
+      {
+        "expected": {
+          "chartType": "D7",
+          "longitude": 70,
+          "rashi": 5,
+          "locator": "6.2.7, example 14"
+        },
+        "actual": {
+          "sourceSiderealLongitude": 70,
+          "sourceRashi": 3,
+          "divisionWithinRashi": 3,
+          "rashi": 5,
+          "boundaryDistanceArcsec": 5142.85714285715,
+          "nearBoundary": false,
+          "coordinateKind": "divisional-sign-not-physical-longitude"
+        }
+      },
+      {
+        "expected": {
+          "chartType": "D7",
+          "longitude": 169,
+          "rashi": 4,
+          "locator": "6.2.7, example 14"
+        },
+        "actual": {
+          "sourceSiderealLongitude": 169,
+          "sourceRashi": 6,
+          "divisionWithinRashi": 5,
+          "rashi": 4,
+          "boundaryDistanceArcsec": 6685.714285714301,
+          "nearBoundary": false,
+          "coordinateKind": "divisional-sign-not-physical-longitude"
+        }
+      },
+      {
+        "expected": {
+          "chartType": "D10",
+          "longitude": 70,
+          "rashi": 6,
+          "locator": "6.2.10, example 17"
+        },
+        "actual": {
+          "sourceSiderealLongitude": 70,
+          "sourceRashi": 3,
+          "divisionWithinRashi": 4,
+          "rashi": 6,
+          "boundaryDistanceArcsec": 3600,
+          "nearBoundary": false,
+          "coordinateKind": "divisional-sign-not-physical-longitude"
+        }
+      },
+      {
+        "expected": {
+          "chartType": "D10",
+          "longitude": 229,
+          "rashi": 10,
+          "locator": "6.2.10, example 17"
+        },
+        "actual": {
+          "sourceSiderealLongitude": 229,
+          "sourceRashi": 8,
+          "divisionWithinRashi": 7,
+          "rashi": 10,
+          "boundaryDistanceArcsec": 3600,
+          "nearBoundary": false,
+          "coordinateKind": "divisional-sign-not-physical-longitude"
+        }
+      },
+      {
+        "expected": {
+          "chartType": "D12",
+          "longitude": 71,
+          "rashi": 7,
+          "locator": "6.2.12, example 19"
+        },
+        "actual": {
+          "sourceSiderealLongitude": 71,
+          "sourceRashi": 3,
+          "divisionWithinRashi": 5,
+          "rashi": 7,
+          "boundaryDistanceArcsec": 3600,
+          "nearBoundary": false,
+          "coordinateKind": "divisional-sign-not-physical-longitude"
+        }
+      },
+      {
+        "expected": {
+          "chartType": "D12",
+          "longitude": 229,
+          "rashi": 3,
+          "locator": "6.2.12, example 19"
+        },
+        "actual": {
+          "sourceSiderealLongitude": 229,
+          "sourceRashi": 8,
+          "divisionWithinRashi": 8,
+          "rashi": 3,
+          "boundaryDistanceArcsec": 3600,
+          "nearBoundary": false,
+          "coordinateKind": "divisional-sign-not-physical-longitude"
+        }
+      }
+    ],
+    "ashtakavarga": {
+      "contractVersion": "vedic-raw-ashtakavarga-1",
+      "model": {
+        "id": "pvr-raw-seven-bav-eight-contributors-v1",
+        "source": {
+          "title": "P.V.R. Narasimha Rao: Vedic Astrology, An Integrated Approach",
+          "url": "https://vedicastrologer.org/articles/vedic_astro_textbook.pdf",
+          "locator": "chapter 12, tables 19–25"
+        },
+        "contributors": [
+          "Sun",
+          "Moon",
+          "Mars",
+          "Mercury",
+          "Jupiter",
+          "Venus",
+          "Saturn",
+          "Lagna"
+        ],
+        "recipients": [
+          "Sun",
+          "Moon",
+          "Mars",
+          "Mercury",
+          "Jupiter",
+          "Venus",
+          "Saturn"
+        ],
+        "pointConvention": "1 = positive contribution (rekha in this source); 0 = no contribution; terminology differs by school",
+        "reduction": "none; no Trikona/Ekadhipatya or Sodhya Pinda",
+        "scope": "D1 sign inputs only; excludes nodes and a separate Lagna recipient row",
+        "releaseStatus": "internal-candidate-independent-table-review-pending"
+      },
+      "signOrder": "Aries through Pisces, 1..12",
+      "bav": [
+        {
+          "body": "Sun",
+          "values": [
+            5,
+            3,
+            5,
+            3,
+            4,
+            4,
+            2,
+            3,
+            5,
+            4,
+            5,
+            5
+          ],
+          "total": 48,
+          "contributions": [
+            {
+              "contributor": "Sun",
+              "values": [
+                1,
+                0,
+                1,
+                1,
+                0,
+                1,
+                0,
+                0,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "contributor": "Moon",
+              "values": [
+                0,
+                1,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "contributor": "Mars",
+              "values": [
+                1,
+                0,
+                1,
+                1,
+                0,
+                1,
+                0,
+                0,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "contributor": "Mercury",
+              "values": [
+                1,
+                1,
+                0,
+                0,
+                1,
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1
+              ]
+            },
+            {
+              "contributor": "Jupiter",
+              "values": [
+                1,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "contributor": "Venus",
+              "values": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "contributor": "Saturn",
+              "values": [
+                1,
+                1,
+                1,
+                0,
+                1,
+                1,
+                0,
+                1,
+                0,
+                0,
+                1,
+                1
+              ]
+            },
+            {
+              "contributor": "Lagna",
+              "values": [
+                0,
+                0,
+                1,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0,
+                1,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "body": "Moon",
+          "values": [
+            3,
+            2,
+            5,
+            3,
+            6,
+            3,
+            4,
+            5,
+            5,
+            5,
+            3,
+            5
+          ],
+          "total": 49,
+          "contributions": [
+            {
+              "contributor": "Sun",
+              "values": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                1,
+                1,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "contributor": "Moon",
+              "values": [
+                0,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0,
+                1,
+                1,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "contributor": "Mars",
+              "values": [
+                1,
+                0,
+                0,
+                1,
+                1,
+                0,
+                1,
+                1,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "contributor": "Mercury",
+              "values": [
+                1,
+                0,
+                1,
+                0,
+                1,
+                1,
+                1,
+                0,
+                1,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "contributor": "Jupiter",
+              "values": [
+                0,
+                1,
+                1,
+                0,
+                1,
+                1,
+                0,
+                1,
+                0,
+                0,
+                1,
+                1
+              ]
+            },
+            {
+              "contributor": "Venus",
+              "values": [
+                0,
+                0,
+                1,
+                1,
+                1,
+                0,
+                1,
+                0,
+                1,
+                1,
+                1,
+                0
+              ]
+            },
+            {
+              "contributor": "Saturn",
+              "values": [
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                1,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "contributor": "Lagna",
+              "values": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                1,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "body": "Mars",
+          "values": [
+            4,
+            3,
+            4,
+            3,
+            4,
+            3,
+            2,
+            5,
+            1,
+            3,
+            3,
+            4
+          ],
+          "total": 39,
+          "contributions": [
+            {
+              "contributor": "Sun",
+              "values": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                1,
+                1,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "contributor": "Moon",
+              "values": [
+                0,
+                1,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "contributor": "Mars",
+              "values": [
+                1,
+                0,
+                1,
+                1,
+                0,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "contributor": "Mercury",
+              "values": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                1,
+                1,
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "contributor": "Jupiter",
+              "values": [
+                0,
+                1,
+                1,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "contributor": "Venus",
+              "values": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                1,
+                0,
+                0,
+                1,
+                1
+              ]
+            },
+            {
+              "contributor": "Saturn",
+              "values": [
+                1,
+                1,
+                1,
+                0,
+                1,
+                0,
+                0,
+                1,
+                0,
+                0,
+                1,
+                1
+              ]
+            },
+            {
+              "contributor": "Lagna",
+              "values": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                1,
+                0,
+                1,
+                0,
+                0,
+                1,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "body": "Mercury",
+          "values": [
+            7,
+            4,
+            7,
+            4,
+            4,
+            3,
+            4,
+            4,
+            4,
+            3,
+            6,
+            4
+          ],
+          "total": 54,
+          "contributions": [
+            {
+              "contributor": "Sun",
+              "values": [
+                1,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            {
+              "contributor": "Moon",
+              "values": [
+                1,
+                0,
+                1,
+                0,
+                1,
+                0,
+                1,
+                0,
+                1,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "contributor": "Mars",
+              "values": [
+                1,
+                0,
+                1,
+                1,
+                0,
+                1,
+                0,
+                0,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "contributor": "Mercury",
+              "values": [
+                1,
+                1,
+                1,
+                0,
+                1,
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1
+              ]
+            },
+            {
+              "contributor": "Jupiter",
+              "values": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "contributor": "Venus",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0,
+                1,
+                0
+              ]
+            },
+            {
+              "contributor": "Saturn",
+              "values": [
+                1,
+                1,
+                1,
+                0,
+                1,
+                1,
+                0,
+                1,
+                0,
+                0,
+                1,
+                1
+              ]
+            },
+            {
+              "contributor": "Lagna",
+              "values": [
+                1,
+                0,
+                1,
+                1,
+                0,
+                1,
+                1,
+                0,
+                1,
+                0,
+                1,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "body": "Jupiter",
+          "values": [
+            4,
+            3,
+            5,
+            6,
+            3,
+            7,
+            4,
+            3,
+            5,
+            6,
+            5,
+            5
+          ],
+          "total": 56,
+          "contributions": [
+            {
+              "contributor": "Sun",
+              "values": [
+                1,
+                0,
+                1,
+                1,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "contributor": "Moon",
+              "values": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                1,
+                0,
+                1,
+                0,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "contributor": "Mars",
+              "values": [
+                1,
+                0,
+                1,
+                1,
+                0,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "contributor": "Mercury",
+              "values": [
+                1,
+                0,
+                1,
+                1,
+                0,
+                1,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1
+              ]
+            },
+            {
+              "contributor": "Jupiter",
+              "values": [
+                0,
+                1,
+                1,
+                0,
+                1,
+                1,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1
+              ]
+            },
+            {
+              "contributor": "Venus",
+              "values": [
+                0,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                1,
+                0
+              ]
+            },
+            {
+              "contributor": "Saturn",
+              "values": [
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                1,
+                0,
+                1,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "contributor": "Lagna",
+              "values": [
+                0,
+                1,
+                1,
+                1,
+                0,
+                1,
+                1,
+                0,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "body": "Venus",
+          "values": [
+            8,
+            7,
+            4,
+            3,
+            3,
+            2,
+            4,
+            6,
+            4,
+            4,
+            4,
+            3
+          ],
+          "total": 52,
+          "contributions": [
+            {
+              "contributor": "Sun",
+              "values": [
+                1,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "contributor": "Moon",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "contributor": "Mars",
+              "values": [
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0,
+                1,
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            {
+              "contributor": "Mercury",
+              "values": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                0
+              ]
+            },
+            {
+              "contributor": "Jupiter",
+              "values": [
+                1,
+                1,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "contributor": "Venus",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                1,
+                1,
+                0
+              ]
+            },
+            {
+              "contributor": "Saturn",
+              "values": [
+                1,
+                1,
+                1,
+                0,
+                0,
+                0,
+                1,
+                1,
+                1,
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "contributor": "Lagna",
+              "values": [
+                1,
+                1,
+                0,
+                1,
+                0,
+                1,
+                1,
+                1,
+                1,
+                1,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "body": "Saturn",
+          "values": [
+            3,
+            3,
+            4,
+            3,
+            2,
+            3,
+            2,
+            3,
+            4,
+            5,
+            3,
+            4
+          ],
+          "total": 39,
+          "contributions": [
+            {
+              "contributor": "Sun",
+              "values": [
+                1,
+                0,
+                1,
+                1,
+                0,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "contributor": "Moon",
+              "values": [
+                0,
+                1,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "contributor": "Mars",
+              "values": [
+                1,
+                1,
+                0,
+                0,
+                1,
+                0,
+                1,
+                1,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "contributor": "Mercury",
+              "values": [
+                1,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "contributor": "Jupiter",
+              "values": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "contributor": "Venus",
+              "values": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1
+              ]
+            },
+            {
+              "contributor": "Saturn",
+              "values": [
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                1,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "contributor": "Lagna",
+              "values": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                1,
+                0,
+                1,
+                1,
+                0,
+                1,
+                0
+              ]
+            }
+          ]
+        }
+      ],
+      "sav": [
+        34,
+        25,
+        34,
+        25,
+        26,
+        25,
+        22,
+        29,
+        28,
+        30,
+        29,
+        30
+      ],
+      "total": 337,
+      "interpretation": "withheld-no-prediction-or-strength-band"
+    }
+  },
+  "strength": [
+    {
+      "body": "Sun",
+      "virupas": 60,
+      "rupas": 1,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Sun",
+      "virupas": 30,
+      "rupas": 0.5,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Sun",
+      "virupas": 0,
+      "rupas": 0,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Sun",
+      "virupas": 30,
+      "rupas": 0.5,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Moon",
+      "virupas": 60,
+      "rupas": 1,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Moon",
+      "virupas": 30,
+      "rupas": 0.5,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Moon",
+      "virupas": 0,
+      "rupas": 0,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Moon",
+      "virupas": 30,
+      "rupas": 0.5,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Mars",
+      "virupas": 60,
+      "rupas": 1,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Mars",
+      "virupas": 30,
+      "rupas": 0.5,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Mars",
+      "virupas": 0,
+      "rupas": 0,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Mars",
+      "virupas": 30,
+      "rupas": 0.5,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Mercury",
+      "virupas": 60,
+      "rupas": 1,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Mercury",
+      "virupas": 30,
+      "rupas": 0.5,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Mercury",
+      "virupas": 0,
+      "rupas": 0,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Mercury",
+      "virupas": 30,
+      "rupas": 0.5,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Jupiter",
+      "virupas": 60,
+      "rupas": 1,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Jupiter",
+      "virupas": 30,
+      "rupas": 0.5,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Jupiter",
+      "virupas": 0,
+      "rupas": 0,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Jupiter",
+      "virupas": 30,
+      "rupas": 0.5,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Venus",
+      "virupas": 60,
+      "rupas": 1,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Venus",
+      "virupas": 30,
+      "rupas": 0.5,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Venus",
+      "virupas": 0,
+      "rupas": 0,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Venus",
+      "virupas": 30,
+      "rupas": 0.5,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Saturn",
+      "virupas": 60,
+      "rupas": 1,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Saturn",
+      "virupas": 30,
+      "rupas": 0.5,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Saturn",
+      "virupas": 0,
+      "rupas": 0,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    },
+    {
+      "body": "Saturn",
+      "virupas": 30,
+      "rupas": 0.5,
+      "maximumVirupas": 60,
+      "modelId": "uccha-bala-shortest-arc-v1",
+      "scope": "uccha-bala-only",
+      "fullShadbala": {
+        "status": "unavailable",
+        "diagnostic": {
+          "code": "MODEL_UNAVAILABLE"
+        },
+        "reason": "Full Sthana, Dik, Kala, Cheshta, Naisargika and Drik methods/references are not implemented and accepted."
+      }
+    }
+  ],
+  "birthCases": [
+    {
+      "localTime": "12:15",
+      "result": {
+        "contractVersion": "vedic-birth-advanced-1",
+        "charts": {
+          "D7": {
+            "status": "available",
+            "value": {
+              "contractVersion": "vedic-advanced-varga-1",
+              "chartType": "D7",
+              "houseSystem": "whole-sign",
+              "model": {
+                "id": "parasari-d7-half-open-v1",
+                "chartType": "D7",
+                "divisions": 7,
+                "method": "odd-self-even-seventh",
+                "source": {
+                  "title": "P.V.R. Narasimha Rao: Vedic Astrology, An Integrated Approach",
+                  "url": "https://vedicastrologer.org/articles/vedic_astro_textbook.pdf",
+                  "locator": "6.2.7 / example 14"
+                },
+                "boundaries": "canonical sign*30 + division*30/N; start inclusive, end exclusive",
+                "releaseStatus": "internal-candidate-individual-algorithm-signoff-pending",
+                "coordinateKind": "divisional-sign-not-physical-longitude"
+              },
+              "ascendant": {
+                "sourceSiderealLongitude": 348.5243330880362,
+                "sourceRashi": 12,
+                "divisionWithinRashi": 5,
+                "rashi": 10,
+                "boundaryDistanceArcsec": 4973.313402644521,
+                "nearBoundary": false,
+                "coordinateKind": "divisional-sign-not-physical-longitude"
+              },
+              "planets": [
+                {
+                  "body": "Sun",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 256.29256061092923,
+                  "sourceRashi": 9,
+                  "divisionWithinRashi": 4,
+                  "rashi": 12,
+                  "boundaryDistanceArcsec": 3061.067514940578,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 3
+                },
+                {
+                  "body": "Moon",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 196.8372325418547,
+                  "sourceRashi": 7,
+                  "divisionWithinRashi": 4,
+                  "rashi": 10,
+                  "boundaryDistanceArcsec": 1100.2485636088181,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 1
+                },
+                {
+                  "body": "Mercury",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 247.6954243953199,
+                  "sourceRashi": 9,
+                  "divisionWithinRashi": 2,
+                  "rashi": 10,
+                  "boundaryDistanceArcsec": 3153.615033991298,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 1
+                },
+                {
+                  "body": "Venus",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 217.44760288489437,
+                  "sourceRashi": 8,
+                  "divisionWithinRashi": 2,
+                  "rashi": 3,
+                  "boundaryDistanceArcsec": 4045.772471523185,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 6
+                },
+                {
+                  "body": "Mars",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 303.94103912046495,
+                  "sourceRashi": 11,
+                  "divisionWithinRashi": 1,
+                  "rashi": 11,
+                  "boundaryDistanceArcsec": 1240.8305948975794,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 2
+                },
+                {
+                  "body": "Jupiter",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 1.3921815819947376,
+                  "sourceRashi": 1,
+                  "divisionWithinRashi": 1,
+                  "rashi": 1,
+                  "boundaryDistanceArcsec": 5011.853695181056,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 4
+                },
+                {
+                  "body": "Saturn",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 16.547345249900175,
+                  "sourceRashi": 1,
+                  "divisionWithinRashi": 4,
+                  "rashi": 4,
+                  "boundaryDistanceArcsec": 2143.842814645082,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 7
+                },
+                {
+                  "body": "Rahu",
+                  "kind": "computed-mean-lunar-node",
+                  "sourceSiderealLongitude": 101.19901532129424,
+                  "sourceRashi": 4,
+                  "divisionWithinRashi": 3,
+                  "rashi": 12,
+                  "boundaryDistanceArcsec": 5969.259129055035,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 3
+                },
+                {
+                  "body": "Ketu",
+                  "kind": "computed-mean-lunar-node",
+                  "sourceSiderealLongitude": 281.19901532129427,
+                  "sourceRashi": 10,
+                  "divisionWithinRashi": 3,
+                  "rashi": 6,
+                  "boundaryDistanceArcsec": 5969.259129054831,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 9
+                }
+              ],
+              "houses": [
+                {
+                  "houseNumber": 1,
+                  "rashi": 10,
+                  "bodies": [
+                    "Moon",
+                    "Mercury"
+                  ]
+                },
+                {
+                  "houseNumber": 2,
+                  "rashi": 11,
+                  "bodies": [
+                    "Mars"
+                  ]
+                },
+                {
+                  "houseNumber": 3,
+                  "rashi": 12,
+                  "bodies": [
+                    "Sun",
+                    "Rahu"
+                  ]
+                },
+                {
+                  "houseNumber": 4,
+                  "rashi": 1,
+                  "bodies": [
+                    "Jupiter"
+                  ]
+                },
+                {
+                  "houseNumber": 5,
+                  "rashi": 2,
+                  "bodies": []
+                },
+                {
+                  "houseNumber": 6,
+                  "rashi": 3,
+                  "bodies": [
+                    "Venus"
+                  ]
+                },
+                {
+                  "houseNumber": 7,
+                  "rashi": 4,
+                  "bodies": [
+                    "Saturn"
+                  ]
+                },
+                {
+                  "houseNumber": 8,
+                  "rashi": 5,
+                  "bodies": []
+                },
+                {
+                  "houseNumber": 9,
+                  "rashi": 6,
+                  "bodies": [
+                    "Ketu"
+                  ]
+                },
+                {
+                  "houseNumber": 10,
+                  "rashi": 7,
+                  "bodies": []
+                },
+                {
+                  "houseNumber": 11,
+                  "rashi": 8,
+                  "bodies": []
+                },
+                {
+                  "houseNumber": 12,
+                  "rashi": 9,
+                  "bodies": []
+                }
+              ],
+              "precisionClass": "nominal-divisional-signs-only",
+              "warnings": [
+                "DIVISIONAL_SIGNS_NOT_PHYSICAL_LONGITUDES",
+                "INDIVIDUAL_ALGORITHM_SIGNOFF_PENDING"
+              ]
+            }
+          },
+          "D10": {
+            "status": "available",
+            "value": {
+              "contractVersion": "vedic-advanced-varga-1",
+              "chartType": "D10",
+              "houseSystem": "whole-sign",
+              "model": {
+                "id": "parasari-d10-half-open-v1",
+                "chartType": "D10",
+                "divisions": 10,
+                "method": "odd-self-even-ninth",
+                "source": {
+                  "title": "P.V.R. Narasimha Rao: Vedic Astrology, An Integrated Approach",
+                  "url": "https://vedicastrologer.org/articles/vedic_astro_textbook.pdf",
+                  "locator": "6.2.10 / example 17"
+                },
+                "boundaries": "canonical sign*30 + division*30/N; start inclusive, end exclusive",
+                "releaseStatus": "internal-candidate-individual-algorithm-signoff-pending",
+                "coordinateKind": "divisional-sign-not-physical-longitude"
+              },
+              "ascendant": {
+                "sourceSiderealLongitude": 348.5243330880362,
+                "sourceRashi": 12,
+                "divisionWithinRashi": 7,
+                "rashi": 2,
+                "boundaryDistanceArcsec": 1887.5991169303234,
+                "nearBoundary": false,
+                "coordinateKind": "divisional-sign-not-physical-longitude"
+              },
+              "planets": [
+                {
+                  "body": "Sun",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 256.29256061092923,
+                  "sourceRashi": 9,
+                  "divisionWithinRashi": 6,
+                  "rashi": 2,
+                  "boundaryDistanceArcsec": 4653.218199345224,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 1
+                },
+                {
+                  "body": "Moon",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 196.8372325418547,
+                  "sourceRashi": 7,
+                  "divisionWithinRashi": 6,
+                  "rashi": 12,
+                  "boundaryDistanceArcsec": 4185.9628493231185,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 11
+                },
+                {
+                  "body": "Mercury",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 247.6954243953199,
+                  "sourceRashi": 9,
+                  "divisionWithinRashi": 3,
+                  "rashi": 11,
+                  "boundaryDistanceArcsec": 4696.472176848397,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 10
+                },
+                {
+                  "body": "Venus",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 217.44760288489437,
+                  "sourceRashi": 8,
+                  "divisionWithinRashi": 3,
+                  "rashi": 6,
+                  "boundaryDistanceArcsec": 5211.370385619716,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 5
+                },
+                {
+                  "body": "Mars",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 303.94103912046495,
+                  "sourceRashi": 11,
+                  "divisionWithinRashi": 2,
+                  "rashi": 12,
+                  "boundaryDistanceArcsec": 3387.74083367382,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 11
+                },
+                {
+                  "body": "Jupiter",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 1.3921815819947376,
+                  "sourceRashi": 1,
+                  "divisionWithinRashi": 1,
+                  "rashi": 1,
+                  "boundaryDistanceArcsec": 5011.853695181056,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 12
+                },
+                {
+                  "body": "Saturn",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 16.547345249900175,
+                  "sourceRashi": 1,
+                  "divisionWithinRashi": 6,
+                  "rashi": 6,
+                  "boundaryDistanceArcsec": 5229.5571003593695,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 5
+                },
+                {
+                  "body": "Rahu",
+                  "kind": "computed-mean-lunar-node",
+                  "sourceSiderealLongitude": 101.19901532129424,
+                  "sourceRashi": 4,
+                  "divisionWithinRashi": 4,
+                  "rashi": 3,
+                  "boundaryDistanceArcsec": 2883.544843340735,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 2
+                },
+                {
+                  "body": "Ketu",
+                  "kind": "computed-mean-lunar-node",
+                  "sourceSiderealLongitude": 281.19901532129427,
+                  "sourceRashi": 10,
+                  "divisionWithinRashi": 4,
+                  "rashi": 9,
+                  "boundaryDistanceArcsec": 2883.5448433406327,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 8
+                }
+              ],
+              "houses": [
+                {
+                  "houseNumber": 1,
+                  "rashi": 2,
+                  "bodies": [
+                    "Sun"
+                  ]
+                },
+                {
+                  "houseNumber": 2,
+                  "rashi": 3,
+                  "bodies": [
+                    "Rahu"
+                  ]
+                },
+                {
+                  "houseNumber": 3,
+                  "rashi": 4,
+                  "bodies": []
+                },
+                {
+                  "houseNumber": 4,
+                  "rashi": 5,
+                  "bodies": []
+                },
+                {
+                  "houseNumber": 5,
+                  "rashi": 6,
+                  "bodies": [
+                    "Venus",
+                    "Saturn"
+                  ]
+                },
+                {
+                  "houseNumber": 6,
+                  "rashi": 7,
+                  "bodies": []
+                },
+                {
+                  "houseNumber": 7,
+                  "rashi": 8,
+                  "bodies": []
+                },
+                {
+                  "houseNumber": 8,
+                  "rashi": 9,
+                  "bodies": [
+                    "Ketu"
+                  ]
+                },
+                {
+                  "houseNumber": 9,
+                  "rashi": 10,
+                  "bodies": []
+                },
+                {
+                  "houseNumber": 10,
+                  "rashi": 11,
+                  "bodies": [
+                    "Mercury"
+                  ]
+                },
+                {
+                  "houseNumber": 11,
+                  "rashi": 12,
+                  "bodies": [
+                    "Moon",
+                    "Mars"
+                  ]
+                },
+                {
+                  "houseNumber": 12,
+                  "rashi": 1,
+                  "bodies": [
+                    "Jupiter"
+                  ]
+                }
+              ],
+              "precisionClass": "nominal-divisional-signs-only",
+              "warnings": [
+                "DIVISIONAL_SIGNS_NOT_PHYSICAL_LONGITUDES",
+                "INDIVIDUAL_ALGORITHM_SIGNOFF_PENDING"
+              ]
+            }
+          },
+          "D12": {
+            "status": "available",
+            "value": {
+              "contractVersion": "vedic-advanced-varga-1",
+              "chartType": "D12",
+              "houseSystem": "whole-sign",
+              "model": {
+                "id": "parasari-d12-half-open-v1",
+                "chartType": "D12",
+                "divisions": 12,
+                "method": "all-self",
+                "source": {
+                  "title": "P.V.R. Narasimha Rao: Vedic Astrology, An Integrated Approach",
+                  "url": "https://vedicastrologer.org/articles/vedic_astro_textbook.pdf",
+                  "locator": "6.2.12 / example 19"
+                },
+                "boundaries": "canonical sign*30 + division*30/N; start inclusive, end exclusive",
+                "releaseStatus": "internal-candidate-individual-algorithm-signoff-pending",
+                "coordinateKind": "divisional-sign-not-physical-longitude"
+              },
+              "ascendant": {
+                "sourceSiderealLongitude": 348.5243330880362,
+                "sourceRashi": 12,
+                "divisionWithinRashi": 8,
+                "rashi": 7,
+                "boundaryDistanceArcsec": 3687.5991169303234,
+                "nearBoundary": false,
+                "coordinateKind": "divisional-sign-not-physical-longitude"
+              },
+              "planets": [
+                {
+                  "body": "Sun",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 256.29256061092923,
+                  "sourceRashi": 9,
+                  "divisionWithinRashi": 7,
+                  "rashi": 3,
+                  "boundaryDistanceArcsec": 4346.781800654776,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 9
+                },
+                {
+                  "body": "Moon",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 196.8372325418547,
+                  "sourceRashi": 7,
+                  "divisionWithinRashi": 7,
+                  "rashi": 1,
+                  "boundaryDistanceArcsec": 2385.9628493231185,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 7
+                },
+                {
+                  "body": "Mercury",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 247.6954243953199,
+                  "sourceRashi": 9,
+                  "divisionWithinRashi": 4,
+                  "rashi": 12,
+                  "boundaryDistanceArcsec": 703.5278231516031,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 6
+                },
+                {
+                  "body": "Venus",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 217.44760288489437,
+                  "sourceRashi": 8,
+                  "divisionWithinRashi": 3,
+                  "rashi": 10,
+                  "boundaryDistanceArcsec": 188.62961438028378,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 4
+                },
+                {
+                  "body": "Mars",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 303.94103912046495,
+                  "sourceRashi": 11,
+                  "divisionWithinRashi": 2,
+                  "rashi": 12,
+                  "boundaryDistanceArcsec": 3812.25916632618,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 6
+                },
+                {
+                  "body": "Jupiter",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 1.3921815819947376,
+                  "sourceRashi": 1,
+                  "divisionWithinRashi": 1,
+                  "rashi": 1,
+                  "boundaryDistanceArcsec": 3988.1463048189444,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 7
+                },
+                {
+                  "body": "Saturn",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 16.547345249900175,
+                  "sourceRashi": 1,
+                  "divisionWithinRashi": 7,
+                  "rashi": 7,
+                  "boundaryDistanceArcsec": 3429.5571003593695,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 1
+                },
+                {
+                  "body": "Rahu",
+                  "kind": "computed-mean-lunar-node",
+                  "sourceSiderealLongitude": 101.19901532129424,
+                  "sourceRashi": 4,
+                  "divisionWithinRashi": 5,
+                  "rashi": 8,
+                  "boundaryDistanceArcsec": 4316.455156659265,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 2
+                },
+                {
+                  "body": "Ketu",
+                  "kind": "computed-mean-lunar-node",
+                  "sourceSiderealLongitude": 281.19901532129427,
+                  "sourceRashi": 10,
+                  "divisionWithinRashi": 5,
+                  "rashi": 2,
+                  "boundaryDistanceArcsec": 4316.455156659367,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 8
+                }
+              ],
+              "houses": [
+                {
+                  "houseNumber": 1,
+                  "rashi": 7,
+                  "bodies": [
+                    "Saturn"
+                  ]
+                },
+                {
+                  "houseNumber": 2,
+                  "rashi": 8,
+                  "bodies": [
+                    "Rahu"
+                  ]
+                },
+                {
+                  "houseNumber": 3,
+                  "rashi": 9,
+                  "bodies": []
+                },
+                {
+                  "houseNumber": 4,
+                  "rashi": 10,
+                  "bodies": [
+                    "Venus"
+                  ]
+                },
+                {
+                  "houseNumber": 5,
+                  "rashi": 11,
+                  "bodies": []
+                },
+                {
+                  "houseNumber": 6,
+                  "rashi": 12,
+                  "bodies": [
+                    "Mercury",
+                    "Mars"
+                  ]
+                },
+                {
+                  "houseNumber": 7,
+                  "rashi": 1,
+                  "bodies": [
+                    "Moon",
+                    "Jupiter"
+                  ]
+                },
+                {
+                  "houseNumber": 8,
+                  "rashi": 2,
+                  "bodies": [
+                    "Ketu"
+                  ]
+                },
+                {
+                  "houseNumber": 9,
+                  "rashi": 3,
+                  "bodies": [
+                    "Sun"
+                  ]
+                },
+                {
+                  "houseNumber": 10,
+                  "rashi": 4,
+                  "bodies": []
+                },
+                {
+                  "houseNumber": 11,
+                  "rashi": 5,
+                  "bodies": []
+                },
+                {
+                  "houseNumber": 12,
+                  "rashi": 6,
+                  "bodies": []
+                }
+              ],
+              "precisionClass": "nominal-divisional-signs-only",
+              "warnings": [
+                "DIVISIONAL_SIGNS_NOT_PHYSICAL_LONGITUDES",
+                "INDIVIDUAL_ALGORITHM_SIGNOFF_PENDING"
+              ]
+            }
+          }
+        },
+        "ashtakavarga": {
+          "status": "available",
+          "value": {
+            "contractVersion": "vedic-raw-ashtakavarga-1",
+            "model": {
+              "id": "pvr-raw-seven-bav-eight-contributors-v1",
+              "source": {
+                "title": "P.V.R. Narasimha Rao: Vedic Astrology, An Integrated Approach",
+                "url": "https://vedicastrologer.org/articles/vedic_astro_textbook.pdf",
+                "locator": "chapter 12, tables 19–25"
+              },
+              "contributors": [
+                "Sun",
+                "Moon",
+                "Mars",
+                "Mercury",
+                "Jupiter",
+                "Venus",
+                "Saturn",
+                "Lagna"
+              ],
+              "recipients": [
+                "Sun",
+                "Moon",
+                "Mars",
+                "Mercury",
+                "Jupiter",
+                "Venus",
+                "Saturn"
+              ],
+              "pointConvention": "1 = positive contribution (rekha in this source); 0 = no contribution; terminology differs by school",
+              "reduction": "none; no Trikona/Ekadhipatya or Sodhya Pinda",
+              "scope": "D1 sign inputs only; excludes nodes and a separate Lagna recipient row",
+              "releaseStatus": "internal-candidate-independent-table-review-pending"
+            },
+            "signOrder": "Aries through Pisces, 1..12",
+            "bav": [
+              {
+                "body": "Sun",
+                "values": [
+                  3,
+                  5,
+                  2,
+                  3,
+                  6,
+                  4,
+                  5,
+                  3,
+                  6,
+                  3,
+                  5,
+                  3
+                ],
+                "total": 48,
+                "contributions": [
+                  {
+                    "contributor": "Sun",
+                    "values": [
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Moon",
+                    "values": [
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Mars",
+                    "values": [
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Mercury",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Jupiter",
+                    "values": [
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Venus",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Saturn",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Lagna",
+                    "values": [
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      0
+                    ]
+                  }
+                ]
+              },
+              {
+                "body": "Moon",
+                "values": [
+                  4,
+                  4,
+                  5,
+                  6,
+                  4,
+                  4,
+                  4,
+                  2,
+                  4,
+                  3,
+                  5,
+                  4
+                ],
+                "total": 49,
+                "contributions": [
+                  {
+                    "contributor": "Sun",
+                    "values": [
+                      0,
+                      1,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Moon",
+                    "values": [
+                      1,
+                      0,
+                      1,
+                      1,
+                      1,
+                      0,
+                      1,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Mars",
+                    "values": [
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Mercury",
+                    "values": [
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      0,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Jupiter",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Venus",
+                    "values": [
+                      0,
+                      1,
+                      0,
+                      1,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Saturn",
+                    "values": [
+                      0,
+                      0,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Lagna",
+                    "values": [
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0
+                    ]
+                  }
+                ]
+              },
+              {
+                "body": "Mars",
+                "values": [
+                  4,
+                  4,
+                  1,
+                  1,
+                  3,
+                  4,
+                  4,
+                  2,
+                  4,
+                  3,
+                  5,
+                  4
+                ],
+                "total": 39,
+                "contributions": [
+                  {
+                    "contributor": "Sun",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Moon",
+                    "values": [
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Mars",
+                    "values": [
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Mercury",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Jupiter",
+                    "values": [
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Venus",
+                    "values": [
+                      1,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Saturn",
+                    "values": [
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Lagna",
+                    "values": [
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1
+                    ]
+                  }
+                ]
+              },
+              {
+                "body": "Mercury",
+                "values": [
+                  4,
+                  5,
+                  2,
+                  3,
+                  5,
+                  4,
+                  5,
+                  7,
+                  5,
+                  4,
+                  5,
+                  5
+                ],
+                "total": 54,
+                "contributions": [
+                  {
+                    "contributor": "Sun",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Moon",
+                    "values": [
+                      0,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      1,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Mars",
+                    "values": [
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Mercury",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Jupiter",
+                    "values": [
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Venus",
+                    "values": [
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Saturn",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Lagna",
+                    "values": [
+                      1,
+                      0,
+                      1,
+                      0,
+                      1,
+                      0,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1
+                    ]
+                  }
+                ]
+              },
+              {
+                "body": "Jupiter",
+                "values": [
+                  5,
+                  3,
+                  5,
+                  4,
+                  7,
+                  6,
+                  3,
+                  4,
+                  5,
+                  4,
+                  4,
+                  6
+                ],
+                "total": 56,
+                "contributions": [
+                  {
+                    "contributor": "Sun",
+                    "values": [
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Moon",
+                    "values": [
+                      1,
+                      0,
+                      1,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Mars",
+                    "values": [
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Mercury",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Jupiter",
+                    "values": [
+                      1,
+                      1,
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Venus",
+                    "values": [
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Saturn",
+                    "values": [
+                      0,
+                      0,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Lagna",
+                    "values": [
+                      1,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      1,
+                      0,
+                      1
+                    ]
+                  }
+                ]
+              },
+              {
+                "body": "Venus",
+                "values": [
+                  3,
+                  4,
+                  4,
+                  5,
+                  5,
+                  2,
+                  5,
+                  6,
+                  5,
+                  6,
+                  5,
+                  2
+                ],
+                "total": 52,
+                "contributions": [
+                  {
+                    "contributor": "Sun",
+                    "values": [
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Moon",
+                    "values": [
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Mars",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Mercury",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Jupiter",
+                    "values": [
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Venus",
+                    "values": [
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Saturn",
+                    "values": [
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Lagna",
+                    "values": [
+                      1,
+                      1,
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      0,
+                      1
+                    ]
+                  }
+                ]
+              },
+              {
+                "body": "Saturn",
+                "values": [
+                  2,
+                  2,
+                  4,
+                  3,
+                  5,
+                  5,
+                  3,
+                  2,
+                  4,
+                  3,
+                  2,
+                  4
+                ],
+                "total": 39,
+                "contributions": [
+                  {
+                    "contributor": "Sun",
+                    "values": [
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Moon",
+                    "values": [
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Mars",
+                    "values": [
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Mercury",
+                    "values": [
+                      0,
+                      1,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Jupiter",
+                    "values": [
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Venus",
+                    "values": [
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Saturn",
+                    "values": [
+                      0,
+                      0,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Lagna",
+                    "values": [
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ],
+            "sav": [
+              25,
+              27,
+              23,
+              25,
+              35,
+              29,
+              29,
+              26,
+              33,
+              26,
+              31,
+              28
+            ],
+            "total": 337,
+            "interpretation": "withheld-no-prediction-or-strength-band"
+          }
+        },
+        "uccha": {
+          "status": "available",
+          "model": {
+            "id": "uccha-bala-shortest-arc-v1",
+            "source": {
+              "title": "Phaladeepika, G.S. Kapoor translation/commentary",
+              "url": "https://www.panchanga.lv/wp-content/uploads/2020/06/Phaladipika_Shri-Mantreswara.pdf",
+              "locator": "chapter 1 deep-exaltation points; chapter 4 opening commentary"
+            },
+            "unit": "virupa",
+            "maximum": 60,
+            "meaning": "one positional component, not full Shadbala",
+            "releaseStatus": "internal-candidate-independent-acceptance-pending",
+            "exaltationDegrees": {
+              "Sun": 10,
+              "Moon": 33,
+              "Mars": 298,
+              "Mercury": 165,
+              "Jupiter": 95,
+              "Venus": 357,
+              "Saturn": 200
+            }
+          },
+          "values": [
+            {
+              "body": "Sun",
+              "virupas": 22.097520203643075,
+              "rupas": 0.36829200339405127,
+              "virupaRange": [
+                22.08631649993937,
+                22.10872390734678
+              ]
+            },
+            {
+              "body": "Moon",
+              "virupas": 5.387589152715104,
+              "rupas": 0.08979315254525172,
+              "virupaRange": [
+                5.3763854490114005,
+                5.398792856418807
+              ]
+            },
+            {
+              "body": "Mercury",
+              "virupas": 32.43485853489337,
+              "rupas": 0.5405809755815562,
+              "virupaRange": [
+                32.423654831189666,
+                32.44606223859708
+              ]
+            },
+            {
+              "body": "Venus",
+              "virupas": 13.482534294964788,
+              "rupas": 0.2247089049160798,
+              "virupaRange": [
+                13.471330591261085,
+                13.493737998668491
+              ]
+            },
+            {
+              "body": "Mars",
+              "virupas": 58.01965362651168,
+              "rupas": 0.966994227108528,
+              "virupaRange": [
+                58.008449922807976,
+                58.03085733021539
+              ]
+            },
+            {
+              "body": "Jupiter",
+              "virupas": 28.797393860664915,
+              "rupas": 0.47995656434441525,
+              "virupaRange": [
+                28.78619015696121,
+                28.80859756436862
+              ]
+            },
+            {
+              "body": "Saturn",
+              "virupas": 1.1508849166999464,
+              "rupas": 0.01918141527833244,
+              "virupaRange": [
+                1.1396812129962428,
+                1.16208862040365
+              ]
+            }
+          ],
+          "rangeScope": "conditional-on-proposed-121-arcsecond-screen-not-certified-physical-bound"
+        },
+        "shadbala": {
+          "status": "unavailable",
+          "diagnostic": {
+            "code": "MODEL_UNAVAILABLE"
+          },
+          "reason": "Full six-fold Shadbala has no complete implemented and accepted method/reference set."
+        },
+        "admission": "exact minute; per-feature conservative screens, not certified physical stability",
+        "warnings": [
+          "APPROXIMATE_PLACE_COORDINATES",
+          "SEA_LEVEL_ASSUMED",
+          "MODELLED_UT1_NOT_OBSERVED_EOP",
+          "TDB_NOT_COMPUTED",
+          "INTERNAL_CANDIDATE_NOT_PRODUCTION_VALIDATED",
+          "APPROXIMATE_ANALYTIC_MODEL",
+          "SIDEREAL_REFERENCE_REVIEW_PENDING",
+          "BIRTH_TIME_STABILITY_NOT_EVALUATED",
+          "INDIVIDUAL_VARGA_SIGNOFF_PENDING",
+          "STRENGTH_REFERENCE_ACCEPTANCE_PENDING",
+          "UCCHA_BALA_IS_NOT_FULL_SHADBALA"
+        ]
+      }
+    },
+    {
+      "localTime": "12:00",
+      "result": {
+        "contractVersion": "vedic-birth-advanced-1",
+        "charts": {
+          "D7": {
+            "status": "unavailable",
+            "diagnostic": {
+              "code": "UNSTABLE_BIRTH_TIME",
+              "message": "A single precise instant is required for this calculation."
+            }
+          },
+          "D10": {
+            "status": "available",
+            "value": {
+              "contractVersion": "vedic-advanced-varga-1",
+              "chartType": "D10",
+              "houseSystem": "whole-sign",
+              "model": {
+                "id": "parasari-d10-half-open-v1",
+                "chartType": "D10",
+                "divisions": 10,
+                "method": "odd-self-even-ninth",
+                "source": {
+                  "title": "P.V.R. Narasimha Rao: Vedic Astrology, An Integrated Approach",
+                  "url": "https://vedicastrologer.org/articles/vedic_astro_textbook.pdf",
+                  "locator": "6.2.10 / example 17"
+                },
+                "boundaries": "canonical sign*30 + division*30/N; start inclusive, end exclusive",
+                "releaseStatus": "internal-candidate-individual-algorithm-signoff-pending",
+                "coordinateKind": "divisional-sign-not-physical-longitude"
+              },
+              "ascendant": {
+                "sourceSiderealLongitude": 343.20004147162075,
+                "sourceRashi": 12,
+                "divisionWithinRashi": 5,
+                "rashi": 12,
+                "boundaryDistanceArcsec": 4320.1492978347005,
+                "nearBoundary": false,
+                "coordinateKind": "divisional-sign-not-physical-longitude"
+              },
+              "planets": [
+                {
+                  "body": "Sun",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 256.28194219240106,
+                  "sourceRashi": 9,
+                  "divisionWithinRashi": 6,
+                  "rashi": 2,
+                  "boundaryDistanceArcsec": 4614.99189264382,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 3
+                },
+                {
+                  "body": "Moon",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 196.71164839125785,
+                  "sourceRashi": 7,
+                  "divisionWithinRashi": 6,
+                  "rashi": 12,
+                  "boundaryDistanceArcsec": 4638.0657914717285,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 1
+                },
+                {
+                  "body": "Mercury",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 247.67922594617556,
+                  "sourceRashi": 9,
+                  "divisionWithinRashi": 3,
+                  "rashi": 11,
+                  "boundaryDistanceArcsec": 4754.786593767972,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 12
+                },
+                {
+                  "body": "Venus",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 217.4350117797601,
+                  "sourceRashi": 8,
+                  "divisionWithinRashi": 3,
+                  "rashi": 6,
+                  "boundaryDistanceArcsec": 5166.0424071363195,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 7
+                },
+                {
+                  "body": "Mars",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 303.93295962201034,
+                  "sourceRashi": 11,
+                  "divisionWithinRashi": 2,
+                  "rashi": 12,
+                  "boundaryDistanceArcsec": 3358.6546392372384,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 1
+                },
+                {
+                  "body": "Jupiter",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 1.391765345013269,
+                  "sourceRashi": 1,
+                  "divisionWithinRashi": 1,
+                  "rashi": 1,
+                  "boundaryDistanceArcsec": 5010.355242047768,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 2
+                },
+                {
+                  "body": "Saturn",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 16.547557621864186,
+                  "sourceRashi": 1,
+                  "divisionWithinRashi": 6,
+                  "rashi": 6,
+                  "boundaryDistanceArcsec": 5228.792561288929,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 7
+                },
+                {
+                  "body": "Rahu",
+                  "kind": "computed-mean-lunar-node",
+                  "sourceSiderealLongitude": 101.1995673214096,
+                  "sourceRashi": 4,
+                  "divisionWithinRashi": 4,
+                  "rashi": 3,
+                  "boundaryDistanceArcsec": 2881.5576429254293,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 4
+                },
+                {
+                  "body": "Ketu",
+                  "kind": "computed-mean-lunar-node",
+                  "sourceSiderealLongitude": 281.19956732140963,
+                  "sourceRashi": 10,
+                  "divisionWithinRashi": 4,
+                  "rashi": 9,
+                  "boundaryDistanceArcsec": 2881.557642925327,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 10
+                }
+              ],
+              "houses": [
+                {
+                  "houseNumber": 1,
+                  "rashi": 12,
+                  "bodies": [
+                    "Moon",
+                    "Mars"
+                  ]
+                },
+                {
+                  "houseNumber": 2,
+                  "rashi": 1,
+                  "bodies": [
+                    "Jupiter"
+                  ]
+                },
+                {
+                  "houseNumber": 3,
+                  "rashi": 2,
+                  "bodies": [
+                    "Sun"
+                  ]
+                },
+                {
+                  "houseNumber": 4,
+                  "rashi": 3,
+                  "bodies": [
+                    "Rahu"
+                  ]
+                },
+                {
+                  "houseNumber": 5,
+                  "rashi": 4,
+                  "bodies": []
+                },
+                {
+                  "houseNumber": 6,
+                  "rashi": 5,
+                  "bodies": []
+                },
+                {
+                  "houseNumber": 7,
+                  "rashi": 6,
+                  "bodies": [
+                    "Venus",
+                    "Saturn"
+                  ]
+                },
+                {
+                  "houseNumber": 8,
+                  "rashi": 7,
+                  "bodies": []
+                },
+                {
+                  "houseNumber": 9,
+                  "rashi": 8,
+                  "bodies": []
+                },
+                {
+                  "houseNumber": 10,
+                  "rashi": 9,
+                  "bodies": [
+                    "Ketu"
+                  ]
+                },
+                {
+                  "houseNumber": 11,
+                  "rashi": 10,
+                  "bodies": []
+                },
+                {
+                  "houseNumber": 12,
+                  "rashi": 11,
+                  "bodies": [
+                    "Mercury"
+                  ]
+                }
+              ],
+              "precisionClass": "nominal-divisional-signs-only",
+              "warnings": [
+                "DIVISIONAL_SIGNS_NOT_PHYSICAL_LONGITUDES",
+                "INDIVIDUAL_ALGORITHM_SIGNOFF_PENDING"
+              ]
+            }
+          },
+          "D12": {
+            "status": "available",
+            "value": {
+              "contractVersion": "vedic-advanced-varga-1",
+              "chartType": "D12",
+              "houseSystem": "whole-sign",
+              "model": {
+                "id": "parasari-d12-half-open-v1",
+                "chartType": "D12",
+                "divisions": 12,
+                "method": "all-self",
+                "source": {
+                  "title": "P.V.R. Narasimha Rao: Vedic Astrology, An Integrated Approach",
+                  "url": "https://vedicastrologer.org/articles/vedic_astro_textbook.pdf",
+                  "locator": "6.2.12 / example 19"
+                },
+                "boundaries": "canonical sign*30 + division*30/N; start inclusive, end exclusive",
+                "releaseStatus": "internal-candidate-individual-algorithm-signoff-pending",
+                "coordinateKind": "divisional-sign-not-physical-longitude"
+              },
+              "ascendant": {
+                "sourceSiderealLongitude": 343.20004147162075,
+                "sourceRashi": 12,
+                "divisionWithinRashi": 6,
+                "rashi": 5,
+                "boundaryDistanceArcsec": 2520.1492978347005,
+                "nearBoundary": false,
+                "coordinateKind": "divisional-sign-not-physical-longitude"
+              },
+              "planets": [
+                {
+                  "body": "Sun",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 256.28194219240106,
+                  "sourceRashi": 9,
+                  "divisionWithinRashi": 7,
+                  "rashi": 3,
+                  "boundaryDistanceArcsec": 4385.00810735618,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 11
+                },
+                {
+                  "body": "Moon",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 196.71164839125785,
+                  "sourceRashi": 7,
+                  "divisionWithinRashi": 7,
+                  "rashi": 1,
+                  "boundaryDistanceArcsec": 2838.065791471729,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 9
+                },
+                {
+                  "body": "Mercury",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 247.67922594617556,
+                  "sourceRashi": 9,
+                  "divisionWithinRashi": 4,
+                  "rashi": 12,
+                  "boundaryDistanceArcsec": 645.2134062320283,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 8
+                },
+                {
+                  "body": "Venus",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 217.4350117797601,
+                  "sourceRashi": 8,
+                  "divisionWithinRashi": 3,
+                  "rashi": 10,
+                  "boundaryDistanceArcsec": 233.95759286368047,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 6
+                },
+                {
+                  "body": "Mars",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 303.93295962201034,
+                  "sourceRashi": 11,
+                  "divisionWithinRashi": 2,
+                  "rashi": 12,
+                  "boundaryDistanceArcsec": 3841.3453607627616,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 8
+                },
+                {
+                  "body": "Jupiter",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 1.391765345013269,
+                  "sourceRashi": 1,
+                  "divisionWithinRashi": 1,
+                  "rashi": 1,
+                  "boundaryDistanceArcsec": 3989.644757952232,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 9
+                },
+                {
+                  "body": "Saturn",
+                  "kind": "physical-body",
+                  "sourceSiderealLongitude": 16.547557621864186,
+                  "sourceRashi": 1,
+                  "divisionWithinRashi": 7,
+                  "rashi": 7,
+                  "boundaryDistanceArcsec": 3428.7925612889294,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 3
+                },
+                {
+                  "body": "Rahu",
+                  "kind": "computed-mean-lunar-node",
+                  "sourceSiderealLongitude": 101.1995673214096,
+                  "sourceRashi": 4,
+                  "divisionWithinRashi": 5,
+                  "rashi": 8,
+                  "boundaryDistanceArcsec": 4318.442357074571,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 4
+                },
+                {
+                  "body": "Ketu",
+                  "kind": "computed-mean-lunar-node",
+                  "sourceSiderealLongitude": 281.19956732140963,
+                  "sourceRashi": 10,
+                  "divisionWithinRashi": 5,
+                  "rashi": 2,
+                  "boundaryDistanceArcsec": 4318.442357074673,
+                  "nearBoundary": false,
+                  "coordinateKind": "divisional-sign-not-physical-longitude",
+                  "houseNumber": 10
+                }
+              ],
+              "houses": [
+                {
+                  "houseNumber": 1,
+                  "rashi": 5,
+                  "bodies": []
+                },
+                {
+                  "houseNumber": 2,
+                  "rashi": 6,
+                  "bodies": []
+                },
+                {
+                  "houseNumber": 3,
+                  "rashi": 7,
+                  "bodies": [
+                    "Saturn"
+                  ]
+                },
+                {
+                  "houseNumber": 4,
+                  "rashi": 8,
+                  "bodies": [
+                    "Rahu"
+                  ]
+                },
+                {
+                  "houseNumber": 5,
+                  "rashi": 9,
+                  "bodies": []
+                },
+                {
+                  "houseNumber": 6,
+                  "rashi": 10,
+                  "bodies": [
+                    "Venus"
+                  ]
+                },
+                {
+                  "houseNumber": 7,
+                  "rashi": 11,
+                  "bodies": []
+                },
+                {
+                  "houseNumber": 8,
+                  "rashi": 12,
+                  "bodies": [
+                    "Mercury",
+                    "Mars"
+                  ]
+                },
+                {
+                  "houseNumber": 9,
+                  "rashi": 1,
+                  "bodies": [
+                    "Moon",
+                    "Jupiter"
+                  ]
+                },
+                {
+                  "houseNumber": 10,
+                  "rashi": 2,
+                  "bodies": [
+                    "Ketu"
+                  ]
+                },
+                {
+                  "houseNumber": 11,
+                  "rashi": 3,
+                  "bodies": [
+                    "Sun"
+                  ]
+                },
+                {
+                  "houseNumber": 12,
+                  "rashi": 4,
+                  "bodies": []
+                }
+              ],
+              "precisionClass": "nominal-divisional-signs-only",
+              "warnings": [
+                "DIVISIONAL_SIGNS_NOT_PHYSICAL_LONGITUDES",
+                "INDIVIDUAL_ALGORITHM_SIGNOFF_PENDING"
+              ]
+            }
+          }
+        },
+        "ashtakavarga": {
+          "status": "available",
+          "value": {
+            "contractVersion": "vedic-raw-ashtakavarga-1",
+            "model": {
+              "id": "pvr-raw-seven-bav-eight-contributors-v1",
+              "source": {
+                "title": "P.V.R. Narasimha Rao: Vedic Astrology, An Integrated Approach",
+                "url": "https://vedicastrologer.org/articles/vedic_astro_textbook.pdf",
+                "locator": "chapter 12, tables 19–25"
+              },
+              "contributors": [
+                "Sun",
+                "Moon",
+                "Mars",
+                "Mercury",
+                "Jupiter",
+                "Venus",
+                "Saturn",
+                "Lagna"
+              ],
+              "recipients": [
+                "Sun",
+                "Moon",
+                "Mars",
+                "Mercury",
+                "Jupiter",
+                "Venus",
+                "Saturn"
+              ],
+              "pointConvention": "1 = positive contribution (rekha in this source); 0 = no contribution; terminology differs by school",
+              "reduction": "none; no Trikona/Ekadhipatya or Sodhya Pinda",
+              "scope": "D1 sign inputs only; excludes nodes and a separate Lagna recipient row",
+              "releaseStatus": "internal-candidate-independent-table-review-pending"
+            },
+            "signOrder": "Aries through Pisces, 1..12",
+            "bav": [
+              {
+                "body": "Sun",
+                "values": [
+                  3,
+                  5,
+                  2,
+                  3,
+                  6,
+                  4,
+                  5,
+                  3,
+                  6,
+                  3,
+                  5,
+                  3
+                ],
+                "total": 48,
+                "contributions": [
+                  {
+                    "contributor": "Sun",
+                    "values": [
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Moon",
+                    "values": [
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Mars",
+                    "values": [
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Mercury",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Jupiter",
+                    "values": [
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Venus",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Saturn",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Lagna",
+                    "values": [
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      0
+                    ]
+                  }
+                ]
+              },
+              {
+                "body": "Moon",
+                "values": [
+                  4,
+                  4,
+                  5,
+                  6,
+                  4,
+                  4,
+                  4,
+                  2,
+                  4,
+                  3,
+                  5,
+                  4
+                ],
+                "total": 49,
+                "contributions": [
+                  {
+                    "contributor": "Sun",
+                    "values": [
+                      0,
+                      1,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Moon",
+                    "values": [
+                      1,
+                      0,
+                      1,
+                      1,
+                      1,
+                      0,
+                      1,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Mars",
+                    "values": [
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Mercury",
+                    "values": [
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      0,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Jupiter",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Venus",
+                    "values": [
+                      0,
+                      1,
+                      0,
+                      1,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Saturn",
+                    "values": [
+                      0,
+                      0,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Lagna",
+                    "values": [
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0
+                    ]
+                  }
+                ]
+              },
+              {
+                "body": "Mars",
+                "values": [
+                  4,
+                  4,
+                  1,
+                  1,
+                  3,
+                  4,
+                  4,
+                  2,
+                  4,
+                  3,
+                  5,
+                  4
+                ],
+                "total": 39,
+                "contributions": [
+                  {
+                    "contributor": "Sun",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Moon",
+                    "values": [
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Mars",
+                    "values": [
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Mercury",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Jupiter",
+                    "values": [
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Venus",
+                    "values": [
+                      1,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Saturn",
+                    "values": [
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Lagna",
+                    "values": [
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1
+                    ]
+                  }
+                ]
+              },
+              {
+                "body": "Mercury",
+                "values": [
+                  4,
+                  5,
+                  2,
+                  3,
+                  5,
+                  4,
+                  5,
+                  7,
+                  5,
+                  4,
+                  5,
+                  5
+                ],
+                "total": 54,
+                "contributions": [
+                  {
+                    "contributor": "Sun",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Moon",
+                    "values": [
+                      0,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      1,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Mars",
+                    "values": [
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Mercury",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Jupiter",
+                    "values": [
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Venus",
+                    "values": [
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Saturn",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Lagna",
+                    "values": [
+                      1,
+                      0,
+                      1,
+                      0,
+                      1,
+                      0,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1
+                    ]
+                  }
+                ]
+              },
+              {
+                "body": "Jupiter",
+                "values": [
+                  5,
+                  3,
+                  5,
+                  4,
+                  7,
+                  6,
+                  3,
+                  4,
+                  5,
+                  4,
+                  4,
+                  6
+                ],
+                "total": 56,
+                "contributions": [
+                  {
+                    "contributor": "Sun",
+                    "values": [
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Moon",
+                    "values": [
+                      1,
+                      0,
+                      1,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Mars",
+                    "values": [
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Mercury",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Jupiter",
+                    "values": [
+                      1,
+                      1,
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Venus",
+                    "values": [
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Saturn",
+                    "values": [
+                      0,
+                      0,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Lagna",
+                    "values": [
+                      1,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      1,
+                      0,
+                      1
+                    ]
+                  }
+                ]
+              },
+              {
+                "body": "Venus",
+                "values": [
+                  3,
+                  4,
+                  4,
+                  5,
+                  5,
+                  2,
+                  5,
+                  6,
+                  5,
+                  6,
+                  5,
+                  2
+                ],
+                "total": 52,
+                "contributions": [
+                  {
+                    "contributor": "Sun",
+                    "values": [
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Moon",
+                    "values": [
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Mars",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Mercury",
+                    "values": [
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Jupiter",
+                    "values": [
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Venus",
+                    "values": [
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Saturn",
+                    "values": [
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Lagna",
+                    "values": [
+                      1,
+                      1,
+                      1,
+                      1,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      0,
+                      1
+                    ]
+                  }
+                ]
+              },
+              {
+                "body": "Saturn",
+                "values": [
+                  2,
+                  2,
+                  4,
+                  3,
+                  5,
+                  5,
+                  3,
+                  2,
+                  4,
+                  3,
+                  2,
+                  4
+                ],
+                "total": 39,
+                "contributions": [
+                  {
+                    "contributor": "Sun",
+                    "values": [
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Moon",
+                    "values": [
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Mars",
+                    "values": [
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      1,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Mercury",
+                    "values": [
+                      0,
+                      1,
+                      0,
+                      1,
+                      1,
+                      1,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Jupiter",
+                    "values": [
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "contributor": "Venus",
+                    "values": [
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Saturn",
+                    "values": [
+                      0,
+                      0,
+                      1,
+                      0,
+                      1,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "contributor": "Lagna",
+                    "values": [
+                      0,
+                      1,
+                      1,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      1,
+                      0,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ],
+            "sav": [
+              25,
+              27,
+              23,
+              25,
+              35,
+              29,
+              29,
+              26,
+              33,
+              26,
+              31,
+              28
+            ],
+            "total": 337,
+            "interpretation": "withheld-no-prediction-or-strength-band"
+          }
+        },
+        "uccha": {
+          "status": "available",
+          "model": {
+            "id": "uccha-bala-shortest-arc-v1",
+            "source": {
+              "title": "Phaladeepika, G.S. Kapoor translation/commentary",
+              "url": "https://www.panchanga.lv/wp-content/uploads/2020/06/Phaladipika_Shri-Mantreswara.pdf",
+              "locator": "chapter 1 deep-exaltation points; chapter 4 opening commentary"
+            },
+            "unit": "virupa",
+            "maximum": 60,
+            "meaning": "one positional component, not full Shadbala",
+            "releaseStatus": "internal-candidate-independent-acceptance-pending",
+            "exaltationDegrees": {
+              "Sun": 10,
+              "Moon": 33,
+              "Mars": 298,
+              "Mercury": 165,
+              "Jupiter": 95,
+              "Venus": 357,
+              "Saturn": 200
+            }
+          },
+          "values": [
+            {
+              "body": "Sun",
+              "virupas": 22.093980730800354,
+              "rupas": 0.36823301218000587,
+              "virupaRange": [
+                22.08277702709665,
+                22.105184434504057
+              ]
+            },
+            {
+              "body": "Moon",
+              "virupas": 5.429450536247373,
+              "rupas": 0.09049084227078955,
+              "virupaRange": [
+                5.4182468325436695,
+                5.440654239951076
+              ]
+            },
+            {
+              "body": "Mercury",
+              "virupas": 32.44025801794148,
+              "rupas": 0.5406709669656913,
+              "virupaRange": [
+                32.429054314237774,
+                32.45146172164519
+              ]
+            },
+            {
+              "body": "Venus",
+              "virupas": 13.47833725992003,
+              "rupas": 0.22463895433200048,
+              "virupaRange": [
+                13.467133556216327,
+                13.489540963623734
+              ]
+            },
+            {
+              "body": "Mars",
+              "virupas": 58.02234679266322,
+              "rupas": 0.9670391132110536,
+              "virupaRange": [
+                58.011143088959514,
+                58.03355049636693
+              ]
+            },
+            {
+              "body": "Jupiter",
+              "virupas": 28.79725511500442,
+              "rupas": 0.4799542519167403,
+              "virupaRange": [
+                28.786051411300715,
+                28.80845881870812
+              ]
+            },
+            {
+              "body": "Saturn",
+              "virupas": 1.1508141260452665,
+              "rupas": 0.019180235434087776,
+              "virupaRange": [
+                1.1396104223415628,
+                1.16201782974897
+              ]
+            }
+          ],
+          "rangeScope": "conditional-on-proposed-121-arcsecond-screen-not-certified-physical-bound"
+        },
+        "shadbala": {
+          "status": "unavailable",
+          "diagnostic": {
+            "code": "MODEL_UNAVAILABLE"
+          },
+          "reason": "Full six-fold Shadbala has no complete implemented and accepted method/reference set."
+        },
+        "admission": "exact minute; per-feature conservative screens, not certified physical stability",
+        "warnings": [
+          "APPROXIMATE_PLACE_COORDINATES",
+          "SEA_LEVEL_ASSUMED",
+          "MODELLED_UT1_NOT_OBSERVED_EOP",
+          "TDB_NOT_COMPUTED",
+          "INTERNAL_CANDIDATE_NOT_PRODUCTION_VALIDATED",
+          "APPROXIMATE_ANALYTIC_MODEL",
+          "SIDEREAL_REFERENCE_REVIEW_PENDING",
+          "BIRTH_TIME_STABILITY_NOT_EVALUATED",
+          "INDIVIDUAL_VARGA_SIGNOFF_PENDING",
+          "STRENGTH_REFERENCE_ACCEPTANCE_PENDING",
+          "UCCHA_BALA_IS_NOT_FULL_SHADBALA"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "version": "vedic-civil-reference-1",
+  "source": "https://data.iana.org/time-zones/tzdb-2025b/asia",
+  "sourceSha256": "9a8b7e640cb0692b9e50b9126f599bf89360a2f9ed9e54b722f3e5b6f631b419",
+  "referenceMethod": "Manually specified civil arithmetic from the pinned post-war +05:30 rule, cross-checked against runtime Intl separately. Synthetic inputs; not astronomy goldens or independently reviewed positional fixtures.",
+  "reviewStatus": "author-specified-not-independent-review",
+  "cases": [
+    {"id":"TIME-START","localDate":"1950-01-01","localTime":"00:00","utcInstant":"1949-12-31T18:30:00.000Z"},
+    {"id":"TIME-LEAP","localDate":"2000-02-29","localTime":"12:00","utcInstant":"2000-02-29T06:30:00.000Z"},
+    {"id":"TIME-YEAR-ROLL","localDate":"2000-01-01","localTime":"00:00","utcInstant":"1999-12-31T18:30:00.000Z"},
+    {"id":"TIME-UTC-MIDNIGHT","localDate":"2026-10-24","localTime":"05:30","utcInstant":"2026-10-24T00:00:00.000Z"},
+    {"id":"TIME-END","localDate":"2098-12-31","localTime":"23:59","utcInstant":"2098-12-31T18:29:00.000Z"}
+  ]
+}

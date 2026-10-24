@@ -1,0 +1,18 @@
+{
+  "version": "p05-published-facts-1",
+  "retrievedOn": "2026-10-24",
+  "captureMethod": "Manually transcribed numerical facts from browser-readable publisher tables; direct raw HTTP capture failed ECONNRESET. No raw-page hash or original PAC acceptance claimed.",
+  "publisher": "Panchangam.org",
+  "referenceClass": "publisher spot checks; independent implementation and exact Lahiri convention not established",
+  "timeZoneId": "Asia/Kolkata",
+  "location": {"name": "Hyderabad", "latitude": 17.385, "longitude": 78.4867, "coordinateStatus": "test city centre; publisher does not disclose exact observer point"},
+  "proposedTransitionToleranceSeconds": 180,
+  "proposedSunriseToleranceSeconds": 120,
+  "acceptanceStatus": "original-PAC-location-and-convention-matched-validation-pending",
+  "days": [
+    {"date": "2026-05-31", "sourceUrl": "https://panchangam.org/dailypanchangam.php?date=2026-05-31", "sampleUtc": "2026-05-31T01:00:00Z", "tithi": 15, "nakshatra": 17, "yoga": 21, "karana": "Bava", "sunriseLocal": "05:45", "nextLocal": {"tithi": "2026-05-31T14:14:00+05:30", "nakshatra": "2026-05-31T16:11:00+05:30", "yoga": "2026-06-01T06:18:00+05:30", "karana": "2026-05-31T14:15:00+05:30"}},
+    {"date": "2026-09-26", "sourceUrl": "https://panchangam.org/dailypanchangam.php?date=2026-09-26", "sampleUtc": "2026-09-26T01:00:00Z", "tithi": 15, "nakshatra": 25, "yoga": 10, "karana": "Vishti", "sunriseLocal": "06:09", "nextLocal": {"tithi": "2026-09-26T22:18:00+05:30", "nakshatra": "2026-09-26T11:31:00+05:30", "yoga": "2026-09-26T13:17:00+05:30", "karana": "2026-09-26T10:47:00+05:30"}},
+    {"date": "2026-10-10", "sourceUrl": "https://panchangam.org/dailypanchangam.php?date=2026-10-10", "sampleUtc": "2026-10-10T01:00:00Z", "tithi": 30, "nakshatra": 13, "yoga": 26, "karana": "Chatushpada", "sunriseLocal": "06:11", "nextLocal": {"tithi": "2026-10-10T21:19:00+05:30", "nakshatra": "2026-10-10T21:42:00+05:30", "yoga": "2026-10-10T22:01:00+05:30", "karana": "2026-10-10T09:24:00+05:30"}}
+  ],
+  "knownReferenceIssues": ["Publisher sunrise differs by 177-234 seconds, outside the proposed 120-second gate. Observer point and sunrise convention are undisclosed; mismatch is unresolved, not a matched-convention acceptance pass.", "Publisher May 31 tithi and simultaneous Karana end differ by one printed minute.", "Publisher Oct 10 yoga changes are printed one minute apart (22:01/22:02).", "Month names and regional observances are deliberately excluded.", "This small 2026 sample does not certify 1950-2098 transitions, sunrise, or physical accuracy."]
+}

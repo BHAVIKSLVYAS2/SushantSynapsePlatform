@@ -1,0 +1,640 @@
+{
+  "version": "p08-independent-rational-fixtures-1",
+  "source": "P01 frozen Vimshottari lord weights/year convention",
+  "reviewStatus": "independent arithmetic method, agent-authored design data; original/human reference acceptance pending",
+  "method": "BigInt rational offsets at Nakshatra midpoints; no runtime import, floating-point date arithmetic or Gregorian year addition.",
+  "yearMilliseconds": 31557600000,
+  "birthUtcInstant": "2000-01-01T00:00:00Z",
+  "cases": [
+    {
+      "nakshatra": 1,
+      "moonLongitudeRational": {
+        "numerator": 20,
+        "denominator": 3
+      },
+      "lord": "Ketu",
+      "remainingYearsRational": {
+        "numerator": 7,
+        "denominator": 2
+      },
+      "startMilliseconds": 836233200000,
+      "endMilliseconds": 1057136400000,
+      "antardashas": [
+        {
+          "lord": "Ketu",
+          "startMilliseconds": 836233200000,
+          "endMilliseconds": 849119220000,
+          "durationMilliseconds": 12886020000
+        },
+        {
+          "lord": "Venus",
+          "startMilliseconds": 849119220000,
+          "endMilliseconds": 885936420000,
+          "durationMilliseconds": 36817200000
+        },
+        {
+          "lord": "Sun",
+          "startMilliseconds": 885936420000,
+          "endMilliseconds": 896981580000,
+          "durationMilliseconds": 11045160000
+        },
+        {
+          "lord": "Moon",
+          "startMilliseconds": 896981580000,
+          "endMilliseconds": 915390180000,
+          "durationMilliseconds": 18408600000
+        },
+        {
+          "lord": "Mars",
+          "startMilliseconds": 915390180000,
+          "endMilliseconds": 928276200000,
+          "durationMilliseconds": 12886020000
+        },
+        {
+          "lord": "Rahu",
+          "startMilliseconds": 928276200000,
+          "endMilliseconds": 961411680000,
+          "durationMilliseconds": 33135480000
+        },
+        {
+          "lord": "Jupiter",
+          "startMilliseconds": 961411680000,
+          "endMilliseconds": 990865440000,
+          "durationMilliseconds": 29453760000
+        },
+        {
+          "lord": "Saturn",
+          "startMilliseconds": 990865440000,
+          "endMilliseconds": 1025841780000,
+          "durationMilliseconds": 34976340000
+        },
+        {
+          "lord": "Mercury",
+          "startMilliseconds": 1025841780000,
+          "endMilliseconds": 1057136400000,
+          "durationMilliseconds": 31294620000
+        }
+      ]
+    },
+    {
+      "nakshatra": 2,
+      "moonLongitudeRational": {
+        "numerator": 60,
+        "denominator": 3
+      },
+      "lord": "Venus",
+      "remainingYearsRational": {
+        "numerator": 20,
+        "denominator": 2
+      },
+      "startMilliseconds": 631108800000,
+      "endMilliseconds": 1262260800000,
+      "antardashas": [
+        {
+          "lord": "Venus",
+          "startMilliseconds": 631108800000,
+          "endMilliseconds": 736300800000,
+          "durationMilliseconds": 105192000000
+        },
+        {
+          "lord": "Sun",
+          "startMilliseconds": 736300800000,
+          "endMilliseconds": 767858400000,
+          "durationMilliseconds": 31557600000
+        },
+        {
+          "lord": "Moon",
+          "startMilliseconds": 767858400000,
+          "endMilliseconds": 820454400000,
+          "durationMilliseconds": 52596000000
+        },
+        {
+          "lord": "Mars",
+          "startMilliseconds": 820454400000,
+          "endMilliseconds": 857271600000,
+          "durationMilliseconds": 36817200000
+        },
+        {
+          "lord": "Rahu",
+          "startMilliseconds": 857271600000,
+          "endMilliseconds": 951944400000,
+          "durationMilliseconds": 94672800000
+        },
+        {
+          "lord": "Jupiter",
+          "startMilliseconds": 951944400000,
+          "endMilliseconds": 1036098000000,
+          "durationMilliseconds": 84153600000
+        },
+        {
+          "lord": "Saturn",
+          "startMilliseconds": 1036098000000,
+          "endMilliseconds": 1136030400000,
+          "durationMilliseconds": 99932400000
+        },
+        {
+          "lord": "Mercury",
+          "startMilliseconds": 1136030400000,
+          "endMilliseconds": 1225443600000,
+          "durationMilliseconds": 89413200000
+        },
+        {
+          "lord": "Ketu",
+          "startMilliseconds": 1225443600000,
+          "endMilliseconds": 1262260800000,
+          "durationMilliseconds": 36817200000
+        }
+      ]
+    },
+    {
+      "nakshatra": 3,
+      "moonLongitudeRational": {
+        "numerator": 100,
+        "denominator": 3
+      },
+      "lord": "Sun",
+      "remainingYearsRational": {
+        "numerator": 6,
+        "denominator": 2
+      },
+      "startMilliseconds": 852012000000,
+      "endMilliseconds": 1041357600000,
+      "antardashas": [
+        {
+          "lord": "Sun",
+          "startMilliseconds": 852012000000,
+          "endMilliseconds": 861479280000,
+          "durationMilliseconds": 9467280000
+        },
+        {
+          "lord": "Moon",
+          "startMilliseconds": 861479280000,
+          "endMilliseconds": 877258080000,
+          "durationMilliseconds": 15778800000
+        },
+        {
+          "lord": "Mars",
+          "startMilliseconds": 877258080000,
+          "endMilliseconds": 888303240000,
+          "durationMilliseconds": 11045160000
+        },
+        {
+          "lord": "Rahu",
+          "startMilliseconds": 888303240000,
+          "endMilliseconds": 916705080000,
+          "durationMilliseconds": 28401840000
+        },
+        {
+          "lord": "Jupiter",
+          "startMilliseconds": 916705080000,
+          "endMilliseconds": 941951160000,
+          "durationMilliseconds": 25246080000
+        },
+        {
+          "lord": "Saturn",
+          "startMilliseconds": 941951160000,
+          "endMilliseconds": 971930880000,
+          "durationMilliseconds": 29979720000
+        },
+        {
+          "lord": "Mercury",
+          "startMilliseconds": 971930880000,
+          "endMilliseconds": 998754840000,
+          "durationMilliseconds": 26823960000
+        },
+        {
+          "lord": "Ketu",
+          "startMilliseconds": 998754840000,
+          "endMilliseconds": 1009800000000,
+          "durationMilliseconds": 11045160000
+        },
+        {
+          "lord": "Venus",
+          "startMilliseconds": 1009800000000,
+          "endMilliseconds": 1041357600000,
+          "durationMilliseconds": 31557600000
+        }
+      ]
+    },
+    {
+      "nakshatra": 4,
+      "moonLongitudeRational": {
+        "numerator": 140,
+        "denominator": 3
+      },
+      "lord": "Moon",
+      "remainingYearsRational": {
+        "numerator": 10,
+        "denominator": 2
+      },
+      "startMilliseconds": 788896800000,
+      "endMilliseconds": 1104472800000,
+      "antardashas": [
+        {
+          "lord": "Moon",
+          "startMilliseconds": 788896800000,
+          "endMilliseconds": 815194800000,
+          "durationMilliseconds": 26298000000
+        },
+        {
+          "lord": "Mars",
+          "startMilliseconds": 815194800000,
+          "endMilliseconds": 833603400000,
+          "durationMilliseconds": 18408600000
+        },
+        {
+          "lord": "Rahu",
+          "startMilliseconds": 833603400000,
+          "endMilliseconds": 880939800000,
+          "durationMilliseconds": 47336400000
+        },
+        {
+          "lord": "Jupiter",
+          "startMilliseconds": 880939800000,
+          "endMilliseconds": 923016600000,
+          "durationMilliseconds": 42076800000
+        },
+        {
+          "lord": "Saturn",
+          "startMilliseconds": 923016600000,
+          "endMilliseconds": 972982800000,
+          "durationMilliseconds": 49966200000
+        },
+        {
+          "lord": "Mercury",
+          "startMilliseconds": 972982800000,
+          "endMilliseconds": 1017689400000,
+          "durationMilliseconds": 44706600000
+        },
+        {
+          "lord": "Ketu",
+          "startMilliseconds": 1017689400000,
+          "endMilliseconds": 1036098000000,
+          "durationMilliseconds": 18408600000
+        },
+        {
+          "lord": "Venus",
+          "startMilliseconds": 1036098000000,
+          "endMilliseconds": 1088694000000,
+          "durationMilliseconds": 52596000000
+        },
+        {
+          "lord": "Sun",
+          "startMilliseconds": 1088694000000,
+          "endMilliseconds": 1104472800000,
+          "durationMilliseconds": 15778800000
+        }
+      ]
+    },
+    {
+      "nakshatra": 5,
+      "moonLongitudeRational": {
+        "numerator": 180,
+        "denominator": 3
+      },
+      "lord": "Mars",
+      "remainingYearsRational": {
+        "numerator": 7,
+        "denominator": 2
+      },
+      "startMilliseconds": 836233200000,
+      "endMilliseconds": 1057136400000,
+      "antardashas": [
+        {
+          "lord": "Mars",
+          "startMilliseconds": 836233200000,
+          "endMilliseconds": 849119220000,
+          "durationMilliseconds": 12886020000
+        },
+        {
+          "lord": "Rahu",
+          "startMilliseconds": 849119220000,
+          "endMilliseconds": 882254700000,
+          "durationMilliseconds": 33135480000
+        },
+        {
+          "lord": "Jupiter",
+          "startMilliseconds": 882254700000,
+          "endMilliseconds": 911708460000,
+          "durationMilliseconds": 29453760000
+        },
+        {
+          "lord": "Saturn",
+          "startMilliseconds": 911708460000,
+          "endMilliseconds": 946684800000,
+          "durationMilliseconds": 34976340000
+        },
+        {
+          "lord": "Mercury",
+          "startMilliseconds": 946684800000,
+          "endMilliseconds": 977979420000,
+          "durationMilliseconds": 31294620000
+        },
+        {
+          "lord": "Ketu",
+          "startMilliseconds": 977979420000,
+          "endMilliseconds": 990865440000,
+          "durationMilliseconds": 12886020000
+        },
+        {
+          "lord": "Venus",
+          "startMilliseconds": 990865440000,
+          "endMilliseconds": 1027682640000,
+          "durationMilliseconds": 36817200000
+        },
+        {
+          "lord": "Sun",
+          "startMilliseconds": 1027682640000,
+          "endMilliseconds": 1038727800000,
+          "durationMilliseconds": 11045160000
+        },
+        {
+          "lord": "Moon",
+          "startMilliseconds": 1038727800000,
+          "endMilliseconds": 1057136400000,
+          "durationMilliseconds": 18408600000
+        }
+      ]
+    },
+    {
+      "nakshatra": 6,
+      "moonLongitudeRational": {
+        "numerator": 220,
+        "denominator": 3
+      },
+      "lord": "Rahu",
+      "remainingYearsRational": {
+        "numerator": 18,
+        "denominator": 2
+      },
+      "startMilliseconds": 662666400000,
+      "endMilliseconds": 1230703200000,
+      "antardashas": [
+        {
+          "lord": "Rahu",
+          "startMilliseconds": 662666400000,
+          "endMilliseconds": 747871920000,
+          "durationMilliseconds": 85205520000
+        },
+        {
+          "lord": "Jupiter",
+          "startMilliseconds": 747871920000,
+          "endMilliseconds": 823610160000,
+          "durationMilliseconds": 75738240000
+        },
+        {
+          "lord": "Saturn",
+          "startMilliseconds": 823610160000,
+          "endMilliseconds": 913549320000,
+          "durationMilliseconds": 89939160000
+        },
+        {
+          "lord": "Mercury",
+          "startMilliseconds": 913549320000,
+          "endMilliseconds": 994021200000,
+          "durationMilliseconds": 80471880000
+        },
+        {
+          "lord": "Ketu",
+          "startMilliseconds": 994021200000,
+          "endMilliseconds": 1027156680000,
+          "durationMilliseconds": 33135480000
+        },
+        {
+          "lord": "Venus",
+          "startMilliseconds": 1027156680000,
+          "endMilliseconds": 1121829480000,
+          "durationMilliseconds": 94672800000
+        },
+        {
+          "lord": "Sun",
+          "startMilliseconds": 1121829480000,
+          "endMilliseconds": 1150231320000,
+          "durationMilliseconds": 28401840000
+        },
+        {
+          "lord": "Moon",
+          "startMilliseconds": 1150231320000,
+          "endMilliseconds": 1197567720000,
+          "durationMilliseconds": 47336400000
+        },
+        {
+          "lord": "Mars",
+          "startMilliseconds": 1197567720000,
+          "endMilliseconds": 1230703200000,
+          "durationMilliseconds": 33135480000
+        }
+      ]
+    },
+    {
+      "nakshatra": 7,
+      "moonLongitudeRational": {
+        "numerator": 260,
+        "denominator": 3
+      },
+      "lord": "Jupiter",
+      "remainingYearsRational": {
+        "numerator": 16,
+        "denominator": 2
+      },
+      "startMilliseconds": 694224000000,
+      "endMilliseconds": 1199145600000,
+      "antardashas": [
+        {
+          "lord": "Jupiter",
+          "startMilliseconds": 694224000000,
+          "endMilliseconds": 761546880000,
+          "durationMilliseconds": 67322880000
+        },
+        {
+          "lord": "Saturn",
+          "startMilliseconds": 761546880000,
+          "endMilliseconds": 841492800000,
+          "durationMilliseconds": 79945920000
+        },
+        {
+          "lord": "Mercury",
+          "startMilliseconds": 841492800000,
+          "endMilliseconds": 913023360000,
+          "durationMilliseconds": 71530560000
+        },
+        {
+          "lord": "Ketu",
+          "startMilliseconds": 913023360000,
+          "endMilliseconds": 942477120000,
+          "durationMilliseconds": 29453760000
+        },
+        {
+          "lord": "Venus",
+          "startMilliseconds": 942477120000,
+          "endMilliseconds": 1026630720000,
+          "durationMilliseconds": 84153600000
+        },
+        {
+          "lord": "Sun",
+          "startMilliseconds": 1026630720000,
+          "endMilliseconds": 1051876800000,
+          "durationMilliseconds": 25246080000
+        },
+        {
+          "lord": "Moon",
+          "startMilliseconds": 1051876800000,
+          "endMilliseconds": 1093953600000,
+          "durationMilliseconds": 42076800000
+        },
+        {
+          "lord": "Mars",
+          "startMilliseconds": 1093953600000,
+          "endMilliseconds": 1123407360000,
+          "durationMilliseconds": 29453760000
+        },
+        {
+          "lord": "Rahu",
+          "startMilliseconds": 1123407360000,
+          "endMilliseconds": 1199145600000,
+          "durationMilliseconds": 75738240000
+        }
+      ]
+    },
+    {
+      "nakshatra": 8,
+      "moonLongitudeRational": {
+        "numerator": 300,
+        "denominator": 3
+      },
+      "lord": "Saturn",
+      "remainingYearsRational": {
+        "numerator": 19,
+        "denominator": 2
+      },
+      "startMilliseconds": 646887600000,
+      "endMilliseconds": 1246482000000,
+      "antardashas": [
+        {
+          "lord": "Saturn",
+          "startMilliseconds": 646887600000,
+          "endMilliseconds": 741823380000,
+          "durationMilliseconds": 94935780000
+        },
+        {
+          "lord": "Mercury",
+          "startMilliseconds": 741823380000,
+          "endMilliseconds": 826765920000,
+          "durationMilliseconds": 84942540000
+        },
+        {
+          "lord": "Ketu",
+          "startMilliseconds": 826765920000,
+          "endMilliseconds": 861742260000,
+          "durationMilliseconds": 34976340000
+        },
+        {
+          "lord": "Venus",
+          "startMilliseconds": 861742260000,
+          "endMilliseconds": 961674660000,
+          "durationMilliseconds": 99932400000
+        },
+        {
+          "lord": "Sun",
+          "startMilliseconds": 961674660000,
+          "endMilliseconds": 991654380000,
+          "durationMilliseconds": 29979720000
+        },
+        {
+          "lord": "Moon",
+          "startMilliseconds": 991654380000,
+          "endMilliseconds": 1041620580000,
+          "durationMilliseconds": 49966200000
+        },
+        {
+          "lord": "Mars",
+          "startMilliseconds": 1041620580000,
+          "endMilliseconds": 1076596920000,
+          "durationMilliseconds": 34976340000
+        },
+        {
+          "lord": "Rahu",
+          "startMilliseconds": 1076596920000,
+          "endMilliseconds": 1166536080000,
+          "durationMilliseconds": 89939160000
+        },
+        {
+          "lord": "Jupiter",
+          "startMilliseconds": 1166536080000,
+          "endMilliseconds": 1246482000000,
+          "durationMilliseconds": 79945920000
+        }
+      ]
+    },
+    {
+      "nakshatra": 9,
+      "moonLongitudeRational": {
+        "numerator": 340,
+        "denominator": 3
+      },
+      "lord": "Mercury",
+      "remainingYearsRational": {
+        "numerator": 17,
+        "denominator": 2
+      },
+      "startMilliseconds": 678445200000,
+      "endMilliseconds": 1214924400000,
+      "antardashas": [
+        {
+          "lord": "Mercury",
+          "startMilliseconds": 678445200000,
+          "endMilliseconds": 754446420000,
+          "durationMilliseconds": 76001220000
+        },
+        {
+          "lord": "Ketu",
+          "startMilliseconds": 754446420000,
+          "endMilliseconds": 785741040000,
+          "durationMilliseconds": 31294620000
+        },
+        {
+          "lord": "Venus",
+          "startMilliseconds": 785741040000,
+          "endMilliseconds": 875154240000,
+          "durationMilliseconds": 89413200000
+        },
+        {
+          "lord": "Sun",
+          "startMilliseconds": 875154240000,
+          "endMilliseconds": 901978200000,
+          "durationMilliseconds": 26823960000
+        },
+        {
+          "lord": "Moon",
+          "startMilliseconds": 901978200000,
+          "endMilliseconds": 946684800000,
+          "durationMilliseconds": 44706600000
+        },
+        {
+          "lord": "Mars",
+          "startMilliseconds": 946684800000,
+          "endMilliseconds": 977979420000,
+          "durationMilliseconds": 31294620000
+        },
+        {
+          "lord": "Rahu",
+          "startMilliseconds": 977979420000,
+          "endMilliseconds": 1058451300000,
+          "durationMilliseconds": 80471880000
+        },
+        {
+          "lord": "Jupiter",
+          "startMilliseconds": 1058451300000,
+          "endMilliseconds": 1129981860000,
+          "durationMilliseconds": 71530560000
+        },
+        {
+          "lord": "Saturn",
+          "startMilliseconds": 1129981860000,
+          "endMilliseconds": 1214924400000,
+          "durationMilliseconds": 84942540000
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "retrieved": "2026-10-24",
+  "citySource": "https://download.geonames.org/export/dump/cities15000.zip",
+  "cityZipSha256": "eae619fcbf5e519f47a6d52340247485811ed3333b8b02b442c752d6b4058b60",
+  "cityTextSha256": "dabd4ffa1cc5cf2bc8f5d85221f839897bfb363c40722284e15f2f365bd0239e",
+  "adminSource": "https://download.geonames.org/export/dump/admin1CodesASCII.txt",
+  "adminTextSha256": "2e4867f5397acb056ea26377601b57af37cb4c81399770225018e9e439e91ad3",
+  "citySubsetSha256": "d84e173778177b50fe6d1ab03ddb32e8da8ea63a65b429b4094965df000ba019",
+  "adminSubsetSha256": "825ee186b33f488c6cb3c7d4d8df07f00a0a1e080f6eacba5102ebb793c583be",
+  "readmeSha256": "b1957379b6c1242c700c98ac9a8aa0a09f56c3c0a50ee72175527005f48ef2c5"
+}

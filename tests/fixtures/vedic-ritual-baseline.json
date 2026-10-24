@@ -1,0 +1,88 @@
+{
+  "scope": "Internal before-refactor Ritual regression, not an independent astronomical golden",
+  "engineSha256": "6257fd34e7a74370767a98bf26d1724d748e5f71c1530be6730ff21336cc6607",
+  "result": {
+    "primitives": [
+      {
+        "utc": "1950-06-15T06:45:00Z",
+        "window": {
+          "number": 30,
+          "start": -616931892362,
+          "end": -616838792298
+        },
+        "next": {
+          "number": 1,
+          "start": -616838792298,
+          "end": -616746998351
+        },
+        "daylight": {
+          "date": "1950-06-15",
+          "sunrise": -616896434430,
+          "sunset": -616846199447,
+          "aparahnaStart": -616866293440.2,
+          "aparahnaEnd": -616856246443.6
+        },
+        "moonrise": -616898990558
+      },
+      {
+        "utc": "2000-01-01T06:45:00Z",
+        "window": {
+          "number": 26,
+          "start": 946704881461,
+          "end": 946799429478
+        },
+        "next": {
+          "number": 27,
+          "start": 946799429478,
+          "end": 946894945329
+        },
+        "daylight": {
+          "date": "2000-01-01",
+          "sunrise": 946691023999,
+          "sunset": 946728302961,
+          "aparahnaStart": 946713391376.2,
+          "aparahnaEnd": 946720847168.6
+        },
+        "moonrise": 946673493972
+      },
+      {
+        "utc": "2026-09-26T06:45:00Z",
+        "window": {
+          "number": 15,
+          "start": 1790357869358,
+          "end": 1790441372233
+        },
+        "next": {
+          "number": 16,
+          "start": 1790441372233,
+          "end": 1790522979928
+        },
+        "daylight": {
+          "date": "2026-09-26",
+          "sunrise": 1790383286342,
+          "sunset": 1790426595981,
+          "aparahnaStart": 1790409272125.4,
+          "aparahnaEnd": 1790417934053.2
+        },
+        "moonrise": 1790425430311
+      }
+    ],
+    "remembrance": {
+      "hash": "e3acb18ff3c2f7f42e864c313189e948e3d22ed514353ed9ecc1d3ff0f4b8f01",
+      "annual": "2026-10-19",
+      "pitru": "2027-09-24"
+    },
+    "observances": [
+      {
+        "month": "2026-05",
+        "hash": "7f23a52509f634a517f1881473ff89439ab6d2982a0ff04f362151768dd65367",
+        "events": 11
+      },
+      {
+        "month": "2026-09",
+        "hash": "39f506817957069572ad1cd9068f899a5859ea5b02d6aeab13c5b1b0ba8bb171",
+        "events": 9
+      }
+    ]
+  }
+}

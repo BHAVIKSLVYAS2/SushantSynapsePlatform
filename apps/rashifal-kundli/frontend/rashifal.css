@@ -1,0 +1,14 @@
+.vedic-rashifal-page{margin:0;background:var(--ui-bg);color:var(--ui-ink);font:1rem/1.55 system-ui,sans-serif}
+.vedic-rashifal-page>header,.vedic-rashifal{max-width:62rem;margin:auto;padding:1rem}
+.vedic-rashifal *{box-sizing:border-box;min-width:0}.vedic-rashifal{overflow-wrap:anywhere}
+.vedic-rashifal h1{font-size:clamp(1.6rem,4vw,2.4rem);line-height:1.2}
+.vedic-rashifal label{display:flex;flex-direction:column;gap:.4rem;margin-block:1rem;max-width:32rem;font-weight:600}
+.vedic-rashifal input,.vedic-rashifal select,.vedic-rashifal-page>header select{background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-edge);padding:.65rem;border-radius:.5rem;min-height:44px;max-width:100%;font:inherit}
+.vedic-rashifal input[type=checkbox]{width:1.4rem;min-height:1.4rem;align-self:flex-start}
+.vedic-rashifal button{font:inherit;min-height:44px;border:1px solid var(--ui-edge);border-radius:.5rem;padding:.6rem .9rem;background:var(--ui-solid);color:var(--ui-ink);cursor:pointer}
+.rashifal-tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin-block:1rem}.rashifal-tabs button[aria-pressed=true]{background:var(--ui-accent);color:var(--ui-on-accent)}
+.rashifal-draft{border-inline-start:3px solid var(--ui-accent);padding:.75rem;background:var(--ui-soft)}
+.rashifal-reading{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.rashifal-reading>section{padding:1rem;border:1px solid var(--ui-edge);border-radius:.75rem;background:var(--ui-solid)}.rashifal-reading>section:first-child{grid-column:1/-1}
+.vedic-rashifal details{border:1px solid var(--ui-edge);border-radius:.5rem;margin-block:1rem;padding:1rem}.vedic-rashifal summary{cursor:pointer;min-height:44px;font-weight:600}
+.vedic-rashifal :focus-visible{outline:3px solid var(--ui-accent);outline-offset:3px}
+@media(max-width:600px){.rashifal-reading{grid-template-columns:minmax(0,1fr)}}

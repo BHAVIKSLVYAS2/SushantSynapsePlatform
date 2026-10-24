@@ -1,0 +1,5052 @@
+{
+  "phase": "P12",
+  "scope": "Deterministic composition/consistency evidence, not independent astronomy or editorial acceptance",
+  "rule": "rashifal-reflections-1",
+  "catalogueDate": "2026-10-24",
+  "cases": 108,
+  "groups": 4,
+  "baselinePrompts": 20,
+  "draftTranslations": 40,
+  "sourceHashes": {
+    "packages/vedic/rashifal-factors.mjs": "bca13f3cb89dc83b4768a4685531b905cafcef790159b9bbbf0d376cc0d369e2",
+    "apps/rashifal-kundli/frontend/rashifal-library.mjs": "a095d55f0bdc95274455fd08c0d2f5eafc6c51120b12e59c4bc43e230a86672a",
+    "apps/rashifal-kundli/frontend/rashifal-service.mjs": "fdfec382b7495d7ef7d3e8fa82a170f5bffd1a8a26a952665436f8edfcf1d224"
+  },
+  "translationStatus": {
+    "en": "authored-baseline-draft",
+    "hi": "draft-awaiting-independent-review",
+    "gu": "draft-awaiting-independent-review"
+  },
+  "publicationStatus": "draft-not-published",
+  "rows": [
+    {
+      "rashi": 1,
+      "view": "today",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        12
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 1,
+      "view": "today",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        12
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 1,
+      "view": "today",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        12
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 1,
+      "view": "tomorrow",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        12
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 1,
+      "view": "tomorrow",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        12
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 1,
+      "view": "tomorrow",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        12
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 1,
+      "view": "weekly",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 3
+        },
+        {
+          "group": "reflect",
+          "noonSamples": 2
+        },
+        {
+          "group": "organise",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview",
+          "reflect.overview",
+          "organise.overview"
+        ],
+        [
+          "connect.career",
+          "reflect.career",
+          "organise.career"
+        ],
+        [
+          "connect.money",
+          "reflect.money",
+          "organise.money"
+        ],
+        [
+          "connect.relationships",
+          "reflect.relationships",
+          "organise.relationships"
+        ],
+        [
+          "connect.wellbeing",
+          "reflect.wellbeing",
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 1,
+      "view": "weekly",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 3
+        },
+        {
+          "group": "reflect",
+          "noonSamples": 2
+        },
+        {
+          "group": "organise",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview",
+          "reflect.overview",
+          "organise.overview"
+        ],
+        [
+          "connect.career",
+          "reflect.career",
+          "organise.career"
+        ],
+        [
+          "connect.money",
+          "reflect.money",
+          "organise.money"
+        ],
+        [
+          "connect.relationships",
+          "reflect.relationships",
+          "organise.relationships"
+        ],
+        [
+          "connect.wellbeing",
+          "reflect.wellbeing",
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 1,
+      "view": "weekly",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 3
+        },
+        {
+          "group": "reflect",
+          "noonSamples": 2
+        },
+        {
+          "group": "organise",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview",
+          "reflect.overview",
+          "organise.overview"
+        ],
+        [
+          "connect.career",
+          "reflect.career",
+          "organise.career"
+        ],
+        [
+          "connect.money",
+          "reflect.money",
+          "organise.money"
+        ],
+        [
+          "connect.relationships",
+          "reflect.relationships",
+          "organise.relationships"
+        ],
+        [
+          "connect.wellbeing",
+          "reflect.wellbeing",
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 2,
+      "view": "today",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        11
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview"
+        ],
+        [
+          "connect.career"
+        ],
+        [
+          "connect.money"
+        ],
+        [
+          "connect.relationships"
+        ],
+        [
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 2,
+      "view": "today",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        11
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview"
+        ],
+        [
+          "connect.career"
+        ],
+        [
+          "connect.money"
+        ],
+        [
+          "connect.relationships"
+        ],
+        [
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 2,
+      "view": "today",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        11
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview"
+        ],
+        [
+          "connect.career"
+        ],
+        [
+          "connect.money"
+        ],
+        [
+          "connect.relationships"
+        ],
+        [
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 2,
+      "view": "tomorrow",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        11
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview"
+        ],
+        [
+          "connect.career"
+        ],
+        [
+          "connect.money"
+        ],
+        [
+          "connect.relationships"
+        ],
+        [
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 2,
+      "view": "tomorrow",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        11
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview"
+        ],
+        [
+          "connect.career"
+        ],
+        [
+          "connect.money"
+        ],
+        [
+          "connect.relationships"
+        ],
+        [
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 2,
+      "view": "tomorrow",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        11
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview"
+        ],
+        [
+          "connect.career"
+        ],
+        [
+          "connect.money"
+        ],
+        [
+          "connect.relationships"
+        ],
+        [
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 2,
+      "view": "weekly",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        9,
+        9,
+        10,
+        10,
+        10,
+        11,
+        11
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 3
+        },
+        {
+          "group": "connect",
+          "noonSamples": 2
+        },
+        {
+          "group": "explore",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview",
+          "connect.overview",
+          "explore.overview"
+        ],
+        [
+          "organise.career",
+          "connect.career",
+          "explore.career"
+        ],
+        [
+          "organise.money",
+          "connect.money",
+          "explore.money"
+        ],
+        [
+          "organise.relationships",
+          "connect.relationships",
+          "explore.relationships"
+        ],
+        [
+          "organise.wellbeing",
+          "connect.wellbeing",
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 2,
+      "view": "weekly",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        9,
+        9,
+        10,
+        10,
+        10,
+        11,
+        11
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 3
+        },
+        {
+          "group": "connect",
+          "noonSamples": 2
+        },
+        {
+          "group": "explore",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview",
+          "connect.overview",
+          "explore.overview"
+        ],
+        [
+          "organise.career",
+          "connect.career",
+          "explore.career"
+        ],
+        [
+          "organise.money",
+          "connect.money",
+          "explore.money"
+        ],
+        [
+          "organise.relationships",
+          "connect.relationships",
+          "explore.relationships"
+        ],
+        [
+          "organise.wellbeing",
+          "connect.wellbeing",
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 2,
+      "view": "weekly",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        9,
+        9,
+        10,
+        10,
+        10,
+        11,
+        11
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 3
+        },
+        {
+          "group": "connect",
+          "noonSamples": 2
+        },
+        {
+          "group": "explore",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview",
+          "connect.overview",
+          "explore.overview"
+        ],
+        [
+          "organise.career",
+          "connect.career",
+          "explore.career"
+        ],
+        [
+          "organise.money",
+          "connect.money",
+          "explore.money"
+        ],
+        [
+          "organise.relationships",
+          "connect.relationships",
+          "explore.relationships"
+        ],
+        [
+          "organise.wellbeing",
+          "connect.wellbeing",
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 3,
+      "view": "today",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        10
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview"
+        ],
+        [
+          "organise.career"
+        ],
+        [
+          "organise.money"
+        ],
+        [
+          "organise.relationships"
+        ],
+        [
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 3,
+      "view": "today",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        10
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview"
+        ],
+        [
+          "organise.career"
+        ],
+        [
+          "organise.money"
+        ],
+        [
+          "organise.relationships"
+        ],
+        [
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 3,
+      "view": "today",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        10
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview"
+        ],
+        [
+          "organise.career"
+        ],
+        [
+          "organise.money"
+        ],
+        [
+          "organise.relationships"
+        ],
+        [
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 3,
+      "view": "tomorrow",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        10
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview"
+        ],
+        [
+          "organise.career"
+        ],
+        [
+          "organise.money"
+        ],
+        [
+          "organise.relationships"
+        ],
+        [
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 3,
+      "view": "tomorrow",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        10
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview"
+        ],
+        [
+          "organise.career"
+        ],
+        [
+          "organise.money"
+        ],
+        [
+          "organise.relationships"
+        ],
+        [
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 3,
+      "view": "tomorrow",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        10
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview"
+        ],
+        [
+          "organise.career"
+        ],
+        [
+          "organise.money"
+        ],
+        [
+          "organise.relationships"
+        ],
+        [
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 3,
+      "view": "weekly",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        8,
+        8,
+        9,
+        9,
+        9,
+        10,
+        10
+      ],
+      "selection": [
+        {
+          "group": "explore",
+          "noonSamples": 3
+        },
+        {
+          "group": "reflect",
+          "noonSamples": 2
+        },
+        {
+          "group": "organise",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "explore.overview",
+          "reflect.overview",
+          "organise.overview"
+        ],
+        [
+          "explore.career",
+          "reflect.career",
+          "organise.career"
+        ],
+        [
+          "explore.money",
+          "reflect.money",
+          "organise.money"
+        ],
+        [
+          "explore.relationships",
+          "reflect.relationships",
+          "organise.relationships"
+        ],
+        [
+          "explore.wellbeing",
+          "reflect.wellbeing",
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 3,
+      "view": "weekly",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        8,
+        8,
+        9,
+        9,
+        9,
+        10,
+        10
+      ],
+      "selection": [
+        {
+          "group": "explore",
+          "noonSamples": 3
+        },
+        {
+          "group": "reflect",
+          "noonSamples": 2
+        },
+        {
+          "group": "organise",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "explore.overview",
+          "reflect.overview",
+          "organise.overview"
+        ],
+        [
+          "explore.career",
+          "reflect.career",
+          "organise.career"
+        ],
+        [
+          "explore.money",
+          "reflect.money",
+          "organise.money"
+        ],
+        [
+          "explore.relationships",
+          "reflect.relationships",
+          "organise.relationships"
+        ],
+        [
+          "explore.wellbeing",
+          "reflect.wellbeing",
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 3,
+      "view": "weekly",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        8,
+        8,
+        9,
+        9,
+        9,
+        10,
+        10
+      ],
+      "selection": [
+        {
+          "group": "explore",
+          "noonSamples": 3
+        },
+        {
+          "group": "reflect",
+          "noonSamples": 2
+        },
+        {
+          "group": "organise",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "explore.overview",
+          "reflect.overview",
+          "organise.overview"
+        ],
+        [
+          "explore.career",
+          "reflect.career",
+          "organise.career"
+        ],
+        [
+          "explore.money",
+          "reflect.money",
+          "organise.money"
+        ],
+        [
+          "explore.relationships",
+          "reflect.relationships",
+          "organise.relationships"
+        ],
+        [
+          "explore.wellbeing",
+          "reflect.wellbeing",
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 4,
+      "view": "today",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        9
+      ],
+      "selection": [
+        {
+          "group": "explore",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "explore.overview"
+        ],
+        [
+          "explore.career"
+        ],
+        [
+          "explore.money"
+        ],
+        [
+          "explore.relationships"
+        ],
+        [
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 4,
+      "view": "today",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        9
+      ],
+      "selection": [
+        {
+          "group": "explore",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "explore.overview"
+        ],
+        [
+          "explore.career"
+        ],
+        [
+          "explore.money"
+        ],
+        [
+          "explore.relationships"
+        ],
+        [
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 4,
+      "view": "today",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        9
+      ],
+      "selection": [
+        {
+          "group": "explore",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "explore.overview"
+        ],
+        [
+          "explore.career"
+        ],
+        [
+          "explore.money"
+        ],
+        [
+          "explore.relationships"
+        ],
+        [
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 4,
+      "view": "tomorrow",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        9
+      ],
+      "selection": [
+        {
+          "group": "explore",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "explore.overview"
+        ],
+        [
+          "explore.career"
+        ],
+        [
+          "explore.money"
+        ],
+        [
+          "explore.relationships"
+        ],
+        [
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 4,
+      "view": "tomorrow",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        9
+      ],
+      "selection": [
+        {
+          "group": "explore",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "explore.overview"
+        ],
+        [
+          "explore.career"
+        ],
+        [
+          "explore.money"
+        ],
+        [
+          "explore.relationships"
+        ],
+        [
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 4,
+      "view": "tomorrow",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        9
+      ],
+      "selection": [
+        {
+          "group": "explore",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "explore.overview"
+        ],
+        [
+          "explore.career"
+        ],
+        [
+          "explore.money"
+        ],
+        [
+          "explore.relationships"
+        ],
+        [
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 4,
+      "view": "weekly",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        7,
+        7,
+        8,
+        8,
+        8,
+        9,
+        9
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 3
+        },
+        {
+          "group": "connect",
+          "noonSamples": 2
+        },
+        {
+          "group": "explore",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview",
+          "connect.overview",
+          "explore.overview"
+        ],
+        [
+          "reflect.career",
+          "connect.career",
+          "explore.career"
+        ],
+        [
+          "reflect.money",
+          "connect.money",
+          "explore.money"
+        ],
+        [
+          "reflect.relationships",
+          "connect.relationships",
+          "explore.relationships"
+        ],
+        [
+          "reflect.wellbeing",
+          "connect.wellbeing",
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 4,
+      "view": "weekly",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        7,
+        7,
+        8,
+        8,
+        8,
+        9,
+        9
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 3
+        },
+        {
+          "group": "connect",
+          "noonSamples": 2
+        },
+        {
+          "group": "explore",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview",
+          "connect.overview",
+          "explore.overview"
+        ],
+        [
+          "reflect.career",
+          "connect.career",
+          "explore.career"
+        ],
+        [
+          "reflect.money",
+          "connect.money",
+          "explore.money"
+        ],
+        [
+          "reflect.relationships",
+          "connect.relationships",
+          "explore.relationships"
+        ],
+        [
+          "reflect.wellbeing",
+          "connect.wellbeing",
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 4,
+      "view": "weekly",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        7,
+        7,
+        8,
+        8,
+        8,
+        9,
+        9
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 3
+        },
+        {
+          "group": "connect",
+          "noonSamples": 2
+        },
+        {
+          "group": "explore",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview",
+          "connect.overview",
+          "explore.overview"
+        ],
+        [
+          "reflect.career",
+          "connect.career",
+          "explore.career"
+        ],
+        [
+          "reflect.money",
+          "connect.money",
+          "explore.money"
+        ],
+        [
+          "reflect.relationships",
+          "connect.relationships",
+          "explore.relationships"
+        ],
+        [
+          "reflect.wellbeing",
+          "connect.wellbeing",
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 5,
+      "view": "today",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        8
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 5,
+      "view": "today",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        8
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 5,
+      "view": "today",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        8
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 5,
+      "view": "tomorrow",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        8
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 5,
+      "view": "tomorrow",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        8
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 5,
+      "view": "tomorrow",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        8
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 5,
+      "view": "weekly",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        6,
+        6,
+        7,
+        7,
+        7,
+        8,
+        8
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 3
+        },
+        {
+          "group": "reflect",
+          "noonSamples": 2
+        },
+        {
+          "group": "organise",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview",
+          "reflect.overview",
+          "organise.overview"
+        ],
+        [
+          "connect.career",
+          "reflect.career",
+          "organise.career"
+        ],
+        [
+          "connect.money",
+          "reflect.money",
+          "organise.money"
+        ],
+        [
+          "connect.relationships",
+          "reflect.relationships",
+          "organise.relationships"
+        ],
+        [
+          "connect.wellbeing",
+          "reflect.wellbeing",
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 5,
+      "view": "weekly",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        6,
+        6,
+        7,
+        7,
+        7,
+        8,
+        8
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 3
+        },
+        {
+          "group": "reflect",
+          "noonSamples": 2
+        },
+        {
+          "group": "organise",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview",
+          "reflect.overview",
+          "organise.overview"
+        ],
+        [
+          "connect.career",
+          "reflect.career",
+          "organise.career"
+        ],
+        [
+          "connect.money",
+          "reflect.money",
+          "organise.money"
+        ],
+        [
+          "connect.relationships",
+          "reflect.relationships",
+          "organise.relationships"
+        ],
+        [
+          "connect.wellbeing",
+          "reflect.wellbeing",
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 5,
+      "view": "weekly",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        6,
+        6,
+        7,
+        7,
+        7,
+        8,
+        8
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 3
+        },
+        {
+          "group": "reflect",
+          "noonSamples": 2
+        },
+        {
+          "group": "organise",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview",
+          "reflect.overview",
+          "organise.overview"
+        ],
+        [
+          "connect.career",
+          "reflect.career",
+          "organise.career"
+        ],
+        [
+          "connect.money",
+          "reflect.money",
+          "organise.money"
+        ],
+        [
+          "connect.relationships",
+          "reflect.relationships",
+          "organise.relationships"
+        ],
+        [
+          "connect.wellbeing",
+          "reflect.wellbeing",
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 6,
+      "view": "today",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        7
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview"
+        ],
+        [
+          "connect.career"
+        ],
+        [
+          "connect.money"
+        ],
+        [
+          "connect.relationships"
+        ],
+        [
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 6,
+      "view": "today",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        7
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview"
+        ],
+        [
+          "connect.career"
+        ],
+        [
+          "connect.money"
+        ],
+        [
+          "connect.relationships"
+        ],
+        [
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 6,
+      "view": "today",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        7
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview"
+        ],
+        [
+          "connect.career"
+        ],
+        [
+          "connect.money"
+        ],
+        [
+          "connect.relationships"
+        ],
+        [
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 6,
+      "view": "tomorrow",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        7
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview"
+        ],
+        [
+          "connect.career"
+        ],
+        [
+          "connect.money"
+        ],
+        [
+          "connect.relationships"
+        ],
+        [
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 6,
+      "view": "tomorrow",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        7
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview"
+        ],
+        [
+          "connect.career"
+        ],
+        [
+          "connect.money"
+        ],
+        [
+          "connect.relationships"
+        ],
+        [
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 6,
+      "view": "tomorrow",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        7
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview"
+        ],
+        [
+          "connect.career"
+        ],
+        [
+          "connect.money"
+        ],
+        [
+          "connect.relationships"
+        ],
+        [
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 6,
+      "view": "weekly",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        5,
+        5,
+        6,
+        6,
+        6,
+        7,
+        7
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 3
+        },
+        {
+          "group": "connect",
+          "noonSamples": 2
+        },
+        {
+          "group": "explore",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview",
+          "connect.overview",
+          "explore.overview"
+        ],
+        [
+          "organise.career",
+          "connect.career",
+          "explore.career"
+        ],
+        [
+          "organise.money",
+          "connect.money",
+          "explore.money"
+        ],
+        [
+          "organise.relationships",
+          "connect.relationships",
+          "explore.relationships"
+        ],
+        [
+          "organise.wellbeing",
+          "connect.wellbeing",
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 6,
+      "view": "weekly",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        5,
+        5,
+        6,
+        6,
+        6,
+        7,
+        7
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 3
+        },
+        {
+          "group": "connect",
+          "noonSamples": 2
+        },
+        {
+          "group": "explore",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview",
+          "connect.overview",
+          "explore.overview"
+        ],
+        [
+          "organise.career",
+          "connect.career",
+          "explore.career"
+        ],
+        [
+          "organise.money",
+          "connect.money",
+          "explore.money"
+        ],
+        [
+          "organise.relationships",
+          "connect.relationships",
+          "explore.relationships"
+        ],
+        [
+          "organise.wellbeing",
+          "connect.wellbeing",
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 6,
+      "view": "weekly",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        5,
+        5,
+        6,
+        6,
+        6,
+        7,
+        7
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 3
+        },
+        {
+          "group": "connect",
+          "noonSamples": 2
+        },
+        {
+          "group": "explore",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview",
+          "connect.overview",
+          "explore.overview"
+        ],
+        [
+          "organise.career",
+          "connect.career",
+          "explore.career"
+        ],
+        [
+          "organise.money",
+          "connect.money",
+          "explore.money"
+        ],
+        [
+          "organise.relationships",
+          "connect.relationships",
+          "explore.relationships"
+        ],
+        [
+          "organise.wellbeing",
+          "connect.wellbeing",
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 7,
+      "view": "today",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        6
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview"
+        ],
+        [
+          "organise.career"
+        ],
+        [
+          "organise.money"
+        ],
+        [
+          "organise.relationships"
+        ],
+        [
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 7,
+      "view": "today",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        6
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview"
+        ],
+        [
+          "organise.career"
+        ],
+        [
+          "organise.money"
+        ],
+        [
+          "organise.relationships"
+        ],
+        [
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 7,
+      "view": "today",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        6
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview"
+        ],
+        [
+          "organise.career"
+        ],
+        [
+          "organise.money"
+        ],
+        [
+          "organise.relationships"
+        ],
+        [
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 7,
+      "view": "tomorrow",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        6
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview"
+        ],
+        [
+          "organise.career"
+        ],
+        [
+          "organise.money"
+        ],
+        [
+          "organise.relationships"
+        ],
+        [
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 7,
+      "view": "tomorrow",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        6
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview"
+        ],
+        [
+          "organise.career"
+        ],
+        [
+          "organise.money"
+        ],
+        [
+          "organise.relationships"
+        ],
+        [
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 7,
+      "view": "tomorrow",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        6
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview"
+        ],
+        [
+          "organise.career"
+        ],
+        [
+          "organise.money"
+        ],
+        [
+          "organise.relationships"
+        ],
+        [
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 7,
+      "view": "weekly",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        4,
+        4,
+        5,
+        5,
+        5,
+        6,
+        6
+      ],
+      "selection": [
+        {
+          "group": "explore",
+          "noonSamples": 3
+        },
+        {
+          "group": "reflect",
+          "noonSamples": 2
+        },
+        {
+          "group": "organise",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "explore.overview",
+          "reflect.overview",
+          "organise.overview"
+        ],
+        [
+          "explore.career",
+          "reflect.career",
+          "organise.career"
+        ],
+        [
+          "explore.money",
+          "reflect.money",
+          "organise.money"
+        ],
+        [
+          "explore.relationships",
+          "reflect.relationships",
+          "organise.relationships"
+        ],
+        [
+          "explore.wellbeing",
+          "reflect.wellbeing",
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 7,
+      "view": "weekly",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        4,
+        4,
+        5,
+        5,
+        5,
+        6,
+        6
+      ],
+      "selection": [
+        {
+          "group": "explore",
+          "noonSamples": 3
+        },
+        {
+          "group": "reflect",
+          "noonSamples": 2
+        },
+        {
+          "group": "organise",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "explore.overview",
+          "reflect.overview",
+          "organise.overview"
+        ],
+        [
+          "explore.career",
+          "reflect.career",
+          "organise.career"
+        ],
+        [
+          "explore.money",
+          "reflect.money",
+          "organise.money"
+        ],
+        [
+          "explore.relationships",
+          "reflect.relationships",
+          "organise.relationships"
+        ],
+        [
+          "explore.wellbeing",
+          "reflect.wellbeing",
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 7,
+      "view": "weekly",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        4,
+        4,
+        5,
+        5,
+        5,
+        6,
+        6
+      ],
+      "selection": [
+        {
+          "group": "explore",
+          "noonSamples": 3
+        },
+        {
+          "group": "reflect",
+          "noonSamples": 2
+        },
+        {
+          "group": "organise",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "explore.overview",
+          "reflect.overview",
+          "organise.overview"
+        ],
+        [
+          "explore.career",
+          "reflect.career",
+          "organise.career"
+        ],
+        [
+          "explore.money",
+          "reflect.money",
+          "organise.money"
+        ],
+        [
+          "explore.relationships",
+          "reflect.relationships",
+          "organise.relationships"
+        ],
+        [
+          "explore.wellbeing",
+          "reflect.wellbeing",
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 8,
+      "view": "today",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        5
+      ],
+      "selection": [
+        {
+          "group": "explore",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "explore.overview"
+        ],
+        [
+          "explore.career"
+        ],
+        [
+          "explore.money"
+        ],
+        [
+          "explore.relationships"
+        ],
+        [
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 8,
+      "view": "today",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        5
+      ],
+      "selection": [
+        {
+          "group": "explore",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "explore.overview"
+        ],
+        [
+          "explore.career"
+        ],
+        [
+          "explore.money"
+        ],
+        [
+          "explore.relationships"
+        ],
+        [
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 8,
+      "view": "today",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        5
+      ],
+      "selection": [
+        {
+          "group": "explore",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "explore.overview"
+        ],
+        [
+          "explore.career"
+        ],
+        [
+          "explore.money"
+        ],
+        [
+          "explore.relationships"
+        ],
+        [
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 8,
+      "view": "tomorrow",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        5
+      ],
+      "selection": [
+        {
+          "group": "explore",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "explore.overview"
+        ],
+        [
+          "explore.career"
+        ],
+        [
+          "explore.money"
+        ],
+        [
+          "explore.relationships"
+        ],
+        [
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 8,
+      "view": "tomorrow",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        5
+      ],
+      "selection": [
+        {
+          "group": "explore",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "explore.overview"
+        ],
+        [
+          "explore.career"
+        ],
+        [
+          "explore.money"
+        ],
+        [
+          "explore.relationships"
+        ],
+        [
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 8,
+      "view": "tomorrow",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        5
+      ],
+      "selection": [
+        {
+          "group": "explore",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "explore.overview"
+        ],
+        [
+          "explore.career"
+        ],
+        [
+          "explore.money"
+        ],
+        [
+          "explore.relationships"
+        ],
+        [
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 8,
+      "view": "weekly",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        3,
+        3,
+        4,
+        4,
+        4,
+        5,
+        5
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 3
+        },
+        {
+          "group": "connect",
+          "noonSamples": 2
+        },
+        {
+          "group": "explore",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview",
+          "connect.overview",
+          "explore.overview"
+        ],
+        [
+          "reflect.career",
+          "connect.career",
+          "explore.career"
+        ],
+        [
+          "reflect.money",
+          "connect.money",
+          "explore.money"
+        ],
+        [
+          "reflect.relationships",
+          "connect.relationships",
+          "explore.relationships"
+        ],
+        [
+          "reflect.wellbeing",
+          "connect.wellbeing",
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 8,
+      "view": "weekly",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        3,
+        3,
+        4,
+        4,
+        4,
+        5,
+        5
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 3
+        },
+        {
+          "group": "connect",
+          "noonSamples": 2
+        },
+        {
+          "group": "explore",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview",
+          "connect.overview",
+          "explore.overview"
+        ],
+        [
+          "reflect.career",
+          "connect.career",
+          "explore.career"
+        ],
+        [
+          "reflect.money",
+          "connect.money",
+          "explore.money"
+        ],
+        [
+          "reflect.relationships",
+          "connect.relationships",
+          "explore.relationships"
+        ],
+        [
+          "reflect.wellbeing",
+          "connect.wellbeing",
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 8,
+      "view": "weekly",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        3,
+        3,
+        4,
+        4,
+        4,
+        5,
+        5
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 3
+        },
+        {
+          "group": "connect",
+          "noonSamples": 2
+        },
+        {
+          "group": "explore",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview",
+          "connect.overview",
+          "explore.overview"
+        ],
+        [
+          "reflect.career",
+          "connect.career",
+          "explore.career"
+        ],
+        [
+          "reflect.money",
+          "connect.money",
+          "explore.money"
+        ],
+        [
+          "reflect.relationships",
+          "connect.relationships",
+          "explore.relationships"
+        ],
+        [
+          "reflect.wellbeing",
+          "connect.wellbeing",
+          "explore.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 9,
+      "view": "today",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        4
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 9,
+      "view": "today",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        4
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 9,
+      "view": "today",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        4
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 9,
+      "view": "tomorrow",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        4
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 9,
+      "view": "tomorrow",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        4
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 9,
+      "view": "tomorrow",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        4
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 9,
+      "view": "weekly",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        2,
+        2,
+        3,
+        3,
+        3,
+        4,
+        4
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 3
+        },
+        {
+          "group": "reflect",
+          "noonSamples": 2
+        },
+        {
+          "group": "organise",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview",
+          "reflect.overview",
+          "organise.overview"
+        ],
+        [
+          "connect.career",
+          "reflect.career",
+          "organise.career"
+        ],
+        [
+          "connect.money",
+          "reflect.money",
+          "organise.money"
+        ],
+        [
+          "connect.relationships",
+          "reflect.relationships",
+          "organise.relationships"
+        ],
+        [
+          "connect.wellbeing",
+          "reflect.wellbeing",
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 9,
+      "view": "weekly",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        2,
+        2,
+        3,
+        3,
+        3,
+        4,
+        4
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 3
+        },
+        {
+          "group": "reflect",
+          "noonSamples": 2
+        },
+        {
+          "group": "organise",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview",
+          "reflect.overview",
+          "organise.overview"
+        ],
+        [
+          "connect.career",
+          "reflect.career",
+          "organise.career"
+        ],
+        [
+          "connect.money",
+          "reflect.money",
+          "organise.money"
+        ],
+        [
+          "connect.relationships",
+          "reflect.relationships",
+          "organise.relationships"
+        ],
+        [
+          "connect.wellbeing",
+          "reflect.wellbeing",
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 9,
+      "view": "weekly",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        2,
+        2,
+        3,
+        3,
+        3,
+        4,
+        4
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 3
+        },
+        {
+          "group": "reflect",
+          "noonSamples": 2
+        },
+        {
+          "group": "organise",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview",
+          "reflect.overview",
+          "organise.overview"
+        ],
+        [
+          "connect.career",
+          "reflect.career",
+          "organise.career"
+        ],
+        [
+          "connect.money",
+          "reflect.money",
+          "organise.money"
+        ],
+        [
+          "connect.relationships",
+          "reflect.relationships",
+          "organise.relationships"
+        ],
+        [
+          "connect.wellbeing",
+          "reflect.wellbeing",
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 10,
+      "view": "today",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        3
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview"
+        ],
+        [
+          "connect.career"
+        ],
+        [
+          "connect.money"
+        ],
+        [
+          "connect.relationships"
+        ],
+        [
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 10,
+      "view": "today",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        3
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview"
+        ],
+        [
+          "connect.career"
+        ],
+        [
+          "connect.money"
+        ],
+        [
+          "connect.relationships"
+        ],
+        [
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 10,
+      "view": "today",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        3
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview"
+        ],
+        [
+          "connect.career"
+        ],
+        [
+          "connect.money"
+        ],
+        [
+          "connect.relationships"
+        ],
+        [
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 10,
+      "view": "tomorrow",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        3
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview"
+        ],
+        [
+          "connect.career"
+        ],
+        [
+          "connect.money"
+        ],
+        [
+          "connect.relationships"
+        ],
+        [
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 10,
+      "view": "tomorrow",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        3
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview"
+        ],
+        [
+          "connect.career"
+        ],
+        [
+          "connect.money"
+        ],
+        [
+          "connect.relationships"
+        ],
+        [
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 10,
+      "view": "tomorrow",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        3
+      ],
+      "selection": [
+        {
+          "group": "connect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "connect.overview"
+        ],
+        [
+          "connect.career"
+        ],
+        [
+          "connect.money"
+        ],
+        [
+          "connect.relationships"
+        ],
+        [
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 10,
+      "view": "weekly",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        1,
+        1,
+        2,
+        2,
+        2,
+        3,
+        3
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 3
+        },
+        {
+          "group": "reflect",
+          "noonSamples": 2
+        },
+        {
+          "group": "connect",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview",
+          "reflect.overview",
+          "connect.overview"
+        ],
+        [
+          "organise.career",
+          "reflect.career",
+          "connect.career"
+        ],
+        [
+          "organise.money",
+          "reflect.money",
+          "connect.money"
+        ],
+        [
+          "organise.relationships",
+          "reflect.relationships",
+          "connect.relationships"
+        ],
+        [
+          "organise.wellbeing",
+          "reflect.wellbeing",
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 10,
+      "view": "weekly",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        1,
+        1,
+        2,
+        2,
+        2,
+        3,
+        3
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 3
+        },
+        {
+          "group": "reflect",
+          "noonSamples": 2
+        },
+        {
+          "group": "connect",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview",
+          "reflect.overview",
+          "connect.overview"
+        ],
+        [
+          "organise.career",
+          "reflect.career",
+          "connect.career"
+        ],
+        [
+          "organise.money",
+          "reflect.money",
+          "connect.money"
+        ],
+        [
+          "organise.relationships",
+          "reflect.relationships",
+          "connect.relationships"
+        ],
+        [
+          "organise.wellbeing",
+          "reflect.wellbeing",
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 10,
+      "view": "weekly",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        1,
+        1,
+        2,
+        2,
+        2,
+        3,
+        3
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 3
+        },
+        {
+          "group": "reflect",
+          "noonSamples": 2
+        },
+        {
+          "group": "connect",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview",
+          "reflect.overview",
+          "connect.overview"
+        ],
+        [
+          "organise.career",
+          "reflect.career",
+          "connect.career"
+        ],
+        [
+          "organise.money",
+          "reflect.money",
+          "connect.money"
+        ],
+        [
+          "organise.relationships",
+          "reflect.relationships",
+          "connect.relationships"
+        ],
+        [
+          "organise.wellbeing",
+          "reflect.wellbeing",
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 11,
+      "view": "today",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        2
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview"
+        ],
+        [
+          "organise.career"
+        ],
+        [
+          "organise.money"
+        ],
+        [
+          "organise.relationships"
+        ],
+        [
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 11,
+      "view": "today",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        2
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview"
+        ],
+        [
+          "organise.career"
+        ],
+        [
+          "organise.money"
+        ],
+        [
+          "organise.relationships"
+        ],
+        [
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 11,
+      "view": "today",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        2
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview"
+        ],
+        [
+          "organise.career"
+        ],
+        [
+          "organise.money"
+        ],
+        [
+          "organise.relationships"
+        ],
+        [
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 11,
+      "view": "tomorrow",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        2
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview"
+        ],
+        [
+          "organise.career"
+        ],
+        [
+          "organise.money"
+        ],
+        [
+          "organise.relationships"
+        ],
+        [
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 11,
+      "view": "tomorrow",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        2
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview"
+        ],
+        [
+          "organise.career"
+        ],
+        [
+          "organise.money"
+        ],
+        [
+          "organise.relationships"
+        ],
+        [
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 11,
+      "view": "tomorrow",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        2
+      ],
+      "selection": [
+        {
+          "group": "organise",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "organise.overview"
+        ],
+        [
+          "organise.career"
+        ],
+        [
+          "organise.money"
+        ],
+        [
+          "organise.relationships"
+        ],
+        [
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 11,
+      "view": "weekly",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        12,
+        12,
+        1,
+        1,
+        1,
+        2,
+        2
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 5
+        },
+        {
+          "group": "organise",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview",
+          "organise.overview"
+        ],
+        [
+          "reflect.career",
+          "organise.career"
+        ],
+        [
+          "reflect.money",
+          "organise.money"
+        ],
+        [
+          "reflect.relationships",
+          "organise.relationships"
+        ],
+        [
+          "reflect.wellbeing",
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 11,
+      "view": "weekly",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        12,
+        12,
+        1,
+        1,
+        1,
+        2,
+        2
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 5
+        },
+        {
+          "group": "organise",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview",
+          "organise.overview"
+        ],
+        [
+          "reflect.career",
+          "organise.career"
+        ],
+        [
+          "reflect.money",
+          "organise.money"
+        ],
+        [
+          "reflect.relationships",
+          "organise.relationships"
+        ],
+        [
+          "reflect.wellbeing",
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 11,
+      "view": "weekly",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        12,
+        12,
+        1,
+        1,
+        1,
+        2,
+        2
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 5
+        },
+        {
+          "group": "organise",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview",
+          "organise.overview"
+        ],
+        [
+          "reflect.career",
+          "organise.career"
+        ],
+        [
+          "reflect.money",
+          "organise.money"
+        ],
+        [
+          "reflect.relationships",
+          "organise.relationships"
+        ],
+        [
+          "reflect.wellbeing",
+          "organise.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 12,
+      "view": "today",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        1
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 12,
+      "view": "today",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        1
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 12,
+      "view": "today",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-24",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        1
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 12,
+      "view": "tomorrow",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        1
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 12,
+      "view": "tomorrow",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        1
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 12,
+      "view": "tomorrow",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-25",
+      "moonRashis": [
+        12
+      ],
+      "relativeHouses": [
+        1
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 1
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview"
+        ],
+        [
+          "reflect.career"
+        ],
+        [
+          "reflect.money"
+        ],
+        [
+          "reflect.relationships"
+        ],
+        [
+          "reflect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 12,
+      "view": "weekly",
+      "requestedLanguage": "en",
+      "contentLanguage": "en",
+      "fallback": false,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        11,
+        11,
+        12,
+        12,
+        12,
+        1,
+        1
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 5
+        },
+        {
+          "group": "connect",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview",
+          "connect.overview"
+        ],
+        [
+          "reflect.career",
+          "connect.career"
+        ],
+        [
+          "reflect.money",
+          "connect.money"
+        ],
+        [
+          "reflect.relationships",
+          "connect.relationships"
+        ],
+        [
+          "reflect.wellbeing",
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 12,
+      "view": "weekly",
+      "requestedLanguage": "hi",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        11,
+        11,
+        12,
+        12,
+        12,
+        1,
+        1
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 5
+        },
+        {
+          "group": "connect",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview",
+          "connect.overview"
+        ],
+        [
+          "reflect.career",
+          "connect.career"
+        ],
+        [
+          "reflect.money",
+          "connect.money"
+        ],
+        [
+          "reflect.relationships",
+          "connect.relationships"
+        ],
+        [
+          "reflect.wellbeing",
+          "connect.wellbeing"
+        ]
+      ]
+    },
+    {
+      "rashi": 12,
+      "view": "weekly",
+      "requestedLanguage": "gu",
+      "contentLanguage": "en",
+      "fallback": true,
+      "editorialDate": "2026-10-19",
+      "moonRashis": [
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12
+      ],
+      "relativeHouses": [
+        11,
+        11,
+        12,
+        12,
+        12,
+        1,
+        1
+      ],
+      "selection": [
+        {
+          "group": "reflect",
+          "noonSamples": 5
+        },
+        {
+          "group": "connect",
+          "noonSamples": 2
+        }
+      ],
+      "promptIds": [
+        [
+          "reflect.overview",
+          "connect.overview"
+        ],
+        [
+          "reflect.career",
+          "connect.career"
+        ],
+        [
+          "reflect.money",
+          "connect.money"
+        ],
+        [
+          "reflect.relationships",
+          "connect.relationships"
+        ],
+        [
+          "reflect.wellbeing",
+          "connect.wellbeing"
+        ]
+      ]
+    }
+  ],
+  "limitations": [
+    "Primary text is context for house vocabulary, not the new four-group editorial rule.",
+    "No scientific or deterministic personal prediction claim.",
+    "Hindi/Gujarati reading text falls back to labelled English pending independent review.",
+    "Noon snapshots do not establish whole-day sign stability or continuous weekly transits.",
+    "Prior P04 and public release gates remain open."
+  ]
+}

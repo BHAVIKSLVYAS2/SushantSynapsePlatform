@@ -1,0 +1,10 @@
+{
+ "retrieved":"2026-10-24",
+ "phaseSource":"https://www.packolkata.gov.in/phasemoon.php",
+ "phaseTitle":"Positional Astronomy Centre: Phases of Moon, 2026; times printed in IST to a minute",
+ "capture":"Manually transcribed numerical facts from browser-readable source. No raw page hash claimed.",
+ "newMoonsIst":["2026-01-19T01:22","2026-02-17T17:31","2026-03-19T06:53","2026-04-17T17:22","2026-05-17T01:31","2026-06-15T08:24","2026-07-14T15:14","2026-08-12T23:07","2026-09-11T08:57","2026-10-10T21:20","2026-11-09T12:32","2026-12-09T06:22"],
+ "monthSource":"https://packolkata.imd.gov.in/panchang/en/regional-calendars",
+ "monthFacts":[{"instant":"2026-06-01T12:00:00Z","number":3,"adhika":true},{"instant":"2026-06-20T12:00:00Z","number":3,"adhika":false}],
+ "monthMeaning":"PAC lists Jyaishtha Adhika Sudi beginning 17 May 2026 and Jyaishtha Nija Sudi beginning 15 June 2026. Samples inside those intervals; not a complete month-boundary or birthday golden."
+}

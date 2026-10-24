@@ -1,0 +1,30 @@
+{
+  "capturedUtc": "2026-10-24T10:23:50.245Z",
+  "requests": [
+    {
+      "id": "usno-delhi-20260926",
+      "url": "https://aa.usno.navy.mil/api/rstt/oneday?date=2026-09-26&coords=28.6139,77.209&tz=5.5",
+      "error": "TypeError"
+    },
+    {
+      "id": "usno-chennai-20260621",
+      "url": "https://aa.usno.navy.mil/api/rstt/oneday?date=2026-06-21&coords=13.0827,80.2707&tz=5.5",
+      "error": "TypeError"
+    },
+    {
+      "id": "usno-kolkata-20261221",
+      "url": "https://aa.usno.navy.mil/api/rstt/oneday?date=2026-12-21&coords=22.5726,88.3639&tz=5.5",
+      "error": "TypeError"
+    },
+    {
+      "id": "publisher-hyderabad-20260926",
+      "url": "https://panchangam.org/dailypanchangam.php?date=2026-09-26",
+      "error": "TypeError"
+    },
+    {
+      "id": "pac-explanation",
+      "url": "https://packolkata.imd.gov.in/panchang/en/explanation",
+      "error": "TypeError"
+    }
+  ]
+}

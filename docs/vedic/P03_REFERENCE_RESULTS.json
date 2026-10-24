@@ -1,0 +1,494 @@
+{
+  "version": "vedic-astronomy-reference-results-1",
+  "date": "2026-10-24",
+  "modelId": "ae-2.1.19-geocentric-v1",
+  "engineSha256": "6257fd34e7a74370767a98bf26d1724d748e5f71c1530be6730ff21336cc6607",
+  "timeScale": "TT",
+  "observer": "Earth geocenter",
+  "inputFrame": "JPL ICRF",
+  "comparisonFrame": "mean J2000 equator/equinox via IAU2000 frame bias",
+  "frameBiasSource": "https://raw.githubusercontent.com/liberfa/erfa/v2.0.1/src/t_erfa_c.c",
+  "corrections": "Separate NONE and LT+S vector tracks; no gravitational deflection/refraction.",
+  "angularTransformLimit": "Longitude/latitude diagnostics use the same Ecliptic rotation on both vectors; transformation accuracy is not independently certified.",
+  "samples": 25116,
+  "rows": [
+    {
+      "body": "Sun",
+      "correction": "geometric",
+      "count": 1794,
+      "targetSources": [
+        "DE441"
+      ],
+      "centreSources": [
+        "DE441"
+      ],
+      "separationArcsec": {
+        "max": 2.7806939672941806,
+        "rms": 0.8673021069850887,
+        "p95": 1.4639038907644457
+      },
+      "longitudeErrorArcsec": {
+        "max": 2.222222949603747,
+        "rms": 0.6278408548347639,
+        "p95": 1.2206214702928264
+      },
+      "latitudeErrorArcsec": {
+        "max": 1.7762254502506054,
+        "rms": 0.5983550833588969,
+        "p95": 1.1253759098290816
+      },
+      "worst": {
+        "ttJulianDay": 2487371,
+        "referenceId": "sun-geometric-monthly",
+        "separationArcsec": 2.7806939672941806,
+        "longitudeErrorArcsec": 2.222222949603747,
+        "latitudeErrorArcsec": 1.671521492695123
+      },
+      "proposed60ArcsecGatePass": true
+    },
+    {
+      "body": "Sun",
+      "correction": "apparent",
+      "count": 1794,
+      "targetSources": [
+        "DE441"
+      ],
+      "centreSources": [
+        "DE441"
+      ],
+      "separationArcsec": {
+        "max": 2.780546556851699,
+        "rms": 0.867298132932987,
+        "p95": 1.463558294925737
+      },
+      "longitudeErrorArcsec": {
+        "max": 2.221897048275423,
+        "rms": 0.6278343751594196,
+        "p95": 1.2208652117806196
+      },
+      "latitudeErrorArcsec": {
+        "max": 1.7757653355590086,
+        "rms": 0.598356122017583,
+        "p95": 1.1252872507992833
+      },
+      "worst": {
+        "ttJulianDay": 2487371,
+        "referenceId": "sun-apparent-monthly",
+        "separationArcsec": 2.780546556851699,
+        "longitudeErrorArcsec": 2.221897048275423,
+        "latitudeErrorArcsec": 1.6717095028163038
+      },
+      "proposed60ArcsecGatePass": true
+    },
+    {
+      "body": "Moon",
+      "correction": "geometric",
+      "count": 1794,
+      "targetSources": [
+        "DE441"
+      ],
+      "centreSources": [
+        "DE441"
+      ],
+      "separationArcsec": {
+        "max": 3.4443800652348693,
+        "rms": 1.1282028528405004,
+        "p95": 2.0554722263577827
+      },
+      "longitudeErrorArcsec": {
+        "max": 3.3422426918605197,
+        "rms": 1.0371174308168782,
+        "p95": 2.0151472275301785
+      },
+      "latitudeErrorArcsec": {
+        "max": 1.509090812183267,
+        "rms": 0.4488368498208855,
+        "p95": 0.8708706793239429
+      },
+      "worst": {
+        "ttJulianDay": 2468316,
+        "referenceId": "moon-geometric-monthly",
+        "separationArcsec": 3.4443800652348693,
+        "longitudeErrorArcsec": -3.3422426918605197,
+        "latitudeErrorArcsec": -0.8418456780303174
+      },
+      "proposed60ArcsecGatePass": true
+    },
+    {
+      "body": "Moon",
+      "correction": "apparent",
+      "count": 1794,
+      "targetSources": [
+        "DE441"
+      ],
+      "centreSources": [
+        "DE441"
+      ],
+      "separationArcsec": {
+        "max": 3.4444393450726287,
+        "rms": 1.1282081659757657,
+        "p95": 2.054997962061302
+      },
+      "longitudeErrorArcsec": {
+        "max": 3.3422952674300177,
+        "rms": 1.0371198203875915,
+        "p95": 2.015605525684805
+      },
+      "latitudeErrorArcsec": {
+        "max": 1.509075082542477,
+        "rms": 0.4488445804365017,
+        "p95": 0.8709476856068932
+      },
+      "worst": {
+        "ttJulianDay": 2468316,
+        "referenceId": "moon-apparent-monthly",
+        "separationArcsec": 3.4444393450726287,
+        "longitudeErrorArcsec": -3.3422952674300177,
+        "latitudeErrorArcsec": -0.8418796382681393
+      },
+      "proposed60ArcsecGatePass": true
+    },
+    {
+      "body": "Mercury",
+      "correction": "geometric",
+      "count": 1794,
+      "targetSources": [
+        "DE441"
+      ],
+      "centreSources": [
+        "DE441"
+      ],
+      "separationArcsec": {
+        "max": 11.434304271676401,
+        "rms": 3.0041994288000757,
+        "p95": 5.463073181074413
+      },
+      "longitudeErrorArcsec": {
+        "max": 11.191364603291731,
+        "rms": 2.5248244981712293,
+        "p95": 5.02615189880089
+      },
+      "latitudeErrorArcsec": {
+        "max": 7.818974828178938,
+        "rms": 1.6314490339029948,
+        "p95": 3.1685021324675766
+      },
+      "worst": {
+        "ttJulianDay": 2484053,
+        "referenceId": "mercury-geometric-monthly",
+        "separationArcsec": 11.434304271676401,
+        "longitudeErrorArcsec": 11.191364603291731,
+        "latitudeErrorArcsec": 2.381240134262086
+      },
+      "proposed60ArcsecGatePass": true
+    },
+    {
+      "body": "Mercury",
+      "correction": "apparent",
+      "count": 1794,
+      "targetSources": [
+        "DE441"
+      ],
+      "centreSources": [
+        "DE441"
+      ],
+      "separationArcsec": {
+        "max": 11.43124738402579,
+        "rms": 3.004122050401436,
+        "p95": 5.464009449874282
+      },
+      "longitudeErrorArcsec": {
+        "max": 11.187691559189261,
+        "rms": 2.524752496315692,
+        "p95": 5.031551924776068
+      },
+      "latitudeErrorArcsec": {
+        "max": 7.816558632126103,
+        "rms": 1.6314181546084157,
+        "p95": 3.1698131915680605
+      },
+      "worst": {
+        "ttJulianDay": 2484053,
+        "referenceId": "mercury-apparent-monthly",
+        "separationArcsec": 11.43124738402579,
+        "longitudeErrorArcsec": 11.187691559189261,
+        "latitudeErrorArcsec": 2.3837588293481815
+      },
+      "proposed60ArcsecGatePass": true
+    },
+    {
+      "body": "Venus",
+      "correction": "geometric",
+      "count": 1794,
+      "targetSources": [
+        "DE441"
+      ],
+      "centreSources": [
+        "DE441"
+      ],
+      "separationArcsec": {
+        "max": 20.628403605851844,
+        "rms": 3.3508627681817265,
+        "p95": 7.49589918465051
+      },
+      "longitudeErrorArcsec": {
+        "max": 19.844367335372226,
+        "rms": 2.795676407723432,
+        "p95": 6.455484097205044
+      },
+      "latitudeErrorArcsec": {
+        "max": 9.553155117366785,
+        "rms": 1.8655052174515372,
+        "p95": 3.9389523905225654
+      },
+      "worst": {
+        "ttJulianDay": 2461338,
+        "referenceId": "venus-geometric-anchors",
+        "separationArcsec": 20.628403605851844,
+        "longitudeErrorArcsec": -19.844367335372226,
+        "latitudeErrorArcsec": -6.058870656977433
+      },
+      "proposed60ArcsecGatePass": true
+    },
+    {
+      "body": "Venus",
+      "correction": "apparent",
+      "count": 1794,
+      "targetSources": [
+        "DE441"
+      ],
+      "centreSources": [
+        "DE441"
+      ],
+      "separationArcsec": {
+        "max": 20.62853871017191,
+        "rms": 3.350870281266579,
+        "p95": 7.495165023774211
+      },
+      "longitudeErrorArcsec": {
+        "max": 19.844775364617817,
+        "rms": 2.7956804832461954,
+        "p95": 6.455220842417475
+      },
+      "latitudeErrorArcsec": {
+        "max": 9.553499262440823,
+        "rms": 1.8655135137524081,
+        "p95": 3.937706774199179
+      },
+      "worst": {
+        "ttJulianDay": 2461338,
+        "referenceId": "venus-apparent-anchors",
+        "separationArcsec": 20.62853871017191,
+        "longitudeErrorArcsec": -19.844775364617817,
+        "latitudeErrorArcsec": -6.058045791112221
+      },
+      "proposed60ArcsecGatePass": true
+    },
+    {
+      "body": "Mars",
+      "correction": "geometric",
+      "count": 1794,
+      "targetSources": [
+        "mar099"
+      ],
+      "centreSources": [
+        "DE441"
+      ],
+      "separationArcsec": {
+        "max": 16.87781055129332,
+        "rms": 3.037466951587657,
+        "p95": 6.552374285215453
+      },
+      "longitudeErrorArcsec": {
+        "max": 12.729667534676992,
+        "rms": 2.229996546802729,
+        "p95": 4.838049950012646
+      },
+      "latitudeErrorArcsec": {
+        "max": 15.217718557468096,
+        "rms": 2.065484550783517,
+        "p95": 4.310184358825264
+      },
+      "worst": {
+        "ttJulianDay": 2486395,
+        "referenceId": "mars-geometric-monthly",
+        "separationArcsec": 16.87781055129332,
+        "longitudeErrorArcsec": 7.302873504795571,
+        "latitudeErrorArcsec": 15.217718557468096
+      },
+      "proposed60ArcsecGatePass": true
+    },
+    {
+      "body": "Mars",
+      "correction": "apparent",
+      "count": 1794,
+      "targetSources": [
+        "mar099"
+      ],
+      "centreSources": [
+        "DE441"
+      ],
+      "separationArcsec": {
+        "max": 16.878146664835427,
+        "rms": 3.0376464697042422,
+        "p95": 6.552214504862443
+      },
+      "longitudeErrorArcsec": {
+        "max": 12.729963911897357,
+        "rms": 2.230245948474345,
+        "p95": 4.840356141448865
+      },
+      "latitudeErrorArcsec": {
+        "max": 15.218372308761996,
+        "rms": 2.0654793674571406,
+        "p95": 4.309999905343975
+      },
+      "worst": {
+        "ttJulianDay": 2486395,
+        "referenceId": "mars-apparent-monthly",
+        "separationArcsec": 16.878146664835427,
+        "longitudeErrorArcsec": 7.302286863250629,
+        "latitudeErrorArcsec": 15.218372308761996
+      },
+      "proposed60ArcsecGatePass": true
+    },
+    {
+      "body": "Jupiter",
+      "correction": "geometric",
+      "count": 1794,
+      "targetSources": [
+        "jup365_merged"
+      ],
+      "centreSources": [
+        "DE441"
+      ],
+      "separationArcsec": {
+        "max": 14.080940664704865,
+        "rms": 5.129770393682915,
+        "p95": 8.891208038224978
+      },
+      "longitudeErrorArcsec": {
+        "max": 10.04284408645617,
+        "rms": 3.512623021990626,
+        "p95": 6.689539342687567
+      },
+      "latitudeErrorArcsec": {
+        "max": 13.786389145848732,
+        "rms": 3.7389484353723352,
+        "p95": 7.714766340800994
+      },
+      "worst": {
+        "ttJulianDay": 2469412,
+        "referenceId": "jupiter-geometric-monthly",
+        "separationArcsec": 14.080940664704865,
+        "longitudeErrorArcsec": -2.865112657127611,
+        "latitudeErrorArcsec": 13.786389145848732
+      },
+      "proposed60ArcsecGatePass": true
+    },
+    {
+      "body": "Jupiter",
+      "correction": "apparent",
+      "count": 1794,
+      "targetSources": [
+        "jup365_merged"
+      ],
+      "centreSources": [
+        "DE441"
+      ],
+      "separationArcsec": {
+        "max": 14.08132534688155,
+        "rms": 5.129655289160251,
+        "p95": 8.892102819076143
+      },
+      "longitudeErrorArcsec": {
+        "max": 10.038891960175533,
+        "rms": 3.512459229821684,
+        "p95": 6.686781882353898
+      },
+      "latitudeErrorArcsec": {
+        "max": 13.78657584510199,
+        "rms": 3.7389443286931874,
+        "p95": 7.714645855347779
+      },
+      "worst": {
+        "ttJulianDay": 2469412,
+        "referenceId": "jupiter-apparent-monthly",
+        "separationArcsec": 14.08132534688155,
+        "longitudeErrorArcsec": -2.86610478797229,
+        "latitudeErrorArcsec": 13.78657584510199
+      },
+      "proposed60ArcsecGatePass": true
+    },
+    {
+      "body": "Saturn",
+      "correction": "geometric",
+      "count": 1794,
+      "targetSources": [
+        "sat441l"
+      ],
+      "centreSources": [
+        "DE441"
+      ],
+      "separationArcsec": {
+        "max": 22.466272659912946,
+        "rms": 11.401811848275578,
+        "p95": 19.17140103124808
+      },
+      "longitudeErrorArcsec": {
+        "max": 12.825605201805956,
+        "rms": 4.002993522570288,
+        "p95": 8.178799125471414
+      },
+      "latitudeErrorArcsec": {
+        "max": 21.796377953622503,
+        "rms": 10.676803332466791,
+        "p95": 18.761536467654505
+      },
+      "worst": {
+        "ttJulianDay": 2446583,
+        "referenceId": "saturn-geometric-monthly",
+        "separationArcsec": 22.466272659912946,
+        "longitudeErrorArcsec": 5.448709123493245,
+        "latitudeErrorArcsec": 21.796377953622503
+      },
+      "proposed60ArcsecGatePass": true
+    },
+    {
+      "body": "Saturn",
+      "correction": "apparent",
+      "count": 1794,
+      "targetSources": [
+        "sat441l"
+      ],
+      "centreSources": [
+        "DE441"
+      ],
+      "separationArcsec": {
+        "max": 22.467118069953123,
+        "rms": 11.401831228879084,
+        "p95": 19.168353619091526
+      },
+      "longitudeErrorArcsec": {
+        "max": 12.82517253066544,
+        "rms": 4.003036667441706,
+        "p95": 8.175851837131631
+      },
+      "latitudeErrorArcsec": {
+        "max": 21.796952220809906,
+        "rms": 10.676807812789972,
+        "p95": 18.758972379386396
+      },
+      "worst": {
+        "ttJulianDay": 2446583,
+        "referenceId": "saturn-apparent-monthly",
+        "separationArcsec": 22.467118069953123,
+        "longitudeErrorArcsec": 5.449899325503793,
+        "latitudeErrorArcsec": 21.796952220809906
+      },
+      "proposed60ArcsecGatePass": true
+    }
+  ],
+  "allProposedGatesPass": true,
+  "acceptance": "Internal candidate passes sampled engineering target only; independent review, production tolerances and full Vedic conventions are not approved."
+}

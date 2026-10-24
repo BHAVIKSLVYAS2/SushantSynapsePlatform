@@ -1,0 +1,41 @@
+{
+  "version": "erfa-2.0.1-p04-source",
+  "retrieved": "2026-10-24",
+  "sources": [
+    {
+      "name": "prec76.c",
+      "url": "https://raw.githubusercontent.com/liberfa/erfa/v2.0.1/src/prec76.c",
+      "sha256": "809c200e6cd70c3eaabfed9c5d8a9dec573b67bc8e7d623cc5818550993bc684"
+    },
+    {
+      "name": "pmat76.c",
+      "url": "https://raw.githubusercontent.com/liberfa/erfa/v2.0.1/src/pmat76.c",
+      "sha256": "d4608ff2402fda13ba9db9a3cd46f25232a0acf50e28b4ab887131f518c62fe2"
+    },
+    {
+      "name": "obl80.c",
+      "url": "https://raw.githubusercontent.com/liberfa/erfa/v2.0.1/src/obl80.c",
+      "sha256": "74e53b23c209f9101615015db7a4e7097c8d0ce0d0c8fa005476bf9e32a882fe"
+    },
+    {
+      "name": "nut80.c",
+      "url": "https://raw.githubusercontent.com/liberfa/erfa/v2.0.1/src/nut80.c",
+      "sha256": "08c6fda7949eaa04c64c38e52e62183f32bbbe89c1ab2ece564c545c01532ae7"
+    },
+    {
+      "name": "faom03.c",
+      "url": "https://raw.githubusercontent.com/liberfa/erfa/v2.0.1/src/faom03.c",
+      "sha256": "d101f54bc44c92786cc91daa9700625f17d7e83226adc9787e0fe100e148aa49"
+    },
+    {
+      "name": "t_erfa_c.c",
+      "url": "https://raw.githubusercontent.com/liberfa/erfa/v2.0.1/src/t_erfa_c.c",
+      "sha256": "8a92d0099c48df31ca566bea881c19497dc295dba58dba7136cc2f8443c31f15"
+    },
+    {
+      "name": "LICENSE",
+      "url": "https://raw.githubusercontent.com/liberfa/erfa/v2.0.1/LICENSE",
+      "sha256": "b1858f9a263f22c438a455a32945da51a31a0ae25a21055da13bb7ed57cc3b51"
+    }
+  ]
+}

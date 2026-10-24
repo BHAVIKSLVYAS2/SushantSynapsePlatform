@@ -1,0 +1,9 @@
+.vedic-traditions{margin-block:1.5rem;padding:1rem;background:var(--ui-soft);border:1px solid var(--ui-edge);border-radius:.75rem;overflow-wrap:anywhere}
+.vedic-traditions label{margin-block:.75rem;max-width:36rem}
+.vedic-traditions input[type=checkbox]{width:1.5rem;min-height:1.5rem;align-self:flex-start}
+.vedic-traditions ul{padding-inline-start:1.25rem}
+.vedic-traditions li{margin-block:.75rem}
+.vedic-traditions button{margin-block:.5rem}
+.vedic-traditions h4{margin-bottom:.25rem}
+.vedic-traditions section{margin-block:1rem}
+.vedic-traditions .vedic-ritual-link{padding:.75rem;margin-block:1rem;border:1px solid var(--ui-edge);border-radius:.5rem;background:var(--ui-solid)}.vedic-traditions .vedic-ritual-link a{display:inline-flex;align-items:center;min-height:44px;color:var(--ui-link,var(--ui-accent));font-weight:600}

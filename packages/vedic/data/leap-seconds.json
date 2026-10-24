@@ -1,0 +1,122 @@
+{
+  "version": "iana-leap-seconds-20261024-v1",
+  "source": "https://data.iana.org/time-zones/tzdb/leap-seconds.list",
+  "retrieved": "2026-10-24",
+  "sourceSha256": "db5a895f16853b03bfc865e8d68f9fc8710ef1740e3400c701cd46a5bbbc3433",
+  "sourceLicense": "public-domain",
+  "expiresUtc": "2027-06-28T00:00:00.000Z",
+  "entries": [
+    {
+      "effectiveUtc": "1972-01-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 10
+    },
+    {
+      "effectiveUtc": "1972-07-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 11
+    },
+    {
+      "effectiveUtc": "1973-01-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 12
+    },
+    {
+      "effectiveUtc": "1974-01-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 13
+    },
+    {
+      "effectiveUtc": "1975-01-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 14
+    },
+    {
+      "effectiveUtc": "1976-01-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 15
+    },
+    {
+      "effectiveUtc": "1977-01-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 16
+    },
+    {
+      "effectiveUtc": "1978-01-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 17
+    },
+    {
+      "effectiveUtc": "1979-01-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 18
+    },
+    {
+      "effectiveUtc": "1980-01-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 19
+    },
+    {
+      "effectiveUtc": "1981-07-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 20
+    },
+    {
+      "effectiveUtc": "1982-07-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 21
+    },
+    {
+      "effectiveUtc": "1983-07-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 22
+    },
+    {
+      "effectiveUtc": "1985-07-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 23
+    },
+    {
+      "effectiveUtc": "1988-01-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 24
+    },
+    {
+      "effectiveUtc": "1990-01-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 25
+    },
+    {
+      "effectiveUtc": "1991-01-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 26
+    },
+    {
+      "effectiveUtc": "1992-07-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 27
+    },
+    {
+      "effectiveUtc": "1993-07-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 28
+    },
+    {
+      "effectiveUtc": "1994-07-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 29
+    },
+    {
+      "effectiveUtc": "1996-01-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 30
+    },
+    {
+      "effectiveUtc": "1997-07-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 31
+    },
+    {
+      "effectiveUtc": "1999-01-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 32
+    },
+    {
+      "effectiveUtc": "2006-01-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 33
+    },
+    {
+      "effectiveUtc": "2009-01-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 34
+    },
+    {
+      "effectiveUtc": "2012-07-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 35
+    },
+    {
+      "effectiveUtc": "2015-07-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 36
+    },
+    {
+      "effectiveUtc": "2017-01-01T00:00:00.000Z",
+      "taiMinusUtcSeconds": 37
+    }
+  ]
+}

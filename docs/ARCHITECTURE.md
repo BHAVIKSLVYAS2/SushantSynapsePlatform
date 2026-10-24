@@ -1,5 +1,147 @@
 # Code ownership and adding apps
 
+Vedic P17: Ritual imports the canonical pinned MIT engine through its legacy
+compatibility module. The existing public Ritual engine URL serves that exact
+source through the unchanged delivery transform; other Vedic assets remain
+private/unmapped. Ritual calendar/profile policies are unchanged. packages/vedic
+owns explicit profile-compatibility diagnostics and immutable release readiness;
+the app owns parameter-free/no-referrer guide navigation. Preview headers are
+hardened; no Vedic birth API, public route/card, storage or deployment is added.
+Evidence and blockers: docs/vedic/P17_EVIDENCE.md.
+
+Vedic P16: packages/vedic owns separate advanced-vargas, raw ashtakavarga,
+Uccha-only strength and strict birth-advanced composition. App-owned advanced
+view/CSS reuse the numeric chart adapter/renderer for D7/D10/D12. Old D1/D9 math
+and exports are unchanged. Candidate calculation remains explicit and memory-only
+in the local birth preview, with independent per-feature withholding. Complete
+Shadbala is unavailable; no production mapping or new dependency. Evidence:
+docs/vedic/P16_EVIDENCE.md.
+
+Vedic P15: packages/vedic owns versioned rulebooks, pure matching/geometric
+predicates and strict consent-gated birth bridges. App-owned rulebook-view/CSS
+provide a separate memory-only dual-input preview (4181) and single-birth
+geometric panel. No production routes, persistence or new dependencies. Rulebooks
+remain internal drafts; final Yoga/Dosha assessment and marriage verdicts are
+withheld. Source variants and validation: docs/vedic/P15_EVIDENCE.md.
+
+Vedic P14 adds pure interval-sectors/sensitivity/birth-sensitivity under
+packages/vedic and an app-owned sensitivity view/CSS/cancellable browser Worker.
+The local birth preview serves fixed worker assets; no production mapping added.
+Whole-interval candidate envelopes expose feature-specific uncertainty without
+unlocking precise interval charts/Dasha. See docs/vedic/P14_EVIDENCE.md.
+
+Vedic P13 (2026-10-24, internal Time Machine/Gochar): packages/vedic owns strict
+exploration-place admission/snapshot, pure gochar sign-count/endpoint definitions
+and separate birth-gochar admission. Future exploration cannot weaken birth rules.
+App-owned exploration-report/time-machine-view compose optional references and
+en/hi/gu memory-only UI. The component embeds below birth results, before the
+P10 print/export child, and has a standalone loopback preview on port 4180.
+No continuous transit/prediction rules, storage, public mapping, auth/schema or
+Ritual Assist change. Package/lock 0.13.0; existing kernels unchanged. Evidence:
+docs/vedic/P13_EVIDENCE.md.
+
+Vedic P12 (2026-10-24, internal editorial draft): packages/vedic/rashifal-factors.mjs
+owns IST day/Monday-week selection and nominal noon Moon factors. App-owned
+rashifal-library/service/view own versioned original prompts, deterministic
+selection, bounded generic caches, translation review/fallback and opt-in sign
+preference. No birth-form/report or place-directory dependency. Separate loopback
+preview defaults to 4179; public registry/static mappings remain unchanged.
+Package/lock 0.12.0; no existing math, auth/schema or Ritual Assist changes.
+Independent editorial/native-translation/source gates remain open. Evidence:
+docs/vedic/P12_EVIDENCE.md.
+
+Vedic P11 (2026-10-24, internal candidates): packages/vedic owns birth Panchang,
+bounded lunar phase/Amanta month search and a separate pure sunrise-selection
+rule. birth-observance.mjs composes private birth validation and offline places;
+observance-rule.mjs stays independent of places. App-owned tradition-view and
+naming-data own en/hi/gu presentation, a versioned editorial 108-sound table/two
+sourced names, name-only copy and explicit private ICS. Profile math remains
+unchanged; package/lock 0.11.0 adds these modules. No public routes, persistence,
+auth/schema or Ritual Assist changes. See docs/vedic/P11_EVIDENCE.md for gates.
+
+Vedic P10 (2026-10-24, internal export): app-owned export-report.mjs projects an
+explicit whitelist into vedic-export-1, removing direct birth identity by default.
+Standalone HTML and browser Print / Save as PDF use the same projection, numeric
+fallback tables, chart diagrams, full Dasha cycle, warnings and source identities.
+No kernel, persistence, public static mapping or API changes. The loopback harness
+serves report CSS; public release gates remain open. See docs/vedic/P10_EVIDENCE.md.
+
+Vedic P09 (2026-10-24, internal UI): apps/rashifal-kundli/frontend owns
+birth entry/review, per-feature report composition, en/hi/gu labels and Dasha
+presentation. Pure calculations remain in packages/vedic. Memory-only private
+input is cleared on edits/reset/navigation; only shared theme preferences persist.
+Loopback preview-vedic-birth.cjs defaults to 4178; it is absent from public
+assets/registry. No API, schema, production or Ritual Assist change. Evidence:
+docs/vedic/P09_EVIDENCE.md. The P10 export increment is described above.
+
+Vedic P08 Vimshottari (2026-10-24, internal engine): packages/vedic/dasha.mjs
+owns pure birth-balance, 120-year Mahadasha/Antardasha arithmetic and explicit
+active/next-boundary queries. Its 365.25-day year is on a uniform Unix-millisecond
+axis; projected date labels do not claim observed SI duration or future leap
+knowledge. Pinned civil rules project local dates only within their coverage.
+birth-dasha.mjs separately validates P02 input and computes the P04 birth Moon;
+uncertain/near-Nakshatra-boundary inputs are withheld. Arithmetic-only imports
+exclude astronomy/place data. No UI/public route, persistence, interpretation
+or Ritual Assist changes. Evidence: docs/vedic/P08_EVIDENCE.md.
+
+Vedic P07 D9/charts (2026-10-24, internal component): packages/vedic/d9.mjs
+owns canonical half-open Navamsa mapping and numeric D9; birth-divisions.mjs
+adds the separate birth/place and minute-division boundary screen. App-owned
+apps/rashifal-kundli/frontend chart-model/view/CSS share one checked numeric
+model across North fixed-house and South fixed-sign graphics, accessible house
+selection and table. Existing shared tokens/theme owner are reused. The
+loopback-only infrastructure/preview-vedic-charts.cjs and app dev fixtures are
+development tools, absent from the public static allowlist. No platform route,
+catalogue card, production export, persistence or Ritual Assist migration is
+added. Source acceptance and birth-time sensitivity gates remain open.
+
+Vedic P06 Lagna/D1 (2026-10-24, internal candidate): `sidereal-time.mjs` owns
+IAU1982 GMST/modelled UT1 plus IAU1994 equinox corrections from TT. `lagna.mjs`
+owns the eastern geometric horizon intersection with true obliquity and true
+Lahiri subtraction. `d1.mjs` owns numeric whole-sign house occupancy; exact
+ascendant degree is separate from sign-start house boundaries. The separate
+`birth-chart.mjs` uses P02 admission and withholds unknown/approximate or
+near-boundary minute-resolution inputs. No persistence, public integration,
+graphics or Ritual Assist changes. Independent astronomical acceptance remains
+open. Source attribution/report: `docs/vedic/P06_EVIDENCE.md`.
+
+Vedic P05 Panchang (2026-10-24, internal candidate): package-owned
+`panchang.mjs` handles geocentric limbs and bounded continuous transitions;
+`panchang-observer.mjs` handles local upper-limb sunrise and separate civil/sunrise
+Vara. `panchang-place.mjs` is the offline Indian-place admission boundary.
+Direct coordinate modules exclude the place dataset from Worker bundles.
+Engine TT events are inverted through the explicit civil-time model, never
+reported as UTC directly from modelled-UT1 Date values. Reference tools/NOAA
+screening stay development-only. Original PAC acceptance and unresolved publisher
+sunrise discrepancies remain release gates. No Ritual Assist or public app
+integration. Evidence: `docs/vedic/P05_EVIDENCE.md`.
+
+Vedic P04 sidereal positions (2026-10-24, internal candidate): package-owned
+`sidereal.mjs`, `ayanamsha.mjs`, `iau1976.mjs` and `angles.mjs` own consistent
+IAU1976/1980 revised-Lahiri conversion, mean nodes and nominal sectors. The
+separate `birth-positions.mjs` bridge validates P02 input and withholds uncertain
+birth time. P03 raw vectors are reused, without mixing its native angle frame.
+Pinned ERFA coefficient/reference sources and BSD notices stay package-owned;
+no Swiss library, public route, private persistence or Ritual Assist change.
+See `docs/vedic/P04_EVIDENCE.md`, including the pre-release P01 anchor erratum.
+
+Vedic P03 astronomy (2026-10-24, internal candidate): package-owned
+`packages/vedic/astronomy.mjs` / `astronomy-time.mjs` isolate raw geocentric
+astronomy and explicit time-scale handling from normalization, using a pinned
+MIT engine copy under `vendor/`. Astronomy-only imports avoid the place dataset.
+JPL/ERFA fixtures and model comparisons belong to tests/development tooling,
+never runtime external lookups. No Ritual Assist imports, public routes,
+sidereal logic or data persistence changed. See `docs/vedic/P03_EVIDENCE.md`.
+
+Vedic P02 normalization (2026-10-24, internal only): `packages/vedic/` owns
+pure offline place search/selection, pinned bounded India civil-time rules and
+birth-input normalization. It has no route, astronomy, persistence or Ritual
+Assist import changes. `infrastructure/prepare-vedic-data.cjs` reproducibly
+derives its public GeoNames/IANA reference JSON from retained source extracts;
+runtime modules never fetch these sources. Keep approximate coordinate/source
+labels and exact/approximate/unknown-time distinctions intact. See
+`docs/vedic/PROGRESS.md` and package README for coverage and phase evidence.
+
 Performance/reuse ownership (2026-10-24): `packages/ui/theme.js` initializes
 `SynapseUI.observe`; consumers filter mutations to their owned roots.
 `packages/ui/legal-html.cjs` owns the `synapse:legal-footer` marker, composed by

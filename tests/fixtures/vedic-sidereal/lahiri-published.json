@@ -1,0 +1,30 @@
+{
+  "version": "lahiri-published-reference-1",
+  "sourceUrl": "https://www.astro.com/swisseph/swisseph.htm",
+  "sourceSection": "2.8.5 and Appendix E, IAE 1989/2019 reproduction discussion",
+  "retrieved": "2026-10-24",
+  "capturedHtmlSha256": "7ca3f8863d31001f3a1411139d4759813cc8c3d3c51312fbc45aa84382f05aa2",
+  "provenance": "Numerical facts transcribed from first-party Astrodienst method/reference documentation; secondary access to IAE values, not an original IMD/IAE scan. No Swiss Ephemeris code or library is used.",
+  "reviewStatus": "author-transcribed-source-backed; independent original-IAE review pending",
+  "proposedToleranceArcsec": 1,
+  "definition": {"ttJulianDay": 2435553.5, "trueDms": [23, 15, 0.658]},
+  "mean": [
+    {"id":"IAE1989-MEAN-1989","ttJulianDay":2447527.5,"dms":[23,42,12.34],"source":"IAE 1989 values reproduced in Appendix E; printed 0.01 arcsecond resolution"},
+    {"id":"IAE1989-MEAN-1990","ttJulianDay":2447892.5,"dms":[23,43,2.62],"source":"IAE 1989 values reproduced in Appendix E; printed 0.01 arcsecond resolution"},
+    {"id":"IAE2019-MEAN-J2000","ttJulianDay":2451545,"dms":[23,51,25.53],"source":"IAE 2019 p429 value reproduced in Appendix E; 12:00 TT, not midnight"}
+  ],
+  "true": [
+    {"id":"LAHIRI-TRUE-20190101","nominalUtc":"2019-01-01T00:00:00Z","dms":[24,7,5.9864]},
+    {"id":"LAHIRI-TRUE-20190104","nominalUtc":"2019-01-04T00:00:00Z","dms":[24,7,6.5976]},
+    {"id":"LAHIRI-TRUE-20190107","nominalUtc":"2019-01-07T00:00:00Z","dms":[24,7,7.3284]},
+    {"id":"LAHIRI-TRUE-20190110","nominalUtc":"2019-01-10T00:00:00Z","dms":[24,7,7.8480]},
+    {"id":"LAHIRI-TRUE-20190113","nominalUtc":"2019-01-13T00:00:00Z","dms":[24,7,8.1073]},
+    {"id":"LAHIRI-TRUE-20190116","nominalUtc":"2019-01-16T00:00:00Z","dms":[24,7,8.3970]},
+    {"id":"LAHIRI-TRUE-20190119","nominalUtc":"2019-01-19T00:00:00Z","dms":[24,7,9.0676]},
+    {"id":"LAHIRI-TRUE-20190122","nominalUtc":"2019-01-22T00:00:00Z","dms":[24,7,9.8815]},
+    {"id":"LAHIRI-TRUE-20190125","nominalUtc":"2019-01-25T00:00:00Z","dms":[24,7,10.2273]},
+    {"id":"LAHIRI-TRUE-20190128","nominalUtc":"2019-01-28T00:00:00Z","dms":[24,7,10.4251]},
+    {"id":"LAHIRI-TRUE-20190131","nominalUtc":"2019-01-31T00:00:00Z","dms":[24,7,10.9122]}
+  ],
+  "trueReferenceNotes": "Published reproduced true values use IAU1976/Wahr1980 at UT0. Nominal UTC midnight is used with explicit modern leap conversion; UT1/UTC differences are not a sub-milliarcsecond validation. Full original IAE rows and metadata remain a release gate. Inconsistent/typographic 2019/2020 mean rows were excluded rather than silently corrected."
+}

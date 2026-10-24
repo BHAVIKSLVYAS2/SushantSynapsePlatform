@@ -105,7 +105,7 @@ const staticAssets={
  '/ritual-assist/preparation-pack.mjs':'apps/ritual-assist/frontend/preparation-pack.mjs',
  '/ritual-assist/calendar.css':'apps/ritual-assist/frontend/calendar.css',
  '/ritual-assist/panchang.mjs':'apps/ritual-assist/frontend/panchang.mjs',
- '/ritual-assist/astronomy-engine.mjs':'apps/ritual-assist/frontend/astronomy-engine.mjs',
+ '/ritual-assist/astronomy-engine.mjs':'packages/vedic/vendor/astronomy-engine-2.1.19.mjs',
  '/ritual-assist/':'apps/ritual-assist/frontend/index.html',
  '/ritual-assist/app.js':'apps/ritual-assist/frontend/app.js',
  '/ritual-assist/guides.mjs':'apps/ritual-assist/frontend/guides.mjs',

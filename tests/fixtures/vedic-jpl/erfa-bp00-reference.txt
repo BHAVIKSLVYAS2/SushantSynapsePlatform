@@ -1,0 +1,40 @@
+static void t_bp00(int *status)
+/*
+**  - - - - - - -
+**   t _ b p 0 0
+**  - - - - - - -
+**
+**  Test eraBp00 function.
+**
+**  Returned:
+**     status    int         FALSE = success, TRUE = fail
+**
+**  Called:  eraBp00, vvd
+**
+**  This revision:  2013 August 7
+*/
+{
+   double rb[3][3], rp[3][3], rbp[3][3];
+
+
+   eraBp00(2400000.5, 50123.9999, rb, rp, rbp);
+
+   vvd(rb[0][0], 0.9999999999999942498, 1e-12,
+       "eraBp00", "rb11", status);
+   vvd(rb[0][1], -0.7078279744199196626e-7, 1e-16,
+       "eraBp00", "rb12", status);
+   vvd(rb[0][2], 0.8056217146976134152e-7, 1e-16,
+       "eraBp00", "rb13", status);
+   vvd(rb[1][0], 0.7078279477857337206e-7, 1e-16,
+       "eraBp00", "rb21", status);
+   vvd(rb[1][1], 0.9999999999999969484, 1e-12,
+       "eraBp00", "rb22", status);
+   vvd(rb[1][2], 0.3306041454222136517e-7, 1e-16,
+       "eraBp00", "rb23", status);
+   vvd(rb[2][0], -0.8056217380986972157e-7, 1e-16,
+       "eraBp00", "rb31", status);
+   vvd(rb[2][1], -0.3306040883980552500e-7, 1e-16,
+       "eraBp00", "rb32", status);
+   vvd(rb[2][2], 0.9999999999999962084, 1e-12,
+       "eraBp00", "rb33", status);
+

@@ -1,0 +1,4714 @@
+{
+  "phase": "P15",
+  "status": "internal-draft-independent-traditional-review-pending",
+  "hashes": {
+    "rulebooks": "39443d8192996d9c5032c9e17372948c827b5ceee576762899d7726c28dc89d3",
+    "matching": "5c65551f2d99b30ae53d80915561ffa66b679ce3719f122d6b14e746f17dfd45",
+    "traditional-checks": "16a493678fa906260856027b69437575ac4d3a7279f0b6bfaade942621908bae",
+    "birth-matching": "b7771078d828f0d82a38e0c7db8533b32b2b0ec8f77b2d4fa37cb83f6cbb379b"
+  },
+  "ruleSources": {
+    "DP-VARNA": {
+      "title": "Drik Panchang: Varna Kuta calculation (formula only)",
+      "url": "https://www.drikpanchang.com/tutorials/jyotisha/kundali-match/ashta-kuta/varna-kuta.html",
+      "accessed": "2026-10-24"
+    },
+    "TTC-METHOD": {
+      "title": "Telugu Calendar: published engine tables, four-class Vashya and component rules",
+      "url": "https://thetelugucalendar.com/marriage-matching/method/",
+      "accessed": "2026-10-24",
+      "scope": "operator specification; classical print attribution not independently authenticated"
+    },
+    "RAMAN-YONI": {
+      "title": "B. V. Raman, Muhurtha, chapter XI, tables 1 and 2",
+      "url": "https://www.panchanga.lv/wp-content/uploads/2020/06/Muhurta_Raman.pdf",
+      "locator": "PDF pages 36 and 38 (zero based)",
+      "accessed": "2026-10-24"
+    },
+    "DP-MANGAL": {
+      "title": "Drik Panchang: Mangal house/reference variants",
+      "url": "https://www.drikpanchang.com/jyotisha/mangal-dosha/mangal-dosha-calculator.html",
+      "accessed": "2026-10-24",
+      "scope": "placement sets only; predictions and severity rejected"
+    },
+    "AS-BUDHA": {
+      "title": "Astro Saxena: Budh-Aditya geometric base and additional conditions",
+      "url": "https://www.astrosaxena.com/articles/budhaditya",
+      "accessed": "2026-10-24"
+    },
+    "RATH-GAJA": {
+      "title": "Sarbani Rath: Sakata, Mukuta and Gajakesari, differing qualifications",
+      "url": "https://sarbanirath.com/jyoti%E1%B9%A3a/advanced/saka%E1%B9%ADa-muku%E1%B9%ADa-gajakesari-yoga/",
+      "accessed": "2026-10-24"
+    }
+  },
+  "examples": [
+    {
+      "fixture": {
+        "id": "same-bharani-aries",
+        "a": 15,
+        "b": 15,
+        "scores": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          0
+        ],
+        "total": 28,
+        "provenance": "Manual component-rule arithmetic; not an external golden"
+      },
+      "result": {
+        "contractVersion": "vedic-ashtakoota-1",
+        "rulebook": {
+          "id": "SYNAPSE_ASHTAKOOTA_COMPOSITE_V1",
+          "version": 1,
+          "region": "North Indian eight-component framework; explicit composite tables, not a canonical school",
+          "reviewStatus": "internal-draft-independent-traditional-review-pending",
+          "axes": {
+            "personA": "traditional groom/column calculation axis",
+            "personB": "traditional bride/row calculation axis"
+          },
+          "exceptionPolicy": "raw scores only; no cancellation or adjusted total",
+          "vashyaVariant": "four-class full-sign table published by Telugu Calendar; no 15-degree splits",
+          "yoniVariant": "Raman Muhurtha table 2 as printed; two asymmetric pairs retained, animal symbols only",
+          "sourceIds": [
+            "DP-VARNA",
+            "TTC-METHOD",
+            "RAMAN-YONI"
+          ],
+          "limitations": [
+            "not-a-marriage-verdict",
+            "not-a-health-fertility-or-personality-assessment",
+            "no-social-category-inferred",
+            "school-disagreements",
+            "independent-review-pending"
+          ]
+        },
+        "personA": {
+          "rashi": 1,
+          "nakshatra": 2,
+          "pada": 1
+        },
+        "personB": {
+          "rashi": 1,
+          "nakshatra": 2,
+          "pada": 1
+        },
+        "components": [
+          {
+            "id": "varna",
+            "maximum": 1,
+            "score": 1,
+            "factors": {
+              "personA": "V3",
+              "personB": "V3"
+            },
+            "definition": "1 if chart-group index A >= B, else 0; no identity or human rank inferred",
+            "sourceId": "DP-VARNA"
+          },
+          {
+            "id": "vashya",
+            "maximum": 2,
+            "score": 2,
+            "factors": {
+              "personA": "chatushpada",
+              "personB": "chatushpada"
+            },
+            "definition": "Four full-sign classes; B row, A column. Half-sign variants are not applied.",
+            "sourceId": "TTC-METHOD"
+          },
+          {
+            "id": "tara",
+            "maximum": 3,
+            "score": 3,
+            "factors": {
+              "aToB": 1,
+              "bToA": 1
+            },
+            "definition": "Inclusive cyclic counts reduced to 1..9; each direction outside 3/5/7 earns 1.5.",
+            "sourceId": "TTC-METHOD"
+          },
+          {
+            "id": "yoni",
+            "maximum": 4,
+            "score": 4,
+            "factors": {
+              "personA": "elephant",
+              "personB": "elephant"
+            },
+            "definition": "Printed Raman table 2, B row/A column; asymmetric horse/hare and buffalo/lion cells retained.",
+            "sourceId": "RAMAN-YONI"
+          },
+          {
+            "id": "graha-maitri",
+            "maximum": 5,
+            "score": 5,
+            "factors": {
+              "personA": "Mars",
+              "personB": "Mars"
+            },
+            "definition": "Moon-sign lords, natural-friendship point table; temporary friendship excluded.",
+            "sourceId": "TTC-METHOD"
+          },
+          {
+            "id": "gana",
+            "maximum": 6,
+            "score": 6,
+            "factors": {
+              "personA": "manushya",
+              "personB": "manushya"
+            },
+            "definition": "Directional lookup: B row, A column. Symbol names do not classify personality.",
+            "sourceId": "TTC-METHOD"
+          },
+          {
+            "id": "bhakoot",
+            "maximum": 7,
+            "score": 7,
+            "factors": {
+              "bToA": 1,
+              "aToB": 1
+            },
+            "definition": "0 for relative sign pairs 2/12, 5/9 or 6/8; otherwise 7. No cancellation.",
+            "sourceId": "TTC-METHOD"
+          },
+          {
+            "id": "nadi",
+            "maximum": 8,
+            "score": 0,
+            "factors": {
+              "personA": "madhya",
+              "personB": "madhya"
+            },
+            "definition": "Same symbolic group 0, different group 8. No health, hereditary or fertility inference.",
+            "sourceId": "TTC-METHOD"
+          }
+        ],
+        "total": 28,
+        "maximum": 36,
+        "assessment": "withheld-no-marriage-verdict",
+        "precision": "nominal-longitude-input; caller must enforce birth admission",
+        "exceptions": "not-evaluated-raw-total-only"
+      }
+    },
+    {
+      "fixture": {
+        "id": "magha-ashwini-variant-comparison",
+        "a": 125,
+        "b": 5,
+        "scores": [
+          1,
+          2,
+          3,
+          2,
+          5,
+          1,
+          0,
+          8
+        ],
+        "total": 22,
+        "provenance": "Primary Prokerala sample: groom Magha/Leo, bride Ashwini/Aries; selected lunar-class interiors, not reconstructed birth ephemerides",
+        "url": "https://api.prokerala.com/reports/sample/guna-milan-en.pdf",
+        "publishedScores": [
+          1,
+          0,
+          3,
+          2,
+          5,
+          1,
+          0,
+          8
+        ],
+        "publishedTotal": 20,
+        "difference": "Only Vashya differs: selected four-class table gives 2 for two quadruped signs; publisher separates Leo and gives 0. Never claim whole-report agreement."
+      },
+      "result": {
+        "contractVersion": "vedic-ashtakoota-1",
+        "rulebook": {
+          "id": "SYNAPSE_ASHTAKOOTA_COMPOSITE_V1",
+          "version": 1,
+          "region": "North Indian eight-component framework; explicit composite tables, not a canonical school",
+          "reviewStatus": "internal-draft-independent-traditional-review-pending",
+          "axes": {
+            "personA": "traditional groom/column calculation axis",
+            "personB": "traditional bride/row calculation axis"
+          },
+          "exceptionPolicy": "raw scores only; no cancellation or adjusted total",
+          "vashyaVariant": "four-class full-sign table published by Telugu Calendar; no 15-degree splits",
+          "yoniVariant": "Raman Muhurtha table 2 as printed; two asymmetric pairs retained, animal symbols only",
+          "sourceIds": [
+            "DP-VARNA",
+            "TTC-METHOD",
+            "RAMAN-YONI"
+          ],
+          "limitations": [
+            "not-a-marriage-verdict",
+            "not-a-health-fertility-or-personality-assessment",
+            "no-social-category-inferred",
+            "school-disagreements",
+            "independent-review-pending"
+          ]
+        },
+        "personA": {
+          "rashi": 5,
+          "nakshatra": 10,
+          "pada": 2
+        },
+        "personB": {
+          "rashi": 1,
+          "nakshatra": 1,
+          "pada": 2
+        },
+        "components": [
+          {
+            "id": "varna",
+            "maximum": 1,
+            "score": 1,
+            "factors": {
+              "personA": "V3",
+              "personB": "V3"
+            },
+            "definition": "1 if chart-group index A >= B, else 0; no identity or human rank inferred",
+            "sourceId": "DP-VARNA"
+          },
+          {
+            "id": "vashya",
+            "maximum": 2,
+            "score": 2,
+            "factors": {
+              "personA": "chatushpada",
+              "personB": "chatushpada"
+            },
+            "definition": "Four full-sign classes; B row, A column. Half-sign variants are not applied.",
+            "sourceId": "TTC-METHOD"
+          },
+          {
+            "id": "tara",
+            "maximum": 3,
+            "score": 3,
+            "factors": {
+              "aToB": 1,
+              "bToA": 1
+            },
+            "definition": "Inclusive cyclic counts reduced to 1..9; each direction outside 3/5/7 earns 1.5.",
+            "sourceId": "TTC-METHOD"
+          },
+          {
+            "id": "yoni",
+            "maximum": 4,
+            "score": 2,
+            "factors": {
+              "personA": "rat",
+              "personB": "horse"
+            },
+            "definition": "Printed Raman table 2, B row/A column; asymmetric horse/hare and buffalo/lion cells retained.",
+            "sourceId": "RAMAN-YONI"
+          },
+          {
+            "id": "graha-maitri",
+            "maximum": 5,
+            "score": 5,
+            "factors": {
+              "personA": "Sun",
+              "personB": "Mars"
+            },
+            "definition": "Moon-sign lords, natural-friendship point table; temporary friendship excluded.",
+            "sourceId": "TTC-METHOD"
+          },
+          {
+            "id": "gana",
+            "maximum": 6,
+            "score": 1,
+            "factors": {
+              "personA": "rakshasa",
+              "personB": "deva"
+            },
+            "definition": "Directional lookup: B row, A column. Symbol names do not classify personality.",
+            "sourceId": "TTC-METHOD"
+          },
+          {
+            "id": "bhakoot",
+            "maximum": 7,
+            "score": 0,
+            "factors": {
+              "bToA": 5,
+              "aToB": 9
+            },
+            "definition": "0 for relative sign pairs 2/12, 5/9 or 6/8; otherwise 7. No cancellation.",
+            "sourceId": "TTC-METHOD"
+          },
+          {
+            "id": "nadi",
+            "maximum": 8,
+            "score": 8,
+            "factors": {
+              "personA": "antya",
+              "personB": "adi"
+            },
+            "definition": "Same symbolic group 0, different group 8. No health, hereditary or fertility inference.",
+            "sourceId": "TTC-METHOD"
+          }
+        ],
+        "total": 22,
+        "maximum": 36,
+        "assessment": "withheld-no-marriage-verdict",
+        "precision": "nominal-longitude-input; caller must enforce birth admission",
+        "exceptions": "not-evaluated-raw-total-only"
+      }
+    },
+    {
+      "fixture": {
+        "id": "axis-swap-ashwini-magha",
+        "a": 5,
+        "b": 125,
+        "scores": [
+          1,
+          2,
+          3,
+          2,
+          5,
+          0,
+          0,
+          8
+        ],
+        "total": 21,
+        "provenance": "Manual swapped directional Gana example; no outside golden"
+      },
+      "result": {
+        "contractVersion": "vedic-ashtakoota-1",
+        "rulebook": {
+          "id": "SYNAPSE_ASHTAKOOTA_COMPOSITE_V1",
+          "version": 1,
+          "region": "North Indian eight-component framework; explicit composite tables, not a canonical school",
+          "reviewStatus": "internal-draft-independent-traditional-review-pending",
+          "axes": {
+            "personA": "traditional groom/column calculation axis",
+            "personB": "traditional bride/row calculation axis"
+          },
+          "exceptionPolicy": "raw scores only; no cancellation or adjusted total",
+          "vashyaVariant": "four-class full-sign table published by Telugu Calendar; no 15-degree splits",
+          "yoniVariant": "Raman Muhurtha table 2 as printed; two asymmetric pairs retained, animal symbols only",
+          "sourceIds": [
+            "DP-VARNA",
+            "TTC-METHOD",
+            "RAMAN-YONI"
+          ],
+          "limitations": [
+            "not-a-marriage-verdict",
+            "not-a-health-fertility-or-personality-assessment",
+            "no-social-category-inferred",
+            "school-disagreements",
+            "independent-review-pending"
+          ]
+        },
+        "personA": {
+          "rashi": 1,
+          "nakshatra": 1,
+          "pada": 2
+        },
+        "personB": {
+          "rashi": 5,
+          "nakshatra": 10,
+          "pada": 2
+        },
+        "components": [
+          {
+            "id": "varna",
+            "maximum": 1,
+            "score": 1,
+            "factors": {
+              "personA": "V3",
+              "personB": "V3"
+            },
+            "definition": "1 if chart-group index A >= B, else 0; no identity or human rank inferred",
+            "sourceId": "DP-VARNA"
+          },
+          {
+            "id": "vashya",
+            "maximum": 2,
+            "score": 2,
+            "factors": {
+              "personA": "chatushpada",
+              "personB": "chatushpada"
+            },
+            "definition": "Four full-sign classes; B row, A column. Half-sign variants are not applied.",
+            "sourceId": "TTC-METHOD"
+          },
+          {
+            "id": "tara",
+            "maximum": 3,
+            "score": 3,
+            "factors": {
+              "aToB": 1,
+              "bToA": 1
+            },
+            "definition": "Inclusive cyclic counts reduced to 1..9; each direction outside 3/5/7 earns 1.5.",
+            "sourceId": "TTC-METHOD"
+          },
+          {
+            "id": "yoni",
+            "maximum": 4,
+            "score": 2,
+            "factors": {
+              "personA": "horse",
+              "personB": "rat"
+            },
+            "definition": "Printed Raman table 2, B row/A column; asymmetric horse/hare and buffalo/lion cells retained.",
+            "sourceId": "RAMAN-YONI"
+          },
+          {
+            "id": "graha-maitri",
+            "maximum": 5,
+            "score": 5,
+            "factors": {
+              "personA": "Mars",
+              "personB": "Sun"
+            },
+            "definition": "Moon-sign lords, natural-friendship point table; temporary friendship excluded.",
+            "sourceId": "TTC-METHOD"
+          },
+          {
+            "id": "gana",
+            "maximum": 6,
+            "score": 0,
+            "factors": {
+              "personA": "deva",
+              "personB": "rakshasa"
+            },
+            "definition": "Directional lookup: B row, A column. Symbol names do not classify personality.",
+            "sourceId": "TTC-METHOD"
+          },
+          {
+            "id": "bhakoot",
+            "maximum": 7,
+            "score": 0,
+            "factors": {
+              "bToA": 9,
+              "aToB": 5
+            },
+            "definition": "0 for relative sign pairs 2/12, 5/9 or 6/8; otherwise 7. No cancellation.",
+            "sourceId": "TTC-METHOD"
+          },
+          {
+            "id": "nadi",
+            "maximum": 8,
+            "score": 8,
+            "factors": {
+              "personA": "adi",
+              "personB": "antya"
+            },
+            "definition": "Same symbolic group 0, different group 8. No health, hereditary or fertility inference.",
+            "sourceId": "TTC-METHOD"
+          }
+        ],
+        "total": 21,
+        "maximum": 36,
+        "assessment": "withheld-no-marriage-verdict",
+        "precision": "nominal-longitude-input; caller must enforce birth admission",
+        "exceptions": "not-evaluated-raw-total-only"
+      }
+    }
+  ],
+  "quarterGrid": {
+    "pairs": 11664,
+    "min": 2.5,
+    "max": 36,
+    "halfPointHistogram": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      8,
+      16,
+      16,
+      16,
+      44,
+      0,
+      36,
+      28,
+      8,
+      44,
+      40,
+      36,
+      55,
+      24,
+      43,
+      36,
+      117,
+      88,
+      189,
+      208,
+      135,
+      261,
+      96,
+      234,
+      104,
+      162,
+      217,
+      211,
+      235,
+      244,
+      414,
+      192,
+      349,
+      340,
+      389,
+      461,
+      175,
+      542,
+      209,
+      405,
+      206,
+      203,
+      359,
+      85,
+      600,
+      154,
+      466,
+      417,
+      448,
+      517,
+      176,
+      734,
+      80,
+      144,
+      114,
+      54,
+      102,
+      16,
+      99,
+      8,
+      39,
+      88,
+      20,
+      72,
+      12,
+      16,
+      0,
+      8
+    ]
+  },
+  "checks": [
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-first",
+        "houses": [
+          1,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 1,
+            "patternMatches": true
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 1,
+            "patternMatches": true
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 1,
+            "patternMatches": true
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-first",
+        "houses": [
+          1,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 2,
+            "patternMatches": false
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 2,
+            "patternMatches": false
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 2,
+            "patternMatches": false
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-first",
+        "houses": [
+          1,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 3,
+            "patternMatches": false
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 3,
+            "patternMatches": false
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 3,
+            "patternMatches": false
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-first",
+        "houses": [
+          1,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 4,
+            "patternMatches": true
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 4,
+            "patternMatches": true
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 4,
+            "patternMatches": true
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-first",
+        "houses": [
+          1,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 5,
+            "patternMatches": false
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 5,
+            "patternMatches": false
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 5,
+            "patternMatches": false
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-first",
+        "houses": [
+          1,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 6,
+            "patternMatches": false
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 6,
+            "patternMatches": false
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 6,
+            "patternMatches": false
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-first",
+        "houses": [
+          1,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 7,
+            "patternMatches": true
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 7,
+            "patternMatches": true
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 7,
+            "patternMatches": true
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-first",
+        "houses": [
+          1,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 8,
+            "patternMatches": true
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 8,
+            "patternMatches": true
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 8,
+            "patternMatches": true
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-first",
+        "houses": [
+          1,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 9,
+            "patternMatches": false
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 9,
+            "patternMatches": false
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 9,
+            "patternMatches": false
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-first",
+        "houses": [
+          1,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 10,
+            "patternMatches": false
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 10,
+            "patternMatches": false
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 10,
+            "patternMatches": false
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-first",
+        "houses": [
+          1,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 11,
+            "patternMatches": false
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 11,
+            "patternMatches": false
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 11,
+            "patternMatches": false
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-first",
+        "houses": [
+          1,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 12,
+            "patternMatches": true
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 12,
+            "patternMatches": true
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 12,
+            "patternMatches": true
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-second",
+        "houses": [
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 1,
+            "patternMatches": false
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 1,
+            "patternMatches": false
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 1,
+            "patternMatches": false
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-second",
+        "houses": [
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 2,
+            "patternMatches": true
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 2,
+            "patternMatches": true
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 2,
+            "patternMatches": true
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-second",
+        "houses": [
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 3,
+            "patternMatches": false
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 3,
+            "patternMatches": false
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 3,
+            "patternMatches": false
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-second",
+        "houses": [
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 4,
+            "patternMatches": true
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 4,
+            "patternMatches": true
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 4,
+            "patternMatches": true
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-second",
+        "houses": [
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 5,
+            "patternMatches": false
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 5,
+            "patternMatches": false
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 5,
+            "patternMatches": false
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-second",
+        "houses": [
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 6,
+            "patternMatches": false
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 6,
+            "patternMatches": false
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 6,
+            "patternMatches": false
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-second",
+        "houses": [
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 7,
+            "patternMatches": true
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 7,
+            "patternMatches": true
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 7,
+            "patternMatches": true
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-second",
+        "houses": [
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 8,
+            "patternMatches": true
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 8,
+            "patternMatches": true
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 8,
+            "patternMatches": true
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-second",
+        "houses": [
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 9,
+            "patternMatches": false
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 9,
+            "patternMatches": false
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 9,
+            "patternMatches": false
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-second",
+        "houses": [
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 10,
+            "patternMatches": false
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 10,
+            "patternMatches": false
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 10,
+            "patternMatches": false
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-second",
+        "houses": [
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 11,
+            "patternMatches": false
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 11,
+            "patternMatches": false
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 11,
+            "patternMatches": false
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-five-second",
+        "houses": [
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 12,
+            "patternMatches": true
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 12,
+            "patternMatches": true
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 12,
+            "patternMatches": true
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-six",
+        "houses": [
+          1,
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 1,
+            "patternMatches": true
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 1,
+            "patternMatches": true
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 1,
+            "patternMatches": true
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-six",
+        "houses": [
+          1,
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 2,
+            "patternMatches": true
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 2,
+            "patternMatches": true
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 2,
+            "patternMatches": true
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-six",
+        "houses": [
+          1,
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 3,
+            "patternMatches": false
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 3,
+            "patternMatches": false
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 3,
+            "patternMatches": false
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-six",
+        "houses": [
+          1,
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 4,
+            "patternMatches": true
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 4,
+            "patternMatches": true
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 4,
+            "patternMatches": true
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-six",
+        "houses": [
+          1,
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 5,
+            "patternMatches": false
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 5,
+            "patternMatches": false
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 5,
+            "patternMatches": false
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-six",
+        "houses": [
+          1,
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 6,
+            "patternMatches": false
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 6,
+            "patternMatches": false
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 6,
+            "patternMatches": false
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-six",
+        "houses": [
+          1,
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 7,
+            "patternMatches": true
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 7,
+            "patternMatches": true
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 7,
+            "patternMatches": true
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-six",
+        "houses": [
+          1,
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 8,
+            "patternMatches": true
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 8,
+            "patternMatches": true
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 8,
+            "patternMatches": true
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-six",
+        "houses": [
+          1,
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 9,
+            "patternMatches": false
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 9,
+            "patternMatches": false
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 9,
+            "patternMatches": false
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-six",
+        "houses": [
+          1,
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 10,
+            "patternMatches": false
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 10,
+            "patternMatches": false
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 10,
+            "patternMatches": false
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-six",
+        "houses": [
+          1,
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 11,
+            "patternMatches": false
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 11,
+            "patternMatches": false
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 11,
+            "patternMatches": false
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    },
+    {
+      "contractVersion": "vedic-geometric-rule-preview-1",
+      "rulebook": {
+        "id": "SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1",
+        "version": 1,
+        "reviewStatus": "internal-draft-independent-traditional-review-pending",
+        "scope": "geometric predicates only; final Yoga/Dosha assessment withheld",
+        "variants": {
+          "mangal-five-first": [
+            1,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-five-second": [
+            2,
+            4,
+            7,
+            8,
+            12
+          ],
+          "mangal-six": [
+            1,
+            2,
+            4,
+            7,
+            8,
+            12
+          ]
+        },
+        "rules": [
+          {
+            "id": "budha-aditya-base",
+            "sourceId": "AS-BUDHA",
+            "definition": "Sun and Mercury occupy the same whole sign.",
+            "omissions": "combustion, degree orb, dignity, other occupants, aspects and activation not assessed"
+          },
+          {
+            "id": "gaja-kesari-base",
+            "sourceId": "RATH-GAJA",
+            "definition": "Jupiter is in sign 1, 4, 7 or 10 counted inclusively from the Moon.",
+            "omissions": "benefic qualifications, dignity, combustion, aspects and strength not assessed"
+          },
+          {
+            "id": "mangal-placement",
+            "sourceId": "DP-MANGAL",
+            "definition": "Mars occupies a selected listed sign-house from Lagna, Moon or Venus.",
+            "omissions": "cancellation and severity not assessed; no final Manglik label"
+          }
+        ]
+      },
+      "yogas": [
+        {
+          "id": "budha-aditya-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Sun": 1,
+            "Mercury": 1
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        },
+        {
+          "id": "gaja-kesari-base",
+          "status": "evaluated-geometric-base",
+          "patternMatches": true,
+          "factors": {
+            "Moon": 1,
+            "Jupiter": 4,
+            "jupiterFromMoon": 4
+          },
+          "assessment": "withheld-review-and-qualifications-required"
+        }
+      ],
+      "mangal": {
+        "variant": "mangal-six",
+        "houses": [
+          1,
+          2,
+          4,
+          7,
+          8,
+          12
+        ],
+        "references": [
+          {
+            "reference": "lagna",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 12,
+            "patternMatches": true
+          },
+          {
+            "reference": "moon",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 12,
+            "patternMatches": true
+          },
+          {
+            "reference": "venus",
+            "status": "evaluated-geometric-base",
+            "marsFromReference": 12,
+            "patternMatches": true
+          }
+        ],
+        "cancellation": "not-evaluated",
+        "assessment": "withheld-no-final-dosha-label"
+      },
+      "precision": "nominal-whole-sign-geometry-only",
+      "warnings": [
+        "INDEPENDENT_RULEBOOK_REVIEW_PENDING",
+        "GEOMETRY_IS_NOT_A_PREDICTION",
+        "NO_SEVERITY_OR_REMEDY"
+      ]
+    }
+  ]
+}

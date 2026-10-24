@@ -1,0 +1,21 @@
+{
+ "schemaVersion":1,
+ "source":{"title":"P.V.R. Narasimha Rao, Vedic Astrology: An Integrated Approach","url":"https://vedicastrologer.org/articles/vedic_astro_textbook.pdf","accessed":"2026-10-24"},
+ "divisionExamples":[
+  {"chartType":"D7","longitude":70,"rashi":5,"locator":"6.2.7, example 14"},
+  {"chartType":"D7","longitude":169,"rashi":4,"locator":"6.2.7, example 14"},
+  {"chartType":"D10","longitude":70,"rashi":6,"locator":"6.2.10, example 17"},
+  {"chartType":"D10","longitude":229,"rashi":10,"locator":"6.2.10, example 17"},
+  {"chartType":"D12","longitude":71,"rashi":7,"locator":"6.2.12, example 19"},
+  {"chartType":"D12","longitude":229,"rashi":3,"locator":"6.2.12, example 19"}
+ ],
+ "ashtakavarga":{
+  "locator":"Chart 6 / printed page 107 / PDF page 118 zero-based; answer to exercises 19/20, printed page 163 / PDF page 174",
+  "signs":{"Sun":3,"Moon":12,"Mars":3,"Mercury":3,"Jupiter":5,"Venus":1,"Saturn":5,"Lagna":6},
+  "signOrder":"Aries through Pisces",
+  "sunBav":[5,3,5,3,4,4,2,3,5,4,5,5],
+  "mercuryBav":[7,4,7,4,4,3,4,4,4,3,6,4],
+  "sav":[34,25,34,25,26,25,22,29,28,30,29,30],
+  "scope":"Raw sign-count reference only; no source birth ephemeris reconstruction or prediction adopted"
+ }
+}

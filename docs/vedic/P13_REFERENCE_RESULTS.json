@@ -1,0 +1,1490 @@
+{
+  "phase": "P13",
+  "model": {
+    "id": "gochar-whole-sign-reference-1",
+    "counting": "reference sign is 1; forward zodiacal signs are 2..12",
+    "references": [
+      "moon",
+      "lagna"
+    ],
+    "coordinate": "geocentric sidereal longitude, existing IN_LAHIRI_DEFAULT_V1",
+    "nearBoundaryGuardArcsec": 61,
+    "displacement": "shortest signed endpoint difference [-180,180); not travelled distance, velocity or retrograde",
+    "releaseStatus": "internal-candidate-reference-acceptance-pending"
+  },
+  "scope": "Definition/consistency evidence, not new independent ephemeris or traditional interpretation acceptance",
+  "sourceHashes": {
+    "packages/vedic/gochar.mjs": "0ee24b81d575b35e20f7ca9507ab04da5685e704415c1cc111c1c44460b563ab",
+    "packages/vedic/exploration-place.mjs": "a4bc35e45081e357dbf6876ca8a015f90269fd3e72876c5d7c2235b346f380d4",
+    "packages/vedic/birth-gochar.mjs": "b2d65fc851da80bdd888d5c52a2751e6c3ca62c6c0c65e1539c45ac3ed9975c3",
+    "apps/rashifal-kundli/frontend/exploration-report.mjs": "5fe547d88a256ca6e20b04357865b608b9a1e135e0a1437e5102caa806c52194"
+  },
+  "matrix": [
+    {
+      "reference": 1,
+      "rashi": 1,
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "reference": 1,
+      "rashi": 2,
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "reference": 1,
+      "rashi": 3,
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "reference": 1,
+      "rashi": 4,
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "reference": 1,
+      "rashi": 5,
+      "expected": 5,
+      "actual": 5
+    },
+    {
+      "reference": 1,
+      "rashi": 6,
+      "expected": 6,
+      "actual": 6
+    },
+    {
+      "reference": 1,
+      "rashi": 7,
+      "expected": 7,
+      "actual": 7
+    },
+    {
+      "reference": 1,
+      "rashi": 8,
+      "expected": 8,
+      "actual": 8
+    },
+    {
+      "reference": 1,
+      "rashi": 9,
+      "expected": 9,
+      "actual": 9
+    },
+    {
+      "reference": 1,
+      "rashi": 10,
+      "expected": 10,
+      "actual": 10
+    },
+    {
+      "reference": 1,
+      "rashi": 11,
+      "expected": 11,
+      "actual": 11
+    },
+    {
+      "reference": 1,
+      "rashi": 12,
+      "expected": 12,
+      "actual": 12
+    },
+    {
+      "reference": 2,
+      "rashi": 1,
+      "expected": 12,
+      "actual": 12
+    },
+    {
+      "reference": 2,
+      "rashi": 2,
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "reference": 2,
+      "rashi": 3,
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "reference": 2,
+      "rashi": 4,
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "reference": 2,
+      "rashi": 5,
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "reference": 2,
+      "rashi": 6,
+      "expected": 5,
+      "actual": 5
+    },
+    {
+      "reference": 2,
+      "rashi": 7,
+      "expected": 6,
+      "actual": 6
+    },
+    {
+      "reference": 2,
+      "rashi": 8,
+      "expected": 7,
+      "actual": 7
+    },
+    {
+      "reference": 2,
+      "rashi": 9,
+      "expected": 8,
+      "actual": 8
+    },
+    {
+      "reference": 2,
+      "rashi": 10,
+      "expected": 9,
+      "actual": 9
+    },
+    {
+      "reference": 2,
+      "rashi": 11,
+      "expected": 10,
+      "actual": 10
+    },
+    {
+      "reference": 2,
+      "rashi": 12,
+      "expected": 11,
+      "actual": 11
+    },
+    {
+      "reference": 3,
+      "rashi": 1,
+      "expected": 11,
+      "actual": 11
+    },
+    {
+      "reference": 3,
+      "rashi": 2,
+      "expected": 12,
+      "actual": 12
+    },
+    {
+      "reference": 3,
+      "rashi": 3,
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "reference": 3,
+      "rashi": 4,
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "reference": 3,
+      "rashi": 5,
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "reference": 3,
+      "rashi": 6,
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "reference": 3,
+      "rashi": 7,
+      "expected": 5,
+      "actual": 5
+    },
+    {
+      "reference": 3,
+      "rashi": 8,
+      "expected": 6,
+      "actual": 6
+    },
+    {
+      "reference": 3,
+      "rashi": 9,
+      "expected": 7,
+      "actual": 7
+    },
+    {
+      "reference": 3,
+      "rashi": 10,
+      "expected": 8,
+      "actual": 8
+    },
+    {
+      "reference": 3,
+      "rashi": 11,
+      "expected": 9,
+      "actual": 9
+    },
+    {
+      "reference": 3,
+      "rashi": 12,
+      "expected": 10,
+      "actual": 10
+    },
+    {
+      "reference": 4,
+      "rashi": 1,
+      "expected": 10,
+      "actual": 10
+    },
+    {
+      "reference": 4,
+      "rashi": 2,
+      "expected": 11,
+      "actual": 11
+    },
+    {
+      "reference": 4,
+      "rashi": 3,
+      "expected": 12,
+      "actual": 12
+    },
+    {
+      "reference": 4,
+      "rashi": 4,
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "reference": 4,
+      "rashi": 5,
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "reference": 4,
+      "rashi": 6,
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "reference": 4,
+      "rashi": 7,
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "reference": 4,
+      "rashi": 8,
+      "expected": 5,
+      "actual": 5
+    },
+    {
+      "reference": 4,
+      "rashi": 9,
+      "expected": 6,
+      "actual": 6
+    },
+    {
+      "reference": 4,
+      "rashi": 10,
+      "expected": 7,
+      "actual": 7
+    },
+    {
+      "reference": 4,
+      "rashi": 11,
+      "expected": 8,
+      "actual": 8
+    },
+    {
+      "reference": 4,
+      "rashi": 12,
+      "expected": 9,
+      "actual": 9
+    },
+    {
+      "reference": 5,
+      "rashi": 1,
+      "expected": 9,
+      "actual": 9
+    },
+    {
+      "reference": 5,
+      "rashi": 2,
+      "expected": 10,
+      "actual": 10
+    },
+    {
+      "reference": 5,
+      "rashi": 3,
+      "expected": 11,
+      "actual": 11
+    },
+    {
+      "reference": 5,
+      "rashi": 4,
+      "expected": 12,
+      "actual": 12
+    },
+    {
+      "reference": 5,
+      "rashi": 5,
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "reference": 5,
+      "rashi": 6,
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "reference": 5,
+      "rashi": 7,
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "reference": 5,
+      "rashi": 8,
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "reference": 5,
+      "rashi": 9,
+      "expected": 5,
+      "actual": 5
+    },
+    {
+      "reference": 5,
+      "rashi": 10,
+      "expected": 6,
+      "actual": 6
+    },
+    {
+      "reference": 5,
+      "rashi": 11,
+      "expected": 7,
+      "actual": 7
+    },
+    {
+      "reference": 5,
+      "rashi": 12,
+      "expected": 8,
+      "actual": 8
+    },
+    {
+      "reference": 6,
+      "rashi": 1,
+      "expected": 8,
+      "actual": 8
+    },
+    {
+      "reference": 6,
+      "rashi": 2,
+      "expected": 9,
+      "actual": 9
+    },
+    {
+      "reference": 6,
+      "rashi": 3,
+      "expected": 10,
+      "actual": 10
+    },
+    {
+      "reference": 6,
+      "rashi": 4,
+      "expected": 11,
+      "actual": 11
+    },
+    {
+      "reference": 6,
+      "rashi": 5,
+      "expected": 12,
+      "actual": 12
+    },
+    {
+      "reference": 6,
+      "rashi": 6,
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "reference": 6,
+      "rashi": 7,
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "reference": 6,
+      "rashi": 8,
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "reference": 6,
+      "rashi": 9,
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "reference": 6,
+      "rashi": 10,
+      "expected": 5,
+      "actual": 5
+    },
+    {
+      "reference": 6,
+      "rashi": 11,
+      "expected": 6,
+      "actual": 6
+    },
+    {
+      "reference": 6,
+      "rashi": 12,
+      "expected": 7,
+      "actual": 7
+    },
+    {
+      "reference": 7,
+      "rashi": 1,
+      "expected": 7,
+      "actual": 7
+    },
+    {
+      "reference": 7,
+      "rashi": 2,
+      "expected": 8,
+      "actual": 8
+    },
+    {
+      "reference": 7,
+      "rashi": 3,
+      "expected": 9,
+      "actual": 9
+    },
+    {
+      "reference": 7,
+      "rashi": 4,
+      "expected": 10,
+      "actual": 10
+    },
+    {
+      "reference": 7,
+      "rashi": 5,
+      "expected": 11,
+      "actual": 11
+    },
+    {
+      "reference": 7,
+      "rashi": 6,
+      "expected": 12,
+      "actual": 12
+    },
+    {
+      "reference": 7,
+      "rashi": 7,
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "reference": 7,
+      "rashi": 8,
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "reference": 7,
+      "rashi": 9,
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "reference": 7,
+      "rashi": 10,
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "reference": 7,
+      "rashi": 11,
+      "expected": 5,
+      "actual": 5
+    },
+    {
+      "reference": 7,
+      "rashi": 12,
+      "expected": 6,
+      "actual": 6
+    },
+    {
+      "reference": 8,
+      "rashi": 1,
+      "expected": 6,
+      "actual": 6
+    },
+    {
+      "reference": 8,
+      "rashi": 2,
+      "expected": 7,
+      "actual": 7
+    },
+    {
+      "reference": 8,
+      "rashi": 3,
+      "expected": 8,
+      "actual": 8
+    },
+    {
+      "reference": 8,
+      "rashi": 4,
+      "expected": 9,
+      "actual": 9
+    },
+    {
+      "reference": 8,
+      "rashi": 5,
+      "expected": 10,
+      "actual": 10
+    },
+    {
+      "reference": 8,
+      "rashi": 6,
+      "expected": 11,
+      "actual": 11
+    },
+    {
+      "reference": 8,
+      "rashi": 7,
+      "expected": 12,
+      "actual": 12
+    },
+    {
+      "reference": 8,
+      "rashi": 8,
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "reference": 8,
+      "rashi": 9,
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "reference": 8,
+      "rashi": 10,
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "reference": 8,
+      "rashi": 11,
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "reference": 8,
+      "rashi": 12,
+      "expected": 5,
+      "actual": 5
+    },
+    {
+      "reference": 9,
+      "rashi": 1,
+      "expected": 5,
+      "actual": 5
+    },
+    {
+      "reference": 9,
+      "rashi": 2,
+      "expected": 6,
+      "actual": 6
+    },
+    {
+      "reference": 9,
+      "rashi": 3,
+      "expected": 7,
+      "actual": 7
+    },
+    {
+      "reference": 9,
+      "rashi": 4,
+      "expected": 8,
+      "actual": 8
+    },
+    {
+      "reference": 9,
+      "rashi": 5,
+      "expected": 9,
+      "actual": 9
+    },
+    {
+      "reference": 9,
+      "rashi": 6,
+      "expected": 10,
+      "actual": 10
+    },
+    {
+      "reference": 9,
+      "rashi": 7,
+      "expected": 11,
+      "actual": 11
+    },
+    {
+      "reference": 9,
+      "rashi": 8,
+      "expected": 12,
+      "actual": 12
+    },
+    {
+      "reference": 9,
+      "rashi": 9,
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "reference": 9,
+      "rashi": 10,
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "reference": 9,
+      "rashi": 11,
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "reference": 9,
+      "rashi": 12,
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "reference": 10,
+      "rashi": 1,
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "reference": 10,
+      "rashi": 2,
+      "expected": 5,
+      "actual": 5
+    },
+    {
+      "reference": 10,
+      "rashi": 3,
+      "expected": 6,
+      "actual": 6
+    },
+    {
+      "reference": 10,
+      "rashi": 4,
+      "expected": 7,
+      "actual": 7
+    },
+    {
+      "reference": 10,
+      "rashi": 5,
+      "expected": 8,
+      "actual": 8
+    },
+    {
+      "reference": 10,
+      "rashi": 6,
+      "expected": 9,
+      "actual": 9
+    },
+    {
+      "reference": 10,
+      "rashi": 7,
+      "expected": 10,
+      "actual": 10
+    },
+    {
+      "reference": 10,
+      "rashi": 8,
+      "expected": 11,
+      "actual": 11
+    },
+    {
+      "reference": 10,
+      "rashi": 9,
+      "expected": 12,
+      "actual": 12
+    },
+    {
+      "reference": 10,
+      "rashi": 10,
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "reference": 10,
+      "rashi": 11,
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "reference": 10,
+      "rashi": 12,
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "reference": 11,
+      "rashi": 1,
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "reference": 11,
+      "rashi": 2,
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "reference": 11,
+      "rashi": 3,
+      "expected": 5,
+      "actual": 5
+    },
+    {
+      "reference": 11,
+      "rashi": 4,
+      "expected": 6,
+      "actual": 6
+    },
+    {
+      "reference": 11,
+      "rashi": 5,
+      "expected": 7,
+      "actual": 7
+    },
+    {
+      "reference": 11,
+      "rashi": 6,
+      "expected": 8,
+      "actual": 8
+    },
+    {
+      "reference": 11,
+      "rashi": 7,
+      "expected": 9,
+      "actual": 9
+    },
+    {
+      "reference": 11,
+      "rashi": 8,
+      "expected": 10,
+      "actual": 10
+    },
+    {
+      "reference": 11,
+      "rashi": 9,
+      "expected": 11,
+      "actual": 11
+    },
+    {
+      "reference": 11,
+      "rashi": 10,
+      "expected": 12,
+      "actual": 12
+    },
+    {
+      "reference": 11,
+      "rashi": 11,
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "reference": 11,
+      "rashi": 12,
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "reference": 12,
+      "rashi": 1,
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "reference": 12,
+      "rashi": 2,
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "reference": 12,
+      "rashi": 3,
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "reference": 12,
+      "rashi": 4,
+      "expected": 5,
+      "actual": 5
+    },
+    {
+      "reference": 12,
+      "rashi": 5,
+      "expected": 6,
+      "actual": 6
+    },
+    {
+      "reference": 12,
+      "rashi": 6,
+      "expected": 7,
+      "actual": 7
+    },
+    {
+      "reference": 12,
+      "rashi": 7,
+      "expected": 8,
+      "actual": 8
+    },
+    {
+      "reference": 12,
+      "rashi": 8,
+      "expected": 9,
+      "actual": 9
+    },
+    {
+      "reference": 12,
+      "rashi": 9,
+      "expected": 10,
+      "actual": 10
+    },
+    {
+      "reference": 12,
+      "rashi": 10,
+      "expected": 11,
+      "actual": 11
+    },
+    {
+      "reference": 12,
+      "rashi": 11,
+      "expected": 12,
+      "actual": 12
+    },
+    {
+      "reference": 12,
+      "rashi": 12,
+      "expected": 1,
+      "actual": 1
+    }
+  ],
+  "displacementFixtures": [
+    {
+      "birth": 359,
+      "exploration": 1,
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "birth": 1,
+      "exploration": 359,
+      "expected": -2,
+      "actual": -2
+    },
+    {
+      "birth": 0,
+      "exploration": 180,
+      "expected": -180,
+      "actual": -180
+    },
+    {
+      "birth": 180,
+      "exploration": 0,
+      "expected": -180,
+      "actual": -180
+    },
+    {
+      "birth": 345,
+      "exploration": 15,
+      "expected": 30,
+      "actual": 30
+    },
+    {
+      "birth": 25,
+      "exploration": 25,
+      "expected": 0,
+      "actual": 0
+    }
+  ],
+  "cases": [
+    {
+      "input": {
+        "localDate": "1950-01-01",
+        "localTime": "03:00",
+        "placeId": "geonames:1261481",
+        "timeZoneId": "Asia/Kolkata",
+        "calculationProfileId": "IN_LAHIRI_DEFAULT_V1"
+      },
+      "utcInstant": "1949-12-31T21:30:00.000Z",
+      "panchangStatus": "unavailable",
+      "positions": [
+        {
+          "body": "Sun",
+          "longitude": 256.7407195792262,
+          "rashi": 9
+        },
+        {
+          "body": "Moon",
+          "longitude": 36.98787566218593,
+          "rashi": 2
+        },
+        {
+          "body": "Mercury",
+          "longitude": 276.177141710643,
+          "rashi": 10
+        },
+        {
+          "body": "Venus",
+          "longitude": 293.7843801892306,
+          "rashi": 10
+        },
+        {
+          "body": "Mars",
+          "longitude": 159.01609936548982,
+          "rashi": 6
+        },
+        {
+          "body": "Jupiter",
+          "longitude": 283.32226437901767,
+          "rashi": 10
+        },
+        {
+          "body": "Saturn",
+          "longitude": 146.2794741150341,
+          "rashi": 5
+        },
+        {
+          "body": "Rahu",
+          "longitude": 348.9600229879187,
+          "rashi": 12
+        },
+        {
+          "body": "Ketu",
+          "longitude": 168.9600229879187,
+          "rashi": 6
+        }
+      ],
+      "gochar": [
+        {
+          "body": "Sun",
+          "siderealLongitude": 256.7407195792262,
+          "rashi": 9,
+          "nearBoundary": false,
+          "relativeHouse": 3,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Moon",
+          "siderealLongitude": 36.98787566218593,
+          "rashi": 2,
+          "nearBoundary": false,
+          "relativeHouse": 8,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Mercury",
+          "siderealLongitude": 276.177141710643,
+          "rashi": 10,
+          "nearBoundary": false,
+          "relativeHouse": 4,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Venus",
+          "siderealLongitude": 293.7843801892306,
+          "rashi": 10,
+          "nearBoundary": false,
+          "relativeHouse": 4,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Mars",
+          "siderealLongitude": 159.01609936548982,
+          "rashi": 6,
+          "nearBoundary": false,
+          "relativeHouse": 12,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Jupiter",
+          "siderealLongitude": 283.32226437901767,
+          "rashi": 10,
+          "nearBoundary": false,
+          "relativeHouse": 4,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Saturn",
+          "siderealLongitude": 146.2794741150341,
+          "rashi": 5,
+          "nearBoundary": false,
+          "relativeHouse": 11,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Rahu",
+          "siderealLongitude": 348.9600229879187,
+          "rashi": 12,
+          "nearBoundary": false,
+          "relativeHouse": 6,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Ketu",
+          "siderealLongitude": 168.9600229879187,
+          "rashi": 6,
+          "nearBoundary": false,
+          "relativeHouse": 12,
+          "status": "nominal-sign-count"
+        }
+      ]
+    },
+    {
+      "input": {
+        "localDate": "2030-01-01",
+        "localTime": "12:15",
+        "placeId": "geonames:1261481",
+        "timeZoneId": "Asia/Kolkata",
+        "calculationProfileId": "IN_LAHIRI_DEFAULT_V1"
+      },
+      "utcInstant": "2030-01-01T06:45:00.000Z",
+      "panchangStatus": "available",
+      "positions": [
+        {
+          "body": "Sun",
+          "longitude": 256.6080874917527,
+          "rashi": 9
+        },
+        {
+          "body": "Moon",
+          "longitude": 218.2496090027111,
+          "rashi": 8
+        },
+        {
+          "body": "Mercury",
+          "longitude": 254.79300675904034,
+          "rashi": 9
+        },
+        {
+          "body": "Venus",
+          "longitude": 265.11187700076607,
+          "rashi": 9
+        },
+        {
+          "body": "Mars",
+          "longitude": 290.64165591556133,
+          "rashi": 10
+        },
+        {
+          "body": "Jupiter",
+          "longitude": 206.34237261678066,
+          "rashi": 7
+        },
+        {
+          "body": "Saturn",
+          "longitude": 24.106817770329776,
+          "rashi": 1
+        },
+        {
+          "body": "Rahu",
+          "longitude": 240.5127053276592,
+          "rashi": 9
+        },
+        {
+          "body": "Ketu",
+          "longitude": 60.5127053276592,
+          "rashi": 3
+        }
+      ],
+      "gochar": [
+        {
+          "body": "Sun",
+          "siderealLongitude": 256.6080874917527,
+          "rashi": 9,
+          "nearBoundary": false,
+          "relativeHouse": 3,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Moon",
+          "siderealLongitude": 218.2496090027111,
+          "rashi": 8,
+          "nearBoundary": false,
+          "relativeHouse": 2,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Mercury",
+          "siderealLongitude": 254.79300675904034,
+          "rashi": 9,
+          "nearBoundary": false,
+          "relativeHouse": 3,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Venus",
+          "siderealLongitude": 265.11187700076607,
+          "rashi": 9,
+          "nearBoundary": false,
+          "relativeHouse": 3,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Mars",
+          "siderealLongitude": 290.64165591556133,
+          "rashi": 10,
+          "nearBoundary": false,
+          "relativeHouse": 4,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Jupiter",
+          "siderealLongitude": 206.34237261678066,
+          "rashi": 7,
+          "nearBoundary": false,
+          "relativeHouse": 1,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Saturn",
+          "siderealLongitude": 24.106817770329776,
+          "rashi": 1,
+          "nearBoundary": false,
+          "relativeHouse": 7,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Rahu",
+          "siderealLongitude": 240.5127053276592,
+          "rashi": 9,
+          "nearBoundary": false,
+          "relativeHouse": 3,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Ketu",
+          "siderealLongitude": 60.5127053276592,
+          "rashi": 3,
+          "nearBoundary": false,
+          "relativeHouse": 9,
+          "status": "nominal-sign-count"
+        }
+      ]
+    },
+    {
+      "input": {
+        "localDate": "2030-01-01",
+        "localTime": "12:15",
+        "placeId": "geonames:1264527",
+        "timeZoneId": "Asia/Kolkata",
+        "calculationProfileId": "IN_LAHIRI_DEFAULT_V1"
+      },
+      "utcInstant": "2030-01-01T06:45:00.000Z",
+      "panchangStatus": "available",
+      "positions": [
+        {
+          "body": "Sun",
+          "longitude": 256.6080874917527,
+          "rashi": 9
+        },
+        {
+          "body": "Moon",
+          "longitude": 218.2496090027111,
+          "rashi": 8
+        },
+        {
+          "body": "Mercury",
+          "longitude": 254.79300675904034,
+          "rashi": 9
+        },
+        {
+          "body": "Venus",
+          "longitude": 265.11187700076607,
+          "rashi": 9
+        },
+        {
+          "body": "Mars",
+          "longitude": 290.64165591556133,
+          "rashi": 10
+        },
+        {
+          "body": "Jupiter",
+          "longitude": 206.34237261678066,
+          "rashi": 7
+        },
+        {
+          "body": "Saturn",
+          "longitude": 24.106817770329776,
+          "rashi": 1
+        },
+        {
+          "body": "Rahu",
+          "longitude": 240.5127053276592,
+          "rashi": 9
+        },
+        {
+          "body": "Ketu",
+          "longitude": 60.5127053276592,
+          "rashi": 3
+        }
+      ],
+      "gochar": [
+        {
+          "body": "Sun",
+          "siderealLongitude": 256.6080874917527,
+          "rashi": 9,
+          "nearBoundary": false,
+          "relativeHouse": 3,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Moon",
+          "siderealLongitude": 218.2496090027111,
+          "rashi": 8,
+          "nearBoundary": false,
+          "relativeHouse": 2,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Mercury",
+          "siderealLongitude": 254.79300675904034,
+          "rashi": 9,
+          "nearBoundary": false,
+          "relativeHouse": 3,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Venus",
+          "siderealLongitude": 265.11187700076607,
+          "rashi": 9,
+          "nearBoundary": false,
+          "relativeHouse": 3,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Mars",
+          "siderealLongitude": 290.64165591556133,
+          "rashi": 10,
+          "nearBoundary": false,
+          "relativeHouse": 4,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Jupiter",
+          "siderealLongitude": 206.34237261678066,
+          "rashi": 7,
+          "nearBoundary": false,
+          "relativeHouse": 1,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Saturn",
+          "siderealLongitude": 24.106817770329776,
+          "rashi": 1,
+          "nearBoundary": false,
+          "relativeHouse": 7,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Rahu",
+          "siderealLongitude": 240.5127053276592,
+          "rashi": 9,
+          "nearBoundary": false,
+          "relativeHouse": 3,
+          "status": "nominal-sign-count"
+        },
+        {
+          "body": "Ketu",
+          "siderealLongitude": 60.5127053276592,
+          "rashi": 3,
+          "nearBoundary": false,
+          "relativeHouse": 9,
+          "status": "nominal-sign-count"
+        }
+      ]
+    }
+  ],
+  "comparison": [
+    {
+      "referenceKind": "moon",
+      "referenceRashi": 7,
+      "status": "available",
+      "comparison": [
+        {
+          "body": "Sun",
+          "birthRashi": 9,
+          "explorationRashi": 9,
+          "birthLongitude": 256.29256061092923,
+          "explorationLongitude": 256.6080874917527,
+          "signedEndpointDifference": 0.3155268808234837
+        },
+        {
+          "body": "Moon",
+          "birthRashi": 7,
+          "explorationRashi": 8,
+          "birthLongitude": 196.8372325418547,
+          "explorationLongitude": 218.2496090027111,
+          "signedEndpointDifference": 21.41237646085642
+        },
+        {
+          "body": "Mercury",
+          "birthRashi": 9,
+          "explorationRashi": 9,
+          "birthLongitude": 247.6954243953199,
+          "explorationLongitude": 254.79300675904034,
+          "signedEndpointDifference": 7.0975823637204485
+        },
+        {
+          "body": "Venus",
+          "birthRashi": 8,
+          "explorationRashi": 9,
+          "birthLongitude": 217.44760288489437,
+          "explorationLongitude": 265.11187700076607,
+          "signedEndpointDifference": 47.664274115871706
+        },
+        {
+          "body": "Mars",
+          "birthRashi": 11,
+          "explorationRashi": 10,
+          "birthLongitude": 303.94103912046495,
+          "explorationLongitude": 290.64165591556133,
+          "signedEndpointDifference": -13.29938320490362
+        },
+        {
+          "body": "Jupiter",
+          "birthRashi": 1,
+          "explorationRashi": 7,
+          "birthLongitude": 1.3921815819947376,
+          "explorationLongitude": 206.34237261678066,
+          "signedEndpointDifference": -155.04980896521408
+        },
+        {
+          "body": "Saturn",
+          "birthRashi": 1,
+          "explorationRashi": 1,
+          "birthLongitude": 16.547345249900175,
+          "explorationLongitude": 24.106817770329776,
+          "signedEndpointDifference": 7.559472520429608
+        },
+        {
+          "body": "Rahu",
+          "birthRashi": 4,
+          "explorationRashi": 9,
+          "birthLongitude": 101.19901532129424,
+          "explorationLongitude": 240.5127053276592,
+          "signedEndpointDifference": 139.31369000636494
+        },
+        {
+          "body": "Ketu",
+          "birthRashi": 10,
+          "explorationRashi": 3,
+          "birthLongitude": 281.19901532129427,
+          "explorationLongitude": 60.5127053276592,
+          "signedEndpointDifference": 139.31369000636494
+        }
+      ]
+    },
+    {
+      "referenceKind": "lagna",
+      "referenceRashi": 12,
+      "status": "available",
+      "comparison": [
+        {
+          "body": "Sun",
+          "birthRashi": 9,
+          "explorationRashi": 9,
+          "birthLongitude": 256.29256061092923,
+          "explorationLongitude": 256.6080874917527,
+          "signedEndpointDifference": 0.3155268808234837
+        },
+        {
+          "body": "Moon",
+          "birthRashi": 7,
+          "explorationRashi": 8,
+          "birthLongitude": 196.8372325418547,
+          "explorationLongitude": 218.2496090027111,
+          "signedEndpointDifference": 21.41237646085642
+        },
+        {
+          "body": "Mercury",
+          "birthRashi": 9,
+          "explorationRashi": 9,
+          "birthLongitude": 247.6954243953199,
+          "explorationLongitude": 254.79300675904034,
+          "signedEndpointDifference": 7.0975823637204485
+        },
+        {
+          "body": "Venus",
+          "birthRashi": 8,
+          "explorationRashi": 9,
+          "birthLongitude": 217.44760288489437,
+          "explorationLongitude": 265.11187700076607,
+          "signedEndpointDifference": 47.664274115871706
+        },
+        {
+          "body": "Mars",
+          "birthRashi": 11,
+          "explorationRashi": 10,
+          "birthLongitude": 303.94103912046495,
+          "explorationLongitude": 290.64165591556133,
+          "signedEndpointDifference": -13.29938320490362
+        },
+        {
+          "body": "Jupiter",
+          "birthRashi": 1,
+          "explorationRashi": 7,
+          "birthLongitude": 1.3921815819947376,
+          "explorationLongitude": 206.34237261678066,
+          "signedEndpointDifference": -155.04980896521408
+        },
+        {
+          "body": "Saturn",
+          "birthRashi": 1,
+          "explorationRashi": 1,
+          "birthLongitude": 16.547345249900175,
+          "explorationLongitude": 24.106817770329776,
+          "signedEndpointDifference": 7.559472520429608
+        },
+        {
+          "body": "Rahu",
+          "birthRashi": 4,
+          "explorationRashi": 9,
+          "birthLongitude": 101.19901532129424,
+          "explorationLongitude": 240.5127053276592,
+          "signedEndpointDifference": 139.31369000636494
+        },
+        {
+          "body": "Ketu",
+          "birthRashi": 10,
+          "explorationRashi": 3,
+          "birthLongitude": 281.19901532129427,
+          "explorationLongitude": 60.5127053276592,
+          "signedEndpointDifference": 139.31369000636494
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Prior P04/P05/P06 physical/source acceptance gates remain open.",
+    "Snapshots are nominal minute-start instants, not P14 stability.",
+    "No continuous transit search, aspects, retrograde inference, Sade Sati or predictions.",
+    "Birth future/uncertainty admission remains independent of exploration."
+  ]
+}

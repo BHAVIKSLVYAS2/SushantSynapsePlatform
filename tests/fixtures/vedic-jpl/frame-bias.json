@@ -1,0 +1,24 @@
+{
+  "version": "iau2000-bias-erfa-2.0.1",
+  "source": "https://raw.githubusercontent.com/liberfa/erfa/v2.0.1/src/t_erfa_c.c",
+  "sourceSha256": "8a92d0099c48df31ca566bea881c19497dc295dba58dba7136cc2f8443c31f15",
+  "excerptSha256": "fadb40bfd4cf1867bf3e08bc77ce64f68f215b10620b6874c3a7834d83b6cc86",
+  "direction": "GCRS/ICRF axes to mean J2000 equator/equinox",
+  "matrix": [
+    [
+      0.9999999999999942,
+      -7.078279744199197e-8,
+      8.056217146976134e-8
+    ],
+    [
+      7.078279477857338e-8,
+      0.999999999999997,
+      3.3060414542221364e-8
+    ],
+    [
+      -8.056217380986972e-8,
+      -3.3060408839805523e-8,
+      0.9999999999999962
+    ]
+  ]
+}

@@ -41,7 +41,7 @@ test('compact checklist edits, optional quantities, priest assignment, deletion 
 });
 test('ritual gallery keeps compact illustrated cards and readable real theme controls',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/ritual-assist');await expect(page.locator('.guide-option')).toHaveCount(15);await expect(page.locator('#guide-list .ritual-art')).toHaveCount(15);await page.locator('.calendar-art').evaluate(img=>img.decode());
- for(const language of ['en','hi']){await chooseInterfaceLanguage(page,language);for(const theme of ['light','dark'])for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:1000});await page.evaluate(t=>window.SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await expect(page.locator('.calendar-open')).toBeVisible();await expect(page.locator('.platform-shell .language')).toBeVisible();const sizes=await page.evaluate(()=>({maxCard:Math.max(...Array.from(document.querySelectorAll('.guide-option'),el=>el.getBoundingClientRect().height)),image:document.querySelector('.calendar-art').getBoundingClientRect().width,font:getComputedStyle(document.querySelector('#calendar-launch-title')).fontFamily,background:getComputedStyle(document.querySelector('.platform-switch')).backgroundColor}));expect(sizes.maxCard).toBeLessThan(160);expect(sizes.image).toBeGreaterThan(100);expect(sizes.font).toContain('Segoe UI');if(theme==='dark')expect(sizes.background).not.toBe('rgb(255, 255, 255)');}}
+ for(const language of ['en','hi']){await chooseInterfaceLanguage(page,language);for(const theme of ['light','dark'])for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:1000});await page.evaluate(t=>window.SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await expect(page.locator('.calendar-open')).toBeVisible();await expect(page.locator('.platform-language summary')).toBeVisible();const sizes=await page.evaluate(()=>({maxCard:Math.max(...Array.from(document.querySelectorAll('.guide-option'),el=>el.getBoundingClientRect().height)),image:document.querySelector('.calendar-art').getBoundingClientRect().width,font:getComputedStyle(document.querySelector('#calendar-launch-title')).fontFamily,background:getComputedStyle(document.querySelector('.platform-switch')).backgroundColor}));expect(sizes.maxCard).toBeLessThan(160);expect(sizes.image).toBeGreaterThan(100);expect(sizes.font).toContain('Segoe UI');if(theme==='dark')expect(sizes.background).not.toBe('rgb(255, 255, 255)');}}
  await chooseInterfaceLanguage(page,'en');await page.setViewportSize({width:390,height:1000});await page.screenshot({path:'test-results/ritual-gallery-dark.png'});await page.locator('#search').fill('Ganesh');await expect(page.locator('.guide-option')).toHaveCount(1);await page.locator('[data-guide=ganesh-puja]').click();await expect(page.locator('#guide-title')).toContainText('Ganesh');await expect(page.locator('#library')).toHaveAttribute('open','');await page.locator('#search').fill('no-matching-ritual');await expect(page.locator('#results')).toContainText('No matching');await expect(page.locator('#results')).toBeVisible();
  await page.evaluate(()=>window.scrollTo(0,0));const hero=await page.locator('.calendar-launch').boundingBox();await page.mouse.click(hero.x+hero.width-10,hero.y+hero.height-10);await expect(page.locator('#calendar-form')).toBeVisible();expect(errors).toEqual([]);
 });
@@ -108,20 +108,21 @@ test('compact language controls and calendar theme follow shared preferences',as
  await page.getByRole('button',{name:'Dark mode',exact:true}).click();
  await expect(page.locator('html')).toHaveAttribute('data-theme','light');
  expect(await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundColor)).not.toBe(dark);
- await page.locator('.intro [data-interface-language=en]').focus();
+ const languageMenu=page.locator('.platform-language');await languageMenu.locator('summary').click();
+ await languageMenu.locator('[data-interface-language=en]').focus();
  await page.keyboard.press('Tab');
- await expect(page.locator('.intro [data-interface-language=hi]')).toBeFocused();
- await page.keyboard.press('Tab');
+ await expect(languageMenu.locator('[data-interface-language=hi]')).toBeFocused();
+ await languageMenu.locator('summary').click();await page.locator('#view-dates').focus();
  await expect(page.locator('#view-dates')).toBeFocused();await page.keyboard.press('Tab');await expect(page.locator('#view-remembrance')).toBeFocused();await page.keyboard.press('Tab');await expect(page.locator('#date')).toBeFocused();
- await page.locator('.intro [data-interface-language=hi]').click();
+ await chooseInterfaceLanguage(page,'hi');
  await expect(page.locator('#headline')).toContainText('श्राद्ध');
- await expect(page.locator('.intro [data-interface-language=hi]')).toHaveAttribute('aria-pressed','true');
+ await expect(languageMenu.locator('[data-interface-language=hi]')).toHaveAttribute('aria-pressed','true');
  await page.reload();
  await expect(page.locator('html')).toHaveAttribute('data-theme','light');
  await expect(page.locator('#language')).toHaveValue('hi');
  await page.goto(base+'/ritual-assist?guide=havan');
  await page.locator('[data-item=samagri]').check();
- await page.locator('.platform-shell .language [data-interface-language=en]').click();
+ await chooseInterfaceLanguage(page,'en');
  await expect(page.locator('[data-item=samagri]')).toBeChecked();
  await expect(page.locator('#guide-title')).toHaveText('Havan / homam');
  for(const width of [320,390,768,1440]){

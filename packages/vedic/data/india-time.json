@@ -1,0 +1,12 @@
+{
+  "version": "india-civil-2025b-1950-2098-v1",
+  "tzdbVersion": "2025b",
+  "timeZoneId": "Asia/Kolkata",
+  "offsetMinutes": 330,
+  "localStart": "1950-01-01",
+  "localEndExclusive": "2099-01-01",
+  "source": "https://data.iana.org/time-zones/tzdb-2025b/asia",
+  "sourceSha256": "9a8b7e640cb0692b9e50b9126f599bf89360a2f9ed9e54b722f3e5b6f631b419",
+  "sourceLicense": "public-domain",
+  "sourceZoneBlock": "Zone\tAsia/Kolkata\t5:53:28 -\tLMT\t1854 Jun 28 # Kolkata\n\t\t\t5:53:20\t-\tHMT\t1870\t    # Howrah Mean Time?\n\t\t\t5:21:10\t-\tMMT\t1906 Jan  1 # Madras local time\n\t\t\t5:30\t-\tIST\t1941 Oct\n\t\t\t5:30\t1:00\t%z\t1942 May 15\n\t\t\t5:30\t-\tIST\t1942 Sep\n\t\t\t5:30\t1:00\t%z\t1945 Oct 15\n\t\t\t5:30\t-\tIST"
+}

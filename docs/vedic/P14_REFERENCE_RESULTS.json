@@ -1,0 +1,2773 @@
+{
+  "phase": "P14",
+  "scope": "Internal regression fixtures; conditional candidate bounds, not independent physical certification",
+  "hashes": {
+    "interval-sectors": "e02f2346630c896465f90312b3db7e6c91b447c263bd4a832e8212ab95d28522",
+    "sensitivity": "28f834f0c67373f731a516e5d17380ee0adb89fec15ac2e09ab5f912d7f8fb27",
+    "birth-sensitivity": "a7563aca09ffbc2c3876c9fb450c7ec880650c54d5719e201cd09df59d9eefd0"
+  },
+  "cases": [
+    {
+      "accuracy": "exact",
+      "result": {
+        "birth": {
+          "contractVersion": "vedic-contract-1",
+          "normalizationVersion": "vedic-normalization-1",
+          "calculationProfileId": "IN_LAHIRI_DEFAULT_V1",
+          "purpose": "birth",
+          "language": "en",
+          "localDate": "2000-01-01",
+          "localTime": "12:15",
+          "timeAccuracy": "exact",
+          "precisionOfBirthTimeMinutes": null,
+          "utcInstant": "2000-01-01T06:45:00.000Z",
+          "interval": null,
+          "offset": "+05:30",
+          "offsetMinutes": 330,
+          "timeZoneId": "Asia/Kolkata",
+          "tzdbVersion": "2025b",
+          "timeRuleVersion": "india-civil-2025b-1950-2098-v1",
+          "timeSourceSha256": "9a8b7e640cb0692b9e50b9126f599bf89360a2f9ed9e54b722f3e5b6f631b419",
+          "timeBasis": "civil-utc-compatible",
+          "inputResolutionSeconds": 60,
+          "place": {
+            "id": "geonames:1261481",
+            "name": "New Delhi",
+            "aliases": [
+              "Dellium Novum",
+              "Dilli",
+              "Dillí",
+              "N'ju-Deli",
+              "Neo Delchi",
+              "Neu-Delhi",
+              "Nev Deli",
+              "New Dilli",
+              "Niu Deli",
+              "Niw Telhi",
+              "Nju Delkhi",
+              "Nov-Delhio",
+              "Nova Delhi",
+              "Nova Deli",
+              "Nova Deli - na'i dilli",
+              "Nova-Delhi",
+              "Nove Dilli",
+              "Nové Dillí",
+              "Nueba Deli",
+              "Nueva Delhi",
+              "Nuova Delhi",
+              "Nyja Deli",
+              "Nyu Deli",
+              "Nòva Delhi",
+              "Nýja Delí",
+              "Yeni Delhi",
+              "dlhy aljdydt",
+              "na'i dilli",
+              "naya dilli",
+              "niu-deli",
+              "niwde li",
+              "nyudelli",
+              "nyuderi",
+              "nyw dlhy",
+              "nywdlhy",
+              "putu tilli",
+              "xin de li",
+              "Νέο Δελχί",
+              "Њу Делхи",
+              "Нев Дели",
+              "Нью-Дели",
+              "Նիւ Տելհի",
+              "Նյու Դելի",
+              "ניו דלהי",
+              "دلهي الجديدة",
+              "نيودلهي",
+              "नई दिल्ली",
+              "নয়া দিল্লী",
+              "புது தில்லி",
+              "นิวเดลี",
+              "ནེའུ་དིལ་ལིའི",
+              "ნიუ-დელი",
+              "ኒው ዴሊ",
+              "ニューデリー",
+              "新德里",
+              "뉴델리"
+            ],
+            "latitude": 28.62137,
+            "longitude": 77.2148,
+            "countryCode": "IN",
+            "stateCode": "IN.07",
+            "state": "Delhi",
+            "timeZoneId": "Asia/Kolkata",
+            "sourceTimeZoneId": "Asia/Kolkata",
+            "population": 317797,
+            "sourceModified": "2025-07-22",
+            "label": "New Delhi, Delhi, India",
+            "coordinatePrecision": "approximate-settlement-point",
+            "sourceVersion": "geonames-india-cities15000-2026-10-24-v1",
+            "source": "https://www.geonames.org/",
+            "license": "CC-BY-4.0",
+            "sourceSha256": "d84e173778177b50fe6d1ab03ddb32e8da8ea63a65b429b4094965df000ba019",
+            "elevationMetres": 0,
+            "elevationBasis": "assumed-sea-level"
+          },
+          "precisionClass": "minute-resolution",
+          "warnings": [
+            "APPROXIMATE_PLACE_COORDINATES",
+            "SEA_LEVEL_ASSUMED"
+          ]
+        },
+        "analysis": {
+          "contractVersion": "vedic-sensitivity-1",
+          "model": {
+            "id": "birth-interval-enclosures-candidate-1",
+            "maximumEvaluations": 4096,
+            "maximumCellsPerBody": 4096,
+            "minimumWindowMilliseconds": 5000,
+            "planetRateDegreesPerDay": 24,
+            "guardArcsec": 61,
+            "obliquityLimitDegrees": 26,
+            "siderealRateDegreesPerDay": 370,
+            "obliquityRateDegreesPerDay": 1,
+            "ayanamshaRateDegreesPerDay": 1,
+            "boundStatus": "declared-conservative-candidate-bounds-not-independently-certified",
+            "meaning": "complete interval enclosure cover conditional on rate/guard assumptions; not certified physical birth stability",
+            "timePolicy": "withhold UTC leap/model-offset steps and January windows of delta-T polynomial join years",
+            "releaseStatus": "internal-candidate-independent-bound-and-source-acceptance-pending"
+          },
+          "interval": {
+            "startUtc": "2000-01-01T06:45:00.000Z",
+            "endUtc": "2000-01-01T06:46:00.000Z",
+            "endInclusive": false
+          },
+          "moonRashi": {
+            "status": "stable",
+            "scope": "conditional-on-declared-rate-and-model-guards",
+            "possibleValues": [
+              7
+            ],
+            "provedValues": [
+              7
+            ],
+            "possibleBoundaryWindows": [],
+            "budgetLimited": false
+          },
+          "moonNakshatra": {
+            "status": "stable",
+            "scope": "conditional-on-declared-rate-and-model-guards",
+            "possibleValues": [
+              15
+            ],
+            "provedValues": [
+              15
+            ],
+            "possibleBoundaryWindows": [],
+            "budgetLimited": false
+          },
+          "moonPada": {
+            "status": "stable",
+            "scope": "conditional-on-declared-rate-and-model-guards",
+            "possibleValues": [
+              4
+            ],
+            "provedValues": [
+              4
+            ],
+            "possibleBoundaryWindows": [],
+            "budgetLimited": false
+          },
+          "lagnaRashi": {
+            "status": "stable",
+            "scope": "conditional-on-declared-rate-and-model-guards",
+            "possibleValues": [
+              12
+            ],
+            "provedValues": [
+              12
+            ],
+            "possibleBoundaryWindows": [],
+            "budgetLimited": false
+          },
+          "lagnaD9": {
+            "status": "stable",
+            "scope": "conditional-on-declared-rate-and-model-guards",
+            "possibleValues": [
+              9
+            ],
+            "provedValues": [
+              9
+            ],
+            "possibleBoundaryWindows": [],
+            "budgetLimited": false
+          },
+          "planetRashis": {
+            "Moon": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                7
+              ],
+              "provedValues": [
+                7
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Sun": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                9
+              ],
+              "provedValues": [
+                9
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Mercury": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                9
+              ],
+              "provedValues": [
+                9
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Venus": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                8
+              ],
+              "provedValues": [
+                8
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Mars": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                11
+              ],
+              "provedValues": [
+                11
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Jupiter": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                1
+              ],
+              "provedValues": [
+                1
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Saturn": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                1
+              ],
+              "provedValues": [
+                1
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Rahu": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                4
+              ],
+              "provedValues": [
+                4
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Ketu": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                10
+              ],
+              "provedValues": [
+                10
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            }
+          },
+          "planetD9": {
+            "Moon": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                12
+              ],
+              "provedValues": [
+                12
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Sun": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                5
+              ],
+              "provedValues": [
+                5
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Mercury": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                3
+              ],
+              "provedValues": [
+                3
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Venus": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                6
+              ],
+              "provedValues": [
+                6
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Mars": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                8
+              ],
+              "provedValues": [
+                8
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Jupiter": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                1
+              ],
+              "provedValues": [
+                1
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Saturn": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                5
+              ],
+              "provedValues": [
+                5
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Rahu": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                7
+              ],
+              "provedValues": [
+                7
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Ketu": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                1
+              ],
+              "provedValues": [
+                1
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            }
+          },
+          "dasha": {
+            "status": "stable",
+            "scope": "birth-lord-only; balance varies across interval",
+            "possibleLords": [
+              "Rahu"
+            ],
+            "remainingYearsRange": [
+              4.229960190059144,
+              4.298210190280151
+            ],
+            "timeline": "withheld-no-single-birth-epoch",
+            "yearConventionId": "VIMSHOTTARI_365_25_DAY_V1"
+          },
+          "d1": {
+            "status": "stable",
+            "scope": "sign/house occupancy only, no exact longitude or representative chart"
+          },
+          "d9": {
+            "status": "stable",
+            "scope": "divisional signs only, no representative chart"
+          },
+          "bounds": {
+            "planetRateDegreesPerDay": 24,
+            "lagnaRateDegreesPerDay": 565.4223467430855,
+            "guardArcsec": 61
+          },
+          "evaluations": 1,
+          "warnings": [
+            "MODELLED_UT1_NOT_OBSERVED_EOP",
+            "TDB_NOT_COMPUTED",
+            "SENSITIVITY_BOUNDS_NOT_INDEPENDENTLY_CERTIFIED",
+            "NO_REPRESENTATIVE_BIRTH_INSTANT",
+            "PRECISE_INTERVAL_CHARTS_AND_DASHA_WITHHELD",
+            "INTERNAL_CANDIDATE_NOT_PRODUCTION_VALIDATED",
+            "APPROXIMATE_ANALYTIC_MODEL",
+            "SIDEREAL_REFERENCE_REVIEW_PENDING",
+            "BIRTH_TIME_STABILITY_NOT_EVALUATED",
+            "EQUATION_EQUINOXES_TT_FOR_TDB_APPROXIMATION",
+            "LAGNA_INDEPENDENT_REFERENCE_ACCEPTANCE_PENDING",
+            "GEOMETRIC_HORIZON_NO_REFRACTION_OR_TERRAIN"
+          ],
+          "presentation": "interval-only; existing precise-chart admission unchanged"
+        },
+        "warnings": [
+          "APPROXIMATE_PLACE_COORDINATES",
+          "SEA_LEVEL_ASSUMED",
+          "MODELLED_UT1_NOT_OBSERVED_EOP",
+          "TDB_NOT_COMPUTED",
+          "SENSITIVITY_BOUNDS_NOT_INDEPENDENTLY_CERTIFIED",
+          "NO_REPRESENTATIVE_BIRTH_INSTANT",
+          "PRECISE_INTERVAL_CHARTS_AND_DASHA_WITHHELD",
+          "INTERNAL_CANDIDATE_NOT_PRODUCTION_VALIDATED",
+          "APPROXIMATE_ANALYTIC_MODEL",
+          "SIDEREAL_REFERENCE_REVIEW_PENDING",
+          "BIRTH_TIME_STABILITY_NOT_EVALUATED",
+          "EQUATION_EQUINOXES_TT_FOR_TDB_APPROXIMATION",
+          "LAGNA_INDEPENDENT_REFERENCE_ACCEPTANCE_PENDING",
+          "GEOMETRIC_HORIZON_NO_REFRACTION_OR_TERRAIN"
+        ]
+      }
+    },
+    {
+      "accuracy": "approximate",
+      "result": {
+        "birth": {
+          "contractVersion": "vedic-contract-1",
+          "normalizationVersion": "vedic-normalization-1",
+          "calculationProfileId": "IN_LAHIRI_DEFAULT_V1",
+          "purpose": "birth",
+          "language": "en",
+          "localDate": "2000-01-01",
+          "localTime": "12:15",
+          "timeAccuracy": "approximate",
+          "precisionOfBirthTimeMinutes": 10,
+          "utcInstant": null,
+          "interval": {
+            "startUtc": "2000-01-01T06:35:00.000Z",
+            "endUtc": "2000-01-01T06:55:00.000Z",
+            "startInclusive": true,
+            "endInclusive": true
+          },
+          "offset": "+05:30",
+          "offsetMinutes": 330,
+          "timeZoneId": "Asia/Kolkata",
+          "tzdbVersion": "2025b",
+          "timeRuleVersion": "india-civil-2025b-1950-2098-v1",
+          "timeSourceSha256": "9a8b7e640cb0692b9e50b9126f599bf89360a2f9ed9e54b722f3e5b6f631b419",
+          "timeBasis": "civil-utc-compatible",
+          "inputResolutionSeconds": 60,
+          "place": {
+            "id": "geonames:1261481",
+            "name": "New Delhi",
+            "aliases": [
+              "Dellium Novum",
+              "Dilli",
+              "Dillí",
+              "N'ju-Deli",
+              "Neo Delchi",
+              "Neu-Delhi",
+              "Nev Deli",
+              "New Dilli",
+              "Niu Deli",
+              "Niw Telhi",
+              "Nju Delkhi",
+              "Nov-Delhio",
+              "Nova Delhi",
+              "Nova Deli",
+              "Nova Deli - na'i dilli",
+              "Nova-Delhi",
+              "Nove Dilli",
+              "Nové Dillí",
+              "Nueba Deli",
+              "Nueva Delhi",
+              "Nuova Delhi",
+              "Nyja Deli",
+              "Nyu Deli",
+              "Nòva Delhi",
+              "Nýja Delí",
+              "Yeni Delhi",
+              "dlhy aljdydt",
+              "na'i dilli",
+              "naya dilli",
+              "niu-deli",
+              "niwde li",
+              "nyudelli",
+              "nyuderi",
+              "nyw dlhy",
+              "nywdlhy",
+              "putu tilli",
+              "xin de li",
+              "Νέο Δελχί",
+              "Њу Делхи",
+              "Нев Дели",
+              "Нью-Дели",
+              "Նիւ Տելհի",
+              "Նյու Դելի",
+              "ניו דלהי",
+              "دلهي الجديدة",
+              "نيودلهي",
+              "नई दिल्ली",
+              "নয়া দিল্লী",
+              "புது தில்லி",
+              "นิวเดลี",
+              "ནེའུ་དིལ་ལིའི",
+              "ნიუ-დელი",
+              "ኒው ዴሊ",
+              "ニューデリー",
+              "新德里",
+              "뉴델리"
+            ],
+            "latitude": 28.62137,
+            "longitude": 77.2148,
+            "countryCode": "IN",
+            "stateCode": "IN.07",
+            "state": "Delhi",
+            "timeZoneId": "Asia/Kolkata",
+            "sourceTimeZoneId": "Asia/Kolkata",
+            "population": 317797,
+            "sourceModified": "2025-07-22",
+            "label": "New Delhi, Delhi, India",
+            "coordinatePrecision": "approximate-settlement-point",
+            "sourceVersion": "geonames-india-cities15000-2026-10-24-v1",
+            "source": "https://www.geonames.org/",
+            "license": "CC-BY-4.0",
+            "sourceSha256": "d84e173778177b50fe6d1ab03ddb32e8da8ea63a65b429b4094965df000ba019",
+            "elevationMetres": 0,
+            "elevationBasis": "assumed-sea-level"
+          },
+          "precisionClass": "explicit-interval",
+          "warnings": [
+            "APPROXIMATE_PLACE_COORDINATES",
+            "SEA_LEVEL_ASSUMED"
+          ]
+        },
+        "analysis": {
+          "contractVersion": "vedic-sensitivity-1",
+          "model": {
+            "id": "birth-interval-enclosures-candidate-1",
+            "maximumEvaluations": 4096,
+            "maximumCellsPerBody": 4096,
+            "minimumWindowMilliseconds": 5000,
+            "planetRateDegreesPerDay": 24,
+            "guardArcsec": 61,
+            "obliquityLimitDegrees": 26,
+            "siderealRateDegreesPerDay": 370,
+            "obliquityRateDegreesPerDay": 1,
+            "ayanamshaRateDegreesPerDay": 1,
+            "boundStatus": "declared-conservative-candidate-bounds-not-independently-certified",
+            "meaning": "complete interval enclosure cover conditional on rate/guard assumptions; not certified physical birth stability",
+            "timePolicy": "withhold UTC leap/model-offset steps and January windows of delta-T polynomial join years",
+            "releaseStatus": "internal-candidate-independent-bound-and-source-acceptance-pending"
+          },
+          "interval": {
+            "startUtc": "2000-01-01T06:35:00.000Z",
+            "endUtc": "2000-01-01T06:55:00.000Z",
+            "endInclusive": true
+          },
+          "moonRashi": {
+            "status": "stable",
+            "scope": "conditional-on-declared-rate-and-model-guards",
+            "possibleValues": [
+              7
+            ],
+            "provedValues": [
+              7
+            ],
+            "possibleBoundaryWindows": [],
+            "budgetLimited": false
+          },
+          "moonNakshatra": {
+            "status": "stable",
+            "scope": "conditional-on-declared-rate-and-model-guards",
+            "possibleValues": [
+              15
+            ],
+            "provedValues": [
+              15
+            ],
+            "possibleBoundaryWindows": [],
+            "budgetLimited": false
+          },
+          "moonPada": {
+            "status": "stable",
+            "scope": "conditional-on-declared-rate-and-model-guards",
+            "possibleValues": [
+              4
+            ],
+            "provedValues": [
+              4
+            ],
+            "possibleBoundaryWindows": [],
+            "budgetLimited": false
+          },
+          "lagnaRashi": {
+            "status": "stable",
+            "scope": "conditional-on-declared-rate-and-model-guards",
+            "possibleValues": [
+              12
+            ],
+            "provedValues": [
+              12
+            ],
+            "possibleBoundaryWindows": [],
+            "budgetLimited": false
+          },
+          "lagnaD9": {
+            "status": "changes-within-interval",
+            "scope": "conditional-on-declared-rate-and-model-guards",
+            "possibleValues": [
+              8,
+              9,
+              10
+            ],
+            "provedValues": [
+              8,
+              9,
+              10
+            ],
+            "possibleBoundaryWindows": [
+              {
+                "startUtc": "2000-01-01T06:39:41.250Z",
+                "endUtc": "2000-01-01T06:39:50.625Z",
+                "possibleValues": [
+                  8,
+                  9
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T06:49:03.750Z",
+                "endUtc": "2000-01-01T06:49:17.812Z",
+                "possibleValues": [
+                  9,
+                  10
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              }
+            ],
+            "budgetLimited": false
+          },
+          "planetRashis": {
+            "Moon": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                7
+              ],
+              "provedValues": [
+                7
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Sun": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                9
+              ],
+              "provedValues": [
+                9
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Mercury": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                9
+              ],
+              "provedValues": [
+                9
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Venus": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                8
+              ],
+              "provedValues": [
+                8
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Mars": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                11
+              ],
+              "provedValues": [
+                11
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Jupiter": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                1
+              ],
+              "provedValues": [
+                1
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Saturn": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                1
+              ],
+              "provedValues": [
+                1
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Rahu": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                4
+              ],
+              "provedValues": [
+                4
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Ketu": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                10
+              ],
+              "provedValues": [
+                10
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            }
+          },
+          "planetD9": {
+            "Moon": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                12
+              ],
+              "provedValues": [
+                12
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Sun": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                5
+              ],
+              "provedValues": [
+                5
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Mercury": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                3
+              ],
+              "provedValues": [
+                3
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Venus": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                6
+              ],
+              "provedValues": [
+                6
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Mars": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                8
+              ],
+              "provedValues": [
+                8
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Jupiter": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                1
+              ],
+              "provedValues": [
+                1
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Saturn": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                5
+              ],
+              "provedValues": [
+                5
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Rahu": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                7
+              ],
+              "provedValues": [
+                7
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Ketu": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                1
+              ],
+              "provedValues": [
+                1
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            }
+          },
+          "dasha": {
+            "status": "stable",
+            "scope": "birth-lord-only; balance varies across interval",
+            "possibleLords": [
+              "Rahu"
+            ],
+            "remainingYearsRange": [
+              4.07785346808625,
+              4.461621299014636
+            ],
+            "timeline": "withheld-no-single-birth-epoch",
+            "yearConventionId": "VIMSHOTTARI_365_25_DAY_V1"
+          },
+          "d1": {
+            "status": "stable",
+            "scope": "sign/house occupancy only, no exact longitude or representative chart"
+          },
+          "d9": {
+            "status": "changes-within-interval",
+            "scope": "divisional signs only, no representative chart"
+          },
+          "bounds": {
+            "planetRateDegreesPerDay": 24,
+            "lagnaRateDegreesPerDay": 565.4223467430855,
+            "guardArcsec": 61
+          },
+          "evaluations": 37,
+          "warnings": [
+            "MODELLED_UT1_NOT_OBSERVED_EOP",
+            "TDB_NOT_COMPUTED",
+            "SENSITIVITY_BOUNDS_NOT_INDEPENDENTLY_CERTIFIED",
+            "NO_REPRESENTATIVE_BIRTH_INSTANT",
+            "PRECISE_INTERVAL_CHARTS_AND_DASHA_WITHHELD",
+            "INTERNAL_CANDIDATE_NOT_PRODUCTION_VALIDATED",
+            "APPROXIMATE_ANALYTIC_MODEL",
+            "SIDEREAL_REFERENCE_REVIEW_PENDING",
+            "BIRTH_TIME_STABILITY_NOT_EVALUATED",
+            "EQUATION_EQUINOXES_TT_FOR_TDB_APPROXIMATION",
+            "LAGNA_INDEPENDENT_REFERENCE_ACCEPTANCE_PENDING",
+            "GEOMETRIC_HORIZON_NO_REFRACTION_OR_TERRAIN"
+          ],
+          "presentation": "interval-only; existing precise-chart admission unchanged"
+        },
+        "warnings": [
+          "APPROXIMATE_PLACE_COORDINATES",
+          "SEA_LEVEL_ASSUMED",
+          "MODELLED_UT1_NOT_OBSERVED_EOP",
+          "TDB_NOT_COMPUTED",
+          "SENSITIVITY_BOUNDS_NOT_INDEPENDENTLY_CERTIFIED",
+          "NO_REPRESENTATIVE_BIRTH_INSTANT",
+          "PRECISE_INTERVAL_CHARTS_AND_DASHA_WITHHELD",
+          "INTERNAL_CANDIDATE_NOT_PRODUCTION_VALIDATED",
+          "APPROXIMATE_ANALYTIC_MODEL",
+          "SIDEREAL_REFERENCE_REVIEW_PENDING",
+          "BIRTH_TIME_STABILITY_NOT_EVALUATED",
+          "EQUATION_EQUINOXES_TT_FOR_TDB_APPROXIMATION",
+          "LAGNA_INDEPENDENT_REFERENCE_ACCEPTANCE_PENDING",
+          "GEOMETRIC_HORIZON_NO_REFRACTION_OR_TERRAIN"
+        ]
+      }
+    },
+    {
+      "accuracy": "unknown",
+      "result": {
+        "birth": {
+          "contractVersion": "vedic-contract-1",
+          "normalizationVersion": "vedic-normalization-1",
+          "calculationProfileId": "IN_LAHIRI_DEFAULT_V1",
+          "purpose": "birth",
+          "language": "en",
+          "localDate": "2000-01-01",
+          "localTime": null,
+          "timeAccuracy": "unknown",
+          "precisionOfBirthTimeMinutes": null,
+          "utcInstant": null,
+          "interval": {
+            "startUtc": "1999-12-31T18:30:00.000Z",
+            "endUtc": "2000-01-01T18:30:00.000Z",
+            "startInclusive": true,
+            "endInclusive": false
+          },
+          "offset": "+05:30",
+          "offsetMinutes": 330,
+          "timeZoneId": "Asia/Kolkata",
+          "tzdbVersion": "2025b",
+          "timeRuleVersion": "india-civil-2025b-1950-2098-v1",
+          "timeSourceSha256": "9a8b7e640cb0692b9e50b9126f599bf89360a2f9ed9e54b722f3e5b6f631b419",
+          "timeBasis": "civil-utc-compatible",
+          "inputResolutionSeconds": null,
+          "place": {
+            "id": "geonames:1261481",
+            "name": "New Delhi",
+            "aliases": [
+              "Dellium Novum",
+              "Dilli",
+              "Dillí",
+              "N'ju-Deli",
+              "Neo Delchi",
+              "Neu-Delhi",
+              "Nev Deli",
+              "New Dilli",
+              "Niu Deli",
+              "Niw Telhi",
+              "Nju Delkhi",
+              "Nov-Delhio",
+              "Nova Delhi",
+              "Nova Deli",
+              "Nova Deli - na'i dilli",
+              "Nova-Delhi",
+              "Nove Dilli",
+              "Nové Dillí",
+              "Nueba Deli",
+              "Nueva Delhi",
+              "Nuova Delhi",
+              "Nyja Deli",
+              "Nyu Deli",
+              "Nòva Delhi",
+              "Nýja Delí",
+              "Yeni Delhi",
+              "dlhy aljdydt",
+              "na'i dilli",
+              "naya dilli",
+              "niu-deli",
+              "niwde li",
+              "nyudelli",
+              "nyuderi",
+              "nyw dlhy",
+              "nywdlhy",
+              "putu tilli",
+              "xin de li",
+              "Νέο Δελχί",
+              "Њу Делхи",
+              "Нев Дели",
+              "Нью-Дели",
+              "Նիւ Տելհի",
+              "Նյու Դելի",
+              "ניו דלהי",
+              "دلهي الجديدة",
+              "نيودلهي",
+              "नई दिल्ली",
+              "নয়া দিল্লী",
+              "புது தில்லி",
+              "นิวเดลี",
+              "ནེའུ་དིལ་ལིའི",
+              "ნიუ-დელი",
+              "ኒው ዴሊ",
+              "ニューデリー",
+              "新德里",
+              "뉴델리"
+            ],
+            "latitude": 28.62137,
+            "longitude": 77.2148,
+            "countryCode": "IN",
+            "stateCode": "IN.07",
+            "state": "Delhi",
+            "timeZoneId": "Asia/Kolkata",
+            "sourceTimeZoneId": "Asia/Kolkata",
+            "population": 317797,
+            "sourceModified": "2025-07-22",
+            "label": "New Delhi, Delhi, India",
+            "coordinatePrecision": "approximate-settlement-point",
+            "sourceVersion": "geonames-india-cities15000-2026-10-24-v1",
+            "source": "https://www.geonames.org/",
+            "license": "CC-BY-4.0",
+            "sourceSha256": "d84e173778177b50fe6d1ab03ddb32e8da8ea63a65b429b4094965df000ba019",
+            "elevationMetres": 0,
+            "elevationBasis": "assumed-sea-level"
+          },
+          "precisionClass": "unknown-local-day",
+          "warnings": [
+            "APPROXIMATE_PLACE_COORDINATES",
+            "SEA_LEVEL_ASSUMED"
+          ]
+        },
+        "analysis": {
+          "contractVersion": "vedic-sensitivity-1",
+          "model": {
+            "id": "birth-interval-enclosures-candidate-1",
+            "maximumEvaluations": 4096,
+            "maximumCellsPerBody": 4096,
+            "minimumWindowMilliseconds": 5000,
+            "planetRateDegreesPerDay": 24,
+            "guardArcsec": 61,
+            "obliquityLimitDegrees": 26,
+            "siderealRateDegreesPerDay": 370,
+            "obliquityRateDegreesPerDay": 1,
+            "ayanamshaRateDegreesPerDay": 1,
+            "boundStatus": "declared-conservative-candidate-bounds-not-independently-certified",
+            "meaning": "complete interval enclosure cover conditional on rate/guard assumptions; not certified physical birth stability",
+            "timePolicy": "withhold UTC leap/model-offset steps and January windows of delta-T polynomial join years",
+            "releaseStatus": "internal-candidate-independent-bound-and-source-acceptance-pending"
+          },
+          "interval": {
+            "startUtc": "1999-12-31T18:30:00.000Z",
+            "endUtc": "2000-01-01T18:30:00.000Z",
+            "endInclusive": false
+          },
+          "moonRashi": {
+            "status": "stable",
+            "scope": "conditional-on-declared-rate-and-model-guards",
+            "possibleValues": [
+              7
+            ],
+            "provedValues": [
+              7
+            ],
+            "possibleBoundaryWindows": [],
+            "budgetLimited": false
+          },
+          "moonNakshatra": {
+            "status": "changes-within-interval",
+            "scope": "conditional-on-declared-rate-and-model-guards",
+            "possibleValues": [
+              15,
+              16
+            ],
+            "provedValues": [
+              15,
+              16
+            ],
+            "possibleBoundaryWindows": [
+              {
+                "startUtc": "2000-01-01T13:01:22.616Z",
+                "endUtc": "2000-01-01T13:05:30.468Z",
+                "possibleValues": [
+                  15,
+                  16
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              }
+            ],
+            "budgetLimited": false
+          },
+          "moonPada": {
+            "status": "changes-within-interval",
+            "scope": "conditional-on-declared-rate-and-model-guards",
+            "possibleValues": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "provedValues": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "possibleBoundaryWindows": [
+              {
+                "startUtc": "1999-12-31T23:45:15.819Z",
+                "endUtc": "1999-12-31T23:49:21.034Z",
+                "possibleValues": [
+                  2,
+                  3
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T06:22:34.394Z",
+                "endUtc": "2000-01-01T06:26:42.245Z",
+                "possibleValues": [
+                  3,
+                  4
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T13:01:22.616Z",
+                "endUtc": "2000-01-01T13:05:30.468Z",
+                "possibleValues": [
+                  1,
+                  4
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              }
+            ],
+            "budgetLimited": false
+          },
+          "lagnaRashi": {
+            "status": "changes-within-interval",
+            "scope": "conditional-on-declared-rate-and-model-guards",
+            "possibleValues": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12
+            ],
+            "provedValues": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12
+            ],
+            "possibleBoundaryWindows": [
+              {
+                "startUtc": "1999-12-31T20:00:34.276Z",
+                "endUtc": "1999-12-31T20:00:47.460Z",
+                "possibleValues": [
+                  6,
+                  7
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "1999-12-31T22:20:00.585Z",
+                "endUtc": "1999-12-31T22:20:13.769Z",
+                "possibleValues": [
+                  7,
+                  8
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T00:38:39.432Z",
+                "endUtc": "2000-01-01T00:38:52.616Z",
+                "possibleValues": [
+                  8,
+                  9
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T02:42:53.437Z",
+                "endUtc": "2000-01-01T02:43:03.984Z",
+                "possibleValues": [
+                  9,
+                  10
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T04:25:24.901Z",
+                "endUtc": "2000-01-01T04:25:35.448Z",
+                "possibleValues": [
+                  10,
+                  11
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T05:52:59.882Z",
+                "endUtc": "2000-01-01T05:53:07.792Z",
+                "possibleValues": [
+                  11,
+                  12
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T07:17:54.023Z",
+                "endUtc": "2000-01-01T07:18:04.569Z",
+                "possibleValues": [
+                  1,
+                  12
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T08:52:57.245Z",
+                "endUtc": "2000-01-01T08:53:07.792Z",
+                "possibleValues": [
+                  1,
+                  2
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T10:48:15.995Z",
+                "endUtc": "2000-01-01T10:48:29.179Z",
+                "possibleValues": [
+                  2,
+                  3
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T13:02:44.354Z",
+                "endUtc": "2000-01-01T13:02:57.538Z",
+                "possibleValues": [
+                  3,
+                  4
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T15:23:03.398Z",
+                "endUtc": "2000-01-01T15:23:16.581Z",
+                "possibleValues": [
+                  4,
+                  5
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T17:40:20.507Z",
+                "endUtc": "2000-01-01T17:40:36.328Z",
+                "possibleValues": [
+                  5,
+                  6
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              }
+            ],
+            "budgetLimited": true
+          },
+          "lagnaD9": {
+            "status": "changes-within-interval",
+            "scope": "conditional-on-declared-rate-and-model-guards",
+            "possibleValues": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12
+            ],
+            "provedValues": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12
+            ],
+            "possibleBoundaryWindows": [
+              {
+                "startUtc": "1999-12-31T18:44:38.026Z",
+                "endUtc": "1999-12-31T18:44:53.847Z",
+                "possibleValues": [
+                  1,
+                  2
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "1999-12-31T18:59:45.057Z",
+                "endUtc": "1999-12-31T19:00:00.878Z",
+                "possibleValues": [
+                  2,
+                  3
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "1999-12-31T19:14:54.726Z",
+                "endUtc": "1999-12-31T19:15:07.909Z",
+                "possibleValues": [
+                  3,
+                  4
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "1999-12-31T19:30:04.394Z",
+                "endUtc": "1999-12-31T19:30:20.214Z",
+                "possibleValues": [
+                  4,
+                  5
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "1999-12-31T19:45:16.698Z",
+                "endUtc": "1999-12-31T19:45:32.519Z",
+                "possibleValues": [
+                  5,
+                  6
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "1999-12-31T20:00:34.276Z",
+                "endUtc": "1999-12-31T20:00:47.460Z",
+                "possibleValues": [
+                  6,
+                  7
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "1999-12-31T20:15:51.854Z",
+                "endUtc": "1999-12-31T20:16:05.038Z",
+                "possibleValues": [
+                  7,
+                  8
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "1999-12-31T20:31:12.069Z",
+                "endUtc": "1999-12-31T20:31:27.890Z",
+                "possibleValues": [
+                  8,
+                  9
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "1999-12-31T20:46:37.557Z",
+                "endUtc": "1999-12-31T20:46:50.741Z",
+                "possibleValues": [
+                  9,
+                  10
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "1999-12-31T21:02:05.682Z",
+                "endUtc": "1999-12-31T21:02:18.866Z",
+                "possibleValues": [
+                  10,
+                  11
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "1999-12-31T21:17:36.444Z",
+                "endUtc": "1999-12-31T21:17:49.628Z",
+                "possibleValues": [
+                  11,
+                  12
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "1999-12-31T21:33:09.843Z",
+                "endUtc": "1999-12-31T21:33:23.026Z",
+                "possibleValues": [
+                  1,
+                  12
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "1999-12-31T21:48:43.241Z",
+                "endUtc": "1999-12-31T21:48:59.062Z",
+                "possibleValues": [
+                  1,
+                  2
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "1999-12-31T22:04:21.913Z",
+                "endUtc": "1999-12-31T22:04:35.097Z",
+                "possibleValues": [
+                  2,
+                  3
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "1999-12-31T22:20:00.585Z",
+                "endUtc": "1999-12-31T22:20:13.769Z",
+                "possibleValues": [
+                  3,
+                  4
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "1999-12-31T22:35:39.257Z",
+                "endUtc": "1999-12-31T22:35:52.441Z",
+                "possibleValues": [
+                  4,
+                  5
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "1999-12-31T22:51:15.292Z",
+                "endUtc": "1999-12-31T22:51:31.113Z",
+                "possibleValues": [
+                  5,
+                  6
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "1999-12-31T23:06:51.328Z",
+                "endUtc": "1999-12-31T23:07:07.148Z",
+                "possibleValues": [
+                  6,
+                  7
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "1999-12-31T23:22:24.726Z",
+                "endUtc": "1999-12-31T23:22:40.546Z",
+                "possibleValues": [
+                  7,
+                  8
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "1999-12-31T23:37:52.851Z",
+                "endUtc": "1999-12-31T23:38:08.671Z",
+                "possibleValues": [
+                  8,
+                  9
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "1999-12-31T23:53:15.703Z",
+                "endUtc": "1999-12-31T23:53:31.523Z",
+                "possibleValues": [
+                  9,
+                  10
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T00:08:33.281Z",
+                "endUtc": "2000-01-01T00:08:46.464Z",
+                "possibleValues": [
+                  10,
+                  11
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T00:23:40.312Z",
+                "endUtc": "2000-01-01T00:23:53.495Z",
+                "possibleValues": [
+                  11,
+                  12
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T00:38:39.432Z",
+                "endUtc": "2000-01-01T00:38:52.616Z",
+                "possibleValues": [
+                  1,
+                  12
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T00:53:25.370Z",
+                "endUtc": "2000-01-01T00:53:38.554Z",
+                "possibleValues": [
+                  1,
+                  2
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T01:07:58.125Z",
+                "endUtc": "2000-01-01T01:08:11.307Z",
+                "possibleValues": [
+                  2,
+                  3
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T01:22:20.331Z",
+                "endUtc": "2000-01-01T01:22:33.515Z",
+                "possibleValues": [
+                  3,
+                  4
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T01:36:26.718Z",
+                "endUtc": "2000-01-01T01:36:37.265Z",
+                "possibleValues": [
+                  4,
+                  5
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T01:50:17.284Z",
+                "endUtc": "2000-01-01T01:50:27.831Z",
+                "possibleValues": [
+                  5,
+                  6
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T02:03:49.394Z",
+                "endUtc": "2000-01-01T02:04:02.578Z",
+                "possibleValues": [
+                  6,
+                  7
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T02:17:08.319Z",
+                "endUtc": "2000-01-01T02:17:21.503Z",
+                "possibleValues": [
+                  7,
+                  8
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T02:30:08.788Z",
+                "endUtc": "2000-01-01T02:30:21.972Z",
+                "possibleValues": [
+                  8,
+                  9
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T02:42:53.437Z",
+                "endUtc": "2000-01-01T02:43:03.984Z",
+                "possibleValues": [
+                  9,
+                  10
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T02:55:19.628Z",
+                "endUtc": "2000-01-01T02:55:30.175Z",
+                "possibleValues": [
+                  10,
+                  11
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T03:07:30.000Z",
+                "endUtc": "2000-01-01T03:07:40.546Z",
+                "possibleValues": [
+                  11,
+                  12
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T03:19:21.913Z",
+                "endUtc": "2000-01-01T03:19:32.460Z",
+                "possibleValues": [
+                  1,
+                  12
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T03:30:58.007Z",
+                "endUtc": "2000-01-01T03:31:08.554Z",
+                "possibleValues": [
+                  1,
+                  2
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T03:42:20.917Z",
+                "endUtc": "2000-01-01T03:42:31.464Z",
+                "possibleValues": [
+                  2,
+                  3
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T03:53:28.007Z",
+                "endUtc": "2000-01-01T03:53:35.917Z",
+                "possibleValues": [
+                  3,
+                  4
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T04:04:19.276Z",
+                "endUtc": "2000-01-01T04:04:29.823Z",
+                "possibleValues": [
+                  4,
+                  5
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T04:14:57.363Z",
+                "endUtc": "2000-01-01T04:15:07.909Z",
+                "possibleValues": [
+                  5,
+                  6
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T04:25:24.901Z",
+                "endUtc": "2000-01-01T04:25:35.448Z",
+                "possibleValues": [
+                  6,
+                  7
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T04:35:41.894Z",
+                "endUtc": "2000-01-01T04:35:49.804Z",
+                "possibleValues": [
+                  7,
+                  8
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T04:45:45.703Z",
+                "endUtc": "2000-01-01T04:45:56.250Z",
+                "possibleValues": [
+                  8,
+                  9
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T04:55:41.601Z",
+                "endUtc": "2000-01-01T04:55:52.148Z",
+                "possibleValues": [
+                  9,
+                  10
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T05:05:29.589Z",
+                "endUtc": "2000-01-01T05:05:40.136Z",
+                "possibleValues": [
+                  10,
+                  11
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T05:15:09.667Z",
+                "endUtc": "2000-01-01T05:15:20.214Z",
+                "possibleValues": [
+                  11,
+                  12
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T05:24:44.472Z",
+                "endUtc": "2000-01-01T05:24:52.382Z",
+                "possibleValues": [
+                  1,
+                  12
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T05:34:14.003Z",
+                "endUtc": "2000-01-01T05:34:21.913Z",
+                "possibleValues": [
+                  1,
+                  2
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T05:43:38.261Z",
+                "endUtc": "2000-01-01T05:43:46.171Z",
+                "possibleValues": [
+                  2,
+                  3
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T05:52:59.882Z",
+                "endUtc": "2000-01-01T05:53:07.792Z",
+                "possibleValues": [
+                  3,
+                  4
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T06:02:18.866Z",
+                "endUtc": "2000-01-01T06:02:29.413Z",
+                "possibleValues": [
+                  4,
+                  5
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T06:11:37.851Z",
+                "endUtc": "2000-01-01T06:11:48.398Z",
+                "possibleValues": [
+                  5,
+                  6
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T06:20:56.835Z",
+                "endUtc": "2000-01-01T06:21:07.382Z",
+                "possibleValues": [
+                  6,
+                  7
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T06:30:18.456Z",
+                "endUtc": "2000-01-01T06:30:26.366Z",
+                "possibleValues": [
+                  7,
+                  8
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T06:39:40.078Z",
+                "endUtc": "2000-01-01T06:39:50.625Z",
+                "possibleValues": [
+                  8,
+                  9
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T06:49:06.972Z",
+                "endUtc": "2000-01-01T06:49:14.882Z",
+                "possibleValues": [
+                  9,
+                  10
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T06:58:36.503Z",
+                "endUtc": "2000-01-01T06:58:47.050Z",
+                "possibleValues": [
+                  10,
+                  11
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T07:08:13.944Z",
+                "endUtc": "2000-01-01T07:08:21.854Z",
+                "possibleValues": [
+                  11,
+                  12
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T07:17:54.023Z",
+                "endUtc": "2000-01-01T07:18:04.569Z",
+                "possibleValues": [
+                  1,
+                  12
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T07:27:44.648Z",
+                "endUtc": "2000-01-01T07:27:55.194Z",
+                "possibleValues": [
+                  1,
+                  2
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T07:37:43.182Z",
+                "endUtc": "2000-01-01T07:37:53.729Z",
+                "possibleValues": [
+                  2,
+                  3
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T07:47:52.265Z",
+                "endUtc": "2000-01-01T07:48:00.175Z",
+                "possibleValues": [
+                  3,
+                  4
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T07:58:11.894Z",
+                "endUtc": "2000-01-01T07:58:19.804Z",
+                "possibleValues": [
+                  4,
+                  5
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T08:08:42.069Z",
+                "endUtc": "2000-01-01T08:08:49.979Z",
+                "possibleValues": [
+                  5,
+                  6
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T08:19:25.429Z",
+                "endUtc": "2000-01-01T08:19:33.339Z",
+                "possibleValues": [
+                  6,
+                  7
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T08:30:21.972Z",
+                "endUtc": "2000-01-01T08:30:32.519Z",
+                "possibleValues": [
+                  7,
+                  8
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T08:41:31.698Z",
+                "endUtc": "2000-01-01T08:41:42.245Z",
+                "possibleValues": [
+                  8,
+                  9
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T08:52:57.245Z",
+                "endUtc": "2000-01-01T08:53:07.792Z",
+                "possibleValues": [
+                  9,
+                  10
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T09:04:38.613Z",
+                "endUtc": "2000-01-01T09:04:51.796Z",
+                "possibleValues": [
+                  10,
+                  11
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T09:16:38.437Z",
+                "endUtc": "2000-01-01T09:16:48.984Z",
+                "possibleValues": [
+                  11,
+                  12
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T09:28:51.444Z",
+                "endUtc": "2000-01-01T09:29:04.628Z",
+                "possibleValues": [
+                  1,
+                  12
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T09:41:22.909Z",
+                "endUtc": "2000-01-01T09:41:36.093Z",
+                "possibleValues": [
+                  1,
+                  2
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T09:54:12.831Z",
+                "endUtc": "2000-01-01T09:54:23.378Z",
+                "possibleValues": [
+                  2,
+                  3
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T10:07:18.573Z",
+                "endUtc": "2000-01-01T10:07:31.757Z",
+                "possibleValues": [
+                  3,
+                  4
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T10:20:40.136Z",
+                "endUtc": "2000-01-01T10:20:53.319Z",
+                "possibleValues": [
+                  4,
+                  5
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T10:34:20.156Z",
+                "endUtc": "2000-01-01T10:34:33.339Z",
+                "possibleValues": [
+                  5,
+                  6
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T10:48:15.995Z",
+                "endUtc": "2000-01-01T10:48:29.179Z",
+                "possibleValues": [
+                  6,
+                  7
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T11:02:25.019Z",
+                "endUtc": "2000-01-01T11:02:38.203Z",
+                "possibleValues": [
+                  7,
+                  8
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T11:16:49.863Z",
+                "endUtc": "2000-01-01T11:17:03.046Z",
+                "possibleValues": [
+                  8,
+                  9
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T11:31:27.890Z",
+                "endUtc": "2000-01-01T11:31:41.073Z",
+                "possibleValues": [
+                  9,
+                  10
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T11:46:19.101Z",
+                "endUtc": "2000-01-01T11:46:32.284Z",
+                "possibleValues": [
+                  10,
+                  11
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T12:01:20.859Z",
+                "endUtc": "2000-01-01T12:01:34.042Z",
+                "possibleValues": [
+                  11,
+                  12
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T12:16:30.526Z",
+                "endUtc": "2000-01-01T12:16:43.710Z",
+                "possibleValues": [
+                  1,
+                  12
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T12:31:48.104Z",
+                "endUtc": "2000-01-01T12:32:01.288Z",
+                "possibleValues": [
+                  1,
+                  2
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T12:47:13.593Z",
+                "endUtc": "2000-01-01T12:47:26.776Z",
+                "possibleValues": [
+                  2,
+                  3
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T13:02:44.354Z",
+                "endUtc": "2000-01-01T13:02:57.538Z",
+                "possibleValues": [
+                  3,
+                  4
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T13:18:17.753Z",
+                "endUtc": "2000-01-01T13:18:30.937Z",
+                "possibleValues": [
+                  4,
+                  5
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T13:33:53.788Z",
+                "endUtc": "2000-01-01T13:34:06.972Z",
+                "possibleValues": [
+                  5,
+                  6
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T13:49:32.460Z",
+                "endUtc": "2000-01-01T13:49:45.644Z",
+                "possibleValues": [
+                  6,
+                  7
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T14:05:11.132Z",
+                "endUtc": "2000-01-01T14:05:24.316Z",
+                "possibleValues": [
+                  7,
+                  8
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T14:20:49.804Z",
+                "endUtc": "2000-01-01T14:21:02.988Z",
+                "possibleValues": [
+                  8,
+                  9
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T14:36:25.839Z",
+                "endUtc": "2000-01-01T14:36:39.023Z",
+                "possibleValues": [
+                  9,
+                  10
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T14:51:59.238Z",
+                "endUtc": "2000-01-01T14:52:15.057Z",
+                "possibleValues": [
+                  10,
+                  11
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T15:07:32.636Z",
+                "endUtc": "2000-01-01T15:07:45.819Z",
+                "possibleValues": [
+                  11,
+                  12
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T15:23:03.398Z",
+                "endUtc": "2000-01-01T15:23:16.581Z",
+                "possibleValues": [
+                  1,
+                  12
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T15:38:28.886Z",
+                "endUtc": "2000-01-01T15:38:42.069Z",
+                "possibleValues": [
+                  1,
+                  2
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T15:53:51.738Z",
+                "endUtc": "2000-01-01T15:54:07.557Z",
+                "possibleValues": [
+                  2,
+                  3
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T16:09:11.953Z",
+                "endUtc": "2000-01-01T16:09:27.773Z",
+                "possibleValues": [
+                  3,
+                  4
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T16:24:29.531Z",
+                "endUtc": "2000-01-01T16:24:45.351Z",
+                "possibleValues": [
+                  4,
+                  5
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T16:39:44.472Z",
+                "endUtc": "2000-01-01T16:40:00.292Z",
+                "possibleValues": [
+                  5,
+                  6
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T16:54:56.776Z",
+                "endUtc": "2000-01-01T16:55:09.960Z",
+                "possibleValues": [
+                  6,
+                  7
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T17:10:06.444Z",
+                "endUtc": "2000-01-01T17:10:19.628Z",
+                "possibleValues": [
+                  7,
+                  8
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T17:25:13.476Z",
+                "endUtc": "2000-01-01T17:25:29.296Z",
+                "possibleValues": [
+                  8,
+                  9
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T17:40:20.507Z",
+                "endUtc": "2000-01-01T17:40:36.328Z",
+                "possibleValues": [
+                  9,
+                  10
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T17:55:27.538Z",
+                "endUtc": "2000-01-01T17:55:40.722Z",
+                "possibleValues": [
+                  10,
+                  11
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T18:10:31.932Z",
+                "endUtc": "2000-01-01T18:10:45.116Z",
+                "possibleValues": [
+                  11,
+                  12
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              },
+              {
+                "startUtc": "2000-01-01T18:18:45.000Z",
+                "endUtc": "2000-01-01T18:30:00.000Z",
+                "possibleValues": [
+                  1,
+                  11,
+                  12
+                ],
+                "meaning": "conservative possible-boundary window, not an exact transition or count"
+              }
+            ],
+            "budgetLimited": true
+          },
+          "planetRashis": {
+            "Moon": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                7
+              ],
+              "provedValues": [
+                7
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Sun": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                9
+              ],
+              "provedValues": [
+                9
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": true
+            },
+            "Mercury": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                9
+              ],
+              "provedValues": [
+                9
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Venus": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                8
+              ],
+              "provedValues": [
+                8
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Mars": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                11
+              ],
+              "provedValues": [
+                11
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Jupiter": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                1
+              ],
+              "provedValues": [
+                1
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Saturn": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                1
+              ],
+              "provedValues": [
+                1
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": true
+            },
+            "Rahu": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                4
+              ],
+              "provedValues": [
+                4
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Ketu": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                10
+              ],
+              "provedValues": [
+                10
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            }
+          },
+          "planetD9": {
+            "Moon": {
+              "status": "changes-within-interval",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                1,
+                10,
+                11,
+                12
+              ],
+              "provedValues": [
+                1,
+                10,
+                11,
+                12
+              ],
+              "possibleBoundaryWindows": [
+                {
+                  "startUtc": "1999-12-31T23:45:15.819Z",
+                  "endUtc": "1999-12-31T23:49:21.034Z",
+                  "possibleValues": [
+                    10,
+                    11
+                  ],
+                  "meaning": "conservative possible-boundary window, not an exact transition or count"
+                },
+                {
+                  "startUtc": "2000-01-01T06:22:34.394Z",
+                  "endUtc": "2000-01-01T06:26:42.245Z",
+                  "possibleValues": [
+                    11,
+                    12
+                  ],
+                  "meaning": "conservative possible-boundary window, not an exact transition or count"
+                },
+                {
+                  "startUtc": "2000-01-01T13:01:22.616Z",
+                  "endUtc": "2000-01-01T13:05:30.468Z",
+                  "possibleValues": [
+                    1,
+                    12
+                  ],
+                  "meaning": "conservative possible-boundary window, not an exact transition or count"
+                }
+              ],
+              "budgetLimited": false
+            },
+            "Sun": {
+              "status": "changes-within-interval",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                5,
+                6
+              ],
+              "provedValues": [
+                5,
+                6
+              ],
+              "possibleBoundaryWindows": [
+                {
+                  "startUtc": "2000-01-01T14:11:15.000Z",
+                  "endUtc": "2000-01-01T14:16:52.500Z",
+                  "possibleValues": [
+                    5,
+                    6
+                  ],
+                  "meaning": "conservative possible-boundary window, not an exact transition or count"
+                },
+                {
+                  "startUtc": "2000-01-01T14:28:07.500Z",
+                  "endUtc": "2000-01-01T14:33:45.000Z",
+                  "possibleValues": [
+                    5,
+                    6
+                  ],
+                  "meaning": "conservative possible-boundary window, not an exact transition or count"
+                },
+                {
+                  "startUtc": "2000-01-01T14:39:22.500Z",
+                  "endUtc": "2000-01-01T14:50:37.500Z",
+                  "possibleValues": [
+                    5,
+                    6
+                  ],
+                  "meaning": "conservative possible-boundary window, not an exact transition or count"
+                },
+                {
+                  "startUtc": "2000-01-01T14:53:26.250Z",
+                  "endUtc": "2000-01-01T15:07:08.906Z",
+                  "possibleValues": [
+                    5,
+                    6
+                  ],
+                  "meaning": "conservative possible-boundary window, not an exact transition or count"
+                },
+                {
+                  "startUtc": "2000-01-01T15:07:51.093Z",
+                  "endUtc": "2000-01-01T16:07:58.125Z",
+                  "possibleValues": [
+                    5,
+                    6
+                  ],
+                  "meaning": "conservative possible-boundary window, not an exact transition or count"
+                },
+                {
+                  "startUtc": "2000-01-01T16:10:46.875Z",
+                  "endUtc": "2000-01-01T16:20:37.500Z",
+                  "possibleValues": [
+                    5,
+                    6
+                  ],
+                  "meaning": "conservative possible-boundary window, not an exact transition or count"
+                },
+                {
+                  "startUtc": "2000-01-01T16:26:15.000Z",
+                  "endUtc": "2000-01-01T16:37:30.000Z",
+                  "possibleValues": [
+                    5,
+                    6
+                  ],
+                  "meaning": "conservative possible-boundary window, not an exact transition or count"
+                },
+                {
+                  "startUtc": "2000-01-01T16:43:07.500Z",
+                  "endUtc": "2000-01-01T16:48:45.000Z",
+                  "possibleValues": [
+                    5,
+                    6
+                  ],
+                  "meaning": "conservative possible-boundary window, not an exact transition or count"
+                },
+                {
+                  "startUtc": "2000-01-01T17:00:00.000Z",
+                  "endUtc": "2000-01-01T17:05:37.500Z",
+                  "possibleValues": [
+                    5,
+                    6
+                  ],
+                  "meaning": "conservative possible-boundary window, not an exact transition or count"
+                },
+                {
+                  "startUtc": "2000-01-01T18:18:45.000Z",
+                  "endUtc": "2000-01-01T18:30:00.000Z",
+                  "possibleValues": [
+                    5,
+                    6
+                  ],
+                  "meaning": "conservative possible-boundary window, not an exact transition or count"
+                }
+              ],
+              "budgetLimited": true
+            },
+            "Mercury": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                3
+              ],
+              "provedValues": [
+                3
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Venus": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                6
+              ],
+              "provedValues": [
+                6
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Mars": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                8
+              ],
+              "provedValues": [
+                8
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Jupiter": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                1
+              ],
+              "provedValues": [
+                1
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Saturn": {
+              "status": "unsupported",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                5,
+                6
+              ],
+              "provedValues": [
+                5
+              ],
+              "possibleBoundaryWindows": [
+                {
+                  "startUtc": "2000-01-01T18:18:45.000Z",
+                  "endUtc": "2000-01-01T18:30:00.000Z",
+                  "possibleValues": [
+                    5,
+                    6
+                  ],
+                  "meaning": "conservative possible-boundary window, not an exact transition or count"
+                }
+              ],
+              "budgetLimited": true
+            },
+            "Rahu": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                7
+              ],
+              "provedValues": [
+                7
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            },
+            "Ketu": {
+              "status": "stable",
+              "scope": "conditional-on-declared-rate-and-model-guards",
+              "possibleValues": [
+                1
+              ],
+              "provedValues": [
+                1
+              ],
+              "possibleBoundaryWindows": [],
+              "budgetLimited": false
+            }
+          },
+          "dasha": {
+            "status": "changes-within-interval",
+            "scope": "birth-lord-only; balance varies across interval",
+            "possibleLords": [
+              "Rahu",
+              "Jupiter"
+            ],
+            "remainingYearsRange": null,
+            "timeline": "withheld-no-single-birth-epoch",
+            "yearConventionId": "VIMSHOTTARI_365_25_DAY_V1"
+          },
+          "d1": {
+            "status": "changes-within-interval",
+            "scope": "sign/house occupancy only, no exact longitude or representative chart"
+          },
+          "d9": {
+            "status": "changes-within-interval",
+            "scope": "divisional signs only, no representative chart"
+          },
+          "bounds": {
+            "planetRateDegreesPerDay": 24,
+            "lagnaRateDegreesPerDay": 565.4223467430855,
+            "guardArcsec": 61
+          },
+          "evaluations": 4096,
+          "warnings": [
+            "MODELLED_UT1_NOT_OBSERVED_EOP",
+            "TDB_NOT_COMPUTED",
+            "SENSITIVITY_BOUNDS_NOT_INDEPENDENTLY_CERTIFIED",
+            "NO_REPRESENTATIVE_BIRTH_INSTANT",
+            "PRECISE_INTERVAL_CHARTS_AND_DASHA_WITHHELD",
+            "INTERNAL_CANDIDATE_NOT_PRODUCTION_VALIDATED",
+            "APPROXIMATE_ANALYTIC_MODEL",
+            "SIDEREAL_REFERENCE_REVIEW_PENDING",
+            "BIRTH_TIME_STABILITY_NOT_EVALUATED",
+            "SECTOR_NEAR_MODEL_BOUNDARY",
+            "EQUATION_EQUINOXES_TT_FOR_TDB_APPROXIMATION",
+            "LAGNA_INDEPENDENT_REFERENCE_ACCEPTANCE_PENDING",
+            "GEOMETRIC_HORIZON_NO_REFRACTION_OR_TERRAIN",
+            "LAGNA_NEAR_MODEL_BOUNDARY"
+          ],
+          "presentation": "interval-only; existing precise-chart admission unchanged"
+        },
+        "warnings": [
+          "APPROXIMATE_PLACE_COORDINATES",
+          "SEA_LEVEL_ASSUMED",
+          "MODELLED_UT1_NOT_OBSERVED_EOP",
+          "TDB_NOT_COMPUTED",
+          "SENSITIVITY_BOUNDS_NOT_INDEPENDENTLY_CERTIFIED",
+          "NO_REPRESENTATIVE_BIRTH_INSTANT",
+          "PRECISE_INTERVAL_CHARTS_AND_DASHA_WITHHELD",
+          "INTERNAL_CANDIDATE_NOT_PRODUCTION_VALIDATED",
+          "APPROXIMATE_ANALYTIC_MODEL",
+          "SIDEREAL_REFERENCE_REVIEW_PENDING",
+          "BIRTH_TIME_STABILITY_NOT_EVALUATED",
+          "SECTOR_NEAR_MODEL_BOUNDARY",
+          "EQUATION_EQUINOXES_TT_FOR_TDB_APPROXIMATION",
+          "LAGNA_INDEPENDENT_REFERENCE_ACCEPTANCE_PENDING",
+          "GEOMETRIC_HORIZON_NO_REFRACTION_OR_TERRAIN",
+          "LAGNA_NEAR_MODEL_BOUNDARY"
+        ]
+      }
+    }
+  ]
+}

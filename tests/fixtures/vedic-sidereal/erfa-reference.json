@@ -1,0 +1,42 @@
+{
+  "version": "erfa-2.0.1-independent-p04-reference",
+  "source": {
+    "name": "t_erfa_c.c",
+    "url": "https://raw.githubusercontent.com/liberfa/erfa/v2.0.1/src/t_erfa_c.c",
+    "sha256": "8a92d0099c48df31ca566bea881c19497dc295dba58dba7136cc2f8443c31f15"
+  },
+  "method": "Published ERFA expected values, extracted without executing the implementation under test.",
+  "precession": {
+    "ttJulianDay": 2450124.4999,
+    "matrix": [
+      [
+        0.9999995504328351,
+        0.0008696632209480961,
+        0.00037791534749598884
+      ],
+      [
+        -0.0008696632209485112,
+        0.9999996218428561,
+        -1.6432847761118864e-7
+      ],
+      [
+        -0.0003779153474950335,
+        -1.643306746147367e-7,
+        0.999999928589979
+      ]
+    ]
+  },
+  "obliquity": {
+    "ttJulianDay": 2454388.5,
+    "radians": 0.4090751347643816
+  },
+  "nutation": {
+    "ttJulianDay": 2453736.5,
+    "longitudeRadians": -0.000009643658353226563,
+    "obliquityRadians": 0.00004060051006879713
+  },
+  "meanNode": {
+    "ttJulianDay": 2480765,
+    "signedRadians": -5.973618440951302
+  }
+}

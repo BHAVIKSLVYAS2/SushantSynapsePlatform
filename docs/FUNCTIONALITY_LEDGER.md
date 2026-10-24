@@ -1,5 +1,382 @@
 # Chambers functionality ledger
 
+**Vedic release preparation (2026-10-25):** User authorised commit and deployment
+of the completed implementation. Existing Ritual integration is the production
+change; Rashifal/Kundli remains an internal preview with no public route/card/API.
+Source, review and hosting acceptance gates remain open. Production build and
+live verification are being recorded in docs/vedic/PROGRESS.md.
+
+**Vedic P17 (2026-10-25, internal sharing/hardening):** Ritual's duplicate engine
+is now a compatibility import of the identical shared Astronomy Engine 2.1.19.
+Captured lunar/remembrance/monthly regressions match exactly, and its existing
+public engine URL/delivery transform are preserved. Calendar/time/correction
+profiles remain distinct; no birthday/remembrance substitution. Private en/hi/gu
+guide navigation carries no birth details. Preview security headers and immutable
+per-feature Node/Workers release readiness fail closed. Actual workerd passes
+three core cases, six protection failures and one monthly response (314 numbers,
+zero difference). All 42 Vedic/Ritual browser scenarios have passing evidence
+across initial and corrected stale-selector runs. Cloudflare dry-run build passes
+(1,068 assets). Final isolated Node/API suite passes 524/524, zero failures,
+243.695s; final private-link browser rerun passes 1/1. Package/lock, offline
+report/delivery hashes and whitespace checks pass. Continuation:
+docs/vedic/PROGRESS.md; source,
+profile, performance and release limits: docs/vedic/P17_EVIDENCE.md. No deployment,
+Vedic public route/card/API, new birth persistence or production data change.
+
+**Vedic P16 (2026-10-24, optional internal candidate subset):** Separate
+D7/D10/D12 mappings and North/South/table rendering, raw seven-row/eight-reference
+D1 Ashtakavarga and Uccha Bala are implemented. Full Shadbala and unimplemented
+vargas/reductions remain unavailable. No predictive ranking or individual
+algorithm acceptance is implied. Exact birth screens withhold each division
+independently; en/hi/gu panel clears on edits and is excluded from print/export.
+No birth persistence/network, production/public route, schema/auth or Ritual
+Assist change. Nine focused Node/workerd checks pass, including six published
+mapping examples and 36 BAV/SAV reference values. Actual workerd exactly matches
+348 mappings, one raw AV case and seven strength values (7,225-byte pure bundle).
+Full isolated regression 518/518, zero failures (320.465s); Chrome 25/25. Gujarati
+mobile inspected; offline report/metadata/whitespace checks pass. Continuation:
+docs/vedic/PROGRESS.md; scope/limits: docs/vedic/P16_EVIDENCE.md. Next requested
+phase P17; no deployment or acceptance of optional unimplemented methods implied.
+
+**Vedic P15 (2026-10-24, internal rulebook draft):** Eight-component Ashtakoota
+raw scores/details, explicit composite source/axis convention, consent-gated
+dual birth review (loopback 4181), axis swap, revocation and private clearing are
+implemented. Two Yoga geometric bases and three selectable Mangal house sets
+embed in birth preview; final named assessments remain withheld pending review.
+No marriage verdict, predictive severity, remedies, birth storage, public route,
+production/schema/auth or Ritual Assist changes. Eight Node checks pass, including
+11,664 quarter pairs. Actual workerd passes five matching/three geometric cases,
+zero difference; 10,683-byte pure rules bundle. Full isolated regression 509/509,
+zero failures (332.996s); main Chrome run 23/23 and final P15 rerun 3/3 after
+presentation/pending-clear checks (35.0s). Offline report/metadata/whitespace
+checks pass. Continuation: docs/vedic/PROGRESS.md; source disagreements/limits:
+docs/vedic/P15_EVIDENCE.md. Next requested increment: P16, with individual gates.
+
+**Vedic P14 (2026-10-24, internal candidate):** Full birth-interval envelopes,
+feature-specific statuses and possible boundary windows are implemented with
+cancellable memory-only en/hi/gu analysis. Bounds remain unaccepted candidates;
+precise interval charts/Dasha epochs remain withheld. Eight focused Node checks,
+workerd parity (130 numbers, zero difference) and 20 Chrome tests pass. Full
+isolated regression passes 500/500 with zero failures (243.260s). Continuation:
+docs/vedic/PROGRESS.md; evidence: docs/vedic/P14_EVIDENCE.md.
+No production, public route or user data changes. Next: P15 rulebooks.
+
+**Synapse Vedic P13 (2026-10-24, internal Time Machine/Gochar foundations):** Added
+explicit date/time/Indian place exploration, local/UTC review, nominal planetary
+and Panchang snapshot, current-IST/day controls and independent observer failure
+states. Future exploration remains separate from birth future validation. Optional
+manual Moon/Lagna reference counts and private birth comparison are explicit;
+near-boundary or unknown/approximate birth references stay withheld. Angular
+endpoint differences are not motion/retrograde. No continuous transit timeline,
+aspects, Sade Sati or predictions are inferred. en/hi/gu controls/numeric parity,
+mobile themes, clear/edit/cancel/history privacy and P10 print isolation work.
+No private storage/URLs/requests, public routes/card, database/auth/schema, Ritual
+Assist or production data changes. Package/lock 0.13.0, prior numerical kernels
+unchanged, no new dependency. Saved evidence checks 144 sign combinations, six
+angular fixtures, three snapshots and two birth references. Actual core workerd
+parity: three snapshots/840 numbers, max difference 2.55e-11; 81,987-byte core
+excludes places. Full isolated suite 491/491, zero failures, 192.655s; Chrome 18/18
+plus final three P13 checks after disclosure/provenance copy. Gujarati mobile
+review/results inspected; source report, package/public-allowlist and whitespace
+checks pass. Local preview: `node infrastructure/preview-vedic-time-machine.cjs`,
+port 4180; also embeds below private birth results. Evidence/resume:
+docs/vedic/P13_EVIDENCE.md and PROGRESS.md. Prior source/stability gates stay open.
+Next P14 birth-time sensitivity.
+
+**Synapse Vedic P12 (2026-10-24, internal Rashifal editorial draft):** Added manual
+Chandra Rashi selection with twelve names/symbols, Today/Tomorrow and Monday–Sunday
+views, explicit IST noon Moon factors, five reflection sections and source/group
+provenance. Twenty original versioned English prompts use deterministic selection/
+deduplication; no random or runtime-generated predictions. Forty Hindi/Gujarati
+draft translations await independent review: reading text explicitly falls back
+to labelled English, while controls/signs/categories support en/hi/gu. Publication
+status is draft, not published; classical house context does not certify this
+project-authored rule. Bounded generic memory caches key date/period/Rashi/locale/
+rule/profile/model; opt-in stores Rashi only, with clear/reset. No DOB, place, name,
+tracking, external calls, server writes, public routes/card or production changes.
+Package/lock 0.12.0; prior math, database/auth and Ritual Assist unchanged. Six new
+Node checks and actual workerd parity pass (13 requests/440 numbers, zero
+difference; 85,951-byte bundle excludes birth/place data). Full isolated regression
+484/484, zero failures, 224.098s; Chrome 14/14 plus final P12 3/3, including added
+IST-midnight refresh (15 unique scenarios across runs). Report reproduces 108
+compositions; package/public-allowlist/whitespace checks pass, mobile reading
+inspected. Local preview: `node infrastructure/preview-vedic-rashifal.cjs`, port
+4179. Evidence/resume: docs/vedic/P12_EVIDENCE.md and PROGRESS.md. Independent
+editorial/translation/source release gates remain open. Next P13 Time Machine/Gochar.
+
+**Synapse Vedic P11 (2026-10-24, internal birth/calendar/name candidates):** Added
+exact birth Panchang with separate civil/sunrise Vara and boundary admission;
+bounded phase/Amanta month search with Adhika and typed Kshaya withholding; explicit
+first-sunrise/skip-missing yearly Tithi candidates, repeated/uncertain states and
+extra-month policy. Annual queries support 1951..2097 at a selected offline Indian
+place, with narrower birth-month search margins. These are exploration candidates,
+not certified ritual dates or a universal birthday rule; Purnimanta/other family
+rules remain unavailable. P05 sunrise discrepancy remains open. App-owned en/hi/gu
+UI adds a regional 108-sound naming table, small two-name sourced catalogue,
+search/script/sound filters, name-only copy and private candidate all-day ICS.
+Unknown time withholds precise birth/calendar guidance but permits catalogue
+browsing. No invented meanings, birth persistence/URLs, external calls, new public
+assets/routes, auth/schema, Ritual Assist or live-data changes. Package/lock 0.11.0,
+no new dependency; previous numerical rules unchanged. Original PAC spot checks:
+twelve new moons (max 35.368s) and two Adhika/Nija samples; not full acceptance.
+Actual workerd parity: three months/phase/policy, 31 numbers, zero difference;
+68,924-byte low-level bundle excludes places. Full isolated regression 477/477,
+zero failures, 198.891s; Chrome 12/12; offline report, package/public-allowlist and
+whitespace checks pass. Gujarati mobile screenshot inspected. Evidence/resume:
+docs/vedic/P11_EVIDENCE.md and PROGRESS.md. Next P12 Rashifal content.
+
+**Synapse Vedic P10 (2026-10-24, internal private export):** Added explicit
+redaction-first export projection, report preview, standalone offline HTML
+download and browser Print / Save as PDF. Name/DOB/time/place/coordinates and
+birth UTC/interval require identity opt-in, reset on result rebuild. Charts and
+Dasha values can still reveal birth information; this is disclosed. Report has
+available D1/D9 diagrams/numeric tables, all nine major/81 minor periods, typed
+withholding, source/model/hash provenance, attribution and nominal precision.
+Native print isolates the report from raw input/results. Text is escaped; no
+scripts, remote assets, birth URLs, server persistence or production changes.
+Five new export Node tests pass. Full run: 453/469 passed, fifteen sandbox build
+hook failures and one timetable time limit; permitted sequential rerun passes
+21/21 including every failed check, covering all 469 across runs. Chrome 10/10;
+after final mobile presentation changes five Node/two export Chrome checks pass
+again. Synthetic PDFs generated; final mobile screenshots inspected. No new
+dependencies or kernel rules; public release/source gates remain open. Evidence:
+docs/vedic/P10_EVIDENCE.md; progress saved, next P11 birth Tithi/observance/names.
+
+**Synapse Vedic P09 (2026-10-24, internal birth/Kundli UI):** Memory-only birth
+entry with offline explicit city/state choice, time accuracy and UTC/interval
+review before calculation. Independent positions/D1/D9/Dasha availability keeps
+D1 usable when D9 is withheld. English/Hindi/Gujarati labels, North/South charts,
+keyboard house selection, numeric tables, Dasha period selection/birth balance/
+current-next transitions and provenance are implemented. Nominal precision and
+365.25-day arithmetic are disclosed; no P14 stability claim. Clear/reload/history
+remove birth details; no birth storage, URLs, external calls or analytics.
+Full isolated regression 464/464; focused Chrome 8/8; final balance-copy rerun
+five Node/five Chrome checks passed. Mobile theme screenshots inspected. Human
+translation review and earlier numerical/source acceptance remain open. Preview
+only: `node infrastructure/preview-vedic-birth.cjs`, loopback port 4178. No public
+route/card, export, API/schema, dependency, Ritual Assist or live-data change.
+Evidence/resume: docs/vedic/P09_EVIDENCE.md and PROGRESS.md. Next P10 export.
+
+**Synapse Vedic P08 (2026-10-24, internal Vimshottari engine):** Added birth
+Nakshatra/lord balance, full Mahadasha/Antardasha cycles, active/next transition
+lookup and exact shared millisecond boundaries. Full child periods start at the
+pre-birth major origin, not birth. The named 365.25-day year uses explicit
+uniform Unix-millisecond arithmetic; ISO labels do not claim SI-duration/future
+leap accuracy. Other year IDs are typed unavailable. Local dates outside pinned
+India civil coverage remain TIME_DATA_UNAVAILABLE rather than extrapolated.
+Separate P02/P04 birth-Moon bridge withholds unknown/approximate and near-edge
+minute inputs; active dates remain nominal, not P14 stability certified.
+Independent BigInt/rational design fixtures cover nine lords/81 children and
+180 boundaries, max residual 0ms. Saved grid covers 81 synthetic/149 annual
+timelines, 2,070 majors/18,630 minors with zero sum drift. It is arithmetic
+evidence, not original astronomical/human acceptance. Eleven Node tests and
+actual workerd parity pass (12 timelines/81 boundary balances/7,404 numbers,
+zero difference; 8,202-byte arithmetic-only bundle excludes astronomy/places).
+Full isolated regression passes 459/459, zero failures, 194.366s. Offline
+fixture/report, package/lock, public-allowlist and whitespace checks pass. No
+new dependency, UI/public route/card, private persistence, account/schema,
+Ritual Assist import or production/live-data change. Prior numerical acceptance
+gates remain open. Evidence/resume: `docs/vedic/P08_EVIDENCE.md`,
+`docs/vedic/PROGRESS.md`; next P09 birth details and Kundli UI.
+
+**Synapse Vedic P07 (2026-10-24, internal D9/chart component):** Added canonical
+108-division Navamsa mapping, numeric D9 with its own ascendant/whole-sign houses,
+and stricter exact-birth minute/ division-boundary screening. D9 retains source
+longitudes instead of inventing physical coordinates. Approximate/unknown and
+near-boundary birth inputs remain withheld; no P14 stability claim. App-owned
+North fixed-house/South fixed-sign SVG views share a validated numeric model,
+visible table, keyboard house selection and full-name accessible labels. Shared
+theme tokens/preferences preserve mobile light/dark/system views; crowded cells
+retain all occupants in labels/table. Loopback-only synthetic preview is absent
+from platform public asset mappings; no route/card/public launch or persistence.
+All 108 mapping entries and 324 adjacent-boundary inputs pass; saved internal
+grid checks 894 chart pairs/1,788 tables/16,092 rows. Fixture is agent-authored
+from P01, not independent original astronomical acceptance. Actual workerd parity
+passes four pairs/324 boundaries/3,244 numbers, max difference 5.10e-11; 71,931B
+core bundle excludes places. Full isolated suite passes 447/447 in 211.969s.
+Three focused Chrome checks pass 36 mobile/theme/style/division combinations,
+keyboard/parity/privacy checks and all twelve synthetic crowded-chart ascendants.
+Screenshots visually inspected. Offline report, package/lock, public-allowlist
+and whitespace checks pass. No new dependency, schema/live data change,
+Ritual Assist import or deployment. Prior PAC/IAE/Lagna/sunrise gates remain open.
+Evidence/resume: `docs/vedic/P07_EVIDENCE.md`, `docs/vedic/PROGRESS.md`;
+next P08 Vimshottari Dasha.
+
+**Synapse Vedic P06 (2026-10-24, internal Lagna/D1 candidate):** Added IAU1982
+sidereal time from modelled UT1 plus IAU1994 equinox corrections from TT, true
+IAU1980 obliquity and eastern geometric-horizon Lagna with consistent true
+Lahiri subtraction. Whole-sign D1 returns twelve house/sign rows, nine body
+positions and matching occupancy; exact ascendant degree stays separate from
+sign-start house boundaries. Mean nodes retain their mathematical-point labels.
+Separate P02 birth bridge rejects approximate/unknown times and conservatively
+withholds minute-resolution inputs near sign boundaries; no P14 stability claim.
+Polar/degenerate geometry and unsupported house systems return typed diagnostics.
+Pinned two additional licensed ERFA sources without changing the P04 manifest;
+three published numerical reference checks pass. Independent numerical horizon
+checks cover 576 cases (max difference 8.19e-9 arcseconds); sampled internal
+invariants cover 894 annual charts/8,046 positions and six full-day sign sweeps.
+These are not external full Lagna goldens; original PAC/IAE and independent
+astronomical acceptance remain open, along with prior sunrise discrepancies.
+Eleven focused Node tests and local workerd parity pass (167 cases/2,870 values,
+max numeric difference 5.10e-11; 70,577-byte core bundle excludes places).
+Full isolated suite passes 440/440, zero failures, 186.589s. Offline source/
+report, package/lock and whitespace checks pass. No graphic UI/D9, route/card,
+Ritual Assist import, private persistence, schema, deployment or live data change.
+Evidence/resume: `docs/vedic/P06_EVIDENCE.md`, `docs/vedic/PROGRESS.md`;
+next P07 D9 and North/South visual charts.
+
+**Synapse Vedic P05 (2026-10-24, internal Panchang candidate):** Added Tithi/
+Paksha, Nakshatra/Pada, Yoga, all 60 Karana slots, bounded continuous crossings
+and interval enumeration under packages/vedic. Separate observer/place modules
+return local upper-limb sunrise, civil versus sunrise Vara, sunrise-day limbs
+and changes. Engine TT events are inverted into civil UTC, preserving modelled
+UT1, historical/future time and approximate-place warnings. No-event sunrise,
+unsupported adjacent dates, invalid elevation and boundary uncertainty are
+explicit. No regional festival/birthday rule or uncertain birth-time precision.
+Twelve publisher transition checks pass the proposed 180s screen (max 93.808s).
+Publisher sunrise differs by 177-234s and fails the proposed 120s screen;
+undisclosed convention/point and original PAC validation remain open gates.
+Twenty independent NOAA low-order sunrise screens agree within 59.754s; these
+are not original PAC goldens. Saved report includes 596 internal root brackets
+and 24 seasonal sunrise cases. Eleven Node tests and local workerd parity pass
+(nine cases/663 numbers, max difference 5.69e-14; no place data in kernel bundle).
+Full isolated suite passes 428/428 in 189.813s; final focused checks pass 12/12
+after tightening null/undefined elevation. Offline source/report and whitespace
+checks pass. No public route/card, Ritual Assist refactor, schema, private
+persistence, deployment or live data change. Evidence/resume:
+`docs/vedic/P05_EVIDENCE.md`, `docs/vedic/PROGRESS.md`; next P06 Lagna/houses/D1.
+
+**Synapse Vedic P04 (2026-10-24, internal sidereal candidate):** Added consistent
+IAU1976/IAU1980 revised-Lahiri conversion, IERS2003 mean Rahu/Ketu, nominal
+Rashi/Nakshatra/Pada classification and boundary screening under packages/vedic.
+Corrected P01's pre-release mean/true anchor error explicitly: 1956 anchor is
+true, with nutation removed/added exactly once. Physical P03 EQJ vectors are
+retransformed into the selected historical frame; native modern-model angles
+are not mixed in. Pinned permissively licensed ERFA sources, 106-term nutation
+table and published independent numerical expected values retained with notices;
+no Swiss code/library or new npm dependency. Fourteen published secondary Lahiri
+reference checks pass, max 0.0395751 arcsecond; original IAE/human review remains
+a release gate. All 108 Pada/12 sign adjacent-double boundaries and 2,000
+periodicity cases pass. Full-range 1,788-month consistency grid covers 16,092
+nominal positions, not independent astronomical goldens. Exact-time P02 bridge
+works; approximate/unknown birth inputs are withheld as UNSTABLE_BIRTH_TIME.
+No birth-time stability or physical mean-node accuracy guarantee is claimed.
+Ten focused P04 tests pass; actual local workerd parity passes 19 snapshots/171
+positions and 324 boundary inputs, max Node difference 5.69e-14 degrees. Bundle
+64,546 bytes excludes place data and retains derivative notice. Full repository
+suite passes 416/416 (164.84 seconds); offline source/table/report and whitespace
+checks pass. No public API/card, Ritual Assist refactor, private persistence,
+schema, deployment or live data change. Evidence/resume:
+`docs/vedic/P04_EVIDENCE.md`, `docs/vedic/PROGRESS.md`; next P05 Panchang.
+
+**Synapse Vedic P03 (2026-10-24, internal astronomy candidate):** Added raw
+geocentric astronomy and explicit TT/UTC/modelled-UT1 handling under
+`packages/vedic`, with a byte-identical MIT engine copy and current pinned
+public-domain leap table (expiry 2027-06-28). Strict bounded inputs and safe
+typed errors; separate geometric/apparent tracks including lunar light-time/
+aberration. No runtime network, private storage or Ritual Assist changes.
+Captured 28 independent synthetic JPL responses / 25,116 TT vector rows with
+source/query/hash provenance. After source-backed IAU frame bias, worst sampled
+direction residual is 22.467118 arcseconds; proposed 60-arcsecond checks pass.
+Saved max/RMS/p95 and worst-case evidence in `P03_REFERENCE_RESULTS.json`;
+this is sampled engineering validation, not production tolerance approval or
+independent certification of the shared angle transform. Current runtime uses
+explicit analytic coefficients, not downloaded JPL-kernel interpolation.
+Focused astronomy/normalization 23/23 pass; actual local workerd 1/1 passes,
+41 snapshots/287 vectors, max angular Node difference 5.69e-14 degrees.
+Astronomy-only minified bundle 55,775 bytes; local wall timing is not production
+CPU evidence. Full repository `npm.cmd test` passes 405/405 (177.69 seconds);
+offline source/report reproduction and whitespace checks pass. Pre-1972 civil
+time and UT1 remain explicitly modelled; post-expiry leap offsets are unconfirmed.
+No sidereal/lunar-node/Rashi/Panchang/chart claims, public route/card, new npm dependency,
+schema, deployment or live data change. Evidence/resume:
+`docs/vedic/P03_EVIDENCE.md`, `docs/vedic/PROGRESS.md`; next P04.
+
+**Synapse Vedic P02 (2026-10-24, internal implementation only):** Added
+`packages/vedic` with pure offline place search/ID selection and strict India
+civil-time normalization. Pinned GeoNames data supplies 3,786 state-labelled
+settlements with approximate-coordinate warnings and duplicate-name rejection;
+retained public source extracts, hashes, CC BY attribution and reproducible
+`infrastructure/prepare-vedic-data.cjs` capture/build/check. Pinned IANA 2025b
+supports only local dates 1950–2098 and Asia/Kolkata; foreign/historic expansion
+remains unavailable. Exact, approximate and unknown time return distinct
+instant/interval shapes, with complete interval/future-birth bounds, safe errors,
+explicit elevation/source precision and no private logging/persistence. Fourteen
+focused tests pass; 447 independent Intl civil cross-checks plus source fixtures,
+host-timezone, duplicate-name, native alias and privacy cases included. Full
+repository run: 380 pass and 15 Cloudflare build-hook EPERM failures; all 15 pass
+with workspace write permission on rerun, covering all 395 checks across runs.
+No remaining assertion failures. Source reproducibility, workspace-lock metadata,
+browser-target bundle/source parity under Node and whitespace checks pass.
+Actual browser/Workers execution not claimed. No public route/card, astronomy,
+Ritual Assist refactor, new dependency, schema, deployment or live data changes.
+Evidence/resume: `docs/vedic/P02_EVIDENCE.md`, `docs/vedic/PROGRESS.md`; next P03.
+
+**Synapse Vedic P01 (2026-10-24, local design milestone):** Added versioned
+conventions, reference/fixture acceptance plan, source/licence inventory and
+phase evidence under `docs/vedic/P01_*.md`. Chosen design baseline distinguishes
+revised IAE Lahiri from existing Spica classification, mean nodes, whole-sign
+houses, a 365.25-day Dasha year, bounded India civil time, explicit uncertainty
+and safe diagnostics. Tolerances remain proposed/unmeasured; no numerical
+profile validation or new app availability claimed. Primary sources reviewed;
+IMD explanation/publication fetches failed, with acquisition recorded as pending.
+Local artifact hashes and Node/ICU/tzdb measured. Documentation checks pass for
+six documents, four local links, nine convention and nine reference-plan entries;
+no later-phase code directories. Whitespace check passes. Durable resume/P02
+handoff is in `docs/vedic/PROGRESS.md` and `P01_EVIDENCE.md`. No runtime,
+dependency, schema, persistence, deployment or live data changes; API/browser/
+full-suite/build checks not rerun. Earlier ledger edits preserved.
+
+**Synapse Vedic P00 (2026-10-24, local documentation only):** Preserved the
+user-supplied master specification in `docs/vedic/MASTER_SPECIFICATION.md` and
+completed `docs/vedic/P00_REPOSITORY_AUDIT.md` with sequential tracking in
+`docs/vedic/PROGRESS.md`. Audited existing Ritual Assist astronomy/tithi,
+approximate postal coordinates, fixed IST handling, UI/localization, public
+API limits, ad eligibility and Node/Workers integration. P01 must establish
+calculation conventions, source/coverage choices and independent reference
+fixtures; no Kundli accuracy or new app availability is claimed. Existing
+focused Ritual Assist regressions pass 26/26 (15.3 seconds), using disposable
+API fixture databases. No runtime code, dependency, schema, deployment or live
+data changes. Browser, full suite and build were not run. Earlier ledger edits
+were preserved. Referenced companion prompt/tracker files were not supplied.
+
+**Site language coverage diagnosis (2026-10-24, source review only):** The
+shared `packages/ui/language.js` translates exact dictionary matches within
+shared navigation/footer and public-home roots, rather than all app content.
+Only selected native bilingual app controls are bridged to the shared preference.
+App bodies, editorial content and editor wording therefore do not uniformly
+switch language; the existing language browser tests explicitly retain English
+on Contact and preserve Moment Studio's separate artwork language. Full-site
+Hindi/English coverage is incomplete. No application changes, browser rerun or
+production deployment performed in this diagnosis.
+
+**Site image-delivery/UX review (2026-10-24, analysis only):** Inventoried 30
+unique allowlisted image files and inspected 24 live app/entry routes at 390×844
+with production writes and third-party requests blocked. No browser page errors
+or horizontal overflow observed. Initial same-origin image payload: Ritual
+Assist 696,979 bytes (461,960-byte icon sprite plus 184,184-byte hero), corporate
+Arena 484,321 bytes; most simple tools roughly 50,835 bytes, dominated by the
+50,586-byte shared 192px logo. Existing image tags provide dimensions but no
+responsive srcset variants in the inspected source templates. Multi-megabyte
+legacy logos/cast art remain exported; their inventory size is not a claim that
+ordinary pages download them. Recommended priorities: smaller responsive assets,
+per-character detail crops, stable loading geometry, earlier primary actions,
+progressive Moment Studio editing, readable mobile navigation and clearer
+preparation/storage/empty-state flows. Short local layout-shift observations are
+diagnostic samples, not field Core Web Vitals. Signed-in workflows and actual ad
+placement were not exercised. No application code, assets or deployment changed.
+
+**Ritual Assist preparation review (2026-10-24, discussion only):** Inspected
+current Day 11/Day 12 and Seedha guide data and preparation-pack handling. Days
+11 and 12 currently share five broad material categories despite different
+ceremony descriptions. Seedha has eight component rows grouped under Shraddha
+and an existing single-card presentation. Suggested direction: independently
+reviewed day-specific preparation lists and one reusable Seedha unit card with
+expandable contents/set quantities, avoiding duplicate shopping entries. The
+user-referenced source file is not attached or available in a connected document
+session; source-specific conclusions remain pending receipt/review. No Ritual
+Assist application code, ritual content or deployment changed.
+
 **Corporate workweek trio (2026-10-24):** Added original spoofs Ghanta Guru
 (70-hour-week theme), Sunday Seth (90-hour/Sunday theme), and Mileage Maharaj
 (quality-of-work/test-drive theme), expanding Corporates to nine and the full cast

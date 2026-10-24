@@ -1,0 +1,23 @@
+{
+  "version": "erfa-2.0.1-p06-published-values",
+  "source": {
+    "name": "t_erfa_c.c",
+    "url": "https://raw.githubusercontent.com/liberfa/erfa/v2.0.1/src/t_erfa_c.c",
+    "sha256": "8a92d0099c48df31ca566bea881c19497dc295dba58dba7136cc2f8443c31f15"
+  },
+  "method": "Published ERFA numerical expectations extracted without executing implementation under test.",
+  "gmst82": {
+    "ut1JulianDay": 2453736.5,
+    "radians": 1.754174981860675
+  },
+  "eqeq94": {
+    "ttJulianDay": 2441234.5,
+    "radians": 0.00005357758254609257
+  },
+  "gst94SameScaleReference": {
+    "ut1JulianDay": 2453736.5,
+    "ttJulianDay": 2453736.5,
+    "radians": 1.7541661360206453,
+    "note": "Legacy ERFA GST94 uses UT1 for both arguments; runtime uses UT1 for GMST and TT for nutation."
+  }
+}

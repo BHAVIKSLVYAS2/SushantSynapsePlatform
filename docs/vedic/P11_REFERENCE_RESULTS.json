@@ -1,0 +1,172 @@
+{
+  "phase": "P11",
+  "model": "amanta-ingress-candidate-1",
+  "rule": "AMANTA_FIRST_SUNRISE_SKIP_MISSING_V1",
+  "sourceHashes": {
+    "tests/fixtures/vedic-calendar/published.json": "ff044f4752d247daf31491ee725e505e034b44be28b5c5829165656f155a7e84",
+    "packages/vedic/lunar-calendar.mjs": "eb0b3e716a8cc1ff995846d77ce33e3dee09b1ef168b66aa332f9bba9902cf23",
+    "packages/vedic/birth-observance.mjs": "edad6c1715bc93ba2552d5602cd1d088a5da755ff75f195f7a4ad21854578b40",
+    "packages/vedic/observance-rule.mjs": "27d60a14f77d6ee508c9b0aef9959014e97a180ab86a533c0e6285c3786cfe6b",
+    "packages/vedic/birth-panchang.mjs": "4804f99086ace08f7c17ed64558362bf1f1b2d2ca0948ef2be41b2fcfc99a9e0",
+    "apps/rashifal-kundli/frontend/naming-data.mjs": "a77e0e2cad8754975628c4f229bf331d2cd6d176050c46e7fbeb2ee2e380d697"
+  },
+  "sources": {
+    "phases": "https://www.packolkata.gov.in/phasemoon.php",
+    "months": "https://packolkata.imd.gov.in/panchang/en/regional-calendars",
+    "capture": "Manually transcribed numerical facts from browser-readable source. No raw page hash claimed."
+  },
+  "proposedPhaseScreenSeconds": 180,
+  "maxPhaseResidualSeconds": 35.368,
+  "phaseEvaluations": 582,
+  "phases": [
+    {
+      "expectedIst": "2026-01-19T01:22",
+      "actualUtc": "2026-01-18T19:52:03.303Z",
+      "residualSeconds": 3.303,
+      "bracketWidthSeconds": 0.32958984375
+    },
+    {
+      "expectedIst": "2026-02-17T17:31",
+      "actualUtc": "2026-02-17T12:01:13.828Z",
+      "residualSeconds": 13.828,
+      "bracketWidthSeconds": 0.32958984375
+    },
+    {
+      "expectedIst": "2026-03-19T06:53",
+      "actualUtc": "2026-03-19T01:23:35.368Z",
+      "residualSeconds": 35.368,
+      "bracketWidthSeconds": 0.32958984375
+    },
+    {
+      "expectedIst": "2026-04-17T17:22",
+      "actualUtc": "2026-04-17T11:51:53.526Z",
+      "residualSeconds": -6.474,
+      "bracketWidthSeconds": 0.32958984375
+    },
+    {
+      "expectedIst": "2026-05-17T01:31",
+      "actualUtc": "2026-05-16T20:01:05.808Z",
+      "residualSeconds": 5.808,
+      "bracketWidthSeconds": 0.32958984375
+    },
+    {
+      "expectedIst": "2026-06-15T08:24",
+      "actualUtc": "2026-06-15T02:54:12.942Z",
+      "residualSeconds": 12.942,
+      "bracketWidthSeconds": 0.32958984375
+    },
+    {
+      "expectedIst": "2026-07-14T15:14",
+      "actualUtc": "2026-07-14T09:43:37.602Z",
+      "residualSeconds": -22.398,
+      "bracketWidthSeconds": 0.32958984375
+    },
+    {
+      "expectedIst": "2026-08-12T23:07",
+      "actualUtc": "2026-08-12T17:36:42.868Z",
+      "residualSeconds": -17.132,
+      "bracketWidthSeconds": 0.32958984375
+    },
+    {
+      "expectedIst": "2026-09-11T08:57",
+      "actualUtc": "2026-09-11T03:26:57.956Z",
+      "residualSeconds": -2.044,
+      "bracketWidthSeconds": 0.32958984375
+    },
+    {
+      "expectedIst": "2026-10-10T21:20",
+      "actualUtc": "2026-10-10T15:50:03.552Z",
+      "residualSeconds": 3.552,
+      "bracketWidthSeconds": 0.32958984375
+    },
+    {
+      "expectedIst": "2026-11-09T12:32",
+      "actualUtc": "2026-11-09T07:02:06.673Z",
+      "residualSeconds": 6.673,
+      "bracketWidthSeconds": 0.32958984375
+    },
+    {
+      "expectedIst": "2026-12-09T06:22",
+      "actualUtc": "2026-12-09T00:51:53.636Z",
+      "residualSeconds": -6.364,
+      "bracketWidthSeconds": 0.32958984375
+    }
+  ],
+  "months": [
+    {
+      "instant": "2026-06-01T12:00:00Z",
+      "number": 3,
+      "adhika": true,
+      "actualName": "Jyeshtha",
+      "actualAdhika": true
+    },
+    {
+      "instant": "2026-06-20T12:00:00Z",
+      "number": 3,
+      "adhika": false,
+      "actualName": "Jyeshtha",
+      "actualAdhika": false
+    }
+  ],
+  "years": [
+    {
+      "year": 2026,
+      "kind": "internal consistency example, not independent observance golden",
+      "birthMonth": {
+        "number": 9,
+        "name": "Margashirsha",
+        "adhika": false
+      },
+      "tithi": 26,
+      "occurrences": []
+    },
+    {
+      "year": 2027,
+      "kind": "internal consistency example, not independent observance golden",
+      "birthMonth": {
+        "number": 9,
+        "name": "Margashirsha",
+        "adhika": false
+      },
+      "tithi": 26,
+      "occurrences": [
+        {
+          "month": {
+            "number": 9,
+            "name": "Margashirsha",
+            "adhika": false
+          },
+          "status": "single-sunrise",
+          "selectedDate": "2027-01-03",
+          "sunriseDates": [
+            "2027-01-03"
+          ],
+          "startUtc": "2027-01-02T08:54:43.264Z",
+          "endUtc": "2027-01-03T10:38:52.287Z"
+        },
+        {
+          "month": {
+            "number": 9,
+            "name": "Margashirsha",
+            "adhika": false
+          },
+          "status": "single-sunrise",
+          "selectedDate": "2027-12-23",
+          "sunriseDates": [
+            "2027-12-23"
+          ],
+          "startUtc": "2027-12-22T18:11:15.989Z",
+          "endUtc": "2027-12-23T17:42:13.448Z"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "No physical accuracy bound inferred from root brackets.",
+    "Month spot checks are not full-range or independent birthday-rule acceptance.",
+    "P05 sunrise discrepancy remains unresolved.",
+    "Naming table variant/human transliterations need independent review.",
+    "Unknown/approximate birth times remain withheld pending P14.",
+    "No public release or production CPU claim."
+  ]
+}

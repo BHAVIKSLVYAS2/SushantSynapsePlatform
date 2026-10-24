@@ -1,0 +1,350 @@
+{
+  "phase": "P17",
+  "scope": "shared identical engine, preserved Ritual policy, local hardening; public release blocked",
+  "sourceHashes": {
+    "packages/vedic/vendor/astronomy-engine-2.1.19.mjs": "6257fd34e7a74370767a98bf26d1724d748e5f71c1530be6730ff21336cc6607",
+    "apps/ritual-assist/frontend/astronomy-engine.mjs": "97e26d359dac7e42ebe2bf5128182cb9302338b0311d6000c1171ab5b1b2e41d",
+    "packages/vedic/ritual-compatibility.mjs": "7fe8e7e43f360da73a9d0e8d0ef6e0d2b2ec487b7a18515503c832915ec3b8c0",
+    "packages/vedic/release-policy.mjs": "152d604c76e75527e919af73950532aac3934f0fba559020664fa4a945877448",
+    "server/static-assets.js": "8ffb367db73c465b779b52218df4eef2b17c6f20e1b6f118508bf12d73232e09"
+  },
+  "preserved": {
+    "primitives": [
+      {
+        "utc": "1950-06-15T06:45:00Z",
+        "window": {
+          "number": 30,
+          "start": -616931892362,
+          "end": -616838792298
+        },
+        "next": {
+          "number": 1,
+          "start": -616838792298,
+          "end": -616746998351
+        },
+        "daylight": {
+          "date": "1950-06-15",
+          "sunrise": -616896434430,
+          "sunset": -616846199447,
+          "aparahnaStart": -616866293440.2,
+          "aparahnaEnd": -616856246443.6
+        },
+        "moonrise": -616898990558
+      },
+      {
+        "utc": "2000-01-01T06:45:00Z",
+        "window": {
+          "number": 26,
+          "start": 946704881461,
+          "end": 946799429478
+        },
+        "next": {
+          "number": 27,
+          "start": 946799429478,
+          "end": 946894945329
+        },
+        "daylight": {
+          "date": "2000-01-01",
+          "sunrise": 946691023999,
+          "sunset": 946728302961,
+          "aparahnaStart": 946713391376.2,
+          "aparahnaEnd": 946720847168.6
+        },
+        "moonrise": 946673493972
+      },
+      {
+        "utc": "2026-09-26T06:45:00Z",
+        "window": {
+          "number": 15,
+          "start": 1790357869358,
+          "end": 1790441372233
+        },
+        "next": {
+          "number": 16,
+          "start": 1790441372233,
+          "end": 1790522979928
+        },
+        "daylight": {
+          "date": "2026-09-26",
+          "sunrise": 1790383286342,
+          "sunset": 1790426595981,
+          "aparahnaStart": 1790409272125.4,
+          "aparahnaEnd": 1790417934053.2
+        },
+        "moonrise": 1790425430311
+      }
+    ],
+    "remembrance": {
+      "hash": "e3acb18ff3c2f7f42e864c313189e948e3d22ed514353ed9ecc1d3ff0f4b8f01",
+      "annual": "2026-10-19",
+      "pitru": "2027-09-24"
+    },
+    "observances": [
+      {
+        "month": "2026-05",
+        "hash": "7f23a52509f634a517f1881473ff89439ab6d2982a0ff04f362151768dd65367",
+        "events": 11
+      },
+      {
+        "month": "2026-09",
+        "hash": "39f506817957069572ad1cd9068f899a5859ea5b02d6aeab13c5b1b0ba8bb171",
+        "events": 9
+      }
+    ]
+  },
+  "comparisons": [
+    {
+      "policy": {
+        "id": "ritual-shared-engine-distinct-profiles-v1",
+        "engineVersion": "2.1.19",
+        "engineSha256": "6257fd34e7a74370767a98bf26d1724d748e5f71c1530be6730ff21336cc6607",
+        "shared": "identical pinned Astronomy Engine implementation only",
+        "legacy": "Ritual IST/Date-to-TT model, upstream MoonPhase/GeoMoon special case, Spica month labels, five-minute/Aparahna rules",
+        "candidate": "Vedic explicit UTC/TT and leap policy, backdated apparent Moon, versioned Lahiri, separate birth/sunrise admission",
+        "profileEquivalent": false,
+        "calendarSubstitution": "blocked; do not substitute birthdays, mourning dates or regional rules"
+      },
+      "utcInstant": "1950-06-15T06:45:00.000Z",
+      "legacy": {
+        "elongation": 355.73973443288645,
+        "tithi": 30,
+        "ttJulianDay": 2433447.781588396
+      },
+      "candidate": {
+        "elongation": 355.7451517800298,
+        "tithi": 30,
+        "ttJulianDay": 2433447.781588396
+      },
+      "sameUtcDifferenceArcsec": 19.50244971585562,
+      "alignedTtDifferenceArcsec": 19.50244971585562,
+      "timeModelDifferenceSeconds": 0,
+      "acceptance": "not-equivalent-profiles; measured differences are diagnostics, not tolerance approval"
+    },
+    {
+      "policy": {
+        "id": "ritual-shared-engine-distinct-profiles-v1",
+        "engineVersion": "2.1.19",
+        "engineSha256": "6257fd34e7a74370767a98bf26d1724d748e5f71c1530be6730ff21336cc6607",
+        "shared": "identical pinned Astronomy Engine implementation only",
+        "legacy": "Ritual IST/Date-to-TT model, upstream MoonPhase/GeoMoon special case, Spica month labels, five-minute/Aparahna rules",
+        "candidate": "Vedic explicit UTC/TT and leap policy, backdated apparent Moon, versioned Lahiri, separate birth/sunrise admission",
+        "profileEquivalent": false,
+        "calendarSubstitution": "blocked; do not substitute birthdays, mourning dates or regional rules"
+      },
+      "utcInstant": "2000-01-01T06:45:00.000Z",
+      "legacy": {
+        "elongation": 300.53902752830294,
+        "tithi": 26,
+        "ttJulianDay": 2451544.7819889686
+      },
+      "candidate": {
+        "elongation": 300.54467193092546,
+        "tithi": 26,
+        "ttJulianDay": 2451544.7819928704
+      },
+      "sameUtcDifferenceArcsec": 20.31984944087526,
+      "alignedTtDifferenceArcsec": 20.164835303694417,
+      "timeModelDifferenceSeconds": 0.3371134400367737,
+      "acceptance": "not-equivalent-profiles; measured differences are diagnostics, not tolerance approval"
+    },
+    {
+      "policy": {
+        "id": "ritual-shared-engine-distinct-profiles-v1",
+        "engineVersion": "2.1.19",
+        "engineSha256": "6257fd34e7a74370767a98bf26d1724d748e5f71c1530be6730ff21336cc6607",
+        "shared": "identical pinned Astronomy Engine implementation only",
+        "legacy": "Ritual IST/Date-to-TT model, upstream MoonPhase/GeoMoon special case, Spica month labels, five-minute/Aparahna rules",
+        "candidate": "Vedic explicit UTC/TT and leap policy, backdated apparent Moon, versioned Lahiri, separate birth/sunrise admission",
+        "profileEquivalent": false,
+        "calendarSubstitution": "blocked; do not substitute birthdays, mourning dates or regional rules"
+      },
+      "utcInstant": "2026-09-26T06:45:00.000Z",
+      "legacy": {
+        "elongation": 174.7509740760512,
+        "tithi": 15,
+        "ttJulianDay": 2461309.782123892
+      },
+      "candidate": {
+        "elongation": 174.7555413535557,
+        "tithi": 15,
+        "ttJulianDay": 2461309.782050741
+      },
+      "sameUtcDifferenceArcsec": 16.442199016273662,
+      "alignedTtDifferenceArcsec": 19.717529425724933,
+      "timeModelDifferenceSeconds": -6.32026344537735,
+      "acceptance": "not-equivalent-profiles; measured differences are diagnostics, not tolerance approval"
+    }
+  ],
+  "readiness": [
+    {
+      "contractVersion": "vedic-release-readiness-1",
+      "policyId": "vedic-release-gates-1",
+      "runtime": "node",
+      "features": [
+        "rashifal",
+        "kundli",
+        "birthObservance",
+        "timeMachine",
+        "sensitivity",
+        "matching",
+        "advanced"
+      ],
+      "ready": false,
+      "status": "blocked",
+      "missing": [
+        {
+          "id": "astronomySources",
+          "status": "open",
+          "reason": "Original IAE/PAC and quantity-specific positional acceptance pending"
+        },
+        {
+          "id": "editorial",
+          "status": "open",
+          "reason": "Independent editorial and native-language review pending"
+        },
+        {
+          "id": "hostingPrivacy",
+          "status": "open",
+          "reason": "No production Vedic routes, birth API, origin privacy or runtime budget acceptance"
+        },
+        {
+          "id": "deployment",
+          "status": "open",
+          "reason": "No Vedic production build/origin/deployment acceptance or authorization"
+        },
+        {
+          "id": "physicalBounds",
+          "status": "open",
+          "reason": "Declared minute/model bounds are not independently certified"
+        },
+        {
+          "id": "sunrise",
+          "status": "open",
+          "reason": "Publisher sunrise convention/residual acceptance unresolved"
+        },
+        {
+          "id": "rulebooks",
+          "status": "open",
+          "reason": "Regional and traditional rulebook review pending"
+        },
+        {
+          "id": "individualVargas",
+          "status": "open",
+          "reason": "Individual advanced algorithms/source acceptance pending"
+        }
+      ],
+      "activation": "no-route-registry-api-or-deployment-mutation",
+      "unavailable": [
+        "fullShadbala",
+        "birthVault",
+        "clientPortal",
+        "paymentProvider",
+        "automaticMessaging"
+      ]
+    },
+    {
+      "contractVersion": "vedic-release-readiness-1",
+      "policyId": "vedic-release-gates-1",
+      "runtime": "workers",
+      "features": [
+        "rashifal",
+        "kundli",
+        "birthObservance",
+        "timeMachine",
+        "sensitivity",
+        "matching",
+        "advanced"
+      ],
+      "ready": false,
+      "status": "blocked",
+      "missing": [
+        {
+          "id": "astronomySources",
+          "status": "open",
+          "reason": "Original IAE/PAC and quantity-specific positional acceptance pending"
+        },
+        {
+          "id": "editorial",
+          "status": "open",
+          "reason": "Independent editorial and native-language review pending"
+        },
+        {
+          "id": "hostingPrivacy",
+          "status": "open",
+          "reason": "No production Vedic routes, birth API, origin privacy or runtime budget acceptance"
+        },
+        {
+          "id": "deployment",
+          "status": "open",
+          "reason": "No Vedic production build/origin/deployment acceptance or authorization"
+        },
+        {
+          "id": "physicalBounds",
+          "status": "open",
+          "reason": "Declared minute/model bounds are not independently certified"
+        },
+        {
+          "id": "sunrise",
+          "status": "open",
+          "reason": "Publisher sunrise convention/residual acceptance unresolved"
+        },
+        {
+          "id": "rulebooks",
+          "status": "open",
+          "reason": "Regional and traditional rulebook review pending"
+        },
+        {
+          "id": "individualVargas",
+          "status": "open",
+          "reason": "Individual advanced algorithms/source acceptance pending"
+        }
+      ],
+      "activation": "no-route-registry-api-or-deployment-mutation",
+      "unavailable": [
+        "fullShadbala",
+        "birthVault",
+        "clientPortal",
+        "paymentProvider",
+        "automaticMessaging"
+      ]
+    }
+  ],
+  "bundles": [
+    {
+      "entry": "birth",
+      "bytes": 1754741,
+      "gzipBytes": 354582,
+      "sha256": "14aa8b019799a48d82cde7f7c9575b172e6659262a51ca4ba21fffbb3c9f0d46"
+    },
+    {
+      "entry": "rashifal",
+      "bytes": 136724,
+      "gzipBytes": 45230,
+      "sha256": "e2ecc5fb7849360f0b01a828af3599045e6e1529bf9d1016d48e14c2aaa6959d"
+    },
+    {
+      "entry": "matching",
+      "bytes": 1557507,
+      "gzipBytes": 303399,
+      "sha256": "6e23dec98d427fd2199af4d80187b550ec527ea162c6c40a2125ee2db5031554"
+    },
+    {
+      "entry": "time-machine",
+      "bytes": 1602978,
+      "gzipBytes": 313517,
+      "sha256": "b7689230ae1f58fc2df678799a320d278dde0263f87026a1b6bd0ccc56225d5f"
+    },
+    {
+      "entry": "sensitivity-worker",
+      "bytes": 1533527,
+      "gzipBytes": 296562,
+      "sha256": "503f0f22a529afa48d2a40a2cabea642d7c18f5cc287071c1afa40471fbf95cf"
+    }
+  ],
+  "bundleBudget": {
+    "bytes": 6000000,
+    "status": "proposed-local-screen-only-not-production-performance-acceptance"
+  },
+  "publicEngineSha256": "6257fd34e7a74370767a98bf26d1724d748e5f71c1530be6730ff21336cc6607",
+  "deliveredEngineSha256": "034c76dd421e60db50184db67961b744346b79a2a1724aaf91ec4fdea7b73c4d"
+}

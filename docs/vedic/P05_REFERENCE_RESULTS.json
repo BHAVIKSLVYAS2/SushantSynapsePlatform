@@ -1,0 +1,335 @@
+{
+  "version": "p05-report-1",
+  "calculationProfileId": "IN_LAHIRI_DEFAULT_V1",
+  "referenceFactsSha256": "dcf19d80feaeeb413772c612b31e4cc4e619a4a15a2c2a774ebf5a54e752cbf6",
+  "acceptanceStatus": "original-PAC-location-and-convention-matched-validation-pending",
+  "referenceClass": "publisher spot checks; independent implementation and exact Lahiri convention not established",
+  "proposedTransitionToleranceSeconds": 180,
+  "proposedSunriseToleranceSeconds": 120,
+  "maxPublishedTransitionResidualSeconds": 93.808,
+  "maxPublishedSunriseResidualSeconds": 234.129,
+  "published": [
+    {
+      "date": "2026-05-31",
+      "kind": "tithi",
+      "actualUtc": "2026-05-31T08:45:11.865Z",
+      "expected": "2026-05-31T14:14:00+05:30",
+      "residualSeconds": 71.865
+    },
+    {
+      "date": "2026-05-31",
+      "kind": "nakshatra",
+      "actualUtc": "2026-05-31T10:42:06.856Z",
+      "expected": "2026-05-31T16:11:00+05:30",
+      "residualSeconds": 66.856
+    },
+    {
+      "date": "2026-05-31",
+      "kind": "yoga",
+      "actualUtc": "2026-06-01T00:49:21.035Z",
+      "expected": "2026-06-01T06:18:00+05:30",
+      "residualSeconds": 81.035
+    },
+    {
+      "date": "2026-05-31",
+      "kind": "karana",
+      "actualUtc": "2026-05-31T08:45:11.865Z",
+      "expected": "2026-05-31T14:15:00+05:30",
+      "residualSeconds": 11.865
+    },
+    {
+      "date": "2026-05-31",
+      "kind": "sunrise",
+      "actualUtc": "2026-05-31T00:11:05.871Z",
+      "expected": "2026-05-31T05:45:00+05:30",
+      "residualSeconds": -234.129,
+      "withinProposedTolerance": false
+    },
+    {
+      "date": "2026-09-26",
+      "kind": "tithi",
+      "actualUtc": "2026-09-26T16:49:01.260Z",
+      "expected": "2026-09-26T22:18:00+05:30",
+      "residualSeconds": 61.26
+    },
+    {
+      "date": "2026-09-26",
+      "kind": "nakshatra",
+      "actualUtc": "2026-09-26T06:02:19.306Z",
+      "expected": "2026-09-26T11:31:00+05:30",
+      "residualSeconds": 79.306
+    },
+    {
+      "date": "2026-09-26",
+      "kind": "yoga",
+      "actualUtc": "2026-09-26T07:47:41.280Z",
+      "expected": "2026-09-26T13:17:00+05:30",
+      "residualSeconds": 41.28
+    },
+    {
+      "date": "2026-09-26",
+      "kind": "karana",
+      "actualUtc": "2026-09-26T05:17:27.657Z",
+      "expected": "2026-09-26T10:47:00+05:30",
+      "residualSeconds": 27.657
+    },
+    {
+      "date": "2026-09-26",
+      "kind": "sunrise",
+      "actualUtc": "2026-09-26T00:35:38.521Z",
+      "expected": "2026-09-26T06:09:00+05:30",
+      "residualSeconds": -201.479,
+      "withinProposedTolerance": false
+    },
+    {
+      "date": "2026-10-10",
+      "kind": "tithi",
+      "actualUtc": "2026-10-10T15:50:03.662Z",
+      "expected": "2026-10-10T21:19:00+05:30",
+      "residualSeconds": 63.662
+    },
+    {
+      "date": "2026-10-10",
+      "kind": "nakshatra",
+      "actualUtc": "2026-10-10T16:12:55.635Z",
+      "expected": "2026-10-10T21:42:00+05:30",
+      "residualSeconds": 55.635
+    },
+    {
+      "date": "2026-10-10",
+      "kind": "yoga",
+      "actualUtc": "2026-10-10T16:32:33.808Z",
+      "expected": "2026-10-10T22:01:00+05:30",
+      "residualSeconds": 93.808
+    },
+    {
+      "date": "2026-10-10",
+      "kind": "karana",
+      "actualUtc": "2026-10-10T03:54:55.899Z",
+      "expected": "2026-10-10T09:24:00+05:30",
+      "residualSeconds": 55.899
+    },
+    {
+      "date": "2026-10-10",
+      "kind": "sunrise",
+      "actualUtc": "2026-10-10T00:38:02.816Z",
+      "expected": "2026-10-10T06:11:00+05:30",
+      "residualSeconds": -177.184,
+      "withinProposedTolerance": false
+    }
+  ],
+  "internalConsistency": {
+    "annualSnapshots": 149,
+    "crossings": 596,
+    "maxBracketWidthSeconds": 0.43946653604507446,
+    "maxSnapshotEvaluations": 80,
+    "meaning": "sampled internal root-bracket checks, not independent ephemeris accuracy"
+  },
+  "sunriseGrid": [
+    {
+      "city": "Delhi",
+      "localDate": "2026-03-20",
+      "elevationMetres": 0,
+      "utcInstant": "2026-03-20T00:55:32.557Z",
+      "noaaUtc": "2026-03-20T00:56:32.311Z",
+      "noaaResidualSeconds": -59.754
+    },
+    {
+      "city": "Delhi",
+      "localDate": "2026-06-21",
+      "elevationMetres": 0,
+      "utcInstant": "2026-06-20T23:54:01.086Z",
+      "noaaUtc": "2026-06-20T23:53:27.948Z",
+      "noaaResidualSeconds": 33.138
+    },
+    {
+      "city": "Delhi",
+      "localDate": "2026-09-23",
+      "elevationMetres": 0,
+      "utcInstant": "2026-09-23T00:40:02.719Z",
+      "noaaUtc": "2026-09-23T00:39:11.004Z",
+      "noaaResidualSeconds": 51.715
+    },
+    {
+      "city": "Delhi",
+      "localDate": "2026-12-21",
+      "elevationMetres": 0,
+      "utcInstant": "2026-12-21T01:39:34.652Z",
+      "noaaUtc": "2026-12-21T01:39:25.117Z",
+      "noaaResidualSeconds": 9.535
+    },
+    {
+      "city": "Chennai",
+      "localDate": "2026-03-20",
+      "elevationMetres": 0,
+      "utcInstant": "2026-03-20T00:43:23.499Z",
+      "noaaUtc": "2026-03-20T00:44:05.339Z",
+      "noaaResidualSeconds": -41.84
+    },
+    {
+      "city": "Chennai",
+      "localDate": "2026-06-21",
+      "elevationMetres": 0,
+      "utcInstant": "2026-06-21T00:13:52.707Z",
+      "noaaUtc": "2026-06-21T00:13:21.005Z",
+      "noaaResidualSeconds": 31.702
+    },
+    {
+      "city": "Chennai",
+      "localDate": "2026-09-23",
+      "elevationMetres": 0,
+      "utcInstant": "2026-09-23T00:28:09.662Z",
+      "noaaUtc": "2026-09-23T00:27:37.385Z",
+      "noaaResidualSeconds": 32.277
+    },
+    {
+      "city": "Chennai",
+      "localDate": "2026-12-21",
+      "elevationMetres": 0,
+      "utcInstant": "2026-12-21T00:56:13.955Z",
+      "noaaUtc": "2026-12-21T00:56:06.683Z",
+      "noaaResidualSeconds": 7.272
+    },
+    {
+      "city": "Kolkata",
+      "localDate": "2026-03-20",
+      "elevationMetres": 0,
+      "utcInstant": "2026-03-20T00:11:01.343Z",
+      "noaaUtc": "2026-03-20T00:11:51.997Z",
+      "noaaResidualSeconds": -50.654
+    },
+    {
+      "city": "Kolkata",
+      "localDate": "2026-06-21",
+      "elevationMetres": 0,
+      "utcInstant": "2026-06-20T23:22:50.733Z",
+      "noaaUtc": "2026-06-20T23:22:18.574Z",
+      "noaaResidualSeconds": 32.159
+    },
+    {
+      "city": "Kolkata",
+      "localDate": "2026-09-23",
+      "elevationMetres": 0,
+      "utcInstant": "2026-09-22T23:55:35.945Z",
+      "noaaUtc": "2026-09-22T23:54:52.811Z",
+      "noaaResidualSeconds": 43.134
+    },
+    {
+      "city": "Kolkata",
+      "localDate": "2026-12-21",
+      "elevationMetres": 0,
+      "utcInstant": "2026-12-21T00:42:00.283Z",
+      "noaaUtc": "2026-12-21T00:41:52.532Z",
+      "noaaResidualSeconds": 7.751
+    },
+    {
+      "city": "Ahmedabad",
+      "localDate": "2026-03-20",
+      "elevationMetres": 0,
+      "utcInstant": "2026-03-20T01:14:08.746Z",
+      "noaaUtc": "2026-03-20T01:15:02.504Z",
+      "noaaResidualSeconds": -53.758
+    },
+    {
+      "city": "Ahmedabad",
+      "localDate": "2026-06-21",
+      "elevationMetres": 0,
+      "utcInstant": "2026-06-21T00:25:04.452Z",
+      "noaaUtc": "2026-06-21T00:24:31.730Z",
+      "noaaResidualSeconds": 32.722
+    },
+    {
+      "city": "Ahmedabad",
+      "localDate": "2026-09-23",
+      "elevationMetres": 0,
+      "utcInstant": "2026-09-23T00:58:46.192Z",
+      "noaaUtc": "2026-09-23T00:58:01.744Z",
+      "noaaResidualSeconds": 44.448
+    },
+    {
+      "city": "Ahmedabad",
+      "localDate": "2026-12-21",
+      "elevationMetres": 0,
+      "utcInstant": "2026-12-21T01:46:06.892Z",
+      "noaaUtc": "2026-12-21T01:45:57.737Z",
+      "noaaResidualSeconds": 9.155
+    },
+    {
+      "city": "Leh",
+      "localDate": "2026-03-20",
+      "elevationMetres": 3500,
+      "utcInstant": "2026-03-20T00:54:46.317Z",
+      "noaaUtc": null,
+      "noaaResidualSeconds": null
+    },
+    {
+      "city": "Leh",
+      "localDate": "2026-06-21",
+      "elevationMetres": 3500,
+      "utcInstant": "2026-06-20T23:39:26.536Z",
+      "noaaUtc": null,
+      "noaaResidualSeconds": null
+    },
+    {
+      "city": "Leh",
+      "localDate": "2026-09-23",
+      "elevationMetres": 3500,
+      "utcInstant": "2026-09-23T00:39:09.430Z",
+      "noaaUtc": null,
+      "noaaResidualSeconds": null
+    },
+    {
+      "city": "Leh",
+      "localDate": "2026-12-21",
+      "elevationMetres": 3500,
+      "utcInstant": "2026-12-21T01:52:23.301Z",
+      "noaaUtc": null,
+      "noaaResidualSeconds": null
+    },
+    {
+      "city": "Kanyakumari",
+      "localDate": "2026-03-20",
+      "elevationMetres": 0,
+      "utcInstant": "2026-03-20T00:54:17.296Z",
+      "noaaUtc": "2026-03-20T00:54:54.396Z",
+      "noaaResidualSeconds": -37.1
+    },
+    {
+      "city": "Kanyakumari",
+      "localDate": "2026-06-21",
+      "elevationMetres": 0,
+      "utcInstant": "2026-06-21T00:33:52.970Z",
+      "noaaUtc": "2026-06-21T00:33:21.512Z",
+      "noaaResidualSeconds": 31.458
+    },
+    {
+      "city": "Kanyakumari",
+      "localDate": "2026-09-23",
+      "elevationMetres": 0,
+      "utcInstant": "2026-09-23T00:39:08.505Z",
+      "noaaUtc": "2026-09-23T00:38:41.823Z",
+      "noaaResidualSeconds": 26.682
+    },
+    {
+      "city": "Kanyakumari",
+      "localDate": "2026-12-21",
+      "elevationMetres": 0,
+      "utcInstant": "2026-12-21T00:58:14.078Z",
+      "noaaUtc": "2026-12-21T00:58:07.154Z",
+      "noaaResidualSeconds": 6.924
+    }
+  ],
+  "noaaScreen": {
+    "sourceUrl": "https://gml.noaa.gov/grad/solcalc/solareqns.PDF",
+    "cases": 20,
+    "maxResidualSeconds": 59.754,
+    "meaning": "independent low-order formula screening, not an observed or original PAC golden"
+  },
+  "limitations": [
+    "Publisher sunrise differs by 177-234 seconds, outside the proposed 120-second gate. Observer point and sunrise convention are undisclosed; mismatch is unresolved, not a matched-convention acceptance pass.",
+    "Publisher May 31 tithi and simultaneous Karana end differ by one printed minute.",
+    "Publisher Oct 10 yoga changes are printed one minute apart (22:01/22:02).",
+    "Month names and regional observances are deliberately excluded.",
+    "This small 2026 sample does not certify 1950-2098 transitions, sunrise, or physical accuracy."
+  ]
+}

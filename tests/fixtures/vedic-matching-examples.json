@@ -1,0 +1,10 @@
+{
+ "schemaVersion":1,
+ "meaning":"Small manually specified rule examples; no independent traditional review or ephemeris acceptance implied",
+ "componentOrder":["varna","vashya","tara","yoni","graha-maitri","gana","bhakoot","nadi"],
+ "examples":[
+  {"id":"same-bharani-aries","a":15,"b":15,"scores":[1,2,3,4,5,6,7,0],"total":28,"provenance":"Manual component-rule arithmetic; not an external golden"},
+  {"id":"magha-ashwini-variant-comparison","a":125,"b":5,"scores":[1,2,3,2,5,1,0,8],"total":22,"provenance":"Primary Prokerala sample: groom Magha/Leo, bride Ashwini/Aries; selected lunar-class interiors, not reconstructed birth ephemerides","url":"https://api.prokerala.com/reports/sample/guna-milan-en.pdf","publishedScores":[1,0,3,2,5,1,0,8],"publishedTotal":20,"difference":"Only Vashya differs: selected four-class table gives 2 for two quadruped signs; publisher separates Leo and gives 0. Never claim whole-report agreement."},
+  {"id":"axis-swap-ashwini-magha","a":5,"b":125,"scores":[1,2,3,2,5,0,0,8],"total":21,"provenance":"Manual swapped directional Gana example; no outside golden"}
+ ]
+}

@@ -1,0 +1,13 @@
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),{createHash}=require('node:crypto');
+(async()=>{
+ const {advancedDivisionForLongitude,advancedVargaModels}=await import('../packages/vedic/advanced-vargas.mjs'),{rawAshtakavarga,ashtakavargaModel}=await import('../packages/vedic/ashtakavarga.mjs'),{ucchaBala,ucchaBalaModel}=await import('../packages/vedic/strength.mjs'),{advancedForBirth}=await import('../packages/vedic/birth-advanced.mjs');
+ const fixture=JSON.parse(fs.readFileSync(path.join(__dirname,'../tests/fixtures/vedic-advanced-reference.json'),'utf8'));
+ const mappings=fixture.divisionExamples.map(e=>{const actual=advancedDivisionForLongitude({chartType:e.chartType,siderealLongitude:e.longitude});assert.equal(actual.rashi,e.rashi);return {expected:e,actual};});
+ const av=rawAshtakavarga({modelId:ashtakavargaModel.id,signs:fixture.ashtakavarga.signs});assert.deepEqual(av.bav.find(p=>p.body==='Sun').values,fixture.ashtakavarga.sunBav);assert.deepEqual(av.bav.find(p=>p.body==='Mercury').values,fixture.ashtakavarga.mercuryBav);assert.deepEqual(av.sav,fixture.ashtakavarga.sav);
+ const strength=[];for(const [body,exaltation]of Object.entries(ucchaBalaModel.exaltationDegrees))for(const offset of [0,90,180,270])strength.push(ucchaBala({body,siderealLongitude:exaltation+offset,modelId:ucchaBalaModel.id}));
+ const input={localDate:'2000-01-01',localTime:'12:15',placeId:'geonames:1261481',timeZoneId:'Asia/Kolkata',timeAccuracy:'exact',calculationProfileId:'IN_LAHIRI_DEFAULT_V1'};
+ const birthCases=['12:15','12:00'].map(localTime=>({localTime,result:advancedForBirth({...input,localTime},{now:Date.parse('2026-10-24T12:00Z')})}));
+ const hashes=Object.fromEntries(['advanced-vargas','ashtakavarga','strength','birth-advanced'].map(name=>[name,createHash('sha256').update(fs.readFileSync(path.join(__dirname,'../packages/vedic',name+'.mjs'))).digest('hex')]));
+ const report={phase:'P16',scope:'Internal candidate subset: D7/D10/D12, raw D1 BAV/SAV, Uccha Bala; full Shadbala unavailable',hashes,models:{advancedVargaModels,ashtakavargaModel,ucchaBalaModel},reference:{source:fixture.source,mappings,ashtakavarga:av},strength,birthCases};
+ const destination=path.join(__dirname,'../docs/vedic/P16_REFERENCE_RESULTS.json');if(process.argv.includes('--check'))assert.deepEqual(JSON.parse(fs.readFileSync(destination,'utf8')),report);else fs.writeFileSync(destination,JSON.stringify(report,null,2)+'\n');console.log('P16 reference '+(process.argv.includes('--check')?'verified':'saved')+': 6 mappings, 36 AV reference values, 28 strength extrema/quadratures, 2 birth cases');
+})().catch(error=>{console.error(error);process.exitCode=1;});

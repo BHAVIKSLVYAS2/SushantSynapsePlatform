@@ -1,0 +1,132 @@
+{
+  "version": "vedic-sidereal-reference-results-1",
+  "date": "2026-10-24",
+  "profileId": "IN_LAHIRI_DEFAULT_V1",
+  "source": "https://www.astro.com/swisseph/swisseph.htm",
+  "sourceStatus": "author-transcribed-source-backed; independent original-IAE review pending",
+  "referenceCount": 14,
+  "maxAyanamshaResidualArcsec": 0.03957508706662338,
+  "proposedToleranceArcsec": 1,
+  "results": [
+    {
+      "id": "IAE1989-MEAN-1989",
+      "kind": "mean",
+      "ttJulianDay": 2447527.5,
+      "expectedDegrees": 23.703427777777776,
+      "actualDegrees": 23.70343877085748,
+      "residualArcsec": 0.03957508706662338
+    },
+    {
+      "id": "IAE1989-MEAN-1990",
+      "kind": "mean",
+      "ttJulianDay": 2447892.5,
+      "expectedDegrees": 23.717394444444444,
+      "actualDegrees": 23.717398274953048,
+      "residualArcsec": 0.013789830973109929
+    },
+    {
+      "id": "IAE2019-MEAN-J2000",
+      "kind": "mean",
+      "ttJulianDay": 2451545,
+      "expectedDegrees": 23.85709166666667,
+      "actualDegrees": 23.85709232510505,
+      "residualArcsec": 0.002370378069826984
+    },
+    {
+      "id": "LAHIRI-TRUE-20190101",
+      "kind": "true",
+      "ttJulianDay": 2458484.500800741,
+      "expectedDegrees": 24.118329555555555,
+      "actualDegrees": 24.118329541548732,
+      "residualArcsec": 0.00005042443262937013
+    },
+    {
+      "id": "LAHIRI-TRUE-20190104",
+      "kind": "true",
+      "ttJulianDay": 2458487.500800741,
+      "expectedDegrees": 24.118499333333332,
+      "actualDegrees": 24.118499321539055,
+      "residualArcsec": 0.0000424595782533288
+    },
+    {
+      "id": "LAHIRI-TRUE-20190107",
+      "kind": "true",
+      "ttJulianDay": 2458490.500800741,
+      "expectedDegrees": 24.118702333333335,
+      "actualDegrees": 24.11870232908132,
+      "residualArcsec": 0.00001530720510345418
+    },
+    {
+      "id": "LAHIRI-TRUE-20190110",
+      "kind": "true",
+      "ttJulianDay": 2458493.500800741,
+      "expectedDegrees": 24.118846666666666,
+      "actualDegrees": 24.11884665431762,
+      "residualArcsec": 0.00004445641934580635
+    },
+    {
+      "id": "LAHIRI-TRUE-20190113",
+      "kind": "true",
+      "ttJulianDay": 2458496.500800741,
+      "expectedDegrees": 24.118918694444446,
+      "actualDegrees": 24.118918698299193,
+      "residualArcsec": 0.000013877206583856605
+    },
+    {
+      "id": "LAHIRI-TRUE-20190116",
+      "kind": "true",
+      "ttJulianDay": 2458499.500800741,
+      "expectedDegrees": 24.11899916666667,
+      "actualDegrees": 24.118999161708313,
+      "residualArcsec": 0.00001785001586540602
+    },
+    {
+      "id": "LAHIRI-TRUE-20190119",
+      "kind": "true",
+      "ttJulianDay": 2458502.500800741,
+      "expectedDegrees": 24.119185444444444,
+      "actualDegrees": 24.11918544723666,
+      "residualArcsec": 0.0000100521447166102
+    },
+    {
+      "id": "LAHIRI-TRUE-20190122",
+      "kind": "true",
+      "ttJulianDay": 2458505.500800741,
+      "expectedDegrees": 24.11941152777778,
+      "actualDegrees": 24.119411531013217,
+      "residualArcsec": 0.000011647489372990094
+    },
+    {
+      "id": "LAHIRI-TRUE-20190125",
+      "kind": "true",
+      "ttJulianDay": 2458508.500800741,
+      "expectedDegrees": 24.119507583333334,
+      "actualDegrees": 24.119507570078266,
+      "residualArcsec": 0.00004771832209371496
+    },
+    {
+      "id": "LAHIRI-TRUE-20190128",
+      "kind": "true",
+      "ttJulianDay": 2458511.500800741,
+      "expectedDegrees": 24.119562527777777,
+      "actualDegrees": 24.119562530504393,
+      "residualArcsec": 0.00000981599441729486
+    },
+    {
+      "id": "LAHIRI-TRUE-20190131",
+      "kind": "true",
+      "ttJulianDay": 2458514.500800741,
+      "expectedDegrees": 24.119697833333333,
+      "actualDegrees": 24.119697840107047,
+      "residualArcsec": 0.000024385280994465575
+    }
+  ],
+  "invariantGrid": {
+    "snapshots": 1788,
+    "positions": 16092,
+    "nearBoundaryNominalPositions": 148,
+    "maxTrueMeanCancellationArcsec": 0,
+    "maxNodeOppositionArcsec": 4.092726157978177e-10
+  },
+  "acceptance": "Internal sampled/source-reproduction checks only; original IAE verification, independent review and production acceptance remain pending."
+}

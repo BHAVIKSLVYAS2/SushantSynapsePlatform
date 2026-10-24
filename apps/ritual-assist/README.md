@@ -1,5 +1,13 @@
 # Ritual Assist
 
+P17 integration (local, verified 2026-10-25): the pinned Astronomy Engine is
+shared from packages/vedic/vendor via the legacy compatibility import. The public
+engine URL serves the same source through the existing delivery transform.
+Lunar primitives, remembrance and monthly calendar baselines remain exact. This
+does not adopt Vedic's distinct time/correction/Lahiri/birthday policy. Existing
+public APIs, protection, PIN rules, preparation data and storage are unchanged.
+See docs/vedic/P17_EVIDENCE.md. This local refactor has not been deployed.
+
 Public routes: /ritual-assist and /ritual-assist/calendar. Fifteen original English/Hindi preparation guides include eight Shubh and seven Ashubh ceremonies. Havan has 15 materials; Antyeshti includes adult male/female/shared considerations; days 10, 11 and 12 have separate checklists. These are general preparation summaries, not complete liturgical instructions or universal ritual obligations. Confirm quantities, substitutions, participants and local procedure with the officiant. The scoped cultural death reference's UK legal procedures do not apply to India.
 
 Standalone checklists use one list in original item order, followed by personal additions. The left checkbox marks an item arranged; the blue right checkbox assigns it to Pandit Ji independently. Unchecked responsibility defaults to self without a label. Three-dot menus edit/delete items and expose existing preparation guidance. Quantity and unit are optional and appear inline only when provided. The header shows the chosen optional ritual date and completed/total progress. Removed guide items can be restored; the original guide content is unchanged. Extra items, edited names, quantities, arranger names, removals and the optional date stay in the existing device-local checklist storage. Checkmarks persist only with Remember checkmarks enabled. Existing arranger names are retained and remain editable. Download and print preview use the personalized list. No account/device sync or calendar calculation is introduced; calendar preparation packs retain their existing separate behavior.

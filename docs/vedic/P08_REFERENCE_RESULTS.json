@@ -1,0 +1,90 @@
+{
+  "version": "p08-reference-report-1",
+  "model": {
+    "id": "vimshottari-maha-antar-1",
+    "calculationProfileId": "IN_LAHIRI_DEFAULT_V1",
+    "yearConventionId": "VIMSHOTTARI_365_25_DAY_V1",
+    "daysPerYear": 365.25,
+    "dayMilliseconds": 86400000,
+    "yearMilliseconds": 31557600000,
+    "lords": [
+      {
+        "lord": "Ketu",
+        "years": 7
+      },
+      {
+        "lord": "Venus",
+        "years": 20
+      },
+      {
+        "lord": "Sun",
+        "years": 6
+      },
+      {
+        "lord": "Moon",
+        "years": 10
+      },
+      {
+        "lord": "Mars",
+        "years": 7
+      },
+      {
+        "lord": "Rahu",
+        "years": 18
+      },
+      {
+        "lord": "Jupiter",
+        "years": 16
+      },
+      {
+        "lord": "Saturn",
+        "years": 19
+      },
+      {
+        "lord": "Mercury",
+        "years": 17
+      }
+    ],
+    "cycleYears": 120,
+    "timeBasis": "uniform-day-Unix-millisecond-arithmetic-v1",
+    "utcMeaning": "ISO projections of arithmetic timestamps; no SI elapsed-time or future leap-second prediction",
+    "periodBoundaries": "[start,end); shared integer millisecond boundaries",
+    "maximumQueryYearsAfterBirth": 240,
+    "releaseStatus": "internal-candidate-independent-period-acceptance-pending"
+  },
+  "fixtureSha256": "96e66df5e993b221f548cb75ae0741e044c840e0c24f34267f2ee03b1bde2166",
+  "referenceStatus": "independent arithmetic method, agent-authored design data; original/human reference acceptance pending",
+  "rationalReferences": {
+    "midpointCases": 9,
+    "comparedBoundaries": 180,
+    "maxReferenceDifferenceMilliseconds": 0
+  },
+  "internalConsistency": {
+    "syntheticTimelines": 81,
+    "annualTimelines": 149,
+    "majorPeriods": 2070,
+    "minorPeriods": 18630,
+    "maxCycleSumErrorMilliseconds": 0,
+    "maxChildSumErrorMilliseconds": 0,
+    "annualStartingLords": [
+      "Ketu",
+      "Venus",
+      "Sun",
+      "Moon",
+      "Mars",
+      "Rahu",
+      "Jupiter",
+      "Saturn",
+      "Mercury"
+    ],
+    "localUnavailableTimelines": 120
+  },
+  "limitations": [
+    "Independent BigInt arithmetic verifies the frozen design rule, not independently reviewed full astronomical Dasha dates.",
+    "Only the explicit 365.25-day convention is implemented; alternate conventions are typed unavailable.",
+    "Unix arithmetic ISO labels do not predict future leap seconds or SI elapsed time.",
+    "Local dates beyond pinned 1950-2098 India rules remain typed unavailable.",
+    "Inherited PAC/IAE and birth-Moon/time uncertainty remain open; millisecond arithmetic is not physical date accuracy.",
+    "No interpretation, public route, timeline UI, private persistence or deployment."
+  ]
+}

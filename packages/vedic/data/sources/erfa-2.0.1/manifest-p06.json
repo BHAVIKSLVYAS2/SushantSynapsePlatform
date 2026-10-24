@@ -1,0 +1,17 @@
+{
+  "version": "erfa-2.0.1-p06",
+  "retrieved": "2026-10-24",
+  "license": "LICENSE",
+  "sources": [
+    {
+      "name": "gmst82.c",
+      "url": "https://raw.githubusercontent.com/liberfa/erfa/v2.0.1/src/gmst82.c",
+      "sha256": "3008116fc8b212f9cca8a572031a385701ba9e35ea9ad137d23e90360493c044"
+    },
+    {
+      "name": "eqeq94.c",
+      "url": "https://raw.githubusercontent.com/liberfa/erfa/v2.0.1/src/eqeq94.c",
+      "sha256": "065a17f7ba52d3e2f21ffcbace6de68962122e435ed7c07701c268ec8e95d6a9"
+    }
+  ]
+}

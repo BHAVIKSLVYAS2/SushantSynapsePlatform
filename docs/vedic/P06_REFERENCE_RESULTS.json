@@ -1,0 +1,160 @@
+{
+  "version": "p06-reference-report-1",
+  "profileId": "IN_LAHIRI_DEFAULT_V1",
+  "houseSystem": "whole-sign",
+  "acceptanceStatus": "internal-candidate-original-PAC-and-independent-full-Lagna-reference-pending",
+  "erfa": [
+    {
+      "kind": "GMST82",
+      "differenceRadians": 2.220446049250313e-16
+    },
+    {
+      "kind": "EqEq94",
+      "differenceRadians": 1.0706496453294356e-18
+    },
+    {
+      "kind": "GST94-same-scale",
+      "differenceRadians": 4.440892098500626e-16
+    }
+  ],
+  "geometry": {
+    "method": "independent RA/Dec horizon scan and bisection using USNO altitude equation",
+    "sourceUrl": "https://aa.usno.navy.mil/faq/alt_az",
+    "cases": 576,
+    "maxGeometryDifferenceArcsec": 8.185452315956354e-9,
+    "maxHorizonResidual": 3.3306690738754696e-16,
+    "minEastProjection": 0.6061250168548561,
+    "meaning": "independent numerical method with supplied sidereal angle/obliquity; not an external astronomical golden"
+  },
+  "annualConsistency": {
+    "charts": 894,
+    "positions": 8046,
+    "startYear": 1950,
+    "endYear": 2098,
+    "maxFrameResidualArcsec": 0,
+    "meaning": "sampled internal D1 occupancy/frame invariants; not independent ephemeris accuracy"
+  },
+  "dailySigns": [
+    {
+      "city": "Delhi",
+      "sampleStepMinutes": 5,
+      "sampleCount": 288,
+      "signs": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ]
+    },
+    {
+      "city": "Chennai",
+      "sampleStepMinutes": 5,
+      "sampleCount": 288,
+      "signs": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ]
+    },
+    {
+      "city": "Kolkata",
+      "sampleStepMinutes": 5,
+      "sampleCount": 288,
+      "signs": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ]
+    },
+    {
+      "city": "Ahmedabad",
+      "sampleStepMinutes": 5,
+      "sampleCount": 288,
+      "signs": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ]
+    },
+    {
+      "city": "Leh",
+      "sampleStepMinutes": 5,
+      "sampleCount": 288,
+      "signs": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ]
+    },
+    {
+      "city": "Kanyakumari",
+      "sampleStepMinutes": 5,
+      "sampleCount": 288,
+      "signs": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ]
+    }
+  ],
+  "limitations": [
+    "Modelled UT1 is not observed Earth orientation; future and pre-1972 time uncertainty persists.",
+    "Original PAC/IAE and matched-time/place full Lagna accuracy gates remain open.",
+    "Geometric horizon ignores refraction, dip, terrain and polar motion.",
+    "Nominal positions and minute-resolution screening are not P14 birth-time stability.",
+    "No D9, chart graphics, Dasha, interpretations or public integration."
+  ]
+}

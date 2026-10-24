@@ -78,7 +78,10 @@ test('AdSense Auto Ads is global on eligible anonymous public pages only',async(
 test('Cloudflare export contains only allowlisted frontend files and shared outage assets', () => {
   const files = fs.readdirSync(exported.output, {recursive: true, withFileTypes: true}).filter(item => item.isFile());
   const manifest=JSON.parse(fs.readFileSync('infrastructure/cloudflare/fund-runtime-manifest.json','utf8'));assert.equal(files.length,exported.files.size+1+3+manifest.rows.length);
-  for (const source of exported.files.values()) assert.match(source, /^(apps\/[^/]+\/frontend\/|packages\/(?:ui|http)\/|apps\/fund-overlap\/data\/holdings\/[a-z0-9-]{1,80}\/\d{4}-\d{2}-\d{2}-[a-f0-9]{16}\.json$)/);
+  for (const [url,source] of exported.files) {
+    if(source==='packages/vedic/vendor/astronomy-engine-2.1.19.mjs')assert.match(url,/^(?:\/_static\/[a-f0-9]{32})?\/ritual-assist\/astronomy-engine\.mjs$/);
+    else assert.match(source, /^(apps\/[^/]+\/frontend\/|packages\/(?:ui|http)\/|apps\/fund-overlap\/data\/holdings\/[a-z0-9-]{1,80}\/\d{4}-\d{2}-\d{2}-[a-f0-9]{16}\.json$)/);
+  }
   for (const name of Object.values(exported.pages)) assert.match(fs.readFileSync(path.join(exported.output, name), 'utf8'), /shared\/availability.js/);
 });
 test('independent tools load without origin calls; unavailable app routes return uncached useful HTML', async () => {
