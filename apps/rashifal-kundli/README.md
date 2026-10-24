@@ -1,5 +1,13 @@
 # Rashifal and Kundli: internal birth, export and P11 traditions UI
 
+English/Hindi/Gujarati presentation: one production-header selector applies to all
+four screens and remembers only language. Forms, results, terminology, warnings,
+matching rules, advanced details and report/calendar exports are localised.
+Personal names/citations/technical IDs retain identity; place aliases are sourced.
+Rashifal rule v2 displays authored native-language drafts with review still pending.
+See docs/vedic/LANGUAGE_SUPPORT.md and PROGRESS.md for verification/deployment.
+Older English-fallback checkpoints below describe superseded presentation policy.
+
 Production verification preview authorised on 2026-10-25: the platform card opens
 /rashifal-kundli with Kundli, Rashifal, Time Machine and Matching navigation.
 Browser-only bundles and private-input page headers expose testing without a

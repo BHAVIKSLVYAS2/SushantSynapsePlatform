@@ -1,14 +1,14 @@
 const {test,expect}=require('@playwright/test');
 const {createPreviewServer}=require('../../../infrastructure/preview-vedic-charts.cjs');let server;
 test.beforeAll(async()=>{server=await createPreviewServer(0,{rashifal:true});});test.afterAll(async()=>{await server?.close();});
-test('P12 manual sign/period factors, explicit translation fallback, mobile themes and privacy',async({page})=>{
+test('P12 manual sign/period factors, native draft translations, mobile themes and privacy',async({page})=>{
  const requests=[],errors=[];page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(e.message));await page.goto(server.origin);
  await expect(page.locator('#rashifal-rashi option')).toHaveCount(13);await expect(page.getByRole('status')).toContainText('Choose a Rashi');
  await expect(page.locator('input[type=date],input[type=time]')).toHaveCount(0);await page.locator('#rashifal-rashi').selectOption('1');
  await expect(page.locator('.rashifal-reading>section')).toHaveCount(5);await expect(page.locator('#rashifal-result')).toContainText('draft-not-published');
  await page.locator('[data-view=weekly]').click();await page.locator('#rashifal-result summary').click();await expect(page.locator('#rashifal-result li[data-date]')).toHaveCount(7);
  const factors=await page.locator('li[data-date]').evaluateAll(nodes=>nodes.map(n=>[n.dataset.date,n.dataset.moonRashi,n.dataset.relativeHouse]));
- for(const language of ['hi','gu']){await page.locator('#rashifal-language').selectOption(language);await expect(page.locator('.rashifal-reading')).toHaveAttribute('lang','en');await expect(page.locator('#rashifal-fallback')).not.toBeEmpty();
+ for(const language of ['hi','gu']){await page.locator('#rashifal-language').selectOption(language);await expect(page.locator('.rashifal-reading')).toHaveAttribute('lang',language);await expect(page.locator('#rashifal-fallback')).not.toBeEmpty();
   expect(await page.locator('li[data-date]').evaluateAll(nodes=>nodes.map(n=>[n.dataset.date,n.dataset.moonRashi,n.dataset.relativeHouse]))).toEqual(factors);
  }
  for(const width of [320,390,1440])for(const theme of ['light','dark','system']){await page.setViewportSize({width,height:900});await page.locator('#theme').selectOption(theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}

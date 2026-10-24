@@ -24,6 +24,9 @@ gu.scrollHint='બધા કૉલમ જોવા માટે કોષ્ટ�
 en.balance='Balance at birth';en.years='years';en.origin='Full periods can begin before birth; Antardashas do not restart at birth.';
 hi.balance='जन्म पर शेष दशा';hi.years='वर्ष';hi.origin='पूरी अवधि जन्म से पहले शुरू हो सकती है; अंतर्दशा जन्म पर दोबारा शुरू नहीं होती।';
 gu.balance='જન્મ સમયે બાકી દશા';gu.years='વર્ષ';gu.origin='સંપૂર્ણ સમયગાળો જન્મ પહેલાં શરૂ થઈ શકે છે; અંતર્દશા જન્મ સમયે ફરી શરૂ થતી નથી.';
+en.fallback='Source titles, place names, URLs and technical identifiers retain their original form. Explanations follow the selected language.';
+hi.fallback='स्रोत शीर्षक, स्थान नाम, URL और तकनीकी पहचान अपने मूल रूप में रहते हैं। व्याख्या चुनी भाषा में है।';
+gu.fallback='સ્રોત શીર્ષકો, સ્થળનાં નામ, URL અને તકનીકી ઓળખ મૂળ રૂપે રહે છે. સમજાવટ પસંદ કરેલી ભાષામાં છે.';
 export const languages=Object.freeze({en:Object.freeze(en),hi:Object.freeze(hi),gu:Object.freeze(gu)});
 const signs={en:['Aries','Taurus','Gemini','Cancer','Leo','Virgo','Libra','Scorpio','Sagittarius','Capricorn','Aquarius','Pisces'],hi:['मेष','वृषभ','मिथुन','कर्क','सिंह','कन्या','तुला','वृश्चिक','धनु','मकर','कुंभ','मीन'],gu:['મેષ','વૃષભ','મિથુન','કર્ક','સિંહ','કન્યા','તુલા','વૃશ્ચિક','ધનુ','મકર','કુંભ','મીન']};
 const grahas={en:['Sun','Moon','Mercury','Venus','Mars','Jupiter','Saturn','Rahu','Ketu'],hi:['सूर्य','चंद्र','बुध','शुक्र','मंगल','गुरु','शनि','राहु','केतु'],gu:['સૂર્ય','ચંદ્ર','બુધ','શુક્ર','મંગળ','ગુરુ','શનિ','રાહુ','કેતુ']};

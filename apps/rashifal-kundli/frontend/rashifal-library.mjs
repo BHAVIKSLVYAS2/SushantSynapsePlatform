@@ -1,5 +1,5 @@
 import {freeze} from '../../../packages/vedic/diagnostics.mjs';
-export const rashifalLibrary=freeze({version:'rashifal-reflections-1',catalogueDate:'2026-10-24',
+export const rashifalLibrary=freeze({version:'rashifal-reflections-2',catalogueDate:'2026-10-24',
  author:'Synapse project-authored editorial draft',status:'draft-not-published',
  source:{id:'brihat-jataka-1-15-context',url:'https://sanskritdocuments.org/doc_z_misc_sociology_astrology/brihajjAtakam.html',
   meaning:'Classical house vocabulary is context only. Grouping and reflection prompts below are original editorial choices, not a translation or validated classical transit rule.'},
@@ -25,8 +25,8 @@ export const rashifalLibrary=freeze({version:'rashifal-reflections-1',catalogueD
 });
 
 export function editorialSections(groups,requestedLanguage){
- const translated=rashifalLibrary.translationStatus[requestedLanguage]==='reviewed';
- const contentLanguage=requestedLanguage==='en'||translated?requestedLanguage:'en';
+ // Publication/review status remains explicit and unchanged.
+ const contentLanguage=requestedLanguage; // Authored translations are visible drafts, not independently reviewed content.
  const sections=rashifalLibrary.categories.map(category=>({category,items:[...new Set(groups.map(group=>`${group}.${category}`))].map(id=>{
   const [group,key]=id.split('.');return {id,text:rashifalLibrary.groups[group][contentLanguage][key]};})}));
  return freeze({contentLanguage,fallback:contentLanguage!==requestedLanguage,translationStatus:rashifalLibrary.translationStatus[requestedLanguage],sections});

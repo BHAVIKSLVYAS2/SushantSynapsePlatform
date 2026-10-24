@@ -1,3 +1,6 @@
+import {placeLabel,relabelPlaces} from './place-text.mjs';
+import {term,nakshatraName} from './display-text.mjs';
+import {diagnosticText} from './diagnostic-text.mjs';
 import {searchPlaces,getPlace} from '../../../packages/vedic/places.mjs';
 import {normalizeInput,calculationProfileId} from '../../../packages/vedic/normalize.mjs';
 import {calculateBirthReport} from './birth-report.mjs';
@@ -48,7 +51,7 @@ export function mountBirthApp(container,{now=()=>Date.now()}={}){
   return input;}
  function safeName(){const value=controls.name.value.trim();if(value.length>80||/[\u0000-\u001f\u007f]/.test(value))throw {code:'INVALID_NAME'};return value;}
  function renderReview(){reviewRegion.replaceChildren();if(!reviewed)return;const t=locale(language),birth=reviewed.birth;
-  reviewRegion.append(el('h2',t.reviewTitle),el('p',displayName),el('p',birth.place.label),el('p',`${t.approx}: ${birth.place.latitude}, ${birth.place.longitude}`),
+  reviewRegion.append(el('h2',t.reviewTitle),el('p',displayName),el('p',placeLabel(birth.place,language)),el('p',`${t.approx}: ${birth.place.latitude}, ${birth.place.longitude}`),
    el('p',`${birth.localDate} · ${birth.localTime??t.noTime} · ${birth.timeZoneId} ${birth.offset}`));
   reviewRegion.append(el('p',birth.utcInstant?`${t.utc}: ${birth.utcInstant}`:`${t.interval}: ${birth.interval.startUtc} → ${birth.interval.endUtc} · ${t.noTime}`));
   if(birth.place.elevationBasis==='assumed-sea-level')reviewRegion.append(el('p',t.sea));
@@ -72,7 +75,7 @@ export function mountBirthApp(container,{now=()=>Date.now()}={}){
    const region=el('section');region.dataset.feature='positions';region.append(el('h3',t.positions));const table=el('table'),head=el('thead'),row=el('tr');
    for(const text of [t.body,t.sign,t.degree,t.nakshatra,t.pada]){const th=el('th',text);th.scope='col';row.append(th);}head.append(row);const body=el('tbody');
    for(const p of f.positions.value.positions){const tr=el('tr');tr.dataset.body=p.body;tr.dataset.rashi=String(p.rashi);tr.dataset.nakshatra=String(p.nakshatra);
-    for(const value of [bodyName(p.body,language),`${signName(p.rashi,language)} (${p.rashi})`,p.degreeWithinRashi.toFixed(4),p.nakshatra,p.pada])tr.append(el('td',String(value)));body.append(tr);}
+    for(const value of [bodyName(p.body,language),`${signName(p.rashi,language)} (${p.rashi})`,p.degreeWithinRashi.toFixed(4),nakshatraName(p.nakshatra,language),p.pada])tr.append(el('td',String(value)));body.append(tr);}
    table.append(head,body);const wrap=el('div',undefined,'vedic-period-table');wrap.tabIndex=0;wrap.setAttribute('role','region');wrap.setAttribute('aria-label',t.positions);wrap.append(table);region.append(el('p',t.scrollHint),wrap);results.append(region);
   }else results.append(featureMessage('positions',f.positions));
   for(const key of ['d1','d9','dasha'])results.append(featureMessage(key,f[key]));
@@ -80,9 +83,9 @@ export function mountBirthApp(container,{now=()=>Date.now()}={}){
   if(f.dasha.status==='available'){const dashaRoot=el('div');results.append(dashaRoot);dashaHandle=mountDasha(dashaRoot,f.dasha.value,language);}
   const provenance=el('details');provenance.append(el('summary',t.provenance),el('p',t.fallback));
   const data=el('dl');const birth=report.birth;
-  for(const [key,value]of Object.entries({profile:birth.calculationProfileId,timezone:birth.timeZoneId,tzdb:birth.tzdbVersion,placeSource:birth.place.sourceVersion,precision:birth.precisionClass,calculatedAt:report.calculatedAtUtc}))data.append(el('dt',key),el('dd',value));
+  for(const [key,value]of Object.entries({profile:birth.calculationProfileId,timezone:birth.timeZoneId,tzdb:birth.tzdbVersion,placeSource:birth.place.sourceVersion,precision:birth.precisionClass,calculatedAt:report.calculatedAtUtc}))data.append(el('dt',term(key,language)),el('dd',term(value,language)));
   const warnings=new Set(birth.warnings);for(const value of Object.values(f))if(value.status==='available')for(const warning of value.value.warnings??[])warnings.add(warning);
-  const list=el('ul');for(const code of warnings)list.append(el('li',code));provenance.append(data,list);results.append(provenance);
+  const list=el('ul');for(const code of warnings)list.append(el('li',diagnosticText(code,language)));provenance.append(data,list);results.append(provenance);
   const traditionsRoot=el('div');results.append(traditionsRoot);traditionHandle=mountTraditions(traditionsRoot,report,{input:reviewed.input,now,language});
   const sensitivityRoot=el('div');results.append(sensitivityRoot);sensitivityHandle=mountSensitivity(sensitivityRoot,{input:reviewed.input,now,language});
   const rulesRoot=el('div');results.append(rulesRoot);rulesHandle=mountTraditionalChecks(rulesRoot,{input:reviewed.input,now,language});
@@ -90,10 +93,10 @@ export function mountBirthApp(container,{now=()=>Date.now()}={}){
   const timeMachineRoot=el('div');results.append(timeMachineRoot);timeMachineHandle=mountTimeMachine(timeMachineRoot,{birthInput:reviewed.input,now,language});
   const exportRoot=el('div');results.append(exportRoot);exportHandle=mountExport(exportRoot,report,{name:displayName,language});
  }
- function translate(){const t=locale(language);root.lang=language;heading.textContent=t.title;intro.textContent=t.intro;gate.textContent=t.gate;languageLabel.firstChild.textContent=t.language;
+ function translate(){const t=locale(language);root.lang=language;form.setAttribute('aria-label',t.title);heading.textContent=t.title;intro.textContent=t.intro;gate.textContent=t.gate;languageLabel.firstChild.textContent=t.language;
   for(const [key,span]of Object.entries(labels))span.textContent=t[key];for(const o of accuracy.options)o.textContent=t[o.value];hint.textContent=t.searchHint;zone.textContent=t.timezone;
-  reviewButton.textContent=t.review;clearButton.textContent=t.clear;status.textContent=report?t.ready:'';if(!controls.place.value)controls.place.options[0].textContent=t.choose;renderReview();renderResults();}
- form.addEventListener('input',event=>{invalidate();if(event.target===controls.query){placeholder();try{for(const p of searchPlaces(controls.query.value,{limit:12}).matches){const o=el('option',`${p.label} · ${p.id}`);o.value=p.id;controls.place.append(o);}}catch{status.textContent=locale(language).error;}}});
+  relabelPlaces(controls.place,language);reviewButton.textContent=t.review;clearButton.textContent=t.clear;status.textContent=report?t.ready:'';if(!controls.place.value)controls.place.options[0].textContent=t.choose;renderReview();renderResults();}
+ form.addEventListener('input',event=>{invalidate();if(event.target===controls.query){placeholder();try{for(const p of searchPlaces(controls.query.value,{limit:12}).matches){const o=el('option',`${placeLabel(p,language)} · ${p.id}`);o.value=p.id;controls.place.append(o);}}catch{status.textContent=locale(language).error;}}});
  form.addEventListener('change',event=>{invalidate();if(event.target===accuracy)updateAccuracy();if(event.target===controls.place&&controls.place.value){try{getPlace(controls.place.value);}catch{placeholder();}}});
  form.addEventListener('submit',event=>{event.preventDefault();invalidate();try{const input=inputValue();displayName=safeName();const birth=normalizeInput(input,{now:now()});reviewed={input,birth};renderReview();}
   catch(error){status.textContent=error.code==='SELECT_PLACE'?locale(language).selectPlace:error.code==='INVALID_NAME'?locale(language).requiredName:errorText(error.code);}});

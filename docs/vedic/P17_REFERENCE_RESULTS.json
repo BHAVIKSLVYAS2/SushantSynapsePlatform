@@ -312,27 +312,27 @@
   "bundles": [
     {
       "entry": "birth",
-      "bytes": 1754832,
-      "gzipBytes": 354615,
-      "sha256": "ad4ff4a683feba259a9f01822fc213f7fe2e0aa3cd6a108406bf614a432e85eb"
+      "bytes": 1847893,
+      "gzipBytes": 373691,
+      "sha256": "d0db3090180e5434a16d4e95735f8993e20e2b00d0f7dbe3a15c9143b1a77aa7"
     },
     {
       "entry": "rashifal",
-      "bytes": 136724,
-      "gzipBytes": 45230,
-      "sha256": "e2ecc5fb7849360f0b01a828af3599045e6e1529bf9d1016d48e14c2aaa6959d"
+      "bytes": 218442,
+      "gzipBytes": 61315,
+      "sha256": "81bd15712af347fcc5f62c465ffc88cda56153b5a6518b2aeab8a74f274da489"
     },
     {
       "entry": "matching",
-      "bytes": 1557678,
-      "gzipBytes": 303444,
-      "sha256": "271f5a2bb68db4d798acff59153707e5f61a4390d970657347b68d550636df02"
+      "bytes": 1679599,
+      "gzipBytes": 326580,
+      "sha256": "2bfe1d7888c17e7871af39f8cbbe1fefc24ebdabf070db8a4f5cf3b81407381d"
     },
     {
       "entry": "time-machine",
-      "bytes": 1602978,
-      "gzipBytes": 313517,
-      "sha256": "b7689230ae1f58fc2df678799a320d278dde0263f87026a1b6bd0ccc56225d5f"
+      "bytes": 1695479,
+      "gzipBytes": 332260,
+      "sha256": "bfaee57a8b97bd23bd272b6db37c711eade7ab160b4fdc8e3628e52e8a3549ce"
     },
     {
       "entry": "sensitivity-worker",

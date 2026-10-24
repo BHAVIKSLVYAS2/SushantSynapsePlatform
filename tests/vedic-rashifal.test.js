@@ -1,5 +1,5 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
-const request={rashi:1,view:'today',language:'en',ruleVersion:'rashifal-reflections-1',calculationProfileId:'IN_LAHIRI_DEFAULT_V1'};
+const request={rashi:1,view:'today',language:'en',ruleVersion:'rashifal-reflections-2',calculationProfileId:'IN_LAHIRI_DEFAULT_V1'};
 const now=Date.parse('2026-10-24T12:00Z');
 test('P12 IST day/tomorrow and Monday weeks cross UTC/year/leap boundaries explicitly',async()=>{
  const {rashifalPeriod:f}=await import('../packages/vedic/rashifal-factors.mjs');
@@ -39,9 +39,9 @@ test('P12 cache remains bounded and immutable; admission rejects personal fields
  for(const patch of [{ruleVersion:'unknown'},{calculationProfileId:'unknown'}])assert.throws(()=>service.getReading({...request,...patch},{now}),e=>e.code==='MODEL_UNAVAILABLE');
  assert.throws(()=>service.getReading({...request,get secret(){throw Error('private');}},{now}),e=>e.code==='INVALID_INPUT');
 });
-test('P12 unreviewed Hindi/Gujarati content uses explicitly labelled English while retaining numeric parity',async()=>{
+test('Authored Hindi/Gujarati drafts display natively with unchanged factors and explicit pending review',async()=>{
  const {createRashifalService}=await import('../apps/rashifal-kundli/frontend/rashifal-service.mjs'),{rashifalLibrary}=await import('../apps/rashifal-kundli/frontend/rashifal-library.mjs'),{rashifalLabels}=await import('../apps/rashifal-kundli/frontend/rashifal-view.mjs');
  const service=createRashifalService(),english=service.getReading(request,{now}).reading;
- for(const language of ['hi','gu']){const r=service.getReading({...request,language},{now}).reading;assert.equal(r.contentLanguage,'en');assert.equal(r.fallback,true);assert.deepEqual(r.factors,english.factors);assert.deepEqual(r.sections,english.sections);assert.deepEqual(Object.keys(rashifalLabels[language]),Object.keys(rashifalLabels.en));}
+ for(const language of ['hi','gu']){const r=service.getReading({...request,language},{now}).reading;assert.equal(r.contentLanguage,language);assert.equal(r.fallback,false);assert.equal(r.translationStatus,'draft-awaiting-independent-review');assert.deepEqual(r.factors,english.factors);assert.deepEqual(r.sections.map(s=>s.items.map(i=>i.id)),english.sections.map(s=>s.items.map(i=>i.id)));assert.notDeepEqual(r.sections,english.sections);assert.deepEqual(Object.keys(rashifalLabels[language]),Object.keys(rashifalLabels.en));}
  for(const group of Object.values(rashifalLibrary.groups))for(const language of ['en','hi','gu'])assert.deepEqual(Object.keys(group[language]),rashifalLibrary.categories);
 });

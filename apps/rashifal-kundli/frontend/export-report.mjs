@@ -1,3 +1,6 @@
+import {placeLabel} from './place-text.mjs';
+import {term,nakshatraName} from './display-text.mjs';
+import {diagnosticText} from './diagnostic-text.mjs';
 import {locale,bodyName,signName} from './locale.mjs';
 import {astronomyModel} from '../../../packages/vedic/astronomy.mjs';
 import {siderealProfile} from '../../../packages/vedic/sidereal.mjs';
@@ -48,7 +51,7 @@ export function projectExport(report,{includeIdentity=false,name='',language='en
    attribution:'Place data: GeoNames (https://www.geonames.org/), CC BY 4.0; engine: Astronomy Engine 2.1.19 by Don Cross, MIT. Model source/acceptance evidence retained in repository docs/vedic.',
    timeScales:'TT astronomy; modelled UT1; pinned UTC leap data; Dasha uniform Unix days',
    year:'365.25 uniform days',calculatedAt:report.calculatedAtUtc,exportVersion:'vedic-export-1'}};
- if(includeIdentity)result.identity={name,localDate:b.localDate,localTime:b.localTime??null,place:b.place.label,
+ if(includeIdentity)result.identity={name,localDate:b.localDate,localTime:b.localTime??null,place:placeLabel(b.place,language),
   latitude:b.place.latitude,longitude:b.place.longitude,offset:b.offset,utc:b.utcInstant??null,
   interval:b.interval?{start:b.interval.startUtc,end:b.interval.endUtc}:null};
  return result;
@@ -67,19 +70,19 @@ export function reportMarkup(model){
  const table=(caption,headers,rows)=>`<div class="vedic-report-table" tabindex="0" role="region" aria-label="${esc(caption)}"><table><caption>${esc(caption)}</caption><thead><tr>${headers.map(h=>`<th scope="col">${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((v,i)=>i===0?`<th scope="row">${esc(v)}</th>`:`<td>${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
  const date=b=>`${b.local??t.localUnavailable} · UTC ${b.utc}`;
  let html=`<article class="vedic-export-document" lang="${language}"><h1>${esc(x.title)}</h1>${p(model.redacted?x.redacted:x.identified)}${p(x.notice)}<p class="report-note">${esc(x.nominal)}</p>`;
- if(model.identity)html+=`<h2>${esc(x.identity)}</h2><dl>${Object.entries(model.identity).map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v&&typeof v==='object'?`${v.start} → ${v.end}`:v??t.noTime)}</dd>`).join('')}</dl>`;
+ if(model.identity)html+=`<h2>${esc(x.identity)}</h2><dl>${Object.entries(model.identity).map(([k,v])=>`<dt>${esc(term(k,language))}</dt><dd>${esc(v&&typeof v==='object'?`${v.start} → ${v.end}`:v??t.noTime)}</dd>`).join('')}</dl>`;
  const pos=model.features.positions;
  for(const key of ['positions','d1','d9','dasha']){
   const f=model.features[key];html+=`<section><h2>${esc(t[key])}</h2>`;
-  if(f.status!=='available'){html+=p(`${x.unavailable}: ${f.code}`)+'</section>';continue;}
-  if(key==='positions')html+=table(t.positions,[t.body,t.sign,'Longitude °',t.nakshatra,t.pada],pos.positions.map(p=>[bodyName(p.body,language),`${signName(p.rashi,language)} (${p.rashi})`,number(p.longitude),p.nakshatra,p.pada]));
+  if(f.status!=='available'){html+=p(`${x.unavailable}: ${diagnosticText(f.code,language)}`)+'</section>';continue;}
+  if(key==='positions')html+=table(t.positions,[t.body,t.sign,term('Longitude °',language),t.nakshatra,t.pada],pos.positions.map(p=>[bodyName(p.body,language),`${signName(p.rashi,language)} (${p.rashi})`,number(p.longitude),nakshatraName(p.nakshatra,language),p.pada]));
   else if(key==='d1'||key==='d9'){
-   html+=p(`${t.ascendant}: ${signName(f.ascendantRashi,language)} (${f.ascendantRashi}) · ${key==='d9'?t.source:'Longitude °'}: ${number(f.ascendantLongitude)}. ${t.rounding} ${key==='d9'?t.d9Hint:''}`);
+   html+=p(`${t.ascendant}: ${signName(f.ascendantRashi,language)} (${f.ascendantRashi}) · ${key==='d9'?t.source:term('Longitude °',language)}: ${number(f.ascendantLongitude)}. ${t.rounding} ${key==='d9'?t.d9Hint:''}`);
    const cells=[[12,1,1],[1,2,1],[2,3,1],[3,4,1],[11,1,2],[4,4,2],[10,1,3],[5,4,3],[9,1,4],[8,2,4],[7,3,4],[6,4,4]];
    html+=`<div class="vedic-report-chart" role="img" aria-label="${esc(t[key]+' · '+t.south+' · '+x.houses)}"><div class="vedic-report-center">${esc(t[key])}<br>${esc(t.south)}</div>`;
    for(const [sign]of cells){const h=f.houses.find(h=>h.rashi===sign);html+=`<div class="vedic-report-cell" data-sign="${sign}">${esc(signName(sign,language))} (${sign})<br>H${h.house}${sign===f.ascendantRashi?' · Lg':''}<br>${esc(h.bodies.map(b=>bodyName(b,language)).join(', ')||'—')}</div>`;}
    html+='</div>'+table(x.houses,[t.house,t.sign,t.body],f.houses.map(h=>[h.house,`${signName(h.rashi,language)} (${h.rashi})`,h.bodies.map(b=>bodyName(b,language)).join(', ')||'—']));
-   html+=table(t.tableHint,[t.body,t.sign,t.house,key==='d9'?t.source:'Longitude °'],f.planets.map(p=>[bodyName(p.body,language),p.rashi,p.house,number(p.longitude)]));
+   html+=table(t.tableHint,[t.body,t.sign,t.house,key==='d9'?t.source:term('Longitude °',language)],f.planets.map(p=>[bodyName(p.body,language),p.rashi,p.house,number(p.longitude)]));
   }else if(key==='dasha'){
    html+=p(t.year)+p(`${t.balance}: ${bodyName(f.balance.lord,language)} · ${number(f.balance.remainingYears)} ${t.years}. ${t.origin}`);
    html+=p(`${t.current}: ${bodyName(f.active.major,language)} / ${bodyName(f.active.minor,language)} · ${t.asOf}: ${f.active.at}`);
@@ -89,10 +92,10 @@ export function reportMarkup(model){
   }
   html+='</section>';
  }
- html+=`<h2>${esc(x.provenance)}</h2>${p(t.fallback)}<dl>${Object.entries(model.provenance).map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl><h2>${esc(x.warnings)}</h2><ul>${model.warnings.map(w=>`<li>${esc(w)}</li>`).join('')}</ul></article>`;
+ html+=`<h2>${esc(x.provenance)}</h2>${p(t.fallback)}<dl>${Object.entries(model.provenance).map(([k,v])=>`<dt>${esc(term(k,language))}</dt><dd>${esc(term(v,language))}</dd>`).join('')}</dl><h2>${esc(x.warnings)}</h2><ul>${model.warnings.map(w=>`<li>${esc(diagnosticText(w,language))}</li>`).join('')}</ul></article>`;
  return html;
 }
-export function standaloneReport(model){return `<!doctype html><html lang="${model.language}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"><title>Kundli report</title><style>${reportCss+reportLayoutCss+reportTableCss}</style></head><body>${reportMarkup(model)}</body></html>`;}
+export function standaloneReport(model){return `<!doctype html><html lang="${model.language}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"><title>${esc(exportLabels[model.language].title)}</title><style>${reportCss+reportLayoutCss+reportTableCss}</style></head><body>${reportMarkup(model)}</body></html>`;}
 
 export function mountExport(container,report,{name='',language='en'}={}){
  const x=exportLabels[language],root=document.createElement('section');root.className='vedic-export';

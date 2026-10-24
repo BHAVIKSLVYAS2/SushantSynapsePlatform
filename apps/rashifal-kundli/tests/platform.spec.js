@@ -95,7 +95,7 @@ test.describe('P13 Time Machine',()=>{
   await fillExploration(page);await page.locator('#tm-reference').selectOption('manual-moon');await page.locator('#tm-referenceRashi').selectOption('12');
   await page.locator('#tm-review-button').click();await expect(page.locator('section#tm-review')).toContainText('2030-01-01T06:45:00.000Z');await expect(page.locator('#tm-results')).toBeEmpty();await page.locator('#tm-calculate').click();
   await expect(page.locator('#tm-results .tm-table')).toHaveCount(2);await expect(page.locator('#tm-results')).toContainText('manual-moon');
-  const values=()=>page.locator('#tm-results .tm-table').first().locator('tbody tr').evaluateAll(rows=>rows.map(r=>[r.dataset.body,...[...r.querySelectorAll('td')].slice(1).map(c=>c.textContent)]));const original=await values();
+  const values=()=>page.locator('#tm-results .tm-table').first().locator('tbody tr').evaluateAll(rows=>rows.map(r=>[r.dataset.body,...[...r.querySelectorAll('td')].slice(1).map(c=>c.textContent.match(/\((\d+)\)$/)?.[1]??c.textContent)]));const original=await values();
   for(const language of ['hi','gu']){await page.locator('#tm-language').selectOption(language);expect(await values()).toEqual(original);}
   for(const width of [320,390,1440])for(const theme of ['light','dark','system']){await page.setViewportSize({width,height:1000});await page.locator('#theme').selectOption(theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
   await page.setViewportSize({width:390,height:1000});await page.locator('#theme').selectOption('light');await page.locator('section#tm-review').screenshot({path:'.publish/vedic-p13-review-390-gu.png'});await page.locator('#tm-results').screenshot({path:'.publish/vedic-p13-results-390-gu.png'});
@@ -122,7 +122,7 @@ test('P11 birth Panchang, sourced names, explicit yearly candidates and private 
  await context.grantPermissions(['clipboard-read','clipboard-write']);
  const requests=[],errors=[];page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(e.message));
  await page.goto(server.origin);await fill(page);await page.locator('#birth-name').fill('P11 Secret');await calculate(page);
- const panel=page.locator('.vedic-traditions');await expect(panel).toContainText('Margashirsha');await expect(panel).toContainText('tithi: 26');
+ const panel=page.locator('.vedic-traditions');await expect(panel).toContainText('Margashirsha');await expect(panel).toContainText('Krishna · Ekadashi (11)');
  await expect(panel).toContainText('Tara');await panel.getByRole('button',{name:'Copy name',exact:true}).click();expect(await page.evaluate(()=>navigator.clipboard.readText())).toBe('Tara');
  await page.locator('#name-match').uncheck();await page.locator('#name-query').fill('sun');await expect(panel).toContainText('Ravi');await page.locator('#name-script').selectOption('gu');await expect(panel).toContainText('રવિ');
  await page.locator('#observance-year').fill('2027');await page.locator('#observance-calculate').click();await expect(page.locator('#observance-ics')).toHaveCount(0);

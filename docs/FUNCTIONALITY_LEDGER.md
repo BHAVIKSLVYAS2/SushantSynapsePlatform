@@ -1,5 +1,19 @@
 # Chambers functionality ledger
 
+**Vedic languages (2026-10-25, verified; deployment in progress):** One shared English,
+Hindi/Gujarati selector covers the four preview pages and remembers only language.
+Headers/navigation/theme/validation, forms, results, Panchang terminology, matching
+rules, advanced details, warnings and offline report/calendar text are localised.
+Native sourced place aliases and translated states retain canonical city spelling;
+personal names, source titles and technical identifiers preserve identity. Existing
+Rashifal translations are visible, explicitly unreviewed drafts (rule v2); factors
+and prompt selection remain unchanged. All 36 Vedic browser scenarios have passing
+coverage across runs/reruns; 24 initial focused checks passed. Full regression
+passes 530/530, zero failures (223.303s); P12/P17 evidence and whitespace checks
+pass. Hindi/Gujarati mobile screenshots inspected. Deployment/live verification
+follows in the continuation record. See docs/vedic/LANGUAGE_SUPPORT.md and
+PROGRESS.md. No translation service, birth storage/API or schema/auth changes.
+
 **Vedic public verification preview (2026-10-25, live and smoke-tested):**
 Available at https://apps.sushantsynapse.com/rashifal-kundli with one home card.
 Implementation 46c81a6 plus hosting-injection correction 420572b are deployed as

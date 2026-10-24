@@ -17,7 +17,7 @@ async function buildReport(){
   cases:rows.length,groups:rashifalLibrary.groupOrder.length,baselinePrompts:20,draftTranslations:40,
   sourceHashes:Object.fromEntries(files.map(f=>[f,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,f))).digest('hex')])),
   translationStatus:rashifalLibrary.translationStatus,publicationStatus:rashifalLibrary.status,rows,
-  limitations:['Primary text is context for house vocabulary, not the new four-group editorial rule.','No scientific or deterministic personal prediction claim.','Hindi/Gujarati reading text falls back to labelled English pending independent review.','Noon snapshots do not establish whole-day sign stability or continuous weekly transits.','Prior P04 and public release gates remain open.']};
+  limitations:['Primary text is context for house vocabulary, not the new four-group editorial rule.','No scientific or deterministic personal prediction claim.','Authored Hindi/Gujarati translations display as explicit drafts; independent language review remains pending.','Noon snapshots do not establish whole-day sign stability or continuous weekly transits.','Prior P04 and validated general-release gates remain open; a production verification preview is authorised.']};
 }
 module.exports={buildReport};
 if(require.main===module)buildReport().then(r=>{const text=JSON.stringify(r,null,2)+'\n';if(process.argv.includes('--check')){if(fs.readFileSync(output,'utf8')!==text)throw Error('Saved P12 report differs.');}else fs.writeFileSync(output,text);console.log(JSON.stringify({phase:'P12',cases:r.cases,baselinePrompts:r.baselinePrompts,draftTranslations:r.draftTranslations,mode:process.argv.includes('--check')?'check':'write'}));}).catch(e=>{console.error(e.message);process.exitCode=1;});

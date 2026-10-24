@@ -4,6 +4,29 @@ Started: 2026-10-24 (Asia/Kolkata).
 
 ## Resume here
 
+Active request: complete English/Hindi/Gujarati presentation across all four Vedic
+production pages, implement and deploy. Added app-owned shared page-language
+selector/preferences, translated headers/navigation/theme/validation, domain
+labels and human-readable diagnostics; adapting result detail panels and offline
+exports. Authored Rashifal translations now display as explicit unreviewed drafts
+(editorial rule v2), with unchanged numeric factors/rules. Source titles, official
+place names, IDs and personal names remain original where appropriate. No network
+translation or birth storage. New modules: frontend/language-shell.mjs,
+display-text.mjs, diagnostic-text.mjs. Implementation/tests are in progress;
+the previous deployed preview below remains the last verified production version.
+Implementation verified: 530/530 full Node/API/Workers checks pass, zero failures
+(223.303s, .publish/vedic-language-full-tests.log). All 36 Vedic browser workflows
+have passing evidence: 34/36 in the complete run; two stale display expectations
+updated for named Nakshatras/Tithis, then 4/4 focused reruns passed (including both
+native-language reports). Earlier citation-scope assertions were corrected to
+exclude deliberately retained original source titles. All six new production
+language scenarios pass. Hindi/Gujarati dark mobile viewports inspected. Initial
+focused checks 24/24; final P12/P17 evidence and whitespace checks pass. Evidence:
+.publish/vedic-language-all-browser.log, vedic-language-rerun.log, language screenshots
+and build logs. Final Lagna reference caption distinguishes the reference name
+from a method metadata label. No calculation rules/values changed.
+Next: commit/deploy verified implementation, then live language/privacy checks.
+
 Active request (2026-10-25): enable the app in production for verification.
 COMPLETED: https://apps.sushantsynapse.com/rashifal-kundli is live, with its home
 card and Kundli/Rashifal/Time Machine/Matching screens. Implementation 46c81a6,

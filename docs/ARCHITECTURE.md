@@ -1,5 +1,14 @@
 # Code ownership and adding apps
 
+Vedic language presentation (2026-10-25): app-owned language-shell initialises the
+production header after the established page entry mounts. Existing component
+catalogues own translated UI; display-text/diagnostic-text/place-text format
+domain terms, warnings and sourced aliases without mutating calculations. Only
+language preference persists; birth input remains in memory. The shell hides
+independent embedded selectors in production while local harnesses retain them.
+Rashifal authored translations display as explicit drafts under editorial rule v2.
+See docs/vedic/LANGUAGE_SUPPORT.md; source/review acceptance remains separate.
+
 Vedic production verification preview (2026-10-25): user authorised public testing.
 App-owned build.cjs bundles the established UI entries into ignored frontend
 outputs; public-assets.cjs explicitly maps the four screens and required assets.
