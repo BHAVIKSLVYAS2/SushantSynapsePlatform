@@ -26,5 +26,5 @@
   bar.onclick=event=>{const button=event.target.closest('[data-tool-filter]');if(button){selected=button.dataset.toolFilter;filter();}};
   filter();
  }
- mount();window.addEventListener('synapse-catalogue-change',mount);new MutationObserver(mount).observe(document.querySelector('#platform'),{childList:true,subtree:true});
+ mount();window.addEventListener('synapse-catalogue-change',mount);if(window.SynapseUI)window.SynapseUI.observe(records=>{if(records.some(r=>[...r.addedNodes].some(n=>n.nodeType===1&&(n.matches('#free-apps')||n.querySelector('#free-apps')))))mount();});else new MutationObserver(mount).observe(document.querySelector('#platform'),{childList:true,subtree:true});
 })();

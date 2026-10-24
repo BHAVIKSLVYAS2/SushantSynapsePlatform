@@ -1,7 +1,8 @@
 'use strict';
 let satireFeatured;
 async function refreshSatireDiscovery(){const target=document.querySelector('[data-home-satire]');if(!target||target.dataset.loaded)return;target.dataset.loaded='true';try{satireFeatured||=fetch('/api/arena-editorial/today',{cache:'no-store'}).then(r=>r.ok?r.json():null);const data=await satireFeatured;if(data?.featured){const a=document.createElement('a');a.href='/satire-arena/posts/'+data.featured.slug;a.textContent=data.featured.title+' — '+data.featured.punchline;target.replaceChildren(a);}}catch{ /* Keep the honest static introduction. */ }}
-new MutationObserver(refreshSatireDiscovery).observe(document.documentElement,{childList:true,subtree:true});
+if(window.SynapseUI)window.SynapseUI.observe(records=>{if(records.some(r=>[...r.addedNodes].some(n=>n.nodeType===1&&(n.matches('[data-home-satire]')||n.querySelector('[data-home-satire]')))))refreshSatireDiscovery();});else new MutationObserver(refreshSatireDiscovery).observe(document.documentElement,{childList:true,subtree:true});
+refreshSatireDiscovery();
 const $=s=>document.querySelector(s);
 const catalogue=window.SynapseCatalogue,homeMarkup=document.querySelector('#platform>.public-home').outerHTML;
 const escapeHtml=catalogue.escapeHtml;

@@ -31,6 +31,13 @@ export async function edgeApi(request,env){
   if(env.MAINTENANCE_MODE==='true')fail(503,'The workspace is undergoing maintenance. Please try again shortly.');
   const free=env.FREE_MODE==='true';
   if(!env.PLATFORM_DB||(!free&&!env.PRIVATE_FILES))fail(503,'Cloudflare backend storage is not configured');
+  // Public editorial snapshots need one atomic setting read, not a workspace revision.
+  if(['/api/arena-editorial/public','/api/arena-editorial/today'].includes(url.pathname)){
+   const publicRepo=new (free?FreeD1Repository:D1Repository)(env.PLATFORM_DB);
+   return editorial(request,{read:()=>publicRepo.setting(editorialKey)});
+  }
+  // Arena owns its cookie identity, atomic ballots and public score queries.
+  if(url.pathname==='/api/satire-arena'||url.pathname.startsWith('/api/satire-arena/'))return arena(request,{...env,ARENA_DB:env.PLATFORM_DB});
   repo=await new (free?FreeD1Repository:D1Repository)(env.PLATFORM_DB,env.FULL_APPS==='true'?49:45).begin();
   if(url.pathname==='/healthz'&&request.method==='GET'){await repo.first('SELECT id FROM users LIMIT 1');return json({status:'ok',storage:free?'d1-free':'d1-r2',documents:true});}
   if(!url.pathname.startsWith('/api/'))fail(404,'Not found');const route=url.pathname.slice(5);

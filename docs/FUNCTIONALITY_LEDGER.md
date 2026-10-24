@@ -1,5 +1,28 @@
 # Chambers functionality ledger
 
+**Performance/reuse implementation (2026-10-24):** Implemented lazy Fund Lens
+Worker partitions, scoped shared UI observation, minute-boundary Arena countdowns,
+combined/grouped Arena results, early public dispatch, shared HTTP/download/escape
+helpers, canonical footer composition, linear Chambers summaries and fresh shared
+organisation-scope reads. Comparable local Worker bundle is 81.9% smaller;
+synthetic summary calculation takes 72.1% less time. These are not production
+latency claims. Complete suite: 379 passing; browser groups: 49 Arena/portal,
+18 cross-app, 11 administration/Feedback, plus language and focused contracts.
+Generated assets pass 15 routes in both themes with zero page errors. Production
+dry-run passes; deployment verification pending. No schema or production data
+changes. Details: `docs/PERFORMANCE_REUSE_RESULTS_2026-10-24.md`.
+
+**Performance/reuse architecture review (2026-10-24, plan only):** Reviewed shared
+UI lifecycle, app API wrappers, Node/Workers composition, D1 query paths, Arena
+aggregation/polling, Fund Lens initialization and build ownership. Prioritized
+plan and source-size evidence: `docs/PERFORMANCE_REUSE_PLAN_2026-10-24.md`.
+The Worker path statically imports 15,577,154 bytes of Fund Lens reference JSON;
+this is a source measurement, not a measured latency or transfer improvement.
+Proposed work includes scoped observers, minute-based countdown updates, compact
+Arena summary aggregation, public route dispatch, shared transport/helper adoption
+and later adapter/service consolidation. No implementation, tests, live benchmark,
+database change, commit or deployment was performed for this review.
+
 **One interface-language control (2026-10-24):** The existing
 shared English/Hindi selector now moves into one compact header menu. Footer
 markup remains the fallback when there is no shared shell. Duplicate app button

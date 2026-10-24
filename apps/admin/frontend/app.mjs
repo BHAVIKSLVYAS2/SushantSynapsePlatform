@@ -1,3 +1,4 @@
+import {requestJson} from '/shared/http.mjs';
 import {escapeHtml as esc} from '/shared/text.mjs';
 const $=selector=>document.querySelector(selector);
 let index,view,busy=false,revision=0;
@@ -22,7 +23,7 @@ $('#new-master').insertAdjacentHTML('afterbegin',select('New account invitation 
 $('.toolbar').insertAdjacentHTML('beforeend','<button id="admin-signout" type="button">Sign out</button>');
 const form=(id,title,body,submit)=>`<details class="card"><summary>${title}</summary><form data-command="${id}">${body}${reason()}<button type="submit">${submit}</button></form></details>`;
 function status(text){$('#status').textContent=text;}
-async function api(path='',body){const response=await fetch('/api/organisation-admin'+path,{method:body?'POST':'GET',headers:body?{'Content-Type':'application/json'}:{},body:body?JSON.stringify(body):undefined,cache:'no-store'});const data=await response.json();if(!response.ok){const error=new Error(data.error||'Request failed');error.status=response.status;throw error;}return data;}
+const api=(path='',body)=>requestJson('/api/organisation-admin'+path,{method:body?'POST':'GET',headers:body?{'Content-Type':'application/json'}:{},body:body?JSON.stringify(body):undefined});
 function controls(disabled){busy=disabled;document.querySelectorAll('button,#organisation').forEach(el=>el.disabled=disabled);}
 function secret(result){if(!result.invitation)return;$('#secret').value=result.invitation.token;$('#secret-panel').hidden=false;$('#secret-panel').scrollIntoView({block:'nearest'});}
 function clearSecret(){$('#secret').value='';$('#secret-panel').hidden=true;$('#accept [name="token"]').value='';}

@@ -1,7 +1,8 @@
 // Interface preference only. Never translate inputs, editor artwork or saved business records.
 (() => {
  const key='synapse-language',valid=value=>['en','hi'].includes(value),originals=new WeakMap();
- let language='en',scheduled=false;
+ let language='en',scheduled=false;const dirty=new Set();
+ const translationRoots='.platform-shell,.platform-switcher-heading,.platform-switcher nav,.synapse-header,.synapse-help-nav,.synapse-legal-footer,.public-home';
  // Capture the incoming URL before native apps add their default language to it.
  const requestedLanguage=new URL(performance.getEntriesByType('navigation')[0]?.name||location.href).searchParams.get('lang');
  const dictionary={
@@ -46,10 +47,10 @@
   const label=language==='hi'?'\u0939\u093f\u0928\u094d\u0926\u0940':'EN';if(menu.firstElementChild.textContent!==label)menu.firstElementChild.textContent=label;
   const select=native();if(select){const wrapper=select.closest('label')||select;wrapper.hidden=true;wrapper.dataset.interfaceLanguageSource="";}
  }
- function refresh(){
+ function refresh(roots){
   mountControl();
   document.documentElement.dataset.language=language;
-  for(const root of document.querySelectorAll('.platform-shell,.platform-switcher-heading,.platform-switcher nav,.synapse-header,.synapse-help-nav,.synapse-legal-footer,.public-home'))translate(root);
+  for(const root of roots||document.querySelectorAll(translationRoots))if(root.isConnected)translate(root);
   if(document.querySelector('.public-home'))document.documentElement.lang=language;
   const busy=!!native()?.disabled;
   for(const footer of document.querySelectorAll('[data-language-control]')){
@@ -73,7 +74,17 @@
  function start(){
   let saved;try{saved=localStorage.getItem(key);}catch{}
   const initial=valid(requestedLanguage)?requestedLanguage:valid(saved)?saved:native()?.value||'en';choose(initial);
-  new MutationObserver(()=>{if(!scheduled){scheduled=true;requestAnimationFrame(()=>{scheduled=false;refresh();});}}).observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['disabled']});
+  const observe=records=>{
+   let controls=false;
+   for(const record of records){
+    const target=record.target.nodeType===1?record.target:record.target.parentElement;
+    if(record.type==='attributes'){if(record.target===native())controls=true;continue;}
+    if(target?.closest(translationRoots)&&!target.closest('[data-language-control]'))dirty.add(target);
+    for(const node of record.addedNodes){if(node.nodeType!==1)continue;if(node.matches(translationRoots))dirty.add(node);for(const root of node.querySelectorAll(translationRoots))dirty.add(root);if(node.matches('[data-language-control],#language')||node.querySelector('[data-language-control],#language'))controls=true;}
+   }
+   if((controls||dirty.size)&&!scheduled){scheduled=true;requestAnimationFrame(()=>{scheduled=false;const roots=[...dirty].filter(node=>![...dirty].some(parent=>parent!==node&&parent.contains(node)));dirty.clear();refresh(roots);});}
+  };
+  if(window.SynapseUI)window.SynapseUI.observe(observe);else new MutationObserver(observe).observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['disabled']});
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 })();

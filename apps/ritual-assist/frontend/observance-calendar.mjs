@@ -1,3 +1,4 @@
+import {downloadBlob} from '/shared/download.mjs';
 import {localDate} from './lunar-core.mjs';
 import {tithiLabel,monthNames,displayedMonth} from './panchang.mjs';
 import {observanceTypes,eventTitle} from './observance-rules.mjs';
@@ -60,7 +61,7 @@ export function mountObservanceCalendar(){
  async function download(eventId=null){
   const snapshot=result,token=revision;if(!snapshot)return;
   try{const content=await observanceIcs(snapshot,{language:language(),reminder,timed,types:[...selected],eventId});if(token!==revision||result!==snapshot||view!=='dates')return;
-   const url=URL.createObjectURL(new Blob([content],{type:'text/calendar;charset=utf-8'})),a=node('a');a.href=url;a.download='ritual-dates-'+snapshot.month+'.ics';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);status.textContent=w('downloaded');
+   downloadBlob(new Blob([content],{type:'text/calendar;charset=utf-8'}),'ritual-dates-'+snapshot.month+'.ics',{cleanupDelay:1000});status.textContent=w('downloaded');
   }catch(error){if(token===revision)status.textContent=error.message;}
  }
  function eventCard(event){

@@ -1,3 +1,4 @@
+import summaries from './state-summary.cjs';
 import schema from './schema.js';
 import settings from './settings.js';
 import {createHash} from 'node:crypto';
@@ -23,8 +24,7 @@ export async function chambers({repo,user,route,request,files,env}){
  if(route==='settings'&&method==='PATCH'){owner(user);const value=cleanSettings(await body(request));await repo.commit([repo.settingWrite('firm',value),repo.audit(user.name,'Updated settings','workspace',{name:value.name})]);return json(value);}
  const state=await chamberState(repo),get=lookup(state);
  if(route==='state'&&method==='GET'){
-  for(const c of state.cases)c.nextDate=state.hearings.filter(h=>!h.archived&&h.caseId===c.id&&h.status==='Scheduled'&&h.date>=indiaToday()).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time))[0]?.date||'';
-  for(const i of state.invoices){i.paid=state.payments.filter(p=>!p.archived&&p.invoiceId===i.id).reduce((s,p)=>s+cents(p.amount),0)/100;i.balance=(cents(i.amount)-cents(i.paid))/100;i.status=i.balance<=0?'Paid':i.paid>0?'Part paid':'Unpaid';}
+  summaries.summarizeState(state,indiaToday(),{roundEachPayment:true});
   return json({...state,schemas,currentUser:{id:user.id,name:user.name,email:user.email,role:user.role},today:indiaToday(),...(env?.FREE_MODE==='true'?{capabilities:{authMethod:env.AUTH_METHOD==='access'?'access':'password',documents:true,maxFileBytes:files.maxFileBytes,maxDocumentBytes:100000000,backup:false}}:{})});
  }
  if(route==='backup'&&method==='GET'){

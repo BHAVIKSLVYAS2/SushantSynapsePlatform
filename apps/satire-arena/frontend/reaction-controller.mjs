@@ -1,3 +1,4 @@
+import {requestJson} from '/shared/http.mjs';
 import {prepareSound,playSound,stopSound} from './sound.mjs';
 import {prepareReaction,playReaction,stopVibration} from './feedback.mjs';
 
@@ -5,8 +6,8 @@ import {prepareReaction,playReaction,stopVibration} from './feedback.mjs';
 export function createReactionController(options){
  const state={snapshot:null,busy:false,saving:null,syncError:true,lastLoaded:0};let loading=null,revision=0;
  const changed=()=>options.change?.(state);
- async function request(path='',settings={}){const response=await fetch('/api/satire-arena'+path,{cache:'no-store',credentials:'same-origin',signal:AbortSignal.timeout(12000),...settings}),data=response.status===204?null:await response.json().catch(()=>null);if(!response.ok){const error=Error(data?.error||'The arena could not load. Try again.');error.status=response.status;throw error;}return data;}
- async function load(){if(loading)return loading;const version=revision;loading=(async()=>{try{const fresh=await request();if(version!==revision)return;state.snapshot={...fresh,characters:fresh.characters.filter(c=>!options.ids||options.ids.includes(c.id))};state.syncError=false;state.lastLoaded=Date.now();changed();options.synced?.(state);}catch(error){if(version!==revision)return;state.syncError=true;changed();options.error?.(error,'load');}finally{loading=null;}})();return loading;}
+ const request=(path='',settings={})=>requestJson('/api/satire-arena'+path,settings);
+ async function load(){if(loading)return loading;const version=revision;loading=(async()=>{try{const fresh=await request(options.arena?'?arena='+encodeURIComponent(options.arena)+'&summary=1':'');if(version!==revision)return;state.snapshot={...fresh,characters:fresh.characters.filter(c=>!options.ids||options.ids.includes(c.id))};state.syncError=false;state.lastLoaded=Date.now();changed();options.synced?.(state);}catch(error){if(version!==revision)return;state.syncError=true;changed();options.error?.(error,'load');}finally{loading=null;}})();return loading;}
  async function vote(id,reaction){if(state.busy||state.syncError||!state.snapshot)return;const score=state.snapshot.characters.find(c=>c.id===id);if(!score)return;
   const previous=structuredClone(state.snapshot),round=previous.round;
   if(options.sound?.()){prepareSound();playSound(reaction);}

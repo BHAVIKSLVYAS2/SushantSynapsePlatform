@@ -1,3 +1,4 @@
+const {summarizeState}=require('./state-summary.cjs');
 const { PlatformDatabase } = require('../../../packages/database');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -23,14 +24,7 @@ class Store extends PlatformDatabase {
   state() {
     const result = { settings: this.setting('firm'), users: this.users(), activity: this.activity() };
     for (const kind of Object.keys(schemas)) result[kind] = this.all(kind);
-    for (const c of result.cases) {
-      c.nextDate = result.hearings.filter(h => !h.archived && h.caseId === c.id && h.status === 'Scheduled' && h.date >= indiaToday()).sort((a,b) => (a.date+a.time).localeCompare(b.date+b.time))[0]?.date || '';
-    }
-    for (const i of result.invoices) {
-      i.paid = Math.round(result.payments.filter(p => !p.archived && p.invoiceId === i.id).reduce((sum,p) => sum + p.amount * 100, 0)) / 100;
-      i.balance = Math.round((i.amount - i.paid) * 100) / 100;
-      i.status = i.balance <= 0 ? 'Paid' : i.paid > 0 ? 'Part paid' : 'Unpaid';
-    }
+    summarizeState(result,indiaToday());
     return result;
   }
   backup() {

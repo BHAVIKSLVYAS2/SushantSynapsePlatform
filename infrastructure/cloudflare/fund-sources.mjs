@@ -1,10 +1,26 @@
 import national from '../../apps/fund-overlap/backend/national-provider.js';
 import legacy from '../../apps/fund-overlap/backend/provider.js';
 import official from '../../apps/fund-overlap/backend/official-library.js';
-import references from './fund-runtime-references.json' with {type: 'json'};
+import referenceManifest from './fund-runtime-manifest.json' with {type:'json'};
 import archives from './fund-archives.json' with {type:'json'};
-// Decode compact integer tables during Worker initialization, outside request CPU.
-official.prepareReferenceSearch(references);
+// Only Fund Lens requests load reference data. Cache is isolated by asset binding.
+const referenceStores=new WeakMap();
+function referenceStore(assets){if(!assets)throw Object.assign(Error('Official reference storage is temporarily unavailable.'),{status:503});let store=referenceStores.get(assets);if(!store){store=new Map();referenceStores.set(assets,store);}return store;}
+function loadPartition(assets,origin,name,path=referenceManifest[name]){
+ const store=referenceStore(assets);if(!store.has(name))store.set(name,(async()=>{const response=await assets.fetch(new Request(new URL(path,origin)));if(!response.ok)throw Object.assign(Error('Official reference storage is temporarily unavailable.'),{status:503});return response.json();})().catch(error=>{store.delete(name);throw error;}));return store.get(name);
+}
+export async function loadReferences(assets,origin,kind='base'){
+ const store=referenceStore(assets),key='joined:'+kind;
+ if(!store.has(key))store.set(key,Promise.all([loadPartition(assets,origin,'base'),kind==='base'?{}:loadPartition(assets,origin,kind)]).then(([base,extra])=>{
+  const references={...base,...extra},report=base.__officialCoverage;
+  if(report.compact){const {statuses,messages}=report.compact;const {compact,...metadata}=report;base.__officialCoverage={...metadata,schemes:report.schemes.map(([schemeCode,status,message])=>({schemeCode,status:statuses[status],message:messages[message]}))};references.__officialCoverage=base.__officialCoverage;}
+  return references;
+ }).catch(error=>{store.delete(key);throw error;}));return store.get(key);
+}
+async function fullCoverageRows(assets,origin,references,rows){
+ const chunks=new Map();for(const row of rows){const position=references.__officialLookup.coverage[String(row.schemeCode)],chunk=Math.floor(position/referenceManifest.chunkSize);if(!chunks.has(chunk))chunks.set(chunk,loadPartition(assets,origin,'rows:'+chunk,referenceManifest.rows[chunk]));}
+ await Promise.all(chunks.values());return Promise.all(rows.map(async row=>{const position=references.__officialLookup.coverage[String(row.schemeCode)],chunk=Math.floor(position/referenceManifest.chunkSize);return (await chunks.get(chunk))[position%referenceManifest.chunkSize];}));
+}
 
 // Public reference data only. Cache eviction may remove last-good copies.
 export function edgeReferenceCache(cache, now = () => Date.now()) {
@@ -82,15 +98,16 @@ export async function fundSources(request, env, options = {}) {
     return env.ASSETS.fetch(new Request(new URL(archives[path],url),{method,headers:assetHeaders}));
   };
   if (!['GET', 'HEAD'].includes(request.method)) return new Response(null, {status: 405, headers: {...headers, Allow: 'GET, HEAD'}});
-  if (Object.hasOwn(references, path)) return reply(200, references[path]);
   if(Object.hasOwn(archives,path)){
     if(!env.ASSETS)return reply(503,{error:'Historical reference storage is unavailable.'});
     const response=await snapshotAsset(path);
     const archiveHeaders=new Headers(response.headers);archiveHeaders.set('Content-Type','application/json; charset=utf-8');archiveHeaders.set('X-Fund-Lens-Service','cloudflare');archiveHeaders.set('X-Content-Type-Options','nosniff');archiveHeaders.set('Cache-Control','public, max-age=31536000, immutable');
     return new Response(request.method==='HEAD'?null:response.body,{status:response.status,headers:archiveHeaders});
   }
+  let references;try{references=await loadReferences(env.ASSETS,url.origin,path==='/api/fund-overlap/coverage/schemes'&&url.searchParams.get('q')&&!/^\d+$/.test(url.searchParams.get('q'))?'coverage':'base');}catch(error){return reply(503,{error:error.message});}
+  if(Object.hasOwn(references,path))return reply(200,references[path]);
   if(path==='/api/fund-overlap/coverage/schemes'){
-    try{return reply(200,official.coveragePage(references,url.searchParams));}catch(error){return reply(400,{error:error.message});}
+    try{const page=official.coveragePage(references,url.searchParams);page.schemes=await fullCoverageRows(env.ASSETS,url.origin,references,page.schemes);return reply(200,page);}catch(error){return reply(error.status||400,{error:error.message});}
   }
   const search = path === '/api/fund-overlap/search';
   const scheme = /^\/api\/fund-overlap\/scheme\/(\d{5,8})$/.exec(path);
@@ -122,7 +139,7 @@ export async function fundSources(request, env, options = {}) {
     const funds = offset ? [] : local.filter(f => words.every(w => `${f.name} ${f.amc} ${f.category}`.toLowerCase().includes(w)));
     let page;
     try { page = await source.search(query, offset); }
-    catch {const page=official.searchPublishedCatalogue(references,query,offset) || {funds, nextOffset: null, warning: 'National search is temporarily unavailable. Official reference matches are shown.'};for(const entry of funds)if(!page.funds.some(f=>f.id===entry.id))page.funds.unshift(entry);return reply(200,page);}
+    catch {references=await loadReferences(env.ASSETS,url.origin,'search');if(Object.hasOwn(references.__officialLookup.coverage,query)){const position=references.__officialLookup.coverage[query],row=references.__officialCoverage.schemes[position];const [full]=await fullCoverageRows(env.ASSETS,url.origin,references,[row]);references={...references,__exactRows:{[query]:full}};}const page=official.searchPublishedCatalogue(references,query,offset) || {funds, nextOffset: null, warning: 'National search is temporarily unavailable. Official reference matches are shown.'};for(const entry of funds)if(!page.funds.some(f=>f.id===entry.id))page.funds.unshift(entry);return reply(200,page);}
     for (const fund of page.funds) {
       const entry = official.enrichDiscovery(fund,references);
       if (!funds.some(f => f.id === entry.id)) funds.push(entry);

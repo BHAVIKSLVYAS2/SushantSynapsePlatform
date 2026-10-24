@@ -1,3 +1,4 @@
+import {downloadBlob} from '/shared/download.mjs';
 import {createReactionController} from './reaction-controller.mjs';
 import {createCard} from './cards.mjs';
 import {enhanceArena} from './enhancements.js';
@@ -8,7 +9,7 @@ function notice(message){$('#notice').textContent=message;$('#notice').hidden=!m
 function toast(message){clearTimeout(toastTimer);$('#reaction-toast').textContent=message;$('#reaction-toast').hidden=false;toastTimer=setTimeout(()=>$('#reaction-toast').hidden=true,4200);}
 document.addEventListener('arena-toast',event=>{if(typeof event.detail?.message==='string')toast(event.detail.message);});
 function reactionMessage(character,reaction){const name=cast.find(c=>c.id===character).name;return {garland:`A garland for ${name}!`,applause:`Applause for ${name}!`,shoe:`Shoe thrown at ${name}!`,finger:`Ink thrown at ${name}!`,tomato:`Tomato tossed at ${name}!`,laugh:`Laughing with ${name}!`}[reaction];}
-function countdown(){const remaining=Date.parse(round?.resetsAt)-Date.now();if(!round||!Number.isFinite(remaining)){$('#reset-countdown').textContent='Resets 1 January, midnight IST';$('#mini-countdown').textContent='1 January IST';return;}if(remaining<=0){$('#reset-countdown').textContent='New round starting · Refreshing scores…';$('#mini-countdown').textContent='New round';if(!busy&&!document.hidden&&Date.now()-rolloverAttempt>10000){rolloverAttempt=Date.now();load();}return;}const minutes=Math.ceil(remaining/60000),days=Math.floor(minutes/1440),text=`Resets 1 Jan in ${days?days+"d ":""}${Math.floor(minutes/60)%24}h ${minutes%60}m`;$('#reset-countdown').textContent=text;$('#mini-countdown').textContent=text;}
+function countdown(){const remaining=Date.parse(round?.resetsAt)-Date.now();if(!round||!Number.isFinite(remaining)){$('#reset-countdown').textContent='Resets 1 January, midnight IST';$('#mini-countdown').textContent='1 January IST';return;}if(remaining<=0){$('#reset-countdown').textContent='New round starting · Refreshing scores…';$('#mini-countdown').textContent='New round';if(!busy&&!document.hidden&&Date.now()-rolloverAttempt>10000){rolloverAttempt=Date.now();load();}return;}const minutes=Math.ceil(remaining/60000),days=Math.floor(minutes/1440),text=`Resets 1 Jan in ${days?days+"d ":""}${Math.floor(minutes/60)%24}h ${minutes%60}m`;for(const el of [$('#reset-countdown'),$('#mini-countdown')])if(el.textContent!==text)el.textContent=text;}
 function render(){
  const {fans,critics,amused}=tally(round?.characters);$('#amused').textContent=round?amused:'—';
  $('#fans').textContent=round?fans:'—';$('#critics').textContent=round?critics:'—';$('#round').textContent=round?.round?.slice(0,4)||'—';$('#verdict').textContent=!round?'Shared scores unavailable':fans+critics===0?(amused?'The crowd is just laughing.':'Who will make the first move?'):fans===critics?'A dead heat!':fans>critics?'Fans have the edge.':'Critics have the edge.';
@@ -22,9 +23,9 @@ function render(){
  $('#confirm').disabled=busy||!round||syncError;$('#refresh').disabled=busy;$('#remove').disabled=busy;$('#share-arena').disabled=!round||shareBusy||syncError||busy;
 }
 let extras;
-const controller=createReactionController({root:document.querySelector('.arena'),ids:cast.map(c=>c.id),target:id=>$('[data-character="'+id+'"]'),sound:()=>$('#reaction-sound').checked,haptics:()=>$('#haptics').checked,
+const controller=createReactionController({arena:activeArena,root:document.querySelector('.arena'),ids:cast.map(c=>c.id),target:id=>$('[data-character="'+id+'"]'),sound:()=>$('#reaction-sound').checked,haptics:()=>$('#haptics').checked,
  change:state=>{round=state.snapshot;busy=state.busy;saving=state.saving;syncError=state.syncError;lastLoaded=state.lastLoaded;render();},
- synced:()=>extras?.refreshResults(),start:()=>{notice('');clearTimeout(toastTimer);$('#reaction-toast').hidden=true;},
+ synced:state=>extras?.refreshResults(state.snapshot.days),start:()=>{notice('');clearTimeout(toastTimer);$('#reaction-toast').hidden=true;},
  confirmed:(character,reaction)=>{document.dispatchEvent(new CustomEvent('arena-measure',{detail:{event:'reaction_saved',method:'none',content:character}}));pending=null;$('#pending').hidden=true;history.replaceState(null,'',arenaPath);toast(reactionMessage(character,reaction));},
  saved:()=>notice('Reaction saved. You can change it until 1 January, midnight IST.'),
  error:(error,phase)=>notice(phase==='load'?(round?'Scores could not sync. Showing the last known totals. Try Refresh arena.':error.message):error.status===428?'Enable cookies, then refresh the arena before reacting. Your pick was not saved.':error.status===409?'The yearly round changed. Scores refreshed; choose again.':error.message+' Your pick could not be confirmed. Check the refreshed scores before retrying.')
@@ -33,10 +34,10 @@ const load=()=>controller.load(),vote=(id,reaction)=>controller.vote(id,reaction
 const fragment=document.createDocumentFragment();for(const [i,c]of cast.entries())fragment.append(createCard(c,i,{vote,share:shareStandings}));$('#cast').append(fragment);
 const query=new URLSearchParams(location.search),character=query.get('character'),reaction=query.get('reaction');if(cast.some(c=>c.id===character)&&reactions.some(r=>r.id===reaction)){pending={character,reaction};$('#pending-copy').textContent=`Your reaction is ready: ${cast.find(c=>c.id===character).name} · ${reactions.find(r=>r.id===reaction).name}. Confirm to make it count.`;$('#pending').hidden=false;}
 $('#confirm').onclick=()=>pending&&vote(pending.character,pending.reaction);$('#cancel').onclick=()=>{pending=null;$('#pending').hidden=true;history.replaceState(null,'',arenaPath);};$('#refresh').onclick=()=>{notice('');load();};
-$('#export').onclick=async()=>{try{const data=await request('/mine'),url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),link=document.createElement('a');link.href=url;link.download='satire-arena-my-reactions.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);notice('Your browser’s reactions exported. Keep the file private.');}catch(e){notice(e.message);}};
+$('#export').onclick=async()=>{try{const data=await request('/mine');downloadBlob(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),'satire-arena-my-reactions.json',{cleanupDelay:1000});notice('Your browser’s reactions exported. Keep the file private.');}catch(e){notice(e.message);}};
 $('#remove').onclick=async()=>{if(busy||!confirm('Remove every reaction saved under this browser identity? This also updates the shared scores.'))return;try{if(await controller.remove())notice('Your saved reactions were removed.');}catch(error){notice(error.message);}};
 if(typeof navigator.vibrate!=='function'){$('#haptics').checked=false;$('#haptics').disabled=true;$('#haptic-help').textContent='Animations are on. Vibration is unavailable in this browser.';}
-setInterval(()=>{if(!document.hidden)countdown();},1000);
+let countdownTimer;function scheduleCountdown(){clearTimeout(countdownTimer);if(document.hidden)return;countdown();countdownTimer=setTimeout(scheduleCountdown,60000-Date.now()%60000+20);}document.addEventListener('visibilitychange',scheduleCountdown);scheduleCountdown();
 
 // Share only a snapshot of public totals, never cookie identity or selected ballots.
 const shareArtwork=new Map();
@@ -63,7 +64,7 @@ async function shareStandings(character=null){
   text('FICTIONAL CARTOONS · NOT A POLL · NO ENDORSEMENT',54,canvas.height-82,21);text('Browser reactions · Snapshot of shared yearly totals',54,canvas.height-50,20,ink,400);text('apps.sushantsynapse.com/satire-arena/'+(character?'characters/'+character:'results'),54,canvas.height-20,20,ink,400);
   const blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error('Could not create the share card.')),'image/png')),file=new File([blob],`garland-or-roast-${character||'standings'}-${snapshot.round}.png`,{type:'image/png'});
   if(navigator.canShare?.({files:[file]})&&navigator.share){try{await navigator.share({files:[file],title:'Garland or Roast · Satire Arena'});toast('Share handed to your device. Your private choices stay private.');return;}catch(e){if(e.name==='AbortError'){toast('Sharing cancelled. Your reactions are unchanged.');return;}}}
-  const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=file.name;a.click();document.dispatchEvent(new CustomEvent('arena-measure',{detail:{event:'image_download',method:'image',content:character||'standings'}}));setTimeout(()=>URL.revokeObjectURL(url),60000);toast('Share card downloaded. Attach it wherever you like.');
+  downloadBlob(blob,file.name);document.dispatchEvent(new CustomEvent('arena-measure',{detail:{event:'image_download',method:'image',content:character||'standings'}}));toast('Share card downloaded. Attach it wherever you like.');
  }catch(e){notice(e.message);}finally{shareBusy=false;render();}
 }
 $('#share-arena').onclick=()=>shareStandings();

@@ -1,3 +1,4 @@
+import {loadOrganisationScope} from '../../../packages/auth/organisation-scope.mjs';
 import {chambers} from './edge.mjs';
 import {evaluateAppAccess,canManageOrganisation} from '../../../packages/auth/organisation-policy.mjs';
 import {OrganisationRepository} from '../../../packages/database/organisation-repository-d1.mjs';
@@ -7,10 +8,7 @@ import {clientPortalOverview} from './client-portal-d1.mjs';
 import {body,fail,json} from '../../../server/edge-http.mjs';
 
 async function scope(repo,user,organisationId,action){
- const organisation=await repo.first('SELECT * FROM platform_organisations WHERE id=?',organisationId);
- const membership=await repo.first('SELECT * FROM platform_memberships WHERE organisationId=? AND userId=?',organisationId,user.id);
- const assignment=await repo.first("SELECT * FROM platform_app_assignments WHERE organisationId=? AND userId=? AND appId='advocate'",organisationId,user.id);
- const licence=await repo.first("SELECT * FROM platform_app_licences WHERE organisationId=? AND appId='advocate'",organisationId);
+ const {organisation,membership,assignment,licence}=await loadOrganisationScope(repo,user.id,organisationId,'advocate');
  const access=evaluateAppAccess({user,organisation,membership,assignment,licence,app:{id:'advocate',status:'Available'},permissions:['advocate:read','advocate:write'],action,now:Date.now()});
  if(!access.allowed||membership.role==='Client'||!['Owner','Advocate','Clerk'].includes(assignment.role))fail(403,'Chambers access is unavailable for this organisation');
  return {organisation,membership,assignment,access};

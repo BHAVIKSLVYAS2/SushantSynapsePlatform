@@ -1,5 +1,11 @@
 'use strict';
 (() => {
+ if(window.SynapseTheme&&window.SynapseUI)return;
+ // One mutation subscription point for shared chrome and dynamic app roots.
+ const listeners=new Set();
+ const observer=new MutationObserver(records=>{for(const listener of listeners)listener(records);});
+ observer.observe(document.documentElement,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['disabled']});
+ window.SynapseUI={observe(listener){listeners.add(listener);return ()=>listeners.delete(listener);}};
  const media=matchMedia('(prefers-color-scheme: dark)');
  let memory='light';
  const valid=value=>['light','dark','system'].includes(value)?value:'system';
@@ -13,6 +19,6 @@
  document.addEventListener('click',event=>{const button=event.target.closest('[data-theme-toggle]');if(!button)return;write(resolved()==='dark'?'light':'dark');button.dispatchEvent(new Event('change',{bubbles:true}));});
  window.addEventListener('storage',event=>{if(event.key!==null&&!['synapse-theme','chambers-theme'].includes(event.key))return;memory='light';sync();document.querySelectorAll('[data-theme-toggle]').forEach(button=>button.dispatchEvent(new Event('change',{bubbles:true})));});
  media.addEventListener('change',sync);
- new MutationObserver(sync).observe(document.documentElement,{childList:true,subtree:true});
+ window.SynapseUI.observe(records=>{if(records.some(record=>[...record.addedNodes].some(node=>node.nodeType===1&&(node.matches('body,[data-theme-toggle]')||node.querySelector('[data-theme-toggle]')))))sync();});
  sync();
 })();

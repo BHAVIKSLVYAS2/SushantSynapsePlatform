@@ -18,6 +18,14 @@ function build({fullstack=false,organisations=false}={}) {
   // compressed Worker bundle with every covered fund or reporting month.
   const runtimeReferences=Object.fromEntries(Object.entries(references).filter(([url])=>!url.startsWith('/api/fund-overlap/holdings/')));
   fs.writeFileSync(path.join(__dirname,'fund-runtime-references.json'),JSON.stringify(runtimeReferences));
+  const report=runtimeReferences.__officialCoverage,messages=[...new Set(report.schemes.map(row=>row.message))],statuses=[...new Set(report.schemes.map(row=>row.status))];
+  const partitions={base:Object.fromEntries(Object.entries(runtimeReferences).filter(([key])=>!['__officialCoverage','__officialAuditSearch','__officialCatalogueSearch'].includes(key))),search:{__officialCatalogueSearch:runtimeReferences.__officialCatalogueSearch},coverage:{__officialAuditSearch:runtimeReferences.__officialAuditSearch}};
+  partitions.base.__officialCoverage={...report,schemes:report.schemes.map(row=>[row.schemeCode,statuses.indexOf(row.status),messages.indexOf(row.message)]),compact:{messages,statuses}};
+  const referenceManifest={},writePartition=(name,value)=>{const bytes=Buffer.from(JSON.stringify(value)),digest=require('node:crypto').createHash('sha256').update(bytes).digest('hex').slice(0,24),target='/_fund-runtime/'+digest+'/'+name+'.json';fs.mkdirSync(path.dirname(path.join(output,target)),{recursive:true});fs.writeFileSync(path.join(output,target),bytes);return target;};
+  for(const [name,value]of Object.entries(partitions))referenceManifest[name]=writePartition(name,value);
+  referenceManifest.rows=[];referenceManifest.chunkSize=1024;
+  for(let i=0;i<report.schemes.length;i+=referenceManifest.chunkSize)referenceManifest.rows.push(writePartition('rows-'+i,report.schemes.slice(i,i+referenceManifest.chunkSize)));
+  fs.writeFileSync(path.join(__dirname,'fund-runtime-manifest.json'),JSON.stringify(referenceManifest));
   const current=Object.keys(references).filter(url=>url.startsWith('/api/fund-overlap/holdings/')).map(url=>({url,relative:url.slice('/api/fund-overlap/'.length),target:'/_fund-archive/'+url.slice('/api/fund-overlap/'.length)}));
   const archives=[...current,...officialArchives(path.join(root,'apps/fund-overlap/data'),references)];
   fs.writeFileSync(path.join(__dirname,'fund-archives.json'),JSON.stringify(Object.fromEntries(archives.map(item=>[item.url,item.target]))));

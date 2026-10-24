@@ -1,4 +1,4 @@
-import {cast,reactions as options} from '../frontend/catalogue.mjs';
+import {cast,reactions as options} from '../frontend/cast.mjs';
 export const characters=cast.map(c=>c.id),reactions=options.map(r=>r.id);
 export function roundAt(now=new Date()){return new Date(now.getTime()+19800000).toISOString().slice(0,10);}
 export function annualRoundAt(now=new Date()){return roundAt(now).slice(0,4)+'-01-01';}
@@ -9,6 +9,14 @@ async function identity(request,secret){
  const value=request.headers.get('Cookie')?.match(/(?:^|;\s*)__Host-arena=([^;]+)/)?.[1],parts=value?.split('.');
  if(parts?.length===2&&/^[a-f0-9-]{36}$/.test(parts[0])&&/^[a-f0-9]{64}$/.test(parts[1])){const expected=await hmac(secret,parts[0]);let mismatch=0;for(let i=0;i<expected.length;i++)mismatch|=expected.charCodeAt(i)^parts[1].charCodeAt(i);if(!mismatch)return {token:parts[0],cookie:null};}
  const token=crypto.randomUUID();return {token,cookie:`__Host-arena=${token}.${await hmac(secret,token)}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=31536000`};
+}
+export async function dailyResults(db,now,ids=characters,length=30){
+ const days=Array.from({length},(_,i)=>roundAt(new Date(now.getTime()-i*86400000))),values=[];
+ const cases=days.map(day=>{const start=Date.parse(day+'T00:00:00+05:30');values.push(new Date(start).toISOString(),new Date(start+86400000).toISOString(),day);return 'WHEN updated_at>=? AND updated_at<? THEN ?';}).join(' ');
+ const start=new Date(Date.parse(days.at(-1)+'T00:00:00+05:30')).toISOString();
+ const rows=await db.prepare('SELECT day,character,reaction,COUNT(*) AS count FROM (SELECT CASE '+cases+' END AS day,character,reaction FROM arena_all_votes WHERE updated_at>=? AND updated_at<=?) AS retained GROUP BY day,character,reaction').bind(...values,start,now.toISOString()).all();
+ const groups=new Map(rows.results.map(row=>[[row.day,row.character,row.reaction].join(':'),Number(row.count)]));
+ return days.map(day=>{const scores=ids.map(id=>{const score={id,...Object.fromEntries(reactions.map(r=>[r,groups.get([day,id,r].join(':'))||0]))};return {...score,total:reactions.reduce((n,r)=>n+score[r],0)};}).filter(c=>c.total>0).sort((a,b)=>b.total-a.total||a.id.localeCompare(b.id));return {round:day,total:scores.reduce((n,c)=>n+c.total,0),characters:scores};});
 }
 export async function arena(request,env,{now=new Date()}={}){
  const url=new URL(request.url),path=url.pathname,round=annualRoundAt(now),nextRound=(Number(round.slice(0,4))+1)+'-01-01',reply=(body,status=200,cookie=null)=>new Response(status===204?null:JSON.stringify(body),{status,headers:{...headers,...(cookie?{'Set-Cookie':cookie}:{})}});
@@ -25,10 +33,7 @@ export async function arena(request,env,{now=new Date()}={}){
  try{
   if(results){
    if(request.method!=='GET')return reply({error:'Method not allowed.'},405);
-   const start=new Date(Date.parse(roundAt(now)+'T00:00:00+05:30')-29*86400000),db=env.ARENA_DB;
-   const retained=await db.prepare('SELECT character,reaction,updated_at FROM arena_all_votes WHERE updated_at>=? AND updated_at<=?').bind(start.toISOString(),now.toISOString()).all();
-   const rows={results:[]};for(const row of retained.results){const day=roundAt(new Date(row.updated_at));let group=rows.results.find(x=>x.round===day&&x.character===row.character&&x.reaction===row.reaction);if(!group){group={round:day,character:row.character,reaction:row.reaction,count:0};rows.results.push(group);}group.count++;}
-   const days=Array.from({length:30},(_,i)=>{const day=roundAt(new Date(now.getTime()-i*86400000)),scores=characters.map(id=>{const score={id,...Object.fromEntries(reactions.map(r=>[r,Number(rows.results.find(x=>x.round===day&&x.character===id&&x.reaction===r)?.count||0)]))};return {...score,total:reactions.reduce((n,r)=>n+score[r],0)};}).filter(c=>c.total>0).sort((a,b)=>b.total-a.total||a.id.localeCompare(b.id));return {round:day,total:scores.reduce((n,c)=>n+c.total,0),characters:scores};});
+   const days=await dailyResults(env.ARENA_DB,now);
    return reply({days,scope:'Last 30 IST days by retained ballot last-update time, including later privacy removals. Yearly scores reset only on 1 January. Not a political poll.'});
   }
   const id=await identity(request,env.ARENA_COOKIE_SECRET),voter=await hmac(env.ARENA_COOKIE_SECRET,'ballot:'+id.token),db=env.ARENA_DB.withSession?env.ARENA_DB.withSession('first-primary'):env.ARENA_DB;
@@ -49,7 +54,8 @@ export async function arena(request,env,{now=new Date()}={}){
   }
   // Retain legacy daily rows; count only the latest yearly choice per identity.
   const annualVotes='SELECT voter,character,reaction FROM (SELECT voter,character,reaction,ROW_NUMBER() OVER(PARTITION BY voter,character ORDER BY updated_at DESC,round ASC) AS annual_position FROM arena_all_votes WHERE round>=? AND round<?) AS yearly WHERE annual_position=1';
+  const scope=url.searchParams.get('arena'),ids=scope?cast.filter(c=>c.arena===scope).map(c=>c.id):characters;if(!ids.length)return reply({error:'Unknown arena.'},400);
   const [counts,mineRows]=await db.batch([db.prepare('SELECT character,reaction,COUNT(*) AS count FROM ('+annualVotes+') AS ballots GROUP BY character,reaction').bind(round,nextRound),db.prepare('SELECT character,reaction FROM ('+annualVotes+') AS ballots WHERE voter=?').bind(round,nextRound,voter)]);
-  return reply({round,resetsAt:new Date(nextRound+'T00:00:00+05:30').toISOString(),votingMode:'browser',characters:characters.map(id=>({id,...Object.fromEntries(reactions.map(reaction=>[reaction,counts.results.find(row=>row.character===id&&row.reaction===reaction)?.count||0])),selected:mineRows.results.find(row=>row.character===id)?.reaction||null}))},200,id.cookie);
+  return reply({round,resetsAt:new Date(nextRound+'T00:00:00+05:30').toISOString(),votingMode:'browser',...(url.searchParams.get('summary')==='1'?{days:await dailyResults(db,now,ids,2)}:{}),characters:ids.map(id=>({id,...Object.fromEntries(reactions.map(reaction=>[reaction,counts.results.find(row=>row.character===id&&row.reaction===reaction)?.count||0])),selected:mineRows.results.find(row=>row.character===id)?.reaction||null}))},200,id.cookie);
  }catch{return reply({error:'The shared arena could not be reached. Refresh to check whether your last reaction saved.'},503);}
 }

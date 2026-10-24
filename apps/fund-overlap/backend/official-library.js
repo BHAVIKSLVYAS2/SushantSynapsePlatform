@@ -116,7 +116,7 @@ function searchPublishedCatalogue(references,query,offset=0) {
   const catalogueDate=String(report.catalogue?.checkedAt || report.asOf || report.generatedAt).slice(0,10);
   const published=references.__officialCatalogueSearch;
   if(published){
-    const exact=Object.hasOwn(references.__officialLookup?.coverage || {},query)?report.schemes[references.__officialLookup.coverage[query]]:null;
+    const exact=references.__exactRows?.[query]||(Object.hasOwn(references.__officialLookup?.coverage || {},query)?report.schemes[references.__officialLookup.coverage[query]]:null);
     const positions=exact?null:queryIndex(published.index,query),rows=exact?[exact]:positions.map(i=>published.rows[i]);
     return {funds:rows.slice(offset,offset+20).map(row=>enrichDiscovery({id:'amfi-'+row.schemeCode,name:row.name,amc:row.amc || 'Indian mutual fund',category:'Scheme catalogue',provider:'MFapi',holdingsPath:PREFIX+'scheme/'+row.schemeCode},references)),total:rows.length,nextOffset:offset+20<rows.length?offset+20:null,catalogueCount:report.schemes.length,warning:'Live national search is unavailable. Showing the published catalogue checked on '+catalogueDate+'. Holdings availability is shown separately.'};
   }

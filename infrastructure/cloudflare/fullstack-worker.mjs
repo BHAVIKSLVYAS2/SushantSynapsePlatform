@@ -5,9 +5,10 @@ import adsense from '../../packages/ui/adsense.cjs';
 export default {
  async fetch(request,env){
   const url=new URL(request.url);
-  if(url.pathname.startsWith('/_static/')){
+  if(url.pathname.startsWith('/_static/')||url.pathname.startsWith('/_fund-runtime/')){
    if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405,headers:{'Cache-Control':'no-store'}});
    const asset=await env.ASSETS.fetch(request),headers=new Headers(asset.headers);
+   if(url.pathname.startsWith('/_fund-runtime/'))headers.set('Cache-Control','public, max-age=31536000, immutable');
    // Missing/retired release URLs must never become long-lived cached errors.
    if(![200,206,304].includes(asset.status))headers.set('Cache-Control','no-store');
    return new Response(request.method==='HEAD'?null:asset.body,{status:asset.status,headers});

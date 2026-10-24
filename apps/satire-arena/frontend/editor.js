@@ -1,6 +1,7 @@
+import {requestJson} from '/shared/http.mjs';
 import {cast} from './cast.mjs';
 let library,originalSlug='';const $=s=>document.querySelector(s),status=$('#editor-status'),form=$('#post-form'),characters=$('#character-form');
-async function request(options){const r=await fetch('/api/arena-editorial',{cache:'no-store',...options}),data=await r.json();if(!r.ok)throw Error(data.error||'Could not load editor');return data;}
+const request=options=>requestJson('/api/arena-editorial',options);
 function options(){const select=$('#post-select');select.replaceChildren(new Option('New post',''),...library.posts.map(p=>new Option(p.title+' · '+p.status,p.slug)));select.value=originalSlug;}
 function character(){const id=characters.elements.id.value,c=library.characters.find(c=>c.id===id);characters.elements.bio.value=c?.bio||'';characters.elements.tagline.value=c?.tagline||'';characters.elements.punchlines.value=(c?.punchlines||[]).map(p=>p.day+' | '+p.text).join('\n');}
 async function save(next){const buttons=document.querySelectorAll('button');buttons.forEach(b=>b.disabled=true);try{library=await request({method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(next)});options();status.textContent='Saved. Only published posts whose scheduled time has arrived are public.';}finally{buttons.forEach(b=>b.disabled=false);}}

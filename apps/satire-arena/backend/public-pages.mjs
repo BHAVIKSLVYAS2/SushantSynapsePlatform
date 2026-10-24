@@ -1,9 +1,10 @@
+import {escapeHtml} from '../../../packages/ui/text.mjs';
 import {characterContent} from './character-page.mjs';
 import {cast,portraitArt} from '../frontend/catalogue.mjs';
 import {sampleEdition} from './sample-edition.mjs';
 import beta from '../../../packages/ui/beta-html.cjs';
 export const publicEditorialPath=path=>path==='/satire-arena/daily'||path.startsWith('/satire-arena/posts/')||path.startsWith('/satire-arena/categories/')||path.startsWith('/satire-arena/characters/')||path==='/satire-arena/results'||path==='/satire-arena/sitemap.xml'||path==='/sitemap.xml'||path==='/robots.txt';
-export const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+export const escape=escapeHtml;
 export function leaders(scores,key){const max=Math.max(0,...scores.map(c=>c[key]||0));return max?scores.filter(c=>c[key]===max).map(c=>cast.find(x=>x.id===c.id)?.name||c.id).join(', ')+' ('+max+')':'No reactions yet';}
 export function publicPage(request,data,results=null){
  const url=new URL(request.url),e=escape,path=url.pathname,origin=url.origin;

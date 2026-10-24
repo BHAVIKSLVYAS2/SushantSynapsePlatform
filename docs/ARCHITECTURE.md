@@ -1,5 +1,18 @@
 # Code ownership and adding apps
 
+Performance/reuse ownership (2026-10-24): `packages/ui/theme.js` initializes
+`SynapseUI.observe`; consumers filter mutations to their owned roots.
+`packages/ui/legal-html.cjs` owns the `synapse:legal-footer` marker, composed by
+`beta-html.cjs` before serving/export so no-JavaScript footer markup is retained.
+`/shared/http.mjs` maps to `packages/http/request.mjs`; callers retain app state,
+authorization and presentation. Do not add shared persistent private-response caches.
+Fund Lens Worker code imports only its generated runtime manifest; immutable public
+partitions are loaded on demand through the asset binding. Do not restore the
+monolithic reference JSON import. `apps/advocate/backend/state-summary.cjs` owns
+linear read-summary aggregation; `packages/auth/organisation-scope.mjs` shares fresh
+scope reads without caching authority or moving app-specific role policies.
+See `docs/PERFORMANCE_REUSE_RESULTS_2026-10-24.md` for evidence and limits.
+
 Satire loading cleanup (2026-10-24): `frontend/cast.mjs` is the canonical light
 card metadata/reaction/art mapping. `personas.mjs` contains only rich scripts
 and joins that metadata; the server's `catalogue.mjs` composes full profiles.

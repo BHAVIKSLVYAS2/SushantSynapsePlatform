@@ -1,9 +1,10 @@
+import {requestJson} from '/shared/http.mjs';
 import {emptySupport,treats,validateSupport,paymentTarget} from './support-engine.mjs';
 import QRCode from './support-qr.mjs';
 const $=selector=>document.querySelector(selector);let config={...emptySupport},selected=treats[1],version=0;
 function theme(){const value=window.SynapseTheme.read();document.documentElement.dataset.theme=value==='system'?(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'):value;$('#theme').innerHTML=window.SynapseTheme.control().match(/<button[^>]*>([\s\S]*)<\/button>/)[1];}
 theme();$('#theme').addEventListener('change',theme);matchMedia('(prefers-color-scheme:dark)').addEventListener('change',theme);
-async function request(path,options={}){const response=await fetch('/api/'+path,{...options,cache:'no-store',signal:AbortSignal.timeout(10000)});const body=await response.json();if(!response.ok)throw Error(body.error||'Unable to load support settings');return body;}
+const request=(path,options={})=>requestJson('/api/'+path,{timeoutMs:10000,...options});
 async function render(){
  const current=++version,target=paymentTarget(config,selected);$('#treats').hidden=!!target&&!config.upiId;$('#payment').hidden=!target;$('#availability').hidden=!!target;$('#manual-copy').hidden=true;$('#status').textContent='';$('#qr').hidden=true;
  for(const button of $('#treats').children)button.setAttribute('aria-pressed',String(button.dataset.amount===String(selected.amount)));

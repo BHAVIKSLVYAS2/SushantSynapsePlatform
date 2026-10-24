@@ -1,12 +1,10 @@
+import {loadOrganisationScope} from '../../../packages/auth/organisation-scope.mjs';
 import engine from './engine.js';
 import {evaluateAppAccess} from '../../../packages/auth/organisation-policy.mjs';
 import {body,fail,json} from '../../../server/edge-http.mjs';
 const output=r=>({id:r.id,revision:r.revision,publicToken:r.public_token,...engine.view(JSON.parse(r.data))});
 export async function tournamentScope(repo,user,organisationId,action='read'){
- const organisation=await repo.first('SELECT * FROM platform_organisations WHERE id=?',organisationId);
- const membership=await repo.first('SELECT * FROM platform_memberships WHERE organisationId=? AND userId=?',organisationId,user.id);
- const assignment=await repo.first("SELECT * FROM platform_app_assignments WHERE organisationId=? AND userId=? AND appId='tournament-lite'",organisationId,user.id);
- const licence=await repo.first("SELECT * FROM platform_app_licences WHERE organisationId=? AND appId='tournament-lite'",organisationId);
+ const {organisation,membership,assignment,licence}=await loadOrganisationScope(repo,user.id,organisationId,'tournament-lite');
  const staff=membership?.role!=='Client'&&['Owner','Advocate'].includes(assignment?.role);
  const access=evaluateAppAccess({user,organisation,membership,assignment,licence,app:{id:'tournament-lite',status:'Available'},permissions:staff?['tournament-lite:read','tournament-lite:write']:[],action,now:Date.now()});
  if(!access.allowed)fail(403,'Tournament access is unavailable for this organisation');

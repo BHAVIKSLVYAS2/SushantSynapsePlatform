@@ -1,3 +1,4 @@
+import {downloadBlob} from '/shared/download.mjs';
 import {calendarIcs,reminderSelection,occasionTitle} from './calendar-export.mjs';
 import {preparationPack,packText,packGuides,defaultPackGuides,packTasks} from './preparation-pack.mjs';
 import {tithiLabel} from './panchang.mjs';
@@ -6,7 +7,7 @@ import {sources} from './guides.mjs';
 let current=null,selected=new Set(defaultPackGuides),checked=new Set(),assignments=['','',''],open=false,days=1,printState=[];
 const element=(tag,text,cls)=>{const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(cls)el.className=cls;return el;};
 const button=(text,action)=>{const el=element('button',text);el.type='button';el.addEventListener('click',action);return el;};
-function save(text,name,type){const url=URL.createObjectURL(new Blob([text],{type})),link=element('a');link.href=url;link.download=name;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+function save(text,name,type){downloadBlob(new Blob([text],{type}),name,{cleanupDelay:1000});}
 const dateText=(date,language)=>new Intl.DateTimeFormat(language==='hi'?'hi-IN':'en-IN',{dateStyle:'long',timeZone:'Asia/Kolkata'}).format(new Date(date+'T12:00:00+05:30'));
 
 export function mountCalendarTools(container,result,language){

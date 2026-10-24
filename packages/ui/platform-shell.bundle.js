@@ -133,9 +133,9 @@ else root.SynapseCatalogue=catalogue;
    local.classList.toggle('platform-toolbar-empty',!actions.length);
   });
  }
- reconcile();new MutationObserver(records=>{
+ reconcile();const reconcileMutations=records=>{
   if(records.some(r=>[...r.addedNodes].some(n=>n.nodeType===1&&(n.matches('.synapse-header')||n.querySelector('.synapse-header')||n.closest('.synapse-header')))))reconcile();
- }).observe(document.body,{childList:true,subtree:true});
+ };if(window.SynapseUI)window.SynapseUI.observe(reconcileMutations);else new MutationObserver(reconcileMutations).observe(document.body,{childList:true,subtree:true});
 })();
 
 import('/shared/visitors.mjs').catch(()=>{});

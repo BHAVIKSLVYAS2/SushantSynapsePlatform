@@ -1,3 +1,4 @@
+import {downloadBlob} from '/shared/download.mjs';
 const status=document.querySelector('#share-status');
 const url=document.querySelector('link[rel=canonical]')?.href||location.href;
 const sample=!!document.querySelector('.sample-preview');
@@ -19,7 +20,7 @@ document.querySelectorAll('[data-share]').forEach(button=>button.onclick=async()
    lines('SUSHANT SYNAPSE · SATIRE ARENA',90,28);let y=lines(title,180,48);y=lines(punchline,y+30,34);
    const source=document.querySelector('.satire-art'),character=cast.find(c=>location.pathname==='/satire-arena/characters/'+c.id);if(source||character){const img=new Image(),art=character?portraitArt(character):null;img.src=source?source.src:'/satire-arena/'+art.file;await img.decode();const height=Math.min(320,Math.max(0,850-y));if(character){const cell=img.naturalWidth/art.columns;ctx.drawImage(img,art.column*cell,art.row*cell,cell,cell,64,y,height,height);}else{const width=Math.min(950,height*img.naturalWidth/img.naturalHeight);ctx.drawImage(img,64,y,width,height);}}
    lines(sample?'SAMPLE EDITION · FICTIONAL SATIRE':'FICTIONAL SATIRE · NOT FACTUAL REPORTING',940,24);lines(url.replace(location.origin,''),990,21);
-   const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));if(!blob)throw Error('Image could not be created');const src=URL.createObjectURL(blob),a=document.createElement('a');a.href=src;a.download='satire-arena.png';a.click();track('image_download','image');setTimeout(()=>URL.revokeObjectURL(src),60000);status.textContent='Image downloaded. Add the link when sharing.';
+   const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));if(!blob)throw Error('Image could not be created');downloadBlob(blob,'satire-arena.png');track('image_download','image');status.textContent='Image downloaded. Add the link when sharing.';
   }
  }catch(e){status.textContent=e.name==='AbortError'?'Sharing cancelled.':'Sharing unavailable. Copy this link: '+url;}
 });

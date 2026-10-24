@@ -35,7 +35,7 @@ test('ten national searches reuse one catalogue without rewriting holdings progr
   assert.equal(reads,10); assert.equal(writes,1); assert.equal(upstream,1);
 });
 before(async () => { exported = require('../infrastructure/cloudflare/build.cjs').build(); ({handle} = await import('../infrastructure/cloudflare/worker.mjs')); });
-const assets = {ASSETS: {fetch: async request => {const target=new URL(request.url).pathname;if(target.startsWith('/_fund-archive/'))return new Response(fs.readFileSync(path.join(exported.output,target)),{headers:{'Content-Type':'application/json'}});return new Response(target,{headers:{'Content-Type':'text/html'}});}}};
+const assets = {ASSETS: {fetch: async request => {const target=new URL(request.url).pathname;if((target.startsWith('/_fund-archive/')||target.startsWith('/_fund-runtime/')))return new Response(fs.readFileSync(path.join(exported.output,target)),{headers:{'Content-Type':'application/json'}});return new Response(target,{headers:{'Content-Type':'text/html'}});}}};
 test('retired page and asset URLs return 404 at the edge',async()=>{
  for(const route of ['/certificates','/certificates/','/certificates/app.js','/certificates/renderer.js','/certificates/export.js','/certificates/style.css','/certificates/branding.mjs','/sponsor','/sponsor/','/celebration-studio','/celebration-studio/','/celebration-studio/app.js','/celebration-studio/renderer.mjs','/celebration-studio/style.css','/celebration-studio/branding.mjs','/arena','/arena/']){
   assert.equal(exported.pages[route],undefined);
@@ -77,8 +77,8 @@ test('AdSense Auto Ads is global on eligible anonymous public pages only',async(
 });
 test('Cloudflare export contains only allowlisted frontend files and shared outage assets', () => {
   const files = fs.readdirSync(exported.output, {recursive: true, withFileTypes: true}).filter(item => item.isFile());
-  assert.equal(files.length, exported.files.size + 1);
-  for (const source of exported.files.values()) assert.match(source, /^(apps\/[^/]+\/frontend\/|packages\/ui\/|apps\/fund-overlap\/data\/holdings\/[a-z0-9-]{1,80}\/\d{4}-\d{2}-\d{2}-[a-f0-9]{16}\.json$)/);
+  const manifest=JSON.parse(fs.readFileSync('infrastructure/cloudflare/fund-runtime-manifest.json','utf8'));assert.equal(files.length,exported.files.size+1+3+manifest.rows.length);
+  for (const source of exported.files.values()) assert.match(source, /^(apps\/[^/]+\/frontend\/|packages\/(?:ui|http)\/|apps\/fund-overlap\/data\/holdings\/[a-z0-9-]{1,80}\/\d{4}-\d{2}-\d{2}-[a-f0-9]{16}\.json$)/);
   for (const name of Object.values(exported.pages)) assert.match(fs.readFileSync(path.join(exported.output, name), 'utf8'), /shared\/availability.js/);
 });
 test('independent tools load without origin calls; unavailable app routes return uncached useful HTML', async () => {
@@ -184,7 +184,7 @@ test('mapped official schemes use static holdings without provider credentials o
   const route=base+'/api/fund-overlap/scheme/'+fund.schemeCodes[0];
   const response=await handle(new Request(route,{headers:{Cookie:'chambers_session=private','If-None-Match':'"old-alias"','If-Modified-Since':'Thu, 01 Jan 2026 00:00:00 GMT'}}),env,async()=>{throw Error('Official holdings must not contact origin');},{provider});
   assert.equal(response.status,200);const snapshot=await response.json();assert.equal(snapshot.schemeId,'amfi-'+fund.schemeCodes[0]);assert.equal(snapshot.portfolioDate,fund.portfolioDate);assert.equal(snapshot.source.kind,'official');
-  const head=await handle(new Request(route,{method:'HEAD'}),env,undefined,{provider});assert.equal(head.status,200);assert.equal(await head.text(),'');assert.equal(reads,2);
+  const head=await handle(new Request(route,{method:'HEAD'}),env,undefined,{provider});assert.equal(head.status,200);assert.equal(await head.text(),'');assert.equal(reads,3);
 });
 
 test('large portfolios resume verified stock lookups across invocations within the free request budget', async () => {
@@ -210,4 +210,15 @@ test('large portfolios resume verified stock lookups across invocations within t
     assert.ok(calls <= 36);
   }
   assert.ok(rounds > 5); assert.ok(Math.abs(result.includedNavWeight - 72) < 0.00001);
+});
+
+test('Fund Lens partitions preserve published coverage and offline search without loading unrelated tables',async()=>{
+ const {fundSources}=await import('../infrastructure/cloudflare/fund-sources.mjs'),official=require('../apps/fund-overlap/backend/official-library');
+ const references=JSON.parse(fs.readFileSync('infrastructure/cloudflare/fund-runtime-references.json','utf8')),reads=[];
+ const env={ASSETS:{fetch:async request=>{const target=new URL(request.url).pathname;reads.push(target);return new Response(fs.readFileSync(path.join(exported.output,target)),{headers:{'Content-Type':'application/json'}});}},FUND_LIMITER:{limit:async()=>({success:true})}};
+ const index=await fundSources(new Request(base+'/api/fund-overlap/fund-index.json'),env);assert.equal(index.status,200);assert.deepEqual(await index.json(),references['/api/fund-overlap/fund-index.json']);assert.equal(reads.length,1);assert(reads[0].endsWith('/base.json'));
+ for(const query of ['', 'hdfc', '100027']){const params=new URLSearchParams({q:query,limit:'5'});const response=await fundSources(new Request(base+'/api/fund-overlap/coverage/schemes?'+params),env);assert.equal(response.status,200);assert.deepEqual(await response.json(),official.coveragePage(references,params));}
+ const provider={search:async()=>{throw Error('Offline fixture');}};
+ for(const query of ['hdfc flexi cap','100027']){const response=await fundSources(new Request(base+'/api/fund-overlap/search?q='+encodeURIComponent(query)),env,{provider});assert.equal(response.status,200);const result=await response.json(),expected=official.searchPublishedCatalogue(references,query);for(const fund of expected.funds)assert(result.funds.some(row=>row.id===fund.id&&row.name===fund.name));assert.equal(result.total,expected.total);}
+ assert.equal(reads.filter(p=>p.endsWith('/base.json')).length,1);assert(reads.filter(p=>p.includes('/rows-')).length<10);
 });
