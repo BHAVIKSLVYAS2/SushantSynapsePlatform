@@ -1,5 +1,15 @@
 # Organisation licensing production cutover
 
+Latest production release (2026-10-25): Vedic internal implementation and Ritual
+shared-engine integration commit b933ef2, Worker
+fff881cb-1375-41d7-b769-abd63726751f. Organisation-enabled production dry run and
+deployment passed with --keep-vars. Live home/health/Ritual return 200; engine
+bytes match the build, unscoped records remain 409 and Vedic remains 404.
+No migrations, bootstrap or business-data writes. Vedic public availability
+remains blocked by source/review/hosting acceptance and missing public integration.
+Evidence: .publish/vedic-production-deploy.log and vedic-production-live.json.
+Earlier releases below are historical.
+
 Live on 2026-10-17 at `https://apps.sushantsynapse.com`.
 Current production release (2026-10-19): Tournament organisation integration
 `e461ec3`, initially Worker `2a26cf1a-9fb2-4207-8d94-66a46348f1d4`. Scoped

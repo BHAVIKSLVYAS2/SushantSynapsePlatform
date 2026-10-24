@@ -4,7 +4,11 @@
 of the completed implementation. Existing Ritual integration is the production
 change; Rashifal/Kundli remains an internal preview with no public route/card/API.
 Source, review and hosting acceptance gates remain open. Production build and
-live verification are being recorded in docs/vedic/PROGRESS.md.
+live verification are recorded in docs/vedic/PROGRESS.md. Implementation b933ef2
+is deployed as Worker fff881cb-1375-41d7-b769-abd63726751f. Production dry run
+passed; live home/health/Ritual, exact engine parity and protected-route checks
+passed. Vedic returns 404. Existing variables/D1 bindings preserved; no migrations
+or business-data writes. Deployment evidence is in .publish/vedic-production-*.
 
 **Vedic P17 (2026-10-25, internal sharing/hardening):** Ritual's duplicate engine
 is now a compatibility import of the identical shared Astronomy Engine 2.1.19.

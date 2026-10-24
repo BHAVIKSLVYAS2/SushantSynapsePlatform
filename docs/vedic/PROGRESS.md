@@ -8,7 +8,16 @@ Latest request (2026-10-25): user explicitly authorised commit and deployment.
 Release preparation covers the tested existing Ritual integration and all local
 P00–P17 source. Vedic public activation remains blocked by the documented source,
 review and hosting gates; deployment authorisation does not certify those gates.
-Production build/deployment results will be recorded below after verification.
+Committed implementation: b933ef2. Production deployment succeeded with Worker
+fff881cb-1375-41d7-b769-abd63726751f using --keep-vars and the organisation-enabled
+production configuration. Production dry run passed (1,068 assets). Live read-only
+checks passed: home/health/Ritual 200, Vedic route 404, unscoped records API 409,
+and delivered Ritual engine SHA-256 exactly matches the production build.
+Evidence: .publish/vedic-production-dryrun.log, vedic-production-deploy.log and
+vedic-production-live.json. No migration, bootstrap or business-data writes.
+Vedic is NOT publicly available. Next: resolve the named source/review/runtime
+gates and implement verified public integration before claiming availability.
+Documentation follow-up records this result; implementation commit is deployed.
 The earlier uncommitted/no-deployment statements describe the P17 checkpoint.
 
 Active user request: P17 Ritual Assist sharing/regression and release hardening.
