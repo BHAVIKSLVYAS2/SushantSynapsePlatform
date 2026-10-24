@@ -13,7 +13,12 @@ image_gen; final prompts and encoding settings are recorded in
 including all 31 profile crops across four widths/two themes, new-cast reaction
 states, detail restoration, delayed expression loads, saved choices and genuine
 share image exports. Screenshots were visually reviewed for the anchor detail
-pages. Production deployment verification pending for this artwork release.
+pages. Committed as `c271c04` and deployed to production Worker
+`3935c8e9-3863-4de7-917c-f080e684ba68`. Live read-only verification confirms
+all six image hashes match the committed assets, six feed/detail routes render,
+and 105 portrait/expression states decode at the correct dimensions with zero
+page errors. Mobile light/dark layouts pass; production writes were blocked by
+the verification browser. No database or application behavior changes.
 
 **Arena cartoon-style review (2026-10-24, preview only):** Inspected current
 anchor, actor, corporate and politician portrait sheets plus anchor reaction
