@@ -5,7 +5,7 @@ test('P17 Ritual primitives, ten-year remembrance and two monthly calendars exac
 test('P17 canonical engine export identities, public URL bytes and licence remain unchanged',async()=>{
  const shared=await import('../packages/vedic/vendor/astronomy-engine-2.1.19.mjs'),ritual=await import('../apps/ritual-assist/frontend/astronomy-engine.mjs');assert.deepEqual(Object.keys(shared),Object.keys(ritual));for(const key of Object.keys(shared))assert.equal(ritual[key],shared[key]);
  const {staticAssets}=require('../server/static-assets'),bytes=fs.readFileSync(staticAssets['/ritual-assist/astronomy-engine.mjs']);assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),require('./fixtures/vedic-ritual-baseline.json').engineSha256);assert.match(bytes.toString().slice(0,1600),/MIT License/);
- assert.equal(Object.keys(staticAssets).some(route=>/rashifal-kundli|\/vedic\b/.test(route)),false);
+ assert.ok(staticAssets['/rashifal-kundli']);assert.equal(Object.keys(staticAssets).some(route=>route.startsWith('/packages/vedic/')),false);
 });
 test('P17 compatibility diagnostics do not certify distinct profiles as equivalent',async()=>{
  const {auditRitualCompatibility}=await import('../packages/vedic/ritual-compatibility.mjs');for(const utcInstant of ['1950-06-15T06:45:00Z','2000-01-01T06:45:00Z','2026-09-26T06:45:00Z']){const r=auditRitualCompatibility({utcInstant,calculationProfileId:'IN_LAHIRI_DEFAULT_V1'});assert.equal(r.policy.profileEquivalent,false);assert.match(r.policy.calendarSubstitution,/blocked/);assert.ok(Number.isFinite(r.sameUtcDifferenceArcsec));assert.ok(Math.abs(r.alignedTtDifferenceArcsec)>1);assert.match(r.acceptance,/not-equivalent/);}

@@ -85,16 +85,19 @@ async function dispatch(req,res) {
       if(['/admin','/super-admin'].includes(url.pathname)&&!adminPreview){res.writeHead(404);return res.end('Not found');}
       const assets=adminPreview?{...staticAssets,...require('../apps/admin/backend/preview-assets.cjs')}:staticAssets;
       const name=assets[url.pathname];if(!name){res.writeHead(404);return res.end('Not found');}
+      if(url.pathname.startsWith('/rashifal-kundli')&&!fs.existsSync(path.join(ROOT,name))){res.writeHead(503,{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'});return res.end('The Vedic verification preview build is unavailable.');}
       if(req.method!=='GET'&&req.method!=='HEAD')fail(405,'Method not allowed');
       res.setHeader('Content-Type',(name.endsWith('.js')||name.endsWith('.mjs'))?'text/javascript; charset=utf-8':name.endsWith('.css')?'text/css; charset=utf-8':name.endsWith('.png')?'image/png':name.endsWith('.webp')?'image/webp':name.endsWith('.svg')?'image/svg+xml':name.endsWith('.webmanifest')?'application/manifest+json':'text/html; charset=utf-8');
       if(name.endsWith('.txt'))res.setHeader('Content-Type','text/plain; charset=utf-8');
       if(name.endsWith('.mp3'))res.setHeader('Content-Type','audio/mpeg');
       if(name.endsWith('.wav'))res.setHeader('Content-Type','audio/wav');
       let contents=req.method==='HEAD'?undefined:fs.readFileSync(path.join(ROOT,name));
-      if(contents&&name.endsWith('.html'))contents=Buffer.from(require('../packages/ui/beta-html.cjs').betaHtml(require('../packages/ui/theme-html.cjs').earlyTheme(contents.toString())));
+      const vedic=require('../apps/rashifal-kundli/privacy.cjs');
+      if(vedic.isVedic(url.pathname))for(const [key,value]of Object.entries(vedic.headers))res.setHeader(key,value);
+      if(contents&&name.endsWith('.html')&&!vedic.isVedic(url.pathname))contents=Buffer.from(require('../packages/ui/beta-html.cjs').betaHtml(require('../packages/ui/theme-html.cjs').earlyTheme(contents.toString())));
       if(adminPreview&&name==='apps/advocate/frontend/index.html'&&contents)contents=Buffer.from(contents.toString().replace('</head>','<link rel="stylesheet" href="/advocate/organisation-preview.css"></head>').replace('<script src="/app.js"></script>','<script src="/advocate/organisation-preview.js"></script><script src="/app.js"></script>'));
       if(adsense.eligiblePage(url.pathname,req.headers.cookie||'')){const nonce=randomUUID();res.setHeader('Content-Security-Policy',adsense.pagePolicy(nonce));if(contents)contents=Buffer.from(adsense.renderPage(contents.toString(),nonce));}
-      res.setHeader('Cache-Control',name.endsWith('.html')?'no-store':'no-cache');return res.end(contents);
+      res.setHeader('Cache-Control',vedic.isVedic(url.pathname)||name.endsWith('.html')?'no-store':'no-cache');return res.end(contents);
     }
     const host = req.headers.host || '';
     const localHost=/^(localhost|127\.0\.0\.1)(:\d+)?$/.test(host);

@@ -44,8 +44,9 @@ function build({fullstack=false,organisations=false}={}) {
     fs.mkdirSync(path.dirname(target), {recursive: true});
     let contents = fs.readFileSync(path.join(root, source));
     // Install fetch interception before app scripts; avoid waiting on its CSS.
-    if (source.endsWith('.html')) contents = Buffer.from(contents.toString().replace('<head>', '<head><script src="/shared/availability.js?v=20261019-delivery"></script><link rel="stylesheet" href="/shared/availability.css">'));
-    if(source.endsWith('.html'))contents=Buffer.from(require('../../packages/ui/beta-html.cjs').betaHtml(require('../../packages/ui/theme-html.cjs').earlyTheme(contents.toString())));
+    const vedic=source.startsWith('apps/rashifal-kundli/');
+    if (source.endsWith('.html')&&!vedic) contents = Buffer.from(contents.toString().replace('<head>', '<head><script src="/shared/availability.js?v=20261019-delivery"></script><link rel="stylesheet" href="/shared/availability.css">'));
+    if(source.endsWith('.html')&&!vedic)contents=Buffer.from(require('../../packages/ui/beta-html.cjs').betaHtml(require('../../packages/ui/theme-html.cjs').earlyTheme(contents.toString())));
     fs.writeFileSync(target, contents);
   }
   fs.writeFileSync(path.join(__dirname, 'pages.json'), JSON.stringify(pages, null, 2) + '\n');

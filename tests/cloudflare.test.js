@@ -82,7 +82,11 @@ test('Cloudflare export contains only allowlisted frontend files and shared outa
     if(source==='packages/vedic/vendor/astronomy-engine-2.1.19.mjs')assert.match(url,/^(?:\/_static\/[a-f0-9]{32})?\/ritual-assist\/astronomy-engine\.mjs$/);
     else assert.match(source, /^(apps\/[^/]+\/frontend\/|packages\/(?:ui|http)\/|apps\/fund-overlap\/data\/holdings\/[a-z0-9-]{1,80}\/\d{4}-\d{2}-\d{2}-[a-f0-9]{16}\.json$)/);
   }
-  for (const name of Object.values(exported.pages)) assert.match(fs.readFileSync(path.join(exported.output, name), 'utf8'), /shared\/availability.js/);
+  for (const [route,name] of Object.entries(exported.pages)) {
+   const html=fs.readFileSync(path.join(exported.output,name),'utf8');
+   if(route.startsWith('/rashifal-kundli'))assert.doesNotMatch(html,/shared\/availability.js|adsbygoogle|beta-notice/);
+   else assert.match(html,/shared\/availability.js/);
+  }
 });
 test('independent tools load without origin calls; unavailable app routes return uncached useful HTML', async () => {
   let calls = 0;

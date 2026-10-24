@@ -1,5 +1,15 @@
 # Code ownership and adding apps
 
+Vedic production verification preview (2026-10-25): user authorised public testing.
+App-owned build.cjs bundles the established UI entries into ignored frontend
+outputs; public-assets.cjs explicitly maps the four screens and required assets.
+The shared frontend build generates them; Node serves prepared outputs and returns
+503 for missing preview builds without compiling at startup. App-owned privacy.cjs applies the
+same page policy in Node and both Cloudflare page handlers. No birth API/database
+is introduced, no ad/availability scripts are injected into these pages, and
+source/editorial/general-release gates remain open. See docs/vedic/PRODUCTION_PREVIEW.md.
+Earlier local-only architecture checkpoints below are historical.
+
 Vedic P17: Ritual imports the canonical pinned MIT engine through its legacy
 compatibility module. The existing public Ritual engine URL serves that exact
 source through the unchanged delivery transform; other Vedic assets remain

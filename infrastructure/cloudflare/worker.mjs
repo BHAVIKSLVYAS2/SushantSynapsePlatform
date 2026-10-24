@@ -1,6 +1,7 @@
 import {newsSources} from './news-sources.mjs';
 import {fundSources} from './fund-sources.mjs';
 import adsense from '../../packages/ui/adsense.cjs';
+import vedicPrivacy from '../../apps/rashifal-kundli/privacy.cjs';
 import pages from './pages.json' with {type: 'json'};
 import {cloudPages} from '../../apps/satire-arena/backend/cloud-pages.mjs';
 const independent = new Set(['/confessions','/confessions/','/qr-maker','/qr-maker/','/photo-resize','/photo-resize/','/bill-splitter','/bill-splitter/','/satire-arena','/satire-arena/','/privacy', '/privacy/', '/terms', '/terms/', '/contact', '/contact/', '/legal', '/legal/', '/legal/third-party-notices', '/legal/third-party-notices/', '/showcase', '/showcase/', '/support', '/support/', '/ritual-assist', '/ritual-assist/', '/ritual-assist/calendar', '/ritual-assist/calendar/', '/take-a-break', '/take-a-break/', '/moment-studio', '/moment-studio/', '/moment-studio/cards', '/moment-studio/cards/', '/moment-studio/certificates', '/moment-studio/certificates/', '/team-mixer', '/team-mixer/', '/decision-wheel', '/decision-wheel/', '/daily-spark', '/daily-spark/', '/', '/fund-overlap', '/news', '/timetable-lite', '/timetable-lite/']);
@@ -52,7 +53,7 @@ export async function handle(request, env, originFetch = fetch, sourceOptions = 
   let page = pages[canonical];
   if (!page) return new Response('Not found', {status: 404, headers: security});
   let offline = false;
-  if (!independent.has(canonical)) {
+  if (!independent.has(canonical)&&!vedicPrivacy.isVedic(canonical)) {
     offline = true;
     if (url.hostname === 'apps.sushantsynapse.com') {
       try {
@@ -66,6 +67,7 @@ export async function handle(request, env, originFetch = fetch, sourceOptions = 
   const response = await env.ASSETS.fetch(new Request(new URL(page, url)));
   const headers = new Headers(response.headers);
   for (const [name, value] of Object.entries(security)) headers.set(name, value);
+  if(vedicPrivacy.isVedic(canonical))for(const [key,value]of Object.entries(vedicPrivacy.headers))headers.set(key,value);
   if (offline) headers.set('Retry-After', '30');
   const pageResponse=new Response(request.method === 'HEAD' ? null : response.body, {status: offline ? 503 : response.status, headers});
   return adsense.responseWithAds(pageResponse,canonical,request.headers.get('Cookie')||'',crypto.randomUUID(),request.method);

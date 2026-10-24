@@ -1,5 +1,18 @@
 # Chambers functionality ledger
 
+**Vedic public verification preview (2026-10-25, release in progress):** User
+explicitly authorised production routes to start verification. One preview card
+and four browser-only screens are implemented, with no birth API or persistence.
+Pages display unfinished source/traditional/editorial review status and enforce
+no-referrer, no-store, noindex and CSP connect-src none; no ads/analytics injected.
+Independent general-release gates remain open. Build passes. Initial regression
+524/525; timed-out organisation fixture passes in isolated reruns after removing
+startup compilation (15/15 checks, then final 7/7 including Node page privacy).
+All 35 browser scenarios have passing evidence across initial Vedic run and
+corrected catalogue-fixture rerun. Four built public pages pass calculation,
+worker/theme/layout and request-isolation checks. Deployment/live results follow
+in docs/vedic/PROGRESS.md. Scope: PRODUCTION_PREVIEW.md there.
+
 **Vedic release preparation (2026-10-25):** User authorised commit and deployment
 of the completed implementation. Existing Ritual integration is the production
 change; Rashifal/Kundli remains an internal preview with no public route/card/API.

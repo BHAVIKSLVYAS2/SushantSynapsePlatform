@@ -4,6 +4,23 @@ Started: 2026-10-24 (Asia/Kolkata).
 
 ## Resume here
 
+Active request (2026-10-25): enable the app in production for verification.
+Implemented one public preview card and browser-only Kundli/Rashifal/Time Machine/
+Matching routes. Explicit preview warnings and isolated network/privacy headers
+retain all independent validation gates. See PRODUCTION_PREVIEW.md. Production
+build passed. Full regression: 524/525 initial checks passed; one organisation
+fixture startup timed out during repeated frontend compilation. Compilation was
+removed from server startup; shared-build outputs are cached. Isolated rerun
+passed 15/15, final Node privacy + organisation rerun passed 7/7 (including a new
+page privacy check). All 35 distinct browser scenarios have passing coverage:
+30 Vedic scenarios passed, then 5/5 catalogue scenarios passed after restoring
+their missing server fixture and updating the card count. The four built
+production pages include calculation, worker loading, responsive theme and
+no-third-party-request checks. Screenshot inspected; offline report and whitespace
+checks pass. Evidence: .publish/vedic-preview-{full-tests,rerun,node-final,browser,
+catalogue,final-build}.log. Deployment/live results follow below. Earlier
+404/no-public-route statements below describe the previous release checkpoint.
+
 Latest request (2026-10-25): user explicitly authorised commit and deployment.
 Release preparation covers the tested existing Ritual integration and all local
 P00–P17 source. Vedic public activation remains blocked by the documented source,

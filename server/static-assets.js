@@ -1,5 +1,6 @@
 // Explicit URL allowlist. Filesystem paths are never accepted from requests.
 const staticAssets={
+ ...require('../apps/rashifal-kundli/public-assets.cjs'),
  '/ads.txt':'packages/ui/ads.txt',
  '/shared/beta-notice.js':'packages/ui/beta-notice.js',
  '/shared/beta-notice.css':'packages/ui/beta-notice.css',

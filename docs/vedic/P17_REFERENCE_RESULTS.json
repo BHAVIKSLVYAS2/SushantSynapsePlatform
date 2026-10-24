@@ -5,8 +5,8 @@
     "packages/vedic/vendor/astronomy-engine-2.1.19.mjs": "6257fd34e7a74370767a98bf26d1724d748e5f71c1530be6730ff21336cc6607",
     "apps/ritual-assist/frontend/astronomy-engine.mjs": "97e26d359dac7e42ebe2bf5128182cb9302338b0311d6000c1171ab5b1b2e41d",
     "packages/vedic/ritual-compatibility.mjs": "7fe8e7e43f360da73a9d0e8d0ef6e0d2b2ec487b7a18515503c832915ec3b8c0",
-    "packages/vedic/release-policy.mjs": "152d604c76e75527e919af73950532aac3934f0fba559020664fa4a945877448",
-    "server/static-assets.js": "8ffb367db73c465b779b52218df4eef2b17c6f20e1b6f118508bf12d73232e09"
+    "packages/vedic/release-policy.mjs": "40f0bd3620021a3613778c500bdfb9407414a36d403a19da584cfb56c5c558c8",
+    "server/static-assets.js": "b5b592f53ccd853bb877f2517d6d599a642fb5a491e11bc2b96ac815554bbeee"
   },
   "preserved": {
     "primitives": [
@@ -205,12 +205,12 @@
         {
           "id": "hostingPrivacy",
           "status": "open",
-          "reason": "No production Vedic routes, birth API, origin privacy or runtime budget acceptance"
+          "reason": "Browser-only verification preview authorised; broader privacy/runtime budget acceptance pending; no birth API"
         },
         {
           "id": "deployment",
           "status": "open",
-          "reason": "No Vedic production build/origin/deployment acceptance or authorization"
+          "reason": "Production verification preview authorised; validated general-release acceptance remains pending"
         },
         {
           "id": "physicalBounds",
@@ -271,12 +271,12 @@
         {
           "id": "hostingPrivacy",
           "status": "open",
-          "reason": "No production Vedic routes, birth API, origin privacy or runtime budget acceptance"
+          "reason": "Browser-only verification preview authorised; broader privacy/runtime budget acceptance pending; no birth API"
         },
         {
           "id": "deployment",
           "status": "open",
-          "reason": "No Vedic production build/origin/deployment acceptance or authorization"
+          "reason": "Production verification preview authorised; validated general-release acceptance remains pending"
         },
         {
           "id": "physicalBounds",
@@ -312,9 +312,9 @@
   "bundles": [
     {
       "entry": "birth",
-      "bytes": 1754741,
-      "gzipBytes": 354582,
-      "sha256": "14aa8b019799a48d82cde7f7c9575b172e6659262a51ca4ba21fffbb3c9f0d46"
+      "bytes": 1754832,
+      "gzipBytes": 354615,
+      "sha256": "ad4ff4a683feba259a9f01822fc213f7fe2e0aa3cd6a108406bf614a432e85eb"
     },
     {
       "entry": "rashifal",
@@ -324,9 +324,9 @@
     },
     {
       "entry": "matching",
-      "bytes": 1557507,
-      "gzipBytes": 303399,
-      "sha256": "6e23dec98d427fd2199af4d80187b550ec527ea162c6c40a2125ee2db5031554"
+      "bytes": 1557678,
+      "gzipBytes": 303444,
+      "sha256": "271f5a2bb68db4d798acff59153707e5f61a4390d970657347b68d550636df02"
     },
     {
       "entry": "time-machine",

@@ -1,5 +1,13 @@
 # Rashifal and Kundli: internal birth, export and P11 traditions UI
 
+Production verification preview authorised on 2026-10-25: the platform card opens
+/rashifal-kundli with Kundli, Rashifal, Time Machine and Matching navigation.
+Browser-only bundles and private-input page headers expose testing without a
+birth API/database. Independent source/editorial/traditional gates remain open;
+this is not a validated general release. See docs/vedic/PRODUCTION_PREVIEW.md and
+PROGRESS.md for deployment/verification status. Earlier local-only entries below
+describe previous checkpoints.
+
 P17 adds a fixed no-referrer Ritual preparation-guide link, private-preview
 security headers and read-only release-readiness policy. No birth information
 or candidate dates transfer to Ritual. Both apps share the identical pinned

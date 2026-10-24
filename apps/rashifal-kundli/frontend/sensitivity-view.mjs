@@ -28,7 +28,7 @@ export function mountSensitivity(container,{input,now=()=>Date.now(),language='e
   for(const [key,value]of Object.entries(a.bounds))provenance.append(el('p',`${key}: ${value}`));provenance.append(el('p',`evaluations: ${a.evaluations} / ${a.model.maximumEvaluations}`));for(const warning of result.warnings)provenance.append(el('p',warning));output.append(provenance);
  }
  analyze.addEventListener('click',()=>{stop();const current=revision;analyze.disabled=true;status.textContent=t.busy;
-  try{worker=new Worker('/sensitivity-worker.mjs',{type:'module'});worker.onmessage=event=>{if(destroyed||revision!==current)return;const message=event.data;
+  try{worker=new Worker(location.pathname.startsWith('/rashifal-kundli')?'/rashifal-kundli/sensitivity-worker.mjs':'/sensitivity-worker.mjs',{type:'module'});worker.onmessage=event=>{if(destroyed||revision!==current)return;const message=event.data;
    worker?.terminate();worker=null;analyze.disabled=false;if(message.result){render(message.result);status.textContent=t.ready;}else status.textContent=`${t.unavailable}: ${message.code??'COMPUTATION_LIMIT'}`;
   };worker.onerror=()=>{if(destroyed||revision!==current)return;worker?.terminate();worker=null;analyze.disabled=false;status.textContent=t.unavailable;};worker.postMessage({input,now:now()});}
   catch{worker?.terminate();worker=null;analyze.disabled=false;status.textContent=t.unavailable;}

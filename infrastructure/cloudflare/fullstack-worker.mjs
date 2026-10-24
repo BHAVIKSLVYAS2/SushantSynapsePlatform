@@ -2,6 +2,7 @@ import {handle as frontend} from './worker.mjs';
 import {edgeApi} from '../../server/edge-index.mjs';
 import {cloudPages} from '../../apps/satire-arena/backend/cloud-pages.mjs';
 import adsense from '../../packages/ui/adsense.cjs';
+import vedicPrivacy from '../../apps/rashifal-kundli/privacy.cjs';
 export default {
  async fetch(request,env){
   const url=new URL(request.url);
@@ -46,6 +47,7 @@ export default {
    const headers=new Headers(response.headers);headers.set('Cache-Control','no-store');headers.set('X-Synapse-Frontend','cloudflare');
    headers.set('X-Content-Type-Options','nosniff');headers.set('X-Frame-Options','DENY');headers.set('Referrer-Policy','same-origin');
    headers.set('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'");
+   if(vedicPrivacy.isVedic(canonical))for(const [key,value]of Object.entries(vedicPrivacy.headers))headers.set(key,value);
    if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405,headers});
    let body=response.body;
    if(env.ORGANISATIONS_ENABLED==='true'&&canonical==='/advocate'&&response.ok){body=(await response.text()).replace('</head>','<link rel="stylesheet" href="/advocate/organisation-preview.css"></head>').replace(/<script src="((?:\/_static\/[a-f0-9]{32})?\/app\.js)"><\/script>/,(_,src)=>'<script src="/advocate/organisation-preview.js"></script><script src="'+src+'"></script>');headers.delete('Content-Length');headers.delete('ETag');}

@@ -4,7 +4,7 @@ const fs=require('node:fs'),path=require('node:path'),assert=require('node:asser
  const preserved=await ritualCases();assert.deepEqual(preserved,baseline.result);
  const comparisons=baseline.result.primitives.map(p=>auditRitualCompatibility({utcInstant:p.utc,calculationProfileId:'IN_LAHIRI_DEFAULT_V1'}));
  const readiness=['node','workers'].map(runtime=>evaluateVedicRelease({runtime,features:Object.keys(vedicReleasePolicy.features)}));assert.ok(readiness.every(r=>!r.ready));
- const {staticAssets}=require('../server/static-assets'),engineBytes=fs.readFileSync(path.join(__dirname,'..',staticAssets['/ritual-assist/astronomy-engine.mjs']));assert.equal(createHash('sha256').update(engineBytes).digest('hex'),baseline.engineSha256);assert.ok(!Object.keys(staticAssets).some(key=>/rashifal-kundli|\/vedic\b/.test(key)));
+ const {staticAssets}=require('../server/static-assets'),engineBytes=fs.readFileSync(path.join(__dirname,'..',staticAssets['/ritual-assist/astronomy-engine.mjs']));assert.equal(createHash('sha256').update(engineBytes).digest('hex'),baseline.engineSha256);assert.ok(staticAssets['/rashifal-kundli']);assert.ok(!Object.keys(staticAssets).some(key=>key.startsWith('/packages/vedic/')));
  const delivered=require('esbuild').transformSync(engineBytes.toString('utf8'),{loader:'js',minifyWhitespace:true,minifySyntax:true,minifyIdentifiers:true,target:'chrome114',legalComments:'inline'}).code;
  const deliveredEngineSha256=createHash('sha256').update(delivered).digest('hex'),builtEngine=path.join(__dirname,'cloudflare/dist/ritual-assist/astronomy-engine.mjs');
  if(fs.existsSync(builtEngine))assert.equal(fs.readFileSync(builtEngine,'utf8'),delivered,'Existing public delivery transform preserves the original engine input');
