@@ -9,8 +9,14 @@ synthetic summary calculation takes 72.1% less time. These are not production
 latency claims. Complete suite: 379 passing; browser groups: 49 Arena/portal,
 18 cross-app, 11 administration/Feedback, plus language and focused contracts.
 Generated assets pass 15 routes in both themes with zero page errors. Production
-dry-run passes; deployment verification pending. No schema or production data
-changes. Details: `docs/PERFORMANCE_REUSE_RESULTS_2026-10-24.md`.
+dry-run and production deployment pass. Implementation commit `5c7fef1`, Worker
+`22893e03-8326-4dc9-8527-7547db9a2354`. Live read-only Fund Lens partition/coverage/
+official scheme and Arena summaries pass; nine mobile pages pass themes/language
+with zero page errors. Same 30-second idle observation: language scans 128→0,
+countdown mutations 62→2. Production upload is 81.8% smaller raw / 79.4% gzip;
+arena page transfer remains roughly flat with a few extra shared-module requests.
+No schema or production data changes. Details:
+`docs/PERFORMANCE_REUSE_RESULTS_2026-10-24.md`.
 
 **Performance/reuse architecture review (2026-10-24, plan only):** Reviewed shared
 UI lifecycle, app API wrappers, Node/Workers composition, D1 query paths, Arena
