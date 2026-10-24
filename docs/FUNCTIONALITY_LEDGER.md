@@ -12,7 +12,13 @@ no visual effect. Shared controller/effects supply all four arenas and details.
 Removed the superseded tomato emoji-impact CSS/keyframes. Seven sound/effect
 browser workflows, two detail/entry workflows and sixteen Cloudflare/delivery
 contracts pass on isolated fixtures. Local actor-card splash screenshot visually
-reviewed. Audio provenance is in `apps/satire-arena/AUDIO.md`. Deployment pending.
+reviewed. Audio provenance is in `apps/satire-arena/AUDIO.md`. Implementation
+commit `f39fb1f` deployed as Worker `851f1ba8-60cd-45cc-8c93-23e276b8745f`.
+Live read-only checks pass for three exact voice-file hashes, seven feed/detail
+pages, fourteen simulated splash effects and four rendered sound outputs.
+There are no startup audio requests or browser errors; verification blocked all
+production writes. Final tomato CSS regression passes after obsolete effects
+were removed. No database changes.
 
 **Arena cartoon artwork (2026-10-24):** Applied the approved news-anchor style
 to all eighteen anchors, actors and corporates. Replaced the three portrait and
