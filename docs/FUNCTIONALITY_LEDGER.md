@@ -16,7 +16,16 @@ SQL/schema plus migration contracts pass 6/6. Five affected browser workflows
 pass, including every profile across four widths/two themes, nine-card voting,
 all new reaction crops and genuine share exports (old single-sheet share
 expectation corrected and rerun). New profile screenshots visually reviewed.
-Production has only migration 0009 pending; rollout verification pending. Likeness references
+Implementation commit `2e8c3e9`; production migration 0009 applied successfully
+before Worker `52fc3af2-33fb-4320-9e46-94096e7e01ab` deployed. Live read-only
+verification passes for nine corporate scores/cards, all three new dossiers,
+twelve expression states and the exact artwork hash, with zero browser errors.
+The seven existing ballot tables remain queryable; migration statements do not
+update/drop their rows. Local preservation tests compare their full row values
+before/after migration. Production checks exported only aggregate metadata and
+blocked browser writes; no production votes were cast. SQL Server migration
+is supplied and its ownership/translation contracts pass; no live SQL Server
+migration was performed. Likeness references
 and final prompt: `docs/SATIRE_WORKWEEK_ART_2026-10-24.json`.
 
 **Arena reaction sounds and tomato burst (2026-10-24):** Garland plays a short
