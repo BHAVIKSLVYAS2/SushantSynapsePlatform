@@ -12,11 +12,17 @@ for the browser; no Vedic birth API, database table or account vault is added.
 Birth input/results remain in tab memory. Existing explicit offline exports and
 optional Rashifal sign preference retain their separate controls.
 
-Pages use no-referrer, no-store, noindex, disabled device permissions, same-origin
+Pages use no-referrer, no-store/no-transform, noindex, disabled device permissions, same-origin
 opener isolation and CSP connect-src none. No shared availability fetches, ads,
 analytics or external fonts are injected. These controls do not protect against
 browser extensions, shared-device access or deliberate user downloads. Static
 asset requests still reach the host; birth values do not enter their URLs.
+Initial live checks detected hosting-injected Cloudflare Web Analytics markup,
+blocked by CSP but still observed by browser request instrumentation. The
+no-transform directive is added to suppress hosting injection; see
+https://developers.cloudflare.com/web-analytics/get-started/ . Live reruns must
+verify absence of beacon markup and third-party requests, not merely blocked
+analytics execution. Initial deployment: cc5e9ece-9ae0-4ee7-883f-cb512333fff4.
 
 Independent source, publisher sunrise, uncertainty-bound, rulebook, optional-varga
 and native-language editorial acceptance remains open. Full Shadbala, birth vault,

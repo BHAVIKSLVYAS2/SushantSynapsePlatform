@@ -1,5 +1,5 @@
 const headers={
- 'Cache-Control':'no-store','Referrer-Policy':'no-referrer',
+ 'Cache-Control':'no-store, no-transform','Referrer-Policy':'no-referrer',
  'Cross-Origin-Opener-Policy':'same-origin','X-Content-Type-Options':'nosniff',
  'X-Frame-Options':'DENY','X-Robots-Tag':'noindex, nofollow',
  'Permissions-Policy':'geolocation=(), camera=(), microphone=(), payment=()',

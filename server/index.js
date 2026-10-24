@@ -97,7 +97,7 @@ async function dispatch(req,res) {
       if(contents&&name.endsWith('.html')&&!vedic.isVedic(url.pathname))contents=Buffer.from(require('../packages/ui/beta-html.cjs').betaHtml(require('../packages/ui/theme-html.cjs').earlyTheme(contents.toString())));
       if(adminPreview&&name==='apps/advocate/frontend/index.html'&&contents)contents=Buffer.from(contents.toString().replace('</head>','<link rel="stylesheet" href="/advocate/organisation-preview.css"></head>').replace('<script src="/app.js"></script>','<script src="/advocate/organisation-preview.js"></script><script src="/app.js"></script>'));
       if(adsense.eligiblePage(url.pathname,req.headers.cookie||'')){const nonce=randomUUID();res.setHeader('Content-Security-Policy',adsense.pagePolicy(nonce));if(contents)contents=Buffer.from(adsense.renderPage(contents.toString(),nonce));}
-      res.setHeader('Cache-Control',vedic.isVedic(url.pathname)||name.endsWith('.html')?'no-store':'no-cache');return res.end(contents);
+      res.setHeader('Cache-Control',vedic.isVedic(url.pathname)?vedic.headers['Cache-Control']:name.endsWith('.html')?'no-store':'no-cache');return res.end(contents);
     }
     const host = req.headers.host || '';
     const localHost=/^(localhost|127\.0\.0\.1)(:\d+)?$/.test(host);
