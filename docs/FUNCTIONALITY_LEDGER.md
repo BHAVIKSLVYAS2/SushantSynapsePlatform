@@ -8,6 +8,8 @@ remain. This supersedes the two-column phone layout recorded below.
 Verification: 8 catalogue/cache Node checks, 2 geometry/dynamic-card browser checks
 and 1 complete language/theme/delivery browser check passed. Visual review at
 390px confirms three aligned cards per row with retained introductions.
+Source aaf36bb deployed to apps.sushantsynapse.com, Worker
+553490f8-5fd0-464e-9e9d-06c84ada0c95. Live layout/language/navigation check: 1 passed.
 
 **Home card introductions restored (2026-10-25):** Every public/workspace launcher
 card now includes its existing metadata introduction beneath its icon and brand
