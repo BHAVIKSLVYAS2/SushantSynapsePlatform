@@ -18,7 +18,8 @@ docs/INTERFACE_LANGUAGE_AUDIT.md. Focused Node passes 26/26, including 64,074
 workerd numeric comparisons (maximum difference 5.69e-14) and explicit exclusion
 of birth/place modules. Final Vedic production-export Chrome passes 18/18.
 Platform language/beta/catalogue Chrome passes 21/21; final three-language beta
-and 27-route retained-language rechecks pass. Wheel/task data-preservation passes
+and retained-language rechecks pass (28 routes, including signed-out Chambers).
+Gujarati home-calendar/branding recheck passes 1/1. Wheel/task data-preservation passes
 1/1. Public tool workflows pass 8/8; two stale Ritual extras cases were updated
 to the existing item editor and pass 2/2, adding en/hi/gu custom-text preservation.
 Mobile home mark and daily-reading screenshots reviewed. Live verification follows.
