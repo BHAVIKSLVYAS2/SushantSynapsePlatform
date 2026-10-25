@@ -1,5 +1,9 @@
 # Sushant Synapse Platform
 
+Home uses a compact icon/name launcher: four columns on standard phones, three
+on narrow phones and five or six on tablets. Signed-in users can choose
+Edit favourites, select apps, then Done editing to return to launching apps.
+
 RITVAYAM is the platform's astrology app (existing `/rashifal-kundli` links remain).
 Kundli's Save action keeps only birth inputs and an optional name in this browser;
 reopen to review and recalculate, or Delete to remove the saved profile. Clear form

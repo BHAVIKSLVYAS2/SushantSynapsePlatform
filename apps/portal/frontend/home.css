@@ -462,3 +462,39 @@ body[data-ui-app=portal] .public-home #free-apps .public-app.is-featured{padding
 body[data-ui-app=portal] .public-home #free-apps .public-app.is-featured .public-app-head{top:auto;bottom:8px}
 
 .public-home .home-feature-badge svg{width:8px;height:8px;flex-shrink:0;fill:currentColor}
+
+/* Compact launcher: the same metadata-driven component before and after sign-in. */
+body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) :is(.public-apps,.workspace-grid){display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app-item{min-width:0;height:88px;padding:0;border:0;background:none}
+body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app{
+ --launcher-accent:var(--ss-primary);position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:3px;
+ box-sizing:border-box;width:100%;height:88px;min-height:88px;max-height:88px;padding:6px 3px 4px;border-radius:15px;overflow:hidden;text-align:center;text-decoration:none;
+ border:1px solid color-mix(in srgb,var(--launcher-accent) 12%,var(--ss-border));color:var(--ss-text);
+ background:linear-gradient(155deg,color-mix(in srgb,var(--ss-highlight) 60%,var(--ss-bg-secondary)),var(--ss-bg-secondary));
+ box-shadow:inset 0 1px 0 var(--ss-highlight),0 2px 3px color-mix(in srgb,var(--ss-text) 5%,transparent);
+ animation:none;transition:transform 140ms ease,border-color 140ms ease,box-shadow 140ms ease
+}
+body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app[data-accent=amber]{--launcher-accent:var(--amber)}
+body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app[data-accent=blue]{--launcher-accent:var(--blue)}
+body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app[data-accent=green]{--launcher-accent:var(--green)}
+body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app .compact-app-icon{display:grid;place-items:center;flex:0 0 40px;width:44px;height:40px;border-radius:12px;background:radial-gradient(ellipse at 50% 80%,color-mix(in srgb,var(--launcher-accent) 15%,transparent),transparent 75%)}
+body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app .home-sculpture{display:block;width:44px;height:40px;max-width:none;margin:0;filter:drop-shadow(0 2px 1px color-mix(in srgb,var(--ss-text) 12%,transparent));transform:none}
+body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app .compact-app-name{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere;flex:none;width:100%;height:30px;max-height:30px;margin:0;padding:0;font-size:11px;font-weight:600;line-height:15px;letter-spacing:0;color:var(--ss-text)}
+body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app .home-feature-badge{position:absolute;inset:4px auto auto 4px;display:grid;place-items:center;width:12px;height:12px;padding:0;border:0;border-radius:0;background:none;box-shadow:none;color:var(--launcher-accent);font-size:0}
+body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app .home-feature-badge svg{width:10px;height:10px;fill:currentColor}
+body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app.is-featured{padding:6px 3px 4px}
+body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app-item>.catalogue-favorite{top:0;right:0;bottom:auto;display:grid;place-items:start end;box-sizing:border-box;width:44px;height:44px;min-width:44px;min-height:44px;padding:3px 4px;border:0;border-radius:12px;background:none;color:var(--ss-primary);box-shadow:none;font-size:15px;line-height:18px}
+body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app:focus-visible,body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .catalogue-favorite:focus-visible{outline:3px solid var(--ss-primary);outline-offset:1px;z-index:2}
+@media(min-width:360px){body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) :is(.public-apps,.workspace-grid){grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(min-width:600px){body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) :is(.public-apps,.workspace-grid){grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}}
+@media(min-width:900px){body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) :is(.public-apps,.workspace-grid){grid-template-columns:repeat(6,minmax(0,1fr))}}
+@media(hover:hover){body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--launcher-accent) 45%,var(--ss-border));box-shadow:inset 0 1px 0 var(--ss-highlight),0 4px 7px color-mix(in srgb,var(--ss-text) 9%,transparent)}}
+body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app:active{transform:scale(.97)}
+@media(prefers-reduced-motion:reduce){body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app{transition:none;transform:none!important}}
+/* Editing uses the whole card as a favourite target, never a tiny launch overlay. */
+body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app-item>.catalogue-favorite{display:none}
+body[data-ui-app=portal] .public-home[data-editing-favorites=true] :is(#free-apps,#workspace-apps) .compact-app-item>.catalogue-favorite{display:grid;width:100%;height:100%;padding:5px 7px;border:1px solid var(--ss-border);border-radius:15px}
+body[data-ui-app=portal] .public-home[data-editing-favorites=true] :is(#free-apps,#workspace-apps) .compact-app-item>.catalogue-favorite[aria-pressed=true]{border:2px solid var(--ss-primary)}
+body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app .launcher-lock{position:absolute;top:4px;right:5px;font-size:10px;line-height:12px}
+body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .launcher-status{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app[aria-disabled=true]{opacity:.65;cursor:default}

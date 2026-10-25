@@ -1,5 +1,13 @@
 # Organisation licensing production cutover
 
+Latest compact launcher release (2026-10-25): Worker
+17621f48-e12f-4324-bb00-dfa7fcc5579f. Public/workspace cards share a compact
+88px icon/name presentation with 3/4/5/6 responsive columns. Existing metadata,
+ordering, access enforcement, routes, header and dock remain. Live verification
+passed across 320/360/390/430/600/768/900/1024px, light/dark, shared languages,
+search and app launch. Deployed with --keep-vars and preserved organisation/D1
+bindings. Health 200; unscoped records 409. No schema or production data writes.
+
 Latest RITVAYAM browser-saved inputs release (2026-10-25): Worker
 b9652d40-1890-41af-aa10-2804b1d7f992. Explicit Save Kundli retains validated
 birth inputs and optional name in browser storage only; reports are recalculated.

@@ -38,12 +38,23 @@ function renderCard(app,options={}){
  const available=status==='Available'&&(app.public||access.accessible===true);
  const favourite=available&&signedIn?'<button type="button" class="catalogue-favorite favorite" data-action="favorite" data-id="'+e(app.id)+'" aria-pressed="'+!!options.favorite+'" aria-label="'+(options.favorite?'Remove ':'Add ')+e(app.name)+(options.favorite?' from':' to')+' favourites">'+(options.favorite?'&#9733;':'&#9734;')+'</button>':'';
  const art='<svg class="home-sculpture" viewBox="0 0 180 160" aria-hidden="true" focusable="false"><use href="/home-art.svg#'+e(app.art)+'"></use></svg>';
- if(app.public&&status==='Available')return '<article class="catalogue-item" data-app-id="'+e(app.id)+'"><a class="public-app'+(app.featured?' is-featured':'')+'" data-app-id="'+e(app.id)+'" href="'+e(app.path)+'" aria-label="'+e(app.name)+'"'+(signedIn?' data-action="launch" data-id="'+e(app.id)+'"':'')+'>'+(app.featured?'<span class="home-feature-badge"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.2L5.8 21 7 14.2l-5-4.9 6.9-1Z"></path></svg>Featured</span>':'')+'<div class="public-app-head"><span class="public-app-category">'+e(app.label||app.category)+'</span><span class="public-app-arrow" aria-hidden="true">&#8594;</span></div>'+('<div class="news-visual">'+art+'</div>')+'<div class="public-app-copy"><h2>'+e(app.name)+'</h2><p>'+e(app.homeDescription||app.description)+'</p></div></a>'+favourite+'</article>';
+ if(app.public&&status==='Available')return renderCompactCard(app,{signedIn,favourite,art});
  const label=status!=='Available'?'Unavailable':signedIn?(available?'Available':'Access required'):'Sign-in + app access';
- const action=status!=='Available'?'<span class="not-live">Currently unavailable</span>':signedIn?(available?'<button class="secondary workspace-launch" data-action="launch" data-id="'+e(app.id)+'">Open '+e(app.name)+' <span aria-hidden="true">&#8594;</span></button>':'<span class="not-live">Contact your platform owner</span>'):'<a class="secondary workspace-launch" href="/signin?next='+e(app.id)+'">Sign in to '+e(app.name)+' <span aria-hidden="true">&#8594;</span></a>';
- return '<article class="workspace-card catalogue-item" data-app-id="'+e(app.id)+'"><div class="workspace-card-art" aria-hidden="true">'+art+'</div><div class="workspace-card-copy"><span class="access-label private">'+label+'</span><h3>'+e(app.name)+'</h3><p>'+e(access.description&&status==='Unavailable'?access.description:app.description)+'</p>'+action+'</div>'+favourite+'</article>';
+ return renderCompactCard(app,{signedIn,favourite,art,workspace:true,available,status,label});
 }
-const catalogue={apps,resolveAppId,visibleApps,featuredApps,renderCard,escapeHtml};
+// Shared by static export and signed-in catalogue hydration. Metadata remains authoritative.
+function renderCompactCard(app,{signedIn=false,favourite='',art,workspace=false,available=true,status='Available',label=''}={}){
+ const e=escapeHtml;
+ const artwork=art||'<svg class="home-sculpture" viewBox="0 0 180 160" aria-hidden="true" focusable="false"><use href="/home-art.svg#'+e(app.art||'documents')+'"></use></svg>';
+ const star=app.featured?'<span class="home-feature-badge" role="img" aria-label="Featured"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.2L5.8 21 7 14.2l-5-4.9 6.9-1Z"/></svg></span>':'';
+ const blocked=workspace&&(status!=='Available'||(signedIn&&!available)),tag=blocked?'div':workspace&&signedIn?'button':'a';
+ const name=workspace?(blocked?app.name+' / '+label:signedIn?'Open '+app.name:'Sign in to '+app.name):app.name;
+ const attrs=blocked?' aria-disabled="true"':tag==='button'?' type="button" data-action="launch" data-id="'+e(app.id)+'"':' href="'+e(workspace?'/signin?next='+app.id:app.path)+'"'+(signedIn?' data-action="launch" data-id="'+e(app.id)+'"':'');
+ const lock=workspace?'<span class="launcher-lock" aria-hidden="true">&#128274;</span><span class="launcher-status not-live">'+e(label)+'</span>':'';
+ return '<article class="catalogue-item compact-app-item'+(workspace?' workspace-card':'')+'" data-app-id="'+e(app.id)+'"><'+tag+' class="compact-app '+(workspace?'workspace-launch':'public-app')+(app.featured?' is-featured':'')+'" data-app-id="'+e(app.id)+'" data-accent="'+e(app.accent||'')+'" aria-label="'+e(name)+'" title="'+e(workspace?app.name+' / '+label:app.name)+'"'+attrs+'>'+star+lock+'<span class="compact-app-icon" aria-hidden="true">'+artwork+'</span><'+(workspace?'h3':'h2')+' class="compact-app-name">'+e(app.name)+'</'+(workspace?'h3':'h2')+'></'+tag+'>'+favourite+'</article>';
+
+}
+const catalogue={apps,resolveAppId,visibleApps,featuredApps,renderCard,renderCompactCard,escapeHtml};
 if(typeof module==='object'&&module.exports)module.exports=catalogue;
 else root.SynapseCatalogue=catalogue;
 

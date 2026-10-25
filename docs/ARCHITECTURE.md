@@ -1,5 +1,13 @@
 # Code ownership and adding apps
 
+Compact launcher (2026-10-25): packages/app-registry/index.js owns
+renderCompactCard for public/workspace cards. build-catalogue.cjs generates
+static cards and the browser registry bundle; build-home.cjs generates home CSS.
+Keep metadata, featured ordering, filters and server-owned access authoritative.
+Use existing SVG artwork and theme tokens; cards are 88px high in 3/4/5/6 columns.
+Signed-in Edit favourites uses full-card selection targets, keeping normal
+launch cards free of overlapping secondary targets. Business/API logic is unchanged.
+
 RITVAYAM saved birth inputs (2026-10-25): at the user's explicit request,
 saved-kundli.mjs owns an opt-in browser-local list under ritvayam.saved-kundli.v1.
 Persist only validated birth inputs and optional name, never calculated reports.

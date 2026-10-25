@@ -1,5 +1,29 @@
 # Chambers functionality ledger
 
+**Compact premium launcher (2026-10-25):** Public/workspace cards share
+renderCompactCard: existing centered SVG artwork, two-line name, tiny featured
+star and workspace access indicator. Descriptions, category ribbons, arrows and
+large badges removed. Heights are 88px; columns are 3 at 320px, 4 at
+360/390/430px, 5 at 600/768px and 6 at 900/1024px. Existing theme/accent tokens,
+gradients, shadows, keyboard focus and reduced motion; no dependencies/APIs added.
+Static/guest/signed-in rendering, featured order, search/filtering, recent apps,
+routes and permissions remain. Edit favourites/Done editing uses full-card
+selection targets, leaving normal launch targets unobstructed. Workspace cards
+retain sign-in/available/unavailable/access-required states and accessible text.
+Verified: 8 Node registry/cache/access checks; 16 relevant browser workflows
+(changed-selector/count cases rerun), eight widths in both themes, workspace
+dimensions, 20 metadata-driven apps in five rows/470px, long-name bounds,
+keyboard navigation, no-JS rendering, favourites/recent and restricted access.
+Screenshots: .publish/compact-launcher-*. Two unrelated cross-app failures also
+reproduce with baseline 6135967 shared scripts: Arena has no standalone premium/home CSS
+link; Timetable document is 338px at 320px. These are outside the launcher change.
+Final delivery check also passes locally and live, including shared en/hi/gu,
+all eight widths/both themes, header/dock, search and app navigation. Future
+unavailable public cards keep 88px dimensions and no launch controls. Public-card
+HTML is 7,436 bytes versus 9,265 previously (about 20% less).
+Worker 17621f48-e12f-4324-bb00-dfa7fcc5579f deployed with --keep-vars;
+health 200 and unscoped records 409. No database or business writes.
+
 **RITVAYAM browser-saved Kundli details and single birthplace (2026-10-25):**
 Explicit Save Kundli stores a versioned, validated browser-local list of up to
 100 birth input profiles plus optional names. Calculated charts, predictions,

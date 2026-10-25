@@ -35,7 +35,7 @@ test('premium bento keeps all tools discoverable across touch layouts and both t
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${width}px ${theme}`).toBe(true);
    expect(await page.locator('.public-app').evaluateAll(links=>links.slice(0,4).map(a=>a.getAttribute('href')))).toEqual(['/ritual-assist','/moment-studio','/take-a-break','/satire-arena']);
    const columns=await page.locator('.public-apps').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length);
-   expect(columns).toBe(width>1000?3:width>=360?2:1);
+   expect(columns).toBe(width>=900?6:width>=600?5:width>=360?4:3);
    await expect(page.locator('.platform-shell')).toBeVisible();
    await expect(page.getByRole('searchbox',{name:'Search web apps'})).toBeVisible();await expect(page.locator('#app-finder-trigger')).toHaveCount(0);
    await expect(page.locator('.public-app .home-sculpture')).toHaveCount(14);
@@ -108,8 +108,8 @@ test('single inline home search stays usable across small screens, themes and em
  await search.fill('Take a Break');await page.locator('.public-app:not([hidden])').click();await expect(page).toHaveURL(base+'/take-a-break');await page.goto(base+'/signin');await expect(page.locator('#auth-form')).toBeVisible();await expect(page.locator('#app-finder-trigger')).toHaveCount(0);
 });
 async function expectWorkspaceDiscovery(page){
- await expect(page.locator('.workspace-card-art .home-sculpture use')).toHaveCount(4);
- await expect(page.locator('.workspace-card-art[aria-hidden=true]')).toHaveCount(4);
+ await expect(page.locator('.workspace-card .compact-app-icon .home-sculpture use')).toHaveCount(4);
+ await expect(page.locator('.workspace-card .compact-app-icon[aria-hidden=true]')).toHaveCount(4);
  for(const [name,destination]of [['DIGITAL SAMAJ','digital-samaj'],['Chambers','advocate'],['Tournament Lite','tournament-lite'],['BatchFee Lite','batchfee-lite']]){
   await expect(page.getByRole('link',{name:'Sign in to '+name,exact:true})).toHaveAttribute('href','/signin?next='+destination);
  }
@@ -130,7 +130,7 @@ test('platform setup, favourites, app launch with shared sign-in, team access an
  await expect(page.locator('.workspace-card[data-app-id=projects],.workspace-card[data-app-id=finance],.workspace-card[data-app-id=knowledge]')).toHaveCount(0);
  await expect(page.locator('.workspace-card[data-app-id="advocate"] use')).toHaveAttribute('href',/home-art\.svg.*#chambers$/);
  await page.getByRole('searchbox',{name:'Search web apps'}).fill('Chambers');await expect(page.locator('.workspace-card:not([hidden])')).toHaveCount(1);await expect(page.locator('.workspace-card:not([hidden])')).toContainText('Chambers');await expect(page.locator('.workspace-card:not([hidden]) .home-sculpture')).toHaveAttribute('aria-hidden','true');await page.keyboard.press('Escape');await expect(page.getByRole('searchbox',{name:'Search web apps'})).toBeFocused();
- await page.getByRole('button',{name:'Add Chambers to favourites'}).click();await page.getByRole('navigation',{name:'Platform navigation'}).getByRole('button',{name:'Favourites',exact:true}).click();await expect(page.locator('.catalogue-item')).toHaveCount(1);
+ await page.getByRole('button',{name:'Edit favourites',exact:true}).click();await page.getByRole('button',{name:'Add Chambers to favourites'}).click();await page.getByRole('navigation',{name:'Platform navigation'}).getByRole('button',{name:'Favourites',exact:true}).click();await expect(page.locator('.catalogue-item')).toHaveCount(1);
  await page.getByRole('button',{name:'Open Chambers'}).click();await expect(page).toHaveURL(base+'/advocate');await expect(page.getByRole('heading',{name:'Chambers overview'})).toBeVisible();
  await page.locator('.platform-shell-brand').click();await page.getByRole('navigation',{name:'Platform navigation'}).getByRole('button',{name:'Recent',exact:true}).click();await expect(page.getByRole('heading',{name:'Chambers',exact:true})).toBeVisible();
  await page.getByRole('navigation',{name:'Platform navigation'}).getByRole('button',{name:'All apps',exact:true}).click();await setTheme(page,'dark');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await page.screenshot({path:'test-results/platform-mobile-dark.png',fullPage:true});
@@ -151,7 +151,7 @@ test('public tools and private destinations stay distinct through sign-in',async
  await expect(page.locator('#workspace-apps .workspace-card')).toHaveCount(4);
  await expect(page.locator('#free-apps a[href*="tournament"]')).toHaveCount(0);
  const {apps,visibleApps}=require('../../../packages/app-registry');expect(visibleApps().slice(0,4).map(a=>a.path)).toEqual(['/ritual-assist','/moment-studio','/take-a-break','/satire-arena']);
- expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.map(a=>a.getAttribute('href')).sort())).toEqual(apps.filter(a=>a.public&&a.status==='Available'&&!a.catalogueParent).map(a=>a.path).sort());
+ expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.map(a=>a.getAttribute('href')).sort())).toEqual(apps.filter(a=>a.public&&a.status==='Available'&&!a.catalogueParent&&!a.homeFeatureOnly).map(a=>a.path).sort());
  for(const [width,theme] of [[390,'dark'],[1440,'light']]){
   await page.setViewportSize({width,height:1000});
   await setTheme(page,theme);
