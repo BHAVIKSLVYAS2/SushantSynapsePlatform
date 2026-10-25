@@ -54,3 +54,14 @@ test('Rashifal reading-first production layout keeps translations, theme and pri
  expect(errors).toEqual([]);expect(requests.every(r=>r.method()==='GET'&&r.url().startsWith(origin))).toBe(true);
  expect(await page.evaluate(()=>localStorage.getItem('synapse-vedic-rashi'))).toBeNull();
 });
+
+test('production Rashifal computes separate nine-graha evidence for every selected Moon sign',async({page})=>{
+ await page.clock.setFixedTime(new Date('2026-10-25T08:30:00Z'));await page.goto(origin+'/rashifal-kundli/rashifal');const readings=new Set();
+ for(let rashi=1;rashi<=12;rashi++){
+  await page.locator('#rashifal-rashi').selectOption(String(rashi));await expect(page.locator('.rashifal-transit-table tbody tr')).toHaveCount(9);readings.add(await page.locator('.rashifal-reading').innerText());
+  const rows=await page.locator('.rashifal-transit-table tbody tr').evaluateAll(rows=>rows.map(r=>[Number(r.dataset.rashi),Number(r.dataset.house)]));
+  for(const [sign,house]of rows)expect(house).toBe((sign-rashi+12)%12+1);
+ }
+ expect(readings.size).toBe(12);await page.locator('#rashifal-result summary').click();await expect(page.locator('#rashifal-observation option')).toHaveCount(8);
+ await page.locator('[data-view=weekly]').click();await page.locator('#rashifal-result summary').click();await expect(page.locator('#rashifal-observation option')).toHaveCount(56);
+});

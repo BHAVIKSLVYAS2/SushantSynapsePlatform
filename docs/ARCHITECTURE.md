@@ -1,5 +1,13 @@
 # Code ownership and adding apps
 
+Calculation-backed Rashifal (2026-10-25) supersedes P12's four-group compositor.
+packages/vedic/rashifal-transits.mjs owns nine-graha three-hourly IST samples,
+Moon-sign house counting, explicit Phaladeepika 26 favourable/Vedha rules and
+boundary/unresolved statuses. The app service owns bounded sky/reading caches;
+the app library/view own en/hi/gu evidence text, topic navigation and observation
+table. No scores, personal birth predictions, new API or persistence are inferred.
+Source decisions and remaining acceptance limits: docs/vedic/RASHIFAL_CALCULATION.md.
+
 Homepage calendar feature: portal-owned home-vedic.js lazily loads the app-owned
 bundled Rashifal home-calendar.mjs near its viewport, reusing existing Panchang,
 Amanta and localisation kernels. It is a geocentric instant with explicit

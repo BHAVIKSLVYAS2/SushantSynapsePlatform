@@ -74,6 +74,7 @@
 @media print{.rashifal-orbit,.rashifal-chooser,.rashifal-tabs{display:none}.rashifal-workspace{display:block}.rashifal-reading>section{break-inside:avoid}}
 
 /* Reading-first refinement: disclose setup and technical depth on demand. */
+.rashifal-transit-table{width:100%;border-collapse:collapse;font-size:.72rem;table-layout:fixed}.rashifal-transit-table th,.rashifal-transit-table td{text-align:start;vertical-align:top;padding:.7rem .3rem;border-bottom:1px solid var(--ui-edge);overflow-wrap:anywhere}.rashifal-transit-table caption{text-align:start;margin:.8rem 0;color:var(--ui-ink)}
 .vedic-rashifal-page>header{position:relative;background:var(--ui-solid);gap:.35rem .7rem}
 .vedic-rashifal-page>header>h1{font-size:.8rem;color:var(--ui-muted)}
 .vedic-rashifal-page>header>.rashifal-preview-info{flex-basis:100%;order:5;font-size:.72rem;color:var(--ui-muted)}

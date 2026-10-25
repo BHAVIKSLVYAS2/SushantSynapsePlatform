@@ -50,3 +50,21 @@ test('reading-first setup, sign help and keyboard topic navigation preserve all 
  await expect(page.locator('#rashifal-rashi')).toHaveValue('9');await page.locator('#rashifal-clear').click();
  await expect(page.locator('.rashifal-picker')).toHaveAttribute('open','');await expect(page.locator('#rashifal-result')).toBeEmpty();
 });
+
+test('all twelve Rashis render calculated readings and nine-graha observation evidence',async({page})=>{
+ await page.clock.setFixedTime(new Date('2026-10-25T08:30:00Z'));await page.goto(server.origin);const signatures=new Set();
+ for(let rashi=1;rashi<=12;rashi++){
+  await page.locator('#rashifal-rashi').selectOption(String(rashi));await expect(page.locator('.rashifal-transit-table tbody tr')).toHaveCount(9);
+  signatures.add(await page.locator('.rashifal-reading').innerText());
+  const rows=await page.locator('.rashifal-transit-table tbody tr').evaluateAll(rows=>rows.map(r=>({sign:Number(r.dataset.rashi),house:Number(r.dataset.house)})));
+  for(const row of rows)expect(row.house).toBe((row.sign-rashi+12)%12+1);
+ }expect(signatures.size).toBe(12);
+ await page.locator('#rashifal-result summary').click();await expect(page.locator('#rashifal-observation option')).toHaveCount(8);
+ await page.locator('#rashifal-observation').selectOption('0');await expect(page.locator('.rashifal-transit-table caption')).toContainText('00:00 IST');
+ await page.locator('[data-view=weekly]').click();await page.locator('#rashifal-result summary').click();await expect(page.locator('#rashifal-observation option')).toHaveCount(56);
+ await page.locator('#rashifal-observation').selectOption('55');await expect(page.locator('.rashifal-transit-table caption')).toContainText('21:00 IST');
+ for(const language of ['hi','gu','en']){await page.locator('#rashifal-language').selectOption(language);await page.locator('#rashifal-result summary').click();await expect(page.locator('.rashifal-transit-table tbody tr')).toHaveCount(9);
+  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:900});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+ }
+ await page.setViewportSize({width:390,height:900});await page.screenshot({path:'.publish/rashifal-calculated-mobile.png',fullPage:true});
+});

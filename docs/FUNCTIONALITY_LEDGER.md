@@ -1,5 +1,34 @@
 # Chambers functionality ledger
 
+**Calculation-backed Rashifal (2026-10-25, verified; release follows):**
+Removed the four generic reflection groups. Rule version rashifal-gochar-3 uses
+the in-house seven-body astronomy/Lahiri adapter plus mean Rahu/Ketu at eight
+three-hourly IST observations per day (56/week). All twelve Chandra Rashis get
+their own whole-sign counts, per-graha favourable-house/Vedha evaluations and
+source-linked en/hi/gu content. Observation selector exposes all nine grahas;
+cache bounds, sign/locale isolation, preference opt-in and private processing stay.
+No invented life-event probabilities or personal Kundli forecast. Uncertain
+positions/potential blockers and unresolved Mercury H11/nodal Vedha are withheld.
+Model/source and independent traditional/translation review limits remain explicit.
+Focused rule/service checks pass, including all 108 graha-house memberships,
+all resolved Vedha pairs, exemptions and all twelve signs over three dates and
+three periods. Astronomy/sidereal/Worker group 20/20 passes: retained 25,116 JPL
+rows, ERFA/published Lahiri fixtures and actual workerd parity (62,995 numbers,
+max difference 5.69e-14; final native-name bundle 110,027 bytes). Local Chrome 5/5
+passes, including twelve distinct calculated readings and 8/56 nine-row evidence
+choices in en/hi/gu with responsive layouts. Mobile screenshot reviewed.
+Full regression passes 536/536 with zero failures (262.98s). Initial production
+Chrome 12/12 passes, including all twelve calculated sign patterns and the other
+Vedic app flows. Final native graha names use the existing en/hi/gu catalogue;
+the focused service/rule/Worker rerun passes 11/11. Final production-bundle
+Chrome 12/12 passes after rebuilding native names; all 17 local/production browser
+scenarios have passing evidence. Rule exemptions rechecked 3/3; generated report
+matches --check and whitespace passes. Release follows. No schema,
+account, birth storage, external runtime service or business-data change.
+Evidence: .publish/rashifal-calculation-*; source scope/limits:
+docs/vedic/RASHIFAL_CALCULATION.md. New reproducible calculation report is
+docs/vedic/RASHIFAL_CALCULATION_RESULTS.json; the original P12 report is historical.
+
 **Homepage Vedic feature / Daily Satire retirement (2026-10-25, live and verified):**
 The former wide Daily Satire panel is replaced by a responsive token-based
 Rashifal & Kundli card, celestial artwork and direct links to both existing apps.
