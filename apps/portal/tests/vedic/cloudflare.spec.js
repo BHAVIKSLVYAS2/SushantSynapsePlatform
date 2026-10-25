@@ -15,7 +15,9 @@ test('exported home resolves the lazy calendar bundle and both Vedic entry point
  const errors=[],editorial=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.url().includes('/api/arena-editorial'))editorial.push(r.url());});
  await page.goto(origin+'/');const card=page.locator('[data-home-vedic]');await card.scrollIntoViewIfNeeded();await expect(card).toHaveAttribute('data-calendar-ready','true');
  await expect(card.locator('[data-vedic-samvat]')).toHaveText(/^\d{4}$/);await expect(card.locator('[data-vedic-note]')).toContainText('Chaitra-year');
- await expect(page.locator('[data-home-satire]')).toHaveCount(0);expect(editorial).toEqual([]);
+ await expect(page.locator('[data-home-satire]')).toHaveCount(0);
+ await expect(page.locator('.public-app[data-app-id="rashifal-kundli"]')).toHaveCount(0);
+ await expect(page.locator('.public-app')).toHaveCount(14);expect(editorial).toEqual([]);
  await card.getByRole('link',{name:'Read your Rashifal'}).click();await expect(page.locator('.vedic-rashifal')).toBeVisible();expect(errors).toEqual([]);
 });
 test('calendar-load failure leaves useful links and honest unavailable values',async({page})=>{

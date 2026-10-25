@@ -8,7 +8,7 @@ function buildCatalogue({write=true}={}){
   for(const match of html.slice(content).matchAll(/<\/?div\b[^>]*>/g)){depth+=match[0].startsWith('</')?-1:1;if(!depth){end=content+match.index;break;}}
   if(end===undefined)throw Error('Unclosed '+className);html=html.slice(0,content)+apps.map(a=>render(a)).join('')+html.slice(end);
  }
- grid('public-apps',catalogue.visibleApps().filter(a=>a.public));grid('workspace-grid',catalogue.visibleApps().filter(a=>!a.public));
+ grid('public-apps',catalogue.visibleApps().filter(a=>a.public&&!a.homeFeatureOnly));grid('workspace-grid',catalogue.visibleApps().filter(a=>!a.public));
  if(write){fs.writeFileSync(file,html);fs.writeFileSync(path.join(__dirname,'../packages/ui/platform-shell.bundle.js'),navigationBundle());}return html;
 }
 if(require.main===module)buildCatalogue();

@@ -64,7 +64,7 @@ function unifiedHome(){
  home.querySelector('#workspace-title').textContent=state?'Your workspaces.':'Sign in to work.';
  home.querySelectorAll('.home-mobile-dock a').forEach(link=>link.dataset.section='apps');
  const all=catalogue.visibleApps();if(state&&section!=='apps')for(const app of catalogue.apps.filter(a=>a.catalogueParent&&(section==='favorites'?state.preferences.favorites.includes(a.id):state.preferences.recent.some(r=>r.id===a.id))))all.push(app);
- const visible=all.filter(a=>!state||section==='apps'||(section==='favorites'?state.preferences.favorites.includes(a.id):state.preferences.recent.some(r=>r.id===a.id)));
+ const visible=all.filter(a=>(!state||section==='apps')?!a.homeFeatureOnly:(section==='favorites'?state.preferences.favorites.includes(a.id):state.preferences.recent.some(r=>r.id===a.id)));
  if(state&&section==='recent')visible.sort((a,b)=>state.preferences.recent.findIndex(r=>r.id===a.id)-state.preferences.recent.findIndex(r=>r.id===b.id));
  function cards(list){return list.map(a=>catalogue.renderCard(a,{signedIn:!!state,access:state?.apps.find(x=>x.id===a.id),favorite:state?.preferences.favorites.includes(a.id)})).join('');}
  home.querySelector('.public-apps').innerHTML=cards(visible.filter(a=>a.public));

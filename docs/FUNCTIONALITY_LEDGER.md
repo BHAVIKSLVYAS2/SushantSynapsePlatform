@@ -1,5 +1,18 @@
 # Chambers functionality ledger
 
+**Rashifal homepage deduplication and content audit (2026-10-25):**
+Removed the small Rashifal catalogue tile from the guest, no-JavaScript and
+authenticated main app grids; retained the full-width calculated calendar card,
+app registration, routes, navigation and existing favourite/recent entries.
+Shared registry metadata controls static generation and dynamic hydration.
+Catalogue checks pass 3/3; isolated Chrome homepage checks pass 6/6, including
+calendar calculations, responsive themes, authentication, favourites and outages.
+The Vedic calculation/content audit is recorded in
+`docs/vedic/CALCULATION_AND_CONTENT_AUDIT.md`: current numerical calculations and
+traditional table rules are distinguished from sentence formatting, editorial
+topic groupings, curated names and withheld features. Its proposed fix sequence
+is not implemented by this homepage change. Production verification follows.
+
 **Calculation-backed Rashifal (2026-10-25, live and verified preview):**
 Removed the four generic reflection groups. Rule version rashifal-gochar-3 uses
 the in-house seven-body astronomy/Lahiri adapter plus mean Rahu/Ketu at eight
