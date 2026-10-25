@@ -1,5 +1,31 @@
 # Chambers functionality ledger
 
+**Calculated Rashifal change timeline (2026-10-25):**
+Rashifal gochar-5 adds an IST timeline for today, tomorrow and the selected week.
+In-house nine-graha longitudes drive sign crossings and entry/exit of the
+61-arcsecond classification screen. A bounded 30-minute search splits at detected
+stations and refines crossing brackets to at most 0.5 seconds. Times are displayed
+as approximate nominal model results; physical accuracy and arbitrarily short
+reversal completeness are not certified. Every Rashi gets its own before/after
+houses, classification changes and Vedha blockers. Contacts, period-edge
+uncertainty, unavailable/partial searches and disputed rules remain explicit.
+The sampled summary remains separate; no durations, scores or personal outcome
+predictions are inferred. The 108-case generated report includes timeline evidence.
+Calculation runs in an app-owned browser Worker with stale-result protection;
+blocked/unavailable Workers use the same private local calculation. Generic date
+events have a bounded 56-day cache; clear removes calculation caches and the
+optional saved Rashi. Shared header, private tab processing and connect-src 'none' remain.
+Focused Node checks pass 26/26, including synthetic wrap/reverse/return/touch
+cases, a separate Panchang solver consistency check, all twelve rule compositions
+and actual local workerd parity (63,957 numbers, max difference 5.69e-14).
+Isolated local Chrome reading checks pass 5/5. Final production-export Chrome
+passes 15/15, including all-sign timeline roots/reasons, three periods/languages,
+mobile themes, actual blocked-Worker fallback roots and preserved Kundli/matching/
+Time Machine/export/privacy behavior. Live verification is recorded after release.
+Full calculation/search limits and
+ownership: docs/vedic/TRANSIT_TIMELINE.md. Independent source, traditional and
+translation acceptance stays open.
+
 **Readable Rashifal and shared Vedic platform header (2026-10-25):**
 Rashifal gochar-4 keeps the nine-graha calculation/rule engine and replaces
 repetitive career/money/relationships/wellbeing sections with one calculated

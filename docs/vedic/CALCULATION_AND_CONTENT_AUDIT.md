@@ -1,5 +1,12 @@
 # Vedic app calculation and content audit
 
+Timing follow-up (25 October 2026): `rashifal-gochar-5` adds the nominal
+sign/screen-edge timeline described in item 3, with station splitting, bounded
+refinement and explicit contact/period-edge uncertainty. The search does not
+certify arbitrarily short reversals or physical timing accuracy, and sampled
+counts are still not durations. See TRANSIT_TIMELINE.md. Items 2 and 4–6 remain
+unaccepted/proposed; disputed rules are still withheld.
+
 Implementation follow-up (25 October 2026): fix sequence item 1 is implemented
 in `rashifal-gochar-4`: one calculated summary, nine deduplicated graha entries,
 no career/money/relationships/wellbeing groupings, and expandable rule evidence.

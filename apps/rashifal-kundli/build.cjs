@@ -11,7 +11,7 @@ function build(){
   }
  }
  const signature=hash.digest('hex'),stamp=path.join(output,'.source-hash');
- const expected=[...Object.keys(entries).flatMap(entry=>[entry+'.html',entry+'.mjs']),'sensitivity-worker.mjs','home-calendar.mjs'];
+ const expected=[...Object.keys(entries).flatMap(entry=>[entry+'.html',entry+'.mjs']),'sensitivity-worker.mjs','rashifal-worker.mjs','home-calendar.mjs'];
  if(fs.existsSync(stamp)&&fs.readFileSync(stamp,'utf8')===signature&&expected.every(name=>fs.existsSync(path.join(output,name))))return;
  fs.mkdirSync(output,{recursive:true});
  buildSync({entryPoints:[path.join(__dirname,'frontend/home-calendar.mjs')],outfile:path.join(output,'home-calendar.mjs'),bundle:true,format:'esm',platform:'browser',target:'es2022',minify:true});
@@ -24,6 +24,7 @@ function build(){
   fs.writeFileSync(path.join(output,entry+'.html'),html);
  }
  buildSync({entryPoints:[path.join(__dirname,'dev/sensitivity-worker.mjs')],outfile:path.join(output,'sensitivity-worker.mjs'),bundle:true,format:'esm',platform:'browser',target:'es2022',minify:true});
+ buildSync({entryPoints:[path.join(__dirname,'frontend/rashifal-worker.mjs')],outfile:path.join(output,'rashifal-worker.mjs'),bundle:true,format:'esm',platform:'browser',target:'es2022',minify:true});
  fs.writeFileSync(stamp,signature);
 }
 module.exports={build};

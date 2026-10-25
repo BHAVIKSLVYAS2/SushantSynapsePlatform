@@ -1,5 +1,13 @@
 # Calculation-backed Rashifal
 
+Current timing update: `rashifal-gochar-5` adds a separate calculated IST timeline
+for nominal sign crossings and classification-screen edges. Before/after rule
+changes and blockers are recomputed for the selected Rashi; unresolved rules stay
+withheld. A browser Worker keeps the UI responsive. The sampled summary is
+unchanged; no continuous-completeness or certified physical-timing claim is made.
+See [timeline contract and tests](TRANSIT_TIMELINE.md). Earlier references below
+to unimplemented exact timing describe the preceding release.
+
 Current presentation update (25 October 2026): `rashifal-gochar-4` replaces the
 five editorial topic sections with a calculated summary and one observation per
 graha. Summary groups distinguish a consistent classification at all sampled

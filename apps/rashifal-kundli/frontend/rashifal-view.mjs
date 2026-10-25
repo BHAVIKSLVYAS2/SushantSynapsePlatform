@@ -1,8 +1,9 @@
 import {term} from './display-text.mjs';
 import {diagnosticText} from './diagnostic-text.mjs';
-import {createRashifalService} from './rashifal-service.mjs';
+import {createRashifalClient} from './rashifal-client.mjs';
 import {rashifalLibrary,transitText,readingText} from './rashifal-library.mjs';
 import {signName,bodyName} from './locale.mjs';
+import {renderTimeline,timelineText} from './timeline-view.mjs';
 const symbols=['♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓'],storageKey='synapse-vedic-rashi';
 const romanRashis=['Mesha','Vrishabha','Mithuna','Karka','Simha','Kanya','Tula','Vrishchika','Dhanu','Makara','Kumbha','Meena'];
 const rashiLabel=(number,language)=>language==='en'?`${romanRashis[number-1]} (${signName(number,language)})`:signName(number,language);
@@ -27,7 +28,7 @@ const experienceLabels={
 };
 export function mountRashifal(container,{now=()=>Date.now()}={}){
  if(!(container instanceof Element)||typeof now!=='function')throw new TypeError('Check Rashifal options.');
- const service=createRashifalService(),root=el('section');root.className='vedic-rashifal';
+ const service=createRashifalClient(),root=el('section');root.className='vedic-rashifal';
  let language='en',view='today',destroyed=false,pending=null,revision=0,lastIstDay=null;
  const title=el('h1'),intro=el('p'),draft=el('p'),notice=el('p'),basis=el('p');draft.className='rashifal-draft';
  const hero=el('div');hero.className='rashifal-hero';const copy=el('div');copy.className='rashifal-hero-copy';const eyebrow=el('p','SYNAPSE / VEDIC');eyebrow.className='rashifal-eyebrow';
@@ -52,15 +53,17 @@ export function mountRashifal(container,{now=()=>Date.now()}={}){
  const notes=el('details'),noteSummary=el('summary');notes.className='rashifal-notes';notes.append(noteSummary,notice,basis);hero.after(draft);root.append(notes);
  const selected=()=>Number(rashi.input.value);
  function save(){try{if(remember.input.checked&&rashi.input.value)localStorage.setItem(storageKey,JSON.stringify({version:1,rashi:selected()}));else localStorage.removeItem(storageKey);return true;}catch{status.textContent=rashifalLabels[language].storage;return false;}}
- function render(){syncSigns();revision++;const current=revision;clearTimeout(pending);result.replaceChildren();status.textContent='';if(!rashi.input.value){status.textContent=rashifalLabels[language].empty;return;}
-  pending=setTimeout(()=>{pending=null;if(destroyed||current!==revision)return;const t=rashifalLabels[language];
-   try{const requestNow=now();lastIstDay=Math.floor((requestNow+19800000)/86400000);const response=service.getReading({rashi:selected(),view,language,ruleVersion:rashifalLibrary.version,calculationProfileId:'IN_LAHIRI_DEFAULT_V1'},{now:requestNow}),reading=response.reading;
+ function render(){syncSigns();revision++;const current=revision;clearTimeout(pending);result.replaceChildren();result.removeAttribute('aria-busy');status.textContent='';if(!rashi.input.value){status.textContent=rashifalLabels[language].empty;return;}
+  status.textContent=timelineText[language].busy;result.setAttribute('aria-busy','true');
+  pending=setTimeout(async()=>{pending=null;if(destroyed||current!==revision)return;const t=rashifalLabels[language];
+   try{const requestNow=now();lastIstDay=Math.floor((requestNow+19800000)/86400000);const response=await service.getReading({rashi:selected(),view,language,ruleVersion:rashifalLibrary.version,calculationProfileId:'IN_LAHIRI_DEFAULT_V1'},{now:requestNow}),reading=response.reading;
+    if(destroyed||current!==revision)return;status.textContent='';result.removeAttribute('aria-busy');
     const x=experienceLabels[language],dateFormat=new Intl.DateTimeFormat(({en:'en-IN',hi:'hi-IN',gu:'gu-IN'})[language],{day:'numeric',month:'short',year:'numeric',timeZone:'Asia/Kolkata'}),formatDate=date=>dateFormat.format(new Date(date+'T12:00:00+05:30'));
     result.dataset.cacheHit=String(response.cache.hit);result.append(el('h2',`${symbols[reading.rashi-1]}\uFE0E ${rashiLabel(reading.rashi,language)} · ${t[view]}`),el('p',`${x.date}: ${formatDate(reading.period.dates[0])}${view==='weekly'?' – '+formatDate(reading.period.dates.at(-1)):''} · IST`));
     const metadata=el('div');metadata.className='rashifal-metadata';metadata.append(el('p',`${t.date}: ${reading.period.dates[0]} → ${reading.period.dates.at(-1)} · Asia/Kolkata`),el('p',`${t.catalogue}: ${reading.publication.catalogueDate} · ${t.published}: ${term(reading.publication.status,language)}`),el('p',`${t.retrieved}: ${response.retrievedAtUtc}`));
     const fallback=el('p',reading.fallback?t.fallback:t.baseline);fallback.id='rashifal-fallback';result.append(fallback);
     const content=el('div');content.lang=reading.contentLanguage;content.className='rashifal-reading';
-    for(const section of reading.sections){const region=el('section');region.dataset.category=section.category;const heading=el('h3',readingText[language][section.category]);heading.lang=language;region.append(heading);for(const item of section.items){const row=el('div');row.className='rashifal-planet';if(item.body){row.dataset.body=item.body;row.append(el('h4',bodyName(item.body,language)));}const p=el('p',item.text);p.dataset.sentence=item.id;row.append(p);region.append(row);}content.append(region);}result.append(content);
+    for(const section of reading.sections){const region=el('section');region.dataset.category=section.category;const heading=el('h3',readingText[language][section.category]);heading.lang=language;region.append(heading);for(const item of section.items){const row=el('div');row.className='rashifal-planet';if(item.body){row.dataset.body=item.body;row.append(el('h4',bodyName(item.body,language)));}const p=el('p',item.text);p.dataset.sentence=item.id;row.append(p);region.append(row);}content.append(region);if(section.category==='overview')content.append(renderTimeline(reading.timeline,language,view));}result.append(content);
     for(const heading of content.querySelectorAll('h3')){heading.id='rashifal-topic-'+heading.parentElement.dataset.category;heading.tabIndex=-1;}
     const why=el('details');why.append(el('summary',t.why),metadata,fallback,el('p',readingText[language].scope),el('p',`${reading.provenance.ruleVersion} · ${reading.provenance.factorModel} · ${reading.provenance.profileId}`),el('p',term(reading.provenance.author,language)),el('p',term(reading.provenance.rule,language)));
     const c=calculationLabels[language],source=el('a',reading.provenance.source.id);source.href=reading.provenance.source.url;source.target='_blank';source.rel='noopener noreferrer';why.append(source,el('p',c.basis),el('p',c.limits));
@@ -71,7 +74,7 @@ export function mountRashifal(container,{now=()=>Date.now()}={}){
     function showObservation(){const sample=reading.samples[Number(sampleSelect.value)];caption.textContent=`${sample.localDate} · ${sample.localTime} IST · Lahiri / mean nodes`;tbody.replaceChildren();for(const row of sample.rows){const tr=el('tr');tr.dataset.body=row.body;tr.dataset.house=String(row.relativeHouse);tr.dataset.rashi=String(row.rashi);tr.dataset.status=row.status;for(const text of [bodyName(row.body,language),`${signName(row.rashi,language)} · ${row.siderealLongitude.toFixed(4)}°`,row.nearBoundary?'—':'H'+row.relativeHouse,transitText[language][row.status]+(row.blockers.length?' · '+row.blockers.map(b=>bodyName(b,language)).join(', '):'')+(row.possibleBlockers.length?' · ? '+row.possibleBlockers.map(b=>bodyName(b,language)).join(', '):'')])tr.append(el('td',text));tbody.append(tr);}}sampleSelect.addEventListener('change',showObservation);showObservation();why.append(table,el('p',c.factor));const list=el('ul');
     for(const f of reading.factors){const li=el('li',`${f.localDate} · ${f.anchorUtc} · ${signName(f.moonRashi,language)} (${f.moonRashi}) · ${f.nearBoundary?'—':'H'+f.relativeHouse} · ${f.moonSiderealLongitude.toFixed(4)}°`);li.dataset.date=f.localDate;li.dataset.moonRashi=String(f.moonRashi);li.dataset.relativeHouse=String(f.relativeHouse);list.append(li);}why.append(list);
     const warnings=el('ul');for(const code of reading.warnings)warnings.append(el('li',diagnosticText(code,language)));why.append(warnings);result.append(why);
-   }catch(error){status.textContent=error.code==='UNSTABLE_BIRTH_TIME'?t.boundary:t.unavailable;}
+   }catch(error){if(destroyed||current!==revision)return;result.removeAttribute('aria-busy');status.textContent=error.code==='UNSTABLE_BIRTH_TIME'?t.boundary:t.unavailable;}
   },0);
  }
  function translate(){const t=rashifalLabels[language],value=rashi.input.value;root.lang=language;title.textContent=t.title;intro.textContent=t.intro;draft.textContent=t.draft;notice.textContent=t.notice;basis.textContent=t.basis;lang.label.textContent=t.language;rashi.label.textContent=t.rashi;remember.label.textContent=t.remember;clear.textContent=t.clear;tabs.setAttribute('aria-label',t.date);
@@ -84,5 +87,5 @@ export function mountRashifal(container,{now=()=>Date.now()}={}){
  clear.addEventListener('click',()=>{remember.input.checked=false;rashi.input.value='';service.clear();render();save();});
  const refresh=()=>{if(document.visibilityState==='visible'&&rashi.input.value&&Math.floor((now()+19800000)/86400000)!==lastIstDay)render();};document.addEventListener('visibilitychange',refresh);window.addEventListener('pageshow',refresh);
  const timer=setInterval(refresh,60000);container.replaceChildren(root);translate();if(saved){rashi.input.value=String(saved);remember.input.checked=true;render();}
- return {destroy(){destroyed=true;revision++;clearTimeout(pending);clearInterval(timer);document.removeEventListener('visibilitychange',refresh);window.removeEventListener('pageshow',refresh);service.clear();root.remove();}};
+ return {destroy(){destroyed=true;revision++;clearTimeout(pending);clearInterval(timer);document.removeEventListener('visibilitychange',refresh);window.removeEventListener('pageshow',refresh);service.clear();service.destroy();root.remove();}};
 }

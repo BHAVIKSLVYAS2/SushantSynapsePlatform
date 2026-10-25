@@ -25,5 +25,14 @@ body[data-shared-language] label:has(> :is(#birth-language,#rashifal-language,#m
 .rashifal-planet h4{margin:0 0 .4rem;font-size:.95rem}
 .rashifal-planet p{margin:0;font-size:.9rem;color:var(--ui-muted)}
 .rashifal-reading>[data-category=observations] .rashifal-planet{padding-block:1rem;border-top:1px solid var(--ui-edge)}
+.rashifal-timeline{margin-block:1rem;padding:1rem;border:1px solid var(--ui-edge);border-radius:1rem;background:var(--ui-solid)}
+.rashifal-timeline>p{font-size:.8rem;color:var(--ui-muted);line-height:1.6}
+.rashifal-timeline ol{list-style:none;margin:1.2rem 0 0;padding:0}
+.rashifal-timeline li{position:relative;padding:0 0 1.1rem 1.1rem;margin-inline-start:.2rem;border-inline-start:2px solid var(--ui-edge);overflow-wrap:anywhere}
+.rashifal-timeline li:before{content:'';position:absolute;inset-inline-start:-5px;top:.35rem;width:8px;height:8px;border-radius:50%;background:var(--ui-accent)}
+.rashifal-timeline time{font-size:.8rem;font-weight:700;color:var(--ui-accent)}
+.rashifal-timeline h4{font-size:.9rem;margin:.35rem 0}
+.rashifal-timeline li p{font-size:.8rem;line-height:1.6;margin:.3rem 0;color:var(--ui-muted)}
+.rashifal-timeline .rashifal-timeline-limits{font-size:.72rem;border-top:1px solid var(--ui-edge);padding-top:.8rem;margin-bottom:0}
 @media(max-width:600px){.rashifal-reading>[data-category=observations]{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:600px){body[data-ui-app=rashifal-kundli] .vedic-app-header nav{flex-wrap:nowrap;max-width:100%;overflow-x:auto}body[data-ui-app=rashifal-kundli] .vedic-nav a{flex-shrink:0;white-space:nowrap}}

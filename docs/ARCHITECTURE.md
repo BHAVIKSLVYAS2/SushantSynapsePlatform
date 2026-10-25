@@ -1,5 +1,13 @@
 # Code ownership and adding apps
 
+Rashifal timeline (2026-10-25): packages/vedic owns bounded angular root search,
+station splitting, sign/screen-edge events and per-Rashi before/after rule
+composition. The app owns the localized timeline and private calculation Worker;
+generic cached sky events are separate from the sampled summary. Public assets
+explicitly allowlist the bundled worker; stale results are ignored after edits or
+clear. Shared header, privacy policy and persistence are unchanged. Numerical
+search/physical accuracy limits: docs/vedic/TRANSIT_TIMELINE.md.
+
 Vedic reading/shell integration (2026-10-25): production entries mount the
 app-owned components directly, then bridge the en/hi/gu selector into the shared
 platform shell. The shared synapse-language preference replaces the isolated

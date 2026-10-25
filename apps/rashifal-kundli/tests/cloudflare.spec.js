@@ -84,3 +84,34 @@ test('production Rashifal computes separate nine-graha evidence for every select
 });
 
 async function chooseLanguage(page,language){await page.locator('.platform-language summary').click();await page.locator('#vedic-language').selectOption(language);}
+
+test('calculated timeline shows IST roots and rule reasons across every Rashi, period and language',async({page})=>{
+ const workers=[],errors=[];page.on('worker',w=>workers.push(w.url()));page.on('pageerror',e=>errors.push(e.message));
+ await page.clock.setFixedTime(new Date('2026-10-25T08:30:00Z'));await page.goto(origin+'/rashifal-kundli/rashifal');
+ for(let rashi=1;rashi<=12;rashi++){
+  await page.locator('#rashifal-rashi').selectOption(String(rashi));const timeline=page.locator('.rashifal-timeline');
+  await expect(timeline).toHaveAttribute('data-status','available');await expect(timeline.locator('li')).toHaveCount(3);
+  const ingress=timeline.locator('li[data-kind=ingress]');await expect(ingress).toHaveAttribute('data-body','Moon');
+  await expect(ingress).toHaveAttribute('data-from-house',String((12-rashi+12)%12+1));await expect(ingress).toHaveAttribute('data-to-house',String((1-rashi+12)%12+1));
+  await expect(ingress.locator('time')).toHaveAttribute('datetime',/^2026-10-25T13:52:/);await expect(ingress.locator('time')).toContainText('19:22');
+  await expect(timeline.locator('li[data-kind=guard-enter] [data-affected]')).not.toHaveCount(0);
+ }
+ await page.locator('[data-view=weekly]').click();await page.locator('.platform-shell [data-theme-toggle]').click();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+ await expect(page.locator('.rashifal-timeline h3')).toHaveText('Changes this week');
+ for(const language of ['hi','gu','en']){await chooseLanguage(page,language);await expect(page.locator('.rashifal-reading')).toHaveAttribute('lang',language);await expect(page.locator('.rashifal-timeline')).toHaveAttribute('data-status','available');
+  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:900});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+ }
+ await page.locator('[data-view=tomorrow]').click();await expect(page.locator('.rashifal-timeline h3')).toHaveText('Changes tomorrow');
+ await expect(page.locator('.rashifal-timeline li')).toHaveCount(0);await expect(page.locator('.rashifal-timeline')).toContainText('No sign or boundary-screening changes found');
+ expect(workers.some(url=>url.includes('/rashifal-worker.mjs'))).toBe(true);expect(errors).toEqual([]);
+ await page.setViewportSize({width:390,height:900});await page.locator('[data-view=today]').click();await expect(page.locator('.rashifal-timeline li')).toHaveCount(3);
+ await page.locator('.rashifal-timeline').screenshot({path:'.publish/rashifal-timeline-mobile-dark.png'});
+ await page.locator('#rashifal-clear').click();await expect(page.locator('#rashifal-result')).toBeEmpty();
+});
+
+test('blocked calculation worker falls back to the same actual on-device roots',async({page})=>{
+ await page.clock.setFixedTime(new Date('2026-10-25T08:30:00Z'));await page.route('**/*rashifal-worker.mjs*',route=>route.abort());await page.goto(origin+'/rashifal-kundli/rashifal');
+ await page.locator('#rashifal-rashi').selectOption('1');await expect(page.locator('.rashifal-timeline')).toHaveAttribute('data-status','available');
+ await expect(page.locator('.rashifal-timeline li')).toHaveCount(3);await expect(page.locator('.rashifal-timeline [data-kind=ingress] time')).toHaveAttribute('datetime',/^2026-10-25T13:52:/);
+ await page.locator('#rashifal-clear').click();await expect(page.locator('#rashifal-result')).toBeEmpty();
+});
