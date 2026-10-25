@@ -1,5 +1,13 @@
 # Organisation licensing production cutover
 
+Latest homepage update (2026-10-25): f7452fd removes the duplicate small
+Rashifal tile while preserving its calculated full-width card and app access.
+Worker 1f361d63-8c91-4853-8766-9b3ec1b1bcf9 deployed with --keep-vars;
+organisation mode, existing variables and D1 bindings preserved. Catalogue
+checks 3/3, homepage Chrome 6/6, production-export Chrome 2/2 and live Chrome
+2/2 pass. No migrations or business-data writes. Vedic content/calculation audit:
+docs/vedic/CALCULATION_AND_CONTENT_AUDIT.md; its fix sequence remains proposed.
+
 Latest Rashifal calculation release (2026-10-25): implementation bf0dd07, Worker
 b99e74dc-db70-481d-b5cf-967c8746e1cc, deployed with --keep-vars. Replaces four
 generic groups with nine-graha, three-hourly Moon-sign house/Vedha calculations.

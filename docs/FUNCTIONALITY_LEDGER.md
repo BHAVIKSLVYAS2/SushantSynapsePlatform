@@ -11,7 +11,13 @@ The Vedic calculation/content audit is recorded in
 `docs/vedic/CALCULATION_AND_CONTENT_AUDIT.md`: current numerical calculations and
 traditional table rules are distinguished from sentence formatting, editorial
 topic groupings, curated names and withheld features. Its proposed fix sequence
-is not implemented by this homepage change. Production verification follows.
+is not implemented by this homepage change. Production-export Chrome checks
+pass 2/2; live Chrome checks pass 2/2, including absence of the duplicate tile,
+fourteen remaining catalogue cards, calculated calendar, Rashifal navigation and
+calendar-load failure behavior. Implementation f7452fd is pushed and deployed
+with --keep-vars as Worker 1f361d63-8c91-4853-8766-9b3ec1b1bcf9. Existing
+organisation mode, variables and D1 bindings are preserved; no migrations or
+business-data writes. Evidence: .publish/rashifal-tile-live.
 
 **Calculation-backed Rashifal (2026-10-25, live and verified preview):**
 Removed the four generic reflection groups. Rule version rashifal-gochar-3 uses
