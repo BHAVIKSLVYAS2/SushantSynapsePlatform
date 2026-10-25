@@ -1,3 +1,4 @@
+const {fillDate,fillTime}=require('../../../../tests/vedic-civil-input.cjs');
 const {test,expect}=require('../../../../tests/browser-fixture.js'),{spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');let child,base,dir;
 test.beforeAll(async()=>{if(process.env.SETTINGS_LIVE_ORIGIN){base=process.env.SETTINGS_LIVE_ORIGIN;return;}dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-language-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe']});await new Promise((resolve,reject)=>{let text='';const timeout=setTimeout(()=>reject(Error('Startup timeout')),15000);child.stdout.on('data',chunk=>{text+=chunk;const match=text.match(/localhost:(\d+)/);if(match){base='http://127.0.0.1:'+match[1];clearTimeout(timeout);resolve();}});child.once('error',reject);});});
 test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
@@ -18,7 +19,7 @@ test('shared settings carry across home and Vedic apps, preserve inputs and sync
  await page.goto(base+'/');await choose(page,'hi');await page.evaluate(()=>SynapseTheme.write('dark'));
  await page.goto(base+'/rashifal-kundli');await expect(page.locator('[data-language-control]')).toHaveCount(1);await expect(page.locator('#vedic-language')).toHaveCount(0);
  await expect(page.locator('#birth-language')).toBeHidden();await expect(page.locator('html')).toHaveAttribute('lang','hi');await expect(page.locator('[data-theme-toggle]:visible')).toHaveCount(1);
- await page.locator('#birth-date').fill('2000-01-01');await choose(page,'gu');await expect(page.locator('#birth-date')).toHaveValue('2000-01-01');await expect(page.locator('html')).toHaveAttribute('lang','gu');
+ await fillDate(page,'#birth-date','2000-01-01');await choose(page,'gu');await expect(page.locator('#birth-date')).toHaveValue('2000-01-01');await expect(page.locator('html')).toHaveAttribute('lang','gu');
  const other=await page.context().newPage();try{
   await other.goto(base+'/');await expect(toggle(other,'gu')).toHaveAttribute('aria-pressed','true');expect(await other.evaluate(()=>localStorage.getItem('synapse-language'))).toBe('gu');
   await other.goto(base+'/ritual-assist');await expect(other.locator('#language')).toHaveValue('en');expect(await other.evaluate(()=>localStorage.getItem('synapse-language'))).toBe('gu');

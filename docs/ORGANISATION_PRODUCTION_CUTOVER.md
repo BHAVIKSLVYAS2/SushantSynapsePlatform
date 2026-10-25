@@ -1,5 +1,12 @@
 # Organisation licensing production cutover
 
+Latest RITVAYAM mobile date/time release (2026-10-25): Worker
+1f4c6450-934d-4338-ba44-02401b1473dc. Shared direct day/month/year and
+12-hour AM/PM controls now serve Kundli, matching and Time Machine. Deployed
+with --keep-vars, preserving organisation/D1 bindings. Live mobile Gujarati,
+distinct-record swap/clear and exploration action synchronization passed.
+Health remains 200; unscoped /api/records remains 409. No production data writes.
+
 Latest RITVAYAM/global interface release (2026-10-25): main implementation
 da601fb, signed-out home coverage 451abdd and production organisation-gate
 follow-up c41ba11. Final Worker 6f6bbfdf-53f6-44c7-88ba-3f81ed436898 deployed

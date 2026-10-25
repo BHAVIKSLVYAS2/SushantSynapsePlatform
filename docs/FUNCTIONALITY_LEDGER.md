@@ -1,5 +1,23 @@
 # Chambers functionality ledger
 
+**RITVAYAM mobile birth date/time entry (2026-10-25):**
+Kundli, matching and Time Machine share civil-input.mjs. Large numeric day/year
+fields and a localized native month selector replace calendar navigation across
+decades. Hour/minute and explicit AM/PM replace the 24-hour browser picker; no
+birth time is assumed. ISO dates and 24-hour engine values remain unchanged.
+Leap dates, Hindi/Gujarati digits, ISO/DD-MM-YYYY paste, retained partial entries
+on language changes, unknown-time disabling, clear, swap and exploration day
+navigation work in memory only. Shared header remains the sole production
+language/theme control. Design reference: GOV.UK memorable date guidance,
+https://design-system.service.gov.uk/components/date-input/.
+Verified: 3 new mobile/paste/localization checks, 20 platform calculation,
+matching, sensitivity, export/privacy checks and 18 production-export checks.
+One trace-output collision passed on isolated rerun. Live mobile Gujarati,
+distinct-record swap/reset, exploration next-day/now and retained language
+smoke passed. Worker 1f4c6450-934d-4338-ba44-02401b1473dc deployed with
+--keep-vars; health is 200 and unscoped records remain 409. No schema or
+production record changes.
+
 **RITVAYAM, familiar readings and actual global interface language (2026-10-25):**
 Astrology branding is RITVAYAM, retaining its app ID/routes. Home has a token-based
 lotus/crescent mark; gochar-8 uses familiar en/hi/gu traditional prose addressed

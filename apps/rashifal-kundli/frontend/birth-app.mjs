@@ -1,3 +1,4 @@
+import {installCivilInputs} from './civil-input.mjs';
 import {placeLabel,relabelPlaces} from './place-text.mjs';
 import {term,nakshatraName} from './display-text.mjs';
 import {diagnosticText} from './diagnostic-text.mjs';
@@ -42,7 +43,7 @@ export function mountBirthApp(container,{now=()=>Date.now()}={}){
  function updateAccuracy(){const unknown=accuracy.value==='unknown',approximate=accuracy.value==='approximate';
   controls.time.disabled=unknown;controls.time.required=!unknown;if(unknown)controls.time.value='';
   controls.time.parentElement.hidden=unknown;
-  controls.precision.disabled=!approximate;controls.precision.required=approximate;controls.precision.parentElement.hidden=!approximate;if(!approximate)controls.precision.value='';}
+  controls.precision.disabled=!approximate;controls.precision.required=approximate;controls.precision.parentElement.hidden=!approximate;if(!approximate)controls.precision.value='';civil.refresh();}
  function inputValue(){if(!controls.place.value)throw {code:'SELECT_PLACE'};
   const input={localDate:controls.date.value,placeId:controls.place.value,timeZoneId:'Asia/Kolkata',calculationProfileId,timeAccuracy:accuracy.value,language};
   if(accuracy.value!=='unknown')input.localTime=controls.time.value;
@@ -93,7 +94,7 @@ export function mountBirthApp(container,{now=()=>Date.now()}={}){
   const timeMachineRoot=el('div');results.append(timeMachineRoot);timeMachineHandle=mountTimeMachine(timeMachineRoot,{birthInput:reviewed.input,now,language});
   const exportRoot=el('div');results.append(exportRoot);exportHandle=mountExport(exportRoot,report,{name:displayName,language});
  }
- function translate(){const t=locale(language);root.lang=language;form.setAttribute('aria-label',t.title);heading.textContent=t.title;intro.textContent=t.intro;gate.textContent=t.gate;languageLabel.firstChild.textContent=t.language;
+ function translate(){civil.translate(language);const t=locale(language);root.lang=language;form.setAttribute('aria-label',t.title);heading.textContent=t.title;intro.textContent=t.intro;gate.textContent=t.gate;languageLabel.firstChild.textContent=t.language;
   for(const [key,span]of Object.entries(labels))span.textContent=t[key];for(const o of accuracy.options)o.textContent=t[o.value];hint.textContent=t.searchHint;zone.textContent=t.timezone;
   relabelPlaces(controls.place,language);reviewButton.textContent=t.review;clearButton.textContent=t.clear;status.textContent=report?t.ready:'';if(!controls.place.value)controls.place.options[0].textContent=t.choose;renderReview();renderResults();}
  form.addEventListener('input',event=>{invalidate();if(event.target===controls.query){placeholder();try{for(const p of searchPlaces(controls.query.value,{limit:12}).matches){const o=el('option',`${placeLabel(p,language)} · ${p.id}`);o.value=p.id;controls.place.append(o);}}catch{status.textContent=locale(language).error;}}});
@@ -103,6 +104,6 @@ export function mountBirthApp(container,{now=()=>Date.now()}={}){
  function clear(){invalidate();form.reset();displayName='';placeholder();updateAccuracy();translate();}
  clearButton.addEventListener('click',clear);languageSelect.addEventListener('change',()=>{revision++;clearTimeout(pending);pending=null;language=languageSelect.value;translate();});
  const hide=()=>clear(),show=event=>{if(event.persisted)clear();};window.addEventListener('pagehide',hide);window.addEventListener('pageshow',show);
- placeholder();updateAccuracy();translate();
- return Object.freeze({destroy(){clearTimeout(pending);window.removeEventListener('pagehide',hide);window.removeEventListener('pageshow',show);stopResults();root.remove();}});
+ const civil=installCivilInputs(root);placeholder();updateAccuracy();translate();
+ return Object.freeze({destroy(){civil.destroy();clearTimeout(pending);window.removeEventListener('pagehide',hide);window.removeEventListener('pageshow',show);stopResults();root.remove();}});
 }

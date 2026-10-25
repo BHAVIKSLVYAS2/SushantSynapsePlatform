@@ -1,3 +1,4 @@
+const {fillDate,fillTime}=require('../../../tests/vedic-civil-input.cjs');
 const {test,expect}=require('@playwright/test'),http=require('node:http'),fs=require('node:fs'),path=require('node:path');
 const {headers}=require('../privacy.cjs');let server,origin;
 test.beforeAll(async()=>{
@@ -32,7 +33,7 @@ test('built production Kundli computes privately, loads worker and preserves mob
  const errors=[],requests=[],workers=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r));page.on('worker',w=>workers.push(w.url()));
  const r=await page.goto(origin+'/rashifal-kundli');expect(r.headers()['content-security-policy']).toContain("connect-src 'none'");
  await expect(page.locator('.platform-shell-brand')).toBeVisible();
- await page.locator('#birth-date').fill('2000-01-01');await page.locator('#birth-time').fill('12:15');await page.locator('#birth-query').fill('New Delhi');await page.locator('#birth-place').selectOption('geonames:1261481');
+ await fillDate(page,'#birth-date','2000-01-01');await fillTime(page,'#birth-time','12:15');await page.locator('#birth-query').fill('New Delhi');await page.locator('#birth-place').selectOption('geonames:1261481');
  await page.locator('form button[type=submit]').click();await page.locator('#birth-calculate').click();await expect(page.locator('[data-feature=dasha] table tbody tr')).toHaveCount(9);
  for(const width of [320,390,1440])for(const theme of ['light','dark','system']){
   await page.setViewportSize({width,height:900});await page.evaluate(t=>SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

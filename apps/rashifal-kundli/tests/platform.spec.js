@@ -1,3 +1,4 @@
+const {fillDate,fillTime}=require('../../../tests/vedic-civil-input.cjs');
 const {test,expect}=require('@playwright/test');
 const {createPreviewServer}=require('../../../infrastructure/preview-vedic-charts.cjs');
 const fs=require('node:fs/promises');
@@ -25,16 +26,16 @@ test.describe('P16 advanced candidates',()=>{
   expect(requests.every(r=>r.url.startsWith(server.origin)&&r.method==='GET')).toBe(true);expect(requests.some(r=>/2000|geonames/.test(r.url))).toBe(false);expect(errors).toEqual([]);expect(await page.evaluate(()=>Object.keys(localStorage).every(k=>['synapse-theme','chambers-theme'].includes(k)))).toBe(true);
  });
  test('independent withholding, unknown birth, pending clear and parent edits remove private advanced results',async({page})=>{
-  await page.goto(server.origin);await fill(page);await page.locator('#birth-time').fill('12:00');await calculate(page);await analyze(page);await expect(page.locator('[data-chart=D7]')).toHaveAttribute('data-status','unavailable');await expect(page.locator('[data-chart=D10]')).toHaveAttribute('data-status','available');await expect(page.locator('table[data-kind=ashtakavarga]')).toBeVisible();
+  await page.goto(server.origin);await fill(page);await fillTime(page,'#birth-time','12:00');await calculate(page);await analyze(page);await expect(page.locator('[data-chart=D7]')).toHaveAttribute('data-status','unavailable');await expect(page.locator('[data-chart=D10]')).toHaveAttribute('data-status','available');await expect(page.locator('table[data-kind=ashtakavarga]')).toBeVisible();
   await page.evaluate(()=>{document.querySelector('#advanced-analyze').click();document.querySelector('#advanced-clear').click();});await expect(page.locator('#advanced-results')).toBeEmpty();await expect(page.locator('#advanced-analyze')).toBeEnabled();
   await page.locator('#birth-accuracy').selectOption('unknown');await calculate(page);await page.locator('#advanced-analyze').click();await expect(page.locator('.vedic-advanced [role=status]')).toContainText('Unavailable');await expect(page.locator('#advanced-results')).toBeEmpty();
-  await page.locator('#birth-date').fill('2001-01-01');await expect(page.locator('.vedic-advanced')).toHaveCount(0);await page.locator('form button[type=button]').click();await expect(page.locator('#birth-date')).toHaveValue('');expect(await page.evaluate(()=>sessionStorage.length)).toBe(0);
+  await fillDate(page,'#birth-date','2001-01-01');await expect(page.locator('.vedic-advanced')).toHaveCount(0);await page.locator('form button[type=button]').click();await expect(page.locator('#birth-date')).toHaveValue('');expect(await page.evaluate(()=>sessionStorage.length)).toBe(0);
  });
 });
 
 test.describe('P15 private rulebook previews',()=>{
  let matchingServer;test.beforeAll(async()=>{matchingServer=await createPreviewServer(0,{matching:true});});test.afterAll(async()=>{await matchingServer?.close();});
- async function enterPair(page){await page.locator('#matching-consent').check();for(const axis of ['a','b']){await page.locator(`#match-${axis}-date`).fill('2000-01-01');await page.locator(`#match-${axis}-time`).fill('12:15');await page.locator(`#match-${axis}-query`).fill('New Delhi');await page.locator(`#match-${axis}-place`).selectOption('geonames:1261481');}}
+ async function enterPair(page){await page.locator('#matching-consent').check();for(const axis of ['a','b']){await fillDate(page,`#match-${axis}-date`,'2000-01-01');await fillTime(page,`#match-${axis}-time`,'12:15');await page.locator(`#match-${axis}-query`).fill('New Delhi');await page.locator(`#match-${axis}-place`).selectOption('geonames:1261481');}}
  async function compare(page){await page.locator('#matching-review-button').click();await expect(page.locator('#matching-review')).toContainText('2000-01-01T06:45:00.000Z');await page.locator('#matching-calculate').click();await expect(page.locator('#matching-results tbody tr')).toHaveCount(8);}
  test('consented dual review, eight factors, locale parity, themes and no birth requests/storage',async({page})=>{
   const requests=[],errors=[];page.on('request',r=>requests.push({url:r.url(),method:r.method()}));page.on('pageerror',e=>errors.push(e.message));await page.goto(matchingServer.origin);
@@ -49,8 +50,8 @@ test.describe('P15 private rulebook previews',()=>{
  });
  test('unknown/approximate birth stays withheld, edits remove stale scores and revocation clears both records',async({page})=>{
   await page.goto(matchingServer.origin);await enterPair(page);await page.locator('#match-b-accuracy').selectOption('unknown');await page.locator('#matching-review-button').click();await expect(page.getByRole('status')).toContainText('Unknown/approximate');await expect(page.locator('#matching-calculate')).toHaveCount(0);
-  await page.locator('#match-b-accuracy').selectOption('approximate');await page.locator('#match-b-time').fill('12:15');await page.locator('#matching-review-button').click();await expect(page.locator('#matching-calculate')).toHaveCount(0);
-  await page.locator('#match-b-accuracy').selectOption('exact');await compare(page);await page.locator('#match-b-time').fill('12:16');await expect(page.locator('#matching-results')).toBeEmpty();await expect(page.locator('#matching-review')).toBeEmpty();
+  await page.locator('#match-b-accuracy').selectOption('approximate');await fillTime(page,'#match-b-time','12:15');await page.locator('#matching-review-button').click();await expect(page.locator('#matching-calculate')).toHaveCount(0);
+  await page.locator('#match-b-accuracy').selectOption('exact');await compare(page);await fillTime(page,'#match-b-time','12:16');await expect(page.locator('#matching-results')).toBeEmpty();await expect(page.locator('#matching-review')).toBeEmpty();
   await page.locator('#matching-consent').uncheck();await expect(page.locator('#match-a-date')).toHaveValue('');await expect(page.locator('#match-b-date')).toHaveValue('');await expect(page.locator('#match-b-place')).toHaveValue('');await expect(page.locator('#match-b-date')).toBeDisabled();await expect(page.locator('#matching-results')).toBeEmpty();
   await enterPair(page);await page.locator('#matching-review-button').click();await page.evaluate(()=>{document.querySelector('#matching-calculate').click();document.querySelector('#matching-clear').click();});await expect(page.locator('#matching-results')).toBeEmpty();await expect(page.locator('#matching-review')).toBeEmpty();await expect(page.locator('#match-b-date')).toHaveValue('');
   await enterPair(page);await page.evaluate(()=>window.dispatchEvent(new Event('pagehide')));await expect(page.locator('#matching-consent')).not.toBeChecked();await expect(page.locator('#match-a-date')).toHaveValue('');
@@ -88,7 +89,7 @@ test.describe('P14 interval sensitivity',()=>{
 
 test.describe('P13 Time Machine',()=>{
  let tmServer;test.beforeAll(async()=>{tmServer=await createPreviewServer(0,{timeMachine:true});});test.afterAll(async()=>{await tmServer?.close();});
- async function fillExploration(page){await page.locator('#tm-date').fill('2030-01-01');await page.locator('#tm-time').fill('12:15');await page.locator('#tm-query').fill('New Delhi');await page.locator('#tm-place').selectOption('geonames:1261481');}
+ async function fillExploration(page){await fillDate(page,'#tm-date','2030-01-01');await fillTime(page,'#tm-time','12:15');await page.locator('#tm-query').fill('New Delhi');await page.locator('#tm-place').selectOption('geonames:1261481');}
  test('explicit future exploration, reference counts, locale/theme parity and stale-input clearing',async({page})=>{
   const requests=[],errors=[];page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(e.message));await page.goto(tmServer.origin);
   await expect(page.locator('#tm-date')).toHaveValue('');await expect(page.locator('#tm-time')).toHaveValue('');await page.locator('#tm-review-button').click();await expect(page.locator('#tm-calculate')).toHaveCount(0);
@@ -142,7 +143,7 @@ test('P11 unknown time withholds exact Panchang/calendar while allowing curated-
  await page.goto(server.origin);await fill(page);await page.locator('#birth-accuracy').selectOption('unknown');await calculate(page);
  const panel=page.locator('.vedic-traditions');await expect(panel).toContainText('UNSTABLE_BIRTH_TIME');await expect(page.locator('#observance-calculate')).toBeDisabled();
  await expect(page.locator('#name-match')).toBeDisabled();await expect(panel).toContainText('Ravi');await expect(panel).toContainText('Tara');
- await page.locator('#birth-accuracy').selectOption('exact');await page.locator('#birth-time').fill('12:15');await calculate(page);
+ await page.locator('#birth-accuracy').selectOption('exact');await fillTime(page,'#birth-time','12:15');await calculate(page);
  await page.locator('#observance-rule').selectOption('AMANTA_FIRST_SUNRISE_SKIP_MISSING_V1');await page.locator('#observance-year').fill('2027');
  await page.evaluate(()=>{document.querySelector('#observance-calculate').click();document.querySelector('form button[type=button]').click();});
  await expect(page.locator('#birth-results')).toBeEmpty();
@@ -165,7 +166,7 @@ test('P10 download is redacted, standalone, offline and printable; identity is e
  await page.locator('#export-identity').check();await expect(exportRoot.locator('article')).toContainText('Private Export Person');
  event=page.waitForEvent('download');await page.locator('#export-download').click();download=await event;
  const identified=await fs.readFile(await download.path(),'utf8');expect(identified).toContain('Private Export Person');expect(identified).toContain('2000-01-01');
- await page.locator('#birth-time').fill('12:00');await calculate(page);await expect(page.locator('#export-identity')).not.toBeChecked();
+ await fillTime(page,'#birth-time','12:00');await calculate(page);await expect(page.locator('#export-identity')).not.toBeChecked();
  await expect(page.locator('.vedic-export article')).toContainText('UNSTABLE_BIRTH_TIME');
  await page.getByRole('button',{name:'Clear all birth details',exact:true}).click();await expect(page.locator('.vedic-export')).toHaveCount(0);
 });
@@ -189,7 +190,7 @@ test('P10 native print isolates redacted report and restores preview; locales pr
 test.beforeAll(async()=>{server=await createPreviewServer(0,{birth:true});});
 test.afterAll(async()=>{await server?.close();});
 async function fill(page,time='12:15'){
- await page.locator('#birth-date').fill('2000-01-01');await page.locator('#birth-time').fill(time);
+ await fillDate(page,'#birth-date','2000-01-01');await fillTime(page,'#birth-time',time);
  await page.locator('#birth-query').fill('New Delhi');await page.locator('#birth-place').selectOption('geonames:1261481');
 }
 async function calculate(page){await page.locator('form button[type=submit]').click();await page.locator('#birth-calculate').click();await expect(page.locator('#birth-results h2').first()).toBeVisible();}
@@ -220,7 +221,7 @@ test('D1 remains usable when D9 is withheld; input edits remove stale results an
  await page.goto(server.origin);await fill(page,'12:00');await calculate(page);
  await expect(page.locator('[data-feature=d9][data-status=unavailable]')).toContainText('Withheld');
  await expect(page.getByRole('button',{name:'D9 · Navamsa',exact:true})).toBeDisabled();await expect(page.locator('svg')).toBeVisible();
- await page.locator('#birth-time').fill('12:15');await expect(page.locator('#birth-results')).toBeEmpty();await expect(page.locator('#birth-review')).toBeEmpty();
+ await fillTime(page,'#birth-time','12:15');await expect(page.locator('#birth-results')).toBeEmpty();await expect(page.locator('#birth-review')).toBeEmpty();
  await page.locator('#birth-query').fill('Rampur');await expect(page.locator('#birth-place')).toHaveValue('');
  expect(await page.locator('#birth-place option').count()).toBeGreaterThan(2);
 });
@@ -229,9 +230,9 @@ test('unknown and approximate times disclose intervals and withhold precise feat
  await page.locator('#birth-accuracy').selectOption('unknown');await expect(page.locator('#birth-time')).toBeHidden();await calculate(page);
  await expect(page.locator('#birth-review')).toContainText('Possible UTC interval');await expect(page.locator('svg')).toHaveCount(0);
  await expect(page.locator('#birth-results [data-status=unavailable]')).toHaveCount(4);await expect(page.locator('.vedic-dasha')).toHaveCount(0);
- await page.locator('#birth-accuracy').selectOption('approximate');await page.locator('#birth-time').fill('12:00');await page.locator('#birth-precision').fill('15');await calculate(page);
+ await page.locator('#birth-accuracy').selectOption('approximate');await fillTime(page,'#birth-time','12:00');await page.locator('#birth-precision').fill('15');await calculate(page);
  await expect(page.locator('#birth-results [data-status=unavailable]')).toHaveCount(4);
- await page.locator('#birth-date').fill('2098-01-01');await page.locator('form button[type=submit]').click();await expect(page.getByRole('status')).toContainText('future');await expect(page.locator('#birth-review')).toBeEmpty();
+ await fillDate(page,'#birth-date','2098-01-01');await page.locator('form button[type=submit]').click();await expect(page.getByRole('status')).toContainText('future');await expect(page.locator('#birth-review')).toBeEmpty();
 });
 test('Hindi/Gujarati rerender without changing numbers, then clear removes all birth details',async({page})=>{
  await page.goto(server.origin);await fill(page);await calculate(page);

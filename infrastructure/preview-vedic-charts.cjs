@@ -15,7 +15,7 @@ async function createPreviewServer(port=0,{birth=false,rashifal=false,timeMachin
   ['/theme.js',['text/javascript; charset=utf-8',fs.readFileSync(path.join(root,'packages/ui/theme.js'))]]
  ]);
  if(rashifal)for(let sign=1;sign<=12;sign++)for(const theme of ['light','dark'])assets.set(`/rashifal-kundli/moon-signs/${sign}-${theme}.webp`,['image/webp',fs.readFileSync(path.join(root,`apps/rashifal-kundli/frontend/assets/moon-signs/${sign}-${theme}.webp`))]);
- if(birth||matching)assets.set('/birth-app.css',['text/css; charset=utf-8',fs.readFileSync(path.join(root,'apps/rashifal-kundli/frontend/birth-app.css'))]);
+ if(birth||matching||timeMachine)assets.set('/birth-app.css',['text/css; charset=utf-8',fs.readFileSync(path.join(root,'apps/rashifal-kundli/frontend/birth-app.css'))]);
  if(birth||matching)assets.set('/rulebook.css',['text/css; charset=utf-8',fs.readFileSync(path.join(root,'apps/rashifal-kundli/frontend/rulebook.css'))]);
  if(birth)assets.set('/advanced.css',['text/css; charset=utf-8',fs.readFileSync(path.join(root,'apps/rashifal-kundli/frontend/advanced.css'))]);
  if(birth){const worker=await require('esbuild').build({entryPoints:[path.join(root,'apps/rashifal-kundli/dev/sensitivity-worker.mjs')],bundle:true,write:false,format:'esm',platform:'browser',target:'es2022',minify:true});assets.set('/sensitivity-worker.mjs',['text/javascript; charset=utf-8',worker.outputFiles[0].contents]);assets.set('/sensitivity.css',['text/css; charset=utf-8',fs.readFileSync(path.join(root,'apps/rashifal-kundli/frontend/sensitivity.css'))]);}
