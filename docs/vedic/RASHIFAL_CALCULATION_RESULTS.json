@@ -1,7 +1,7 @@
 {
   "phase": "calculation-backed-rashifal",
   "scope": "Deterministic nine-graha calculation/rule evidence, not independent traditional acceptance or predictive accuracy",
-  "rule": "rashifal-gochar-3",
+  "rule": "rashifal-gochar-4",
   "catalogueDate": "2026-10-25",
   "cases": 108,
   "grahas": 9,
@@ -10,7 +10,7 @@
   "sourceHashes": {
     "packages/vedic/rashifal-factors.mjs": "bca13f3cb89dc83b4768a4685531b905cafcef790159b9bbbf0d376cc0d369e2",
     "packages/vedic/rashifal-transits.mjs": "8f64a02a66a975e954f16f8e33f1c938f8ced12c5a08f8e0b3d173446fb70bee",
-    "apps/rashifal-kundli/frontend/rashifal-library.mjs": "d2044729e535451cadd9a42ec6f0f16e41916314e362783f327c1f87bb86672a",
+    "apps/rashifal-kundli/frontend/rashifal-library.mjs": "0e3aeb74e2c961a0230df338f5d7fec2d4c771414cfd57cce8db10b90893f8db",
     "apps/rashifal-kundli/frontend/rashifal-service.mjs": "1c6118b14a9cf83f27ddce34febe3717367e3dcfb056a72de3c5a440cc430bff"
   },
   "translationStatus": {
@@ -163,30 +163,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.12.0-0-8-0-0",
-          "overview.Jupiter.4.0-0-8-0-0",
-          "overview.Saturn.12.0-0-8-0-0"
+          "overview.observations.Sun.7.0-0-8-0-0|observations.Moon.12.0-0-8-0-0|observations.Mars.4.0-0-8-0-0|observations.Mercury.7.0-0-8-0-0|observations.Jupiter.4.0-0-8-0-0|observations.Venus.7.0-0-8-0-0|observations.Saturn.12.0-0-8-0-0|observations.Rahu.11.0-0-0-0-8|observations.Ketu.5.0-0-8-0-0"
         ],
         [
-          "career.Sun.7.0-0-8-0-0",
-          "career.Mercury.7.0-0-8-0-0",
-          "career.Mars.4.0-0-8-0-0",
-          "career.Saturn.12.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.4.0-0-8-0-0",
-          "money.Venus.7.0-0-8-0-0",
-          "money.Mercury.7.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.7.0-0-8-0-0",
-          "relationships.Moon.12.0-0-8-0-0",
-          "relationships.Jupiter.4.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.12.0-0-8-0-0",
-          "wellbeing.Sun.7.0-0-8-0-0",
-          "wellbeing.Saturn.12.0-0-8-0-0"
+          "observations.Sun.7.0-0-8-0-0",
+          "observations.Moon.12.0-0-8-0-0",
+          "observations.Mars.4.0-0-8-0-0",
+          "observations.Mercury.7.0-0-8-0-0",
+          "observations.Jupiter.4.0-0-8-0-0",
+          "observations.Venus.7.0-0-8-0-0",
+          "observations.Saturn.12.0-0-8-0-0",
+          "observations.Rahu.11.0-0-0-0-8",
+          "observations.Ketu.5.0-0-8-0-0"
         ]
       ]
     },
@@ -333,30 +321,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.12.0-0-8-0-0",
-          "overview.Jupiter.4.0-0-8-0-0",
-          "overview.Saturn.12.0-0-8-0-0"
+          "overview.observations.Sun.7.0-0-8-0-0|observations.Moon.12.0-0-8-0-0|observations.Mars.4.0-0-8-0-0|observations.Mercury.7.0-0-8-0-0|observations.Jupiter.4.0-0-8-0-0|observations.Venus.7.0-0-8-0-0|observations.Saturn.12.0-0-8-0-0|observations.Rahu.11.0-0-0-0-8|observations.Ketu.5.0-0-8-0-0"
         ],
         [
-          "career.Sun.7.0-0-8-0-0",
-          "career.Mercury.7.0-0-8-0-0",
-          "career.Mars.4.0-0-8-0-0",
-          "career.Saturn.12.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.4.0-0-8-0-0",
-          "money.Venus.7.0-0-8-0-0",
-          "money.Mercury.7.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.7.0-0-8-0-0",
-          "relationships.Moon.12.0-0-8-0-0",
-          "relationships.Jupiter.4.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.12.0-0-8-0-0",
-          "wellbeing.Sun.7.0-0-8-0-0",
-          "wellbeing.Saturn.12.0-0-8-0-0"
+          "observations.Sun.7.0-0-8-0-0",
+          "observations.Moon.12.0-0-8-0-0",
+          "observations.Mars.4.0-0-8-0-0",
+          "observations.Mercury.7.0-0-8-0-0",
+          "observations.Jupiter.4.0-0-8-0-0",
+          "observations.Venus.7.0-0-8-0-0",
+          "observations.Saturn.12.0-0-8-0-0",
+          "observations.Rahu.11.0-0-0-0-8",
+          "observations.Ketu.5.0-0-8-0-0"
         ]
       ]
     },
@@ -503,30 +479,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.12.0-0-8-0-0",
-          "overview.Jupiter.4.0-0-8-0-0",
-          "overview.Saturn.12.0-0-8-0-0"
+          "overview.observations.Sun.7.0-0-8-0-0|observations.Moon.12.0-0-8-0-0|observations.Mars.4.0-0-8-0-0|observations.Mercury.7.0-0-8-0-0|observations.Jupiter.4.0-0-8-0-0|observations.Venus.7.0-0-8-0-0|observations.Saturn.12.0-0-8-0-0|observations.Rahu.11.0-0-0-0-8|observations.Ketu.5.0-0-8-0-0"
         ],
         [
-          "career.Sun.7.0-0-8-0-0",
-          "career.Mercury.7.0-0-8-0-0",
-          "career.Mars.4.0-0-8-0-0",
-          "career.Saturn.12.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.4.0-0-8-0-0",
-          "money.Venus.7.0-0-8-0-0",
-          "money.Mercury.7.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.7.0-0-8-0-0",
-          "relationships.Moon.12.0-0-8-0-0",
-          "relationships.Jupiter.4.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.12.0-0-8-0-0",
-          "wellbeing.Sun.7.0-0-8-0-0",
-          "wellbeing.Saturn.12.0-0-8-0-0"
+          "observations.Sun.7.0-0-8-0-0",
+          "observations.Moon.12.0-0-8-0-0",
+          "observations.Mars.4.0-0-8-0-0",
+          "observations.Mercury.7.0-0-8-0-0",
+          "observations.Jupiter.4.0-0-8-0-0",
+          "observations.Venus.7.0-0-8-0-0",
+          "observations.Saturn.12.0-0-8-0-0",
+          "observations.Rahu.11.0-0-0-0-8",
+          "observations.Ketu.5.0-0-8-0-0"
         ]
       ]
     },
@@ -674,30 +638,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.12-1.0-1-7-0-0",
-          "overview.Jupiter.4.0-0-8-0-0",
-          "overview.Saturn.12.0-0-8-0-0"
+          "overview.observations.Sun.7.0-0-8-0-0|observations.Moon.12-1.0-1-7-0-0|observations.Mars.4.0-0-8-0-0|observations.Mercury.7.0-0-8-0-0|observations.Jupiter.4.0-0-8-0-0|observations.Venus.7.0-0-8-0-0|observations.Saturn.12.0-0-8-0-0|observations.Rahu.11.0-0-0-0-8|observations.Ketu.5.0-0-8-0-0"
         ],
         [
-          "career.Sun.7.0-0-8-0-0",
-          "career.Mercury.7.0-0-8-0-0",
-          "career.Mars.4.0-0-8-0-0",
-          "career.Saturn.12.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.4.0-0-8-0-0",
-          "money.Venus.7.0-0-8-0-0",
-          "money.Mercury.7.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.7.0-0-8-0-0",
-          "relationships.Moon.12-1.0-1-7-0-0",
-          "relationships.Jupiter.4.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.12-1.0-1-7-0-0",
-          "wellbeing.Sun.7.0-0-8-0-0",
-          "wellbeing.Saturn.12.0-0-8-0-0"
+          "observations.Sun.7.0-0-8-0-0",
+          "observations.Moon.12-1.0-1-7-0-0",
+          "observations.Mars.4.0-0-8-0-0",
+          "observations.Mercury.7.0-0-8-0-0",
+          "observations.Jupiter.4.0-0-8-0-0",
+          "observations.Venus.7.0-0-8-0-0",
+          "observations.Saturn.12.0-0-8-0-0",
+          "observations.Rahu.11.0-0-0-0-8",
+          "observations.Ketu.5.0-0-8-0-0"
         ]
       ]
     },
@@ -845,30 +797,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.12-1.0-1-7-0-0",
-          "overview.Jupiter.4.0-0-8-0-0",
-          "overview.Saturn.12.0-0-8-0-0"
+          "overview.observations.Sun.7.0-0-8-0-0|observations.Moon.12-1.0-1-7-0-0|observations.Mars.4.0-0-8-0-0|observations.Mercury.7.0-0-8-0-0|observations.Jupiter.4.0-0-8-0-0|observations.Venus.7.0-0-8-0-0|observations.Saturn.12.0-0-8-0-0|observations.Rahu.11.0-0-0-0-8|observations.Ketu.5.0-0-8-0-0"
         ],
         [
-          "career.Sun.7.0-0-8-0-0",
-          "career.Mercury.7.0-0-8-0-0",
-          "career.Mars.4.0-0-8-0-0",
-          "career.Saturn.12.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.4.0-0-8-0-0",
-          "money.Venus.7.0-0-8-0-0",
-          "money.Mercury.7.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.7.0-0-8-0-0",
-          "relationships.Moon.12-1.0-1-7-0-0",
-          "relationships.Jupiter.4.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.12-1.0-1-7-0-0",
-          "wellbeing.Sun.7.0-0-8-0-0",
-          "wellbeing.Saturn.12.0-0-8-0-0"
+          "observations.Sun.7.0-0-8-0-0",
+          "observations.Moon.12-1.0-1-7-0-0",
+          "observations.Mars.4.0-0-8-0-0",
+          "observations.Mercury.7.0-0-8-0-0",
+          "observations.Jupiter.4.0-0-8-0-0",
+          "observations.Venus.7.0-0-8-0-0",
+          "observations.Saturn.12.0-0-8-0-0",
+          "observations.Rahu.11.0-0-0-0-8",
+          "observations.Ketu.5.0-0-8-0-0"
         ]
       ]
     },
@@ -1016,30 +956,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.12-1.0-1-7-0-0",
-          "overview.Jupiter.4.0-0-8-0-0",
-          "overview.Saturn.12.0-0-8-0-0"
+          "overview.observations.Sun.7.0-0-8-0-0|observations.Moon.12-1.0-1-7-0-0|observations.Mars.4.0-0-8-0-0|observations.Mercury.7.0-0-8-0-0|observations.Jupiter.4.0-0-8-0-0|observations.Venus.7.0-0-8-0-0|observations.Saturn.12.0-0-8-0-0|observations.Rahu.11.0-0-0-0-8|observations.Ketu.5.0-0-8-0-0"
         ],
         [
-          "career.Sun.7.0-0-8-0-0",
-          "career.Mercury.7.0-0-8-0-0",
-          "career.Mars.4.0-0-8-0-0",
-          "career.Saturn.12.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.4.0-0-8-0-0",
-          "money.Venus.7.0-0-8-0-0",
-          "money.Mercury.7.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.7.0-0-8-0-0",
-          "relationships.Moon.12-1.0-1-7-0-0",
-          "relationships.Jupiter.4.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.12-1.0-1-7-0-0",
-          "wellbeing.Sun.7.0-0-8-0-0",
-          "wellbeing.Saturn.12.0-0-8-0-0"
+          "observations.Sun.7.0-0-8-0-0",
+          "observations.Moon.12-1.0-1-7-0-0",
+          "observations.Mars.4.0-0-8-0-0",
+          "observations.Mercury.7.0-0-8-0-0",
+          "observations.Jupiter.4.0-0-8-0-0",
+          "observations.Venus.7.0-0-8-0-0",
+          "observations.Saturn.12.0-0-8-0-0",
+          "observations.Rahu.11.0-0-0-0-8",
+          "observations.Ketu.5.0-0-8-0-0"
         ]
       ]
     },
@@ -1201,30 +1129,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.10-11-12-1.19-20-17-0-0",
-          "overview.Jupiter.4.0-0-56-0-0",
-          "overview.Saturn.12.0-0-56-0-0"
+          "overview.observations.Sun.7.0-0-56-0-0|observations.Moon.10-11-12-1.19-20-17-0-0|observations.Mars.4.0-0-56-0-0|observations.Mercury.7.0-0-56-0-0|observations.Jupiter.4.0-0-56-0-0|observations.Venus.7.0-0-56-0-0|observations.Saturn.12.0-0-56-0-0|observations.Rahu.11.0-0-0-0-56|observations.Ketu.5.0-0-56-0-0"
         ],
         [
-          "career.Sun.7.0-0-56-0-0",
-          "career.Mercury.7.0-0-56-0-0",
-          "career.Mars.4.0-0-56-0-0",
-          "career.Saturn.12.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.4.0-0-56-0-0",
-          "money.Venus.7.0-0-56-0-0",
-          "money.Mercury.7.0-0-56-0-0"
-        ],
-        [
-          "relationships.Venus.7.0-0-56-0-0",
-          "relationships.Moon.10-11-12-1.19-20-17-0-0",
-          "relationships.Jupiter.4.0-0-56-0-0"
-        ],
-        [
-          "wellbeing.Moon.10-11-12-1.19-20-17-0-0",
-          "wellbeing.Sun.7.0-0-56-0-0",
-          "wellbeing.Saturn.12.0-0-56-0-0"
+          "observations.Sun.7.0-0-56-0-0",
+          "observations.Moon.10-11-12-1.19-20-17-0-0",
+          "observations.Mars.4.0-0-56-0-0",
+          "observations.Mercury.7.0-0-56-0-0",
+          "observations.Jupiter.4.0-0-56-0-0",
+          "observations.Venus.7.0-0-56-0-0",
+          "observations.Saturn.12.0-0-56-0-0",
+          "observations.Rahu.11.0-0-0-0-56",
+          "observations.Ketu.5.0-0-56-0-0"
         ]
       ]
     },
@@ -1386,30 +1302,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.10-11-12-1.19-20-17-0-0",
-          "overview.Jupiter.4.0-0-56-0-0",
-          "overview.Saturn.12.0-0-56-0-0"
+          "overview.observations.Sun.7.0-0-56-0-0|observations.Moon.10-11-12-1.19-20-17-0-0|observations.Mars.4.0-0-56-0-0|observations.Mercury.7.0-0-56-0-0|observations.Jupiter.4.0-0-56-0-0|observations.Venus.7.0-0-56-0-0|observations.Saturn.12.0-0-56-0-0|observations.Rahu.11.0-0-0-0-56|observations.Ketu.5.0-0-56-0-0"
         ],
         [
-          "career.Sun.7.0-0-56-0-0",
-          "career.Mercury.7.0-0-56-0-0",
-          "career.Mars.4.0-0-56-0-0",
-          "career.Saturn.12.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.4.0-0-56-0-0",
-          "money.Venus.7.0-0-56-0-0",
-          "money.Mercury.7.0-0-56-0-0"
-        ],
-        [
-          "relationships.Venus.7.0-0-56-0-0",
-          "relationships.Moon.10-11-12-1.19-20-17-0-0",
-          "relationships.Jupiter.4.0-0-56-0-0"
-        ],
-        [
-          "wellbeing.Moon.10-11-12-1.19-20-17-0-0",
-          "wellbeing.Sun.7.0-0-56-0-0",
-          "wellbeing.Saturn.12.0-0-56-0-0"
+          "observations.Sun.7.0-0-56-0-0",
+          "observations.Moon.10-11-12-1.19-20-17-0-0",
+          "observations.Mars.4.0-0-56-0-0",
+          "observations.Mercury.7.0-0-56-0-0",
+          "observations.Jupiter.4.0-0-56-0-0",
+          "observations.Venus.7.0-0-56-0-0",
+          "observations.Saturn.12.0-0-56-0-0",
+          "observations.Rahu.11.0-0-0-0-56",
+          "observations.Ketu.5.0-0-56-0-0"
         ]
       ]
     },
@@ -1571,30 +1475,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.10-11-12-1.19-20-17-0-0",
-          "overview.Jupiter.4.0-0-56-0-0",
-          "overview.Saturn.12.0-0-56-0-0"
+          "overview.observations.Sun.7.0-0-56-0-0|observations.Moon.10-11-12-1.19-20-17-0-0|observations.Mars.4.0-0-56-0-0|observations.Mercury.7.0-0-56-0-0|observations.Jupiter.4.0-0-56-0-0|observations.Venus.7.0-0-56-0-0|observations.Saturn.12.0-0-56-0-0|observations.Rahu.11.0-0-0-0-56|observations.Ketu.5.0-0-56-0-0"
         ],
         [
-          "career.Sun.7.0-0-56-0-0",
-          "career.Mercury.7.0-0-56-0-0",
-          "career.Mars.4.0-0-56-0-0",
-          "career.Saturn.12.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.4.0-0-56-0-0",
-          "money.Venus.7.0-0-56-0-0",
-          "money.Mercury.7.0-0-56-0-0"
-        ],
-        [
-          "relationships.Venus.7.0-0-56-0-0",
-          "relationships.Moon.10-11-12-1.19-20-17-0-0",
-          "relationships.Jupiter.4.0-0-56-0-0"
-        ],
-        [
-          "wellbeing.Moon.10-11-12-1.19-20-17-0-0",
-          "wellbeing.Sun.7.0-0-56-0-0",
-          "wellbeing.Saturn.12.0-0-56-0-0"
+          "observations.Sun.7.0-0-56-0-0",
+          "observations.Moon.10-11-12-1.19-20-17-0-0",
+          "observations.Mars.4.0-0-56-0-0",
+          "observations.Mercury.7.0-0-56-0-0",
+          "observations.Jupiter.4.0-0-56-0-0",
+          "observations.Venus.7.0-0-56-0-0",
+          "observations.Saturn.12.0-0-56-0-0",
+          "observations.Rahu.11.0-0-0-0-56",
+          "observations.Ketu.5.0-0-56-0-0"
         ]
       ]
     },
@@ -1741,30 +1633,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.11.8-0-0-0-0",
-          "overview.Jupiter.3.0-0-8-0-0",
-          "overview.Saturn.11.8-0-0-0-0"
+          "overview.observations.Sun.6.8-0-0-0-0|observations.Moon.11.8-0-0-0-0|observations.Mars.3.8-0-0-0-0|observations.Mercury.6.8-0-0-0-0|observations.Jupiter.3.0-0-8-0-0|observations.Venus.6.0-0-8-0-0|observations.Saturn.11.8-0-0-0-0|observations.Rahu.10.0-0-0-0-8|observations.Ketu.4.0-0-8-0-0"
         ],
         [
-          "career.Sun.6.8-0-0-0-0",
-          "career.Mercury.6.8-0-0-0-0",
-          "career.Mars.3.8-0-0-0-0",
-          "career.Saturn.11.8-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.3.0-0-8-0-0",
-          "money.Venus.6.0-0-8-0-0",
-          "money.Mercury.6.8-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.6.0-0-8-0-0",
-          "relationships.Moon.11.8-0-0-0-0",
-          "relationships.Jupiter.3.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.11.8-0-0-0-0",
-          "wellbeing.Sun.6.8-0-0-0-0",
-          "wellbeing.Saturn.11.8-0-0-0-0"
+          "observations.Sun.6.8-0-0-0-0",
+          "observations.Moon.11.8-0-0-0-0",
+          "observations.Mars.3.8-0-0-0-0",
+          "observations.Mercury.6.8-0-0-0-0",
+          "observations.Jupiter.3.0-0-8-0-0",
+          "observations.Venus.6.0-0-8-0-0",
+          "observations.Saturn.11.8-0-0-0-0",
+          "observations.Rahu.10.0-0-0-0-8",
+          "observations.Ketu.4.0-0-8-0-0"
         ]
       ]
     },
@@ -1911,30 +1791,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.11.8-0-0-0-0",
-          "overview.Jupiter.3.0-0-8-0-0",
-          "overview.Saturn.11.8-0-0-0-0"
+          "overview.observations.Sun.6.8-0-0-0-0|observations.Moon.11.8-0-0-0-0|observations.Mars.3.8-0-0-0-0|observations.Mercury.6.8-0-0-0-0|observations.Jupiter.3.0-0-8-0-0|observations.Venus.6.0-0-8-0-0|observations.Saturn.11.8-0-0-0-0|observations.Rahu.10.0-0-0-0-8|observations.Ketu.4.0-0-8-0-0"
         ],
         [
-          "career.Sun.6.8-0-0-0-0",
-          "career.Mercury.6.8-0-0-0-0",
-          "career.Mars.3.8-0-0-0-0",
-          "career.Saturn.11.8-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.3.0-0-8-0-0",
-          "money.Venus.6.0-0-8-0-0",
-          "money.Mercury.6.8-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.6.0-0-8-0-0",
-          "relationships.Moon.11.8-0-0-0-0",
-          "relationships.Jupiter.3.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.11.8-0-0-0-0",
-          "wellbeing.Sun.6.8-0-0-0-0",
-          "wellbeing.Saturn.11.8-0-0-0-0"
+          "observations.Sun.6.8-0-0-0-0",
+          "observations.Moon.11.8-0-0-0-0",
+          "observations.Mars.3.8-0-0-0-0",
+          "observations.Mercury.6.8-0-0-0-0",
+          "observations.Jupiter.3.0-0-8-0-0",
+          "observations.Venus.6.0-0-8-0-0",
+          "observations.Saturn.11.8-0-0-0-0",
+          "observations.Rahu.10.0-0-0-0-8",
+          "observations.Ketu.4.0-0-8-0-0"
         ]
       ]
     },
@@ -2081,30 +1949,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.11.8-0-0-0-0",
-          "overview.Jupiter.3.0-0-8-0-0",
-          "overview.Saturn.11.8-0-0-0-0"
+          "overview.observations.Sun.6.8-0-0-0-0|observations.Moon.11.8-0-0-0-0|observations.Mars.3.8-0-0-0-0|observations.Mercury.6.8-0-0-0-0|observations.Jupiter.3.0-0-8-0-0|observations.Venus.6.0-0-8-0-0|observations.Saturn.11.8-0-0-0-0|observations.Rahu.10.0-0-0-0-8|observations.Ketu.4.0-0-8-0-0"
         ],
         [
-          "career.Sun.6.8-0-0-0-0",
-          "career.Mercury.6.8-0-0-0-0",
-          "career.Mars.3.8-0-0-0-0",
-          "career.Saturn.11.8-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.3.0-0-8-0-0",
-          "money.Venus.6.0-0-8-0-0",
-          "money.Mercury.6.8-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.6.0-0-8-0-0",
-          "relationships.Moon.11.8-0-0-0-0",
-          "relationships.Jupiter.3.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.11.8-0-0-0-0",
-          "wellbeing.Sun.6.8-0-0-0-0",
-          "wellbeing.Saturn.11.8-0-0-0-0"
+          "observations.Sun.6.8-0-0-0-0",
+          "observations.Moon.11.8-0-0-0-0",
+          "observations.Mars.3.8-0-0-0-0",
+          "observations.Mercury.6.8-0-0-0-0",
+          "observations.Jupiter.3.0-0-8-0-0",
+          "observations.Venus.6.0-0-8-0-0",
+          "observations.Saturn.11.8-0-0-0-0",
+          "observations.Rahu.10.0-0-0-0-8",
+          "observations.Ketu.4.0-0-8-0-0"
         ]
       ]
     },
@@ -2252,30 +2108,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.11-12.7-0-1-0-0",
-          "overview.Jupiter.3.0-0-8-0-0",
-          "overview.Saturn.11.8-0-0-0-0"
+          "overview.observations.Sun.6.7-1-0-0-0|observations.Moon.11-12.7-0-1-0-0|observations.Mars.3.7-1-0-0-0|observations.Mercury.6.8-0-0-0-0|observations.Jupiter.3.0-0-8-0-0|observations.Venus.6.0-0-8-0-0|observations.Saturn.11.8-0-0-0-0|observations.Rahu.10.0-0-0-0-8|observations.Ketu.4.0-0-8-0-0"
         ],
         [
-          "career.Sun.6.7-1-0-0-0",
-          "career.Mercury.6.8-0-0-0-0",
-          "career.Mars.3.7-1-0-0-0",
-          "career.Saturn.11.8-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.3.0-0-8-0-0",
-          "money.Venus.6.0-0-8-0-0",
-          "money.Mercury.6.8-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.6.0-0-8-0-0",
-          "relationships.Moon.11-12.7-0-1-0-0",
-          "relationships.Jupiter.3.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.11-12.7-0-1-0-0",
-          "wellbeing.Sun.6.7-1-0-0-0",
-          "wellbeing.Saturn.11.8-0-0-0-0"
+          "observations.Sun.6.7-1-0-0-0",
+          "observations.Moon.11-12.7-0-1-0-0",
+          "observations.Mars.3.7-1-0-0-0",
+          "observations.Mercury.6.8-0-0-0-0",
+          "observations.Jupiter.3.0-0-8-0-0",
+          "observations.Venus.6.0-0-8-0-0",
+          "observations.Saturn.11.8-0-0-0-0",
+          "observations.Rahu.10.0-0-0-0-8",
+          "observations.Ketu.4.0-0-8-0-0"
         ]
       ]
     },
@@ -2423,30 +2267,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.11-12.7-0-1-0-0",
-          "overview.Jupiter.3.0-0-8-0-0",
-          "overview.Saturn.11.8-0-0-0-0"
+          "overview.observations.Sun.6.7-1-0-0-0|observations.Moon.11-12.7-0-1-0-0|observations.Mars.3.7-1-0-0-0|observations.Mercury.6.8-0-0-0-0|observations.Jupiter.3.0-0-8-0-0|observations.Venus.6.0-0-8-0-0|observations.Saturn.11.8-0-0-0-0|observations.Rahu.10.0-0-0-0-8|observations.Ketu.4.0-0-8-0-0"
         ],
         [
-          "career.Sun.6.7-1-0-0-0",
-          "career.Mercury.6.8-0-0-0-0",
-          "career.Mars.3.7-1-0-0-0",
-          "career.Saturn.11.8-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.3.0-0-8-0-0",
-          "money.Venus.6.0-0-8-0-0",
-          "money.Mercury.6.8-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.6.0-0-8-0-0",
-          "relationships.Moon.11-12.7-0-1-0-0",
-          "relationships.Jupiter.3.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.11-12.7-0-1-0-0",
-          "wellbeing.Sun.6.7-1-0-0-0",
-          "wellbeing.Saturn.11.8-0-0-0-0"
+          "observations.Sun.6.7-1-0-0-0",
+          "observations.Moon.11-12.7-0-1-0-0",
+          "observations.Mars.3.7-1-0-0-0",
+          "observations.Mercury.6.8-0-0-0-0",
+          "observations.Jupiter.3.0-0-8-0-0",
+          "observations.Venus.6.0-0-8-0-0",
+          "observations.Saturn.11.8-0-0-0-0",
+          "observations.Rahu.10.0-0-0-0-8",
+          "observations.Ketu.4.0-0-8-0-0"
         ]
       ]
     },
@@ -2594,30 +2426,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.11-12.7-0-1-0-0",
-          "overview.Jupiter.3.0-0-8-0-0",
-          "overview.Saturn.11.8-0-0-0-0"
+          "overview.observations.Sun.6.7-1-0-0-0|observations.Moon.11-12.7-0-1-0-0|observations.Mars.3.7-1-0-0-0|observations.Mercury.6.8-0-0-0-0|observations.Jupiter.3.0-0-8-0-0|observations.Venus.6.0-0-8-0-0|observations.Saturn.11.8-0-0-0-0|observations.Rahu.10.0-0-0-0-8|observations.Ketu.4.0-0-8-0-0"
         ],
         [
-          "career.Sun.6.7-1-0-0-0",
-          "career.Mercury.6.8-0-0-0-0",
-          "career.Mars.3.7-1-0-0-0",
-          "career.Saturn.11.8-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.3.0-0-8-0-0",
-          "money.Venus.6.0-0-8-0-0",
-          "money.Mercury.6.8-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.6.0-0-8-0-0",
-          "relationships.Moon.11-12.7-0-1-0-0",
-          "relationships.Jupiter.3.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.11-12.7-0-1-0-0",
-          "wellbeing.Sun.6.7-1-0-0-0",
-          "wellbeing.Saturn.11.8-0-0-0-0"
+          "observations.Sun.6.7-1-0-0-0",
+          "observations.Moon.11-12.7-0-1-0-0",
+          "observations.Mars.3.7-1-0-0-0",
+          "observations.Mercury.6.8-0-0-0-0",
+          "observations.Jupiter.3.0-0-8-0-0",
+          "observations.Venus.6.0-0-8-0-0",
+          "observations.Saturn.11.8-0-0-0-0",
+          "observations.Rahu.10.0-0-0-0-8",
+          "observations.Ketu.4.0-0-8-0-0"
         ]
       ]
     },
@@ -2779,30 +2599,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.9-10-11-12.17-19-20-0-0",
-          "overview.Jupiter.3.0-0-56-0-0",
-          "overview.Saturn.11.56-0-0-0-0"
+          "overview.observations.Sun.6.55-1-0-0-0|observations.Moon.9-10-11-12.17-19-20-0-0|observations.Mars.3.55-1-0-0-0|observations.Mercury.6.56-0-0-0-0|observations.Jupiter.3.0-0-56-0-0|observations.Venus.6.0-0-56-0-0|observations.Saturn.11.56-0-0-0-0|observations.Rahu.10.0-0-0-0-56|observations.Ketu.4.0-0-56-0-0"
         ],
         [
-          "career.Sun.6.55-1-0-0-0",
-          "career.Mercury.6.56-0-0-0-0",
-          "career.Mars.3.55-1-0-0-0",
-          "career.Saturn.11.56-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.3.0-0-56-0-0",
-          "money.Venus.6.0-0-56-0-0",
-          "money.Mercury.6.56-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.6.0-0-56-0-0",
-          "relationships.Moon.9-10-11-12.17-19-20-0-0",
-          "relationships.Jupiter.3.0-0-56-0-0"
-        ],
-        [
-          "wellbeing.Moon.9-10-11-12.17-19-20-0-0",
-          "wellbeing.Sun.6.55-1-0-0-0",
-          "wellbeing.Saturn.11.56-0-0-0-0"
+          "observations.Sun.6.55-1-0-0-0",
+          "observations.Moon.9-10-11-12.17-19-20-0-0",
+          "observations.Mars.3.55-1-0-0-0",
+          "observations.Mercury.6.56-0-0-0-0",
+          "observations.Jupiter.3.0-0-56-0-0",
+          "observations.Venus.6.0-0-56-0-0",
+          "observations.Saturn.11.56-0-0-0-0",
+          "observations.Rahu.10.0-0-0-0-56",
+          "observations.Ketu.4.0-0-56-0-0"
         ]
       ]
     },
@@ -2964,30 +2772,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.9-10-11-12.17-19-20-0-0",
-          "overview.Jupiter.3.0-0-56-0-0",
-          "overview.Saturn.11.56-0-0-0-0"
+          "overview.observations.Sun.6.55-1-0-0-0|observations.Moon.9-10-11-12.17-19-20-0-0|observations.Mars.3.55-1-0-0-0|observations.Mercury.6.56-0-0-0-0|observations.Jupiter.3.0-0-56-0-0|observations.Venus.6.0-0-56-0-0|observations.Saturn.11.56-0-0-0-0|observations.Rahu.10.0-0-0-0-56|observations.Ketu.4.0-0-56-0-0"
         ],
         [
-          "career.Sun.6.55-1-0-0-0",
-          "career.Mercury.6.56-0-0-0-0",
-          "career.Mars.3.55-1-0-0-0",
-          "career.Saturn.11.56-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.3.0-0-56-0-0",
-          "money.Venus.6.0-0-56-0-0",
-          "money.Mercury.6.56-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.6.0-0-56-0-0",
-          "relationships.Moon.9-10-11-12.17-19-20-0-0",
-          "relationships.Jupiter.3.0-0-56-0-0"
-        ],
-        [
-          "wellbeing.Moon.9-10-11-12.17-19-20-0-0",
-          "wellbeing.Sun.6.55-1-0-0-0",
-          "wellbeing.Saturn.11.56-0-0-0-0"
+          "observations.Sun.6.55-1-0-0-0",
+          "observations.Moon.9-10-11-12.17-19-20-0-0",
+          "observations.Mars.3.55-1-0-0-0",
+          "observations.Mercury.6.56-0-0-0-0",
+          "observations.Jupiter.3.0-0-56-0-0",
+          "observations.Venus.6.0-0-56-0-0",
+          "observations.Saturn.11.56-0-0-0-0",
+          "observations.Rahu.10.0-0-0-0-56",
+          "observations.Ketu.4.0-0-56-0-0"
         ]
       ]
     },
@@ -3149,30 +2945,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.9-10-11-12.17-19-20-0-0",
-          "overview.Jupiter.3.0-0-56-0-0",
-          "overview.Saturn.11.56-0-0-0-0"
+          "overview.observations.Sun.6.55-1-0-0-0|observations.Moon.9-10-11-12.17-19-20-0-0|observations.Mars.3.55-1-0-0-0|observations.Mercury.6.56-0-0-0-0|observations.Jupiter.3.0-0-56-0-0|observations.Venus.6.0-0-56-0-0|observations.Saturn.11.56-0-0-0-0|observations.Rahu.10.0-0-0-0-56|observations.Ketu.4.0-0-56-0-0"
         ],
         [
-          "career.Sun.6.55-1-0-0-0",
-          "career.Mercury.6.56-0-0-0-0",
-          "career.Mars.3.55-1-0-0-0",
-          "career.Saturn.11.56-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.3.0-0-56-0-0",
-          "money.Venus.6.0-0-56-0-0",
-          "money.Mercury.6.56-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.6.0-0-56-0-0",
-          "relationships.Moon.9-10-11-12.17-19-20-0-0",
-          "relationships.Jupiter.3.0-0-56-0-0"
-        ],
-        [
-          "wellbeing.Moon.9-10-11-12.17-19-20-0-0",
-          "wellbeing.Sun.6.55-1-0-0-0",
-          "wellbeing.Saturn.11.56-0-0-0-0"
+          "observations.Sun.6.55-1-0-0-0",
+          "observations.Moon.9-10-11-12.17-19-20-0-0",
+          "observations.Mars.3.55-1-0-0-0",
+          "observations.Mercury.6.56-0-0-0-0",
+          "observations.Jupiter.3.0-0-56-0-0",
+          "observations.Venus.6.0-0-56-0-0",
+          "observations.Saturn.11.56-0-0-0-0",
+          "observations.Rahu.10.0-0-0-0-56",
+          "observations.Ketu.4.0-0-56-0-0"
         ]
       ]
     },
@@ -3319,30 +3103,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.10.8-0-0-0-0",
-          "overview.Jupiter.2.8-0-0-0-0",
-          "overview.Saturn.10.0-0-8-0-0"
+          "overview.observations.Sun.5.0-0-8-0-0|observations.Moon.10.8-0-0-0-0|observations.Mars.2.0-0-8-0-0|observations.Mercury.5.0-0-8-0-0|observations.Jupiter.2.8-0-0-0-0|observations.Venus.5.0-8-0-0-0|observations.Saturn.10.0-0-8-0-0|observations.Rahu.9.0-0-8-0-0|observations.Ketu.3.0-0-0-0-8"
         ],
         [
-          "career.Sun.5.0-0-8-0-0",
-          "career.Mercury.5.0-0-8-0-0",
-          "career.Mars.2.0-0-8-0-0",
-          "career.Saturn.10.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.2.8-0-0-0-0",
-          "money.Venus.5.0-8-0-0-0",
-          "money.Mercury.5.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.5.0-8-0-0-0",
-          "relationships.Moon.10.8-0-0-0-0",
-          "relationships.Jupiter.2.8-0-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.10.8-0-0-0-0",
-          "wellbeing.Sun.5.0-0-8-0-0",
-          "wellbeing.Saturn.10.0-0-8-0-0"
+          "observations.Sun.5.0-0-8-0-0",
+          "observations.Moon.10.8-0-0-0-0",
+          "observations.Mars.2.0-0-8-0-0",
+          "observations.Mercury.5.0-0-8-0-0",
+          "observations.Jupiter.2.8-0-0-0-0",
+          "observations.Venus.5.0-8-0-0-0",
+          "observations.Saturn.10.0-0-8-0-0",
+          "observations.Rahu.9.0-0-8-0-0",
+          "observations.Ketu.3.0-0-0-0-8"
         ]
       ]
     },
@@ -3489,30 +3261,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.10.8-0-0-0-0",
-          "overview.Jupiter.2.8-0-0-0-0",
-          "overview.Saturn.10.0-0-8-0-0"
+          "overview.observations.Sun.5.0-0-8-0-0|observations.Moon.10.8-0-0-0-0|observations.Mars.2.0-0-8-0-0|observations.Mercury.5.0-0-8-0-0|observations.Jupiter.2.8-0-0-0-0|observations.Venus.5.0-8-0-0-0|observations.Saturn.10.0-0-8-0-0|observations.Rahu.9.0-0-8-0-0|observations.Ketu.3.0-0-0-0-8"
         ],
         [
-          "career.Sun.5.0-0-8-0-0",
-          "career.Mercury.5.0-0-8-0-0",
-          "career.Mars.2.0-0-8-0-0",
-          "career.Saturn.10.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.2.8-0-0-0-0",
-          "money.Venus.5.0-8-0-0-0",
-          "money.Mercury.5.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.5.0-8-0-0-0",
-          "relationships.Moon.10.8-0-0-0-0",
-          "relationships.Jupiter.2.8-0-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.10.8-0-0-0-0",
-          "wellbeing.Sun.5.0-0-8-0-0",
-          "wellbeing.Saturn.10.0-0-8-0-0"
+          "observations.Sun.5.0-0-8-0-0",
+          "observations.Moon.10.8-0-0-0-0",
+          "observations.Mars.2.0-0-8-0-0",
+          "observations.Mercury.5.0-0-8-0-0",
+          "observations.Jupiter.2.8-0-0-0-0",
+          "observations.Venus.5.0-8-0-0-0",
+          "observations.Saturn.10.0-0-8-0-0",
+          "observations.Rahu.9.0-0-8-0-0",
+          "observations.Ketu.3.0-0-0-0-8"
         ]
       ]
     },
@@ -3659,30 +3419,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.10.8-0-0-0-0",
-          "overview.Jupiter.2.8-0-0-0-0",
-          "overview.Saturn.10.0-0-8-0-0"
+          "overview.observations.Sun.5.0-0-8-0-0|observations.Moon.10.8-0-0-0-0|observations.Mars.2.0-0-8-0-0|observations.Mercury.5.0-0-8-0-0|observations.Jupiter.2.8-0-0-0-0|observations.Venus.5.0-8-0-0-0|observations.Saturn.10.0-0-8-0-0|observations.Rahu.9.0-0-8-0-0|observations.Ketu.3.0-0-0-0-8"
         ],
         [
-          "career.Sun.5.0-0-8-0-0",
-          "career.Mercury.5.0-0-8-0-0",
-          "career.Mars.2.0-0-8-0-0",
-          "career.Saturn.10.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.2.8-0-0-0-0",
-          "money.Venus.5.0-8-0-0-0",
-          "money.Mercury.5.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.5.0-8-0-0-0",
-          "relationships.Moon.10.8-0-0-0-0",
-          "relationships.Jupiter.2.8-0-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.10.8-0-0-0-0",
-          "wellbeing.Sun.5.0-0-8-0-0",
-          "wellbeing.Saturn.10.0-0-8-0-0"
+          "observations.Sun.5.0-0-8-0-0",
+          "observations.Moon.10.8-0-0-0-0",
+          "observations.Mars.2.0-0-8-0-0",
+          "observations.Mercury.5.0-0-8-0-0",
+          "observations.Jupiter.2.8-0-0-0-0",
+          "observations.Venus.5.0-8-0-0-0",
+          "observations.Saturn.10.0-0-8-0-0",
+          "observations.Rahu.9.0-0-8-0-0",
+          "observations.Ketu.3.0-0-0-0-8"
         ]
       ]
     },
@@ -3830,30 +3578,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.10-11.8-0-0-0-0",
-          "overview.Jupiter.2.8-0-0-0-0",
-          "overview.Saturn.10.0-0-8-0-0"
+          "overview.observations.Sun.5.0-0-8-0-0|observations.Moon.10-11.8-0-0-0-0|observations.Mars.2.0-0-8-0-0|observations.Mercury.5.0-0-8-0-0|observations.Jupiter.2.8-0-0-0-0|observations.Venus.5.0-8-0-0-0|observations.Saturn.10.0-0-8-0-0|observations.Rahu.9.0-0-8-0-0|observations.Ketu.3.0-0-0-0-8"
         ],
         [
-          "career.Sun.5.0-0-8-0-0",
-          "career.Mercury.5.0-0-8-0-0",
-          "career.Mars.2.0-0-8-0-0",
-          "career.Saturn.10.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.2.8-0-0-0-0",
-          "money.Venus.5.0-8-0-0-0",
-          "money.Mercury.5.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.5.0-8-0-0-0",
-          "relationships.Moon.10-11.8-0-0-0-0",
-          "relationships.Jupiter.2.8-0-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.10-11.8-0-0-0-0",
-          "wellbeing.Sun.5.0-0-8-0-0",
-          "wellbeing.Saturn.10.0-0-8-0-0"
+          "observations.Sun.5.0-0-8-0-0",
+          "observations.Moon.10-11.8-0-0-0-0",
+          "observations.Mars.2.0-0-8-0-0",
+          "observations.Mercury.5.0-0-8-0-0",
+          "observations.Jupiter.2.8-0-0-0-0",
+          "observations.Venus.5.0-8-0-0-0",
+          "observations.Saturn.10.0-0-8-0-0",
+          "observations.Rahu.9.0-0-8-0-0",
+          "observations.Ketu.3.0-0-0-0-8"
         ]
       ]
     },
@@ -4001,30 +3737,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.10-11.8-0-0-0-0",
-          "overview.Jupiter.2.8-0-0-0-0",
-          "overview.Saturn.10.0-0-8-0-0"
+          "overview.observations.Sun.5.0-0-8-0-0|observations.Moon.10-11.8-0-0-0-0|observations.Mars.2.0-0-8-0-0|observations.Mercury.5.0-0-8-0-0|observations.Jupiter.2.8-0-0-0-0|observations.Venus.5.0-8-0-0-0|observations.Saturn.10.0-0-8-0-0|observations.Rahu.9.0-0-8-0-0|observations.Ketu.3.0-0-0-0-8"
         ],
         [
-          "career.Sun.5.0-0-8-0-0",
-          "career.Mercury.5.0-0-8-0-0",
-          "career.Mars.2.0-0-8-0-0",
-          "career.Saturn.10.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.2.8-0-0-0-0",
-          "money.Venus.5.0-8-0-0-0",
-          "money.Mercury.5.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.5.0-8-0-0-0",
-          "relationships.Moon.10-11.8-0-0-0-0",
-          "relationships.Jupiter.2.8-0-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.10-11.8-0-0-0-0",
-          "wellbeing.Sun.5.0-0-8-0-0",
-          "wellbeing.Saturn.10.0-0-8-0-0"
+          "observations.Sun.5.0-0-8-0-0",
+          "observations.Moon.10-11.8-0-0-0-0",
+          "observations.Mars.2.0-0-8-0-0",
+          "observations.Mercury.5.0-0-8-0-0",
+          "observations.Jupiter.2.8-0-0-0-0",
+          "observations.Venus.5.0-8-0-0-0",
+          "observations.Saturn.10.0-0-8-0-0",
+          "observations.Rahu.9.0-0-8-0-0",
+          "observations.Ketu.3.0-0-0-0-8"
         ]
       ]
     },
@@ -4172,30 +3896,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.10-11.8-0-0-0-0",
-          "overview.Jupiter.2.8-0-0-0-0",
-          "overview.Saturn.10.0-0-8-0-0"
+          "overview.observations.Sun.5.0-0-8-0-0|observations.Moon.10-11.8-0-0-0-0|observations.Mars.2.0-0-8-0-0|observations.Mercury.5.0-0-8-0-0|observations.Jupiter.2.8-0-0-0-0|observations.Venus.5.0-8-0-0-0|observations.Saturn.10.0-0-8-0-0|observations.Rahu.9.0-0-8-0-0|observations.Ketu.3.0-0-0-0-8"
         ],
         [
-          "career.Sun.5.0-0-8-0-0",
-          "career.Mercury.5.0-0-8-0-0",
-          "career.Mars.2.0-0-8-0-0",
-          "career.Saturn.10.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.2.8-0-0-0-0",
-          "money.Venus.5.0-8-0-0-0",
-          "money.Mercury.5.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.5.0-8-0-0-0",
-          "relationships.Moon.10-11.8-0-0-0-0",
-          "relationships.Jupiter.2.8-0-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.10-11.8-0-0-0-0",
-          "wellbeing.Sun.5.0-0-8-0-0",
-          "wellbeing.Saturn.10.0-0-8-0-0"
+          "observations.Sun.5.0-0-8-0-0",
+          "observations.Moon.10-11.8-0-0-0-0",
+          "observations.Mars.2.0-0-8-0-0",
+          "observations.Mercury.5.0-0-8-0-0",
+          "observations.Jupiter.2.8-0-0-0-0",
+          "observations.Venus.5.0-8-0-0-0",
+          "observations.Saturn.10.0-0-8-0-0",
+          "observations.Rahu.9.0-0-8-0-0",
+          "observations.Ketu.3.0-0-0-0-8"
         ]
       ]
     },
@@ -4357,30 +4069,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.8-9-10-11.18-0-38-0-0",
-          "overview.Jupiter.2.56-0-0-0-0",
-          "overview.Saturn.10.0-0-56-0-0"
+          "overview.observations.Sun.5.0-0-56-0-0|observations.Moon.8-9-10-11.18-0-38-0-0|observations.Mars.2.0-0-56-0-0|observations.Mercury.5.0-0-56-0-0|observations.Jupiter.2.56-0-0-0-0|observations.Venus.5.0-56-0-0-0|observations.Saturn.10.0-0-56-0-0|observations.Rahu.9.0-0-56-0-0|observations.Ketu.3.0-0-0-0-56"
         ],
         [
-          "career.Sun.5.0-0-56-0-0",
-          "career.Mercury.5.0-0-56-0-0",
-          "career.Mars.2.0-0-56-0-0",
-          "career.Saturn.10.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.2.56-0-0-0-0",
-          "money.Venus.5.0-56-0-0-0",
-          "money.Mercury.5.0-0-56-0-0"
-        ],
-        [
-          "relationships.Venus.5.0-56-0-0-0",
-          "relationships.Moon.8-9-10-11.18-0-38-0-0",
-          "relationships.Jupiter.2.56-0-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.8-9-10-11.18-0-38-0-0",
-          "wellbeing.Sun.5.0-0-56-0-0",
-          "wellbeing.Saturn.10.0-0-56-0-0"
+          "observations.Sun.5.0-0-56-0-0",
+          "observations.Moon.8-9-10-11.18-0-38-0-0",
+          "observations.Mars.2.0-0-56-0-0",
+          "observations.Mercury.5.0-0-56-0-0",
+          "observations.Jupiter.2.56-0-0-0-0",
+          "observations.Venus.5.0-56-0-0-0",
+          "observations.Saturn.10.0-0-56-0-0",
+          "observations.Rahu.9.0-0-56-0-0",
+          "observations.Ketu.3.0-0-0-0-56"
         ]
       ]
     },
@@ -4542,30 +4242,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.8-9-10-11.18-0-38-0-0",
-          "overview.Jupiter.2.56-0-0-0-0",
-          "overview.Saturn.10.0-0-56-0-0"
+          "overview.observations.Sun.5.0-0-56-0-0|observations.Moon.8-9-10-11.18-0-38-0-0|observations.Mars.2.0-0-56-0-0|observations.Mercury.5.0-0-56-0-0|observations.Jupiter.2.56-0-0-0-0|observations.Venus.5.0-56-0-0-0|observations.Saturn.10.0-0-56-0-0|observations.Rahu.9.0-0-56-0-0|observations.Ketu.3.0-0-0-0-56"
         ],
         [
-          "career.Sun.5.0-0-56-0-0",
-          "career.Mercury.5.0-0-56-0-0",
-          "career.Mars.2.0-0-56-0-0",
-          "career.Saturn.10.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.2.56-0-0-0-0",
-          "money.Venus.5.0-56-0-0-0",
-          "money.Mercury.5.0-0-56-0-0"
-        ],
-        [
-          "relationships.Venus.5.0-56-0-0-0",
-          "relationships.Moon.8-9-10-11.18-0-38-0-0",
-          "relationships.Jupiter.2.56-0-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.8-9-10-11.18-0-38-0-0",
-          "wellbeing.Sun.5.0-0-56-0-0",
-          "wellbeing.Saturn.10.0-0-56-0-0"
+          "observations.Sun.5.0-0-56-0-0",
+          "observations.Moon.8-9-10-11.18-0-38-0-0",
+          "observations.Mars.2.0-0-56-0-0",
+          "observations.Mercury.5.0-0-56-0-0",
+          "observations.Jupiter.2.56-0-0-0-0",
+          "observations.Venus.5.0-56-0-0-0",
+          "observations.Saturn.10.0-0-56-0-0",
+          "observations.Rahu.9.0-0-56-0-0",
+          "observations.Ketu.3.0-0-0-0-56"
         ]
       ]
     },
@@ -4727,30 +4415,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.8-9-10-11.18-0-38-0-0",
-          "overview.Jupiter.2.56-0-0-0-0",
-          "overview.Saturn.10.0-0-56-0-0"
+          "overview.observations.Sun.5.0-0-56-0-0|observations.Moon.8-9-10-11.18-0-38-0-0|observations.Mars.2.0-0-56-0-0|observations.Mercury.5.0-0-56-0-0|observations.Jupiter.2.56-0-0-0-0|observations.Venus.5.0-56-0-0-0|observations.Saturn.10.0-0-56-0-0|observations.Rahu.9.0-0-56-0-0|observations.Ketu.3.0-0-0-0-56"
         ],
         [
-          "career.Sun.5.0-0-56-0-0",
-          "career.Mercury.5.0-0-56-0-0",
-          "career.Mars.2.0-0-56-0-0",
-          "career.Saturn.10.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.2.56-0-0-0-0",
-          "money.Venus.5.0-56-0-0-0",
-          "money.Mercury.5.0-0-56-0-0"
-        ],
-        [
-          "relationships.Venus.5.0-56-0-0-0",
-          "relationships.Moon.8-9-10-11.18-0-38-0-0",
-          "relationships.Jupiter.2.56-0-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.8-9-10-11.18-0-38-0-0",
-          "wellbeing.Sun.5.0-0-56-0-0",
-          "wellbeing.Saturn.10.0-0-56-0-0"
+          "observations.Sun.5.0-0-56-0-0",
+          "observations.Moon.8-9-10-11.18-0-38-0-0",
+          "observations.Mars.2.0-0-56-0-0",
+          "observations.Mercury.5.0-0-56-0-0",
+          "observations.Jupiter.2.56-0-0-0-0",
+          "observations.Venus.5.0-56-0-0-0",
+          "observations.Saturn.10.0-0-56-0-0",
+          "observations.Rahu.9.0-0-56-0-0",
+          "observations.Ketu.3.0-0-0-0-56"
         ]
       ]
     },
@@ -4897,30 +4573,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.9.0-0-8-0-0",
-          "overview.Jupiter.1.0-0-8-0-0",
-          "overview.Saturn.9.0-0-8-0-0"
+          "overview.observations.Sun.4.0-0-8-0-0|observations.Moon.9.0-0-8-0-0|observations.Mars.1.0-0-8-0-0|observations.Mercury.4.8-0-0-0-0|observations.Jupiter.1.0-0-8-0-0|observations.Venus.4.8-0-0-0-0|observations.Saturn.9.0-0-8-0-0|observations.Rahu.8.0-0-8-0-0|observations.Ketu.2.0-0-8-0-0"
         ],
         [
-          "career.Sun.4.0-0-8-0-0",
-          "career.Mercury.4.8-0-0-0-0",
-          "career.Mars.1.0-0-8-0-0",
-          "career.Saturn.9.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.1.0-0-8-0-0",
-          "money.Venus.4.8-0-0-0-0",
-          "money.Mercury.4.8-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.4.8-0-0-0-0",
-          "relationships.Moon.9.0-0-8-0-0",
-          "relationships.Jupiter.1.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.9.0-0-8-0-0",
-          "wellbeing.Sun.4.0-0-8-0-0",
-          "wellbeing.Saturn.9.0-0-8-0-0"
+          "observations.Sun.4.0-0-8-0-0",
+          "observations.Moon.9.0-0-8-0-0",
+          "observations.Mars.1.0-0-8-0-0",
+          "observations.Mercury.4.8-0-0-0-0",
+          "observations.Jupiter.1.0-0-8-0-0",
+          "observations.Venus.4.8-0-0-0-0",
+          "observations.Saturn.9.0-0-8-0-0",
+          "observations.Rahu.8.0-0-8-0-0",
+          "observations.Ketu.2.0-0-8-0-0"
         ]
       ]
     },
@@ -5067,30 +4731,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.9.0-0-8-0-0",
-          "overview.Jupiter.1.0-0-8-0-0",
-          "overview.Saturn.9.0-0-8-0-0"
+          "overview.observations.Sun.4.0-0-8-0-0|observations.Moon.9.0-0-8-0-0|observations.Mars.1.0-0-8-0-0|observations.Mercury.4.8-0-0-0-0|observations.Jupiter.1.0-0-8-0-0|observations.Venus.4.8-0-0-0-0|observations.Saturn.9.0-0-8-0-0|observations.Rahu.8.0-0-8-0-0|observations.Ketu.2.0-0-8-0-0"
         ],
         [
-          "career.Sun.4.0-0-8-0-0",
-          "career.Mercury.4.8-0-0-0-0",
-          "career.Mars.1.0-0-8-0-0",
-          "career.Saturn.9.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.1.0-0-8-0-0",
-          "money.Venus.4.8-0-0-0-0",
-          "money.Mercury.4.8-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.4.8-0-0-0-0",
-          "relationships.Moon.9.0-0-8-0-0",
-          "relationships.Jupiter.1.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.9.0-0-8-0-0",
-          "wellbeing.Sun.4.0-0-8-0-0",
-          "wellbeing.Saturn.9.0-0-8-0-0"
+          "observations.Sun.4.0-0-8-0-0",
+          "observations.Moon.9.0-0-8-0-0",
+          "observations.Mars.1.0-0-8-0-0",
+          "observations.Mercury.4.8-0-0-0-0",
+          "observations.Jupiter.1.0-0-8-0-0",
+          "observations.Venus.4.8-0-0-0-0",
+          "observations.Saturn.9.0-0-8-0-0",
+          "observations.Rahu.8.0-0-8-0-0",
+          "observations.Ketu.2.0-0-8-0-0"
         ]
       ]
     },
@@ -5237,30 +4889,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.9.0-0-8-0-0",
-          "overview.Jupiter.1.0-0-8-0-0",
-          "overview.Saturn.9.0-0-8-0-0"
+          "overview.observations.Sun.4.0-0-8-0-0|observations.Moon.9.0-0-8-0-0|observations.Mars.1.0-0-8-0-0|observations.Mercury.4.8-0-0-0-0|observations.Jupiter.1.0-0-8-0-0|observations.Venus.4.8-0-0-0-0|observations.Saturn.9.0-0-8-0-0|observations.Rahu.8.0-0-8-0-0|observations.Ketu.2.0-0-8-0-0"
         ],
         [
-          "career.Sun.4.0-0-8-0-0",
-          "career.Mercury.4.8-0-0-0-0",
-          "career.Mars.1.0-0-8-0-0",
-          "career.Saturn.9.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.1.0-0-8-0-0",
-          "money.Venus.4.8-0-0-0-0",
-          "money.Mercury.4.8-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.4.8-0-0-0-0",
-          "relationships.Moon.9.0-0-8-0-0",
-          "relationships.Jupiter.1.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.9.0-0-8-0-0",
-          "wellbeing.Sun.4.0-0-8-0-0",
-          "wellbeing.Saturn.9.0-0-8-0-0"
+          "observations.Sun.4.0-0-8-0-0",
+          "observations.Moon.9.0-0-8-0-0",
+          "observations.Mars.1.0-0-8-0-0",
+          "observations.Mercury.4.8-0-0-0-0",
+          "observations.Jupiter.1.0-0-8-0-0",
+          "observations.Venus.4.8-0-0-0-0",
+          "observations.Saturn.9.0-0-8-0-0",
+          "observations.Rahu.8.0-0-8-0-0",
+          "observations.Ketu.2.0-0-8-0-0"
         ]
       ]
     },
@@ -5408,30 +5048,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.9-10.0-1-7-0-0",
-          "overview.Jupiter.1.0-0-8-0-0",
-          "overview.Saturn.9.0-0-8-0-0"
+          "overview.observations.Sun.4.0-0-8-0-0|observations.Moon.9-10.0-1-7-0-0|observations.Mars.1.0-0-8-0-0|observations.Mercury.4.8-0-0-0-0|observations.Jupiter.1.0-0-8-0-0|observations.Venus.4.7-1-0-0-0|observations.Saturn.9.0-0-8-0-0|observations.Rahu.8.0-0-8-0-0|observations.Ketu.2.0-0-8-0-0"
         ],
         [
-          "career.Sun.4.0-0-8-0-0",
-          "career.Mercury.4.8-0-0-0-0",
-          "career.Mars.1.0-0-8-0-0",
-          "career.Saturn.9.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.1.0-0-8-0-0",
-          "money.Venus.4.7-1-0-0-0",
-          "money.Mercury.4.8-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.4.7-1-0-0-0",
-          "relationships.Moon.9-10.0-1-7-0-0",
-          "relationships.Jupiter.1.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.9-10.0-1-7-0-0",
-          "wellbeing.Sun.4.0-0-8-0-0",
-          "wellbeing.Saturn.9.0-0-8-0-0"
+          "observations.Sun.4.0-0-8-0-0",
+          "observations.Moon.9-10.0-1-7-0-0",
+          "observations.Mars.1.0-0-8-0-0",
+          "observations.Mercury.4.8-0-0-0-0",
+          "observations.Jupiter.1.0-0-8-0-0",
+          "observations.Venus.4.7-1-0-0-0",
+          "observations.Saturn.9.0-0-8-0-0",
+          "observations.Rahu.8.0-0-8-0-0",
+          "observations.Ketu.2.0-0-8-0-0"
         ]
       ]
     },
@@ -5579,30 +5207,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.9-10.0-1-7-0-0",
-          "overview.Jupiter.1.0-0-8-0-0",
-          "overview.Saturn.9.0-0-8-0-0"
+          "overview.observations.Sun.4.0-0-8-0-0|observations.Moon.9-10.0-1-7-0-0|observations.Mars.1.0-0-8-0-0|observations.Mercury.4.8-0-0-0-0|observations.Jupiter.1.0-0-8-0-0|observations.Venus.4.7-1-0-0-0|observations.Saturn.9.0-0-8-0-0|observations.Rahu.8.0-0-8-0-0|observations.Ketu.2.0-0-8-0-0"
         ],
         [
-          "career.Sun.4.0-0-8-0-0",
-          "career.Mercury.4.8-0-0-0-0",
-          "career.Mars.1.0-0-8-0-0",
-          "career.Saturn.9.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.1.0-0-8-0-0",
-          "money.Venus.4.7-1-0-0-0",
-          "money.Mercury.4.8-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.4.7-1-0-0-0",
-          "relationships.Moon.9-10.0-1-7-0-0",
-          "relationships.Jupiter.1.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.9-10.0-1-7-0-0",
-          "wellbeing.Sun.4.0-0-8-0-0",
-          "wellbeing.Saturn.9.0-0-8-0-0"
+          "observations.Sun.4.0-0-8-0-0",
+          "observations.Moon.9-10.0-1-7-0-0",
+          "observations.Mars.1.0-0-8-0-0",
+          "observations.Mercury.4.8-0-0-0-0",
+          "observations.Jupiter.1.0-0-8-0-0",
+          "observations.Venus.4.7-1-0-0-0",
+          "observations.Saturn.9.0-0-8-0-0",
+          "observations.Rahu.8.0-0-8-0-0",
+          "observations.Ketu.2.0-0-8-0-0"
         ]
       ]
     },
@@ -5750,30 +5366,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.9-10.0-1-7-0-0",
-          "overview.Jupiter.1.0-0-8-0-0",
-          "overview.Saturn.9.0-0-8-0-0"
+          "overview.observations.Sun.4.0-0-8-0-0|observations.Moon.9-10.0-1-7-0-0|observations.Mars.1.0-0-8-0-0|observations.Mercury.4.8-0-0-0-0|observations.Jupiter.1.0-0-8-0-0|observations.Venus.4.7-1-0-0-0|observations.Saturn.9.0-0-8-0-0|observations.Rahu.8.0-0-8-0-0|observations.Ketu.2.0-0-8-0-0"
         ],
         [
-          "career.Sun.4.0-0-8-0-0",
-          "career.Mercury.4.8-0-0-0-0",
-          "career.Mars.1.0-0-8-0-0",
-          "career.Saturn.9.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.1.0-0-8-0-0",
-          "money.Venus.4.7-1-0-0-0",
-          "money.Mercury.4.8-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.4.7-1-0-0-0",
-          "relationships.Moon.9-10.0-1-7-0-0",
-          "relationships.Jupiter.1.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.9-10.0-1-7-0-0",
-          "wellbeing.Sun.4.0-0-8-0-0",
-          "wellbeing.Saturn.9.0-0-8-0-0"
+          "observations.Sun.4.0-0-8-0-0",
+          "observations.Moon.9-10.0-1-7-0-0",
+          "observations.Mars.1.0-0-8-0-0",
+          "observations.Mercury.4.8-0-0-0-0",
+          "observations.Jupiter.1.0-0-8-0-0",
+          "observations.Venus.4.7-1-0-0-0",
+          "observations.Saturn.9.0-0-8-0-0",
+          "observations.Rahu.8.0-0-8-0-0",
+          "observations.Ketu.2.0-0-8-0-0"
         ]
       ]
     },
@@ -5935,30 +5539,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.7-8-9-10.0-20-36-0-0",
-          "overview.Jupiter.1.0-0-56-0-0",
-          "overview.Saturn.9.0-0-56-0-0"
+          "overview.observations.Sun.4.0-0-56-0-0|observations.Moon.7-8-9-10.0-20-36-0-0|observations.Mars.1.0-0-56-0-0|observations.Mercury.4.56-0-0-0-0|observations.Jupiter.1.0-0-56-0-0|observations.Venus.4.55-1-0-0-0|observations.Saturn.9.0-0-56-0-0|observations.Rahu.8.0-0-56-0-0|observations.Ketu.2.0-0-56-0-0"
         ],
         [
-          "career.Sun.4.0-0-56-0-0",
-          "career.Mercury.4.56-0-0-0-0",
-          "career.Mars.1.0-0-56-0-0",
-          "career.Saturn.9.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.1.0-0-56-0-0",
-          "money.Venus.4.55-1-0-0-0",
-          "money.Mercury.4.56-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.4.55-1-0-0-0",
-          "relationships.Moon.7-8-9-10.0-20-36-0-0",
-          "relationships.Jupiter.1.0-0-56-0-0"
-        ],
-        [
-          "wellbeing.Moon.7-8-9-10.0-20-36-0-0",
-          "wellbeing.Sun.4.0-0-56-0-0",
-          "wellbeing.Saturn.9.0-0-56-0-0"
+          "observations.Sun.4.0-0-56-0-0",
+          "observations.Moon.7-8-9-10.0-20-36-0-0",
+          "observations.Mars.1.0-0-56-0-0",
+          "observations.Mercury.4.56-0-0-0-0",
+          "observations.Jupiter.1.0-0-56-0-0",
+          "observations.Venus.4.55-1-0-0-0",
+          "observations.Saturn.9.0-0-56-0-0",
+          "observations.Rahu.8.0-0-56-0-0",
+          "observations.Ketu.2.0-0-56-0-0"
         ]
       ]
     },
@@ -6120,30 +5712,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.7-8-9-10.0-20-36-0-0",
-          "overview.Jupiter.1.0-0-56-0-0",
-          "overview.Saturn.9.0-0-56-0-0"
+          "overview.observations.Sun.4.0-0-56-0-0|observations.Moon.7-8-9-10.0-20-36-0-0|observations.Mars.1.0-0-56-0-0|observations.Mercury.4.56-0-0-0-0|observations.Jupiter.1.0-0-56-0-0|observations.Venus.4.55-1-0-0-0|observations.Saturn.9.0-0-56-0-0|observations.Rahu.8.0-0-56-0-0|observations.Ketu.2.0-0-56-0-0"
         ],
         [
-          "career.Sun.4.0-0-56-0-0",
-          "career.Mercury.4.56-0-0-0-0",
-          "career.Mars.1.0-0-56-0-0",
-          "career.Saturn.9.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.1.0-0-56-0-0",
-          "money.Venus.4.55-1-0-0-0",
-          "money.Mercury.4.56-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.4.55-1-0-0-0",
-          "relationships.Moon.7-8-9-10.0-20-36-0-0",
-          "relationships.Jupiter.1.0-0-56-0-0"
-        ],
-        [
-          "wellbeing.Moon.7-8-9-10.0-20-36-0-0",
-          "wellbeing.Sun.4.0-0-56-0-0",
-          "wellbeing.Saturn.9.0-0-56-0-0"
+          "observations.Sun.4.0-0-56-0-0",
+          "observations.Moon.7-8-9-10.0-20-36-0-0",
+          "observations.Mars.1.0-0-56-0-0",
+          "observations.Mercury.4.56-0-0-0-0",
+          "observations.Jupiter.1.0-0-56-0-0",
+          "observations.Venus.4.55-1-0-0-0",
+          "observations.Saturn.9.0-0-56-0-0",
+          "observations.Rahu.8.0-0-56-0-0",
+          "observations.Ketu.2.0-0-56-0-0"
         ]
       ]
     },
@@ -6305,30 +5885,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.7-8-9-10.0-20-36-0-0",
-          "overview.Jupiter.1.0-0-56-0-0",
-          "overview.Saturn.9.0-0-56-0-0"
+          "overview.observations.Sun.4.0-0-56-0-0|observations.Moon.7-8-9-10.0-20-36-0-0|observations.Mars.1.0-0-56-0-0|observations.Mercury.4.56-0-0-0-0|observations.Jupiter.1.0-0-56-0-0|observations.Venus.4.55-1-0-0-0|observations.Saturn.9.0-0-56-0-0|observations.Rahu.8.0-0-56-0-0|observations.Ketu.2.0-0-56-0-0"
         ],
         [
-          "career.Sun.4.0-0-56-0-0",
-          "career.Mercury.4.56-0-0-0-0",
-          "career.Mars.1.0-0-56-0-0",
-          "career.Saturn.9.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.1.0-0-56-0-0",
-          "money.Venus.4.55-1-0-0-0",
-          "money.Mercury.4.56-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.4.55-1-0-0-0",
-          "relationships.Moon.7-8-9-10.0-20-36-0-0",
-          "relationships.Jupiter.1.0-0-56-0-0"
-        ],
-        [
-          "wellbeing.Moon.7-8-9-10.0-20-36-0-0",
-          "wellbeing.Sun.4.0-0-56-0-0",
-          "wellbeing.Saturn.9.0-0-56-0-0"
+          "observations.Sun.4.0-0-56-0-0",
+          "observations.Moon.7-8-9-10.0-20-36-0-0",
+          "observations.Mars.1.0-0-56-0-0",
+          "observations.Mercury.4.56-0-0-0-0",
+          "observations.Jupiter.1.0-0-56-0-0",
+          "observations.Venus.4.55-1-0-0-0",
+          "observations.Saturn.9.0-0-56-0-0",
+          "observations.Rahu.8.0-0-56-0-0",
+          "observations.Ketu.2.0-0-56-0-0"
         ]
       ]
     },
@@ -6475,30 +6043,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.8.0-0-8-0-0",
-          "overview.Jupiter.12.0-0-8-0-0",
-          "overview.Saturn.8.0-0-8-0-0"
+          "overview.observations.Sun.3.8-0-0-0-0|observations.Moon.8.0-0-8-0-0|observations.Mars.12.0-0-8-0-0|observations.Mercury.3.0-0-8-0-0|observations.Jupiter.12.0-0-8-0-0|observations.Venus.3.0-8-0-0-0|observations.Saturn.8.0-0-8-0-0|observations.Rahu.7.0-0-8-0-0|observations.Ketu.1.0-0-8-0-0"
         ],
         [
-          "career.Sun.3.8-0-0-0-0",
-          "career.Mercury.3.0-0-8-0-0",
-          "career.Mars.12.0-0-8-0-0",
-          "career.Saturn.8.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.12.0-0-8-0-0",
-          "money.Venus.3.0-8-0-0-0",
-          "money.Mercury.3.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.3.0-8-0-0-0",
-          "relationships.Moon.8.0-0-8-0-0",
-          "relationships.Jupiter.12.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.8.0-0-8-0-0",
-          "wellbeing.Sun.3.8-0-0-0-0",
-          "wellbeing.Saturn.8.0-0-8-0-0"
+          "observations.Sun.3.8-0-0-0-0",
+          "observations.Moon.8.0-0-8-0-0",
+          "observations.Mars.12.0-0-8-0-0",
+          "observations.Mercury.3.0-0-8-0-0",
+          "observations.Jupiter.12.0-0-8-0-0",
+          "observations.Venus.3.0-8-0-0-0",
+          "observations.Saturn.8.0-0-8-0-0",
+          "observations.Rahu.7.0-0-8-0-0",
+          "observations.Ketu.1.0-0-8-0-0"
         ]
       ]
     },
@@ -6645,30 +6201,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.8.0-0-8-0-0",
-          "overview.Jupiter.12.0-0-8-0-0",
-          "overview.Saturn.8.0-0-8-0-0"
+          "overview.observations.Sun.3.8-0-0-0-0|observations.Moon.8.0-0-8-0-0|observations.Mars.12.0-0-8-0-0|observations.Mercury.3.0-0-8-0-0|observations.Jupiter.12.0-0-8-0-0|observations.Venus.3.0-8-0-0-0|observations.Saturn.8.0-0-8-0-0|observations.Rahu.7.0-0-8-0-0|observations.Ketu.1.0-0-8-0-0"
         ],
         [
-          "career.Sun.3.8-0-0-0-0",
-          "career.Mercury.3.0-0-8-0-0",
-          "career.Mars.12.0-0-8-0-0",
-          "career.Saturn.8.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.12.0-0-8-0-0",
-          "money.Venus.3.0-8-0-0-0",
-          "money.Mercury.3.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.3.0-8-0-0-0",
-          "relationships.Moon.8.0-0-8-0-0",
-          "relationships.Jupiter.12.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.8.0-0-8-0-0",
-          "wellbeing.Sun.3.8-0-0-0-0",
-          "wellbeing.Saturn.8.0-0-8-0-0"
+          "observations.Sun.3.8-0-0-0-0",
+          "observations.Moon.8.0-0-8-0-0",
+          "observations.Mars.12.0-0-8-0-0",
+          "observations.Mercury.3.0-0-8-0-0",
+          "observations.Jupiter.12.0-0-8-0-0",
+          "observations.Venus.3.0-8-0-0-0",
+          "observations.Saturn.8.0-0-8-0-0",
+          "observations.Rahu.7.0-0-8-0-0",
+          "observations.Ketu.1.0-0-8-0-0"
         ]
       ]
     },
@@ -6815,30 +6359,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.8.0-0-8-0-0",
-          "overview.Jupiter.12.0-0-8-0-0",
-          "overview.Saturn.8.0-0-8-0-0"
+          "overview.observations.Sun.3.8-0-0-0-0|observations.Moon.8.0-0-8-0-0|observations.Mars.12.0-0-8-0-0|observations.Mercury.3.0-0-8-0-0|observations.Jupiter.12.0-0-8-0-0|observations.Venus.3.0-8-0-0-0|observations.Saturn.8.0-0-8-0-0|observations.Rahu.7.0-0-8-0-0|observations.Ketu.1.0-0-8-0-0"
         ],
         [
-          "career.Sun.3.8-0-0-0-0",
-          "career.Mercury.3.0-0-8-0-0",
-          "career.Mars.12.0-0-8-0-0",
-          "career.Saturn.8.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.12.0-0-8-0-0",
-          "money.Venus.3.0-8-0-0-0",
-          "money.Mercury.3.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.3.0-8-0-0-0",
-          "relationships.Moon.8.0-0-8-0-0",
-          "relationships.Jupiter.12.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.8.0-0-8-0-0",
-          "wellbeing.Sun.3.8-0-0-0-0",
-          "wellbeing.Saturn.8.0-0-8-0-0"
+          "observations.Sun.3.8-0-0-0-0",
+          "observations.Moon.8.0-0-8-0-0",
+          "observations.Mars.12.0-0-8-0-0",
+          "observations.Mercury.3.0-0-8-0-0",
+          "observations.Jupiter.12.0-0-8-0-0",
+          "observations.Venus.3.0-8-0-0-0",
+          "observations.Saturn.8.0-0-8-0-0",
+          "observations.Rahu.7.0-0-8-0-0",
+          "observations.Ketu.1.0-0-8-0-0"
         ]
       ]
     },
@@ -6986,30 +6518,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.8-9.0-0-8-0-0",
-          "overview.Jupiter.12.0-0-8-0-0",
-          "overview.Saturn.8.0-0-8-0-0"
+          "overview.observations.Sun.3.7-1-0-0-0|observations.Moon.8-9.0-0-8-0-0|observations.Mars.12.0-0-8-0-0|observations.Mercury.3.0-0-8-0-0|observations.Jupiter.12.0-0-8-0-0|observations.Venus.3.0-8-0-0-0|observations.Saturn.8.0-0-8-0-0|observations.Rahu.7.0-0-8-0-0|observations.Ketu.1.0-0-8-0-0"
         ],
         [
-          "career.Sun.3.7-1-0-0-0",
-          "career.Mercury.3.0-0-8-0-0",
-          "career.Mars.12.0-0-8-0-0",
-          "career.Saturn.8.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.12.0-0-8-0-0",
-          "money.Venus.3.0-8-0-0-0",
-          "money.Mercury.3.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.3.0-8-0-0-0",
-          "relationships.Moon.8-9.0-0-8-0-0",
-          "relationships.Jupiter.12.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.8-9.0-0-8-0-0",
-          "wellbeing.Sun.3.7-1-0-0-0",
-          "wellbeing.Saturn.8.0-0-8-0-0"
+          "observations.Sun.3.7-1-0-0-0",
+          "observations.Moon.8-9.0-0-8-0-0",
+          "observations.Mars.12.0-0-8-0-0",
+          "observations.Mercury.3.0-0-8-0-0",
+          "observations.Jupiter.12.0-0-8-0-0",
+          "observations.Venus.3.0-8-0-0-0",
+          "observations.Saturn.8.0-0-8-0-0",
+          "observations.Rahu.7.0-0-8-0-0",
+          "observations.Ketu.1.0-0-8-0-0"
         ]
       ]
     },
@@ -7157,30 +6677,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.8-9.0-0-8-0-0",
-          "overview.Jupiter.12.0-0-8-0-0",
-          "overview.Saturn.8.0-0-8-0-0"
+          "overview.observations.Sun.3.7-1-0-0-0|observations.Moon.8-9.0-0-8-0-0|observations.Mars.12.0-0-8-0-0|observations.Mercury.3.0-0-8-0-0|observations.Jupiter.12.0-0-8-0-0|observations.Venus.3.0-8-0-0-0|observations.Saturn.8.0-0-8-0-0|observations.Rahu.7.0-0-8-0-0|observations.Ketu.1.0-0-8-0-0"
         ],
         [
-          "career.Sun.3.7-1-0-0-0",
-          "career.Mercury.3.0-0-8-0-0",
-          "career.Mars.12.0-0-8-0-0",
-          "career.Saturn.8.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.12.0-0-8-0-0",
-          "money.Venus.3.0-8-0-0-0",
-          "money.Mercury.3.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.3.0-8-0-0-0",
-          "relationships.Moon.8-9.0-0-8-0-0",
-          "relationships.Jupiter.12.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.8-9.0-0-8-0-0",
-          "wellbeing.Sun.3.7-1-0-0-0",
-          "wellbeing.Saturn.8.0-0-8-0-0"
+          "observations.Sun.3.7-1-0-0-0",
+          "observations.Moon.8-9.0-0-8-0-0",
+          "observations.Mars.12.0-0-8-0-0",
+          "observations.Mercury.3.0-0-8-0-0",
+          "observations.Jupiter.12.0-0-8-0-0",
+          "observations.Venus.3.0-8-0-0-0",
+          "observations.Saturn.8.0-0-8-0-0",
+          "observations.Rahu.7.0-0-8-0-0",
+          "observations.Ketu.1.0-0-8-0-0"
         ]
       ]
     },
@@ -7328,30 +6836,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.8-9.0-0-8-0-0",
-          "overview.Jupiter.12.0-0-8-0-0",
-          "overview.Saturn.8.0-0-8-0-0"
+          "overview.observations.Sun.3.7-1-0-0-0|observations.Moon.8-9.0-0-8-0-0|observations.Mars.12.0-0-8-0-0|observations.Mercury.3.0-0-8-0-0|observations.Jupiter.12.0-0-8-0-0|observations.Venus.3.0-8-0-0-0|observations.Saturn.8.0-0-8-0-0|observations.Rahu.7.0-0-8-0-0|observations.Ketu.1.0-0-8-0-0"
         ],
         [
-          "career.Sun.3.7-1-0-0-0",
-          "career.Mercury.3.0-0-8-0-0",
-          "career.Mars.12.0-0-8-0-0",
-          "career.Saturn.8.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.12.0-0-8-0-0",
-          "money.Venus.3.0-8-0-0-0",
-          "money.Mercury.3.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.3.0-8-0-0-0",
-          "relationships.Moon.8-9.0-0-8-0-0",
-          "relationships.Jupiter.12.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.8-9.0-0-8-0-0",
-          "wellbeing.Sun.3.7-1-0-0-0",
-          "wellbeing.Saturn.8.0-0-8-0-0"
+          "observations.Sun.3.7-1-0-0-0",
+          "observations.Moon.8-9.0-0-8-0-0",
+          "observations.Mars.12.0-0-8-0-0",
+          "observations.Mercury.3.0-0-8-0-0",
+          "observations.Jupiter.12.0-0-8-0-0",
+          "observations.Venus.3.0-8-0-0-0",
+          "observations.Saturn.8.0-0-8-0-0",
+          "observations.Rahu.7.0-0-8-0-0",
+          "observations.Ketu.1.0-0-8-0-0"
         ]
       ]
     },
@@ -7513,30 +7009,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.6-7-8-9.19-19-18-0-0",
-          "overview.Jupiter.12.0-0-56-0-0",
-          "overview.Saturn.8.0-0-56-0-0"
+          "overview.observations.Sun.3.55-1-0-0-0|observations.Moon.6-7-8-9.19-19-18-0-0|observations.Mars.12.0-0-56-0-0|observations.Mercury.3.0-0-56-0-0|observations.Jupiter.12.0-0-56-0-0|observations.Venus.3.0-56-0-0-0|observations.Saturn.8.0-0-56-0-0|observations.Rahu.7.0-0-56-0-0|observations.Ketu.1.0-0-56-0-0"
         ],
         [
-          "career.Sun.3.55-1-0-0-0",
-          "career.Mercury.3.0-0-56-0-0",
-          "career.Mars.12.0-0-56-0-0",
-          "career.Saturn.8.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.12.0-0-56-0-0",
-          "money.Venus.3.0-56-0-0-0",
-          "money.Mercury.3.0-0-56-0-0"
-        ],
-        [
-          "relationships.Venus.3.0-56-0-0-0",
-          "relationships.Moon.6-7-8-9.19-19-18-0-0",
-          "relationships.Jupiter.12.0-0-56-0-0"
-        ],
-        [
-          "wellbeing.Moon.6-7-8-9.19-19-18-0-0",
-          "wellbeing.Sun.3.55-1-0-0-0",
-          "wellbeing.Saturn.8.0-0-56-0-0"
+          "observations.Sun.3.55-1-0-0-0",
+          "observations.Moon.6-7-8-9.19-19-18-0-0",
+          "observations.Mars.12.0-0-56-0-0",
+          "observations.Mercury.3.0-0-56-0-0",
+          "observations.Jupiter.12.0-0-56-0-0",
+          "observations.Venus.3.0-56-0-0-0",
+          "observations.Saturn.8.0-0-56-0-0",
+          "observations.Rahu.7.0-0-56-0-0",
+          "observations.Ketu.1.0-0-56-0-0"
         ]
       ]
     },
@@ -7698,30 +7182,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.6-7-8-9.19-19-18-0-0",
-          "overview.Jupiter.12.0-0-56-0-0",
-          "overview.Saturn.8.0-0-56-0-0"
+          "overview.observations.Sun.3.55-1-0-0-0|observations.Moon.6-7-8-9.19-19-18-0-0|observations.Mars.12.0-0-56-0-0|observations.Mercury.3.0-0-56-0-0|observations.Jupiter.12.0-0-56-0-0|observations.Venus.3.0-56-0-0-0|observations.Saturn.8.0-0-56-0-0|observations.Rahu.7.0-0-56-0-0|observations.Ketu.1.0-0-56-0-0"
         ],
         [
-          "career.Sun.3.55-1-0-0-0",
-          "career.Mercury.3.0-0-56-0-0",
-          "career.Mars.12.0-0-56-0-0",
-          "career.Saturn.8.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.12.0-0-56-0-0",
-          "money.Venus.3.0-56-0-0-0",
-          "money.Mercury.3.0-0-56-0-0"
-        ],
-        [
-          "relationships.Venus.3.0-56-0-0-0",
-          "relationships.Moon.6-7-8-9.19-19-18-0-0",
-          "relationships.Jupiter.12.0-0-56-0-0"
-        ],
-        [
-          "wellbeing.Moon.6-7-8-9.19-19-18-0-0",
-          "wellbeing.Sun.3.55-1-0-0-0",
-          "wellbeing.Saturn.8.0-0-56-0-0"
+          "observations.Sun.3.55-1-0-0-0",
+          "observations.Moon.6-7-8-9.19-19-18-0-0",
+          "observations.Mars.12.0-0-56-0-0",
+          "observations.Mercury.3.0-0-56-0-0",
+          "observations.Jupiter.12.0-0-56-0-0",
+          "observations.Venus.3.0-56-0-0-0",
+          "observations.Saturn.8.0-0-56-0-0",
+          "observations.Rahu.7.0-0-56-0-0",
+          "observations.Ketu.1.0-0-56-0-0"
         ]
       ]
     },
@@ -7883,30 +7355,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.6-7-8-9.19-19-18-0-0",
-          "overview.Jupiter.12.0-0-56-0-0",
-          "overview.Saturn.8.0-0-56-0-0"
+          "overview.observations.Sun.3.55-1-0-0-0|observations.Moon.6-7-8-9.19-19-18-0-0|observations.Mars.12.0-0-56-0-0|observations.Mercury.3.0-0-56-0-0|observations.Jupiter.12.0-0-56-0-0|observations.Venus.3.0-56-0-0-0|observations.Saturn.8.0-0-56-0-0|observations.Rahu.7.0-0-56-0-0|observations.Ketu.1.0-0-56-0-0"
         ],
         [
-          "career.Sun.3.55-1-0-0-0",
-          "career.Mercury.3.0-0-56-0-0",
-          "career.Mars.12.0-0-56-0-0",
-          "career.Saturn.8.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.12.0-0-56-0-0",
-          "money.Venus.3.0-56-0-0-0",
-          "money.Mercury.3.0-0-56-0-0"
-        ],
-        [
-          "relationships.Venus.3.0-56-0-0-0",
-          "relationships.Moon.6-7-8-9.19-19-18-0-0",
-          "relationships.Jupiter.12.0-0-56-0-0"
-        ],
-        [
-          "wellbeing.Moon.6-7-8-9.19-19-18-0-0",
-          "wellbeing.Sun.3.55-1-0-0-0",
-          "wellbeing.Saturn.8.0-0-56-0-0"
+          "observations.Sun.3.55-1-0-0-0",
+          "observations.Moon.6-7-8-9.19-19-18-0-0",
+          "observations.Mars.12.0-0-56-0-0",
+          "observations.Mercury.3.0-0-56-0-0",
+          "observations.Jupiter.12.0-0-56-0-0",
+          "observations.Venus.3.0-56-0-0-0",
+          "observations.Saturn.8.0-0-56-0-0",
+          "observations.Rahu.7.0-0-56-0-0",
+          "observations.Ketu.1.0-0-56-0-0"
         ]
       ]
     },
@@ -8053,30 +7513,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.7.0-8-0-0-0",
-          "overview.Jupiter.11.8-0-0-0-0",
-          "overview.Saturn.7.0-0-8-0-0"
+          "overview.observations.Sun.2.0-0-8-0-0|observations.Moon.7.0-8-0-0-0|observations.Mars.11.8-0-0-0-0|observations.Mercury.2.8-0-0-0-0|observations.Jupiter.11.8-0-0-0-0|observations.Venus.2.0-8-0-0-0|observations.Saturn.7.0-0-8-0-0|observations.Rahu.6.0-0-0-0-8|observations.Ketu.12.0-0-8-0-0"
         ],
         [
-          "career.Sun.2.0-0-8-0-0",
-          "career.Mercury.2.8-0-0-0-0",
-          "career.Mars.11.8-0-0-0-0",
-          "career.Saturn.7.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.11.8-0-0-0-0",
-          "money.Venus.2.0-8-0-0-0",
-          "money.Mercury.2.8-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.2.0-8-0-0-0",
-          "relationships.Moon.7.0-8-0-0-0",
-          "relationships.Jupiter.11.8-0-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.7.0-8-0-0-0",
-          "wellbeing.Sun.2.0-0-8-0-0",
-          "wellbeing.Saturn.7.0-0-8-0-0"
+          "observations.Sun.2.0-0-8-0-0",
+          "observations.Moon.7.0-8-0-0-0",
+          "observations.Mars.11.8-0-0-0-0",
+          "observations.Mercury.2.8-0-0-0-0",
+          "observations.Jupiter.11.8-0-0-0-0",
+          "observations.Venus.2.0-8-0-0-0",
+          "observations.Saturn.7.0-0-8-0-0",
+          "observations.Rahu.6.0-0-0-0-8",
+          "observations.Ketu.12.0-0-8-0-0"
         ]
       ]
     },
@@ -8223,30 +7671,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.7.0-8-0-0-0",
-          "overview.Jupiter.11.8-0-0-0-0",
-          "overview.Saturn.7.0-0-8-0-0"
+          "overview.observations.Sun.2.0-0-8-0-0|observations.Moon.7.0-8-0-0-0|observations.Mars.11.8-0-0-0-0|observations.Mercury.2.8-0-0-0-0|observations.Jupiter.11.8-0-0-0-0|observations.Venus.2.0-8-0-0-0|observations.Saturn.7.0-0-8-0-0|observations.Rahu.6.0-0-0-0-8|observations.Ketu.12.0-0-8-0-0"
         ],
         [
-          "career.Sun.2.0-0-8-0-0",
-          "career.Mercury.2.8-0-0-0-0",
-          "career.Mars.11.8-0-0-0-0",
-          "career.Saturn.7.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.11.8-0-0-0-0",
-          "money.Venus.2.0-8-0-0-0",
-          "money.Mercury.2.8-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.2.0-8-0-0-0",
-          "relationships.Moon.7.0-8-0-0-0",
-          "relationships.Jupiter.11.8-0-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.7.0-8-0-0-0",
-          "wellbeing.Sun.2.0-0-8-0-0",
-          "wellbeing.Saturn.7.0-0-8-0-0"
+          "observations.Sun.2.0-0-8-0-0",
+          "observations.Moon.7.0-8-0-0-0",
+          "observations.Mars.11.8-0-0-0-0",
+          "observations.Mercury.2.8-0-0-0-0",
+          "observations.Jupiter.11.8-0-0-0-0",
+          "observations.Venus.2.0-8-0-0-0",
+          "observations.Saturn.7.0-0-8-0-0",
+          "observations.Rahu.6.0-0-0-0-8",
+          "observations.Ketu.12.0-0-8-0-0"
         ]
       ]
     },
@@ -8393,30 +7829,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.7.0-8-0-0-0",
-          "overview.Jupiter.11.8-0-0-0-0",
-          "overview.Saturn.7.0-0-8-0-0"
+          "overview.observations.Sun.2.0-0-8-0-0|observations.Moon.7.0-8-0-0-0|observations.Mars.11.8-0-0-0-0|observations.Mercury.2.8-0-0-0-0|observations.Jupiter.11.8-0-0-0-0|observations.Venus.2.0-8-0-0-0|observations.Saturn.7.0-0-8-0-0|observations.Rahu.6.0-0-0-0-8|observations.Ketu.12.0-0-8-0-0"
         ],
         [
-          "career.Sun.2.0-0-8-0-0",
-          "career.Mercury.2.8-0-0-0-0",
-          "career.Mars.11.8-0-0-0-0",
-          "career.Saturn.7.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.11.8-0-0-0-0",
-          "money.Venus.2.0-8-0-0-0",
-          "money.Mercury.2.8-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.2.0-8-0-0-0",
-          "relationships.Moon.7.0-8-0-0-0",
-          "relationships.Jupiter.11.8-0-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.7.0-8-0-0-0",
-          "wellbeing.Sun.2.0-0-8-0-0",
-          "wellbeing.Saturn.7.0-0-8-0-0"
+          "observations.Sun.2.0-0-8-0-0",
+          "observations.Moon.7.0-8-0-0-0",
+          "observations.Mars.11.8-0-0-0-0",
+          "observations.Mercury.2.8-0-0-0-0",
+          "observations.Jupiter.11.8-0-0-0-0",
+          "observations.Venus.2.0-8-0-0-0",
+          "observations.Saturn.7.0-0-8-0-0",
+          "observations.Rahu.6.0-0-0-0-8",
+          "observations.Ketu.12.0-0-8-0-0"
         ]
       ]
     },
@@ -8564,30 +7988,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.7-8.0-7-1-0-0",
-          "overview.Jupiter.11.7-1-0-0-0",
-          "overview.Saturn.7.0-0-8-0-0"
+          "overview.observations.Sun.2.0-0-8-0-0|observations.Moon.7-8.0-7-1-0-0|observations.Mars.11.8-0-0-0-0|observations.Mercury.2.8-0-0-0-0|observations.Jupiter.11.7-1-0-0-0|observations.Venus.2.0-8-0-0-0|observations.Saturn.7.0-0-8-0-0|observations.Rahu.6.0-0-0-0-8|observations.Ketu.12.0-0-8-0-0"
         ],
         [
-          "career.Sun.2.0-0-8-0-0",
-          "career.Mercury.2.8-0-0-0-0",
-          "career.Mars.11.8-0-0-0-0",
-          "career.Saturn.7.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.11.7-1-0-0-0",
-          "money.Venus.2.0-8-0-0-0",
-          "money.Mercury.2.8-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.2.0-8-0-0-0",
-          "relationships.Moon.7-8.0-7-1-0-0",
-          "relationships.Jupiter.11.7-1-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.7-8.0-7-1-0-0",
-          "wellbeing.Sun.2.0-0-8-0-0",
-          "wellbeing.Saturn.7.0-0-8-0-0"
+          "observations.Sun.2.0-0-8-0-0",
+          "observations.Moon.7-8.0-7-1-0-0",
+          "observations.Mars.11.8-0-0-0-0",
+          "observations.Mercury.2.8-0-0-0-0",
+          "observations.Jupiter.11.7-1-0-0-0",
+          "observations.Venus.2.0-8-0-0-0",
+          "observations.Saturn.7.0-0-8-0-0",
+          "observations.Rahu.6.0-0-0-0-8",
+          "observations.Ketu.12.0-0-8-0-0"
         ]
       ]
     },
@@ -8735,30 +8147,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.7-8.0-7-1-0-0",
-          "overview.Jupiter.11.7-1-0-0-0",
-          "overview.Saturn.7.0-0-8-0-0"
+          "overview.observations.Sun.2.0-0-8-0-0|observations.Moon.7-8.0-7-1-0-0|observations.Mars.11.8-0-0-0-0|observations.Mercury.2.8-0-0-0-0|observations.Jupiter.11.7-1-0-0-0|observations.Venus.2.0-8-0-0-0|observations.Saturn.7.0-0-8-0-0|observations.Rahu.6.0-0-0-0-8|observations.Ketu.12.0-0-8-0-0"
         ],
         [
-          "career.Sun.2.0-0-8-0-0",
-          "career.Mercury.2.8-0-0-0-0",
-          "career.Mars.11.8-0-0-0-0",
-          "career.Saturn.7.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.11.7-1-0-0-0",
-          "money.Venus.2.0-8-0-0-0",
-          "money.Mercury.2.8-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.2.0-8-0-0-0",
-          "relationships.Moon.7-8.0-7-1-0-0",
-          "relationships.Jupiter.11.7-1-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.7-8.0-7-1-0-0",
-          "wellbeing.Sun.2.0-0-8-0-0",
-          "wellbeing.Saturn.7.0-0-8-0-0"
+          "observations.Sun.2.0-0-8-0-0",
+          "observations.Moon.7-8.0-7-1-0-0",
+          "observations.Mars.11.8-0-0-0-0",
+          "observations.Mercury.2.8-0-0-0-0",
+          "observations.Jupiter.11.7-1-0-0-0",
+          "observations.Venus.2.0-8-0-0-0",
+          "observations.Saturn.7.0-0-8-0-0",
+          "observations.Rahu.6.0-0-0-0-8",
+          "observations.Ketu.12.0-0-8-0-0"
         ]
       ]
     },
@@ -8906,30 +8306,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.7-8.0-7-1-0-0",
-          "overview.Jupiter.11.7-1-0-0-0",
-          "overview.Saturn.7.0-0-8-0-0"
+          "overview.observations.Sun.2.0-0-8-0-0|observations.Moon.7-8.0-7-1-0-0|observations.Mars.11.8-0-0-0-0|observations.Mercury.2.8-0-0-0-0|observations.Jupiter.11.7-1-0-0-0|observations.Venus.2.0-8-0-0-0|observations.Saturn.7.0-0-8-0-0|observations.Rahu.6.0-0-0-0-8|observations.Ketu.12.0-0-8-0-0"
         ],
         [
-          "career.Sun.2.0-0-8-0-0",
-          "career.Mercury.2.8-0-0-0-0",
-          "career.Mars.11.8-0-0-0-0",
-          "career.Saturn.7.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.11.7-1-0-0-0",
-          "money.Venus.2.0-8-0-0-0",
-          "money.Mercury.2.8-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.2.0-8-0-0-0",
-          "relationships.Moon.7-8.0-7-1-0-0",
-          "relationships.Jupiter.11.7-1-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.7-8.0-7-1-0-0",
-          "wellbeing.Sun.2.0-0-8-0-0",
-          "wellbeing.Saturn.7.0-0-8-0-0"
+          "observations.Sun.2.0-0-8-0-0",
+          "observations.Moon.7-8.0-7-1-0-0",
+          "observations.Mars.11.8-0-0-0-0",
+          "observations.Mercury.2.8-0-0-0-0",
+          "observations.Jupiter.11.7-1-0-0-0",
+          "observations.Venus.2.0-8-0-0-0",
+          "observations.Saturn.7.0-0-8-0-0",
+          "observations.Rahu.6.0-0-0-0-8",
+          "observations.Ketu.12.0-0-8-0-0"
         ]
       ]
     },
@@ -9091,30 +8479,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.5-6-7-8.0-36-20-0-0",
-          "overview.Jupiter.11.55-1-0-0-0",
-          "overview.Saturn.7.0-0-56-0-0"
+          "overview.observations.Sun.2.0-0-56-0-0|observations.Moon.5-6-7-8.0-36-20-0-0|observations.Mars.11.37-19-0-0-0|observations.Mercury.2.56-0-0-0-0|observations.Jupiter.11.55-1-0-0-0|observations.Venus.2.0-56-0-0-0|observations.Saturn.7.0-0-56-0-0|observations.Rahu.6.0-0-0-0-56|observations.Ketu.12.0-0-56-0-0"
         ],
         [
-          "career.Sun.2.0-0-56-0-0",
-          "career.Mercury.2.56-0-0-0-0",
-          "career.Mars.11.37-19-0-0-0",
-          "career.Saturn.7.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.11.55-1-0-0-0",
-          "money.Venus.2.0-56-0-0-0",
-          "money.Mercury.2.56-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.2.0-56-0-0-0",
-          "relationships.Moon.5-6-7-8.0-36-20-0-0",
-          "relationships.Jupiter.11.55-1-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.5-6-7-8.0-36-20-0-0",
-          "wellbeing.Sun.2.0-0-56-0-0",
-          "wellbeing.Saturn.7.0-0-56-0-0"
+          "observations.Sun.2.0-0-56-0-0",
+          "observations.Moon.5-6-7-8.0-36-20-0-0",
+          "observations.Mars.11.37-19-0-0-0",
+          "observations.Mercury.2.56-0-0-0-0",
+          "observations.Jupiter.11.55-1-0-0-0",
+          "observations.Venus.2.0-56-0-0-0",
+          "observations.Saturn.7.0-0-56-0-0",
+          "observations.Rahu.6.0-0-0-0-56",
+          "observations.Ketu.12.0-0-56-0-0"
         ]
       ]
     },
@@ -9276,30 +8652,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.5-6-7-8.0-36-20-0-0",
-          "overview.Jupiter.11.55-1-0-0-0",
-          "overview.Saturn.7.0-0-56-0-0"
+          "overview.observations.Sun.2.0-0-56-0-0|observations.Moon.5-6-7-8.0-36-20-0-0|observations.Mars.11.37-19-0-0-0|observations.Mercury.2.56-0-0-0-0|observations.Jupiter.11.55-1-0-0-0|observations.Venus.2.0-56-0-0-0|observations.Saturn.7.0-0-56-0-0|observations.Rahu.6.0-0-0-0-56|observations.Ketu.12.0-0-56-0-0"
         ],
         [
-          "career.Sun.2.0-0-56-0-0",
-          "career.Mercury.2.56-0-0-0-0",
-          "career.Mars.11.37-19-0-0-0",
-          "career.Saturn.7.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.11.55-1-0-0-0",
-          "money.Venus.2.0-56-0-0-0",
-          "money.Mercury.2.56-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.2.0-56-0-0-0",
-          "relationships.Moon.5-6-7-8.0-36-20-0-0",
-          "relationships.Jupiter.11.55-1-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.5-6-7-8.0-36-20-0-0",
-          "wellbeing.Sun.2.0-0-56-0-0",
-          "wellbeing.Saturn.7.0-0-56-0-0"
+          "observations.Sun.2.0-0-56-0-0",
+          "observations.Moon.5-6-7-8.0-36-20-0-0",
+          "observations.Mars.11.37-19-0-0-0",
+          "observations.Mercury.2.56-0-0-0-0",
+          "observations.Jupiter.11.55-1-0-0-0",
+          "observations.Venus.2.0-56-0-0-0",
+          "observations.Saturn.7.0-0-56-0-0",
+          "observations.Rahu.6.0-0-0-0-56",
+          "observations.Ketu.12.0-0-56-0-0"
         ]
       ]
     },
@@ -9461,30 +8825,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.5-6-7-8.0-36-20-0-0",
-          "overview.Jupiter.11.55-1-0-0-0",
-          "overview.Saturn.7.0-0-56-0-0"
+          "overview.observations.Sun.2.0-0-56-0-0|observations.Moon.5-6-7-8.0-36-20-0-0|observations.Mars.11.37-19-0-0-0|observations.Mercury.2.56-0-0-0-0|observations.Jupiter.11.55-1-0-0-0|observations.Venus.2.0-56-0-0-0|observations.Saturn.7.0-0-56-0-0|observations.Rahu.6.0-0-0-0-56|observations.Ketu.12.0-0-56-0-0"
         ],
         [
-          "career.Sun.2.0-0-56-0-0",
-          "career.Mercury.2.56-0-0-0-0",
-          "career.Mars.11.37-19-0-0-0",
-          "career.Saturn.7.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.11.55-1-0-0-0",
-          "money.Venus.2.0-56-0-0-0",
-          "money.Mercury.2.56-0-0-0-0"
-        ],
-        [
-          "relationships.Venus.2.0-56-0-0-0",
-          "relationships.Moon.5-6-7-8.0-36-20-0-0",
-          "relationships.Jupiter.11.55-1-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.5-6-7-8.0-36-20-0-0",
-          "wellbeing.Sun.2.0-0-56-0-0",
-          "wellbeing.Saturn.7.0-0-56-0-0"
+          "observations.Sun.2.0-0-56-0-0",
+          "observations.Moon.5-6-7-8.0-36-20-0-0",
+          "observations.Mars.11.37-19-0-0-0",
+          "observations.Mercury.2.56-0-0-0-0",
+          "observations.Jupiter.11.55-1-0-0-0",
+          "observations.Venus.2.0-56-0-0-0",
+          "observations.Saturn.7.0-0-56-0-0",
+          "observations.Rahu.6.0-0-0-0-56",
+          "observations.Ketu.12.0-0-56-0-0"
         ]
       ]
     },
@@ -9631,30 +8983,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.6.8-0-0-0-0",
-          "overview.Jupiter.10.0-0-8-0-0",
-          "overview.Saturn.6.8-0-0-0-0"
+          "overview.observations.Sun.1.0-0-8-0-0|observations.Moon.6.8-0-0-0-0|observations.Mars.10.0-0-8-0-0|observations.Mercury.1.0-0-8-0-0|observations.Jupiter.10.0-0-8-0-0|observations.Venus.1.8-0-0-0-0|observations.Saturn.6.8-0-0-0-0|observations.Rahu.5.0-0-8-0-0|observations.Ketu.11.0-0-0-0-8"
         ],
         [
-          "career.Sun.1.0-0-8-0-0",
-          "career.Mercury.1.0-0-8-0-0",
-          "career.Mars.10.0-0-8-0-0",
-          "career.Saturn.6.8-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.10.0-0-8-0-0",
-          "money.Venus.1.8-0-0-0-0",
-          "money.Mercury.1.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.1.8-0-0-0-0",
-          "relationships.Moon.6.8-0-0-0-0",
-          "relationships.Jupiter.10.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.6.8-0-0-0-0",
-          "wellbeing.Sun.1.0-0-8-0-0",
-          "wellbeing.Saturn.6.8-0-0-0-0"
+          "observations.Sun.1.0-0-8-0-0",
+          "observations.Moon.6.8-0-0-0-0",
+          "observations.Mars.10.0-0-8-0-0",
+          "observations.Mercury.1.0-0-8-0-0",
+          "observations.Jupiter.10.0-0-8-0-0",
+          "observations.Venus.1.8-0-0-0-0",
+          "observations.Saturn.6.8-0-0-0-0",
+          "observations.Rahu.5.0-0-8-0-0",
+          "observations.Ketu.11.0-0-0-0-8"
         ]
       ]
     },
@@ -9801,30 +9141,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.6.8-0-0-0-0",
-          "overview.Jupiter.10.0-0-8-0-0",
-          "overview.Saturn.6.8-0-0-0-0"
+          "overview.observations.Sun.1.0-0-8-0-0|observations.Moon.6.8-0-0-0-0|observations.Mars.10.0-0-8-0-0|observations.Mercury.1.0-0-8-0-0|observations.Jupiter.10.0-0-8-0-0|observations.Venus.1.8-0-0-0-0|observations.Saturn.6.8-0-0-0-0|observations.Rahu.5.0-0-8-0-0|observations.Ketu.11.0-0-0-0-8"
         ],
         [
-          "career.Sun.1.0-0-8-0-0",
-          "career.Mercury.1.0-0-8-0-0",
-          "career.Mars.10.0-0-8-0-0",
-          "career.Saturn.6.8-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.10.0-0-8-0-0",
-          "money.Venus.1.8-0-0-0-0",
-          "money.Mercury.1.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.1.8-0-0-0-0",
-          "relationships.Moon.6.8-0-0-0-0",
-          "relationships.Jupiter.10.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.6.8-0-0-0-0",
-          "wellbeing.Sun.1.0-0-8-0-0",
-          "wellbeing.Saturn.6.8-0-0-0-0"
+          "observations.Sun.1.0-0-8-0-0",
+          "observations.Moon.6.8-0-0-0-0",
+          "observations.Mars.10.0-0-8-0-0",
+          "observations.Mercury.1.0-0-8-0-0",
+          "observations.Jupiter.10.0-0-8-0-0",
+          "observations.Venus.1.8-0-0-0-0",
+          "observations.Saturn.6.8-0-0-0-0",
+          "observations.Rahu.5.0-0-8-0-0",
+          "observations.Ketu.11.0-0-0-0-8"
         ]
       ]
     },
@@ -9971,30 +9299,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.6.8-0-0-0-0",
-          "overview.Jupiter.10.0-0-8-0-0",
-          "overview.Saturn.6.8-0-0-0-0"
+          "overview.observations.Sun.1.0-0-8-0-0|observations.Moon.6.8-0-0-0-0|observations.Mars.10.0-0-8-0-0|observations.Mercury.1.0-0-8-0-0|observations.Jupiter.10.0-0-8-0-0|observations.Venus.1.8-0-0-0-0|observations.Saturn.6.8-0-0-0-0|observations.Rahu.5.0-0-8-0-0|observations.Ketu.11.0-0-0-0-8"
         ],
         [
-          "career.Sun.1.0-0-8-0-0",
-          "career.Mercury.1.0-0-8-0-0",
-          "career.Mars.10.0-0-8-0-0",
-          "career.Saturn.6.8-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.10.0-0-8-0-0",
-          "money.Venus.1.8-0-0-0-0",
-          "money.Mercury.1.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.1.8-0-0-0-0",
-          "relationships.Moon.6.8-0-0-0-0",
-          "relationships.Jupiter.10.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.6.8-0-0-0-0",
-          "wellbeing.Sun.1.0-0-8-0-0",
-          "wellbeing.Saturn.6.8-0-0-0-0"
+          "observations.Sun.1.0-0-8-0-0",
+          "observations.Moon.6.8-0-0-0-0",
+          "observations.Mars.10.0-0-8-0-0",
+          "observations.Mercury.1.0-0-8-0-0",
+          "observations.Jupiter.10.0-0-8-0-0",
+          "observations.Venus.1.8-0-0-0-0",
+          "observations.Saturn.6.8-0-0-0-0",
+          "observations.Rahu.5.0-0-8-0-0",
+          "observations.Ketu.11.0-0-0-0-8"
         ]
       ]
     },
@@ -10142,30 +9458,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.6-7.8-0-0-0-0",
-          "overview.Jupiter.10.0-0-8-0-0",
-          "overview.Saturn.6.8-0-0-0-0"
+          "overview.observations.Sun.1.0-0-8-0-0|observations.Moon.6-7.8-0-0-0-0|observations.Mars.10.0-0-8-0-0|observations.Mercury.1.0-0-8-0-0|observations.Jupiter.10.0-0-8-0-0|observations.Venus.1.8-0-0-0-0|observations.Saturn.6.8-0-0-0-0|observations.Rahu.5.0-0-8-0-0|observations.Ketu.11.0-0-0-0-8"
         ],
         [
-          "career.Sun.1.0-0-8-0-0",
-          "career.Mercury.1.0-0-8-0-0",
-          "career.Mars.10.0-0-8-0-0",
-          "career.Saturn.6.8-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.10.0-0-8-0-0",
-          "money.Venus.1.8-0-0-0-0",
-          "money.Mercury.1.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.1.8-0-0-0-0",
-          "relationships.Moon.6-7.8-0-0-0-0",
-          "relationships.Jupiter.10.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.6-7.8-0-0-0-0",
-          "wellbeing.Sun.1.0-0-8-0-0",
-          "wellbeing.Saturn.6.8-0-0-0-0"
+          "observations.Sun.1.0-0-8-0-0",
+          "observations.Moon.6-7.8-0-0-0-0",
+          "observations.Mars.10.0-0-8-0-0",
+          "observations.Mercury.1.0-0-8-0-0",
+          "observations.Jupiter.10.0-0-8-0-0",
+          "observations.Venus.1.8-0-0-0-0",
+          "observations.Saturn.6.8-0-0-0-0",
+          "observations.Rahu.5.0-0-8-0-0",
+          "observations.Ketu.11.0-0-0-0-8"
         ]
       ]
     },
@@ -10313,30 +9617,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.6-7.8-0-0-0-0",
-          "overview.Jupiter.10.0-0-8-0-0",
-          "overview.Saturn.6.8-0-0-0-0"
+          "overview.observations.Sun.1.0-0-8-0-0|observations.Moon.6-7.8-0-0-0-0|observations.Mars.10.0-0-8-0-0|observations.Mercury.1.0-0-8-0-0|observations.Jupiter.10.0-0-8-0-0|observations.Venus.1.8-0-0-0-0|observations.Saturn.6.8-0-0-0-0|observations.Rahu.5.0-0-8-0-0|observations.Ketu.11.0-0-0-0-8"
         ],
         [
-          "career.Sun.1.0-0-8-0-0",
-          "career.Mercury.1.0-0-8-0-0",
-          "career.Mars.10.0-0-8-0-0",
-          "career.Saturn.6.8-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.10.0-0-8-0-0",
-          "money.Venus.1.8-0-0-0-0",
-          "money.Mercury.1.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.1.8-0-0-0-0",
-          "relationships.Moon.6-7.8-0-0-0-0",
-          "relationships.Jupiter.10.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.6-7.8-0-0-0-0",
-          "wellbeing.Sun.1.0-0-8-0-0",
-          "wellbeing.Saturn.6.8-0-0-0-0"
+          "observations.Sun.1.0-0-8-0-0",
+          "observations.Moon.6-7.8-0-0-0-0",
+          "observations.Mars.10.0-0-8-0-0",
+          "observations.Mercury.1.0-0-8-0-0",
+          "observations.Jupiter.10.0-0-8-0-0",
+          "observations.Venus.1.8-0-0-0-0",
+          "observations.Saturn.6.8-0-0-0-0",
+          "observations.Rahu.5.0-0-8-0-0",
+          "observations.Ketu.11.0-0-0-0-8"
         ]
       ]
     },
@@ -10484,30 +9776,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.6-7.8-0-0-0-0",
-          "overview.Jupiter.10.0-0-8-0-0",
-          "overview.Saturn.6.8-0-0-0-0"
+          "overview.observations.Sun.1.0-0-8-0-0|observations.Moon.6-7.8-0-0-0-0|observations.Mars.10.0-0-8-0-0|observations.Mercury.1.0-0-8-0-0|observations.Jupiter.10.0-0-8-0-0|observations.Venus.1.8-0-0-0-0|observations.Saturn.6.8-0-0-0-0|observations.Rahu.5.0-0-8-0-0|observations.Ketu.11.0-0-0-0-8"
         ],
         [
-          "career.Sun.1.0-0-8-0-0",
-          "career.Mercury.1.0-0-8-0-0",
-          "career.Mars.10.0-0-8-0-0",
-          "career.Saturn.6.8-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.10.0-0-8-0-0",
-          "money.Venus.1.8-0-0-0-0",
-          "money.Mercury.1.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.1.8-0-0-0-0",
-          "relationships.Moon.6-7.8-0-0-0-0",
-          "relationships.Jupiter.10.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.6-7.8-0-0-0-0",
-          "wellbeing.Sun.1.0-0-8-0-0",
-          "wellbeing.Saturn.6.8-0-0-0-0"
+          "observations.Sun.1.0-0-8-0-0",
+          "observations.Moon.6-7.8-0-0-0-0",
+          "observations.Mars.10.0-0-8-0-0",
+          "observations.Mercury.1.0-0-8-0-0",
+          "observations.Jupiter.10.0-0-8-0-0",
+          "observations.Venus.1.8-0-0-0-0",
+          "observations.Saturn.6.8-0-0-0-0",
+          "observations.Rahu.5.0-0-8-0-0",
+          "observations.Ketu.11.0-0-0-0-8"
         ]
       ]
     },
@@ -10669,30 +9949,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.4-5-6-7.18-0-38-0-0",
-          "overview.Jupiter.10.0-0-56-0-0",
-          "overview.Saturn.6.56-0-0-0-0"
+          "overview.observations.Sun.1.0-0-56-0-0|observations.Moon.4-5-6-7.18-0-38-0-0|observations.Mars.10.0-0-56-0-0|observations.Mercury.1.0-0-56-0-0|observations.Jupiter.10.0-0-56-0-0|observations.Venus.1.56-0-0-0-0|observations.Saturn.6.56-0-0-0-0|observations.Rahu.5.0-0-56-0-0|observations.Ketu.11.0-0-0-0-56"
         ],
         [
-          "career.Sun.1.0-0-56-0-0",
-          "career.Mercury.1.0-0-56-0-0",
-          "career.Mars.10.0-0-56-0-0",
-          "career.Saturn.6.56-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.10.0-0-56-0-0",
-          "money.Venus.1.56-0-0-0-0",
-          "money.Mercury.1.0-0-56-0-0"
-        ],
-        [
-          "relationships.Venus.1.56-0-0-0-0",
-          "relationships.Moon.4-5-6-7.18-0-38-0-0",
-          "relationships.Jupiter.10.0-0-56-0-0"
-        ],
-        [
-          "wellbeing.Moon.4-5-6-7.18-0-38-0-0",
-          "wellbeing.Sun.1.0-0-56-0-0",
-          "wellbeing.Saturn.6.56-0-0-0-0"
+          "observations.Sun.1.0-0-56-0-0",
+          "observations.Moon.4-5-6-7.18-0-38-0-0",
+          "observations.Mars.10.0-0-56-0-0",
+          "observations.Mercury.1.0-0-56-0-0",
+          "observations.Jupiter.10.0-0-56-0-0",
+          "observations.Venus.1.56-0-0-0-0",
+          "observations.Saturn.6.56-0-0-0-0",
+          "observations.Rahu.5.0-0-56-0-0",
+          "observations.Ketu.11.0-0-0-0-56"
         ]
       ]
     },
@@ -10854,30 +10122,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.4-5-6-7.18-0-38-0-0",
-          "overview.Jupiter.10.0-0-56-0-0",
-          "overview.Saturn.6.56-0-0-0-0"
+          "overview.observations.Sun.1.0-0-56-0-0|observations.Moon.4-5-6-7.18-0-38-0-0|observations.Mars.10.0-0-56-0-0|observations.Mercury.1.0-0-56-0-0|observations.Jupiter.10.0-0-56-0-0|observations.Venus.1.56-0-0-0-0|observations.Saturn.6.56-0-0-0-0|observations.Rahu.5.0-0-56-0-0|observations.Ketu.11.0-0-0-0-56"
         ],
         [
-          "career.Sun.1.0-0-56-0-0",
-          "career.Mercury.1.0-0-56-0-0",
-          "career.Mars.10.0-0-56-0-0",
-          "career.Saturn.6.56-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.10.0-0-56-0-0",
-          "money.Venus.1.56-0-0-0-0",
-          "money.Mercury.1.0-0-56-0-0"
-        ],
-        [
-          "relationships.Venus.1.56-0-0-0-0",
-          "relationships.Moon.4-5-6-7.18-0-38-0-0",
-          "relationships.Jupiter.10.0-0-56-0-0"
-        ],
-        [
-          "wellbeing.Moon.4-5-6-7.18-0-38-0-0",
-          "wellbeing.Sun.1.0-0-56-0-0",
-          "wellbeing.Saturn.6.56-0-0-0-0"
+          "observations.Sun.1.0-0-56-0-0",
+          "observations.Moon.4-5-6-7.18-0-38-0-0",
+          "observations.Mars.10.0-0-56-0-0",
+          "observations.Mercury.1.0-0-56-0-0",
+          "observations.Jupiter.10.0-0-56-0-0",
+          "observations.Venus.1.56-0-0-0-0",
+          "observations.Saturn.6.56-0-0-0-0",
+          "observations.Rahu.5.0-0-56-0-0",
+          "observations.Ketu.11.0-0-0-0-56"
         ]
       ]
     },
@@ -11039,30 +10295,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.4-5-6-7.18-0-38-0-0",
-          "overview.Jupiter.10.0-0-56-0-0",
-          "overview.Saturn.6.56-0-0-0-0"
+          "overview.observations.Sun.1.0-0-56-0-0|observations.Moon.4-5-6-7.18-0-38-0-0|observations.Mars.10.0-0-56-0-0|observations.Mercury.1.0-0-56-0-0|observations.Jupiter.10.0-0-56-0-0|observations.Venus.1.56-0-0-0-0|observations.Saturn.6.56-0-0-0-0|observations.Rahu.5.0-0-56-0-0|observations.Ketu.11.0-0-0-0-56"
         ],
         [
-          "career.Sun.1.0-0-56-0-0",
-          "career.Mercury.1.0-0-56-0-0",
-          "career.Mars.10.0-0-56-0-0",
-          "career.Saturn.6.56-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.10.0-0-56-0-0",
-          "money.Venus.1.56-0-0-0-0",
-          "money.Mercury.1.0-0-56-0-0"
-        ],
-        [
-          "relationships.Venus.1.56-0-0-0-0",
-          "relationships.Moon.4-5-6-7.18-0-38-0-0",
-          "relationships.Jupiter.10.0-0-56-0-0"
-        ],
-        [
-          "wellbeing.Moon.4-5-6-7.18-0-38-0-0",
-          "wellbeing.Sun.1.0-0-56-0-0",
-          "wellbeing.Saturn.6.56-0-0-0-0"
+          "observations.Sun.1.0-0-56-0-0",
+          "observations.Moon.4-5-6-7.18-0-38-0-0",
+          "observations.Mars.10.0-0-56-0-0",
+          "observations.Mercury.1.0-0-56-0-0",
+          "observations.Jupiter.10.0-0-56-0-0",
+          "observations.Venus.1.56-0-0-0-0",
+          "observations.Saturn.6.56-0-0-0-0",
+          "observations.Rahu.5.0-0-56-0-0",
+          "observations.Ketu.11.0-0-0-0-56"
         ]
       ]
     },
@@ -11209,30 +10453,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.5.0-0-8-0-0",
-          "overview.Jupiter.9.0-8-0-0-0",
-          "overview.Saturn.5.0-0-8-0-0"
+          "overview.observations.Sun.12.0-0-8-0-0|observations.Moon.5.0-0-8-0-0|observations.Mars.9.0-0-8-0-0|observations.Mercury.12.0-0-8-0-0|observations.Jupiter.9.0-8-0-0-0|observations.Venus.12.8-0-0-0-0|observations.Saturn.5.0-0-8-0-0|observations.Rahu.4.0-0-8-0-0|observations.Ketu.10.0-0-0-0-8"
         ],
         [
-          "career.Sun.12.0-0-8-0-0",
-          "career.Mercury.12.0-0-8-0-0",
-          "career.Mars.9.0-0-8-0-0",
-          "career.Saturn.5.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.9.0-8-0-0-0",
-          "money.Venus.12.8-0-0-0-0",
-          "money.Mercury.12.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.12.8-0-0-0-0",
-          "relationships.Moon.5.0-0-8-0-0",
-          "relationships.Jupiter.9.0-8-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.5.0-0-8-0-0",
-          "wellbeing.Sun.12.0-0-8-0-0",
-          "wellbeing.Saturn.5.0-0-8-0-0"
+          "observations.Sun.12.0-0-8-0-0",
+          "observations.Moon.5.0-0-8-0-0",
+          "observations.Mars.9.0-0-8-0-0",
+          "observations.Mercury.12.0-0-8-0-0",
+          "observations.Jupiter.9.0-8-0-0-0",
+          "observations.Venus.12.8-0-0-0-0",
+          "observations.Saturn.5.0-0-8-0-0",
+          "observations.Rahu.4.0-0-8-0-0",
+          "observations.Ketu.10.0-0-0-0-8"
         ]
       ]
     },
@@ -11379,30 +10611,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.5.0-0-8-0-0",
-          "overview.Jupiter.9.0-8-0-0-0",
-          "overview.Saturn.5.0-0-8-0-0"
+          "overview.observations.Sun.12.0-0-8-0-0|observations.Moon.5.0-0-8-0-0|observations.Mars.9.0-0-8-0-0|observations.Mercury.12.0-0-8-0-0|observations.Jupiter.9.0-8-0-0-0|observations.Venus.12.8-0-0-0-0|observations.Saturn.5.0-0-8-0-0|observations.Rahu.4.0-0-8-0-0|observations.Ketu.10.0-0-0-0-8"
         ],
         [
-          "career.Sun.12.0-0-8-0-0",
-          "career.Mercury.12.0-0-8-0-0",
-          "career.Mars.9.0-0-8-0-0",
-          "career.Saturn.5.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.9.0-8-0-0-0",
-          "money.Venus.12.8-0-0-0-0",
-          "money.Mercury.12.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.12.8-0-0-0-0",
-          "relationships.Moon.5.0-0-8-0-0",
-          "relationships.Jupiter.9.0-8-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.5.0-0-8-0-0",
-          "wellbeing.Sun.12.0-0-8-0-0",
-          "wellbeing.Saturn.5.0-0-8-0-0"
+          "observations.Sun.12.0-0-8-0-0",
+          "observations.Moon.5.0-0-8-0-0",
+          "observations.Mars.9.0-0-8-0-0",
+          "observations.Mercury.12.0-0-8-0-0",
+          "observations.Jupiter.9.0-8-0-0-0",
+          "observations.Venus.12.8-0-0-0-0",
+          "observations.Saturn.5.0-0-8-0-0",
+          "observations.Rahu.4.0-0-8-0-0",
+          "observations.Ketu.10.0-0-0-0-8"
         ]
       ]
     },
@@ -11549,30 +10769,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.5.0-0-8-0-0",
-          "overview.Jupiter.9.0-8-0-0-0",
-          "overview.Saturn.5.0-0-8-0-0"
+          "overview.observations.Sun.12.0-0-8-0-0|observations.Moon.5.0-0-8-0-0|observations.Mars.9.0-0-8-0-0|observations.Mercury.12.0-0-8-0-0|observations.Jupiter.9.0-8-0-0-0|observations.Venus.12.8-0-0-0-0|observations.Saturn.5.0-0-8-0-0|observations.Rahu.4.0-0-8-0-0|observations.Ketu.10.0-0-0-0-8"
         ],
         [
-          "career.Sun.12.0-0-8-0-0",
-          "career.Mercury.12.0-0-8-0-0",
-          "career.Mars.9.0-0-8-0-0",
-          "career.Saturn.5.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.9.0-8-0-0-0",
-          "money.Venus.12.8-0-0-0-0",
-          "money.Mercury.12.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.12.8-0-0-0-0",
-          "relationships.Moon.5.0-0-8-0-0",
-          "relationships.Jupiter.9.0-8-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.5.0-0-8-0-0",
-          "wellbeing.Sun.12.0-0-8-0-0",
-          "wellbeing.Saturn.5.0-0-8-0-0"
+          "observations.Sun.12.0-0-8-0-0",
+          "observations.Moon.5.0-0-8-0-0",
+          "observations.Mars.9.0-0-8-0-0",
+          "observations.Mercury.12.0-0-8-0-0",
+          "observations.Jupiter.9.0-8-0-0-0",
+          "observations.Venus.12.8-0-0-0-0",
+          "observations.Saturn.5.0-0-8-0-0",
+          "observations.Rahu.4.0-0-8-0-0",
+          "observations.Ketu.10.0-0-0-0-8"
         ]
       ]
     },
@@ -11720,30 +10928,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.5-6.0-1-7-0-0",
-          "overview.Jupiter.9.0-8-0-0-0",
-          "overview.Saturn.5.0-0-8-0-0"
+          "overview.observations.Sun.12.0-0-8-0-0|observations.Moon.5-6.0-1-7-0-0|observations.Mars.9.0-0-8-0-0|observations.Mercury.12.0-0-8-0-0|observations.Jupiter.9.0-8-0-0-0|observations.Venus.12.7-1-0-0-0|observations.Saturn.5.0-0-8-0-0|observations.Rahu.4.0-0-8-0-0|observations.Ketu.10.0-0-0-0-8"
         ],
         [
-          "career.Sun.12.0-0-8-0-0",
-          "career.Mercury.12.0-0-8-0-0",
-          "career.Mars.9.0-0-8-0-0",
-          "career.Saturn.5.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.9.0-8-0-0-0",
-          "money.Venus.12.7-1-0-0-0",
-          "money.Mercury.12.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.12.7-1-0-0-0",
-          "relationships.Moon.5-6.0-1-7-0-0",
-          "relationships.Jupiter.9.0-8-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.5-6.0-1-7-0-0",
-          "wellbeing.Sun.12.0-0-8-0-0",
-          "wellbeing.Saturn.5.0-0-8-0-0"
+          "observations.Sun.12.0-0-8-0-0",
+          "observations.Moon.5-6.0-1-7-0-0",
+          "observations.Mars.9.0-0-8-0-0",
+          "observations.Mercury.12.0-0-8-0-0",
+          "observations.Jupiter.9.0-8-0-0-0",
+          "observations.Venus.12.7-1-0-0-0",
+          "observations.Saturn.5.0-0-8-0-0",
+          "observations.Rahu.4.0-0-8-0-0",
+          "observations.Ketu.10.0-0-0-0-8"
         ]
       ]
     },
@@ -11891,30 +11087,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.5-6.0-1-7-0-0",
-          "overview.Jupiter.9.0-8-0-0-0",
-          "overview.Saturn.5.0-0-8-0-0"
+          "overview.observations.Sun.12.0-0-8-0-0|observations.Moon.5-6.0-1-7-0-0|observations.Mars.9.0-0-8-0-0|observations.Mercury.12.0-0-8-0-0|observations.Jupiter.9.0-8-0-0-0|observations.Venus.12.7-1-0-0-0|observations.Saturn.5.0-0-8-0-0|observations.Rahu.4.0-0-8-0-0|observations.Ketu.10.0-0-0-0-8"
         ],
         [
-          "career.Sun.12.0-0-8-0-0",
-          "career.Mercury.12.0-0-8-0-0",
-          "career.Mars.9.0-0-8-0-0",
-          "career.Saturn.5.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.9.0-8-0-0-0",
-          "money.Venus.12.7-1-0-0-0",
-          "money.Mercury.12.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.12.7-1-0-0-0",
-          "relationships.Moon.5-6.0-1-7-0-0",
-          "relationships.Jupiter.9.0-8-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.5-6.0-1-7-0-0",
-          "wellbeing.Sun.12.0-0-8-0-0",
-          "wellbeing.Saturn.5.0-0-8-0-0"
+          "observations.Sun.12.0-0-8-0-0",
+          "observations.Moon.5-6.0-1-7-0-0",
+          "observations.Mars.9.0-0-8-0-0",
+          "observations.Mercury.12.0-0-8-0-0",
+          "observations.Jupiter.9.0-8-0-0-0",
+          "observations.Venus.12.7-1-0-0-0",
+          "observations.Saturn.5.0-0-8-0-0",
+          "observations.Rahu.4.0-0-8-0-0",
+          "observations.Ketu.10.0-0-0-0-8"
         ]
       ]
     },
@@ -12062,30 +11246,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.5-6.0-1-7-0-0",
-          "overview.Jupiter.9.0-8-0-0-0",
-          "overview.Saturn.5.0-0-8-0-0"
+          "overview.observations.Sun.12.0-0-8-0-0|observations.Moon.5-6.0-1-7-0-0|observations.Mars.9.0-0-8-0-0|observations.Mercury.12.0-0-8-0-0|observations.Jupiter.9.0-8-0-0-0|observations.Venus.12.7-1-0-0-0|observations.Saturn.5.0-0-8-0-0|observations.Rahu.4.0-0-8-0-0|observations.Ketu.10.0-0-0-0-8"
         ],
         [
-          "career.Sun.12.0-0-8-0-0",
-          "career.Mercury.12.0-0-8-0-0",
-          "career.Mars.9.0-0-8-0-0",
-          "career.Saturn.5.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.9.0-8-0-0-0",
-          "money.Venus.12.7-1-0-0-0",
-          "money.Mercury.12.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.12.7-1-0-0-0",
-          "relationships.Moon.5-6.0-1-7-0-0",
-          "relationships.Jupiter.9.0-8-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.5-6.0-1-7-0-0",
-          "wellbeing.Sun.12.0-0-8-0-0",
-          "wellbeing.Saturn.5.0-0-8-0-0"
+          "observations.Sun.12.0-0-8-0-0",
+          "observations.Moon.5-6.0-1-7-0-0",
+          "observations.Mars.9.0-0-8-0-0",
+          "observations.Mercury.12.0-0-8-0-0",
+          "observations.Jupiter.9.0-8-0-0-0",
+          "observations.Venus.12.7-1-0-0-0",
+          "observations.Saturn.5.0-0-8-0-0",
+          "observations.Rahu.4.0-0-8-0-0",
+          "observations.Ketu.10.0-0-0-0-8"
         ]
       ]
     },
@@ -12247,30 +11419,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.3-4-5-6.0-20-36-0-0",
-          "overview.Jupiter.9.0-56-0-0-0",
-          "overview.Saturn.5.0-0-56-0-0"
+          "overview.observations.Sun.12.0-0-56-0-0|observations.Moon.3-4-5-6.0-20-36-0-0|observations.Mars.9.0-0-56-0-0|observations.Mercury.12.0-0-56-0-0|observations.Jupiter.9.0-56-0-0-0|observations.Venus.12.55-1-0-0-0|observations.Saturn.5.0-0-56-0-0|observations.Rahu.4.0-0-56-0-0|observations.Ketu.10.0-0-0-0-56"
         ],
         [
-          "career.Sun.12.0-0-56-0-0",
-          "career.Mercury.12.0-0-56-0-0",
-          "career.Mars.9.0-0-56-0-0",
-          "career.Saturn.5.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.9.0-56-0-0-0",
-          "money.Venus.12.55-1-0-0-0",
-          "money.Mercury.12.0-0-56-0-0"
-        ],
-        [
-          "relationships.Venus.12.55-1-0-0-0",
-          "relationships.Moon.3-4-5-6.0-20-36-0-0",
-          "relationships.Jupiter.9.0-56-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.3-4-5-6.0-20-36-0-0",
-          "wellbeing.Sun.12.0-0-56-0-0",
-          "wellbeing.Saturn.5.0-0-56-0-0"
+          "observations.Sun.12.0-0-56-0-0",
+          "observations.Moon.3-4-5-6.0-20-36-0-0",
+          "observations.Mars.9.0-0-56-0-0",
+          "observations.Mercury.12.0-0-56-0-0",
+          "observations.Jupiter.9.0-56-0-0-0",
+          "observations.Venus.12.55-1-0-0-0",
+          "observations.Saturn.5.0-0-56-0-0",
+          "observations.Rahu.4.0-0-56-0-0",
+          "observations.Ketu.10.0-0-0-0-56"
         ]
       ]
     },
@@ -12432,30 +11592,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.3-4-5-6.0-20-36-0-0",
-          "overview.Jupiter.9.0-56-0-0-0",
-          "overview.Saturn.5.0-0-56-0-0"
+          "overview.observations.Sun.12.0-0-56-0-0|observations.Moon.3-4-5-6.0-20-36-0-0|observations.Mars.9.0-0-56-0-0|observations.Mercury.12.0-0-56-0-0|observations.Jupiter.9.0-56-0-0-0|observations.Venus.12.55-1-0-0-0|observations.Saturn.5.0-0-56-0-0|observations.Rahu.4.0-0-56-0-0|observations.Ketu.10.0-0-0-0-56"
         ],
         [
-          "career.Sun.12.0-0-56-0-0",
-          "career.Mercury.12.0-0-56-0-0",
-          "career.Mars.9.0-0-56-0-0",
-          "career.Saturn.5.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.9.0-56-0-0-0",
-          "money.Venus.12.55-1-0-0-0",
-          "money.Mercury.12.0-0-56-0-0"
-        ],
-        [
-          "relationships.Venus.12.55-1-0-0-0",
-          "relationships.Moon.3-4-5-6.0-20-36-0-0",
-          "relationships.Jupiter.9.0-56-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.3-4-5-6.0-20-36-0-0",
-          "wellbeing.Sun.12.0-0-56-0-0",
-          "wellbeing.Saturn.5.0-0-56-0-0"
+          "observations.Sun.12.0-0-56-0-0",
+          "observations.Moon.3-4-5-6.0-20-36-0-0",
+          "observations.Mars.9.0-0-56-0-0",
+          "observations.Mercury.12.0-0-56-0-0",
+          "observations.Jupiter.9.0-56-0-0-0",
+          "observations.Venus.12.55-1-0-0-0",
+          "observations.Saturn.5.0-0-56-0-0",
+          "observations.Rahu.4.0-0-56-0-0",
+          "observations.Ketu.10.0-0-0-0-56"
         ]
       ]
     },
@@ -12617,30 +11765,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.3-4-5-6.0-20-36-0-0",
-          "overview.Jupiter.9.0-56-0-0-0",
-          "overview.Saturn.5.0-0-56-0-0"
+          "overview.observations.Sun.12.0-0-56-0-0|observations.Moon.3-4-5-6.0-20-36-0-0|observations.Mars.9.0-0-56-0-0|observations.Mercury.12.0-0-56-0-0|observations.Jupiter.9.0-56-0-0-0|observations.Venus.12.55-1-0-0-0|observations.Saturn.5.0-0-56-0-0|observations.Rahu.4.0-0-56-0-0|observations.Ketu.10.0-0-0-0-56"
         ],
         [
-          "career.Sun.12.0-0-56-0-0",
-          "career.Mercury.12.0-0-56-0-0",
-          "career.Mars.9.0-0-56-0-0",
-          "career.Saturn.5.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.9.0-56-0-0-0",
-          "money.Venus.12.55-1-0-0-0",
-          "money.Mercury.12.0-0-56-0-0"
-        ],
-        [
-          "relationships.Venus.12.55-1-0-0-0",
-          "relationships.Moon.3-4-5-6.0-20-36-0-0",
-          "relationships.Jupiter.9.0-56-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.3-4-5-6.0-20-36-0-0",
-          "wellbeing.Sun.12.0-0-56-0-0",
-          "wellbeing.Saturn.5.0-0-56-0-0"
+          "observations.Sun.12.0-0-56-0-0",
+          "observations.Moon.3-4-5-6.0-20-36-0-0",
+          "observations.Mars.9.0-0-56-0-0",
+          "observations.Mercury.12.0-0-56-0-0",
+          "observations.Jupiter.9.0-56-0-0-0",
+          "observations.Venus.12.55-1-0-0-0",
+          "observations.Saturn.5.0-0-56-0-0",
+          "observations.Rahu.4.0-0-56-0-0",
+          "observations.Ketu.10.0-0-0-0-56"
         ]
       ]
     },
@@ -12787,30 +11923,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.4.0-0-8-0-0",
-          "overview.Jupiter.8.0-0-8-0-0",
-          "overview.Saturn.4.0-0-8-0-0"
+          "overview.observations.Sun.11.8-0-0-0-0|observations.Moon.4.0-0-8-0-0|observations.Mars.8.0-0-8-0-0|observations.Mercury.11.0-0-0-0-8|observations.Jupiter.8.0-0-8-0-0|observations.Venus.11.0-8-0-0-0|observations.Saturn.4.0-0-8-0-0|observations.Rahu.3.0-0-0-0-8|observations.Ketu.9.0-0-8-0-0"
         ],
         [
-          "career.Sun.11.8-0-0-0-0",
-          "career.Mercury.11.0-0-0-0-8",
-          "career.Mars.8.0-0-8-0-0",
-          "career.Saturn.4.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.8.0-0-8-0-0",
-          "money.Venus.11.0-8-0-0-0",
-          "money.Mercury.11.0-0-0-0-8"
-        ],
-        [
-          "relationships.Venus.11.0-8-0-0-0",
-          "relationships.Moon.4.0-0-8-0-0",
-          "relationships.Jupiter.8.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.4.0-0-8-0-0",
-          "wellbeing.Sun.11.8-0-0-0-0",
-          "wellbeing.Saturn.4.0-0-8-0-0"
+          "observations.Sun.11.8-0-0-0-0",
+          "observations.Moon.4.0-0-8-0-0",
+          "observations.Mars.8.0-0-8-0-0",
+          "observations.Mercury.11.0-0-0-0-8",
+          "observations.Jupiter.8.0-0-8-0-0",
+          "observations.Venus.11.0-8-0-0-0",
+          "observations.Saturn.4.0-0-8-0-0",
+          "observations.Rahu.3.0-0-0-0-8",
+          "observations.Ketu.9.0-0-8-0-0"
         ]
       ]
     },
@@ -12957,30 +12081,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.4.0-0-8-0-0",
-          "overview.Jupiter.8.0-0-8-0-0",
-          "overview.Saturn.4.0-0-8-0-0"
+          "overview.observations.Sun.11.8-0-0-0-0|observations.Moon.4.0-0-8-0-0|observations.Mars.8.0-0-8-0-0|observations.Mercury.11.0-0-0-0-8|observations.Jupiter.8.0-0-8-0-0|observations.Venus.11.0-8-0-0-0|observations.Saturn.4.0-0-8-0-0|observations.Rahu.3.0-0-0-0-8|observations.Ketu.9.0-0-8-0-0"
         ],
         [
-          "career.Sun.11.8-0-0-0-0",
-          "career.Mercury.11.0-0-0-0-8",
-          "career.Mars.8.0-0-8-0-0",
-          "career.Saturn.4.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.8.0-0-8-0-0",
-          "money.Venus.11.0-8-0-0-0",
-          "money.Mercury.11.0-0-0-0-8"
-        ],
-        [
-          "relationships.Venus.11.0-8-0-0-0",
-          "relationships.Moon.4.0-0-8-0-0",
-          "relationships.Jupiter.8.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.4.0-0-8-0-0",
-          "wellbeing.Sun.11.8-0-0-0-0",
-          "wellbeing.Saturn.4.0-0-8-0-0"
+          "observations.Sun.11.8-0-0-0-0",
+          "observations.Moon.4.0-0-8-0-0",
+          "observations.Mars.8.0-0-8-0-0",
+          "observations.Mercury.11.0-0-0-0-8",
+          "observations.Jupiter.8.0-0-8-0-0",
+          "observations.Venus.11.0-8-0-0-0",
+          "observations.Saturn.4.0-0-8-0-0",
+          "observations.Rahu.3.0-0-0-0-8",
+          "observations.Ketu.9.0-0-8-0-0"
         ]
       ]
     },
@@ -13127,30 +12239,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.4.0-0-8-0-0",
-          "overview.Jupiter.8.0-0-8-0-0",
-          "overview.Saturn.4.0-0-8-0-0"
+          "overview.observations.Sun.11.8-0-0-0-0|observations.Moon.4.0-0-8-0-0|observations.Mars.8.0-0-8-0-0|observations.Mercury.11.0-0-0-0-8|observations.Jupiter.8.0-0-8-0-0|observations.Venus.11.0-8-0-0-0|observations.Saturn.4.0-0-8-0-0|observations.Rahu.3.0-0-0-0-8|observations.Ketu.9.0-0-8-0-0"
         ],
         [
-          "career.Sun.11.8-0-0-0-0",
-          "career.Mercury.11.0-0-0-0-8",
-          "career.Mars.8.0-0-8-0-0",
-          "career.Saturn.4.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.8.0-0-8-0-0",
-          "money.Venus.11.0-8-0-0-0",
-          "money.Mercury.11.0-0-0-0-8"
-        ],
-        [
-          "relationships.Venus.11.0-8-0-0-0",
-          "relationships.Moon.4.0-0-8-0-0",
-          "relationships.Jupiter.8.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.4.0-0-8-0-0",
-          "wellbeing.Sun.11.8-0-0-0-0",
-          "wellbeing.Saturn.4.0-0-8-0-0"
+          "observations.Sun.11.8-0-0-0-0",
+          "observations.Moon.4.0-0-8-0-0",
+          "observations.Mars.8.0-0-8-0-0",
+          "observations.Mercury.11.0-0-0-0-8",
+          "observations.Jupiter.8.0-0-8-0-0",
+          "observations.Venus.11.0-8-0-0-0",
+          "observations.Saturn.4.0-0-8-0-0",
+          "observations.Rahu.3.0-0-0-0-8",
+          "observations.Ketu.9.0-0-8-0-0"
         ]
       ]
     },
@@ -13298,30 +12398,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.4-5.0-0-8-0-0",
-          "overview.Jupiter.8.0-0-8-0-0",
-          "overview.Saturn.4.0-0-8-0-0"
+          "overview.observations.Sun.11.7-1-0-0-0|observations.Moon.4-5.0-0-8-0-0|observations.Mars.8.0-0-8-0-0|observations.Mercury.11.0-0-0-0-8|observations.Jupiter.8.0-0-8-0-0|observations.Venus.11.0-8-0-0-0|observations.Saturn.4.0-0-8-0-0|observations.Rahu.3.0-0-0-0-8|observations.Ketu.9.0-0-8-0-0"
         ],
         [
-          "career.Sun.11.7-1-0-0-0",
-          "career.Mercury.11.0-0-0-0-8",
-          "career.Mars.8.0-0-8-0-0",
-          "career.Saturn.4.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.8.0-0-8-0-0",
-          "money.Venus.11.0-8-0-0-0",
-          "money.Mercury.11.0-0-0-0-8"
-        ],
-        [
-          "relationships.Venus.11.0-8-0-0-0",
-          "relationships.Moon.4-5.0-0-8-0-0",
-          "relationships.Jupiter.8.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.4-5.0-0-8-0-0",
-          "wellbeing.Sun.11.7-1-0-0-0",
-          "wellbeing.Saturn.4.0-0-8-0-0"
+          "observations.Sun.11.7-1-0-0-0",
+          "observations.Moon.4-5.0-0-8-0-0",
+          "observations.Mars.8.0-0-8-0-0",
+          "observations.Mercury.11.0-0-0-0-8",
+          "observations.Jupiter.8.0-0-8-0-0",
+          "observations.Venus.11.0-8-0-0-0",
+          "observations.Saturn.4.0-0-8-0-0",
+          "observations.Rahu.3.0-0-0-0-8",
+          "observations.Ketu.9.0-0-8-0-0"
         ]
       ]
     },
@@ -13469,30 +12557,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.4-5.0-0-8-0-0",
-          "overview.Jupiter.8.0-0-8-0-0",
-          "overview.Saturn.4.0-0-8-0-0"
+          "overview.observations.Sun.11.7-1-0-0-0|observations.Moon.4-5.0-0-8-0-0|observations.Mars.8.0-0-8-0-0|observations.Mercury.11.0-0-0-0-8|observations.Jupiter.8.0-0-8-0-0|observations.Venus.11.0-8-0-0-0|observations.Saturn.4.0-0-8-0-0|observations.Rahu.3.0-0-0-0-8|observations.Ketu.9.0-0-8-0-0"
         ],
         [
-          "career.Sun.11.7-1-0-0-0",
-          "career.Mercury.11.0-0-0-0-8",
-          "career.Mars.8.0-0-8-0-0",
-          "career.Saturn.4.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.8.0-0-8-0-0",
-          "money.Venus.11.0-8-0-0-0",
-          "money.Mercury.11.0-0-0-0-8"
-        ],
-        [
-          "relationships.Venus.11.0-8-0-0-0",
-          "relationships.Moon.4-5.0-0-8-0-0",
-          "relationships.Jupiter.8.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.4-5.0-0-8-0-0",
-          "wellbeing.Sun.11.7-1-0-0-0",
-          "wellbeing.Saturn.4.0-0-8-0-0"
+          "observations.Sun.11.7-1-0-0-0",
+          "observations.Moon.4-5.0-0-8-0-0",
+          "observations.Mars.8.0-0-8-0-0",
+          "observations.Mercury.11.0-0-0-0-8",
+          "observations.Jupiter.8.0-0-8-0-0",
+          "observations.Venus.11.0-8-0-0-0",
+          "observations.Saturn.4.0-0-8-0-0",
+          "observations.Rahu.3.0-0-0-0-8",
+          "observations.Ketu.9.0-0-8-0-0"
         ]
       ]
     },
@@ -13640,30 +12716,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.4-5.0-0-8-0-0",
-          "overview.Jupiter.8.0-0-8-0-0",
-          "overview.Saturn.4.0-0-8-0-0"
+          "overview.observations.Sun.11.7-1-0-0-0|observations.Moon.4-5.0-0-8-0-0|observations.Mars.8.0-0-8-0-0|observations.Mercury.11.0-0-0-0-8|observations.Jupiter.8.0-0-8-0-0|observations.Venus.11.0-8-0-0-0|observations.Saturn.4.0-0-8-0-0|observations.Rahu.3.0-0-0-0-8|observations.Ketu.9.0-0-8-0-0"
         ],
         [
-          "career.Sun.11.7-1-0-0-0",
-          "career.Mercury.11.0-0-0-0-8",
-          "career.Mars.8.0-0-8-0-0",
-          "career.Saturn.4.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.8.0-0-8-0-0",
-          "money.Venus.11.0-8-0-0-0",
-          "money.Mercury.11.0-0-0-0-8"
-        ],
-        [
-          "relationships.Venus.11.0-8-0-0-0",
-          "relationships.Moon.4-5.0-0-8-0-0",
-          "relationships.Jupiter.8.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.4-5.0-0-8-0-0",
-          "wellbeing.Sun.11.7-1-0-0-0",
-          "wellbeing.Saturn.4.0-0-8-0-0"
+          "observations.Sun.11.7-1-0-0-0",
+          "observations.Moon.4-5.0-0-8-0-0",
+          "observations.Mars.8.0-0-8-0-0",
+          "observations.Mercury.11.0-0-0-0-8",
+          "observations.Jupiter.8.0-0-8-0-0",
+          "observations.Venus.11.0-8-0-0-0",
+          "observations.Saturn.4.0-0-8-0-0",
+          "observations.Rahu.3.0-0-0-0-8",
+          "observations.Ketu.9.0-0-8-0-0"
         ]
       ]
     },
@@ -13825,30 +12889,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.2-3-4-5.0-19-37-0-0",
-          "overview.Jupiter.8.0-0-56-0-0",
-          "overview.Saturn.4.0-0-56-0-0"
+          "overview.observations.Sun.11.55-1-0-0-0|observations.Moon.2-3-4-5.0-19-37-0-0|observations.Mars.8.0-0-56-0-0|observations.Mercury.11.0-0-0-0-56|observations.Jupiter.8.0-0-56-0-0|observations.Venus.11.0-56-0-0-0|observations.Saturn.4.0-0-56-0-0|observations.Rahu.3.0-0-0-0-56|observations.Ketu.9.0-0-56-0-0"
         ],
         [
-          "career.Sun.11.55-1-0-0-0",
-          "career.Mercury.11.0-0-0-0-56",
-          "career.Mars.8.0-0-56-0-0",
-          "career.Saturn.4.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.8.0-0-56-0-0",
-          "money.Venus.11.0-56-0-0-0",
-          "money.Mercury.11.0-0-0-0-56"
-        ],
-        [
-          "relationships.Venus.11.0-56-0-0-0",
-          "relationships.Moon.2-3-4-5.0-19-37-0-0",
-          "relationships.Jupiter.8.0-0-56-0-0"
-        ],
-        [
-          "wellbeing.Moon.2-3-4-5.0-19-37-0-0",
-          "wellbeing.Sun.11.55-1-0-0-0",
-          "wellbeing.Saturn.4.0-0-56-0-0"
+          "observations.Sun.11.55-1-0-0-0",
+          "observations.Moon.2-3-4-5.0-19-37-0-0",
+          "observations.Mars.8.0-0-56-0-0",
+          "observations.Mercury.11.0-0-0-0-56",
+          "observations.Jupiter.8.0-0-56-0-0",
+          "observations.Venus.11.0-56-0-0-0",
+          "observations.Saturn.4.0-0-56-0-0",
+          "observations.Rahu.3.0-0-0-0-56",
+          "observations.Ketu.9.0-0-56-0-0"
         ]
       ]
     },
@@ -14010,30 +13062,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.2-3-4-5.0-19-37-0-0",
-          "overview.Jupiter.8.0-0-56-0-0",
-          "overview.Saturn.4.0-0-56-0-0"
+          "overview.observations.Sun.11.55-1-0-0-0|observations.Moon.2-3-4-5.0-19-37-0-0|observations.Mars.8.0-0-56-0-0|observations.Mercury.11.0-0-0-0-56|observations.Jupiter.8.0-0-56-0-0|observations.Venus.11.0-56-0-0-0|observations.Saturn.4.0-0-56-0-0|observations.Rahu.3.0-0-0-0-56|observations.Ketu.9.0-0-56-0-0"
         ],
         [
-          "career.Sun.11.55-1-0-0-0",
-          "career.Mercury.11.0-0-0-0-56",
-          "career.Mars.8.0-0-56-0-0",
-          "career.Saturn.4.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.8.0-0-56-0-0",
-          "money.Venus.11.0-56-0-0-0",
-          "money.Mercury.11.0-0-0-0-56"
-        ],
-        [
-          "relationships.Venus.11.0-56-0-0-0",
-          "relationships.Moon.2-3-4-5.0-19-37-0-0",
-          "relationships.Jupiter.8.0-0-56-0-0"
-        ],
-        [
-          "wellbeing.Moon.2-3-4-5.0-19-37-0-0",
-          "wellbeing.Sun.11.55-1-0-0-0",
-          "wellbeing.Saturn.4.0-0-56-0-0"
+          "observations.Sun.11.55-1-0-0-0",
+          "observations.Moon.2-3-4-5.0-19-37-0-0",
+          "observations.Mars.8.0-0-56-0-0",
+          "observations.Mercury.11.0-0-0-0-56",
+          "observations.Jupiter.8.0-0-56-0-0",
+          "observations.Venus.11.0-56-0-0-0",
+          "observations.Saturn.4.0-0-56-0-0",
+          "observations.Rahu.3.0-0-0-0-56",
+          "observations.Ketu.9.0-0-56-0-0"
         ]
       ]
     },
@@ -14195,30 +13235,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.2-3-4-5.0-19-37-0-0",
-          "overview.Jupiter.8.0-0-56-0-0",
-          "overview.Saturn.4.0-0-56-0-0"
+          "overview.observations.Sun.11.55-1-0-0-0|observations.Moon.2-3-4-5.0-19-37-0-0|observations.Mars.8.0-0-56-0-0|observations.Mercury.11.0-0-0-0-56|observations.Jupiter.8.0-0-56-0-0|observations.Venus.11.0-56-0-0-0|observations.Saturn.4.0-0-56-0-0|observations.Rahu.3.0-0-0-0-56|observations.Ketu.9.0-0-56-0-0"
         ],
         [
-          "career.Sun.11.55-1-0-0-0",
-          "career.Mercury.11.0-0-0-0-56",
-          "career.Mars.8.0-0-56-0-0",
-          "career.Saturn.4.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.8.0-0-56-0-0",
-          "money.Venus.11.0-56-0-0-0",
-          "money.Mercury.11.0-0-0-0-56"
-        ],
-        [
-          "relationships.Venus.11.0-56-0-0-0",
-          "relationships.Moon.2-3-4-5.0-19-37-0-0",
-          "relationships.Jupiter.8.0-0-56-0-0"
-        ],
-        [
-          "wellbeing.Moon.2-3-4-5.0-19-37-0-0",
-          "wellbeing.Sun.11.55-1-0-0-0",
-          "wellbeing.Saturn.4.0-0-56-0-0"
+          "observations.Sun.11.55-1-0-0-0",
+          "observations.Moon.2-3-4-5.0-19-37-0-0",
+          "observations.Mars.8.0-0-56-0-0",
+          "observations.Mercury.11.0-0-0-0-56",
+          "observations.Jupiter.8.0-0-56-0-0",
+          "observations.Venus.11.0-56-0-0-0",
+          "observations.Saturn.4.0-0-56-0-0",
+          "observations.Rahu.3.0-0-0-0-56",
+          "observations.Ketu.9.0-0-56-0-0"
         ]
       ]
     },
@@ -14365,30 +13393,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.3.8-0-0-0-0",
-          "overview.Jupiter.7.0-8-0-0-0",
-          "overview.Saturn.3.8-0-0-0-0"
+          "overview.observations.Sun.10.8-0-0-0-0|observations.Moon.3.8-0-0-0-0|observations.Mars.7.0-0-8-0-0|observations.Mercury.10.0-8-0-0-0|observations.Jupiter.7.0-8-0-0-0|observations.Venus.10.0-0-8-0-0|observations.Saturn.3.8-0-0-0-0|observations.Rahu.2.0-0-8-0-0|observations.Ketu.8.0-0-8-0-0"
         ],
         [
-          "career.Sun.10.8-0-0-0-0",
-          "career.Mercury.10.0-8-0-0-0",
-          "career.Mars.7.0-0-8-0-0",
-          "career.Saturn.3.8-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.7.0-8-0-0-0",
-          "money.Venus.10.0-0-8-0-0",
-          "money.Mercury.10.0-8-0-0-0"
-        ],
-        [
-          "relationships.Venus.10.0-0-8-0-0",
-          "relationships.Moon.3.8-0-0-0-0",
-          "relationships.Jupiter.7.0-8-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.3.8-0-0-0-0",
-          "wellbeing.Sun.10.8-0-0-0-0",
-          "wellbeing.Saturn.3.8-0-0-0-0"
+          "observations.Sun.10.8-0-0-0-0",
+          "observations.Moon.3.8-0-0-0-0",
+          "observations.Mars.7.0-0-8-0-0",
+          "observations.Mercury.10.0-8-0-0-0",
+          "observations.Jupiter.7.0-8-0-0-0",
+          "observations.Venus.10.0-0-8-0-0",
+          "observations.Saturn.3.8-0-0-0-0",
+          "observations.Rahu.2.0-0-8-0-0",
+          "observations.Ketu.8.0-0-8-0-0"
         ]
       ]
     },
@@ -14535,30 +13551,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.3.8-0-0-0-0",
-          "overview.Jupiter.7.0-8-0-0-0",
-          "overview.Saturn.3.8-0-0-0-0"
+          "overview.observations.Sun.10.8-0-0-0-0|observations.Moon.3.8-0-0-0-0|observations.Mars.7.0-0-8-0-0|observations.Mercury.10.0-8-0-0-0|observations.Jupiter.7.0-8-0-0-0|observations.Venus.10.0-0-8-0-0|observations.Saturn.3.8-0-0-0-0|observations.Rahu.2.0-0-8-0-0|observations.Ketu.8.0-0-8-0-0"
         ],
         [
-          "career.Sun.10.8-0-0-0-0",
-          "career.Mercury.10.0-8-0-0-0",
-          "career.Mars.7.0-0-8-0-0",
-          "career.Saturn.3.8-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.7.0-8-0-0-0",
-          "money.Venus.10.0-0-8-0-0",
-          "money.Mercury.10.0-8-0-0-0"
-        ],
-        [
-          "relationships.Venus.10.0-0-8-0-0",
-          "relationships.Moon.3.8-0-0-0-0",
-          "relationships.Jupiter.7.0-8-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.3.8-0-0-0-0",
-          "wellbeing.Sun.10.8-0-0-0-0",
-          "wellbeing.Saturn.3.8-0-0-0-0"
+          "observations.Sun.10.8-0-0-0-0",
+          "observations.Moon.3.8-0-0-0-0",
+          "observations.Mars.7.0-0-8-0-0",
+          "observations.Mercury.10.0-8-0-0-0",
+          "observations.Jupiter.7.0-8-0-0-0",
+          "observations.Venus.10.0-0-8-0-0",
+          "observations.Saturn.3.8-0-0-0-0",
+          "observations.Rahu.2.0-0-8-0-0",
+          "observations.Ketu.8.0-0-8-0-0"
         ]
       ]
     },
@@ -14705,30 +13709,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.3.8-0-0-0-0",
-          "overview.Jupiter.7.0-8-0-0-0",
-          "overview.Saturn.3.8-0-0-0-0"
+          "overview.observations.Sun.10.8-0-0-0-0|observations.Moon.3.8-0-0-0-0|observations.Mars.7.0-0-8-0-0|observations.Mercury.10.0-8-0-0-0|observations.Jupiter.7.0-8-0-0-0|observations.Venus.10.0-0-8-0-0|observations.Saturn.3.8-0-0-0-0|observations.Rahu.2.0-0-8-0-0|observations.Ketu.8.0-0-8-0-0"
         ],
         [
-          "career.Sun.10.8-0-0-0-0",
-          "career.Mercury.10.0-8-0-0-0",
-          "career.Mars.7.0-0-8-0-0",
-          "career.Saturn.3.8-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.7.0-8-0-0-0",
-          "money.Venus.10.0-0-8-0-0",
-          "money.Mercury.10.0-8-0-0-0"
-        ],
-        [
-          "relationships.Venus.10.0-0-8-0-0",
-          "relationships.Moon.3.8-0-0-0-0",
-          "relationships.Jupiter.7.0-8-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.3.8-0-0-0-0",
-          "wellbeing.Sun.10.8-0-0-0-0",
-          "wellbeing.Saturn.3.8-0-0-0-0"
+          "observations.Sun.10.8-0-0-0-0",
+          "observations.Moon.3.8-0-0-0-0",
+          "observations.Mars.7.0-0-8-0-0",
+          "observations.Mercury.10.0-8-0-0-0",
+          "observations.Jupiter.7.0-8-0-0-0",
+          "observations.Venus.10.0-0-8-0-0",
+          "observations.Saturn.3.8-0-0-0-0",
+          "observations.Rahu.2.0-0-8-0-0",
+          "observations.Ketu.8.0-0-8-0-0"
         ]
       ]
     },
@@ -14876,30 +13868,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.3-4.7-0-1-0-0",
-          "overview.Jupiter.7.0-8-0-0-0",
-          "overview.Saturn.3.8-0-0-0-0"
+          "overview.observations.Sun.10.7-1-0-0-0|observations.Moon.3-4.7-0-1-0-0|observations.Mars.7.0-0-8-0-0|observations.Mercury.10.0-8-0-0-0|observations.Jupiter.7.0-8-0-0-0|observations.Venus.10.0-0-8-0-0|observations.Saturn.3.8-0-0-0-0|observations.Rahu.2.0-0-8-0-0|observations.Ketu.8.0-0-8-0-0"
         ],
         [
-          "career.Sun.10.7-1-0-0-0",
-          "career.Mercury.10.0-8-0-0-0",
-          "career.Mars.7.0-0-8-0-0",
-          "career.Saturn.3.8-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.7.0-8-0-0-0",
-          "money.Venus.10.0-0-8-0-0",
-          "money.Mercury.10.0-8-0-0-0"
-        ],
-        [
-          "relationships.Venus.10.0-0-8-0-0",
-          "relationships.Moon.3-4.7-0-1-0-0",
-          "relationships.Jupiter.7.0-8-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.3-4.7-0-1-0-0",
-          "wellbeing.Sun.10.7-1-0-0-0",
-          "wellbeing.Saturn.3.8-0-0-0-0"
+          "observations.Sun.10.7-1-0-0-0",
+          "observations.Moon.3-4.7-0-1-0-0",
+          "observations.Mars.7.0-0-8-0-0",
+          "observations.Mercury.10.0-8-0-0-0",
+          "observations.Jupiter.7.0-8-0-0-0",
+          "observations.Venus.10.0-0-8-0-0",
+          "observations.Saturn.3.8-0-0-0-0",
+          "observations.Rahu.2.0-0-8-0-0",
+          "observations.Ketu.8.0-0-8-0-0"
         ]
       ]
     },
@@ -15047,30 +14027,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.3-4.7-0-1-0-0",
-          "overview.Jupiter.7.0-8-0-0-0",
-          "overview.Saturn.3.8-0-0-0-0"
+          "overview.observations.Sun.10.7-1-0-0-0|observations.Moon.3-4.7-0-1-0-0|observations.Mars.7.0-0-8-0-0|observations.Mercury.10.0-8-0-0-0|observations.Jupiter.7.0-8-0-0-0|observations.Venus.10.0-0-8-0-0|observations.Saturn.3.8-0-0-0-0|observations.Rahu.2.0-0-8-0-0|observations.Ketu.8.0-0-8-0-0"
         ],
         [
-          "career.Sun.10.7-1-0-0-0",
-          "career.Mercury.10.0-8-0-0-0",
-          "career.Mars.7.0-0-8-0-0",
-          "career.Saturn.3.8-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.7.0-8-0-0-0",
-          "money.Venus.10.0-0-8-0-0",
-          "money.Mercury.10.0-8-0-0-0"
-        ],
-        [
-          "relationships.Venus.10.0-0-8-0-0",
-          "relationships.Moon.3-4.7-0-1-0-0",
-          "relationships.Jupiter.7.0-8-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.3-4.7-0-1-0-0",
-          "wellbeing.Sun.10.7-1-0-0-0",
-          "wellbeing.Saturn.3.8-0-0-0-0"
+          "observations.Sun.10.7-1-0-0-0",
+          "observations.Moon.3-4.7-0-1-0-0",
+          "observations.Mars.7.0-0-8-0-0",
+          "observations.Mercury.10.0-8-0-0-0",
+          "observations.Jupiter.7.0-8-0-0-0",
+          "observations.Venus.10.0-0-8-0-0",
+          "observations.Saturn.3.8-0-0-0-0",
+          "observations.Rahu.2.0-0-8-0-0",
+          "observations.Ketu.8.0-0-8-0-0"
         ]
       ]
     },
@@ -15218,30 +14186,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.3-4.7-0-1-0-0",
-          "overview.Jupiter.7.0-8-0-0-0",
-          "overview.Saturn.3.8-0-0-0-0"
+          "overview.observations.Sun.10.7-1-0-0-0|observations.Moon.3-4.7-0-1-0-0|observations.Mars.7.0-0-8-0-0|observations.Mercury.10.0-8-0-0-0|observations.Jupiter.7.0-8-0-0-0|observations.Venus.10.0-0-8-0-0|observations.Saturn.3.8-0-0-0-0|observations.Rahu.2.0-0-8-0-0|observations.Ketu.8.0-0-8-0-0"
         ],
         [
-          "career.Sun.10.7-1-0-0-0",
-          "career.Mercury.10.0-8-0-0-0",
-          "career.Mars.7.0-0-8-0-0",
-          "career.Saturn.3.8-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.7.0-8-0-0-0",
-          "money.Venus.10.0-0-8-0-0",
-          "money.Mercury.10.0-8-0-0-0"
-        ],
-        [
-          "relationships.Venus.10.0-0-8-0-0",
-          "relationships.Moon.3-4.7-0-1-0-0",
-          "relationships.Jupiter.7.0-8-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.3-4.7-0-1-0-0",
-          "wellbeing.Sun.10.7-1-0-0-0",
-          "wellbeing.Saturn.3.8-0-0-0-0"
+          "observations.Sun.10.7-1-0-0-0",
+          "observations.Moon.3-4.7-0-1-0-0",
+          "observations.Mars.7.0-0-8-0-0",
+          "observations.Mercury.10.0-8-0-0-0",
+          "observations.Jupiter.7.0-8-0-0-0",
+          "observations.Venus.10.0-0-8-0-0",
+          "observations.Saturn.3.8-0-0-0-0",
+          "observations.Rahu.2.0-0-8-0-0",
+          "observations.Ketu.8.0-0-8-0-0"
         ]
       ]
     },
@@ -15403,30 +14359,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.1-2-3-4.36-0-20-0-0",
-          "overview.Jupiter.7.0-56-0-0-0",
-          "overview.Saturn.3.56-0-0-0-0"
+          "overview.observations.Sun.10.55-1-0-0-0|observations.Moon.1-2-3-4.36-0-20-0-0|observations.Mars.7.0-0-56-0-0|observations.Mercury.10.0-56-0-0-0|observations.Jupiter.7.0-56-0-0-0|observations.Venus.10.0-0-56-0-0|observations.Saturn.3.56-0-0-0-0|observations.Rahu.2.0-0-56-0-0|observations.Ketu.8.0-0-56-0-0"
         ],
         [
-          "career.Sun.10.55-1-0-0-0",
-          "career.Mercury.10.0-56-0-0-0",
-          "career.Mars.7.0-0-56-0-0",
-          "career.Saturn.3.56-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.7.0-56-0-0-0",
-          "money.Venus.10.0-0-56-0-0",
-          "money.Mercury.10.0-56-0-0-0"
-        ],
-        [
-          "relationships.Venus.10.0-0-56-0-0",
-          "relationships.Moon.1-2-3-4.36-0-20-0-0",
-          "relationships.Jupiter.7.0-56-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.1-2-3-4.36-0-20-0-0",
-          "wellbeing.Sun.10.55-1-0-0-0",
-          "wellbeing.Saturn.3.56-0-0-0-0"
+          "observations.Sun.10.55-1-0-0-0",
+          "observations.Moon.1-2-3-4.36-0-20-0-0",
+          "observations.Mars.7.0-0-56-0-0",
+          "observations.Mercury.10.0-56-0-0-0",
+          "observations.Jupiter.7.0-56-0-0-0",
+          "observations.Venus.10.0-0-56-0-0",
+          "observations.Saturn.3.56-0-0-0-0",
+          "observations.Rahu.2.0-0-56-0-0",
+          "observations.Ketu.8.0-0-56-0-0"
         ]
       ]
     },
@@ -15588,30 +14532,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.1-2-3-4.36-0-20-0-0",
-          "overview.Jupiter.7.0-56-0-0-0",
-          "overview.Saturn.3.56-0-0-0-0"
+          "overview.observations.Sun.10.55-1-0-0-0|observations.Moon.1-2-3-4.36-0-20-0-0|observations.Mars.7.0-0-56-0-0|observations.Mercury.10.0-56-0-0-0|observations.Jupiter.7.0-56-0-0-0|observations.Venus.10.0-0-56-0-0|observations.Saturn.3.56-0-0-0-0|observations.Rahu.2.0-0-56-0-0|observations.Ketu.8.0-0-56-0-0"
         ],
         [
-          "career.Sun.10.55-1-0-0-0",
-          "career.Mercury.10.0-56-0-0-0",
-          "career.Mars.7.0-0-56-0-0",
-          "career.Saturn.3.56-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.7.0-56-0-0-0",
-          "money.Venus.10.0-0-56-0-0",
-          "money.Mercury.10.0-56-0-0-0"
-        ],
-        [
-          "relationships.Venus.10.0-0-56-0-0",
-          "relationships.Moon.1-2-3-4.36-0-20-0-0",
-          "relationships.Jupiter.7.0-56-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.1-2-3-4.36-0-20-0-0",
-          "wellbeing.Sun.10.55-1-0-0-0",
-          "wellbeing.Saturn.3.56-0-0-0-0"
+          "observations.Sun.10.55-1-0-0-0",
+          "observations.Moon.1-2-3-4.36-0-20-0-0",
+          "observations.Mars.7.0-0-56-0-0",
+          "observations.Mercury.10.0-56-0-0-0",
+          "observations.Jupiter.7.0-56-0-0-0",
+          "observations.Venus.10.0-0-56-0-0",
+          "observations.Saturn.3.56-0-0-0-0",
+          "observations.Rahu.2.0-0-56-0-0",
+          "observations.Ketu.8.0-0-56-0-0"
         ]
       ]
     },
@@ -15773,30 +14705,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.1-2-3-4.36-0-20-0-0",
-          "overview.Jupiter.7.0-56-0-0-0",
-          "overview.Saturn.3.56-0-0-0-0"
+          "overview.observations.Sun.10.55-1-0-0-0|observations.Moon.1-2-3-4.36-0-20-0-0|observations.Mars.7.0-0-56-0-0|observations.Mercury.10.0-56-0-0-0|observations.Jupiter.7.0-56-0-0-0|observations.Venus.10.0-0-56-0-0|observations.Saturn.3.56-0-0-0-0|observations.Rahu.2.0-0-56-0-0|observations.Ketu.8.0-0-56-0-0"
         ],
         [
-          "career.Sun.10.55-1-0-0-0",
-          "career.Mercury.10.0-56-0-0-0",
-          "career.Mars.7.0-0-56-0-0",
-          "career.Saturn.3.56-0-0-0-0"
-        ],
-        [
-          "money.Jupiter.7.0-56-0-0-0",
-          "money.Venus.10.0-0-56-0-0",
-          "money.Mercury.10.0-56-0-0-0"
-        ],
-        [
-          "relationships.Venus.10.0-0-56-0-0",
-          "relationships.Moon.1-2-3-4.36-0-20-0-0",
-          "relationships.Jupiter.7.0-56-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.1-2-3-4.36-0-20-0-0",
-          "wellbeing.Sun.10.55-1-0-0-0",
-          "wellbeing.Saturn.3.56-0-0-0-0"
+          "observations.Sun.10.55-1-0-0-0",
+          "observations.Moon.1-2-3-4.36-0-20-0-0",
+          "observations.Mars.7.0-0-56-0-0",
+          "observations.Mercury.10.0-56-0-0-0",
+          "observations.Jupiter.7.0-56-0-0-0",
+          "observations.Venus.10.0-0-56-0-0",
+          "observations.Saturn.3.56-0-0-0-0",
+          "observations.Rahu.2.0-0-56-0-0",
+          "observations.Ketu.8.0-0-56-0-0"
         ]
       ]
     },
@@ -15943,30 +14863,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.2.0-0-8-0-0",
-          "overview.Jupiter.6.0-0-8-0-0",
-          "overview.Saturn.2.0-0-8-0-0"
+          "overview.observations.Sun.9.0-0-8-0-0|observations.Moon.2.0-0-8-0-0|observations.Mars.6.0-8-0-0-0|observations.Mercury.9.0-0-8-0-0|observations.Jupiter.6.0-0-8-0-0|observations.Venus.9.8-0-0-0-0|observations.Saturn.2.0-0-8-0-0|observations.Rahu.1.0-0-8-0-0|observations.Ketu.7.0-0-8-0-0"
         ],
         [
-          "career.Sun.9.0-0-8-0-0",
-          "career.Mercury.9.0-0-8-0-0",
-          "career.Mars.6.0-8-0-0-0",
-          "career.Saturn.2.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.6.0-0-8-0-0",
-          "money.Venus.9.8-0-0-0-0",
-          "money.Mercury.9.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.9.8-0-0-0-0",
-          "relationships.Moon.2.0-0-8-0-0",
-          "relationships.Jupiter.6.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.2.0-0-8-0-0",
-          "wellbeing.Sun.9.0-0-8-0-0",
-          "wellbeing.Saturn.2.0-0-8-0-0"
+          "observations.Sun.9.0-0-8-0-0",
+          "observations.Moon.2.0-0-8-0-0",
+          "observations.Mars.6.0-8-0-0-0",
+          "observations.Mercury.9.0-0-8-0-0",
+          "observations.Jupiter.6.0-0-8-0-0",
+          "observations.Venus.9.8-0-0-0-0",
+          "observations.Saturn.2.0-0-8-0-0",
+          "observations.Rahu.1.0-0-8-0-0",
+          "observations.Ketu.7.0-0-8-0-0"
         ]
       ]
     },
@@ -16113,30 +15021,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.2.0-0-8-0-0",
-          "overview.Jupiter.6.0-0-8-0-0",
-          "overview.Saturn.2.0-0-8-0-0"
+          "overview.observations.Sun.9.0-0-8-0-0|observations.Moon.2.0-0-8-0-0|observations.Mars.6.0-8-0-0-0|observations.Mercury.9.0-0-8-0-0|observations.Jupiter.6.0-0-8-0-0|observations.Venus.9.8-0-0-0-0|observations.Saturn.2.0-0-8-0-0|observations.Rahu.1.0-0-8-0-0|observations.Ketu.7.0-0-8-0-0"
         ],
         [
-          "career.Sun.9.0-0-8-0-0",
-          "career.Mercury.9.0-0-8-0-0",
-          "career.Mars.6.0-8-0-0-0",
-          "career.Saturn.2.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.6.0-0-8-0-0",
-          "money.Venus.9.8-0-0-0-0",
-          "money.Mercury.9.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.9.8-0-0-0-0",
-          "relationships.Moon.2.0-0-8-0-0",
-          "relationships.Jupiter.6.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.2.0-0-8-0-0",
-          "wellbeing.Sun.9.0-0-8-0-0",
-          "wellbeing.Saturn.2.0-0-8-0-0"
+          "observations.Sun.9.0-0-8-0-0",
+          "observations.Moon.2.0-0-8-0-0",
+          "observations.Mars.6.0-8-0-0-0",
+          "observations.Mercury.9.0-0-8-0-0",
+          "observations.Jupiter.6.0-0-8-0-0",
+          "observations.Venus.9.8-0-0-0-0",
+          "observations.Saturn.2.0-0-8-0-0",
+          "observations.Rahu.1.0-0-8-0-0",
+          "observations.Ketu.7.0-0-8-0-0"
         ]
       ]
     },
@@ -16283,30 +15179,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.2.0-0-8-0-0",
-          "overview.Jupiter.6.0-0-8-0-0",
-          "overview.Saturn.2.0-0-8-0-0"
+          "overview.observations.Sun.9.0-0-8-0-0|observations.Moon.2.0-0-8-0-0|observations.Mars.6.0-8-0-0-0|observations.Mercury.9.0-0-8-0-0|observations.Jupiter.6.0-0-8-0-0|observations.Venus.9.8-0-0-0-0|observations.Saturn.2.0-0-8-0-0|observations.Rahu.1.0-0-8-0-0|observations.Ketu.7.0-0-8-0-0"
         ],
         [
-          "career.Sun.9.0-0-8-0-0",
-          "career.Mercury.9.0-0-8-0-0",
-          "career.Mars.6.0-8-0-0-0",
-          "career.Saturn.2.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.6.0-0-8-0-0",
-          "money.Venus.9.8-0-0-0-0",
-          "money.Mercury.9.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.9.8-0-0-0-0",
-          "relationships.Moon.2.0-0-8-0-0",
-          "relationships.Jupiter.6.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.2.0-0-8-0-0",
-          "wellbeing.Sun.9.0-0-8-0-0",
-          "wellbeing.Saturn.2.0-0-8-0-0"
+          "observations.Sun.9.0-0-8-0-0",
+          "observations.Moon.2.0-0-8-0-0",
+          "observations.Mars.6.0-8-0-0-0",
+          "observations.Mercury.9.0-0-8-0-0",
+          "observations.Jupiter.6.0-0-8-0-0",
+          "observations.Venus.9.8-0-0-0-0",
+          "observations.Saturn.2.0-0-8-0-0",
+          "observations.Rahu.1.0-0-8-0-0",
+          "observations.Ketu.7.0-0-8-0-0"
         ]
       ]
     },
@@ -16454,30 +15338,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.2-3.0-1-7-0-0",
-          "overview.Jupiter.6.0-0-8-0-0",
-          "overview.Saturn.2.0-0-8-0-0"
+          "overview.observations.Sun.9.0-0-8-0-0|observations.Moon.2-3.0-1-7-0-0|observations.Mars.6.0-8-0-0-0|observations.Mercury.9.0-0-8-0-0|observations.Jupiter.6.0-0-8-0-0|observations.Venus.9.8-0-0-0-0|observations.Saturn.2.0-0-8-0-0|observations.Rahu.1.0-0-8-0-0|observations.Ketu.7.0-0-8-0-0"
         ],
         [
-          "career.Sun.9.0-0-8-0-0",
-          "career.Mercury.9.0-0-8-0-0",
-          "career.Mars.6.0-8-0-0-0",
-          "career.Saturn.2.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.6.0-0-8-0-0",
-          "money.Venus.9.8-0-0-0-0",
-          "money.Mercury.9.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.9.8-0-0-0-0",
-          "relationships.Moon.2-3.0-1-7-0-0",
-          "relationships.Jupiter.6.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.2-3.0-1-7-0-0",
-          "wellbeing.Sun.9.0-0-8-0-0",
-          "wellbeing.Saturn.2.0-0-8-0-0"
+          "observations.Sun.9.0-0-8-0-0",
+          "observations.Moon.2-3.0-1-7-0-0",
+          "observations.Mars.6.0-8-0-0-0",
+          "observations.Mercury.9.0-0-8-0-0",
+          "observations.Jupiter.6.0-0-8-0-0",
+          "observations.Venus.9.8-0-0-0-0",
+          "observations.Saturn.2.0-0-8-0-0",
+          "observations.Rahu.1.0-0-8-0-0",
+          "observations.Ketu.7.0-0-8-0-0"
         ]
       ]
     },
@@ -16625,30 +15497,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.2-3.0-1-7-0-0",
-          "overview.Jupiter.6.0-0-8-0-0",
-          "overview.Saturn.2.0-0-8-0-0"
+          "overview.observations.Sun.9.0-0-8-0-0|observations.Moon.2-3.0-1-7-0-0|observations.Mars.6.0-8-0-0-0|observations.Mercury.9.0-0-8-0-0|observations.Jupiter.6.0-0-8-0-0|observations.Venus.9.8-0-0-0-0|observations.Saturn.2.0-0-8-0-0|observations.Rahu.1.0-0-8-0-0|observations.Ketu.7.0-0-8-0-0"
         ],
         [
-          "career.Sun.9.0-0-8-0-0",
-          "career.Mercury.9.0-0-8-0-0",
-          "career.Mars.6.0-8-0-0-0",
-          "career.Saturn.2.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.6.0-0-8-0-0",
-          "money.Venus.9.8-0-0-0-0",
-          "money.Mercury.9.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.9.8-0-0-0-0",
-          "relationships.Moon.2-3.0-1-7-0-0",
-          "relationships.Jupiter.6.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.2-3.0-1-7-0-0",
-          "wellbeing.Sun.9.0-0-8-0-0",
-          "wellbeing.Saturn.2.0-0-8-0-0"
+          "observations.Sun.9.0-0-8-0-0",
+          "observations.Moon.2-3.0-1-7-0-0",
+          "observations.Mars.6.0-8-0-0-0",
+          "observations.Mercury.9.0-0-8-0-0",
+          "observations.Jupiter.6.0-0-8-0-0",
+          "observations.Venus.9.8-0-0-0-0",
+          "observations.Saturn.2.0-0-8-0-0",
+          "observations.Rahu.1.0-0-8-0-0",
+          "observations.Ketu.7.0-0-8-0-0"
         ]
       ]
     },
@@ -16796,30 +15656,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.2-3.0-1-7-0-0",
-          "overview.Jupiter.6.0-0-8-0-0",
-          "overview.Saturn.2.0-0-8-0-0"
+          "overview.observations.Sun.9.0-0-8-0-0|observations.Moon.2-3.0-1-7-0-0|observations.Mars.6.0-8-0-0-0|observations.Mercury.9.0-0-8-0-0|observations.Jupiter.6.0-0-8-0-0|observations.Venus.9.8-0-0-0-0|observations.Saturn.2.0-0-8-0-0|observations.Rahu.1.0-0-8-0-0|observations.Ketu.7.0-0-8-0-0"
         ],
         [
-          "career.Sun.9.0-0-8-0-0",
-          "career.Mercury.9.0-0-8-0-0",
-          "career.Mars.6.0-8-0-0-0",
-          "career.Saturn.2.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.6.0-0-8-0-0",
-          "money.Venus.9.8-0-0-0-0",
-          "money.Mercury.9.0-0-8-0-0"
-        ],
-        [
-          "relationships.Venus.9.8-0-0-0-0",
-          "relationships.Moon.2-3.0-1-7-0-0",
-          "relationships.Jupiter.6.0-0-8-0-0"
-        ],
-        [
-          "wellbeing.Moon.2-3.0-1-7-0-0",
-          "wellbeing.Sun.9.0-0-8-0-0",
-          "wellbeing.Saturn.2.0-0-8-0-0"
+          "observations.Sun.9.0-0-8-0-0",
+          "observations.Moon.2-3.0-1-7-0-0",
+          "observations.Mars.6.0-8-0-0-0",
+          "observations.Mercury.9.0-0-8-0-0",
+          "observations.Jupiter.6.0-0-8-0-0",
+          "observations.Venus.9.8-0-0-0-0",
+          "observations.Saturn.2.0-0-8-0-0",
+          "observations.Rahu.1.0-0-8-0-0",
+          "observations.Ketu.7.0-0-8-0-0"
         ]
       ]
     },
@@ -16981,30 +15829,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.12-1-2-3.19-1-36-0-0",
-          "overview.Jupiter.6.0-0-56-0-0",
-          "overview.Saturn.2.0-0-56-0-0"
+          "overview.observations.Sun.9.0-0-56-0-0|observations.Moon.12-1-2-3.19-1-36-0-0|observations.Mars.6.0-56-0-0-0|observations.Mercury.9.0-0-56-0-0|observations.Jupiter.6.0-0-56-0-0|observations.Venus.9.56-0-0-0-0|observations.Saturn.2.0-0-56-0-0|observations.Rahu.1.0-0-56-0-0|observations.Ketu.7.0-0-56-0-0"
         ],
         [
-          "career.Sun.9.0-0-56-0-0",
-          "career.Mercury.9.0-0-56-0-0",
-          "career.Mars.6.0-56-0-0-0",
-          "career.Saturn.2.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.6.0-0-56-0-0",
-          "money.Venus.9.56-0-0-0-0",
-          "money.Mercury.9.0-0-56-0-0"
-        ],
-        [
-          "relationships.Venus.9.56-0-0-0-0",
-          "relationships.Moon.12-1-2-3.19-1-36-0-0",
-          "relationships.Jupiter.6.0-0-56-0-0"
-        ],
-        [
-          "wellbeing.Moon.12-1-2-3.19-1-36-0-0",
-          "wellbeing.Sun.9.0-0-56-0-0",
-          "wellbeing.Saturn.2.0-0-56-0-0"
+          "observations.Sun.9.0-0-56-0-0",
+          "observations.Moon.12-1-2-3.19-1-36-0-0",
+          "observations.Mars.6.0-56-0-0-0",
+          "observations.Mercury.9.0-0-56-0-0",
+          "observations.Jupiter.6.0-0-56-0-0",
+          "observations.Venus.9.56-0-0-0-0",
+          "observations.Saturn.2.0-0-56-0-0",
+          "observations.Rahu.1.0-0-56-0-0",
+          "observations.Ketu.7.0-0-56-0-0"
         ]
       ]
     },
@@ -17166,30 +16002,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.12-1-2-3.19-1-36-0-0",
-          "overview.Jupiter.6.0-0-56-0-0",
-          "overview.Saturn.2.0-0-56-0-0"
+          "overview.observations.Sun.9.0-0-56-0-0|observations.Moon.12-1-2-3.19-1-36-0-0|observations.Mars.6.0-56-0-0-0|observations.Mercury.9.0-0-56-0-0|observations.Jupiter.6.0-0-56-0-0|observations.Venus.9.56-0-0-0-0|observations.Saturn.2.0-0-56-0-0|observations.Rahu.1.0-0-56-0-0|observations.Ketu.7.0-0-56-0-0"
         ],
         [
-          "career.Sun.9.0-0-56-0-0",
-          "career.Mercury.9.0-0-56-0-0",
-          "career.Mars.6.0-56-0-0-0",
-          "career.Saturn.2.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.6.0-0-56-0-0",
-          "money.Venus.9.56-0-0-0-0",
-          "money.Mercury.9.0-0-56-0-0"
-        ],
-        [
-          "relationships.Venus.9.56-0-0-0-0",
-          "relationships.Moon.12-1-2-3.19-1-36-0-0",
-          "relationships.Jupiter.6.0-0-56-0-0"
-        ],
-        [
-          "wellbeing.Moon.12-1-2-3.19-1-36-0-0",
-          "wellbeing.Sun.9.0-0-56-0-0",
-          "wellbeing.Saturn.2.0-0-56-0-0"
+          "observations.Sun.9.0-0-56-0-0",
+          "observations.Moon.12-1-2-3.19-1-36-0-0",
+          "observations.Mars.6.0-56-0-0-0",
+          "observations.Mercury.9.0-0-56-0-0",
+          "observations.Jupiter.6.0-0-56-0-0",
+          "observations.Venus.9.56-0-0-0-0",
+          "observations.Saturn.2.0-0-56-0-0",
+          "observations.Rahu.1.0-0-56-0-0",
+          "observations.Ketu.7.0-0-56-0-0"
         ]
       ]
     },
@@ -17351,30 +16175,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.12-1-2-3.19-1-36-0-0",
-          "overview.Jupiter.6.0-0-56-0-0",
-          "overview.Saturn.2.0-0-56-0-0"
+          "overview.observations.Sun.9.0-0-56-0-0|observations.Moon.12-1-2-3.19-1-36-0-0|observations.Mars.6.0-56-0-0-0|observations.Mercury.9.0-0-56-0-0|observations.Jupiter.6.0-0-56-0-0|observations.Venus.9.56-0-0-0-0|observations.Saturn.2.0-0-56-0-0|observations.Rahu.1.0-0-56-0-0|observations.Ketu.7.0-0-56-0-0"
         ],
         [
-          "career.Sun.9.0-0-56-0-0",
-          "career.Mercury.9.0-0-56-0-0",
-          "career.Mars.6.0-56-0-0-0",
-          "career.Saturn.2.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.6.0-0-56-0-0",
-          "money.Venus.9.56-0-0-0-0",
-          "money.Mercury.9.0-0-56-0-0"
-        ],
-        [
-          "relationships.Venus.9.56-0-0-0-0",
-          "relationships.Moon.12-1-2-3.19-1-36-0-0",
-          "relationships.Jupiter.6.0-0-56-0-0"
-        ],
-        [
-          "wellbeing.Moon.12-1-2-3.19-1-36-0-0",
-          "wellbeing.Sun.9.0-0-56-0-0",
-          "wellbeing.Saturn.2.0-0-56-0-0"
+          "observations.Sun.9.0-0-56-0-0",
+          "observations.Moon.12-1-2-3.19-1-36-0-0",
+          "observations.Mars.6.0-56-0-0-0",
+          "observations.Mercury.9.0-0-56-0-0",
+          "observations.Jupiter.6.0-0-56-0-0",
+          "observations.Venus.9.56-0-0-0-0",
+          "observations.Saturn.2.0-0-56-0-0",
+          "observations.Rahu.1.0-0-56-0-0",
+          "observations.Ketu.7.0-0-56-0-0"
         ]
       ]
     },
@@ -17521,30 +16333,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.1.0-8-0-0-0",
-          "overview.Jupiter.5.8-0-0-0-0",
-          "overview.Saturn.1.0-0-8-0-0"
+          "overview.observations.Sun.8.0-0-8-0-0|observations.Moon.1.0-8-0-0-0|observations.Mars.5.0-0-8-0-0|observations.Mercury.8.0-8-0-0-0|observations.Jupiter.5.8-0-0-0-0|observations.Venus.8.0-8-0-0-0|observations.Saturn.1.0-0-8-0-0|observations.Rahu.12.0-0-8-0-0|observations.Ketu.6.0-0-0-0-8"
         ],
         [
-          "career.Sun.8.0-0-8-0-0",
-          "career.Mercury.8.0-8-0-0-0",
-          "career.Mars.5.0-0-8-0-0",
-          "career.Saturn.1.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.5.8-0-0-0-0",
-          "money.Venus.8.0-8-0-0-0",
-          "money.Mercury.8.0-8-0-0-0"
-        ],
-        [
-          "relationships.Venus.8.0-8-0-0-0",
-          "relationships.Moon.1.0-8-0-0-0",
-          "relationships.Jupiter.5.8-0-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.1.0-8-0-0-0",
-          "wellbeing.Sun.8.0-0-8-0-0",
-          "wellbeing.Saturn.1.0-0-8-0-0"
+          "observations.Sun.8.0-0-8-0-0",
+          "observations.Moon.1.0-8-0-0-0",
+          "observations.Mars.5.0-0-8-0-0",
+          "observations.Mercury.8.0-8-0-0-0",
+          "observations.Jupiter.5.8-0-0-0-0",
+          "observations.Venus.8.0-8-0-0-0",
+          "observations.Saturn.1.0-0-8-0-0",
+          "observations.Rahu.12.0-0-8-0-0",
+          "observations.Ketu.6.0-0-0-0-8"
         ]
       ]
     },
@@ -17691,30 +16491,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.1.0-8-0-0-0",
-          "overview.Jupiter.5.8-0-0-0-0",
-          "overview.Saturn.1.0-0-8-0-0"
+          "overview.observations.Sun.8.0-0-8-0-0|observations.Moon.1.0-8-0-0-0|observations.Mars.5.0-0-8-0-0|observations.Mercury.8.0-8-0-0-0|observations.Jupiter.5.8-0-0-0-0|observations.Venus.8.0-8-0-0-0|observations.Saturn.1.0-0-8-0-0|observations.Rahu.12.0-0-8-0-0|observations.Ketu.6.0-0-0-0-8"
         ],
         [
-          "career.Sun.8.0-0-8-0-0",
-          "career.Mercury.8.0-8-0-0-0",
-          "career.Mars.5.0-0-8-0-0",
-          "career.Saturn.1.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.5.8-0-0-0-0",
-          "money.Venus.8.0-8-0-0-0",
-          "money.Mercury.8.0-8-0-0-0"
-        ],
-        [
-          "relationships.Venus.8.0-8-0-0-0",
-          "relationships.Moon.1.0-8-0-0-0",
-          "relationships.Jupiter.5.8-0-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.1.0-8-0-0-0",
-          "wellbeing.Sun.8.0-0-8-0-0",
-          "wellbeing.Saturn.1.0-0-8-0-0"
+          "observations.Sun.8.0-0-8-0-0",
+          "observations.Moon.1.0-8-0-0-0",
+          "observations.Mars.5.0-0-8-0-0",
+          "observations.Mercury.8.0-8-0-0-0",
+          "observations.Jupiter.5.8-0-0-0-0",
+          "observations.Venus.8.0-8-0-0-0",
+          "observations.Saturn.1.0-0-8-0-0",
+          "observations.Rahu.12.0-0-8-0-0",
+          "observations.Ketu.6.0-0-0-0-8"
         ]
       ]
     },
@@ -17861,30 +16649,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.1.0-8-0-0-0",
-          "overview.Jupiter.5.8-0-0-0-0",
-          "overview.Saturn.1.0-0-8-0-0"
+          "overview.observations.Sun.8.0-0-8-0-0|observations.Moon.1.0-8-0-0-0|observations.Mars.5.0-0-8-0-0|observations.Mercury.8.0-8-0-0-0|observations.Jupiter.5.8-0-0-0-0|observations.Venus.8.0-8-0-0-0|observations.Saturn.1.0-0-8-0-0|observations.Rahu.12.0-0-8-0-0|observations.Ketu.6.0-0-0-0-8"
         ],
         [
-          "career.Sun.8.0-0-8-0-0",
-          "career.Mercury.8.0-8-0-0-0",
-          "career.Mars.5.0-0-8-0-0",
-          "career.Saturn.1.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.5.8-0-0-0-0",
-          "money.Venus.8.0-8-0-0-0",
-          "money.Mercury.8.0-8-0-0-0"
-        ],
-        [
-          "relationships.Venus.8.0-8-0-0-0",
-          "relationships.Moon.1.0-8-0-0-0",
-          "relationships.Jupiter.5.8-0-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.1.0-8-0-0-0",
-          "wellbeing.Sun.8.0-0-8-0-0",
-          "wellbeing.Saturn.1.0-0-8-0-0"
+          "observations.Sun.8.0-0-8-0-0",
+          "observations.Moon.1.0-8-0-0-0",
+          "observations.Mars.5.0-0-8-0-0",
+          "observations.Mercury.8.0-8-0-0-0",
+          "observations.Jupiter.5.8-0-0-0-0",
+          "observations.Venus.8.0-8-0-0-0",
+          "observations.Saturn.1.0-0-8-0-0",
+          "observations.Rahu.12.0-0-8-0-0",
+          "observations.Ketu.6.0-0-0-0-8"
         ]
       ]
     },
@@ -18032,30 +16808,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.1-2.0-7-1-0-0",
-          "overview.Jupiter.5.8-0-0-0-0",
-          "overview.Saturn.1.0-0-8-0-0"
+          "overview.observations.Sun.8.0-0-8-0-0|observations.Moon.1-2.0-7-1-0-0|observations.Mars.5.0-0-8-0-0|observations.Mercury.8.0-8-0-0-0|observations.Jupiter.5.8-0-0-0-0|observations.Venus.8.0-8-0-0-0|observations.Saturn.1.0-0-8-0-0|observations.Rahu.12.0-0-8-0-0|observations.Ketu.6.0-0-0-0-8"
         ],
         [
-          "career.Sun.8.0-0-8-0-0",
-          "career.Mercury.8.0-8-0-0-0",
-          "career.Mars.5.0-0-8-0-0",
-          "career.Saturn.1.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.5.8-0-0-0-0",
-          "money.Venus.8.0-8-0-0-0",
-          "money.Mercury.8.0-8-0-0-0"
-        ],
-        [
-          "relationships.Venus.8.0-8-0-0-0",
-          "relationships.Moon.1-2.0-7-1-0-0",
-          "relationships.Jupiter.5.8-0-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.1-2.0-7-1-0-0",
-          "wellbeing.Sun.8.0-0-8-0-0",
-          "wellbeing.Saturn.1.0-0-8-0-0"
+          "observations.Sun.8.0-0-8-0-0",
+          "observations.Moon.1-2.0-7-1-0-0",
+          "observations.Mars.5.0-0-8-0-0",
+          "observations.Mercury.8.0-8-0-0-0",
+          "observations.Jupiter.5.8-0-0-0-0",
+          "observations.Venus.8.0-8-0-0-0",
+          "observations.Saturn.1.0-0-8-0-0",
+          "observations.Rahu.12.0-0-8-0-0",
+          "observations.Ketu.6.0-0-0-0-8"
         ]
       ]
     },
@@ -18203,30 +16967,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.1-2.0-7-1-0-0",
-          "overview.Jupiter.5.8-0-0-0-0",
-          "overview.Saturn.1.0-0-8-0-0"
+          "overview.observations.Sun.8.0-0-8-0-0|observations.Moon.1-2.0-7-1-0-0|observations.Mars.5.0-0-8-0-0|observations.Mercury.8.0-8-0-0-0|observations.Jupiter.5.8-0-0-0-0|observations.Venus.8.0-8-0-0-0|observations.Saturn.1.0-0-8-0-0|observations.Rahu.12.0-0-8-0-0|observations.Ketu.6.0-0-0-0-8"
         ],
         [
-          "career.Sun.8.0-0-8-0-0",
-          "career.Mercury.8.0-8-0-0-0",
-          "career.Mars.5.0-0-8-0-0",
-          "career.Saturn.1.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.5.8-0-0-0-0",
-          "money.Venus.8.0-8-0-0-0",
-          "money.Mercury.8.0-8-0-0-0"
-        ],
-        [
-          "relationships.Venus.8.0-8-0-0-0",
-          "relationships.Moon.1-2.0-7-1-0-0",
-          "relationships.Jupiter.5.8-0-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.1-2.0-7-1-0-0",
-          "wellbeing.Sun.8.0-0-8-0-0",
-          "wellbeing.Saturn.1.0-0-8-0-0"
+          "observations.Sun.8.0-0-8-0-0",
+          "observations.Moon.1-2.0-7-1-0-0",
+          "observations.Mars.5.0-0-8-0-0",
+          "observations.Mercury.8.0-8-0-0-0",
+          "observations.Jupiter.5.8-0-0-0-0",
+          "observations.Venus.8.0-8-0-0-0",
+          "observations.Saturn.1.0-0-8-0-0",
+          "observations.Rahu.12.0-0-8-0-0",
+          "observations.Ketu.6.0-0-0-0-8"
         ]
       ]
     },
@@ -18374,30 +17126,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.1-2.0-7-1-0-0",
-          "overview.Jupiter.5.8-0-0-0-0",
-          "overview.Saturn.1.0-0-8-0-0"
+          "overview.observations.Sun.8.0-0-8-0-0|observations.Moon.1-2.0-7-1-0-0|observations.Mars.5.0-0-8-0-0|observations.Mercury.8.0-8-0-0-0|observations.Jupiter.5.8-0-0-0-0|observations.Venus.8.0-8-0-0-0|observations.Saturn.1.0-0-8-0-0|observations.Rahu.12.0-0-8-0-0|observations.Ketu.6.0-0-0-0-8"
         ],
         [
-          "career.Sun.8.0-0-8-0-0",
-          "career.Mercury.8.0-8-0-0-0",
-          "career.Mars.5.0-0-8-0-0",
-          "career.Saturn.1.0-0-8-0-0"
-        ],
-        [
-          "money.Jupiter.5.8-0-0-0-0",
-          "money.Venus.8.0-8-0-0-0",
-          "money.Mercury.8.0-8-0-0-0"
-        ],
-        [
-          "relationships.Venus.8.0-8-0-0-0",
-          "relationships.Moon.1-2.0-7-1-0-0",
-          "relationships.Jupiter.5.8-0-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.1-2.0-7-1-0-0",
-          "wellbeing.Sun.8.0-0-8-0-0",
-          "wellbeing.Saturn.1.0-0-8-0-0"
+          "observations.Sun.8.0-0-8-0-0",
+          "observations.Moon.1-2.0-7-1-0-0",
+          "observations.Mars.5.0-0-8-0-0",
+          "observations.Mercury.8.0-8-0-0-0",
+          "observations.Jupiter.5.8-0-0-0-0",
+          "observations.Venus.8.0-8-0-0-0",
+          "observations.Saturn.1.0-0-8-0-0",
+          "observations.Rahu.12.0-0-8-0-0",
+          "observations.Ketu.6.0-0-0-0-8"
         ]
       ]
     },
@@ -18559,30 +17299,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.11-12-1-2.0-36-20-0-0",
-          "overview.Jupiter.5.56-0-0-0-0",
-          "overview.Saturn.1.0-0-56-0-0"
+          "overview.observations.Sun.8.0-0-56-0-0|observations.Moon.11-12-1-2.0-36-20-0-0|observations.Mars.5.0-0-56-0-0|observations.Mercury.8.0-56-0-0-0|observations.Jupiter.5.56-0-0-0-0|observations.Venus.8.0-56-0-0-0|observations.Saturn.1.0-0-56-0-0|observations.Rahu.12.0-0-56-0-0|observations.Ketu.6.0-0-0-0-56"
         ],
         [
-          "career.Sun.8.0-0-56-0-0",
-          "career.Mercury.8.0-56-0-0-0",
-          "career.Mars.5.0-0-56-0-0",
-          "career.Saturn.1.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.5.56-0-0-0-0",
-          "money.Venus.8.0-56-0-0-0",
-          "money.Mercury.8.0-56-0-0-0"
-        ],
-        [
-          "relationships.Venus.8.0-56-0-0-0",
-          "relationships.Moon.11-12-1-2.0-36-20-0-0",
-          "relationships.Jupiter.5.56-0-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.11-12-1-2.0-36-20-0-0",
-          "wellbeing.Sun.8.0-0-56-0-0",
-          "wellbeing.Saturn.1.0-0-56-0-0"
+          "observations.Sun.8.0-0-56-0-0",
+          "observations.Moon.11-12-1-2.0-36-20-0-0",
+          "observations.Mars.5.0-0-56-0-0",
+          "observations.Mercury.8.0-56-0-0-0",
+          "observations.Jupiter.5.56-0-0-0-0",
+          "observations.Venus.8.0-56-0-0-0",
+          "observations.Saturn.1.0-0-56-0-0",
+          "observations.Rahu.12.0-0-56-0-0",
+          "observations.Ketu.6.0-0-0-0-56"
         ]
       ]
     },
@@ -18744,30 +17472,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.11-12-1-2.0-36-20-0-0",
-          "overview.Jupiter.5.56-0-0-0-0",
-          "overview.Saturn.1.0-0-56-0-0"
+          "overview.observations.Sun.8.0-0-56-0-0|observations.Moon.11-12-1-2.0-36-20-0-0|observations.Mars.5.0-0-56-0-0|observations.Mercury.8.0-56-0-0-0|observations.Jupiter.5.56-0-0-0-0|observations.Venus.8.0-56-0-0-0|observations.Saturn.1.0-0-56-0-0|observations.Rahu.12.0-0-56-0-0|observations.Ketu.6.0-0-0-0-56"
         ],
         [
-          "career.Sun.8.0-0-56-0-0",
-          "career.Mercury.8.0-56-0-0-0",
-          "career.Mars.5.0-0-56-0-0",
-          "career.Saturn.1.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.5.56-0-0-0-0",
-          "money.Venus.8.0-56-0-0-0",
-          "money.Mercury.8.0-56-0-0-0"
-        ],
-        [
-          "relationships.Venus.8.0-56-0-0-0",
-          "relationships.Moon.11-12-1-2.0-36-20-0-0",
-          "relationships.Jupiter.5.56-0-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.11-12-1-2.0-36-20-0-0",
-          "wellbeing.Sun.8.0-0-56-0-0",
-          "wellbeing.Saturn.1.0-0-56-0-0"
+          "observations.Sun.8.0-0-56-0-0",
+          "observations.Moon.11-12-1-2.0-36-20-0-0",
+          "observations.Mars.5.0-0-56-0-0",
+          "observations.Mercury.8.0-56-0-0-0",
+          "observations.Jupiter.5.56-0-0-0-0",
+          "observations.Venus.8.0-56-0-0-0",
+          "observations.Saturn.1.0-0-56-0-0",
+          "observations.Rahu.12.0-0-56-0-0",
+          "observations.Ketu.6.0-0-0-0-56"
         ]
       ]
     },
@@ -18929,30 +17645,18 @@
       ],
       "promptIds": [
         [
-          "overview.Moon.11-12-1-2.0-36-20-0-0",
-          "overview.Jupiter.5.56-0-0-0-0",
-          "overview.Saturn.1.0-0-56-0-0"
+          "overview.observations.Sun.8.0-0-56-0-0|observations.Moon.11-12-1-2.0-36-20-0-0|observations.Mars.5.0-0-56-0-0|observations.Mercury.8.0-56-0-0-0|observations.Jupiter.5.56-0-0-0-0|observations.Venus.8.0-56-0-0-0|observations.Saturn.1.0-0-56-0-0|observations.Rahu.12.0-0-56-0-0|observations.Ketu.6.0-0-0-0-56"
         ],
         [
-          "career.Sun.8.0-0-56-0-0",
-          "career.Mercury.8.0-56-0-0-0",
-          "career.Mars.5.0-0-56-0-0",
-          "career.Saturn.1.0-0-56-0-0"
-        ],
-        [
-          "money.Jupiter.5.56-0-0-0-0",
-          "money.Venus.8.0-56-0-0-0",
-          "money.Mercury.8.0-56-0-0-0"
-        ],
-        [
-          "relationships.Venus.8.0-56-0-0-0",
-          "relationships.Moon.11-12-1-2.0-36-20-0-0",
-          "relationships.Jupiter.5.56-0-0-0-0"
-        ],
-        [
-          "wellbeing.Moon.11-12-1-2.0-36-20-0-0",
-          "wellbeing.Sun.8.0-0-56-0-0",
-          "wellbeing.Saturn.1.0-0-56-0-0"
+          "observations.Sun.8.0-0-56-0-0",
+          "observations.Moon.11-12-1-2.0-36-20-0-0",
+          "observations.Mars.5.0-0-56-0-0",
+          "observations.Mercury.8.0-56-0-0-0",
+          "observations.Jupiter.5.56-0-0-0-0",
+          "observations.Venus.8.0-56-0-0-0",
+          "observations.Saturn.1.0-0-56-0-0",
+          "observations.Rahu.12.0-0-56-0-0",
+          "observations.Ketu.6.0-0-0-0-56"
         ]
       ]
     }

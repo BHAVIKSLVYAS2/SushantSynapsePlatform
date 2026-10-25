@@ -1,5 +1,13 @@
 # Vedic app calculation and content audit
 
+Implementation follow-up (25 October 2026): fix sequence item 1 is implemented
+in `rashifal-gochar-4`: one calculated summary, nine deduplicated graha entries,
+no career/money/relationships/wellbeing groupings, and expandable rule evidence.
+The numerical engine is retained. Items 2–6 below remain proposed work. The
+findings table records the audited pre-change state; its editorial `domains`
+mapping has now been removed. All four app screens also share the platform header
+and expose settings once, using the shared language preference.
+
 25 October 2026. Scope: Rashifal, Kundli, Time Machine, matching, tradition
 tools and their homepage card. This is a source-code audit, not independent
 certification of astronomy, traditional rules or life-event predictions.
@@ -71,5 +79,5 @@ scientific accuracy of predictions about a person's life.
 - `packages/vedic/release-policy.mjs` retains open acceptance gates; the public
   deployment remains a verification preview.
 
-This change removes the duplicate homepage tile and records the audit. The fix
-sequence above is proposed work; it has not been represented as implemented.
+The original audit change removed the duplicate homepage tile. The follow-up
+implements item 1 above; remaining items must not be represented as implemented.

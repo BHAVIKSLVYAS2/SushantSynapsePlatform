@@ -15,9 +15,9 @@ test('Vedic production preview exposes only bundled public assets and privacy he
   assert.match(file,/^(apps\/rashifal-kundli\/frontend\/|packages\/ui\/)/);
   assert.ok(fs.existsSync(file),file);
   if(file.endsWith('.html')){
-   const html=fs.readFileSync(file,'utf8');assert.match(html,/verification preview/);
+   const html=fs.readFileSync(file,'utf8');assert.match(html,/Preview · review pending/);assert.match(html,/data-platform-privacy="local-only"/);
    assert.doesNotMatch(html,/adsbygoogle|availability.js|beta-notice/);
-   for(const match of html.matchAll(/(?:src|href)="([^"]+)"/g))assert.ok(match[1]==='/'||Object.hasOwn(assets,match[1]),match[1]);
+   for(const match of html.matchAll(/(?:src|href)="([^"]+)"/g))assert.ok(match[1]==='/'||match[1].startsWith('#')||['/logo-adaptive-192.png','/shared/platform-header.css','/shared/platform-shell.css','/shared/theme.js','/shared/platform-shell.js'].includes(match[1])||Object.hasOwn(assets,match[1]),match[1]);
   }
  }
  const {headers}=require('../apps/rashifal-kundli/privacy.cjs');

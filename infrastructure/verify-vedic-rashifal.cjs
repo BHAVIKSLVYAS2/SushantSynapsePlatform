@@ -6,7 +6,7 @@ async function buildReport(){
  const service=createRashifalService(),rows=[],now=Date.parse('2026-10-24T12:00Z');
  for(let rashi=1;rashi<=12;rashi++)for(const view of ['today','tomorrow','weekly'])for(const language of ['en','hi','gu']){
   const r=service.getReading({rashi,view,language,ruleVersion:rashifalLibrary.version,calculationProfileId:'IN_LAHIRI_DEFAULT_V1'},{now}).reading;
-  if(r.sections.length!==5||r.factors.length!==(view==='weekly'?7:1)||r.grahas.length!==9||r.samples.length!==(view==='weekly'?56:8))throw Error('Rashifal composition failed.');
+  if(r.sections.length!==2||r.factors.length!==(view==='weekly'?7:1)||r.grahas.length!==9||r.samples.length!==(view==='weekly'?56:8))throw Error('Rashifal composition failed.');
   for(const s of r.sections)if(new Set(s.items.map(i=>i.id)).size!==s.items.length)throw Error('Duplicate editorial ID.');
   rows.push({rashi,view,requestedLanguage:language,contentLanguage:r.contentLanguage,fallback:r.fallback,editorialDate:r.period.editorialDate,
    moonRashis:r.factors.map(f=>f.moonRashi),relativeHouses:r.factors.map(f=>f.relativeHouse),selection:r.selection,

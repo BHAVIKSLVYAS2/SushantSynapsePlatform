@@ -11,14 +11,31 @@ test.beforeAll(async()=>{
  });await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));origin='http://127.0.0.1:'+server.address().port;
 });
 test.afterAll(async()=>{if(server)await new Promise(resolve=>server.close(resolve));});
+
+test('shared platform header owns settings and navigation without making birth-page network calls',async({page})=>{
+ const connections=[],errors=[];page.on('request',r=>{if(['fetch','xhr','ping'].includes(r.resourceType()))connections.push(r.url());});page.on('pageerror',e=>errors.push(e.message));
+ await page.addInitScript(()=>{if(!localStorage.getItem('synapse-language'))localStorage.setItem('synapse-language','hi');});
+ await page.setViewportSize({width:320,height:900});await page.goto(origin+'/rashifal-kundli');
+ await expect(page.locator('.platform-shell')).toHaveCount(1);await expect(page.locator('html')).toHaveAttribute('lang','hi');
+ await expect(page.locator('.platform-shell [data-theme-toggle]')).toHaveCount(1);await expect(page.locator('#theme')).toHaveCount(0);
+ await expect(page.locator('.platform-shell #vedic-language')).toHaveCount(1);await expect(page.locator('main #birth-language')).toBeHidden();
+ await page.locator('.platform-shell [data-theme-toggle]').click();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+ await chooseLanguage(page,'gu');await expect(page.locator('html')).toHaveAttribute('lang','gu');
+ await page.locator('.platform-switch').click();await expect(page.locator('#platform-switcher')).toBeVisible();await page.keyboard.press('Escape');
+ await page.locator('.vedic-nav a[href="/rashifal-kundli/rashifal"]').click();await expect(page.locator('#vedic-language')).toHaveValue('gu');
+ await expect(page.locator('.vedic-nav [aria-current=page]')).toHaveAttribute('href','/rashifal-kundli/rashifal');
+ await page.locator('#rashifal-rashi').selectOption('1');await expect(page.locator('.rashifal-planet[data-body]')).toHaveCount(9);
+ await expect(page.locator('[data-category=career],[data-category=money],[data-category=relationships],[data-category=wellbeing]')).toHaveCount(0);
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);expect(connections).toEqual([]);expect(errors).toEqual([]);
+});
 test('built production Kundli computes privately, loads worker and preserves mobile themes',async({page})=>{
  const errors=[],requests=[],workers=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r));page.on('worker',w=>workers.push(w.url()));
  const r=await page.goto(origin+'/rashifal-kundli');expect(r.headers()['content-security-policy']).toContain("connect-src 'none'");
- await expect(page.getByRole('heading',{name:'Rashifal & Kundli · verification preview'})).toBeVisible();
+ await expect(page.locator('.platform-shell-brand')).toBeVisible();
  await page.locator('#birth-date').fill('2000-01-01');await page.locator('#birth-time').fill('12:15');await page.locator('#birth-query').fill('New Delhi');await page.locator('#birth-place').selectOption('geonames:1261481');
  await page.locator('form button[type=submit]').click();await page.locator('#birth-calculate').click();await expect(page.locator('[data-feature=dasha] table tbody tr')).toHaveCount(9);
  for(const width of [320,390,1440])for(const theme of ['light','dark','system']){
-  await page.setViewportSize({width,height:900});await page.locator('#theme').selectOption(theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  await page.setViewportSize({width,height:900});await page.evaluate(t=>SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  }
  await page.screenshot({path:'.publish/vedic-production-preview.png',fullPage:true});
  await page.locator('#birth-accuracy').selectOption('approximate');await page.locator('#birth-precision').fill('10');await page.locator('form button[type=submit]').click();await page.locator('#birth-calculate').click();
@@ -29,7 +46,7 @@ test('built production Kundli computes privately, loads worker and preserves mob
 });
 for(const route of ['rashifal','matching','time-machine'])test('built '+route+' entry mounts without third-party requests',async({page})=>{
  const errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r.url()));await page.goto(origin+'/rashifal-kundli/'+route);
- await expect(page.locator('main')).not.toBeEmpty();await expect(page.locator('header nav')).toBeVisible();expect(errors).toEqual([]);expect(requests.every(url=>url.startsWith(origin))).toBe(true);
+ await expect(page.locator('main')).not.toBeEmpty();await expect(page.locator('.vedic-nav')).toBeVisible();expect(errors).toEqual([]);expect(requests.every(url=>url.startsWith(origin))).toBe(true);
 });
 
 test('Rashifal reading-first production layout keeps translations, theme and privacy intact',async({page})=>{
@@ -38,18 +55,18 @@ test('Rashifal reading-first production layout keeps translations, theme and pri
  expect(response.headers()['content-security-policy']).toContain("connect-src 'none'");
  await expect(page.locator('.rashifal-preview-info')).not.toHaveAttribute('open','');await page.locator('.rashifal-preview-info summary').click();
  await expect(page.locator('[data-vedic-text=warning]')).toBeVisible();await page.locator('.rashifal-preview-info summary').click();
- await page.locator('.rashifal-signs button').nth(4).click();await expect(page.locator('.rashifal-reading>section')).toHaveCount(5);
+ await page.locator('.rashifal-signs button').nth(4).click();await expect(page.locator('.rashifal-reading>section')).toHaveCount(2);
  await expect(page.locator('.rashifal-signs')).toBeHidden();
  for(const language of ['en','hi','gu']){
-  await page.locator('#vedic-language').selectOption(language);await expect(page.locator('.rashifal-reading')).toHaveAttribute('lang',language);
+  await chooseLanguage(page,language);await expect(page.locator('.rashifal-reading')).toHaveAttribute('lang',language);
   for(const width of [320,390,768,1440])for(const theme of ['light','dark','system']){
-   await page.setViewportSize({width,height:844});await page.locator('#theme').selectOption(theme);
+   await page.setViewportSize({width,height:844});await page.evaluate(t=>SynapseTheme.write(t),theme);
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   }
  }
- await page.locator('#vedic-language').selectOption('en');await page.setViewportSize({width:390,height:844});await page.locator('#theme').selectOption('light');
+ await chooseLanguage(page,'en');await page.setViewportSize({width:390,height:844});await page.evaluate(t=>SynapseTheme.write(t),'light');
  await page.screenshot({path:'.publish/rashifal-ux-mobile-light.png',fullPage:true});
- await page.locator('#theme').selectOption('dark');await page.screenshot({path:'.publish/rashifal-ux-mobile-dark.png',fullPage:true});
+ await page.evaluate(t=>SynapseTheme.write(t),'dark');await page.screenshot({path:'.publish/rashifal-ux-mobile-dark.png',fullPage:true});
  await page.setViewportSize({width:1440,height:1000});await page.screenshot({path:'.publish/rashifal-ux-desktop-dark.png',fullPage:true});
  expect(errors).toEqual([]);expect(requests.every(r=>r.method()==='GET'&&r.url().startsWith(origin))).toBe(true);
  expect(await page.evaluate(()=>localStorage.getItem('synapse-vedic-rashi'))).toBeNull();
@@ -65,3 +82,5 @@ test('production Rashifal computes separate nine-graha evidence for every select
  expect(readings.size).toBe(12);await page.locator('#rashifal-result summary').click();await expect(page.locator('#rashifal-observation option')).toHaveCount(8);
  await page.locator('[data-view=weekly]').click();await page.locator('#rashifal-result summary').click();await expect(page.locator('#rashifal-observation option')).toHaveCount(56);
 });
+
+async function chooseLanguage(page,language){await page.locator('.platform-language summary').click();await page.locator('#vedic-language').selectOption(language);}

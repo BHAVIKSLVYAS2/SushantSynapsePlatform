@@ -1,5 +1,30 @@
 # Chambers functionality ledger
 
+**Readable Rashifal and shared Vedic platform header (2026-10-25):**
+Rashifal gochar-4 keeps the nine-graha calculation/rule engine and replaces
+repetitive career/money/relationships/wellbeing sections with one calculated
+summary and nine unique planetary observations. Stable, mixed, boundary and
+unresolved results stay distinct; no domain scores, personal event predictions
+or exact change times are inferred. Source, observation table and diagnostics
+remain expandable. The 108-case generated report is updated.
+All four production Vedic screens now use the existing platform shell, app
+switcher, branding and theme control. A single header language menu bridges
+en/hi/gu into app views, uses synapse-language and accepts the previous Vedic
+preference as a fallback. Nested selectors stay hidden after calculation;
+language changes preserve inputs and numeric results. App navigation identifies
+the active screen and scrolls horizontally on narrow displays.
+Shared shell local-only mode skips account-status requests and visitor-module
+loading on these pages, preserving connect-src 'none', memory-only birth data,
+offline exports and no analytics/ads. Other apps retain their existing behavior.
+Focused Node checks pass 21/21, including summary withholding/mixed semantics,
+all twelve signs, source rules, privacy and actual workerd parity (62,995 numeric
+comparisons; max difference 5.69e-14). Local reading Chrome passes 5/5 and existing
+shared platform language/header Chrome passes 6/6. Final production-export
+Chrome passes 13/13, including single settings controls, all four screens, native
+languages, numeric invariance, privacy and retained export/worker behavior.
+Live verification is recorded after release. Traditional/source/translation
+acceptance stays open.
+
 **Rashifal homepage deduplication and content audit (2026-10-25):**
 Removed the small Rashifal catalogue tile from the guest, no-JavaScript and
 authenticated main app grids; retained the full-width calculated calendar card,

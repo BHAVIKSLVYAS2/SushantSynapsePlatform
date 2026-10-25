@@ -1,5 +1,15 @@
 # Calculation-backed Rashifal
 
+Current presentation update (25 October 2026): `rashifal-gochar-4` replaces the
+five editorial topic sections with a calculated summary and one observation per
+graha. Summary groups distinguish a consistent classification at all sampled
+instants from mixed classifications, boundary withholding and unresolved rules.
+All nine bodies appear once in the detailed reading, without topic scores or
+sample fractions in the prose. Numerical observations, source links and limitations
+remain under “Why this reading?”. Exact transit change times remain unimplemented.
+All four production screens use the shared platform header with a single language
+menu and theme control. Birth-page network restrictions remain in force.
+
 25 October 2026. Supersedes the four-group P12 reflection compositor. P12's
 original reference report is retained as historical evidence, not a current
 interpretation specification.
@@ -46,6 +56,8 @@ harm. Aspects, retrograde strength, combustion, Ashtakavarga, Dasha and personal
 birth-chart predictions are not assessed. Topic groupings are editorial navigation,
 not classical domain scores. Raw counts are neither probabilities nor durations.
 Three-hour sampling does not certify every crossing or intra-step reversal.
+The editorial topic groupings described above are historical as of gochar-4;
+the current reading uses no domain-to-planet mappings.
 
 ## Evidence and limits
 

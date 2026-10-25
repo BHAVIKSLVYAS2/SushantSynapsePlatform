@@ -58,6 +58,7 @@ else root.SynapseCatalogue=catalogue;
  const entries=(window.SynapseCatalogue?.visibleApps()||[]).filter(a=>a.path&&a.status==='Available').map(a=>[a.name,a.path,a.public?'Public tool':'Private workspace']);
  const aliases={'/moment-studio/cards':'/moment-studio','/daily-spark':'/take-a-break'};
  const path=location.pathname.replace(/\/$/,'')||'/';
+ const localOnly=document.body.dataset.platformPrivacy==='local-only';
  const current=entries.find(([,route])=>(aliases[path]||path)===route||path.startsWith(route+'/'));
  const names={'/':'All apps','/signin':'Sign in','/support':'Support','/showcase':'Demos','/contact':'Contact','/privacy':'Privacy','/terms':'Usage terms','/legal':'Legal information','/legal/third-party-notices':'Third-party notices'};
  names['/feedback']='Feedback';
@@ -98,6 +99,7 @@ else root.SynapseCatalogue=catalogue;
   account.classList.toggle('platform-account-avatar',!!user);
  }
  async function refreshAccount(initial=false){
+  if(localOnly)return;
   const revision=++authRevision;
   try{
    const request=async()=>{const response=await fetch('/api/auth/status',{credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(6000)});if(!response.ok)throw Error('Account status unavailable');return response.json();};
@@ -140,4 +142,4 @@ else root.SynapseCatalogue=catalogue;
  };if(window.SynapseUI)window.SynapseUI.observe(reconcileMutations);else new MutationObserver(reconcileMutations).observe(document.body,{childList:true,subtree:true});
 })();
 
-import('/shared/visitors.mjs').catch(()=>{});
+if(document.body.dataset.platformPrivacy!=='local-only')import('/shared/visitors.mjs').catch(()=>{});

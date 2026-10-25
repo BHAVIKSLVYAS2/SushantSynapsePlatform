@@ -1,5 +1,19 @@
 # Code ownership and adding apps
 
+Vedic reading/shell integration (2026-10-25): production entries mount the
+app-owned components directly, then bridge the en/hi/gu selector into the shared
+platform shell. The shared synapse-language preference replaces the isolated
+Vedic preference, with a fallback for previous selections. Nested language
+selectors are hidden, including views mounted after calculation; only the shared
+header exposes theme controls. App navigation remains app-owned with current-page
+state. The shared shell recognises data-platform-privacy=local-only: account
+status fetching and visitor-module loading are skipped, preserving Vedic pages'
+connect-src 'none' and browser-only birth processing. Other pages retain existing
+account/visitor behavior. No birth request/API or persistence is introduced.
+Rashifal rule version rashifal-gochar-4 retains the numeric transit engine and
+uses a calculated summary plus nine unique planetary observations; unsupported
+editorial career/money/relationship/wellbeing sections are removed.
+
 Calculation-backed Rashifal (2026-10-25) supersedes P12's four-group compositor.
 packages/vedic/rashifal-transits.mjs owns nine-graha three-hourly IST samples,
 Moon-sign house counting, explicit Phaladeepika 26 favourable/Vedha rules and

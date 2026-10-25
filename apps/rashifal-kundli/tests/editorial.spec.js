@@ -7,7 +7,7 @@ test('P12 manual sign/period factors, native draft translations, mobile themes a
  await expect(page.locator('input[type=date],input[type=time]')).toHaveCount(0);
  await expect(page.locator('.rashifal-signs button')).toHaveCount(12);await page.locator('button[data-rashi="1"]').click();
  await expect(page.locator('#rashifal-rashi')).toHaveValue('1');await expect(page.locator('button[data-rashi="1"]')).toHaveAttribute('aria-pressed','true');
- await expect(page.locator('.rashifal-reading>section')).toHaveCount(5);await expect(page.locator('#rashifal-result')).toContainText('draft-not-published');
+ await expect(page.locator('.rashifal-reading>section')).toHaveCount(2);await expect(page.locator('#rashifal-result')).toContainText('draft-not-published');
  await page.locator('[data-view=weekly]').click();await page.locator('#rashifal-result summary').click();await expect(page.locator('#rashifal-result li[data-date]')).toHaveCount(7);
  const factors=await page.locator('li[data-date]').evaluateAll(nodes=>nodes.map(n=>[n.dataset.date,n.dataset.moonRashi,n.dataset.relativeHouse]));
  for(const language of ['hi','gu']){await page.locator('#rashifal-language').selectOption(language);await expect(page.locator('.rashifal-reading')).toHaveAttribute('lang',language);await expect(page.locator('#rashifal-fallback')).not.toBeEmpty();
@@ -35,15 +35,15 @@ test('P12 active page refreshes its editorial day at the next minute after IST m
  await page.locator('#rashifal-clear').click();await page.clock.runFor(60000);await expect(page.locator('#rashifal-result')).toBeEmpty();
 });
 
-test('reading-first setup, sign help and keyboard topic navigation preserve all reading content',async({page})=>{
+test('reading-first setup, sign help and deduplicated observations preserve all reading content',async({page})=>{
  await page.setViewportSize({width:390,height:844});await page.goto(server.origin);
  await expect(page.locator('.rashifal-picker')).toHaveAttribute('open','');
  await page.locator('.rashifal-help summary').click();await expect(page.locator('.rashifal-help')).toContainText('Western Sun sign');
  await expect(page.locator('.rashifal-help a')).toHaveAttribute('href','/rashifal-kundli');
  await page.locator('button[data-rashi="5"]').click();await expect(page.locator('.rashifal-picker')).not.toHaveAttribute('open','');
- await expect(page.locator('.rashifal-reading>section')).toHaveCount(5);
- await page.locator('.rashifal-topics a').filter({hasText:'Career'}).focus();await page.keyboard.press('Enter');
- await expect(page.locator('#rashifal-topic-career')).toBeFocused();await expect(page.locator('.rashifal-reading>section')).toHaveCount(5);
+ await expect(page.locator('.rashifal-reading>section')).toHaveCount(2);
+ await expect(page.locator('.rashifal-topics,[data-category=career],[data-category=money],[data-category=relationships],[data-category=wellbeing]')).toHaveCount(0);
+ await expect(page.locator('.rashifal-planet[data-body]')).toHaveCount(9);
  await page.locator('.rashifal-picker summary').click();await page.locator('button[data-rashi="9"]').click();
  await expect(page.locator('#rashifal-rashi')).toHaveValue('9');await expect(page.locator('#rashifal-result h2')).toContainText('Dhanu');
  await page.locator('#rashifal-remember').check();await page.reload();await expect(page.locator('.rashifal-picker')).not.toHaveAttribute('open','');
