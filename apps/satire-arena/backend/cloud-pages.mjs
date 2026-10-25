@@ -2,6 +2,7 @@ import {publicEditorialPath,publicPage} from './public-pages.mjs';
 export async function cloudPages(request,api){
  const url=new URL(request.url);if(!publicEditorialPath(url.pathname))return null;
  if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405});
+ if(url.pathname==='/satire-arena/daily'||url.pathname==='/satire-arena/daily/')return new Response(null,{status:308,headers:{Location:'/satire-arena','Cache-Control':'no-store'}});
  try{
   const content=await api(new Request(new URL('/api/arena-editorial/public',url)));if(!content.ok)throw Error();
   let results=null;if(url.pathname==='/satire-arena/results'){const r=await api(new Request(new URL('/api/satire-arena/results',url)));if(!r.ok)throw Error();results=await r.json();}

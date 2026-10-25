@@ -1,4 +1,18 @@
 /* Dashboard presentation only. Shared themes, app engines and print stay intact. */
+.home-vedic{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(140px,.7fr) minmax(0,2fr);align-items:center;gap:24px;margin:24px 0;padding:28px;border:1px solid var(--home-border,var(--ui-edge));border-radius:20px;color:var(--ui-ink);background:linear-gradient(120deg,var(--home-chip,var(--ui-soft)),var(--home-card,var(--ui-solid)));overflow:hidden}
+.home-vedic-art{position:relative;min-height:190px;display:grid;place-items:center;color:var(--ui-accent)}
+.vedic-orbit{position:absolute;width:170px;height:170px;border:1px solid color-mix(in srgb,var(--ui-accent) 30%,transparent);border-radius:50%;transform:rotate(-25deg)}
+.vedic-orbit:before,.vedic-orbit:after{content:'';position:absolute;inset:15px;border:1px dashed color-mix(in srgb,var(--ui-accent) 24%,transparent);border-radius:50%}.vedic-orbit:after{inset:-20px;border-style:solid;transform:scaleX(.7)}
+.vedic-moon{width:95px;height:95px;border-radius:50%;background:radial-gradient(circle at 28% 25%,var(--ui-solid),var(--ui-soft) 40%,var(--ui-accent));box-shadow:inset -18px -10px 22px color-mix(in srgb,var(--ui-ink) 42%,transparent),0 0 35px color-mix(in srgb,var(--ui-accent) 20%,transparent)}
+.vedic-star{position:absolute;font-size:24px}.vedic-star-one{top:12%;right:12%}.vedic-star-two{bottom:8%;left:12%;font-size:18px}.vedic-zodiac{position:absolute;bottom:6%;right:10%;font-size:32px;font-family:Georgia,serif}
+.home-vedic-content{min-width:0}.home-vedic-eyebrow{font-size:10px;letter-spacing:.15em;font-weight:700;color:var(--ui-accent);margin:0 0 10px}
+.home-vedic-heading{display:flex;flex-wrap:wrap;align-items:center;gap:12px}.home-vedic h2{font:400 clamp(27px,3.5vw,40px)/1.1 Georgia,serif;letter-spacing:-.04em;margin:0;color:var(--ui-ink)}.home-vedic h2 em{color:var(--ui-accent);font-weight:400}
+.home-vedic-preview{padding:3px 8px;border:1px solid var(--home-border,var(--ui-edge));border-radius:20px;font-size:10px;color:var(--ui-muted)}
+.home-vedic-intro{font-size:13px;color:var(--ui-muted);margin:10px 0 4px}.home-vedic-date{font-size:12px;color:var(--ui-ink);margin:0 0 16px}
+.home-vedic-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 18px}.home-vedic-facts>div{border-inline-start:1px solid var(--home-border,var(--ui-edge));padding-inline-start:12px;min-width:0}.home-vedic-facts dt{font-size:10px;color:var(--ui-muted);margin-bottom:4px}.home-vedic-facts dd{font-size:15px;font-weight:650;margin:0;overflow-wrap:anywhere}.home-vedic-facts>div:first-child dd{font-size:24px;line-height:1.2;font-variant-numeric:tabular-nums}
+.home-vedic-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px}.home-vedic-actions a{display:inline-flex;align-items:center;justify-content:space-between;gap:20px;min-height:44px;padding:10px 16px;border-radius:12px;font-size:12px;text-decoration:none;font-weight:650}.home-vedic-primary{background:var(--ui-accent);color:var(--ui-on-accent)}.home-vedic-secondary{color:var(--ui-ink);border:1px solid var(--home-border,var(--ui-edge));background:var(--ui-solid)}
+.home-vedic-note{font-size:10px;line-height:1.6;color:var(--ui-muted);margin:12px 0 0}.home-vedic-note time{white-space:nowrap}.home-vedic a:focus-visible{outline:3px solid var(--ui-accent);outline-offset:3px}
+@media(max-width:599px){.home-vedic{display:block;padding:22px 18px}.home-vedic-art{position:absolute;right:10px;top:12px;min-height:0;width:70px;height:70px;opacity:.6;z-index:-1}.vedic-orbit{width:62px;height:62px}.vedic-orbit:before{inset:6px}.vedic-orbit:after{inset:-8px}.vedic-moon{width:36px;height:36px;box-shadow:inset -8px -4px 10px color-mix(in srgb,var(--ui-ink) 42%,transparent)}.vedic-star{font-size:12px}.vedic-star-two,.vedic-zodiac{display:none}.home-vedic-eyebrow{max-width:75%;font-size:9px}.home-vedic-heading{max-width:88%}.home-vedic-facts{gap:8px}.home-vedic-facts>div{padding-inline-start:8px}.home-vedic-facts dd{font-size:12px}.home-vedic-facts dt{font-size:9px}.home-vedic-actions a{flex:1 1 auto;gap:8px;padding:10px 12px}.home-vedic h2{font-size:28px}}
 /* Landing-page navigation and discovery; scoped away from signed-in app views. */
 @media screen {
  body[data-ui-app=portal]:has(.public-home) {--shell-accent:#0e7490;--shell-accent-hover:#155e75;--shell-on-accent:#fff}
@@ -6,7 +20,6 @@
  body:has(.public-home) .platform-account:not(.platform-account-avatar) {background:var(--shell-accent);color:var(--shell-on-accent);border-color:var(--shell-accent);min-height:48px}
  body:has(.public-home) .platform-switch {min-height:48px}
  .public-home :is(button,.primary,.secondary,.home-daily-play),body:has(.public-home) .platform-switcher :is(button,input,a) {min-height:48px}
- .public-home .arena-discovery nav a {min-height:48px}
  .public-home main>footer>span:last-child {display:inline-flex;gap:16px;flex-wrap:wrap}
  body[data-ui-app=portal] .public-home main .home-welcome.home-welcome {box-shadow:inset 0 1px 0 var(--home-border),0 0 36px var(--home-halo)}
  body[data-ui-app=portal] .public-home .home-paths .primary {background:var(--home-accent);color:var(--ui-on-accent);min-height:48px;font-size:13px;font-weight:750;box-shadow:0 6px 22px var(--home-halo)}
@@ -214,11 +227,6 @@
  @media(prefers-reduced-motion:reduce){.public-home .workspace-card{transition:none}}
 }
 @media print{.workspace-card-art{display:none}}
-:root{--arena-discovery-gap:20px}
-.arena-discovery{padding:24px;margin:24px 0;border:1px solid var(--line);border-radius:20px;background:var(--surface);color:var(--text)}
-.arena-discovery svg{float:right;max-width:30%;margin-left:var(--arena-discovery-gap)}
-.arena-discovery nav{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
-.arena-discovery a{display:inline-flex;min-height:44px;align-items:center}
 
 /* Compact illustrated welcome; both static and rendered homes share this markup. */
 @media screen {
@@ -287,11 +295,11 @@
   --home-shadow:var(--home-panel-shadow);
   background:radial-gradient(ellipse 600px 700px at 0% 5%,var(--home-halo),transparent 75%),radial-gradient(ellipse 500px 900px at 100% 35%,var(--home-chip),transparent 80%);
  }
- [data-theme=dark] .public-home :is(.home-welcome,.home-daily,.workspace-card,.arena-discovery) {
+ [data-theme=dark] .public-home :is(.home-welcome,.home-daily,.workspace-card) {
   border-color:var(--home-border);box-shadow:var(--home-panel-shadow);
   -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
  }
- [data-theme=dark] .public-home :is(.workspace-card,.arena-discovery) {background:var(--home-card)}
+ [data-theme=dark] .public-home :is(.workspace-card) {background:var(--home-card)}
  [data-theme=dark] .public-home #free-apps .public-app {
   -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
  }
@@ -305,7 +313,7 @@
  }
  @media(prefers-reduced-transparency:reduce) {
   [data-theme=dark] .public-home {--home-card:var(--ui-solid);--home-welcome-surface:var(--ui-solid)}
-  [data-theme=dark] .public-home :is(.public-app,.home-welcome,.home-daily,.workspace-card,.arena-discovery) {-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+  [data-theme=dark] .public-home :is(.public-app,.home-welcome,.home-daily,.workspace-card) {-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
  }
 }
 @media screen {
@@ -421,7 +429,7 @@
  @media(prefers-reduced-motion:reduce){body[data-ui-app=portal] .public-home main .public-hero.home-welcome,body[data-ui-app=portal] .public-home #free-apps .public-app,.public-home .home-entry,.public-home .home-feature-card{animation:none;transition:none;transform:none!important}}
 }
 @media screen{
- body[data-ui-app=portal] .public-home :is(.public-app,.home-welcome,.home-entry,.home-feature-card,.workspace-card,.arena-discovery){-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+ body[data-ui-app=portal] .public-home :is(.public-app,.home-welcome,.home-entry,.home-feature-card,.workspace-card){-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
  body[data-ui-app=portal] .public-home main .home-welcome h1 br{display:block}
  body[data-ui-app=portal] .public-home main .home-welcome h1 em{font-family:inherit}
  @media(max-width:600px){

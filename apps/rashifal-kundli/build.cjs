@@ -11,9 +11,10 @@ function build(){
   }
  }
  const signature=hash.digest('hex'),stamp=path.join(output,'.source-hash');
- const expected=[...Object.keys(entries).flatMap(entry=>[entry+'.html',entry+'.mjs']),'sensitivity-worker.mjs'];
+ const expected=[...Object.keys(entries).flatMap(entry=>[entry+'.html',entry+'.mjs']),'sensitivity-worker.mjs','home-calendar.mjs'];
  if(fs.existsSync(stamp)&&fs.readFileSync(stamp,'utf8')===signature&&expected.every(name=>fs.existsSync(path.join(output,name))))return;
  fs.mkdirSync(output,{recursive:true});
+ buildSync({entryPoints:[path.join(__dirname,'frontend/home-calendar.mjs')],outfile:path.join(output,'home-calendar.mjs'),bundle:true,format:'esm',platform:'browser',target:'es2022',minify:true});
  for(const [entry,id] of Object.entries(entries)){
   buildSync({stdin:{resolveDir:__dirname,sourcefile:'production-entry.mjs',contents:`import './dev/${entry}.mjs'; import {initLanguageShell} from './frontend/language-shell.mjs'; initLanguageShell();`},outfile:path.join(output,entry+'.mjs'),bundle:true,format:'esm',platform:'browser',target:'es2022',minify:true});
   const css=['chart-view','birth-app','traditions','time-machine','sensitivity','rulebook','advanced','rashifal','export-report'];

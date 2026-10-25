@@ -72,4 +72,5 @@
  <symbol id="photo" viewBox="0 0 180 160">
   <g filter="url(#depth)"><rect x="34" y="30" width="112" height="94" rx="12" fill="url(#blue)"/><path d="m44 111 28-32 22 20 16-16 26 28Z" fill="url(#mint)"/><circle cx="117" cy="54" r="11" fill="url(#amber)"/><g stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M17 55V16h39M124 140h39v-39M19 18l22 22m120 98-22-22M17 31V16h15m131 109v15h-15"/></g></g>
  </symbol>
+ <symbol id="vedic" viewBox="0 0 180 160"><g fill="none" stroke="currentColor" opacity=".55"><ellipse cx="90" cy="80" rx="72" ry="53" transform="rotate(-25 90 80)"/><circle cx="90" cy="80" r="58" stroke-dasharray="3 6"/></g><circle cx="90" cy="80" r="36" fill="url(#mint)" filter="url(#depth)"/><path d="m143 24 4 11 11 4-11 4-4 11-4-11-11-4 11-4zm-106 81 3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="url(#amber)"/></symbol>
 </svg>

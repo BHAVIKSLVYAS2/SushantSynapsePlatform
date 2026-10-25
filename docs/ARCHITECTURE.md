@@ -1,5 +1,15 @@
 # Code ownership and adding apps
 
+Homepage calendar feature: portal-owned home-vedic.js lazily loads the app-owned
+bundled Rashifal home-calendar.mjs near its viewport, reusing existing Panchang,
+Amanta and localisation kernels. It is a geocentric instant with explicit
+Chaitra-year Vikram/Amanta labels, not a location's sunrise or certified festival
+calendar. The portal owns markup/style; public-assets.cjs explicitly allowlists
+the bundle. No calendar API, birth persistence or shared-state replacement.
+Daily Satire's duplicated collection landing/home observer is removed; legacy
+daily URLs redirect to the Arena chooser. Saved editorial, category/article and
+character/voting surfaces retain their original owners.
+
 Vedic language presentation (2026-10-25): app-owned language-shell initialises the
 production header after the established page entry mounts. Existing component
 catalogues own translated UI; display-text/diagnostic-text/place-text format

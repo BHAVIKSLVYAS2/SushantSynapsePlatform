@@ -1,8 +1,4 @@
 'use strict';
-let satireFeatured;
-async function refreshSatireDiscovery(){const target=document.querySelector('[data-home-satire]');if(!target||target.dataset.loaded)return;target.dataset.loaded='true';try{satireFeatured||=fetch('/api/arena-editorial/today',{cache:'no-store'}).then(r=>r.ok?r.json():null);const data=await satireFeatured;if(data?.featured){const a=document.createElement('a');a.href='/satire-arena/posts/'+data.featured.slug;a.textContent=data.featured.title+' — '+data.featured.punchline;target.replaceChildren(a);}}catch{ /* Keep the honest static introduction. */ }}
-if(window.SynapseUI)window.SynapseUI.observe(records=>{if(records.some(r=>[...r.addedNodes].some(n=>n.nodeType===1&&(n.matches('[data-home-satire]')||n.querySelector('[data-home-satire]')))))refreshSatireDiscovery();});else new MutationObserver(refreshSatireDiscovery).observe(document.documentElement,{childList:true,subtree:true});
-refreshSatireDiscovery();
 const $=s=>document.querySelector(s);
 const catalogue=window.SynapseCatalogue,homeMarkup=document.querySelector('#platform>.public-home').outerHTML;
 const escapeHtml=catalogue.escapeHtml;
@@ -58,7 +54,7 @@ document.addEventListener('change',async e=>{if(e.target.matches('[data-theme]')
 function unifiedHome(){
  if(!$('#platform>.public-home')||(!state&&$('#catalogue-account')))$('#platform').innerHTML=homeMarkup;
  const home=$('#platform>.public-home'),main=home.querySelector('main');home.dataset.collection=state?section:'apps';
- if(!state){refreshSatireDiscovery();return;}
+ if(!state)return;
  let account=home.querySelector('#catalogue-account');
  if(state){if(!account){account=document.createElement('section');account.id='catalogue-account';account.className='catalogue-account';main.prepend(account);}
  account.innerHTML='<div><strong>Welcome, '+escapeHtml(state.user.name.split(' ')[0])+'.</strong><span>Your apps and workspace, together.</span></div><nav aria-label="Platform navigation">'+nav()+'</nav><button type="button" class="secondary" data-action="logout">Sign out</button>';
@@ -75,7 +71,7 @@ function unifiedHome(){
  home.querySelector('.workspace-grid').innerHTML=cards(visible.filter(a=>!a.public));
  home.querySelector('#free-apps').dataset.discoveryReady='';home.querySelector('.home-search-empty')?.remove();
  const empty=home.querySelector('#catalogue-empty')||document.createElement('p');empty.id='catalogue-empty';empty.setAttribute('role','status');empty.textContent=state&&section==='favorites'?'No favourites yet. Use the star on an available app to save it here.':'No recent apps yet. Open an app to see it here.';empty.hidden=visible.length>0;if(!empty.isConnected)home.querySelector('.workspace-grid').after(empty);
- window.dispatchEvent(new CustomEvent('synapse-catalogue-change'));refreshSatireDiscovery();
+ window.dispatchEvent(new CustomEvent('synapse-catalogue-change'));
 }
 function publicHome(){unifiedHome();}
 

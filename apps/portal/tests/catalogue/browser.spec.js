@@ -13,6 +13,25 @@ test.beforeEach(async()=>{
 test.afterEach(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
 const owner={name:'Catalogue Owner',firmName:'Isolated workspace',email:'owner@catalogue.example',password:'Catalogue test password!'};
 
+test('Rashifal feature replaces Daily Satire with a live calendar and working app links',async({page})=>{
+ const errors=[],editorial=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.url().includes('/api/arena-editorial'))editorial.push(r.url());});
+ await page.clock.setFixedTime(new Date('2026-10-25T08:30:00Z'));await page.goto(base+'/');
+ const card=page.locator('[data-home-vedic]');await card.scrollIntoViewIfNeeded();await expect(card).toHaveAttribute('data-calendar-ready','true');
+ await expect(card.locator('[data-vedic-samvat]')).toHaveText('2083');await expect(card.locator('[data-vedic-month]')).toHaveText('Ashvina');
+ await expect(card.locator('[data-vedic-date]')).toContainText('25 October 2026');await expect(card.locator('[data-vedic-tithi]')).not.toHaveText('—');
+ await expect(card.getByRole('link',{name:'Read your Rashifal'})).toHaveAttribute('href','/rashifal-kundli/rashifal');await expect(card.getByRole('link',{name:'Explore Kundli'})).toHaveAttribute('href','/rashifal-kundli');
+ await expect(page.locator('.arena-discovery,[data-home-satire]')).toHaveCount(0);expect(editorial).toEqual([]);
+ for(const width of [320,390,768,1440])for(const theme of ['light','dark','system']){
+  await page.setViewportSize({width,height:900});await page.evaluate(t=>SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ }
+ await page.setViewportSize({width:390,height:900});await page.evaluate(()=>SynapseTheme.write('light'));await card.screenshot({path:'.publish/home-vedic-mobile-light.png'});
+ await page.evaluate(()=>SynapseTheme.write('dark'));await card.screenshot({path:'.publish/home-vedic-mobile-dark.png'});
+ await page.setViewportSize({width:1440,height:1000});await card.screenshot({path:'.publish/home-vedic-desktop-dark.png'});
+ await page.evaluate(()=>localStorage.setItem('synapse-language','hi'));await page.reload();await card.scrollIntoViewIfNeeded();await expect(card.locator('[data-vedic-month]')).toContainText('आश्विन');await expect(card.locator('[data-vedic-samvat-label]')).toHaveText('विक्रम संवत');
+ const retired=await page.request.get(base+'/satire-arena/daily',{maxRedirects:0});expect(retired.status()).toBe(308);expect(retired.headers().location).toBe('/satire-arena');
+ expect(errors).toEqual([]);
+});
+
 test('Explore starts immediately with compact Featured badges and one search',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.setViewportSize({width:390,height:1050});await page.goto(base+'/');
  await expect(page.locator('#home-search-input')).toHaveCount(1);await expect(page.locator('.home-featured,.home-feature-grid,.home-carousel-dots,.home-carousel-arrows,#app-finder-trigger')).toHaveCount(0);

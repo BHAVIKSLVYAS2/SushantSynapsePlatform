@@ -19,6 +19,7 @@ const staticAssets={
  '/home.css':'apps/portal/frontend/home.css',
  '/home.bundle.css':'apps/portal/frontend/home.bundle.css',
  '/home-discovery.js':'apps/portal/frontend/home-discovery.js',
+ '/home-vedic.js':'apps/portal/frontend/home-vedic.js',
  '/home-art.svg':'apps/portal/frontend/home-art.svg',
  '/shared/premium.css':'packages/ui/premium.bundle.css',
  '/satire-arena/editor':'apps/satire-arena/frontend/editor.html',

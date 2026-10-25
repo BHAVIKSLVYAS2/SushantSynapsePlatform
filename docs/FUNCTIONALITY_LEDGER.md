@@ -1,5 +1,33 @@
 # Chambers functionality ledger
 
+**Homepage Vedic feature / Daily Satire retirement (2026-10-25, verification):**
+The former wide Daily Satire panel is replaced by a responsive token-based
+Rashifal & Kundli card, celestial artwork and direct links to both existing apps.
+Lazy on-device calendar displays IST date/time, Chaitra-year Vikram Samvat,
+Amanta month and instant tithi using existing guarded kernels. Regional/year
+convention and calculated-preview limits are explicit; unavailable or near-boundary
+values are withheld. No birth details, geolocation, calendar API, new storage or
+business writes. English/Hindi and light/dark/system remain supported.
+Removed homepage editorial fetching/observer, old panel CSS, separate Daily Satire
+collection rendering and entry links; both legacy daily URLs redirect 308 to
+Satire Arena without an upstream editorial read on Workers. Published posts,
+category/character pages, editor access, ballots and saved records are retained.
+New native celestial sprite also identifies the ordinary catalogue app card.
+Focused Node calendar/editorial 11/11 passes. Full Node/API regression has passing
+evidence for 532/532 checks: initial 517 passed, 15 Cloudflare checks were blocked
+by sandbox EPERM in their generated-asset hook, then all 15 passed with build
+permission. Logs: .publish/home-vedic-full-tests.log and
+.publish/home-vedic-cloudflare-recheck.log. Corrected home-card browser passes
+after using the real saved language preference; production-export lazy-loading
+and failure-fallback scenarios pass 2/2. All 22 catalogue/Arena browser scenarios
+have passing evidence: initial 20/22, corrected preference test passes separately,
+and the unchanged full-cast visual stress test passes alone in 5.7 minutes after
+timing out during concurrent regression. Total 24 browser scenarios covered across
+runs. Mobile light/dark and desktop dark card screenshots inspected; syntax and
+whitespace pass. Evidence: .publish/home-vedic-browser, home-vedic-recheck,
+home-vedic-cast-recheck and home-vedic-export-browser. Deployment follows.
+Design/model/region notes: docs/vedic/HOME_CALENDAR.md.
+
 **Rashifal research-led UX (2026-10-25, live and verified):**
 Public-source review of Astrotalk, AstroSage, CHANI and Co–Star is recorded in
 docs/vedic/RASHIFAL_UX_RESEARCH.md, with evidence, limitations and design choices.
