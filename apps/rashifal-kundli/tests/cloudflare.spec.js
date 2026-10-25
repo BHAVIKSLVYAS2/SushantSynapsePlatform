@@ -1,4 +1,4 @@
-const {fillDate,fillTime}=require('../../../tests/vedic-civil-input.cjs');
+const {fillDate,fillTime,openKundliCalculations}=require('../../../tests/vedic-civil-input.cjs');
 const {test,expect}=require('@playwright/test'),http=require('node:http'),fs=require('node:fs'),path=require('node:path');
 const {headers}=require('../privacy.cjs');let server,origin;
 test.beforeAll(async()=>{
@@ -34,12 +34,12 @@ test('built production Kundli computes privately, loads worker and preserves mob
  const r=await page.goto(origin+'/rashifal-kundli');expect(r.headers()['content-security-policy']).toContain("connect-src 'none'");
  await expect(page.locator('.platform-shell-brand')).toBeVisible();
  await fillDate(page,'#birth-date','2000-01-01');await fillTime(page,'#birth-time','12:15');await page.locator('#birth-query').fill('New Delhi');await page.locator('[data-place-id="geonames:1261481"]').click();
- await page.locator('form button[type=submit]').click();await page.locator('#birth-calculate').click();await expect(page.locator('[data-feature=dasha] table tbody tr')).toHaveCount(9);
+ await page.locator('form button[type=submit]').click();await page.locator('#birth-calculate').click();await openKundliCalculations(page);await expect(page.locator('[data-feature=dasha] table tbody tr')).toHaveCount(9);
  for(const width of [320,390,1440])for(const theme of ['light','dark','system']){
   await page.setViewportSize({width,height:900});await page.evaluate(t=>SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  }
  await page.screenshot({path:'.publish/vedic-production-preview.png',fullPage:true});
- await page.locator('#birth-accuracy').selectOption('approximate');await page.locator('#birth-precision').fill('10');await page.locator('form button[type=submit]').click();await page.locator('#birth-calculate').click();
+ await page.locator('#birth-accuracy').selectOption('approximate');await page.locator('#birth-precision').fill('10');await page.locator('form button[type=submit]').click();await page.locator('#birth-calculate').click();await openKundliCalculations(page);
  await page.locator('#sensitivity-analyze').click();await expect(page.locator('#sensitivity-results [data-component=moonRashi]')).toBeVisible({timeout:30000});
  expect(workers.some(url=>url.includes('/rashifal-kundli/sensitivity-worker.mjs'))).toBe(true);expect(errors).toEqual([]);
  expect(requests.every(r=>r.method()==='GET'&&r.url().startsWith(origin)&&!new URL(r.url()).search)).toBe(true);

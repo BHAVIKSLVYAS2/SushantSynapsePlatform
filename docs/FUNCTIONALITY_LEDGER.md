@@ -1,5 +1,32 @@
 # Chambers functionality ledger
 
+**Everyday Kundli and reading-first UX (2026-10-25):** Compared public AstroSage,
+Astroyogi and Prokerala flows/documentation; decisions and sources are recorded
+in docs/vedic/KUNDLI_EVERYDAY_UX.md. New kundli-everyday-1 app-owned editorial
+rules explain nature, appearance/presence, career directions, resources,
+relationships, learning and home through admitted chart factors. Each available
+topic exposes its actual house/sign/ruler/placement basis. Current/following
+themes use computed major/sub-period boundaries, never invented event dates.
+Appearance is symbolic first-impression language, not body measurement. Full
+aspects/strength/classical judgement and guaranteed outcomes are not claimed.
+Unknown/approximate and independent boundary failures withhold affected topics;
+Moon-sign screening reuses 121 arcseconds and birth star requires admitted Dasha.
+Original en/hi/gu text, one shared language/theme header, native topic/tool menus,
+reading focus/scroll, human-readable birth review, optional UTC/coordinate details,
+compact saved-input library and three grouped expert sections improve mobile flow.
+Open expert sections survive language changes. Existing charts, advanced tools,
+redacted export and browser-saved birth inputs remain; readings are never saved
+or sent to a service. Numerical kernels, APIs and business data are unchanged.
+Verified: 4 model checks across all twelve actual rising signs, factor traces,
+half-open timing boundaries, independent withholding and copy completeness;
+26 browser workflow checks (one broader unavailable-status selector updated and
+rerun); 20 production-export checks covering language, reading and saved inputs.
+Final UI focus/touch/theme checks pass, including corrected native-anchor focus
+handling and human-readable review. Live Gujarati/Hindi reading/chart navigation
+and saved-input reopen/recalculate/delete pass (2/2), without birth-data requests.
+Worker 76651b55-6e09-41ca-88ca-f972935bf07c deployed with --keep-vars;
+health 200 and unscoped records 409. No schema or production record changes.
+
 **Compact premium launcher (2026-10-25):** Public/workspace cards share
 renderCompactCard: existing centered SVG artwork, two-line name, tiny featured
 star and workspace access indicator. Descriptions, category ribbons, arrows and

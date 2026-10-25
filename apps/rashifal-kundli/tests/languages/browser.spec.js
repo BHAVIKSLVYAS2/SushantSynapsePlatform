@@ -1,4 +1,4 @@
-const {fillDate,fillTime}=require('../../../../tests/vedic-civil-input.cjs');
+const {fillDate,fillTime,openKundliCalculations}=require('../../../../tests/vedic-civil-input.cjs');
 const {test,expect}=require('@playwright/test'),fs=require('node:fs');
 let server,origin;test.beforeAll(async()=>{server=await require('../production-server.cjs').start();origin=server.origin;});test.afterAll(async()=>{await server.close();});
 const script={hi:/[\u0900-\u097f]/,gu:/[\u0a80-\u0aff]/};
@@ -7,7 +7,7 @@ test('legacy Vedic preference migrates to the one shared header setting',async({
  await page.goto(origin+'/rashifal-kundli');await expect(page.locator('html')).toHaveAttribute('lang','gu');await expect(page.locator('[data-language-control]')).toHaveCount(1);
  expect(await page.evaluate(()=>localStorage.getItem('synapse-language'))).toBe('gu');expect(await page.evaluate(()=>localStorage.getItem('synapse-vedic-language'))).toBeNull();
 });
-async function birth(page){await page.locator('#birth-name').fill('Sun');await fillDate(page,'#birth-date','2000-01-01');await fillTime(page,'#birth-time','12:15');await page.locator('#birth-query').fill('New Delhi');await page.locator('[data-place-id="geonames:1261481"]').click();await page.locator('form button[type=submit]').click();await page.locator('#birth-calculate').click();await expect(page.locator('[data-feature=dasha] table tbody tr')).toHaveCount(9);}
+async function birth(page){await page.locator('#birth-name').fill('Sun');await fillDate(page,'#birth-date','2000-01-01');await fillTime(page,'#birth-time','12:15');await page.locator('#birth-query').fill('New Delhi');await page.locator('[data-place-id="geonames:1261481"]').click();await page.locator('form button[type=submit]').click();await page.locator('#birth-calculate').click();await openKundliCalculations(page);await expect(page.locator('[data-feature=dasha] table tbody tr')).toHaveCount(9);}
 test('one three-option language preference covers every production page, navigation and reload',async({page})=>{
  const errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r));
  await page.goto(origin+'/rashifal-kundli');await expect(page.locator('[data-interface-language]')).toHaveCount(3);await expect(page.locator('#vedic-language')).toHaveCount(0);
@@ -32,7 +32,7 @@ for(const language of ['hi','gu'])test(language+' Kundli details, advanced facto
  await page.locator('#rules-evaluate').click();expect(await page.locator('#rules-results').innerText()).toMatch(script[language]);for(const p of await page.locator('#rules-results>p').all())await expect(p).not.toContainText('geometric base');
  await page.locator('#advanced-analyze').click();await expect(page.locator('[data-kind=ashtakavarga]')).toBeVisible();await page.locator('.vedic-advanced details').filter({has:page.locator('summary')}).first().locator('summary').click();
  expect(await page.locator('.vedic-advanced details').first().innerText()).toMatch(script[language]);await expect(page.locator('.vedic-advanced')).not.toContainText('Contributor');await expect(page.locator('.vedic-advanced')).not.toContainText('individual contribution details (English)');
- await page.locator('#birth-results>details').locator('summary').click();expect(await page.locator('#birth-results>details li').first().innerText()).toMatch(script[language]);
+ await page.locator('#kundli-provenance').locator('summary').click();expect(await page.locator('#kundli-provenance li').first().innerText()).toMatch(script[language]);
  const download=page.waitForEvent('download');await page.locator('.vedic-export button').filter({hasText:language==='hi'?'डाउनलोड':'ડાઉનલોડ'}).click();const file=await (await download).path(),html=fs.readFileSync(file,'utf8');expect(html).toContain('lang="'+language+'"');expect(html).toMatch(script[language]);expect(html).not.toContain('<title>Kundli report</title>');expect(html).not.toContain('New Delhi');expect(html).not.toContain('<dt>profile</dt>');expect(html).not.toContain('Longitude °');
  await page.setViewportSize({width:390,height:1000});await page.evaluate(t=>SynapseTheme.write(t),'dark');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:'.publish/vedic-language-'+language+'.png',fullPage:true});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'.publish/vedic-language-'+language+'-viewport.png'});expect(errors).toEqual([]);
 });

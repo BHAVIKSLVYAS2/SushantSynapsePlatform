@@ -5,6 +5,9 @@ on narrow phones and five or six on tablets. Signed-in users can choose
 Edit favourites, select apps, then Done editing to return to launching apps.
 
 RITVAYAM is the platform's astrology app (existing `/rashifal-kundli` links remain).
+Kundli starts with everyday traditional interpretations of personality, presence,
+career, relationships and other life topics, plus computed Dasha-period themes.
+Charts and expert tools remain below. Scope: docs/vedic/KUNDLI_EVERYDAY_UX.md.
 Kundli's Save action keeps only birth inputs and an optional name in this browser;
 reopen to review and recalculate, or Delete to remove the saved profile. Clear form
 does not delete saved profiles. Birthplace uses one local city/state search field.

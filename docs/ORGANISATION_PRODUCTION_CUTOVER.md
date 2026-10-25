@@ -1,5 +1,15 @@
 # Organisation licensing production cutover
 
+Latest everyday Kundli release (2026-10-25): Worker
+76651b55-6e09-41ca-88ca-f972935bf07c. Reading-first en/hi/gu life topics and
+computed Dasha-period themes precede grouped charts/timing/advanced tools. Native
+menus, human-readable review, keyboard focus and compact saved-input library
+refine the mobile flow. Interpretations are labelled traditional/editorial;
+numeric kernels, saved-input schema and APIs are unchanged. Four model checks,
+26 browser workflows, 20 production-export checks and 2 live checks pass.
+Deployment preserved variables/D1/organisation bindings with --keep-vars.
+Health 200; unscoped records 409. No schema or production record changes.
+
 Latest compact launcher release (2026-10-25): Worker
 17621f48-e12f-4324-bb00-dfa7fcc5579f. Public/workspace cards share a compact
 88px icon/name presentation with 3/4/5/6 responsive columns. Existing metadata,

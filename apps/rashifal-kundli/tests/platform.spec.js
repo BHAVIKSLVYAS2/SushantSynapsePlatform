@@ -1,4 +1,4 @@
-const {fillDate,fillTime}=require('../../../tests/vedic-civil-input.cjs');
+const {fillDate,fillTime,openKundliCalculations}=require('../../../tests/vedic-civil-input.cjs');
 const {test,expect}=require('@playwright/test');
 const {createPreviewServer}=require('../../../infrastructure/preview-vedic-charts.cjs');
 const fs=require('node:fs/promises');
@@ -193,12 +193,12 @@ async function fill(page,time='12:15'){
  await fillDate(page,'#birth-date','2000-01-01');await fillTime(page,'#birth-time',time);
  await page.locator('#birth-query').fill('New Delhi');await page.locator('[data-place-id="geonames:1261481"]').click();
 }
-async function calculate(page){await page.locator('form button[type=submit]').click();await page.locator('#birth-calculate').click();await expect(page.locator('#birth-results h2').first()).toBeVisible();}
+async function calculate(page){await page.locator('form button[type=submit]').click();await page.locator('#birth-calculate').click();await openKundliCalculations(page);await expect(page.locator('#birth-results h2').first()).toBeVisible();}
 test('explicit review, complete charts/Dasha, keyboard controls and privacy across mobile themes',async({page})=>{
  const errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push({url:r.url(),method:r.method()}));
  await page.goto(server.origin);await page.locator('#birth-name').fill('<img src=x onerror=alert(1)>');await fill(page);
  await page.locator('form button[type=submit]').click();await expect(page.locator('#birth-review')).toContainText('2000-01-01T06:45:00.000Z');
- await expect(page.locator('#birth-results')).toBeEmpty();await page.locator('#birth-calculate').click();
+ await expect(page.locator('#birth-results')).toBeEmpty();await page.locator('#birth-calculate').click();await openKundliCalculations(page);
  await expect(page.locator('[data-feature=dasha] table tbody tr')).toHaveCount(9);
  await expect(page.locator('.vedic-dasha')).toContainText('Balance at birth');await expect(page.locator('.vedic-dasha')).toContainText('Antardashas do not restart at birth');
  await expect(page.locator('#birth-results h2').first()).toContainText('<img src=x onerror=alert(1)>');await expect(page.locator('#birth-results img')).toHaveCount(0);
@@ -229,9 +229,9 @@ test('unknown and approximate times disclose intervals and withhold precise feat
  await page.goto(server.origin);await fill(page);
  await page.locator('#birth-accuracy').selectOption('unknown');await expect(page.locator('#birth-time')).toBeHidden();await calculate(page);
  await expect(page.locator('#birth-review')).toContainText('Possible UTC interval');await expect(page.locator('svg')).toHaveCount(0);
- await expect(page.locator('#birth-results [data-status=unavailable]')).toHaveCount(4);await expect(page.locator('.vedic-dasha')).toHaveCount(0);
+ await expect(page.locator('#birth-results .vedic-feature-state[data-status=unavailable]')).toHaveCount(4);await expect(page.locator('.vedic-dasha')).toHaveCount(0);
  await page.locator('#birth-accuracy').selectOption('approximate');await fillTime(page,'#birth-time','12:00');await page.locator('#birth-precision').fill('15');await calculate(page);
- await expect(page.locator('#birth-results [data-status=unavailable]')).toHaveCount(4);
+ await expect(page.locator('#birth-results .vedic-feature-state[data-status=unavailable]')).toHaveCount(4);
  await fillDate(page,'#birth-date','2098-01-01');await page.locator('form button[type=submit]').click();await expect(page.getByRole('status').last()).toContainText('future');await expect(page.locator('#birth-review')).toBeEmpty();
 });
 test('Hindi/Gujarati rerender without changing numbers, then clear removes all birth details',async({page})=>{

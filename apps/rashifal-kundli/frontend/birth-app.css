@@ -17,3 +17,45 @@ fieldset.civil-input,.vedic-matching fieldset.civil-input{min-width:0;margin:0;p
 .saved-kundlis>h2{margin-top:0}.saved-kundlis>p{color:var(--ui-muted);line-height:1.5}
 .saved-kundli-card{padding:.9rem;margin-top:.75rem;background:var(--ui-solid);border:1px solid var(--ui-edge);border-radius:.8rem;overflow-wrap:anywhere}
 .saved-kundli-card h3{margin:0 0 .4rem}.saved-kundli-card p{margin:.35rem 0}
+
+/* Everyday Kundli: reading first, with expert information progressively disclosed. */
+.kundli-reading{margin-block:1.5rem;overflow-wrap:anywhere}
+.kundli-reading>h2{font-size:clamp(1.5rem,4vw,2rem);line-height:1.25;margin-bottom:.6rem;scroll-margin-top:7rem}
+.kundli-reading-intro{max-width:75ch;color:var(--ui-muted);line-height:1.65}
+.kundli-report-nav,.kundli-topic-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem;margin-block:1rem}
+.kundli-report-nav a,.kundli-topic-nav a{display:flex;align-items:center;justify-content:center;min-height:44px;padding:.65rem .75rem;border:1px solid var(--ui-edge);border-radius:.75rem;background:var(--ui-solid);color:var(--ui-ink);font-size:.88rem;font-weight:600;text-align:center;text-decoration:none;line-height:1.4}
+.kundli-report-nav a:first-child{background:var(--ui-accent);color:var(--ui-on-accent)}
+.kundli-topic-nav{grid-template-columns:repeat(2,minmax(0,1fr));gap:.4rem}
+.kundli-topic-nav a{background:var(--ui-soft);font-size:.82rem;padding:.5rem}
+.kundli-identity{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem;margin-block:1.25rem}
+.kundli-identity>div{padding:.85rem .65rem;border:1px solid var(--ui-edge);border-radius:.9rem;background:linear-gradient(145deg,var(--ui-soft),var(--ui-solid))}
+.vedic-birth-app .kundli-identity dt{font-size:.75rem;font-weight:500;color:var(--ui-muted);line-height:1.5}
+.vedic-birth-app .kundli-identity dd{font-size:1.05rem;font-weight:700;margin:.45rem 0 0;line-height:1.4}
+.kundli-reading-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:.8rem}
+.kundli-topic,.kundli-future{padding:1rem;border:1px solid var(--ui-edge);border-radius:1rem;background:var(--ui-solid);scroll-margin-top:7rem}
+.kundli-topic h3,.kundli-future>h3{font-size:1.15rem;line-height:1.35;margin:0 0 .7rem}
+.kundli-topic p,.kundli-future p{line-height:1.75;margin:.65rem 0;color:var(--ui-ink);font-size:.95rem}
+.kundli-topic .kundli-topic-lead{font-size:1rem;line-height:1.8}
+.kundli-topic .kundli-topic-action{padding:.75rem;border-radius:.6rem;background:var(--ui-soft);font-size:.9rem}
+.kundli-topic-action strong{display:block;font-size:.8rem;color:var(--ui-muted);margin-bottom:.3rem}
+.kundli-topic .kundli-topic-note,.kundli-future .kundli-topic-note{color:var(--ui-muted);font-size:.84rem}
+.vedic-birth-app .kundli-topic details{margin:.8rem 0 0;padding:.6rem 0 0;border:0;border-top:1px solid var(--ui-edge);border-radius:0}
+.kundli-topic details p{font-size:.82rem;color:var(--ui-muted)}
+.kundli-topic[data-status=unavailable]{background:var(--ui-soft)}
+.kundli-future{margin-top:1rem}
+.kundli-periods{display:grid;grid-template-columns:minmax(0,1fr);gap:.75rem;list-style:none;padding:0;margin:1rem 0}
+.kundli-periods li{padding:1rem;border-inline-start:3px solid var(--ui-accent);border-radius:.5rem;background:var(--ui-soft)}
+.kundli-periods h4{font-size:1.05rem;margin:.4rem 0}
+.kundli-period-label{font-size:.8rem;font-weight:600;color:var(--ui-muted)}
+.kundli-reading-notice{padding:1rem;border:1px solid var(--ui-edge);border-radius:.75rem;background:var(--ui-soft)}
+.vedic-birth-app .kundli-expert-group{margin-block:1rem;border-radius:1rem;background:var(--ui-solid);scroll-margin-top:7rem}
+.kundli-expert-group>summary{font-size:1rem;line-height:1.5;padding-block:.25rem}
+.kundli-reading-methods p{font-size:.88rem;color:var(--ui-muted);line-height:1.7}
+.kundli-reading-methods a{display:inline-flex;align-items:center;min-height:44px;color:var(--ui-accent);margin-inline-end:1rem}
+.kundli-reading-navigation{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem;margin-block:1rem}
+.vedic-birth-app .kundli-reading-navigation>details{margin:0;padding:.6rem .75rem;border-radius:.8rem;background:var(--ui-soft);align-self:start}
+.kundli-reading-navigation summary{display:flex;align-items:center;gap:.5rem;font-size:.85rem;line-height:1.5}
+.kundli-reading-navigation summary::after{content:'⌄';margin-inline-start:auto;color:var(--ui-muted)}
+.kundli-reading-navigation .kundli-topic-nav,.kundli-reading-navigation .kundli-report-nav{grid-template-columns:minmax(0,1fr);margin:.5rem 0 0}
+@media(min-width:700px){.kundli-reading-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.kundli-report-nav{grid-template-columns:repeat(4,minmax(0,1fr))}.kundli-topic-nav{grid-template-columns:repeat(4,minmax(0,1fr))}.kundli-periods{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media print{.kundli-report-nav,.kundli-topic-nav{display:none}.kundli-reading-grid{display:block}.kundli-topic{break-inside:avoid}}

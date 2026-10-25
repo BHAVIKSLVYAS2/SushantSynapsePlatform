@@ -11,4 +11,5 @@ async function fillTime(page,selector,value){
  await page.locator(selector+'-minute').fill(minute);
  await page.locator(selector+'-period').selectOption(hour===''?'':Number(hour)<12?'AM':'PM');
 }
-module.exports={fillDate,fillTime};
+async function openKundliCalculations(page){await page.locator('#kundli-reading-title').waitFor();await page.locator('details[data-kundli-group]').evaluateAll(nodes=>nodes.forEach(node=>node.open=true));}
+module.exports={fillDate,fillTime,openKundliCalculations};

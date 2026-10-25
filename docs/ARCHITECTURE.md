@@ -1,5 +1,14 @@
 # Code ownership and adding apps
 
+Everyday Kundli (2026-10-25): app-owned kundli-reading.mjs projects admitted
+report facts into a versioned interpretation model; kundli-reading-copy.mjs owns
+original en/hi/gu copy and kundli-reading-view.mjs renders it. No numerical kernel,
+API, account state or saved-profile schema change. Plain-language topics precede
+native chart/timing/advanced disclosures, with independently withheld features,
+traceable house/ruler evidence and computed Dasha boundaries. Never represent
+editorial meanings as astronomical facts or guaranteed future events. Market
+review, rule contract, limits and verification: docs/vedic/KUNDLI_EVERYDAY_UX.md.
+
 Compact launcher (2026-10-25): packages/app-registry/index.js owns
 renderCompactCard for public/workspace cards. build-catalogue.cjs generates
 static cards and the browser registry bundle; build-home.cjs generates home CSS.
