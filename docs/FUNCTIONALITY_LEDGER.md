@@ -9,8 +9,10 @@ cards reserve two name lines and up to three introduction lines. Theme tokens,
 featured order, whole-card navigation, search, favourites and access remain intact.
 Generated catalogue/cache Node checks: 8 passed. Catalogue/delivery browser checks:
 9 passed; final description-language delivery check: 1 passed. Visual review at
-390px confirms readable introductions and aligned cards. Production verification
-is recorded after deployment.
+390px confirms readable introductions and aligned cards. Source 62ef281 deployed
+to apps.sushantsynapse.com, Worker e7fe02a2-8bc7-4f87-ab04-912b933282d4.
+Live description/language/layout/navigation check: 1 passed; /healthz 200 and
+unscoped /api/records 409. Deployment preserved bindings/variables; no data changes.
 
 **Home app brand scripts (2026-10-25):** Catalogue metadata now supplies English,
 Hindi and Gujarati brand spellings. The existing shared language runtime projects
