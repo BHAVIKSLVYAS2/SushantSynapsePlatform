@@ -1,14 +1,19 @@
 const {test,expect}=require('@playwright/test'),fs=require('node:fs');
 let server,origin;test.beforeAll(async()=>{server=await require('../production-server.cjs').start();origin=server.origin;});test.afterAll(async()=>{await server.close();});
 const script={hi:/[\u0900-\u097f]/,gu:/[\u0a80-\u0aff]/};
+test('legacy Vedic preference migrates to the one shared header setting',async({page})=>{
+ await page.addInitScript(()=>{if(!localStorage.getItem('synapse-language'))localStorage.setItem('synapse-vedic-language','gu');});
+ await page.goto(origin+'/rashifal-kundli');await expect(page.locator('html')).toHaveAttribute('lang','gu');await expect(page.locator('[data-language-control]')).toHaveCount(1);
+ expect(await page.evaluate(()=>localStorage.getItem('synapse-language'))).toBe('gu');expect(await page.evaluate(()=>localStorage.getItem('synapse-vedic-language'))).toBeNull();
+});
 async function birth(page){await page.locator('#birth-name').fill('Sun');await page.locator('#birth-date').fill('2000-01-01');await page.locator('#birth-time').fill('12:15');await page.locator('#birth-query').fill('New Delhi');await page.locator('#birth-place').selectOption('geonames:1261481');await page.locator('form button[type=submit]').click();await page.locator('#birth-calculate').click();await expect(page.locator('[data-feature=dasha] table tbody tr')).toHaveCount(9);}
 test('one three-option language preference covers every production page, navigation and reload',async({page})=>{
  const errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r));
- await page.goto(origin+'/rashifal-kundli');await expect(page.locator('#vedic-language option')).toHaveCount(3);expect(await page.locator('#vedic-language option').allTextContents()).toEqual(['English','हिन्दी','ગુજરાતી']);
+ await page.goto(origin+'/rashifal-kundli');await expect(page.locator('[data-interface-language]')).toHaveCount(3);await expect(page.locator('#vedic-language')).toHaveCount(0);
  for(const language of ['hi','gu','en']){
   await chooseLanguage(page,language);
   for(const route of ['','/rashifal','/matching','/time-machine']){
-   await page.goto(origin+'/rashifal-kundli'+route);await expect(page.locator('html')).toHaveAttribute('lang',language);await expect(page.locator('#vedic-language')).toHaveValue(language);
+   await page.goto(origin+'/rashifal-kundli'+route);await expect(page.locator('html')).toHaveAttribute('lang',language);await expect(page.locator('[data-interface-language='+language+']')).toHaveAttribute('aria-pressed','true');
    if(script[language]){expect(await page.locator('header').innerText()).toMatch(script[language]);expect(await page.locator('main h1,main h2').first().innerText()).toMatch(script[language]);expect(await page.title()).toMatch(script[language]);}
    for(const node of await page.locator('#birth-language,#rashifal-language,#matching-language,#tm-language').all())await expect(node).toBeHidden();
    await page.setViewportSize({width:320,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
@@ -49,4 +54,4 @@ test('Time Machine native Panchang and statuses preserve the selected instant; v
  await page.evaluate(()=>{Storage.prototype.setItem=()=>{throw Error('blocked');};});await chooseLanguage(page,'hi');await expect(page.locator('html')).toHaveAttribute('lang','hi');
 });
 
-async function chooseLanguage(page,language){await page.locator('.platform-language summary').click();await page.locator('#vedic-language').selectOption(language);}
+async function chooseLanguage(page,language){await page.locator('.platform-language summary').click();await page.locator('[data-interface-language='+language+']').click();}

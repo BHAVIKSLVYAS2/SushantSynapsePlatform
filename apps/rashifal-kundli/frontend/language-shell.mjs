@@ -6,45 +6,14 @@ export const pageLabels={
 for(const [language,text]of Object.entries({en:'Preview · review pending',hi:'पूर्वावलोकन · समीक्षा लंबित',gu:'પૂર્વાવલોકન · સમીક્ષા બાકી'}))pageLabels[language].previewDetails=text;
 export const languagePreferenceKey='synapse-language';
 export function initLanguageShell(){
- const select=document.querySelector('#vedic-language');if(!select)return;
- document.body.dataset.sharedLanguage='true';
- const actions=document.querySelector('.platform-shell-actions');
- if(actions){
-  const menu=document.createElement('details');menu.className='platform-language';
-  const summary=document.createElement('summary');summary.setAttribute('aria-label','Interface language / भाषा');
-  const panel=document.createElement('div');panel.className='synapse-language';
-  const source=document.querySelector('#vedic-language-source');while(source.firstChild)panel.append(source.firstChild);
-  menu.append(summary,panel);actions.prepend(menu);source.remove();
-  document.addEventListener('click',event=>{if(!menu.contains(event.target))menu.open=false;});
-  menu.addEventListener('keydown',event=>{if(event.key==='Escape'){menu.open=false;summary.focus();}});
- }
- const primary=document.querySelector('#birth-language,#rashifal-language,#matching-language,#tm-language');
- let language='en',syncing=false;
- try{const saved=localStorage.getItem(languagePreferenceKey)??localStorage.getItem('synapse-vedic-language');if(Object.hasOwn(pageLabels,saved))language=saved;}catch{}
- function hideLocalControls(){
-  for(const input of document.querySelectorAll('#birth-language,#rashifal-language,#matching-language,#tm-language'))input.closest('label').hidden=true;
- }
- function apply(value,persist=false){
-  if(syncing||!Object.hasOwn(pageLabels,value))return;syncing=true;language=value;
-  try{
-   const t=pageLabels[language];document.documentElement.lang=language;document.title=t.title;select.value=language;
-   for(const node of document.querySelectorAll('[data-vedic-text]'))node.textContent=t[node.dataset.vedicText];
-   document.querySelector('.vedic-nav').setAttribute('aria-label',t.nav);
-   const summary=document.querySelector('.platform-language>summary');if(summary)summary.textContent=({en:'EN',hi:'हिन्दी',gu:'ગુજરાતી'})[language];
-   for(const input of document.querySelectorAll('input,select'))input.setCustomValidity('');
-   if(primary&&primary.value!==language){primary.value=language;primary.dispatchEvent(new Event('change',{bubbles:true}));}
-   for(const input of document.querySelectorAll('#birth-language,#rashifal-language,#matching-language,#tm-language')){input.closest('label').hidden=true;if(input.value!==language){input.value=language;input.dispatchEvent(new Event('change',{bubbles:true}));}}
-   hideLocalControls();
-   if(persist)try{localStorage.setItem(languagePreferenceKey,language);localStorage.removeItem('synapse-vedic-language');}catch{}
-  }finally{syncing=false;}
- }
- select.addEventListener('change',()=>{apply(select.value,true);const menu=select.closest('details');if(menu){menu.open=false;menu.querySelector('summary').focus();}});
- document.addEventListener('change',event=>{if(event.target.matches('#birth-language,#rashifal-language,#matching-language,#tm-language'))apply(event.target.value,true);});
+ if(!window.SynapseLanguage)throw new Error('Shared language service unavailable.');
+ document.body.dataset.sharedLanguage='true';let language='en';
+ window.SynapseLanguage.register({languages:['en','hi','gu'],legacyKeys:['synapse-vedic-language'],controls:'#birth-language,#rashifal-language,#matching-language,#tm-language',apply(value){
+  language=value;const t=pageLabels[value];document.documentElement.lang=value;document.title=t.title;
+  for(const node of document.querySelectorAll('[data-vedic-text]'))node.textContent=t[node.dataset.vedicText];
+  document.querySelector('.vedic-nav').setAttribute('aria-label',t.nav);
+  for(const input of document.querySelectorAll('input,select'))input.setCustomValidity('');
+ }});
  document.addEventListener('invalid',event=>{if(event.target.setCustomValidity)event.target.setCustomValidity(pageLabels[language].validation);},true);
  document.addEventListener('input',event=>{if(event.target.setCustomValidity)event.target.setCustomValidity('');},true);
- window.addEventListener('pageshow',()=>{try{const saved=localStorage.getItem(languagePreferenceKey);if(Object.hasOwn(pageLabels,saved))apply(saved);}catch{}});
- window.addEventListener('storage',event=>{if(event.key===languagePreferenceKey)apply(Object.hasOwn(pageLabels,event.newValue)?event.newValue:'en');});
- // Nested views mount after calculation and inherit their parent's language.
- window.SynapseUI?.observe(records=>{if(records.some(r=>r.addedNodes.length))hideLocalControls();});
- apply(language);
 }

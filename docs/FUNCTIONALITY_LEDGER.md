@@ -1,5 +1,23 @@
 # Chambers functionality ledger
 
+**One global language/theme control (2026-10-25):**
+The existing header language menu is the sole interface control across portal
+and Vedic pages. Removed Vedic menu markup, custom menu construction, preference
+listeners and separate mutation observer. Shared SynapseLanguage owns one
+preference, generic app adapter registration, dynamic native-selector bridging,
+legacy migration and cross-tab/pageshow synchronization. Supported Vedic en/hi/gu
+translations preserve entered data; unsupported app languages fall back without
+overwriting the preferred language. This does not claim new translations for
+apps that do not implement them. Existing document/artwork language choices stay
+separate from interface language. The portal's redundant startup/media theme
+logic is removed; shared theme resolution persists across pages/tabs, with one
+visible header toggle. Final shared platform browser checks pass 7/7, including
+cross-app/tab/input preservation. Vedic export Chrome passes 16/16 and preference
+migration passes 1/1; focused Node checks pass 9/9. Live verification follows.
+Prior readable-prediction release 92e9ffd
+was deployed as Worker 766bcae7-c20f-4c4b-818b-24730728258f and passed 16/16 live
+Chrome checks before this shared-control follow-up.
+
 **Human-readable Rashifal before calculations (2026-10-25):**
 Gochar-6 adds a primary daily/tomorrow/weekly prediction card in en/hi/gu before
 the calculation summary, timeline and evidence. Its three paragraphs interpret

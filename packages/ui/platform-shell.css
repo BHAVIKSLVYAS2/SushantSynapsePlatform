@@ -1,4 +1,6 @@
 /* Final shared shell contract. Working content remains app-owned; exports are excluded. */
+body.has-platform-shell [data-theme-toggle]:not(.platform-shell [data-theme-toggle]){display:none!important}
+body.has-platform-shell :is(.theme-control,.theme-picker):not(.platform-shell *){display:none!important}
 /* Reserve both icons' full width so compact app styles cannot spill into account. */
 @media screen and (scripting: enabled) {
  body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .platform-shell-actions {gap:12px}

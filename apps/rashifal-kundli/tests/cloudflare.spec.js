@@ -18,11 +18,11 @@ test('shared platform header owns settings and navigation without making birth-p
  await page.setViewportSize({width:320,height:900});await page.goto(origin+'/rashifal-kundli');
  await expect(page.locator('.platform-shell')).toHaveCount(1);await expect(page.locator('html')).toHaveAttribute('lang','hi');
  await expect(page.locator('.platform-shell [data-theme-toggle]')).toHaveCount(1);await expect(page.locator('#theme')).toHaveCount(0);
- await expect(page.locator('.platform-shell #vedic-language')).toHaveCount(1);await expect(page.locator('main #birth-language')).toBeHidden();
+ await expect(page.locator('.platform-shell [data-language-control]')).toHaveCount(1);await expect(page.locator('#vedic-language')).toHaveCount(0);await expect(page.locator('main #birth-language')).toBeHidden();
  await page.locator('.platform-shell [data-theme-toggle]').click();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
  await chooseLanguage(page,'gu');await expect(page.locator('html')).toHaveAttribute('lang','gu');
  await page.locator('.platform-switch').click();await expect(page.locator('#platform-switcher')).toBeVisible();await page.keyboard.press('Escape');
- await page.locator('.vedic-nav a[href="/rashifal-kundli/rashifal"]').click();await expect(page.locator('#vedic-language')).toHaveValue('gu');
+ await page.locator('.vedic-nav a[href="/rashifal-kundli/rashifal"]').click();await expect(page.locator('[data-interface-language=gu]')).toHaveAttribute('aria-pressed','true');
  await expect(page.locator('.vedic-nav [aria-current=page]')).toHaveAttribute('href','/rashifal-kundli/rashifal');
  await page.locator('#rashifal-rashi').selectOption('1');await expect(page.locator('.rashifal-planet[data-body]')).toHaveCount(9);
  await expect(page.locator('[data-category=career],[data-category=money],[data-category=relationships],[data-category=wellbeing]')).toHaveCount(0);
@@ -83,7 +83,7 @@ test('production Rashifal computes separate nine-graha evidence for every select
  await page.locator('[data-view=weekly]').click();await page.locator('#rashifal-result summary').click();await expect(page.locator('#rashifal-observation option')).toHaveCount(56);
 });
 
-async function chooseLanguage(page,language){await page.locator('.platform-language summary').click();await page.locator('#vedic-language').selectOption(language);}
+async function chooseLanguage(page,language){await page.locator('.platform-language summary').click();await page.locator('[data-interface-language='+language+']').click();}
 
 test('calculated timeline shows IST roots and rule reasons across every Rashi, period and language',async({page})=>{
  const workers=[],errors=[];page.on('worker',w=>workers.push(w.url()));page.on('pageerror',e=>errors.push(e.message));

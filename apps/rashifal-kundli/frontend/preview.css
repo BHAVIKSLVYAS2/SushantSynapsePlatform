@@ -9,8 +9,6 @@
 .vedic-app-header summary{cursor:pointer;min-height:44px;display:flex;align-items:center}
 .vedic-app-header p{max-width:75ch}
 .vedic-app-header :focus-visible{outline:3px solid var(--ui-accent);outline-offset:3px}
-body[data-ui-app=rashifal-kundli] .platform-language label{display:block;font-weight:600;margin-bottom:.5rem}
-body[data-ui-app=rashifal-kundli] .platform-language select{width:100%;min-height:44px;font:inherit;padding:.6rem;color:var(--ui-ink);background:var(--ui-solid);border:1px solid var(--ui-edge);border-radius:.5rem}
 body[data-ui-app=rashifal-kundli] .vedic-app-header{display:flex;gap:.75rem;padding:1rem;max-width:74rem;border:0}
 body[data-ui-app=rashifal-kundli] .vedic-app-header nav{flex:initial;margin:0;gap:.35rem}
 body[data-ui-app=rashifal-kundli] .vedic-app-header nav a{padding:.6rem .85rem;border-bottom:0}

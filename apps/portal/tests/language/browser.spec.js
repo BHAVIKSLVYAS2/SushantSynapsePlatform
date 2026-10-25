@@ -3,6 +3,19 @@ test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-langu
 test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
 async function choose(page,language){const menu=page.locator('.platform-language');if(await menu.count()&&await menu.getAttribute('open')===null)await menu.locator('summary').click();await toggle(page,language).click();}
 const toggle=(page,lang)=>page.locator('[data-interface-language='+lang+']');
+
+test('shared settings carry across home and Vedic apps, preserve inputs and synchronize tabs',async({page})=>{
+ await page.goto(base+'/');await choose(page,'hi');await page.evaluate(()=>SynapseTheme.write('dark'));
+ await page.goto(base+'/rashifal-kundli');await expect(page.locator('[data-language-control]')).toHaveCount(1);await expect(page.locator('#vedic-language')).toHaveCount(0);
+ await expect(page.locator('#birth-language')).toBeHidden();await expect(page.locator('html')).toHaveAttribute('lang','hi');await expect(page.locator('[data-theme-toggle]:visible')).toHaveCount(1);
+ await page.locator('#birth-date').fill('2000-01-01');await choose(page,'gu');await expect(page.locator('#birth-date')).toHaveValue('2000-01-01');await expect(page.locator('html')).toHaveAttribute('lang','gu');
+ const other=await page.context().newPage();try{
+  await other.goto(base+'/');await expect(toggle(other,'gu')).toHaveAttribute('aria-pressed','true');expect(await other.evaluate(()=>localStorage.getItem('synapse-language'))).toBe('gu');
+  await other.goto(base+'/ritual-assist');await expect(other.locator('#language')).toHaveValue('en');expect(await other.evaluate(()=>localStorage.getItem('synapse-language'))).toBe('gu');
+  await choose(other,'hi');await expect(page.locator('html')).toHaveAttribute('lang','hi');await expect(page.locator('#birth-date')).toHaveValue('2000-01-01');
+  await expect(other.locator('html')).toHaveAttribute('data-theme','dark');await other.locator('.platform-shell [data-theme-toggle]').click();await expect(other.locator('html')).toHaveAttribute('data-theme','light');await expect(page.locator('html')).toHaveAttribute('data-theme','light');
+ }finally{await other.close();}
+});
 test('one header menu replaces app duplicates and fits the mobile viewport',async({page})=>{
  for(const route of ['/satire-arena/news-anchors','/ritual-assist','/ritual-assist/calendar']){
   await page.setViewportSize({width:320,height:800});await page.goto(base+route);

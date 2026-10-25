@@ -29,9 +29,7 @@ const sculpture=(app,cls='app-sculpture')=>{const definition=catalogue.apps.find
 const initials=name=>name.split(' ').filter(Boolean).slice(0,2).map(p=>p[0]).join('').toUpperCase();
 let state,section=new URLSearchParams(location.search).get('section')==='profile'?'profile':'apps',category='All',query='',authStatus;
 let theme=SynapseTheme.read();
-const systemTheme=matchMedia('(prefers-color-scheme: dark)');
-function setTheme(value){theme=value;SynapseTheme.write(value);document.documentElement.dataset.theme=theme==='system'?(systemTheme.matches?'dark':'light'):theme;document.querySelectorAll('[data-theme-icon]').forEach(el=>el.innerHTML=icon(document.documentElement.dataset.theme==='dark'?'moon':'sun'));}
-setTheme(theme);systemTheme.addEventListener('change',()=>setTheme(theme));
+function setTheme(value){theme=value;SynapseTheme.write(value);}
 function themeControl(){return SynapseTheme.control('data-theme');}
 function brand(){return `<a class="brand" href="/" aria-label="Sushant Synapse home"><img src="/logo-adaptive-192.png" alt="" width="42" height="42"><span>Sushant Synapse<small>PLATFORM</small></span></a>`;}
 function notice(text){$('#notice').textContent=text;$('#notice').classList.add('show');clearTimeout(notice.timer);notice.timer=setTimeout(()=>$('#notice').classList.remove('show'),3500);}

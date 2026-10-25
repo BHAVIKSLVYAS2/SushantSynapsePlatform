@@ -1,10 +1,13 @@
 // Interface preference only. Never translate inputs, editor artwork or saved business records.
 (() => {
- const key='synapse-language',valid=value=>['en','hi'].includes(value),originals=new WeakMap();
- let language='en',scheduled=false;const dirty=new Set();
+ if(window.SynapseLanguage)return;
+ const key='synapse-language',valid=value=>['en','hi','gu'].includes(value),originals=new WeakMap();
+ let language='en',scheduled=false,adapter=null,applied=null,syncing=false;const dirty=new Set();
+ let initialPreference;try{initialPreference=localStorage.getItem(key);}catch{}
  const translationRoots='.platform-shell,.platform-switcher-heading,.platform-switcher nav,.synapse-header,.synapse-help-nav,.synapse-legal-footer,.public-home';
  // Capture the incoming URL before native apps add their default language to it.
  const requestedLanguage=new URL(performance.getEntriesByType('navigation')[0]?.name||location.href).searchParams.get('lang');
+ if(valid(requestedLanguage))language=requestedLanguage;else if(valid(initialPreference))language=initialPreference;
  const dictionary={
   'Productivity & Utility':'उत्पादकता और उपयोगिता','Games & Fun':'खेल और मनोरंजन','Finance & Planning':'वित्त और योजना','Editorial & Media':'संपादकीय और मीडिया','Restricted Workspaces':'प्रतिबंधित कार्यक्षेत्र','LET CHANCE CHOOSE':'किस्मत को चुनने दें','Can’t decide?':'तय नहीं कर पा रहे?','Add your options and spin the wheel.':'अपने विकल्प जोड़ें और पहिया घुमाएँ।','Spin now':'पहिया घुमाएँ','tools':'टूल',
   'Your apps, together.':'आपके ऐप, एक साथ।','Open a public tool or sign in to your workspace.':'सार्वजनिक टूल खोलें या अपने कार्यक्षेत्र में साइन इन करें।','Account':'खाता','Switch app':'ऐप बदलें','Find an app':'ऐप खोजें','Public tool':'सार्वजनिक टूल','Private workspace':'निजी कार्यक्षेत्र',
@@ -23,7 +26,14 @@
  Object.assign(dictionary,{'Small tools.':'छोटे टूल।','Better everyday.':'बेहतर हर दिन।','A LITTLE MORE POSSIBLE':'हर दिन कुछ बेहतर','Create something thoughtful, clear a task, or take a little break.':'कुछ खास बनाएँ, कोई काम पूरा करें या थोड़ा विराम लें।','TRY SOMETHING TODAY':'आज कुछ आज़माएँ','Four numbers. One little challenge.':'चार अंक। एक छोटी चुनौती।','Use every number once to make 24. A fresh puzzle daily, no sign-in.':'हर अंक एक बार इस्तेमाल करके 24 बनाएँ। रोज़ नई पहेली, बिना साइन इन।','Play now':'अभी खेलें'});
  Object.assign(dictionary,{'ALL YOUR APPS IN ONE PLACE':'आपके सभी ऐप एक जगह','Everything you need,':'आपकी हर ज़रूरत,','one place.':'एक ही जगह।','Free web apps to explore, or sign in to your personal workspace.':'मुफ़्त वेब ऐप इस्तेमाल करें, या अपने निजी कार्यक्षेत्र में साइन इन करें।','ϟ Instant access':'ϟ तुरंत इस्तेमाल','♡ Free to use':'♡ मुफ़्त इस्तेमाल','✓ No sign-up':'✓ खाते की ज़रूरत नहीं','Explore Apps':'ऐप देखें','Open and use instantly':'तुरंत खोलें और इस्तेमाल करें','Browse Apps':'ऐप चुनें','My Workspace':'मेरा कार्यक्षेत्र','Your personal space':'आपका निजी स्थान','Explore apps':'वेब ऐप देखें','✦ Featured app':'✦ चुनिंदा ऐप','Open app':'ऐप खोलें','A LITTLE HUMAN CONNECTION':'कुछ बातें, कुछ अपनापन','Share anonymously and scratch to discover what others think.':'बिना नाम अपनी बात साझा करें और दूसरों की बातें पढ़ने के लिए स्क्रैच करें।','Open App':'ऐप खोलें','Apps':'ऐप','Games':'खेल','Workspace':'कार्यक्षेत्र','No apps match your search. Try another word or category.':'कोई ऐप नहीं मिला। दूसरा शब्द या श्रेणी आज़माएँ।'});
  Object.assign(dictionary,{'YOUR DAILY CELESTIAL PAUSE':'दिन का एक शांत विराम','Rashifal':'राशिफल','Kundli':'कुंडली','A moment to reflect. A chart to explore.':'मनन के कुछ पल। कुंडली की एक झलक।','Discover today’s lunar calendar in IST':'आज का चंद्र पंचांग भारतीय समय में देखें','Vikram Samvat':'विक्रम संवत','Lunar month · Amanta':'चंद्र मास · अमान्त','Tithi now':'अभी की तिथि','Read your Rashifal':'अपना राशिफल पढ़ें','Explore Kundli':'कुंडली देखें','Calculated preview · Chaitra-year Vikram · IST. Regional calendars differ; not a sunrise or festival Panchang.':'गणना पूर्वावलोकन · चैत्र से विक्रम वर्ष · IST। क्षेत्रीय पंचांग अलग हैं; यह सूर्योदय या त्योहार का पंचांग नहीं है।','Open Rashifal or Kundli to explore. JavaScript is needed for the current calendar.':'राशिफल या कुंडली खोलें। वर्तमान पंचांग के लिए JavaScript आवश्यक है।'});
- const native=()=>nativePage?document.querySelector('#language'):null;
+ const native=()=>adapter?document.querySelector(adapter.controls):nativePage?document.querySelector('#language'):null;
+ function syncApp(){
+  if(!adapter||syncing)return;syncing=true;
+  try{const effective=adapter.languages.includes(language)?language:'en';
+   if(applied!==effective){applied=effective;adapter.apply(effective);}
+   for(const input of document.querySelectorAll(adapter.controls)){const wrapper=input.closest('label')||input;wrapper.hidden=true;wrapper.dataset.interfaceLanguageSource='';if(input.value!==effective){input.value=effective;input.dispatchEvent(new Event('change',{bubbles:true}));}}
+  }finally{syncing=false;}
+ }
  function remember(value){language=value;try{localStorage.setItem(key,value);}catch{}}
  function translate(root){
   if(root.lang!==language)root.lang=language;
@@ -39,16 +49,19 @@
   }
  }
  function mountControl(){
-  const control=document.querySelector('.platform-language [data-language-control]')||document.querySelector('.synapse-legal-footer [data-language-control]')||document.querySelector('[data-language-control]'),actions=document.querySelector('.platform-shell-actions');
-  if(!control||!actions)return;
+  let control=document.querySelector('.platform-language [data-language-control]')||document.querySelector('.synapse-legal-footer [data-language-control]')||document.querySelector('[data-language-control]');const actions=document.querySelector('.platform-shell-actions');
+  if(!actions)return;
+  if(!control){control=document.createElement('div');control.className='synapse-language';control.dataset.languageControl='';control.setAttribute('role','group');control.setAttribute('aria-label','Interface language / भाषा');control.innerHTML='<span>Language / भाषा</span><button type="button" lang="en" data-interface-language="en" aria-label="English">EN</button><button type="button" lang="hi" data-interface-language="hi">हिन्दी</button><small data-language-help hidden></small>';}
   let menu=actions.querySelector('.platform-language');
   if(!menu){menu=document.createElement('details');menu.className='platform-language';const summary=document.createElement('summary');summary.setAttribute('aria-label','Interface language / \u092d\u093e\u0937\u093e');menu.append(summary);actions.prepend(menu);}
   if(control.parentElement!==menu)menu.append(control);
   for(const duplicate of document.querySelectorAll('[data-language-control]'))if(duplicate!==control){duplicate.removeAttribute('data-language-control');duplicate.querySelectorAll('[data-interface-language]').forEach(button=>button.remove());duplicate.hidden=true;duplicate.dataset.interfaceLanguageSource='';}
-  const label=language==='hi'?'\u0939\u093f\u0928\u094d\u0926\u0940':'EN';if(menu.firstElementChild.textContent!==label)menu.firstElementChild.textContent=label;
+  if((adapter?.languages.includes('gu')||language==='gu')&&!control.querySelector('[data-interface-language=gu]')){const button=document.createElement('button');button.type='button';button.lang='gu';button.dataset.interfaceLanguage='gu';button.textContent='ગુજરાતી';(control.querySelector('.synapse-language-toggle')||control).append(button);}
+  const label=({en:'EN',hi:'हिन्दी',gu:'ગુજરાતી'})[language];if(menu.firstElementChild.textContent!==label)menu.firstElementChild.textContent=label;
   const select=native();if(select){const wrapper=select.closest('label')||select;wrapper.hidden=true;wrapper.dataset.interfaceLanguageSource="";}
  }
  function refresh(roots){
+  syncApp();
   mountControl();
   document.documentElement.dataset.language=language;
   for(const root of roots||document.querySelectorAll(translationRoots))if(root.isConnected)translate(root);
@@ -62,16 +75,25 @@
     buttons[0]?.before(toggle);for(const button of buttons){if(button.dataset.interfaceLanguage==='en'){button.textContent='EN';button.setAttribute('aria-label','English');}toggle.append(button);}
    }
    for(const button of footer.querySelectorAll('[data-interface-language]')){const active=button.dataset.interfaceLanguage===language;button.setAttribute('aria-pressed',String(active));if(button.disabled!==busy)button.disabled=busy;}
-   const help=footer.querySelector('[data-language-help]');if(help){help.hidden=nativePage||language==='en';if(help.textContent!=='कुछ ऐप की सामग्री अभी अंग्रेज़ी में है।')help.textContent='कुछ ऐप की सामग्री अभी अंग्रेज़ी में है।';}
+   const help=footer.querySelector('[data-language-help]');if(help){help.hidden=!!adapter?.languages.includes(language)||nativePage&&[...(native()?.options||[])].some(o=>o.value===language)||language==='en';const text=language==='gu'?'આ એપની કેટલીક સામગ્રી અંગ્રેજીમાં છે.':'कुछ ऐप की सामग्री अभी अंग्रेज़ी में है।';if(help.textContent!==text)help.textContent=text;}
   }
  }
  function choose(value,bridge=true){
   if(!valid(value))return;const control=native();if(bridge&&control?.disabled)return;
-  remember(value);if(bridge&&control&&control.value!==value){control.value=value;control.dispatchEvent(new Event('change',{bubbles:true}));}refresh();
+  remember(value);if(!adapter&&bridge&&control){const effective=[...control.options].some(o=>o.value===value)?value:'en';if(control.value!==effective){syncing=true;try{control.value=effective;control.dispatchEvent(new Event('change',{bubbles:true}));}finally{syncing=false;}}}refresh();
  }
  document.addEventListener('click',event=>{const button=event.target.closest('[data-interface-language]');if(button&&!button.disabled){choose(button.dataset.interfaceLanguage);button.closest('.platform-language')?.removeAttribute('open');}else if(!event.target.closest('.platform-language'))document.querySelector('.platform-language')?.removeAttribute('open');});
  document.addEventListener('keydown',event=>{if(event.key==='Escape'){const menu=document.querySelector('.platform-language[open]');if(menu){menu.removeAttribute('open');menu.querySelector('summary').focus();}}});
- document.addEventListener('change',event=>{if(event.target===native())choose(event.target.value,false);});
+ document.addEventListener('change',event=>{if(!syncing&&(event.target===native()||adapter&&event.target.matches(adapter.controls)))choose(event.target.value,false);});
+ window.SynapseLanguage={get:()=>language,set:choose,register(config){
+  if(!config||typeof config.apply!=='function'||typeof config.controls!=='string'||!Array.isArray(config.languages)||!config.languages.includes('en')||config.languages.some(value=>!valid(value)))throw new TypeError('Check language adapter.');
+  adapter=config;applied=null;let saved;try{saved=localStorage.getItem(key);if(!valid(initialPreference))for(const legacy of config.legacyKeys||[]){const value=localStorage.getItem(legacy);if(valid(value)){saved=value;break;}}}catch{}
+  choose(valid(requestedLanguage)?requestedLanguage:valid(saved)?saved:language);
+  try{if(localStorage.getItem(key)===language)for(const legacy of config.legacyKeys||[])localStorage.removeItem(legacy);}catch{}
+  return ()=>{adapter=null;applied=null;};
+ }};
+ window.addEventListener('storage',event=>{if(event.key===key||event.key===null){const value=valid(event.newValue)?event.newValue:'en';language=value;refresh();}});
+ window.addEventListener('pageshow',()=>{try{const saved=localStorage.getItem(key);if(valid(saved)&&saved!==language){language=saved;refresh();}}catch{}});
  function start(){
   let saved;try{saved=localStorage.getItem(key);}catch{}
   const initial=valid(requestedLanguage)?requestedLanguage:valid(saved)?saved:native()?.value||'en';choose(initial);
@@ -81,7 +103,7 @@
     const target=record.target.nodeType===1?record.target:record.target.parentElement;
     if(record.type==='attributes'){if(record.target===native())controls=true;continue;}
     if(target?.closest(translationRoots)&&!target.closest('[data-language-control]'))dirty.add(target);
-    for(const node of record.addedNodes){if(node.nodeType!==1)continue;if(node.matches(translationRoots))dirty.add(node);for(const root of node.querySelectorAll(translationRoots))dirty.add(root);if(node.matches('[data-language-control],#language')||node.querySelector('[data-language-control],#language'))controls=true;}
+    for(const node of record.addedNodes){if(node.nodeType!==1)continue;if(node.matches(translationRoots))dirty.add(node);for(const root of node.querySelectorAll(translationRoots))dirty.add(root);const selectors='[data-language-control],#language'+(adapter?','+adapter.controls:'');if(node.matches(selectors)||node.querySelector(selectors))controls=true;}
    }
    if((controls||dirty.size)&&!scheduled){scheduled=true;requestAnimationFrame(()=>{scheduled=false;const roots=[...dirty].filter(node=>![...dirty].some(parent=>parent!==node&&parent.contains(node)));dirty.clear();refresh(roots);});}
   };

@@ -1,5 +1,15 @@
 # Code ownership and adding apps
 
+Global settings (2026-10-25): packages/ui/language.js owns the one shared header
+menu, canonical preference, tab synchronization, migration and legacy bridges.
+Apps register SynapseLanguage.register({languages,controls,apply,legacyKeys});
+apply only translates app-owned presentation. The shared service hides/synchronizes
+registered native selectors, including dynamically mounted components. It keeps
+a preferred language when an app must fall back to English. Vedic no longer
+constructs a menu or installs preference/observer handlers. Shared SynapseTheme
+alone owns resolution/persistence; portal no longer writes its own startup/media
+theme state, and app theme widgets are hidden when shared chrome is present.
+
 Readable Rashifal (2026-10-25): app-owned rashifal-outlook.mjs projects calculated
 Moon classifications, physical-graha context and unambiguous timing into en/hi/gu
 editorial guidance. The private result retains a factor/event trace. The primary
