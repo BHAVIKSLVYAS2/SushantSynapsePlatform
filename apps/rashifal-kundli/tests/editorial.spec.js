@@ -4,7 +4,9 @@ test.beforeAll(async()=>{server=await createPreviewServer(0,{rashifal:true});});
 test('P12 manual sign/period factors, native draft translations, mobile themes and privacy',async({page})=>{
  const requests=[],errors=[];page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(e.message));await page.goto(server.origin);
  await expect(page.locator('#rashifal-rashi option')).toHaveCount(13);await expect(page.getByRole('status')).toContainText('Choose a Rashi');
- await expect(page.locator('input[type=date],input[type=time]')).toHaveCount(0);await page.locator('#rashifal-rashi').selectOption('1');
+ await expect(page.locator('input[type=date],input[type=time]')).toHaveCount(0);
+ await expect(page.locator('.rashifal-signs button')).toHaveCount(12);await page.locator('button[data-rashi="1"]').click();
+ await expect(page.locator('#rashifal-rashi')).toHaveValue('1');await expect(page.locator('button[data-rashi="1"]')).toHaveAttribute('aria-pressed','true');
  await expect(page.locator('.rashifal-reading>section')).toHaveCount(5);await expect(page.locator('#rashifal-result')).toContainText('draft-not-published');
  await page.locator('[data-view=weekly]').click();await page.locator('#rashifal-result summary').click();await expect(page.locator('#rashifal-result li[data-date]')).toHaveCount(7);
  const factors=await page.locator('li[data-date]').evaluateAll(nodes=>nodes.map(n=>[n.dataset.date,n.dataset.moonRashi,n.dataset.relativeHouse]));
@@ -22,6 +24,7 @@ test('P12 sign preference is opt-in, validates stored input and clear removes it
  await page.locator('#rashifal-rashi').selectOption('4');await page.locator('#rashifal-remember').check();expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('synapse-vedic-rashi')))).toEqual({version:1,rashi:4});
  await page.reload();await expect(page.locator('#rashifal-rashi')).toHaveValue('4');await expect(page.locator('#rashifal-remember')).toBeChecked();
  await page.locator('#rashifal-clear').click();await expect(page.locator('#rashifal-result')).toBeEmpty();expect(await page.evaluate(()=>localStorage.getItem('synapse-vedic-rashi'))).toBeNull();
+ await expect(page.locator('.rashifal-signs button[aria-pressed=true]')).toHaveCount(0);
  await page.evaluate(()=>localStorage.setItem('synapse-vedic-rashi','{"version":1,"rashi":99}'));await page.reload();await expect(page.locator('#rashifal-rashi')).toHaveValue('');
 });
 

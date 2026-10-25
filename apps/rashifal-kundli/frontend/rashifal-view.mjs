@@ -19,24 +19,34 @@ export function mountRashifal(container,{now=()=>Date.now()}={}){
  if(!(container instanceof Element)||typeof now!=='function')throw new TypeError('Check Rashifal options.');
  const service=createRashifalService(),root=el('section');root.className='vedic-rashifal';
  let language='en',view='today',destroyed=false,pending=null,revision=0,lastIstDay=null;
- const title=el('h1'),intro=el('p'),draft=el('p'),notice=el('p'),basis=el('p');draft.className='rashifal-draft';root.append(title,intro,draft,notice,basis);
+ const title=el('h1'),intro=el('p'),draft=el('p'),notice=el('p'),basis=el('p');draft.className='rashifal-draft';
+ const hero=el('div');hero.className='rashifal-hero';const copy=el('div');copy.className='rashifal-hero-copy';const eyebrow=el('p','SYNAPSE / VEDIC');eyebrow.className='rashifal-eyebrow';
+ const orbit=el('div');orbit.className='rashifal-orbit';orbit.setAttribute('aria-hidden','true');orbit.append(el('span','✦'),el('i'),el('span','✧'));copy.append(eyebrow,title,intro);hero.append(copy,orbit);root.append(hero);
  function control(key,tag){const label=el('label'),text=el('span'),input=el(tag);input.id='rashifal-'+key;label.append(text,input);root.append(label);return {label:text,input};}
  const lang=control('language','select');for(const [value,text]of [['en','English'],['hi','हिन्दी'],['gu','ગુજરાતી']]){const o=el('option',text);o.value=value;lang.input.append(o);}
  const rashi=control('rashi','select'),remember=control('remember','input');remember.input.type='checkbox';
+ remember.input.closest('label').className='rashifal-remember';
+ const signGrid=el('div');signGrid.className='rashifal-signs';signGrid.setAttribute('role','group');rashi.input.closest('label').after(signGrid);
+ const signButtons=[];for(let n=1;n<=12;n++){const b=el('button');b.type='button';b.dataset.rashi=String(n);const glyph=el('span',symbols[n-1]);glyph.className='rashifal-sign-glyph';glyph.setAttribute('aria-hidden','true');b.append(glyph,el('span'));b.addEventListener('click',()=>{rashi.input.value=String(n);rashi.input.dispatchEvent(new Event('change',{bubbles:true}));});signGrid.append(b);signButtons.push(b);}
+ for(const b of signButtons)b.firstChild.textContent+='\uFE0E';
+ function syncSigns(){for(const b of signButtons)b.setAttribute('aria-pressed',String(b.dataset.rashi===rashi.input.value));}
  let saved=null;try{const value=localStorage.getItem(storageKey);if(value!==null){const record=JSON.parse(value);if(record?.version===1&&Number.isInteger(record.rashi)&&record.rashi>=1&&record.rashi<=12&&Object.keys(record).length===2)saved=record.rashi;else localStorage.removeItem(storageKey);}}catch{try{localStorage.removeItem(storageKey);}catch{}}
  const tabs=el('div');tabs.className='rashifal-tabs';tabs.setAttribute('role','group');const buttons={};for(const value of ['today','tomorrow','weekly']){const b=el('button');b.type='button';b.dataset.view=value;b.addEventListener('click',()=>{view=value;translate();});tabs.append(b);buttons[value]=b;}root.append(tabs);
  const clear=el('button');clear.type='button';clear.id='rashifal-clear';root.append(clear);
  const status=el('p');status.setAttribute('role','status');status.setAttribute('aria-live','polite');const result=el('section');result.id='rashifal-result';root.append(status,result);
+ const workspace=el('div');workspace.className='rashifal-workspace';const chooser=el('section');chooser.className='rashifal-chooser';const readingPane=el('div');readingPane.className='rashifal-reading-pane';
+ chooser.append(lang.input.closest('label'),rashi.input.closest('label'),signGrid,remember.input.closest('label'),clear);readingPane.append(tabs,status,result);workspace.append(chooser,readingPane);root.append(workspace);
+ const notes=el('details'),noteSummary=el('summary');notes.className='rashifal-notes';notes.append(noteSummary,notice,basis);hero.after(draft);root.append(notes);
  const selected=()=>Number(rashi.input.value);
  function save(){try{if(remember.input.checked&&rashi.input.value)localStorage.setItem(storageKey,JSON.stringify({version:1,rashi:selected()}));else localStorage.removeItem(storageKey);return true;}catch{status.textContent=rashifalLabels[language].storage;return false;}}
- function render(){revision++;const current=revision;clearTimeout(pending);result.replaceChildren();status.textContent='';if(!rashi.input.value){status.textContent=rashifalLabels[language].empty;return;}
+ function render(){syncSigns();revision++;const current=revision;clearTimeout(pending);result.replaceChildren();status.textContent='';if(!rashi.input.value){status.textContent=rashifalLabels[language].empty;return;}
   pending=setTimeout(()=>{pending=null;if(destroyed||current!==revision)return;const t=rashifalLabels[language];
    try{const requestNow=now();lastIstDay=Math.floor((requestNow+19800000)/86400000);const response=service.getReading({rashi:selected(),view,language,ruleVersion:rashifalLibrary.version,calculationProfileId:'IN_LAHIRI_DEFAULT_V1'},{now:requestNow}),reading=response.reading;
     result.dataset.cacheHit=String(response.cache.hit);result.append(el('h2',`${symbols[reading.rashi-1]} ${rashiLabel(reading.rashi,language)} · ${t[view]}`),el('p',`${t.date}: ${reading.period.dates[0]} → ${reading.period.dates.at(-1)} · Asia/Kolkata`));
-    result.append(el('p',`${t.catalogue}: ${reading.publication.catalogueDate} · ${t.published}: ${term(reading.publication.status,language)}`),el('p',`${t.retrieved}: ${response.retrievedAtUtc}`));
+    const metadata=el('div');metadata.className='rashifal-metadata';metadata.append(el('p',`${t.catalogue}: ${reading.publication.catalogueDate} · ${t.published}: ${term(reading.publication.status,language)}`),el('p',`${t.retrieved}: ${response.retrievedAtUtc}`));result.append(metadata);
     const fallback=el('p',reading.fallback?t.fallback:t.baseline);fallback.id='rashifal-fallback';result.append(fallback);
     const content=el('div');content.lang=reading.contentLanguage;content.className='rashifal-reading';
-    for(const section of reading.sections){const region=el('section');region.dataset.category=section.category;const heading=el('h3',t[section.category]);heading.lang=language;region.append(heading);for(const item of section.items){const p=el('p',item.text);p.dataset.sentence=item.id;region.append(p);}content.append(region);}result.append(content);
+    for(const section of reading.sections){const region=el('section');region.dataset.category=section.category;const heading=el('h3',t[section.category]);heading.lang=language;const mark=el('span',({overview:'✧',career:'↗',money:'◈',relationships:'♡',wellbeing:'☼'})[section.category]);mark.className='rashifal-category-mark';mark.setAttribute('aria-hidden','true');heading.prepend(mark);region.append(heading);for(const item of section.items){const p=el('p',item.text);p.dataset.sentence=item.id;region.append(p);}content.append(region);}result.append(content);
     const why=el('details');why.append(el('summary',t.why),el('p',t.scope),el('p',`${reading.provenance.ruleVersion} · ${reading.provenance.factorModel} · ${reading.provenance.profileId}`),el('p',term(reading.provenance.author,language)),el('p',term(reading.provenance.rule,language)));
     why.append(el('p',reading.provenance.source.id+' · '+reading.provenance.source.url),el('p',reading.selection.map(s=>`${term(s.group,language)}: ${s.noonSamples}`).join(' · ')),el('p',t.factor));const list=el('ul');
     for(const f of reading.factors){const li=el('li',`${f.localDate} · ${f.anchorUtc} · ${signName(f.moonRashi,language)} (${f.moonRashi}) · H${f.relativeHouse} → ${term(rashifalLibrary.houseGroups[f.relativeHouse],language)} · ${f.moonSiderealLongitude.toFixed(4)}°`);li.dataset.date=f.localDate;li.dataset.moonRashi=String(f.moonRashi);li.dataset.relativeHouse=String(f.relativeHouse);list.append(li);}why.append(list);
@@ -46,6 +56,7 @@ export function mountRashifal(container,{now=()=>Date.now()}={}){
  }
  function translate(){const t=rashifalLabels[language],value=rashi.input.value;root.lang=language;title.textContent=t.title;intro.textContent=t.intro;draft.textContent=t.draft;notice.textContent=t.notice;basis.textContent=t.basis;lang.label.textContent=t.language;rashi.label.textContent=t.rashi;remember.label.textContent=t.remember;clear.textContent=t.clear;tabs.setAttribute('aria-label',t.date);
   rashi.input.replaceChildren(el('option',t.choose));rashi.input.options[0].value='';for(let n=1;n<=12;n++){const o=el('option',`${symbols[n-1]} ${rashiLabel(n,language)} (${n})`);o.value=String(n);rashi.input.append(o);}rashi.input.value=value;
+  noteSummary.textContent=({en:'About these reflections',hi:'इन संकेतों के बारे में',gu:'આ સંકેતો વિશે'})[language];signGrid.setAttribute('aria-label',t.rashi);for(let n=1;n<=12;n++){signButtons[n-1].lastChild.textContent=language==='en'?romanRashis[n-1]:signName(n,language);signButtons[n-1].setAttribute('aria-label',rashiLabel(n,language));}
   for(const [key,b]of Object.entries(buttons)){b.textContent=t[key];b.setAttribute('aria-pressed',String(key===view));}render();
  }
  rashi.input.addEventListener('change',()=>{render();save();});remember.input.addEventListener('change',save);lang.input.addEventListener('change',()=>{language=lang.input.value;translate();});

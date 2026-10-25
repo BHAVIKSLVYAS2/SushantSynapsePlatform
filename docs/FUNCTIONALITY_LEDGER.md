@@ -1,5 +1,22 @@
 # Chambers functionality ledger
 
+**Rashifal mobile redesign (2026-10-25, locally verified; not deployed):**
+App-owned celestial hero, token-based Moon artwork, twelve accessible tappable
+Chandra Rashi cards, selected-state feedback, segmented period controls and
+responsive reading cards replace the plain stacked form. Desktop uses a sticky
+sign chooser; phones use one column. Native sign selection, opt-in memory,
+clear, three languages, shared light/dark/system preferences, draft notices,
+provenance and calculation/privacy boundaries remain. Kundli is unchanged.
+Verification: updated editorial Chrome suite 3/3 (including card/select sync,
+clear, 320/390/1440 widths, themes and IST rollover); production-export language
+checks pass all six scenarios across the five-scenario run and final navigation
+rerun after correcting duplicate header markup. Earlier trace-file cleanup
+conflict passes in isolation.
+Rashifal Node/workerd 7/7, production Vedic bundle build, syntax and whitespace
+checks pass. Gujarati and production English mobile screenshots visually inspected.
+Production screenshot: .publish/rashifal-redesign-production-mobile.png. No database,
+schema, authentication, external service or production changes.
+
 **Vedic languages (2026-10-25, verified; deployment in progress):** One shared English,
 Hindi/Gujarati selector covers the four preview pages and remembers only language.
 Headers/navigation/theme/validation, forms, results, Panchang terminology, matching
