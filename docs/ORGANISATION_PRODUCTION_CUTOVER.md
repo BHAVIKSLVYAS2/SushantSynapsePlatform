@@ -1,5 +1,16 @@
 # Organisation licensing production cutover
 
+Latest Rashifal calculation release (2026-10-25): implementation bf0dd07, Worker
+b99e74dc-db70-481d-b5cf-967c8746e1cc, deployed with --keep-vars. Replaces four
+generic groups with nine-graha, three-hourly Moon-sign house/Vedha calculations.
+All twelve signs are live-tested; Chrome 6/6 and health/privacy/private-API checks
+pass. Full Node/API regression 536/536; 17 local/production browser scenarios pass.
+Unresolved rules are withheld and independent traditional/translation acceptance
+remains pending. Source/sampling limits: docs/vedic/RASHIFAL_CALCULATION.md.
+Existing production variables, organisation mode, D1/rate limits retained; no
+migrations, business writes or new birth storage. Evidence:
+.publish/rashifal-calculation-live and the functionality ledger.
+
 Latest homepage release (2026-10-25): implementation e01b344, Worker
 8b0c67f7-f075-4561-9e04-4895015b15a0. Rashifal & Kundli calendar feature replaces
 the redundant Daily Satire teaser; legacy daily URLs redirect to the Arena entry.

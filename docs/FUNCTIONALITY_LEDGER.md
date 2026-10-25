@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Calculation-backed Rashifal (2026-10-25, verified; release follows):**
+**Calculation-backed Rashifal (2026-10-25, live and verified preview):**
 Removed the four generic reflection groups. Rule version rashifal-gochar-3 uses
 the in-house seven-body astronomy/Lahiri adapter plus mean Rahu/Ketu at eight
 three-hourly IST observations per day (56/week). All twelve Chandra Rashis get
@@ -23,7 +23,14 @@ Vedic app flows. Final native graha names use the existing en/hi/gu catalogue;
 the focused service/rule/Worker rerun passes 11/11. Final production-bundle
 Chrome 12/12 passes after rebuilding native names; all 17 local/production browser
 scenarios have passing evidence. Rule exemptions rechecked 3/3; generated report
-matches --check and whitespace passes. Release follows. No schema,
+matches --check and whitespace passes. Implementation bf0dd07 is committed and
+pushed, deployed with --keep-vars as Worker b99e74dc-db70-481d-b5cf-967c8746e1cc.
+Final live Chrome 6/6 passes, including all twelve independent calculated house
+vectors, nine-graha evidence and 8/56 observation options, language/theme/privacy
+and unchanged Kundli/Matching/Time Machine flows. Live health/page 200, privacy
+CSP/no-referrer retained, unscoped /api/records 409. Existing organisation/D1 and
+rate-limit bindings retained. Independent traditional/general-release approval
+remains open; this is a calculation-backed verification preview. No schema,
 account, birth storage, external runtime service or business-data change.
 Evidence: .publish/rashifal-calculation-*; source scope/limits:
 docs/vedic/RASHIFAL_CALCULATION.md. New reproducible calculation report is
