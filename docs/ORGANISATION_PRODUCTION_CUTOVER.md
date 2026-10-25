@@ -1,5 +1,13 @@
 # Organisation licensing production cutover
 
+Latest RITVAYAM browser-saved inputs release (2026-10-25): Worker
+b9652d40-1890-41af-aa10-2804b1d7f992. Explicit Save Kundli retains validated
+birth inputs and optional name in browser storage only; reports are recalculated.
+Kundli birthplace is one searchable city/state combobox. All 19 exported-page
+checks and live Gujarati save/reload/reopen/recalculate/delete pass, without
+birth-data API requests. Deployed with --keep-vars and preserved D1/organisation
+bindings. Health 200, unscoped records 409; no schema or production data writes.
+
 Latest RITVAYAM mobile date/time release (2026-10-25): Worker
 1f4c6450-934d-4338-ba44-02401b1473dc. Shared direct day/month/year and
 12-hour AM/PM controls now serve Kundli, matching and Time Machine. Deployed

@@ -1,8 +1,10 @@
+import {mountBirthplace} from './birthplace-input.mjs';
+import {kundliStore,savedCopy,savedKundliKey} from './saved-kundli.mjs';
 import {installCivilInputs} from './civil-input.mjs';
 import {placeLabel,relabelPlaces} from './place-text.mjs';
 import {term,nakshatraName} from './display-text.mjs';
 import {diagnosticText} from './diagnostic-text.mjs';
-import {searchPlaces,getPlace} from '../../../packages/vedic/places.mjs';
+import {getPlace} from '../../../packages/vedic/places.mjs';
 import {normalizeInput,calculationProfileId} from '../../../packages/vedic/normalize.mjs';
 import {calculateBirthReport} from './birth-report.mjs';
 import {mountCharts} from './chart-view.mjs';
@@ -24,7 +26,7 @@ export function mountBirthApp(container,{now=()=>Date.now()}={}){
  for(const [value,text]of [['en','English'],['hi','हिन्दी'],['gu','ગુજરાતી']]){const o=el('option',text);o.value=value;languageSelect.append(o);}
  languageLabel.append(el('span'),languageSelect);root.append(heading,intro,gate,languageLabel);
  const form=el('form');form.autocomplete='off';form.setAttribute('aria-label','Birth details');
- const controls={},labels={};
+ const controls={},labels={};let activeSavedId=null;const store=kundliStore({now});
  function field(key,type,attrs={}){const label=el('label'),span=el('span'),input=el(type==='select'?'select':'input');
   input.id='birth-'+key;input.name=key;if(type!=='select')input.type=type;for(const [k,v]of Object.entries(attrs))input.setAttribute(k,String(v));
   label.append(span,input);form.append(label);controls[key]=input;labels[key]=span;return input;}
@@ -36,6 +38,8 @@ export function mountBirthApp(container,{now=()=>Date.now()}={}){
  const reviewButton=el('button');reviewButton.type='submit';const clearButton=el('button');clearButton.type='button';form.append(reviewButton,clearButton);root.append(form);
  const status=el('p');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
  const reviewRegion=el('section');reviewRegion.id='birth-review';const results=el('section');results.id='birth-results';root.append(status,reviewRegion,results);container.replaceChildren(root);
+ const library=el('section',undefined,'saved-kundlis');library.id='saved-kundlis';library.setAttribute('aria-labelledby','saved-kundlis-title');root.insertBefore(library,form);
+ const birthplace=mountBirthplace(controls.query,controls.place,hint);
  function stopResults(){chartHandle?.destroy();dashaHandle?.destroy();exportHandle?.destroy();traditionHandle?.destroy();timeMachineHandle?.destroy();sensitivityHandle?.destroy();rulesHandle?.destroy();advancedHandle?.destroy();chartHandle=dashaHandle=exportHandle=traditionHandle=timeMachineHandle=sensitivityHandle=rulesHandle=advancedHandle=null;results.replaceChildren();}
  function invalidate(){revision++;clearTimeout(pending);pending=null;reviewed=report=null;reviewRegion.replaceChildren();stopResults();status.textContent='';}
  function errorText(code){const t=locale(language);return code==='OUT_OF_RANGE'?t.outOfRange:code==='UNSTABLE_BIRTH_TIME'?t.unstable:t.error;}
@@ -64,7 +68,7 @@ export function mountBirthApp(container,{now=()=>Date.now()}={}){
     finally{if(current===revision)calculate.disabled=false;}
    },0);
   });
-  const edit=el('button',t.edit);edit.type='button';edit.addEventListener('click',()=>{invalidate();controls.date.focus();});reviewRegion.append(calculate,edit);
+  const edit=el('button',t.edit);edit.type='button';edit.addEventListener('click',()=>{invalidate();controls.date.focus();});const save=el('button',savedCopy[language][activeSavedId?'update':'save']);save.type='button';save.id='birth-save';save.addEventListener('click',()=>{try{const record=store.save({name:displayName,input:reviewed.input},activeSavedId);activeSavedId=record.id;renderLibrary();renderReview();status.textContent=savedCopy[language].saved;}catch{status.textContent=savedCopy[language].error;}});reviewRegion.append(calculate,edit,save);
  }
  function featureMessage(key,feature){const box=el('section',undefined,'vedic-feature-state');box.dataset.feature=key;box.dataset.status=feature.status;
   if(feature.status==='unavailable'){box.append(el('h3',locale(language)[key]??key),el('p',feature.diagnostic.code==='UNSTABLE_BIRTH_TIME'?locale(language).unstable:locale(language).unsupported));}
@@ -94,16 +98,17 @@ export function mountBirthApp(container,{now=()=>Date.now()}={}){
   const timeMachineRoot=el('div');results.append(timeMachineRoot);timeMachineHandle=mountTimeMachine(timeMachineRoot,{birthInput:reviewed.input,now,language});
   const exportRoot=el('div');results.append(exportRoot);exportHandle=mountExport(exportRoot,report,{name:displayName,language});
  }
- function translate(){civil.translate(language);const t=locale(language);root.lang=language;form.setAttribute('aria-label',t.title);heading.textContent=t.title;intro.textContent=t.intro;gate.textContent=t.gate;languageLabel.firstChild.textContent=t.language;
-  for(const [key,span]of Object.entries(labels))span.textContent=t[key];for(const o of accuracy.options)o.textContent=t[o.value];hint.textContent=t.searchHint;zone.textContent=t.timezone;
-  relabelPlaces(controls.place,language);reviewButton.textContent=t.review;clearButton.textContent=t.clear;status.textContent=report?t.ready:'';if(!controls.place.value)controls.place.options[0].textContent=t.choose;renderReview();renderResults();}
- form.addEventListener('input',event=>{invalidate();if(event.target===controls.query){placeholder();try{for(const p of searchPlaces(controls.query.value,{limit:12}).matches){const o=el('option',`${placeLabel(p,language)} · ${p.id}`);o.value=p.id;controls.place.append(o);}}catch{status.textContent=locale(language).error;}}});
+ function renderLibrary(){const t=savedCopy[language];library.replaceChildren();const title=el('h2',t.title);title.id='saved-kundlis-title';library.append(title,el('p',t.privacy));let records;try{records=store.read();}catch{library.append(el('p',t.error));return;}if(!records.length)library.append(el('p',t.empty));for(const record of records){const card=el('article',undefined,'saved-kundli-card');card.dataset.savedId=record.id;const name=el('h3',record.name||t.unnamed);name.setAttribute('translate','no');name.dataset.languagePreserve='';card.append(name,el('p',`${record.input.localDate} / ${record.input.localTime??locale(language).noTime}`),el('p',placeLabel(getPlace(record.input.placeId),language)));const open=el('button',t.open),remove=el('button',t.remove);open.type=remove.type='button';open.setAttribute('aria-label',t.open+' '+(record.name||t.unnamed));remove.setAttribute('aria-label',t.remove+' '+(record.name||t.unnamed));open.addEventListener('click',()=>{try{const current=store.read().find(r=>r.id===record.id);if(!current)return;clear();activeSavedId=current.id;controls.name.value=current.name;controls.date.value=current.input.localDate;accuracy.value=current.input.timeAccuracy;controls.time.value=current.input.localTime??'';controls.precision.value=String(current.input.precisionOfBirthTimeMinutes??'');controls.elevation.value=String(current.input.elevationMetres??'');birthplace.select(current.input.placeId,false);updateAccuracy();status.textContent=t.loaded;controls.date.focus();}catch{status.textContent=t.error;}});remove.addEventListener('click',()=>{try{store.remove(record.id);if(activeSavedId===record.id)activeSavedId=null;renderLibrary();renderReview();status.textContent=t.removed;}catch{status.textContent=t.error;}});card.append(open,remove);library.append(card);}}
+ function translate(){civil.translate(language);const t=locale(language);root.lang=language;form.setAttribute('aria-label',t.title);heading.textContent=t.title;intro.textContent=savedCopy[language].intro;gate.textContent=t.gate;languageLabel.firstChild.textContent=t.language;
+  for(const [key,span]of Object.entries(labels))span.textContent=key==='query'?savedCopy[language].place:key==='name'?savedCopy[language].name:t[key];for(const o of accuracy.options)o.textContent=t[o.value];birthplace.translate(language);renderLibrary();zone.textContent=t.timezone;
+  relabelPlaces(controls.place,language);reviewButton.textContent=t.review;clearButton.textContent=savedCopy[language].clear;status.textContent=report?t.ready:'';if(!controls.place.value)controls.place.options[0].textContent=t.choose;renderReview();renderResults();}
+ form.addEventListener('input',()=>invalidate());
  form.addEventListener('change',event=>{invalidate();if(event.target===accuracy)updateAccuracy();if(event.target===controls.place&&controls.place.value){try{getPlace(controls.place.value);}catch{placeholder();}}});
  form.addEventListener('submit',event=>{event.preventDefault();invalidate();try{const input=inputValue();displayName=safeName();const birth=normalizeInput(input,{now:now()});reviewed={input,birth};renderReview();}
   catch(error){status.textContent=error.code==='SELECT_PLACE'?locale(language).selectPlace:error.code==='INVALID_NAME'?locale(language).requiredName:errorText(error.code);}});
- function clear(){invalidate();form.reset();displayName='';placeholder();updateAccuracy();translate();}
+ function clear(){invalidate();form.reset();displayName='';activeSavedId=null;birthplace.clear();updateAccuracy();translate();}
  clearButton.addEventListener('click',clear);languageSelect.addEventListener('change',()=>{revision++;clearTimeout(pending);pending=null;language=languageSelect.value;translate();});
- const hide=()=>clear(),show=event=>{if(event.persisted)clear();};window.addEventListener('pagehide',hide);window.addEventListener('pageshow',show);
+ const hide=()=>clear(),show=event=>{if(event.persisted)clear();};const storageChanged=event=>{if(event.key===savedKundliKey||event.key===null)renderLibrary();};window.addEventListener('storage',storageChanged);window.addEventListener('pagehide',hide);window.addEventListener('pageshow',show);
  const civil=installCivilInputs(root);placeholder();updateAccuracy();translate();
- return Object.freeze({destroy(){civil.destroy();clearTimeout(pending);window.removeEventListener('pagehide',hide);window.removeEventListener('pageshow',show);stopResults();root.remove();}});
+ return Object.freeze({destroy(){birthplace.destroy();civil.destroy();window.removeEventListener('storage',storageChanged);clearTimeout(pending);window.removeEventListener('pagehide',hide);window.removeEventListener('pageshow',show);stopResults();root.remove();}});
 }

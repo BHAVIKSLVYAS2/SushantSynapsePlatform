@@ -50,7 +50,7 @@ export function installCivilInputs(root){
    for(const key of date?['month']:['period']){const select=fields[key];select.options[0].textContent=t.choose;if(key==='month')for(let n=1;n<=12;n++)select.options[n].textContent=new Intl.DateTimeFormat(language,{month:'long',timeZone:'UTC'}).format(new Date(Date.UTC(2000,n-1,1)));}
    refresh();validate(false);
   }
-  const reset=()=>queueMicrotask(()=>{input.value="";});input.form?.addEventListener('reset',reset);sync();
+  const reset=()=>{input.value='';};input.form?.addEventListener('reset',reset);sync();
   return {translate,refresh,valid:()=>box.disabled||Object.values(fields).every(f=>f.reportValidity()),destroy(){input.form?.removeEventListener('reset',reset);}};
  });
  return {translate:lang=>widgets.forEach(w=>w.translate(lang)),refresh:()=>widgets.forEach(w=>w.refresh()),valid:()=>widgets.every(w=>w.valid()),destroy:()=>widgets.forEach(w=>w.destroy())};

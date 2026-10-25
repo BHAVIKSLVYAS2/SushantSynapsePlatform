@@ -1,5 +1,15 @@
 # Code ownership and adding apps
 
+RITVAYAM saved birth inputs (2026-10-25): at the user's explicit request,
+saved-kundli.mjs owns an opt-in browser-local list under ritvayam.saved-kundli.v1.
+Persist only validated birth inputs and optional name, never calculated reports.
+Reopening fills the form for fresh review/calculation; Clear form clears only
+the draft, Delete removes the saved profile. Malformed/denied storage fails
+without overwriting it or blocking calculations. Other platform persistence,
+authentication and SQLite/D1 ownership are unchanged. birthplace-input.mjs
+combines Kundli place search and explicit city/state selection into one accessible
+combobox, retaining the place-ID calculation contract and no network lookup.
+
 RITVAYAM/global language follow-up (2026-10-25): edit language-runtime.js and
 interface-copy.mjs; language.js is their generated delivery bundle, built through
 build-home.cjs. legalHtml ensures every shared-header page loads it exactly once.

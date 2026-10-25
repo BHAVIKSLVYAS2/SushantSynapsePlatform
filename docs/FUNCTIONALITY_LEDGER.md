@@ -1,5 +1,26 @@
 # Chambers functionality ledger
 
+**RITVAYAM browser-saved Kundli details and single birthplace (2026-10-25):**
+Explicit Save Kundli stores a versioned, validated browser-local list of up to
+100 birth input profiles plus optional names. Calculated charts, predictions,
+reports, language and transient search text are excluded. Open fills the form
+for fresh review/calculation; edits can update that profile. Clear form keeps
+saved profiles; each Delete removes its profile/key without touching preferences.
+No browser writes occur before Save, and there are no birth-data API requests.
+Storage denial/corruption is handled without overwriting data or blocking
+calculation. A user-requested exception to earlier tab-only Kundli persistence;
+matching and Time Machine remain transient. en/hi/gu notices explain retention.
+Kundli birthplace is one accessible, keyboard/touch combobox with local city/state
+suggestions, explicit place-ID selection and stale-selection invalidation.
+Mobile date/time reset is synchronous so restored inputs survive form reset.
+Verification: 2 Node storage/validation tests; 26 browser calculation, save/reopen,
+update/delete, ambiguity, storage failure and privacy checks (two older selectors
+updated and independently rerun). All 19 production-export checks pass. Live
+Gujarati save/reload/reopen/recalculate/delete passes with no birth-data requests
+and retained preferences. Worker b9652d40-1890-41af-aa10-2804b1d7f992 deployed
+with --keep-vars; health is 200 and unscoped records remain 409. No schema or
+production data writes.
+
 **RITVAYAM mobile birth date/time entry (2026-10-25):**
 Kundli, matching and Time Machine share civil-input.mjs. Large numeric day/year
 fields and a localized native month selector replace calendar navigation across

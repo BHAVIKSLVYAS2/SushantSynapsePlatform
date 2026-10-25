@@ -168,7 +168,7 @@ test('P10 download is redacted, standalone, offline and printable; identity is e
  const identified=await fs.readFile(await download.path(),'utf8');expect(identified).toContain('Private Export Person');expect(identified).toContain('2000-01-01');
  await fillTime(page,'#birth-time','12:00');await calculate(page);await expect(page.locator('#export-identity')).not.toBeChecked();
  await expect(page.locator('.vedic-export article')).toContainText('UNSTABLE_BIRTH_TIME');
- await page.getByRole('button',{name:'Clear all birth details',exact:true}).click();await expect(page.locator('.vedic-export')).toHaveCount(0);
+ await page.getByRole('button',{name:'Clear form',exact:true}).click();await expect(page.locator('.vedic-export')).toHaveCount(0);
 });
 
 test('P10 native print isolates redacted report and restores preview; locales preserve export',async({page})=>{
@@ -191,7 +191,7 @@ test.beforeAll(async()=>{server=await createPreviewServer(0,{birth:true});});
 test.afterAll(async()=>{await server?.close();});
 async function fill(page,time='12:15'){
  await fillDate(page,'#birth-date','2000-01-01');await fillTime(page,'#birth-time',time);
- await page.locator('#birth-query').fill('New Delhi');await page.locator('#birth-place').selectOption('geonames:1261481');
+ await page.locator('#birth-query').fill('New Delhi');await page.locator('[data-place-id="geonames:1261481"]').click();
 }
 async function calculate(page){await page.locator('form button[type=submit]').click();await page.locator('#birth-calculate').click();await expect(page.locator('#birth-results h2').first()).toBeVisible();}
 test('explicit review, complete charts/Dasha, keyboard controls and privacy across mobile themes',async({page})=>{
@@ -232,7 +232,7 @@ test('unknown and approximate times disclose intervals and withhold precise feat
  await expect(page.locator('#birth-results [data-status=unavailable]')).toHaveCount(4);await expect(page.locator('.vedic-dasha')).toHaveCount(0);
  await page.locator('#birth-accuracy').selectOption('approximate');await fillTime(page,'#birth-time','12:00');await page.locator('#birth-precision').fill('15');await calculate(page);
  await expect(page.locator('#birth-results [data-status=unavailable]')).toHaveCount(4);
- await fillDate(page,'#birth-date','2098-01-01');await page.locator('form button[type=submit]').click();await expect(page.getByRole('status')).toContainText('future');await expect(page.locator('#birth-review')).toBeEmpty();
+ await fillDate(page,'#birth-date','2098-01-01');await page.locator('form button[type=submit]').click();await expect(page.getByRole('status').last()).toContainText('future');await expect(page.locator('#birth-review')).toBeEmpty();
 });
 test('Hindi/Gujarati rerender without changing numbers, then clear removes all birth details',async({page})=>{
  await page.goto(server.origin);await fill(page);await calculate(page);

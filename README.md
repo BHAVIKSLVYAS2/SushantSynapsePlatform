@@ -1,6 +1,9 @@
 # Sushant Synapse Platform
 
 RITVAYAM is the platform's astrology app (existing `/rashifal-kundli` links remain).
+Kundli's Save action keeps only birth inputs and an optional name in this browser;
+reopen to review and recalculate, or Delete to remove the saved profile. Clear form
+does not delete saved profiles. Birthplace uses one local city/state search field.
 The shared header owns English/Hindi/Gujarati interface preference across pages.
 Language sources, content exclusions and verification: docs/INTERFACE_LANGUAGE_AUDIT.md.
 

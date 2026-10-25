@@ -25,7 +25,7 @@ test('paste and language changes preserve partial entries; clear removes all bir
  await page.locator('form button[type=button]').click();for(const id of ['date','time','date-day','date-year','date-month','time-hour','time-minute','time-period'])await expect(page.locator('#birth-'+id)).toHaveValue('');
 });
 test('unknown birth time disables segmented time and editing invalidates the review',async({page})=>{
- await page.goto(server.origin);await fillDate(page,'#birth-date','2000-01-01');await fillTime(page,'#birth-time','12:15');await page.locator('#birth-query').fill('New Delhi');await page.locator('#birth-place').selectOption('geonames:1261481');await page.locator('form button[type=submit]').click();await expect(page.locator('#birth-review')).toContainText('2000-01-01');
+ await page.goto(server.origin);await fillDate(page,'#birth-date','2000-01-01');await fillTime(page,'#birth-time','12:15');await page.locator('#birth-query').fill('New Delhi');await page.locator('[data-place-id="geonames:1261481"]').click();await page.locator('form button[type=submit]').click();await expect(page.locator('#birth-review')).toContainText('2000-01-01');
  await page.locator('#birth-date-year').fill('1980');await expect(page.locator('#birth-review')).toBeEmpty();await page.locator('#birth-accuracy').selectOption('unknown');await expect(page.locator('#birth-time')).toHaveValue('');await expect(page.locator('#birth-time-hour')).toBeDisabled();await expect(page.locator('#birth-time-hour')).toBeHidden();
  await page.locator('#birth-accuracy').selectOption('exact');await expect(page.locator('#birth-time-hour')).toBeEnabled();await expect(page.locator('#birth-time-period')).toHaveValue('');
 });
