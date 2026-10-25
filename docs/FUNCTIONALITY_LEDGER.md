@@ -16,8 +16,14 @@ workerd parity (64,074 numeric comparisons; maximum difference 5.69e-14).
 Final outlook-only recheck passes 3/3. Production-export Chrome passes 18/18;
 preview scenarios pass 5/5 after updating evidence checks to expand calculations.
 Light/dark picker and daily-reading screenshots reviewed; 320–1440 px layouts,
-three languages, nine-graha evidence and Worker fallback retained. Live release
-verification follows.
+three languages, nine-graha evidence and Worker fallback retained. Implementation
+29c8455 deployed with --keep-vars as Worker
+4b4188f7-99b9-4bcb-a6a1-933c5e646ab5. Focused live Chrome passes 5/5, covering
+the supplied images, all twelve readings, native translations and calculation
+disclosure. Healthz/page and sampled light/dark assets return 200 (image/webp);
+private-page CSP/no-referrer retained; unscoped /api/records denied (409).
+Production variables, organisation mode, D1 and rate limits preserved; no
+migrations or business-data writes. Evidence: .publish/rashifal-everyday-live.
 
 **One global language/theme control (2026-10-25):**
 The existing header language menu is the sole interface control across portal

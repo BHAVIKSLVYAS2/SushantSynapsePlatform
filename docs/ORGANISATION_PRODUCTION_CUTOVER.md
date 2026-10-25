@@ -1,5 +1,19 @@
 # Organisation licensing production cutover
 
+Latest everyday Rashifal release (2026-10-25): implementation 29c8455, Worker
+4b4188f7-99b9-4bcb-a6a1-933c5e646ab5 deployed with --keep-vars. Gochar-7 adds
+the user's twelve light/dark sign illustrations and plain-language house-theme
+suggestions in en/hi/gu. Technical evidence remains in one expandable section.
+Suggestions are original editorial interpretation, not validated personal
+life-event predictions. Numerical engine and shared settings unchanged.
+Focused Node 14/14, final outlook recheck 3/3, preview scenarios 5/5 and final
+production-export Chrome 18/18 pass. Focused live Chrome 5/5 passes; healthz/page
+and sampled theme illustrations return 200, with correct image/webp type.
+Private-page CSP/no-referrer retained; unscoped /api/records 409. Production
+variables, organisation mode, D1 and rate limits preserved; no migrations or
+business-data writes. Scope: docs/vedic/RASHIFAL_EVERYDAY_UX.md. Evidence:
+.publish/rashifal-everyday-live.
+
 Latest shared settings release (2026-10-25): implementation 0d854d1, Worker
 446a7be4-105c-4f3e-863b-3b12c32877a4 deployed with --keep-vars. The existing
 shared header owns interface language and theme globally. Generic language
