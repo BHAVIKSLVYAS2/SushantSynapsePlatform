@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Homepage Vedic feature / Daily Satire retirement (2026-10-25, verification):**
+**Homepage Vedic feature / Daily Satire retirement (2026-10-25, live and verified):**
 The former wide Daily Satire panel is replaced by a responsive token-based
 Rashifal & Kundli card, celestial artwork and direct links to both existing apps.
 Lazy on-device calendar displays IST date/time, Chaitra-year Vikram Samvat,
@@ -25,7 +25,14 @@ and the unchanged full-cast visual stress test passes alone in 5.7 minutes after
 timing out during concurrent regression. Total 24 browser scenarios covered across
 runs. Mobile light/dark and desktop dark card screenshots inspected; syntax and
 whitespace pass. Evidence: .publish/home-vedic-browser, home-vedic-recheck,
-home-vedic-cast-recheck and home-vedic-export-browser. Deployment follows.
+home-vedic-cast-recheck and home-vedic-export-browser.
+Implementation e01b344 is committed/pushed and deployed as Worker
+8b0c67f7-f075-4561-9e04-4895015b15a0 using --keep-vars. Final live Chrome 2/2
+passes, including lazy bundle resolution, Rashifal navigation and load-failure
+fallback. Live HTTP 6/6: home/health/sitemap 200, both old daily URLs 308 to
+Satire Arena, unscoped /api/records 409; sitemap excludes the retired route.
+Existing production variables, organisation mode, D1 and rate limits preserved.
+No migrations or business writes. Live evidence: .publish/home-vedic-live.
 Design/model/region notes: docs/vedic/HOME_CALENDAR.md.
 
 **Rashifal research-led UX (2026-10-25, live and verified):**

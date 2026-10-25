@@ -1,5 +1,13 @@
 # Organisation licensing production cutover
 
+Latest homepage release (2026-10-25): implementation e01b344, Worker
+8b0c67f7-f075-4561-9e04-4895015b15a0. Rashifal & Kundli calendar feature replaces
+the redundant Daily Satire teaser; legacy daily URLs redirect to the Arena entry.
+Final live Chrome 2/2 and HTTP 6/6 pass, including calendar/fallback/navigation,
+health, sitemap cleanup and unscoped private-API denial. Variables, organisation
+mode, D1 and rate limits retained with --keep-vars; no migrations/business writes.
+Calendar convention, privacy and preserved editorial scope: docs/vedic/HOME_CALENDAR.md.
+
 Latest Rashifal UX release (2026-10-25): implementation fd4dafa, Worker
 43dc1af9-cafd-4438-9131-66874a8d127b, deployed with --keep-vars. Final live
 Chrome 5/5 passes, covering the four Vedic screens and Rashifal mobile languages,
