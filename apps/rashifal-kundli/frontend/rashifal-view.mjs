@@ -5,6 +5,7 @@ import {rashifalLibrary,transitText,readingText} from './rashifal-library.mjs';
 import {signName,bodyName} from './locale.mjs';
 import {renderTimeline,timelineText} from './timeline-view.mjs';
 import {outlookText} from './rashifal-outlook.mjs';
+import {mountDailyAlmanac} from './daily-almanac-view.mjs';
 const symbols=['♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓'],storageKey='synapse-vedic-rashi';
 const romanRashis=['Mesha','Vrishabha','Mithuna','Karka','Simha','Kanya','Tula','Vrishchika','Dhanu','Makara','Kumbha','Meena'];
 const rashiLabel=(number,language)=>language==='en'?`${romanRashis[number-1]} (${signName(number,language)})`:signName(number,language);
@@ -87,7 +88,7 @@ export function mountRashifal(container,{now=()=>Date.now()}={}){
    }catch(error){if(destroyed||current!==revision)return;result.removeAttribute('aria-busy');status.textContent=error.code==='UNSTABLE_BIRTH_TIME'?t.boundary:t.unavailable;}
   },0);
  }
- function translate(){const t=rashifalLabels[language],value=rashi.input.value;root.lang=language;title.textContent=t.title;intro.textContent=t.intro;draft.textContent=t.draft;notice.textContent=t.notice;basis.textContent=t.basis;lang.label.textContent=t.language;rashi.label.textContent=t.rashi;remember.label.textContent=t.remember;clear.textContent=t.clear;tabs.setAttribute('aria-label',t.date);
+ function translate(){almanac.translate(language);const t=rashifalLabels[language],value=rashi.input.value;root.lang=language;title.textContent=t.title;intro.textContent=t.intro;draft.textContent=t.draft;notice.textContent=t.notice;basis.textContent=t.basis;lang.label.textContent=t.language;rashi.label.textContent=t.rashi;remember.label.textContent=t.remember;clear.textContent=t.clear;tabs.setAttribute('aria-label',t.date);
   rashi.input.replaceChildren(el('option',t.choose));rashi.input.options[0].value='';for(let n=1;n<=12;n++){const o=el('option',`${symbols[n-1]} ${rashiLabel(n,language)} (${n})`);o.value=String(n);rashi.input.append(o);}rashi.input.value=value;
   noteSummary.textContent=({en:'About these reflections',hi:'इन संकेतों के बारे में',gu:'આ સંકેતો વિશે'})[language];signGrid.setAttribute('aria-label',t.rashi);for(let n=1;n<=12;n++){signButtons[n-1].lastChild.textContent=language==='en'?romanRashis[n-1]:signName(n,language);signButtons[n-1].setAttribute('aria-label',rashiLabel(n,language));}
   const x=experienceLabels[language];title.textContent=x.hero;eyebrow.textContent=x.tag;intro.textContent=x.private;notes.append(draft);pickerSummary.textContent=x.picker;helpSummary.textContent=x.help;helpText.textContent=x.helpText;kundli.textContent=x.kundli;memoryHint.textContent=x.memory;
@@ -96,6 +97,6 @@ export function mountRashifal(container,{now=()=>Date.now()}={}){
  rashi.input.addEventListener('change',()=>{render();save();});remember.input.addEventListener('change',save);lang.input.addEventListener('change',()=>{language=lang.input.value;translate();});
  clear.addEventListener('click',()=>{remember.input.checked=false;rashi.input.value='';service.clear();render();save();});
  const refresh=()=>{if(document.visibilityState==='visible'&&rashi.input.value&&Math.floor((now()+19800000)/86400000)!==lastIstDay)render();};document.addEventListener('visibilitychange',refresh);window.addEventListener('pageshow',refresh);
- const timer=setInterval(refresh,60000);container.replaceChildren(root);translate();if(saved){rashi.input.value=String(saved);remember.input.checked=true;render();}
- return {destroy(){destroyed=true;revision++;clearTimeout(pending);clearInterval(timer);document.removeEventListener('visibilitychange',refresh);window.removeEventListener('pageshow',refresh);service.clear();service.destroy();root.remove();}};
+ const timer=setInterval(refresh,60000);container.replaceChildren(root);const almanacHost=el('div');root.append(almanacHost);const almanac=mountDailyAlmanac(almanacHost,{now});translate();if(saved){rashi.input.value=String(saved);remember.input.checked=true;render();}
+ return {destroy(){almanac.destroy();destroyed=true;revision++;clearTimeout(pending);clearInterval(timer);document.removeEventListener('visibilitychange',refresh);window.removeEventListener('pageshow',refresh);service.clear();service.destroy();root.remove();}};
 }

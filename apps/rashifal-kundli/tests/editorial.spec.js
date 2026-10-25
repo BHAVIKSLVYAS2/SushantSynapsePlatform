@@ -3,7 +3,7 @@ const {createPreviewServer}=require('../../../infrastructure/preview-vedic-chart
 test.beforeAll(async()=>{server=await createPreviewServer(0,{rashifal:true});});test.afterAll(async()=>{await server?.close();});
 test('P12 manual sign/period factors, native draft translations, mobile themes and privacy',async({page})=>{
  const requests=[],errors=[];page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(e.message));await page.goto(server.origin);
- await expect(page.locator('#rashifal-rashi option')).toHaveCount(13);await expect(page.getByRole('status')).toContainText('Choose a Rashi');
+ await expect(page.locator('#rashifal-rashi option')).toHaveCount(13);await expect(page.locator('.rashifal-reading-pane > [role=status]')).toContainText('Choose a Rashi');
  await expect(page.locator('input[type=date],input[type=time]')).toHaveCount(0);
  await expect(page.locator('.rashifal-signs button')).toHaveCount(12);await page.locator('button[data-rashi="1"]').click();
  await expect(page.locator('#rashifal-rashi')).toHaveValue('1');await expect(page.locator('button[data-rashi="1"]')).toHaveAttribute('aria-pressed','true');

@@ -14,6 +14,7 @@ async function createPreviewServer(port=0,{birth=false,rashifal=false,timeMachin
   ['/tokens.css',['text/css; charset=utf-8',fs.readFileSync(path.join(root,'packages/ui/premium.bundle.css'))]],
   ['/theme.js',['text/javascript; charset=utf-8',fs.readFileSync(path.join(root,'packages/ui/theme.js'))]]
  ]);
+ if(rashifal){assets.set('/daily-almanac.css',['text/css; charset=utf-8',fs.readFileSync(path.join(root,'apps/rashifal-kundli/frontend/daily-almanac.css'))]);const html=assets.get('/');html[1]=html[1].toString().replace('</head>','<link rel="stylesheet" href="/daily-almanac.css"></head>');}
  if(rashifal)for(let sign=1;sign<=12;sign++)for(const theme of ['light','dark'])assets.set(`/rashifal-kundli/moon-signs/${sign}-${theme}.webp`,['image/webp',fs.readFileSync(path.join(root,`apps/rashifal-kundli/frontend/assets/moon-signs/${sign}-${theme}.webp`))]);
  if(birth||matching||timeMachine)assets.set('/birth-app.css',['text/css; charset=utf-8',fs.readFileSync(path.join(root,'apps/rashifal-kundli/frontend/birth-app.css'))]);
  if(birth||matching)assets.set('/rulebook.css',['text/css; charset=utf-8',fs.readFileSync(path.join(root,'apps/rashifal-kundli/frontend/rulebook.css'))]);

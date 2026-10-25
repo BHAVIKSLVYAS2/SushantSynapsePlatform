@@ -1,5 +1,24 @@
 # Chambers functionality ledger
 
+**Ritvayam local timings (2026-10-26):** Displayed English brand casing changed
+from RITVAYAM to Ritvayam in catalogue, home and astrology page titles. The home
+feature and Rashifal now share an app-owned local timing panel: calculated
+sunrise/sunset/moonrise/moonset for the displayed IST civil date and day/night
+Choghadiya from actual local solar boundaries. Current interval is visible and
+highlighted with text/border/aria-current in the expandable schedule. Exact
+boundaries, civil midnight and previous-weekday night before sunrise are handled.
+The existing engine, UTC/TT inversion and sourced Indian city directory are reused.
+New Delhi is explicitly a reference city; choosing another city stores only its
+ID locally, independent of birth profiles. Shared en/hi/gu header controls remain
+authoritative. No new dependency, API, schema, birth-data transmission or device
+location request. Timings are approximate; basic Choghadiya excludes Vaar/Kaal
+Vela, Kaal Ratri and Rahu Kaal overlays. Existing source-acceptance limitations
+remain. Reporting convention, sources and a four-minute Moonrise publisher
+discrepancy are documented in docs/vedic/DAILY_ALMANAC.md. Final Node checks: 13
+passed; dedicated timing/home browser checks: 3 passed. Final stable-export/home
+language/timing regressions: 10 passed; existing Rashifal reading/sign-preference/
+midnight/all-twelve-sign checks: 5 passed. Live release results follow deployment.
+
 **Denser home cards (2026-10-25):** User requested three apps per phone row while
 retaining each introduction. Public/workspace grids now use three columns below
 900px and four above, with 6px mobile gaps and 140px cards (previously 148px).

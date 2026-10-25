@@ -1,5 +1,14 @@
 # Code ownership and adding apps
 
+Daily local timings (2026-10-25): packages/vedic/daily-almanac.mjs calculates
+Sun/Moon civil-day upper-limb events with the pinned Astronomy Engine and the
+existing UTC/TT inversion. Day/night Choghadiya use actual local solar boundaries,
+published weekday sequences and half-open intervals. The app-owned reusable
+daily-almanac-view.mjs serves home and Rashifal; daily-almanac.css uses shared
+tokens. The existing global language control owns en/hi/gu. A selected Indian
+city ID alone is stored under ritvayam.almanac-city.v1; no birth data, geolocation,
+API or schema change. Default New Delhi is explicitly labelled a reference city.
+
 Everyday Kundli (2026-10-25): app-owned kundli-reading.mjs projects admitted
 report facts into a versioned interpretation model; kundli-reading-copy.mjs owns
 original en/hi/gu copy and kundli-reading-view.mjs renders it. No numerical kernel,

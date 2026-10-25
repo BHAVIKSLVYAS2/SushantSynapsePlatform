@@ -4,7 +4,10 @@ Home cards show an icon, app name and short introduction: three columns on phone
 and small tablets, and four on wider screens. Signed-in users can choose
 Edit favourites, select apps, then Done editing to return to launching apps.
 
-RITVAYAM is the platform's astrology app (existing `/rashifal-kundli` links remain).
+Ritvayam is the platform's astrology app (existing `/rashifal-kundli` links remain).
+The home feature and Rashifal page show city-specific sunrise, sunset, moonrise,
+moonset and day/night Choghadiya, with the current interval highlighted live.
+Change city uses the on-device directory and retains only that choice locally.
 Kundli starts with everyday traditional interpretations of personality, presence,
 career, relationships and other life topics, plus computed Dasha-period themes.
 Charts and expert tools remain below. Scope: docs/vedic/KUNDLI_EVERYDAY_UX.md.

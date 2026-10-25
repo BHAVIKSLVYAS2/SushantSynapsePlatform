@@ -1,6 +1,7 @@
 import {panchangSnapshot} from '../../../packages/vedic/panchang.mjs';
 import {amantaMonthAtInstant} from '../../../packages/vedic/lunar-calendar.mjs';
 import {limbText,term} from './display-text.mjs';
+export {mountDailyAlmanac} from './daily-almanac-view.mjs';
 
 // A geocentric instant, not a local sunrise Panchang or festival calendar.
 export function homeCalendar(now=Date.now(),language='en'){

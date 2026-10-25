@@ -39,7 +39,7 @@ test('Rashifal feature replaces Daily Satire with a live calendar and working ap
  await page.clock.setFixedTime(new Date('2026-10-25T08:30:00Z'));await page.goto(base+'/');
  await expect(page.locator('.public-app[data-app-id="rashifal-kundli"]')).toHaveCount(0);
  const card=page.locator('[data-home-vedic]');await card.scrollIntoViewIfNeeded();await expect(card).toHaveAttribute('data-calendar-ready','true');
- await expect(card.locator('h2')).toHaveText('RITVAYAM');await expect(card.locator('.ritvayam-mark')).toHaveCount(1);
+ await expect(card.locator('h2')).toHaveText('Ritvayam');await expect(card.locator('.ritvayam-mark')).toHaveCount(1);
  await expect(card.locator('[data-vedic-samvat]')).toHaveText('2083');await expect(card.locator('[data-vedic-month]')).toHaveText('Ashvina');
  await expect(card.locator('[data-vedic-date]')).toContainText('25 October 2026');await expect(card.locator('[data-vedic-tithi]')).not.toHaveText('—');
  await expect(card.getByRole('link',{name:'Read your Rashifal'})).toHaveAttribute('href','/rashifal-kundli/rashifal');await expect(card.getByRole('link',{name:'Explore Kundli'})).toHaveAttribute('href','/rashifal-kundli');
