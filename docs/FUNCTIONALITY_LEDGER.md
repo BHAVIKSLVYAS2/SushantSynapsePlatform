@@ -8,7 +8,10 @@ remain. Removed stale card/heading update code from signed-in hydration and
 discovery. Catalogue/cache Node checks: 8 passed. Catalogue/delivery browser checks:
 9 passed; stylesheet/settings/native-navigation checks: 3 passed; denied-storage
 language/no-JavaScript check: 1 passed. Mobile visual review confirms the grid
-follows search/filters without the removed cards or heading. Release results follow.
+follows search/filters without the removed cards or heading. Source caf4ce6 deployed
+to apps.sushantsynapse.com, Worker 071083f1-927d-4c7c-8761-b20f033754b4.
+Live removal/layout/language/navigation check: 1 passed. /healthz 200; unscoped
+/api/records 409. Deployment preserved production settings and data.
 
 **Ritvayam local timings (2026-10-26):** Displayed English brand casing changed
 from RITVAYAM to Ritvayam in catalogue, home and astrology page titles. The home
