@@ -18,6 +18,7 @@ test('Rashifal feature replaces Daily Satire with a live calendar and working ap
  await page.clock.setFixedTime(new Date('2026-10-25T08:30:00Z'));await page.goto(base+'/');
  await expect(page.locator('.public-app[data-app-id="rashifal-kundli"]')).toHaveCount(0);
  const card=page.locator('[data-home-vedic]');await card.scrollIntoViewIfNeeded();await expect(card).toHaveAttribute('data-calendar-ready','true');
+ await expect(card.locator('h2')).toHaveText('RITVAYAM');await expect(card.locator('.ritvayam-mark')).toHaveCount(1);
  await expect(card.locator('[data-vedic-samvat]')).toHaveText('2083');await expect(card.locator('[data-vedic-month]')).toHaveText('Ashvina');
  await expect(card.locator('[data-vedic-date]')).toContainText('25 October 2026');await expect(card.locator('[data-vedic-tithi]')).not.toHaveText('—');
  await expect(card.getByRole('link',{name:'Read your Rashifal'})).toHaveAttribute('href','/rashifal-kundli/rashifal');await expect(card.getByRole('link',{name:'Explore Kundli'})).toHaveAttribute('href','/rashifal-kundli');
@@ -29,6 +30,7 @@ test('Rashifal feature replaces Daily Satire with a live calendar and working ap
  await page.evaluate(()=>SynapseTheme.write('dark'));await card.screenshot({path:'.publish/home-vedic-mobile-dark.png'});
  await page.setViewportSize({width:1440,height:1000});await card.screenshot({path:'.publish/home-vedic-desktop-dark.png'});
  await page.evaluate(()=>localStorage.setItem('synapse-language','hi'));await page.reload();await card.scrollIntoViewIfNeeded();await expect(card.locator('[data-vedic-month]')).toContainText('आश्विन');await expect(card.locator('[data-vedic-samvat-label]')).toHaveText('विक्रम संवत');
+ await page.evaluate(()=>SynapseLanguage.set('gu'));await expect(card.locator('[data-vedic-month]')).toContainText('આસો');await expect(card.locator('[data-vedic-samvat-label]')).toHaveText('વિક્રમ સંવત');await expect(card.locator('[data-vedic-date]')).toContainText('ઑક્ટોબર');await card.screenshot({path:'.publish/ritvayam-home-gu.png'});
  const retired=await page.request.get(base+'/satire-arena/daily',{maxRedirects:0});expect(retired.status()).toBe(308);expect(retired.headers().location).toBe('/satire-arena');
  expect(errors).toEqual([]);
 });

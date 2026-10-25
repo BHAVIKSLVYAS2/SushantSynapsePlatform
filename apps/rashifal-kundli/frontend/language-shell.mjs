@@ -5,6 +5,7 @@ export const pageLabels={
 };
 for(const [language,text]of Object.entries({en:'Preview · review pending',hi:'पूर्वावलोकन · समीक्षा लंबित',gu:'પૂર્વાવલોકન · સમીક્ષા બાકી'}))pageLabels[language].previewDetails=text;
 export const languagePreferenceKey='synapse-language';
+for(const [language,label]of Object.entries({en:'Astrology',hi:'ज्योतिष',gu:'જ્યોતિષ'}))pageLabels[language].title=`RITVAYAM · ${label}`;
 export function initLanguageShell(){
  if(!window.SynapseLanguage)throw new Error('Shared language service unavailable.');
  document.body.dataset.sharedLanguage='true';let language='en';

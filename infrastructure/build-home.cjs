@@ -2,6 +2,7 @@
 const fs=require('node:fs'),path=require('node:path'),{transformSync}=require('esbuild');
 const root=path.resolve(__dirname,'..');
 function buildHome(){
+ require('./build-language.cjs').buildLanguage();
  require('../apps/rashifal-kundli/build.cjs').build();
  require('../apps/satire-arena/build-entry.cjs').buildArenaEntry();
  require('./build-catalogue.cjs').buildCatalogue();

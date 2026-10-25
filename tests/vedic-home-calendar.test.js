@@ -6,6 +6,7 @@ test('home calendar uses Chaitra-year Vikram, Amanta month and explicit IST date
  }
  const now=Date.parse('2026-10-25T18:31:00Z'),en=homeCalendar(now),hi=homeCalendar(now,'hi');assert.match(en.date,/26 October 2026/);assert.equal(hi.samvat,en.samvat);assert.match(hi.month,/[\u0900-\u097f]/);assert.match(hi.tithi,/[\u0900-\u097f]/);
  assert.throws(()=>homeCalendar(NaN));assert.throws(()=>homeCalendar(now,'fr'));
+ const gu=homeCalendar(now,'gu');assert.equal(gu.samvat,en.samvat);assert.match(gu.date,/[\u0a80-\u0aff]/);assert.match(gu.month,/[\u0a80-\u0aff]/);assert.match(gu.tithi,/[\u0a80-\u0aff]/);
 });
 test('home removes editorial teaser fetching and legacy landing redirects without an upstream read',async()=>{
  const fs=require('node:fs'),{cloudPages}=await import('../apps/satire-arena/backend/cloud-pages.mjs');

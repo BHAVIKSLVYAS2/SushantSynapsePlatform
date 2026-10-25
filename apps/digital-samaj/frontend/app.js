@@ -1,7 +1,7 @@
 'use strict';
 const $=s=>document.querySelector(s),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let lang='en',samaj,communities=[],session,grants=[],section='directory',kind='persons',currentProfile,draft,saveQueue=Promise.resolve(),autosave,treeScale=1,expandedMember=null,viewEpoch=0;
-const t=(key)=>SamajStrings[lang][key]||SamajStrings.en[key]||key;
+const t=(key)=>window.SynapseLanguage?.get()==='gu'&&Object.hasOwn(SamajStrings.en,key)?window.SynapseLanguage.text(SamajStrings.en[key],'gu'):SamajStrings[lang][key]||SamajStrings.en[key]||key;
 const fieldNames=['englishName','hindiName','gender','dob','birthTime','birthPlace','bloodGroup','maritalStatus','mobile','whatsapp','email','education','qualification','achievements','occupation','designation','organization','workplace','isDeceased','dateOfDeath','nativeVillage','district','state','currentCity','address','pin'];
 const familyFields=['name','nativeVillage','district','state','gotra','kul','kuldevi','kuldevta','address','currentCity','pin','mobile','alternateMobile','whatsapp','email'];
 const sensitive=['mobile','alternateMobile','whatsapp','email','dob','birthTime','birthPlace','address','pin','photo','bloodGroup','achievements'];

@@ -5,6 +5,7 @@ $('#theme').outerHTML=window.SynapseTheme.control('id="theme"');
 function theme(){const p=window.SynapseTheme.read();document.documentElement.dataset.theme=p==='system'?(media.matches?'dark':'light'):p;}
 $('#theme').addEventListener('change',theme);media.addEventListener('change',theme);theme();
 let options=[],rotation=0,spinning=false,result=null,history=[];
+for(const selector of ['#wheel-title','#winner','#history'])document.querySelector(selector)?.setAttribute('data-language-preserve','');
 let removals=[];
 const undoWinner=document.createElement('button');undoWinner.type='button';undoWinner.id='undo-winner';undoWinner.textContent='Undo removed winner';undoWinner.disabled=true;$('.play').append(undoWinner);
 undoWinner.onclick=()=>{if(spinning||!removals.length)return;options=removals.pop();$('#options').value=options.join('\n');rotation=0;clearResult();draw();undoWinner.disabled=!removals.length;$('#status').textContent='Removed winner restored. Every option has an equal chance.';};

@@ -1,5 +1,28 @@
 # Chambers functionality ledger
 
+**RITVAYAM, familiar readings and actual global interface language (2026-10-25):**
+Astrology branding is RITVAYAM, retaining its app ID/routes. Home has a token-based
+lotus/crescent mark; gochar-8 uses familiar en/hi/gu traditional prose addressed
+to the selected Rashi. Computed themes, uncertainty, nine-graha evidence and
+numerical engine remain. No expert authorship or outcome guarantee is claimed.
+Audited 30 anonymous routes and found missing language script delivery, limited
+translation roots, conditional Gujarati, stale URL precedence, an English/Hindi
+home calendar and a second beta language controller. Fixed these with one
+generated shared service and 993 authored interface entries. All shared-header
+pages load the service exactly once; the same three-language menu is temporarily
+hosted in the beta modal rather than duplicated. Saved global language wins over
+stale links and carries across navigation, reload, Back and tabs. User records,
+inputs, source articles and artwork remain original; uncatalogued prose/legal
+source text is not claimed fully translated. Contract and exclusions:
+docs/INTERFACE_LANGUAGE_AUDIT.md. Focused Node passes 26/26, including 64,074
+workerd numeric comparisons (maximum difference 5.69e-14) and explicit exclusion
+of birth/place modules. Final Vedic production-export Chrome passes 18/18.
+Platform language/beta/catalogue Chrome passes 21/21; final three-language beta
+and 27-route retained-language rechecks pass. Wheel/task data-preservation passes
+1/1. Public tool workflows pass 8/8; two stale Ritual extras cases were updated
+to the existing item editor and pass 2/2, adding en/hi/gu custom-text preservation.
+Mobile home mark and daily-reading screenshots reviewed. Live verification follows.
+
 **Everyday Rashifal and supplied sign artwork (2026-10-25):**
 Gochar-7 uses calculated Moon-house themes for an everyday focus and practical
 work/study, spending and relationship suggestions in en/hi/gu. Two observed

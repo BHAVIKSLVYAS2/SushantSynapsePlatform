@@ -1,5 +1,9 @@
 # Sushant Synapse Platform
 
+RITVAYAM is the platform's astrology app (existing `/rashifal-kundli` links remain).
+The shared header owns English/Hindi/Gujarati interface preference across pages.
+Language sources, content exclusions and verification: docs/INTERFACE_LANGUAGE_AUDIT.md.
+
 Sponsorship pages and manual ad placements have been removed. Google AdSense
 Auto Ads code loads globally on eligible anonymous public pages; Google manages
 any resulting placements. It is excluded from private workspaces, sign-in,

@@ -1,6 +1,7 @@
 'use strict';
 (() => {
  if(window.SynapseTheme&&window.SynapseUI)return;
+ try{const value=localStorage.getItem('synapse-language');if(['en','hi','gu'].includes(value)){document.documentElement.lang=value;document.documentElement.dataset.language=value;}}catch{}
  // One mutation subscription point for shared chrome and dynamic app roots.
  const listeners=new Set();
  const observer=new MutationObserver(records=>{for(const listener of listeners)listener(records);});

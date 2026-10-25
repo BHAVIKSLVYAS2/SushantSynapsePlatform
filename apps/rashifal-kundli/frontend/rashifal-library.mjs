@@ -1,7 +1,7 @@
 import {freeze} from '../../../packages/vedic/diagnostics.mjs';
 import {transitRulebook} from '../../../packages/vedic/rashifal-transits.mjs';
 import {bodyName} from './locale.mjs';
-export const rashifalLibrary=freeze({version:'rashifal-gochar-7',catalogueDate:'2026-10-25',author:'Synapse source-linked transit rule engine',status:'draft-not-published',
+export const rashifalLibrary=freeze({version:'rashifal-gochar-8',catalogueDate:'2026-10-25',author:'Synapse source-linked transit rule engine',status:'draft-not-published',
  source:transitRulebook.source,categories:['overview','observations'],
  weekly:'eight three-hourly observations per IST day; evaluate each graha and Vedha independently; report counts without predictive scores',
  translationStatus:{en:'authored-baseline-draft',hi:'draft-awaiting-independent-review',gu:'draft-awaiting-independent-review'}});

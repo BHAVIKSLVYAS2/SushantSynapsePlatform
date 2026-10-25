@@ -1,5 +1,16 @@
 # Code ownership and adding apps
 
+RITVAYAM/global language follow-up (2026-10-25): edit language-runtime.js and
+interface-copy.mjs; language.js is their generated delivery bundle, built through
+build-home.cjs. legalHtml ensures every shared-header page loads it exactly once.
+Saved preferences take priority over stale link defaults. The same three-language
+menu is temporarily hosted in a blocking beta modal and restored on close.
+Generic catalogued UI translation explicitly excludes app-owned Vedic results,
+user content and outputs. New user-content renderers must use
+data-language-preserve/translate=no; dynamic option lists are not translated by
+default. Existing data, routes, app IDs, auth and persistence remain unchanged.
+Audit/scope: docs/INTERFACE_LANGUAGE_AUDIT.md.
+
 Everyday Rashifal (2026-10-25): app-owned rashifal-everyday.mjs selects original
 editorial house themes from computed Moon observations, retaining multiple themes
 or withholding specific advice when appropriate. Numerical engine remains in

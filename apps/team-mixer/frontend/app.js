@@ -5,6 +5,7 @@ const $=s=>document.querySelector(s),media=matchMedia('(prefers-color-scheme: da
 $('#theme').outerHTML=window.SynapseTheme.control('id="theme"');function theme(){const p=window.SynapseTheme.read();document.documentElement.dataset.theme=p==='system'?(media.matches?'dark':'light'):p;}$('#theme').addEventListener('change',theme);media.addEventListener('change',theme);theme();
 let result=null,busy=false,lastMixed=null,previous=null,swapUndo=null;
 const modeLabel=document.createElement('label');modeLabel.textContent='Split by';
+for(const selector of ['#teams','#results-title'])document.querySelector(selector)?.setAttribute('data-language-preserve','');
 const mode=document.createElement('select');mode.id='split-mode';mode.innerHTML='<option value="teams">Number of teams</option><option value="size">Maximum people per team</option>';modeLabel.append(mode);$('#team-count').closest('.pair').prepend(modeLabel);
 const numberLabel=$('label[for=team-count]');numberLabel.append($('#team-count'));numberLabel.firstChild.textContent='Number of teams';
 mode.onchange=()=>{numberLabel.firstChild.textContent=mode.value==='size'?'Maximum people per team':'Number of teams';$('#team-count').max=mode.value==='size'?'100':'20';};

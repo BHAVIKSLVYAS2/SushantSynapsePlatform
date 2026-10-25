@@ -17,7 +17,7 @@ function checklistRow(item){
  const entry=detailEntry(item.id),row=node('div','arrangement-item compact-item'),label=node('label','check-item'),box=node('input');
  row.dataset.checklistItem=item.id;box.type='checkbox';box.dataset.item=item.id;box.checked=checked().has(item.id);box.setAttribute('aria-label',item.label[language]);
  box.onchange=()=>{if(box.checked)checked().add(item.id);else checked().delete(item.id);progress();};
- const body=node('span','item-name'),name=node('strong','',item.label[language]);body.append(name);if(entry.quantity)body.append(node('span','quantity-badge',entry.quantity));
+ const body=node('span','item-name'),name=node('strong','',item.label[language]);if(item.custom||entry.name)name.dataset.languagePreserve='';body.append(name);if(entry.quantity)body.append(node('span','quantity-badge',entry.quantity));
  if(entry.arranger&&!isPriest(entry))body.append(node('small','legacy-arranger',text('arranger')+': '+entry.arranger));
  label.append(box,body);row.append(label);
  const priest=node('label','priest-control'),priestBox=node('input');priestBox.type='checkbox';priestBox.checked=isPriest(entry);priestBox.setAttribute('aria-label',(language==='hi'?'पंडित जी व्यवस्था करेंगे — ':'Pandit Ji will arrange — ')+item.label[language]);priestBox.onchange=()=>{if(priestBox.checked&&entry.arranger&&!isPriest(entry)&&!confirm(language==='hi'?'मौजूदा जिम्मेदार नाम को पंडित जी से बदलें?':'Replace the existing arranger name with Pandit Ji?')){priestBox.checked=false;return;}entry.arranger=priestBox.checked?priestName:'';persist();renderGuide();};priest.append(priestBox);row.append(priest);
