@@ -13,7 +13,12 @@ separate from interface language. The portal's redundant startup/media theme
 logic is removed; shared theme resolution persists across pages/tabs, with one
 visible header toggle. Final shared platform browser checks pass 7/7, including
 cross-app/tab/input preservation. Vedic export Chrome passes 16/16 and preference
-migration passes 1/1; focused Node checks pass 9/9. Live verification follows.
+migration passes 1/1; focused Node checks pass 9/9. Implementation 0d854d1 is
+deployed as Worker 446a7be4-105c-4f3e-863b-3b12c32877a4 with --keep-vars.
+Live Vedic Chrome passes 17/17 and the cross-app/tab settings scenario passes
+1/1. Healthz and Vedic page return 200; private-page CSP/no-referrer remain;
+unscoped /api/records remains denied (409). Organisation mode, existing variables,
+D1 and rate limits preserved; no migrations or business-data writes.
 Prior readable-prediction release 92e9ffd
 was deployed as Worker 766bcae7-c20f-4c4b-818b-24730728258f and passed 16/16 live
 Chrome checks before this shared-control follow-up.

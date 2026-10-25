@@ -1,5 +1,20 @@
 # Organisation licensing production cutover
 
+Latest shared settings release (2026-10-25): implementation 0d854d1, Worker
+446a7be4-105c-4f3e-863b-3b12c32877a4 deployed with --keep-vars. The existing
+shared header owns interface language and theme globally. Generic language
+adapters replace Vedic's separate menu/preference observers; legacy preferences
+migrate, cross-tab changes synchronize and birth inputs survive translation.
+Unsupported translations retain the preferred language with an English fallback.
+Portal's redundant theme startup/media writes are removed. Readable Rashifal
+predictions and calculations remain. Shared platform Chrome 7/7, Vedic export
+Chrome 16/16, migration 1/1 and focused Node 9/9 pass. Live Vedic Chrome 17/17
+and cross-app/tab settings 1/1 pass. Healthz/page 200; private-page CSP and
+no-referrer retained; unscoped /api/records 409. Existing production variables,
+organisation mode, D1 and rate limits preserved; no migrations or business writes.
+Evidence: .publish/global-settings-live-vedic and
+.publish/global-settings-live-cross-app.
+
 Latest Rashifal timing release (2026-10-25): implementation 1f86c5e, Worker
 c2577285-ce70-4113-9bfb-a99830bf81bb, deployed with --keep-vars. Gochar-5 adds
 calculated IST sign/screen-edge changes with per-Rashi before/after rules and
