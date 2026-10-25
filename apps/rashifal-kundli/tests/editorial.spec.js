@@ -34,3 +34,19 @@ test('P12 active page refreshes its editorial day at the next minute after IST m
  await page.clock.runFor(60000);await expect(page.locator('#rashifal-result')).toContainText('2026-10-25 → 2026-10-25');
  await page.locator('#rashifal-clear').click();await page.clock.runFor(60000);await expect(page.locator('#rashifal-result')).toBeEmpty();
 });
+
+test('reading-first setup, sign help and keyboard topic navigation preserve all reading content',async({page})=>{
+ await page.setViewportSize({width:390,height:844});await page.goto(server.origin);
+ await expect(page.locator('.rashifal-picker')).toHaveAttribute('open','');
+ await page.locator('.rashifal-help summary').click();await expect(page.locator('.rashifal-help')).toContainText('Western Sun sign');
+ await expect(page.locator('.rashifal-help a')).toHaveAttribute('href','/rashifal-kundli');
+ await page.locator('button[data-rashi="5"]').click();await expect(page.locator('.rashifal-picker')).not.toHaveAttribute('open','');
+ await expect(page.locator('.rashifal-reading>section')).toHaveCount(5);
+ await page.locator('.rashifal-topics a').filter({hasText:'Career'}).focus();await page.keyboard.press('Enter');
+ await expect(page.locator('#rashifal-topic-career')).toBeFocused();await expect(page.locator('.rashifal-reading>section')).toHaveCount(5);
+ await page.locator('.rashifal-picker summary').click();await page.locator('button[data-rashi="9"]').click();
+ await expect(page.locator('#rashifal-rashi')).toHaveValue('9');await expect(page.locator('#rashifal-result h2')).toContainText('Dhanu');
+ await page.locator('#rashifal-remember').check();await page.reload();await expect(page.locator('.rashifal-picker')).not.toHaveAttribute('open','');
+ await expect(page.locator('#rashifal-rashi')).toHaveValue('9');await page.locator('#rashifal-clear').click();
+ await expect(page.locator('.rashifal-picker')).toHaveAttribute('open','');await expect(page.locator('#rashifal-result')).toBeEmpty();
+});

@@ -31,3 +31,26 @@ for(const route of ['rashifal','matching','time-machine'])test('built '+route+' 
  const errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r.url()));await page.goto(origin+'/rashifal-kundli/'+route);
  await expect(page.locator('main')).not.toBeEmpty();await expect(page.locator('header nav')).toBeVisible();expect(errors).toEqual([]);expect(requests.every(url=>url.startsWith(origin))).toBe(true);
 });
+
+test('Rashifal reading-first production layout keeps translations, theme and privacy intact',async({page})=>{
+ const errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r));
+ await page.setViewportSize({width:390,height:844});const response=await page.goto(origin+'/rashifal-kundli/rashifal');
+ expect(response.headers()['content-security-policy']).toContain("connect-src 'none'");
+ await expect(page.locator('.rashifal-preview-info')).not.toHaveAttribute('open','');await page.locator('.rashifal-preview-info summary').click();
+ await expect(page.locator('[data-vedic-text=warning]')).toBeVisible();await page.locator('.rashifal-preview-info summary').click();
+ await page.locator('.rashifal-signs button').nth(4).click();await expect(page.locator('.rashifal-reading>section')).toHaveCount(5);
+ await expect(page.locator('.rashifal-signs')).toBeHidden();
+ for(const language of ['en','hi','gu']){
+  await page.locator('#vedic-language').selectOption(language);await expect(page.locator('.rashifal-reading')).toHaveAttribute('lang',language);
+  for(const width of [320,390,768,1440])for(const theme of ['light','dark','system']){
+   await page.setViewportSize({width,height:844});await page.locator('#theme').selectOption(theme);
+   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  }
+ }
+ await page.locator('#vedic-language').selectOption('en');await page.setViewportSize({width:390,height:844});await page.locator('#theme').selectOption('light');
+ await page.screenshot({path:'.publish/rashifal-ux-mobile-light.png',fullPage:true});
+ await page.locator('#theme').selectOption('dark');await page.screenshot({path:'.publish/rashifal-ux-mobile-dark.png',fullPage:true});
+ await page.setViewportSize({width:1440,height:1000});await page.screenshot({path:'.publish/rashifal-ux-desktop-dark.png',fullPage:true});
+ expect(errors).toEqual([]);expect(requests.every(r=>r.method()==='GET'&&r.url().startsWith(origin))).toBe(true);
+ expect(await page.evaluate(()=>localStorage.getItem('synapse-vedic-rashi'))).toBeNull();
+});

@@ -1,5 +1,12 @@
 # Organisation licensing production cutover
 
+Rashifal UI release (2026-10-25): commit 93222c8, Worker
+ab72a6b9-dbcd-4fde-b063-02bb303b3a00, deployed at the user's request and live
+read-only Chrome smoke 1/1 passed. Existing production variables, organisation
+mode, rate limits and D1 bindings retained with --keep-vars; no migrations or
+business writes. Subsequent research-led UX verification/release is tracked in
+FUNCTIONALITY_LEDGER.md and docs/vedic/RASHIFAL_UX_RESEARCH.md.
+
 Latest production release (2026-10-25): public Vedic verification preview,
 implementation 46c81a6 plus no-transform privacy correction 420572b, Worker
 0ad599ab-aaa6-4ff4-8a71-a5c15bfa8e70. User explicitly authorised production testing.

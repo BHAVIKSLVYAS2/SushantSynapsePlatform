@@ -1,5 +1,29 @@
 # Chambers functionality ledger
 
+**Rashifal research-led UX (2026-10-25, verified; deployment follows):**
+Public-source review of Astrotalk, AstroSage, CHANI and Co–Star is recorded in
+docs/vedic/RASHIFAL_UX_RESEARCH.md, with evidence, limitations and design choices.
+Rashifal now discloses full preview warnings on demand, collapses its visual
+sign picker after selection, provides Moon-sign help and an existing Kundli link,
+and offers keyboard-accessible topic jumps. Human-readable IST period dates lead;
+exact dates, publication/retrieval metadata and provenance remain in explanation.
+Selected-state mobile hero is compact; no inferred sign, forced account, new
+prediction, tracking, persistence or calculation change. All copy supports en/hi/gu.
+Editorial Chrome 4/4 and Node language/production-privacy checks 6/6 pass.
+Production-export Chrome 11/11 passes, including all four Vedic pages, language
+navigation/reloads and 36 Rashifal width/theme/language combinations. Mobile
+light/dark and desktop dark screenshots reviewed under .publish/rashifal-ux-*.
+Frontend organisation-aware build and syntax/whitespace checks pass. Research
+does not establish measured superiority; no user-study or analytics is claimed.
+
+**Rashifal first redesign deployment (2026-10-25):** User requested commit/deploy.
+Implementation 93222c8 is committed and pushed to the explicitly approved
+BHAVIKSLVYAS2/SushantSynapsePlatform GitHub remote. Worker
+ab72a6b9-dbcd-4fde-b063-02bb303b3a00 serves the redesign at
+https://apps.sushantsynapse.com/rashifal-kundli/rashifal. Live read-only Chrome
+entry smoke passes 1/1. Existing production variables, organisation mode and
+D1 bindings preserved with --keep-vars; no migrations or business writes.
+
 **Rashifal mobile redesign (2026-10-25, locally verified; not deployed):**
 App-owned celestial hero, token-based Moon artwork, twelve accessible tappable
 Chandra Rashi cards, selected-state feedback, segmented period controls and
