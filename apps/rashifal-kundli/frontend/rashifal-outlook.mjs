@@ -1,5 +1,6 @@
 import {freeze} from '../../../packages/vedic/diagnostics.mjs';
 import {bodyName} from './locale.mjs';
+import {composeEveryday} from './rashifal-everyday.mjs';
 
 export const outlookModel=freeze({id:'calculated-transit-outlook-1',
  scope:'Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model.'});
@@ -65,7 +66,7 @@ export function composeOutlook({grahas,timeline,language}){
    timing=change?t.turn(time,t.turns[change.affected.find(a=>a.body==='Moon').toStatus]):ingress?t.ingress(time):t.boundary(time);
   }else if(!relevant.length)timing=t.noChange;
  }
- return freeze({modelId:outlookModel.id,mood,headline:t[mood][0],paragraphs:[t[mood][1],kind==='quiet'?t.quiet:t[kind](names),timing],
+ return freeze({modelId:outlookModel.id,mood,everyday:composeEveryday({moon,mood,language}),headline:t[mood][0],paragraphs:[t[mood][1],kind==='quiet'?t.quiet:t[kind](names),timing],
   trace:{moonCounts:c,focusKind:kind,focusBodies:focus.map(g=>g.body),timingUtc:timeline.status==='available'?event?.utcInstant??null:null,timingKind:timeline.status==='available'?event?.kind??null:null,timelineStatus:timeline.status},
   scope:outlookModel.scope});
 }

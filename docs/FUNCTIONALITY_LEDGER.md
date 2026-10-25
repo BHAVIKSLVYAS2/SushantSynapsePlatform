@@ -1,5 +1,24 @@
 # Chambers functionality ledger
 
+**Everyday Rashifal and supplied sign artwork (2026-10-25):**
+Gochar-7 uses calculated Moon-house themes for an everyday focus and practical
+work/study, spending and relationship suggestions in en/hi/gu. Two observed
+houses retain both themes; widely varying/uncertain readings do not receive a
+false single-theme forecast. The pace suggestion retains computed classification.
+These are original editorial suggestions, not independently validated classical
+life-event rules or personal predictions. All numerical evidence and timing are
+retained in one initially collapsed calculation section. The supplied sheet is
+used as 24 light/dark WebP illustrations (214,090 bytes), with accessible sign
+buttons and names, shared resolved theme and no extra settings controller.
+Market review, interpretation boundaries and image provenance:
+docs/vedic/RASHIFAL_EVERYDAY_UX.md. Focused Node checks pass 14/14, including
+workerd parity (64,074 numeric comparisons; maximum difference 5.69e-14).
+Final outlook-only recheck passes 3/3. Production-export Chrome passes 18/18;
+preview scenarios pass 5/5 after updating evidence checks to expand calculations.
+Light/dark picker and daily-reading screenshots reviewed; 320–1440 px layouts,
+three languages, nine-graha evidence and Worker fallback retained. Live release
+verification follows.
+
 **One global language/theme control (2026-10-25):**
 The existing header language menu is the sole interface control across portal
 and Vedic pages. Removed Vedic menu markup, custom menu construction, preference

@@ -20,7 +20,7 @@ test('P12 manual sign/period factors, native draft translations, mobile themes a
  expect(await page.evaluate(()=>localStorage.getItem('synapse-vedic-rashi'))).toBeNull();expect(requests.every(url=>url.startsWith(server.origin))).toBe(true);expect(page.url()).toBe(server.origin+'/');expect(errors).toEqual([]);
 });
 test('P12 sign preference is opt-in, validates stored input and clear removes it',async({page})=>{
- await page.goto(server.origin);await page.locator('#rashifal-rashi').selectOption('12');await expect(page.locator('.rashifal-reading')).toBeVisible();await page.reload();await expect(page.locator('#rashifal-rashi')).toHaveValue('');
+ await page.goto(server.origin);await page.locator('#rashifal-rashi').selectOption('12');await expect(page.locator('.rashifal-prediction')).toBeVisible();await page.reload();await expect(page.locator('#rashifal-rashi')).toHaveValue('');
  await page.locator('#rashifal-rashi').selectOption('4');await page.locator('#rashifal-remember').check();expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('synapse-vedic-rashi')))).toEqual({version:1,rashi:4});
  await page.reload();await expect(page.locator('#rashifal-rashi')).toHaveValue('4');await expect(page.locator('#rashifal-remember')).toBeChecked();
  await page.locator('#rashifal-clear').click();await expect(page.locator('#rashifal-result')).toBeEmpty();expect(await page.evaluate(()=>localStorage.getItem('synapse-vedic-rashi'))).toBeNull();
@@ -55,11 +55,11 @@ test('all twelve Rashis render calculated readings and nine-graha observation ev
  await page.clock.setFixedTime(new Date('2026-10-25T08:30:00Z'));await page.goto(server.origin);const signatures=new Set();
  for(let rashi=1;rashi<=12;rashi++){
   await page.locator('#rashifal-rashi').selectOption(String(rashi));await expect(page.locator('.rashifal-transit-table tbody tr')).toHaveCount(9);
-  signatures.add(await page.locator('.rashifal-reading').innerText());
+  await page.locator('.rashifal-calculations summary').click();signatures.add(await page.locator('.rashifal-reading').innerText());
   const rows=await page.locator('.rashifal-transit-table tbody tr').evaluateAll(rows=>rows.map(r=>({sign:Number(r.dataset.rashi),house:Number(r.dataset.house)})));
   for(const row of rows)expect(row.house).toBe((row.sign-rashi+12)%12+1);
  }expect(signatures.size).toBe(12);
- await page.locator('#rashifal-result summary').click();await expect(page.locator('#rashifal-observation option')).toHaveCount(8);
+ await expect(page.locator('#rashifal-observation')).toBeVisible();await expect(page.locator('#rashifal-observation option')).toHaveCount(8);
  await page.locator('#rashifal-observation').selectOption('0');await expect(page.locator('.rashifal-transit-table caption')).toContainText('00:00 IST');
  await page.locator('[data-view=weekly]').click();await page.locator('#rashifal-result summary').click();await expect(page.locator('#rashifal-observation option')).toHaveCount(56);
  await page.locator('#rashifal-observation').selectOption('55');await expect(page.locator('.rashifal-transit-table caption')).toContainText('21:00 IST');

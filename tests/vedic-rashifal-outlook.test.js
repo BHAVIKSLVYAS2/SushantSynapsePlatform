@@ -12,8 +12,25 @@ test('human outlook follows each Rashi’s calculated Moon and planetary factors
   if(language==='en')readings.add(JSON.stringify(o.paragraphs));else assert.match(o.paragraphs.join(' '),language==='hi'?/[\u0900-\u097f]/:/[\u0a80-\u0aff]/);
   assert.doesNotMatch(o.paragraphs.join(' '),/\bH\d+\b|\d\/8|probability|guaranteed success/);
   assert.ok(Object.isFrozen(o));
+  assert.deepEqual(o.everyday.houses,r.grahas.find(g=>g.body==='Moon').houses);
+  assert.doesNotMatch(JSON.stringify(o.everyday),/Vedha|\bH\d+\b|probability|guaranteed success/);
+  assert.ok(o.everyday.headline&&o.everyday.summary&&o.everyday.notice);
  }
  assert.ok(readings.size>4,'Distinct calculated patterns must not collapse into the former four editorial groups.');
+});
+
+test('everyday themes cover twelve computed houses in three languages and withhold precise themes when uncertain',async()=>{
+ const {composeEveryday}=await import('../apps/rashifal-kundli/frontend/rashifal-everyday.mjs');
+ for(const language of ['en','hi','gu']){
+  const headlines=new Set();for(let house=1;house<=12;house++){
+   const reading=composeEveryday({moon:{houses:[house]},mood:'supportive',language});
+   headlines.add(reading.headline);assert.equal(reading.areas.length,3);assert.equal(reading.mode,'single');
+   for(const area of reading.areas)assert.ok(area.label&&area.text);
+  }assert.equal(headlines.size,12);
+  for(const [houses,mood,mode] of [[[1,2],'mixed','mixed'],[[1,2,3,4],'mixed','broad'],[[1],'uncertain','uncertain'],[[],'neutral','uncertain']]){
+   const r=composeEveryday({moon:{houses},mood,language});assert.equal(r.mode,mode);assert.ok(r.headline&&r.summary);assert.equal(r.areas.length,mode==='mixed'?3:0);
+  }
+ }
 });
 
 test('uncertain inputs, partial timing and an edge-only event never produce a confident prediction or false no-change claim',async()=>{

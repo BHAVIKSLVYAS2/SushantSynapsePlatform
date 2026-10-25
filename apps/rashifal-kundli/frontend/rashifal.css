@@ -73,6 +73,26 @@
 @media(prefers-reduced-motion:reduce){.vedic-rashifal button{transition:none}}
 @media print{.rashifal-orbit,.rashifal-chooser,.rashifal-tabs{display:none}.rashifal-workspace{display:block}.rashifal-reading>section{break-inside:avoid}}
 
+/* Supplied Moon-sign artwork follows the shared resolved theme. */
+.rashifal-sign-art{display:block;flex-shrink:0;width:100%;max-width:6rem;overflow:hidden;border-radius:50%;aspect-ratio:190/206}
+.rashifal-sign-art img{display:block;width:100%;height:100%;object-fit:cover}
+.rashifal-sign-art .rashifal-sign-dark{display:none}
+:root[data-theme=dark] .rashifal-sign-art .rashifal-sign-light{display:none}
+:root[data-theme=dark] .rashifal-sign-art .rashifal-sign-dark{display:block}
+.rashifal-signs button{padding:.4rem .2rem .6rem;gap:.35rem}
+.rashifal-selected-art{float:inline-end;width:5rem;margin:0 0 .8rem .8rem}
+.rashifal-prediction{display:flow-root}
+.rashifal-prediction h5{font-size:.9rem;margin:0 0 .4rem;color:var(--ui-ink)}
+.rashifal-daily-theme{padding:.85rem 0;border-top:1px solid var(--ui-edge)}
+.rashifal-daily-theme p{margin:.2rem 0}
+.rashifal-daily-action{font-weight:650;padding:.8rem 0}
+.rashifal-life-areas{clear:both;display:grid;gap:.75rem;margin:1.25rem 0}
+.rashifal-life-areas>section{padding:1rem;border:1px solid var(--ui-edge);border-radius:1rem;background:var(--ui-solid)}
+.rashifal-life-areas p{font-size:.9rem!important;line-height:1.7!important;margin:0!important}
+.rashifal-calculations{clear:both;margin:1rem 0}
+.rashifal-calculations>summary{min-height:48px;font-weight:650}
+@media(min-width:700px){.rashifal-life-areas{grid-template-columns:repeat(3,minmax(0,1fr))}.rashifal-selected-art{width:6.5rem}}
+
 /* Reading-first refinement: disclose setup and technical depth on demand. */
 .rashifal-transit-table{width:100%;border-collapse:collapse;font-size:.72rem;table-layout:fixed}.rashifal-transit-table th,.rashifal-transit-table td{text-align:start;vertical-align:top;padding:.7rem .3rem;border-bottom:1px solid var(--ui-edge);overflow-wrap:anywhere}.rashifal-transit-table caption{text-align:start;margin:.8rem 0;color:var(--ui-ink)}
 .vedic-rashifal-page>.vedic-app-header{position:relative;background:var(--ui-solid);gap:.35rem .7rem}

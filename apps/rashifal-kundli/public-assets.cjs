@@ -1,5 +1,6 @@
 const prefix='/rashifal-kundli',base='apps/rashifal-kundli/frontend/';
 const assets={};
+for(let sign=1;sign<=12;sign++)for(const theme of ['light','dark'])assets[`${prefix}/moon-signs/${sign}-${theme}.webp`]=`${base}assets/moon-signs/${sign}-${theme}.webp`;
 for(const entry of ['birth','rashifal','matching','time-machine']){
  const route=entry==='birth'?prefix:prefix+'/'+entry;
  assets[route]=assets[route+'/']=base+'production/'+entry+'.html';

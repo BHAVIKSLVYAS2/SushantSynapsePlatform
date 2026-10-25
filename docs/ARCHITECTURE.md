@@ -1,5 +1,12 @@
 # Code ownership and adding apps
 
+Everyday Rashifal (2026-10-25): app-owned rashifal-everyday.mjs selects original
+editorial house themes from computed Moon observations, retaining multiple themes
+or withholding specific advice when appropriate. Numerical engine remains in
+packages/vedic. Technical evidence is disclosed below the main practical reading.
+Supplied sign artwork is app-owned and explicitly public-allowlisted; it uses the
+existing shared resolved theme, language and accessible sign selection controls.
+
 Global settings (2026-10-25): packages/ui/language.js owns the one shared header
 menu, canonical preference, tab synchronization, migration and legacy bridges.
 Apps register SynapseLanguage.register({languages,controls,apply,legacyKeys});

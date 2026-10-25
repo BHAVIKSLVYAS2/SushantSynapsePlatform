@@ -1,5 +1,9 @@
 # Reading first, calculations below
 
+Gochar-7 follow-up: the primary card now uses the everyday house-theme adapter
+described in RASHIFAL_EVERYDAY_UX.md. The three classification/timing paragraphs
+below remain in expandable calculation evidence, not the primary card.
+
 25 October 2026. Presentation/rule version `rashifal-gochar-6` adds an app-owned
 plain-language outlook above the numerical summary, transit timeline and evidence.
 Today, tomorrow and weekly views have their own heading; English, Hindi and

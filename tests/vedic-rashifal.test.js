@@ -1,5 +1,5 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
-const request={rashi:1,view:'today',language:'en',ruleVersion:'rashifal-gochar-6',calculationProfileId:'IN_LAHIRI_DEFAULT_V1'};
+const request={rashi:1,view:'today',language:'en',ruleVersion:'rashifal-gochar-7',calculationProfileId:'IN_LAHIRI_DEFAULT_V1'};
 const now=Date.parse('2026-10-24T12:00Z');
 test('P12 IST day/tomorrow and Monday weeks cross UTC/year/leap boundaries explicitly',async()=>{
  const {rashifalPeriod:f}=await import('../packages/vedic/rashifal-factors.mjs');
@@ -59,7 +59,7 @@ test('Authored Hindi/Gujarati drafts display natively with unchanged factors and
  const {createRashifalService}=await import('../apps/rashifal-kundli/frontend/rashifal-service.mjs'),{rashifalLibrary}=await import('../apps/rashifal-kundli/frontend/rashifal-library.mjs'),{rashifalLabels}=await import('../apps/rashifal-kundli/frontend/rashifal-view.mjs');
  const service=createRashifalService(),english=service.getReading(request,{now}).reading;
  for(const language of ['hi','gu']){const r=service.getReading({...request,language},{now}).reading;assert.equal(r.contentLanguage,language);assert.equal(r.fallback,false);assert.equal(r.translationStatus,'draft-awaiting-independent-review');assert.deepEqual(r.factors,english.factors);assert.deepEqual(r.sections.map(s=>s.items.map(i=>i.id)),english.sections.map(s=>s.items.map(i=>i.id)));assert.notDeepEqual(r.sections,english.sections);assert.deepEqual(Object.keys(rashifalLabels[language]),Object.keys(rashifalLabels.en));assert.doesNotMatch(r.sections.flatMap(s=>s.items.map(i=>i.text)).join(' '),/\b(Sun|Moon|Mars|Mercury|Jupiter|Venus|Saturn)\b/);}
- assert.equal(rashifalLibrary.version,'rashifal-gochar-6');assert.ok(!('groups' in rashifalLibrary));
+ assert.equal(rashifalLibrary.version,'rashifal-gochar-7');assert.ok(!('groups' in rashifalLibrary));
 });
 
 test('all twelve Rashis use their own nine-graha house vectors and never collapse to four generic readings',async()=>{

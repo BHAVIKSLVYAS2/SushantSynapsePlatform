@@ -7,7 +7,7 @@ test.beforeAll(async()=>{
   const url=new URL(req.url,'http://localhost'),target=pages[url.pathname]||url.pathname;
   const file=path.join(process.cwd(),'infrastructure/cloudflare/dist',target);
   if(!fs.existsSync(file)||!fs.statSync(file).isFile()){res.writeHead(404);res.end();return;}
-  res.writeHead(200,{...headers,'Content-Type':file.endsWith('.html')?'text/html':file.endsWith('.css')?'text/css':'text/javascript'});res.end(fs.readFileSync(file));
+  res.writeHead(200,{...headers,'Content-Type':file.endsWith('.webp')?'image/webp':file.endsWith('.html')?'text/html':file.endsWith('.css')?'text/css':'text/javascript'});res.end(fs.readFileSync(file));
  });await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));origin='http://127.0.0.1:'+server.address().port;
 });
 test.afterAll(async()=>{if(server)await new Promise(resolve=>server.close(resolve));});
@@ -75,7 +75,7 @@ test('Rashifal reading-first production layout keeps translations, theme and pri
 test('production Rashifal computes separate nine-graha evidence for every selected Moon sign',async({page})=>{
  await page.clock.setFixedTime(new Date('2026-10-25T08:30:00Z'));await page.goto(origin+'/rashifal-kundli/rashifal');const readings=new Set();
  for(let rashi=1;rashi<=12;rashi++){
-  await page.locator('#rashifal-rashi').selectOption(String(rashi));await expect(page.locator('.rashifal-transit-table tbody tr')).toHaveCount(9);readings.add(await page.locator('.rashifal-reading').innerText());
+  await page.locator('#rashifal-rashi').selectOption(String(rashi));await expect(page.locator('.rashifal-transit-table tbody tr')).toHaveCount(9);await page.locator('.rashifal-calculations summary').click();readings.add(await page.locator('.rashifal-reading').innerText());
   const rows=await page.locator('.rashifal-transit-table tbody tr').evaluateAll(rows=>rows.map(r=>[Number(r.dataset.rashi),Number(r.dataset.house)]));
   for(const [sign,house]of rows)expect(house).toBe((sign-rashi+12)%12+1);
  }
@@ -84,6 +84,26 @@ test('production Rashifal computes separate nine-graha evidence for every select
 });
 
 async function chooseLanguage(page,language){await page.locator('.platform-language summary').click();await page.locator('[data-interface-language='+language+']').click();}
+
+test('supplied sign illustrations follow shared themes and everyday reading keeps technical details optional',async({page})=>{
+ await page.clock.setFixedTime(new Date('2026-10-25T08:30:00Z'));await page.setViewportSize({width:390,height:900});await page.goto(origin+'/rashifal-kundli/rashifal');
+ await expect(page.locator('.rashifal-signs img')).toHaveCount(24);
+ for(const theme of ['light','dark']){
+  await page.evaluate(value=>SynapseTheme.write(value),theme);
+  const images=page.locator('.rashifal-signs .rashifal-sign-'+theme);await expect(images.first()).toBeVisible();
+  await expect.poll(()=>images.evaluateAll(nodes=>nodes.every(img=>img.complete&&img.naturalWidth===190))).toBe(true);
+  await page.locator('.rashifal-signs').screenshot({path:'.publish/moon-sign-picker-'+theme+'.png'});
+ }
+ await page.locator('[data-rashi="1"]').click();await expect(page.locator('.rashifal-life-areas>section')).toHaveCount(3);
+ await expect(page.locator('.rashifal-calculations')).not.toHaveAttribute('open','');await expect(page.locator('.rashifal-reading')).toBeHidden();
+ await expect(page.locator('.rashifal-prediction')).not.toContainText(/Vedha|graha|H12|boundary-screening/);
+ for(const language of ['hi','gu','en']){
+  await chooseLanguage(page,language);await expect(page.locator('.rashifal-prediction')).toHaveAttribute('lang',language);
+  await expect(page.locator('.rashifal-life-areas>section')).toHaveCount(3);
+ }
+ for(const theme of ['light','dark']){await page.evaluate(value=>SynapseTheme.write(value),theme);await page.locator('.rashifal-prediction').screenshot({path:'.publish/rashifal-everyday-'+theme+'.png'});}
+ await page.locator('.rashifal-calculations summary').click();await expect(page.locator('.rashifal-reading')).toBeVisible();await expect(page.locator('.rashifal-planet[data-body]')).toHaveCount(9);
+});
 
 test('calculated timeline shows IST roots and rule reasons across every Rashi, period and language',async({page})=>{
  const workers=[],errors=[];page.on('worker',w=>workers.push(w.url()));page.on('pageerror',e=>errors.push(e.message));
@@ -105,7 +125,7 @@ test('calculated timeline shows IST roots and rule reasons across every Rashi, p
  await expect(page.locator('.rashifal-timeline li')).toHaveCount(0);await expect(page.locator('.rashifal-timeline')).toContainText('No sign or boundary-screening changes found');
  expect(workers.some(url=>url.includes('/rashifal-worker.mjs'))).toBe(true);expect(errors).toEqual([]);
  await page.setViewportSize({width:390,height:900});await page.locator('[data-view=today]').click();await expect(page.locator('.rashifal-timeline li')).toHaveCount(3);
- await page.locator('.rashifal-timeline').screenshot({path:'.publish/rashifal-timeline-mobile-dark.png'});
+ await page.locator('.rashifal-calculations summary').click();await page.locator('.rashifal-timeline').screenshot({path:'.publish/rashifal-timeline-mobile-dark.png'});
  await page.locator('#rashifal-clear').click();await expect(page.locator('#rashifal-result')).toBeEmpty();
 });
 
