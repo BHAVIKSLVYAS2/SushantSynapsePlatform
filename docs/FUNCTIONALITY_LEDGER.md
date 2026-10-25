@@ -8,7 +8,7 @@ numerical engine remain. No expert authorship or outcome guarantee is claimed.
 Audited 30 anonymous routes and found missing language script delivery, limited
 translation roots, conditional Gujarati, stale URL precedence, an English/Hindi
 home calendar and a second beta language controller. Fixed these with one
-generated shared service and 993 authored interface entries. All shared-header
+generated shared service and 1,000 authored interface entries. All shared-header
 pages load the service exactly once; the same three-language menu is temporarily
 hosted in the beta modal rather than duplicated. Saved global language wins over
 stale links and carries across navigation, reload, Back and tabs. User records,
@@ -22,7 +22,13 @@ and retained-language rechecks pass (28 routes, including signed-out Chambers).
 Gujarati home-calendar/branding recheck passes 1/1. Wheel/task data-preservation passes
 1/1. Public tool workflows pass 8/8; two stale Ritual extras cases were updated
 to the existing item editor and pass 2/2, adding en/hi/gu custom-text preservation.
-Mobile home mark and daily-reading screenshots reviewed. Live verification follows.
+Mobile home mark and daily-reading screenshots reviewed. Live checks exposed a
+production-only organisation sign-in gate: its heading/helper/actions are now
+translated, with an organisation-mode fixture passing 1/1 and account text
+preserved through all three languages. Shared catalogue/delivery recheck passes
+3/3. First production release 3694229f-bdb2-4835-81ec-d5ffcd62689c passed 5/5
+reading checks and 2/2 cross-tab/input checks; the final gate follow-up and full
+navigation verification follow.
 
 **Everyday Rashifal and supplied sign artwork (2026-10-25):**
 Gochar-7 uses calculated Moon-house themes for an everyday focus and practical

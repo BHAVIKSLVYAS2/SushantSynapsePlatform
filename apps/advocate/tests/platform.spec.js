@@ -7,6 +7,12 @@ test.beforeEach(async()=>{f=await startPreview({chambers:true,multi:true});});
 test.afterEach(async()=>{await f.stop();});
 async function login(page,user='master'){expect((await page.request.post(f.base+'/api/auth/login',{data:{email:user+'@example.com',password:f.password}})).status()).toBe(200);}
 const url=(org=f.organisationId,section='dashboard')=>f.base+'/advocate?organisation='+org+'#'+section;
+
+test('organisation sign-in gate uses the retained global language and preserves entered account text',async({page})=>{
+ await page.addInitScript(()=>localStorage.setItem('synapse-language','gu'));await page.goto(f.base+'/advocate');await expect(page.locator('.organisation-gate h1')).toHaveText('તમારું Chambers કાર્યક્ષેત્ર પસંદ કરો');await expect(page.locator('.organisation-gate [role=status]')).toContainText('હાલના ખાતાથી');await page.locator('input[type=email]').fill('language-fixture@example.com');
+ for(const language of ['hi','en','gu']){const menu=page.locator('.platform-language');if(await menu.getAttribute('open')===null)await menu.locator('summary').click();await page.locator('[data-interface-language='+language+']').click();await expect(page.locator('html')).toHaveAttribute('lang',language);await expect(page.locator('input[type=email]')).toHaveValue('language-fixture@example.com');}
+ await expect(page.locator('[data-language-control]')).toHaveCount(1);
+});
 async function seed(kind,body,{actor='master',org=f.organisationId}={}){const cookie=await f.login(actor);const r=await fetch(f.base+'/api/chambers/'+org+'/'+kind,{method:'POST',headers:{Cookie:cookie,'Content-Type':'application/json'},body:JSON.stringify(body)});expect(r.status).toBe(201);return r.json();}
 async function adminUpdate(command,body){const cookie=await f.login('super'),path=f.base+'/api/organisation-admin/organisations/'+f.organisationId;const state=await (await fetch(path,{headers:{Cookie:cookie}})).json();const r=await fetch(path+'/'+command,{method:'POST',headers:{Cookie:cookie,'Content-Type':'application/json'},body:JSON.stringify({...body,version:state.organisation.version,reason:'Browser fixture verification'})});expect(r.status).toBe(200);}
 

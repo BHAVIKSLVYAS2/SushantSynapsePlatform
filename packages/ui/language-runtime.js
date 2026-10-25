@@ -8,7 +8,7 @@ import {interfaceCopy} from './interface-copy.mjs';
  const translationRoots='body';
  const protectedContent='script,style,textarea,input,svg,canvas,[contenteditable],[data-language-control],[translate=no],[data-language-preserve],.card-artwork,.certificate-artwork,#print-document,#profile-details dd,.message-body,.confession-text,.confession-message,#review-items p,.post-body,.story-body,.article-body,.story-brief,.saved-story h2,.task-title,.item-name .custom,.quantity-badge,.idea-title,.idea-body>p,#discussion-title,#detail>.description,.comment>p,#duplicates a';
  const privatePage=/^\/(advocate|digital-samaj|batchfee-lite|tournament-lite|super-admin|admin)(\/|$)/.test(location.pathname);
- const uiOnly='button,label,legend,summary,nav,thead,dt,[data-interface-text],.platform-shell,.platform-switcher,.synapse-legal-footer,.public-home,.hero,.intro,.auth-panel,.access-heading';
+ const uiOnly='button,label,legend,summary,nav,thead,dt,[data-interface-text],.platform-shell,.platform-switcher,.synapse-legal-footer,.public-home,.organisation-gate,.hero,.intro,.auth-panel,.access-heading';
  // Capture the incoming URL before native apps add their default language to it.
  const requestedLanguage=new URL(performance.getEntriesByType('navigation')[0]?.name||location.href).searchParams.get('lang');
  if(valid(initialPreference))language=initialPreference;else if(valid(requestedLanguage))language=requestedLanguage;
