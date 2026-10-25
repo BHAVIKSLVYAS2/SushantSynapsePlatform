@@ -17,7 +17,11 @@ remain. Reporting convention, sources and a four-minute Moonrise publisher
 discrepancy are documented in docs/vedic/DAILY_ALMANAC.md. Final Node checks: 13
 passed; dedicated timing/home browser checks: 3 passed. Final stable-export/home
 language/timing regressions: 10 passed; existing Rashifal reading/sign-preference/
-midnight/all-twelve-sign checks: 5 passed. Live release results follow deployment.
+midnight/all-twelve-sign checks: 5 passed. Source 6901124 deployed to
+apps.sushantsynapse.com, Worker 1592de6f-6016-437f-8d8c-beeea2d82beb.
+Live timing/boundary/city/language/layout/navigation checks: 2 passed. Read-only
+health: /healthz 200; unscoped /api/records 409. Existing production bindings,
+variables and data preserved; no migration.
 
 **Denser home cards (2026-10-25):** User requested three apps per phone row while
 retaining each introduction. Public/workspace grids now use three columns below
