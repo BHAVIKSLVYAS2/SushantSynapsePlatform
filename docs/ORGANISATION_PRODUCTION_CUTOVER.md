@@ -1,5 +1,26 @@
 # Organisation licensing production cutover
 
+Latest RITVAYAM/global interface release (2026-10-25): main implementation
+da601fb, signed-out home coverage 451abdd and production organisation-gate
+follow-up c41ba11. Final Worker 6f6bbfdf-53f6-44c7-88ba-3f81ed436898 deployed
+with --keep-vars. Astrology branding/home mark and gochar-8 familiar readings are
+live. One shared English/Hindi/Gujarati menu, 1,000 authored interface entries,
+retained preference precedence, all-header script delivery and Gujarati calendar
+replace the earlier partial implementation. The beta modal hosts the same menu.
+Private records, outputs, source articles and uncatalogued legal/domain prose are
+not claimed automatically translated. No translation service or birth submission.
+Production-only Chambers organisation entry is translated and verified through
+an isolated organisation-mode fixture (1/1), preserving account input.
+Focused Node 26/26, final Vedic export Chrome 18/18, platform Chrome 21/21 and
+public-tool workflows 10/10 pass; targeted follow-ups include data preservation,
+Gujarati calendar and the real organisation gate. Initial live release passed
+5 reading scenarios and 2 cross-tab/input scenarios. Final live navigation audit
+passes all 28 routes plus reload/Back/stale-link checks (1 cumulative scenario).
+Healthz, Chambers and Rashifal pages 200; unscoped /api/records 409. Vedic privacy
+headers, production variables, organisation mode, D1 and rate limits preserved;
+no migrations or production business-data writes. Evidence: functionality ledger,
+docs/INTERFACE_LANGUAGE_AUDIT.md and .publish/ritvayam-final-navigation-live.
+
 Latest everyday Rashifal release (2026-10-25): implementation 29c8455, Worker
 4b4188f7-99b9-4bcb-a6a1-933c5e646ab5 deployed with --keep-vars. Gochar-7 adds
 the user's twelve light/dark sign illustrations and plain-language house-theme

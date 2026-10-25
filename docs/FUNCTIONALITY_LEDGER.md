@@ -27,8 +27,17 @@ production-only organisation sign-in gate: its heading/helper/actions are now
 translated, with an organisation-mode fixture passing 1/1 and account text
 preserved through all three languages. Shared catalogue/delivery recheck passes
 3/3. First production release 3694229f-bdb2-4835-81ec-d5ffcd62689c passed 5/5
-reading checks and 2/2 cross-tab/input checks; the final gate follow-up and full
-navigation verification follow.
+reading checks and 2/2 cross-tab/input checks. Implementation c41ba11 (main
+branding/global-service change da601fb; signed-out home coverage 451abdd) deployed
+with --keep-vars as Worker 6f6bbfdf-53f6-44c7-88ba-3f81ed436898. Final live
+28-route audit passes 1/1, including the real organisation gate, stale link,
+reload, Back and retained Gujarati. The multi-page live test uses a cumulative
+180-second budget; individual UI assertions retain their normal timeout.
+Healthz, Chambers and Rashifal pages return 200; unscoped /api/records remains
+denied (409). Vedic CSP/no-referrer remain; existing variables, organisation mode,
+D1 and rate limits preserved. No migrations or production business-data writes.
+Evidence: .publish/ritvayam-final-navigation-live, .publish/ritvayam-reading-live,
+.publish/ritvayam-language-live and docs/INTERFACE_LANGUAGE_AUDIT.md.
 
 **Everyday Rashifal and supplied sign artwork (2026-10-25):**
 Gochar-7 uses calculated Moon-house themes for an everyday focus and practical
