@@ -8,7 +8,10 @@ IDs, routes or permissions. Home search accepts all three spellings. New apps
 without supplied spellings fall back to their canonical brand. Browser verification
 covers retained language after reload, local-script search, all 18 launcher cards
 and the RITVAYAM feature, eight viewport widths and both themes. Catalogue/cache
-Node checks: 8 passed. Production release verification is recorded below.
+Node checks: 8 passed; catalogue browser workflows: 8 passed; final local and
+live launcher delivery checks: 1 passed each. Source commit 8be3b9e is deployed
+at apps.sushantsynapse.com, Worker 6e9c3b77-41ca-4861-a7b4-7367c7a2f4f2.
+Read-only live checks: /healthz 200; unscoped /api/records remains blocked (409).
 
 **Everyday Kundli and reading-first UX (2026-10-25):** Compared public AstroSage,
 Astroyogi and Prokerala flows/documentation; decisions and sources are recorded
