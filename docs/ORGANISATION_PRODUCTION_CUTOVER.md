@@ -1,5 +1,13 @@
 # Organisation licensing production cutover
 
+Latest Rashifal UX release (2026-10-25): implementation fd4dafa, Worker
+43dc1af9-cafd-4438-9131-66874a8d127b, deployed with --keep-vars. Final live
+Chrome 5/5 passes, covering the four Vedic screens and Rashifal mobile languages,
+themes, layouts and privacy. Health/page 200 and unscoped /api/records 409.
+Production variables, D1/organisation bindings and rate limits preserved; no
+migrations or business writes. Competitive review and bounded design decisions:
+docs/vedic/RASHIFAL_UX_RESEARCH.md. Full verification is in the functionality ledger.
+
 Rashifal UI release (2026-10-25): commit 93222c8, Worker
 ab72a6b9-dbcd-4fde-b063-02bb303b3a00, deployed at the user's request and live
 read-only Chrome smoke 1/1 passed. Existing production variables, organisation

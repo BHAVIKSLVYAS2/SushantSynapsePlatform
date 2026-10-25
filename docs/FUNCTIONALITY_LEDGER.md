@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-**Rashifal research-led UX (2026-10-25, verified; deployment follows):**
+**Rashifal research-led UX (2026-10-25, live and verified):**
 Public-source review of Astrotalk, AstroSage, CHANI and Co–Star is recorded in
 docs/vedic/RASHIFAL_UX_RESEARCH.md, with evidence, limitations and design choices.
 Rashifal now discloses full preview warnings on demand, collapses its visual
@@ -15,6 +15,13 @@ navigation/reloads and 36 Rashifal width/theme/language combinations. Mobile
 light/dark and desktop dark screenshots reviewed under .publish/rashifal-ux-*.
 Frontend organisation-aware build and syntax/whitespace checks pass. Research
 does not establish measured superiority; no user-study or analytics is claimed.
+Implementation fd4dafa is committed/pushed and deployed as Worker
+43dc1af9-cafd-4438-9131-66874a8d127b with --keep-vars. Final live Chrome 5/5
+passes, including all four screens, calculation/worker use and the Rashifal
+language/theme/width matrix without third-party requests. Live health/page 200,
+privacy CSP retained, unscoped /api/records 409. Existing D1/organisation/rate-limit
+bindings preserved; no migrations or business writes. Evidence:
+.publish/rashifal-ux-live and .publish/rashifal-ux-*.png.
 
 **Rashifal first redesign deployment (2026-10-25):** User requested commit/deploy.
 Implementation 93222c8 is committed and pushed to the explicitly approved
