@@ -1,5 +1,18 @@
 # Organisation licensing production cutover
 
+Latest Vedic reading/header release (2026-10-25): implementation b7adca9,
+Worker 1bfc1d22-e30f-4bed-ae21-1e51dd507c1c deployed with --keep-vars. All four
+screens use the shared platform header and one settings menu/control per type.
+Rashifal gochar-4 replaces duplicated topic text with a calculated summary and
+nine unique graha observations. Numerical engine and private tab-only processing
+remain; shared chrome skips account/visitor requests on these pages.
+Focused Node 21/21, local reading Chrome 5/5, existing shared header Chrome 6/6,
+final production-export Chrome 13/13 and live Chrome 13/13 pass. Healthz/pages
+200; unscoped /api/records 409. Existing variables, organisation mode, D1 and rate
+limits preserved; no migrations/business writes. Evidence: functionality ledger
+and .publish/vedic-unified-live. Exact change timing and independent traditional,
+astronomy/source and translation acceptance remain pending.
+
 Latest homepage update (2026-10-25): f7452fd removes the duplicate small
 Rashifal tile while preserving its calculated full-width card and app access.
 Worker 1f361d63-8c91-4853-8766-9b3ec1b1bcf9 deployed with --keep-vars;

@@ -22,8 +22,14 @@ comparisons; max difference 5.69e-14). Local reading Chrome passes 5/5 and exist
 shared platform language/header Chrome passes 6/6. Final production-export
 Chrome passes 13/13, including single settings controls, all four screens, native
 languages, numeric invariance, privacy and retained export/worker behavior.
-Live verification is recorded after release. Traditional/source/translation
-acceptance stays open.
+Live Chrome passes 13/13 with the same coverage. Healthz and both main Vedic
+entry pages return 200; unscoped /api/records remains 409. Implementation b7adca9
+is committed and pushed, deployed with --keep-vars as Worker
+1bfc1d22-e30f-4bed-ae21-1e51dd507c1c. Existing organisation mode, production
+variables, D1 and rate-limit bindings are preserved; no migrations or business
+data writes. Mobile light/dark screenshots reviewed. Evidence:
+.publish/vedic-unified-live and .publish/vedic-unified-node.log.
+Traditional/source/translation acceptance stays open.
 
 **Rashifal homepage deduplication and content audit (2026-10-25):**
 Removed the small Rashifal catalogue tile from the guest, no-JavaScript and
