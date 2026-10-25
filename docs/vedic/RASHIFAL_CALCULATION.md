@@ -1,5 +1,12 @@
 # Calculation-backed Rashifal
 
+Current reading-first update: `rashifal-gochar-6` displays a plain-language daily,
+tomorrow or weekly outlook before the existing calculations. The wording is an
+original editorial interpretation of the calculated Moon/planetary pattern and
+available timing, with a retained factor trace and no guaranteed outcomes.
+Numerical calculations, timeline and rule/source evidence stay below. See
+[readable outlook contract](READABLE_OUTLOOK.md); the numerical engine is unchanged.
+
 Current timing update: `rashifal-gochar-5` adds a separate calculated IST timeline
 for nominal sign crossings and classification-screen edges. Before/after rule
 changes and blockers are recomputed for the selected Rashi; unresolved rules stay

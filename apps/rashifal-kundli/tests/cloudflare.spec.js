@@ -115,3 +115,21 @@ test('blocked calculation worker falls back to the same actual on-device roots',
  await expect(page.locator('.rashifal-timeline li')).toHaveCount(3);await expect(page.locator('.rashifal-timeline [data-kind=ingress] time')).toHaveAttribute('datetime',/^2026-10-25T13:52:/);
  await page.locator('#rashifal-clear').click();await expect(page.locator('#rashifal-result')).toBeEmpty();
 });
+
+test('human daily prediction appears before the calculation summary and timeline',async({page})=>{
+ await page.clock.setFixedTime(new Date('2026-10-25T08:30:00Z'));await page.setViewportSize({width:390,height:900});await page.goto(origin+'/rashifal-kundli/rashifal');
+ const copies=new Set();for(let rashi=1;rashi<=12;rashi++){
+  await page.locator('#rashifal-rashi').selectOption(String(rashi));await expect(page.locator('.rashifal-prediction')).toBeVisible();
+  await expect(page.locator('.rashifal-prediction h3')).toHaveText('Your daily prediction');copies.add(await page.locator('.rashifal-prediction').innerText());
+  expect(await page.locator('#rashifal-result').evaluate(root=>root.querySelector('.rashifal-prediction').compareDocumentPosition(root.querySelector('.rashifal-reading'))&Node.DOCUMENT_POSITION_FOLLOWING)).toBeTruthy();
+  await expect(page.locator('.rashifal-transit-table tbody tr')).toHaveCount(9);await expect(page.locator('.rashifal-timeline')).toHaveAttribute('aria-labelledby','rashifal-timeline-title');await expect(page.locator('#rashifal-timeline-title')).toHaveCount(1);
+ }
+ expect(copies.size).toBeGreaterThan(4);
+ for(const language of ['hi','gu','en']){await chooseLanguage(page,language);await expect(page.locator('.rashifal-prediction')).toHaveAttribute('lang',language);
+  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:900});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+ }
+ await page.setViewportSize({width:390,height:900});await page.evaluate(()=>SynapseTheme.write('light'));await page.locator('.rashifal-prediction').screenshot({path:'.publish/rashifal-outlook-mobile-light.png'});
+ await page.evaluate(()=>SynapseTheme.write('dark'));await page.locator('.rashifal-prediction').screenshot({path:'.publish/rashifal-outlook-mobile-dark.png'});
+ await page.locator('[data-view=tomorrow]').click();await expect(page.locator('.rashifal-prediction h3')).toHaveText('Your outlook for tomorrow');
+ await page.locator('[data-view=weekly]').click();await expect(page.locator('.rashifal-prediction h3')).toHaveText('Your weekly outlook');
+});

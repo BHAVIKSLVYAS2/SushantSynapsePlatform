@@ -1,5 +1,25 @@
 # Chambers functionality ledger
 
+**Human-readable Rashifal before calculations (2026-10-25):**
+Gochar-6 adds a primary daily/tomorrow/weekly prediction card in en/hi/gu before
+the calculation summary, timeline and evidence. Its three paragraphs interpret
+the actual calculated Moon pattern, supportive/obstructed physical-graha context
+and an unambiguous available timing event. Uncertain Moon results take precedence;
+partial timing and boundary-only events do not become confident predictions.
+Practical wording is original editorial guidance with an explicit no-guarantee
+note, not newly certified classical life-event rules or arbitrary outcome scores.
+A retained trace links the wording to factors/events; the 108-case report includes
+it. Similar underlying patterns may share guidance rather than random variations.
+Existing calculations, Worker/fallback, caches, shared settings and private data
+handling remain. The timeline heading now retains its accessible label when
+technical sections receive their IDs. Focused Node checks pass 28/28, including
+all twelve signs/three languages, boundary/partial interpretation, numerical
+Worker parity and prior transit/privacy cases. Production-export Chrome passes
+16/16, including prediction-first ordering for all twelve signs, three languages,
+mobile themes, accessible timeline heading and retained Kundli/matching/export/
+privacy behavior. Mobile light/dark prediction screenshots reviewed. Live
+verification is recorded after release. Contract: docs/vedic/READABLE_OUTLOOK.md.
+
 **Calculated Rashifal change timeline (2026-10-25):**
 Rashifal gochar-5 adds an IST timeline for today, tomorrow and the selected week.
 In-house nine-graha longitudes drive sign crossings and entry/exit of the

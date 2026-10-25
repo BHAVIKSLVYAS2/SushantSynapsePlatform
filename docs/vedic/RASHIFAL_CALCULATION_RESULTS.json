@@ -1,7 +1,7 @@
 {
   "phase": "calculation-backed-rashifal",
   "scope": "Deterministic nine-graha calculation/rule evidence, not independent traditional acceptance or predictive accuracy",
-  "rule": "rashifal-gochar-5",
+  "rule": "rashifal-gochar-6",
   "catalogueDate": "2026-10-25",
   "cases": 108,
   "grahas": 9,
@@ -10,10 +10,11 @@
   "sourceHashes": {
     "packages/vedic/rashifal-factors.mjs": "bca13f3cb89dc83b4768a4685531b905cafcef790159b9bbbf0d376cc0d369e2",
     "packages/vedic/rashifal-transits.mjs": "8f64a02a66a975e954f16f8e33f1c938f8ced12c5a08f8e0b3d173446fb70bee",
-    "apps/rashifal-kundli/frontend/rashifal-library.mjs": "704818748daa2ba7c27183cc35ea67f14d5d43213e0ab5747361d416a6f79aa8",
-    "apps/rashifal-kundli/frontend/rashifal-service.mjs": "7632361f7d494200588d63b32d0212718d89b4bce51fe31bf096084a7f9453ca",
+    "apps/rashifal-kundli/frontend/rashifal-library.mjs": "1448811c283824797ca1f66bf8328c4c91f8e01872f3245eca1f237ca480ca86",
+    "apps/rashifal-kundli/frontend/rashifal-service.mjs": "ddb67739a756a1f04fce7abdcea01a7410b9327bcb6506428a340927137d5858",
     "packages/vedic/transit-crossings.mjs": "0cbff1013447a9663c736785337987468fad400d96968c83d0b0e55270f3abac",
-    "packages/vedic/rashifal-timeline.mjs": "80c28a4c387c277696a58c70e77560433e927b1b6de12757ce575eb21fd6afa7"
+    "packages/vedic/rashifal-timeline.mjs": "80c28a4c387c277696a58c70e77560433e927b1b6de12757ce575eb21fd6afa7",
+    "apps/rashifal-kundli/frontend/rashifal-outlook.mjs": "d8df1d1c29f17469645c07c4893f61cfa6cc247a967a0c22a4418888a2d0ce77"
   },
   "translationStatus": {
     "en": "authored-baseline-draft",
@@ -163,6 +164,31 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "Keep things simple",
+        "paragraphs": [
+          "A measured approach suits this reading. Finish what is already in motion, keep your commitments manageable and give yourself some breathing room before taking on more.",
+          "There is no clear, unblocked supportive signal to single out here. That does not make this a bad period; use it as a reminder to work at a comfortable pace and stay realistic about what you can fit in.",
+          "No Moon-sign or boundary-screening change was found for this period. Keep the overall theme in mind rather than waiting for one exact turning point."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "quiet",
+          "focusBodies": [],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -323,6 +349,31 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "दिनचर्या सरल रखें",
+        "paragraphs": [
+          "इस पाठ के अनुसार संतुलित ढंग से आगे बढ़ना बेहतर है। चल रहे काम पूरे करें, ज़िम्मेदारियाँ संभालने योग्य रखें और नया काम लेने से पहले अपने लिए थोड़ी जगह छोड़ें।",
+          "यहाँ कोई स्पष्ट, बाधारहित अनुकूल संकेत अलग से नहीं उभरता। इसका अर्थ खराब समय नहीं है; सहज गति से काम करें और जितना संभाल सकें उतना ही तय करें।",
+          "इस अवधि में चंद्र राशि या सीमा-जाँच का बदलाव नहीं मिला। किसी एक निश्चित मोड़ की प्रतीक्षा करने के बजाय पूरे पाठ की दिशा ध्यान में रखें।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "quiet",
+          "focusBodies": [],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -483,6 +534,31 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "દિનચર્યા સરળ રાખો",
+        "paragraphs": [
+          "આ લખાણ મુજબ સંતુલિત રીતે આગળ વધવું યોગ્ય છે. ચાલુ કામ પૂરાં કરો, જવાબદારીઓ સંભાળી શકાય તેવી રાખો અને નવું કામ લેતાં પહેલાં પોતાના માટે થોડી જગ્યા છોડો.",
+          "અહીં કોઈ સ્પષ્ટ, અવરોધ વગરનો અનુકૂળ સંકેત અલગથી દેખાતો નથી. તેનો અર્થ ખરાબ સમય નથી; સહજ ગતિએ કામ કરો અને જેટલું સંભાળી શકો તેટલું જ નક્કી કરો.",
+          "આ સમયગાળામાં ચંદ્ર રાશિ કે સીમા-ચકાસણીનો ફેરફાર મળ્યો નથી. કોઈ એક ચોક્કસ વળાંકની રાહ જોવાને બદલે આખા લખાણની દિશા ધ્યાનમાં રાખો."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "quiet",
+          "focusBodies": [],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -644,6 +720,31 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "Give progress a little patience",
+        "paragraphs": [
+          "Your plans may need a little more patience than usual. Leave room for another conversation or a second attempt, and avoid pushing yourself to settle everything at once.",
+          "There is no clear, unblocked supportive signal to single out here. That does not make this a bad period; use it as a reminder to work at a comfortable pace and stay realistic about what you can fit in.",
+          "Around 25 Oct, 19:24 IST, the Moon’s reading calls for more patience. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 1,
+            "outside-favorable": 7,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "quiet",
+          "focusBodies": [],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -869,6 +970,31 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "थोड़ा धैर्य काम आएगा",
+        "paragraphs": [
+          "योजनाओं में सामान्य से थोड़ा अधिक धैर्य लग सकता है। दोबारा बातचीत या एक और प्रयास के लिए समय रखें और सब कुछ एक साथ तय करने का दबाव न लें।",
+          "यहाँ कोई स्पष्ट, बाधारहित अनुकूल संकेत अलग से नहीं उभरता। इसका अर्थ खराब समय नहीं है; सहज गति से काम करें और जितना संभाल सकें उतना ही तय करें।",
+          "लगभग 25 अक्टू॰, 19:24 IST पर चंद्रमा का संकेत अधिक धैर्य की ओर इशारा करता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 1,
+            "outside-favorable": 7,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "quiet",
+          "focusBodies": [],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -1094,6 +1220,31 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "થોડી ધીરજ ઉપયોગી થશે",
+        "paragraphs": [
+          "યોજનાઓમાં સામાન્ય કરતાં થોડી વધુ ધીરજની જરૂર પડી શકે છે. ફરી વાત કરવા કે બીજો પ્રયાસ કરવા સમય રાખો અને બધું એકસાથે નક્કી કરવાનું દબાણ ન લો.",
+          "અહીં કોઈ સ્પષ્ટ, અવરોધ વગરનો અનુકૂળ સંકેત અલગથી દેખાતો નથી. તેનો અર્થ ખરાબ સમય નથી; સહજ ગતિએ કામ કરો અને જેટલું સંભાળી શકો તેટલું જ નક્કી કરો.",
+          "લગભગ 25 ઑક્ટો 19:24 ISTએ ચંદ્રનો સંકેત વધુ ધીરજ તરફ સૂચવે છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 1,
+            "outside-favorable": 7,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "quiet",
+          "focusBodies": [],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -1333,6 +1484,31 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "Make room to adjust",
+        "paragraphs": [
+          "Your plans may not follow one even rhythm. Make the most of the easier stretches, but be willing to slow down and revisit something that needs more attention.",
+          "There is no clear, unblocked supportive signal to single out here. That does not make this a bad period; use it as a reminder to work at a comfortable pace and stay realistic about what you can fit in.",
+          "Around 21 Oct, 07:02 IST, the Moon’s reading becomes more supportive. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 19,
+            "obstructed": 20,
+            "outside-favorable": 17,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "quiet",
+          "focusBodies": [],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -1686,6 +1862,31 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "बदलाव के लिए जगह रखें",
+        "paragraphs": [
+          "योजनाएँ एक ही गति से आगे नहीं बढ़ सकतीं। आसान समय का उपयोग करें, लेकिन जहाँ ज़रूरत हो वहाँ रुककर किसी बात को फिर से देखने के लिए तैयार रहें।",
+          "यहाँ कोई स्पष्ट, बाधारहित अनुकूल संकेत अलग से नहीं उभरता। इसका अर्थ खराब समय नहीं है; सहज गति से काम करें और जितना संभाल सकें उतना ही तय करें।",
+          "लगभग 21 अक्टू॰, 07:02 IST पर चंद्रमा का संकेत अधिक अनुकूल होता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 19,
+            "obstructed": 20,
+            "outside-favorable": 17,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "quiet",
+          "focusBodies": [],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -2039,6 +2240,31 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "ફેરફાર માટે જગ્યા રાખો",
+        "paragraphs": [
+          "યોજનાઓ એક જ ગતિએ આગળ ન પણ વધે. સરળ સમયનો ઉપયોગ કરો, પરંતુ જ્યાં જરૂર હોય ત્યાં થોભીને કોઈ વાત ફરીથી જોવા તૈયાર રહો.",
+          "અહીં કોઈ સ્પષ્ટ, અવરોધ વગરનો અનુકૂળ સંકેત અલગથી દેખાતો નથી. તેનો અર્થ ખરાબ સમય નથી; સહજ ગતિએ કામ કરો અને જેટલું સંભાળી શકો તેટલું જ નક્કી કરો.",
+          "લગભગ 21 ઑક્ટો 07:02 ISTએ ચંદ્રનો સંકેત વધુ અનુકૂળ બને છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 19,
+            "obstructed": 20,
+            "outside-favorable": 17,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "quiet",
+          "focusBodies": [],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -2377,6 +2603,36 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "supportive",
+        "headline": "Build on your momentum",
+        "paragraphs": [
+          "There is room for steady progress. Give one important priority your full attention and take a practical next step, rather than waiting for everything to be perfect.",
+          "There is also a supportive thread in the pattern for Sun, Mars, Mercury and Saturn. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "No Moon-sign or boundary-screening change was found for this period. Keep the overall theme in mind rather than waiting for one exact turning point."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 8,
+            "obstructed": 0,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun",
+            "Mars",
+            "Mercury",
+            "Saturn"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -2537,6 +2793,36 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "supportive",
+        "headline": "धीरे-धीरे आगे बढ़ें",
+        "paragraphs": [
+          "लगातार प्रगति के लिए जगह है। किसी एक ज़रूरी काम को पूरा ध्यान दें और सब कुछ बिल्कुल सही होने की प्रतीक्षा करने के बजाय अगला व्यावहारिक कदम उठाएँ।",
+          "सूर्य, मंगल, बुध, और शनि के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "इस अवधि में चंद्र राशि या सीमा-जाँच का बदलाव नहीं मिला। किसी एक निश्चित मोड़ की प्रतीक्षा करने के बजाय पूरे पाठ की दिशा ध्यान में रखें।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 8,
+            "obstructed": 0,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun",
+            "Mars",
+            "Mercury",
+            "Saturn"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -2697,6 +2983,36 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "supportive",
+        "headline": "ધીમે-ધીમે આગળ વધો",
+        "paragraphs": [
+          "સતત પ્રગતિ માટે જગ્યા છે. એક મહત્વના કામને પૂરું ધ્યાન આપો અને બધું એકદમ યોગ્ય થાય તેની રાહ જોવાને બદલે આગળનું વ્યવહારુ પગલું લો.",
+          "સૂર્ય, મંગળ, બુધ અને શનિના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "આ સમયગાળામાં ચંદ્ર રાશિ કે સીમા-ચકાસણીનો ફેરફાર મળ્યો નથી. કોઈ એક ચોક્કસ વળાંકની રાહ જોવાને બદલે આખા લખાણની દિશા ધ્યાનમાં રાખો."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 8,
+            "obstructed": 0,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun",
+            "Mars",
+            "Mercury",
+            "Saturn"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -2858,6 +3174,36 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "Make room to adjust",
+        "paragraphs": [
+          "Your plans may not follow one even rhythm. Make the most of the easier stretches, but be willing to slow down and revisit something that needs more attention.",
+          "There is also a supportive thread in the pattern for Sun, Mars, Mercury and Saturn. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "Around 25 Oct, 19:24 IST, the Moon’s reading returns to a more measured theme. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 7,
+            "obstructed": 0,
+            "outside-favorable": 1,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun",
+            "Mars",
+            "Mercury",
+            "Saturn"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -3108,6 +3454,36 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "बदलाव के लिए जगह रखें",
+        "paragraphs": [
+          "योजनाएँ एक ही गति से आगे नहीं बढ़ सकतीं। आसान समय का उपयोग करें, लेकिन जहाँ ज़रूरत हो वहाँ रुककर किसी बात को फिर से देखने के लिए तैयार रहें।",
+          "सूर्य, मंगल, बुध, और शनि के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "लगभग 25 अक्टू॰, 19:24 IST पर चंद्रमा का संकेत फिर संतुलित गति की ओर इशारा करता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 7,
+            "obstructed": 0,
+            "outside-favorable": 1,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun",
+            "Mars",
+            "Mercury",
+            "Saturn"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -3358,6 +3734,36 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "ફેરફાર માટે જગ્યા રાખો",
+        "paragraphs": [
+          "યોજનાઓ એક જ ગતિએ આગળ ન પણ વધે. સરળ સમયનો ઉપયોગ કરો, પરંતુ જ્યાં જરૂર હોય ત્યાં થોભીને કોઈ વાત ફરીથી જોવા તૈયાર રહો.",
+          "સૂર્ય, મંગળ, બુધ અને શનિના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "લગભગ 25 ઑક્ટો 19:24 ISTએ ચંદ્રનો સંકેત ફરી સંતુલિત ગતિ તરફ સૂચવે છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 7,
+            "obstructed": 0,
+            "outside-favorable": 1,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun",
+            "Mars",
+            "Mercury",
+            "Saturn"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -3622,6 +4028,36 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "Make room to adjust",
+        "paragraphs": [
+          "Your plans may not follow one even rhythm. Make the most of the easier stretches, but be willing to slow down and revisit something that needs more attention.",
+          "There is also a supportive thread in the pattern for Sun, Mars, Mercury and Saturn. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "Around 21 Oct, 07:02 IST, the Moon’s reading calls for more patience. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 17,
+            "obstructed": 19,
+            "outside-favorable": 20,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun",
+            "Mars",
+            "Mercury",
+            "Saturn"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -4012,6 +4448,36 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "बदलाव के लिए जगह रखें",
+        "paragraphs": [
+          "योजनाएँ एक ही गति से आगे नहीं बढ़ सकतीं। आसान समय का उपयोग करें, लेकिन जहाँ ज़रूरत हो वहाँ रुककर किसी बात को फिर से देखने के लिए तैयार रहें।",
+          "सूर्य, मंगल, बुध, और शनि के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "लगभग 21 अक्टू॰, 07:02 IST पर चंद्रमा का संकेत अधिक धैर्य की ओर इशारा करता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 17,
+            "obstructed": 19,
+            "outside-favorable": 20,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun",
+            "Mars",
+            "Mercury",
+            "Saturn"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -4402,6 +4868,36 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "ફેરફાર માટે જગ્યા રાખો",
+        "paragraphs": [
+          "યોજનાઓ એક જ ગતિએ આગળ ન પણ વધે. સરળ સમયનો ઉપયોગ કરો, પરંતુ જ્યાં જરૂર હોય ત્યાં થોભીને કોઈ વાત ફરીથી જોવા તૈયાર રહો.",
+          "સૂર્ય, મંગળ, બુધ અને શનિના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "લગભગ 21 ઑક્ટો 07:02 ISTએ ચંદ્રનો સંકેત વધુ ધીરજ તરફ સૂચવે છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 17,
+            "obstructed": 19,
+            "outside-favorable": 20,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun",
+            "Mars",
+            "Mercury",
+            "Saturn"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -4777,6 +5273,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "supportive",
+        "headline": "Build on your momentum",
+        "paragraphs": [
+          "There is room for steady progress. Give one important priority your full attention and take a practical next step, rather than waiting for everything to be perfect.",
+          "There is also a supportive thread in the pattern for Jupiter. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "No Moon-sign or boundary-screening change was found for this period. Keep the overall theme in mind rather than waiting for one exact turning point."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 8,
+            "obstructed": 0,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Jupiter"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -4937,6 +5460,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "supportive",
+        "headline": "धीरे-धीरे आगे बढ़ें",
+        "paragraphs": [
+          "लगातार प्रगति के लिए जगह है। किसी एक ज़रूरी काम को पूरा ध्यान दें और सब कुछ बिल्कुल सही होने की प्रतीक्षा करने के बजाय अगला व्यावहारिक कदम उठाएँ।",
+          "गुरु के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "इस अवधि में चंद्र राशि या सीमा-जाँच का बदलाव नहीं मिला। किसी एक निश्चित मोड़ की प्रतीक्षा करने के बजाय पूरे पाठ की दिशा ध्यान में रखें।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 8,
+            "obstructed": 0,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Jupiter"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -5097,6 +5647,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "supportive",
+        "headline": "ધીમે-ધીમે આગળ વધો",
+        "paragraphs": [
+          "સતત પ્રગતિ માટે જગ્યા છે. એક મહત્વના કામને પૂરું ધ્યાન આપો અને બધું એકદમ યોગ્ય થાય તેની રાહ જોવાને બદલે આગળનું વ્યવહારુ પગલું લો.",
+          "ગુરુના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "આ સમયગાળામાં ચંદ્ર રાશિ કે સીમા-ચકાસણીનો ફેરફાર મળ્યો નથી. કોઈ એક ચોક્કસ વળાંકની રાહ જોવાને બદલે આખા લખાણની દિશા ધ્યાનમાં રાખો."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 8,
+            "obstructed": 0,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Jupiter"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -5258,6 +5835,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "supportive",
+        "headline": "Build on your momentum",
+        "paragraphs": [
+          "There is room for steady progress. Give one important priority your full attention and take a practical next step, rather than waiting for everything to be perfect.",
+          "There is also a supportive thread in the pattern for Jupiter. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "Around 25 Oct, 19:24 IST, the Moon’s reading becomes more supportive. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 8,
+            "obstructed": 0,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Jupiter"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -5468,6 +6072,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "supportive",
+        "headline": "धीरे-धीरे आगे बढ़ें",
+        "paragraphs": [
+          "लगातार प्रगति के लिए जगह है। किसी एक ज़रूरी काम को पूरा ध्यान दें और सब कुछ बिल्कुल सही होने की प्रतीक्षा करने के बजाय अगला व्यावहारिक कदम उठाएँ।",
+          "गुरु के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "लगभग 25 अक्टू॰, 19:24 IST पर चंद्रमा का संकेत अधिक अनुकूल होता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 8,
+            "obstructed": 0,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Jupiter"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -5678,6 +6309,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "supportive",
+        "headline": "ધીમે-ધીમે આગળ વધો",
+        "paragraphs": [
+          "સતત પ્રગતિ માટે જગ્યા છે. એક મહત્વના કામને પૂરું ધ્યાન આપો અને બધું એકદમ યોગ્ય થાય તેની રાહ જોવાને બદલે આગળનું વ્યવહારુ પગલું લો.",
+          "ગુરુના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "લગભગ 25 ઑક્ટો 19:24 ISTએ ચંદ્રનો સંકેત વધુ અનુકૂળ બને છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 8,
+            "obstructed": 0,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Jupiter"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -5902,6 +6560,33 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "Make room to adjust",
+        "paragraphs": [
+          "Your plans may not follow one even rhythm. Make the most of the easier stretches, but be willing to slow down and revisit something that needs more attention.",
+          "There is also a supportive thread in the pattern for Jupiter. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "Around 21 Oct, 07:02 IST, the Moon’s reading returns to a more measured theme. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 18,
+            "obstructed": 0,
+            "outside-favorable": 38,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Jupiter"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -6276,6 +6961,33 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "बदलाव के लिए जगह रखें",
+        "paragraphs": [
+          "योजनाएँ एक ही गति से आगे नहीं बढ़ सकतीं। आसान समय का उपयोग करें, लेकिन जहाँ ज़रूरत हो वहाँ रुककर किसी बात को फिर से देखने के लिए तैयार रहें।",
+          "गुरु के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "लगभग 21 अक्टू॰, 07:02 IST पर चंद्रमा का संकेत फिर संतुलित गति की ओर इशारा करता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 18,
+            "obstructed": 0,
+            "outside-favorable": 38,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Jupiter"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -6650,6 +7362,33 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "ફેરફાર માટે જગ્યા રાખો",
+        "paragraphs": [
+          "યોજનાઓ એક જ ગતિએ આગળ ન પણ વધે. સરળ સમયનો ઉપયોગ કરો, પરંતુ જ્યાં જરૂર હોય ત્યાં થોભીને કોઈ વાત ફરીથી જોવા તૈયાર રહો.",
+          "ગુરુના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "લગભગ 21 ઑક્ટો 07:02 ISTએ ચંદ્રનો સંકેત ફરી સંતુલિત ગતિ તરફ સૂચવે છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 18,
+            "obstructed": 0,
+            "outside-favorable": 38,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Jupiter"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -7009,6 +7748,34 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "Keep things simple",
+        "paragraphs": [
+          "A measured approach suits this reading. Finish what is already in motion, keep your commitments manageable and give yourself some breathing room before taking on more.",
+          "There is also a supportive thread in the pattern for Mercury and Venus. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "No Moon-sign or boundary-screening change was found for this period. Keep the overall theme in mind rather than waiting for one exact turning point."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Mercury",
+            "Venus"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -7169,6 +7936,34 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "दिनचर्या सरल रखें",
+        "paragraphs": [
+          "इस पाठ के अनुसार संतुलित ढंग से आगे बढ़ना बेहतर है। चल रहे काम पूरे करें, ज़िम्मेदारियाँ संभालने योग्य रखें और नया काम लेने से पहले अपने लिए थोड़ी जगह छोड़ें।",
+          "बुध और शुक्र के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "इस अवधि में चंद्र राशि या सीमा-जाँच का बदलाव नहीं मिला। किसी एक निश्चित मोड़ की प्रतीक्षा करने के बजाय पूरे पाठ की दिशा ध्यान में रखें।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Mercury",
+            "Venus"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -7329,6 +8124,34 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "દિનચર્યા સરળ રાખો",
+        "paragraphs": [
+          "આ લખાણ મુજબ સંતુલિત રીતે આગળ વધવું યોગ્ય છે. ચાલુ કામ પૂરાં કરો, જવાબદારીઓ સંભાળી શકાય તેવી રાખો અને નવું કામ લેતાં પહેલાં પોતાના માટે થોડી જગ્યા છોડો.",
+          "બુધ અને શુક્રના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "આ સમયગાળામાં ચંદ્ર રાશિ કે સીમા-ચકાસણીનો ફેરફાર મળ્યો નથી. કોઈ એક ચોક્કસ વળાંકની રાહ જોવાને બદલે આખા લખાણની દિશા ધ્યાનમાં રાખો."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Mercury",
+            "Venus"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -7490,6 +8313,34 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "Give progress a little patience",
+        "paragraphs": [
+          "Your plans may need a little more patience than usual. Leave room for another conversation or a second attempt, and avoid pushing yourself to settle everything at once.",
+          "There is also a supportive thread in the pattern for Mercury and Venus. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "Around 25 Oct, 19:24 IST, the Moon’s reading calls for more patience. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 1,
+            "outside-favorable": 7,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Mercury",
+            "Venus"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -7738,6 +8589,34 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "थोड़ा धैर्य काम आएगा",
+        "paragraphs": [
+          "योजनाओं में सामान्य से थोड़ा अधिक धैर्य लग सकता है। दोबारा बातचीत या एक और प्रयास के लिए समय रखें और सब कुछ एक साथ तय करने का दबाव न लें।",
+          "बुध और शुक्र के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "लगभग 25 अक्टू॰, 19:24 IST पर चंद्रमा का संकेत अधिक धैर्य की ओर इशारा करता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 1,
+            "outside-favorable": 7,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Mercury",
+            "Venus"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -7986,6 +8865,34 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "થોડી ધીરજ ઉપયોગી થશે",
+        "paragraphs": [
+          "યોજનાઓમાં સામાન્ય કરતાં થોડી વધુ ધીરજની જરૂર પડી શકે છે. ફરી વાત કરવા કે બીજો પ્રયાસ કરવા સમય રાખો અને બધું એકસાથે નક્કી કરવાનું દબાણ ન લો.",
+          "બુધ અને શુક્રના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "લગભગ 25 ઑક્ટો 19:24 ISTએ ચંદ્રનો સંકેત વધુ ધીરજ તરફ સૂચવે છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 1,
+            "outside-favorable": 7,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Mercury",
+            "Venus"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -8248,6 +9155,34 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "Give progress a little patience",
+        "paragraphs": [
+          "Your plans may need a little more patience than usual. Leave room for another conversation or a second attempt, and avoid pushing yourself to settle everything at once.",
+          "There is also a supportive thread in the pattern for Mercury and Venus. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "Around 21 Oct, 07:02 IST, the Moon’s reading returns to a more measured theme. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 20,
+            "outside-favorable": 36,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Mercury",
+            "Venus"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -8621,6 +9556,34 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "थोड़ा धैर्य काम आएगा",
+        "paragraphs": [
+          "योजनाओं में सामान्य से थोड़ा अधिक धैर्य लग सकता है। दोबारा बातचीत या एक और प्रयास के लिए समय रखें और सब कुछ एक साथ तय करने का दबाव न लें।",
+          "बुध और शुक्र के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "लगभग 21 अक्टू॰, 07:02 IST पर चंद्रमा का संकेत फिर संतुलित गति की ओर इशारा करता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 20,
+            "outside-favorable": 36,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Mercury",
+            "Venus"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -8994,6 +9957,34 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "થોડી ધીરજ ઉપયોગી થશે",
+        "paragraphs": [
+          "યોજનાઓમાં સામાન્ય કરતાં થોડી વધુ ધીરજની જરૂર પડી શકે છે. ફરી વાત કરવા કે બીજો પ્રયાસ કરવા સમય રાખો અને બધું એકસાથે નક્કી કરવાનું દબાણ ન લો.",
+          "બુધ અને શુક્રના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "લગભગ 21 ઑક્ટો 07:02 ISTએ ચંદ્રનો સંકેત ફરી સંતુલિત ગતિ તરફ સૂચવે છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 20,
+            "outside-favorable": 36,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Mercury",
+            "Venus"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -9352,6 +10343,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "Keep things simple",
+        "paragraphs": [
+          "A measured approach suits this reading. Finish what is already in motion, keep your commitments manageable and give yourself some breathing room before taking on more.",
+          "There is also a supportive thread in the pattern for Sun. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "No Moon-sign or boundary-screening change was found for this period. Keep the overall theme in mind rather than waiting for one exact turning point."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -9512,6 +10530,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "दिनचर्या सरल रखें",
+        "paragraphs": [
+          "इस पाठ के अनुसार संतुलित ढंग से आगे बढ़ना बेहतर है। चल रहे काम पूरे करें, ज़िम्मेदारियाँ संभालने योग्य रखें और नया काम लेने से पहले अपने लिए थोड़ी जगह छोड़ें।",
+          "सूर्य के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "इस अवधि में चंद्र राशि या सीमा-जाँच का बदलाव नहीं मिला। किसी एक निश्चित मोड़ की प्रतीक्षा करने के बजाय पूरे पाठ की दिशा ध्यान में रखें।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -9672,6 +10717,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "દિનચર્યા સરળ રાખો",
+        "paragraphs": [
+          "આ લખાણ મુજબ સંતુલિત રીતે આગળ વધવું યોગ્ય છે. ચાલુ કામ પૂરાં કરો, જવાબદારીઓ સંભાળી શકાય તેવી રાખો અને નવું કામ લેતાં પહેલાં પોતાના માટે થોડી જગ્યા છોડો.",
+          "સૂર્યના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "આ સમયગાળામાં ચંદ્ર રાશિ કે સીમા-ચકાસણીનો ફેરફાર મળ્યો નથી. કોઈ એક ચોક્કસ વળાંકની રાહ જોવાને બદલે આખા લખાણની દિશા ધ્યાનમાં રાખો."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -9833,6 +10905,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "Keep things simple",
+        "paragraphs": [
+          "A measured approach suits this reading. Finish what is already in motion, keep your commitments manageable and give yourself some breathing room before taking on more.",
+          "There is also a supportive thread in the pattern for Sun. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "Around 25 Oct, 19:24 IST, the Moon’s reading returns to a more measured theme. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -10063,6 +11162,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "दिनचर्या सरल रखें",
+        "paragraphs": [
+          "इस पाठ के अनुसार संतुलित ढंग से आगे बढ़ना बेहतर है। चल रहे काम पूरे करें, ज़िम्मेदारियाँ संभालने योग्य रखें और नया काम लेने से पहले अपने लिए थोड़ी जगह छोड़ें।",
+          "सूर्य के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "लगभग 25 अक्टू॰, 19:24 IST पर चंद्रमा का संकेत फिर संतुलित गति की ओर इशारा करता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -10293,6 +11419,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "દિનચર્યા સરળ રાખો",
+        "paragraphs": [
+          "આ લખાણ મુજબ સંતુલિત રીતે આગળ વધવું યોગ્ય છે. ચાલુ કામ પૂરાં કરો, જવાબદારીઓ સંભાળી શકાય તેવી રાખો અને નવું કામ લેતાં પહેલાં પોતાના માટે થોડી જગ્યા છોડો.",
+          "સૂર્યના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "લગભગ 25 ઑક્ટો 19:24 ISTએ ચંદ્રનો સંકેત ફરી સંતુલિત ગતિ તરફ સૂચવે છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -10537,6 +11690,33 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "Make room to adjust",
+        "paragraphs": [
+          "Your plans may not follow one even rhythm. Make the most of the easier stretches, but be willing to slow down and revisit something that needs more attention.",
+          "There is also a supportive thread in the pattern for Sun. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "Around 21 Oct, 07:02 IST, the Moon’s reading becomes more supportive. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 19,
+            "obstructed": 19,
+            "outside-favorable": 18,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -10895,6 +12075,33 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "बदलाव के लिए जगह रखें",
+        "paragraphs": [
+          "योजनाएँ एक ही गति से आगे नहीं बढ़ सकतीं। आसान समय का उपयोग करें, लेकिन जहाँ ज़रूरत हो वहाँ रुककर किसी बात को फिर से देखने के लिए तैयार रहें।",
+          "सूर्य के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "लगभग 21 अक्टू॰, 07:02 IST पर चंद्रमा का संकेत अधिक अनुकूल होता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 19,
+            "obstructed": 19,
+            "outside-favorable": 18,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -11253,6 +12460,33 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "ફેરફાર માટે જગ્યા રાખો",
+        "paragraphs": [
+          "યોજનાઓ એક જ ગતિએ આગળ ન પણ વધે. સરળ સમયનો ઉપયોગ કરો, પરંતુ જ્યાં જરૂર હોય ત્યાં થોભીને કોઈ વાત ફરીથી જોવા તૈયાર રહો.",
+          "સૂર્યના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "લગભગ 21 ઑક્ટો 07:02 ISTએ ચંદ્રનો સંકેત વધુ અનુકૂળ બને છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 19,
+            "obstructed": 19,
+            "outside-favorable": 18,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -11596,6 +12830,35 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "Give progress a little patience",
+        "paragraphs": [
+          "Your plans may need a little more patience than usual. Leave room for another conversation or a second attempt, and avoid pushing yourself to settle everything at once.",
+          "There is also a supportive thread in the pattern for Mars, Mercury and Jupiter. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "No Moon-sign or boundary-screening change was found for this period. Keep the overall theme in mind rather than waiting for one exact turning point."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 8,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Mars",
+            "Mercury",
+            "Jupiter"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -11756,6 +13019,35 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "थोड़ा धैर्य काम आएगा",
+        "paragraphs": [
+          "योजनाओं में सामान्य से थोड़ा अधिक धैर्य लग सकता है। दोबारा बातचीत या एक और प्रयास के लिए समय रखें और सब कुछ एक साथ तय करने का दबाव न लें।",
+          "मंगल, बुध, और गुरु के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "इस अवधि में चंद्र राशि या सीमा-जाँच का बदलाव नहीं मिला। किसी एक निश्चित मोड़ की प्रतीक्षा करने के बजाय पूरे पाठ की दिशा ध्यान में रखें।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 8,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Mars",
+            "Mercury",
+            "Jupiter"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -11916,6 +13208,35 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "થોડી ધીરજ ઉપયોગી થશે",
+        "paragraphs": [
+          "યોજનાઓમાં સામાન્ય કરતાં થોડી વધુ ધીરજની જરૂર પડી શકે છે. ફરી વાત કરવા કે બીજો પ્રયાસ કરવા સમય રાખો અને બધું એકસાથે નક્કી કરવાનું દબાણ ન લો.",
+          "મંગળ, બુધ અને ગુરુના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "આ સમયગાળામાં ચંદ્ર રાશિ કે સીમા-ચકાસણીનો ફેરફાર મળ્યો નથી. કોઈ એક ચોક્કસ વળાંકની રાહ જોવાને બદલે આખા લખાણની દિશા ધ્યાનમાં રાખો."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 8,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Mars",
+            "Mercury",
+            "Jupiter"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -12077,6 +13398,35 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "Give progress a little patience",
+        "paragraphs": [
+          "Your plans may need a little more patience than usual. Leave room for another conversation or a second attempt, and avoid pushing yourself to settle everything at once.",
+          "There is also a supportive thread in the pattern for Mars, Mercury and Jupiter. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "Around 25 Oct, 19:24 IST, the Moon’s reading returns to a more measured theme. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 7,
+            "outside-favorable": 1,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Mars",
+            "Mercury",
+            "Jupiter"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -12352,6 +13702,35 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "थोड़ा धैर्य काम आएगा",
+        "paragraphs": [
+          "योजनाओं में सामान्य से थोड़ा अधिक धैर्य लग सकता है। दोबारा बातचीत या एक और प्रयास के लिए समय रखें और सब कुछ एक साथ तय करने का दबाव न लें।",
+          "मंगल, बुध, और गुरु के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "लगभग 25 अक्टू॰, 19:24 IST पर चंद्रमा का संकेत फिर संतुलित गति की ओर इशारा करता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 7,
+            "outside-favorable": 1,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Mars",
+            "Mercury",
+            "Jupiter"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -12627,6 +14006,35 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "થોડી ધીરજ ઉપયોગી થશે",
+        "paragraphs": [
+          "યોજનાઓમાં સામાન્ય કરતાં થોડી વધુ ધીરજની જરૂર પડી શકે છે. ફરી વાત કરવા કે બીજો પ્રયાસ કરવા સમય રાખો અને બધું એકસાથે નક્કી કરવાનું દબાણ ન લો.",
+          "મંગળ, બુધ અને ગુરુના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "લગભગ 25 ઑક્ટો 19:24 ISTએ ચંદ્રનો સંકેત ફરી સંતુલિત ગતિ તરફ સૂચવે છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 7,
+            "outside-favorable": 1,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Mars",
+            "Mercury",
+            "Jupiter"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -12916,6 +14324,35 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "Give progress a little patience",
+        "paragraphs": [
+          "Your plans may need a little more patience than usual. Leave room for another conversation or a second attempt, and avoid pushing yourself to settle everything at once.",
+          "There is also a supportive thread in the pattern for Mars, Mercury and Jupiter. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "Around 21 Oct, 07:02 IST, the Moon’s reading calls for more patience. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 36,
+            "outside-favorable": 20,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Mars",
+            "Mercury",
+            "Jupiter"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -13387,6 +14824,35 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "थोड़ा धैर्य काम आएगा",
+        "paragraphs": [
+          "योजनाओं में सामान्य से थोड़ा अधिक धैर्य लग सकता है। दोबारा बातचीत या एक और प्रयास के लिए समय रखें और सब कुछ एक साथ तय करने का दबाव न लें।",
+          "मंगल, बुध, और गुरु के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "लगभग 21 अक्टू॰, 07:02 IST पर चंद्रमा का संकेत अधिक धैर्य की ओर इशारा करता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 36,
+            "outside-favorable": 20,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Mars",
+            "Mercury",
+            "Jupiter"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -13858,6 +15324,35 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "થોડી ધીરજ ઉપયોગી થશે",
+        "paragraphs": [
+          "યોજનાઓમાં સામાન્ય કરતાં થોડી વધુ ધીરજની જરૂર પડી શકે છે. ફરી વાત કરવા કે બીજો પ્રયાસ કરવા સમય રાખો અને બધું એકસાથે નક્કી કરવાનું દબાણ ન લો.",
+          "મંગળ, બુધ અને ગુરુના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "લગભગ 21 ઑક્ટો 07:02 ISTએ ચંદ્રનો સંકેત વધુ ધીરજ તરફ સૂચવે છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 36,
+            "outside-favorable": 20,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Mars",
+            "Mercury",
+            "Jupiter"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -14314,6 +15809,34 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "supportive",
+        "headline": "Build on your momentum",
+        "paragraphs": [
+          "There is room for steady progress. Give one important priority your full attention and take a practical next step, rather than waiting for everything to be perfect.",
+          "There is also a supportive thread in the pattern for Venus and Saturn. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "No Moon-sign or boundary-screening change was found for this period. Keep the overall theme in mind rather than waiting for one exact turning point."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 8,
+            "obstructed": 0,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus",
+            "Saturn"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -14474,6 +15997,34 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "supportive",
+        "headline": "धीरे-धीरे आगे बढ़ें",
+        "paragraphs": [
+          "लगातार प्रगति के लिए जगह है। किसी एक ज़रूरी काम को पूरा ध्यान दें और सब कुछ बिल्कुल सही होने की प्रतीक्षा करने के बजाय अगला व्यावहारिक कदम उठाएँ।",
+          "शुक्र और शनि के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "इस अवधि में चंद्र राशि या सीमा-जाँच का बदलाव नहीं मिला। किसी एक निश्चित मोड़ की प्रतीक्षा करने के बजाय पूरे पाठ की दिशा ध्यान में रखें।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 8,
+            "obstructed": 0,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus",
+            "Saturn"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -14634,6 +16185,34 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "supportive",
+        "headline": "ધીમે-ધીમે આગળ વધો",
+        "paragraphs": [
+          "સતત પ્રગતિ માટે જગ્યા છે. એક મહત્વના કામને પૂરું ધ્યાન આપો અને બધું એકદમ યોગ્ય થાય તેની રાહ જોવાને બદલે આગળનું વ્યવહારુ પગલું લો.",
+          "શુક્ર અને શનિના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "આ સમયગાળામાં ચંદ્ર રાશિ કે સીમા-ચકાસણીનો ફેરફાર મળ્યો નથી. કોઈ એક ચોક્કસ વળાંકની રાહ જોવાને બદલે આખા લખાણની દિશા ધ્યાનમાં રાખો."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 8,
+            "obstructed": 0,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus",
+            "Saturn"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -14795,6 +16374,34 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "supportive",
+        "headline": "Build on your momentum",
+        "paragraphs": [
+          "There is room for steady progress. Give one important priority your full attention and take a practical next step, rather than waiting for everything to be perfect.",
+          "There is also a supportive thread in the pattern for Venus and Saturn. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "Around 25 Oct, 19:24 IST, the Moon’s reading becomes more supportive. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 8,
+            "obstructed": 0,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus",
+            "Saturn"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -15005,6 +16612,34 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "supportive",
+        "headline": "धीरे-धीरे आगे बढ़ें",
+        "paragraphs": [
+          "लगातार प्रगति के लिए जगह है। किसी एक ज़रूरी काम को पूरा ध्यान दें और सब कुछ बिल्कुल सही होने की प्रतीक्षा करने के बजाय अगला व्यावहारिक कदम उठाएँ।",
+          "शुक्र और शनि के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "लगभग 25 अक्टू॰, 19:24 IST पर चंद्रमा का संकेत अधिक अनुकूल होता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 8,
+            "obstructed": 0,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus",
+            "Saturn"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -15215,6 +16850,34 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "supportive",
+        "headline": "ધીમે-ધીમે આગળ વધો",
+        "paragraphs": [
+          "સતત પ્રગતિ માટે જગ્યા છે. એક મહત્વના કામને પૂરું ધ્યાન આપો અને બધું એકદમ યોગ્ય થાય તેની રાહ જોવાને બદલે આગળનું વ્યવહારુ પગલું લો.",
+          "શુક્ર અને શનિના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "લગભગ 25 ઑક્ટો 19:24 ISTએ ચંદ્રનો સંકેત વધુ અનુકૂળ બને છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 8,
+            "obstructed": 0,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus",
+            "Saturn"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -15439,6 +17102,34 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "Make room to adjust",
+        "paragraphs": [
+          "Your plans may not follow one even rhythm. Make the most of the easier stretches, but be willing to slow down and revisit something that needs more attention.",
+          "There is also a supportive thread in the pattern for Venus and Saturn. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "Around 21 Oct, 07:02 IST, the Moon’s reading returns to a more measured theme. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 18,
+            "obstructed": 0,
+            "outside-favorable": 38,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus",
+            "Saturn"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -15759,6 +17450,34 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "बदलाव के लिए जगह रखें",
+        "paragraphs": [
+          "योजनाएँ एक ही गति से आगे नहीं बढ़ सकतीं। आसान समय का उपयोग करें, लेकिन जहाँ ज़रूरत हो वहाँ रुककर किसी बात को फिर से देखने के लिए तैयार रहें।",
+          "शुक्र और शनि के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "लगभग 21 अक्टू॰, 07:02 IST पर चंद्रमा का संकेत फिर संतुलित गति की ओर इशारा करता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 18,
+            "obstructed": 0,
+            "outside-favorable": 38,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus",
+            "Saturn"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -16079,6 +17798,34 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "ફેરફાર માટે જગ્યા રાખો",
+        "paragraphs": [
+          "યોજનાઓ એક જ ગતિએ આગળ ન પણ વધે. સરળ સમયનો ઉપયોગ કરો, પરંતુ જ્યાં જરૂર હોય ત્યાં થોભીને કોઈ વાત ફરીથી જોવા તૈયાર રહો.",
+          "શુક્ર અને શનિના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "લગભગ 21 ઑક્ટો 07:02 ISTએ ચંદ્રનો સંકેત ફરી સંતુલિત ગતિ તરફ સૂચવે છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 18,
+            "obstructed": 0,
+            "outside-favorable": 38,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus",
+            "Saturn"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -16384,6 +18131,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "Keep things simple",
+        "paragraphs": [
+          "A measured approach suits this reading. Finish what is already in motion, keep your commitments manageable and give yourself some breathing room before taking on more.",
+          "There is also a supportive thread in the pattern for Venus. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "No Moon-sign or boundary-screening change was found for this period. Keep the overall theme in mind rather than waiting for one exact turning point."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -16544,6 +18318,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "दिनचर्या सरल रखें",
+        "paragraphs": [
+          "इस पाठ के अनुसार संतुलित ढंग से आगे बढ़ना बेहतर है। चल रहे काम पूरे करें, ज़िम्मेदारियाँ संभालने योग्य रखें और नया काम लेने से पहले अपने लिए थोड़ी जगह छोड़ें।",
+          "शुक्र के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "इस अवधि में चंद्र राशि या सीमा-जाँच का बदलाव नहीं मिला। किसी एक निश्चित मोड़ की प्रतीक्षा करने के बजाय पूरे पाठ की दिशा ध्यान में रखें।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -16704,6 +18505,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "દિનચર્યા સરળ રાખો",
+        "paragraphs": [
+          "આ લખાણ મુજબ સંતુલિત રીતે આગળ વધવું યોગ્ય છે. ચાલુ કામ પૂરાં કરો, જવાબદારીઓ સંભાળી શકાય તેવી રાખો અને નવું કામ લેતાં પહેલાં પોતાના માટે થોડી જગ્યા છોડો.",
+          "શુક્રના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "આ સમયગાળામાં ચંદ્ર રાશિ કે સીમા-ચકાસણીનો ફેરફાર મળ્યો નથી. કોઈ એક ચોક્કસ વળાંકની રાહ જોવાને બદલે આખા લખાણની દિશા ધ્યાનમાં રાખો."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -16865,6 +18693,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "Give progress a little patience",
+        "paragraphs": [
+          "Your plans may need a little more patience than usual. Leave room for another conversation or a second attempt, and avoid pushing yourself to settle everything at once.",
+          "There is also a supportive thread in the pattern for Venus. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "Around 25 Oct, 19:24 IST, the Moon’s reading calls for more patience. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 1,
+            "outside-favorable": 7,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -17113,6 +18968,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "थोड़ा धैर्य काम आएगा",
+        "paragraphs": [
+          "योजनाओं में सामान्य से थोड़ा अधिक धैर्य लग सकता है। दोबारा बातचीत या एक और प्रयास के लिए समय रखें और सब कुछ एक साथ तय करने का दबाव न लें।",
+          "शुक्र के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "लगभग 25 अक्टू॰, 19:24 IST पर चंद्रमा का संकेत अधिक धैर्य की ओर इशारा करता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 1,
+            "outside-favorable": 7,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -17361,6 +19243,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "થોડી ધીરજ ઉપયોગી થશે",
+        "paragraphs": [
+          "યોજનાઓમાં સામાન્ય કરતાં થોડી વધુ ધીરજની જરૂર પડી શકે છે. ફરી વાત કરવા કે બીજો પ્રયાસ કરવા સમય રાખો અને બધું એકસાથે નક્કી કરવાનું દબાણ ન લો.",
+          "શુક્રના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "લગભગ 25 ઑક્ટો 19:24 ISTએ ચંદ્રનો સંકેત વધુ ધીરજ તરફ સૂચવે છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 1,
+            "outside-favorable": 7,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -17623,6 +19532,33 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "Give progress a little patience",
+        "paragraphs": [
+          "Your plans may need a little more patience than usual. Leave room for another conversation or a second attempt, and avoid pushing yourself to settle everything at once.",
+          "There is also a supportive thread in the pattern for Venus. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "Around 21 Oct, 07:02 IST, the Moon’s reading returns to a more measured theme. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 20,
+            "outside-favorable": 36,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -17999,6 +19935,33 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "थोड़ा धैर्य काम आएगा",
+        "paragraphs": [
+          "योजनाओं में सामान्य से थोड़ा अधिक धैर्य लग सकता है। दोबारा बातचीत या एक और प्रयास के लिए समय रखें और सब कुछ एक साथ तय करने का दबाव न लें।",
+          "शुक्र के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "लगभग 21 अक्टू॰, 07:02 IST पर चंद्रमा का संकेत फिर संतुलित गति की ओर इशारा करता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 20,
+            "outside-favorable": 36,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -18375,6 +20338,33 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "થોડી ધીરજ ઉપયોગી થશે",
+        "paragraphs": [
+          "યોજનાઓમાં સામાન્ય કરતાં થોડી વધુ ધીરજની જરૂર પડી શકે છે. ફરી વાત કરવા કે બીજો પ્રયાસ કરવા સમય રાખો અને બધું એકસાથે નક્કી કરવાનું દબાણ ન લો.",
+          "શુક્રના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "લગભગ 21 ઑક્ટો 07:02 ISTએ ચંદ્રનો સંકેત ફરી સંતુલિત ગતિ તરફ સૂચવે છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 20,
+            "outside-favorable": 36,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -18736,6 +20726,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "Keep things simple",
+        "paragraphs": [
+          "A measured approach suits this reading. Finish what is already in motion, keep your commitments manageable and give yourself some breathing room before taking on more.",
+          "There is also a supportive thread in the pattern for Sun. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "No Moon-sign or boundary-screening change was found for this period. Keep the overall theme in mind rather than waiting for one exact turning point."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -18896,6 +20913,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "दिनचर्या सरल रखें",
+        "paragraphs": [
+          "इस पाठ के अनुसार संतुलित ढंग से आगे बढ़ना बेहतर है। चल रहे काम पूरे करें, ज़िम्मेदारियाँ संभालने योग्य रखें और नया काम लेने से पहले अपने लिए थोड़ी जगह छोड़ें।",
+          "सूर्य के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "इस अवधि में चंद्र राशि या सीमा-जाँच का बदलाव नहीं मिला। किसी एक निश्चित मोड़ की प्रतीक्षा करने के बजाय पूरे पाठ की दिशा ध्यान में रखें।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -19056,6 +21100,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "દિનચર્યા સરળ રાખો",
+        "paragraphs": [
+          "આ લખાણ મુજબ સંતુલિત રીતે આગળ વધવું યોગ્ય છે. ચાલુ કામ પૂરાં કરો, જવાબદારીઓ સંભાળી શકાય તેવી રાખો અને નવું કામ લેતાં પહેલાં પોતાના માટે થોડી જગ્યા છોડો.",
+          "સૂર્યના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "આ સમયગાળામાં ચંદ્ર રાશિ કે સીમા-ચકાસણીનો ફેરફાર મળ્યો નથી. કોઈ એક ચોક્કસ વળાંકની રાહ જોવાને બદલે આખા લખાણની દિશા ધ્યાનમાં રાખો."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -19217,6 +21288,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "Keep things simple",
+        "paragraphs": [
+          "A measured approach suits this reading. Finish what is already in motion, keep your commitments manageable and give yourself some breathing room before taking on more.",
+          "There is also a supportive thread in the pattern for Sun. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "Around 25 Oct, 19:24 IST, the Moon’s reading returns to a more measured theme. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -19447,6 +21545,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "दिनचर्या सरल रखें",
+        "paragraphs": [
+          "इस पाठ के अनुसार संतुलित ढंग से आगे बढ़ना बेहतर है। चल रहे काम पूरे करें, ज़िम्मेदारियाँ संभालने योग्य रखें और नया काम लेने से पहले अपने लिए थोड़ी जगह छोड़ें।",
+          "सूर्य के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "लगभग 25 अक्टू॰, 19:24 IST पर चंद्रमा का संकेत फिर संतुलित गति की ओर इशारा करता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -19677,6 +21802,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "દિનચર્યા સરળ રાખો",
+        "paragraphs": [
+          "આ લખાણ મુજબ સંતુલિત રીતે આગળ વધવું યોગ્ય છે. ચાલુ કામ પૂરાં કરો, જવાબદારીઓ સંભાળી શકાય તેવી રાખો અને નવું કામ લેતાં પહેલાં પોતાના માટે થોડી જગ્યા છોડો.",
+          "સૂર્યના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "લગભગ 25 ઑક્ટો 19:24 ISTએ ચંદ્રનો સંકેત ફરી સંતુલિત ગતિ તરફ સૂચવે છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -19921,6 +22073,33 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "Give progress a little patience",
+        "paragraphs": [
+          "Your plans may need a little more patience than usual. Leave room for another conversation or a second attempt, and avoid pushing yourself to settle everything at once.",
+          "There is also a supportive thread in the pattern for Sun. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "Around 21 Oct, 07:02 IST, the Moon’s reading calls for more patience. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 19,
+            "outside-favorable": 37,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -20345,6 +22524,33 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "थोड़ा धैर्य काम आएगा",
+        "paragraphs": [
+          "योजनाओं में सामान्य से थोड़ा अधिक धैर्य लग सकता है। दोबारा बातचीत या एक और प्रयास के लिए समय रखें और सब कुछ एक साथ तय करने का दबाव न लें।",
+          "सूर्य के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "लगभग 21 अक्टू॰, 07:02 IST पर चंद्रमा का संकेत अधिक धैर्य की ओर इशारा करता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 19,
+            "outside-favorable": 37,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -20769,6 +22975,33 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "થોડી ધીરજ ઉપયોગી થશે",
+        "paragraphs": [
+          "યોજનાઓમાં સામાન્ય કરતાં થોડી વધુ ધીરજની જરૂર પડી શકે છે. ફરી વાત કરવા કે બીજો પ્રયાસ કરવા સમય રાખો અને બધું એકસાથે નક્કી કરવાનું દબાણ ન લો.",
+          "સૂર્યના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "લગભગ 21 ઑક્ટો 07:02 ISTએ ચંદ્રનો સંકેત વધુ ધીરજ તરફ સૂચવે છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 19,
+            "outside-favorable": 37,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -21178,6 +23411,34 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "supportive",
+        "headline": "Build on your momentum",
+        "paragraphs": [
+          "There is room for steady progress. Give one important priority your full attention and take a practical next step, rather than waiting for everything to be perfect.",
+          "There is also a supportive thread in the pattern for Sun and Saturn. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "No Moon-sign or boundary-screening change was found for this period. Keep the overall theme in mind rather than waiting for one exact turning point."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 8,
+            "obstructed": 0,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun",
+            "Saturn"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -21338,6 +23599,34 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "supportive",
+        "headline": "धीरे-धीरे आगे बढ़ें",
+        "paragraphs": [
+          "लगातार प्रगति के लिए जगह है। किसी एक ज़रूरी काम को पूरा ध्यान दें और सब कुछ बिल्कुल सही होने की प्रतीक्षा करने के बजाय अगला व्यावहारिक कदम उठाएँ।",
+          "सूर्य और शनि के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "इस अवधि में चंद्र राशि या सीमा-जाँच का बदलाव नहीं मिला। किसी एक निश्चित मोड़ की प्रतीक्षा करने के बजाय पूरे पाठ की दिशा ध्यान में रखें।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 8,
+            "obstructed": 0,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun",
+            "Saturn"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -21498,6 +23787,34 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "supportive",
+        "headline": "ધીમે-ધીમે આગળ વધો",
+        "paragraphs": [
+          "સતત પ્રગતિ માટે જગ્યા છે. એક મહત્વના કામને પૂરું ધ્યાન આપો અને બધું એકદમ યોગ્ય થાય તેની રાહ જોવાને બદલે આગળનું વ્યવહારુ પગલું લો.",
+          "સૂર્ય અને શનિના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "આ સમયગાળામાં ચંદ્ર રાશિ કે સીમા-ચકાસણીનો ફેરફાર મળ્યો નથી. કોઈ એક ચોક્કસ વળાંકની રાહ જોવાને બદલે આખા લખાણની દિશા ધ્યાનમાં રાખો."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 8,
+            "obstructed": 0,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun",
+            "Saturn"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -21659,6 +23976,34 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "Make room to adjust",
+        "paragraphs": [
+          "Your plans may not follow one even rhythm. Make the most of the easier stretches, but be willing to slow down and revisit something that needs more attention.",
+          "There is also a supportive thread in the pattern for Sun and Saturn. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "Around 25 Oct, 19:24 IST, the Moon’s reading returns to a more measured theme. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 7,
+            "obstructed": 0,
+            "outside-favorable": 1,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun",
+            "Saturn"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -21916,6 +24261,34 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "बदलाव के लिए जगह रखें",
+        "paragraphs": [
+          "योजनाएँ एक ही गति से आगे नहीं बढ़ सकतीं। आसान समय का उपयोग करें, लेकिन जहाँ ज़रूरत हो वहाँ रुककर किसी बात को फिर से देखने के लिए तैयार रहें।",
+          "सूर्य और शनि के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "लगभग 25 अक्टू॰, 19:24 IST पर चंद्रमा का संकेत फिर संतुलित गति की ओर इशारा करता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 7,
+            "obstructed": 0,
+            "outside-favorable": 1,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun",
+            "Saturn"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -22173,6 +24546,34 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "ફેરફાર માટે જગ્યા રાખો",
+        "paragraphs": [
+          "યોજનાઓ એક જ ગતિએ આગળ ન પણ વધે. સરળ સમયનો ઉપયોગ કરો, પરંતુ જ્યાં જરૂર હોય ત્યાં થોભીને કોઈ વાત ફરીથી જોવા તૈયાર રહો.",
+          "સૂર્ય અને શનિના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "લગભગ 25 ઑક્ટો 19:24 ISTએ ચંદ્રનો સંકેત ફરી સંતુલિત ગતિ તરફ સૂચવે છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 7,
+            "obstructed": 0,
+            "outside-favorable": 1,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun",
+            "Saturn"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -22444,6 +24845,34 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "Make room to adjust",
+        "paragraphs": [
+          "Your plans may not follow one even rhythm. Make the most of the easier stretches, but be willing to slow down and revisit something that needs more attention.",
+          "There is also a supportive thread in the pattern for Sun and Saturn. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "Around 21 Oct, 07:02 IST, the Moon’s reading returns to a more measured theme. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 36,
+            "obstructed": 0,
+            "outside-favorable": 20,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun",
+            "Saturn"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -22838,6 +25267,34 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "बदलाव के लिए जगह रखें",
+        "paragraphs": [
+          "योजनाएँ एक ही गति से आगे नहीं बढ़ सकतीं। आसान समय का उपयोग करें, लेकिन जहाँ ज़रूरत हो वहाँ रुककर किसी बात को फिर से देखने के लिए तैयार रहें।",
+          "सूर्य और शनि के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "लगभग 21 अक्टू॰, 07:02 IST पर चंद्रमा का संकेत फिर संतुलित गति की ओर इशारा करता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 36,
+            "obstructed": 0,
+            "outside-favorable": 20,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun",
+            "Saturn"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -23232,6 +25689,34 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "ફેરફાર માટે જગ્યા રાખો",
+        "paragraphs": [
+          "યોજનાઓ એક જ ગતિએ આગળ ન પણ વધે. સરળ સમયનો ઉપયોગ કરો, પરંતુ જ્યાં જરૂર હોય ત્યાં થોભીને કોઈ વાત ફરીથી જોવા તૈયાર રહો.",
+          "સૂર્ય અને શનિના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "લગભગ 21 ઑક્ટો 07:02 ISTએ ચંદ્રનો સંકેત ફરી સંતુલિત ગતિ તરફ સૂચવે છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 36,
+            "obstructed": 0,
+            "outside-favorable": 20,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Sun",
+            "Saturn"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -23611,6 +26096,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "Keep things simple",
+        "paragraphs": [
+          "A measured approach suits this reading. Finish what is already in motion, keep your commitments manageable and give yourself some breathing room before taking on more.",
+          "There is also a supportive thread in the pattern for Venus. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "No Moon-sign or boundary-screening change was found for this period. Keep the overall theme in mind rather than waiting for one exact turning point."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -23771,6 +26283,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "दिनचर्या सरल रखें",
+        "paragraphs": [
+          "इस पाठ के अनुसार संतुलित ढंग से आगे बढ़ना बेहतर है। चल रहे काम पूरे करें, ज़िम्मेदारियाँ संभालने योग्य रखें और नया काम लेने से पहले अपने लिए थोड़ी जगह छोड़ें।",
+          "शुक्र के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "इस अवधि में चंद्र राशि या सीमा-जाँच का बदलाव नहीं मिला। किसी एक निश्चित मोड़ की प्रतीक्षा करने के बजाय पूरे पाठ की दिशा ध्यान में रखें।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -23931,6 +26470,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "neutral",
+        "headline": "દિનચર્યા સરળ રાખો",
+        "paragraphs": [
+          "આ લખાણ મુજબ સંતુલિત રીતે આગળ વધવું યોગ્ય છે. ચાલુ કામ પૂરાં કરો, જવાબદારીઓ સંભાળી શકાય તેવી રાખો અને નવું કામ લેતાં પહેલાં પોતાના માટે થોડી જગ્યા છોડો.",
+          "શુક્રના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "આ સમયગાળામાં ચંદ્ર રાશિ કે સીમા-ચકાસણીનો ફેરફાર મળ્યો નથી. કોઈ એક ચોક્કસ વળાંકની રાહ જોવાને બદલે આખા લખાણની દિશા ધ્યાનમાં રાખો."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 0,
+            "outside-favorable": 8,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -24092,6 +26658,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "Give progress a little patience",
+        "paragraphs": [
+          "Your plans may need a little more patience than usual. Leave room for another conversation or a second attempt, and avoid pushing yourself to settle everything at once.",
+          "There is also a supportive thread in the pattern for Venus. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "Around 25 Oct, 19:24 IST, the Moon’s reading calls for more patience. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 1,
+            "outside-favorable": 7,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -24320,6 +26913,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "थोड़ा धैर्य काम आएगा",
+        "paragraphs": [
+          "योजनाओं में सामान्य से थोड़ा अधिक धैर्य लग सकता है। दोबारा बातचीत या एक और प्रयास के लिए समय रखें और सब कुछ एक साथ तय करने का दबाव न लें।",
+          "शुक्र के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "लगभग 25 अक्टू॰, 19:24 IST पर चंद्रमा का संकेत अधिक धैर्य की ओर इशारा करता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 1,
+            "outside-favorable": 7,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -24548,6 +27168,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "થોડી ધીરજ ઉપયોગી થશે",
+        "paragraphs": [
+          "યોજનાઓમાં સામાન્ય કરતાં થોડી વધુ ધીરજની જરૂર પડી શકે છે. ફરી વાત કરવા કે બીજો પ્રયાસ કરવા સમય રાખો અને બધું એકસાથે નક્કી કરવાનું દબાણ ન લો.",
+          "શુક્રના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "લગભગ 25 ઑક્ટો 19:24 ISTએ ચંદ્રનો સંકેત વધુ ધીરજ તરફ સૂચવે છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 1,
+            "outside-favorable": 7,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -24790,6 +27437,33 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "Make room to adjust",
+        "paragraphs": [
+          "Your plans may not follow one even rhythm. Make the most of the easier stretches, but be willing to slow down and revisit something that needs more attention.",
+          "There is also a supportive thread in the pattern for Venus. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "Around 21 Oct, 07:02 IST, the Moon’s reading becomes more supportive. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 19,
+            "obstructed": 1,
+            "outside-favorable": 36,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -25128,6 +27802,33 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "बदलाव के लिए जगह रखें",
+        "paragraphs": [
+          "योजनाएँ एक ही गति से आगे नहीं बढ़ सकतीं। आसान समय का उपयोग करें, लेकिन जहाँ ज़रूरत हो वहाँ रुककर किसी बात को फिर से देखने के लिए तैयार रहें।",
+          "शुक्र के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "लगभग 21 अक्टू॰, 07:02 IST पर चंद्रमा का संकेत अधिक अनुकूल होता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 19,
+            "obstructed": 1,
+            "outside-favorable": 36,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -25466,6 +28167,33 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "mixed",
+        "headline": "ફેરફાર માટે જગ્યા રાખો",
+        "paragraphs": [
+          "યોજનાઓ એક જ ગતિએ આગળ ન પણ વધે. સરળ સમયનો ઉપયોગ કરો, પરંતુ જ્યાં જરૂર હોય ત્યાં થોભીને કોઈ વાત ફરીથી જોવા તૈયાર રહો.",
+          "શુક્રના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "લગભગ 21 ઑક્ટો 07:02 ISTએ ચંદ્રનો સંકેત વધુ અનુકૂળ બને છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 19,
+            "obstructed": 1,
+            "outside-favorable": 36,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Venus"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -25789,6 +28517,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "Give progress a little patience",
+        "paragraphs": [
+          "Your plans may need a little more patience than usual. Leave room for another conversation or a second attempt, and avoid pushing yourself to settle everything at once.",
+          "There is also a supportive thread in the pattern for Jupiter. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "No Moon-sign or boundary-screening change was found for this period. Keep the overall theme in mind rather than waiting for one exact turning point."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 8,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Jupiter"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -25949,6 +28704,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "थोड़ा धैर्य काम आएगा",
+        "paragraphs": [
+          "योजनाओं में सामान्य से थोड़ा अधिक धैर्य लग सकता है। दोबारा बातचीत या एक और प्रयास के लिए समय रखें और सब कुछ एक साथ तय करने का दबाव न लें।",
+          "गुरु के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "इस अवधि में चंद्र राशि या सीमा-जाँच का बदलाव नहीं मिला। किसी एक निश्चित मोड़ की प्रतीक्षा करने के बजाय पूरे पाठ की दिशा ध्यान में रखें।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 8,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Jupiter"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -26109,6 +28891,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "થોડી ધીરજ ઉપયોગી થશે",
+        "paragraphs": [
+          "યોજનાઓમાં સામાન્ય કરતાં થોડી વધુ ધીરજની જરૂર પડી શકે છે. ફરી વાત કરવા કે બીજો પ્રયાસ કરવા સમય રાખો અને બધું એકસાથે નક્કી કરવાનું દબાણ ન લો.",
+          "ગુરુના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "આ સમયગાળામાં ચંદ્ર રાશિ કે સીમા-ચકાસણીનો ફેરફાર મળ્યો નથી. કોઈ એક ચોક્કસ વળાંકની રાહ જોવાને બદલે આખા લખાણની દિશા ધ્યાનમાં રાખો."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 8,
+            "outside-favorable": 0,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Jupiter"
+          ],
+          "timingUtc": null,
+          "timingKind": null,
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [],
       "promptIds": [
@@ -26270,6 +29079,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "Give progress a little patience",
+        "paragraphs": [
+          "Your plans may need a little more patience than usual. Leave room for another conversation or a second attempt, and avoid pushing yourself to settle everything at once.",
+          "There is also a supportive thread in the pattern for Jupiter. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "Around 25 Oct, 19:24 IST, the Moon’s reading returns to a more measured theme. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 7,
+            "outside-favorable": 1,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Jupiter"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -26498,6 +29334,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "थोड़ा धैर्य काम आएगा",
+        "paragraphs": [
+          "योजनाओं में सामान्य से थोड़ा अधिक धैर्य लग सकता है। दोबारा बातचीत या एक और प्रयास के लिए समय रखें और सब कुछ एक साथ तय करने का दबाव न लें।",
+          "गुरु के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "लगभग 25 अक्टू॰, 19:24 IST पर चंद्रमा का संकेत फिर संतुलित गति की ओर इशारा करता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 7,
+            "outside-favorable": 1,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Jupiter"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -26726,6 +29589,33 @@
           "sampleCount": 8
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "થોડી ધીરજ ઉપયોગી થશે",
+        "paragraphs": [
+          "યોજનાઓમાં સામાન્ય કરતાં થોડી વધુ ધીરજની જરૂર પડી શકે છે. ફરી વાત કરવા કે બીજો પ્રયાસ કરવા સમય રાખો અને બધું એકસાથે નક્કી કરવાનું દબાણ ન લો.",
+          "ગુરુના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "લગભગ 25 ઑક્ટો 19:24 ISTએ ચંદ્રનો સંકેત ફરી સંતુલિત ગતિ તરફ સૂચવે છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 7,
+            "outside-favorable": 1,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Jupiter"
+          ],
+          "timingUtc": "2026-10-25T13:54:01.845Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -26968,6 +29858,33 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "Give progress a little patience",
+        "paragraphs": [
+          "Your plans may need a little more patience than usual. Leave room for another conversation or a second attempt, and avoid pushing yourself to settle everything at once.",
+          "There is also a supportive thread in the pattern for Jupiter. Use that encouragement for one useful step you can complete, rather than spreading your attention across too many things.",
+          "Around 21 Oct, 07:02 IST, the Moon’s reading returns to a more measured theme. Leave a little space to review your pace around that change; it is not a deadline for an event to happen."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 36,
+            "outside-favorable": 20,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Jupiter"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -27342,6 +30259,33 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "थोड़ा धैर्य काम आएगा",
+        "paragraphs": [
+          "योजनाओं में सामान्य से थोड़ा अधिक धैर्य लग सकता है। दोबारा बातचीत या एक और प्रयास के लिए समय रखें और सब कुछ एक साथ तय करने का दबाव न लें।",
+          "गुरु के संकेतों में कुछ अनुकूलता भी है। इससे उत्साह लेकर कोई एक उपयोगी कदम पूरा करें, बजाय इसके कि बहुत सारे कामों में ध्यान बाँट दें।",
+          "लगभग 21 अक्टू॰, 07:02 IST पर चंद्रमा का संकेत फिर संतुलित गति की ओर इशारा करता है। इस बदलाव के आसपास अपनी गति पर फिर विचार करने की जगह रखें; यह किसी घटना की समय-सीमा नहीं है।"
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 36,
+            "outside-favorable": 20,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Jupiter"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {
@@ -27716,6 +30660,33 @@
           "sampleCount": 56
         }
       ],
+      "outlook": {
+        "modelId": "calculated-transit-outlook-1",
+        "mood": "obstructed",
+        "headline": "થોડી ધીરજ ઉપયોગી થશે",
+        "paragraphs": [
+          "યોજનાઓમાં સામાન્ય કરતાં થોડી વધુ ધીરજની જરૂર પડી શકે છે. ફરી વાત કરવા કે બીજો પ્રયાસ કરવા સમય રાખો અને બધું એકસાથે નક્કી કરવાનું દબાણ ન લો.",
+          "ગુરુના સંકેતોમાં થોડું અનુકૂળ સમર્થન પણ છે. તેમાંથી ઉત્સાહ લઈને એક ઉપયોગી પગલું પૂરું કરો, ઘણાં કામોમાં ધ્યાન વહેંચવાને બદલે.",
+          "લગભગ 21 ઑક્ટો 07:02 ISTએ ચંદ્રનો સંકેત ફરી સંતુલિત ગતિ તરફ સૂચવે છે. આ ફેરફાર આસપાસ પોતાની ગતિ ફરીથી વિચારવાની જગ્યા રાખો; આ કોઈ ઘટના માટેની સમયમર્યાદા નથી."
+        ],
+        "trace": {
+          "moonCounts": {
+            "supportive": 0,
+            "obstructed": 36,
+            "outside-favorable": 20,
+            "uncertain": 0,
+            "rule-unresolved": 0
+          },
+          "focusKind": "support",
+          "focusBodies": [
+            "Jupiter"
+          ],
+          "timingUtc": "2026-10-21T01:32:30.292Z",
+          "timingKind": "guard-exit",
+          "timelineStatus": "available"
+        },
+        "scope": "Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model."
+      },
       "timelineStatus": "available",
       "events": [
         {

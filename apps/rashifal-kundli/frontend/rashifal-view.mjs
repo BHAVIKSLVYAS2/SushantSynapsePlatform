@@ -4,6 +4,7 @@ import {createRashifalClient} from './rashifal-client.mjs';
 import {rashifalLibrary,transitText,readingText} from './rashifal-library.mjs';
 import {signName,bodyName} from './locale.mjs';
 import {renderTimeline,timelineText} from './timeline-view.mjs';
+import {outlookText} from './rashifal-outlook.mjs';
 const symbols=['♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓'],storageKey='synapse-vedic-rashi';
 const romanRashis=['Mesha','Vrishabha','Mithuna','Karka','Simha','Kanya','Tula','Vrishchika','Dhanu','Makara','Kumbha','Meena'];
 const rashiLabel=(number,language)=>language==='en'?`${romanRashis[number-1]} (${signName(number,language)})`:signName(number,language);
@@ -60,12 +61,16 @@ export function mountRashifal(container,{now=()=>Date.now()}={}){
     if(destroyed||current!==revision)return;status.textContent='';result.removeAttribute('aria-busy');
     const x=experienceLabels[language],dateFormat=new Intl.DateTimeFormat(({en:'en-IN',hi:'hi-IN',gu:'gu-IN'})[language],{day:'numeric',month:'short',year:'numeric',timeZone:'Asia/Kolkata'}),formatDate=date=>dateFormat.format(new Date(date+'T12:00:00+05:30'));
     result.dataset.cacheHit=String(response.cache.hit);result.append(el('h2',`${symbols[reading.rashi-1]}\uFE0E ${rashiLabel(reading.rashi,language)} · ${t[view]}`),el('p',`${x.date}: ${formatDate(reading.period.dates[0])}${view==='weekly'?' – '+formatDate(reading.period.dates.at(-1)):''} · IST`));
+    const prediction=el('section');prediction.className='rashifal-prediction';prediction.lang=reading.contentLanguage;prediction.setAttribute('aria-labelledby','rashifal-prediction-title');
+    const predictionTitle=el('h3',outlookText[language][view]);predictionTitle.id='rashifal-prediction-title';prediction.append(predictionTitle,el('h4',reading.outlook.headline));
+    for(const text of reading.outlook.paragraphs)prediction.append(el('p',text));const predictionNote=el('p',outlookText[language].notice);predictionNote.className='rashifal-prediction-note';prediction.append(predictionNote);
+    const calculationTitle=el('h3',outlookText[language].calculations);calculationTitle.className='rashifal-calculations-title';result.append(prediction,calculationTitle);
     const metadata=el('div');metadata.className='rashifal-metadata';metadata.append(el('p',`${t.date}: ${reading.period.dates[0]} → ${reading.period.dates.at(-1)} · Asia/Kolkata`),el('p',`${t.catalogue}: ${reading.publication.catalogueDate} · ${t.published}: ${term(reading.publication.status,language)}`),el('p',`${t.retrieved}: ${response.retrievedAtUtc}`));
     const fallback=el('p',reading.fallback?t.fallback:t.baseline);fallback.id='rashifal-fallback';result.append(fallback);
     const content=el('div');content.lang=reading.contentLanguage;content.className='rashifal-reading';
     for(const section of reading.sections){const region=el('section');region.dataset.category=section.category;const heading=el('h3',readingText[language][section.category]);heading.lang=language;region.append(heading);for(const item of section.items){const row=el('div');row.className='rashifal-planet';if(item.body){row.dataset.body=item.body;row.append(el('h4',bodyName(item.body,language)));}const p=el('p',item.text);p.dataset.sentence=item.id;row.append(p);region.append(row);}content.append(region);if(section.category==='overview')content.append(renderTimeline(reading.timeline,language,view));}result.append(content);
-    for(const heading of content.querySelectorAll('h3')){heading.id='rashifal-topic-'+heading.parentElement.dataset.category;heading.tabIndex=-1;}
-    const why=el('details');why.append(el('summary',t.why),metadata,fallback,el('p',readingText[language].scope),el('p',`${reading.provenance.ruleVersion} · ${reading.provenance.factorModel} · ${reading.provenance.profileId}`),el('p',term(reading.provenance.author,language)),el('p',term(reading.provenance.rule,language)));
+    for(const heading of content.querySelectorAll(':scope > section[data-category] > h3')){heading.id='rashifal-topic-'+heading.parentElement.dataset.category;heading.tabIndex=-1;}
+    const why=el('details');why.append(el('summary',t.why),metadata,fallback,el('p',outlookText[language].basis),el('p',readingText[language].scope),el('p',`${reading.provenance.ruleVersion} · ${reading.provenance.factorModel} · ${reading.provenance.profileId}`),el('p',term(reading.provenance.author,language)),el('p',term(reading.provenance.rule,language)));
     const c=calculationLabels[language],source=el('a',reading.provenance.source.id);source.href=reading.provenance.source.url;source.target='_blank';source.rel='noopener noreferrer';why.append(source,el('p',c.basis),el('p',c.limits));
     const sampleLabel=el('label',c.sample),sampleSelect=el('select');sampleSelect.id='rashifal-observation';sampleLabel.htmlFor=sampleSelect.id;
     for(const [i,s]of reading.samples.entries()){const option=el('option',`${s.localDate} · ${s.localTime} IST`);option.value=String(i);sampleSelect.append(option);}sampleSelect.value='4';sampleLabel.append(sampleSelect);why.append(sampleLabel);

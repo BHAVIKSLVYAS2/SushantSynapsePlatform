@@ -3,6 +3,7 @@ import {transitSkyForDate,evaluateTransitSample,summarizeTransits,transitRuleboo
 import {fields,fail,freeze} from '../../../packages/vedic/diagnostics.mjs';
 import {rashifalLibrary,editorialSections} from './rashifal-library.mjs';
 import {transitEventsForDate,timelineForRashi,transitTimelineModel} from '../../../packages/vedic/rashifal-timeline.mjs';
+import {composeOutlook} from './rashifal-outlook.mjs';
 const profile='IN_LAHIRI_DEFAULT_V1';
 export function createRashifalService(){
  const readings=new Map(),factors=new Map(),timelines=new Map();
@@ -17,7 +18,8 @@ export function createRashifalService(){
    const samples=days.flatMap(day=>day.samples.map(s=>({...s,rows:evaluateTransitSample({positions:s.positions,rashi:input.rashi})})));
    const grahas=summarizeTransits(samples),noons=samples.filter(s=>s.localTime==='12:00').map(s=>{const moon=s.rows.find(p=>p.body==='Moon');return {localDate:s.localDate,anchorUtc:s.utcInstant,moonRashi:moon.rashi,moonSiderealLongitude:moon.siderealLongitude,relativeHouse:moon.relativeHouse,nearBoundary:moon.nearBoundary,rows:s.rows};});
    const timelineDays=period.dates.map(localDate=>{if(!timelines.has(localDate)){let value;try{value=transitEventsForDate({localDate,calculationProfileId:profile});}catch(error){if(!error.code)throw error;value={localDate,status:'unavailable',diagnostic:error.code,changes:[],contacts:[],evaluations:0};}put(timelines,localDate,value,56);}return timelines.get(localDate);});
-   reading=freeze({contractVersion:'vedic-rashifal-3',period,rashi:input.rashi,requestedLanguage:input.language,...editorialSections(grahas,input.language),timeline:timelineForRashi({days:timelineDays,rashi:input.rashi}),
+   const timeline=timelineForRashi({days:timelineDays,rashi:input.rashi});
+   reading=freeze({contractVersion:'vedic-rashifal-4',period,rashi:input.rashi,requestedLanguage:input.language,...editorialSections(grahas,input.language),timeline,outlook:composeOutlook({grahas,timeline,language:input.language}),
     factors:noons,samples:samples.map(({positions,warnings,...sample})=>sample),grahas,
     selection:grahas.map(g=>({body:g.body,houses:g.houses,counts:g.counts,sampleCount:g.sampleCount})),
     publication:{status:rashifalLibrary.status,catalogueDate:rashifalLibrary.catalogueDate,publishedAt:null,editorialDate:period.editorialDate},

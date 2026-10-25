@@ -1,5 +1,12 @@
 # Vedic app calculation and content audit
 
+Reading-first follow-up (25 October 2026): `rashifal-gochar-6` adds a plain-language
+outlook before the calculation summary/timeline. This is explicitly original
+editorial guidance derived from actual factors and timing, not newly certified
+classical domain prediction rules. Its trace is retained and uncertainty is not
+silently promoted into a confident forecast. See READABLE_OUTLOOK.md. The
+remaining rulebook/independent-review gaps below are unchanged.
+
 Timing follow-up (25 October 2026): `rashifal-gochar-5` adds the nominal
 sign/screen-edge timeline described in item 3, with station splitting, bounded
 refinement and explicit contact/period-edge uncertainty. The search does not

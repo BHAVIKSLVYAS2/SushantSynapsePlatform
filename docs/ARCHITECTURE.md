@@ -1,5 +1,12 @@
 # Code ownership and adding apps
 
+Readable Rashifal (2026-10-25): app-owned rashifal-outlook.mjs projects calculated
+Moon classifications, physical-graha context and unambiguous timing into en/hi/gu
+editorial guidance. The private result retains a factor/event trace. The primary
+outlook card precedes all calculations; the existing numerical engine and Worker
+remain the source of results. No new domain scores, API, persistence or classical
+life-event rules. Scope and validation: docs/vedic/READABLE_OUTLOOK.md.
+
 Rashifal timeline (2026-10-25): packages/vedic owns bounded angular root search,
 station splitting, sign/screen-edge events and per-Rashi before/after rule
 composition. The app owns the localized timeline and private calculation Worker;
