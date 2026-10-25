@@ -14,7 +14,7 @@ renderCompactCard for public/workspace cards. build-catalogue.cjs generates
 static cards and the browser registry bundle; build-home.cjs generates home CSS.
 Keep metadata, featured ordering, filters and server-owned access authoritative.
 Use existing SVG artwork and theme tokens. App introductions were restored at the
-user's request: cards are now 148px high in 2/3/4 columns, with names limited to
+user's request: cards are now 140px high in 3/4 columns, with names limited to
 two lines and introductions to three. Prefer homeDescription, falling back to
 description/subtitle; use the shared language runtime for localized introductions.
 Signed-in Edit favourites uses full-card selection targets, keeping normal

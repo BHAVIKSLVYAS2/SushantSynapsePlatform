@@ -7,7 +7,7 @@ test('launcher delivery preserves compact cards, themes, shared languages and na
  const errors=[];page.on('pageerror',error=>errors.push(error.message));await page.route(/googlesyndication|doubleclick|google-analytics/,route=>route.abort());await page.goto(base+'/');await expect(page.locator('.compact-app')).toHaveCount(18);await expect(page.locator('.compact-app-description')).toHaveCount(18);
  for(const width of [320,360,390,430,600,768,900,1024])for(const theme of ['light','dark']){
   await page.setViewportSize({width,height:900});await page.evaluate(theme=>SynapseTheme.write(theme),theme);
-  for(const selector of ['.public-apps','.workspace-grid']){const layout=await page.locator(selector).evaluate(grid=>({columns:getComputedStyle(grid).gridTemplateColumns.split(' ').length,overflow:grid.scrollWidth>grid.clientWidth,heights:[...grid.querySelectorAll('.compact-app')].map(card=>card.getBoundingClientRect().height)}));expect(layout.columns).toBe(width>=900?4:width>=600?3:2);expect(layout.overflow).toBe(false);expect(layout.heights.every(height=>height===148)).toBe(true);}
+  for(const selector of ['.public-apps','.workspace-grid']){const layout=await page.locator(selector).evaluate(grid=>({columns:getComputedStyle(grid).gridTemplateColumns.split(' ').length,overflow:grid.scrollWidth>grid.clientWidth,heights:[...grid.querySelectorAll('.compact-app')].map(card=>card.getBoundingClientRect().height)}));expect(layout.columns).toBe(width>=900?4:3);expect(layout.overflow).toBe(false);expect(layout.heights.every(height=>height===140)).toBe(true);}
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  }
  for(const language of ['hi','gu','en']){

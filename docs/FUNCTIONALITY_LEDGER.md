@@ -1,5 +1,14 @@
 # Chambers functionality ledger
 
+**Denser home cards (2026-10-25):** User requested three apps per phone row while
+retaining each introduction. Public/workspace grids now use three columns below
+900px and four above, with 6px mobile gaps and 140px cards (previously 148px).
+Icons, two-line names, three-line localized introductions and full-card targets
+remain. This supersedes the two-column phone layout recorded below.
+Verification: 8 catalogue/cache Node checks, 2 geometry/dynamic-card browser checks
+and 1 complete language/theme/delivery browser check passed. Visual review at
+390px confirms three aligned cards per row with retained introductions.
+
 **Home card introductions restored (2026-10-25):** Every public/workspace launcher
 card now includes its existing metadata introduction beneath its icon and brand
 name. Shared rendering covers static and signed-in catalogues; the shared language
