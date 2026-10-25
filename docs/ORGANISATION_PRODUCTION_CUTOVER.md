@@ -1,5 +1,18 @@
 # Organisation licensing production cutover
 
+Latest Rashifal timing release (2026-10-25): implementation 1f86c5e, Worker
+c2577285-ce70-4113-9bfb-a99830bf81bb, deployed with --keep-vars. Gochar-5 adds
+calculated IST sign/screen-edge changes with per-Rashi before/after rules and
+blockers. Browser Worker keeps the UI responsive; blocked Workers use the same
+private local calculation. Root convergence is not certified physical accuracy;
+disputed rules and unresolved contacts remain explicit. Contract:
+docs/vedic/TRANSIT_TIMELINE.md. Focused Node 26/26, local Chrome 5/5, final
+production-export Chrome 15/15 and live Chrome 15/15 pass. Healthz/page/worker
+200; privacy headers retained; unscoped /api/records 409. Existing production
+variables, organisation mode, D1 and rate limits preserved; no migrations or
+business-data writes. Evidence: functionality ledger and
+.publish/rashifal-timeline-live.
+
 Latest Vedic reading/header release (2026-10-25): implementation b7adca9,
 Worker 1bfc1d22-e30f-4bed-ae21-1e51dd507c1c deployed with --keep-vars. All four
 screens use the shared platform header and one settings menu/control per type.

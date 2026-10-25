@@ -21,7 +21,14 @@ and actual local workerd parity (63,957 numbers, max difference 5.69e-14).
 Isolated local Chrome reading checks pass 5/5. Final production-export Chrome
 passes 15/15, including all-sign timeline roots/reasons, three periods/languages,
 mobile themes, actual blocked-Worker fallback roots and preserved Kundli/matching/
-Time Machine/export/privacy behavior. Live verification is recorded after release.
+Time Machine/export/privacy behavior. Live Chrome passes 15/15 with the same
+coverage. Healthz, Rashifal page and the public calculation-worker asset return
+200; connect-src 'none' and no-referrer remain; unscoped /api/records remains 409.
+Implementation 1f86c5e is committed/pushed and deployed with --keep-vars as Worker
+c2577285-ce70-4113-9bfb-a99830bf81bb. Existing production variables, organisation
+mode, D1 and rate limits are preserved; no migrations or business-data writes.
+Mobile timeline screenshot reviewed. Evidence: .publish/rashifal-timeline-live,
+.publish/rashifal-timeline-node.log and the retained 108-case report.
 Full calculation/search limits and
 ownership: docs/vedic/TRANSIT_TIMELINE.md. Independent source, traditional and
 translation acceptance stays open.
