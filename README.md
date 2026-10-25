@@ -1,7 +1,7 @@
 # Sushant Synapse Platform
 
-Home uses a compact icon/name launcher: four columns on standard phones, three
-on narrow phones and five or six on tablets. Signed-in users can choose
+Home cards show an icon, app name and short introduction: two columns on phones,
+three on small tablets and four on wider screens. Signed-in users can choose
 Edit favourites, select apps, then Done editing to return to launching apps.
 
 RITVAYAM is the platform's astrology app (existing `/rashifal-kundli` links remain).

@@ -1,5 +1,17 @@
 # Chambers functionality ledger
 
+**Home card introductions restored (2026-10-25):** Every public/workspace launcher
+card now includes its existing metadata introduction beneath its icon and brand
+name. Shared rendering covers static and signed-in catalogues; the shared language
+runtime localizes descriptions while preserving brand-script spellings. Phone
+cards use two columns, small tablets three and wider screens four; uniform 148px
+cards reserve two name lines and up to three introduction lines. Theme tokens,
+featured order, whole-card navigation, search, favourites and access remain intact.
+Generated catalogue/cache Node checks: 8 passed. Catalogue/delivery browser checks:
+9 passed; final description-language delivery check: 1 passed. Visual review at
+390px confirms readable introductions and aligned cards. Production verification
+is recorded after deployment.
+
 **Home app brand scripts (2026-10-25):** Catalogue metadata now supplies English,
 Hindi and Gujarati brand spellings. The existing shared language runtime projects
 these names on home launcher cards, their accessible labels/tooltips and the

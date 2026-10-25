@@ -35,7 +35,7 @@ test('premium bento keeps all tools discoverable across touch layouts and both t
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${width}px ${theme}`).toBe(true);
    expect(await page.locator('.public-app').evaluateAll(links=>links.slice(0,4).map(a=>a.getAttribute('href')))).toEqual(['/ritual-assist','/moment-studio','/take-a-break','/satire-arena']);
    const columns=await page.locator('.public-apps').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length);
-   expect(columns).toBe(width>=900?6:width>=600?5:width>=360?4:3);
+   expect(columns).toBe(width>=900?4:width>=600?3:2);
    await expect(page.locator('.platform-shell')).toBeVisible();
    await expect(page.getByRole('searchbox',{name:'Search web apps'})).toBeVisible();await expect(page.locator('#app-finder-trigger')).toHaveCount(0);
    await expect(page.locator('.public-app .home-sculpture')).toHaveCount(14);
