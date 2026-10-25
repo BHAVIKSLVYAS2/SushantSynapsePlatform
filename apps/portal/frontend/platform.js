@@ -58,7 +58,6 @@ function unifiedHome(){
  if(state){if(!account){account=document.createElement('section');account.id='catalogue-account';account.className='catalogue-account';main.prepend(account);}
  account.innerHTML='<div><strong>Welcome, '+escapeHtml(state.user.name.split(' ')[0])+'.</strong><span>Your apps and workspace, together.</span></div><nav aria-label="Platform navigation">'+nav()+'</nav><button type="button" class="secondary" data-action="manage-favorites" aria-pressed="'+editingFavorites+'">'+(editingFavorites?'Done editing':'Edit favourites')+'</button><button type="button" class="secondary" data-action="logout">Sign out</button>';
  }else account?.remove();
- const entry=home.querySelector('.home-entry-workspace');entry.href=state?'#workspace-apps':'/signin';entry.querySelector('b').textContent=state?'Your workspace →':'Sign in →';
  const localAccount=home.querySelector('.public-topbar .secondary');localAccount.href=state?'/signin?section=profile':'/signin';localAccount.textContent=state?'My profile':'Sign in';
  home.querySelector('#workspace-title').textContent=state?'Your workspaces.':'Sign in to work.';
  home.querySelectorAll('.home-mobile-dock a').forEach(link=>link.dataset.section='apps');

@@ -1,5 +1,15 @@
 # Chambers functionality ledger
 
+**Simpler home entry (2026-10-26):** Removed the Explore Apps/My Workspace entry
+cards and the public grid's Explore apps heading/intro block. Home now starts
+with search, filters and the existing app grid. The free-app section retains an
+accessible name; shared header, bottom navigation and restricted workspace grid
+remain. Removed stale card/heading update code from signed-in hydration and
+discovery. Catalogue/cache Node checks: 8 passed. Catalogue/delivery browser checks:
+9 passed; stylesheet/settings/native-navigation checks: 3 passed; denied-storage
+language/no-JavaScript check: 1 passed. Mobile visual review confirms the grid
+follows search/filters without the removed cards or heading. Release results follow.
+
 **Ritvayam local timings (2026-10-26):** Displayed English brand casing changed
 from RITVAYAM to Ritvayam in catalogue, home and astrology page titles. The home
 feature and Rashifal now share an app-owned local timing panel: calculated

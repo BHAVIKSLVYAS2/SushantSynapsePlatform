@@ -16,7 +16,7 @@ test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{ch
 test('home stylesheet cleanup preserves computed appearance across widths and themes',async({page})=>{
  const files=['apps/portal/frontend/platform.css','packages/ui/platform-header.css','packages/ui/legal-footer.css','packages/ui/whatsapp.css','packages/ui/premium.bundle.css','apps/portal/frontend/home.css','packages/ui/platform-shell.css'];
  const original=require('esbuild').transformSync(files.map(file=>fs.readFileSync(file,'utf8')).join('\n'),{loader:'css',minify:true,target:'chrome114'}).code;
- await page.goto(base+'/');await expect(page.locator('.home-entry')).toHaveCount(2);
+ await page.goto(base+'/');await expect(page.locator('.home-entry')).toHaveCount(0);
  await page.addStyleTag({content:'*,*::before,*::after{animation:none!important;transition:none!important}'});
  for(const width of [320,390,768,1440])for(const theme of ['light','dark']){
   await page.setViewportSize({width,height:900});await page.evaluate(theme=>document.documentElement.dataset.theme=theme,theme);
@@ -32,13 +32,13 @@ test('home stylesheet cleanup preserves computed appearance across widths and th
  }
 });
 test('home arrives complete, fetches premium CSS once and language settles after changes',async({page})=>{
- const response=await page.goto(base+'/');const html=await response.text();for(const name of ['home-entry-paths','home-filters','home-search'])expect(html).toContain('class="'+name+'"');
- await expect(page.locator('.home-entry')).toHaveCount(2);await expect(page.locator('.platform-language')).toBeVisible();
+ const response=await page.goto(base+'/');const html=await response.text();for(const name of ['home-filters','home-search'])expect(html).toContain('class="'+name+'"');
+ await expect(page.locator('.home-entry')).toHaveCount(0);await expect(page.locator('.platform-language')).toBeVisible();
  expect(await page.evaluate(()=>performance.getEntriesByType('resource').filter(r=>new URL(r.name).pathname==='/home.bundle.css').length)).toBe(1);
  expect(await page.evaluate(()=>performance.getEntriesByType('resource').filter(r=>new URL(r.name).pathname==='/shared/premium.css').length)).toBe(0);
  expect(await page.evaluate(()=>performance.getEntriesByType('resource').filter(r=>new URL(r.name).pathname==='/shared/app-catalogue.js').length)).toBe(0);
  async function idleMutations(){return page.locator('[data-language-help]').evaluate(async node=>{let count=0;const observer=new MutationObserver(records=>count+=records.length);observer.observe(node,{childList:true,characterData:true,subtree:true});await new Promise(resolve=>setTimeout(resolve,250));observer.disconnect();return count;});}
- expect(await idleMutations()).toBe(0);await page.locator('.platform-language summary').click();await page.locator('[data-interface-language=hi]').click();await expect(page.locator('.home-entry-explore strong')).toHaveText('ऐप देखें');expect(await idleMutations()).toBe(0);await page.locator('.platform-language summary').click();await page.locator('[data-interface-language=en]').click();await expect(page.locator('.home-entry-explore strong')).toHaveText('Explore Apps');expect(await idleMutations()).toBe(0);
+ expect(await idleMutations()).toBe(0);await page.locator('.platform-language summary').click();await page.locator('[data-interface-language=hi]').click();await expect(page.locator('html')).toHaveAttribute('lang','hi');expect(await idleMutations()).toBe(0);await page.locator('.platform-language summary').click();await page.locator('[data-interface-language=en]').click();await expect(page.locator('html')).toHaveAttribute('lang','en');expect(await idleMutations()).toBe(0);
 });
 
 test('deferred game loading preserves newer choices and never loads unused controllers',async({page})=>{

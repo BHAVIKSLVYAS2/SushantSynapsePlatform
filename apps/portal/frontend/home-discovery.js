@@ -6,7 +6,6 @@
   const home=section.closest('.public-home'),grid=section.querySelector('.public-apps'),bar=section.querySelector('.home-filters');if(!grid||!bar)return;
   section.dataset.discoveryReady='true';grid.id='home-tool-grid';grid.setAttribute('role','region');grid.setAttribute('aria-label','Free tools');grid.tabIndex=0;bar.hidden=false;section.classList.add('home-discovery-ready');
   const status=section.querySelector('.home-filter-status'),search=home.querySelector('.home-search');
-  section.querySelector('#free-title').textContent='Explore apps';
   const empty=home.querySelector('.home-search-empty')||document.createElement('p');empty.className='home-search-empty';empty.hidden=true;empty.setAttribute('role','status');empty.textContent='No apps match your search. Try another word or category.';if(!empty.isConnected)grid.after(empty);
   let selected=bar.querySelector('[aria-pressed=true]')?.dataset.toolFilter||'all';
   function filter(){

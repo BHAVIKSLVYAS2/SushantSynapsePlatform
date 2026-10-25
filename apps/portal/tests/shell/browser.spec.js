@@ -24,8 +24,9 @@ test('theme icons stay within their control and apart from account at every widt
 });
 
 test('branded transition follows native navigation and clears on return',async({page})=>{
+ await page.setViewportSize({width:390,height:900});
  await page.goto(base+'/');const loader=page.locator('.platform-transition');await expect(loader).toBeHidden();
- await page.locator('.home-entry-explore').click();await expect(loader).toBeHidden();
+ await page.locator('.home-mobile-dock a[href="#free-apps"]').first().click();await expect(loader).toBeHidden();
  // Stop the default action after the document handler so the old-page cue is inspectable.
  await page.evaluate(()=>{window.holdTransition=event=>event.preventDefault();window.addEventListener('click',window.holdTransition);});
  await page.locator('a.public-app[href="/qr-maker"]').click();

@@ -65,7 +65,7 @@ test('Explore starts immediately with compact Featured badges and one search',as
  for(const width of [320,390,768,1440])for(const theme of ['light','dark']){
   await page.setViewportSize({width,height:1050});await page.evaluate(t=>window.SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   const layout=await page.locator('.public-apps').evaluate(el=>({columns:getComputedStyle(el).gridTemplateColumns.split(' ').length,direct:el.querySelectorAll(':scope > .catalogue-item').length}));expect(layout).toEqual({columns:width>=900?4:3,direct:14});
-  const gap=await page.evaluate(()=>document.querySelector('#free-title').getBoundingClientRect().top-document.querySelector('.home-filters').getBoundingClientRect().bottom);expect(gap).toBeGreaterThanOrEqual(0);expect(gap).toBeLessThanOrEqual(24);
+  const gap=await page.evaluate(()=>document.querySelector('.public-apps').getBoundingClientRect().top-document.querySelector('.home-filters').getBoundingClientRect().bottom);expect(gap).toBeGreaterThanOrEqual(0);expect(gap).toBeLessThanOrEqual(24);
   expect(await page.locator('.public-app.is-featured').evaluateAll(cards=>cards.every(card=>{const badge=card.querySelector('.home-feature-badge').getBoundingClientRect(),title=card.querySelector('h2').getBoundingClientRect(),box=card.getBoundingClientRect();return badge.right<=box.right&&badge.top>=box.top&&badge.bottom<=title.top;}))).toBe(true);
  }
  await page.setViewportSize({width:390,height:1050});await page.evaluate(()=>{window.SynapseTheme.write('light');scrollTo({top:0,behavior:'instant'});});await page.waitForTimeout(300);await page.screenshot({path:'.publish/explore-badges-local.png'});expect(errors).toEqual([]);
@@ -73,10 +73,11 @@ test('Explore starts immediately with compact Featured badges and one search',as
 test('public tools open if recent tracking is offline while private launch failures remain blocked',async({page})=>{
  await page.request.post(base+'/api/auth/setup',{data:owner});await page.goto(base+'/');await expect(page.locator('#catalogue-account')).toBeVisible();await page.route('**/api/platform/apps/qr-maker/launch',r=>r.fulfill({status:503,json:{error:'Recent tracking offline.'}}));await page.locator('.public-app[data-app-id=qr-maker]').click();await expect(page).toHaveURL(base+'/qr-maker');await page.goto(base+'/');await page.route('**/api/platform/apps/advocate/launch',r=>r.fulfill({status:503,json:{error:'Workspace offline.'}}));await page.getByRole('button',{name:'Open Chambers',exact:true}).click();await expect(page.locator('#notice')).toContainText('Workspace offline.');await expect(page).toHaveURL(base+'/');
 });
-test('compact mobile entry cards keep Explore heading clear of the bottom dock',async({page})=>{
+test('home starts with search and apps without redundant entry cards or heading',async({page})=>{
  await page.setViewportSize({width:390,height:446});await page.goto(base+'/');
- const entry=await page.locator('.home-entry-paths').boundingBox(),featured=await page.locator('#free-title').boundingBox(),dock=await page.locator('.home-mobile-dock').boundingBox();
- expect(entry.height).toBeLessThanOrEqual(100);expect(featured.y+featured.height).toBeLessThanOrEqual(dock.y);
+ await expect(page.locator('.home-entry-paths,.home-entry-explore,.home-entry-workspace,#free-title')).toHaveCount(0);
+ const search=await page.locator('.home-search').boundingBox(),app=await page.locator('.public-app').first().boundingBox(),dock=await page.locator('.home-mobile-dock').boundingBox();
+ expect(search.y).toBeLessThan(app.y);expect(app.y).toBeLessThan(dock.y);
 });
 test('one catalogue survives sign-in, favourites, recent apps and sign-out',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/');await expect(page.locator('.public-app')).toHaveCount(14);
