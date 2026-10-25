@@ -21,6 +21,20 @@ const apps = [
   { id: 'fund-overlap', public: true, name: 'Fund Lens', subtitle: 'Mutual fund overlap analyzer', category: 'Investing', status: 'Available', path: '/fund-overlap', icon: 'lens', accent: 'blue', description: 'See what your funds have in common. Compare equity holdings, industries and unique contributions using dated official examples and verified secondary sources.', features: ['Holdings overlap', 'Industry comparison', 'What-if analysis'] },
   { id: 'advocate', name: 'Chambers', subtitle: 'Advocate workspace', category: 'Legal', status: 'Available', path: '/advocate', icon: 'scales', accent: 'green', description: 'Cases, clients, hearings and professional fees. Your entire legal practice, in good order.', features: ['Case management', 'Hearing diary', 'Fees & payments'] },
 ];
+// Brand spellings in local scripts, never semantic translations of product names.
+const brandScripts={
+ 'rashifal-kundli':['रित्वयम','રિત્વયમ'],confessions:['कन्फेशन्स','કન્ફેશન્સ'],
+ 'qr-maker':['क्यूआर मेकर','ક્યુઆર મેકર'],'photo-resize':['फोटो रीसाइज़','ફોટો રિસાઇઝ'],
+ 'bill-splitter':['बिल स्प्लिटर','બિલ સ્પ્લિટર'],'moment-studio':['मोमेंट स्टूडियो','મોમેન્ટ સ્ટુડિયો'],
+ 'daily-spark':['टेक अ ब्रेक','ટેક અ બ્રેક'],'decision-wheel':['डिसीजन व्हील','ડિસિઝન વ્હીલ'],
+ news:['सुशांत सिनैप्स टाइम्स','સુશાંત સિનેપ્સ ટાઇમ્સ'],focus:['फोकस','ફોકસ'],
+ 'satire-arena':['सैटायर अरीना','સેટાયર અરીના'],'ritual-assist':['रिचुअल असिस्ट','રિચ્યુઅલ અસિસ્ટ'],
+ 'team-mixer':['टीम मिक्सर','ટીમ મિક્સર'],'digital-samaj':['डिजिटल समाज','ડિજિટલ સમાજ'],
+ 'tournament-lite':['टूर्नामेंट लाइट','ટુર્નામેન્ટ લાઇટ'],'batchfee-lite':['बैचफ़ी लाइट','બેચફી લાઇટ'],
+ 'timetable-lite':['टाइमटेबल लाइट','ટાઇમટેબલ લાઇટ'],'fund-overlap':['फंड लेन्स','ફંડ લેન્સ'],
+ advocate:['चेम्बर्स','ચેમ્બર્સ']
+};
+for(const app of apps){const names=brandScripts[app.id];app.displayNames={en:app.name,hi:names?.[0]||app.name,gu:names?.[1]||app.name};}
 const appAliases={certificates:'moment-studio','celebration-studio':'moment-studio'};
 const resolveAppId=id=>Object.hasOwn(appAliases,id)?appAliases[id]:id;
 

@@ -1,5 +1,15 @@
 # Chambers functionality ledger
 
+**Home app brand scripts (2026-10-25):** Catalogue metadata now supplies English,
+Hindi and Gujarati brand spellings. The existing shared language runtime projects
+these names on home launcher cards, their accessible labels/tooltips and the
+RITVAYAM feature, without translating brand meanings or changing canonical names,
+IDs, routes or permissions. Home search accepts all three spellings. New apps
+without supplied spellings fall back to their canonical brand. Browser verification
+covers retained language after reload, local-script search, all 18 launcher cards
+and the RITVAYAM feature, eight viewport widths and both themes. Catalogue/cache
+Node checks: 8 passed. Production release verification is recorded below.
+
 **Everyday Kundli and reading-first UX (2026-10-25):** Compared public AstroSage,
 Astroyogi and Prokerala flows/documentation; decisions and sources are recorded
 in docs/vedic/KUNDLI_EVERYDAY_UX.md. New kundli-everyday-1 app-owned editorial

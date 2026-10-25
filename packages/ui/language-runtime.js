@@ -42,6 +42,15 @@ import {interfaceCopy} from './interface-copy.mjs';
  for(const [source,values]of Object.entries(interfaceCopy))for(const value of values)if(value)reverse.set(value,source);
  function localize(value,locale=language){const source=reverse.get(value)||value;return locale==='en'?source:interfaceCopy[source]?.[locale==='hi'?0:1]||(locale==='hi'?dictionary[source]:null)||source;}
  function remember(value){language=value;try{localStorage.setItem(key,value);}catch{}}
+ // Only catalogue UI uses brand-script projection. Saved records and app content remain untouched.
+ function homeCopy(value,node,attribute=false){
+  if(!node.closest('.public-home'))return localize(value);
+  for(const app of window.SynapseCatalogue?.apps||[]){
+   const names=app.displayNames;if(!names)continue;
+   for(const name of new Set(Object.values(names)))if(value===name||attribute&&value.includes(name))return value.replace(name,names[language]||app.name);
+  }
+  return localize(value);
+ }
  function translate(root){
   const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
   while(walker.nextNode()){
@@ -52,14 +61,14 @@ import {interfaceCopy} from './interface-copy.mjs';
    if(privatePage&&!parent.closest(uiOnly))continue;
    if(parent.closest('td,dd')&&!parent.closest('button,label,[data-interface-text]'))continue;
    let record=originals.get(text);if(!record||text.data!==record.last){record={source:text.data,last:text.data};originals.set(text,record);}
-   const value=record.source.trim().replace(/\s+/g,' '),translated=localize(value);
+   const value=record.source.trim().replace(/\s+/g,' '),translated=homeCopy(value,parent);
    const next=translated?record.source.replace(record.source.trim(),translated):record.source;
    if(text.data!==next)text.data=next;record.last=next;
    if(/[A-Za-z\u0900-\u097f\u0a80-\u0aff]/.test(next)){const nextLanguage=/[\u0a80-\u0aff]/.test(next)?'gu':/[\u0900-\u097f]/.test(next)?'hi':'en';if(parent.lang!==nextLanguage)parent.lang=nextLanguage;}
   }
   for(const node of root.querySelectorAll('[placeholder],[aria-label],[title]')){
    if(node.closest('script,style,svg,canvas,[contenteditable],[data-language-control],[translate=no],[data-language-preserve]')||adapter&&node.closest('main')||privatePage&&!node.closest(uiOnly))continue;
-   for(const attr of ['placeholder','aria-label','title'])if(node.hasAttribute(attr)){const source=node.getAttribute(attr);const next=localize(source);if(source!==next)node.setAttribute(attr,next);}
+   for(const attr of ['placeholder','aria-label','title'])if(node.hasAttribute(attr)){const source=node.getAttribute(attr);const next=homeCopy(source,node,true);if(source!==next)node.setAttribute(attr,next);}
   }
  }
  function mountControl(){

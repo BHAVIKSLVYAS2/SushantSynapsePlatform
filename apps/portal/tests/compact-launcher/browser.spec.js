@@ -10,7 +10,14 @@ test('launcher delivery preserves compact cards, themes, shared languages and na
   for(const selector of ['.public-apps','.workspace-grid']){const layout=await page.locator(selector).evaluate(grid=>({columns:getComputedStyle(grid).gridTemplateColumns.split(' ').length,overflow:grid.scrollWidth>grid.clientWidth,heights:[...grid.querySelectorAll('.compact-app')].map(card=>card.getBoundingClientRect().height)}));expect(layout.columns).toBe(width>=900?6:width>=600?5:width>=360?4:3);expect(layout.overflow).toBe(false);expect(layout.heights.every(height=>height===88)).toBe(true);}
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  }
- for(const language of ['hi','gu','en']){await page.evaluate(language=>SynapseLanguage.set(language),language);await expect(page.locator('html')).toHaveAttribute('lang',language);await expect(page.locator('.compact-app')).toHaveCount(18);}
+ for(const language of ['hi','gu','en']){
+  await page.evaluate(language=>SynapseLanguage.set(language),language);await expect(page.locator('html')).toHaveAttribute('lang',language);await expect(page.locator('.compact-app')).toHaveCount(18);
+  const brands=await page.evaluate(language=>SynapseCatalogue.apps.map(app=>({id:app.id,name:app.displayNames[language]})),language);
+  for(const brand of brands){const card=page.locator('.compact-app[data-app-id="'+brand.id+'"]');if(await card.count()){await expect(card.locator('.compact-app-name')).toHaveText(brand.name);await expect(card).toHaveAttribute('title',new RegExp(brand.name));}}
+  await expect(page.locator('#home-vedic-title')).toHaveText(brands.find(app=>app.id==='rashifal-kundli').name);
+  const qr=brands.find(app=>app.id==='qr-maker');await page.locator('#home-search-input').fill(qr.name);await expect(page.locator('.public-app:not([hidden])')).toHaveCount(1);await page.locator('#home-search-input').press('Escape');
+  await page.reload();await expect(page.locator('html')).toHaveAttribute('lang',language);await expect(page.locator('[data-app-id=qr-maker] .compact-app-name')).toHaveText(qr.name);
+ }
  await page.setViewportSize({width:390,height:900});await page.locator('.public-apps').screenshot({path:test.info().outputPath('launcher-mobile-dark.png')});await expect(page.locator('.platform-shell')).toHaveCount(1);await expect(page.locator('.home-mobile-dock')).toBeVisible();await expect(page.locator('.public-app p,.public-app-arrow,.public-app-category,.workspace-card p')).toHaveCount(0);
  await page.locator('#home-search-input').fill('QR');await expect(page.locator('.public-app:not([hidden])')).toHaveCount(1);await page.locator('#home-search-input').press('Escape');await expect(page.locator('.public-app:not([hidden])')).toHaveCount(14);await page.locator('.public-app[data-app-id=qr-maker]').click();await expect(page).toHaveURL(base+'/qr-maker');expect(errors).toEqual([]);
 });

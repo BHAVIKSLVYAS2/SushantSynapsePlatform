@@ -13,7 +13,7 @@
    const terms=search.querySelector('input').value.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);let count=0,publicCount=0,workspaceCount=0;
    for(const card of home.querySelectorAll('.public-app,.workspace-card')){
     const app=catalogue.apps.find(a=>a.id===card.dataset.appId);if(!app)continue;
-    const text=[app.name,app.description,app.homeDescription,app.keywords,app.category].join(' ').toLocaleLowerCase();card.hidden=(selected!=='all'&&!app.groups.includes(selected))||!terms.every(term=>text.includes(term));
+    const text=[app.name,...Object.values(app.displayNames||{}),app.description,app.homeDescription,app.keywords,app.category].join(' ').toLocaleLowerCase();card.hidden=(selected!=='all'&&!app.groups.includes(selected))||!terms.every(term=>text.includes(term));
     if(card.matches('.public-app'))card.closest('.catalogue-item').hidden=card.hidden;
     if(!card.hidden){count++;if(app.public)publicCount++;else workspaceCount++;}
    }
