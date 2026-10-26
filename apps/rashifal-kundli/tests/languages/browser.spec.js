@@ -1,3 +1,4 @@
+const {editBirth}=require('../../../../tests/vedic-kundli-journey.cjs');
 const {fillDate,fillTime,openKundliCalculations}=require('../../../../tests/vedic-civil-input.cjs');
 const {test,expect}=require('@playwright/test'),fs=require('node:fs');
 let server,origin;test.beforeAll(async()=>{server=await require('../production-server.cjs').start();origin=server.origin;});test.afterAll(async()=>{await server.close();});
@@ -7,7 +8,7 @@ test('legacy Vedic preference migrates to the one shared header setting',async({
  await page.goto(origin+'/rashifal-kundli');await expect(page.locator('html')).toHaveAttribute('lang','gu');await expect(page.locator('[data-language-control]')).toHaveCount(1);
  expect(await page.evaluate(()=>localStorage.getItem('synapse-language'))).toBe('gu');expect(await page.evaluate(()=>localStorage.getItem('synapse-vedic-language'))).toBeNull();
 });
-async function birth(page){await page.locator('#birth-name').fill('Sun');await fillDate(page,'#birth-date','2000-01-01');await fillTime(page,'#birth-time','12:15');await page.locator('#birth-query').fill('New Delhi');await page.locator('[data-place-id="geonames:1261481"]').click();await page.locator('form button[type=submit]').click();await page.locator('#birth-calculate').click();await openKundliCalculations(page);await expect(page.locator('[data-feature=dasha] table tbody tr')).toHaveCount(9);}
+async function birth(page){await editBirth(page,'#birth-name');await page.locator('#birth-name').fill('Sun');await editBirth(page,'#birth-date');await fillDate(page,'#birth-date','2000-01-01');await editBirth(page,'#birth-time');await fillTime(page,'#birth-time','12:15');await editBirth(page,'#birth-query');await page.locator('#birth-query').fill('New Delhi');await page.locator('[data-place-id="geonames:1261481"]').click();await page.locator('form button[type=submit]').click();await openKundliCalculations(page);await expect(page.locator('[data-feature=dasha] table tbody tr')).toHaveCount(9);}
 test('one three-option language preference covers every production page, navigation and reload',async({page})=>{
  const errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r));
  await page.goto(origin+'/rashifal-kundli');await expect(page.locator('[data-interface-language]')).toHaveCount(3);await expect(page.locator('#vedic-language')).toHaveCount(0);

@@ -112,7 +112,7 @@ export function mountExport(container,report,{name='',language='en'}={}){
  const download=document.createElement('button');download.type='button';download.id='export-download';download.textContent=x.download;
  const print=document.createElement('button');print.type='button';print.id='export-print';print.textContent=x.print;
  const model=()=>projectExport(report,{includeIdentity:check.checked,name,language});
- const render=()=>{content.innerHTML=reportMarkup(model());};check.addEventListener('change',render);
+ const render=()=>{content.innerHTML=reportMarkup(model());};check.addEventListener('change',()=>{content.replaceChildren();if(preview.open)render();});preview.addEventListener('toggle',()=>{if(preview.open&&!content.childElementCount)render();});
  let urls=new Set(),timers=new Set();
  download.addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([standaloneReport(model())],{type:'text/html;charset=utf-8'}));urls.add(url);
   const link=document.createElement('a');link.href=url;link.download='kundli-report.html';link.click();
@@ -123,6 +123,6 @@ export function mountExport(container,report,{name='',language='en'}={}){
  const afterPrint=()=>{if(!printing)return;preview.open=wasOpen;printing=false;};
  window.addEventListener('beforeprint',beforePrint);window.addEventListener('afterprint',afterPrint);
  print.addEventListener('click',()=>{render();window.print();});
- root.append(heading,label,notice,help,download,print,preview);container.replaceChildren(root);render();
+ root.append(heading,label,notice,help,download,print,preview);container.replaceChildren(root);
  return {destroy(){window.removeEventListener('beforeprint',beforePrint);window.removeEventListener('afterprint',afterPrint);for(const timer of timers)clearTimeout(timer);for(const url of urls)URL.revokeObjectURL(url);timers.clear();urls.clear();content.replaceChildren();root.remove();}};
 }

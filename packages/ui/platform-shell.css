@@ -135,6 +135,7 @@ body.has-platform-shell :is(.theme-control,.theme-picker):not(.platform-shell *)
 }
 
 /* One interface-language menu in the shared header; source footer is the fallback. */
+@media screen{.platform-shell .platform-shell-brand{font-size:24px;font-weight:750;line-height:1.1;letter-spacing:-.5px}.platform-shell .platform-shell-brand small{font-size:10px;line-height:1.5;font-weight:500;letter-spacing:0;margin-top:3px;white-space:nowrap}body:has(.public-home) .platform-shell .platform-shell-brand{font-size:22px}body:has(.public-home) .platform-shell .platform-shell-brand small{font-size:9px;letter-spacing:0}}
 @media screen {
  .platform-shell .platform-language{position:relative;flex:none;margin:0}
  .platform-shell .platform-language>summary{display:grid;place-items:center;list-style:none;min-width:44px;height:44px;padding:0 7px;border:1px solid var(--shell-line);border-radius:12px;background:var(--shell-surface);color:var(--shell-ink);font-size:12px;cursor:pointer}

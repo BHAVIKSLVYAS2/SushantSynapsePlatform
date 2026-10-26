@@ -8,6 +8,7 @@
 .vedic-app-header .rashifal-preview-info[open]{flex-basis:100%;padding:.8rem;background:var(--ui-solid);border:1px solid var(--ui-edge);border-radius:.75rem}
 .vedic-app-header summary{cursor:pointer;min-height:44px;display:flex;align-items:center}
 .vedic-app-header p{max-width:75ch}
+@media(max-width:699px){body[data-ui-app=rashifal-kundli] .vedic-app-header.vedic-app-header{display:grid;grid-template-columns:minmax(0,1fr) 44px;gap:.3rem;padding:.5rem .75rem}body[data-ui-app=rashifal-kundli] .vedic-app-header.vedic-app-header nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px}body[data-ui-app=rashifal-kundli] .vedic-app-header.vedic-app-header nav a{justify-content:center;text-align:center;font-size:.72rem;line-height:1.4;padding:.35rem .2rem}body[data-ui-app=rashifal-kundli] .rashifal-preview-info:not([open])>summary{font-size:0;justify-content:center;width:44px}body[data-ui-app=rashifal-kundli] .rashifal-preview-info:not([open])>summary:before{content:'ⓘ';font-size:18px}body[data-ui-app=rashifal-kundli] .rashifal-preview-info[open]{grid-column:1/-1}}
 .vedic-app-header :focus-visible{outline:3px solid var(--ui-accent);outline-offset:3px}
 body[data-ui-app=rashifal-kundli] .vedic-app-header{display:flex;gap:.75rem;padding:1rem;max-width:74rem;border:0}
 body[data-ui-app=rashifal-kundli] .vedic-app-header nav{flex:initial;margin:0;gap:.35rem}

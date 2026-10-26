@@ -1,5 +1,40 @@
 # Chambers functionality ledger
 
+**Committed release follow-up (2026-10-26):** User subsequently authorized
+committing and deploying the already verified Ritvayam journey and Curio header
+changes. The earlier uncommitted-release notes below describe their original
+deployments. This follow-up records the same implementation in Git and republishes
+it with existing production variables/bindings preserved.
+
+**Curio brand hierarchy (2026-10-26, uncommitted):** Shared and fallback portal
+headers show Curio as the primary text and by Sushant Synapse as the smaller
+credit. Brand wording is protected from translation. Browser/PWA title remains
+Curio By Sushant Synapse. Responsive launcher and title/manifest checks passed
+(2 browser flows), including existing mobile widths, language and theme checks.
+Deployed from the existing uncommitted working tree; no commit or push.
+Worker `495e1b58-a15d-4e9f-8f82-5a455904d440`; both live browser flows passed.
+Live mobile check: primary 22px, credit 9px, no credit/action overlap at 320/390px.
+
+**Ritvayam journey enhancement (2026-10-26, uncommitted release):** Enhanced
+existing app per supplied UX brief. One Generate action replaces review then
+calculate; successful results collapse the form while Edit retains input.
+Optional name/elevation and technical timezone details are grouped. Empty saved
+library is hidden; up to three saved-profile shortcuts regenerate in one tap.
+Saved inputs can be reused in matching only after both-person consent. Direct
+life-topic/chart/Dasha navigation and a result-toolbar download reduce scrolling.
+Hidden report preview renders on demand. Pending taps/cancellation, uncertainty
+withholding, shared language/theme, raw calculations and browser-input-only
+persistence remain. Audit: docs/vedic/RITVAYAM_JOURNEY_ENHANCEMENTS.md.
+Validation: 13 Node/model/store/export checks; 9 production-bundle flows; 29
+source browser regressions have passing results (26 in the final batch, three
+remaining assertions passed in focused reruns). Four unchanged usability flows
+also passed. Five final production-bundle journey checks passed after mobile
+review, including a fully visible Generate action at 390px. Deployed Worker
+`1c6da6b6-f054-4aa3-bcf4-8c20b324d99b` from the working tree. All nine live
+browser flows passed; health 200, unscoped private records API denied with 409.
+Production bindings, variables and data preserved. No commit or push requested
+or performed for this release; base remains `85a84de`.
+
 **Curio title wording (2026-10-26):** Browser title, platform description/footer
 and full PWA name now read `Curio By Sushant Synapse`. Short launcher name stays
 Curio; manifest ID, routes and shared company header are unchanged.

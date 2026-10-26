@@ -15,8 +15,10 @@ Hindi/Gujarati Kundali downloads and print reports include the everyday reading
 alongside calculations, with birth identity still optional. Matching uses one
 city picker for each person. Time Machine provides three-step guidance and a
 plain-language snapshot of the sky at the chosen moment.
-Kundli's Save action keeps only birth inputs and an optional name in this browser;
-reopen to review and recalculate, or Delete to remove the saved profile. Clear form
+Kundli generates from one primary action. Save keeps only birth inputs and an
+optional name in this browser; saved shortcuts regenerate in one tap. Matching
+can reuse saved details after permission from both people. Delete removes the
+saved profile. Clear form
 does not delete saved profiles. Birthplace uses one local city/state search field.
 The shared header owns English/Hindi/Gujarati interface preference across pages.
 Language sources, content exclusions and verification: docs/INTERFACE_LANGUAGE_AUDIT.md.
