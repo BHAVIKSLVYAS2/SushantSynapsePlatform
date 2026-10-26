@@ -7,7 +7,7 @@ test('launcher delivery preserves compact cards, themes, shared languages and na
  const errors=[];page.on('pageerror',error=>errors.push(error.message));await page.route(/googlesyndication|doubleclick|google-analytics/,route=>route.abort());await page.goto(base+'/');await expect(page.locator('.compact-app')).toHaveCount(18);await expect(page.locator('.compact-app-description')).toHaveCount(18);await expect(page.locator('.home-entry-paths,#free-title')).toHaveCount(0);
  for(const width of [320,360,390,430,600,768,900,1024])for(const theme of ['light','dark']){
   await page.setViewportSize({width,height:900});await page.evaluate(theme=>SynapseTheme.write(theme),theme);
-  for(const selector of ['.public-apps','.workspace-grid']){const layout=await page.locator(selector).evaluate(grid=>({columns:getComputedStyle(grid).gridTemplateColumns.split(' ').length,overflow:grid.scrollWidth>grid.clientWidth,heights:[...grid.querySelectorAll('.compact-app')].map(card=>card.getBoundingClientRect().height)}));expect(layout.columns).toBe(width>=900?4:3);expect(layout.overflow).toBe(false);expect(layout.heights.every(height=>height===150)).toBe(true);}
+  for(const selector of ['.public-apps','.workspace-grid']){const layout=await page.locator(selector).evaluate(grid=>({columns:getComputedStyle(grid).gridTemplateColumns.split(' ').length,overflow:grid.scrollWidth>grid.clientWidth,heights:[...grid.querySelectorAll('.compact-app')].map(card=>card.getBoundingClientRect().height)}));expect(layout.columns).toBe(width>=900?4:3);expect(layout.overflow).toBe(false);expect(layout.heights.every(height=>height>=130&&height<=152)).toBe(true);}
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  }
  for(const language of ['hi','gu','en']){
@@ -18,7 +18,7 @@ test('launcher delivery preserves compact cards, themes, shared languages and na
   if(language!=='en')for(const width of [320,360,390,430,768]){
    await page.setViewportSize({width,height:900});
    const names=await page.locator('.compact-app-name').evaluateAll(nodes=>nodes.map(node=>({line:parseFloat(getComputedStyle(node).lineHeight),height:node.clientHeight})));
-   expect(names.every(name=>name.line>=20&&name.height>=40)).toBe(true);
+   expect(names.every(name=>name.line>=20&&name.height>=20)).toBe(true);
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
    if(width===390)await page.locator('.public-apps').screenshot({path:test.info().outputPath(`launcher-${language}-390.png`)});
   }

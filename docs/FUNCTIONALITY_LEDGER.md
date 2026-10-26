@@ -1,5 +1,14 @@
 # Chambers functionality ledger
 
+**Home spacing and single-row timings (2026-10-26):** App names use their
+actual one/two-line height instead of a reserved two-line block. Grid rows adapt
+from a 130px minimum, retaining aligned cards and native-script line spacing.
+Ritvayam mobile timings use four columns and 24-hour clocks; current Choghadiya
+uses a short localized Now label and range. Tightened header spacing and aligned
+Samvat/month/tithi values. English 390px preview is about 373px high. Three
+browser flows passed covering mobile/tablet widths, native-language title
+spacing, themes, search/navigation, retained city and Choghadiya boundaries.
+
 **Kundli consultation voice (2026-10-26):** Replaced generic keyword-led text
 with authored, connected English/Hindi/Gujarati paragraphs for all seven life
 topics. Removed repeated tip boxes and unrelated personality text from career.

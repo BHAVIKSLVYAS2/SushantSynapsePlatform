@@ -13,7 +13,7 @@ test('local events, live highlight, city retention, shared languages and compact
  for(const width of [320,360,390,430,768,1280]){
   await page.setViewportSize({width,height:1000});
   const buttons=await page.locator('.home-vedic-actions a').evaluateAll(nodes=>nodes.map(node=>{const r=node.getBoundingClientRect();return {top:r.top,height:r.height};}));
-  if(width===390)expect((await page.locator('[data-home-vedic]').boundingBox()).height).toBeLessThan(440);
+  if(width===390)expect((await page.locator('[data-home-vedic]').boundingBox()).height).toBeLessThan(390);
   expect(buttons[0].top).toBe(buttons[1].top);expect(buttons.every(button=>button.height>=44)).toBe(true);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   if([390,1280].includes(width))for(const theme of ['light','dark']){
