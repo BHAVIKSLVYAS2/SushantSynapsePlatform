@@ -10,7 +10,7 @@
   lastMinute=minute;lastLanguage=lang;const current=++revision;
   const put=(key,text)=>{const node=card.querySelector('[data-vedic-'+key+']');if(node)node.textContent=text;};
   try{engine||=import('/rashifal-kundli/home-calendar.mjs').catch(error=>{engine=null;throw error;});const {homeCalendar,mountDailyAlmanac}=await engine;
-   if(current!==revision||!card.isConnected)return;if(!card.querySelector('.daily-almanac'))mountDailyAlmanac(card.querySelector('[data-home-almanac]'),{compact:true});const data=homeCalendar(Date.now(),lang),t=copy[lang];
+   if(current!==revision||!card.isConnected)return;if(!card.querySelector('.daily-almanac'))mountDailyAlmanac(card.querySelector('[data-home-almanac]'),{compact:true});const panel=card.querySelector('.daily-almanac');const line=card.querySelector('.home-vedic-calendar-line');if(line&&panel.querySelector('.almanac-heading'))line.append(panel.querySelector('.almanac-heading'));const note=card.querySelector('.home-vedic-note');if(note&&note.parentElement===card.querySelector('.home-vedic-content'))panel.querySelector(':scope>details').append(note);const data=homeCalendar(Date.now(),lang),t=copy[lang];
    for(const key of ['samvat','month','tithi'])put(key+'-label',t[key]);
    put('date',data.date);put('samvat',data.samvat??t.pending);put('month',data.month);put('tithi',data.tithi?.replace(/^[^:]+:\s*/,'')??t.pending);put('note',t.note);put('asof',data.asOf+' IST');card.dataset.calendarReady='true';
   }catch{if(current===revision&&card.isConnected){put('note',copy[lang].unavailable);put('date','');put('asof','');for(const key of ['samvat','month','tithi'])put(key,'—');card.dataset.calendarReady='false';}}

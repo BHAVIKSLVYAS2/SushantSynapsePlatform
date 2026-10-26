@@ -18,7 +18,7 @@ export function mountDailyAlmanac(container,{now=()=>Date.now(),compact=false}={
  const header=el('div');header.className='almanac-heading';header.append(title,change);locality.className='almanac-locality';reference.className='almanac-note';
  const facts=el('dl');facts.className='almanac-events';const current=el('p');current.className='almanac-current';current.role='status';
  const details=el('details'),detailsSummary=el('summary'),periods=el('div'),note=el('p'),source=el('a');periods.className='almanac-periods';note.className='almanac-note';source.href='https://www.drikpanchang.com/tutorials/muhurat/daily/choghadiya-muhurat.html?lang=en';source.target='_blank';source.rel='noopener noreferrer';source.referrerPolicy='no-referrer';details.append(detailsSummary,periods,note,source);
- root.append(header,locality,reference,facts,current,details);if(compact){current.remove();detailsSummary.append(current);root.insertBefore(facts,header);}
+ root.append(header,locality,reference,facts,current,details);if(compact){current.remove();detailsSummary.append(current);root.insertBefore(facts,header);change.append(reference);}
  container.append(root);
  function search(){matches.replaceChildren();searchStatus.textContent='';if(input.value.trim().length<2)return;
   let found=[];try{found=searchPlaces(input.value,{limit:8}).matches;}catch{}

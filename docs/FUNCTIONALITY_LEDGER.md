@@ -1,5 +1,15 @@
 # Chambers functionality ledger
 
+**Ritvayam density correction (2026-10-26):** Compared full-tile mobile and
+desktop previews with the supplied reference. City selection now shares the
+date row; default-city context is inside its disclosure. Calculation notes sit
+inside the timings disclosure. Removed their standalone rows and reduced panel
+padding, event gaps and button heights while retaining 44px touch targets.
+Closed English mobile tile is approximately 417px at 390px width (previously
+about 640px). Added a sub-440px regression check at 390px. Two browser flows
+passed across 320/360/390/430/768/1280px, light/dark previews, language switching,
+city search/retention and exact Choghadiya boundaries. Calculations unchanged.
+
 **Indic launcher title clipping (2026-10-26):** Increased app-name line height
 from 15px to 20px and its two-line space from 30px to 40px so Hindi/Gujarati
 vowel marks are not clipped. Uniform cards are 150px (previously 140px), keeping

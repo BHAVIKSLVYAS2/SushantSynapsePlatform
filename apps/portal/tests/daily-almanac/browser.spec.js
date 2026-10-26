@@ -13,6 +13,7 @@ test('local events, live highlight, city retention, shared languages and compact
  for(const width of [320,360,390,430,768,1280]){
   await page.setViewportSize({width,height:1000});
   const buttons=await page.locator('.home-vedic-actions a').evaluateAll(nodes=>nodes.map(node=>{const r=node.getBoundingClientRect();return {top:r.top,height:r.height};}));
+  if(width===390)expect((await page.locator('[data-home-vedic]').boundingBox()).height).toBeLessThan(440);
   expect(buttons[0].top).toBe(buttons[1].top);expect(buttons.every(button=>button.height>=44)).toBe(true);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   if([390,1280].includes(width))for(const theme of ['light','dark']){
@@ -25,7 +26,7 @@ test('local events, live highlight, city retention, shared languages and compact
  for(const language of ['hi','gu','en']){await page.evaluate(language=>SynapseLanguage.set(language),language);await expect(panel).toHaveAttribute('lang',language);await expect(panel.locator('[data-almanac-event=sunrise] dt')).toHaveText(({en:'Sunrise',hi:'सूर्योदय',gu:'સૂર્યોદય'})[language]);await expect(panel.locator('li[aria-current=time]')).toHaveCount(1);}
  for(const width of [320,360,390,430,768,1024])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await page.evaluate(theme=>SynapseTheme.write(theme),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await page.setViewportSize({width:390,height:900});await panel.screenshot({path:test.info().outputPath('almanac-mobile-dark.png')});
- const previous=await panel.locator('[data-almanac-event=sunset] dd').textContent();await panel.locator('details').first().locator('summary').click();await panel.locator('input').fill('Mumbai');await panel.locator('[data-almanac-place="geonames:1275339"]').click();await expect(panel).toHaveAttribute('data-place-id','geonames:1275339');await expect(panel.locator('[data-almanac-event=sunset] dd')).not.toHaveText(previous);
+ const previous=await panel.locator('[data-almanac-event=sunset] dd').textContent();await page.locator('.home-vedic-calendar-line details summary').click();await page.locator('.home-vedic-calendar-line input').fill('Mumbai');await page.locator('[data-almanac-place="geonames:1275339"]').click();await expect(panel).toHaveAttribute('data-place-id','geonames:1275339');await expect(panel.locator('[data-almanac-event=sunset] dd')).not.toHaveText(previous);
  await page.reload();await page.locator('[data-home-vedic]').scrollIntoViewIfNeeded();await expect(panel).toHaveAttribute('data-place-id','geonames:1275339',{timeout:15000});
  await page.goto(base+'/rashifal-kundli/rashifal');await expect(panel).toHaveAttribute('data-ready','true');await expect(panel).toHaveAttribute('data-place-id','geonames:1275339');await expect(page).toHaveTitle(/Ritvayam/);await expect(page.locator('.platform-language')).toHaveCount(1);expect(errors).toEqual([]);
 });
