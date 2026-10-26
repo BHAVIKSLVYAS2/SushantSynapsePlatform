@@ -7,7 +7,7 @@ test('launcher delivery preserves compact cards, themes, shared languages and na
  const errors=[];page.on('pageerror',error=>errors.push(error.message));await page.route(/googlesyndication|doubleclick|google-analytics/,route=>route.abort());await page.goto(base+'/');await expect(page.locator('.compact-app')).toHaveCount(18);await expect(page.locator('.compact-app-description')).toHaveCount(18);await expect(page.locator('.home-entry-paths,#free-title')).toHaveCount(0);
  for(const width of [320,360,390,430,600,768,900,1024])for(const theme of ['light','dark']){
   await page.setViewportSize({width,height:900});await page.evaluate(theme=>SynapseTheme.write(theme),theme);
-  for(const selector of ['.public-apps','.workspace-grid']){const layout=await page.locator(selector).evaluate(grid=>({columns:getComputedStyle(grid).gridTemplateColumns.split(' ').length,overflow:grid.scrollWidth>grid.clientWidth,heights:[...grid.querySelectorAll('.compact-app')].map(card=>card.getBoundingClientRect().height)}));expect(layout.columns).toBe(width>=900?4:3);expect(layout.overflow).toBe(false);expect(layout.heights.every(height=>height===140)).toBe(true);}
+  for(const selector of ['.public-apps','.workspace-grid']){const layout=await page.locator(selector).evaluate(grid=>({columns:getComputedStyle(grid).gridTemplateColumns.split(' ').length,overflow:grid.scrollWidth>grid.clientWidth,heights:[...grid.querySelectorAll('.compact-app')].map(card=>card.getBoundingClientRect().height)}));expect(layout.columns).toBe(width>=900?4:3);expect(layout.overflow).toBe(false);expect(layout.heights.every(height=>height===150)).toBe(true);}
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  }
  for(const language of ['hi','gu','en']){
@@ -15,6 +15,13 @@ test('launcher delivery preserves compact cards, themes, shared languages and na
   const brands=await page.evaluate(language=>SynapseCatalogue.apps.map(app=>({id:app.id,name:app.displayNames[language]})),language);
   for(const brand of brands){const card=page.locator('.compact-app[data-app-id="'+brand.id+'"]');if(await card.count()){await expect(card.locator('.compact-app-name')).toHaveText(brand.name);await expect(card).toHaveAttribute('title',new RegExp(brand.name));}}
   await expect(page.locator('#home-vedic-title')).toHaveText(brands.find(app=>app.id==='rashifal-kundli').name);
+  if(language!=='en')for(const width of [320,360,390,430,768]){
+   await page.setViewportSize({width,height:900});
+   const names=await page.locator('.compact-app-name').evaluateAll(nodes=>nodes.map(node=>({line:parseFloat(getComputedStyle(node).lineHeight),height:node.clientHeight})));
+   expect(names.every(name=>name.line>=20&&name.height>=40)).toBe(true);
+   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+   if(width===390)await page.locator('.public-apps').screenshot({path:test.info().outputPath(`launcher-${language}-390.png`)});
+  }
   const qr=brands.find(app=>app.id==='qr-maker');await page.locator('#home-search-input').fill(qr.name);await expect(page.locator('.public-app:not([hidden])')).toHaveCount(1);await page.locator('#home-search-input').press('Escape');
   await expect(page.locator('[data-app-id=qr-maker] .compact-app-description')).toHaveText(({en:'Create QR codes for links, text or Wi-Fi.',hi:'लिंक, टेक्स्ट या वाई-फ़ाई के QR कोड बनाएँ।',gu:'લિંક, લખાણ કે વાઇ-ફાઇના QR કોડ બનાવો.'})[language]);
   await page.reload();await expect(page.locator('html')).toHaveAttribute('lang',language);await expect(page.locator('[data-app-id=qr-maker] .compact-app-name')).toHaveText(qr.name);

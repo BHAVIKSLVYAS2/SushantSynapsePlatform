@@ -1,5 +1,12 @@
 # Chambers functionality ledger
 
+**Indic launcher title clipping (2026-10-26):** Increased app-name line height
+from 15px to 20px and its two-line space from 30px to 40px so Hindi/Gujarati
+vowel marks are not clipped. Uniform cards are 150px (previously 140px), keeping
+icons, names and introductions inside the card. Launcher browser flow passed,
+including native-language typography at 320/360/390/430/768px, language retention,
+themes, search and navigation. Hindi and Gujarati mobile screenshots reviewed.
+
 **Ritvayam home tile mockup refinement (2026-10-26):** Rebuilt the feature
 presentation around an Om identity, small moon artwork, compact calendar facts,
 Sun/Moon event row, retained city picker, expandable current Choghadiya strip and
