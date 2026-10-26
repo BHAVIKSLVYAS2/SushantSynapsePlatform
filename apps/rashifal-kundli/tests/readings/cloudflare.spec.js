@@ -2,8 +2,13 @@ const {test,expect}=require('@playwright/test');const {fillDate,fillTime}=requir
 
 for(const language of ['hi','gu'])test(`Kundali generates a complete ${language} reading and matching private printable download`,async({page})=>{
  const errors=[];page.on('pageerror',error=>errors.push(error.message));await page.addInitScript(language=>localStorage.setItem('synapse-language',language),language);await page.setViewportSize({width:390,height:900});await page.goto(server.origin+'/rashifal-kundli');
- await expect(page.locator('html')).toHaveAttribute('lang',language);await page.locator('#birth-name').fill('Private Sample');await fillDate(page,'#birth-date','2000-01-01');await fillTime(page,'#birth-time','12:15');await page.locator('#birth-query').fill('New Delhi');await page.locator('[data-place-id="geonames:1261481"]').click();await page.locator('form button[type=submit]').click();await page.locator('#birth-calculate').click();await expect(page.locator('.kundli-reading')).toHaveAttribute('data-reading-prose','kundli-prose-2');
+ await expect(page.locator('html')).toHaveAttribute('lang',language);await page.locator('#birth-name').fill('Private Sample');await fillDate(page,'#birth-date','2000-01-01');await fillTime(page,'#birth-time','12:15');await page.locator('#birth-query').fill('New Delhi');await page.locator('[data-place-id="geonames:1261481"]').click();await page.locator('form button[type=submit]').click();await page.locator('#birth-calculate').click();await expect(page.locator('.kundli-reading')).toHaveAttribute('data-reading-prose','kundli-prose-3');
  const script=language==='hi'?/[\u0900-\u097f]/:/[\u0a80-\u0aff]/;
+ const prose=await page.locator('.kundli-topic>p:not(.kundli-topic-action)').allTextContents();
+ for(const paragraph of prose){expect(paragraph).toMatch(/[.!।]$/);expect(paragraph).not.toMatch(/undefined|\[object Object\]/);}
+ await expect(page.locator('.kundli-topic-action')).toHaveCount(0);
+ expect(await page.locator('.kundli-periods li').first().locator('p').last().innerText()).toMatch(script);
+ await page.locator('#kundli-career').screenshot({path:test.info().outputPath('consultation-career-'+language+'.png')});
  for(const card of await page.locator('.kundli-topic[data-status=available]').all()){expect(await card.locator('h3').innerText()).toMatch(script);expect(await card.locator('.kundli-topic-lead').innerText()).toMatch(script);}
  for(const width of [320,360,390,430,768,1024])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await page.evaluate(theme=>SynapseTheme.write(theme),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await page.setViewportSize({width:390,height:900});await page.locator('#kundli-relationships').screenshot({path:test.info().outputPath('relationships-'+language+'.png')});

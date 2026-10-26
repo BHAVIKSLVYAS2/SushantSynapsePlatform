@@ -1,7 +1,8 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';
 import {calculateBirthReport} from '../../frontend/birth-report.mjs';
 import {buildKundliReading,signRulers} from '../../frontend/kundli-reading.mjs';
-import {nature,presence,planet,houseContext,readingText} from '../../frontend/kundli-reading-copy.mjs';
+import {houseContext,readingText} from '../../frontend/kundli-reading-copy.mjs';
+import {temperament as nature,manner as presence,work,resources,phase,everyday} from '../../frontend/kundli-consultation-copy.mjs';
 const now=Date.parse('2026-10-25T00:00:00Z'),base={localDate:'2000-01-01',localTime:'12:15',placeId:'geonames:1261481',timeZoneId:'Asia/Kolkata',timeAccuracy:'exact',calculationProfileId:'IN_LAHIRI_DEFAULT_V1'};
 test('every topic traces to its actual house, ruler and placement across all twelve rising signs',()=>{
  const rising=new Set(),careers=new Set();for(let hour=0;hour<24;hour++){const report=calculateBirthReport({...base,localTime:String(hour).padStart(2,'0')+':15'},{now});if(report.features.d1.status!=='available')continue;const before=JSON.stringify(report),model=buildKundliReading(report),chart=report.features.d1.value;rising.add(model.identity.rising);careers.add(JSON.stringify(model.topics.career));
@@ -25,6 +26,6 @@ test('future themes use the computed periods and half-open transition boundary, 
 });
 test('original reading vocabulary is complete and distinct in English, Hindi and Gujarati',()=>{
  for(const table of [nature,presence]){assert.equal(table.length,12);for(let language=0;language<3;language++)assert.equal(new Set(table.map(row=>row[language])).size,12);}
- for(const row of [...nature,...presence,...houseContext,...Object.values(planet).flat()]){assert.equal(row.length,3);assert.match(row[1],/[\u0900-\u097f]/);assert.match(row[2],/[\u0a80-\u0aff]/);}
+ for(const row of [...nature,...presence,...houseContext,...Object.values(work),...Object.values(resources),...Object.values(phase),...Object.values(everyday).flat()]){assert.equal(row.length,3);assert.match(row[1],/[\u0900-\u097f]/);assert.match(row[2],/[\u0a80-\u0aff]/);}
  for(const language of ['hi','gu'])assert.deepEqual(Object.keys(readingText[language]).sort(),Object.keys(readingText.en).sort());
 });

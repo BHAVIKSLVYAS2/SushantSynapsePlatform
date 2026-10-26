@@ -1,13 +1,32 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const input={localDate:'2000-01-01',localTime:'12:15',placeId:'geonames:1261481',timeZoneId:'Asia/Kolkata',timeAccuracy:'exact',calculationProfileId:'IN_LAHIRI_DEFAULT_V1'};
 const context={now:Date.parse('2026-10-24T12:00Z')};
+
+test('consultation prose covers every sign, house ruler and Dasha pair without broken fragments',async()=>{
+ const {composeKundliTopic,composeKundliPeriod}=await import('../apps/rashifal-kundli/frontend/kundli-reading-prose.mjs');
+ const {signRulers}=await import('../apps/rashifal-kundli/frontend/kundli-reading.mjs');
+ const lords=[...new Set(signRulers),'Rahu','Ketu'];
+ for(const language of ['en','hi','gu']){
+  const script=language==='hi'?/[\u0900-\u097f]/:language==='gu'?/[\u0a80-\u0aff]/:/[a-z]/i;
+  const check=text=>{assert.match(text,script);assert.match(text,/[.!।]$/);assert.doesNotMatch(text,/undefined|null|\[object Object\]|: *[.।]/);};
+  for(let sign=1;sign<=12;sign++)for(const id of ['personality','appearance','career','money','relationships','learning','home']){
+   const data={sign,moon:sign,rising:sign,ruler:signRulers[sign-1]};
+   const prose=composeKundliTopic(id,data,language);prose.paragraphs.forEach(check);
+   assert.equal(prose.action,null);assert.ok(prose.paragraphs.join(' ').length>80);
+   assert.doesNotMatch(prose.paragraphs.join(' '),/traditional theme for your resources|पारंपरिक विषय है:|પરંપરાગત વિષય છે:/);
+  }
+  for(const major of lords)for(const minor of lords)check(composeKundliPeriod({major,minor},language));
+  assert.equal(composeKundliTopic('career',null,language).paragraphs.length,1);
+ }
+ assert.throws(()=>composeKundliTopic('career',{},'fr'),/Unsupported/);
+});
 test('Hindi and Gujarati exports include the same everyday reading as the screen without changing chart values',async()=>{
  const {projectExport,standaloneReport}=await import('../apps/rashifal-kundli/frontend/export-report.mjs');
  const {buildKundliReading}=await import('../apps/rashifal-kundli/frontend/kundli-reading.mjs');
  const {composeKundliTopic}=await import('../apps/rashifal-kundli/frontend/kundli-reading-prose.mjs');
  const report=await setup(),before=JSON.stringify(report),baseline=projectExport(report),reading=buildKundliReading(report);
  for(const language of ['hi','gu']){const model=projectExport(report,{language}),html=standaloneReport(model),script=language==='hi'?/[\u0900-\u097f]/:/[\u0a80-\u0aff]/;
-  assert.equal(model.everyday.topics.length,7);assert.equal(model.everyday.version,'kundli-prose-2');assert.deepEqual(model.features,baseline.features);
+  assert.equal(model.everyday.topics.length,7);assert.equal(model.everyday.version,'kundli-prose-3');assert.deepEqual(model.features,baseline.features);
   for(const topic of model.everyday.topics){assert.match(topic.title,script);assert.deepEqual(topic.paragraphs,composeKundliTopic(topic.id,reading.topics[topic.id],language).paragraphs);for(const text of topic.paragraphs){assert.match(text,script);assert.match(text,/[.!।]$/);assert.ok(html.includes(text));}}
   assert.ok(html.includes('lang="'+language+'"'));assert.ok(!html.includes('undefined'));assert.ok(!html.includes('Private Person'));
  }assert.equal(JSON.stringify(report),before);

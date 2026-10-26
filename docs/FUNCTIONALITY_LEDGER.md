@@ -1,5 +1,15 @@
 # Chambers functionality ledger
 
+**Kundli consultation voice (2026-10-26):** Replaced generic keyword-led text
+with authored, connected English/Hindi/Gujarati paragraphs for all seven life
+topics. Removed repeated tip boxes and unrelated personality text from career.
+Current/upcoming Dasha cards explain their computed lords in complete sentences.
+Screen and printable life-topic readings share `kundli-prose-3`. Rashifal and
+all calculation kernels remain unchanged. Verified 7 export/prose checks, 4
+reading-model checks and 3 production-bundle browser flows (native generation,
+print/download parity, saved inputs, mobile widths and themes). All signs,
+traditional house rulers and 81 Dasha-lord pairs covered in all three languages.
+
 **Ritvayam density correction (2026-10-26):** Compared full-tile mobile and
 desktop previews with the supplied reference. City selection now shares the
 date row; default-city context is inside its disclosure. Calculation notes sit

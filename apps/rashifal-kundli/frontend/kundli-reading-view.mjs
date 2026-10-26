@@ -1,8 +1,8 @@
 import {buildKundliReading} from './kundli-reading.mjs';
-import {planet,houseContext,readingText,pick} from './kundli-reading-copy.mjs';
+import {houseContext,readingText,pick} from './kundli-reading-copy.mjs';
 import {signName,bodyName} from './locale.mjs';
 import {nakshatraName} from './display-text.mjs';
-import {composeKundliTopic,kundliProseVersion} from './kundli-reading-prose.mjs';
+import {composeKundliTopic,composeKundliPeriod,kundliProseVersion} from './kundli-reading-prose.mjs';
 const el=(tag,text,cls)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(cls)node.className=cls;return node;};
 export function mountKundliReading(container,report,language='en',name=''){
  const model=buildKundliReading(report),t=readingText[language],root=el('section',undefined,'kundli-reading');root.dataset.readingModel=model.modelId;root.dataset.readingProse=kundliProseVersion;
@@ -31,7 +31,7 @@ export function mountKundliReading(container,report,language='en',name=''){
  const future=el('section',undefined,'kundli-future');future.id='kundli-future';future.dataset.topic='future';future.dataset.status=model.periods.length?'available':'unavailable';future.append(el('h3',t.future));
  const date=boundary=>{const local=boundary.local.status==='available';return new Intl.DateTimeFormat(language,{dateStyle:'medium',timeStyle:'short',timeZone:local?'Asia/Kolkata':'UTC'}).format(new Date(boundary.utcInstant))+' '+(local?'IST':'UTC');};
  if(!model.periods.length)future.append(el('p',t.periodUnavailable));
- else {future.append(el('p',`${t.asOf}: ${new Intl.DateTimeFormat(language,{dateStyle:'medium',timeZone:'Asia/Kolkata'}).format(new Date(model.calculatedAtUtc))}`));const list=el('ol',undefined,'kundli-periods');model.periods.forEach((period,index)=>{const item=el('li');item.dataset.major=period.major;item.dataset.minor=period.minor;item.dataset.start=period.start.utcInstant;item.dataset.end=period.end.utcInstant;item.append(el('span',index===0?t.current:t.upcoming,'kundli-period-label'),el('h4',`${bodyName(period.major,language)} / ${bodyName(period.minor,language)}`),el('p',`${date(period.start)} → ${date(period.end)}`),el('p',`${t.periodTheme}: ${pick(planet[period.major][0],language)} · ${pick(planet[period.minor][0],language)}`));list.append(item);});future.append(list,el('p',t.periodNote,'kundli-topic-note'));}
+ else {future.append(el('p',`${t.asOf}: ${new Intl.DateTimeFormat(language,{dateStyle:'medium',timeZone:'Asia/Kolkata'}).format(new Date(model.calculatedAtUtc))}`));const list=el('ol',undefined,'kundli-periods');model.periods.forEach((period,index)=>{const item=el('li');item.dataset.major=period.major;item.dataset.minor=period.minor;item.dataset.start=period.start.utcInstant;item.dataset.end=period.end.utcInstant;item.append(el('span',index===0?t.current:t.upcoming,'kundli-period-label'),el('h4',`${bodyName(period.major,language)} / ${bodyName(period.minor,language)}`),el('p',`${date(period.start)} → ${date(period.end)}`),el('p',composeKundliPeriod(period,language)));list.append(item);});future.append(list,el('p',t.periodNote,'kundli-topic-note'));}
  root.append(future);
  const methods=el('details',undefined,'kundli-reading-methods');methods.append(el('summary',t.methods),el('p',t.methodNote));for(const [name,url]of [['AstroSage','https://www.astrosage.com/kundli/how-to-read-kundli.asp'],['Prokerala','https://www.prokerala.com/astrology/kundli/'],['Astroyogi','https://www.astroyogi.com/blog/planets-which-governs-your-career.aspx']]){const link=el('a',name);link.href=url;link.target='_blank';link.rel='noopener noreferrer';link.referrerPolicy='no-referrer';methods.append(link,document.createTextNode(' '));}root.append(methods);container.append(root);
  return {destroy(){root.remove();}};

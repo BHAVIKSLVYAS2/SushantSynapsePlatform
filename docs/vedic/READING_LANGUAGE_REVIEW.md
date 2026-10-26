@@ -50,3 +50,16 @@ Reference context:
   birth-data submission, additional preference or dependency was introduced.
 
 Verification results and production release evidence are in FUNCTIONALITY_LEDGER.md.
+
+## Consultation prose revision (26 October, evening)
+
+`kundli-prose-3` replaces the earlier vocabulary tables with authored
+English/Hindi/Gujarati consultation paragraphs. Nature, presence, career, money,
+relationships, learning and family use complete sentences; career no longer
+repeats an unrelated sign-personality paragraph. Repeated tip boxes are removed.
+Dasha cards identify their actual major/minor lords and give a complete reading
+rather than two keyword lists. Screen and printable life topics share one
+composer. No LLM endpoint, birth-data transfer, calculation change or new
+classical assessment is introduced. Existing uncertainty and method statements
+remain. This is an editorial voice revision, not a claim of pandit authorship
+or independent linguistic/classical certification.
