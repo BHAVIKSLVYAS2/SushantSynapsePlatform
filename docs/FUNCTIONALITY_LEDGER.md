@@ -9,6 +9,8 @@ all calculation kernels remain unchanged. Verified 7 export/prose checks, 4
 reading-model checks and 3 production-bundle browser flows (native generation,
 print/download parity, saved inputs, mobile widths and themes). All signs,
 traditional house rulers and 81 Dasha-lord pairs covered in all three languages.
+Deployed source `d700597`, Worker `a8bb71b5-af63-4a1f-8d45-87c19f631e09`.
+All three reading/browser flows passed against production after release.
 
 **Ritvayam density correction (2026-10-26):** Compared full-tile mobile and
 desktop previews with the supplied reference. City selection now shares the
