@@ -3,6 +3,8 @@
 **Curio title wording (2026-10-26):** Browser title, platform description/footer
 and full PWA name now read `Curio By Sushant Synapse`. Short launcher name stays
 Curio; manifest ID, routes and shared company header are unchanged.
+Exact browser-title/manifest checks passed locally and on production. Source
+`b87c587`, Worker `cef7dc61-6895-4908-ae7c-2ac945d2f226`.
 
 **Home spacing and single-row timings (2026-10-26):** App names use their
 actual one/two-line height instead of a reserved two-line block. Grid rows adapt
