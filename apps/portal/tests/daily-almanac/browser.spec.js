@@ -12,6 +12,9 @@ test('local events, live highlight, city retention, shared languages and compact
  await expect(panel).toHaveClass(/almanac-compact/);
  for(const width of [320,360,390,430,768,1280]){
   await page.setViewportSize({width,height:1000});
+  const eventRows=await panel.locator('[data-almanac-event]').evaluateAll(nodes=>nodes.map(node=>node.getBoundingClientRect().top));
+  expect(new Set(eventRows).size).toBe(1);
+  expect((await panel.locator('.almanac-current').boundingBox()).height).toBeLessThan(28);
   const buttons=await page.locator('.home-vedic-actions a').evaluateAll(nodes=>nodes.map(node=>{const r=node.getBoundingClientRect();return {top:r.top,height:r.height};}));
   if(width===390)expect((await page.locator('[data-home-vedic]').boundingBox()).height).toBeLessThan(390);
   expect(buttons[0].top).toBe(buttons[1].top);expect(buttons.every(button=>button.height>=44)).toBe(true);

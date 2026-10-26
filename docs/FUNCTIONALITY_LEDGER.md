@@ -8,6 +8,9 @@ uses a short localized Now label and range. Tightened header spacing and aligned
 Samvat/month/tithi values. English 390px preview is about 373px high. Three
 browser flows passed covering mobile/tablet widths, native-language title
 spacing, themes, search/navigation, retained city and Choghadiya boundaries.
+Deployed source `b85aaaa`, Worker `2d655385-126c-4303-8075-d1580e87b5bc`.
+All three flows passed against production, including explicit single-row event
+and single-line current-period assertions at the tested viewport widths.
 
 **Kundli consultation voice (2026-10-26):** Replaced generic keyword-led text
 with authored, connected English/Hindi/Gujarati paragraphs for all seven life
