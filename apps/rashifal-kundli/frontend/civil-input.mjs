@@ -51,7 +51,7 @@ export function installCivilInputs(root){
    refresh();validate(false);
   }
   const reset=()=>{input.value='';};input.form?.addEventListener('reset',reset);sync();
-  return {translate,refresh,valid:()=>box.disabled||Object.values(fields).every(f=>f.reportValidity()),destroy(){input.form?.removeEventListener('reset',reset);}};
+  return {translate,refresh,valid:()=>{validate(false);return box.disabled||Object.values(fields).every(f=>f.reportValidity());},destroy(){input.form?.removeEventListener('reset',reset);}};
  });
  return {translate:lang=>widgets.forEach(w=>w.translate(lang)),refresh:()=>widgets.forEach(w=>w.refresh()),valid:()=>widgets.every(w=>w.valid()),destroy:()=>widgets.forEach(w=>w.destroy())};
 }

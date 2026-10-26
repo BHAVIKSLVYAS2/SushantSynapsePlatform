@@ -1,5 +1,13 @@
 const {test,expect}=require('@playwright/test');
 const {createPreviewServer}=require('../../../infrastructure/preview-vedic-charts.cjs');let server;
+
+test('native Rashifal headlines and paragraphs remain readable beside the sign artwork',async({page})=>{
+ await page.clock.setFixedTime(new Date('2026-10-25T08:30:00Z'));await page.setViewportSize({width:390,height:900});await page.goto(server.origin);await page.locator('#rashifal-rashi').selectOption('1');
+ for(const language of ['hi','gu','en']){await page.locator('#rashifal-language').selectOption(language);const prediction=page.locator('.rashifal-prediction');await expect(prediction).toHaveAttribute('lang',language);await expect(prediction.locator('.rashifal-summary-paragraph').first()).toBeVisible();
+  const layout=await prediction.evaluate(node=>{const heading=node.querySelector('.rashifal-prediction-heading'),text=node.querySelector('.rashifal-summary-paragraph'),headline=heading.querySelector('h3'),css=getComputedStyle(headline);return {font:Number.parseFloat(css.fontSize),transform:css.textTransform,textY:text.getBoundingClientRect().top,headingBottom:heading.getBoundingClientRect().bottom,textWidth:text.getBoundingClientRect().width};});expect(layout.font).toBeGreaterThanOrEqual(18);expect(layout.transform).toBe('none');expect(layout.textY).toBeGreaterThanOrEqual(layout.headingBottom);expect(layout.textWidth).toBeGreaterThan(260);
+  for(const width of [320,360,390,430]){await page.setViewportSize({width,height:900});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}await page.setViewportSize({width:390,height:900});await prediction.screenshot({path:test.info().outputPath('rashifal-'+language+'.png')});
+ }
+});
 test.beforeAll(async()=>{server=await createPreviewServer(0,{rashifal:true});});test.afterAll(async()=>{await server?.close();});
 test('P12 manual sign/period factors, native draft translations, mobile themes and privacy',async({page})=>{
  const requests=[],errors=[];page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(e.message));await page.goto(server.origin);

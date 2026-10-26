@@ -1,5 +1,36 @@
 # Chambers functionality ledger
 
+**Curio, comparison validation and Time Machine guidance (2026-10-26):** Renamed
+the platform's displayed title, shared header subtitle and PWA name to Curio;
+manifest ID/start URL, app routes and organisation branding remain. Matching and
+Time Machine now use the shared single city picker. Language-shell validation
+respects component-specific errors; segmented inputs revalidate before review.
+Matching preserves consent/exact-time/boundary checks and in-memory privacy.
+City suggestions no longer cover review controls. Time Machine has localized
+three-step instructions, reference explanations and an ordinary Sun/Moon summary
+before expandable numerical details. New browser checks: 3 passed, covering
+multiple birth dates/times, leap-day correction, unselected-city recovery, swaps,
+clear, three languages, Time Machine calculations and Curio manifest/title.
+Additional regression: 9 existing civil-input/matching/Time Machine workflows
+passed, including two selector updates for new status/table disclosures. Release
+Node checks: 19 passed. Production evidence follows deployment.
+
+**Native Kundali and reading refinement (2026-10-26):** Added kundli-prose-2
+complete authored en/hi/gu topic sentences, reused in the screen and private
+HTML/print report. Existing calculation sections remain; every report now also
+contains seven everyday topics in its selected language. Birth identity remains
+opt-in. Kundali topic hierarchy/action/evidence spacing is consistent; Rashifal
+uses a separate image/headline row and full-width summary paragraphs, with mixed
+summaries split naturally. Shared header still owns all settings. Numerical
+kernels/inputs/positions/dates are unchanged. Accuracy/reference suite: 58 passed;
+localized export/model checks: 10 passed. JPL retained comparison reproduces
+25,116 samples with 22.467118 arcsec maximum separation under its declared
+conditions; internal-candidate acceptance is unchanged, not certified prediction
+accuracy. Scope and limits: docs/vedic/READING_LANGUAGE_REVIEW.md. Eight reading
+browser checks, one native headline/layout check and all ten native production
+report/language workflows passed (two duration-limited checks passed on retry).
+Production release verification follows deployment.
+
 **Simpler home entry (2026-10-26):** Removed the Explore Apps/My Workspace entry
 cards and the public grid's Explore apps heading/intro block. Home now starts
 with search, filters and the existing app grid. The free-app section retains an

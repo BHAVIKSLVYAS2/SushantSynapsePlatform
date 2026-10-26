@@ -15,6 +15,6 @@ export function initLanguageShell(){
   document.querySelector('.vedic-nav').setAttribute('aria-label',t.nav);
   for(const input of document.querySelectorAll('input,select'))input.setCustomValidity('');
  }});
- document.addEventListener('invalid',event=>{if(event.target.setCustomValidity)event.target.setCustomValidity(pageLabels[language].validation);},true);
- document.addEventListener('input',event=>{if(event.target.setCustomValidity)event.target.setCustomValidity('');},true);
+ document.addEventListener('invalid',event=>{if(event.target.setCustomValidity&&!event.target.validity.customError)event.target.setCustomValidity(pageLabels[language].validation);},true);
+ document.addEventListener('input',event=>{if(event.target.setCustomValidity&&!event.target.closest('.civil-input,.birthplace-combobox'))event.target.setCustomValidity('');},true);
 }

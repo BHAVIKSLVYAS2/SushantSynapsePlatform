@@ -1,6 +1,17 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const input={localDate:'2000-01-01',localTime:'12:15',placeId:'geonames:1261481',timeZoneId:'Asia/Kolkata',timeAccuracy:'exact',calculationProfileId:'IN_LAHIRI_DEFAULT_V1'};
 const context={now:Date.parse('2026-10-24T12:00Z')};
+test('Hindi and Gujarati exports include the same everyday reading as the screen without changing chart values',async()=>{
+ const {projectExport,standaloneReport}=await import('../apps/rashifal-kundli/frontend/export-report.mjs');
+ const {buildKundliReading}=await import('../apps/rashifal-kundli/frontend/kundli-reading.mjs');
+ const {composeKundliTopic}=await import('../apps/rashifal-kundli/frontend/kundli-reading-prose.mjs');
+ const report=await setup(),before=JSON.stringify(report),baseline=projectExport(report),reading=buildKundliReading(report);
+ for(const language of ['hi','gu']){const model=projectExport(report,{language}),html=standaloneReport(model),script=language==='hi'?/[\u0900-\u097f]/:/[\u0a80-\u0aff]/;
+  assert.equal(model.everyday.topics.length,7);assert.equal(model.everyday.version,'kundli-prose-2');assert.deepEqual(model.features,baseline.features);
+  for(const topic of model.everyday.topics){assert.match(topic.title,script);assert.deepEqual(topic.paragraphs,composeKundliTopic(topic.id,reading.topics[topic.id],language).paragraphs);for(const text of topic.paragraphs){assert.match(text,script);assert.match(text,/[.!।]$/);assert.ok(html.includes(text));}}
+  assert.ok(html.includes('lang="'+language+'"'));assert.ok(!html.includes('undefined'));assert.ok(!html.includes('Private Person'));
+ }assert.equal(JSON.stringify(report),before);
+});
 async function setup(p=input){const {calculateBirthReport}=await import('../apps/rashifal-kundli/frontend/birth-report.mjs');return calculateBirthReport(p,context);}
 test('redacted export projects no birth identity, observer coordinates or hidden time objects',async()=>{
  const {projectExport,standaloneReport}=await import('../apps/rashifal-kundli/frontend/export-report.mjs');const r=await setup();

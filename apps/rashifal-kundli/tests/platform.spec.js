@@ -35,7 +35,7 @@ test.describe('P16 advanced candidates',()=>{
 
 test.describe('P15 private rulebook previews',()=>{
  let matchingServer;test.beforeAll(async()=>{matchingServer=await createPreviewServer(0,{matching:true});});test.afterAll(async()=>{await matchingServer?.close();});
- async function enterPair(page){await page.locator('#matching-consent').check();for(const axis of ['a','b']){await fillDate(page,`#match-${axis}-date`,'2000-01-01');await fillTime(page,`#match-${axis}-time`,'12:15');await page.locator(`#match-${axis}-query`).fill('New Delhi');await page.locator(`#match-${axis}-place`).selectOption('geonames:1261481');}}
+ async function enterPair(page){await page.locator('#matching-consent').check();for(const axis of ['a','b']){await fillDate(page,`#match-${axis}-date`,'2000-01-01');await fillTime(page,`#match-${axis}-time`,'12:15');await page.locator(`#match-${axis}-query`).fill('New Delhi');await page.locator(`#match-${axis}-query-options [data-place-id="geonames:1261481"]`).click();}}
  async function compare(page){await page.locator('#matching-review-button').click();await expect(page.locator('#matching-review')).toContainText('2000-01-01T06:45:00.000Z');await page.locator('#matching-calculate').click();await expect(page.locator('#matching-results tbody tr')).toHaveCount(8);}
  test('consented dual review, eight factors, locale parity, themes and no birth requests/storage',async({page})=>{
   const requests=[],errors=[];page.on('request',r=>requests.push({url:r.url(),method:r.method()}));page.on('pageerror',e=>errors.push(e.message));await page.goto(matchingServer.origin);
@@ -49,7 +49,7 @@ test.describe('P15 private rulebook previews',()=>{
   expect(requests.every(r=>r.url.startsWith(matchingServer.origin)&&r.method==='GET')).toBe(true);expect(requests.some(r=>/2000|geonames/.test(r.url))).toBe(false);expect(errors).toEqual([]);expect(await page.evaluate(()=>Object.keys(localStorage).every(k=>['synapse-theme','chambers-theme'].includes(k)))).toBe(true);expect(await page.evaluate(()=>sessionStorage.length)).toBe(0);
  });
  test('unknown/approximate birth stays withheld, edits remove stale scores and revocation clears both records',async({page})=>{
-  await page.goto(matchingServer.origin);await enterPair(page);await page.locator('#match-b-accuracy').selectOption('unknown');await page.locator('#matching-review-button').click();await expect(page.getByRole('status')).toContainText('Unknown/approximate');await expect(page.locator('#matching-calculate')).toHaveCount(0);
+  await page.goto(matchingServer.origin);await enterPair(page);await page.locator('#match-b-accuracy').selectOption('unknown');await page.locator('#matching-review-button').click();await expect(page.locator('.vedic-matching > [role=status]')).toContainText('Unknown/approximate');await expect(page.locator('#matching-calculate')).toHaveCount(0);
   await page.locator('#match-b-accuracy').selectOption('approximate');await fillTime(page,'#match-b-time','12:15');await page.locator('#matching-review-button').click();await expect(page.locator('#matching-calculate')).toHaveCount(0);
   await page.locator('#match-b-accuracy').selectOption('exact');await compare(page);await fillTime(page,'#match-b-time','12:16');await expect(page.locator('#matching-results')).toBeEmpty();await expect(page.locator('#matching-review')).toBeEmpty();
   await page.locator('#matching-consent').uncheck();await expect(page.locator('#match-a-date')).toHaveValue('');await expect(page.locator('#match-b-date')).toHaveValue('');await expect(page.locator('#match-b-place')).toHaveValue('');await expect(page.locator('#match-b-date')).toBeDisabled();await expect(page.locator('#matching-results')).toBeEmpty();
@@ -89,7 +89,7 @@ test.describe('P14 interval sensitivity',()=>{
 
 test.describe('P13 Time Machine',()=>{
  let tmServer;test.beforeAll(async()=>{tmServer=await createPreviewServer(0,{timeMachine:true});});test.afterAll(async()=>{await tmServer?.close();});
- async function fillExploration(page){await fillDate(page,'#tm-date','2030-01-01');await fillTime(page,'#tm-time','12:15');await page.locator('#tm-query').fill('New Delhi');await page.locator('#tm-place').selectOption('geonames:1261481');}
+ async function fillExploration(page){await fillDate(page,'#tm-date','2030-01-01');await fillTime(page,'#tm-time','12:15');await page.locator('#tm-query').fill('New Delhi');await page.locator('#tm-query-options [data-place-id="geonames:1261481"]').click();}
  test('explicit future exploration, reference counts, locale/theme parity and stale-input clearing',async({page})=>{
   const requests=[],errors=[];page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(e.message));await page.goto(tmServer.origin);
   await expect(page.locator('#tm-date')).toHaveValue('');await expect(page.locator('#tm-time')).toHaveValue('');await page.locator('#tm-review-button').click();await expect(page.locator('#tm-calculate')).toHaveCount(0);
@@ -115,7 +115,7 @@ test.describe('P13 Time Machine',()=>{
  });
  test('clear cancels pending exploration and history navigation restores no input',async({page})=>{
   await page.goto(tmServer.origin);await fillExploration(page);await page.locator('#tm-review-button').click();await page.evaluate(()=>{document.querySelector('#tm-calculate').click();document.querySelector('#tm-clear').click();});await expect(page.locator('#tm-results')).toBeEmpty();
-  await fillExploration(page);await page.locator('#tm-review-button').click();await page.locator('#tm-calculate').click();await expect(page.locator('#tm-results .tm-table').first()).toBeVisible();await page.goto('about:blank');await page.goBack();await expect(page.locator('#tm-date')).toHaveValue('');await expect(page.locator('#tm-results')).toBeEmpty();
+  await fillExploration(page);await page.locator('#tm-review-button').click();await page.locator('#tm-calculate').click();await page.locator('.tm-calculations summary').click();await expect(page.locator('#tm-results .tm-table').first()).toBeVisible();await page.goto('about:blank');await page.goBack();await expect(page.locator('#tm-date')).toHaveValue('');await expect(page.locator('#tm-results')).toBeEmpty();
  });
 });
 

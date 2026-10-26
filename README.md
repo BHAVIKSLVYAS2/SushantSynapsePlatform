@@ -1,4 +1,4 @@
-# Sushant Synapse Platform
+# Curio · Sushant Synapse
 
 Home cards show an icon, app name and short introduction: three columns on phones
 and small tablets, and four on wider screens. Signed-in users can choose
@@ -11,6 +11,10 @@ Change city uses the on-device directory and retains only that choice locally.
 Kundli starts with everyday traditional interpretations of personality, presence,
 career, relationships and other life topics, plus computed Dasha-period themes.
 Charts and expert tools remain below. Scope: docs/vedic/KUNDLI_EVERYDAY_UX.md.
+Hindi/Gujarati Kundali downloads and print reports include the everyday reading
+alongside calculations, with birth identity still optional. Matching uses one
+city picker for each person. Time Machine provides three-step guidance and a
+plain-language snapshot of the sky at the chosen moment.
 Kundli's Save action keeps only birth inputs and an optional name in this browser;
 reopen to review and recalculate, or Delete to remove the saved profile. Clear form
 does not delete saved profiles. Birthplace uses one local city/state search field.

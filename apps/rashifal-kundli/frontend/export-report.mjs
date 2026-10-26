@@ -4,6 +4,9 @@ import {diagnosticText} from './diagnostic-text.mjs';
 import {locale,bodyName,signName} from './locale.mjs';
 import {astronomyModel} from '../../../packages/vedic/astronomy.mjs';
 import {siderealProfile} from '../../../packages/vedic/sidereal.mjs';
+import {buildKundliReading} from './kundli-reading.mjs';
+import {composeKundliTopic,kundliProseVersion} from './kundli-reading-prose.mjs';
+import {readingText} from './kundli-reading-copy.mjs';
 
 export const exportLabels=Object.freeze({
  en:{title:'Kundli report',controls:'Private report export',include:'Include name, birth date/time and place',redacted:'Birth details redacted',identified:'Includes birth details',notice:'Redaction removes direct birth details, not chart values. Charts and Dasha dates may reveal birth information. Share carefully.',preview:'Report preview',download:'Download report (HTML)',print:'Print / Save as PDF',help:'Review the report below. In the print dialog, choose Save as PDF and turn off browser headers and footers. Downloads stay on your device.',identity:'Birth details',unavailable:'Unavailable / withheld',warnings:'Warnings',houses:'Whole-sign houses',provenance:'Calculation provenance',nominal:'Internal candidate. Independent astronomical acceptance is pending. Nominal results; birth-time stability is not certified. No deterministic prediction is implied.'},
@@ -35,7 +38,9 @@ export function projectExport(report,{includeIdentity=false,name='',language='en
   }
  }
  const time=f.positions.status==='available'?f.positions.value.time:null;
- const result={version:'vedic-export-1',language,redacted:!includeIdentity,features,warnings:[...warnings],
+ const reading=buildKundliReading(report),copy=readingText[language];
+ const everyday={version:kundliProseVersion,title:copy.title,intro:copy.intro,method:copy.methodNote,topics:Object.entries(reading.topics).map(([id,data])=>({id,title:copy[id],status:data?'available':'unavailable',...composeKundliTopic(id,data,language)}))};
+ const result={version:'vedic-export-1',language,redacted:!includeIdentity,features,warnings:[...warnings],everyday,
   provenance:{profile:b.calculationProfileId,precision:b.precisionClass,timeAccuracy:b.timeAccuracy,
    inputResolutionSeconds:b.inputResolutionSeconds,coordinatePrecision:b.place.coordinatePrecision,elevationBasis:b.place.elevationBasis,
    timezone:b.timeZoneId,tzdb:b.tzdbVersion,timeRuleVersion:b.timeRuleVersion,timeSourceSha256:b.timeSourceSha256,
@@ -62,7 +67,7 @@ export const reportCss=`:root{--report-bg:#fff;--report-ink:#17232d;--report-edg
 
 export const reportLayoutCss=[[12,1,1],[1,2,1],[2,3,1],[3,4,1],[11,1,2],[4,4,2],[10,1,3],[5,4,3],[9,1,4],[8,2,4],[7,3,4],[6,4,4]].map(([s,c,r])=>`.vedic-report-cell[data-sign="${s}"]{grid-column:${c};grid-row:${r}}`).join('')+`.vedic-export-document{background:var(--report-bg);color:var(--report-ink)}.vedic-export label{display:flex;flex-direction:row;align-items:center;gap:.75rem}.vedic-export input[type=checkbox]{width:1.4rem;min-height:1.4rem;flex-shrink:0}.vedic-export button{margin:.4rem}.vedic-export-preview{max-height:40rem;overflow:auto;border:1px solid var(--report-edge)}@media print{.vedic-birth-page>header,.vedic-birth-app> :not(#birth-results),#birth-results> :not(:last-child),.vedic-export> :not(details),.vedic-export details>summary{display:none!important}.vedic-export details{border:0;padding:0;margin:0}.vedic-export-preview{max-height:none;overflow:visible;border:0}.vedic-birth-app{padding:0}.vedic-export details:not([open])>.vedic-export-preview{display:block}}`;
 
-export const reportTableCss='.vedic-export-document{font:14px/1.5 system-ui,sans-serif}.vedic-report-table{max-width:100%;overflow:auto}.vedic-report-table table{min-width:32rem}.vedic-report-table:focus-visible{outline:2px solid var(--report-ink);outline-offset:-2px}@media print{.vedic-export-document{font-size:10pt}.vedic-report-table{overflow:visible}.vedic-report-table table{min-width:0}}';
+export const reportTableCss='.vedic-export-document{font:14px/1.5 system-ui,sans-serif}.vedic-report-table{max-width:100%;overflow:auto}.vedic-report-table table{min-width:32rem}.vedic-report-table:focus-visible{outline:2px solid var(--report-ink);outline-offset:-2px}@media print{.vedic-export-document{font-size:10pt}.vedic-report-table{overflow:visible}.vedic-report-table table{min-width:0}}'+'.report-everyday{font-family:system-ui,"Noto Sans Devanagari","Noto Sans Gujarati",sans-serif}.report-everyday>section{padding:.8rem 0;border-bottom:1px solid var(--report-edge);break-inside:avoid}.report-everyday p{line-height:1.8;max-width:72ch}.report-everyday h3{margin-bottom:.6rem}';
 
 export function reportMarkup(model){
  const language=model.language,t=locale(language),x=exportLabels[language];
@@ -71,6 +76,7 @@ export function reportMarkup(model){
  const date=b=>`${b.local??t.localUnavailable} · UTC ${b.utc}`;
  let html=`<article class="vedic-export-document" lang="${language}"><h1>${esc(x.title)}</h1>${p(model.redacted?x.redacted:x.identified)}${p(x.notice)}<p class="report-note">${esc(x.nominal)}</p>`;
  if(model.identity)html+=`<h2>${esc(x.identity)}</h2><dl>${Object.entries(model.identity).map(([k,v])=>`<dt>${esc(term(k,language))}</dt><dd>${esc(v&&typeof v==='object'?`${v.start} → ${v.end}`:v??t.noTime)}</dd>`).join('')}</dl>`;
+ if(model.everyday){html+=`<section class="report-everyday"><h2>${esc(model.everyday.title)}</h2>${p(model.everyday.intro)}`;for(const topic of model.everyday.topics)html+=`<section data-reading-topic="${esc(topic.id)}"><h3>${esc(topic.title)}</h3>${topic.paragraphs.map(p).join('')}${topic.action?p(topic.action):''}</section>`;html+=p(model.everyday.method)+'</section>';}
  const pos=model.features.positions;
  for(const key of ['positions','d1','d9','dasha']){
   const f=model.features[key];html+=`<section><h2>${esc(t[key])}</h2>`;

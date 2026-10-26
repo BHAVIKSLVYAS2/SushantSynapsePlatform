@@ -1,5 +1,19 @@
 # Code ownership and adding apps
 
+Curio and astrology usability (2026-10-26): Curio is the platform's displayed
+name/PWA title; manifest ID/routes and Sushant Synapse organisation branding stay
+unchanged. Kundali, matching and Time Machine reuse birthplace-input.mjs with
+optional app-specific labels; the hidden select remains the canonical place ID.
+Respect these components' custom validity in language-shell.mjs. Always validate
+segmented date/time before review; never accept an invalid date or guess a city.
+Matching retains consent, exact-time/boundary admission and private in-memory
+records. Time Machine explains its three-step flow and shows a human-readable
+sky summary before optional calculation tables; it is not an event forecast.
+
+Native reading prose (2026-10-26): kundli-reading-prose.mjs owns complete,
+versioned en/hi/gu sentences shared by the view and whitelisted report export.
+No raw report or birth identity belongs in the everyday prose projection.
+
 Daily local timings (2026-10-25): packages/vedic/daily-almanac.mjs calculates
 Sun/Moon civil-day upper-limb events with the pinned Astronomy Engine and the
 existing UTC/TT inversion. Day/night Choghadiya use actual local solar boundaries,

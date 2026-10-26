@@ -59,3 +59,10 @@ fieldset.civil-input,.vedic-matching fieldset.civil-input{min-width:0;margin:0;p
 .kundli-reading-navigation .kundli-topic-nav,.kundli-reading-navigation .kundli-report-nav{grid-template-columns:minmax(0,1fr);margin:.5rem 0 0}
 @media(min-width:700px){.kundli-reading-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.kundli-report-nav{grid-template-columns:repeat(4,minmax(0,1fr))}.kundli-topic-nav{grid-template-columns:repeat(4,minmax(0,1fr))}.kundli-periods{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media print{.kundli-report-nav,.kundli-topic-nav{display:none}.kundli-reading-grid{display:block}.kundli-topic{break-inside:avoid}}
+.kundli-reading{font-family:system-ui,'Noto Sans Devanagari','Noto Sans Gujarati',sans-serif}
+.kundli-reading-grid{align-items:start;gap:1rem}.kundli-topic{padding:1.15rem}
+.kundli-topic h3{padding-bottom:.65rem;border-bottom:1px solid var(--ui-edge);margin-bottom:.85rem;line-height:1.5}
+.kundli-topic .kundli-topic-lead,.kundli-topic p{line-height:1.9;text-wrap:pretty;max-width:68ch}
+.kundli-topic .kundli-topic-action{margin-top:1rem;line-height:1.8;border-inline-start:3px solid var(--ui-accent)}
+.kundli-identity dd{line-height:1.5}.kundli-topic details summary{line-height:1.6}
+.vedic-matching .birthplace-options,.vedic-time-machine .birthplace-options{position:static;max-height:14rem;box-shadow:none}
