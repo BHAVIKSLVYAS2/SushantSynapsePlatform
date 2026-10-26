@@ -6,6 +6,8 @@ vowel marks are not clipped. Uniform cards are 150px (previously 140px), keeping
 icons, names and introductions inside the card. Launcher browser flow passed,
 including native-language typography at 320/360/390/430/768px, language retention,
 themes, search and navigation. Hindi and Gujarati mobile screenshots reviewed.
+Deployed source `b9a1305`, Worker `3912e97c-8499-4e78-b77b-9563746e491d`.
+The same launcher browser flow passed against production after deployment.
 
 **Ritvayam home tile mockup refinement (2026-10-26):** Rebuilt the feature
 presentation around an Om identity, small moon artwork, compact calendar facts,
