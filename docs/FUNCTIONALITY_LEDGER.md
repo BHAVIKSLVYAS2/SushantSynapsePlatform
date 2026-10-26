@@ -13,7 +13,12 @@ multiple birth dates/times, leap-day correction, unselected-city recovery, swaps
 clear, three languages, Time Machine calculations and Curio manifest/title.
 Additional regression: 9 existing civil-input/matching/Time Machine workflows
 passed, including two selector updates for new status/table disclosures. Release
-Node checks: 19 passed. Production evidence follows deployment.
+Node checks: 19 passed. Source e5d2ee5 deployed to apps.sushantsynapse.com,
+Worker 325610ef-9740-4763-8ca9-510cb563fe8e. Seven live workflows passed:
+Hindi/Gujarati generation/download/print, saved-input/numeric parity, comparison
+validation across sample dates and languages, Time Machine, Curio title/manifest
+and native Rashifal headline/paragraph layout. /healthz 200; unscoped /api/records
+409. Existing bindings/variables/data preserved; no schema change.
 
 **Native Kundali and reading refinement (2026-10-26):** Added kundli-prose-2
 complete authored en/hi/gu topic sentences, reused in the screen and private
@@ -29,7 +34,8 @@ conditions; internal-candidate acceptance is unchanged, not certified prediction
 accuracy. Scope and limits: docs/vedic/READING_LANGUAGE_REVIEW.md. Eight reading
 browser checks, one native headline/layout check and all ten native production
 report/language workflows passed (two duration-limited checks passed on retry).
-Production release verification follows deployment.
+Production native generation/export/layout verification passed as part of the
+seven live workflows recorded above.
 
 **Simpler home entry (2026-10-26):** Removed the Explore Apps/My Workspace entry
 cards and the public grid's Explore apps heading/intro block. Home now starts
