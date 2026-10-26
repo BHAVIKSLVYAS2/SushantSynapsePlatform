@@ -9,6 +9,8 @@ Closed English mobile tile is approximately 417px at 390px width (previously
 about 640px). Added a sub-440px regression check at 390px. Two browser flows
 passed across 320/360/390/430/768/1280px, light/dark previews, language switching,
 city search/retention and exact Choghadiya boundaries. Calculations unchanged.
+Deployed source `7b63dcd`, Worker `0ea4c677-7dbb-4a8c-879b-ac296a2877ca`.
+Both browser flows also passed against production, including the height check.
 
 **Indic launcher title clipping (2026-10-26):** Increased app-name line height
 from 15px to 20px and its two-line space from 30px to 40px so Hindi/Gujarati
