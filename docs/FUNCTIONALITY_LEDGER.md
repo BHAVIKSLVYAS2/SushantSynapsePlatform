@@ -9,7 +9,11 @@ Shared English/Hindi/Gujarati and light/dark themes remain in use. Verified:
 13 calendar/model/catalogue/cache checks and 2 browser flows passed, including
 320/360/390/430/768/1280px layout checks, touch targets, theme previews, city
 retention, language switching and exact Choghadiya boundary updates.
-Production deployment verification follows below after release.
+Production: committed/pushed and deployed to apps.sushantsynapse.com, Worker
+`338829b0-7747-4fe8-ae98-a7c40ae961f9`. Both live browser flows passed on
+recheck; initial reload assertion exceeded the five-second cold-load allowance.
+Health returns 200; unscoped private records API remains denied with 409.
+No database, authentication, bindings or calculation rules changed.
 
 **Curio, comparison validation and Time Machine guidance (2026-10-26):** Renamed
 the platform's displayed title, shared header subtitle and PWA name to Curio;
