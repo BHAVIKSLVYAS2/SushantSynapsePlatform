@@ -1,5 +1,16 @@
 # Chambers functionality ledger
 
+**Ritvayam home tile mockup refinement (2026-10-26):** Rebuilt the feature
+presentation around an Om identity, small moon artwork, compact calendar facts,
+Sun/Moon event row, retained city picker, expandable current Choghadiya strip and
+equal Rashifal/Kundli action buttons. Home-only compact mode reuses the existing
+almanac component and calculations; the full Rashifal panel remains unchanged.
+Shared English/Hindi/Gujarati and light/dark themes remain in use. Verified:
+13 calendar/model/catalogue/cache checks and 2 browser flows passed, including
+320/360/390/430/768/1280px layout checks, touch targets, theme previews, city
+retention, language switching and exact Choghadiya boundary updates.
+Production deployment verification follows below after release.
+
 **Curio, comparison validation and Time Machine guidance (2026-10-26):** Renamed
 the platform's displayed title, shared header subtitle and PWA name to Curio;
 manifest ID/start URL, app routes and organisation branding remain. Matching and

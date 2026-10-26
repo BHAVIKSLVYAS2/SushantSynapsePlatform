@@ -9,8 +9,8 @@ const labels={
 };
 const names=labels.en.names,key='ritvayam.almanac-city.v1',fallback='geonames:1261481';
 const el=(tag,text)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;return node;};
-export function mountDailyAlmanac(container,{now=()=>Date.now()}={}){
- const root=el('section');root.className='daily-almanac';root.setAttribute('translate','no');
+export function mountDailyAlmanac(container,{now=()=>Date.now(),compact=false}={}){
+ const root=el('section');root.className='daily-almanac'+(compact?' almanac-compact':'');root.setAttribute('translate','no');
  let language=window.SynapseLanguage?.get()||'en',placeId=fallback,explicit=false,cached=null;
  try{const saved=localStorage.getItem(key);if(saved){getPlace(saved);placeId=saved;explicit=true;}}catch{}
  const title=el('h3'),locality=el('p'),reference=el('p'),change=el('details'),summary=el('summary'),label=el('label'),caption=el('span'),input=el('input'),matches=el('div'),searchStatus=el('p');
@@ -18,7 +18,8 @@ export function mountDailyAlmanac(container,{now=()=>Date.now()}={}){
  const header=el('div');header.className='almanac-heading';header.append(title,change);locality.className='almanac-locality';reference.className='almanac-note';
  const facts=el('dl');facts.className='almanac-events';const current=el('p');current.className='almanac-current';current.role='status';
  const details=el('details'),detailsSummary=el('summary'),periods=el('div'),note=el('p'),source=el('a');periods.className='almanac-periods';note.className='almanac-note';source.href='https://www.drikpanchang.com/tutorials/muhurat/daily/choghadiya-muhurat.html?lang=en';source.target='_blank';source.rel='noopener noreferrer';source.referrerPolicy='no-referrer';details.append(detailsSummary,periods,note,source);
- root.append(header,locality,reference,facts,current,details);container.append(root);
+ root.append(header,locality,reference,facts,current,details);if(compact){current.remove();detailsSummary.append(current);root.insertBefore(facts,header);}
+ container.append(root);
  function search(){matches.replaceChildren();searchStatus.textContent='';if(input.value.trim().length<2)return;
   let found=[];try{found=searchPlaces(input.value,{limit:8}).matches;}catch{}
   if(!found.length)searchStatus.textContent=labels[language].none;
@@ -26,15 +27,15 @@ export function mountDailyAlmanac(container,{now=()=>Date.now()}={}){
  }
  input.addEventListener('input',search);
  function render(){
-  const t=labels[language],instant=now(),date=istDate(instant);root.lang=language;root.dataset.placeId=placeId;title.textContent=t.title;summary.textContent=t.city;caption.textContent=t.search;reference.textContent=t.reference;reference.hidden=explicit;
+  const t=labels[language],instant=now(),date=istDate(instant);root.lang=language;root.dataset.placeId=placeId;title.textContent=t.title;summary.textContent=compact?placeLabel(getPlace(placeId),language).split(',')[0]:t.city;summary.setAttribute('aria-label',t.city+': '+placeLabel(getPlace(placeId),language));caption.textContent=t.search;reference.textContent=t.reference;reference.hidden=explicit;
   locality.textContent=placeLabel(getPlace(placeId),language)+' · '+new Intl.DateTimeFormat(({en:'en-IN',hi:'hi-IN',gu:'gu-IN'})[language],{timeZone:'Asia/Kolkata',day:'numeric',month:'short',year:'numeric'}).format(instant)+' · IST';
-  detailsSummary.textContent=t.all;note.textContent=t.note;source.textContent=t.source;facts.replaceChildren();periods.replaceChildren();
+  if(!compact)detailsSummary.textContent=t.all;else detailsSummary.setAttribute('aria-label',t.all);note.textContent=t.note;source.textContent=t.source;facts.replaceChildren();periods.replaceChildren();
   const locale=({en:'en-IN',hi:'hi-IN',gu:'gu-IN'})[language],clock=new Intl.DateTimeFormat(locale,{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',hour12:true});
   const time=value=>{if(value===null)return t.noEvent;const text=clock.format(value);return istDate(value)===date?text:text+' ('+new Intl.DateTimeFormat(locale,{timeZone:'Asia/Kolkata',day:'numeric',month:'short'}).format(value)+')';};
   const name=slot=>t.names[names.indexOf(slot.name)],range=slot=>time(slot.start)+' – '+time(slot.end);
   try{
    if(!cached||cached.localDate!==date)cached=dailyAlmanac({localDate:date,placeId});
-   for(const field of ['sunrise','sunset','moonrise','moonset']){const item=el('div');item.dataset.almanacEvent=field;item.append(el('dt',t[field]),el('dd',time(cached[field])));facts.append(item);}
+   for(const field of ['sunrise','sunset','moonrise','moonset']){const item=el('div');item.dataset.almanacEvent=field;item.append(el('dt',t[field]),el('dd',time(cached[field])));if(compact){const icon=el('span',({sunrise:'\u2600\u2191',sunset:'\u2600\u2193',moonrise:'\u263d\u2191',moonset:'\u263d\u2193'})[field]);icon.className='almanac-event-icon';icon.setAttribute('aria-hidden','true');item.prepend(icon);}facts.append(item);}
    const before=instant<cached.sunrise,night=before?cached.previousNight:cached.night,active=currentChoghadiya([...cached.day,...night],instant);
    current.textContent=active?`${t.now}: ${name(active)} · ${range(active)}`:t.unavailable;
    if(active){current.dataset.period=active.period;current.dataset.name=active.name;}else{delete current.dataset.period;delete current.dataset.name;}

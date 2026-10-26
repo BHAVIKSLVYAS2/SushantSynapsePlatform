@@ -104,6 +104,7 @@ Rashifal & Kundli|राशिफल और कुंडली|રાશિફ�
 YOUR DAILY CELESTIAL PAUSE|दिन का एक शांत विराम|દિવસનો એક શાંત વિરામ
 Your day, guided by tradition.|परंपरा के साथ, दिन की शुरुआत।|પરંપરા સાથે દિવસની શરૂઆત.
 Daily Rashifal · Kundli · Panchang|दैनिक राशिफल · कुंडली · पंचांग|દૈનિક રાશિફળ · કુંડળી · પંચાંગ
+Rashifal · Kundli · Panchang|राशिफल · कुंडली · पंचांग|રાશિફળ · કુંડળી · પંચાંગ
 A moment to reflect. A chart to explore.|मनन के कुछ पल। कुंडली की एक झलक।|મનન માટે થોડી ક્ષણો. કુંડળીની એક ઝલક.
 Preview|पूर्वावलोकन|પૂર્વાવલોકન
 Discover today’s lunar calendar in IST|आज का चंद्र पंचांग भारतीय समय में देखें|આજનું ચંદ્ર પંચાંગ ભારતીય સમયમાં જુઓ

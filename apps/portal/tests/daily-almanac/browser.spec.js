@@ -9,6 +9,17 @@ async function home(page,instant='2026-10-25T08:30:00Z'){
 test('local events, live highlight, city retention, shared languages and compact responsive delivery',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await home(page);const panel=page.locator('.daily-almanac');
  await expect(page.locator('#home-vedic-title')).toHaveText('Ritvayam');await expect(panel.locator('[data-almanac-event]')).toHaveCount(4);await expect(panel.locator('.almanac-locality')).toContainText('New Delhi');await expect(panel.locator('.almanac-current')).toContainText('Shubh');
+ await expect(panel).toHaveClass(/almanac-compact/);
+ for(const width of [320,360,390,430,768,1280]){
+  await page.setViewportSize({width,height:1000});
+  const buttons=await page.locator('.home-vedic-actions a').evaluateAll(nodes=>nodes.map(node=>{const r=node.getBoundingClientRect();return {top:r.top,height:r.height};}));
+  expect(buttons[0].top).toBe(buttons[1].top);expect(buttons.every(button=>button.height>=44)).toBe(true);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  if([390,1280].includes(width))for(const theme of ['light','dark']){
+   await page.evaluate(theme=>SynapseTheme.write(theme),theme);
+   await page.locator('[data-home-vedic]').screenshot({path:test.info().outputPath(`ritvayam-${width}-${theme}.png`)});
+  }
+ }
  await panel.locator('details').last().locator('summary').click();await expect(panel.locator('li')).toHaveCount(16);await expect(panel.locator('[aria-current=time]')).toHaveCount(1);
  const boundary=Number(await panel.locator('[aria-current=time]').getAttribute('data-end'));await page.clock.setFixedTime(new Date(boundary));await expect(panel.locator('.almanac-current')).toContainText('Rog');await expect(panel.locator('li[aria-current=time]')).toHaveAttribute('data-choghadiya','Rog');
  for(const language of ['hi','gu','en']){await page.evaluate(language=>SynapseLanguage.set(language),language);await expect(panel).toHaveAttribute('lang',language);await expect(panel.locator('[data-almanac-event=sunrise] dt')).toHaveText(({en:'Sunrise',hi:'सूर्योदय',gu:'સૂર્યોદય'})[language]);await expect(panel.locator('li[aria-current=time]')).toHaveCount(1);}
