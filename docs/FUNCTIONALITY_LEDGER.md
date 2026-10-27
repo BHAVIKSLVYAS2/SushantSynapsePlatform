@@ -5,6 +5,11 @@ committing and deploying the already verified Ritvayam journey and Curio header
 changes. The earlier uncommitted-release notes below describe their original
 deployments. This follow-up records the same implementation in Git and republishes
 it with existing production variables/bindings preserved.
+Implementation commit `ecb00a4` pushed and deployed as Worker
+`bc0f67f6-fb7a-46d8-937d-f8cf6a924c76`. Live Kundli generation/edit/download
+and Curio header/title checks passed (2 flows). Health 200; unscoped private
+records remain denied with 409. Previously deployed frontend asset bytes were
+unchanged; this republish records the verified implementation in Git.
 
 **Curio brand hierarchy (2026-10-26, uncommitted):** Shared and fallback portal
 headers show Curio as the primary text and by Sushant Synapse as the smaller
