@@ -1,5 +1,11 @@
 # Chambers functionality ledger
 
+**Gujarati Ritvayam name correction (2026-10-29):** Updated the shared Gujarati
+app name and Kundli journey copy to `ઋત્વયમ્`, aligned with Hindi `ऋत्वयम्`.
+Rebuilt shared navigation and app bundles; four catalogue checks and build pass.
+Release evidence: `.publish/deploy-ritvayam-gujarati-name.log` and
+`.publish/ritvayam-gujarati-name-live.log`. Routes and layout are unchanged.
+
 **Single-row Choghadiya strip (2026-10-29):** Reduced the home card's current
 Choghadiya to one horizontal row: label/name, partition, interval, crossing-date
 label and disclosure arrow. Mobile height is about 44px and desktop stays below
