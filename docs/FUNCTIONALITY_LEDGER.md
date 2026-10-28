@@ -1,5 +1,21 @@
 # Chambers functionality ledger
 
+**Shared Ritvayam tile arrangement (2026-10-28):** User requested the same layout
+on web and mobile. Mobile now preserves the desktop grid: logo/name at left,
+bordered date/location at right, three calendar facts, four event times, current
+period and two side-by-side actions. Removed the separate mobile date row and
+narrow-screen stacked action variant. Text can wrap without scaling the whole
+card; readable fact/action sizes and touch targets remain. Compact city text is
+wrapped in its own span so long translated names fit between pin and disclosure
+arrow. Opening city search expands across the mobile tile; closing restores the
+shared arrangement. Chrome/WebKit previews cover five widths, both themes and
+en/hi/gu. Three functional browser workflows pass, with a final regression check
+for the header's shared grid coordinates, side-by-side actions and readable
+timing text. Evidence: `.publish/ritvayam-unified-review.log`,
+`.publish/ritvayam-unified-tests.log`, `.publish/ritvayam-unified-final.log`,
+`.publish/ritvayam-unified-model.log`. Release evidence:
+`.publish/deploy-ritvayam-unified.log`, `.publish/ritvayam-unified-live.log`.
+
 **Ritvayam mobile readability correction (2026-10-28):** Reviewed the user's
 393px Hindi screenshot and corrected the mobile layout rather than merely
 checking page overflow. Fact labels are 11px minimum, dates/subtitles 12px,

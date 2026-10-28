@@ -14,6 +14,7 @@ export function mountDailyAlmanac(container,{now=()=>Date.now(),compact=false}={
  let language=window.SynapseLanguage?.get()||'en',placeId=fallback,explicit=false,cached=null,lastRender='';
  try{const saved=localStorage.getItem(key);if(saved){getPlace(saved);placeId=saved;explicit=true;}}catch{}
  const title=el('h3'),locality=el('p'),reference=el('p'),change=el('details'),summary=el('summary'),label=el('label'),caption=el('span'),input=el('input'),matches=el('div'),searchStatus=el('p');
+ const cityName=el('span');if(compact)summary.append(cityName);
  input.type='search';input.autocomplete='off';input.maxLength=100;label.append(caption,input);matches.className='almanac-city-results';searchStatus.role='status';change.append(summary,label,matches,searchStatus);
  const header=el('div');header.className='almanac-heading';header.append(title,change);locality.className='almanac-locality';reference.className='almanac-note';
  const facts=el('dl');facts.className='almanac-events';const current=el('p');current.className='almanac-current';current.role='status';
@@ -30,7 +31,7 @@ export function mountDailyAlmanac(container,{now=()=>Date.now(),compact=false}={
   const t=labels[language],instant=now(),date=istDate(instant);
   const active=cached&&currentChoghadiya([...cached.previousNight,...cached.day,...cached.night],instant),renderKey=[date,placeId,language,explicit,active?.start].join(':');
   if(cached?.localDate===date&&lastRender===renderKey)return;
-  root.lang=language;root.dataset.placeId=placeId;title.textContent=t.title;summary.textContent=compact?placeLabel(getPlace(placeId),language).split(',')[0]:t.city;summary.setAttribute('aria-label',t.city+': '+placeLabel(getPlace(placeId),language));caption.textContent=t.search;reference.textContent=t.reference;reference.hidden=explicit;
+  root.lang=language;root.dataset.placeId=placeId;title.textContent=t.title;if(compact)cityName.textContent=placeLabel(getPlace(placeId),language).split(',')[0];else summary.textContent=t.city;summary.setAttribute('aria-label',t.city+': '+placeLabel(getPlace(placeId),language));caption.textContent=t.search;reference.textContent=t.reference;reference.hidden=explicit;
   locality.textContent=placeLabel(getPlace(placeId),language)+' · '+new Intl.DateTimeFormat(({en:'en-IN',hi:'hi-IN',gu:'gu-IN'})[language],{timeZone:'Asia/Kolkata',day:'numeric',month:'short',year:'numeric'}).format(instant)+' · IST';
   if(!compact)detailsSummary.textContent=t.all;else detailsSummary.setAttribute('aria-label',t.all);note.textContent=t.note;source.textContent=t.source;facts.replaceChildren();periods.replaceChildren();
   const locale=({en:'en-IN',hi:'hi-IN',gu:'gu-IN'})[language],clock=new Intl.DateTimeFormat(locale,{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',hour12:!compact});

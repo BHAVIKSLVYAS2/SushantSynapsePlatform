@@ -17,7 +17,8 @@ test('local events, live highlight, city retention, shared languages and compact
   expect((await panel.locator('.almanac-current').boundingBox()).height).toBeLessThan(90);
   const buttons=await page.locator('.home-vedic-actions a').evaluateAll(nodes=>nodes.map(node=>{const r=node.getBoundingClientRect();return {top:r.top,height:r.height};}));
   if(width===390)expect((await page.locator('[data-home-vedic]').boundingBox()).height).toBeLessThan(650);
-  if(width>370)expect(buttons[0].top).toBe(buttons[1].top);else expect(buttons[1].top).toBeGreaterThan(buttons[0].top);
+  expect(buttons[0].top).toBe(buttons[1].top);
+  const headerLayout=await page.locator('.home-vedic-calendar-line').evaluate(node=>({column:getComputedStyle(node).gridColumnStart,row:getComputedStyle(node).gridRowStart}));expect(headerLayout).toEqual({column:'3',row:'1'});
   expect(buttons.every(button=>button.height>=44)).toBe(true);
   if(width<=699){
    const sizes=await page.locator('[data-home-vedic]').evaluate(card=>({labels:[...card.querySelectorAll('.home-vedic-facts dt')].map(n=>parseFloat(getComputedStyle(n).fontSize)),actions:[...card.querySelectorAll('.home-vedic-actions a')].map(n=>parseFloat(getComputedStyle(n).fontSize)),times:[...card.querySelectorAll('.almanac-events dd')].map(n=>({fits:n.scrollWidth<=n.clientWidth,wrap:getComputedStyle(n).whiteSpace}))}));
