@@ -1,5 +1,28 @@
 # Chambers functionality ledger
 
+**Site-wide customer-copy cleanup (2026-10-28):** Shortened the repeated shared
+notice in en/hi/gu, removed optional Panchang/guide reference lists from customer
+views and checklist downloads, simplified calculation prose and internal
+review-status labels, removed Rashifal internal publication/profile metadata,
+and shortened outage/Chambers developer-facing wording. Privacy terms, required
+licence/data notices, source records, meaningful limitations, all controls and
+stored records remain. Targeted source scope and exact changes are recorded in
+`docs/CUSTOMER_COPY_CLEANUP_2026-10-28.md`. 21 model/guide checks and 8 existing
+browser workflows passed; public-page checks passed 26 routes. Build and
+whitespace checks passed. Release evidence: `.publish/deploy-customer-copy.log`
+and `.publish/customer-copy-live.log`. No production business-data, binding or
+permission changes.
+
+**Panchang third-party-reference review (2026-10-28):** Inspected the live
+almanac's source link and local calculation code. Drik Panchang is linked as a
+Choghadiya-method reference; no Drik runtime API/feed is used by this feature.
+Solar/lunar events are computed with the bundled astronomy engine and local
+place directory. External reference fixtures support comparison, not provider
+certification. UI source links can be consolidated into methodology/credits
+without introducing a data-provider dependency; applicable bundled-code/data
+notices should be retained. No UI/source-link change, commit or deployment in
+this review.
+
 **Home-only normal-weight, single-line labels (2026-10-28):** User clarified
 scope as the home Ritvayam card's labels/buttons. Removed bold styling from its
 values, timing text, current-period name, city control and actions; logo branding
