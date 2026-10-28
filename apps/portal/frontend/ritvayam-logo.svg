@@ -1,7 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none">
- <defs><linearGradient id="n" x2="96" y2="96" gradientUnits="userSpaceOnUse"><stop stop-color="#203861"/><stop offset="1" stop-color="#09152e"/></linearGradient><linearGradient id="g" x2="80" y2="85" gradientUnits="userSpaceOnUse"><stop stop-color="#fff0b5"/><stop offset=".5" stop-color="#e9c474"/><stop offset="1" stop-color="#b98536"/></linearGradient></defs>
- <rect x="2" y="2" width="92" height="92" rx="23" fill="url(#n)" stroke="url(#g)" stroke-width="2"/>
- <path d="M28 71V29h17c22 0 25 25 5 29l19 16M29 31h15c15 0 16 21 0 21H30" stroke="url(#g)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
- <path d="M48 80c-17-1-27-8-31-19 15 0 24 6 31 19Zm0 0c15 0 28-8 32-22-16 2-25 9-32 22Zm10-13c-2-12 2-21 12-28 3 13-1 22-12 28Z" fill="url(#g)"/>
- <path d="m50 12 2 6 6 2-6 2-2 6-2-6-6-2 6-2Z" fill="url(#g)"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+ <defs>
+  <linearGradient id="navy" x1="10" y1="5" x2="112" y2="126" gradientUnits="userSpaceOnUse"><stop stop-color="#283966"/><stop offset=".45" stop-color="#101b42"/><stop offset="1" stop-color="#07152f"/></linearGradient>
+  <linearGradient id="gold" x1="24" y1="19" x2="103" y2="114" gradientUnits="userSpaceOnUse"><stop stop-color="#fff3bf"/><stop offset=".4" stop-color="#edce80"/><stop offset=".72" stop-color="#ce9d4b"/><stop offset="1" stop-color="#ffe6a1"/></linearGradient>
+ </defs>
+ <rect x="3" y="3" width="122" height="122" rx="30" fill="url(#navy)" stroke="url(#gold)" stroke-width="2.5"/>
+ <rect x="7" y="7" width="114" height="114" rx="26" stroke="#fff4c0" stroke-opacity=".12"/>
+ <g fill="url(#gold)">
+  <path d="m65 12 2.4 7.2L75 22l-7.6 2.4L65 32l-2.4-7.6L55 22l7.6-2.8Z"/>
+  <path d="M27 34c18 3 38-1 56 1-14 0-27 3-40 2-6 0-12-1-16-3Z"/>
+  <path d="M55 37c-7 13-4 23 4 29 6-8 8-20-4-29Z"/>
+  <path d="M68 36c18 6 26 16 21 28-3 9-13 15-25 15 12-6 18-13 17-22-1-8-6-15-13-21Z"/>
+  <path d="M50 61c-13-6-23-4-31 3 16-3 25 1 31 10 9 13 13 33 31 35-10-6-13-19-18-29-3-6-7-14-13-19Z"/>
+  <path d="M55 71c-3 16-13 23-27 34 6-15 13-26 27-34Z"/>
+  <path d="M75 83c-3-13 1-25 13-34 2 17-3 28-13 34Z"/>
+  <path d="M77 95c2-15 13-24 28-26-5 15-15 24-28 26Z"/>
+  <path d="M78 102c11-1 22-6 30-14-5 17-18 23-31 19-7-2-13-7-17-15 6 5 11 9 18 10Z"/>
+ </g>
 </svg>

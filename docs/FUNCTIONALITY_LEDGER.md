@@ -1,5 +1,26 @@
 # Chambers functionality ledger
 
+**Ritvayam visual-reference correction (2026-10-28):** Replaced the overly loose
+teal/platform interpretation with the supplied card's ivory/navy and gold palette,
+serif wordmark with gold leaf, flowing gold emblem, bordered information rows,
+gold current-period panel and indigo/outlined actions. Local card tokens preserve
+the rest of the homepage. Desktop proportions follow the reference; mobile keeps
+the compact header/date/location arrangement and 2×2 sun/moon cells. Structured
+current-period text separates Now, name, times and cross-date labels; gold is
+reserved for Shubh/Labh/Amrit, with distinct neutral/challenging tones. The full
+date remains available as a title while the displayed date uses a short month.
+Actual city/time calculations, picker, disclosures, localization and routes remain.
+Reference screenshot values are not hardcoded. Six browser workflows, seven model
+checks and build/whitespace passed. Live reference-date Dungarpur calculations
+reproduce the supplied times, with next-day label, serif wordmark, four viewport
+sizes and working details verified. Deployed with --keep-vars as Worker
+`c01e3ca5-10ac-4c86-954a-baa9f52dc0e9`. User authorized committing and republishing
+this verified correction; release log: `.publish/deploy-ritvayam-reference-committed.log`.
+Evidence: `.publish/ritvayam-reference-tests-final.log`,
+`.publish/ritvayam-reference-preview.log`, `.publish/deploy-ritvayam-reference.log`,
+`.publish/ritvayam-reference-live.log`, `ritvayam-reference-live-light.png` and
+`ritvayam-reference-live-dark.png`.
+
 **Measured frontend performance pass (2026-10-28):** Audit and ranked
 findings: `docs/FRONTEND_PERFORMANCE_AUDIT_2026-10-28.md`. UTF-8 bundles reduce
 language JS 268,712→157,491 bytes (gzip 52,419→44,375); matching JS is 16.3%

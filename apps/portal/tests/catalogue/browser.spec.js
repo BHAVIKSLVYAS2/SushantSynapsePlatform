@@ -1,5 +1,12 @@
 const {test,expect}=require('../../../../tests/browser-fixture.js');
 
+test('Ritvayam follows the supplied ivory navy gold reference and preserves live controls',async({page})=>{
+ await page.clock.setFixedTime(new Date('2026-10-25T08:30:00Z'));await page.goto(base+'/');const card=page.locator('[data-home-vedic]');await card.scrollIntoViewIfNeeded();await expect(card).toHaveAttribute('data-calendar-ready','true');await expect(card.locator('h2')).toHaveCSS('font-family',/Georgia/);await expect(card.locator('.almanac-current')).toHaveAttribute('data-tone','positive');await expect(card.locator('.almanac-current-identity strong')).toHaveText('Shubh');await expect(card.locator('[data-vedic-action-label]').first()).toHaveText('View My Rashifal');
+ for(const theme of ['light','dark']){await page.evaluate(theme=>SynapseTheme.write(theme),theme);const values=await card.evaluate(node=>({ink:getComputedStyle(node).getPropertyValue('--rv-ink').trim(),button:getComputedStyle(node).getPropertyValue('--rv-indigo').trim()}));expect(values.ink).toBe(theme==='light'?'#10162e':'#f6f3eb');expect(values.button).toBe(theme==='light'?'#202e78':'#202f7e');}
+ await card.locator('.almanac-compact>details>summary').click();await expect(card.locator('li[aria-current=time]')).toHaveCount(1);const end=Number(await card.locator('li[aria-current=time]').getAttribute('data-end'));await page.clock.setFixedTime(new Date(end));await expect(card.locator('.almanac-current')).toHaveAttribute('data-tone','challenging');await expect(card.locator('.almanac-current-identity strong')).toHaveText('Rog');
+ for(const language of ['hi','gu','en']){await page.evaluate(language=>SynapseLanguage.set(language),language);await expect(card.locator('.daily-almanac')).toHaveAttribute('lang',language);for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}}
+});
+
 test('UX review: home search includes featured Ritvayam and hides unrelated content',async({page})=>{
  await page.setViewportSize({width:390,height:900});await page.goto(base+'/');await page.locator('#home-search-input').fill('kundli');
  await page.screenshot({path:'.publish/ui-ux-audit/home-search-'+(process.env.UI_AUDIT_BASELINE?'before':'after')+'.png',fullPage:true});
@@ -63,7 +70,7 @@ test('Rashifal feature replaces Daily Satire with a live calendar and working ap
  const card=page.locator('[data-home-vedic]');await card.scrollIntoViewIfNeeded();await expect(card).toHaveAttribute('data-calendar-ready','true');
  await expect(card.locator('h2')).toHaveText('Ritvayam');await expect(card.locator('.ritvayam-mark')).toHaveCount(1);
  await expect(card.locator('[data-vedic-samvat]')).toHaveText('2083');await expect(card.locator('[data-vedic-month]')).toHaveText('Ashvina');
- await expect(card.locator('[data-vedic-date]')).toContainText('25 October 2026');await expect(card.locator('[data-vedic-tithi]')).not.toHaveText('—');
+ await expect(card.locator('[data-vedic-date]')).toContainText('25 Oct 2026');await expect(card.locator('[data-vedic-tithi]')).not.toHaveText('—');
  await expect(card.getByRole('link',{name:'Read your Rashifal'})).toHaveAttribute('href','/rashifal-kundli/rashifal');await expect(card.getByRole('link',{name:'Explore Kundli'})).toHaveAttribute('href','/rashifal-kundli');
  await expect(page.locator('.arena-discovery,[data-home-satire]')).toHaveCount(0);expect(editorial).toEqual([]);
  for(const width of [320,390,768,1440])for(const theme of ['light','dark','system']){
@@ -73,7 +80,7 @@ test('Rashifal feature replaces Daily Satire with a live calendar and working ap
  await page.evaluate(()=>SynapseTheme.write('dark'));await card.screenshot({path:'.publish/home-vedic-mobile-dark.png'});
  await page.setViewportSize({width:1440,height:1000});await card.screenshot({path:'.publish/home-vedic-desktop-dark.png'});
  await page.evaluate(()=>localStorage.setItem('synapse-language','hi'));await page.reload();await card.scrollIntoViewIfNeeded();await expect(card.locator('[data-vedic-month]')).toContainText('आश्विन');await expect(card.locator('[data-vedic-samvat-label]')).toHaveText('विक्रम संवत');
- await page.evaluate(()=>SynapseLanguage.set('gu'));await expect(card.locator('[data-vedic-month]')).toContainText('આસો');await expect(card.locator('[data-vedic-samvat-label]')).toHaveText('વિક્રમ સંવત');await expect(card.locator('[data-vedic-date]')).toContainText('ઑક્ટોબર');await card.screenshot({path:'.publish/ritvayam-home-gu.png'});
+ await page.evaluate(()=>SynapseLanguage.set('gu'));await expect(card.locator('[data-vedic-month]')).toContainText('આસો');await expect(card.locator('[data-vedic-samvat-label]')).toHaveText('વિક્રમ સંવત');await expect(card.locator('[data-vedic-date]')).toContainText('ઑક્ટો');await card.screenshot({path:'.publish/ritvayam-home-gu.png'});
  const retired=await page.request.get(base+'/satire-arena/daily',{maxRedirects:0});expect(retired.status()).toBe(308);expect(retired.headers().location).toBe('/satire-arena');
  expect(errors).toEqual([]);
 });

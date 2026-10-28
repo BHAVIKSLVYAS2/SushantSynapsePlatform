@@ -42,6 +42,13 @@ export function mountDailyAlmanac(container,{now=()=>Date.now(),compact=false}={
    const before=instant<cached.sunrise,night=before?cached.previousNight:cached.night,active=currentChoghadiya([...cached.day,...night],instant);
    current.setAttribute('aria-label',t.now);current.title=t.now;
    current.textContent=active?`${compact?t.current+' · ':t.now+': '}${name(active)} · ${range(active)}`:t.unavailable;
+   if(compact&&active){
+    const identity=el('span'),nowLabel=el('span',t.current),periodName=el('strong',name(active)),timing=el('span'),hours=el('strong',clock.format(active.start)+' – '+clock.format(active.end));
+    identity.className='almanac-current-identity';nowLabel.className='almanac-current-label';timing.className='almanac-current-timing';identity.append(nowLabel,periodName);timing.append(hours);
+    const dateLabel=value=>new Intl.DateTimeFormat(locale,{timeZone:'Asia/Kolkata',day:'numeric',month:'short'}).format(value);
+    if(istDate(active.start)!==istDate(active.end))timing.append(el('small','('+(istDate(active.start)===date?dateLabel(active.end):dateLabel(active.start)+' → '+dateLabel(active.end))+')'));
+    current.replaceChildren(identity,timing);current.dataset.tone=['Shubh','Labh','Amrit'].includes(active.name)?'positive':active.name==='Char'?'neutral':'challenging';
+   }else delete current.dataset.tone;
    if(active){current.dataset.period=active.period;current.dataset.name=active.name;}else{delete current.dataset.period;delete current.dataset.name;}
    for(const [heading,slots]of [[t.day,cached.day],[before?t.previous+' · '+t.night:t.night,night]]){
     const group=el('section'),list=el('ol');group.append(el('h4',heading),list);

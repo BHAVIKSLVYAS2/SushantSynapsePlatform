@@ -21,6 +21,8 @@ const staticAssets={
  '/home-discovery.js':'apps/portal/frontend/home-discovery.js',
  '/home-vedic.js':'apps/portal/frontend/home-vedic.js',
  '/ritvayam-logo.svg':'apps/portal/frontend/ritvayam-logo.svg',
+ '/ritvayam-petals.svg':'apps/portal/frontend/ritvayam-petals.svg',
+ '/ritvayam-leaf.svg':'apps/portal/frontend/ritvayam-leaf.svg',
  '/home-art.svg':'apps/portal/frontend/home-art.svg',
  '/shared/premium.css':'packages/ui/premium.bundle.css',
  '/satire-arena/editor':'apps/satire-arena/frontend/editor.html',
