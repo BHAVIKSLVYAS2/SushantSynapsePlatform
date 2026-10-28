@@ -63,7 +63,7 @@ export function mountDailyAlmanac(container,{now=()=>Date.now(),compact=false}={
    current.setAttribute('aria-label',t.now);current.title=t.now;
    current.textContent=active?`${compact?t.current+' · ':t.now+': '}${name(active)} · ${range(active)}`:t.unavailable;
    if(compact&&active){
-    const identity=el('span'),nowLabel=el('span',t.current),periodName=el('strong',name(active)),timing=el('span'),hours=el('strong',clock.format(active.start)+' – '+clock.format(active.end));
+    const identity=el('span'),nowLabel=el('span',({en:'Choghadiya',hi:'चौघड़िया',gu:'ચોઘડિયું'})[language]),periodName=el('strong',name(active)),timing=el('span'),hours=el('strong',clock.format(active.start)+' – '+clock.format(active.end));
     identity.className='almanac-current-identity';nowLabel.className='almanac-current-label';timing.className='almanac-current-timing';identity.append(nowLabel,periodName);timing.append(hours);
     const dateLabel=value=>new Intl.DateTimeFormat(locale,{timeZone:'Asia/Kolkata',day:'numeric',month:'short'}).format(value);
     if(istDate(active.start)!==istDate(active.end))timing.append(el('small','('+(istDate(active.start)===date?dateLabel(active.end):dateLabel(active.start)+' → '+dateLabel(active.end))+')'));

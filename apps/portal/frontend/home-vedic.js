@@ -8,7 +8,7 @@
   const card=document.querySelector('[data-home-vedic]');if(!card||!active||document.visibilityState==='hidden')return;
   const lang=language(),minute=Math.floor(Date.now()/60000);if(!force&&minute===lastMinute&&lastLanguage===lang)return;
   lastMinute=minute;lastLanguage=lang;const current=++revision;
-  const put=(key,text)=>{const node=card.querySelector('[data-vedic-'+key+']');if(node&&node.textContent!==text)node.textContent=text;};
+  const put=(key,text)=>{const node=card.querySelector('[data-vedic-'+key+']');if(node&&(node.querySelector('.vedic-value-full')?.textContent??node.textContent)!==text)node.textContent=text;};
   try{engine||=import('/rashifal-kundli/home-calendar.mjs').catch(error=>{engine=null;throw error;});const {homeCalendar,mountDailyAlmanac}=await engine;
    if(current!==revision||!card.isConnected)return;if(!card.querySelector('.daily-almanac'))mountDailyAlmanac(card.querySelector('[data-home-almanac]'),{compact:true});const panel=card.querySelector('.daily-almanac');const line=card.querySelector('.home-vedic-calendar-line');if(line&&panel.querySelector('.almanac-heading'))line.append(panel.querySelector('.almanac-heading'));const note=card.querySelector('.home-vedic-note');if(note&&note.parentElement===card.querySelector('.home-vedic-content'))panel.querySelector(':scope>details').append(note);const data=homeCalendar(Date.now(),lang),t=copy[lang];
    const compactLabels={en:{samvat:'Samvat',month:'Month',tithi:'Tithi'},hi:{samvat:'संवत',month:'चंद्र मास',tithi:'तिथि'},gu:{samvat:'સંવત',month:'ચંદ્ર માસ',tithi:'તિથિ'}}[lang];
@@ -16,6 +16,9 @@
    const displayDate=new Intl.DateTimeFormat(({en:'en-IN',hi:'hi-IN',gu:'gu-IN'})[lang],{timeZone:'Asia/Kolkata',weekday:'long',day:'numeric',month:'short',year:'numeric'}).format(new Date(data.utcInstant));
    put('date',displayDate);const dateNode=card.querySelector('[data-vedic-date]');if(dateNode.title!==data.date)dateNode.title=data.date;
    put('samvat',data.samvat??t.pending);put('month',data.month);put('tithi',data.tithi?.replace(/^[^:]+:\s*/,'')??t.pending);put('note',t.note);put('asof',data.asOf+' IST');card.dataset.calendarReady='true';
+   const tithiNode=card.querySelector('[data-vedic-tithi]'),fullTithi=tithiNode.querySelector('.vedic-value-full')?.textContent??tithiNode.textContent,parts=fullTithi.split(' · ');
+   tithiNode.title=fullTithi;tithiNode.dataset.resolved=String(parts.length===2);
+   if(parts.length===2){if(!tithiNode.querySelector('.vedic-value-short')){const full=document.createElement('span'),short=document.createElement('span');full.className='vedic-value-full';short.className='vedic-value-short';full.textContent=fullTithi;short.textContent=parts[1];short.setAttribute('aria-hidden','true');tithiNode.replaceChildren(full,short);tithiNode.title=fullTithi;}const shortLabel=card.querySelector('[data-vedic-tithi-label] .vedic-label-short');shortLabel.textContent=compactLabels.tithi+' · '+parts[0];}
    const actions={en:['View My Rashifal','Generate New Kundli'],hi:['मेरा राशिफल देखें','नई कुंडली बनाएँ'],gu:['મારું રાશિફળ જુઓ','નવી કુંડળી બનાવો']}[lang];
    for(const [index,link]of [...card.querySelectorAll('.home-vedic-actions a')].entries()){let label=link.querySelector('[data-vedic-action-label]');if(!label){label=document.createElement('span');label.dataset.vedicActionLabel='';const arrow=document.createElement('span');arrow.setAttribute('aria-hidden','true');arrow.textContent='→';link.replaceChildren(label,arrow);}if(label.textContent!==actions[index])label.textContent=actions[index];}
    const shortActions={en:['Rashifal','New Kundli'],hi:['राशिफल','नई कुंडली'],gu:['રાશિફળ','નવી કુંડળી']}[lang];

@@ -1,5 +1,22 @@
 # Chambers functionality ledger
 
+**Compact combined Ritvayam information panel (2026-10-29):** Sized Samvat's
+column to four digits using the displayed font metrics. Calendar facts and four
+sun/moon times now form a single continuous panel with one horizontal partition,
+without duplicated borders, shadows or inter-panel spacing. Mobile puts Paksha
+beside the Tithi label and keeps its name/number on one line; the full value is
+retained for accessibility and in the title. Month space accommodates longer
+names. The current-period strip explicitly says Choghadiya, uses a content-sized
+name column, a smaller arrow and larger timing text where room permits. All
+calculated values, normal font weights, location dialog and links remain.
+Four existing browser workflows and five calendar model checks passed.
+Final Chrome/WebKit panel checks passed current/long-month/long-tithi dates in
+en/hi/gu, both themes, and 320/393/1024px, including merged seam geometry and no
+value/time overflow. Hindi mobile screenshot reviewed. Evidence:
+`.publish/ritvayam-combined-tests.log`, `.publish/ritvayam-panel-review.log`,
+`.publish/ritvayam-panel-model.log`. Release logs:
+`.publish/deploy-ritvayam-panel.log`, `.publish/ritvayam-panel-live.log`.
+
 **Site-wide customer-copy cleanup (2026-10-28):** Shortened the repeated shared
 notice in en/hi/gu, removed optional Panchang/guide reference lists from customer
 views and checklist downloads, simplified calculation prose and internal
