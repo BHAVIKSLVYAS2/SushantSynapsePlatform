@@ -82,8 +82,8 @@ test('Rashifal feature replaces Daily Satire with a live calendar and working ap
  await page.setViewportSize({width:390,height:900});await page.evaluate(()=>SynapseTheme.write('light'));await card.screenshot({path:'.publish/home-vedic-mobile-light.png'});
  await page.evaluate(()=>SynapseTheme.write('dark'));await card.screenshot({path:'.publish/home-vedic-mobile-dark.png'});
  await page.setViewportSize({width:1440,height:1000});await card.screenshot({path:'.publish/home-vedic-desktop-dark.png'});
- await page.evaluate(()=>localStorage.setItem('synapse-language','hi'));await page.reload();await card.scrollIntoViewIfNeeded();await expect(card.locator('[data-vedic-month]')).toContainText('आश्विन');await expect(card.locator('[data-vedic-samvat-label]')).toHaveText('विक्रम संवत');
- await page.evaluate(()=>SynapseLanguage.set('gu'));await expect(card.locator('[data-vedic-month]')).toContainText('આસો');await expect(card.locator('[data-vedic-samvat-label]')).toHaveText('વિક્રમ સંવત');await expect(card.locator('[data-vedic-date]')).toContainText('ઑક્ટો');await card.screenshot({path:'.publish/ritvayam-home-gu.png'});
+ await page.evaluate(()=>localStorage.setItem('synapse-language','hi'));await page.reload();await card.scrollIntoViewIfNeeded();await expect(card.locator('[data-vedic-month]')).toContainText('आश्विन');await expect(card.locator('[data-vedic-samvat-label] .vedic-label-full')).toHaveText('विक्रम संवत');
+ await page.evaluate(()=>SynapseLanguage.set('gu'));await expect(card.locator('[data-vedic-month]')).toContainText('આસો');await expect(card.locator('[data-vedic-samvat-label] .vedic-label-full')).toHaveText('વિક્રમ સંવત');await expect(card.locator('[data-vedic-date]')).toContainText('ઑક્ટો');await card.screenshot({path:'.publish/ritvayam-home-gu.png'});
  const retired=await page.request.get(base+'/satire-arena/daily',{maxRedirects:0});expect(retired.status()).toBe(308);expect(retired.headers().location).toBe('/satire-arena');
  expect(errors).toEqual([]);
 });

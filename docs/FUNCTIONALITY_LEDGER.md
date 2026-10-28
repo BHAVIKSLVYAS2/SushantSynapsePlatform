@@ -1,5 +1,17 @@
 # Chambers functionality ledger
 
+**Home-only normal-weight, single-line labels (2026-10-28):** User clarified
+scope as the home Ritvayam card's labels/buttons. Removed bold styling from its
+values, timing text, current-period name, city control and actions; logo branding
+is retained. Mobile uses short localized fact labels and action names on one
+line instead of shrinking or clipping full text. Full labels remain accessible
+and available as titles; desktop keeps full action names. App interior unchanged.
+Three existing calendar/catalogue workflows pass. Chrome/WebKit review verifies
+400 font weight, one-line short labels fitting their bounds, five widths, both
+themes and en/hi/gu. Evidence: `.publish/ritvayam-regular-tests.log`,
+`.publish/ritvayam-regular-review.log`. Release evidence:
+`.publish/deploy-ritvayam-regular.log`, `.publish/ritvayam-regular-live.log`.
+
 **Stable city picker and device-location detection (2026-10-28):** Compact
 Ritvayam city search now opens a labelled native modal dialog, leaving tile grid
 and dimensions unchanged. Input autofocus, Close/Escape and focus restoration

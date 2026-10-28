@@ -580,6 +580,10 @@ html[data-theme=dark] .home-vedic .home-vedic-preview{background:transparent;col
 .home-vedic .home-vedic-secondary{background:var(--rv-panel);color:var(--rv-ink);border:1px solid var(--rv-edge);box-shadow:0 4px 10px var(--rv-shadow)}
 .home-vedic .home-vedic-note,.home-vedic noscript{grid-column:1/-1;color:var(--rv-muted)}
 .home-vedic a:focus-visible,.home-vedic summary:focus-visible{outline-color:var(--rv-gold)}
+.home-vedic :is(.home-vedic-facts dd,.almanac-events dd,.almanac-current-identity strong,.almanac-current-timing strong,.home-vedic-actions a,.almanac-heading summary){font-weight:400}
+.home-vedic :is(.home-vedic-facts dt,.home-vedic-actions a){white-space:nowrap}
+.home-vedic .vedic-label-short,.home-vedic .vedic-action-short{display:none}
+.home-vedic .almanac-compact .almanac-events dd{font-weight:400}
 @media(min-width:700px) and (max-width:900px){.home-vedic h2{font-size:36px}.home-vedic .home-vedic-intro{font-size:14px}.home-vedic .home-vedic-preview{font-size:9px;padding:6px}}
 @media(max-width:699px){
  .public-home .home-vedic{padding:14px;margin:16px auto;border-radius:22px}
@@ -610,6 +614,8 @@ html[data-theme=dark] .home-vedic .home-vedic-preview{background:transparent;col
  .home-vedic .almanac-current-timing strong{font-size:15px}.home-vedic .almanac-current-timing small{font-size:12px}
  .home-vedic .home-vedic-actions{grid-row:5;gap:8px;margin-top:6px}.home-vedic .home-vedic-actions a{font-size:14px;min-height:48px;padding:10px;border-radius:14px;gap:8px}
  .home-vedic .home-vedic-actions a>span:last-child{font-size:22px}
+ .home-vedic .vedic-label-full,.home-vedic [data-vedic-action-label]{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+ .home-vedic .vedic-label-short,.home-vedic .vedic-action-short{display:inline}
 }
 .home-vedic .almanac-location-dialog{box-sizing:border-box;inset:0;margin:auto;width:min(480px,calc(100% - 32px));max-width:none;max-height:calc(100dvh - 48px);padding:20px;border:1px solid var(--rv-edge);border-radius:20px;background:var(--rv-panel);color:var(--rv-ink);overflow:auto;overscroll-behavior:contain;box-shadow:0 16px 60px var(--rv-shadow);font-family:var(--ss-font)}
 .home-vedic .almanac-location-dialog::backdrop{background:#0008;backdrop-filter:blur(3px)}
