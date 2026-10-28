@@ -1,5 +1,11 @@
 # Chambers functionality ledger
 
+**Company browser favicon (2026-10-29):** Shared HTML delivery now retains the
+actual Sushant Synapse PNG logo instead of substituting the generic S SVG.
+Explicit PNG type/size and a versioned URL refresh the browser icon cache;
+Apple touch icons and page layouts remain unchanged. Beta HTML idempotence
+checks pass. Deployment/build evidence: `.publish/deploy-company-favicon.log`.
+
 **Home search usability (2026-10-29):** Combined search and Filters into one
 theme-token surface with a divider, readable 16px input, 44px control targets,
 clear focus indication and a bounded vertical category menu. Existing matching,
