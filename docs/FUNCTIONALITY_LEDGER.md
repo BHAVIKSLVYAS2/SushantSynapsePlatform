@@ -10,12 +10,16 @@ names. The current-period strip explicitly says Choghadiya, uses a content-sized
 name column, a smaller arrow and larger timing text where room permits. All
 calculated values, normal font weights, location dialog and links remain.
 Four existing browser workflows and five calendar model checks passed.
-Final Chrome/WebKit panel checks passed current/long-month/long-tithi dates in
+Final Chrome/WebKit panel checks passed current/long-month/long-tithi and Adhik
+Maas dates in
 en/hi/gu, both themes, and 320/393/1024px, including merged seam geometry and no
 value/time overflow. Hindi mobile screenshot reviewed. Evidence:
 `.publish/ritvayam-combined-tests.log`, `.publish/ritvayam-panel-review.log`,
 `.publish/ritvayam-panel-model.log`. Release logs:
 `.publish/deploy-ritvayam-panel.log`, `.publish/ritvayam-panel-live.log`.
+The compact extra-month marker remains beside the Month label, with the complete
+month name retained for accessibility and tooltips. Follow-up release evidence:
+`.publish/deploy-ritvayam-panel-final.log`, `.publish/ritvayam-panel-final-live.log`.
 
 **Site-wide customer-copy cleanup (2026-10-28):** Shortened the repeated shared
 notice in en/hi/gu, removed optional Panchang/guide reference lists from customer
