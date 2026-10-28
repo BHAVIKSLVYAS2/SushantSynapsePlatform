@@ -582,31 +582,31 @@ html[data-theme=dark] .home-vedic .home-vedic-preview{background:transparent;col
 .home-vedic a:focus-visible,.home-vedic summary:focus-visible{outline-color:var(--rv-gold)}
 @media(min-width:700px) and (max-width:900px){.home-vedic h2{font-size:36px}.home-vedic .home-vedic-intro{font-size:14px}.home-vedic .home-vedic-preview{font-size:9px;padding:6px}}
 @media(max-width:699px){
- .public-home .home-vedic{padding:16px;margin:16px auto;border-radius:22px}
- .home-vedic .home-vedic-content{grid-template-columns:62px minmax(0,1fr);gap:4px 12px}
- .home-vedic .home-vedic-om{inset:auto;width:62px;height:62px;border-radius:16px}
+ .public-home .home-vedic{padding:14px;margin:16px auto;border-radius:22px}
+ .home-vedic .home-vedic-content{grid-template-columns:52px minmax(0,1fr);gap:4px 10px}
+ .home-vedic .home-vedic-om{inset:auto;width:52px;height:52px;border-radius:14px}
  .home-vedic .home-vedic-heading{grid-column:2;grid-row:1;margin:0;gap:7px;min-height:34px;flex-wrap:wrap}
  .home-vedic h2{font-size:32px;letter-spacing:-1.2px}.home-vedic h2:after{width:25px;height:22px;top:-13px}
- .home-vedic .home-vedic-preview{font-size:8px;padding:4px 6px}
- .home-vedic .home-vedic-intro{grid-column:2;grid-row:2;font-size:11px;margin:0;min-height:20px}
- .home-vedic .home-vedic-calendar-line{grid-column:1/-1;grid-row:3;flex-direction:row-reverse;align-items:center;justify-content:space-between;min-height:44px;padding:0;border:0;gap:8px;margin:8px 0 4px;background:none;box-shadow:none}
- .home-vedic .home-vedic-date{font-size:10px}.home-vedic .almanac-heading summary{font-size:14px;min-height:44px}
- .home-vedic .home-vedic-facts{grid-row:4;margin:0;padding:12px;gap:8px;grid-template-columns:.8fr 1fr 1.45fr;border-radius:14px}
- .home-vedic .home-vedic-facts>div{padding-inline-start:8px}.home-vedic .home-vedic-facts dt{font-size:9px;margin-bottom:5px;min-height:0}.home-vedic .home-vedic-facts dd{font-size:13px}
- .home-vedic .home-vedic-facts>div:last-child dd{font-size:13px}
+ .home-vedic .home-vedic-preview{font-size:10px;padding:3px 5px}
+ .home-vedic .home-vedic-intro{grid-column:2;grid-row:2;font-size:12px;margin:0;min-height:0}
+ .home-vedic .home-vedic-calendar-line{grid-column:1/-1;grid-row:3;flex-direction:column;align-items:flex-start;justify-content:start;min-height:0;padding:0;border:0;gap:0;margin:8px 0;background:none;box-shadow:none;text-align:start}
+ .home-vedic .home-vedic-date{font-size:12px;line-height:1.5;order:2}.home-vedic .almanac-heading summary{font-size:15px;min-height:44px;justify-content:start}
+ .home-vedic .home-vedic-facts{grid-row:4;margin:0;padding:10px;gap:8px;grid-template-columns:.8fr 1fr 1.45fr;align-items:stretch;border-radius:14px}
+ .home-vedic .home-vedic-facts>div{padding-inline-start:8px}.home-vedic .home-vedic-facts dt{font-size:11px;line-height:1.35;margin-bottom:6px;min-height:0}.home-vedic .home-vedic-facts dd{font-size:15px;line-height:1.35}
+ .home-vedic .home-vedic-facts>div:last-child dd{font-size:15px}
  .home-vedic [data-home-almanac]{grid-row:5}
  .home-vedic .almanac-compact{margin-top:8px}
- .home-vedic .almanac-compact .almanac-events{grid-template-columns:repeat(2,minmax(0,1fr));padding:12px;gap:12px 20px;margin-bottom:12px;border-radius:14px}
- .home-vedic .almanac-compact .almanac-events>div{padding:0;border:0}
- .home-vedic .almanac-compact .almanac-events dt{font-size:11px}.home-vedic .almanac-compact .almanac-events dd{font-size:19px}
+ .home-vedic .almanac-compact .almanac-events{grid-template-columns:repeat(4,minmax(0,1fr));padding:10px;gap:8px;margin-bottom:10px;border-radius:14px}
+ .home-vedic .almanac-compact .almanac-events>div{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:1fr auto;padding:0;border:0}
+ .home-vedic .almanac-compact .almanac-events dt{font-size:11px;line-height:1.35;overflow-wrap:anywhere}.home-vedic .almanac-compact .almanac-events dd{font-size:17px;line-height:1.35;white-space:nowrap}
  .home-vedic .almanac-compact>details>summary{min-height:0;padding:12px;gap:8px;border-radius:14px}
  .home-vedic .almanac-compact>details>summary:after{flex-basis:40px;width:40px;height:40px;font-size:26px}
  .home-vedic .almanac-compact .almanac-current{gap:12px}
  .home-vedic .almanac-current-identity{flex-basis:78px;padding-inline-end:10px}
  .home-vedic .almanac-current-label{font-size:12px}.home-vedic .almanac-current-identity strong{font-size:25px}
- .home-vedic .almanac-current-timing strong{font-size:13px}.home-vedic .almanac-current-timing small{font-size:11px}
- .home-vedic .home-vedic-actions{grid-row:6;gap:10px;margin-top:6px}.home-vedic .home-vedic-actions a{font-size:12px;min-height:44px;padding:10px 12px;border-radius:14px;gap:5px}
+ .home-vedic .almanac-current-timing strong{font-size:15px}.home-vedic .almanac-current-timing small{font-size:12px}
+ .home-vedic .home-vedic-actions{grid-row:6;gap:8px;margin-top:6px}.home-vedic .home-vedic-actions a{font-size:14px;min-height:48px;padding:10px;border-radius:14px;gap:8px}
  .home-vedic .home-vedic-actions a>span:last-child{font-size:22px}
  .home-vedic .home-vedic-calendar-line:has(details[open]){flex-wrap:wrap}.home-vedic .almanac-heading:has(details[open]){flex-basis:100%;text-align:start}
 }
-@media(max-width:350px){.home-vedic h2{font-size:29px}.home-vedic .home-vedic-content{grid-template-columns:56px minmax(0,1fr);gap:4px 9px}.home-vedic .home-vedic-om{width:56px;height:56px}.home-vedic .home-vedic-intro{font-size:10px}.home-vedic .home-vedic-preview{font-size:7px;padding:3px 4px}.home-vedic .home-vedic-actions a{padding:8px;font-size:11px}.home-vedic .almanac-current-identity{flex-basis:70px}.home-vedic .almanac-current-timing strong{font-size:12px}}
+@media(max-width:370px){.home-vedic h2{font-size:28px}.home-vedic .home-vedic-actions{grid-template-columns:1fr}.home-vedic .almanac-current-identity{flex-basis:64px}.home-vedic .almanac-current-timing strong{font-size:14px}.home-vedic .almanac-compact>details>summary{padding:10px}.home-vedic .almanac-compact .almanac-current{gap:8px}}

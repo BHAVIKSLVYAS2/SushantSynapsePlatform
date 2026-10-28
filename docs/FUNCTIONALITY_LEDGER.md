@@ -1,5 +1,21 @@
 # Chambers functionality ledger
 
+**Ritvayam mobile readability correction (2026-10-28):** Reviewed the user's
+393px Hindi screenshot and corrected the mobile layout rather than merely
+checking page overflow. Fact labels are 11px minimum, dates/subtitles 12px,
+actions 14px and timing values 17px. City and date occupy separate readable
+lines. Four sun/moon events share one row with unbroken time strings; the old
+inherited two-column inner grid is explicitly reset. Fact values align at the
+bottom of content-sized cells. Buttons stack below 371px and retain 44px targets.
+Header logo is 52px, padding is tighter and no content is removed. Desktop rules
+are preserved. Chrome/WebKit checks pass five widths, both themes and en/hi/gu;
+393px Hindi screenshot reviewed at native size. Three calendar/browser workflows
+pass; dedicated final readability assertions recorded separately. Evidence:
+`.publish/ritvayam-mobile-review.log`, `.publish/ritvayam-mobile-workflows.log`,
+`.publish/ritvayam-mobile-final.log`, `.publish/ritvayam-mobile-chromium-hi-dark.png`.
+Release logs: `.publish/deploy-ritvayam-mobile.log` and
+`.publish/ritvayam-mobile-live.log`. No business data or binding changes.
+
 **Compact Ritvayam reference refinement (2026-10-28):** Reworked header sizing
 around an in-flow 104px logo, content-sized date box and lighter serif wordmark.
 Scoped sans-serif typography fixes inherited serif labels. Calendar columns and
