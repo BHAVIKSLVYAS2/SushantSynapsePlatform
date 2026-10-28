@@ -1,5 +1,17 @@
 # Chambers functionality ledger
 
+**Home search usability (2026-10-29):** Combined search and Filters into one
+theme-token surface with a divider, readable 16px input, 44px control targets,
+clear focus indication and a bounded vertical category menu. Existing matching,
+translations, category selection and clearing remain intact. Arrow Down focuses
+the first matching launch control without launching it. Rebuilt home CSS.
+Four catalogue browser workflows and four catalogue unit checks pass. Chrome
+and WebKit checks pass at 320/393/768/1440px in light/dark and en/hi/gu, covering
+input sizing, overflow, filter bounds, clear and keyboard result focus; screenshots
+reviewed. Evidence: `.publish/home-search-review.log`,
+`.publish/home-search-workflows.log`. Release logs:
+`.publish/deploy-home-search.log`, `.publish/home-search-live.log`.
+
 **Gujarati Ritvayam name correction (2026-10-29):** Updated the shared Gujarati
 app name and Kundli journey copy to `ઋત્વયમ્`, aligned with Hindi `ऋत्वयम्`.
 Rebuilt shared navigation and app bundles; four catalogue checks and build pass.

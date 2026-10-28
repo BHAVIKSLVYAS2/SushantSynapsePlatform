@@ -672,6 +672,26 @@ html[data-theme=dark] .home-vedic .home-vedic-preview{background:transparent;col
 .home-vedic .almanac-compact>details>summary:after,.home-vedic .almanac-compact>details>summary:has([data-tone]):after{flex-basis:20px;width:20px;height:20px;border:0;background:none;box-shadow:none;font-size:24px;color:var(--period-ink)}
 .home-vedic .almanac-compact>details>summary:before{opacity:.18}
 .home-vedic .almanac-period-label-short{display:none}
+/* App discovery: one surface, a readable native-sized input and an attached filter. */
+body[data-ui-app=portal] .public-home .home-discovery-toolbar{box-sizing:border-box;display:flex;align-items:center;gap:0;min-height:52px;padding:2px 4px 2px 14px;border:1px solid color-mix(in srgb,var(--ss-text-secondary) 42%,var(--ss-border));border-radius:14px;background:var(--ss-surface,var(--ss-bg-secondary));box-shadow:none;margin-bottom:12px}
+body[data-ui-app=portal] .public-home .home-discovery-toolbar:focus-within{border-color:var(--ss-primary);outline:2px solid color-mix(in srgb,var(--ss-primary) 55%,transparent);outline-offset:2px}
+body[data-ui-app=portal] .public-home .home-discovery-toolbar .home-search{display:flex;align-items:center;gap:4px;flex:1;min-width:0;margin:0;padding:0 4px 0 0;border:0;border-radius:0;background:transparent;box-shadow:none;outline:none}
+body[data-ui-app=portal] .public-home .home-discovery-toolbar .home-search label{gap:10px;min-width:0}
+body[data-ui-app=portal] .public-home .home-discovery-toolbar .home-search svg{width:20px;height:20px;color:var(--ss-text-secondary)}
+body[data-ui-app=portal] .public-home .home-discovery-toolbar .home-search input{box-sizing:border-box;appearance:none;-webkit-appearance:none;flex:1;min-width:0;width:100%;height:48px;min-height:48px;margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;outline:none;font:inherit;font-size:16px;line-height:1.4;color:var(--ss-text);caret-color:var(--ss-primary)}
+body[data-ui-app=portal] .public-home .home-discovery-toolbar .home-search input::placeholder{color:var(--ss-text-secondary);opacity:1}
+.home-discovery-toolbar input::-webkit-search-cancel-button{appearance:none;-webkit-appearance:none}
+body[data-ui-app=portal] .public-home .home-discovery-toolbar .home-search-clear{display:inline-flex;align-items:center;justify-content:center;flex:none;min-width:44px;min-height:44px;padding:8px;border:0;border-radius:9px;background:transparent;color:var(--ss-primary);font:inherit;font-size:13px;cursor:pointer}
+body[data-ui-app=portal] .public-home .home-discovery-toolbar .home-search-clear[hidden]{display:none}
+body[data-ui-app=portal] .public-home .home-filter-menu{flex:none;margin:0;padding-inline-start:4px;border-inline-start:1px solid var(--ss-border)}
+body[data-ui-app=portal] .public-home .home-filter-menu>summary{box-sizing:border-box;min-height:44px;padding:0 10px;border:0;border-radius:10px;background:transparent;box-shadow:none;color:var(--ss-text);font:inherit;font-size:14px;gap:7px;white-space:nowrap}
+body[data-ui-app=portal] .public-home .home-filter-menu>summary:before{content:'';display:block;flex:none;width:18px;height:18px;background:currentColor;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 6h18M3 12h18M3 18h18M8 3v6m8 0v6m-8 0v6' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center/contain no-repeat}
+body[data-ui-app=portal] .public-home .home-filter-menu[open]>summary{background:var(--ss-bg-secondary);color:var(--ss-primary)}
+body[data-ui-app=portal] .public-home .home-filter-menu .home-filters{display:grid;gap:4px;width:min(320px,100%);max-height:min(60dvh,360px);overflow:auto;padding:8px;border-radius:14px;background:var(--ss-surface,var(--ss-bg-secondary));box-shadow:var(--ss-shadow);top:calc(100% + 8px)}
+body[data-ui-app=portal] .public-home .home-filter-menu .home-filters button{width:100%;min-height:44px;padding:10px 12px;border:0;border-radius:9px;background:transparent;color:var(--ss-text);font:inherit;font-size:14px;line-height:1.4;text-align:start;white-space:normal;box-shadow:none}
+body[data-ui-app=portal] .public-home .home-filter-menu .home-filters button[aria-pressed=true]{background:var(--ss-primary);color:var(--ui-on-accent)}
+body[data-ui-app=portal] .public-home .home-active-filters button{min-height:44px;font-size:13px}
+@media(hover:hover){body[data-ui-app=portal] .public-home .home-filter-menu .home-filters button:not([aria-pressed=true]):hover,body[data-ui-app=portal] .public-home .home-search-clear:hover{background:var(--ss-bg-secondary)}}
 @media(max-width:699px){
  .home-vedic .almanac-compact>details>summary{padding:8px 10px;gap:6px}
  .home-vedic .almanac-compact .almanac-current{gap:8px}

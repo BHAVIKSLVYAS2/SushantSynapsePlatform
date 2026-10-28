@@ -39,7 +39,7 @@
    text(toggle,selected==='all'?'Filters':'Filters · 1');hidden(chip,selected==='all');text(chip,categoryName()+' ×');attribute(chip,'aria-label','Remove category filter: '+categoryName());hidden(active,selected==='all'&&!terms.length);
   }
   search.querySelector('input').oninput=filter;search.querySelector('button').onclick=()=>{search.querySelector('input').value='';filter();search.querySelector('input').focus();};
-  search.querySelector('input').onkeydown=event=>{if(event.key==='Escape'){event.preventDefault();search.querySelector('input').value='';filter();}};
+  search.querySelector('input').onkeydown=event=>{if(event.key==='Escape'){event.preventDefault();search.querySelector('input').value='';filter();}else if(event.key==='ArrowDown'){const first=home.querySelector('.catalogue-item:not([hidden]) .public-app:not([hidden]),[data-home-vedic]:not([hidden]) .home-vedic-primary,.workspace-card:not([hidden]) .workspace-launch:not([aria-disabled=true])');if(first){event.preventDefault();first.focus();first.scrollIntoView({block:'nearest'});}}};
   const dock=home.querySelector('.home-mobile-dock');dock.onclick=event=>{const link=event.target.closest('a');if(!link)return;dock.querySelectorAll('a').forEach(a=>a.removeAttribute('aria-current'));link.setAttribute('aria-current','location');if(link.hasAttribute('data-home-games')){selected='games';search.querySelector('input').value='';}else if(link.getAttribute('href')==='#free-apps')selected='all';else if(link.getAttribute('href')==='#workspace-apps'){selected='all';search.querySelector('input').value='';}filter();};
   bar.onclick=event=>{const button=event.target.closest('[data-tool-filter]');if(button){selected=button.dataset.toolFilter;filter();filters.open=false;toggle.focus();}};
   filter();
