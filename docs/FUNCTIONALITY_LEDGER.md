@@ -20,6 +20,10 @@ value/time overflow. Hindi mobile screenshot reviewed. Evidence:
 The compact extra-month marker remains beside the Month label, with the complete
 month name retained for accessibility and tooltips. Follow-up release evidence:
 `.publish/deploy-ritvayam-panel-final.log`, `.publish/ritvayam-panel-final-live.log`.
+Desktop also uses the short Samvat heading, retaining Vikram Samvat for assistive
+text/tooltips, so both its heading and four-digit value fit the reduced column.
+Final release logs: `.publish/deploy-ritvayam-panel-release.log` and
+`.publish/ritvayam-panel-release-live.log`.
 
 **Site-wide customer-copy cleanup (2026-10-28):** Shortened the repeated shared
 notice in en/hi/gu, removed optional Panchang/guide reference lists from customer
