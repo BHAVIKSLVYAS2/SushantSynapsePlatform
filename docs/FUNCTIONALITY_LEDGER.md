@@ -1,5 +1,26 @@
 # Chambers functionality ledger
 
+**Measured frontend performance pass (2026-10-28):** Audit and ranked
+findings: `docs/FRONTEND_PERFORMANCE_AUDIT_2026-10-28.md`. UTF-8 bundles reduce
+language JS 268,712→157,491 bytes (gzip 52,419→44,375); matching JS is 16.3%
+smaller. Vedic CSS preserves original order, drops only proven other-app scopes,
+and changes 15 blocking sheets to one (133,891→106,858 bytes). Home hydrates its
+pre-rendered toolbar, avoids no-op DOM writes and aborts prior outside-click
+listeners. Place-name indexing is deferred to first lookup; almanac skips
+unchanged state and translation avoids protected/score-only updates. UI and
+business/calculation/privacy behaviour preserved. Full suite 554/554, production
+frontend build and final performance browser suite 8/8 passed, including full
+computed-style/geometry parity at 32 route/width/theme combinations. Additional
+sign-in/access, matching, ritual, city/language/midnight/interval tests passed.
+Three-run cold-cache lab medians: home LCP 3.064→2.252s, matching 13.084→10.484s;
+home initial unexpected shift total 0.0565→0. Thirty-input search mutations
+1,381→153; unchanged almanac refresh mutations 60→0. Raw fixtures are uncompressed,
+ads blocked; this is not field CWV/INP, and CPU timing improved inconsistently.
+Ritual imagery and Newsroom shifts remain. Exact results/limits and evidence paths
+are in the report. User subsequently authorized commit and production deployment.
+Release log: `.publish/deploy-performance-release.log`; deployment uses --keep-vars
+to retain existing D1/organisation configuration. No business-data migration.
+
 **Commit and release validation (2026-10-28):** User superseded the earlier
 no-commit instruction and authorized committing and deploying the accumulated
 reviewed work. Final matching engine/Worker checks: 11/11 passed. Final browser

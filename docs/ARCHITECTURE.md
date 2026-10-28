@@ -1,5 +1,16 @@
 # Code ownership and adding apps
 
+Frontend delivery (2026-10-28, local measured pass): Vedic build.cjs owns the
+ordered stylesheetFiles list and application.css. Edit the original app/shared
+CSS; generated outputs include all input CSS plus scope-filter source in their
+cache signature. Only positively different app scopes are removed. Bundle and
+final delivery transforms emit UTF-8. build-catalogue pre-renders the existing
+discovery toolbar; home-discovery hydrates it with a legacy-markup fallback.
+Place-name search builds its normalized index on first lookup; getPlace stays
+synchronous and unchanged. Almanac render keys must include date, place, language,
+reference-city state and active interval; preserve rollover/city/language tests.
+Measurement method, limits and verification: FRONTEND_PERFORMANCE_AUDIT_2026-10-28.md.
+
 Recorded-minute matching correction (2026-10-27): packages/vedic/matching-screen.mjs
 screens only the Rashi/Nakshatra factors used by the eight rules. Pada-only edges
 do not block matching. Relevant edges return bounded classification possibilities

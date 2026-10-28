@@ -127,7 +127,7 @@ import {interfaceCopy} from './interface-copy.mjs';
    for(const record of records){
     const target=record.target.nodeType===1?record.target:record.target.parentElement;
     if(record.type==='attributes'){if(record.target===native())controls=true;continue;}
-    if(target?.closest(translationRoots)&&!target.closest('[data-language-control]'))dirty.add(target);
+    if(target?.closest(translationRoots)&&!target.closest(protectedContent)&&!target.closest('.card-total'))dirty.add(target);
     for(const node of record.addedNodes){if(node.nodeType!==1)continue;if(node.matches(translationRoots))dirty.add(node);for(const root of node.querySelectorAll(translationRoots))dirty.add(root);const selectors='[data-language-control],#language'+(adapter?','+adapter.controls:'');if(node.matches(selectors)||node.querySelector(selectors))controls=true;}
    }
    if((controls||dirty.size)&&!scheduled){scheduled=true;requestAnimationFrame(()=>{scheduled=false;const roots=[...dirty].filter(node=>![...dirty].some(parent=>parent!==node&&parent.contains(node)));dirty.clear();refresh(roots);});}

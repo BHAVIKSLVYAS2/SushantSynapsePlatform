@@ -8,7 +8,7 @@
   const card=document.querySelector('[data-home-vedic]');if(!card||!active||document.visibilityState==='hidden')return;
   const lang=language(),minute=Math.floor(Date.now()/60000);if(!force&&minute===lastMinute&&lastLanguage===lang)return;
   lastMinute=minute;lastLanguage=lang;const current=++revision;
-  const put=(key,text)=>{const node=card.querySelector('[data-vedic-'+key+']');if(node)node.textContent=text;};
+  const put=(key,text)=>{const node=card.querySelector('[data-vedic-'+key+']');if(node&&node.textContent!==text)node.textContent=text;};
   try{engine||=import('/rashifal-kundli/home-calendar.mjs').catch(error=>{engine=null;throw error;});const {homeCalendar,mountDailyAlmanac}=await engine;
    if(current!==revision||!card.isConnected)return;if(!card.querySelector('.daily-almanac'))mountDailyAlmanac(card.querySelector('[data-home-almanac]'),{compact:true});const panel=card.querySelector('.daily-almanac');const line=card.querySelector('.home-vedic-calendar-line');if(line&&panel.querySelector('.almanac-heading'))line.append(panel.querySelector('.almanac-heading'));const note=card.querySelector('.home-vedic-note');if(note&&note.parentElement===card.querySelector('.home-vedic-content'))panel.querySelector(':scope>details').append(note);const data=homeCalendar(Date.now(),lang),t=copy[lang];
    for(const key of ['samvat','month','tithi'])put(key+'-label',t[key]);
@@ -23,5 +23,5 @@
  const mutations=()=>{mount();if(language()!==lastLanguage)refresh();};
  if(window.SynapseUI)window.SynapseUI.observe(mutations);else new MutationObserver(mutations).observe(document.querySelector('#platform'),{childList:true,subtree:true});
  new MutationObserver(()=>refresh()).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
- document.addEventListener('visibilitychange',()=>refresh(true));window.addEventListener('pageshow',()=>refresh(true));setInterval(()=>refresh(),60000);
+ document.addEventListener('visibilitychange',()=>refresh());window.addEventListener('pageshow',()=>refresh());setInterval(()=>refresh(),60000);
 })();

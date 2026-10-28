@@ -6,7 +6,10 @@ const entries = directory.places;
 const byId = new Map(entries.map(place => [place.id, place]));
 const normalize = value => value.normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
  .toLowerCase().trim().replace(/\s+/g, ' ');
-const index = entries.map(place => ({place,
+// Displaying a saved/default place does not need a normalized search index.
+// Construct it once, on the first actual name lookup.
+let index;
+const searchIndex = () => index ??= entries.map(place => ({place,
  names: [...new Set([place.name, ...place.aliases].map(normalize))],
  text: normalize([place.name, ...place.aliases, place.state, place.stateCode, 'India'].join(' '))}));
 
@@ -45,7 +48,7 @@ export function searchPlaces(query, input = {}) {
  const text = queryText(query), {limit, stateCode} = options(input);
  if (text.length < 2) return freeze({matches: [], total: 0, truncated: false});
  const tokens = text.split(' ');
- const matches = index.filter(entry => (!stateCode || entry.place.stateCode === stateCode)
+ const matches = searchIndex().filter(entry => (!stateCode || entry.place.stateCode === stateCode)
   && tokens.every(token => entry.text.includes(token)));
  matches.sort((a, b) => Number(normalize(b.place.name) === text) - Number(normalize(a.place.name) === text)
   || Number(b.names.includes(text)) - Number(a.names.includes(text))
@@ -57,7 +60,7 @@ export function searchPlaces(query, input = {}) {
 export function resolvePlaceName(name, input = {}) {
  const text = queryText(name), {stateCode} = options(input);
  if (text.length < 2) fail('UNKNOWN_PLACE');
- const matches = index.filter(entry => (!stateCode || entry.place.stateCode === stateCode)
+ const matches = searchIndex().filter(entry => (!stateCode || entry.place.stateCode === stateCode)
   && entry.names.includes(text));
  if (!matches.length) fail('UNKNOWN_PLACE');
  if (matches.length > 1) fail('AMBIGUOUS_PLACE');

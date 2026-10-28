@@ -20,7 +20,7 @@ function prepareDelivery(output,files){
   if(url.startsWith('/_')||! /\.(?:js|mjs|css)$/.test(url))continue;
   const filename=path.join(output,url),input=fs.readFileSync(filename,'utf8');
   const {code}=transformSync(input,{loader:url.endsWith('.css')?'css':'js',
-   minifyWhitespace:true,minifySyntax:true,minifyIdentifiers:url.endsWith('.mjs')||/^\s*import\s/.test(input),target:'chrome114',legalComments:'inline'});
+   minifyWhitespace:true,minifySyntax:true,minifyIdentifiers:url.endsWith('.mjs')||/^\s*import\s/.test(input),target:'chrome114',legalComments:'inline',charset:'utf8'});
   before+=Buffer.byteLength(input);after+=Buffer.byteLength(code);
   fs.writeFileSync(filename,code);
  }

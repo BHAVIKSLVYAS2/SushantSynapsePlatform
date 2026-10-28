@@ -1,5 +1,9 @@
 # Curio · Sushant Synapse
 
+Frontend performance work and measured before/after results are documented
+in [the performance audit](docs/FRONTEND_PERFORMANCE_AUDIT_2026-10-28.md).
+The pass preserves the interface and business logic.
+
 Home search and Switch app share task keywords and native app names, including
 Kundli/Ritvayam. Matching explains all eight traditional factors, keeps technical
 conventions in a disclosure, and moves focus to the review and completed result.

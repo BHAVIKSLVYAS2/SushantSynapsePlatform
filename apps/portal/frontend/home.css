@@ -510,6 +510,7 @@ body[data-ui-app=portal] .public-home .home-filter-menu .home-filters{position:a
 .public-home .home-filter-menu:not([open]) .home-filters{display:none!important}
 .public-home .home-active-filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 12px}
 .public-home .home-active-filters[hidden]{display:none!important}
+@media(scripting:none){.public-home .home-discovery-toolbar,.public-home .home-active-filters{display:none!important}}
 .public-home .home-active-filters button{min-height:36px;padding:6px 12px;border:1px solid var(--ss-border);border-radius:999px;background:var(--ss-bg-secondary);color:var(--ss-primary);font:inherit;font-size:12px;cursor:pointer}
 .public-home .home-active-filters button:last-child{border-color:transparent;background:transparent}
 @media(max-width:600px){.public-home .home-discovery-toolbar{gap:8px}.public-home .home-filter-menu>summary{padding:0 12px;font-size:12px}.public-home .home-discovery-toolbar .home-search label{gap:8px}}

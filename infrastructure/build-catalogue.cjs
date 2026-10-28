@@ -9,6 +9,9 @@ function buildCatalogue({write=true}={}){
   if(end===undefined)throw Error('Unclosed '+className);html=html.slice(0,content)+apps.map(a=>render(a)).join('')+html.slice(end);
  }
  grid('public-apps',catalogue.visibleApps().filter(a=>a.public&&!a.homeFeatureOnly));grid('workspace-grid',catalogue.visibleApps().filter(a=>!a.public));
+ // Ship the settled layout so discovery hydration never moves the cards.
+ if(!html.includes('class="home-discovery-toolbar"'))html=html.replace(/(<div class="home-search">[\s\S]*?<\/button><\/div>)(<nav class="home-filters"[\s\S]*?<\/nav>)/,
+  '<div class="home-discovery-toolbar">$1<details class="home-filter-menu"><summary>Filters</summary>$2</details></div><div class="home-active-filters" hidden><button type="button" hidden></button><button type="button">Clear all</button></div>');
  if(write){fs.writeFileSync(file,html);fs.writeFileSync(path.join(__dirname,'../packages/ui/platform-shell.bundle.js'),navigationBundle());}return html;
 }
 if(require.main===module)buildCatalogue();
