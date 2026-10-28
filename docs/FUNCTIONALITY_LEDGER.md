@@ -1,5 +1,12 @@
 # Chambers functionality ledger
 
+**Hindi Ritvayam name correction (2026-10-29):** User supplied the spelling
+`ऋत्वयम्`. Updated shared app-registry Hindi display name and Kundli journey
+copy; rebuilt home/switcher and production app bundles. English/Gujarati names,
+routes and layout remain unchanged. Four catalogue checks and build passed.
+Release evidence: `.publish/deploy-ritvayam-hindi-name.log` and
+`.publish/ritvayam-hindi-name-live.log`.
+
 **Compact combined Ritvayam information panel (2026-10-29):** Sized Samvat's
 column to four digits using the displayed font metrics. Calendar facts and four
 sun/moon times now form a single continuous panel with one horizontal partition,

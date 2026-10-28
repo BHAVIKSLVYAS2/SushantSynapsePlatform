@@ -24,7 +24,7 @@ const apps = [
 ];
 // Brand spellings in local scripts, never semantic translations of product names.
 const brandScripts={
- 'rashifal-kundli':['रित्वयम','રિત્વયમ'],confessions:['कन्फेशन्स','કન્ફેશન્સ'],
+ 'rashifal-kundli':['ऋत्वयम्','રિત્વયમ'],confessions:['कन्फेशन्स','કન્ફેશન્સ'],
  'qr-maker':['क्यूआर मेकर','ક્યુઆર મેકર'],'photo-resize':['फोटो रीसाइज़','ફોટો રિસાઇઝ'],
  'bill-splitter':['बिल स्प्लिटर','બિલ સ્પ્લિટર'],'moment-studio':['मोमेंट स्टूडियो','મોમેન્ટ સ્ટુડિયો'],
  'daily-spark':['टेक अ ब्रेक','ટેક અ બ્રેક'],'decision-wheel':['डिसीजन व्हील','ડિસિઝન વ્હીલ'],
