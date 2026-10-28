@@ -1,7 +1,10 @@
 const {test,expect}=require('../../../../tests/browser-fixture.js');
 
 test('Ritvayam follows the supplied ivory navy gold reference and preserves live controls',async({page})=>{
+ await page.setViewportSize({width:1024,height:1000});
  await page.clock.setFixedTime(new Date('2026-10-25T08:30:00Z'));await page.goto(base+'/');const card=page.locator('[data-home-vedic]');await card.scrollIntoViewIfNeeded();await expect(card).toHaveAttribute('data-calendar-ready','true');await expect(card.locator('h2')).toHaveCSS('font-family',/Georgia/);await expect(card.locator('.almanac-current')).toHaveAttribute('data-tone','positive');await expect(card.locator('.almanac-current-identity strong')).toHaveText('Shubh');await expect(card.locator('[data-vedic-action-label]').first()).toHaveText('View My Rashifal');
+ expect((await card.boundingBox()).height).toBeLessThan(610);
+ await expect(card.locator('.home-vedic-facts dt').first()).toHaveCSS('font-family',/Arial/);
  for(const theme of ['light','dark']){await page.evaluate(theme=>SynapseTheme.write(theme),theme);const values=await card.evaluate(node=>({ink:getComputedStyle(node).getPropertyValue('--rv-ink').trim(),button:getComputedStyle(node).getPropertyValue('--rv-indigo').trim()}));expect(values.ink).toBe(theme==='light'?'#10162e':'#f6f3eb');expect(values.button).toBe(theme==='light'?'#202e78':'#202f7e');}
  await card.locator('.almanac-compact>details>summary').click();await expect(card.locator('li[aria-current=time]')).toHaveCount(1);const end=Number(await card.locator('li[aria-current=time]').getAttribute('data-end'));await page.clock.setFixedTime(new Date(end));await expect(card.locator('.almanac-current')).toHaveAttribute('data-tone','challenging');await expect(card.locator('.almanac-current-identity strong')).toHaveText('Rog');
  for(const language of ['hi','gu','en']){await page.evaluate(language=>SynapseLanguage.set(language),language);await expect(card.locator('.daily-almanac')).toHaveAttribute('lang',language);for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}}

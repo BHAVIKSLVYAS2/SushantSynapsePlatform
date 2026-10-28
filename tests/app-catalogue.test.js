@@ -6,6 +6,22 @@ test('browser and server read the same registry, without private account state',
 test('shipped no-JavaScript cards and featured links match the shared renderer',()=>{
  const {buildCatalogue,navigationBundle}=require('../infrastructure/build-catalogue.cjs');assert.equal(buildCatalogue({write:false}),fs.readFileSync('apps/portal/frontend/index.html','utf8'));assert.equal(navigationBundle(),fs.readFileSync('packages/ui/platform-shell.bundle.js','utf8'));
 });
+
+test('home artwork resolves every symbol and paint server inside the document for Safari',()=>{
+ const html=fs.readFileSync('apps/portal/frontend/index.html','utf8');
+ const sprite=html.match(/<!-- home-art:start -->([\s\S]*?)<!-- home-art:end -->/)[1];
+ const ids=[...sprite.matchAll(/id="([^"]+)"/g)].map(match=>match[1]);
+ assert.equal(new Set(ids).size,ids.length);
+ for(const match of sprite.matchAll(/url\(#([^)]+)\)/g))assert.ok(ids.includes(match[1]),match[1]);
+ for(const app of catalogue.visibleApps()){
+  for(const options of [{},{signedIn:true,access:{accessible:true,status:'Available'}}]){
+   const card=catalogue.renderCard(app,options);
+   const target=card.match(/<use href="#([^"]+)"/)[1];
+   assert.ok(ids.includes(target),app.id+' resolves '+target);
+   assert.doesNotMatch(card,/href="\/home-art\.svg#/);
+  }
+ }
+});
 test('private launch and favourite controls require available server-granted access',()=>{
  const app=catalogue.apps.find(a=>a.id==='advocate');
  const guest=catalogue.renderCard(app);assert.match(guest,/href="\/signin\?next=advocate"/);assert.doesNotMatch(guest,/data-action="launch"|data-action="favorite"/);

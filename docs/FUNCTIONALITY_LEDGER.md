@@ -1,5 +1,55 @@
 # Chambers functionality ledger
 
+**Compact Ritvayam reference refinement (2026-10-28):** Reworked header sizing
+around an in-flow 104px logo, content-sized date box and lighter serif wordmark.
+Scoped sans-serif typography fixes inherited serif labels. Calendar columns and
+value baselines align; excess header/row padding and fixed period/button heights
+are removed. Mobile buttons retain a 44px minimum target and can grow for wrapped
+translations. Refined the code-native gold emblem, location pin, softly filled
+lotus petals and primary-button decoration. The emblem remains a drawn
+interpretation of the raster reference, not an exact original logo asset.
+Desktop preview is approximately 565px high versus the prior 660px capture at
+the same card width; content and language can change height. No information,
+calculation or disclosure was removed. Four browser workflows plus the final
+height/font regression check pass; eleven catalogue/calendar/production model
+checks pass. Chrome and WebKit previews pass five widths, two themes and three
+languages; narrow/dark screenshots reviewed. Evidence:
+`.publish/ritvayam-compact-tests.log`, `.publish/ritvayam-compact-final-test.log`,
+`.publish/ritvayam-compact-preview.log`, `.publish/ritvayam-compact-webkit.log`.
+User requested commit and deploy, including the preceding iPhone SVG fix.
+Release evidence: `.publish/deploy-ritvayam-compact.log` and
+`.publish/ritvayam-compact-live.log`. Production variables/bindings are preserved.
+
+**Ritvayam reference comparison (2026-10-28):** Recaptured the deployed light/dark
+card at the reference date and city (`.publish/ritvayam-comparison-current.log`).
+Data and broad section order match, but visual fidelity remains incomplete:
+the drawn emblem is an approximation, reference wordmark/body typography and
+Preview scale differ, header spacing/date scale differs, calendar column ratios
+and label baselines differ, and the period panel, lotus decoration and action
+button finishes need refinement. Passing functional/style-token checks do not
+establish visual equivalence. This turn is a comparison only; no further UI
+change or release was made.
+
+**iPhone home icon correction (2026-10-28):** App cards now reference one
+namespaced SVG sprite embedded at build time in the home document. This removes
+the external-use gradient/filter resolution implicated by the iPhone screenshot
+(solid shapes remained while gradient fills disappeared). Original artwork, CSS,
+card sizes, links, accessible names and signed-in hydration remain unchanged.
+Four catalogue model checks pass, including every symbol and paint-server target
+for guest and signed-in cards. Mobile Chrome light/dark and hydrated screenshots
+passed with no overflow. Four browser workflows pass, including search, viewport
+layouts, favourites and sign-in/sign-out. WebKit installation initially failed
+with DNS errors, then succeeded on retry. Live WebKit light/dark and hydrated
+rendering passed; screenshots reviewed with complete gradient-filled artwork.
+Physical iPhone rendering is not verified. Live evidence:
+`.publish/iphone-icons-live.log`, `.publish/iphone-icons-webkit-live.log` and
+`iphone-icons-webkit-light.png` / `iphone-icons-webkit-dark.png`.
+Workflow evidence: `.publish/iphone-icons-workflows.log`. Production release logs:
+`.publish/deploy-iphone-icons.log` (network failure),
+`.publish/deploy-iphone-icons-retry.log` (successful Worker
+`decb5170-394d-40bf-b475-b8ef8b6a29f3`, --keep-vars).
+No database or organisation changes. Changes remain uncommitted.
+
 **Ritvayam visual-reference correction (2026-10-28):** Replaced the overly loose
 teal/platform interpretation with the supplied card's ivory/navy and gold palette,
 serif wordmark with gold leaf, flowing gold emblem, bordered information rows,

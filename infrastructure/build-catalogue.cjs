@@ -9,6 +9,14 @@ function buildCatalogue({write=true}={}){
   if(end===undefined)throw Error('Unclosed '+className);html=html.slice(0,content)+apps.map(a=>render(a)).join('')+html.slice(end);
  }
  grid('public-apps',catalogue.visibleApps().filter(a=>a.public&&!a.homeFeatureOnly));grid('workspace-grid',catalogue.visibleApps().filter(a=>!a.public));
+ // Safari can lose gradient/filter references across an external <use> shadow tree.
+ // Keep one namespaced, same-document sprite for static and hydrated cards.
+ const sprite=fs.readFileSync(path.join(__dirname,'../apps/portal/frontend/home-art.svg'),'utf8')
+  .replace('<svg xmlns="http://www.w3.org/2000/svg">','<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;overflow:hidden;pointer-events:none">')
+  .replace(/id="([^"]+)"/g,'id="home-art-$1"').replace(/url\(#([^)]+)\)/g,'url(#home-art-$1)');
+ const spriteBlock='<!-- home-art:start -->'+sprite+'<!-- home-art:end -->';
+ if(html.includes('<!-- home-art:start -->'))html=html.replace(/<!-- home-art:start -->[\s\S]*?<!-- home-art:end -->/,spriteBlock);
+ else html=html.replace(/(<body\b[^>]*>)/,'$1'+spriteBlock);
  // Ship the settled layout so discovery hydration never moves the cards.
  if(!html.includes('class="home-discovery-toolbar"'))html=html.replace(/(<div class="home-search">[\s\S]*?<\/button><\/div>)(<nav class="home-filters"[\s\S]*?<\/nav>)/,
   '<div class="home-discovery-toolbar">$1<details class="home-filter-menu"><summary>Filters</summary>$2</details></div><div class="home-active-filters" hidden><button type="button" hidden></button><button type="button">Clear all</button></div>');

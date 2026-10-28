@@ -55,7 +55,7 @@ function renderCard(app,options={}){
  const e=escapeHtml,signedIn=!!options.signedIn,access=options.access||{},status=access.status||app.status;
  const available=status==='Available'&&(app.public||access.accessible===true);
  const favourite=available&&signedIn?'<button type="button" class="catalogue-favorite favorite" data-action="favorite" data-id="'+e(app.id)+'" aria-pressed="'+!!options.favorite+'" aria-label="'+(options.favorite?'Remove ':'Add ')+e(app.name)+(options.favorite?' from':' to')+' favourites">'+(options.favorite?'&#9733;':'&#9734;')+'</button>':'';
- const art='<svg class="home-sculpture" viewBox="0 0 180 160" aria-hidden="true" focusable="false"><use href="/home-art.svg#'+e(app.art)+'"></use></svg>';
+ const art='<svg class="home-sculpture" viewBox="0 0 180 160" aria-hidden="true" focusable="false"><use href="#home-art-'+e(app.art)+'"></use></svg>';
  if(app.public&&status==='Available')return renderCompactCard(app,{signedIn,favourite,art});
  const label=status!=='Available'?'Unavailable':signedIn?(available?'Available':'Access required'):'Sign-in + app access';
  return renderCompactCard(app,{signedIn,favourite,art,workspace:true,available,status,label});
@@ -63,7 +63,7 @@ function renderCard(app,options={}){
 // Shared by static export and signed-in catalogue hydration. Metadata remains authoritative.
 function renderCompactCard(app,{signedIn=false,favourite='',art,workspace=false,available=true,status='Available',label=''}={}){
  const e=escapeHtml;
- const artwork=art||'<svg class="home-sculpture" viewBox="0 0 180 160" aria-hidden="true" focusable="false"><use href="/home-art.svg#'+e(app.art||'documents')+'"></use></svg>';
+ const artwork=art||'<svg class="home-sculpture" viewBox="0 0 180 160" aria-hidden="true" focusable="false"><use href="#home-art-'+e(app.art||'documents')+'"></use></svg>';
  const star=app.featured?'<span class="home-feature-badge" role="img" aria-label="Featured"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.2L5.8 21 7 14.2l-5-4.9 6.9-1Z"/></svg></span>':'';
  const blocked=workspace&&(status!=='Available'||(signedIn&&!available)),tag=blocked?'div':workspace&&signedIn?'button':'a';
  const name=workspace?(blocked?app.name+' / '+label:signedIn?'Open '+app.name:'Sign in to '+app.name):app.name;
