@@ -610,6 +610,17 @@ html[data-theme=dark] .home-vedic .home-vedic-preview{background:transparent;col
  .home-vedic .almanac-current-timing strong{font-size:15px}.home-vedic .almanac-current-timing small{font-size:12px}
  .home-vedic .home-vedic-actions{grid-row:5;gap:8px;margin-top:6px}.home-vedic .home-vedic-actions a{font-size:14px;min-height:48px;padding:10px;border-radius:14px;gap:8px}
  .home-vedic .home-vedic-actions a>span:last-child{font-size:22px}
- .home-vedic .home-vedic-calendar-line:has(details[open]){grid-column:1/-1;grid-row:3}.home-vedic .home-vedic-content:has(.almanac-heading details[open]){grid-template-rows:auto auto auto}.home-vedic .home-vedic-content:has(.almanac-heading details[open]) .home-vedic-facts{grid-row:4}.home-vedic .home-vedic-content:has(.almanac-heading details[open]) [data-home-almanac]{grid-row:5}.home-vedic .home-vedic-content:has(.almanac-heading details[open]) .home-vedic-actions{grid-row:6}.home-vedic .almanac-heading:has(details[open]){text-align:start}
 }
+.home-vedic .almanac-location-dialog{box-sizing:border-box;inset:0;margin:auto;width:min(480px,calc(100% - 32px));max-width:none;max-height:calc(100dvh - 48px);padding:20px;border:1px solid var(--rv-edge);border-radius:20px;background:var(--rv-panel);color:var(--rv-ink);overflow:auto;overscroll-behavior:contain;box-shadow:0 16px 60px var(--rv-shadow);font-family:var(--ss-font)}
+.home-vedic .almanac-location-dialog::backdrop{background:#0008;backdrop-filter:blur(3px)}
+.home-vedic .almanac-location-dialog-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.home-vedic .almanac-location-dialog h3{position:static;display:block;width:auto;height:auto;clip-path:none;font-size:20px;margin:0;color:var(--rv-ink)}
+.home-vedic .almanac-location-dialog button{box-sizing:border-box;min-height:44px;padding:10px 12px;border:1px solid var(--rv-edge);border-radius:10px;background:var(--rv-panel);color:var(--rv-ink);font:inherit;font-size:14px;white-space:normal;text-align:start;cursor:pointer}
+.home-vedic .almanac-location-dialog .almanac-detect-location{width:100%;border-color:var(--rv-gold);color:var(--rv-period-ink);font-weight:600}
+.home-vedic .almanac-location-dialog button:disabled{opacity:.65;cursor:wait}
+.home-vedic .almanac-location-dialog label{display:grid;gap:8px;font-size:14px;margin-top:16px}
+.home-vedic .almanac-location-dialog input{box-sizing:border-box;min-width:0;width:100%;min-height:44px;padding:10px 12px;border:1px solid var(--rv-edge);border-radius:10px;background:var(--rv-panel);color:var(--rv-ink);font:inherit;font-size:16px}
+.home-vedic .almanac-location-dialog p{font-size:12px;line-height:1.5;margin:8px 0;color:var(--rv-muted)}
+.home-vedic .almanac-location-dialog p:empty{display:none}
+.home-vedic .almanac-location-dialog .almanac-city-results{display:grid;gap:6px;margin-top:10px}
 @media(max-width:370px){.home-vedic h2{font-size:22px}.home-vedic .home-vedic-content{grid-template-columns:36px minmax(0,1fr) minmax(94px,.85fr);column-gap:6px}.home-vedic .home-vedic-om{width:36px;height:36px}.home-vedic .almanac-current-identity{flex-basis:64px}.home-vedic .almanac-current-timing strong{font-size:14px}.home-vedic .almanac-compact>details>summary{padding:10px}.home-vedic .almanac-compact .almanac-current{gap:8px}}

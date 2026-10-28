@@ -56,6 +56,18 @@ export function searchPlaces(query, input = {}) {
  return freeze({matches: matches.slice(0, limit).map(entry => getPlace(entry.place.id)),
   total: matches.length, truncated: matches.length > limit});
 }
+// Device coordinates are used transiently; return a supported city, never store GPS.
+export function nearestPlace(latitude, longitude) {
+ validateCoordinates(latitude, longitude);
+ const radians=value=>value*Math.PI/180;
+ let nearest=null,distance=Infinity;
+ for(const place of entries){
+  const a=Math.sin(radians(place.latitude-latitude)/2)**2+Math.cos(radians(latitude))*Math.cos(radians(place.latitude))*Math.sin(radians(place.longitude-longitude)/2)**2;
+  const km=6371*2*Math.asin(Math.sqrt(Math.min(1,a)));
+  if(km<distance){nearest=place;distance=km;}
+ }
+ return distance<=75?{place:getPlace(nearest.id),distanceKm:distance}:null;
+}
 // Convenience lookup never chooses the largest/nearest entry when names collide.
 export function resolvePlaceName(name, input = {}) {
  const text = queryText(name), {stateCode} = options(input);

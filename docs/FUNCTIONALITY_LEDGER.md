@@ -1,5 +1,26 @@
 # Chambers functionality ledger
 
+**Stable city picker and device-location detection (2026-10-28):** Compact
+Ritvayam city search now opens a labelled native modal dialog, leaving tile grid
+and dimensions unchanged. Input autofocus, Close/Escape and focus restoration
+are retained; manual results update the timings and saved city. Added localized
+Use my location in en/hi/gu on the tile and full Rashifal page. Browser geolocation
+is requested only after the button is pressed; no permission prompt on load.
+Validated coordinates select the nearest supported Indian-directory city within
+75 km entirely on-device. No raw coordinates are persisted or sent to a new
+service; only the existing city ID preference is saved. Denied permission,
+timeout, unavailable APIs and no nearby supported city retain manual search.
+Late callbacks after closing/manual selection/destroy cannot replace the choice.
+Chrome functional workflows and WebKit picker checks pass, covering fixed tile
+geometry, keyboard focus, translations, simulated location success/denial/timeout,
+out-of-coverage coordinates and stale callbacks. Model checks include nearby-city
+validation and existing astronomy/production checks. Device GPS was simulated;
+physical-device accuracy is not verified. Evidence:
+`.publish/ritvayam-location-tests.log`, `.publish/ritvayam-location-webkit.log`,
+`.publish/ritvayam-location-final.log`, `.publish/ritvayam-location-model.log`.
+Release logs: `.publish/deploy-ritvayam-location.log`,
+`.publish/ritvayam-location-live.log`. No business data or binding changes.
+
 **Shared Ritvayam tile arrangement (2026-10-28):** User requested the same layout
 on web and mobile. Mobile now preserves the desktop grid: logo/name at left,
 bordered date/location at right, three calendar facts, four event times, current
