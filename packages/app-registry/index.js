@@ -46,6 +46,9 @@ for(const app of apps){const rank=featuredOrder.indexOf(app.id);app.featured=ran
 const featuredApps=()=>featuredOrder.map(id=>apps.find(a=>a.id===id)).filter(Boolean);
 for(const app of apps.filter(a=>a.catalogueParent)){const parent=apps.find(a=>a.id===app.catalogueParent);if(parent)Object.assign(app,{art:parent.art,purpose:parent.purpose,groups:parent.groups});}
 const visibleApps=()=>apps.filter(a=>!a.catalogueParent).slice().sort((a,b)=>a.homeOrder-b.homeOrder);
+// One search vocabulary for the launcher and the shared app switcher.
+const appSearchText=app=>[app.name,...Object.values(app.displayNames||{}),app.description,app.homeDescription,app.keywords,app.category,
+ app.id==='rashifal-kundli'?'कुंडली कुंडली मिलान जन्मपत्री राशिफल કુંડળી કુંડળી મિલાન રાશિફળ':''].join(' ').normalize('NFKC').toLocaleLowerCase();
 const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function renderCard(app,options={}){
  const e=escapeHtml,signedIn=!!options.signedIn,access=options.access||{},status=access.status||app.status;
@@ -69,7 +72,7 @@ function renderCompactCard(app,{signedIn=false,favourite='',art,workspace=false,
  return '<article class="catalogue-item compact-app-item'+(workspace?' workspace-card':'')+'" data-app-id="'+e(app.id)+'"><'+tag+' class="compact-app '+(workspace?'workspace-launch':'public-app')+(app.featured?' is-featured':'')+'" data-app-id="'+e(app.id)+'" data-accent="'+e(app.accent||'')+'" aria-label="'+e(name)+'" title="'+e(workspace?app.name+' / '+label:app.name)+'"'+attrs+'>'+star+lock+'<span class="compact-app-icon" aria-hidden="true">'+artwork+'</span><'+(workspace?'h3':'h2')+' class="compact-app-name">'+e(app.name)+'</'+(workspace?'h3':'h2')+'>'+introduction+'</'+tag+'>'+favourite+'</article>';
 
 }
-const catalogue={apps,resolveAppId,visibleApps,featuredApps,renderCard,renderCompactCard,escapeHtml};
+const catalogue={apps,resolveAppId,visibleApps,featuredApps,appSearchText,renderCard,renderCompactCard,escapeHtml};
 if(typeof module==='object'&&module.exports)module.exports=catalogue;
 else root.SynapseCatalogue=catalogue;
 

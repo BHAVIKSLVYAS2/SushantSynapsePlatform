@@ -2,12 +2,29 @@ const {test,expect}=require('../../../../tests/browser-fixture.js');
 const {startPreview}=require('../../../../tests/organisation-preview-fixture.cjs');
 const {fillDate,fillTime}=require('../../../../tests/vedic-civil-input.cjs');
 let fixture,base;test.beforeAll(async()=>{if(process.env.PORTAL_LIVE_ORIGIN)base=process.env.PORTAL_LIVE_ORIGIN;else{fixture=await startPreview({enabled:false});base=fixture.base;}});test.afterAll(async()=>fixture?.stop());
-async function city(page,prefix,query,id){await page.locator(prefix+'-query').fill(query);await page.locator('[data-place-id="'+id+'"]').click();}
+async function city(page,prefix,query,id){await page.locator(prefix+'-query').fill(query);await page.locator(prefix+'-query-options [data-place-id="'+id+'"]').click();}
+
+test('recorded-minute comparisons work at Pada, Nakshatra and Moon-sign edges with honest score ranges',async({page})=>{
+ test.setTimeout(180000);await page.setViewportSize({width:390,height:900});const errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')requests.push(r.url());});
+ for(const language of ['en','hi','gu'])for(const [date,time,near]of [['2000-01-01','11:52',false],['2000-01-01','18:32',true],['2000-01-02','14:34',true]]){
+  await page.goto(base+'/rashifal-kundli/matching');await page.evaluate(l=>SynapseLanguage.set(l),language);await page.locator('#matching-consent').check();
+  for(const [axis,d,t]of [['a','2000-01-01','12:15'],['b',date,time]]){await fillDate(page,`#match-${axis}-date`,d);await fillTime(page,`#match-${axis}-time`,t);await city(page,`#match-${axis}`,'New Delhi','geonames:1261481');}
+  await page.locator('#matching-review-button').click();await page.locator('#matching-calculate').click();await expect(page.locator('#matching-results tbody tr')).toHaveCount(8);await expect(page.locator('[data-matching-explanation]')).toHaveCount(8);await expect(page.locator('#matching-result-title')).toBeFocused();
+  await expect(page.locator('.matching-boundary-note')).toHaveCount(near?1:0);if(near){await expect(page.locator('#matching-result-title')).toContainText('–');await expect(page.locator('.matching-boundary-note')).toContainText('B');}else await expect(page.locator('#matching-result-title')).toContainText('28 / 36');
+  expect(await page.locator('#matching-results').innerText()).not.toMatch(/undefined|NaN|null/);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  if(near&&time==='18:32')await page.screenshot({path:test.info().outputPath('boundary-'+language+'.png')});
+  await page.locator('#matching-consent').uncheck();await expect(page.locator('#matching-results')).toBeEmpty();
+ }
+ expect(errors).toEqual([]);expect(requests).toEqual([]);
+});
 test('matching accepts real sample dates, recovers invalid dates/cities, swaps and clears in all languages',async({page})=>{
- test.setTimeout(180000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ test.setTimeout(180000);const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.setViewportSize({width:390,height:900});
  const samples=[['en','2000-01-01','12:15','2001-04-18','09:30'],['hi','1988-02-29','00:05','1992-08-15','23:45'],['gu','1990-08-15','10:30','2000-01-01','12:15']];
  for(const [lang,a,at,b,bt]of samples){await page.goto(base+'/rashifal-kundli/matching');await page.evaluate(lang=>SynapseLanguage.set(lang),lang);await page.locator('#matching-consent').check();await fillDate(page,'#match-a-date',a);await fillTime(page,'#match-a-time',at);await fillDate(page,'#match-b-date',b);await fillTime(page,'#match-b-time',bt);
   await city(page,'#match-a','New Delhi','geonames:1261481');await city(page,'#match-b','Mumbai','geonames:1275339');await expect(page.locator('#match-a-place')).toBeHidden();await page.locator('#matching-review-button').click();await expect(page.locator('#matching-calculate')).toBeVisible();await page.locator('#matching-calculate').click();await expect(page.locator('#matching-results tbody tr')).toHaveCount(8);
+  await expect(page.locator('[data-matching-explanation]')).toHaveCount(8);await expect(page.locator('.matching-summary')).toBeVisible();await expect(page.locator('#matching-result-title')).toBeFocused();await expect(page.locator('#matching-result-title')).toBeInViewport();await expect(page.locator('#matching-results')).toHaveAttribute('aria-busy','false');
+  await expect(page.locator('.matching-summary h3').first()).toHaveText({en:'What does this mean for us?',hi:'हम दोनों के लिए इसका क्या मतलब है?',gu:'આપણા બંને માટે આનો અર્થ શું છે?'}[lang]);
+  await page.locator('.matching-summary').screenshot({path:test.info().outputPath('matching-summary-'+lang+'.png')});
   await page.locator('#matching-swap').click();await expect(page.locator('#match-a-date')).toHaveValue(b);await expect(page.locator('#match-a-place')).toHaveValue('geonames:1275339');expect(await page.locator('#match-a-query').inputValue()).toContain('Mumbai');
   await fillDate(page,'#match-a-date','2000-02-30');await page.locator('#matching-review-button').click();await expect(page.locator('#matching-calculate')).toHaveCount(0);expect(await page.locator('#match-a-date-day').evaluate(n=>n.validationMessage)).not.toBe('');
   await fillDate(page,'#match-a-date','2000-02-29');await page.locator('#match-a-query').fill('New Delhi');await page.locator('#matching-review-button').click();await expect(page.locator('#matching-calculate')).toHaveCount(0);expect(await page.locator('#match-a-query').evaluate(n=>n.validationMessage)).not.toBe('');await city(page,'#match-a','New Delhi','geonames:1261481');await page.locator('#matching-review-button').click();await expect(page.locator('#matching-calculate')).toBeVisible();

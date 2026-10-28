@@ -1,6 +1,10 @@
 const {test,expect}=require('../../../tests/browser-fixture.js');
 const {spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 let proc,dir,base;
+async function chooseInterfaceLanguage(page,language){
+ const menu=page.locator('.platform-language');if(await menu.getAttribute('open')===null)await menu.locator('summary').click();
+ await menu.locator('[data-interface-language="'+language+'"]').click();
+}
 test.beforeEach(async()=>{
  dir=fs.mkdtempSync(path.join(os.tmpdir(),'samaj-browser-'));
  proc=spawn(process.execPath,['server/index.js'],{cwd:path.resolve(__dirname,'../../..'),env:{...process.env,DATA_DIR:dir,PORT:'0'},stdio:['ignore','pipe','pipe']});
@@ -23,13 +27,13 @@ test('Mobile registration autosaves, resumes, submits atomically and renders pri
  await expect(page.getByRole('heading',{name:'Vyas Family',exact:true})).toBeVisible();await expect(page.locator('#profile')).toContainText('Ramesh Vyas');
  await page.getByRole('button',{name:'View profile',exact:true}).click();await page.getByRole('button',{name:'Vanshavali',exact:true}).click();await expect(page.locator('.tree-window')).toBeVisible();
  for(const width of [320,768,1440]){await page.setViewportSize({width,height:900});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
- await page.locator('#language').selectOption('hi');await expect(page.getByRole('button',{name:'निर्देशिका',exact:true})).toBeVisible();
+ await chooseInterfaceLanguage(page,'hi');await expect(page.getByRole('button',{name:'निर्देशिका',exact:true})).toBeVisible();
  await page.setViewportSize({width:390,height:844});await page.screenshot({path:'test-results/digital-samaj-mobile.png',fullPage:true});expect(errors).toEqual([]);
 });
 test('Signed out access requires shared login and database APIs stay protected',async({page})=>{
  await page.goto(base+'/digital-samaj');await expect(page.locator('#content').getByRole('link',{name:'Sign in',exact:true})).toHaveAttribute('href','/signin?next=digital-samaj');
  expect((await page.request.get(base+'/api/digital-samaj')).status()).toBe(401);
- await page.locator('#language').selectOption('hi');await expect(page.getByRole('link',{name:'साइन इन',exact:true})).toBeVisible();await expect(page.locator('#notice')).not.toHaveClass('show');
+ await chooseInterfaceLanguage(page,'hi');await expect(page.getByRole('link',{name:'साइन इन',exact:true})).toBeVisible();await expect(page.locator('#notice')).not.toHaveClass('show');
 });
 
 test('Five-section registration previews individual photos, resumes old drafts and links generations without duplicate steps',async({page})=>{
@@ -49,7 +53,7 @@ test('Five-section registration previews individual photos, resumes old drafts a
  await page.getByRole('button',{name:'Save & continue later',exact:true}).click();await page.reload();await page.getByRole('button',{name:'Photo Samaj',exact:true}).click();await page.getByRole('button',{name:'Register family',exact:true}).click();await page.getByRole('button',{name:'Resume saved registration',exact:true}).click();
  await expect(page.locator('.person-photo img')).toHaveCount(2);await expect(page.locator('[data-bind="members.1.relatedTo"]')).toHaveValue('0');await page.getByRole('button',{name:'Continue',exact:true}).click();await page.getByRole('button',{name:'Continue',exact:true}).click();await expect(page.locator('.review-person img')).toHaveCount(3);
  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:900});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
- await page.locator('#language').selectOption('hi');await expect(page.locator('#wizard h3')).toHaveText('जाँच और जमा करें');await page.locator('#language').selectOption('en');await page.locator('#consent').check();await page.getByRole('button',{name:'Submit for verification',exact:true}).click();await expect(page.getByRole('heading',{name:'Photo Family',exact:true})).toBeVisible();await expect(page.locator('[data-form=photo]')).toHaveCount(0);await expect(page.locator('.profile-card-heading img')).toHaveCount(3);
+ await chooseInterfaceLanguage(page,'hi');await expect(page.locator('#wizard h3')).toHaveText('जाँच और जमा करें');await chooseInterfaceLanguage(page,'en');await page.locator('#consent').check();await page.getByRole('button',{name:'Submit for verification',exact:true}).click();await expect(page.getByRole('heading',{name:'Photo Family',exact:true})).toBeVisible();await expect(page.locator('[data-form=photo]')).toHaveCount(0);await expect(page.locator('.profile-card-heading img')).toHaveCount(3);
  await page.locator('[data-profile]').first().click();await expect(page.locator('[data-profile-photo]')).toHaveCount(0);
  await page.request.post(api+'/persons',{data:{data:{englishName:'Photo editor'}}});await page.getByRole('button',{name:'Directory',exact:true}).click();await page.locator('.grid .card').filter({has:page.getByRole('heading',{name:'Photo editor',exact:true})}).getByRole('button',{name:'View profile',exact:true}).click();
  await expect(page.locator('[data-profile-photo]')).toBeVisible();await page.locator('[data-profile-photo]').setInputFiles(photo('replacement.png'));await expect(page.locator('[data-photo-preview] img')).toHaveCount(1);await page.getByRole('button',{name:'Save photo',exact:true}).click();await expect(page.locator('[data-photo-preview] img')).toHaveCount(0);await page.getByRole('button',{name:'Remove photo',exact:true}).click();await expect(page.locator('#profile>.profile-photo')).toHaveCount(0);expect(errors).toEqual([]);

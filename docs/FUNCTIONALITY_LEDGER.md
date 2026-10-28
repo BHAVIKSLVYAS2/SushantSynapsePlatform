@@ -1,5 +1,235 @@
 # Chambers functionality ledger
 
+**Commit and release validation (2026-10-28):** User superseded the earlier
+no-commit instruction and authorized committing and deploying the accumulated
+reviewed work. Final matching engine/Worker checks: 11/11 passed. Final browser
+selection: 6/6 passed across the Ritvayam card, combined home toolbar/category
+touch behaviour, multilingual matching and grouped bilingual Ritual Assist
+checklists/downloads/printing. Whitespace check passed. Evidence:
+`.publish/release-matching-tests.log`, `.publish/release-browser-tests.log`.
+Production deployment uses --keep-vars; release log `.publish/deploy-committed-release.log`.
+
+**Ritvayam reference alignment and logo (2026-10-28, no commit):** Focused on
+the user's alignment/logo request within the supplied broader design reference.
+Original scalable navy/gold R and petal SVG replaces the dashboard Om mark;
+single logo retained. Branding/date/location use a responsive grid, calendar
+cells align in one full-width row, sun/moon cells use four desktop columns and
+two mobile columns. Removed redundant decorative timing/action icons; existing
+data, localization, location picker, current-period semantics and routes retained.
+No astrology engine or timing-policy changes. Existing calendar/link regression
+passed at 320/390/768/1440 in light/dark/system, with Hindi/Gujarati checks.
+Mobile light and desktop dark screenshots reviewed. Build and whitespace passed.
+Deployed with --keep-vars as Worker `bc8fa527-f16e-4478-92b4-0a9c7947c5a5`.
+Evidence: `.publish/ritvayam-alignment-tests.log`,
+`.publish/deploy-ritvayam-alignment.log`, `.publish/home-vedic-mobile-light.png`,
+`.publish/home-vedic-desktop-dark.png`. No commit.
+
+**Combined home discovery toolbar (2026-10-27, no commit):** Search apps field
+and labelled Filters control share one responsive row. Category choices open
+below in a native details panel; selection closes it and returns focus. Active
+category chip can be removed; Clear all resets both query and category. Escape
+closes filters and outside clicks dismiss them. Existing catalogue/search/access
+logic and cards retained. Toolbar workflow passed at 320/390/768/1440px,
+including keyboard, empty results, combined filters and Clear all. Existing
+category counts and touch-scrolling regression passed. Inactive chip row hidden;
+mobile screenshot reviewed. Frontend stylesheet rebuilt; whitespace passed.
+Deployed with --keep-vars as Worker `6ce55236-4ee3-423d-9e92-f7438b28001f`.
+Live verification completed 28 October 2026: mobile search, combined category,
+empty state, Clear all, inactive chip visibility and no overflow passed at 320px.
+Screenshot: `.publish/home-toolbar-live-mobile.png`. No commit.
+Logs: `.publish/home-toolbar-tests.log`,
+`.publish/home-toolbar-categories.log`, `.publish/deploy-home-toolbar.log`.
+
+**Mourning materials grouped (2026-10-27, no commit):** Days 10–12 now sort into
+puja, household/utensils, food/groceries, meal/donation arrangements and optional
+Pagdi groups where applicable. Stable sorting keeps original order inside each
+group and IDs/checkmarks/edits unchanged. Existing Seedha grouping retained.
+Household/Pagdi prefixes no longer repeat within their labelled groups; export
+data retains those labels and uses the grouped order. Bilingual full checklist
+workflow passed; targeted day 10–12 grouping/filter/mobile/export checks passed
+after updating the obsolete repeated Pagdi-label assertion. Whitespace passed.
+Deployed with --keep-vars as Worker `fc220404-3a8c-4009-a12b-3ca876c6de94`.
+Evidence: `.publish/ritual-material-groups-final.log`,
+`.publish/deploy-ritual-material-groups.log`. No commit.
+
+**Seedha grouped checklist (2026-10-27, no commit):** Standalone Shraddha now
+shows one Seedha / सीधा fieldset containing all eight existing items, without
+repeating the category prefix on each default label. Saved IDs, edits, optional
+items, individual readiness/arranger controls and export labels are preserved.
+Empty groups hide under checklist filters. No new ritual obligations or quantities.
+Bilingual checklist workflow passed, including grouping, saved completion,
+downloads and printing; whitespace checks passed. Deployed with --keep-vars as
+Worker `a4af0a95-8812-4e3f-8c1a-167458f57af8`. Live verified eight grouped items,
+individual checkmarks, arranged filter and no overflow at 320px. No commit.
+Logs: `.publish/seedha-group-browser.log`, `.publish/deploy-seedha-group.log`.
+
+**Plain-language Kundali matching (2026-10-27, no commit):** Results now begin
+with a simple English/Hindi/Gujarati explanation counting full, partial, zero
+and uncertain checks. Each factor also explains its own points in everyday
+language. Clarifies that zero points are not a prediction of relationship failure;
+suggests discussing communication, values, money, family expectations and plans.
+No invented score thresholds, marriage verdict, calculation or layout changes.
+Two matching browser workflows passed (all three languages, including boundary
+ranges); an additional explicit check of the new heading passed in all languages.
+Whitespace checks passed. Deployed with --keep-vars as Worker
+`fa8d0131-449f-4f99-ac55-dc2c2aeca4c0`. Logs:
+`.publish/matching-plain-language.log`, `.publish/matching-plain-assert.log`.
+Live matching workflow and new explanations verified in all three languages:
+`.publish/matching-plain-live.log` (passed). No commit or server-side birth storage.
+
+**Header logo small follow-up (2026-10-27, no commit):** Increased shared logo
+rules by another 2px: desktop 38px, mobile 34px, compact home 32px. App-specific
+constraints retained. Chrome verified home, Ritual Assist and Ritvayam at
+320/390/768/1440px: no overflow, overlapping header controls or clipped logos.
+Home CSS rebuilt; whitespace checks passed. Deployed with --keep-vars as Worker
+`75704230-9a57-4a53-8e2e-a4bec3923178`; `.publish/deploy-header-logo-followup.log`.
+
+**Ritvayam home card space (2026-10-27, no commit):** Retained the Om identity
+beside Ritvayam and hid the second decorative moon/lotus mark. Calendar date is
+aligned right; city selection remains accessible on the left. Removed the old
+heading space reserved for the second mark. Chrome verified one visible mark,
+right-aligned date and no overflow at 320/390/768/1440px; mobile screenshot reviewed
+at `.publish/ritvayam-single-logo.png`. No calculation/content changes.
+Deployed with --keep-vars as Worker `51954d6f-17a3-483e-9cde-b64bc68b7282`;
+live mobile verified one logo, date to the right and no overflow. Whitespace
+check passed. No commit. Log `.publish/deploy-ritvayam-layout.log`.
+
+**Header logo slightly larger (2026-10-27, no commit):** Shared desktop logo
+increased 32→36px, mobile rule 28→32px and compact home rule 26→30px.
+Existing header height, spacing, text, artwork and app-specific constraints kept.
+Chrome checked home, Ritual Assist and Ritvayam at 320/390/768/1440px in light
+and dark: 24 checks passed with no horizontal overflow and logos within headers.
+Desktop screenshot reviewed; frontend build and whitespace checks passed.
+Deployed with --keep-vars as Worker `093723ae-e56d-4c67-ba97-62fbc74ce900`.
+Live home verified 30px at 320px and 36px at 1440px with no overflow.
+Evidence: `.publish/deploy-header-logo.log`, `.publish/header-logo-live-mobile.png`.
+
+**Ashubh reference materials (2026-10-27, no commit):** Day 11 adds 64 and day 12
+adds 33 English/Hindi items from the family-provided Index.html / Vertical.Html.
+Reference quantities and optional Pagdi items require officiant confirmation;
+duplicate rice-pinda excluded and unclear regional names marked for clarification.
+Existing item IDs and checklist state retained. No UI, timing or feature changes.
+Two selected Chrome workflows passed: day 10–12 display/export/mobile fit and
+all 15 bilingual guides, saved completion isolation, downloads and printing.
+Unique item IDs verified; whitespace checks passed. Deployed with --keep-vars as
+Worker `714807ab-b382-4f45-90a9-b25a8c3dc989`; live mobile Hindi checklists verified
+69 day-11 and 38 day-12 entries without overflow. No commit or business-data writes.
+Evidence: `.publish/ashubh-browser.log`, `.publish/deploy-ashubh-materials.log`.
+
+**Featured stars slightly larger (2026-10-27, no commit):** Home featured-app
+stars increased from 10px to 14px inside 16px badges. Existing placement, colours,
+cards and access behaviour retained. Local Chrome verified all four stars and
+no overflow at 320/390/768/1440px in light/dark; mobile screenshot reviewed.
+Home build and whitespace checks passed. Deployed with --keep-vars as Worker
+`fa4fd5f3-62f7-4ba5-a5d3-3a5552f18d9b`; live mobile verified four 14px stars,
+no overflow, health 200 and unscoped private records 409. No commit/push or
+business-data changes. Evidence: `.publish/ui-ux-audit/featured-stars-14px.png`,
+`featured-stars-live.png` and `deploy-featured-stars.log`.
+
+**Matching boundary fix live (2026-10-27, no commit):** Deployed the verified
+recorded-minute correction below as Worker
+`6723fe3c-eb92-4612-938d-cc2ac19d8121` with --keep-vars. All nine synthetic
+Pada/Nakshatra/Rashi × en/hi/gu combinations pass on production, including eight
+factors, score ranges/person notices, focus, revocation and zero non-GET birth
+requests. Health 200, unscoped records 409; matching connect-src none and
+no-referrer preserved. D1, organisation mode, variables and rate limits retained.
+No commit/push, migration, bootstrap, account or business-data writes. HEAD remains
+`c17f185`. Logs: `.publish/ui-ux-audit/deploy-matching-boundary.log`,
+`matching-boundary-live.log`, `matching-boundary-live-http.json`; live screenshots
+under `matching-boundary-live-results`.
+
+**Recorded-minute matching boundary correction (2026-10-27):** User reported
+generic unavailable error after reviewing two recorded-minute inputs. Reproduced
+with synthetic Pada, Nakshatra and Rashi-edge births. The former all-or-nothing
+Moon boundary gate included Pada even though no eight-factor rule depends on it.
+New packages/vedic/matching-screen.mjs admits clear/Pada-only pairs unchanged and
+enumerates relevant classifications inside the existing proposed ±121-arcsecond
+screen. Changing scores/totals are null with explicit ranges; total bounds come
+from correlated complete comparisons, not summed independent factor bounds.
+UI identifies the affected person/edge, shows possible factors and ranges in
+en/hi/gu, and replaces misleading accuracy guidance. The margin is not represented
+as a physical/statistical confidence bound. Exact-time, consent, validation,
+no-marriage-verdict, Yoga/Mangal and browser-memory-only privacy remain intact.
+Scope and synthetic examples: docs/vedic/P15_EVIDENCE.md.
+
+Verification: **554/554 full checks**, **11/11 matching/model/actual Worker checks**,
+four existing matching browser workflows and one new nine-combination boundary/
+language browser flow pass. Includes dense independent angular sampling, zero
+crossing, eight component explanations, result focus, revocation and no non-GET
+birth requests. An initial test city selector matched both people's identical
+birthplaces; scoped it to each picker and the complete new flow passed. English
+boundary screenshot visually reviewed. Syntax/whitespace checks pass. Evidence:
+`.publish/ui-ux-audit/matching-fix-full-tests.log`, `matching-boundary-model.log`,
+`matching-boundary-browser.log`, `matching-edge-browser-final.log` and corresponding
+screenshots. Deployment follow-up will be recorded after live verification; no
+commit, schema change or business-data write.
+
+**UI/UX production release (2026-10-27, no commit):** User explicitly requested
+deployment without committing. Published the verified working tree with
+`npm.cmd run deploy:frontend` (`--keep-vars`), Worker
+`85bb377c-53f6-43c0-bcdd-16f550234167`. HEAD remains
+`c17f1850110f47cb70628e37d5f3930cbc5265ac`; no commit or push. Production
+D1, organisation mode, existing variables and rate-limit bindings preserved.
+Build exported 1,162 public assets. Six live HTTP checks and five read-only
+Chrome flows passed: home task search, switcher search/recovery, matching's eight
+explanations and result focus, Timetable at 320/390/768/1440px in both themes,
+and Arena shared materials with no uncaught page errors. Health 200, unscoped
+records 409; matching retains connect-src none/no-referrer. An initial verifier
+asserted the source stylesheet URL; corrected it for the hashed, app-specific
+production URL and the complete rerun passed. No migrations, bootstrap, account
+changes or business-data writes. Evidence: `.publish/ui-ux-audit/`
+`deploy-production.log`, `live-verification-final.log`, `live-verification.json`
+and live screenshots. The local-only release statements below are historical
+and superseded by this authorized deployment.
+
+**Whole-product UI/UX audit and fixes (2026-10-27, local):** Added
+`docs/UI_UX_REVIEW_2026-10-27.md`: route/component inventory, four publicly
+researched competitor references, 36 prioritized findings, design-system direction,
+three-phase roadmap, implementation and validation limits. Fixture-only survey
+and gallery tooling live in infrastructure/ui-ux-{audit,report}.cjs; evidence is
+under `.publish/ui-ux-audit/`. Survey: 69 route/role states, 552 viewport/theme
+checks after a successful News retry; no page overflow or uncaught script errors.
+Arena results deliberately remain 503 when its shared service/secret is absent;
+the raw JSON/plain-text error presentation is a documented remaining gap.
+
+Home and shared Switch app now reuse registry search metadata/native names/task
+aliases; featured Ritvayam participates in filtering/counts. The switcher has a
+localized clear action, expanded state and focus recovery. Matching retains
+eight-factor explanations, moves technical preamble into a disclosure, simplifies
+person legends, distinguishes primary/secondary actions and focuses review/results
+with busy/success feedback. Consent, admission, scores and private processing are
+unchanged. Timetable's six steps fit 320px; Arena landing uses shared materials
+before its existing artwork styles. No API, authentication, role, schema or
+storage changes. Generated delivery assets rebuilt; README/architecture updated.
+
+Validation: **552/552 full API checks**, frontend build (1,162 exported public
+assets), syntax/whitespace checks pass. **59 distinct selected browser checks have
+passing results across the main batch and focused reruns**: 51 shared/public/
+Ritvayam/Timetable checks and eight private/admin flows. This is not a claim that
+the entire E2E suite ran. Initial broad batch: 45 pass/6 fail; corrected existing
+test setup/assertions for the beta notice, default-Node versus production entry,
+shared language menu, Curio title, adaptive card heights and stylesheet newlines.
+All six failed broad checks subsequently passed focused reruns. Private setup
+timeout and hidden legacy-language selector failures also passed after isolated
+rerun/test-adapter correction. Logs: api-tests-final.log, browser-final.log,
+private-flows.log, private-recheck.log, final-recheck.log,
+timetable-regression.log, language-recheck.log and build.log in that evidence
+directory. Existing public layout/governance checks and private case/hearing/
+document/payment/receipt/registration/export flows retain real fixture verification.
+Contrast checks cover six canonical token pairs only, not WCAG certification.
+No commit, deployment, production migration or live business-data writes.
+
+**Matching result explanation (2026-10-27, local):** User clarified that comparison
+ran but provided no useful verdict/details. Added an en/hi/gu result overview
+grouping actual factors into full, partial and zero points, with scores and eight
+plain-language factor explanations. No invented compatibility thresholds or
+marriage verdict; existing draft-rulebook, exception and health-inference limits
+remain explicit. Birth processing, numerical rules and persistence unchanged.
+Existing live comparison passed in all three languages before changes. Updated
+local Chrome regression passed (one flow covering all three languages, eight
+explanations, review/calculation, invalid-input recovery, swap and clear).
+App bundle build and whitespace checks passed. Not deployed in this session.
+
 **Committed release follow-up (2026-10-26):** User subsequently authorized
 committing and deploying the already verified Ritvayam journey and Curio header
 changes. The earlier uncommitted-release notes below describe their original

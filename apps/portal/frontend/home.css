@@ -1,6 +1,6 @@
 /* Ritvayam home launcher: live calendar, local timings and two clear destinations. */
 .home-vedic{position:relative;isolation:isolate;margin:24px 0;padding:24px;border:1px solid var(--home-border,var(--ui-edge));border-radius:26px;color:var(--ui-ink);background:linear-gradient(125deg,var(--home-chip,var(--ui-soft)),var(--home-card,var(--ui-solid)));box-shadow:inset 0 1px 0 color-mix(in srgb,var(--ui-accent) 10%,transparent);overflow:hidden}
-.home-vedic-content{min-width:0}.home-vedic-art{position:absolute;inset:8px 24px auto auto;width:140px;height:150px;pointer-events:none}.ritvayam-mark{display:block;width:100%;height:auto;filter:drop-shadow(0 6px 16px color-mix(in srgb,var(--ui-accent) 20%,transparent))}
+.home-vedic-content{min-width:0}.home-vedic-art{display:none;position:absolute;inset:8px 24px auto auto;width:140px;height:150px;pointer-events:none}.ritvayam-mark{display:block;width:100%;height:auto;filter:drop-shadow(0 6px 16px color-mix(in srgb,var(--ui-accent) 20%,transparent))}
 .home-vedic-om{position:absolute;inset:26px auto auto 24px;display:grid;place-items:center;width:72px;height:72px;border-radius:50%;font-size:48px;line-height:1;color:var(--ui-accent);background:color-mix(in srgb,var(--ui-accent) 10%,transparent);border:1px solid color-mix(in srgb,var(--ui-accent) 25%,transparent)}
 .home-vedic-heading{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin:10px 140px 0 90px}.home-vedic h2{margin:0;font-family:inherit;font-weight:750;font-size:clamp(24px,3vw,36px);line-height:1.2;letter-spacing:-.025em;color:var(--ui-ink)}.home-vedic-preview{padding:4px 10px;border:1px solid color-mix(in srgb,var(--ui-accent) 35%,transparent);border-radius:24px;color:var(--ui-accent);font-size:11px}.home-vedic-intro{margin:10px 130px 28px 90px;font-size:15px;color:var(--ui-muted)}
 .home-vedic-date{display:inline-flex;align-items:center;width:32%;margin:0;font-size:16px;line-height:1.5;vertical-align:middle}.home-vedic-date:before{content:'\25a6';font-size:28px;margin-inline-end:12px;color:var(--ui-muted)}.home-vedic-facts{display:inline-grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;width:68%;margin:0;vertical-align:middle}.home-vedic-facts>div{min-width:0;border-inline-start:1px solid var(--home-border,var(--ui-edge));padding-inline-start:16px}.home-vedic-facts dt{color:var(--ui-muted);font-size:12px;margin-bottom:5px}.home-vedic-facts dd{margin:0;font-size:16px;font-weight:650;overflow-wrap:anywhere}
@@ -51,7 +51,7 @@
   body:has(.public-home) .platform-switch svg,body:has(.public-home) .platform-shell-divider {display:none}
   body:has(.public-home) .platform-shell-brand {flex:1;min-width:0;font-size:12px;gap:6px}
   body:has(.public-home) .platform-shell-brand span {display:block!important;max-width:105px;white-space:normal!important;line-height:1.15}
-  body:has(.public-home) .platform-shell-brand img {width:26px;height:26px}
+  body:has(.public-home) .platform-shell-brand img {width:32px;height:32px}
   body:has(.public-home) .platform-shell-actions {gap:6px}
   body:has(.public-home) .platform-shell .theme-toggle {width:48px;min-width:48px;min-height:48px}
   body:has(.public-home) .synapse-language-toggle {min-height:48px}
@@ -479,8 +479,8 @@ body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-a
 body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app .compact-app-icon{display:grid;place-items:center;flex:0 0 40px;width:44px;height:40px;border-radius:12px;background:radial-gradient(ellipse at 50% 80%,color-mix(in srgb,var(--launcher-accent) 15%,transparent),transparent 75%)}
 body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app .home-sculpture{display:block;width:44px;height:40px;max-width:none;margin:0;filter:drop-shadow(0 2px 1px color-mix(in srgb,var(--ss-text) 12%,transparent));transform:none}
 body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app .compact-app-name{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere;flex:none;width:100%;min-height:20px;max-height:40px;margin:0;padding:0;font-size:13px;font-weight:600;line-height:20px;letter-spacing:0;color:var(--ss-text)}
-body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app .home-feature-badge{position:absolute;inset:4px auto auto 4px;display:grid;place-items:center;width:12px;height:12px;padding:0;border:0;border-radius:0;background:none;box-shadow:none;color:var(--launcher-accent);font-size:0}
-body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app .home-feature-badge svg{width:10px;height:10px;fill:currentColor}
+body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app .home-feature-badge{position:absolute;inset:4px auto auto 4px;display:grid;place-items:center;width:16px;height:16px;padding:0;border:0;border-radius:0;background:none;box-shadow:none;color:var(--launcher-accent);font-size:0}
+body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app .home-feature-badge svg{width:14px;height:14px;fill:currentColor}
 body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app.is-featured{padding:6px 5px 6px}
 body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app-item>.catalogue-favorite{top:0;right:0;bottom:auto;display:grid;place-items:start end;box-sizing:border-box;width:44px;height:44px;min-width:44px;min-height:44px;padding:3px 4px;border:0;border-radius:12px;background:none;color:var(--ss-primary);box-shadow:none;font-size:15px;line-height:18px}
 body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app:focus-visible,body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .catalogue-favorite:focus-visible{outline:3px solid var(--ss-primary);outline-offset:1px;z-index:2}
@@ -499,3 +499,57 @@ body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .launcher-
 body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app[aria-disabled=true]{opacity:.65;cursor:default}
 
 body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app .compact-app-description{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;overflow-wrap:anywhere;flex:none;width:100%;margin:0;font-size:12px;line-height:16px;max-height:48px;color:var(--ss-text-secondary)}
+.public-home [data-home-vedic][hidden]{display:none!important}
+.public-home .home-discovery-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:12px;position:relative;z-index:4}
+.public-home .home-discovery-toolbar .home-search{flex:1;min-width:0;margin:0}
+.public-home .home-filter-menu{flex:none}
+.public-home .home-filter-menu>summary{display:flex;align-items:center;gap:8px;min-height:52px;padding:0 16px;border:1px solid var(--ss-border);border-radius:16px;background:var(--ss-bg-secondary);color:var(--ss-text);font-size:13px;cursor:pointer;list-style:none}
+.public-home .home-filter-menu>summary::-webkit-details-marker{display:none}
+.public-home .home-filter-menu>summary:before{content:'☷';font-size:21px}
+body[data-ui-app=portal] .public-home .home-filter-menu .home-filters{position:absolute;inset:auto 0 auto auto;top:calc(100% + 8px);display:flex;flex-wrap:wrap;width:min(360px,100%);box-sizing:border-box;padding:12px;margin:0;border:1px solid var(--ss-border);border-radius:16px;background:var(--ss-bg-secondary);box-shadow:var(--ss-shadow-raised,0 8px 24px #00000020);overflow:visible}
+.public-home .home-filter-menu:not([open]) .home-filters{display:none!important}
+.public-home .home-active-filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 12px}
+.public-home .home-active-filters[hidden]{display:none!important}
+.public-home .home-active-filters button{min-height:36px;padding:6px 12px;border:1px solid var(--ss-border);border-radius:999px;background:var(--ss-bg-secondary);color:var(--ss-primary);font:inherit;font-size:12px;cursor:pointer}
+.public-home .home-active-filters button:last-child{border-color:transparent;background:transparent}
+@media(max-width:600px){.public-home .home-discovery-toolbar{gap:8px}.public-home .home-filter-menu>summary{padding:0 12px;font-size:12px}.public-home .home-discovery-toolbar .home-search label{gap:8px}}
+.home-vedic .home-vedic-heading{margin-inline-end:0}
+.home-vedic .home-vedic-intro{margin-inline-end:0}
+.home-vedic .home-vedic-calendar-line{float:right;flex-direction:row-reverse;justify-content:flex-start;text-align:right}
+@media(max-width:699px){.home-vedic .home-vedic-calendar-line{float:none;justify-content:space-between}}
+/* Ritvayam reference alignment: one brand mark and consistent information rows. */
+.home-vedic .home-vedic-content{display:grid;grid-template-columns:76px minmax(0,1fr) minmax(190px,auto);gap:6px 16px;align-items:center}
+.home-vedic .home-vedic-om{top:18px;left:20px;width:72px;height:72px;border:0;border-radius:18px;background:transparent url('/ritvayam-logo.svg') center/contain no-repeat;font-size:0}
+.home-vedic .home-vedic-heading{grid-column:2;grid-row:1;margin:0;align-self:end;gap:10px}
+.home-vedic .home-vedic-intro{grid-column:2;grid-row:2;margin:0;align-self:start;font-size:13px}
+.home-vedic .home-vedic-calendar-line{grid-column:3;grid-row:1/3;float:none;width:auto;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:0;text-align:right;min-height:72px;padding:0 12px;border:1px solid var(--home-border,var(--ui-edge));border-radius:14px}
+.home-vedic .home-vedic-date{font-size:12px;font-variant-numeric:tabular-nums}
+.home-vedic .home-vedic-date:before{display:none}
+.home-vedic .home-vedic-facts{grid-column:1/-1;grid-row:3;display:grid;width:auto;grid-template-columns:1fr 1fr 1.4fr;gap:12px;padding:14px;margin:12px 0 0;border:1px solid var(--home-border,var(--ui-edge));border-radius:14px;background:var(--home-card,var(--ui-solid));box-sizing:border-box}
+.home-vedic .home-vedic-facts>div:first-child{border:0;padding:0}
+.home-vedic .home-vedic-facts dt{font-size:12px}.home-vedic .home-vedic-facts dd{font-size:17px;line-height:1.4}
+.home-vedic [data-home-almanac]{grid-column:1/-1;grid-row:4;min-width:0}
+.home-vedic .almanac-compact{margin:6px 0 0;padding:0;border:0}
+.home-vedic .almanac-compact .almanac-events{padding:14px;margin:0 0 12px;border:1px solid var(--home-border,var(--ui-edge));border-radius:14px;background:var(--home-card,var(--ui-solid));gap:12px}
+.home-vedic .almanac-compact .almanac-events>div{display:block;text-align:start;min-width:0;padding-inline-start:14px;border-inline-start:1px solid var(--home-border,var(--ui-edge))}
+.home-vedic .almanac-compact .almanac-events>div:first-child{border:0;padding:0}
+.home-vedic .almanac-event-icon,.home-vedic .vedic-action-icon{display:none}
+.home-vedic .almanac-compact .almanac-events dt{font-size:12px}.home-vedic .almanac-compact .almanac-events dd{font-size:18px;font-variant-numeric:tabular-nums;margin:4px 0 0}
+.home-vedic .home-vedic-actions{grid-column:1/-1;grid-row:5;margin:6px 0 0}
+.home-vedic .home-vedic-note,.home-vedic noscript{grid-column:1/-1}
+@media(max-width:699px){
+ .home-vedic .home-vedic-content{grid-template-columns:48px minmax(0,1fr);gap:4px 10px}
+ .home-vedic .home-vedic-om{top:14px;left:12px;width:48px;height:48px;border-radius:12px}
+ .home-vedic .home-vedic-heading{grid-column:2;grid-row:1;margin:0;gap:6px;min-height:28px}
+ .home-vedic .home-vedic-intro{grid-column:2;grid-row:2;font-size:11px;margin:0;min-height:16px}
+ .home-vedic .home-vedic-calendar-line{grid-column:1/-1;grid-row:3;flex-direction:row-reverse;align-items:center;justify-content:space-between;min-height:44px;padding:0;border:0;gap:8px;margin:6px 0 0}
+ .home-vedic .home-vedic-date{font-size:10px}.home-vedic .almanac-heading summary{font-size:11px}
+ .home-vedic .home-vedic-facts{grid-row:4;margin:0;padding:10px;gap:8px;grid-template-columns:.8fr 1fr 1.4fr}
+ .home-vedic .home-vedic-facts>div{padding-inline-start:8px}.home-vedic .home-vedic-facts dt{font-size:9px}.home-vedic .home-vedic-facts dd{font-size:12px}
+ .home-vedic [data-home-almanac]{grid-row:5}
+ .home-vedic .almanac-compact .almanac-events{grid-template-columns:repeat(2,minmax(0,1fr));padding:10px;gap:12px 16px;margin-bottom:10px}
+ .home-vedic .almanac-compact .almanac-events>div{padding:0;border:0}
+ .home-vedic .almanac-compact .almanac-events dt{font-size:10px}.home-vedic .almanac-compact .almanac-events dd{font-size:16px}
+ .home-vedic .home-vedic-actions{grid-row:6;gap:8px}.home-vedic .home-vedic-actions a{font-size:14px;padding:8px 12px}
+ .home-vedic .home-vedic-calendar-line:has(details[open]){flex-wrap:wrap}.home-vedic .almanac-heading:has(details[open]){flex-basis:100%;text-align:start}
+}

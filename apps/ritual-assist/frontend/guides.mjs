@@ -1,4 +1,5 @@
 import {expandMourning} from './mourning.mjs';
+import {expandMourningMaterials} from './mourning-materials.mjs';
 import {reviewMaterials} from './materials-review.mjs';
 import {addSeedha} from './seedha.mjs';
 // Original preparation summaries. These are not complete liturgical instructions.
@@ -38,6 +39,7 @@ export const guides=[
 ];
 expandMourning(guides,sources);
 reviewMaterials(guides,sources);
+expandMourningMaterials(guides);
 addSeedha(guides,sources);
 for(const guide of guides.filter(guide=>guide.category==='ashubh')){
  guide.care=p('Take preparation at a pace your family can manage. These lists help you arrange chosen observances; they do not measure love, grief or devotion. Discuss customs respectfully, allow people to participate by choice, and keep expenses within your means. Rest, meals and practical support matter too.','तैयारी उतनी गति से करें जितनी परिवार संभाल सके। ये सूचियाँ चुने हुए अनुष्ठान की व्यवस्था के लिए हैं; प्रेम, शोक या श्रद्धा का माप नहीं। रीति पर सम्मान से बात करें, सहभागिता अपनी इच्छा से रखें और खर्च अपनी क्षमता में करें। आराम, भोजन और व्यावहारिक सहायता का भी ध्यान रखें।');

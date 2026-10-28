@@ -1,5 +1,28 @@
 # Organisation licensing production cutover
 
+Latest matching correction (2026-10-27, no commit): Worker
+`6723fe3c-eb92-4612-938d-cc2ac19d8121` fixes the generic unavailable error for
+recorded-minute birth pairs. Pada-only edges calculate normally; meaningful Moon
+boundaries show classification-dependent score ranges and the affected person.
+All nine boundary/language combinations pass live. Full checks 554/554, focused
+model/Worker checks 11/11, and existing matching browser workflows passed before
+release. Deployed with --keep-vars; D1, organisation mode and rate limits preserved.
+Health 200, unscoped records 409; private birth processing headers retained.
+No commit/push, migration, bootstrap or production business-data writes.
+Evidence: `.publish/ui-ux-audit/matching-boundary-live.log` and functionality ledger.
+
+Latest UI/UX release (2026-10-27): User requested deployment without committing.
+Worker `85bb377c-53f6-43c0-bcdd-16f550234167` publishes the verified working tree
+with `--keep-vars`; HEAD remains `c17f185` and no commit/push was made. Shared
+task/native-name discovery, Matching explanation/disclosure/focus improvements,
+narrow Timetable steps and Arena shared materials are live. Six HTTP checks and
+five read-only browser flows passed. Health 200; unscoped records 409; matching
+privacy headers retained. D1, organisation mode, rate limits and variables were
+preserved. No migration, bootstrap, account change or business-data write.
+Evidence: `.publish/ui-ux-audit/deploy-production.log` and
+`live-verification-final.log`. Full audit and local verification are recorded in
+`docs/UI_UX_REVIEW_2026-10-27.md` and the functionality ledger.
+
 Latest everyday Kundli release (2026-10-25): Worker
 76651b55-6e09-41ca-88ca-f972935bf07c. Reading-first en/hi/gu life topics and
 computed Dasha-period themes precede grouped charts/timing/advanced tools. Native

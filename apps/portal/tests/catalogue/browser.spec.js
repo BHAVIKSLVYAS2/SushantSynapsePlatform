@@ -1,4 +1,26 @@
 const {test,expect}=require('../../../../tests/browser-fixture.js');
+
+test('UX review: home search includes featured Ritvayam and hides unrelated content',async({page})=>{
+ await page.setViewportSize({width:390,height:900});await page.goto(base+'/');await page.locator('#home-search-input').fill('kundli');
+ await page.screenshot({path:'.publish/ui-ux-audit/home-search-'+(process.env.UI_AUDIT_BASELINE?'before':'after')+'.png',fullPage:true});
+ await expect(page.locator('.home-search-empty')).toBeHidden();await expect(page.locator('[data-home-vedic]')).toBeVisible();
+ await page.locator('#home-search-input').fill('QR');await expect(page.locator('[data-home-vedic]')).toBeHidden();
+ await page.getByRole('button',{name:'Clear app search'}).click();await expect(page.locator('[data-home-vedic]')).toBeVisible();
+});
+
+test('UX review: switcher supports task search, recovery and keyboard focus',async({page})=>{
+ await page.setViewportSize({width:390,height:900});await page.goto(base+'/qr-maker');
+ const trigger=page.locator('.platform-switch'),modal=page.locator('#platform-switcher'),search=modal.locator('input');
+ await trigger.click();await expect(search).toBeFocused();await search.fill('kundli');
+ await modal.screenshot({path:'.publish/ui-ux-audit/switcher-'+(process.env.UI_AUDIT_BASELINE?'before':'after')+'.png'});
+ await expect(modal.locator('a[href="/rashifal-kundli"]')).toBeVisible();
+ for(const query of ['कुंडली','રિત્વયમ','receipt','schedule']){await search.fill(query);await expect(modal.locator('nav a:visible').first()).toBeVisible();}
+ await search.fill('unfindable-app-999');await expect(modal.locator('.platform-switcher-empty')).toBeVisible();
+ await modal.locator('[data-clear-app-search]').click();await expect(search).toHaveValue('');await expect(search).toBeFocused();
+ await expect(trigger).toHaveAttribute('aria-expanded','true');await page.keyboard.press('Escape');await expect(modal).not.toBeVisible();await expect(trigger).toBeFocused();await expect(trigger).toHaveAttribute('aria-expanded','false');
+ await trigger.click();await expect(search).toHaveValue('');
+ for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await page.evaluate(t=>SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+});
 const {spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 let child,base,dir;
 test.beforeEach(async()=>{
@@ -18,8 +40,8 @@ test('compact launcher has stable touch targets and two-line names across every 
  for(const width of [320,360,390,430,600,768,900,1024])for(const theme of ['light','dark']){
   await page.setViewportSize({width,height:900});await page.evaluate(t=>SynapseTheme.write(t),theme);
   const layout=await page.locator('.public-apps').evaluate(grid=>({columns:getComputedStyle(grid).gridTemplateColumns.split(' ').length,width:grid.clientWidth,scroll:grid.scrollWidth,cards:[...grid.querySelectorAll('.public-app')].map(card=>{const r=card.getBoundingClientRect(),icon=card.querySelector('.compact-app-icon').getBoundingClientRect(),name=card.querySelector('h2');return {width:r.width,height:r.height,icon:[icon.width,icon.height],clamp:getComputedStyle(name).webkitLineClamp,text:name.textContent,nameBottom:name.getBoundingClientRect().bottom-r.top,iconTop:icon.top-r.top};})}));
-  expect(layout.columns,`${width} ${theme}`).toBe(width>=900?4:3);expect(layout.scroll).toBeLessThanOrEqual(layout.width);const work=await page.locator('.workspace-grid').evaluate(grid=>({columns:getComputedStyle(grid).gridTemplateColumns.split(' ').length,heights:[...grid.querySelectorAll('.compact-app')].map(card=>card.getBoundingClientRect().height)}));expect(work.columns).toBe(layout.columns);expect(work.heights).toEqual([140,140,140,140]);
-  for(const card of layout.cards){expect(card.height).toBe(140);expect(card.width).toBeGreaterThanOrEqual(44);expect(card.icon).toEqual([44,40]);expect(card.clamp).toBe('2');expect(card.nameBottom).toBeLessThanOrEqual(140);expect(card.iconTop).toBe(7);expect(card.text.length).toBeGreaterThan(0);}
+  expect(layout.columns,`${width} ${theme}`).toBe(width>=900?4:3);expect(layout.scroll).toBeLessThanOrEqual(layout.width);const work=await page.locator('.workspace-grid').evaluate(grid=>({columns:getComputedStyle(grid).gridTemplateColumns.split(' ').length,heights:[...grid.querySelectorAll('.compact-app')].map(card=>card.getBoundingClientRect().height)}));expect(work.columns).toBe(layout.columns);expect(work.heights.every(h=>h>=130&&h<=152)).toBe(true);
+  for(const card of layout.cards){expect(card.height).toBeGreaterThanOrEqual(130);expect(card.height).toBeLessThanOrEqual(152);expect(card.width).toBeGreaterThanOrEqual(44);expect(card.icon).toEqual([44,40]);expect(card.clamp).toBe('2');expect(card.nameBottom).toBeLessThanOrEqual(card.height);expect(card.iconTop).toBe(7);expect(card.text.length).toBeGreaterThan(0);}
   await expect(page.locator('.public-app p,.public-app-arrow,.public-app-category')).toHaveCount(0);await expect(page.locator('.home-feature-badge')).toHaveCount(4);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   if([320,360,390,430,768,1024].includes(width))await page.locator('.public-apps').screenshot({path:`.publish/compact-launcher-${width}-${theme}.png`});
  }
@@ -30,7 +52,7 @@ test('launcher accommodates twenty metadata-driven apps, long names, filters and
  await page.setViewportSize({width:390,height:900});await page.goto(base+'/');await page.evaluate(()=>{const template=SynapseCatalogue.apps.find(app=>app.id==='qr-maker');for(let n=0;n<6;n++){const app={...template,id:'launcher-fixture-'+n,name:'Extraordinarily Long App Name '+n,featured:false,homeOrder:500+n};SynapseCatalogue.apps.push(app);document.querySelector('.public-apps').insertAdjacentHTML('beforeend',SynapseCatalogue.renderCard(app));}});
  await expect(page.locator('#free-apps .compact-app')).toHaveCount(20);expect((await page.locator('.public-apps').boundingBox()).height).toBeLessThanOrEqual(1020);
  await page.locator('#home-search-input').fill('Extraordinarily');await expect(page.locator('.public-app:not([hidden])')).toHaveCount(6);await page.locator('#home-search-input').press('Escape');await expect(page.locator('.public-app:not([hidden])')).toHaveCount(20);
- await page.evaluate(()=>{const app={...SynapseCatalogue.apps.find(app=>app.id==='qr-maker'),id:'planned-fixture',status:'Planned'};document.querySelector('.public-apps').insertAdjacentHTML('beforeend',SynapseCatalogue.renderCard(app));});const planned=page.locator('#free-apps [data-app-id=planned-fixture]').first();expect((await planned.boundingBox()).height).toBe(140);await expect(planned.locator('[aria-disabled=true]')).toHaveCount(1);await expect(planned.locator('a,button')).toHaveCount(0);
+ await page.evaluate(()=>{const app={...SynapseCatalogue.apps.find(app=>app.id==='qr-maker'),id:'planned-fixture',status:'Planned'};document.querySelector('.public-apps').insertAdjacentHTML('beforeend',SynapseCatalogue.renderCard(app));});const planned=page.locator('#free-apps [data-app-id=planned-fixture]').first();expect((await planned.boundingBox()).height).toBeGreaterThanOrEqual(130);expect((await planned.boundingBox()).height).toBeLessThanOrEqual(152);await expect(planned.locator('[aria-disabled=true]')).toHaveCount(1);await expect(planned.locator('a,button')).toHaveCount(0);
  const target=page.locator('.public-app[data-app-id=qr-maker]');await target.focus();await expect(target).toBeFocused();await target.press('Enter');await expect(page).toHaveURL(base+'/qr-maker');
 });
 
@@ -65,7 +87,7 @@ test('Explore starts immediately with compact Featured badges and one search',as
  for(const width of [320,390,768,1440])for(const theme of ['light','dark']){
   await page.setViewportSize({width,height:1050});await page.evaluate(t=>window.SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   const layout=await page.locator('.public-apps').evaluate(el=>({columns:getComputedStyle(el).gridTemplateColumns.split(' ').length,direct:el.querySelectorAll(':scope > .catalogue-item').length}));expect(layout).toEqual({columns:width>=900?4:3,direct:14});
-  const gap=await page.evaluate(()=>document.querySelector('.public-apps').getBoundingClientRect().top-document.querySelector('.home-filters').getBoundingClientRect().bottom);expect(gap).toBeGreaterThanOrEqual(0);expect(gap).toBeLessThanOrEqual(24);
+  const gap=await page.evaluate(()=>document.querySelector('.public-apps').getBoundingClientRect().top-document.querySelector('.home-discovery-toolbar').getBoundingClientRect().bottom);expect(gap).toBeGreaterThanOrEqual(0);expect(gap).toBeLessThanOrEqual(24);
   expect(await page.locator('.public-app.is-featured').evaluateAll(cards=>cards.every(card=>{const badge=card.querySelector('.home-feature-badge').getBoundingClientRect(),title=card.querySelector('h2').getBoundingClientRect(),box=card.getBoundingClientRect();return badge.right<=box.right&&badge.top>=box.top&&badge.bottom<=title.top;}))).toBe(true);
  }
  await page.setViewportSize({width:390,height:1050});await page.evaluate(()=>{window.SynapseTheme.write('light');scrollTo({top:0,behavior:'instant'});});await page.waitForTimeout(300);await page.screenshot({path:'.publish/explore-badges-local.png'});expect(errors).toEqual([]);

@@ -1,6 +1,7 @@
 // Authored interface copy only. Brand names, documents and user content retain
 // their own language. Columns: source English | Hindi | Gujarati.
 const rows=`
+Clear app search|ऐप खोज साफ़ करें|ઍપ શોધ સાફ કરો
 Edit favourites|पसंदीदा ऐप बदलें|મનપસંદ ઍપ બદલો
 Done editing|बदलाव पूरे|ફેરફાર પૂરા
 No favourites yet. Choose Edit favourites to save apps here.|अभी कोई पसंदीदा ऐप नहीं है। यहाँ ऐप रखने के लिए पसंदीदा ऐप बदलें चुनें।|હજુ કોઈ મનપસંદ ઍપ નથી. અહીં ઍપ રાખવા મનપસંદ ઍપ બદલો પસંદ કરો.

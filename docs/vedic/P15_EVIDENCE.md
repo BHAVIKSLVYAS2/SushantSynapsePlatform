@@ -1,5 +1,34 @@
 # P15 matching, Yoga and Dosha rulebooks — internal draft
 
+## Recorded-minute boundary correction (2026-10-27)
+
+The historical all-or-nothing Rashi/Nakshatra/Pada screen below is superseded
+for two-person matching. A user reported its generic error despite both inputs
+being recorded minutes. The eight composite rules use Rashi and/or Nakshatra,
+not Pada. `matching-screen.mjs` now leaves clear/Pada-only pairs unchanged and
+enumerates classifications inside the same proposed ±121-arcsecond margin at
+relevant edges. No recorded input is shifted or replaced. For each person,
+endpoints and nominal longitude cover every relevant classification: distinct
+Rashi/Nakshatra edges are separated by at least 3 1/3 degrees, exceeding the
+242-arcsecond interval width. The cross-product retains correlated total scores.
+
+Components with differing possible scores have `score:null` plus `scoreRange`;
+their possible factors are explicit. A varying total is `null` with `totalRange`,
+never the sum of independent component minima/maxima. Clear pairs retain the
+unchanged raw result. The private envelope is version 2; the screened result
+uses version 2 only when needed. UI shows ranges and person/edge explanations in
+en/hi/gu. These are classification possibilities under the existing proposed
+screen, not certified physical bounds or statistical confidence intervals.
+Unknown/approximate-time inputs remain withheld; consent, future/range validation,
+Yoga/Mangal checks, raw table rules and no-marriage-verdict policy are unchanged.
+Birth details remain in tab memory with no requests/persistence.
+
+Regression examples are synthetic: 2000-01-01 11:52 IST (Pada-only),
+2000-01-01 18:32 IST (Nakshatra), and 2000-01-02 14:34 IST (Rashi), using New Delhi.
+Dense pure-angle samples include the zero/360 crossing and two-person ambiguity;
+actual Worker parity checks cover clear, Pada and meaningful-boundary cases.
+The historical reference-source hashes below predate this correction.
+
 Implemented 2026-10-24. Package/lock 0.15.0; no new dependency, production
 deployment, route/card, persistence, auth/schema or Ritual Assist change.
 

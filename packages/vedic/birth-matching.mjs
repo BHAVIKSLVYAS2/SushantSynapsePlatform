@@ -1,7 +1,7 @@
 import {normalizeInput} from './normalize.mjs';
 import {siderealSnapshot} from './sidereal.mjs';
 import {birthChartForBirth} from './birth-chart.mjs';
-import {ashtakoota} from './matching.mjs';
+import {screenedMatching} from './matching-screen.mjs';
 import {geometricTraditionalChecks} from './traditional-checks.mjs';
 import {requireTraditionalOptions} from './rulebooks.mjs';
 import {fields,fail,freeze,VedicInputError} from './diagnostics.mjs';
@@ -18,10 +18,9 @@ export function matchingForBirths(input,context){
  if(input.consent!==true)fail('CONSENT_REQUIRED');
  const a=snapshot(input.personA,context),b=snapshot(input.personB,context);
  const moon=s=>s.sidereal.positions.find(p=>p.body==='Moon');
- if([moon(a),moon(b)].some(p=>Math.min(p.boundaryDistances.rashiArcsec,p.boundaryDistances.nakshatraArcsec,p.boundaryDistances.padaArcsec)<=121))fail('UNSTABLE_BIRTH_TIME');
- const matching=ashtakoota({personAMoonLongitude:moon(a).siderealLongitude,personBMoonLongitude:moon(b).siderealLongitude,rulebookId:input.rulebookId});
- return freeze({contractVersion:'vedic-private-matching-1',matching,
-  admission:'exact-minute-outside-proposed-121-arcsecond-moon-boundary-screen; not certified physical stability',
+ const matching=screenedMatching({personAMoonLongitude:moon(a).siderealLongitude,personBMoonLongitude:moon(b).siderealLongitude,rulebookId:input.rulebookId});
+ return freeze({contractVersion:'vedic-private-matching-2',matching,
+  admission:'exact-minute; Rashi/Nakshatra classification possibilities within proposed 121-arcsecond screen; not certified physical stability',
   warnings:[...new Set([...a.birth.warnings,...b.birth.warnings,...a.sidereal.warnings,...b.sidereal.warnings,'INDEPENDENT_RULEBOOK_REVIEW_PENDING','NO_MARRIAGE_VERDICT'])]});
 }
 export function traditionalChecksForBirth(input,options,context){

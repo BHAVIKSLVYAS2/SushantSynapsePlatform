@@ -1,5 +1,23 @@
 # Code ownership and adding apps
 
+Recorded-minute matching correction (2026-10-27): packages/vedic/matching-screen.mjs
+screens only the Rashi/Nakshatra factors used by the eight rules. Pada-only edges
+do not block matching. Relevant edges return bounded classification possibilities
+within the existing proposed angular margin, nullable changing scores and explicit
+ranges; they are not certified physical/statistical bounds. The app renders the
+affected person, ranges and possible factors in en/hi/gu. Exact-time, consent and
+privacy gates remain. This supersedes historical whole-comparison boundary denial;
+see docs/vedic/P15_EVIDENCE.md. Do not invent a single total from per-factor ranges.
+
+UI review follow-up (2026-10-27): app-registry's appSearchText owns the shared
+launcher/switcher search vocabulary, including featured Ritvayam and native names.
+Rebuild navigation through build-catalogue/build-home; edit source modules rather
+than generated shell/language bundles. Matching's app-owned matching-summary.mjs
+and rulebook-view.mjs own presentation, disclosure and focus; numerical/admission
+rules remain in packages/vedic. infrastructure/ui-ux-audit.cjs uses disposable
+local fixtures; ui-ux-report.cjs builds private local evidence under .publish.
+Scope, competitor sources and remaining work: UI_UX_REVIEW_2026-10-27.md.
+
 Curio and astrology usability (2026-10-26): Curio is the platform's displayed
 name/PWA title; manifest ID/routes and Sushant Synapse organisation branding stay
 unchanged. Kundali, matching and Time Machine reuse birthplace-input.mjs with

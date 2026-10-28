@@ -2,6 +2,31 @@ const {test}=require('node:test'),assert=require('node:assert/strict');
 const rulebookId='SYNAPSE_ASHTAKOOTA_COMPOSITE_V1',rulesId='SYNAPSE_GEOMETRIC_RULE_PREVIEW_V1';
 const birth={localDate:'2000-01-01',localTime:'12:15',placeId:'geonames:1261481',timeZoneId:'Asia/Kolkata',timeAccuracy:'exact',calculationProfileId:'IN_LAHIRI_DEFAULT_V1'},context={now:Date.parse('2026-10-24T12:00Z')};
 const center=n=>(n-.5)*360/27;
+
+test('recorded-minute matching admits irrelevant Pada edges and reports relevant edge possibilities',async()=>{
+ const {matchingForBirths}=await import('../packages/vedic/birth-matching.mjs');
+ const run=(localDate,localTime)=>matchingForBirths({consent:true,personA:birth,personB:{...birth,localDate,localTime},rulebookId},context).matching;
+ const pada=run('2000-01-01','11:52');assert.equal(pada.total,28);assert.equal(pada.boundaryScreen,undefined);
+ for(const [date,time,boundary]of [['2000-01-01','18:32','nakshatra'],['2000-01-02','14:34','rashi']]){
+  const result=run(date,time);assert.equal(result.components.length,8);assert.deepEqual(result.boundaryScreen.people,[{axis:'B',boundaries:[boundary]}]);
+  assert.equal(result.total,null);assert.ok(result.totalRange.min<result.totalRange.max);
+  const expected=boundary==='rashi'?['varna','vashya','graha-maitri','bhakoot']:['tara','yoni','gana','nadi'];
+  for(const c of result.components){assert.ok(c.scoreRange.min>=0&&c.scoreRange.max<=c.maximum);if(!expected.includes(c.id))assert.equal(c.scoreRange.min,c.scoreRange.max);if(c.score===null)assert.ok(expected.includes(c.id));}
+  assert.ok(Object.isFrozen(result.boundaryScreen.people));
+ }
+});
+
+test('matching screen ranges cover dense independent samples around sign, star and zero-crossing edges',async()=>{
+ const {screenedMatching}=await import('../packages/vedic/matching-screen.mjs'),{ashtakoota}=await import('../packages/vedic/matching.mjs');
+ for(const a of [0,30,40/3,120,360-0.01])for(const b of [0,90,80/3,225]){
+  const input={personAMoonLongitude:a,personBMoonLongitude:b,rulebookId},screen=screenedMatching(input);
+  for(let i=-5;i<=5;i++)for(let j=-5;j<=5;j++){
+   const r=ashtakoota({...input,personAMoonLongitude:a+i/5*121/3600,personBMoonLongitude:b+j/5*121/3600});
+   assert.ok(r.total>=screen.totalRange.min&&r.total<=screen.totalRange.max);
+   r.components.forEach((c,k)=>assert.ok(c.score>=screen.components[k].scoreRange.min&&c.score<=screen.components[k].scoreRange.max));
+  }
+ }
+});
 test('P15 all 108 x 108 quarter pairs have eight bounded components summing to 0..36',async()=>{
  const {ashtakoota}=await import('../packages/vedic/matching.mjs');
  for(let a=0;a<108;a++)for(let b=0;b<108;b++){const r=ashtakoota({personAMoonLongitude:(a+.5)*360/108,personBMoonLongitude:(b+.5)*360/108,rulebookId});assert.equal(r.components.length,8);assert.equal(r.components.reduce((sum,c)=>sum+c.score,0),r.total);assert.ok(r.total>=0&&r.total<=36);r.components.forEach((c,i)=>{assert.equal(c.maximum,i+1);assert.ok(c.score>=0&&c.score<=c.maximum);});assert.equal(r.assessment,'withheld-no-marriage-verdict');assert.ok(Object.isFrozen(r.components));}

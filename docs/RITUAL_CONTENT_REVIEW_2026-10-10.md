@@ -1,5 +1,13 @@
 # Ritual preparation content review
 
+27 October 2026 addition: day 11 has 64 reference additions and day 12 has 33,
+transcribed once from the user's matching Index.html / Vertical.Html lists.
+Original item IDs remain intact for saved checkmarks and edits. Quantities are
+family references, subject to officiant confirmation; optional Pagdi items stay
+labelled. Duplicate rice-pinda removed; unclear local terms retained explicitly
+for clarification. Day 10's placeholder was excluded. No layout, scripts,
+third-party photo tools, embedded videos, ritual timing or new features adopted.
+
 Reviewed 10 October 2026. All 15 English/Hindi guides now include reviewed material notes and officiant questions. These are original preparation summaries, not copied liturgical text, certified ritual instructions or universal family requirements.
 
 | Guides | Reviewed references and scope |

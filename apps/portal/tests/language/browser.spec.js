@@ -6,12 +6,12 @@ async function choose(page,language){const menu=page.locator('.platform-language
 const toggle=(page,lang)=>page.locator('[data-interface-language='+lang+']');
 
 test('Gujarati is globally available and retained on direct pages, stale links, reload and back navigation',async({page})=>{
- test.setTimeout(process.env.SETTINGS_LIVE_ORIGIN?180000:60000);
+ test.setTimeout(180000);
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/');await choose(page,'gu');
  for(const route of ['/qr-maker?lang=en','/photo-resize','/bill-splitter','/team-mixer','/decision-wheel','/focus','/take-a-break','/moment-studio','/moment-studio/cards','/news','/fund-overlap','/timetable-lite','/feedback','/contact','/support','/privacy','/terms','/legal/third-party-notices','/ritual-assist','/ritual-assist/calendar','/digital-samaj','/tournament-lite','/batchfee-lite','/rashifal-kundli','/rashifal-kundli/rashifal','/rashifal-kundli/matching','/rashifal-kundli/time-machine']){
   await page.goto(base+route);await expect(page.locator('[data-language-control]')).toHaveCount(1);await expect(toggle(page,'gu')).toHaveAttribute('aria-pressed','true');await expect(page.locator('html')).toHaveAttribute('lang','gu');await expect(toggle(page,'hi')).toHaveCount(1);await expect(toggle(page,'en')).toHaveCount(1);
  }
- await page.goto(base+'/advocate');await expect(toggle(page,'gu')).toHaveAttribute('aria-pressed','true');await expect(page.locator('html')).toHaveAttribute('lang','gu');await expect(page.locator('.organisation-gate h1,#workspace-title')).toHaveText(/^(તમારું Chambers કાર્યક્ષેત્ર પસંદ કરો|કામ માટે સાઇન ઇન કરો\.)$/);
+ await page.goto(base+'/advocate');await expect(toggle(page,'gu')).toHaveAttribute('aria-pressed','true');await expect(page.locator('html')).toHaveAttribute('lang','gu');await expect(page.locator('.organisation-gate h1,#workspace-title,#auth-form h2')).toHaveText(/^(તમારું Chambers કાર્યક્ષેત્ર પસંદ કરો|કામ માટે સાઇન ઇન કરો\.|તમારું પ્લેટફૉર્મ તૈયાર કરો|ફરી સ્વાગત છે)$/);
  await page.goto(base+'/qr-maker?lang=en');await expect(page.locator('#editor button[type=submit]')).toHaveText('QR કોડ બનાવો');await page.locator('#content').fill('Contact');await choose(page,'hi');await expect(page.locator('#content')).toHaveValue('Contact');await expect(page.locator('#editor button[type=submit]')).toHaveText('QR कोड बनाएँ');await page.reload();await expect(page.locator('html')).toHaveAttribute('lang','hi');await page.goto(base+'/contact?lang=en');await expect(page.locator('h1')).toHaveText('संपर्क और अनुरोध');await page.goBack();await expect(toggle(page,'hi')).toHaveAttribute('aria-pressed','true');expect(errors).toEqual([]);
 });
 

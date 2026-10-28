@@ -1,5 +1,12 @@
 # Ritual Assist
 
+Ashubh material update (2026-10-27): the existing day 11 and day 12 checklists
+include 64 and 33 English/Hindi additions from the family's Index.html and
+Vertical.Html reference lists. Quantities require priest confirmation; Pagdi
+entries are optional and unclear regional terms are flagged. Day 10 is unchanged.
+Checklist UI and existing saved item IDs are preserved. Reference scripts, photo
+services and video embeds were not imported.
+
 P17 integration (local, verified 2026-10-25): the pinned Astronomy Engine is
 shared from packages/vedic/vendor via the legacy compatibility import. The public
 engine URL serves the same source through the existing delivery transform.

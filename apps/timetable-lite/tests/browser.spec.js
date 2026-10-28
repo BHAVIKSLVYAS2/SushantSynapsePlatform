@@ -1,10 +1,17 @@
 import {setTheme} from '../../../tests/browser-theme.js';
-import {test,expect} from '@playwright/test';
+import browserFixture from '../../../tests/browser-fixture.js';
+const {test,expect}=browserFixture;
 import {spawn} from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 let child,base,dir;
+
+test('setup steps fit narrow screens and keep all six steps available',async({page})=>{
+ await page.goto(base+'/timetable-lite');
+ for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await setTheme(page,theme);await expect(page.locator('#steps button')).toHaveCount(6);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+ await page.setViewportSize({width:320,height:900});await page.locator('#steps').screenshot({path:'.publish/ui-ux-audit/timetable-steps-after.png'});
+});
 test('help and sample downloads preserve work; complete browser state survives reopening and backup restore',async({page,context})=>{
  page.on('dialog',d=>d.accept());await page.goto(base+'/timetable-lite');
  await page.getByLabel('Institute name',{exact:true}).fill('My retained institute');await page.getByRole('button',{name:'Save institute & days'}).click();

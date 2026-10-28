@@ -1,5 +1,14 @@
 # Curio · Sushant Synapse
 
+Home search and Switch app share task keywords and native app names, including
+Kundli/Ritvayam. Matching explains all eight traditional factors, keeps technical
+conventions in a disclosure, and moves focus to the review and completed result.
+Recorded-minute comparisons near a Moon-sign/Nakshatra edge show possible score
+ranges and the affected person instead of a generic rejection. Pada-only edges
+do not block the eight-factor comparison. Approximate/unknown times remain withheld.
+The product audit and implementation evidence are documented in
+`docs/UI_UX_REVIEW_2026-10-27.md`.
+
 Home cards show an icon, app name and short introduction: three columns on phones
 and small tablets, and four on wider screens. Signed-in users can choose
 Edit favourites, select apps, then Done editing to return to launching apps.

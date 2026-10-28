@@ -165,7 +165,7 @@ test('platform catalogue, favourites, recent launches and app-access enforcement
  assert.equal((await request('platform/access/'+member.id,'PATCH',{appIds:[]})).status,200);
  assert.equal((await request('state','GET',null,options)).status,403);
  assert.equal((await request('documents/'+(await state()).documents[0].id+'/download','GET',null,options)).status,403);
- assert.match(await (await fetch(base+'/')).text(),/Sushant Synapse Platform/);
+ assert.match(await (await fetch(base+'/')).text(),/<title>Curio By Sushant Synapse<\/title>/);
  assert.match(await (await fetch(base+'/advocate')).text(),/Chambers/);
  assert.equal((await fetch(base+'/healthz')).status,200);
 });

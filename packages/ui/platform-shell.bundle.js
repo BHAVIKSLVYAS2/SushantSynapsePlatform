@@ -47,6 +47,9 @@ for(const app of apps){const rank=featuredOrder.indexOf(app.id);app.featured=ran
 const featuredApps=()=>featuredOrder.map(id=>apps.find(a=>a.id===id)).filter(Boolean);
 for(const app of apps.filter(a=>a.catalogueParent)){const parent=apps.find(a=>a.id===app.catalogueParent);if(parent)Object.assign(app,{art:parent.art,purpose:parent.purpose,groups:parent.groups});}
 const visibleApps=()=>apps.filter(a=>!a.catalogueParent).slice().sort((a,b)=>a.homeOrder-b.homeOrder);
+// One search vocabulary for the launcher and the shared app switcher.
+const appSearchText=app=>[app.name,...Object.values(app.displayNames||{}),app.description,app.homeDescription,app.keywords,app.category,
+ app.id==='rashifal-kundli'?'कुंडली कुंडली मिलान जन्मपत्री राशिफल કુંડળી કુંડળી મિલાન રાશિફળ':''].join(' ').normalize('NFKC').toLocaleLowerCase();
 const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function renderCard(app,options={}){
  const e=escapeHtml,signedIn=!!options.signedIn,access=options.access||{},status=access.status||app.status;
@@ -70,7 +73,7 @@ function renderCompactCard(app,{signedIn=false,favourite='',art,workspace=false,
  return '<article class="catalogue-item compact-app-item'+(workspace?' workspace-card':'')+'" data-app-id="'+e(app.id)+'"><'+tag+' class="compact-app '+(workspace?'workspace-launch':'public-app')+(app.featured?' is-featured':'')+'" data-app-id="'+e(app.id)+'" data-accent="'+e(app.accent||'')+'" aria-label="'+e(name)+'" title="'+e(workspace?app.name+' / '+label:app.name)+'"'+attrs+'>'+star+lock+'<span class="compact-app-icon" aria-hidden="true">'+artwork+'</span><'+(workspace?'h3':'h2')+' class="compact-app-name">'+e(app.name)+'</'+(workspace?'h3':'h2')+'>'+introduction+'</'+tag+'>'+favourite+'</article>';
 
 }
-const catalogue={apps,resolveAppId,visibleApps,featuredApps,renderCard,renderCompactCard,escapeHtml};
+const catalogue={apps,resolveAppId,visibleApps,featuredApps,appSearchText,renderCard,renderCompactCard,escapeHtml};
 if(typeof module==='object'&&module.exports)module.exports=catalogue;
 else root.SynapseCatalogue=catalogue;
 
@@ -148,12 +151,18 @@ else root.SynapseCatalogue=catalogue;
  document.body.append(modal);
  const feedbackLink=document.createElement('a');feedbackLink.href='/feedback';feedbackLink.innerHTML='<strong>Feedback &amp; ideas</strong><span>Suggest, vote and help improve the platform</span>';modal.querySelector('nav').append(feedbackLink);
  const trigger=header.querySelector('.platform-switch'),input=modal.querySelector('input');
- trigger.addEventListener('click',()=>{modal.showModal();input.focus();});
+ trigger.setAttribute('aria-expanded','false');
+ const resetSearch=document.createElement('button');resetSearch.type='button';resetSearch.dataset.clearAppSearch='';resetSearch.textContent='Clear app search';resetSearch.hidden=true;modal.querySelector('.platform-switcher-search').after(resetSearch);
+ const searchStatus=modal.querySelector('.platform-switcher-empty');searchStatus.setAttribute('role','status');searchStatus.setAttribute('aria-live','polite');
+ const searchableLinks=[...modal.querySelectorAll('nav a')].map(link=>{const app=window.SynapseCatalogue?.apps.find(app=>app.path===new URL(link.href,location.href).pathname);return {link,text:(link.textContent+' '+(app?window.SynapseCatalogue.appSearchText(app):'')).normalize('NFKC').toLocaleLowerCase()};});
+ function filterApps(){const query=input.value.normalize('NFKC').trim().toLocaleLowerCase(),words=query.split(/\s+/);let count=0;modal.querySelectorAll('.platform-switcher-group').forEach(label=>label.hidden=!!query);for(const {link,text}of searchableLinks){link.hidden=!words.every(word=>text.includes(word));if(!link.hidden)count++;}searchStatus.hidden=!!count;resetSearch.hidden=!query;}
+ resetSearch.addEventListener('click',()=>{input.value='';filterApps();input.focus();});
+ trigger.addEventListener('click',()=>{input.value='';filterApps();modal.showModal();trigger.setAttribute('aria-expanded','true');input.focus();});
  modal.querySelector('button').addEventListener('click',()=>modal.close());
  modal.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();event.stopPropagation();modal.close();}});
- modal.addEventListener('close',()=>trigger.focus({preventScroll:true}));
+ modal.addEventListener('close',()=>{trigger.setAttribute('aria-expanded','false');trigger.focus({preventScroll:true});});
  modal.addEventListener('click',event=>{if(event.target!==modal)return;const r=modal.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)modal.close();});
- input.addEventListener('input',()=>{modal.querySelectorAll('.platform-switcher-group').forEach(label=>label.hidden=!!input.value.trim());const words=input.value.trim().toLowerCase().split(/\s+/);let count=0;modal.querySelectorAll('nav a').forEach(link=>{link.hidden=!words.every(word=>link.textContent.toLowerCase().includes(word));if(!link.hidden)count++;});modal.querySelector('.platform-switcher-empty').hidden=!!count;});
+ input.addEventListener('input',filterApps);
  // Existing headers keep their local action handlers; classify them after app rerenders.
  function reconcile(){
   document.querySelectorAll('.synapse-legal-footer nav').forEach(nav=>{if(!nav.querySelector('a[href="/feedback"]')){const link=document.createElement('a');link.href='/feedback';link.textContent='Feedback & ideas';nav.append(link);}});
