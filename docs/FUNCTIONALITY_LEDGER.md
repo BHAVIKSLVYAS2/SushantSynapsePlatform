@@ -1,5 +1,19 @@
 # Chambers functionality ledger
 
+**Single-row Choghadiya strip (2026-10-29):** Reduced the home card's current
+Choghadiya to one horizontal row: label/name, partition, interval, crossing-date
+label and disclosure arrow. Mobile height is about 44px and desktop stays below
+48px; the entire row remains a 44px minimum tap target. Removed the oversized
+arrow circle and softened decorative petals. Compact date ranges retain full
+labels for accessibility/tooltips; very narrow screens visually omit the
+redundant Now label while retaining the current-Choghadiya accessible label.
+Day/night disclosure and calculation logic remain unchanged. Three calendar/
+catalogue browser workflows passed. Chrome/WebKit checks cover both themes,
+en/hi/gu, 320/393/1024px and ordinary, Adhik and pre-sunrise year-boundary dates,
+checking row height and overflow. Evidence: `.publish/ritvayam-one-row-tests.log`,
+`.publish/ritvayam-one-row-review.log`. Release evidence:
+`.publish/deploy-ritvayam-one-row.log`, `.publish/ritvayam-one-row-live.log`.
+
 **Hindi Ritvayam name correction (2026-10-29):** User supplied the spelling
 `ऋत्वयम्`. Updated shared app-registry Hindi display name and Kundli journey
 copy; rebuilt home/switcher and production app bundles. English/Gujarati names,

@@ -660,3 +660,29 @@ html[data-theme=dark] .home-vedic .home-vedic-preview{background:transparent;col
 }
 @media(max-width:370px){.home-vedic .home-vedic-facts>div:last-child dd{font-size:13px}.home-vedic .almanac-current-timing strong{font-size:14px}.home-vedic .almanac-current-label{font-size:11px}}
 @media(max-width:370px){.home-vedic h2{font-size:22px}.home-vedic .home-vedic-content{grid-template-columns:36px minmax(0,1fr) minmax(94px,.85fr);column-gap:6px}.home-vedic .home-vedic-om{width:36px;height:36px}.home-vedic .almanac-current-identity{flex-basis:64px}.home-vedic .almanac-current-timing strong{font-size:14px}.home-vedic .almanac-compact>details>summary{padding:10px}.home-vedic .almanac-compact .almanac-current{gap:8px}}
+/* Compact Choghadiya: one tappable row, with date beside the interval. */
+.home-vedic .almanac-compact>details>summary{min-height:44px;padding:8px 14px;gap:10px;border-radius:12px}
+.home-vedic .almanac-compact .almanac-current{gap:14px;line-height:1.4;white-space:nowrap}
+.home-vedic .almanac-current-identity{flex-direction:row;align-items:center;gap:10px;flex-basis:auto;width:auto;max-width:none;padding-inline-end:14px}
+.home-vedic .almanac-current-label{font-size:14px}
+.home-vedic .almanac-current-identity strong{font-size:20px;line-height:1.4}
+.home-vedic .almanac-current-timing{flex-direction:row;align-items:baseline;gap:8px;flex:none}
+.home-vedic .almanac-current-timing strong{font-size:18px;line-height:1.4}
+.home-vedic .almanac-current-timing small{font-size:12px;white-space:nowrap}
+.home-vedic .almanac-compact>details>summary:after,.home-vedic .almanac-compact>details>summary:has([data-tone]):after{flex-basis:20px;width:20px;height:20px;border:0;background:none;box-shadow:none;font-size:24px;color:var(--period-ink)}
+.home-vedic .almanac-compact>details>summary:before{opacity:.18}
+.home-vedic .almanac-period-label-short{display:none}
+@media(max-width:699px){
+ .home-vedic .almanac-compact>details>summary{padding:8px 10px;gap:6px}
+ .home-vedic .almanac-compact .almanac-current{gap:8px}
+ .home-vedic .almanac-current-identity{gap:6px;padding-inline-end:8px}
+ .home-vedic .almanac-current-label{font-size:12px}
+ .home-vedic .almanac-current-identity strong{font-size:16px}
+ .home-vedic .almanac-current-timing{gap:5px}
+ .home-vedic .almanac-current-timing strong{font-size:14px}
+ .home-vedic .almanac-current-timing small{font-size:11px}
+ .home-vedic .almanac-period-label-full{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+ .home-vedic .almanac-period-label-short{display:inline}
+ .home-vedic .almanac-compact>details>summary:after{flex-basis:18px;width:18px;font-size:22px}
+}
+@media(max-width:370px){.home-vedic .almanac-current-label{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.home-vedic .almanac-current-identity{padding-inline-end:6px}.home-vedic .almanac-current-timing small{font-size:10px}.home-vedic .almanac-compact>details>summary{padding-inline:8px}}
