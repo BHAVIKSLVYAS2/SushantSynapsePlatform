@@ -16,6 +16,13 @@ coverage follows the current table's reachable outcomes. Existing consent/review
 locale parity, responsive themes, stale-result clearing and revocation browser
 workflows pass. Evidence: `.publish/matching-story-tests.log` and
 `.publish/matching-story-browser.log`.
+Implementation `3c5382c` deployed with `--keep-vars` as Worker
+`7b08f836-0252-41f3-88ad-468bee7b404c`. Live synthetic-input browser verification
+passes all three languages at 390/1440, unchanged 28/36 example, three stories,
+no page errors and consent-revocation clearing. The production header hides the
+app's language select; the check sets that select programmatically. No production
+business writes, migrations or account changes. Evidence:
+`.publish/deploy-matching-story.log` and `.publish/matching-story-live.json`.
 
 **Consistent Light Sign in action (2026-10-29):** Shared logged-out header
 buttons now use the same teal surface, white text and darker teal hover across
