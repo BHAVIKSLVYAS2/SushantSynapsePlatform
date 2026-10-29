@@ -1,5 +1,19 @@
 # Chambers functionality ledger
 
+**Dhanu Hindi fluency review (2026-10-29):** Opened live Dhanu in Hindi for
+Today, Tomorrow and Weekly and reviewed rendered prose. Replaced literal phrases
+such as “बाधारहित समर्थन”, “नया सिरा” and “अगला काम खोलने” with natural Hindi.
+Clarified shared-responsibility advice, made the sixth/seventh-house takeaways
+distinct, and replaced repeated weekly uncertainty prose with an explanation and
+practical next step. Uncertainty wording covers transit boundaries without
+claiming that every uncertain case is the Moon's own sign boundary. Shared Hindi
+copy improves other signs using these patterns too; English/Gujarati, scoring,
+astronomy, admission and themes remain unchanged.
+Verification: 15/15 Rashifal story/outlook/model/actual-workerd checks pass;
+local computed Dhanu daily/tomorrow/weekly text reviewed. Evidence:
+`.publish/dhanu-hindi-review.json`, `dhanu-hindi-before.png` and
+`dhanu-hindi-tests.log`.
+
 **Light filled-button edge correction (2026-10-29):** A rendered audit of 22
 routes found the shared white inset surface highlight on Sign in and Ritvayam's
 teal action, plus pale panel borders on chart actions. Added a separate semantic
