@@ -19,6 +19,21 @@ Evidence is ignored under `.publish/light-theme-review/` and
 `.publish/theme-browser-tests.log`, `theme-workflow-rerun.log`.
 The preceding four-app organisation implementation is committed as `e7f02b0`.
 
+Release: theme implementation `ad33881` deployed with `--keep-vars` as Worker
+`d9e65c1d-6ae2-43eb-88db-64e688a8ea25`. All 44 same-page Light comparisons
+(22 routes, mobile/desktop) have identical visible computed styles and geometry
+with and without the Dark refinement rules. Separate-page comparisons initially
+encountered asynchronous content/loading differences; the final same-page method
+isolates the CSS change. Live health/private API/delivery checks pass 13/13.
+Organisation mode, D1 bindings and rate limits remain enabled. No migration,
+bootstrap, account change or business-data write was performed for this release.
+Evidence: `.publish/theme-isolation.log`, `light-theme-review/isolation.json`,
+`deploy-theme-refinement.log` and `private-apps-theme-live.log`.
+Live theme checks also pass 19/19: eleven delivered stylesheet assets match the
+local production build byte-for-byte, and home rendering passes at 320, 390, 768
+and 1440 pixels in both themes with expected backgrounds and no horizontal
+overflow. Screenshots are retained locally; see `.publish/theme-live-check.json`.
+
 
 **Four private app organisation integration (2026-10-29, live):** Chambers and
 Tournament Lite were already integrated. BatchFee Lite now has a separate
