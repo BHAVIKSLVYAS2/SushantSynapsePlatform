@@ -3,7 +3,8 @@ test('P12 periods, factors, templates and cache agree with actual local workerd'
  const {createRashifalService}=await import('../apps/rashifal-kundli/frontend/rashifal-service.mjs');
  const requireTools=createRequire(require.resolve('wrangler/package.json')),{Miniflare,convertV4MiniflareOptions}=requireTools('miniflare');
  const bundle=await require('esbuild').build({stdin:{resolveDir:process.cwd(),contents:`import {createRashifalService} from './apps/rashifal-kundli/frontend/rashifal-service.mjs';export default {async fetch(r){const x=await r.json(),s=createRashifalService();return Response.json(x.map(i=>s.getReading(i.input,i.context)))}};`},bundle:true,write:false,metafile:true,format:'esm',platform:'neutral',target:'es2022',minify:true});
- const script=bundle.outputFiles[0].text;assert.ok(Buffer.byteLength(script)<220000,'Keep the three-language Rashifal bundle bounded');
+ // Three-language coherent narrative adds about 6 KB gzip; retain explicit budgets.
+ const script=bundle.outputFiles[0].text;assert.ok(Buffer.byteLength(script)<245000,'Keep the three-language Rashifal bundle bounded');assert.ok(require('node:zlib').gzipSync(script).length<68000,'Keep compressed Rashifal delivery bounded');
  for(const input of Object.keys(bundle.metafile.inputs))assert.doesNotMatch(input,/(?:^|\/)(?:birth[^/]*|places?[^/]*|geonames[^/]*)$/i,'Rashifal must exclude birth/place modules');
  const options={workers:[{name:'isolated-vedic-rashifal',modules:true,script,compatibilityDate:'2026-10-01',outboundService:()=>new Response('Offline',{status:503})}]};const mf=new Miniflare(convertV4MiniflareOptions?convertV4MiniflareOptions(options):options);t.after(()=>mf.dispose());
  const base={view:'weekly',language:'en',ruleVersion:'rashifal-gochar-8',calculationProfileId:'IN_LAHIRI_DEFAULT_V1'};

@@ -1,5 +1,13 @@
 # Code ownership and adding apps
 
+Rashifal narration (2026-10-29): app-owned rashifal-story.mjs composes the visible
+reading from rashifal-everyday Moon-house themes and existing graha state counts.
+Its ranking selects editorial prominence only, never planetary strength or event
+probability. rashifal-outlook passes only meaningful classified Moon changes for
+visible timing; underlying calculations remain in packages/vedic. Outlook model
+version is included in the service cache key. Keep uncertainty, multi-house period
+scope and all three languages intact when extending authored narrative patterns.
+
 Theme polish (2026-10-29): packages/ui/light-theme.css and dark-theme.css own
 resolved-theme screen overrides and semantic palette tokens. premium.tailwind.css
 imports these after the existing refinement layer. Rebuild with build:ui to update

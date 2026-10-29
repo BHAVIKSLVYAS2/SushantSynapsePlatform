@@ -66,8 +66,9 @@ export function mountRashifal(container,{now=()=>Date.now()}={}){
     const everyday=reading.outlook.everyday,portrait=signArt(reading.rashi);portrait.classList.add('rashifal-selected-art');prediction.append(portrait);
     const predictionTitle=el('p',outlookText[language][view]);predictionTitle.className='rashifal-reading-label';predictionTitle.id='rashifal-prediction-title';const heading=el('div');heading.className='rashifal-prediction-heading';heading.append(portrait,el('h3',everyday.headline));prediction.append(predictionTitle,heading);for(const text of everyday.paragraphs||[everyday.summary])prediction.append(el('p',text,'rashifal-summary-paragraph'));
     for(const theme of everyday.themes){const section=el('section');section.className='rashifal-daily-theme';section.append(el('h5',theme.title),el('p',theme.text));prediction.append(section);}
-    const rhythm=el('p',everyday.rhythm);rhythm.className='rashifal-daily-action';prediction.append(rhythm);
     const areas=el('div');areas.className='rashifal-life-areas';for(const area of everyday.areas){const card=el('section');card.append(el('h5',area.label),el('p',area.text));areas.append(card);}prediction.append(areas);
+    if(everyday.timing){const timing=el('section');timing.className='rashifal-story-timing';timing.append(el('h5',everyday.timing.title),el('p',everyday.timing.text));prediction.append(timing);}
+    const rhythm=el('p');rhythm.className='rashifal-daily-action';rhythm.append(el('strong',everyday.takeawayLabel+': '),document.createTextNode(everyday.rhythm));prediction.append(rhythm);
     const predictionNote=el('p',everyday.notice);predictionNote.className='rashifal-prediction-note';prediction.append(predictionNote);
     const calculationTitle=el('h3',outlookText[language].calculations);calculationTitle.className='rashifal-calculations-title';result.append(prediction);
     const metadata=el('div');metadata.className='rashifal-metadata';metadata.append(el('p',`${t.date}: ${reading.period.dates[0]} → ${reading.period.dates.at(-1)} · Asia/Kolkata`));

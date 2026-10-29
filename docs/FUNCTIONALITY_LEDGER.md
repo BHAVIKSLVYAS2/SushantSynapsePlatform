@@ -1,5 +1,27 @@
 # Chambers functionality ledger
 
+**Coherent Rashifal narrative (2026-10-29):** Main reading now connects the
+calculated Moon-house theme with supportive/obstructed physical-graha patterns.
+Twelve theme-specific headline pairs and takeaways respond to the actual pattern,
+not randomness or a date seed. Mixed support/resistance is explained together;
+one graha with both states gets a variable-pattern reading. Uncertain/unresolved
+grahas and nodes are excluded from editorial prominence; uncertain Moon patterns
+retain broad guidance. Weekly multi-house scope is preserved. Main timing appears
+only for an inside, available, classified Moon-state change. Full calculation and
+timeline details remain expandable. Work/money/relationship advice precedes one
+practical takeaway. English, Hindi and Gujarati use authored copy.
+
+Verification: 15/15 narrative/outlook/transit/actual-workerd checks and two
+production-bundle browser workflows pass. Coverage includes all twelve signs,
+languages, periods, 320/390/768/1440 layouts, both themes and worker fallback.
+Astronomy, traditional rule tables and stored data are unchanged. New narrative
+cost is about 6 KB gzip (service module 58,876 -> 64,924 bytes compressed before
+final copy tightening); bounded raw/gzip budgets remain enforced. The initial
+worker check hit the prior 220 KB raw limit; new measured budgets are 245 KB raw
+and 68 KB gzip. Browser assertions now target the existing period label rather
+than the theme headline. Evidence: `.publish/rashifal-story-tests.log`,
+`rashifal-story-build.log`, `rashifal-story-browser.log` and mobile screenshots.
+
 **Kundali comparison reading (2026-10-29):** Added a localized “chart chemistry,
 over chai” section above the existing eight-factor breakdown. Graha Maitri, Tara
 and Bhakoot readings branch on their actual calculated points, show the factor

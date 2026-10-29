@@ -1,8 +1,9 @@
 import {freeze} from '../../../packages/vedic/diagnostics.mjs';
 import {bodyName} from './locale.mjs';
 import {composeEveryday} from './rashifal-everyday.mjs';
+import {composeRashifalStory} from './rashifal-story.mjs';
 
-export const outlookModel=freeze({id:'calculated-transit-outlook-1',
+export const outlookModel=freeze({id:'calculated-transit-outlook-2',
  scope:'Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model.'});
 export const outlookText={
  en:{today:'Your daily prediction',tomorrow:'Your outlook for tomorrow',weekly:'Your weekly outlook',calculations:'Calculations behind your reading',notice:'Traditional guidance interpreted from calculated transits. Outcomes are not guaranteed.',
@@ -66,7 +67,9 @@ export function composeOutlook({grahas,timeline,language}){
    timing=change?t.turn(time,t.turns[change.affected.find(a=>a.body==='Moon').toStatus]):ingress?t.ingress(time):t.boundary(time);
   }else if(!relevant.length)timing=t.noChange;
  }
- return freeze({modelId:outlookModel.id,mood,everyday:composeEveryday({moon,mood,language}),headline:t[mood][0],paragraphs:[t[mood][1],kind==='quiet'?t.quiet:t[kind](names),timing],
+ const meaningfulChange=timeline.status==='available'&&change&&change.affected.some(a=>a.body==='Moon'&&Object.hasOwn(t.turns,a.fromStatus)&&Object.hasOwn(t.turns,a.toStatus));
+ const everyday=composeRashifalStory({base:composeEveryday({moon,mood,language}),grahas,mood,language,timing:meaningfulChange?timing:null});
+ return freeze({modelId:outlookModel.id,mood,everyday,headline:t[mood][0],paragraphs:[t[mood][1],kind==='quiet'?t.quiet:t[kind](names),timing],
   trace:{moonCounts:c,focusKind:kind,focusBodies:focus.map(g=>g.body),timingUtc:timeline.status==='available'?event?.utcInstant??null:null,timingKind:timeline.status==='available'?event?.kind??null:null,timelineStatus:timeline.status},
   scope:outlookModel.scope});
 }

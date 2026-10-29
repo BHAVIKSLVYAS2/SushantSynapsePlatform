@@ -3,7 +3,7 @@ import {transitSkyForDate,evaluateTransitSample,summarizeTransits,transitRuleboo
 import {fields,fail,freeze} from '../../../packages/vedic/diagnostics.mjs';
 import {rashifalLibrary,editorialSections} from './rashifal-library.mjs';
 import {transitEventsForDate,timelineForRashi,transitTimelineModel} from '../../../packages/vedic/rashifal-timeline.mjs';
-import {composeOutlook} from './rashifal-outlook.mjs';
+import {composeOutlook,outlookModel} from './rashifal-outlook.mjs';
 const profile='IN_LAHIRI_DEFAULT_V1';
 export function createRashifalService(){
  const readings=new Map(),factors=new Map(),timelines=new Map();
@@ -12,7 +12,7 @@ export function createRashifalService(){
   fields(input,['rashi','view','language','ruleVersion','calculationProfileId']);fields(context,['now']);
   if(!Number.isInteger(input.rashi)||input.rashi<1||input.rashi>12||!['en','hi','gu'].includes(input.language))fail();
   if(input.ruleVersion!==rashifalLibrary.version||input.calculationProfileId!==profile)fail('MODEL_UNAVAILABLE');
-  const period=rashifalPeriod({view:input.view,now:context.now}),key=[period.editorialDate,period.kind,input.rashi,input.language,input.ruleVersion,profile,transitSampling.id,transitTimelineModel.id].join('|');
+  const period=rashifalPeriod({view:input.view,now:context.now}),key=[period.editorialDate,period.kind,input.rashi,input.language,input.ruleVersion,profile,transitSampling.id,transitTimelineModel.id,outlookModel.id].join('|');
   let reading=readings.get(key);const hit=Boolean(reading);
   if(!reading){const days=period.dates.map(localDate=>{const k=localDate+'|'+profile;let sky=factors.get(k);if(!sky){sky=transitSkyForDate({localDate,calculationProfileId:profile});put(factors,k,sky,56);}return sky;});
    const samples=days.flatMap(day=>day.samples.map(s=>({...s,rows:evaluateTransitSample({positions:s.positions,rashi:input.rashi})})));

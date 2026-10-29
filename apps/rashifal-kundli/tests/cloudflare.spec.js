@@ -142,7 +142,7 @@ test('human daily prediction appears before the calculation summary and timeline
  await page.clock.setFixedTime(new Date('2026-10-25T08:30:00Z'));await page.setViewportSize({width:390,height:900});await page.goto(origin+'/rashifal-kundli/rashifal');
  const copies=new Set();for(let rashi=1;rashi<=12;rashi++){
   await page.locator('#rashifal-rashi').selectOption(String(rashi));await expect(page.locator('.rashifal-prediction')).toBeVisible();
-  await expect(page.locator('.rashifal-prediction h3')).toHaveText('Your daily prediction');copies.add(await page.locator('.rashifal-prediction').innerText());
+  await expect(page.locator('.rashifal-reading-label')).toHaveText('Your daily prediction');await expect(page.locator('.rashifal-summary-paragraph')).toHaveCount(2);await expect(page.locator('.rashifal-daily-action strong')).toHaveText('One thing to try: ');copies.add(await page.locator('.rashifal-prediction').innerText());
   expect(await page.locator('#rashifal-result').evaluate(root=>root.querySelector('.rashifal-prediction').compareDocumentPosition(root.querySelector('.rashifal-reading'))&Node.DOCUMENT_POSITION_FOLLOWING)).toBeTruthy();
   await expect(page.locator('.rashifal-transit-table tbody tr')).toHaveCount(9);await expect(page.locator('.rashifal-timeline')).toHaveAttribute('aria-labelledby','rashifal-timeline-title');await expect(page.locator('#rashifal-timeline-title')).toHaveCount(1);
  }
@@ -152,6 +152,6 @@ test('human daily prediction appears before the calculation summary and timeline
  }
  await page.setViewportSize({width:390,height:900});await page.evaluate(()=>SynapseTheme.write('light'));await page.locator('.rashifal-prediction').screenshot({path:'.publish/rashifal-outlook-mobile-light.png'});
  await page.evaluate(()=>SynapseTheme.write('dark'));await page.locator('.rashifal-prediction').screenshot({path:'.publish/rashifal-outlook-mobile-dark.png'});
- await page.locator('[data-view=tomorrow]').click();await expect(page.locator('.rashifal-prediction h3')).toHaveText('Your outlook for tomorrow');
- await page.locator('[data-view=weekly]').click();await expect(page.locator('.rashifal-prediction h3')).toHaveText('Your weekly outlook');
+ await page.locator('[data-view=tomorrow]').click();await expect(page.locator('.rashifal-reading-label')).toHaveText('Your outlook for tomorrow');
+ await page.locator('[data-view=weekly]').click();await expect(page.locator('.rashifal-reading-label')).toHaveText('Your weekly outlook');await expect(page.locator('.rashifal-prediction')).not.toContainText('undefined');
 });
