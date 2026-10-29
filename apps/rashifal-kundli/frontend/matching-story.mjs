@@ -1,3 +1,4 @@
+import {matchingConnection} from './matching-connection.mjs';
 // Reflective reading of calculated factors, never a personality or marriage verdict.
 const copy={
  en:{title:'Your chart chemistry, over chai',note:'A playful reading of the calculated Moon-chart rules, with questions to explore together. These are conversation starters, not predictions about either person.',uncertain:'Plot twist: this factor can change near the Moon boundary. Keep both possibilities open rather than choosing a fixed story.',topics:{
@@ -18,9 +19,10 @@ const copy={
 };
 export function matchingStory(result,language='en'){
  const t=copy[language]??copy.en;
- return {title:t.title,note:t.note,items:['graha-maitri','tara','bhakoot'].flatMap(id=>{
+ const items=['graha-maitri','tara','bhakoot'].flatMap(id=>{
   const component=result.components.find(c=>c.id===id);if(!component)return [];
   const state=component.score===null?'uncertain':component.score===component.maximum?'full':component.score===0?'zero':'partial',topic=t.topics[id];
   return [{id,state,title:topic.title,text:state==='uncertain'?t.uncertain:topic[state],prompt:topic.prompt,component}];
- })};
+ });
+ return {title:t.title,note:t.note,items,connection:matchingConnection(result,items,language)};
 }

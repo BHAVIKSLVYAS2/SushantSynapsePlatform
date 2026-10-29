@@ -1,5 +1,27 @@
 # Chambers functionality ledger
 
+**Connected matchmaking narrative (2026-10-29):** The existing three playful
+factor snippets now have a pair-specific overview using all eight components.
+Headlines distinguish agreements plus contrasts, partial results and boundary
+uncertainty; named factor groups connect these results without interpreting a
+total-score threshold. One conversation starter follows the actual zero/partial
+story factor, or recorded-input/classification review when any factor is uncertain.
+Repeated per-factor prompts were removed. Individual chart factors are disclosed
+under a localized basis control; readable Person A/B and directional labels replace
+raw field names. Nadi contrasts retain explicit non-health/non-fertility meaning.
+No scoring, marriage verdict, birth admission or privacy behaviour changed.
+
+Verification: 14/14 story/model/actual-workerd checks and two isolated browser
+workflows pass. Includes 729 birth-star-centre pairs in three languages, different
+component patterns with the same total, boundary-open narratives, factor basis,
+responsive themes, consent/review, stale-result clearing and revocation.
+Evidence: `.publish/matching-connected-tests.log`, `matching-connected-browser.log`.
+Production build and two further browser workflows pass: nine boundary/language
+combinations plus three-language sample dates, invalid input recovery, swaps and
+clearing. The prior summary test was scoped to distinguish the existing story and
+technical overview sections. Evidence: `.publish/matching-connected-build.log`,
+`matching-connected-boundary.log` and `matching-connected-usability.log`.
+
 **Coherent Rashifal narrative (2026-10-29):** Main reading now connects the
 calculated Moon-house theme with supportive/obstructed physical-graha patterns.
 Twelve theme-specific headline pairs and takeaways respond to the actual pattern,
