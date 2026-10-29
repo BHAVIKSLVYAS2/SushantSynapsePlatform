@@ -27,6 +27,12 @@ three languages through the shared language control, 390/1440, connected overvie
 one takeaway, unchanged 28/36 example, no page errors and revocation clearing.
 No migrations, accounts or business data changed. Evidence:
 `.publish/deploy-matching-connected.log` and `matching-connected-live.json`.
+Final visual-review copy fix `038482b` uses grammatical factor labels for both
+single and multiple entries. Story checks pass 3/3; Worker
+`644ee7dc-2997-4318-8257-b0d0e7a81bc6` republishes that copy with `--keep-vars`.
+The same live three-language/mobile/desktop/clearing workflow passes again.
+Evidence: `.publish/matching-connected-copy-check.log`,
+`deploy-matching-connected-copy.log` and `matching-connected-live-final.log`.
 
 **Coherent Rashifal narrative (2026-10-29):** Main reading now connects the
 calculated Moon-house theme with supportive/obstructed physical-graha patterns.
