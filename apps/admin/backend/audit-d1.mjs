@@ -2,6 +2,7 @@
 import {OrganisationError} from '../../../packages/database/organisation-repository-d1.mjs';
 const actions=['OrganisationProvisioned','OrganisationActivated','OrganisationStatusUpdated','OrganisationLimitsUpdated','MasterAdminTransferred','MasterInvitationRevoked','MasterInvitationReissued','MemberInvited','MemberInvitationReissued','MemberActivated','MemberUpdated','MemberInvitationRevoked','LicenceUpdated','ChambersAssignmentUpdated','TournamentAssignmentUpdated','TournamentOrganisationsEnabled','InvitationIdentityCreated','InvitationIdentityActivated','ClientAccessUpdated','ClientAccessClearedForRestore','ClientEntitlementUpdated','LegacyChambersMapped'];
 const allowedValues=new Set(['Active','Inactive','Invited','Revoked','Scheduled','Trial','Suspended','Expired','PendingActivation','Closed','Draft','MasterAdmin','Administrator','Staff','Client','Owner','Advocate','Clerk']);
+actions.push('PanditAssignmentUpdated');for(const role of ['Dispatcher','Reviewer','Pandit','Customer'])allowedValues.add(role);
 const clean=value=>value.replace(/\b[a-f0-9]{64,128}\b/gi,'[redacted]').replace(/\bauthorization\s*[:=]\s*(?:bearer\s+)?\S+/gi,'authorization=[redacted]').replace(/\b(password|token|secret|cookie)\s*[:=]\s*(?:"[^"]*"|'[^']*'|\S+)/gi,'$1=[redacted]');
 const id=value=>typeof value==='string'&&/^[a-zA-Z0-9_-]{1,200}$/.test(value)&&! /^[a-f0-9]{64,128}$/i.test(value)?value:undefined;
 function detailsFor(action,raw){

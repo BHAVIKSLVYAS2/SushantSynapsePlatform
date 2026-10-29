@@ -9,10 +9,10 @@ export async function accountOverview(repo,userId){
  const memberships=(await Promise.all((await db.prepare('SELECT o.*,m.role AS membershipRole,m.status AS membershipStatus FROM platform_organisations o JOIN platform_memberships m ON m.organisationId=o.id WHERE m.userId=? ORDER BY o.name,o.id').all(userId)).map(async org=>{
   const membership={organisationId:org.id,userId,role:org.membershipRole,status:org.membershipStatus};
   const apps=[];let access={allowed:false},assignment;
-  for(const appId of ['advocate','tournament-lite','batchfee-lite','digital-samaj']){
+  for(const appId of ['advocate','tournament-lite','batchfee-lite','digital-samaj','pandit-booking']){
    const currentAssignment=await db.prepare('SELECT * FROM platform_app_assignments WHERE organisationId=? AND userId=? AND appId=?').get(org.id,userId,appId);
    const licence=await db.prepare('SELECT * FROM platform_app_licences WHERE organisationId=? AND appId=?').get(org.id,appId);
-   const staff=membership.role!=='Client'&&(appId==='advocate'?['Owner','Advocate','Clerk']:appId==='tournament-lite'?['Owner','Advocate']:appId==='batchfee-lite'?['Owner','Manager','Collector','Viewer']:['Owner','Member']).includes(currentAssignment?.role);
+   const staff=appId==='pandit-booking'?(membership.role==='Client'?currentAssignment?.role==='Customer':['Owner','Dispatcher','Reviewer','Pandit'].includes(currentAssignment?.role)):membership.role!=='Client'&&(appId==='advocate'?['Owner','Advocate','Clerk']:appId==='tournament-lite'?['Owner','Advocate']:appId==='batchfee-lite'?['Owner','Manager','Collector','Viewer']:['Owner','Member']).includes(currentAssignment?.role);
    const granted=evaluateAppAccess({...authority,organisation:org,membership,assignment:currentAssignment,licence,app:registry.apps.find(a=>a.id===appId),permissions:staff?[appId+':read']:[],action:'read',now:repo.now()});
    let appReady=true;
    if(appId==='digital-samaj'&&staff){

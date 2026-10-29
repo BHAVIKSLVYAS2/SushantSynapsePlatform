@@ -10,6 +10,7 @@ const owners=[
  ['news','apps/news/database',['001-editions.sql','002-fetch-budget.sql']],
  ['fundlens','apps/fund-overlap/database',['001-portfolio.sql']],
  ['satire','apps/satire-arena/database',['001-arena.sql','002-expanded-arena.sql','003-nine-character-arena.sql','004-highway-budget.sql','005-speakers.sql','006-news-anchors.sql','007-spotlight-arenas.sql','008-workweek-corporates.sql']],
+ ['pandit','apps/pandit-booking/database',['001-initial.sql']],
 ];
 function splitSql(value){
  const parts=[];let start=0,depth=0,quoted=false;
@@ -27,5 +28,5 @@ for(const [schema,dir,files]of owners){for(const file of files){const text=fs.re
  for(const m of text.matchAll(/CREATE VIEW (?:IF NOT EXISTS )?(\w+)/g))views[m[1]]=schema;
 }}
 function qualified(name){const schema=tables[name]?.schema||views[name];if(!schema)throw Error('Unregistered database object: '+name);return `[${schema}].[${name}]`;}
-function sqliteSql(sql){return sql.replace(/\[(platform|chambers|batchfee|samaj|tournament|news|fundlens|satire)\]\.\[(\w+)\]/g,(_,schema,name)=>{if((tables[name]?.schema||views[name])!==schema)throw Error('Database schema ownership mismatch');return name;});}
+function sqliteSql(sql){return sql.replace(/\[(platform|chambers|batchfee|samaj|tournament|news|fundlens|satire|pandit)\]\.\[(\w+)\]/g,(_,schema,name)=>{if((tables[name]?.schema||views[name])!==schema)throw Error('Database schema ownership mismatch');return name;});}
 module.exports={ROOT,owners,tables,views,qualified,sqliteSql,splitSql};

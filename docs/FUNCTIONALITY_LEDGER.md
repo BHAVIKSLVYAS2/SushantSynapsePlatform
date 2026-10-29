@@ -1,5 +1,60 @@
 # Chambers functionality ledger
 
+**Super Admin password reset (2026-10-29, production verified):** User-requested
+reset for the existing active Super Admin used a fresh salted scrypt hash and
+D1 revision guard, invalidated existing sessions and recorded an audit entry.
+Production sign-in succeeded; the verification session was signed out. No plaintext
+credential recorded, deployment, migration, role or business-record change.
+
+**Pandit Booking managed pilot (2026-10-29, locally verified):** Added
+`/pandit-booking` with shared navigation, theme tokens, app catalogue and account
+entry; app-owned SQLite/Workers-D1 handlers, SQL schema and additive migration 0009.
+Explicit organisation assignments distinguish Owner, Dispatcher, Reviewer, Pandit
+and Customer; customers reserve client seats without receiving Chambers access.
+Super Admin alone grants no business access. Default Node remains separate.
+Services include puja description, duration, preparation, samagri, price basis and
+cancellation terms. Approved Pandits publish city, service areas/radius, languages
+and explicit availability windows; no home address/GPS is collected. Private
+customer venue/contact is withheld from public responses and from Pandits before
+confirmation. Requests, atomic buffered confirmation, cancellation/decline,
+opposite-party rescheduling, preparation, messages, completion/no-show, moderated
+reviews, concerns and request restrictions are implemented. Upcoming ceremonies
+have computed in-app reminders on page open/refresh; no external delivery.
+
+The bounded SQL aggregate commits business changes and audit together using the
+shared D1 revision guard or SQLite version transaction. Same-origin writes,
+strict field/body limits, role/ownership checks, request idempotency, rate limits,
+no-store responses and stale private-DOM clearing apply. Node rechecks permission
+and changed reservation participants inside the save transaction. Full SQL
+recovery includes booking data; pre-0009 offline D1 exports remain restorable.
+No private export UI, file uploads, public registration, MFA implementation,
+automated retention or external verification/delivery is claimed. Full app-owned
+Hindi/Gujarati, recurring availability and replacement agreement remain pending.
+Operational contact checks, MFA/identity/recovery review, retention policy and
+independent security review gate a broad public release.
+
+Verification: app plus cutover/recovery **14/14**, final app security **12/12**
+including slow-body Node revocation; Chrome **3/3** including full
+role journey, visitor discovery and held-response/expiry DOM clearing. Checks cover
+real workerd/D1, concurrent confirmations, cross-user/org privacy, revocation and
+client seat limits, and disposable SQLite/offline recovery. Responsive light/dark
+320/390/768/1440px and system themes pass; mobile screenshot visually reviewed.
+Initial full suite **558/576**: generated catalogue and schema expectations were
+updated; permission-blocked Cloudflare builds rerun with appropriate permissions.
+All **23/23** affected checks now pass. Production configuration dry-run passes;
+no deployment, live migration, bootstrap, legacy mapping, account or business-data
+changes. Evidence: `.publish/pandit-{api-final,browser-final,full-tests,
+regression-rerun,production-build}.log`. Current progress and remaining gates:
+`docs/PANDIT_BOOKING_PROGRESS.md`; capacity and role mapping are in the app README.
+
+**Pandit booking planning (2026-10-29):** Added
+`docs/PANDIT_BOOKING_PLAN.md` covering the proposed full non-payment booking app,
+managed provider approval, customer/Pandit/operator workflows, private address
+access, organisation isolation, atomic scheduling, abuse controls and release
+gates. Proposed only: no app registration, runtime code, schema, integration,
+production data or deployment changes. Documentation review only; no API/browser
+tests run and no claim of implemented security or connected delivery providers.
+
 **Dhanu Hindi fluency review (2026-10-29):** Opened live Dhanu in Hindi for
 Today, Tomorrow and Weekly and reviewed rendered prose. Replaced literal phrases
 such as “बाधारहित समर्थन”, “नया सिरा” and “अगला काम खोलने” with natural Hindi.

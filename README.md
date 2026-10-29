@@ -1,5 +1,11 @@
 # Curio · Sushant Synapse
 
+Pandit Booking has a locally verified managed pilot at `/pandit-booking`, with
+puja details, approved Pandit service areas, private bookings, preparation and
+in-app coordination. Payments and external delivery are excluded. It has not
+been deployed or enabled for production customers. Implementation progress and
+security release gates: [Pandit Booking progress](docs/PANDIT_BOOKING_PROGRESS.md).
+
 Chambers, Tournament Lite, BatchFee Lite and DIGITAL SAMAJ use licensed organisation
 workspaces in production. Super Admin manages licences and seats; Master Admin
 assigns members to apps. Open each assigned workspace from `/account`. Samaj also

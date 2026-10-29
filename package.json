@@ -22,6 +22,7 @@
     "deploy:frontend": "wrangler deploy --config infrastructure/cloudflare/wrangler.free.production.jsonc --keep-vars",
     "start": "node server/index.js",
     "test": "node infrastructure/test.cjs",
+    "test:pandit": "node --test tests/pandit-booking.test.js tests/pandit-booking-d1.test.js",
     "test:organisation-readiness": "node --test tests/organisation-*.test.js",
     "test:e2e": "playwright test",
     "test:advocate": "playwright test apps/advocate/tests",

@@ -25,6 +25,7 @@ import {organisationTournament} from '../apps/tournament-lite/backend/organisati
 import {organisationBatchfee} from '../apps/batchfee-lite/backend/organisation-edge.mjs';
 import {organisationSamaj} from '../apps/digital-samaj/backend/organisation-edge.mjs';
 import {organisationChambers} from '../apps/advocate/backend/organisation-edge.mjs';
+import {edgeBooking,bookingOrganisations} from '../apps/pandit-booking/backend/service.mjs';
 export async function edgeApi(request,env){
  let repo;
  try{
@@ -49,6 +50,7 @@ export async function edgeApi(request,env){
   if(env.ORGANISATIONS_ENABLED==='true'){
    if(useAccess)fail(503,'Organisation accounts require password authentication');
    if(route==='organisation-admin'||route.startsWith('organisation-admin/'))result=await organisationAdmin(context);
+   else if(route==='pandit-booking'||route.startsWith('pandit-booking/'))result=await edgeBooking(context);
    else if(route==='tournament-lite'||route.startsWith('tournament-lite/'))result=await organisationTournament(context);
    else if(route==='batchfee-lite'||route.startsWith('batchfee-lite/'))result=await organisationBatchfee(context);
    else if(route==='digital-samaj'||route.startsWith('digital-samaj/'))result=await organisationSamaj(context);
@@ -65,12 +67,14 @@ export async function edgeApi(request,env){
     const batchfeeAccess=await batchfeeResponse.json();
     const samajResponse=await organisationSamaj({...context,route:'digital-samaj',request:new Request(request.url,{headers:request.headers})});
     const samajAccess=await samajResponse.json();
-    result=await portal({...context,user:{...user,role:'Clerk',appIds:[...(organisations.length?['advocate']:[]),...(tournamentAccess.organisations.length?['tournament-lite']:[]),...(batchfeeAccess.organisations.length?['batchfee-lite']:[]),...(samajAccess.communities.length||samajAccess.canSetup?['digital-samaj']:[])]}});
-    if(route==='platform'&&result.ok){const data=await result.json();data.apps=data.apps.map(app=>!app.public&&!['advocate','tournament-lite','batchfee-lite','digital-samaj'].includes(app.id)?{...app,status:'Unavailable',accessible:false,description:'Organisation integration is not available for this app yet.'}:app);result=json(data);}
+    const bookingAccess=await bookingOrganisations(repo,user);
+    result=await portal({...context,user:{...user,role:'Clerk',appIds:[...(organisations.length?['advocate']:[]),...(tournamentAccess.organisations.length?['tournament-lite']:[]),...(batchfeeAccess.organisations.length?['batchfee-lite']:[]),...(samajAccess.communities.length||samajAccess.canSetup?['digital-samaj']:[]),...(bookingAccess.length?['pandit-booking']:[])]}});
+    if(route==='platform'&&result.ok){const data=await result.json();data.apps=data.apps.map(app=>!app.public&&!['advocate','tournament-lite','batchfee-lite','digital-samaj','pandit-booking'].includes(app.id)?{...app,status:'Unavailable',accessible:false,description:'Organisation integration is not available for this app yet.'}:app);result=json(data);}
    }else if(!(/^(platform\/visitors|feedback|confessions|arena-metrics|arena-editorial|satire-arena|news)(\/|$)/.test(route)||route==='support'||route==='ritual-assist/calendar'||route==='ritual-assist/observances'))fail(409,'Use organisation-scoped APIs. Other private applications are unavailable.');
    if(result){if(request.method==='GET'&&!await repo.unchanged())throw new Conflict();return result;}
   }
-  if(route==='feedback'||route.startsWith('feedback/')){
+  if(route==='pandit-booking'||route.startsWith('pandit-booking/'))result=await edgeBooking(context);
+  else if(route==='feedback'||route.startsWith('feedback/')){
    const canModerate=!!user&&(env.ORGANISATIONS_ENABLED==='true'?(await repo.first('SELECT active FROM platform_super_admins WHERE userId=?',user.id))?.active===1:user.role==='Owner');
    result=await feedback(request,{canModerate,read:()=>repo.setting(feedbackKey),write:next=>repo.commit([repo.settingWrite(feedbackKey,next)]),limit:()=>env.CONFESSIONS_LIMITER?.limit({key:'feedback:'+request.headers.get('CF-Connecting-IP')})||{success:false}});
   }else if(route==='platform/visitors'){

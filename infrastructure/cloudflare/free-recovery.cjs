@@ -16,7 +16,11 @@ function prepareRecovery(sqlFile,output){
   // D1 exports tables in dependency-independent order, without a transaction.
   source.exec('PRAGMA foreign_keys=OFF');source.exec(dump);source.exec('PRAGMA foreign_keys=ON');if(source.prepare('PRAGMA integrity_check').get().integrity_check!=='ok'||source.prepare('PRAGMA foreign_key_check').all().length)throw Error('Source export integrity failed');
   if(source.prepare('SELECT COUNT(*) n FROM edge_objects').get().n)throw Error('This tool only restores D1-only workspaces');
-  const exported={};for(const meta of Object.values(tables)){if(meta.name==='sessions')continue;const rows=source.prepare('SELECT '+meta.columns.map(c=>c.name).join(',')+(meta.name==='records'?',rowid AS __rowid':'')+' FROM '+meta.name).all();exported[meta.name]={rows,sha256:digest(rows)};}
+  const exported={};for(const meta of Object.values(tables)){if(meta.name==='sessions')continue;
+   // A pre-0009 production recovery must remain usable before this additive
+   // app migration. Once present, its complete contents are mandatory below.
+   if(meta.name==='pandit_booking_workspaces'&&!source.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name=?").get(meta.name))continue;
+   const rows=source.prepare('SELECT '+meta.columns.map(c=>c.name).join(',')+(meta.name==='records'?',rowid AS __rowid':'')+' FROM '+meta.name).all();exported[meta.name]={rows,sha256:digest(rows)};}
   const objects=source.prepare("SELECT id,name,mime,size,sha256,created_at,'chambers' scope FROM edge_document_blobs ORDER BY id").all();
   if(source.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='edge_samaj_blobs'").get())objects.push(...source.prepare("SELECT id,name,mime,size,sha256,created_at,'samaj' scope,CASE WHEN file_id IS NOT NULL THEN 'samaj_files' ELSE 'samaj_message_attachments' END kind FROM edge_samaj_blobs ORDER BY id").all());
   const extension=organisationRecovery(source,literal),organisationChecks={};

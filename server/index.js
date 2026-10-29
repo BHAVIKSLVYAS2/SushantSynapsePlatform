@@ -47,6 +47,7 @@ const digitalSamaj=createDigitalSamaj({auth,store});
 const satireArena=createArena({store});
 const confessionApp=createConfessions({store,auth});
 const feedbackApp=require('../apps/feedback/backend/routes.cjs').createFeedback({store,auth});
+const panditBooking=require('../apps/pandit-booking/backend/routes.cjs').createPanditBooking({store,auth});
 const metricsBuckets=new Map();
 const advocate=createAdvocate({store,auth});
 const fundOverlap=createFundOverlap({auth,store,cacheDir:path.join(process.env.DATA_DIR||path.join(ROOT,'data'),'fund-overlap-cache')});
@@ -109,6 +110,7 @@ async function dispatch(req,res) {
     if(url.pathname==='/api/platform/visitors')return await visitorCounter(req,res,allowedOrigin);
     if(url.pathname==='/api/confessions'||url.pathname.startsWith('/api/confessions/'))return await confessionApp(req,res,allowedOrigin);
     if(url.pathname==='/api/feedback'||url.pathname.startsWith('/api/feedback/'))return await feedbackApp(req,res,allowedOrigin);
+    if(url.pathname==='/api/pandit-booking'||url.pathname.startsWith('/api/pandit-booking/'))return await panditBooking(req,res,allowedOrigin);
     if(url.pathname==='/api/satire-arena'||url.pathname.startsWith('/api/satire-arena/'))return await satireArena(req,res,allowedOrigin);
     const user=auth.session(req);
     const context={route,method,req,res,json,user};
