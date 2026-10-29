@@ -7,6 +7,12 @@ outlined treatment. Profile avatars, button geometry and Dark styling are
 preserved. Shared build passes. Fourteen isolated browser checks (seven routes,
 390/1440) verify normal/hover colours and identical Dark button styles/geometry
 with Light rules removed. Evidence: `.publish/signin-light-check.json`.
+Implementation `8cdfe9e` deployed with `--keep-vars` as Worker
+`301e07cf-8834-4109-956e-8b42ddb4a6ae`; organisation settings and D1 bindings
+preserved. No migrations or business-data writes. Deployment evidence:
+`.publish/deploy-signin-light.log`.
+Six live mobile/desktop checks on home, QR Maker and Ritual Assist pass normal
+and hover colours plus Dark isolation. Evidence: `.publish/signin-light-live.json`.
 
 **Ritvayam Light card colour correction (2026-10-29):** The home feature's
 primary action retained the previous indigo gradient after the shared Light
