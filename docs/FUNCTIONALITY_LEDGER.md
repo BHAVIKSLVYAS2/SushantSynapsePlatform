@@ -21,6 +21,13 @@ worker check hit the prior 220 KB raw limit; new measured budgets are 245 KB raw
 and 68 KB gzip. Browser assertions now target the existing period label rather
 than the theme headline. Evidence: `.publish/rashifal-story-tests.log`,
 `rashifal-story-build.log`, `rashifal-story-browser.log` and mobile screenshots.
+Release: implementation `88ba8f1` deployed with `--keep-vars` as Worker
+`3f5f0a6c-51c1-4e84-b3e5-0c1b39380107`. Live twelve-sign reading workflow
+passes, including language switching, 320/390/768/1440 widths, both themes and
+Tomorrow/Weekly. Thirteen health/private-boundary/delivery checks also pass.
+D1 bindings, organisation mode and rate limits preserved; no migrations, accounts
+or business data changed. Evidence: `.publish/deploy-rashifal-story.log`,
+`rashifal-story-live.log` and `rashifal-story-health.log`.
 
 **Kundali comparison reading (2026-10-29):** Added a localized “chart chemistry,
 over chai” section above the existing eight-factor breakdown. Graha Maitri, Tara
