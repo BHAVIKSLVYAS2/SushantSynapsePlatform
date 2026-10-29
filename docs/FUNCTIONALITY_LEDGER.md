@@ -1,5 +1,22 @@
 # Chambers functionality ledger
 
+**Light filled-button edge correction (2026-10-29):** A rendered audit of 22
+routes found the shared white inset surface highlight on Sign in and Ritvayam's
+teal action, plus pale panel borders on chart actions. Added a separate semantic
+button shadow with no white inset; shared filled actions use matching teal edges
+and border-box paint. Header and Ritvayam action overrides use the same button
+shadow. Hover edges follow the darker fill. Border widths, control dimensions,
+outlined controls, card materials and keyboard focus outlines are preserved.
+All overrides are Light-only; no Dark source, layout or logic changed. Shared
+UI build passes. Evidence: `.publish/teal-button-audit.json`,
+`teal-button-build.log` and `teal-button-check.json`.
+Verification passes 44/44 route/viewport checks (22 routes at 390/1440): rendered
+teal controls have no inset shadow, visible border colours match the fill, hover
+edges match, and keyboard focus remains visible. Removing Light rules produces
+identical Dark button styles and dimensions on those pages. A first hover check
+sampled Ritual Assist mid-transition; settled-state comparison passes. Existing
+private app entry screens were checked without changing accounts or business data.
+
 **Connected matchmaking narrative (2026-10-29):** The existing three playful
 factor snippets now have a pair-specific overview using all eight components.
 Headlines distinguish agreements plus contrasts, partial results and boundary

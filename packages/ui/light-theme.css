@@ -17,6 +17,7 @@
     --light-shadow-raised:0 8px 24px #142D3D12,inset 0 1px 0 #FFFFFFCC;
     --light-shadow-header:0 2px 8px #142D3D06;
     --light-shadow-navigation:0 -2px 8px #142D3D06;
+    --light-shadow-button:0 2px 5px #142D3D10;
   }
 
   html[data-theme=light] body[data-ui-app]:not([data-theme=dark]) {
@@ -68,10 +69,18 @@
   /* Keep the shared sign-in action consistent, including app header overrides. */
   html[data-theme=light] body[data-ui-app] .platform-shell .platform-account:not(.platform-account-avatar) {
     background:var(--light-accent)!important;color:var(--light-on-accent)!important;
-    border-color:var(--light-accent)!important;box-shadow:var(--light-shadow)!important;
+    border-color:var(--light-accent)!important;box-shadow:var(--light-shadow-button)!important;
   }
   html[data-theme=light] body[data-ui-app] .platform-shell .platform-account:not(.platform-account-avatar):hover {
     background:var(--light-accent-hover)!important;border-color:var(--light-accent-hover)!important;
+  }
+  html[data-theme=light] body[data-ui-app] :is(.primary,.launch,.public-launch,.home-vedic-primary,#birth-calculate,#matching-review-button,#matching-calculate) {
+    --ss-reflection:transparent;
+    background-color:var(--light-accent);background-clip:border-box;
+    border-color:var(--light-accent);box-shadow:var(--light-shadow-button);
+  }
+  html[data-theme=light] body[data-ui-app] :is(.primary,.launch,.public-launch,.home-vedic-primary,#birth-calculate,#matching-review-button,#matching-calculate):not(:disabled):hover {
+    background-color:var(--light-accent-hover);border-color:var(--light-accent-hover);
   }
   html[data-theme=light] body[data-ui-app] :is(input,textarea)::placeholder {
     color:var(--light-text-secondary);opacity:1;
@@ -123,7 +132,7 @@
   }
   html[data-theme=light] body[data-ui-app=portal] .public-home .home-vedic .home-vedic-primary {
     background:var(--light-accent);border-color:var(--light-accent);
-    color:var(--light-on-accent);box-shadow:var(--light-shadow);
+    color:var(--light-on-accent);box-shadow:var(--light-shadow-button);
   }
   html[data-theme=light] body[data-ui-app=portal] .public-home .home-vedic .home-vedic-primary:hover {
     background:var(--light-accent-hover);border-color:var(--light-accent-hover);
