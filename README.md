@@ -1,5 +1,10 @@
 # Curio · Sushant Synapse
 
+Chambers, Tournament Lite, BatchFee Lite and DIGITAL SAMAJ use licensed organisation
+workspaces in production. Super Admin manages licences and seats; Master Admin
+assigns members to apps. Open each assigned workspace from `/account`. Samaj also
+requires its community permissions. Default Node mode remains separate.
+
 Frontend performance work and measured before/after results are documented
 in [the performance audit](docs/FRONTEND_PERFORMANCE_AUDIT_2026-10-28.md).
 The pass preserves the interface and business logic.

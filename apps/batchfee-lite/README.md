@@ -1,6 +1,12 @@
 # BatchFee Lite implementation design
 
-One private academy in existing SQLite; shared platform sign-in with owner-delegated staff roles. App-owned workspace, staff permissions and append-only audit events are registered in full SQL exports. All mutations use immediate transactions and optimistic revisions. Money is integer paise.
+Default Node mode has one private academy in existing SQLite, with shared sign-in
+and owner-delegated staff roles. The cloud organisation adapter adds separate
+academy/event rows per licensed organisation, assigned Owner/Manager/Collector/Viewer
+roles and scoped backup/restore. This is live after verified production migrations
+and explicit legacy ownership cutover on 29 October 2026. Open the app from your
+organisation in `/account`. All financial mutations remain revision checked and
+atomic. Money is integer paise.
 
 Entities: academy, batches, students, enrolments, immutable fee obligations, payments, allocation entries, reversals, expenses, editable reminder templates. Family membership is explicit, never inferred from names.
 
@@ -16,7 +22,7 @@ Run `npm.cmd start` at the repository root and open `/batchfee-lite`. The owner 
 
 Payments accept full, partial or advance amounts. Open a student to see the ledger and family balance; use the same explicit family key for siblings. A payment's original receipt remains unchanged when its advance is subsequently allocated. Corrections reverse the original entry with a reason; create a separate replacement payment. Batch defaults affect new students only. New enrolments on an existing student and frequency changes begin next month. Per-class/custom charges use **Fees → Add a fee**. Course and one-time obligations generate once.
 
-The dashboard's collected figure is cash received during the selected month, including advances. Expected fees refer to obligations for that month. Pending and overdue are their current remaining balances, not a historic month-end snapshot. Batch collection uses allocations; unapplied advances remain separate. No attendance, automatic prorating, payment gateway, GST accounting, parent portal or multi-tenant isolation is included.
+The dashboard's collected figure is cash received during the selected month, including advances. Expected fees refer to obligations for that month. Pending and overdue are their current remaining balances, not a historic month-end snapshot. Batch collection uses allocations; unapplied advances remain separate. No attendance, automatic prorating, payment gateway, GST accounting or parent portal is included. Node mode remains a single workspace.
 
 Use **More → Backup data** frequently and retain a private copy off this computer. Restore replays validated commands inside one transaction and accepts only an exact extension of existing history (or a backup into an empty BatchFee workspace). Older/conflicting backups cannot erase newer entries. Full platform SQL exports also include the app schema, workspace and history. Backups do not include platform accounts; those remain platform-owned. Uploaded logos are limited to 200 KB in the interface. Excel workbooks must be saved as UTF-8 CSV before import; no XLSX parser is included.
 

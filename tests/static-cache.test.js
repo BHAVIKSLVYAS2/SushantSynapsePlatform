@@ -50,10 +50,10 @@ test('fullstack delivery injects global AdSense only on eligible anonymous publi
  }
 });
 
-test('homepage uses a generic Arena icon and a small shared favicon',async()=>{
+test('homepage uses the shared Arena sculpture and retains favicon assets',async()=>{
  const {staticAssets}=require('../server/static-assets'),{apps,renderCard}=require('../packages/app-registry');
  const home=renderCard(apps.find(app=>app.id==='satire-arena'));
- assert.match(home,/home-art\.svg#satire/);
+ assert.match(home,/<use href="#home-art-satire"><\/use>/);
  assert.doesNotMatch(home,/cartoon-cast|<img/);
  assert.equal(staticAssets['/favicon.svg'],'apps/portal/frontend/favicon.svg');
  assert.equal(staticAssets['/satire-arena/cartoon-cast-384.webp'],'apps/satire-arena/frontend/cartoon-cast-384.webp');

@@ -8,11 +8,11 @@ test('production D1 organisations enforce provisioning, atomic capacity, tenant 
  const bundled=await require('esbuild').build({stdin:{contents:"export {default} from './infrastructure/cloudflare/fullstack-worker.mjs';",resolveDir:process.cwd()},bundle:true,write:false,banner:{js:"import {createRequire} from 'node:module'; const require=createRequire('/worker.js');"},format:'esm',platform:'neutral',external:['node:*'],conditions:['workerd','worker','browser']});
  const assets=require('../apps/admin/backend/preview-assets.cjs'),manifest=require('../infrastructure/cloudflare/organisation-pages.json'),publicAssets=require('../server/static-assets').staticAssets,publicPages=require('../infrastructure/cloudflare/pages.json');
  const assetFetch=async request=>{const p=new URL(request.url).pathname,orgEntry=Object.entries(manifest).find(([,target])=>target===p),publicEntry=Object.entries(publicPages).find(([,target])=>target===p);const source=orgEntry?assets[orgEntry[0]]:publicEntry?publicAssets[publicEntry[0]]:publicAssets[p];if(!source)return new Response('Not found',{status:404});if(/\.(png|ico|woff2?)$/.test(source))return new Response(fs.readFileSync(source),{headers:{'Content-Type':source.endsWith('.png')?'image/png':'application/octet-stream'}});let text=fs.readFileSync(source,'utf8');if(orgEntry&&source.endsWith('.html'))text=text.replace('<html lang="en">','<html lang="en" data-runtime="cloud">').replace(/Local preview[^<]*/g,'Organisation workspace');return new Response(text,{headers:{'Content-Type':source.endsWith('.html')?'text/html':source.endsWith('.css')?'text/css':'text/javascript'}});};
- const worker={name:'organisation-d1',modules:true,...(process.env.SYNAPSE_ORGANISATION_BUNDLE?{scriptPath:path.resolve(process.env.SYNAPSE_ORGANISATION_BUNDLE)}:{script:bundled.outputFiles[0].text}),compatibilityDate:'2026-10-01',compatibilityFlags:['nodejs_compat'],d1Databases:{PLATFORM_DB:'isolated-organisations'},bindings:{PUBLIC_ORIGIN:origin,FREE_MODE:'true',FULL_APPS:'true',AUTH_METHOD:'password',ORGANISATIONS_ENABLED:'true'},serviceBindings:{ASSETS:assetFetch},ratelimits:{AUTH_LIMITER:{namespace_id:'73',simple:{limit:10000,period:60}}}};
+ const worker={name:'organisation-d1',modules:true,...(process.env.SYNAPSE_ORGANISATION_BUNDLE?{scriptPath:path.resolve(process.env.SYNAPSE_ORGANISATION_BUNDLE)}:{script:bundled.outputFiles[0].text}),compatibilityDate:'2026-10-01',compatibilityFlags:['nodejs_compat'],d1Databases:{PLATFORM_DB:'isolated-organisations'},bindings:{PUBLIC_ORIGIN:origin,FREE_MODE:'true',FULL_APPS:'true',AUTH_METHOD:'password',ORGANISATIONS_ENABLED:'true'},serviceBindings:{ASSETS:assetFetch},ratelimits:{AUTH_LIMITER:{namespace_id:'73',simple:{limit:10000,period:60}},SAMAJ_LIMITER:{namespace_id:'74',simple:{limit:10000,period:60}}}};
  const options={workers:[worker]},mf=new Miniflare(convertV4MiniflareOptions?convertV4MiniflareOptions(options):options);t.after(()=>mf.dispose());
  const db=await mf.getD1Database('PLATFORM_DB');
  for(const sql of statements(require('../infrastructure/cloudflare/build-d1.cjs').schema()))await db.prepare(sql).run();
- for(const file of ['0002-free-guards.sql','0003-document-blobs.sql','0004-samaj-blobs.sql','0005-organisations.sql','0006-tournament-organisations.sql'])for(const sql of statements(fs.readFileSync(path.join('infrastructure/cloudflare/d1-free-migrations',file),'utf8')))await db.prepare(sql).run();
+ for(const file of ['0002-free-guards.sql','0003-document-blobs.sql','0004-samaj-blobs.sql','0005-organisations.sql','0006-tournament-organisations.sql','0007-batchfee-organisations.sql','0008-samaj-organisations.sql'])for(const sql of statements(fs.readFileSync(path.join('infrastructure/cloudflare/d1-free-migrations',file),'utf8')))await db.prepare(sql).run();
  const salt='0123456789abcdef0123456789abcdef',hash=salt+':'+scryptSync(password,salt,64).toString('hex');
  for(const id of ['super','master','other','member','client'])await db.prepare('INSERT INTO users VALUES(?,?,?,?,?,1)').bind(id,id,id+'@example.test','Clerk',hash).run();
  await db.prepare('INSERT INTO platform_super_admins VALUES(?,1,?)').bind('super',Date.now()).run();
@@ -37,7 +37,8 @@ test('production D1 organisations enforce provisioning, atomic capacity, tenant 
  const state=await api(`chambers/${first}/state`,{actor:'master'});assert.equal(state.status,200);assert.equal(state.data.organisation.id,first);assert.equal(state.data.clients.some(c=>c.id===other.id),false);
  for(const actor of ['super','other','client'])assert.equal((await api(`chambers/${first}/state`,{actor})).status,403);
  assert.equal((await api(`chambers/${second}/documents/${document.id}/download`,{actor:'other'})).status,404);
- for(const route of ['state','users','auth/setup','digital-samaj/state'])assert.equal((await api(route)).status,409,route);
+ for(const route of ['state','users','auth/setup'])assert.equal((await api(route)).status,409,route);
+ assert.equal((await api('digital-samaj/state')).status,404);
  assert.equal((await api(admin(first),{actor:'other'})).status,403);
  assert.equal((await api('organisation-admin/platform-audit',{actor:'master'})).status,403);
  assert.equal((await api('backup.sql')).status,503);
@@ -65,7 +66,77 @@ test('production D1 organisations enforce provisioning, atomic capacity, tenant 
  assert.equal((await api(`chambers/${first}/state`,{actor:'master'})).data.hearings.length,before);
  const newOrg=await api('organisation-admin/provision',{method:'POST',body:{newAccount:true,name:'New identity D1',type:'Legal',timezone:'Asia/Kolkata',masterAdminEmail:'new-master@example.test',staffLimit:2,clientLimit:0,licences:[licence]}});assert.equal(newOrg.status,201,JSON.stringify(newOrg.data));
  const activated=await api('organisation-admin/activate-new-master',{cookie:'',method:'POST',body:{token:newOrg.data.invitation.token,email:'new-master@example.test',name:'New D1 Master',password}});assert.equal(activated.status,200,JSON.stringify(activated.data));
- const badLicence=await api('organisation-admin/provision',{method:'POST',body:{name:'Unsupported app',type:'Legal',masterAdminEmail:'client@example.test',staffLimit:2,clientLimit:0,licences:[{...licence,appId:'batchfee-lite'}]}});assert.equal(badLicence.status,400);
+ const badLicence=await api('organisation-admin/provision',{method:'POST',body:{name:'Unsupported app',type:'Legal',masterAdminEmail:'client@example.test',staffLimit:2,clientLimit:0,licences:[{...licence,appId:'news'}]}});assert.equal(badLicence.status,400);
+ await t.test('BatchFee organisation workspaces keep financial history isolated',async()=>{
+  const batchfeeLicence={...licence,appId:'batchfee-lite',staffLimit:1,clientLimit:0};
+  for(const [org,actor]of [[first,'master'],[second,'other']]){
+   assert.equal((await change(org,'licence',{...batchfeeLicence,licenceVersion:0})).status,200);
+   const assignment=await change(org,'assignment',{appId:'batchfee-lite',userId:actor,role:'Owner',status:'Active'});assert.equal(assignment.status,200,JSON.stringify(assignment.data));
+  }
+  const path=org=>'batchfee-lite/organisations/'+org;
+  const profile={name:'Private Academy A',owner:'Teacher A',mobile:'9876543210',address:'',whatsapp:'',dueDay:5,currency:'INR',sessionMonth:4,logo:''};
+  const created=await api(path(first)+'/command',{actor:'master',method:'POST',body:{revision:0,type:'profile',input:profile,requestId:'batchfee-profile-a'}});
+  assert.equal(created.status,200,JSON.stringify(created.data));
+  assert.equal(created.data.profile.name,'Private Academy A');
+  const batch=await api(path(first)+'/command',{actor:'master',method:'POST',body:{revision:1,type:'batch',input:{name:'Private class',fee:'1500',frequency:'Monthly',dueDay:5,active:true},requestId:'batchfee-batch-a'}});
+  assert.equal(batch.status,200,JSON.stringify(batch.data));
+  const student=await api(path(first)+'/command',{actor:'master',method:'POST',body:{revision:2,type:'student',input:{name:'Private student',mobile:'9876543210',joining:batch.data.today,status:'Active',enrolments:[{batchId:'batchfee-batch-a'}]},requestId:'batchfee-student-a'}});
+  assert.equal(student.status,200,JSON.stringify(student.data));
+  const payment=await api(path(first)+'/command',{actor:'master',method:'POST',body:{revision:3,type:'payment',input:{studentId:'batchfee-student-a',amount:'100',date:batch.data.today,mode:'UPI'},requestId:'batchfee-payment-a'}});
+  assert.equal(payment.status,200,JSON.stringify(payment.data));assert.equal(payment.data.payments[0].amount,10000);
+  assert.equal((await api(path(second),{actor:'other'})).data.profile,null);
+  for(const actor of ['super','other','client','member'])assert.equal((await api(path(first),{actor})).status,403);
+  assert.equal((await api('batchfee-lite',{actor:'master'})).data.organisations.length,1);
+  assert.equal((await api('batchfee-lite/backup',{actor:'master'})).status,409);
+  assert.equal((await api(path(first)+'/backup',{actor:'master'})).data.organisationId,first);
+  const backup=(await api(path(first)+'/backup',{actor:'master'})).data;
+  assert.equal((await api(path(second)+'/restore',{actor:'other',method:'POST',body:{revision:0,backup}})).status,400);
+  assert.equal((await api(path(first)+'/command',{actor:'master',method:'POST',body:{revision:0,type:'profile',input:profile,requestId:'batchfee-profile-a'}})).status,200);
+  assert.equal((await api(path(first)+'/command',{actor:'master',method:'POST',body:{revision:0,type:'profile',input:{...profile,name:'Conflict'},requestId:'batchfee-profile-a'}})).status,409);
+  const active=(await view(first)).organisation.licences.find(l=>l.appId==='batchfee-lite');
+  assert.equal((await change(first,'licence',{...batchfeeLicence,endsAt:'2021-01-01T00:00:00.000Z',readOnlyUntil:'2099-01-01T00:00:00.000Z',licenceVersion:active.version})).status,200);
+  assert.equal((await api(path(first),{actor:'master'})).data.readOnly,true);
+  assert.equal((await api(path(first)+'/command',{actor:'master',method:'POST',body:{revision:4,type:'sync',input:{}}})).status,403);
+  assert.equal((await db.prepare('PRAGMA foreign_key_check').all()).results.length,0);
+ });
+ await t.test('DIGITAL SAMAJ communities require explicit organisation ownership and grants',async()=>{
+  const samajLicence={...licence,appId:'digital-samaj',staffLimit:1,clientLimit:0};
+  for(const [org,actor]of [[first,'master'],[second,'other']]){
+   assert.equal((await change(org,'licence',{...samajLicence,licenceVersion:0})).status,200);
+   assert.equal((await change(org,'assignment',{appId:'digital-samaj',userId:actor,role:'Owner',status:'Active'})).status,200);
+  }
+  assert.equal((await api('digital-samaj',{actor:'super'})).data.communities.length,0);
+  const created=await api('digital-samaj/organisations/'+first,{actor:'master',method:'POST',body:{name:'First private Samaj'}});
+  assert.equal(created.status,201,JSON.stringify(created.data));
+  const otherCommunity=await api('digital-samaj/organisations/'+second,{actor:'other',method:'POST',body:{name:'Other private Samaj'}});
+  assert.equal(otherCommunity.status,201,JSON.stringify(otherCommunity.data));
+  assert.equal((await api('digital-samaj',{actor:'master'})).data.communities[0].id,created.data.id);
+  assert.equal((await api('digital-samaj?organisation='+second,{actor:'master'})).data.communities.length,0);
+  assert.equal((await api('digital-samaj/'+created.data.id,{actor:'master'})).status,200);
+  const ownPerson=await api('digital-samaj/'+created.data.id+'/persons',{actor:'master',method:'POST',body:{data:{englishName:'First private member'}}});
+  assert.equal(ownPerson.status,201,JSON.stringify(ownPerson.data));
+  const otherPerson=await api('digital-samaj/'+otherCommunity.data.id+'/persons',{actor:'other',method:'POST',body:{data:{englishName:'Other private member'}}});
+  assert.equal(otherPerson.status,201,JSON.stringify(otherPerson.data));
+  assert.equal((await api('digital-samaj/'+created.data.id+'/persons/'+otherPerson.data.id,{actor:'master'})).status,404);
+  assert.equal((await api('digital-samaj/'+otherCommunity.data.id+'/persons/'+ownPerson.data.id,{actor:'other'})).status,404);
+  for(const actor of ['super','other','client','member'])assert.equal((await api('digital-samaj/'+created.data.id,{actor})).status,403);
+  assert.equal((await api('digital-samaj/'+otherCommunity.data.id,{actor:'master'})).status,403);
+  assert.equal((await api('digital-samaj/organisations/'+first,{actor:'master',method:'POST',body:{name:'Duplicate'}})).status,409);
+  assert.equal((await api('digital-samaj',{actor:'master',method:'POST',body:{name:'Unscoped'}})).status,409);
+  assert.equal((await api('digital-samaj/'+created.data.id+'/grants',{actor:'master'})).status,200);
+  const account=(await api('organisation-admin/account',{actor:'master'})).data;
+  assert.equal(account.memberships[0].apps.find(app=>app.id==='digital-samaj').available,true);
+  const active=(await view(first)).organisation.licences.find(l=>l.appId==='digital-samaj');
+  assert.equal((await change(first,'licence',{...samajLicence,endsAt:'2021-01-01T00:00:00.000Z',readOnlyUntil:'2099-01-01T00:00:00.000Z',licenceVersion:active.version})).status,200);
+  assert.equal((await api('digital-samaj/'+created.data.id,{actor:'master'})).status,200);
+  assert.equal((await api('digital-samaj/'+created.data.id+'/grants',{actor:'master',method:'POST',body:{userId:'client',role:'GUEST',scope:'ALL',scopeValue:''}})).status,403);
+  const grace=(await view(first)).organisation.licences.find(l=>l.appId==='digital-samaj');
+  assert.equal((await change(first,'licence',{...samajLicence,licenceVersion:grace.version})).status,200);
+  assert.equal((await change(first,'assignment',{appId:'digital-samaj',userId:'master',role:'Owner',status:'Inactive'})).status,200);
+  assert.equal((await api('digital-samaj/'+created.data.id,{actor:'master'})).status,403);
+  assert.equal((await change(first,'assignment',{appId:'digital-samaj',userId:'master',role:'Owner',status:'Active'})).status,200);
+  assert.equal((await db.prepare('PRAGMA foreign_key_check').all()).results.length,0);
+ });
  await t.test('Tournament organisation workspaces isolate records, sharing and expired/revoked access',async()=>{
   const tournamentLicence={...licence,appId:'tournament-lite',staffLimit:1};
   for(const [org,actor]of [[first,'master'],[second,'other']]){
@@ -147,6 +218,22 @@ test('production D1 organisations enforce provisioning, atomic capacity, tenant 
    for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await page.evaluate(theme=>SynapseTheme.write(theme),theme);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);}
    await page.screenshot({path:'.publish/tournament-organisation-mobile.png',fullPage:true});
    await page.goto('https://organisation-ui.test/tournament-lite?organisation='+first);await expect(page.locator('#app')).toContainText('Choose your Tournament workspace');await expect(page.locator('#app')).not.toContainText('Private organisation Cup');
+   await page.goto('https://organisation-ui.test/account');await page.getByRole('link',{name:'Open BatchFee Lite',exact:true}).click();
+   await expect(page.locator('#main')).toContainText('Welcome to BatchFee Lite');
+   await page.getByRole('button',{name:'Set up my academy'}).click();
+   await page.getByLabel('Class / academy name').fill('Other D1 Academy');
+   await page.getByLabel('Owner / teacher name').fill('Teacher Other');
+   await page.getByLabel('Mobile number',{exact:true}).fill('9876543210');
+   await page.getByRole('button',{name:'Save',exact:true}).click();
+   await expect(page.locator('#academy')).toHaveText('Other D1 Academy');
+   await page.goto('https://organisation-ui.test/batchfee-lite?organisation='+first);
+   await expect(page.locator('#main')).toContainText('Choose your academy');
+   assert.equal(await page.locator('#main').textContent().then(text=>text.includes('Private Academy A')),false);
+   await page.goto('https://organisation-ui.test/account');await page.getByRole('link',{name:'Open DIGITAL SAMAJ',exact:true}).click();
+   await expect(page.locator('#app')).toContainText('Other private Samaj');
+   await page.locator('[data-community]').click();
+   await expect(page.locator('#app')).toContainText('Other private Samaj');
+   assert.equal(await page.locator('#app').textContent().then(text=>text.includes('First private Samaj')),false);
    await page.goto('https://organisation-ui.test/super-admin');await expect(page.getByRole('status')).toContainText('Super Admin access is required');await expect(page.locator('#workspace')).toBeHidden();await page.getByRole('button',{name:'Switch account',exact:true}).click();await expect(page.locator('#admin-login')).toBeVisible();
    await page.locator('#admin-login [name="email"]').fill('super@example.test');await page.locator('#admin-login [name="password"]').fill(password);await page.locator('#admin-login button').click();await expect(page.getByRole('status')).toHaveText('Workspace ready.');await expect(page.getByRole('heading',{name:'Super Admin',exact:true})).toBeVisible();assert.deepEqual(errors,[]);
   }finally{await browser.close();}

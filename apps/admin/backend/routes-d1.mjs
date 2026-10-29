@@ -27,7 +27,7 @@ export async function createOrganisationAdmin({db}){
    if(route==='organisation-admin/recovery-export')return json(503,{error:'Cloud recovery uses the offline D1 export tool; browser SQL export is unavailable.'});
    if(route==='organisation-admin'&&method==='GET'){
     const organisations=superAdmin?(await db.prepare('SELECT id,name,status FROM platform_organisations ORDER BY name,id').all()):(await db.prepare("SELECT o.id,o.name,o.status FROM platform_organisations o JOIN platform_memberships m ON m.organisationId=o.id AND m.userId=o.masterAdminUserId WHERE m.userId=? AND m.role='MasterAdmin' AND m.status='Active' AND o.status='Active' ORDER BY o.name,o.id").all(actorUserId));
-    return json(200,{superAdmin,organisations,recoveryExportAvailable:false,assignmentApps:['advocate','tournament-lite'],apps:registry.apps.filter(a=>['advocate','tournament-lite'].includes(a.id)&&a.status==='Available').map(({id,name})=>({id,name}))});
+    return json(200,{superAdmin,organisations,recoveryExportAvailable:false,assignmentApps:['advocate','tournament-lite','batchfee-lite','digital-samaj'],apps:registry.apps.filter(a=>['advocate','tournament-lite','batchfee-lite','digital-samaj'].includes(a.id)&&a.status==='Available').map(({id,name})=>({id,name}))});
    }
    const match=/^organisation-admin\/organisations\/([a-zA-Z0-9-]{1,200})(?:\/([a-z-]+))?$/.exec(route);
    if(route==='organisation-admin/platform-audit'&&method==='GET')return json(200,(await platformAudit(repo,{actorUserId,params:new URL(req.url,'http://localhost').searchParams})));

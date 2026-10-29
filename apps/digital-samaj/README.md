@@ -1,6 +1,11 @@
 # DIGITAL SAMAJ
 
-Integrated family registry at `/digital-samaj`, using the existing Node server, shared account sessions and `data/chambers.sqlite`. The user selected the existing platform stack instead of the original Next.js/.NET/PostgreSQL request. No additional runtime dependency or separate database is required.
+Integrated family registry at `/digital-samaj`, using shared account sessions.
+Default Node mode uses `data/chambers.sqlite`. The cloud organisation adapter
+binds each Samaj to one licensed organisation and requires an assigned app role
+plus the app's own community grant. This is live after verified migration and
+explicit mapping of the existing community on 29 October 2026. Open it from your
+organisation in `/account`; no additional runtime dependency is required.
 
 ## Start and account access
 

@@ -97,7 +97,7 @@ export class OrganisationAdministration {
     return (await this.transaction(async ()=>{
       const org=(await this.context(input,{superOnly:true,active:false}));
       if(org.status==='Closed')fail('invalid-state','Closed organisation cannot change licences');
-      const app=registry.apps.find(a=>['advocate','tournament-lite'].includes(a.id)&&a.id===input.appId&&a.status==='Available'&&!a.public);
+      const app=registry.apps.find(a=>['advocate','tournament-lite','batchfee-lite','digital-samaj'].includes(a.id)&&a.id===input.appId&&a.status==='Available'&&!a.public);
       if(!app)fail('invalid-app','Select an implemented private app');
       const old=(await this.db.prepare('SELECT * FROM platform_app_licences WHERE organisationId=? AND appId=?').get(org.id,app.id));
       if(!Number.isSafeInteger(input.licenceVersion)||input.licenceVersion!==(old?.version??0))fail('conflict','Licence changed; reload before continuing');
@@ -202,10 +202,10 @@ export class OrganisationAdministration {
   }
   async assignChambers(input){
     const appId=input.appId||'advocate';
-    if(!['advocate','tournament-lite'].includes(appId))fail('invalid-app','Unsupported app');
+    if(!['advocate','tournament-lite','batchfee-lite','digital-samaj'].includes(appId))fail('invalid-app','Unsupported app');
     return (await this.transaction(async ()=>{
       const org=(await this.context(input)),member=(await this.member(org.id,input.userId)),user=(await this.repo.user(input.userId));
-      if(!member||!['Active','Inactive'].includes(input.status)||!(appId==='advocate'?['Owner','Advocate','Clerk']:['Owner','Advocate']).includes(input.role))fail('invalid-input','Invalid app assignment');
+      if(!member||!['Active','Inactive'].includes(input.status)||!(appId==='advocate'?['Owner','Advocate','Clerk']:appId==='tournament-lite'?['Owner','Advocate']:appId==='batchfee-lite'?['Owner','Manager','Collector','Viewer']:['Owner','Member']).includes(input.role))fail('invalid-input','Invalid app assignment');
       const old=(await this.db.prepare("SELECT * FROM platform_app_assignments WHERE organisationId=? AND userId=? AND appId=?").get(org.id,input.userId,appId));
       if(input.status==='Active'){
         if(!user?.active||member.status!=='Active'||member.role==='Client')fail('invalid-member','Only active staff can receive app access');
@@ -217,7 +217,7 @@ export class OrganisationAdministration {
         if(old?.status!=='Active'&&licence.staffLimit!==null&&used>=licence.staffLimit)fail('seat-limit-reached','App seat limit reached');
       }else if(!old)fail('invalid-input','Assignment does not exist');
       (await this.db.prepare("INSERT INTO platform_app_assignments(organisationId,userId,appId,role,status) VALUES(?,?,?,?,?) ON CONFLICT(organisationId,userId,appId) DO UPDATE SET role=excluded.role,status=excluded.status").run(org.id,input.userId,appId,input.role,input.status));
-      return (await this.finish(org,input,appId==='advocate'?'ChambersAssignmentUpdated':'TournamentAssignmentUpdated',{appId,userId:input.userId,before:old??null,after:{role:input.role,status:input.status}}));
+      return (await this.finish(org,input,appId==='advocate'?'ChambersAssignmentUpdated':appId==='tournament-lite'?'TournamentAssignmentUpdated':appId==='batchfee-lite'?'BatchfeeAssignmentUpdated':'SamajAssignmentUpdated',{appId,userId:input.userId,before:old??null,after:{role:input.role,status:input.status}}));
     }));
   }
 }

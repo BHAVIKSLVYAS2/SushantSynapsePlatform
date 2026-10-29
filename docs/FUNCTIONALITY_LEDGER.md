@@ -1,5 +1,45 @@
 # Chambers functionality ledger
 
+**Four private app organisation integration (2026-10-29, live):** Chambers and
+Tournament Lite were already integrated. BatchFee Lite now has a separate
+organisation-keyed academy/event store, live licence/membership/assignment checks,
+Owner/Manager/Collector/Viewer roles, scoped backup/restore, browser workspace
+selection and Super Admin licence/seat controls. DIGITAL SAMAJ maps one community
+to one organisation, checks its licence/assignment before existing community
+grants, privacy, photos, messaging and writes, and limits user/grant choices to
+the selected organisation. A new community and its initial grant commit atomically.
+Its app roles are Owner/Member; community roles remain separately governed.
+
+Additive D1 migrations 0007 and 0008 do not infer legacy ownership. An offline
+revision-guarded cutover planner copies legacy BatchFee financial history and
+explicitly maps one existing Samaj after verifying the selected organisation,
+Master Admin, memberships, licence seats, foreign keys and unchanged legacy rows.
+Full D1 recovery includes both mappings and scoped BatchFee history. A fresh private
+production export at revision 326 verified one legacy academy (three events) and
+one Samaj community (one grant). Both additive migrations and the verified mapping
+were applied once; revision 327, two new licences/assignments and clean foreign
+keys were checked before publication. Worker
+`9132b61a-23fb-4fac-8dd3-46aa787bdc17` is live with `--keep-vars`. Existing app
+data, accounts, documents and legacy records were preserved; Super Admin received
+no business assignment. Default Node mode remains separate. No commit or push.
+
+Verification: **560/560 full checks**, **5/5 exact production-bundle D1/API/browser
+checks**, **13 live read-only HTTP/delivery checks** pass. The final D1 flow includes
+real isolated BatchFee fee/payment writes, Samaj person writes, cross-org denials,
+expiry/revocation, administration and browser entry for all four apps. Pre/post
+exports verify **76 existing tables unchanged**, exact copied fee history and
+community mapping; post-cutover offline recovery verifies checksums and excludes
+sessions. Two stale source-URL/sculpture assertions from earlier UI releases were
+aligned with the shipped customer-copy and inline artwork behaviour. Initial full
+runs failed on those assertions and sandbox write access to generated language.js;
+focused reruns and the complete final run passed with build access.
+Evidence: `.publish/private-apps-full-tests-final.log`,
+`private-apps-bundle-tests.log`, `private-apps-migrations.log`,
+`private-apps-cutover-apply.log`, `deploy-private-apps-organisations.log`,
+`private-apps-live-check.json` and `private-apps-preservation-check.json`.
+Sensitive pre/post exports and verified recovery directories remain ignored under
+`.publish/`. Live sign-in was not repeated; authenticated flows use isolated D1.
+
 **Company browser favicon (2026-10-29):** Shared HTML delivery now retains the
 actual Sushant Synapse PNG logo instead of substituting the generic S SVG.
 Explicit PNG type/size and a versioned URL refresh the browser icon cache;

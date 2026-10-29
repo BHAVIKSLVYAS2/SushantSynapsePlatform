@@ -3,14 +3,16 @@
 Production administration is live on Cloudflare Workers/D1 at `/account`, `/admin`
 and `/super-admin`. The explicitly assigned Super Admin provisions organisations,
 appoints one primary Master Admin and manages app licences, seat limits and
-organisation status. A primary Master Admin manages their own members and Chambers
+organisation status. A primary Master Admin manages their own members and app
 assignments within those limits. One identity can have independent memberships in
 several organisations. Super Admin authority grants no private Chambers access.
 
 The D1 edge adapters use asynchronous governance services, current session authority,
 strict API validation and one revision-guarded atomic batch for each business write.
 Organisation/platform audit remain separately scoped. The production app catalogue
-and licence selector expose Chambers; other private apps await tenant integration.
+and licence selector expose Chambers, Tournament Lite, BatchFee Lite and DIGITAL
+SAMAJ. All four use live organisation licences, memberships and app assignments;
+Samaj additionally retains its community grants and privacy rules.
 See [the production cutover](../../docs/ORGANISATION_PRODUCTION_CUTOVER.md) for the
 live release, preserved legacy data and recovery/rollback boundaries.
 

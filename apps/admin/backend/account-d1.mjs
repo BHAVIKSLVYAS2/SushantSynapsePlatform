@@ -9,12 +9,17 @@ export async function accountOverview(repo,userId){
  const memberships=(await Promise.all((await db.prepare('SELECT o.*,m.role AS membershipRole,m.status AS membershipStatus FROM platform_organisations o JOIN platform_memberships m ON m.organisationId=o.id WHERE m.userId=? ORDER BY o.name,o.id').all(userId)).map(async org=>{
   const membership={organisationId:org.id,userId,role:org.membershipRole,status:org.membershipStatus};
   const apps=[];let access={allowed:false},assignment;
-  for(const appId of ['advocate','tournament-lite']){
+  for(const appId of ['advocate','tournament-lite','batchfee-lite','digital-samaj']){
    const currentAssignment=await db.prepare('SELECT * FROM platform_app_assignments WHERE organisationId=? AND userId=? AND appId=?').get(org.id,userId,appId);
    const licence=await db.prepare('SELECT * FROM platform_app_licences WHERE organisationId=? AND appId=?').get(org.id,appId);
-   const staff=membership.role!=='Client'&&(appId==='advocate'?['Owner','Advocate','Clerk']:['Owner','Advocate']).includes(currentAssignment?.role);
+   const staff=membership.role!=='Client'&&(appId==='advocate'?['Owner','Advocate','Clerk']:appId==='tournament-lite'?['Owner','Advocate']:appId==='batchfee-lite'?['Owner','Manager','Collector','Viewer']:['Owner','Member']).includes(currentAssignment?.role);
    const granted=evaluateAppAccess({...authority,organisation:org,membership,assignment:currentAssignment,licence,app:registry.apps.find(a=>a.id===appId),permissions:staff?[appId+':read']:[],action:'read',now:repo.now()});
-   apps.push({id:appId,name:registry.apps.find(a=>a.id===appId).name,assigned:currentAssignment?.status==='Active',role:currentAssignment?.role??null,available:staff&&granted.allowed,mode:granted.allowed?granted.mode:null,reason:!staff?'missing-assignment':granted.allowed?null:granted.reason});
+   let appReady=true;
+   if(appId==='digital-samaj'&&staff){
+    const mapping=await db.prepare('SELECT samajId FROM samaj_organisation_ownership WHERE organisationId=?').get(org.id);
+    appReady=!mapping?currentAssignment.role==='Owner':!!(await db.prepare('SELECT 1 FROM samaj_grants WHERE samaj_id=? AND user_id=?').get(mapping.samajId,userId));
+   }
+   apps.push({id:appId,name:registry.apps.find(a=>a.id===appId).name,assigned:currentAssignment?.status==='Active',role:currentAssignment?.role??null,available:staff&&granted.allowed&&appReady,mode:granted.allowed?granted.mode:null,reason:!staff?'missing-assignment':granted.allowed&&!appReady?'community-grant-required':granted.allowed?null:granted.reason});
    if(appId==='advocate'){access=granted;assignment=currentAssignment;}
   }
   let portal=false;if(membership.role==='Client')try{(await clientPortalScope(repo,{actorUserId:userId,organisationId:org.id}));portal=true;}catch(error){if(!(error instanceof OrganisationError))throw error;}

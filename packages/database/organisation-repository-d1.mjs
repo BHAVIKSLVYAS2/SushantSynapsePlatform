@@ -109,7 +109,7 @@ export class OrganisationRepository {
       const seen = new Set();
       for (const licence of licences) {
         if (!licence || typeof licence !== 'object') reject('invalid-input', 'Invalid licence');
-        const app = registry.apps.find(app => app.id === licence.appId && ['advocate','tournament-lite'].includes(app.id) && app.status === 'Available' && !app.public);
+        const app = registry.apps.find(app => app.id === licence.appId && ['advocate','tournament-lite','batchfee-lite','digital-samaj'].includes(app.id) && app.status === 'Available' && !app.public);
         if (!app || seen.has(app.id)) reject('invalid-input', 'Select unique available private apps');
         seen.add(app.id);
         if (!['Trial', 'Active', 'Scheduled'].includes(licence.status)) reject('invalid-input', 'Invalid initial licence status');

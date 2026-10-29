@@ -1,10 +1,11 @@
 import routes from './edge-routes.cjs';
 import {StagedSQL} from '../../../packages/database/d1-staged.mjs';
 import {body,fail,access} from '../../../server/edge-http.mjs';
-export async function samaj({repo,request,route,user,files,env}){
+export async function samaj({repo,request,route,user,files,env,organisationUserIds}){
  if(!user)fail(401,'Please sign in');if(!access(user,'digital-samaj'))fail(403,'DIGITAL SAMAJ access required');
  if(request.method!=='GET'){if(!env.SAMAJ_LIMITER)fail(503,'Write protection is unavailable');if(!(await env.SAMAJ_LIMITER.limit({key:user.id})).success)fail(429,'Too many writes. Please wait a minute.');}
- const sql=new StagedSQL(repo,files),store={sql,transaction:async fn=>fn(),user:async id=>{const u=await repo.user(id);return u?{...u,appIds:await repo.access(id)}:null;},users:async()=>{const users=await repo.users();for(const u of users)u.appIds=await repo.access(u.id);return users;}},auth={owner(u){if(u?.role!=='Owner')fail(403,'Owner access required');},hasAppAccess:access};
+ const allowed=id=>!organisationUserIds||organisationUserIds.has(id);
+ const sql=new StagedSQL(repo,files),store={sql,transaction:async fn=>fn(),user:async id=>{if(!allowed(id))return null;const u=await repo.user(id);return u?{...u,appIds:organisationUserIds?['digital-samaj']:await repo.access(id)}:null;},users:async()=>{const users=(await repo.users()).filter(u=>allowed(u.id));for(const u of users)u.appIds=organisationUserIds?['digital-samaj']:await repo.access(u.id);return users;}},auth={owner(u){if(organisationUserIds||u?.role!=='Owner')fail(403,'Owner access required');},hasAppAccess:(u,appId)=>allowed(u?.id)&&access(u,appId)};
  const b=['POST','PATCH','DELETE'].includes(request.method)?await body(request,8000000):null;
  // Existing app handlers keep their response contract through this bounded adapter.
  const req={method:request.method,url:request.url,headers:{'content-type':'application/json'},async *[Symbol.asyncIterator](){if(b)yield Buffer.from(JSON.stringify(b));}};

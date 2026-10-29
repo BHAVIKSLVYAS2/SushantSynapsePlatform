@@ -1,5 +1,15 @@
 # Organisation licensing production cutover
 
+Latest private-app release (2026-10-29): Chambers, Tournament Lite, BatchFee Lite
+and DIGITAL SAMAJ now use organisation licence/membership/assignment checks.
+Additive migrations 0007/0008 and one explicit, revision-326 legacy mapping preserved
+the academy's three fee events and existing community; verified revision 327.
+Worker `9132b61a-23fb-4fac-8dd3-46aa787bdc17` deployed with `--keep-vars`.
+560/560 full checks, 5/5 exact-bundle D1/browser and 13 live read-only checks pass.
+Pre/post exports verify 76 existing tables unchanged; new recovery verifies too.
+Do not rerun the mapping or roll back to unscoped APIs. Evidence and limitations
+are at the top of the functionality ledger. No commit/push in this release.
+
 Latest matching correction (2026-10-27, no commit): Worker
 `6723fe3c-eb92-4612-938d-cc2ac19d8121` fixes the generic unavailable error for
 recorded-minute birth pairs. Pada-only edges calculate normally; meaningful Moon

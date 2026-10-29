@@ -1,5 +1,15 @@
 # Code ownership and adding apps
 
+Private organisation apps (2026-10-29): all four catalogue-private apps use the
+Workers/D1 organisation boundary. BatchFee's organisation-edge.mjs owns scoped
+academy/events, app roles and recovery. Samaj's organisation-edge.mjs maps each
+community to an organisation and checks platform authority before delegating to
+its existing privacy/grant/file/messaging handlers. Its user choices are limited
+to active assigned members of that organisation. Additive app schemas feed D1
+migrations 0007/0008; organisation-recovery.cjs registers their recovery extensions.
+private-apps-cutover.cjs is an offline, explicit one-time legacy mapping tool.
+Default Node mode retains its existing independent single-workspace behaviour.
+
 Frontend delivery (2026-10-28, local measured pass): Vedic build.cjs owns the
 ordered stylesheetFiles list and application.css. Edit the original app/shared
 CSS; generated outputs include all input CSS plus scope-filter source in their

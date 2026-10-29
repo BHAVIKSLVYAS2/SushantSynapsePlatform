@@ -1,8 +1,18 @@
 # Organisation, user and app licensing programme
 
-Last updated: 2026-10-17 (Asia/Kolkata).
+Last updated: 2026-10-29 (Asia/Kolkata).
 
 ## Resume here
+
+**Four-app production release (2026-10-29):** BatchFee Lite and DIGITAL SAMAJ now have
+organisation-scoped D1 adapters, licence/assignment administration, browser entry,
+recovery extensions and an offline legacy cutover planner. Chambers and Tournament
+Lite were already integrated. Fresh pre/post exports verified the legacy academy,
+three fee events and community. Migrations 0007/0008 and the revision-326 mapping
+were applied once; Worker `9132b61a-23fb-4fac-8dd3-46aa787bdc17` is live, preserving
+76 existing tables. 560/560 full checks, exact-bundle D1/browser and live read-only
+checks pass. See the top of `docs/FUNCTIONALITY_LEDGER.md` for evidence and limits.
+Do not repeat the legacy mapping. Scoped D1 recovery screens remain pending.
 
 **Production is now active (2026-10-17).** Read
 `docs/ORGANISATION_PRODUCTION_CUTOVER.md` for the deployed D1 boundary, exact release,
@@ -16,9 +26,9 @@ as primary Master Admin. Super Admin has no Chambers business assignment.
 339/339 full checks and live verification passed. Do not repeat bootstrap, delete
 data, rerun the legacy mapping, or roll back to unscoped APIs. Private recovery
 artifacts are ignored under `.publish/`. Never record the temporary password.
-Next: organisation-scoped D1 recovery/snapshot capabilities, or another private
-app's tenant adapter, as a separately verified increment. Other private apps and
-additional client data remain unavailable. The prior foundation checkpoints below
+Next: organisation-scoped D1 recovery/snapshot capabilities as a separately verified
+increment. All four private catalogue apps are integrated as recorded above;
+additional client data remains unavailable. The prior foundation checkpoints below
 are historical; their no-deployment and Node-only statements are superseded here.
 
 ## Historical authorisation and preview milestones
