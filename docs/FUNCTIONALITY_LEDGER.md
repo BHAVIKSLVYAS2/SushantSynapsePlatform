@@ -16,6 +16,12 @@ edges match, and keyboard focus remains visible. Removing Light rules produces
 identical Dark button styles and dimensions on those pages. A first hover check
 sampled Ritual Assist mid-transition; settled-state comparison passes. Existing
 private app entry screens were checked without changing accounts or business data.
+Implementation `ac3469d` deployed with `--keep-vars` as Worker
+`9c094b1d-fa8d-4f27-85ae-66f7f25fcaf9`. Eight live checks on home, QR Maker,
+Ritual Assist and Matching at 390/1440 pass button fill/border/no-inset, hover and
+Dark isolation; live header screenshot reviewed. No migrations or production
+business-data writes. Evidence: `.publish/deploy-teal-button-edges.log`,
+`teal-button-live.json` and `teal-header-live.png`.
 
 **Connected matchmaking narrative (2026-10-29):** The existing three playful
 factor snippets now have a pair-specific overview using all eight components.
