@@ -2,10 +2,10 @@ import {term} from './display-text.mjs';
 const names={varna:'Varna',vashya:'Vashya',tara:'Tara',yoni:'Yoni','graha-maitri':'Graha Maitri',gana:'Gana',bhakoot:'Bhakoot',nadi:'Nadi'};
 const copy={
  en:{headings:{uncertain:'One chapter is still open',mixed:'Shared notes, with different chords to explore',full:'The tables agree; now bring your own story',partial:'A comparison with shades, not one simple label',contrast:'Start with the differences, without writing the ending'},
- full:n=>`${n} receive full points in this comparison. These are the places where the selected traditional tables agree.`,
- zero:n=>`${n} receive no points. Read that contrast alongside the agreements, rather than letting either side tell the whole story.`,
- onlyZero:n=>`${n} receive no points under the selected rules. This identifies table differences to examine; it does not establish how the two of you will get along.`,
- partial:n=>`${n} receive partial points: there is some agreement within those rules, rather than an all-or-nothing result.`,
+ full:n=>`${n}: full points in this comparison. These are the places where the selected traditional tables agree.`,
+ zero:n=>`${n}: no points under the selected rules. Read that contrast alongside the agreements, rather than letting either side tell the whole story.`,
+ onlyZero:n=>`${n}: no points under the selected rules. This identifies table differences to examine; it does not establish how the two of you will get along.`,
+ partial:n=>`${n}: partial points. There is some agreement within these rules, rather than an all-or-nothing result.`,
  uncertain:n=>`${n} can change near a Moon classification boundary. Keep these parts of the reading open; the fixed results do not settle the uncertain ones.`,
  nadi:'Nadi here compares symbolic birth-star groups. Its points are not evidence about health, heredity or having children.',
  takeaway:'One conversation to have',basis:'See the chart basis',review:'Keep the recorded birth details as they are. Review the possible classifications together before choosing one interpretation; do not adjust a birth time to improve the score.',empty:'There are no calculated factors to connect yet.'},
