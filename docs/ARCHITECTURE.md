@@ -1,5 +1,12 @@
 # Code ownership and adding apps
 
+Theme polish (2026-10-29): packages/ui/light-theme.css and dark-theme.css own
+resolved-theme screen overrides and semantic palette tokens. premium.tailwind.css
+imports these after the existing refinement layer. Rebuild with build:ui to update
+premium.bundle.css, the portal home bundle and Vedic application stylesheet;
+do not edit generated bundles directly. Theme layers must not change geometry,
+business logic, artwork or print output.
+
 Private organisation apps (2026-10-29): all four catalogue-private apps use the
 Workers/D1 organisation boundary. BatchFee's organisation-edge.mjs owns scoped
 academy/events, app roles and recovery. Samaj's organisation-edge.mjs maps each

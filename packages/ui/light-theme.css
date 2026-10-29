@@ -1,0 +1,121 @@
+/* Frosted Teal materials. Resolved Light Mode only; layout and artwork stay app-owned. */
+@media screen {
+  html[data-theme=light] {
+    --light-background:#F3F7FA;
+    --light-surface:#FFFFFF;
+    --light-surface-soft:#EDF5F4;
+    --light-control:#F8FAFC;
+    --light-text:#142D3D;
+    --light-text-secondary:#536779;
+    --light-accent:#116C63;
+    --light-accent-hover:#0D5851;
+    --light-on-accent:#FFFFFF;
+    --light-border:#DCEAEF;
+    --light-navigation:#F8FAFC;
+    --light-star:#B58A45;
+    --light-shadow:0 2px 8px #142D3D0B,inset 0 1px 0 #FFFFFFCC;
+    --light-shadow-raised:0 8px 24px #142D3D12,inset 0 1px 0 #FFFFFFCC;
+    --light-shadow-header:0 2px 8px #142D3D06;
+    --light-shadow-navigation:0 -2px 8px #142D3D06;
+  }
+
+  html[data-theme=light] body[data-ui-app]:not([data-theme=dark]) {
+    --ss-bg:var(--light-background);--ss-bg-secondary:var(--light-control);
+    --ss-surface:var(--light-surface);--ss-surface-raised:var(--light-surface);
+    --ss-surface-soft:var(--light-surface-soft);--ss-surface-glass:var(--light-surface);
+    --ss-text:var(--light-text);--ss-muted:var(--light-text-secondary);
+    --ss-text-secondary:var(--light-text-secondary);--ss-text-muted:var(--light-text-secondary);
+    --ss-border:var(--light-border);--ss-accent:var(--light-accent);
+    --ss-accent-hover:var(--light-accent-hover);--ss-on-accent:var(--light-on-accent);
+    --ss-highlight:var(--light-surface);--ss-reflection:var(--light-surface);
+    --ss-shadow:var(--light-shadow);--ss-shadow-card:var(--light-shadow);
+    --ss-shadow-raised:var(--light-shadow-raised);--ss-shadow-elevated:var(--light-shadow-raised);
+    --ui-bg:var(--light-background);--ui-solid:var(--light-surface);
+    --ui-glass:var(--light-surface);--ui-panel:var(--light-surface);
+    --ui-ink:var(--light-text);--ui-text:var(--light-text);--ui-muted:var(--light-text-secondary);
+    --ui-edge:var(--light-border);--ui-soft:var(--light-surface-soft);
+    --ui-accent:var(--light-accent);--ui-on-accent:var(--light-on-accent);
+    --ui-shadow:var(--light-shadow);--ui-product-shadow:var(--light-shadow);
+    --ui-product-panel:var(--light-surface);--ui-product-edge:var(--light-border);
+    --ui-bloom:transparent;--ui-product-halo:transparent;
+    --shell-bg:var(--light-background);--shell-surface:var(--light-surface);
+    --shell-ink:var(--light-text);--shell-muted:var(--light-text-secondary);
+    --shell-line:var(--light-border);--shell-accent:var(--light-accent);
+    --shell-on-accent:var(--light-on-accent);--shell-soft:var(--light-surface-soft);
+    --bg:var(--light-background);--surface:var(--light-surface);
+    --text:var(--light-text);--ink:var(--light-text);--muted:var(--light-text-secondary);
+    --line:var(--light-border);--border:var(--light-border);
+    --soft:var(--light-surface-soft);--surface-soft:var(--light-surface-soft);
+    --primary:var(--light-accent);--accent:var(--light-accent);
+    --on-primary:var(--light-on-accent);--on-accent:var(--light-on-accent);
+    background:var(--light-background);color:var(--light-text);
+  }
+
+  html[data-theme=light] body[data-ui-app] :is(.panel,.card,.stat,.app-card,.public-app,.workspace-card,.library,.workbench,.tool-tile,.settings-panel,.registration) {
+    background-color:var(--light-surface);background-image:none;
+    border-color:var(--light-border);box-shadow:var(--light-shadow);
+  }
+  html[data-theme=light] body[data-ui-app] :is(.platform-shell,.synapse-header,.topbar,.admin-header) {
+    --header-bg:var(--light-surface);--header-surface:var(--light-control);
+    --header-text:var(--light-text);--header-muted:var(--light-text-secondary);
+    --header-line:var(--light-border);
+    background:var(--light-surface);border-color:var(--light-border);
+    box-shadow:var(--light-shadow-header);
+  }
+  html[data-theme=light] .platform-shell :is(.platform-switch,.platform-account-avatar,.theme-toggle,.platform-language>summary) {
+    background:var(--light-control);border-color:var(--light-border);color:var(--light-text);
+  }
+  html[data-theme=light] body[data-ui-app] :is(input,textarea)::placeholder {
+    color:var(--light-text-secondary);opacity:1;
+  }
+  html[data-theme=light] body[data-ui-app] :focus-visible {outline-color:var(--light-accent)}
+  html[data-theme=light] body[data-ui-app] :is(.bottom-nav,.mobile-nav,.home-mobile-dock) {
+    background:var(--light-navigation);border-top-color:var(--light-border);
+    box-shadow:var(--light-shadow-navigation);
+  }
+  html[data-theme=light] body[data-ui-app] :is(.bottom-item,.home-mobile-dock a) {color:var(--light-text-secondary)}
+  html[data-theme=light] body[data-ui-app] :is(.bottom-item.active,.bottom-item[aria-current=page],.home-mobile-dock a[aria-current=page]) {color:var(--light-accent)}
+
+  /* Home has its own material aliases; retain every grid, dimension and icon hue. */
+  html[data-theme=light] body[data-ui-app=portal] .public-home {
+    --home-accent:var(--light-accent);--home-hover:var(--light-accent-hover);
+    --home-bright:var(--light-accent);--home-border:var(--light-border);
+    --home-chip:var(--light-surface-soft);--home-card:var(--light-surface);
+    --home-top:var(--light-surface);--home-bottom:var(--light-surface);
+    --home-shadow:var(--light-shadow);--home-panel-shadow:var(--light-shadow);
+    --home-feature-shadow:var(--light-shadow-raised);--home-halo:transparent;
+    --home-welcome-surface:var(--light-surface);
+  }
+  html[data-theme=light] body[data-ui-app=portal]:has(.public-home) {
+    --ss-primary:var(--light-accent);--ss-primary-hover:var(--light-accent-hover);
+  }
+  html[data-theme=light] body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app {
+    background:var(--light-surface);border-color:var(--light-border);box-shadow:var(--light-shadow);
+  }
+  html[data-theme=light] body[data-ui-app=portal] .public-home .home-discovery-toolbar {
+    background:var(--light-surface);border-color:var(--light-border);
+  }
+  html[data-theme=light] body[data-ui-app=portal] .public-home #workspace-apps {
+    background:var(--light-control);border-color:var(--light-border);box-shadow:var(--light-shadow);
+  }
+  html[data-theme=light] body[data-ui-app=portal] .public-home .home-discovery-toolbar:focus-within {
+    border-color:var(--light-accent);outline-color:var(--light-accent);
+  }
+  html[data-theme=light] body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) :is(.catalogue-favorite,.home-feature-badge) {
+    color:var(--light-star);
+  }
+  html[data-theme=light] body[data-ui-app=portal] .public-home .home-vedic {
+    --rv-ink:var(--light-text);--rv-muted:var(--light-text-secondary);
+    --rv-panel:var(--light-surface);--rv-edge:var(--light-border);
+    background:var(--light-surface);box-shadow:var(--light-shadow);
+  }
+  @media(hover:hover) {
+    html[data-theme=light] body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app:hover {
+      border-color:color-mix(in srgb,var(--light-accent) 22%,var(--light-border));
+      box-shadow:var(--light-shadow-raised);
+    }
+    html[data-theme=light] body[data-ui-app] :is(.primary,.launch,.public-launch):not(:disabled):hover {
+      background-color:var(--light-accent-hover);border-color:var(--light-accent-hover);
+    }
+  }
+}

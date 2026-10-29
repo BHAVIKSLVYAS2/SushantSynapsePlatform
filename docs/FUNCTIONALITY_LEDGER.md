@@ -1,5 +1,25 @@
 # Chambers functionality ledger
 
+**Curio theme polish (2026-10-29):** Added separate screen-only semantic Light
+and Dark layers through the existing shared CSS build. Light uses Frosted Teal,
+white surfaces, slate text and restrained elevation. The subsequently requested
+Dark refinement uses Midnight Navy, softer borders, subtle card gradients and
+clearer secondary text. Existing card dimensions, grids, spacing, icons, routing
+and business logic are preserved. Dark card descriptions retain the three-line
+limit. No dependencies or production data changes are required.
+
+Verification: 88 local page/viewport/theme captures across 22 routes retain their
+geometry. Four selected portal browser workflows pass, including mobile/desktop
+search, filters, theme/system/storage behaviour and setup/favourites/team access.
+The setup test's stale external-artwork assertion now matches the existing inline
+symbol. Catalogue/cache checks pass 9/9. Primary/secondary text contrast is at
+least 5.86:1 in Light and 8.16:1 in Dark on the checked surfaces; this is not a
+whole-application accessibility certification. Tests use isolated temporary data.
+Evidence is ignored under `.publish/light-theme-review/` and
+`.publish/theme-browser-tests.log`, `theme-workflow-rerun.log`.
+The preceding four-app organisation implementation is committed as `e7f02b0`.
+
+
 **Four private app organisation integration (2026-10-29, live):** Chambers and
 Tournament Lite were already integrated. BatchFee Lite now has a separate
 organisation-keyed academy/event store, live licence/membership/assignment checks,
