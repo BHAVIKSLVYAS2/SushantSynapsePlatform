@@ -21,6 +21,12 @@ combinations plus three-language sample dates, invalid input recovery, swaps and
 clearing. The prior summary test was scoped to distinguish the existing story and
 technical overview sections. Evidence: `.publish/matching-connected-build.log`,
 `matching-connected-boundary.log` and `matching-connected-usability.log`.
+Implementation `067e7f8` deployed with `--keep-vars` as Worker
+`c0857dc7-f125-4bb7-a91b-107b2771ed54`. Live synthetic-input verification passes:
+three languages through the shared language control, 390/1440, connected overview,
+one takeaway, unchanged 28/36 example, no page errors and revocation clearing.
+No migrations, accounts or business data changed. Evidence:
+`.publish/deploy-matching-connected.log` and `matching-connected-live.json`.
 
 **Coherent Rashifal narrative (2026-10-29):** Main reading now connects the
 calculated Moon-house theme with supportive/obstructed physical-graha patterns.
