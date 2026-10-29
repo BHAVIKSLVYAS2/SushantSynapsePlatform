@@ -1,7 +1,10 @@
 # Pandit Booking implementation progress
 
-Updated 2026-10-29 (Asia/Kolkata). First managed pilot implemented and locally
-verified. Not deployed; no production migrations or business-data changes.
+Updated 2026-10-30 (Asia/Kolkata). First managed pilot deployed from `5352fa1` as
+Worker `309b1aba-7e7d-4db3-8c64-783761decd2a`; migration 0009 applied. Live routes
+and pre/post offline recovery verified. No licence, assignment or customer booking
+was created. Hindi/Gujarati completion passes local API and Chrome checks as the
+next increment; see the release evidence in the functionality ledger.
 
 | Workstream | State | Evidence / remaining work |
 | --- | --- | --- |
@@ -12,11 +15,17 @@ verified. Not deployed; no production migrations or business-data changes.
 | Booking and preparation | Implemented and locally verified | Request, confirm, cancel/decline, reschedule agreement, checklist, completion/no-show |
 | Communication and concerns | Implemented and locally verified | In-app messages, reports/resolution, moderated completed-booking reviews; on-open/refresh reminders within 24 hours |
 | Security and concurrency tests | Passed local checks | Cross-user/org, role revocation, client seat boundaries, privacy, atomic conflicts, malformed input and stale-response DOM clearing |
-| Browser journeys and responsive themes | Passed 3 Chrome workflows | Isolated Node/SQLite fixture; operator/Pandit/customer journey, stale-response/expiry, visitor discovery; 320/390/768/1440px light/dark plus system theme |
+| Browser journeys and responsive themes | Passed 4 Chrome workflows | Isolated Node/SQLite fixture; operator/Pandit/customer journey, stale-response/expiry, visitor discovery and Hindi/Gujarati journeys; 320/390/768/1440px light/dark plus system theme |
 | External delivery and scheduled reminders | Not connected | Computed in-app reminders only; background scheduler and provider transport pending |
 | Public onboarding and identity | Restricted pilot | Manual invitation/contact checks; MFA/provider verification and recovery review pending |
-| Additional planned features | Pending | Photo uploads, weekly recurring availability, replacement agreement, exports, retention jobs, complete Hindi/Gujarati |
-| Production cutover | Not performed | Production dry-run build passes; migration 0009 prepared. Live pre/post recovery and restricted operational/security review still required |
+| Hindi/Gujarati interface | Implemented and locally verified | App-owned authored copy, shared language preference, localized IST dates, canonical checklist inputs and preserved drafts/user text; booking/confirmation/messages in both languages |
+| Additional planned features | Pending | Photo uploads, weekly recurring availability, replacement agreement, exports, retention jobs |
+| Production cutover | Restricted pilot deployed | Migration 0009 applied; pre/post recovery restores and live read-only routes pass. Licence/assignment activation is explicit; broad launch remains gated |
+
+Operator activation, capacity, incident response and broad-launch requirements are
+documented in `PANDIT_BOOKING_PRODUCTION.md`. Shared account MFA, independent
+security review, operational contact verification and retention policy are not
+implied by the deployed code. Keep public onboarding restricted.
 
 See `apps/pandit-booking/README.md` for actual role mapping and pilot capacity.
 The original full scope remains in `docs/PANDIT_BOOKING_PLAN.md`; this progress

@@ -1,5 +1,42 @@
 # Chambers functionality ledger
 
+**Pandit Booking Hindi/Gujarati and production preparation (2026-10-30 IST):**
+Added 329 authored interface entries covering booking discovery, provider/profile
+management, approval, private booking details, preparation, conversation, concerns,
+status/audit labels and actionable app errors. The app-owned language adapter
+uses the shared preference and updates text and IST dates in place. User-authored
+names, service terms, addresses, messages, reviews and draft inputs remain as
+entered, including exact dictionary-key matches. Checklist role/state accepts
+English/Hindi/Gujarati while saving canonical API enums. No schema changes.
+Operations runbook documents explicit licence/seat/assignment activation, manual
+contact review, recovery, capacity and incident handling. Broad onboarding remains
+gated on MFA/identity/recovery review, retention policy and independent security
+review; payment and external message delivery remain unavailable.
+Verification: 13/13 focused API/D1/security/language checks, 15/15 export/edge
+checks and 4/4 Chrome workflows pass. The bilingual journey verifies request,
+confirmation, messaging, preparation persistence, localized validation recovery,
+draft preservation and 320/390/768/1440px light/dark layouts. Hindi/Gujarati mobile
+screenshots visually reviewed. Earlier English baseline full checks are recorded
+below. Evidence: `.publish/pandit-i18n-{api,cloudflare,browser-final}.log` and
+`.publish/pandit-booking-{hi,gu}.png`. Exact production-config dry-run passes
+(`.publish/pandit-i18n-dryrun.log`). Deployment evidence follows on completion.
+
+**Pandit Booking restricted pilot release (2026-10-30 IST):** Commit `5352fa1`
+deployed as Worker `309b1aba-7e7d-4db3-8c64-783761decd2a` with `--keep-vars`.
+Applied the sole pending additive migration 0009. Pre/post D1 exports restore
+successfully (57/58 catalogued tables, no documents); existing rows are retained.
+The only existing-table change was one additional sign-in audit entry from live
+activity. Existing organisation checksums match. No organisation bootstrap,
+legacy mapping, licence grant, app assignment or booking creation was performed.
+Live health, booking page/index and unscoped-record denial checks pass. Full
+checks verified 578/578 across 563 initial passes and the 15/15 export rerun after
+a generated-build collision; focused API/security 12/12 and Chrome 3/3 pass.
+Serial production dry-run passes. Evidence: `.publish/pandit-release-*.log` and
+private `.publish/pandit-production-{pre,post}-recovery/` manifests.
+Operator activation and broad-launch gates: `docs/PANDIT_BOOKING_PRODUCTION.md`.
+Hindi/Gujarati completion is the next increment; this entry verifies the initial
+English pilot release only.
+
 **Super Admin password reset (2026-10-29, production verified):** User-requested
 reset for the existing active Super Admin used a fresh salted scrypt hash and
 D1 revision guard, invalidated existing sessions and recorded an audit entry.

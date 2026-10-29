@@ -2,8 +2,9 @@
 
 Status: full target scope, 2026-10-29 (Asia/Kolkata). The first managed pilot is
 implemented and locally verified; see `PANDIT_BOOKING_PROGRESS.md` for actual
-completion, evidence and remaining work. No production migration/deployment or
-external delivery integration has been performed. Payments are excluded.
+completion, evidence and remaining work. The restricted pilot is deployed with
+additive migration 0009; public onboarding remains gated. No external delivery
+integration has been performed. Payments are excluded.
 
 ## Product and operating model
 

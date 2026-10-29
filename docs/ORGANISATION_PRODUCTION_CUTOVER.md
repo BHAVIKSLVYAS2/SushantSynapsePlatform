@@ -1,5 +1,16 @@
 # Organisation licensing production cutover
 
+Pandit Booking restricted pilot (2026-10-30 IST): commit `5352fa1` is deployed as
+Worker `309b1aba-7e7d-4db3-8c64-783761decd2a`, preserving variables and bindings
+with `--keep-vars`. Only additive migration 0009 was applied. Pre/post exports
+restore successfully; all existing rows and organisation checksums are retained
+(one additional sign-in audit entry appeared during live activity). No app licence,
+assignment, organisation bootstrap, legacy mapping or customer booking was created.
+Health, page/index and unscoped-record denial checks pass. The initial English
+release and subsequent language completion are distinguished in the functionality
+ledger. Operator activation and remaining broad-launch gates are documented in
+`PANDIT_BOOKING_PRODUCTION.md`.
+
 Latest private-app release (2026-10-29): Chambers, Tournament Lite, BatchFee Lite
 and DIGITAL SAMAJ now use organisation licence/membership/assignment checks.
 Additive migrations 0007/0008 and one explicit, revision-326 legacy mapping preserved

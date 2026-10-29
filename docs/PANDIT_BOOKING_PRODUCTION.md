@@ -31,6 +31,17 @@ Do not import a recovery SQL file over a running production database.
    a request requires confirmation. There is no payment collection or external
    message delivery. Check in-app concerns and upcoming bookings daily.
 
+## Language acceptance
+
+Use the platform header to select English, Hindi or Gujarati. Interface labels,
+status, date display and validation guidance follow that preference. Changing
+language preserves draft fields; it does not translate service terms, descriptions,
+names or messages. Operators must author/review those in their offered languages.
+Preparation input accepts either English or translated role/state words and saves
+canonical API values. Dates remain IST; changing language does not change schedules.
+The restricted pilot tests cover Hindi/Gujarati requests, confirmation, messages,
+preparation, error recovery, draft preservation and mobile light/dark layouts.
+
 ## Incident handling and capacity
 
 Suspend a provider to prevent new requests; review and contact affected upcoming

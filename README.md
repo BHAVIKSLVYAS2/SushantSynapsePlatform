@@ -1,9 +1,9 @@
 # Curio · Sushant Synapse
 
-Pandit Booking has a locally verified managed pilot at `/pandit-booking`, with
+Pandit Booking has a deployed restricted managed pilot at `/pandit-booking`, with
 puja details, approved Pandit service areas, private bookings, preparation and
-in-app coordination. Payments and external delivery are excluded. It has not
-been deployed or enabled for production customers. Implementation progress and
+in-app coordination. Payments and external delivery are excluded. Licences and
+user assignments require explicit operator setup. Implementation progress and
 security release gates: [Pandit Booking progress](docs/PANDIT_BOOKING_PROGRESS.md).
 
 Chambers, Tournament Lite, BatchFee Lite and DIGITAL SAMAJ use licensed organisation

@@ -7,6 +7,8 @@ const staticAssets={
  '/pandit-booking':'apps/pandit-booking/frontend/index.html',
  '/pandit-booking/':'apps/pandit-booking/frontend/index.html',
  '/pandit-booking/app.js':'apps/pandit-booking/frontend/app.js',
+ '/pandit-booking/copy.mjs':'apps/pandit-booking/frontend/copy.mjs',
+ '/pandit-booking/locale.mjs':'apps/pandit-booking/frontend/locale.mjs',
  '/pandit-booking/style.css':'apps/pandit-booking/frontend/style.css',
  '/feedback':'apps/feedback/frontend/index.html',
  '/feedback/':'apps/feedback/frontend/index.html',

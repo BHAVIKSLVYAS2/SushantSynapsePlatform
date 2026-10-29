@@ -1,6 +1,6 @@
 # Code ownership and adding apps
 
-Pandit Booking (2026-10-29, local pilot): `apps/pandit-booking` owns the engine,
+Pandit Booking (2026-10-30, restricted deployed pilot): `apps/pandit-booking` owns the engine,
 Workers and Node adapters, UI and additive SQL schema. Workers access uses live
 organisation licence/membership/assignment policy with explicit Owner, Dispatcher,
 Reviewer, Pandit and Customer roles. Customers use the Client seat pool without
@@ -8,9 +8,12 @@ receiving Chambers access. `pandit_booking_workspaces` holds a bounded aggregate
 the shared D1 revision guard or SQLite version transaction commits bookings,
 availability and app audit atomically. Public projections omit venue/contact,
 bookings and private review reasons. Default Node remains a separate local mode.
-Migration 0009 is prepared, not applied to production. Full SQL recovery includes
+Migration 0009 is applied to production. Full SQL recovery includes
 the table; historical pre-0009 D1 recovery remains supported. Progress and limits:
 `PANDIT_BOOKING_PROGRESS.md`, `apps/pandit-booking/README.md`.
+The app-owned `copy.mjs`/`locale.mjs` adapter follows the shared language preference,
+translates interface text and IST dates in place, and preserves user-authored
+content and input drafts. System enum values remain canonical at the API boundary.
 
 Rashifal narration (2026-10-29): app-owned rashifal-story.mjs composes the visible
 reading from rashifal-everyday Moon-house themes and existing graha state counts.

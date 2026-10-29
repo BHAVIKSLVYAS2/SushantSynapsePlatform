@@ -38,5 +38,10 @@ identity/background verification. Pilot invitations require manual operator cont
 checks; shared account MFA is not implemented here. Broad public release remains
 blocked on identity/MFA, retention policy and independent security review.
 
-The app uses platform UI/theme tokens and shell. Initial app copy is English;
-complete Hindi/Gujarati authored coverage is pending and must not be claimed.
+The app uses platform UI/theme tokens and shell. App-owned authored interface copy
+supports English, Hindi and Gujarati through the shared language preference.
+Dates use localized IST display; API enums remain English protocol values.
+Checklist role/state input accepts English or the translated terms. User names,
+service descriptions, terms, addresses, messages and reviews remain as entered.
+Language switching preserves current drafts rather than rebuilding forms.
+Production operations and broad-launch gates: `docs/PANDIT_BOOKING_PRODUCTION.md`.
