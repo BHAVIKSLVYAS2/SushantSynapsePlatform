@@ -1,5 +1,22 @@
 # Chambers functionality ledger
 
+**Kundali comparison reading (2026-10-29):** Added a localized “chart chemistry,
+over chai” section above the existing eight-factor breakdown. Graha Maitri, Tara
+and Bhakoot readings branch on their actual calculated points, show the factor
+score and stable underlying labels, and offer playful conversation prompts about
+listening, planning and shared decisions. Boundary-dependent scores use an open
+possibilities message instead of a fixed reading. This is reflective traditional
+copy, not a personality diagnosis, compatibility threshold or marriage verdict.
+No scoring, birth admission, privacy/storage/network behaviour or theme changed.
+
+Verification: 13/13 story/model/actual-workerd checks pass. Story coverage uses all
+729 birth-star-centre pairs in English/Hindi/Gujarati, input preservation and
+boundary cases. An initial test expected an unreachable zero-Tara result; corrected
+coverage follows the current table's reachable outcomes. Existing consent/review,
+locale parity, responsive themes, stale-result clearing and revocation browser
+workflows pass. Evidence: `.publish/matching-story-tests.log` and
+`.publish/matching-story-browser.log`.
+
 **Consistent Light Sign in action (2026-10-29):** Shared logged-out header
 buttons now use the same teal surface, white text and darker teal hover across
 apps. This overrides the home-only filled style and Ritual Assist's app-specific

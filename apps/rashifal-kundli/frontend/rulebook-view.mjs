@@ -3,6 +3,7 @@ import {journeyCopy} from './kundli-journey-copy.mjs';
 import {installCivilInputs} from './civil-input.mjs';
 import {mountBirthplace} from './birthplace-input.mjs';
 import {matchingSummary,matchingJourneyCopy,matchingBoundaryCopy,matchingScore} from './matching-summary.mjs';
+import {matchingStory} from './matching-story.mjs';
 import {placeLabel,relabelPlaces} from './place-text.mjs';
 import {term,ruleDefinition} from './display-text.mjs';
 import {diagnosticText} from './diagnostic-text.mjs';
@@ -23,6 +24,7 @@ function sources(root,ids,t,metadata,language){const details=el('details');detai
 function matchingResult(root,value,language){root.replaceChildren();const t=textFor(language),r=value.matching,summary=matchingSummary(r,language),boundary=matchingBoundaryCopy[language];root.append(el('h2',`${r.total===null?boundary.rangeTitle:t.total}: ${matchingScore(r.total,r.totalRange)} / 36`));
  root.firstChild.tabIndex=-1;root.firstChild.id='matching-result-title';root.setAttribute('aria-labelledby','matching-result-title');
  if(r.boundaryScreen){const notice=el('aside');notice.className='matching-boundary-note';notice.setAttribute('role','note');notice.append(el('p',boundary.note));for(const person of r.boundaryScreen.people)notice.append(el('p',`${matchingJourneyCopy[language]['person'+person.axis]}: ${person.boundaries.map(key=>boundary[key]).join(' · ')}`));root.append(notice);}
+ const story=matchingStory(r,language),reading=el('section');reading.className='matching-summary matching-story';reading.append(el('h3',story.title),el('p',story.note));for(const item of story.items){const article=el('article');article.dataset.matchingStory=item.id;article.append(el('h4',item.title),el('small',`${term(componentName(item.id),language)} · ${matchingScore(item.component.score,item.component.scoreRange)} / ${item.component.maximum}`),el('p',item.text),el('p',item.prompt));if(item.component.score!==null)article.append(el('small',factorText(item.component.factors,language)));reading.append(article);}root.append(reading);
  const overview=el('section');overview.className='matching-summary';overview.append(el('h3',summary.everyday.title));for(const text of summary.everyday.paragraphs)overview.append(el('p',text));overview.append(el('h3',summary.title),el('p',summary.note));
  for(const group of summary.groups){const list=el('ul');for(const c of group.components)list.append(el('li',`${term(componentName(c.id),language)}: ${matchingScore(c.score,c.scoreRange)} / ${c.maximum}`));overview.append(el('h4',`${group.label} (${group.components.length})`),list);}
  overview.append(el('h3',summary.details));for(const c of r.components){const p=el('p');p.dataset.matchingExplanation=c.id;p.append(el('strong',`${term(componentName(c.id),language)} · ${matchingScore(c.score,c.scoreRange)} / ${c.maximum}: `),document.createTextNode(summary.outcomes[c.id]+' '+summary.topics[c.id]));overview.append(p);}root.append(overview,el('p',t.draft),el('p',t.fallback));
