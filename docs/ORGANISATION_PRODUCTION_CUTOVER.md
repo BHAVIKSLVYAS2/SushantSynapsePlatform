@@ -1,5 +1,13 @@
 # Organisation licensing production cutover
 
+Latest Pandit Booking language release (2026-10-30 IST): `e8b78cd` deployed as
+Worker `7ddc1071-8471-430b-aa7a-f76fa33e12fc` with `--keep-vars`. Hindi/Gujarati
+interface completion, preserved drafts/user content and canonical checklist input
+pass 13 focused API/language, 15 export/edge and 4 Chrome workflows. Live language
+pages, sixteen theme/width layouts and translation assets pass. Health 200,
+unscoped records 409; no new migration, licence/assignment or booking writes.
+Broad onboarding remains gated; see `PANDIT_BOOKING_PRODUCTION.md`.
+
 Pandit Booking restricted pilot (2026-10-30 IST): commit `5352fa1` is deployed as
 Worker `309b1aba-7e7d-4db3-8c64-783761decd2a`, preserving variables and bindings
 with `--keep-vars`. Only additive migration 0009 was applied. Pre/post exports

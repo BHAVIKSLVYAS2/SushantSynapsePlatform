@@ -19,7 +19,13 @@ draft preservation and 320/390/768/1440px light/dark layouts. Hindi/Gujarati mob
 screenshots visually reviewed. Earlier English baseline full checks are recorded
 below. Evidence: `.publish/pandit-i18n-{api,cloudflare,browser-final}.log` and
 `.publish/pandit-booking-{hi,gu}.png`. Exact production-config dry-run passes
-(`.publish/pandit-i18n-dryrun.log`). Deployment evidence follows on completion.
+(`.publish/pandit-i18n-dryrun.log`). Commit `e8b78cd` deployed with `--keep-vars`
+as Worker `7ddc1071-8471-430b-aa7a-f76fa33e12fc`. Live Hindi/Gujarati headers,
+notices and sixteen theme/width layouts pass; both new translation modules and
+health return 200, and unscoped records remain 409. Zero browser page errors;
+live mobile screenshots reviewed. Evidence: `.publish/pandit-i18n-{deploy,live}.log`
+and `.publish/pandit-live-{hi,gu}.png`. No further migration, licence/assignment
+changes or production booking writes.
 
 **Pandit Booking restricted pilot release (2026-10-30 IST):** Commit `5352fa1`
 deployed as Worker `309b1aba-7e7d-4db3-8c64-783761decd2a` with `--keep-vars`.

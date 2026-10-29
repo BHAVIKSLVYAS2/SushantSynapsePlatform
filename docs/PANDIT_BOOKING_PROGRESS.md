@@ -4,7 +4,9 @@ Updated 2026-10-30 (Asia/Kolkata). First managed pilot deployed from `5352fa1` a
 Worker `309b1aba-7e7d-4db3-8c64-783761decd2a`; migration 0009 applied. Live routes
 and pre/post offline recovery verified. No licence, assignment or customer booking
 was created. Hindi/Gujarati completion passes local API and Chrome checks as the
-next increment; see the release evidence in the functionality ledger.
+next increment, deployed from `e8b78cd` as Worker
+`7ddc1071-8471-430b-aa7a-f76fa33e12fc`. Live Hindi/Gujarati pages, translation
+assets and sixteen theme/width layouts pass; private API boundaries remain intact.
 
 | Workstream | State | Evidence / remaining work |
 | --- | --- | --- |
@@ -18,7 +20,7 @@ next increment; see the release evidence in the functionality ledger.
 | Browser journeys and responsive themes | Passed 4 Chrome workflows | Isolated Node/SQLite fixture; operator/Pandit/customer journey, stale-response/expiry, visitor discovery and Hindi/Gujarati journeys; 320/390/768/1440px light/dark plus system theme |
 | External delivery and scheduled reminders | Not connected | Computed in-app reminders only; background scheduler and provider transport pending |
 | Public onboarding and identity | Restricted pilot | Manual invitation/contact checks; MFA/provider verification and recovery review pending |
-| Hindi/Gujarati interface | Implemented and locally verified | App-owned authored copy, shared language preference, localized IST dates, canonical checklist inputs and preserved drafts/user text; booking/confirmation/messages in both languages |
+| Hindi/Gujarati interface | Deployed and live verified | App-owned authored copy, shared language preference, localized IST dates, canonical checklist inputs and preserved drafts/user text; isolated booking/confirmation/messages in both languages |
 | Additional planned features | Pending | Photo uploads, weekly recurring availability, replacement agreement, exports, retention jobs |
 | Production cutover | Restricted pilot deployed | Migration 0009 applied; pre/post recovery restores and live read-only routes pass. Licence/assignment activation is explicit; broad launch remains gated |
 
