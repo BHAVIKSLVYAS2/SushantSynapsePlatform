@@ -1,5 +1,13 @@
 # Chambers functionality ledger
 
+**Consistent Light Sign in action (2026-10-29):** Shared logged-out header
+buttons now use the same teal surface, white text and darker teal hover across
+apps. This overrides the home-only filled style and Ritual Assist's app-specific
+outlined treatment. Profile avatars, button geometry and Dark styling are
+preserved. Shared build passes. Fourteen isolated browser checks (seven routes,
+390/1440) verify normal/hover colours and identical Dark button styles/geometry
+with Light rules removed. Evidence: `.publish/signin-light-check.json`.
+
 **Ritvayam Light card colour correction (2026-10-29):** The home feature's
 primary action retained the previous indigo gradient after the shared Light
 refresh. Its Light-only aliases now use teal/white, neutral shadows and slate

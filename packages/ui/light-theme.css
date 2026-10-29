@@ -65,6 +65,14 @@
   html[data-theme=light] .platform-shell :is(.platform-switch,.platform-account-avatar,.theme-toggle,.platform-language>summary) {
     background:var(--light-control);border-color:var(--light-border);color:var(--light-text);
   }
+  /* Keep the shared sign-in action consistent, including app header overrides. */
+  html[data-theme=light] body[data-ui-app] .platform-shell .platform-account:not(.platform-account-avatar) {
+    background:var(--light-accent)!important;color:var(--light-on-accent)!important;
+    border-color:var(--light-accent)!important;box-shadow:var(--light-shadow)!important;
+  }
+  html[data-theme=light] body[data-ui-app] .platform-shell .platform-account:not(.platform-account-avatar):hover {
+    background:var(--light-accent-hover)!important;border-color:var(--light-accent-hover)!important;
+  }
   html[data-theme=light] body[data-ui-app] :is(input,textarea)::placeholder {
     color:var(--light-text-secondary);opacity:1;
   }
