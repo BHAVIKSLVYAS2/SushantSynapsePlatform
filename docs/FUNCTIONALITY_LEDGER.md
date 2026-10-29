@@ -8,6 +8,12 @@ status colours remain meaningful and unchanged. Layout and Dark rules are
 unchanged. Shared UI build passes; isolated 390/1440 browser checks verify the
 teal action and identical Dark card styles/geometry with Light rules removed.
 Evidence: `.publish/ritvayam-light-check.json` and card screenshots.
+Committed as `48f65b3`; deployed with `--keep-vars` as Worker
+`95a92e35-e89d-4705-93d8-1bca7e6eda12`. No production business-data writes or
+migrations. Deployment evidence: `.publish/deploy-ritvayam-light.log`.
+Live verification passes 15/15: eleven exact delivered CSS assets plus both
+themes at 390/1440, including the teal Ritvayam action and no page overflow.
+Evidence: `.publish/ritvayam-live-check.json`.
 
 **Curio theme polish (2026-10-29):** Added separate screen-only semantic Light
 and Dark layers through the existing shared CSS build. Light uses Frosted Teal,
