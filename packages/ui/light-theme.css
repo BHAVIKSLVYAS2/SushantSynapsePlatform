@@ -107,7 +107,18 @@
   html[data-theme=light] body[data-ui-app=portal] .public-home .home-vedic {
     --rv-ink:var(--light-text);--rv-muted:var(--light-text-secondary);
     --rv-panel:var(--light-surface);--rv-edge:var(--light-border);
+    --rv-indigo:var(--light-accent);--rv-indigo-light:var(--light-accent-hover);
+    --rv-on-indigo:var(--light-on-accent);--rv-shadow:#142D3D0B;
+    --rv-neutral-bg:var(--light-control);--rv-neutral-edge:var(--light-border);
+    --rv-neutral-ink:var(--light-text-secondary);
     background:var(--light-surface);box-shadow:var(--light-shadow);
+  }
+  html[data-theme=light] body[data-ui-app=portal] .public-home .home-vedic .home-vedic-primary {
+    background:var(--light-accent);border-color:var(--light-accent);
+    color:var(--light-on-accent);box-shadow:var(--light-shadow);
+  }
+  html[data-theme=light] body[data-ui-app=portal] .public-home .home-vedic .home-vedic-primary:hover {
+    background:var(--light-accent-hover);border-color:var(--light-accent-hover);
   }
   @media(hover:hover) {
     html[data-theme=light] body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app:hover {

@@ -1,5 +1,14 @@
 # Chambers functionality ledger
 
+**Ritvayam Light card colour correction (2026-10-29):** The home feature's
+primary action retained the previous indigo gradient after the shared Light
+refresh. Its Light-only aliases now use teal/white, neutral shadows and slate
+neutral-status surfaces. The gold artwork and positive/challenging Choghadiya
+status colours remain meaningful and unchanged. Layout and Dark rules are
+unchanged. Shared UI build passes; isolated 390/1440 browser checks verify the
+teal action and identical Dark card styles/geometry with Light rules removed.
+Evidence: `.publish/ritvayam-light-check.json` and card screenshots.
+
 **Curio theme polish (2026-10-29):** Added separate screen-only semantic Light
 and Dark layers through the existing shared CSS build. Light uses Frosted Teal,
 white surfaces, slate text and restrained elevation. The subsequently requested
