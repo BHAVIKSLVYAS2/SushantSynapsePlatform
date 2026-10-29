@@ -13,6 +13,12 @@ Verification: 15/15 Rashifal story/outlook/model/actual-workerd checks pass;
 local computed Dhanu daily/tomorrow/weekly text reviewed. Evidence:
 `.publish/dhanu-hindi-review.json`, `dhanu-hindi-before.png` and
 `dhanu-hindi-tests.log`.
+Implementation `cf9930f` deployed with `--keep-vars` as Worker
+`d8612f74-6284-4741-828f-cfc9125b94ad`. Reopened live Dhanu Hindi Today,
+Tomorrow and Weekly; updated text is served and the old awkward phrases are
+absent. Mobile screenshot reviewed for Hindi rendering. No migrations, account
+changes or business-data writes. Evidence: `.publish/deploy-dhanu-hindi.log`,
+`dhanu-hindi-after.json` and `dhanu-hindi-after.png`.
 
 **Light filled-button edge correction (2026-10-29):** A rendered audit of 22
 routes found the shared white inset surface highlight on Sign in and Ritvayam's
