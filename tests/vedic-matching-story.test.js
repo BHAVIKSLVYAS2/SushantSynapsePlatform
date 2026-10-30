@@ -4,7 +4,7 @@ test('matching stories follow actual factor results, preserve input and localize
  const seen=new Set();
  for(let a=0;a<27;a++)for(let b=0;b<27;b++){
   const result=ashtakoota({personAMoonLongitude:(a+.5)*360/27,personBMoonLongitude:(b+.5)*360/27,rulebookId:'SYNAPSE_ASHTAKOOTA_COMPOSITE_V1'}),before=JSON.stringify(result);
-  for(const language of ['en','hi','gu']){const story=matchingStory(result,language);assert.equal(story.items.length,3);assert.ok(story.title&&story.note);
+  for(const language of ['en','hi','gu']){const story=matchingStory(result,language);assert.equal(story.items.length,8);assert.ok(story.title&&story.note);
    for(const item of story.items){const c=result.components.find(c=>c.id===item.id);assert.equal(item.component,c);assert.equal(item.state,c.score===c.maximum?'full':c.score===0?'zero':'partial');assert.ok(item.text&&item.prompt);if(language==='hi')assert.match(item.text,/[\u0900-\u097f]/);if(language==='gu')assert.match(item.text,/[\u0a80-\u0aff]/);seen.add(item.id+':'+item.state);}
    const connection=story.connection;assert.equal(Object.values(connection.groups).flat().length,8);for(const c of result.components)assert.ok(connection.groups[c.score===c.maximum?'full':c.score===0?'zero':'partial'].includes(c.id));assert.ok(connection.headline&&connection.takeaway);if(connection.takeawayFactor)assert.ok(story.items.some(i=>i.id===connection.takeawayFactor&&i.prompt===connection.takeaway));
   }assert.equal(JSON.stringify(result),before);

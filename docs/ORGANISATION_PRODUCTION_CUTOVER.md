@@ -1,5 +1,14 @@
 # Organisation licensing production cutover
 
+Latest Ritvayam visual/copy release (2026-10-30 IST): deployed from the working
+tree at the user's request as Worker `a92abf1b-7e9a-4721-a8e1-11144d7790ef`
+with `--keep-vars`. Home tile uses shared dark-theme tokens; matching uses more
+formal factor explanations in English, Hindi and Gujarati. Production dry-run,
+3/3 narrative checks and 3/3 P15 Chrome workflows pass. Live Chrome verifies
+390/1440px dark colours, no overflow, updated matching bundle and no page errors;
+mobile screenshot reviewed. No migrations or business-data writes. Evidence:
+`.publish/verify-ritvayam-release.cjs`, `.publish/ritvayam-live-dark-{390,1440}.png`.
+
 Latest Pandit Booking usability release (2026-10-30 IST): `a41b1e0` deployed as
 Worker `d7173d53-9a15-4d92-8645-3c463b58f7a7` with `--keep-vars`. Role-scoped
 setup guidance, visual availability/preparation editors and conditional chat

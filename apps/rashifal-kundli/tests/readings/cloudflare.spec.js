@@ -3,7 +3,7 @@ const {test,expect}=require('@playwright/test');const {fillDate,fillTime}=requir
 
 for(const language of ['hi','gu'])test(`Kundali generates a complete ${language} reading and matching private printable download`,async({page})=>{
  const errors=[];page.on('pageerror',error=>errors.push(error.message));await page.addInitScript(language=>localStorage.setItem('synapse-language',language),language);await page.setViewportSize({width:390,height:900});await page.goto(server.origin+'/rashifal-kundli');
- await expect(page.locator('html')).toHaveAttribute('lang',language);await editBirth(page,'#birth-name');await page.locator('#birth-name').fill('Private Sample');await editBirth(page,'#birth-date');await fillDate(page,'#birth-date','2000-01-01');await editBirth(page,'#birth-time');await fillTime(page,'#birth-time','12:15');await editBirth(page,'#birth-query');await page.locator('#birth-query').fill('New Delhi');await page.locator('[data-place-id="geonames:1261481"]').click();await page.locator('form button[type=submit]').click();await expect(page.locator('.kundli-reading')).toHaveAttribute('data-reading-prose','kundli-prose-3');
+ await expect(page.locator('html')).toHaveAttribute('lang',language);await editBirth(page,'#birth-name');await page.locator('#birth-name').fill('Private Sample');await editBirth(page,'#birth-date');await fillDate(page,'#birth-date','2000-01-01');await editBirth(page,'#birth-time');await fillTime(page,'#birth-time','12:15');await editBirth(page,'#birth-query');await page.locator('#birth-query').fill('New Delhi');await page.locator('[data-place-id="geonames:1261481"]').click();await page.locator('form button[type=submit]').click();await expect(page.locator('.kundli-reading')).toHaveAttribute('data-reading-prose','kundli-prose-4');
  const script=language==='hi'?/[\u0900-\u097f]/:/[\u0a80-\u0aff]/;
  const prose=await page.locator('.kundli-topic>p:not(.kundli-topic-action)').allTextContents();
  for(const paragraph of prose){expect(paragraph).toMatch(/[.!।]$/);expect(paragraph).not.toMatch(/undefined|\[object Object\]/);}
@@ -17,6 +17,22 @@ for(const language of ['hi','gu'])test(`Kundali generates a complete ${language}
  await page.emulateMedia({media:'print'});await expect(page.locator('.kundli-reading')).toBeHidden();await page.evaluate(()=>dispatchEvent(new Event('beforeprint')));await expect(page.locator('.report-everyday')).toBeVisible();await expect(page.locator('.report-everyday [data-reading-topic]')).toHaveCount(7);await page.emulateMedia({media:'screen'});await page.evaluate(()=>dispatchEvent(new Event('afterprint')));expect(errors).toEqual([]);
 });
 test.beforeAll(async()=>{server=await require('../production-server.cjs').start();});test.afterAll(async()=>{await server.close();});
+
+test('production matching explains eight factors and private partnership placements in every language and theme',async({page})=>{
+ test.setTimeout(120000);const sent=[],errors=[];page.on('request',r=>{if(['fetch','xhr','ping'].includes(r.resourceType()))sent.push(r.url());});page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(server.origin+'/rashifal-kundli/matching');await page.locator('#matching-consent').check();
+ for(const axis of ['a','b']){await fillDate(page,'#match-'+axis+'-date','2000-01-01');await fillTime(page,'#match-'+axis+'-time','12:15');await page.locator('#match-'+axis+'-query').fill('New Delhi');await page.locator('#match-'+axis+'-query-options [data-place-id="geonames:1261481"]').click();}
+ await page.locator('#matching-review-button').click();await page.locator('#matching-calculate').click();await expect(page.locator('[data-matching-story]')).toHaveCount(8);await expect(page.locator('[data-matching-chart][data-status=available]')).toHaveCount(2);
+ const scores=await page.locator('#matching-results tbody tr').evaluateAll(rows=>rows.map(r=>r.dataset.score));
+ for(const language of ['en','hi','gu']){
+  await page.evaluate(l=>SynapseLanguage.set(l),language);await expect(page.locator('html')).toHaveAttribute('lang',language);await expect(page.locator('[data-matching-story]')).toHaveCount(8);
+  const text=await page.locator('.matching-chart-context').innerText();expect(text).toMatch(language==='hi'?/[\u0900-\u097f]/:language==='gu'?/[\u0a80-\u0aff]/:/Mercury/);expect(text).not.toMatch(/undefined|NaN|\[object Object\]/);
+  expect(await page.locator('#matching-results tbody tr').evaluateAll(rows=>rows.map(r=>r.dataset.score))).toEqual(scores);
+  for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await page.evaluate(t=>SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+  await page.setViewportSize({width:390,height:900});await page.locator('[data-matching-chart="0"]').screenshot({path:test.info().outputPath('planet-matching-'+language+'.png')});
+ }
+ await page.locator('#matching-consent').uncheck();await expect(page.locator('#matching-results')).toBeEmpty();expect(sent).toEqual([]);expect(errors).toEqual([]);
+});
 test('production Kundli presents native everyday readings before calculations and preserves private saved inputs',async({page})=>{
  const sent=[],errors=[];page.on('request',r=>{if(['fetch','xhr','ping'].includes(r.resourceType()))sent.push(r.url());});page.on('pageerror',e=>errors.push(e.message));await page.addInitScript(()=>localStorage.setItem('synapse-language','gu'));await page.setViewportSize({width:390,height:900});await page.goto(server.origin+'/rashifal-kundli');
  await editBirth(page,'#birth-date');await fillDate(page,'#birth-date','2000-01-01');await editBirth(page,'#birth-time');await fillTime(page,'#birth-time','12:15');await editBirth(page,'#birth-query');await page.locator('#birth-query').fill('New Delhi');await page.locator('[data-place-id="geonames:1261481"]').click();await page.locator('form button[type=submit]').click();await page.locator('#birth-save').click();

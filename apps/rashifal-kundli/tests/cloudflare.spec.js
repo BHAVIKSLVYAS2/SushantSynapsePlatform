@@ -145,6 +145,7 @@ test('human daily prediction appears before the calculation summary and timeline
   await expect(page.locator('.rashifal-reading-label')).toHaveText('Your daily prediction');await expect(page.locator('.rashifal-summary-paragraph')).toHaveCount(2);await expect(page.locator('.rashifal-daily-action strong')).toHaveText('One thing to try: ');copies.add(await page.locator('.rashifal-prediction').innerText());
   expect(await page.locator('#rashifal-result').evaluate(root=>root.querySelector('.rashifal-prediction').compareDocumentPosition(root.querySelector('.rashifal-reading'))&Node.DOCUMENT_POSITION_FOLLOWING)).toBeTruthy();
   await expect(page.locator('.rashifal-transit-table tbody tr')).toHaveCount(9);await expect(page.locator('.rashifal-timeline')).toHaveAttribute('aria-labelledby','rashifal-timeline-title');await expect(page.locator('#rashifal-timeline-title')).toHaveCount(1);
+  await expect(page.locator('[data-transit-basis=Moon]')).toBeVisible();await expect(page.locator('.rashifal-planetary-basis')).toContainText('sampled positions');
  }
  expect(copies.size).toBeGreaterThan(4);
  for(const language of ['hi','gu','en']){await chooseLanguage(page,language);await expect(page.locator('.rashifal-prediction')).toHaveAttribute('lang',language);

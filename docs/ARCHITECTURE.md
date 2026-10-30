@@ -1,5 +1,16 @@
 # Code ownership and adding apps
 
+Planet-based readings (2026-10-30): app-owned `planet-reading.mjs` connects admitted
+D1 ruler/occupant placements to existing house-symbolism prose and groups Rashifal
+observations by actual house/status. `matching-chart-reading.mjs` separately
+projects consented D1 seventh-house/ruler and Venus/Mars context; its admission
+failure never invalidates an available Ashtakoota score. All eight matching
+explanations use actual factors, retaining alternative classifications even when
+their points are stable. Dasha text can reference admitted natal lord placements.
+The numerical engines, lookup tables and dates remain in `packages/vedic`.
+No new final strength, Dosha, aspect or marriage verdict is implied. Research and
+limits: `vedic/PLANET_READING_REVIEW_2026-10-30.md`.
+
 Pandit Booking (2026-10-30, restricted deployed pilot): `apps/pandit-booking` owns the engine,
 Workers and Node adapters, UI and additive SQL schema. Workers access uses live
 organisation licence/membership/assignment policy with explicit Owner, Dispatcher,
@@ -1071,7 +1082,7 @@ tests/                 Cross-app API and production configuration tests
 
 ## Dependency boundaries
 
-The promotional showcase belongs to `apps/portal/frontend/showcase.html`, `showcase.js` and `showcase.css`, served at `/showcase` with a screen-only query mode. It renders eleven explicitly illustrative sample scenes in native HTML/CSS; no iframe, account, ad SDK, backend request, business persistence or app execution is involved. The elapsed-time player supports pause/navigation/duration/fullscreen, respects reduced motion and pauses on hidden documents or focused scene links. HTML export has been removed; the hosted player and screen mode remain. Cloudflare serves both page routes independently; this is a promotional platform page, not another app registry entry.
+The promotional showcase belongs to `apps/portal/frontend/showcase.html`, `showcase.js` and `showcase.css`, served at `/showcase` with a screen-only query mode. It renders thirteen explicitly illustrative sample scenes in native HTML/CSS; no iframe, account, business API request, business persistence or app execution is involved. Ritual Assist, Moment Studio and Ritvayam lead the loop, followed by an interactive language scene. Featured language panels are authored sample content; automatic/manual preview changes never write the real shared-language preference. Ritual/Studio samples are English/Hindi and Ritvayam samples add Gujarati. The elapsed-time player supports pause/navigation/duration/fullscreen, respects reduced motion and pauses on hidden documents or focused scene links. HTML export has been removed; the hosted player and screen mode remain. Cloudflare serves both page routes independently; this is a promotional platform page, not another app registry entry.
 
 Support Us belongs to `apps/portal`: `/support` is a public frontend route; `/api/support` returns active recipient details or an empty disabled configuration. `backend/support.js` composes through `server/index.js`; `/api/platform/support` GET/PUT uses the shared Owner session check, bounded JSON validation, SQLite `settings` key `platform-support` and audit transaction. No schema changes or payment records are added. SQL export includes these settings; Chambers JSON backup remains scoped to Chambers settings. The Cloudflare page loads independently, while configuration and owner changes require the existing Node origin. It fails closed during backend outages, with no cached payment destination. QR encoding uses a local MIT-licensed qrcode 1.5.4/dijkstrajs browser bundle with no CDN, advertising scripts or new runtime dependencies. Both licenses are retained in `apps/portal/SUPPORT-QR-LICENSE.txt`.
 

@@ -131,6 +131,8 @@
 .rashifal-reading>section:first-child p{position:relative;z-index:1;line-height:1.85}
 .rashifal-metadata{border:0;padding:0}
 .rashifal-notes .rashifal-draft{border:0;border-radius:0;padding:0;background:transparent}
+.rashifal-planetary-basis{border-inline-start:3px solid var(--ui-accent);padding-inline-start:1rem;margin-block:1.25rem}
+.rashifal-planetary-basis h5{font-size:1rem;margin-bottom:.5rem}
 @media(min-width:960px){.rashifal-hero{padding-block:3rem;min-height:21rem}.rashifal-chooser{padding:1.3rem}.rashifal-reading-pane .rashifal-tabs{max-width:30rem}}
 @media print{.rashifal-topics,.rashifal-preview-info{display:none}}
 @media(max-width:959px){.vedic-rashifal[data-selected=true] .rashifal-hero{min-height:0;padding-block:1.1rem}.vedic-rashifal[data-selected=true] h1{font-size:2rem;margin-bottom:.5rem}.vedic-rashifal[data-selected=true] .rashifal-eyebrow{margin-bottom:.4rem}.vedic-rashifal[data-selected=true] .rashifal-orbit{width:4.5rem}.vedic-rashifal[data-selected=true] .rashifal-memory-hint{display:none}}

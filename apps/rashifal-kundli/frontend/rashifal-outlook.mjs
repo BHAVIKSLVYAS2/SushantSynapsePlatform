@@ -3,7 +3,7 @@ import {bodyName} from './locale.mjs';
 import {composeEveryday} from './rashifal-everyday.mjs';
 import {composeRashifalStory} from './rashifal-story.mjs';
 
-export const outlookModel=freeze({id:'calculated-transit-outlook-2',
+export const outlookModel=freeze({id:'calculated-transit-outlook-3',
  scope:'Project-authored practical interpretation of calculated general Moon-sign transits; not classical life-event prose, a personal forecast or a probability model.'});
 export const outlookText={
  en:{today:'Your daily prediction',tomorrow:'Your outlook for tomorrow',weekly:'Your weekly outlook',calculations:'Calculations behind your reading',notice:'Traditional guidance interpreted from calculated transits. Outcomes are not guaranteed.',

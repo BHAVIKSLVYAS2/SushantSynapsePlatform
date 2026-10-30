@@ -33,7 +33,14 @@ The home feature and Rashifal page show city-specific sunrise, sunset, moonrise,
 moonset and day/night Choghadiya, with the current interval highlighted live.
 Change city uses the on-device directory and retains only that choice locally.
 Kundli starts with everyday traditional interpretations of personality, presence,
-career, relationships and other life topics, plus computed Dasha-period themes.
+career, relationships and other life topics, with the actual house ruler placements
+and occupants explained in the text. Dasha-period themes also show the admitted
+natal placements of their ruling planets. Rashifal explains the sampled Moon-relative
+planet positions and obstruction checks behind its guidance. Matching explains all
+eight guna factors and separately shows each person's seventh-house ruler, Venus
+and Mars placements when the birth-time checks permit them. These placements do
+not add points or provide a complete marriage verdict. Research and limitations:
+[planet-based reading review](docs/vedic/PLANET_READING_REVIEW_2026-10-30.md).
 Charts and expert tools remain below. Scope: docs/vedic/KUNDLI_EVERYDAY_UX.md.
 Hindi/Gujarati Kundali downloads and print reports include the everyday reading
 alongside calculations, with birth identity still optional. Matching uses one
@@ -226,7 +233,7 @@ Public [privacy/data-use information](/privacy), [usage responsibilities](/terms
 
 **Support Us** at `/support` offers ₹20/₹49/₹99/₹249 UPI contributions, amount-specific QR codes, external payment links, copy fallback and contact options. The redesign centres Buy me a coffee with Chai, Coffee, Pani puri and Pizza choices, smaller secondary links and an expandable WhatsApp form; deployed and live-verified on 2026-10-23. Signed-in owners configure verified recipient details on the page; settings persist in SQLite. Contributions default to disabled. No recipient is configured, no payment is verified. See [support setup](docs/MONETIZATION.md#voluntary-support).
 
-**Watch demos** at `/showcase` is a promotional HTML player with eleven looping scenes, including Decision Wheel and all four private workspaces, playback controls, full-screen display mode (`?screen=1`) with no HTML download. Sample workflows are clearly labelled; no accounts or payments are created. See [player usage](apps/portal/SHOWCASE.md).
+**Watch demos** at `/showcase` is a promotional HTML player with thirteen looping scenes. Ritual Assist, Moment Studio and Ritvayam lead, followed by an interactive language-switching example. English/Hindi previews show Ritual/Studio content; Ritvayam previews add Gujarati. Sample buttons pause the demonstration without changing your saved app language. Playback controls and full-screen display mode (`?screen=1`) remain available, with no HTML download. All four private workspaces remain in the loop. Sample workflows are clearly labelled; no accounts or payments are created. See [player usage](apps/portal/SHOWCASE.md).
 
 Fund Lens comparison is deployed on Cloudflare and works without the laptop backend. See [deployment status](docs/DEPLOYMENT.md).
 

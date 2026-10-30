@@ -1,4 +1,5 @@
 import {bodyName} from './locale.mjs';
+import {transitReadingBasis} from './planet-reading.mjs';
 // Authored interpretations of existing calculated states. No random/date-based prose.
 const copy={
  en:{takeaway:'One thing to try',timing:'A change in rhythm',
@@ -46,6 +47,7 @@ export function composeRashifalStory({base,grahas,mood,language,timing=null}){
  const precise=['single','mixed'].includes(base.mode),house=base.houses[0];
  const headline=precise?t.headlines[house-1][cautious?1:0]:base.headline;
  const takeaway=precise?t.actions[house-1]+(cautious?' '+t.cautious:''):base.rhythm;
- return {...base,modelId:'coherent-transit-reading-1',headline,summary,paragraphs:[summary,bridge],rhythm:takeaway,takeawayLabel:t.takeaway,timing:timing?{title:t.timing,text:timing}:null,
+ const planetaryBasis=transitReadingBasis(grahas,language,['Moon',...(pattern==='uncertain'?[]:[support?.body,block?.body])]);
+ return {...base,modelId:'coherent-transit-reading-2',headline,summary,paragraphs:[summary,bridge],planetaryBasis,rhythm:takeaway,takeawayLabel:t.takeaway,timing:timing?{title:t.timing,text:timing}:null,
   narrative:{pattern,supportBody:pattern==='uncertain'?null:support?.body??null,obstructedBody:pattern==='uncertain'?null:block?.body??null}};
 }

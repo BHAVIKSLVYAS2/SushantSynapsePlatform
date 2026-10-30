@@ -524,9 +524,10 @@ body[data-ui-app=portal] .public-home .home-filter-menu .home-filters{position:a
  --ss-font:Arial,Helvetica,sans-serif;font-family:var(--ss-font);
  box-sizing:border-box;width:100%;max-width:800px;margin:20px auto;padding:20px;border:1px solid var(--rv-edge);border-radius:28px;background:linear-gradient(140deg,var(--rv-panel),#f8f3eb);color:var(--rv-ink);box-shadow:inset 0 1px 0 #fff,0 12px 28px var(--rv-shadow);
 }
-html[data-theme=dark] .home-vedic{
+html[data-theme=dark] .public-home .home-vedic{
  --rv-ink:#f6f3eb;--rv-muted:#b9bfd3;--rv-panel:#0b1733;--rv-edge:#27365a;--rv-gold:#eac574;--rv-gold-light:#ffe7a1;--rv-indigo:#202f7e;--rv-indigo-light:#354b9e;--rv-shadow:#0006;--rv-period-bg:#30291d;--rv-period-edge:#d9ae50;--rv-period-ink:#f3d586;--rv-neutral-bg:#14213e;--rv-neutral-edge:#4b618a;--rv-neutral-ink:#d0dcf5;--rv-caution-bg:#2b202a;--rv-caution-edge:#8f666d;--rv-caution-ink:#ecc1bc;
- background:linear-gradient(140deg,#091630,#071128);box-shadow:inset 0 1px 0 #465d8633,0 12px 28px var(--rv-shadow);
+ --rv-ink:var(--dark-text);--rv-muted:var(--dark-text-secondary);--rv-panel:var(--dark-surface);--rv-edge:var(--dark-border);--rv-gold:var(--dark-accent);--rv-indigo:var(--dark-accent);--rv-indigo-light:var(--dark-accent-hover);--rv-on-indigo:var(--dark-on-accent);--rv-period-bg:var(--dark-elevated);--rv-period-edge:var(--dark-accent);--rv-period-ink:var(--dark-text);--rv-neutral-bg:var(--dark-elevated);--rv-neutral-edge:var(--dark-border);--rv-neutral-ink:var(--dark-text-secondary);
+ background:var(--dark-card-gradient);box-shadow:var(--dark-shadow);
 }
 .home-vedic .home-vedic-content{display:grid;grid-template-columns:104px minmax(0,1fr) 218px;gap:4px 16px;align-items:center}
 .home-vedic .home-vedic-om{position:relative;inset:auto;grid-column:1;grid-row:1/3;width:104px;height:104px;border:0;border-radius:24px;background:transparent url('/ritvayam-logo.svg') center/contain no-repeat;font-size:0;box-shadow:0 5px 13px color-mix(in srgb,var(--rv-gold) 22%,transparent)}

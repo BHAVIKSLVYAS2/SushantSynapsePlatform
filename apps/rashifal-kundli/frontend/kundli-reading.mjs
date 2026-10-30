@@ -1,6 +1,6 @@
 // Original editorial interpretation rules, separate from astronomical facts.
 // No clock, network, persistence, random scores, or inferred life-event dates.
-export const readingModelId='kundli-everyday-1';
+export const readingModelId='kundli-everyday-2';
 export const signRulers=Object.freeze(['Mars','Venus','Mercury','Moon','Sun','Mercury','Venus','Mars','Jupiter','Saturn','Saturn','Jupiter']);
 const available=feature=>feature?.status==='available'?feature.value:null;
 export function buildKundliReading(report){
@@ -15,7 +15,7 @@ export function buildKundliReading(report){
   appearance:chart?{rising:chart.ascendant.rashi,...house(1)}:null,
   career:house(10),money:house(2),relationships:house(7),learning:house(5),home:house(4)};
  const at=timeline?Date.parse(timeline.active.atUtcInstant):null;
- const periods=timeline?timeline.mahadashas.flatMap(major=>major.antardashas.map(minor=>({major:major.lord,minor:minor.lord,start:minor.start,end:minor.end}))).filter(p=>p.end.milliseconds>at).slice(0,3):[];
+ const periods=timeline?timeline.mahadashas.flatMap(major=>major.antardashas.map(minor=>({major:major.lord,minor:minor.lord,start:minor.start,end:minor.end}))).filter(p=>p.end.milliseconds>at).slice(0,3).map(period=>({...period,placements:chart?[...new Set([period.major,period.minor])].map(body=>{const planet=chart.planets.find(p=>p.body===body);return {body,house:planet.houseNumber,sign:planet.rashi};}):[]})):[];
  return {modelId:readingModelId,kind:'traditional-editorial-interpretation',calculatedAtUtc:report.calculatedAtUtc,
   identity:{moon:moonStable?moon.rashi:null,rising:chart?.ascendant.rashi??null,nakshatra:timeline?.balance.nakshatra??null},
   topics,periods,nextTransition:timeline?.active.nextTransition??null,

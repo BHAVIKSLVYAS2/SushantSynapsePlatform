@@ -26,7 +26,7 @@ test('Hindi and Gujarati exports include the same everyday reading as the screen
  const {composeKundliTopic}=await import('../apps/rashifal-kundli/frontend/kundli-reading-prose.mjs');
  const report=await setup(),before=JSON.stringify(report),baseline=projectExport(report),reading=buildKundliReading(report);
  for(const language of ['hi','gu']){const model=projectExport(report,{language}),html=standaloneReport(model),script=language==='hi'?/[\u0900-\u097f]/:/[\u0a80-\u0aff]/;
-  assert.equal(model.everyday.topics.length,7);assert.equal(model.everyday.version,'kundli-prose-3');assert.deepEqual(model.features,baseline.features);
+  assert.equal(model.everyday.topics.length,7);assert.equal(model.everyday.version,'kundli-prose-4');assert.deepEqual(model.features,baseline.features);
   for(const topic of model.everyday.topics){assert.match(topic.title,script);assert.deepEqual(topic.paragraphs,composeKundliTopic(topic.id,reading.topics[topic.id],language).paragraphs);for(const text of topic.paragraphs){assert.match(text,script);assert.match(text,/[.!।]$/);assert.ok(html.includes(text));}}
   assert.ok(html.includes('lang="'+language+'"'));assert.ok(!html.includes('undefined'));assert.ok(!html.includes('Private Person'));
  }assert.equal(JSON.stringify(report),before);

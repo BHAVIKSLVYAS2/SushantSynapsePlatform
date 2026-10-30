@@ -11,3 +11,5 @@
 .vedic-matching .matching-limits{margin-block:.75rem}
 @media(max-width:600px){.vedic-matching .matching-actions #matching-review-button{width:100%}.vedic-matching .matching-actions :is(#matching-swap,#matching-clear){flex:1 1 8rem}}
 .vedic-matching .matching-boundary-note{padding:1rem;border:2px solid var(--ui-accent);border-radius:.75rem;background:var(--ui-soft);margin-block:1rem}
+.vedic-matching .matching-chart-context article{border-top:1px solid var(--ui-edge);margin-top:1rem;padding-top:.5rem}
+.vedic-matching .matching-story article{border-top:1px solid var(--ui-edge);margin-top:1rem;padding-top:.5rem}

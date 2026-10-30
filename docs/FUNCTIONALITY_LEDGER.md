@@ -1,5 +1,85 @@
 # Chambers functionality ledger
 
+**Demo page priority and language previews (2026-10-31 IST, locally verified):**
+`/showcase` now opens with Ritual Assist, Moment Studio and Ritvayam, in that order,
+with featured markers. A dedicated Language change scene follows; the remaining
+tools, four private workspaces and platform invitation remain in the thirteen-scene
+loop. Introductory copy, links and scene counts are updated.
+
+Featured scenes automatically cycle supported sample languages and offer clickable
+preview buttons. Ritual preparation and Studio artwork samples use English/Hindi;
+Ritvayam and the language feature add Gujarati. A manual sample choice pauses the
+demo and shows the completed example; Play resumes cycling. These sample buttons
+never change the real shared-language preference, and the UI explains using Language
+in the shared header for that purpose. Preview cards grow for longer native text.
+All examples remain explicitly illustrative; no app execution or business write.
+
+Verification: 3/3 Chrome workflows pass, covering all thirteen scenes, actual
+automatic/manual preview changes, unchanged language preference, 320/390/768/1440px
+light/dark layouts, screen/fullscreen modes, playback, keyboard controls, reduced
+motion and no-JavaScript guidance. Initial checks found a preview click-target
+collision, a test locator needing the visible certificate language and clipping of
+longer Gujarati text; final rerun passes after correction. Featured Ritvayam and
+language-example mobile screenshots reviewed. 2/2 footer/WhatsApp checks and JS/CSS
+parse/minification plus whitespace checks pass. Evidence:
+`.publish/showcase-featured-verified.log`, screenshots under
+`test-results/portal-tests-showcase-brow-9bb49-ging-the-visitor-preference/`.
+Cloudflare smoke's scene count is updated; that built-bundle suite was not rerun.
+No production deployment, database, API, account or licensing change.
+
+**Planet-based horoscope, Kundli and matching reading improvements (2026-10-30/31 IST,
+local implementation):** Reviewed public AstroSage, Drik Panchang and Prokerala
+pages, published matching definitions and astronomy/convention documentation.
+Research, decisions and remaining acceptance gaps are recorded in
+`docs/vedic/PLANET_READING_REVIEW_2026-10-30.md`.
+
+Kundli prose/report export now includes admitted house-ruler placements and actual
+occupants. Current/upcoming Dasha text includes the natal major/minor lord
+placements when D1 is available. All eight matching factors have original en/hi/gu
+explanations tied to their actual factors; stable scores with changing classifications
+retain all possibilities in prose and detail. Separate consented D1 context shows
+each person's seventh-house ruler, Venus and Mars. Its withholding never suppresses
+an otherwise available Moon-based comparison. Rashifal visibly explains the sampled
+Moon and selected planet houses/statuses and actual obstruction sources, without
+turning samples into continuous durations. Shared theme tokens style the additions.
+
+No astronomical formula, Ashtakoota table, score, Dasha date, schema or API change.
+No runtime AI/external birth-data service, new persistence or production deployment.
+Full-chart strength/aspects/cancellations and final marriage judgments remain
+unassessed. Independent traditional and native editorial acceptance remain pending.
+Verification completed 2026-10-31 IST: final organisation-mode frontend build,
+21/21 focused reading checks and 11/11 Chrome workflows pass (3 source preview,
+8 final bundled-page workflows). Includes all twelve Moon signs, daily/weekly
+evidence, three languages, mobile/light/dark/system themes, native report downloads,
+private saved-input behaviour, consent, classification ranges, date/city recovery,
+swapping and clearing. Hindi/Gujarati Kundli and English/Gujarati matching mobile
+screenshots plus dark Rashifal screenshot were visually reviewed; whitespace passes.
+
+Full suite: 585/586 initially passed, including reproduction of 25,116 retained
+JPL reference rows and actual workerd parity. The sole export file-count assertion
+hit overlapping writes from the simultaneous frontend build. After both finished,
+the exact packaging check passed 1/1 in isolation; the final organisation-mode build
+then completed sequentially before bundled-page browser verification. No application
+test failure remains unresolved. Evidence: `.publish/planet-reading-full-tests.log`,
+`planet-reading-packaging-rerun.log`, `planet-reading-focused-final.log`,
+`planet-reading-final-build.log`, `planet-reading-browser-p15.log` and
+`planet-reading-browser-final.log` (all under `.publish/`). Screenshots are under
+`test-results/` and `.publish/rashifal-outlook-mobile-{light,dark}.png`.
+
+**Ritvayam theme and matching copy (2026-10-30 IST):** Home tile now uses shared
+dark surface, text, border and accent tokens, including its action and calendar
+surfaces. Matching replaces chai, playlist and story headings with traditional
+factor explanations in English, Hindi and Gujarati. Calculations, uncertainty
+ranges and privacy controls are preserved. UI build and 3/3 matching narrative
+checks and 3/3 P15 Chrome workflows pass, including locale parity, theme switching,
+privacy, stale-result clearing and uncertain-input handling. Whitespace checks pass.
+Deployed at the user's request with `--keep-vars` as Worker
+`a92abf1b-7e9a-4721-a8e1-11144d7790ef`. Exact production-config dry-run passed.
+Live Chrome checks confirm shared dark tile colours at 390/1440px without overflow,
+updated matching bundle text and no page errors. Evidence:
+`.publish/verify-ritvayam-release.cjs`, `.publish/ritvayam-live-dark-{390,1440}.png`.
+No migration or business-data changes.
+
 **Pandit Booking guided setup, visual editors and chat updates (2026-10-30 IST):**
 Added role-scoped Getting started steps derived from actual services, profile
 approval, availability and bookings. No demonstration data or approval is created.
