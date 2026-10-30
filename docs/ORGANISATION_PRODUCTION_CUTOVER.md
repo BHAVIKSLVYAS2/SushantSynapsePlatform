@@ -1,5 +1,14 @@
 # Organisation licensing production cutover
 
+Latest Pandit Booking usability release (2026-10-30 IST): `a41b1e0` deployed as
+Worker `d7173d53-9a15-4d92-8645-3c463b58f7a7` with `--keep-vars`. Role-scoped
+setup guidance, visual availability/preparation editors and conditional chat
+updates preserve drafts and enforce live access checks. Full checks 581/581,
+Chrome 6/6 and production dry-run pass. Live Pandit/Customer setup, conditional
+updates and 48 language/theme/width layouts pass; health 200, unscoped records
+409, no page errors. No migration, licence/assignment or production business-data
+changes. Existing test accounts and restricted-pilot boundaries are preserved.
+
 Latest Pandit Booking language release (2026-10-30 IST): `e8b78cd` deployed as
 Worker `7ddc1071-8471-430b-aa7a-f76fa33e12fc` with `--keep-vars`. Hindi/Gujarati
 interface completion, preserved drafts/user content and canonical checklist input

@@ -26,8 +26,15 @@ dry-run and whitespace checks pass. Includes localized/mobile themes, visual-slo
 overlap denial without lost input, background message arrival, unread counts,
 in-flight draft preservation, stale checklist denial and stopped polling after
 access denial. Hindi/Gujarati mobile screenshots reviewed. Evidence:
-`.publish/pandit-experience-{full,browser-final,dryrun}.log`. Release/live evidence
-will be recorded after deployment.
+`.publish/pandit-experience-{full,browser-final,dryrun}.log`. Commit `a41b1e0`
+deployed with `--keep-vars` as Worker `d7173d53-9a15-4d92-8645-3c463b58f7a7`.
+Live Pandit/Customer sign-in, Getting started, conditional updates, native
+availability controls and 48 language/theme/width layouts pass. Both new module
+assets and health return 200; unscoped records remain 409; no browser page errors.
+Live mobile screenshots reviewed; verification sessions signed out. No migration,
+licence/assignment change or production service/profile/booking write. Evidence:
+`.publish/pandit-experience-{deploy,live}.log` and
+`.publish/pandit-experience-live-{pandit,customer}.png`.
 
 **Pandit Booking test accounts (2026-10-30 IST, production verified):** Created
 the two user-requested test identities through the validated invitation/activation
