@@ -1,5 +1,19 @@
 # Organisation licensing production cutover
 
+Latest Ritvayam readings and featured demo release (2026-10-31 IST): commit
+`e1b117a` is deployed as Worker `d667f36f-dbda-42b0-a5b3-ed3ab4f16d09` with
+`--keep-vars`. Kundli/Dasha prose uses admitted natal placements; matching explains
+eight factors plus separate partnership placements; Rashifal exposes actual sampled
+planetary evidence. The demo opens with Ritual Assist, Moment Studio and Ritvayam,
+then a language-switching example, with thirteen scenes overall. Language samples
+preserve actual shared preferences and respect each app's content language support.
+Production dry-run, live demo checks across 32 layouts and 5/5 live Vedic Chrome
+workflows pass. Native report downloads/print, matching language parity, private
+saved inputs, updated bundle contents, no page errors, health 200 and unscoped
+records 409 verified. Live mobile screenshots reviewed. No migration, account,
+licence or business-data writes; organisation/D1/rate-limit bindings preserved.
+Evidence: `.publish/ritvayam-showcase-release-{dryrun,deploy,live-final,live-browser}.log`.
+
 Latest Ritvayam visual/copy release (2026-10-30 IST): deployed from the working
 tree at the user's request as Worker `a92abf1b-7e9a-4721-a8e1-11144d7790ef`
 with `--keep-vars`. Home tile uses shared dark-theme tokens; matching uses more

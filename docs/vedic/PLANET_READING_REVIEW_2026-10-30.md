@@ -4,6 +4,11 @@
 Ritvayam. Public product pages and technical references were reviewed; no real
 birth details were submitted to another service. All new prose is original.
 
+Production release: implementation commit `e1b117a` deployed on 31 October 2026
+as Worker `d667f36f-dbda-42b0-a5b3-ed3ab4f16d09`. All five live public Vedic Chrome
+workflows pass, including native printable exports and private saved inputs.
+See `docs/ORGANISATION_PRODUCTION_CUTOVER.md` for release evidence.
+
 ## Research and decisions
 
 | Reference | Observation | Decision for Ritvayam |
@@ -61,5 +66,5 @@ and the final organisation-mode build pass. The full suite passed 585/586;
 the sole packaging file-count assertion passed on isolated rerun after removing
 the overlapping-build condition. The retained 25,116-row JPL comparison passes.
 Native Kundli, matching and dark Rashifal screenshots were visually reviewed.
-Detailed evidence and the explicit local-only deployment status are maintained
+Detailed evidence and the production deployment status are maintained
 in `docs/FUNCTIONALITY_LEDGER.md`.

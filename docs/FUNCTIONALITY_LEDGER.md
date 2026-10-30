@@ -1,5 +1,28 @@
 # Chambers functionality ledger
 
+**Ritvayam and featured demo production release (2026-10-31 IST):** User requested
+commit and deployment. Implementation commit `e1b117a` is deployed as Worker
+`d667f36f-dbda-42b0-a5b3-ed3ab4f16d09` with `--keep-vars`. Exact production-config
+dry-run passed. This activates the planet-based reading and thirteen-scene demo
+updates described in the local checkpoints below, retaining organisation mode,
+D1 bindings and rate limits. No migration, licence/account change or business write.
+
+Live Chrome verifies the first three featured apps, all thirteen scene buttons,
+English/Hindi/Gujarati samples as supported, unchanged actual language preference,
+32 app/theme/width layouts, display mode and all three updated Vedic entry bundles.
+`/healthz` returns 200; unscoped `/api/records` remains 409; no page errors.
+All 5/5 live Ritvayam Chrome workflows pass: all-twelve-sign horoscope, Hindi and
+Gujarati private printable reports, eight-factor matching and both partnership
+charts across languages/themes, and private saved-input behaviour. Live mobile
+Ritvayam and language-demo screenshots reviewed. Evidence:
+`.publish/ritvayam-showcase-release-{dryrun,deploy,live-final,live-browser}.log`,
+`.publish/verify-ritvayam-showcase-release.cjs` and
+`.publish/release-live-{Ritual-Assist,Moment-Studio,Ritvayam,Language-change}.png`.
+The initial live probe incorrectly used `/api/health`; the corrected verification
+uses the documented `/healthz` route. No application health-route change was needed.
+Traditional/independent acceptance limits remain as documented; this is not
+certification of personal predictions.
+
 **Demo page priority and language previews (2026-10-31 IST, locally verified):**
 `/showcase` now opens with Ritual Assist, Moment Studio and Ritvayam, in that order,
 with featured markers. A dedicated Language change scene follows; the remaining
