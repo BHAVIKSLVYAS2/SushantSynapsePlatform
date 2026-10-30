@@ -42,6 +42,18 @@ canonical API values. Dates remain IST; changing language does not change schedu
 The restricted pilot tests cover Hindi/Gujarati requests, confirmation, messages,
 preparation, error recovery, draft preservation and mobile light/dark layouts.
 
+Getting started shows role-specific progress and links to the next available step.
+Publish real service terms and review real provider submissions; the checklist
+does not create demonstration bookings or mark a provider verified. Availability
+uses IST start/end controls and preparation uses task rows with checkboxes.
+
+Chat checks for updates every ten seconds while the page is visible. Unread counts
+are local to the open page, without delivery/read receipts across devices. Hidden
+or denied views clear drafts and private content; those drafts are not saved to
+browser storage. Conversation capacity remains 80 messages and is shown in the UI.
+After a concurrent-edit warning, review the latest booking before resubmitting;
+no chat message or business operation is retried automatically.
+
 ## Incident handling and capacity
 
 Suspend a provider to prevent new requests; review and contact affected upcoming

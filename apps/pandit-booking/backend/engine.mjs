@@ -1,4 +1,5 @@
 export const roles=['Owner','Dispatcher','Reviewer','Pandit','Customer'];
+export const messageLimit=80;
 export const empty=()=>({version:0,services:[],profiles:[],bookings:[],reports:[],audit:[],blocked:[]});
 const fail=(status,message)=>{throw Object.assign(Error(message),{status});};
 const text=(v,min,max,label)=>{if(typeof v!=='string'||v.trim().length<min||v.length>max||/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(v))fail(400,`${label}: use ${min}–${max} characters`);return v.trim();};
@@ -17,7 +18,7 @@ function bookingView(b,a){
  const own=b.customerId===a.id,assigned=b.panditId===a.id;
  if(!own&&!operator(a)&&!(assigned&&['Confirmed','Completed','NoShow'].includes(b.status)))return null;
  const sensitive=own||operator(a)||(assigned&&b.status==='Confirmed');
- return {id:b.id,customerName:b.customerName,panditName:b.panditName,service:b.service,start:b.start,end:b.end,timezone:'Asia/Kolkata',city:b.city,area:b.area,mode:b.mode,attendees:b.attendees,language:b.language,status:b.status,createdAt:b.createdAt,quote:b.quote,terms:b.terms,checklist:b.checklist,proposal:b.proposal,events:b.events,messages:b.messages.map(({id,role,text,at})=>({id,role,text,at})),review:b.review,...(sensitive?{address:b.address,contact:b.contact,notes:b.notes}:{}),own,assigned};
+ return {id:b.id,customerName:b.customerName,panditName:b.panditName,service:b.service,start:b.start,end:b.end,timezone:'Asia/Kolkata',city:b.city,area:b.area,mode:b.mode,attendees:b.attendees,language:b.language,status:b.status,createdAt:b.createdAt,quote:b.quote,terms:b.terms,checklist:b.checklist,proposal:b.proposal,events:b.events,messageLimit,messages:b.messages.map(({id,actorId,role,text,at})=>({id,role,text,at,own:actorId===a.id})),review:b.review,...(sensitive?{address:b.address,contact:b.contact,notes:b.notes}:{}),own,assigned};
 }
 export function view(s,a,publicOnly=false){
  const profiles=s.profiles.filter(p=>p.status==='Approved').map(publicProfile),services=s.services.filter(x=>x.active),reviews=s.bookings.filter(b=>b.review?.status==='Published'&&profiles.some(p=>p.id===b.panditId)).map(b=>({panditId:b.panditId,rating:b.review.rating,text:b.review.text}));
@@ -60,7 +61,7 @@ export function mutate(state,a,action,input,{now=Date.now(),eligible=()=>true}={
  }else if(action==='complete'||action==='no-show'){
   allow(a,action==='complete'?['Customer','Owner','Dispatcher']:['Owner','Dispatcher']);fields(input,['id']);const b=mine();if(b.status!=='Confirmed'||Date.parse(b.end)>now)fail(409,'The confirmed ceremony must have ended');b.status=action==='complete'?'Completed':'NoShow';b.proposal=null;event(b,b.status);
  }else if(action==='message'){
-  fields(input,['id','text']);const b=mine();if(!live(b)||b.messages.length>=80)fail(409,'Conversation is closed or at capacity');b.messages.push({id:uid(),actorId:a.id,role:a.role,text:text(input.text,1,1500,'Message'),at});
+  fields(input,['id','text']);const b=mine();if(!live(b)||b.messages.length>=messageLimit)fail(409,'Conversation is closed or at capacity');b.messages.push({id:uid(),actorId:a.id,role:a.role,text:text(input.text,1,1500,'Message'),at});
  }else if(action==='checklist'){
   fields(input,['id','items']);const b=mine();if(!live(b))fail(409,'Preparation is closed');if(!Array.isArray(input.items)||input.items.length>40)fail(400,'Up to 40 checklist items');b.checklist=input.items.map(i=>{fields(i,['text','done','responsibility']);if(typeof i.done!=='boolean')fail(400,'Invalid checklist state');return {text:text(i.text,1,150,'Item'),done:i.done,responsibility:choice(i.responsibility,['Customer','Pandit'],'responsibility')};});event(b,'Preparation updated');
  }else if(action==='review'){

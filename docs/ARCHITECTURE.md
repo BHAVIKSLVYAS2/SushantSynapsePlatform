@@ -14,6 +14,12 @@ the table; historical pre-0009 D1 recovery remains supported. Progress and limit
 The app-owned `copy.mjs`/`locale.mjs` adapter follows the shared language preference,
 translates interface text and IST dates in place, and preserves user-authored
 content and input drafts. System enum values remain canonical at the API boundary.
+`setup.mjs` derives guidance only from the authorised role projection; `editors.mjs`
+builds structured availability/preparation controls. Visible-page conditional
+polling retains drafts and checks scope before applying results. Its ETag includes
+workspace version, actor/role/read-only context and eligible participants; matching
+tokens never bypass live authorisation. Read markers live only in page memory.
+Existing form revisions remain fixed across polls to reject stale replacements.
 
 Rashifal narration (2026-10-29): app-owned rashifal-story.mjs composes the visible
 reading from rashifal-everyday Moon-house themes and existing graha state counts.

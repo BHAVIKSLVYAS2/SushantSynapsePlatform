@@ -30,7 +30,7 @@ function apply(){
   const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
   while(walker.nextNode()){
    const node=walker.currentNode,parent=node.parentElement;
-   if(!parent||parent.closest('script,style,textarea,input,[data-language-preserve],[data-booking-time],#notice'))continue;
+   if(!parent||parent.closest('script,style,textarea,input,[data-language-preserve],[data-booking-time],[data-booking-notice],#notice'))continue;
    const record=sourceText(node),source=record.source.trim(),value=text(source,language);
    // Combined badges/counts keep only their app-authored words translatable.
    const next=record.source.replace(source,value);
@@ -51,8 +51,9 @@ function apply(){
    if(element.textContent!==value)element.textContent=value;
   }
  }
- const notice=document.querySelector('#notice');
- if(notice?.dataset.bookingNotice){const value=translateMessage(notice.dataset.bookingNotice);if(notice.textContent!==value)notice.textContent=value;}
+ for(const notice of document.querySelectorAll('[data-booking-notice]')){
+  const value=translateMessage(notice.dataset.bookingNotice);if(notice.textContent!==value)notice.textContent=value;
+ }
  const title=text('Pandit Booking · Curio',language);if(document.title!==title)document.title=title;
 }
 function queue(){if(scheduled)return;scheduled=true;queueMicrotask(()=>{scheduled=false;apply();});}

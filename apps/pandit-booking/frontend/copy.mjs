@@ -329,6 +329,45 @@ Experience|अनुभव|અનુભવ
 areas|सेवा क्षेत्र|સેવા વિસ્તારો
 languages|भाषाएँ|ભાષાઓ
 services|सेवाएँ|સેવાઓ
+Starts · IST|शुरू · IST|શરૂઆત · IST
+Ends · IST|समाप्ति · IST|સમાપ્તિ · IST
+Remove time slot|समय हटाएँ|સમય દૂર કરો
+Add time slot|समय जोड़ें|સમય ઉમેરો
+Choose start and end dates in IST. Each slot can be up to 12 hours. Keep confirmed bookings covered.|IST में शुरू और समाप्ति की तारीख और समय चुनें। हर अवधि अधिकतम 12 घंटे की हो। पुष्ट बुकिंग के समय उपलब्धता बनाए रखें।|ISTમાં શરૂઆત અને સમાપ્તિની તારીખ અને સમય પસંદ કરો. દરેક સમયગાળો વધુમાં વધુ 12 કલાકનો હોય. પુષ્ટિ થયેલાં બુકિંગના સમયે ઉપલબ્ધતા જાળવો.
+Preparation item|तैयारी का काम|તૈયારીનું કામ
+Responsible person|किसकी जिम्मेदारी|કોની જવાબદારી
+Done|पूरा हुआ|પૂરું થયું
+Remove item|काम हटाएँ|કામ દૂર કરો
+Add preparation item|तैयारी का काम जोड़ें|તૈયારીનું કામ ઉમેરો
+Getting started|शुरुआत करें|શરૂઆત કરો
+Ready|तैयार|તૈયાર
+Next|अगला कदम|આગલું પગલું
+Open step|यह कदम खोलें|આ પગલું ખોલો
+Publish a ceremony|पूजा सेवा प्रकाशित करें|પૂજા સેવા પ્રકાશિત કરો
+Review a Pandit profile|पंडित की प्रोफ़ाइल की समीक्षा करें|પંડિતની પ્રોફાઇલની સમીક્ષા કરો
+Ask the Pandit to add availability|पंडित से उपलब्ध समय जोड़ने को कहें|પંડિતને ઉપલબ્ધ સમય ઉમેરવા કહો
+Confirm the first booking|पहली बुकिंग की पुष्टि करें|પહેલા બુકિંગની પુષ્ટિ કરો
+Ask your operator to publish a ceremony|संचालक से पूजा सेवा प्रकाशित करने को कहें|સંચાલકને પૂજા સેવા પ્રકાશિત કરવા કહો
+Submit your profile|अपनी प्रोफ़ाइल भेजें|તમારી પ્રોફાઇલ મોકલો
+Wait for operator approval|संचालक की स्वीकृति की प्रतीक्षा करें|સંચાલકની મંજૂરીની રાહ જુઓ
+Add available time slots|उपलब्ध समय जोड़ें|ઉપલબ્ધ સમય ઉમેરો
+Open a confirmed booking to chat|बात करने के लिए पुष्ट बुकिंग खोलें|વાત કરવા પુષ્ટિ થયેલું બુકિંગ ખોલો
+Choose a published ceremony|प्रकाशित पूजा चुनें|પ્રકાશિત પૂજા પસંદ કરો
+Find an approved Pandit with availability|उपलब्ध समय वाले स्वीकृत पंडित खोजें|ઉપલબ્ધ સમય ધરાવતા મંજૂર પંડિત શોધો
+Send your first booking request|अपना पहला बुकिंग अनुरोध भेजें|તમારી પહેલી બુકિંગ વિનંતી મોકલો
+Wait for booking confirmation|बुकिंग की पुष्टि की प्रतीक्षा करें|બુકિંગની પુષ્ટિની રાહ જુઓ
+Progress reflects this workspace. No sample bookings or approvals are created automatically.|प्रगति इस कार्यक्षेत्र की जानकारी पर आधारित है। नमूना बुकिंग या स्वीकृतियाँ अपने आप नहीं बनतीं।|પ્રગતિ આ કાર્યક્ષેત્રની માહિતી પર આધારિત છે. નમૂના બુકિંગ કે મંજૂરી આપમેળે બનતાં નથી.
+Unread messages|बिना पढ़े संदेश|વાંચ્યા વગરના સંદેશા
+Mark messages read|संदेश पढ़े हुए चिह्नित करें|સંદેશા વાંચેલા તરીકે ચિહ્નિત કરો
+Open conversation|बातचीत खोलें|વાતચીત ખોલો
+Messages|संदेश|સંદેશા
+You|आप|તમે
+Message limit reached. Contact your booking operator for further coordination.|संदेशों की सीमा पूरी हो गई है। आगे के समन्वय के लिए बुकिंग संचालक से संपर्क करें।|સંદેશાની મર્યાદા પૂરી થઈ છે. આગળના સંકલન માટે બુકિંગ સંચાલકનો સંપર્ક કરો.
+Updates checked automatically every 10 seconds while this page is visible.|यह पेज दिखाई देने पर हर 10 सेकंड में नई जानकारी जाँची जाती है।|આ પેજ દેખાતું હોય ત્યારે દર 10 સેકન્ડે નવી માહિતી તપાસવામાં આવે છે.
+Updates paused. Check your connection or refresh.|नई जानकारी की जाँच रुकी है। कनेक्शन जाँचें या फिर से लोड करें।|નવી માહિતીની તપાસ અટકી છે. જોડાણ તપાસો અથવા ફરી લોડ કરો.
+Booking access changed. Refresh to continue.|बुकिंग की अनुमति बदली है। जारी रखने के लिए फिर से लोड करें।|બુકિંગની પરવાનગી બદલાઈ છે. આગળ વધવા ફરી લોડ કરો.
+Booking updated. Open it again to review the latest details.|बुकिंग अपडेट हुई है। नया विवरण देखने के लिए उसे दोबारा खोलें।|બુકિંગ અપડેટ થયું છે. નવી વિગતો જોવા તેને ફરી ખોલો.
+Reminders update while this page is open. No external reminder is sent.|यह पेज खुला रहने पर अनुस्मारक अपडेट होते हैं। ऐप के बाहर कोई अनुस्मारक नहीं भेजा जाता।|આ પેજ ખુલ્લું હોય ત્યારે યાદ અપડેટ થાય છે. ઍપની બહાર કોઈ યાદ મોકલાતી નથી.
 `.trim().split('\n').map(row=>{const [en,hi,gu]=row.split('|');if(!en||!hi||!gu)throw Error('Incomplete booking translation: '+en);return [en,[hi,gu]];}));
 
 copy['One item per line: role | state | item']=[

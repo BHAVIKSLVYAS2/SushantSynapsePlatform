@@ -1,5 +1,49 @@
 # Chambers functionality ledger
 
+**Pandit Booking guided setup, visual editors and chat updates (2026-10-30 IST):**
+Added role-scoped Getting started steps derived from actual services, profile
+approval, availability and bookings. No demonstration data or approval is created.
+Availability now uses add/remove IST datetime slots; preparation uses task rows,
+responsibility selectors and checkboxes. Both submit existing validated API shapes.
+App-owned Hindi/Gujarati copy covers the new controls, guidance and update states.
+
+Booking chat checks for updates every ten seconds only while the page is visible.
+Conditional tokens include workspace version, actor/role/read-only scope and
+eligible participants; matching tokens still require live authorisation. Unchanged
+responses contain no private payload. Messages expose a computed own-message flag
+without sender IDs. Incoming updates and sends preserve drafts, including text
+typed while a send response is delayed. Page-memory unread indicators can be
+cleared by opening the conversation. Hidden/expired/revoked views clear private
+DOM, drafts/read markers and stop polling; stale responses cannot repopulate them.
+Edited form versions remain fixed across polls, rejecting concurrent replacements.
+No automatic write retry. The existing 80-message cap is retained with visible
+usage/capacity guidance; cross-device read receipts and external delivery remain
+unavailable. No schema migration or production business-data writes.
+
+Verification: **581/581 full API/build checks**, including actual Workers/D1
+conditional-read revocation, **6/6 Chrome workflows**, exact production-config
+dry-run and whitespace checks pass. Includes localized/mobile themes, visual-slot
+overlap denial without lost input, background message arrival, unread counts,
+in-flight draft preservation, stale checklist denial and stopped polling after
+access denial. Hindi/Gujarati mobile screenshots reviewed. Evidence:
+`.publish/pandit-experience-{full,browser-final,dryrun}.log`. Release/live evidence
+will be recorded after deployment.
+
+**Pandit Booking test accounts (2026-10-30 IST, production verified):** Created
+the two user-requested test identities through the validated invitation/activation
+APIs with the supplied compliant password; no plaintext credential recorded here.
+Assigned Staff/Pandit and Client/Customer membership/app roles respectively.
+Enabled an Active booking licence with two staff seats and one customer seat,
+raised organisation client capacity from zero to one, and assigned the existing
+primary Master Admin the booking Owner role for service/profile approval and
+confirmation. Other app licences/assignments are unchanged. Super Admin still
+has no business assignment. Both accounts successfully sign in and read the
+booking workspace with the expected writable role; scoped Chambers record access
+returns 403 for each. Verification sessions were signed out. No service, provider
+profile, booking, conversation, payment or external delivery was fabricated.
+Operator service publication/profile approval and booking confirmation remain
+necessary before testing a booking conversation. No deployment or migration.
+
 **Pandit Booking Hindi/Gujarati and production preparation (2026-10-30 IST):**
 Added 329 authored interface entries covering booking discovery, provider/profile
 management, approval, private booking details, preparation, conversation, concerns,

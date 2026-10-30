@@ -1,5 +1,6 @@
 import {body,fail,json} from '../../../server/edge-http.mjs';
 import {empty,mutate,view,roles} from './engine.mjs';
+import {createHash} from 'node:crypto';
 import {loadOrganisationScope} from '../../../packages/auth/organisation-scope.mjs';
 import {evaluateAppAccess} from '../../../packages/auth/organisation-policy.mjs';
 export async function bookingOrganisations(repo,user){
@@ -27,7 +28,15 @@ export async function bookingApi(request,{user,organisations,grant,read,write,el
  if(pub){if(method!=='GET')fail(405,'Method not allowed');if(!await publicEnabled(org))fail(404,'No published operator');const state=await read(org)||empty(),ids=await eligible(org);state.profiles=state.profiles.filter(p=>ids.get(p.id)==='Pandit');return json(view(state,null,true));}
  const access=await grant(org,method==='GET'?'read':'write');
  const state=await read(org)||empty();
- if(method==='GET'){const current=await eligible(org);state.profiles=state.profiles.filter(p=>p.id===access.actor.id||['Owner','Reviewer'].includes(access.actor.role)||current.get(p.id)==='Pandit');return json({...view(state,access.actor),organisation:{id:org,name:access.organisation.name},readOnly:access.readOnly,pilot:true});}
+ if(method==='GET'){
+  const current=await eligible(org);
+  // Conditional updates still recheck actor access and participant eligibility.
+  // The token contains no identity or private payload and is not an authority grant.
+  const updateToken='"'+createHash('sha256').update(JSON.stringify(['booking-updates-v1',state.version,access.actor.id,access.actor.role,access.readOnly,[...current].sort((a,b)=>a[0].localeCompare(b[0]))])).digest('hex')+'"';
+  if(request.headers.get('If-None-Match')===updateToken)return json({unchanged:true});
+  state.profiles=state.profiles.filter(p=>p.id===access.actor.id||['Owner','Reviewer'].includes(access.actor.role)||current.get(p.id)==='Pandit');
+  return json({...view(state,access.actor),organisation:{id:org,name:access.organisation.name},readOnly:access.readOnly,pilot:true,updateToken},200,{ETag:updateToken});
+ }
  if(!(await limit(user.id)).success)fail(429,'Too many requests; please try again shortly');
  const input=await body(request,24000);if(Object.keys(input).some(k=>!['version','action','input'].includes(k))||!Number.isSafeInteger(input.version)||typeof input.action!=='string')fail(400,'Invalid command');
  if(input.version!==state.version)fail(409,'Booking workspace changed. Refresh before saving.');

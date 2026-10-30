@@ -2,8 +2,11 @@
 
 Updated 2026-10-30 (Asia/Kolkata). First managed pilot deployed from `5352fa1` as
 Worker `309b1aba-7e7d-4db3-8c64-783761decd2a`; migration 0009 applied. Live routes
-and pre/post offline recovery verified. No licence, assignment or customer booking
-was created. Hindi/Gujarati completion passes local API and Chrome checks as the
+and pre/post offline recovery verified. That initial release created no licence,
+assignment or customer booking. Subsequently, the requested Pandit/Customer test
+accounts, booking licence and existing Master Admin operator assignment were
+activated through governance APIs; no service/profile/booking was fabricated.
+Hindi/Gujarati completion passes local API and Chrome checks as the
 next increment, deployed from `e8b78cd` as Worker
 `7ddc1071-8471-430b-aa7a-f76fa33e12fc`. Live Hindi/Gujarati pages, translation
 assets and sixteen theme/width layouts pass; private API boundaries remain intact.
@@ -16,6 +19,8 @@ assets and sixteen theme/width layouts pass; private API boundaries remain intac
 | Puja details and Pandit service areas | Implemented and locally verified | Services, preparation, samagri, terms, city/areas/radius, approval and explicit availability windows |
 | Booking and preparation | Implemented and locally verified | Request, confirm, cancel/decline, reschedule agreement, checklist, completion/no-show |
 | Communication and concerns | Implemented and locally verified | In-app messages, reports/resolution, moderated completed-booking reviews; on-open/refresh reminders within 24 hours |
+| Guided setup and structured editors | Locally verified; deployment pending | Role-specific progress, IST time-slot rows and preparation checkboxes; no automatic production sample data |
+| Chat updates and draft preservation | Locally verified; deployment pending | Visible-page conditional polling, in-memory unread markers, own-message labels, draft-preserving sends and denial clearing; 80-message cap remains |
 | Security and concurrency tests | Passed local checks | Cross-user/org, role revocation, client seat boundaries, privacy, atomic conflicts, malformed input and stale-response DOM clearing |
 | Browser journeys and responsive themes | Passed 4 Chrome workflows | Isolated Node/SQLite fixture; operator/Pandit/customer journey, stale-response/expiry, visitor discovery and Hindi/Gujarati journeys; 320/390/768/1440px light/dark plus system theme |
 | External delivery and scheduled reminders | Not connected | Computed in-app reminders only; background scheduler and provider transport pending |

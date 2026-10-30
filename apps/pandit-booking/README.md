@@ -28,9 +28,25 @@ government IDs, birth data or attachments are collected. User-entered public bio
 service text and reviews must be checked for contact/address details by operators.
 Reviews require a completed booking and separate publication approval.
 
-In-app event history, messages, preparation checklists and a computed reminder for
-confirmed ceremonies within 24 hours provide coordination when the page refreshes;
-there is no automated reminder scheduler, SMS/email/WhatsApp transport or push.
+Role-specific Getting started steps show actual service/profile/availability and
+booking progress, without generating sample approvals or bookings. Pandits enter
+availability using IST date/time slots; preparation uses task rows, responsibility
+selectors and completion checkboxes. Server validation and version checks remain
+authoritative, including overlaps, existing reservations and concurrent edits.
+
+In-app messages update by conditional polling every ten seconds while the page is
+visible. Unchanged checks still revalidate access and participant eligibility.
+Incoming updates preserve open forms and draft messages; sending keeps the booking
+open and does not clear text typed while a send is in flight. Unread indicators are
+held only in this page's memory, not cross-device read receipts. Hidden/expired or
+revoked views clear private content and stop polling. A conversation remains capped
+at 80 messages; the UI displays usage and the capacity warning. There is no automatic
+send retry. Edited checklists/availability retain their original version so incoming
+updates cannot silently overwrite concurrent changes.
+
+In-app event history and computed reminders for confirmed ceremonies within 24
+hours update with the open page. There is no automated reminder scheduler,
+SMS/email/WhatsApp transport or push.
 Rescheduling requires opposite-party agreement and rechecks availability. There
 is no automatic replacement/reassignment, public operator directory, profile photo
 upload, private export UI or automatic deletion/retention job. No feature claims

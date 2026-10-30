@@ -7,13 +7,13 @@ test('operator, Pandit and customer complete booking preparation with private lo
  for(const [name,email,role]of [['Pandit Test','pandit@booking.test','Advocate'],['Customer Test','customer@booking.test','Clerk']]){const r=await page.request.post(base+'/api/users',{data:{name,email,role,password,appIds:['pandit-booking']}});expect(r.status()).toBe(201);}
  await page.goto(base+'/pandit-booking');await expect(page.locator('#role')).toHaveText('Owner');await page.getByRole('button',{name:'Manage services',exact:true}).click();const service=page.locator('form[data-command=service]');await service.locator('[name=name]').fill('Ganesh Puja');await service.locator('[name=description]').fill('A family puja prepared with care.');await service.locator('[name=preparation]').fill('Prepare a clean space.');await service.locator('[name=samagri]').fill('Customer supplies flowers; Pandit supplies the guide.');await service.locator('[name=terms]').fill('Discuss changes with the operator before the ceremony.');await service.locator('[name=priceNote]').fill('Agree the scope before confirmation.');await service.getByRole('button',{name:'Save service',exact:true}).click();await expect(page.locator('#notice')).toHaveText('Saved.');
  const pContext=await acknowledgedContext(browser),p=await pContext.newPage();p.on('pageerror',e=>errors.push(e.message));expect((await p.request.post(base+'/api/auth/login',{data:{email:'pandit@booking.test',password}})).status()).toBe(200);await p.goto(base+'/pandit-booking');await p.getByRole('button',{name:'My profile & availability',exact:true}).click();const profile=p.locator('form[data-command=profile]');await profile.locator('[name=name]').fill('Pandit Test');await profile.locator('[name=city]').fill('Ahmedabad');await profile.locator('[name=areas]').fill('Paldi, Satellite');await profile.locator('[name=bio]').fill('Experienced in family puja ceremonies.');await profile.locator('[name=serviceIds]').check();await profile.getByRole('button',{name:'Submit profile for review'}).click();await expect(p.locator('#notice')).toHaveText('Saved.');
- const day=new Date(Date.now()+10*86400000).toISOString().slice(0,10);await p.locator('[name=windows]').fill(`${day}T09:00, ${day}T18:00`);await p.getByRole('button',{name:'Save availability',exact:true}).click();await expect(p.locator('#notice')).toHaveText('Saved.');
+ const day=new Date(Date.now()+10*86400000).toISOString().slice(0,10);await p.locator('[name=windowStart]').fill(`${day}T09:00`);await p.locator('[name=windowEnd]').fill(`${day}T18:00`);await p.getByRole('button',{name:'Save availability',exact:true}).click();await expect(p.locator('#notice')).toHaveText('Saved.');
  await page.locator('#refresh').click();await page.getByRole('button',{name:'Profile & review approval',exact:true}).click();const approval=page.locator('form[data-command=approve]');await approval.locator('[name=reason]').fill('Profile and contact manually reviewed for pilot.');await approval.getByRole('button',{name:'Save decision'}).click();await expect(page.locator('#notice')).toHaveText('Saved.');
  const cContext=await acknowledgedContext(browser),c=await cContext.newPage();c.on('pageerror',e=>errors.push(e.message));expect((await c.request.post(base+'/api/auth/login',{data:{email:'customer@booking.test',password}})).status()).toBe(200);await c.goto(base+'/pandit-booking');await c.getByRole('button',{name:'Find a Pandit',exact:true}).first().click();await c.getByRole('button',{name:'Request a booking'}).click();const request=c.locator('form[data-command=request]');await request.locator('[name=start]').fill(`${day}T10:00`);await request.locator('[name=contact]').fill('customer-private@example.test');await request.locator('[name=address]').fill('Private customer venue, 17 Paldi');await request.locator('[name=acceptTerms]').check();await request.getByRole('button',{name:'Send booking request'}).click();await expect(c.locator('#notice')).toHaveText('Saved.');await c.getByRole('button',{name:'My bookings',exact:true}).click();await expect(c.locator('#content')).toContainText('Requested');
  await p.locator('#refresh').click();await p.getByRole('button',{name:'My bookings',exact:true}).click();await expect(p.locator('#content')).toContainText('Your booking timeline starts here');
  await page.locator('#refresh').click();await page.getByRole('button',{name:'My bookings',exact:true}).click();await page.getByRole('button',{name:'View booking'}).click();const confirm=page.locator('form[data-command=confirm]');await confirm.locator('[name=quote]').fill('Ceremony scope agreed; no payment collection.');await confirm.getByRole('button',{name:'Confirm booking'}).click();await expect(page.locator('#notice')).toHaveText('Saved.');
- await p.locator('#refresh').click();await p.getByRole('button',{name:'View booking'}).click();await expect(p.locator('#detail-content')).toContainText('Private customer venue, 17 Paldi');await p.locator('form[data-command=message] textarea').fill('Please keep the flowers ready.');await p.locator('form[data-command=message] button').click();await expect(p.locator('#notice')).toHaveText('Saved.');
- await c.locator('#refresh').click();await c.getByRole('button',{name:'View booking'}).click();await expect(c.locator('#detail-content')).toContainText('Please keep the flowers ready.');await c.locator('form[data-command=checklist] textarea').fill('Customer | done | Flowers\nPandit | pending | Puja guide');await c.locator('form[data-command=checklist] button').click();await expect(c.locator('#notice')).toHaveText('Saved.');
+ await p.locator('#refresh').click();await p.getByRole('button',{name:'View booking'}).click();await expect(p.locator('#detail-content')).toContainText('Private customer venue, 17 Paldi');await p.locator('form[data-command=message] textarea').fill('Please keep the flowers ready.');await p.locator('form[data-command=message] button').click();await expect(p.locator('#notice')).toHaveText('Saved.');await p.locator('#close').click();
+ await c.locator('#refresh').click();await c.getByRole('button',{name:'View booking'}).click();await expect(c.locator('#detail-content')).toContainText('Please keep the flowers ready.');await c.locator('form[data-command=checklist] [data-action=add-item]').click();await c.locator('[name=itemText]').fill('Flowers');await c.locator('[name=itemDone]').check();await c.locator('form[data-command=checklist] [data-action=add-item]').click();await c.locator('[name=itemText]').last().fill('Puja guide');await c.locator('[name=responsibility]').last().selectOption('Pandit');await c.locator('form[data-command=checklist] button[type=submit]').click();await expect(c.locator('#notice')).toHaveText('Saved.');
  for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await c.setViewportSize({width,height:900});await c.evaluate(t=>SynapseTheme.write(t),theme);expect(await c.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await c.getByRole('button',{name:'View booking'}).click();expect(await c.evaluate(()=>document.querySelector('dialog').scrollWidth<=document.querySelector('dialog').clientWidth)).toBe(true);await c.locator('#close').click();}
  for(const colorScheme of ['dark','light']){await c.emulateMedia({colorScheme});await c.evaluate(()=>SynapseTheme.write('system'));await expect(c.locator('html')).toHaveAttribute('data-theme',colorScheme);}
  await c.setViewportSize({width:390,height:844});await c.evaluate(()=>SynapseTheme.write('light'));await c.getByRole('button',{name:'Find a Pandit',exact:true}).click();await c.evaluate(()=>scrollTo(0,0));await c.screenshot({path:'.publish/pandit-booking-mobile.png',fullPage:true});
@@ -103,13 +103,13 @@ test('Hindi and Gujarati journeys preserve drafts, user content and canonical bo
   await customer.getByRole('button',{name:label('View booking')}).last().click();expect(await untranslated(customer)).toEqual([]);
   await expect(customer.locator('#detail-content')).toContainText('Description');
   await expect(customer.locator('#detail-content')).toContainText('City private venue');
-  const checklist=`${label('Customer')} | ${label('done')} | Flowers`;
-  await customer.locator('form[data-command=checklist] textarea').fill(checklist);
-  await customer.locator('form[data-command=checklist] button').click();await expect(customer.locator('#notice')).toHaveText(label('Saved.'));
+  await customer.locator('form[data-command=checklist] [data-action=add-item]').click();
+  await customer.locator('[name=itemText]').fill('Flowers');await customer.locator('[name=itemDone]').check();
+  await customer.locator('form[data-command=checklist] button[type=submit]').click();await expect(customer.locator('#notice')).toHaveText(label('Saved.'));
   const saved=await (await customer.request.get(base+'/api/pandit-booking/local')).json();
   const booking=saved.bookings.at(-1);expect(booking.mode).toBe('At venue');expect(booking.checklist[0]).toEqual({responsibility:'Customer',done:true,text:'Flowers'});
   await customer.getByRole('button',{name:label('View booking')}).last().click();
-  await customer.locator('form[data-command=message] textarea').fill('City');await customer.locator('form[data-command=message] button').click();await expect(customer.locator('#notice')).toHaveText(label('Saved.'));
+  await customer.locator('form[data-command=message] textarea').fill('City');await customer.locator('form[data-command=message] button').click();await expect(customer.locator('#notice')).toHaveText(label('Saved.'));await customer.locator('#close').click();
   await pandit.locator('#refresh').click();await tab(pandit,'My bookings');await pandit.getByRole('button',{name:label('View booking')}).last().click();
   await expect(pandit.locator('.message p')).toHaveText('City');expect(await untranslated(pandit)).toEqual([]);
   await pandit.locator('#close').click();
@@ -124,4 +124,74 @@ test('Hindi and Gujarati journeys preserve drafts, user content and canonical bo
   for(const context of contexts)await context.close();
  }
  expect(Object.keys(copy).length).toBeGreaterThan(300);
+});
+
+test('guided setup and visual slots reject overlaps without losing unsaved input',async({page})=>{
+ expect((await page.request.post(base+'/api/auth/login',{data:{email:'pandit@booking.test',password}})).status()).toBe(200);
+ await page.goto(base+'/pandit-booking');await expect(page.locator('#setup')).toContainText('Add available time slots');
+ await page.getByRole('button',{name:'My profile & availability',exact:true}).click();
+ const form=page.locator('form[data-command=availability]');
+ const start=await form.locator('[name=windowStart]').inputValue(),end=await form.locator('[name=windowEnd]').inputValue();
+ await form.getByRole('button',{name:'Add time slot',exact:true}).click();
+ await form.locator('[name=windowStart]').last().fill(start);await form.locator('[name=windowEnd]').last().fill(end);
+ await form.getByRole('button',{name:'Save availability',exact:true}).click();
+ await expect(page.locator('#notice')).toHaveText('Availability windows overlap');
+ await expect(form.locator('[data-window-row]')).toHaveCount(2);
+ await expect(form.locator('[name=windowStart]').last()).toHaveValue(start);
+ const saved=await (await page.request.get(base+'/api/pandit-booking/local')).json();
+ expect(saved.profiles.find(p=>p.id===saved.userId).windows).toHaveLength(1);
+ await form.getByRole('button',{name:'Remove time slot',exact:true}).last().click();
+ await expect(form.locator('[data-window-row]')).toHaveCount(1);
+});
+
+test('chat updates and unread counts preserve drafts; expiry clears private content and stops polling',async({browser})=>{
+ test.setTimeout(100000);
+ const contexts=[];
+ const login=async who=>{const context=await acknowledgedContext(browser);contexts.push(context);const page=await context.newPage();expect((await page.request.post(base+'/api/auth/login',{data:{email:who+'@booking.test',password}})).status()).toBe(200);return page;};
+ const owner=await login('owner'),pandit=await login('pandit'),customer=await login('customer');
+ const get=async page=>(await page.request.get(base+'/api/pandit-booking/local')).json();
+ const command=async(page,action,input)=>{const state=await get(page);const response=await page.request.post(base+'/api/pandit-booking/local',{headers:{Origin:base},data:{version:state.version,action,input}});expect(response.status(),await response.text()).toBe(200);};
+ const initial=await get(customer),profile=initial.profiles.find(p=>p.status==='Approved'),service=initial.services[0];
+ const start=new Date(Date.now()+10*86400000).toISOString().slice(0,10)+'T04:30:00.000Z';
+ await command(customer,'request',{requestKey:'isolated-chat-update-request',serviceId:service.id,panditId:profile.id,start,city:profile.city,area:profile.areas[0],mode:'At venue',attendees:5,language:profile.languages[0],contact:'private-chat@example.test',address:'Isolated private chat venue',notes:'',acceptTerms:true});
+ const booking=(await get(customer)).bookings.at(-1);
+ await command(owner,'confirm',{id:booking.id,quote:'Isolated chat feature check'});
+ await customer.goto(base+'/pandit-booking');await customer.getByRole('button',{name:'My bookings',exact:true}).click();await customer.getByRole('button',{name:'View booking',exact:true}).last().click();
+ const composer=customer.locator('form[data-command=message] textarea'),reason=customer.locator('form[data-command=cancel] [name=reason]');
+ await composer.fill('Unsent customer draft');await reason.fill('Another unsaved field');
+ await customer.locator('form[data-command=checklist] [data-action=add-item]').click();
+ await customer.locator('[name=itemText]').fill('An unsaved preparation item');
+ await command(pandit,'message',{id:booking.id,text:'An incoming message without a page refresh'});
+ await expect(customer.locator('#message-list')).toContainText('An incoming message without a page refresh',{timeout:16000});
+ await expect(composer).toHaveValue('Unsent customer draft');await expect(reason).toHaveValue('Another unsaved field');
+ // A background update must not silently advance an edited checklist's version.
+ await customer.locator('form[data-command=checklist] button[type=submit]').click();
+ await expect(customer.locator('#notice')).toContainText('Refresh before saving');
+ await expect(customer.locator('[name=itemText]')).toHaveValue('An unsaved preparation item');
+ expect((await get(customer)).bookings.at(-1).checklist).toEqual([]);
+ await customer.locator('form[data-command=message] button[type=submit]').click();await expect(customer.locator('#notice')).toHaveText('Saved.');
+ await expect(customer.locator('#detail')).toBeVisible();await expect(composer).toHaveValue('');await expect(reason).toHaveValue('Another unsaved field');
+ await expect(customer.locator('#message-list .own-message')).toContainText('Unsent customer draft');
+ // Text entered after pressing Send must not be cleared by its delayed reply.
+ let release,started;const gate=new Promise(resolve=>release=resolve),pending=new Promise(resolve=>started=resolve);
+ await customer.route('**/api/pandit-booking/local',async route=>{
+  if(route.request().method()!=='POST'){await route.continue();return;}
+  const response=await route.fetch();started();await gate;await route.fulfill({response});
+ });
+ await composer.fill('Send this message');await customer.locator('form[data-command=message] button[type=submit]').click();await pending;
+ await composer.fill('Keep this newer draft');release();await expect(customer.locator('#message-list')).toContainText('Send this message');await expect(customer.locator('#notice')).toHaveText('Saved.');
+ await expect(composer).toHaveValue('Keep this newer draft');await customer.unroute('**/api/pandit-booking/local');
+ await customer.locator('#close').click();await command(pandit,'message',{id:booking.id,text:'A new unread message'});
+ const badge=customer.locator('#content [data-unread-for="'+booking.id+'"]');
+ await expect(badge).toBeVisible({timeout:16000});await expect(badge.locator('b')).toHaveText('1');
+ await customer.getByRole('button',{name:'Open conversation',exact:true}).last().click();
+ await expect(customer.locator('#detail-content [data-unread-for]')).toBeHidden();
+ await expect(customer.locator('#message-list')).toContainText('A new unread message');await composer.fill('Private draft to clear on expiry');
+ await customer.route('**/api/pandit-booking/local',route=>route.fulfill({status:403,contentType:'application/json',body:JSON.stringify({error:'Booking app access required'})}));
+ await expect(customer.locator('#content')).toBeEmpty({timeout:16000});await expect(customer.locator('#setup')).toBeEmpty();
+ await expect(customer.locator('#detail-content')).toBeEmpty();await expect(customer.locator('#role')).toBeEmpty();
+ await expect(customer.locator('#notice')).toContainText('sign in again');
+ let calls=0;customer.on('request',request=>{if(request.url().endsWith('/api/pandit-booking/local'))calls++;});
+ await customer.clock.install();await customer.clock.runFor(30000);expect(calls).toBe(0);
+ for(const context of contexts)await context.close();
 });

@@ -7,6 +7,26 @@ async function fixture(){const {empty,mutate,view}=await import('../apps/pandit-
  const request=(a=customer,extra={})=>{apply(a,'request',{requestKey:crypto.randomUUID(),serviceId,panditId:pandit.id,start,city:'Ahmedabad',area:'Paldi',address:'Private venue 17, Paldi',contact:'private@example.test',mode:'At venue',attendees:10,language:'Hindi',notes:'Private family instruction',acceptTerms:true,...extra});return state.bookings.at(-1).id;};
  return {apply,request,state:()=>state,view:a=>view(state,a),public:()=>view(state,null,true),mutate};}
 test('public projections exclude customer locations, contacts, messages and private approval reasons',async()=>{const f=await fixture(),id=f.request();f.apply(owner,'confirm',{id,quote:'Agreed scope'});const v=JSON.stringify(f.public());for(const x of ['Private venue','private@example','Private family','reviewReason','customerId','actorId'])assert(!v.includes(x));assert.equal(f.public().profiles[0].city,'Ahmedabad');assert.equal(f.view(pandit).bookings[0].address,'Private venue 17, Paldi');assert.equal(f.view(other).bookings.length,0);});
+
+test('chat identifies only own messages, enforces its capacity and keeps conditional reads authorised',async()=>{
+ const f=await fixture(),id=f.request();f.apply(owner,'confirm',{id,quote:'Agreed scope'});
+ f.apply(customer,'message',{id,text:'From customer'});f.apply(pandit,'message',{id,text:'From Pandit'});
+ assert.deepEqual(f.view(customer).bookings[0].messages.map(m=>m.own),[true,false]);
+ assert.deepEqual(f.view(pandit).bookings[0].messages.map(m=>m.own),[false,true]);
+ assert.ok(f.view(customer).bookings[0].messages.every(m=>!('actorId' in m)));
+ const {bookingApi}=await import('../apps/pandit-booking/backend/service.mjs');
+ let allowed=true,people=new Map([[pandit.id,'Pandit'],[customer.id,'Customer']]);
+ const context={user:customer,grant:async()=>{if(!allowed)throw Object.assign(Error('Access revoked'),{status:403});return {actor:customer,organisation:{name:'Isolated'},readOnly:false};},read:async()=>structuredClone(f.state()),eligible:async()=>people};
+ const request=token=>new Request('https://booking.test/api/pandit-booking/first',{headers:token?{'If-None-Match':token}:{}});
+ const initial=await (await bookingApi(request(),context)).json();assert.ok(initial.updateToken);
+ assert.deepEqual(await (await bookingApi(request(initial.updateToken),context)).json(),{unchanged:true});
+ people=new Map([[customer.id,'Customer']]);const updated=await (await bookingApi(request(initial.updateToken),context)).json();
+ assert.notEqual(updated.updateToken,initial.updateToken);assert.equal(updated.profiles.length,0);
+ allowed=false;await assert.rejects(bookingApi(request(updated.updateToken),context),{status:403});
+ const limit=f.view(customer).bookings[0].messageLimit;
+ for(let i=2;i<limit;i++)f.apply(customer,'message',{id,text:'Capacity check'});
+ const before=JSON.stringify(f.state());assert.throws(()=>f.apply(customer,'message',{id,text:'Over limit'}),{status:409});assert.equal(JSON.stringify(f.state()),before);
+});
 test('Pandit cannot see a pending or cancelled booking, reviewer cannot see addresses, and role escalation fails',async()=>{const f=await fixture(),id=f.request();assert.equal(f.view(pandit).bookings.length,0);assert.equal(f.view({...other,role:'Reviewer'}).bookings.length,0);assert.throws(()=>f.apply(customer,'approve',{id:pandit.id,status:'Approved',reason:'Forged approval'}),{status:403});assert.throws(()=>f.apply(pandit,'confirm',{id,quote:'Forged'}),{status:403});assert.throws(()=>f.apply(other,'message',{id,text:'Guess another booking'}),{status:404});f.apply(owner,'confirm',{id,quote:'Agreed'});f.apply(customer,'cancel',{id,reason:'Change of plans'});assert.equal(f.view(pandit).bookings.length,0);});
 test('confirmation and one-hour buffer reject duplicate and nearby reservations without losing state',async()=>{const f=await fixture(),id=f.request(),second=f.request(other);f.apply(owner,'confirm',{id,quote:'Agreed'});const before=JSON.stringify(f.state());assert.throws(()=>f.apply(owner,'confirm',{id:second,quote:'Agreed'}),{status:409});assert.equal(JSON.stringify(f.state()),before);assert.throws(()=>f.request(other,{start:'2026-11-10T06:00:00.000Z'}),{status:409});f.apply(customer,'cancel',{id,reason:'Cannot attend'});f.apply(owner,'confirm',{id:second,quote:'Now available'});});
 test('availability, service areas, terms, profile edits and revocation are enforced',async()=>{const f=await fixture();for(const patch of [{area:'Unlisted'},{city:'Another city'},{acceptTerms:false},{start:'2026-11-11T04:30:00.000Z'},{language:'Unlisted'},{customerId:'forged'}])assert.throws(()=>f.request(customer,patch),e=>[400,409].includes(e.status));const id=f.request();assert.throws(()=>f.apply(owner,'confirm',{id,quote:'Agreed'},{eligible:()=>false}),{status:409});f.apply(owner,'approve',{id:pandit.id,status:'Suspended',reason:'Review an operator concern'});assert.equal(f.public().profiles.length,0);assert.throws(()=>f.apply(owner,'confirm',{id,quote:'Agreed'}),{status:409});});
