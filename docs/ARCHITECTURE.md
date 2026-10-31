@@ -11,7 +11,7 @@ An unavailable D1 chart withholds both readings independently of Guna availabili
 
 Task-oriented workflow (2026-10-31): app-registry owns translated task search
 terms; home-discovery filters the existing app catalogue. The redundant task-link
-strip was removed locally following user review. `packages/ui/task-intent.mjs` allowlists private
+strip was removed following user review. `packages/ui/task-intent.mjs` allowlists private
 app destinations, strips foreign URLs/query scope and derives continuation from
 the account's live membership/app projection. Production sign-in preserves that
 intent; one eligible organisation resumes, multiple choices stay explicit, and

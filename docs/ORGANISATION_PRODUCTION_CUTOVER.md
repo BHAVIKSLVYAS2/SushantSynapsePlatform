@@ -1,5 +1,13 @@
 # Organisation licensing production cutover
 
+Home-page correction (2026-10-31 IST): user authorised deployment. Commit
+`9f097d7` is live as Worker `c5714621-114c-4350-9e2d-bf89458fa99e`, with
+`--keep-vars`. The redundant task-label strip is absent from both static and
+hydrated home pages. Live search, all 14 public cards and eight width/theme
+layouts pass with no browser errors. Health 200 and unscoped records 409.
+No migration, configuration/account or business-data changes. Evidence:
+`.publish/home-strip-correction-{deploy,live}.log`.
+
 Ritvayam readings and workflow release (2026-10-31 IST): user authorised
 commit/deploy. Commits `df44c19` and `5d764f4` are live as Worker
 `da042078-7891-4d12-a4ba-897eb33824a8`, deployed with `--keep-vars`.

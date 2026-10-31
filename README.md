@@ -1,11 +1,11 @@
 # Curio · Sushant Synapse
 
-Local home-page correction removes the redundant task-link label strip and
+The home-page correction removes the redundant task-link label strip and
 restores the app catalogue layout. Task-related search terms remain available.
-This correction is not yet committed or deployed.
+This correction is deployed as of 2026-10-31.
 
-Deployed workflow improvements add direct task shortcuts for cards, certificates,
-photo resizing, Shraddha/Barsi, Focus and QR. Private sign-in preserves the intended
+Task-related search finds cards, certificates, photo resizing, Shraddha/Barsi,
+Focus and QR in the existing app catalogue. Private sign-in preserves the intended
 app and resolves currently eligible organisation access. QR previews update while
 editing; Focus tasks start directly; Decision Wheel needs only Spin; Timetable
 setup sections share one workspace with preserved unsaved drafts. Ritual results
