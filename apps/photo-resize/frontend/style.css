@@ -1,0 +1,16 @@
+body[data-ui-app=photo-resize] .workspace{align-items:start}
+body[data-ui-app=photo-resize] #profile-info{border-inline-start:3px solid var(--ss-accent);padding:4px 12px;margin:12px 0;background:var(--ss-surface-soft);font-size:.9rem}
+body[data-ui-app=photo-resize] #profile-info a{overflow-wrap:anywhere}
+body[data-ui-app=photo-resize] :is(#crop-preview,#original-preview,#preview){display:block;max-width:100%;height:auto;margin:12px auto;border:1px solid var(--ss-border)}
+body[data-ui-app=photo-resize] [hidden]{display:none!important}
+body[data-ui-app=photo-resize] .check{display:flex;align-items:start;gap:10px}
+body[data-ui-app=photo-resize] .check input{width:auto;min-width:22px;margin-top:4px}
+body[data-ui-app=photo-resize] #checks ul{padding-inline-start:22px}
+body[data-ui-app=photo-resize] #checks li{margin:8px 0;overflow-wrap:anywhere}
+body[data-ui-app=photo-resize] :is(button,select,input:not([type=checkbox]),summary){min-height:44px}
+body[data-ui-app=photo-resize] .photo-help{margin-top:24px}
+body[data-ui-app=photo-resize] summary{cursor:pointer;padding:10px 0}
+body[data-ui-app=photo-resize] #crop-status{overflow-wrap:anywhere}
+body[data-ui-app=photo-resize] #crop-preview{width:auto;max-height:260px}
+@media(max-width:600px){body[data-ui-app=photo-resize] #crop-preview{max-height:220px}}
+@media(max-width:420px){body[data-ui-app=photo-resize] .pair{grid-template-columns:1fr}}

@@ -2,6 +2,7 @@ import {escapeHtml} from '../../../packages/ui/text.mjs';
 import {characterContent} from './character-page.mjs';
 import {cast,portraitArt} from '../frontend/catalogue.mjs';
 import {sampleEdition} from './sample-edition.mjs';
+import {publicUtilityPaths} from '../../../packages/app-registry/public-seo.mjs';
 import beta from '../../../packages/ui/beta-html.cjs';
 export const publicEditorialPath=path=>path==='/satire-arena/daily'||path==='/satire-arena/daily/'||path.startsWith('/satire-arena/posts/')||path.startsWith('/satire-arena/categories/')||path.startsWith('/satire-arena/characters/')||path==='/satire-arena/results'||path==='/satire-arena/sitemap.xml'||path==='/sitemap.xml'||path==='/robots.txt';
 export const escape=escapeHtml;
@@ -18,7 +19,7 @@ export function publicPage(request,data,results=null){
  const respond=(content,type='text/html; charset=utf-8',status=200)=>new Response(request.method==='HEAD'?null:(type.startsWith('text/html')?beta.betaHtml(content):content),{status,headers:{'Content-Type':type,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','X-Frame-Options':'DENY','Referrer-Policy':'same-origin','Content-Security-Policy':"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"}});
  if(!['GET','HEAD'].includes(request.method))return respond('Method not allowed','text/plain',405);
  if(path==='/robots.txt')return respond('User-agent: *\nDisallow: /api/\nDisallow: /satire-arena/editor\nSitemap: '+origin+'/sitemap.xml\n','text/plain');
- if(path.endsWith('sitemap.xml'))return respond(xml(['/', '/satire-arena','/satire-arena/results',...cast.map(c=>'/satire-arena/characters/'+c.id),...posts.map(link),...[...new Set(posts.map(p=>p.category))].map(c=>'/satire-arena/categories/'+c)]),'application/xml');
+ if(path.endsWith('sitemap.xml'))return respond(xml([...new Set(['/',...(path==='/sitemap.xml'?publicUtilityPaths():[]),'/satire-arena','/satire-arena/results',...cast.map(c=>'/satire-arena/characters/'+c.id),...posts.map(link),...[...new Set(posts.map(p=>p.category))].map(c=>'/satire-arena/categories/'+c)])]),'application/xml');
  let title='Satire Arena',description='Original fictional humour from Sushant Synapse. Jokes, not factual reporting.',image='/satire-arena/cartoon-cast.png',content='',language='en';
  const cards=list=>list.map(p=>`<article class="notice" lang="${e(p.language)}"><small>${e(p.category)} · ${e(p.language)} · FICTIONAL SATIRE</small><h2><a href="${link(p)}">${e(p.title)}</a></h2><p>${e(p.punchline)}</p>${stamp(p)}</article>`).join('');
  if(path.startsWith('/satire-arena/posts/')){

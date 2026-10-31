@@ -198,6 +198,8 @@ staticAssets['/shared/tool-refinements.css']='packages/ui/tool-refinements.css';
 for(const file of ['presentation.mjs','presentation.css'])staticAssets['/shared/'+file]='packages/ui/'+file;
 for(const file of ['reading-tools.mjs','reading-tools.css'])staticAssets['/news/'+file]='apps/news/frontend/'+file;
 staticAssets['/qr-maker/wifi.mjs']='apps/qr-maker/frontend/wifi.mjs';
+staticAssets['/photo-resize/profiles.mjs']='apps/photo-resize/frontend/profiles.mjs';
+staticAssets['/photo-resize/style.css']='apps/photo-resize/frontend/style.css';
 staticAssets['/team-mixer/swaps.mjs']='apps/team-mixer/frontend/swaps.mjs';
 for(const id of ['qr-maker','photo-resize','bill-splitter']){
  staticAssets['/'+id]='apps/'+id+'/frontend/index.html';
