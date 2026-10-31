@@ -3,6 +3,7 @@ import {edgeApi} from '../../server/edge-index.mjs';
 import {cloudPages} from '../../apps/satire-arena/backend/cloud-pages.mjs';
 import adsense from '../../packages/ui/adsense.cjs';
 import vedicPrivacy from '../../apps/rashifal-kundli/privacy.cjs';
+import {accountIntentPath} from '../../packages/ui/task-intent.mjs';
 export default {
  async fetch(request,env){
   const url=new URL(request.url);
@@ -14,7 +15,7 @@ export default {
    if(![200,206,304].includes(asset.status))headers.set('Cache-Control','no-store');
    return new Response(request.method==='HEAD'?null:asset.body,{status:asset.status,headers});
   }
-  if(env.ORGANISATIONS_ENABLED==='true'&&['/signin','/signin/'].includes(url.pathname)&&['GET','HEAD'].includes(request.method))return Response.redirect(url.origin+'/account',302);
+  if(env.ORGANISATIONS_ENABLED==='true'&&['/signin','/signin/'].includes(url.pathname)&&['GET','HEAD'].includes(request.method))return Response.redirect(url.origin+accountIntentPath(url),302);
   const {default:organisationPages}=await import('./organisation-pages.json',{with:{type:'json'}});
   if(organisationPages[url.pathname]){
    if(env.ORGANISATIONS_ENABLED!=='true')return new Response('Not found',{status:404});

@@ -707,3 +707,5 @@ body[data-ui-app=portal] .public-home .home-active-filters button{min-height:44p
  .home-vedic .almanac-compact>details>summary:after{flex-basis:18px;width:18px;font-size:22px}
 }
 @media(max-width:370px){.home-vedic .almanac-current-label{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.home-vedic .almanac-current-identity{padding-inline-end:6px}.home-vedic .almanac-current-timing small{font-size:10px}.home-vedic .almanac-compact>details>summary{padding-inline:8px}}
+
+.home-task-shortcuts{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 20px}.home-task-shortcuts a{display:flex;align-items:center;min-height:44px;padding:8px 12px;border:1px solid var(--home-border,var(--ui-edge));border-radius:12px;background:var(--home-card,var(--ui-solid));color:var(--ui-ink);font-size:13px;overflow-wrap:anywhere}.home-task-shortcuts a[hidden]{display:none}

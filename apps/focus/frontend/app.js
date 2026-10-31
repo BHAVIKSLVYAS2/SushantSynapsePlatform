@@ -108,10 +108,9 @@ function taskRow(task, carry = false) {
   card.append(badges);
   const actions = node('div', undefined, 'task-actions');
   if (carry) addButton(actions, 'Bring to this day', () => command({type: 'move', id: task.id, date: $('plan-date').value}));
-  if (!task.done) addButton(actions, 'Focus on this', () => {
-    selected = task.id;
-    draw();
-    $('startBtn').focus();
+  if (!task.done) addButton(actions, 'Start focusing', () => {
+    const event=new CustomEvent('synapse-focus-task-start',{detail:{started:false}});document.dispatchEvent(event);
+    if(event.detail.started){selected=task.id;draw();$('pauseBtn').focus();}
   });
   addButton(actions, 'Edit', () => openEditor(task)).dataset.taskAction = 'edit';
   addButton(actions, 'Remove', () => command({type: 'delete', id: task.id}));

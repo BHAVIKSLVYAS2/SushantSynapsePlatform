@@ -1,5 +1,16 @@
 # Code ownership and adding apps
 
+Task-oriented workflow (2026-10-31, local): app-registry owns translated public
+task descriptors and static task-link rendering; home-discovery hydrates filters
+without changing access policy. `packages/ui/task-intent.mjs` allowlists private
+app destinations, strips foreign URLs/query scope and derives continuation from
+the account's live membership/app projection. Production sign-in preserves that
+intent; one eligible organisation resumes, multiple choices stay explicit, and
+clients use only their approved portal. Domain endpoints still enforce access.
+Focus owns direct task-start/duration validation; QR owns debounced local preview;
+Timetable owns an accordion workspace and in-memory unsaved form drafts with
+generation/save guards. Existing domain engines and SQLite/D1 remain authoritative.
+
 Shraddha/Barsi location selection (2026-10-31, local): Ritual Assist owns
 `calendar-location.mjs`, reusing `packages/vedic/places.mjs` and its public Indian
 city directory through explicit app asset aliases. Browser geolocation is opt-in,

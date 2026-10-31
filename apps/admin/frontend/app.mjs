@@ -1,10 +1,12 @@
 import {requestJson} from '/shared/http.mjs';
+import {taskIntent,taskDestinations} from '/shared/task-intent.mjs';
 import {escapeHtml as esc} from '/shared/text.mjs';
 import {licenceFields as buildLicenceFields,overview,organisePanels,mountWizard,apiDate,accountProductCards,accountOrganisationCards} from './experience.mjs';
 const $=selector=>document.querySelector(selector);
 let index,view,busy=false,revision=0;
 let accountSessionSeen=false,adminNavigation,wizard;
 const accountPage=location.pathname==='/account';
+const intendedTask=accountPage?taskIntent(new URL(location.href)):null;
 if(!accountPage)document.body.classList.add('organisation-admin');
 $('.admin-header').insertAdjacentHTML('afterend','<nav class="admin-footer" aria-label="Account navigation"><a href="/account">My account</a><button id="switch-account" type="button" hidden>Switch account</button></nav>');
 if(accountPage){document.title='My account · Sushant Synapse';$('.intro h1').textContent='My account';$('.intro p').textContent='Your private product access and organisation memberships. Public apps remain in the Curio catalogue.';$('#organisation').closest('label').hidden=true;}
@@ -71,6 +73,7 @@ async function load(selected,strict=false){
   index=account;view=null;clearCredentials();$('#signin').hidden=true;$('#workspace').hidden=false;$('#accept-panel').hidden=false;
   $('#summary').innerHTML=`<h2>${esc(account.identity.name)}</h2><p>${esc(account.identity.email)}</p>${account.superAdmin?'<p><a href="/super-admin">Open Super Admin</a></p>':''}`;
   $('#panels').innerHTML=accountProductCards(account.memberships,account)+accountOrganisationCards(account.memberships);
+  if(intendedTask){const destinations=taskDestinations(account,intendedTask);if(destinations.length===1){location.replace(destinations[0].path);return;}const chooser=document.createElement('section');chooser.className='card';const title=document.createElement('h2');title.textContent=destinations.length?'Choose your workspace':'Requested app access is unavailable';chooser.append(title);for(const destination of destinations){const link=document.createElement('a');link.href=destination.path;link.textContent=destination.name;link.className='account-app-action';chooser.append(link);}$('#panels').prepend(chooser);}
   accountSessionSeen=true;$('#account-security')?.remove();
   $('#workspace').insertAdjacentHTML('beforeend',`<details class="card" id="account-security"><summary>Change your password</summary><p>Use 12–128 characters. Other sessions will be signed out; this session will be renewed.</p><form id="own-password">${field('Current password','currentPassword','','password','required maxlength="128" autocomplete="current-password"')}${field('New password','newPassword','','password','required minlength="12" maxlength="128" autocomplete="new-password"')}${field('Confirm new password','confirmation','','password','required minlength="12" maxlength="128" autocomplete="new-password"')}<button type="submit">Change password</button></form></details>`);
   status('Account ready.');return;

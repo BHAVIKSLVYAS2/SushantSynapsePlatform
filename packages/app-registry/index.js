@@ -49,7 +49,7 @@ const featuredApps=()=>featuredOrder.map(id=>apps.find(a=>a.id===id)).filter(Boo
 for(const app of apps.filter(a=>a.catalogueParent)){const parent=apps.find(a=>a.id===app.catalogueParent);if(parent)Object.assign(app,{art:parent.art,purpose:parent.purpose,groups:parent.groups});}
 const visibleApps=()=>apps.filter(a=>!a.catalogueParent).slice().sort((a,b)=>a.homeOrder-b.homeOrder);
 // One search vocabulary for the launcher and the shared app switcher.
-const appSearchText=app=>[app.name,...Object.values(app.displayNames||{}),app.description,app.homeDescription,app.keywords,app.category,
+const appSearchText=app=>[app.name,...Object.values(app.displayNames||{}),app.description,app.homeDescription,app.keywords,app.category,...tasks.filter(t=>t.appId===app.id).flatMap(t=>Object.values(t.labels)),
  app.id==='rashifal-kundli'?'कुंडली कुंडली मिलान जन्मपत्री राशिफल કુંડળી કુંડળી મિલાન રાશિફળ':''].join(' ').normalize('NFKC').toLocaleLowerCase();
 const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function renderCard(app,options={}){
@@ -74,7 +74,16 @@ function renderCompactCard(app,{signedIn=false,favourite='',art,workspace=false,
  return '<article class="catalogue-item compact-app-item'+(workspace?' workspace-card':'')+'" data-app-id="'+e(app.id)+'"><'+tag+' class="compact-app '+(workspace?'workspace-launch':'public-app')+(app.featured?' is-featured':'')+'" data-app-id="'+e(app.id)+'" data-accent="'+e(app.accent||'')+'" aria-label="'+e(name)+'" title="'+e(workspace?app.name+' / '+label:app.name)+'"'+attrs+'>'+star+lock+'<span class="compact-app-icon" aria-hidden="true">'+artwork+'</span><'+(workspace?'h3':'h2')+' class="compact-app-name">'+e(app.name)+'</'+(workspace?'h3':'h2')+'>'+introduction+'</'+tag+'>'+favourite+'</article>';
 
 }
-const catalogue={apps,resolveAppId,visibleApps,featuredApps,appSearchText,renderCard,renderCompactCard,escapeHtml};
+const tasks=[
+ {id:'birthday',appId:'moment-studio',path:'/moment-studio/cards?occasion=birthday',labels:{en:'Make a birthday card',hi:'जन्मदिन का कार्ड बनाएँ',gu:'જન્મદિવસનું કાર્ડ બનાવો'}},
+ {id:'certificate',appId:'moment-studio',path:'/moment-studio',labels:{en:'Make a certificate',hi:'प्रमाणपत्र बनाएँ',gu:'પ્રમાણપત્ર બનાવો'}},
+ {id:'photo',appId:'photo-resize',path:'/photo-resize',labels:{en:'Resize a photo',hi:'फ़ोटो का आकार बदलें',gu:'ફોટોનું કદ બદલો'}},
+ {id:'barsi',appId:'ritual-assist',path:'/ritual-assist/calendar?view=remembrance',labels:{en:'Find Shraddha / Barsi dates',hi:'श्राद्ध / बरसी की तारीखें',gu:'શ્રાદ્ધ / વરસીની તારીખો'}},
+ {id:'focus',appId:'focus',path:'/focus',labels:{en:'Start focusing',hi:'ध्यान से काम करें',gu:'ધ્યાનથી કામ કરો'}},
+ {id:'qr',appId:'qr-maker',path:'/qr-maker',labels:{en:'Create a QR code',hi:'QR कोड बनाएँ',gu:'QR કોડ બનાવો'}}
+];
+const renderTaskLinks=()=>'<nav class="home-task-shortcuts" aria-label="Quick tasks">'+tasks.map(task=>'<a data-task-id="'+task.id+'" data-task-app="'+task.appId+'" href="'+escapeHtml(task.path)+'">'+escapeHtml(task.labels.en)+'</a>').join('')+'</nav>';
+const catalogue={apps,tasks,renderTaskLinks,resolveAppId,visibleApps,featuredApps,appSearchText,renderCard,renderCompactCard,escapeHtml};
 if(typeof module==='object'&&module.exports)module.exports=catalogue;
 else root.SynapseCatalogue=catalogue;
 

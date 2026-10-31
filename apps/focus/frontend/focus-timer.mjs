@@ -19,7 +19,6 @@ export function mountFocusTimer(root = document) {
   const durationButtons = [...root.querySelectorAll('[data-focus-minutes]')];
   const customPanel = root.getElementById('custom-duration');
   const customInput = root.getElementById('custom-minutes');
-  const applyDuration = root.getElementById('apply-duration');
   const view = root.defaultView || display.ownerDocument?.defaultView;
 
   let selectedMinutes = DEFAULT_MINUTES;
@@ -54,7 +53,6 @@ export function mountFocusTimer(root = document) {
     }
     if (customPanel) customPanel.hidden = !customOpen;
     if (customInput) customInput.disabled = sessionActive;
-    if (applyDuration) applyDuration.disabled = sessionActive;
   }
 
   function chooseDuration(minutes) {
@@ -87,6 +85,7 @@ export function mountFocusTimer(root = document) {
 
   start.addEventListener('click', () => {
     if (isRunning) return;
+    if (!sessionActive && customOpen && !applyCustomDuration()) return;
     if (timeLeft === 0) timeLeft = selectedMinutes * 60;
     deadline = Date.now() + timeLeft * 1000;
     isRunning = true;
@@ -133,16 +132,16 @@ export function mountFocusTimer(root = document) {
       customInput.setAttribute('aria-invalid', 'true');
       status.textContent = 'Choose a whole number of minutes from 5 to 120.';
       customInput.focus();
-      return;
+      return false;
     }
-    chooseDuration(minutes);
+    chooseDuration(minutes);return true;
   }
-  applyDuration?.addEventListener('click', applyCustomDuration);
   customInput?.addEventListener('keydown', event => {
     if (event.key !== 'Enter') return;
     event.preventDefault();
-    applyCustomDuration();
+    start.click();
   });
+  root.addEventListener('synapse-focus-task-start',event=>{if(sessionActive){status.textContent='Finish or reset the current session before starting another task.';return;}start.click();event.detail.started=isRunning;});
   if (customInput) customInput.value = String(selectedMinutes);
   status.textContent = readyStatus();
   root.addEventListener('visibilitychange', () => { if (isRunning) tick(); });

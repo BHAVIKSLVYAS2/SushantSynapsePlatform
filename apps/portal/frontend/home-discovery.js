@@ -9,11 +9,14 @@
   const section=document.querySelector('#free-apps');if(!section)return;if(section.dataset.discoveryReady)return;
   const home=section.closest('.public-home'),grid=section.querySelector('.public-apps'),bar=section.querySelector('.home-filters');if(!grid||!bar)return;
   section.dataset.discoveryReady='true';grid.id='home-tool-grid';grid.setAttribute('role','region');grid.setAttribute('aria-label','Free tools');grid.tabIndex=0;bar.hidden=false;section.classList.add('home-discovery-ready');
+  let taskLinks=home.querySelector('.home-task-shortcuts');if(!taskLinks){section.insertAdjacentHTML('afterbegin',catalogue.renderTaskLinks());taskLinks=home.querySelector('.home-task-shortcuts');}
+  function translateTasks(language){for(const link of taskLinks.querySelectorAll('[data-task-id]')){const task=catalogue.tasks.find(t=>t.id===link.dataset.taskId);link.textContent=task.labels[language]||task.labels.en;link.setAttribute('data-language-preserve','');}}
+  let taskLanguage='en';try{taskLanguage=localStorage.getItem('synapse-language')||'en';}catch{}translateTasks(taskLanguage);
   const status=section.querySelector('.home-filter-status'),search=home.querySelector('.home-search');
   let toolbar=home.querySelector('.home-discovery-toolbar');
   if(!toolbar){toolbar=document.createElement('div');toolbar.className='home-discovery-toolbar';search.before(toolbar);toolbar.append(search);const panel=document.createElement('details');panel.className='home-filter-menu';panel.innerHTML='<summary>Filters</summary>';panel.append(bar);toolbar.append(panel);const row=document.createElement('div');row.className='home-active-filters';row.hidden=true;row.innerHTML='<button type="button" hidden></button><button type="button">Clear all</button>';toolbar.after(row);}
   const filters=toolbar.querySelector('.home-filter-menu'),toggle=filters.querySelector('summary'),active=home.querySelector('.home-active-filters'),[chip,clear]=active.querySelectorAll('button');
-  mountEvents?.abort();mountEvents=new AbortController();
+  mountEvents?.abort();mountEvents=new AbortController();window.addEventListener('synapse-language-change',event=>translateTasks(event.detail.language),{signal:mountEvents.signal});
   const categoryName=()=>bar.querySelector('[data-tool-filter="'+selected+'"]')?.textContent||'All';
   chip.onclick=()=>{selected='all';filter();toggle.focus();};clear.onclick=()=>{selected='all';search.querySelector('input').value='';filter();search.querySelector('input').focus();};
   filters.addEventListener('keydown',event=>{if(event.key==='Escape'){filters.open=false;toggle.focus();}});
@@ -23,6 +26,7 @@
   let selected=bar.querySelector('[aria-pressed=true]')?.dataset.toolFilter||'all';
   const searchTexts=new WeakMap();
   function filter(){
+   for(const link of taskLinks.querySelectorAll('[data-task-id]')){const task=catalogue.tasks.find(t=>t.id===link.dataset.taskId),app=catalogue.apps.find(a=>a.id===task.appId),terms=search.querySelector('input').value.trim().toLocaleLowerCase();hidden(link,(selected!=='all'&&!app.groups.includes(selected))||!!terms&&![...Object.values(task.labels),catalogue.appSearchText(app)].join(' ').toLocaleLowerCase().includes(terms));}hidden(taskLinks,![...taskLinks.children].some(link=>!link.hidden));
    const terms=search.querySelector('input').value.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);let count=0,publicCount=0,workspaceCount=0;
    const apps=new Map(catalogue.apps.map(app=>[app.id,app]));
    for(const card of home.querySelectorAll('.public-app,.workspace-card')){

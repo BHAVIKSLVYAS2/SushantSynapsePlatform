@@ -1,6 +1,12 @@
 // Authored interface copy only. Brand names, documents and user content retain
 // their own language. Columns: source English | Hindi | Gujarati.
 const rows=`
+Start focusing|ध्यान से काम शुरू करें|ધ્યાનથી કામ શરૂ કરો
+Check QR code|QR कोड जाँचें|QR કોડ તપાસો
+Complete the fields to preview your QR code.|QR पूर्वावलोकन के लिए विवरण भरें।|QR પૂર્વદર્શન માટે વિગતો ભરો.
+Updating QR preview…|QR पूर्वावलोकन बदल रहा है…|QR પૂર્વદર્શન બદલાઈ રહ્યું છે…
+Spin to use your changes.|बदलाव लागू करने के लिए घुमाएँ।|ફેરફારો માટે ચક્ર ફેરવો.
+Finish or reset the current session before starting another task.|दूसरा काम शुरू करने से पहले वर्तमान सत्र पूरा या रीसेट करें।|બીજું કામ શરૂ કરતાં પહેલાં હાલનું સત્ર પૂરું કે રીસેટ કરો.
 Clear app search|ऐप खोज साफ़ करें|ઍપ શોધ સાફ કરો
 Edit favourites|पसंदीदा ऐप बदलें|મનપસંદ ઍપ બદલો
 Done editing|बदलाव पूरे|ફેરફાર પૂરા

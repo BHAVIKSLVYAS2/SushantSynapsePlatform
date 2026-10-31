@@ -4,6 +4,13 @@ let fixture;
 test.beforeEach(async()=>{fixture=await startPreview();});
 test.afterEach(async()=>{await fixture.stop();});
 async function login(page,user){const response=await page.request.post(fixture.base+'/api/auth/login',{data:{email:user+'@example.com',password:fixture.password}});expect(response.status()).toBe(200);}
+test('one eligible workspace resumes the requested task while an unavailable app remains at account',async({page})=>{
+ await fixture.stop();fixture=await startPreview({chambers:true});await login(page,'master');await page.goto(fixture.base+'/account?next=advocate&returnTo=%2Fadvocate%23hearings');await expect(page).toHaveURL(fixture.base+'/advocate?organisation='+fixture.organisationId+'#hearings');
+ await page.goto(fixture.base+'/account?next=batchfee-lite');await expect(page.getByRole('heading',{name:'Requested app access is unavailable'})).toBeVisible();await expect(page).toHaveURL(/\/account\?next=batchfee-lite$/);
+});
+test('multiple eligible workspaces require an explicit destination choice',async({page})=>{
+ await fixture.stop();fixture=await startPreview({chambers:true,multi:true});await login(page,'master');await page.goto(fixture.base+'/account?next=advocate');await expect(page.getByRole('heading',{name:'Choose your workspace'})).toBeVisible();await expect(page).toHaveURL(/\/account\?next=advocate$/);await expect(page.locator('#panels>section').first().locator('a')).toHaveCount(2);
+});
 async function openForm(page,command){const sections={licence:'apps',assignment:'apps',invite:'people',member:'people','revoke-invitation':'people',status:'governance',transfer:'governance','recovery-export':'governance'};if(sections[command])await page.locator('.admin-sections [data-admin-nav="'+sections[command]+'"]').click();const form=page.locator(`form[data-command="${command}"]`);await form.locator('..').locator('summary').click();return form;}
 
 test('mobile creation wizard validates, supports keyboard and browser Back, and reviews multiple licences before writing',async({page})=>{

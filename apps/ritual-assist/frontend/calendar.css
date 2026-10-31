@@ -40,3 +40,5 @@
 
 .pack-guide .seedha-card{margin-top:18px;padding:16px;border:1px solid var(--line);border-radius:12px;background:var(--soft);min-width:0}.pack-guide .seedha-card h5{margin-top:0}.pack-guide .seedha-guidance{margin-top:16px}
 @media print{.pack-guide .seedha-card{background:none;break-inside:auto}}
+
+.next-observance{margin:16px 0}.next-observance .date{font-size:24px;color:var(--accent)}.full-calendar>summary{cursor:pointer;min-height:44px;padding:14px 0;font-weight:600}@media print{.full-calendar:not([open])>:not(summary){display:block!important}.full-calendar>summary{display:none}}

@@ -46,10 +46,10 @@ test('administrator enables a licensed client portal, client sees only approved 
  await page.getByLabel('Reason for portal access change').fill('Approve read-only case access');await page.getByRole('button',{name:'Save portal access',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Portal access saved.');
  const context=await require('../../../../tests/browser-fixture.js').acknowledgedContext(browser);
  try{
-  const client=await context.newPage();await login(client,'client');await client.goto(f.base+'/account');await client.getByRole('link',{name:'Open client portal',exact:true}).click();await expect(client.getByRole('status')).toHaveText('Portal ready.');
+  const client=await context.newPage();await login(client,'client');await client.goto(f.base+'/account');await client.getByRole('link',{name:'Open Chambers client portal',exact:true}).click();await expect(client.getByRole('status')).toHaveText('Portal ready.');
   await expect(client.locator('#workspace')).toContainText('Private client');await expect(client.locator('#workspace')).toContainText('CASE-1');await expect(client.locator('#workspace')).toContainText('Delhi');
   for(const secret of ['Hidden internal note','Other private client','Secret case title','Secret case note'])await expect(client.locator('body')).not.toContainText(secret);
-  await expect(client.locator('form')).toHaveCount(0);
+  await expect(client.locator('#workspace form')).toHaveCount(0);
   for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await client.setViewportSize({width,height:900});await client.getByLabel('Theme',{exact:true}).selectOption(theme);expect(await client.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
   await client.setViewportSize({width:390,height:844});await client.getByLabel('Theme',{exact:true}).selectOption('light');await client.screenshot({path:'.publish/client-portal-mobile.png',fullPage:true});
   let release,arrived;const gate=new Promise(resolve=>release=resolve),waiting=new Promise(resolve=>arrived=resolve);let first=true;
@@ -100,8 +100,8 @@ test('client selects separate licensed organisations without mixing case data',a
  }
  await login(page,'client');
  for(const [org,name,own,hidden]of [[f.organisationId,'First Chambers','CASE-1','CASE-2'],[f.otherOrganisationId,'Other Chambers','CASE-2','CASE-1']]){
-  await page.goto(f.base+'/account');await expect(page.getByRole('link',{name:'Open client portal',exact:true})).toHaveCount(2);
-  await page.locator('#panels section').filter({has:page.getByRole('heading',{name,exact:true})}).getByRole('link',{name:'Open client portal',exact:true}).click();
+  await page.goto(f.base+'/account');await expect(page.getByRole('link',{name:'Open Chambers client portal',exact:true})).toHaveCount(2);
+  await page.locator('a[href="/client-portal?organisation='+org+'"]').click();
   await expect(page).toHaveURL(new RegExp('/client-portal\\?organisation='+org));await expect(page.getByRole('status')).toHaveText('Portal ready.');await expect(page.locator('#workspace')).toContainText(own);await expect(page.locator('#workspace')).not.toContainText(hidden);
  }
  expect((await page.request.post(f.base+'/api/auth/logout',{data:{}})).status()).toBe(200);

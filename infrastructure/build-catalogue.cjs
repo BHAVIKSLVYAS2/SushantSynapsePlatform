@@ -9,6 +9,7 @@ function buildCatalogue({write=true}={}){
   if(end===undefined)throw Error('Unclosed '+className);html=html.slice(0,content)+apps.map(a=>render(a)).join('')+html.slice(end);
  }
  grid('public-apps',catalogue.visibleApps().filter(a=>a.public&&!a.homeFeatureOnly));grid('workspace-grid',catalogue.visibleApps().filter(a=>!a.public));
+ const taskLinks=catalogue.renderTaskLinks();if(html.includes('class="home-task-shortcuts"'))html=html.replace(/<nav class="home-task-shortcuts"[\s\S]*?<\/nav>/,taskLinks);else html=html.replace(/(<section\b[^>]*id="free-apps"[^>]*>)/,'$1'+taskLinks);
  // Safari can lose gradient/filter references across an external <use> shadow tree.
  // Keep one namespaced, same-document sprite for static and hydrated cards.
  const sprite=fs.readFileSync(path.join(__dirname,'../apps/portal/frontend/home-art.svg'),'utf8')
