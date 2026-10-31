@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="/shared/premium.css?v=20261018-refined">
   <link rel="stylesheet" href="/shared/platform-shell.css?v=20261018-refined">
   <script src="/shared/platform-shell.js?v=20261011-shell" defer></script>
-</head>
+<link rel="stylesheet" href="/moment-studio/writing.css"></head>
 <body data-ui-app="moment-studio" id="moment-cards" class="platform-shell-pending">
   <a class="skip" href="#main">Skip to studio</a>
   <header class="platform-app-toolbar platform-toolbar-empty synapse-header">
@@ -42,18 +42,11 @@
           <h2><b>02</b> Add your details</h2>
           <label id="name-field"><span id="recipient-label">Recipient name</span> <small>optional</small><input name="name" maxlength="80" placeholder="e.g. Aarav"></label>
           <label id="title-field"><span id="headline-label">Headline</span><input name="title" required maxlength="100"></label>
-          <div class="message-heading"><label for="message" id="message-label">Your message</label><div class="message-actions"><button type="button" id="open-ai" aria-controls="ai-sheet" aria-expanded="false" class="text-button">Wording helper</button><button type="button" id="suggest" class="text-button">Use suggested wording</button></div></div>
+          <div class="message-heading"><label for="message" id="message-label">Your message</label><div class="message-actions"><button type="button" id="open-ai" aria-controls="ai-sheet" aria-expanded="false" class="text-button">AI writing</button><button type="button" id="suggest" class="text-button">Use suggested wording</button></div></div>
           <textarea name="message" id="message" rows="4" maxlength="600" aria-describedby="message-hint"></textarea>
           <p id="message-hint" class="hint">Edit the starter message to make it your own.</p>
           <p id="wording-status" role="status" aria-live="polite"></p>
-          <section id="ai-sheet" class="ai-sheet" aria-live="polite" hidden>
-            <div class="ai-sheet-header"><h3>Local wording helper</h3><button type="button" id="close-ai" class="text-button">Close</button></div>
-            <p class="hint">Uses built-in English/Hindi templates, not an AI model. Your details stay in this browser; no download or external API.</p>
-            <label for="ai-prompt">What would you like to say?<textarea id="ai-prompt" rows="3" placeholder="Write a warm birthday invitation for my sister and her family"></textarea></label>
-            <div class="ai-quick-actions"><button type="button" data-ai-tone="warm">Warm</button><button type="button" data-ai-tone="formal">Formal</button><button type="button" data-ai-tone="short">Short</button></div>
-            <div class="ai-sheet-actions"><button type="button" id="generate-ai" class="primary">Generate wording</button><button type="button" id="apply-ai" hidden>Apply to design</button></div>
-            <label for="ai-result">Review suggested wording<textarea id="ai-result" rows="4" maxlength="600"></textarea></label><p id="ai-status" role="status" aria-live="polite"></p>
-          </section>
+          <section id="ai-sheet" hidden></section>
           <details id="message-help"><summary>Copy message as text</summary><button type="button" id="copy-message">Copy message text</button><label id="message-copy-label" for="message-copy" hidden>Copy your message<textarea id="message-copy" readonly rows="5"></textarea></label><p id="copy-status" role="status" aria-live="polite"></p></details>
           <section id="event-fields" hidden>
             <h3 id="invitation-events">Event details</h3>

@@ -1,15 +1,6 @@
 ﻿const {test,expect}=require('../../../tests/browser-fixture.js');const {spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');let child,base,dir;
 test.beforeEach(async({page})=>{page.on('dialog',dialog=>dialog.accept());});
 
-test('local wording helper previews before applying, preserves language and supports mobile editing',async({page})=>{
- const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/moment-studio/cards');const message=page.locator('[name=message]');await message.fill('A personal message. A second sentence.');await page.locator('#open-ai').click();await expect(page.locator('#ai-sheet')).toContainText('not an AI model');await page.locator('[data-ai-tone=short]').click();await page.locator('#generate-ai').click();await expect(message).toHaveValue('A personal message. A second sentence.');await expect(page.locator('#ai-result')).toHaveValue('A personal message.');await page.locator('#apply-ai').click();await expect(message).toHaveValue('A personal message.');await expect(page.locator('#ai-sheet')).toBeHidden();await expect(page.locator('#open-ai')).toBeFocused();
- await page.locator('#open-ai').click();await page.keyboard.press('Escape');await expect(page.locator('#ai-sheet')).toBeHidden();await page.locator('[name=language]').selectOption('hi');await message.fill('');await page.locator('#open-ai').click();await page.locator('#generate-ai').click();await expect(page.locator('#ai-result')).toHaveValue(/\p{Script=Devanagari}/u);await expect(message).toHaveValue('');
- for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:850});await page.evaluate(t=>SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}expect(errors).toEqual([]);
-});
-
-test('certificate local wording button works without changing contribution details',async({page})=>{
- const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/moment-studio');await page.locator('[name=recipient]').fill('Meera');await page.locator('textarea[name=description]').fill('Helping the community');await page.locator('#generate-cert-ai').click();await expect(page.locator('[name=message]')).not.toHaveValue('');await expect(page.locator('textarea[name=description]')).toHaveValue('Helping the community');await expect(page.locator('#status')).toContainText('template suggestion');expect(errors).toEqual([]);
-});
 test('reference workspace keeps the artboard visible while controls scroll and exports directly',async({page})=>{
  await page.setViewportSize({width:1440,height:900});await page.goto(base+'/moment-studio');
  await expect(page.locator('#quick-png')).toBeInViewport();await expect(page.locator('#quick-pdf')).toBeInViewport();
@@ -170,4 +161,69 @@ test('personal awards suggest a fun card and memorial gatherings keep separate e
 test('retired URLs return 404 and root occasion queries keep the certificate entry',async({page,request})=>{
  for(const route of ['/certificates','/certificates/','/certificates/app.js','/certificates/renderer.js','/certificates/export.js','/certificates/style.css','/certificates/branding.mjs','/celebration-studio','/celebration-studio/','/celebration-studio/app.js','/celebration-studio/renderer.mjs','/celebration-studio/style.css','/celebration-studio/branding.mjs','/arena','/arena/'])expect((await request.get(base+route)).status()).toBe(404);
  await page.goto(base+'/moment-studio?occasion=birthday');await expect(page.locator('#certificate')).toBeVisible();await expect(page.locator('#occasion')).toHaveCount(0);
+});
+
+// Test double verifies integration/protocol/failure handling, NOT model quality.
+async function model(page,{state='available',failure='',hang=false}={}){
+ // Simulate an English language sign-off in this isolated test only. Production
+ // has no reviewed languages until real-model output has been reviewed.
+ await page.route('**/moment-studio/local-writing.mjs',async route=>{const response=await route.fetch();await route.fulfill({response,body:(await response.text()).replace('reviewedWritingLanguages=Object.freeze([])','reviewedWritingLanguages=Object.freeze(["en"])')});});
+ await page.addInitScript(({state,failure,hang})=>{
+ window.modelCalls=[];window.modelDestroyed=0;
+ window.LanguageModel={availability:async()=>state,create:async options=>{
+  window.modelCalls.push({create:true,options});if(failure==='download')throw Error('Download failed');
+  const monitor=new EventTarget();options.monitor?.(monitor);const event=new Event('downloadprogress');event.loaded=.5;monitor.dispatchEvent(event);
+  return {destroy(){window.modelDestroyed++;},async prompt(instruction){window.modelCalls.push(instruction);if(hang)return new Promise(()=>{});if(failure==='quality')return 'She were happy.';
+   if(instruction.startsWith('Correct the grammar.'))return 'She was happy to invite her friends.';
+   const data=JSON.parse(instruction.split('\n').at(-1));return 'With warm wishes. '+[...new Set(JSON.stringify(data).match(/MSDETAIL\d+END/g)||[])].join(' ')+(failure==='invent'?' Meet at 19:30.':'');}
+  };
+ }};
+ },{state,failure,hang});}
+
+test('AI generation uses a free request, reuses details, previews and applies only reviewed text',async({page})=>{
+ await model(page);const errors=[];page.on('pageerror',error=>errors.push(error.message));await page.goto(base+'/moment-studio/cards?occasion=invitation');
+ await page.locator('[name=name]').fill('Meera');await page.locator('[name=from]').fill('Aarav');await page.locator('#event-date').fill('2026-12-12');await page.locator('#event-venue').fill('Lotus Hall');const original=await page.locator('#message').inputValue();
+ await page.locator('#open-ai').click();await expect(page.locator('#ai-recipient')).toHaveValue('Meera');await expect(page.locator('#ai-date')).toHaveValue('2026-12-12');await expect(page.locator('#generate-ai')).toBeEnabled();
+ await page.locator('#generate-ai').click();await expect(page.locator('#ai-status')).toContainText('Describe');await expect(page.locator('#ai-prompt')).toBeFocused();
+ await page.locator('#ai-prompt').fill('Write a professional birthday invitation.');await page.locator('#ai-tone').selectOption('formal');await page.locator('#ai-length').selectOption('long');await page.locator('#generate-ai').click();await expect(page.locator('#apply-ai')).toBeVisible();await expect(page.locator('#ai-result')).toBeFocused();await expect(page.locator('#message')).toHaveValue(original);
+ for(const text of ['Meera','Aarav','2026-12-12','Lotus Hall'])await expect(page.locator('#ai-result')).toHaveValue(new RegExp(text));
+ expect(await page.evaluate(()=>modelCalls.filter(call=>typeof call==='string').at(-1))).toContain('professional birthday invitation');await page.locator('#ai-result').fill('Meera, please join Aarav at Lotus Hall on 2026-12-12.');await page.locator('#apply-ai').click();await expect(page.locator('#message')).toHaveValue('Meera, please join Aarav at Lotus Hall on 2026-12-12.');await expect(page.locator('#open-ai')).toBeFocused();expect(errors).toEqual([]);
+});
+
+test('all contextual rewrite actions use existing text and preserve editor until Apply',async({page})=>{
+ await model(page);await page.goto(base+'/moment-studio/cards');await page.locator('#message').fill('Thank you Meera for your help.');await page.locator('[name=name]').fill('Meera');await page.locator('#open-ai').click();
+ for(const action of ['improve','shorter','formal','friendly','emotional','grammar','simple','alternative','invitation','certificate']){
+  await page.locator('#ai-action').selectOption(action);await page.locator('#generate-ai').click();await expect(page.locator('#ai-status')).toContainText('AI suggestion ready');await expect(page.locator('#message')).toHaveValue('Thank you Meera for your help.');const instruction=await page.evaluate(()=>modelCalls.filter(call=>typeof call==='string').at(-1));expect(instruction).toContain('Thank you MSDETAIL');
+ }
+ await page.keyboard.press('Escape');await expect(page.locator('#ai-sheet')).toBeHidden();await expect(page.locator('#open-ai')).toBeFocused();
+});
+
+test('unsupported browser and unverified languages do not advertise model support',async({page})=>{
+ await model(page,{state:'unavailable'});await page.goto(base+'/moment-studio/cards');await page.locator('#open-ai').click();await expect(page.locator('#generate-ai')).toBeDisabled();await expect(page.locator('#ai-capability')).toContainText('unavailable');
+ for(const language of ['hi','gu','hinglish']){await page.locator('#ai-language').selectOption(language);await expect(page.locator('#ai-capability')).toContainText('not enabled');await expect(page.locator('#generate-ai')).toBeDisabled();}
+ await expect(page.locator('#message')).not.toHaveValue('');expect(await page.evaluate(()=>modelCalls.length)).toBe(0);
+});
+
+test('English AI stays gated without real-output quality approval even on a capable browser',async({page})=>{
+ await page.addInitScript(()=>{window.LanguageModel={availability:async()=>'available',create(){throw Error('Unreviewed model must not run');}};});await page.goto(base+'/moment-studio/cards');await page.locator('#open-ai').click();await expect(page.locator('#ai-capability')).toContainText('awaiting real-output quality review');await expect(page.locator('#generate-ai')).toBeDisabled();
+});
+
+test('downloads, quality failures, invented facts and cancellation never overwrite the design',async({page})=>{
+ for(const failure of ['download','quality','invent','hang']){
+  await model(page,{state:'downloadable',failure,hang:failure==='hang'});await page.goto(base+'/moment-studio/cards');await page.locator('#message').fill('Keep this message.');await page.locator('#open-ai').click();await page.locator('#ai-prompt').fill('Write a festival greeting.');await page.locator('#generate-ai').click();
+  if(failure==='hang'){await expect(page.locator('#cancel-ai')).toBeVisible();await page.locator('#cancel-ai').click();await expect(page.locator('#ai-status')).toContainText('Cancelled');}else await expect(page.locator('#ai-status')).toContainText('No suggestion applied');
+  await expect(page.locator('#message')).toHaveValue('Keep this message.');await expect(page.locator('#apply-ai')).toBeHidden();await expect(page.locator('#generate-ai')).toBeEnabled();
+ }
+});
+
+test('certificate AI shares optional details and editable preview on mobile and desktop themes',async({page})=>{
+ await model(page);const errors=[];page.on('pageerror',error=>errors.push(error.message));await page.goto(base+'/moment-studio');await page.locator('[name=recipient]').fill('Meera');await page.locator('textarea[name=description]').fill('helping the community');await page.locator('[name=organization]').fill('Friends Club');await page.locator('#generate-cert-ai').click();await page.locator('#ai-prompt').fill('Generate appreciation certificate wording.');await page.locator('#ai-length').selectOption('long');await page.locator('#generate-ai').click();await expect(page.locator('#apply-ai')).toBeVisible();await expect(page.locator('[name=message]')).toHaveValue('');await expect(page.locator('#ai-result')).toHaveValue(/Meera/);
+ for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:850});await page.evaluate(theme=>SynapseTheme.write(theme),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+ await page.locator('#ai-result').fill('Thank you for helping our community.');await page.locator('#apply-ai').click();await expect(page.locator('[name=message]')).toHaveValue('Thank you for helping our community.');await expect(page.locator('textarea[name=description]')).toHaveValue('helping the community');expect(errors).toEqual([]);
+});
+
+test('card AI controls keep labels, keyboard access, responsive layout and stale-editor confirmation',async({page})=>{
+ await model(page);await page.goto(base+'/moment-studio/cards');await page.locator('#open-ai').focus();await page.keyboard.press('Enter');await expect(page.getByLabel('Describe what you need')).toBeFocused();await page.locator('#ai-prompt').fill('Write a Diwali greeting for my family.');await page.locator('#generate-ai').click();await expect(page.locator('#apply-ai')).toBeVisible();
+ for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:850});await page.evaluate(theme=>SynapseTheme.write(theme),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+ await page.locator('#message').fill('Changed while preview was open.');page.removeAllListeners('dialog');page.once('dialog',dialog=>dialog.dismiss());await page.locator('#apply-ai').click();await expect(page.locator('#message')).toHaveValue('Changed while preview was open.');await expect(page.locator('#ai-sheet')).toBeVisible();
 });

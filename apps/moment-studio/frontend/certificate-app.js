@@ -1,5 +1,5 @@
 import {brandReady,requireBrand} from '/moment-studio/branding.mjs';
-import {generateAiText,getLocalAiState} from '/moment-studio/ai.mjs';
+import {mountWritingAssistant} from '/moment-studio/writing-ui.mjs';
 import {render,templates,templateNotes,accentTemplates,donationAmount,disclaimer} from '/moment-studio/certificate-renderer.mjs?v=20261016-personal-memorial';
 import {pdfBlob,pngBlob,download} from '/moment-studio/certificate-export.js';
 import {certificateRows} from '/moment-studio/batch.mjs';
@@ -65,25 +65,15 @@ function syncWording(){
  form.elements.description.setCustomValidity('');
 }
 form.elements.type.addEventListener('change',()=>{if(form.elements.type.value!=='Donation Appreciation'){form.elements.donationAmount.value='';$('#donation-words').value='';}syncWording();syncTemplate();});
-const certificateAi=getLocalAiState();
-const certificateAiButton=document.createElement('button');
-certificateAiButton.type='button';
-certificateAiButton.className='text-button';
-certificateAiButton.id='generate-cert-ai';
-certificateAiButton.textContent='Use local wording';
-const descriptionField=form.elements.description;
-const descriptionLabel=descriptionField?.closest('label');
-if(descriptionLabel){
- descriptionLabel.after(certificateAiButton);
- certificateAiButton.addEventListener('click',()=>{
-  if(form.elements.message.value.trim()&&!confirm('Replace your certificate message with local suggested wording?'))return;
-  const role=form.elements.type.value || 'General Appreciation';
-  const suggested=generateAiText({occasion:role.includes('Donation')?'thanks':'congratulations',language:'en',prompt:'Write a polished appreciation message',name:form.elements.recipient.value || 'Recipient',title:form.elements.title.value || role,event:role,host:form.elements.organization.value || 'Our team'});
-  form.elements.message.value=suggested.text;
-  form.elements.message.dispatchEvent(new Event('input',{bubbles:true}));
-  status.textContent=`${certificateAi.model} created a template suggestion locally.`;
- });
-}
+const certificateAiButton=document.createElement('button');certificateAiButton.type='button';certificateAiButton.id='generate-cert-ai';certificateAiButton.textContent='AI writing';
+const certificateAiPanel=document.createElement('section');certificateAiPanel.id='certificate-ai';certificateAiPanel.hidden=true;
+form.elements.description.closest('label').after(certificateAiButton,certificateAiPanel);
+mountWritingAssistant({trigger:certificateAiButton,panel:certificateAiPanel,maxLength:250,
+ getText:()=>form.elements.message.value,
+ getContext:()=>({occasion:form.elements.type.value,language:'en',recipient:form.elements.recipient.value,sender:form.elements.organization.value,date:form.elements.date.value,location:form.elements.location.value,title:form.elements.title.value,contribution:form.elements.description.value}),
+ apply:text=>{form.elements.message.value=text;form.elements.message.closest('details').open=true;form.elements.message.dispatchEvent(new Event('input',{bubbles:true}));status.textContent='Reviewed AI wording applied. You can edit it freely.';}
+});
+
 syncWording();syncTemplate();
 function syncDonation(){
  const enabled=form.elements.type.value==='Donation Appreciation',input=form.elements.donationAmount;
