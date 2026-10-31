@@ -1,5 +1,15 @@
 # Organisation licensing production cutover
 
+City/calendar release (2026-10-31 IST): user authorised commit/deploy. Commits
+`6c778d4` and mobile-spacing correction `5d6e8fe` are live as Worker
+`f67452c5-27d9-4c15-a097-564353adce3f` with `--keep-vars`. Live city/GPS Vrat
+calculation, Hindi draft retention, real ICS output, accessible ten-year table,
+Kundali/Matching/Time Machine city suggestions and eight width/theme states pass.
+Health 200, unscoped records 409, zero page errors. Synthetic inputs only; no
+migration, settings/accounts or business-data changes. Full evidence and the
+resolved initial spacing issue are in `docs/FUNCTIONALITY_LEDGER.md` and
+`.publish/city-calendar-corrected-{deploy,live}.log`.
+
 Home-page correction (2026-10-31 IST): user authorised deployment. Commit
 `9f097d7` is live as Worker `c5714621-114c-4350-9e2d-bf89458fa99e`, with
 `--keep-vars`. The redundant task-label strip is absent from both static and

@@ -1,6 +1,6 @@
 # Code ownership and adding apps
 
-City/calendar usability (2026-10-31, local): Ritual Assist reuses
+City/calendar usability (2026-10-31): Ritual Assist reuses
 `calendar-location.mjs` for both Vrat and remembrance forms with distinct IDs.
 Both adapters validate city IDs through app-owned `calendar-city.mjs`; regional
 defaults and approximate settlement coordinates remain server-resolved. Vrat
@@ -40,7 +40,7 @@ Node and Workers; `calendarLocationResult` shares location metadata between
 adapters. Raw coordinates are not accepted through this new API input. The same
 selected city remains the death-day/observance location, with explicit UI guidance.
 Legacy PIN/city requests remain compatible; the monthly Vrat interface now also
-uses the city picker in the local usability pass above.
+uses the city picker described above.
 
 Planet-based readings (2026-10-30): app-owned `planet-reading.mjs` connects admitted
 D1 ruler/occupant placements to existing house-symbolism prose and groups Rashifal
