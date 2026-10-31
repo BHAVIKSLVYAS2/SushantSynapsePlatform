@@ -1,5 +1,18 @@
 # Organisation licensing production cutover
 
+Shraddha/Barsi location-picker and cleanup release (2026-10-31 IST): user
+authorised commit/deploy. Commits `ac65a47`, `3382b06` and packaging correction
+`e02e3f5` are live as Worker `e38ecaf3-e39f-446e-ba5b-c95e23cf74b2`, deployed
+with --keep-vars. No migration, configuration/account or business-data changes.
+Live synthetic city-ID calculation and Chrome device-location/manual-city flow
+pass; directory/assets, eight width/theme layouts, both AI-free Moment Studio
+editors and expired-preset removal are verified. Health 200, unscoped records 409,
+zero page errors. No production accounts, real GPS/personal data or business
+writes. An initial JSON-module packaging issue was found live and corrected;
+the final transformed-module regression and live verification pass. Evidence:
+`.publish/ritual-location-corrected-deploy.log`, `.publish/ritual-location-live.log`.
+This supersedes historical local-only/removal-not-deployed statements below.
+
 Curio utility-growth release (2026-10-31 IST): commit `640e4db` is deployed as
 Worker `fcc3df9c-bea0-4bb5-9c6c-aacd9ee82eac` following explicit user authorisation.
 Photo preparation and public utility discovery improvements preserve all licence,
