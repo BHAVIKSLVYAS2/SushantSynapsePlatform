@@ -1,8 +1,11 @@
 # Moment Studio AI writing
 
-Local implementation checkpoint, 2026-10-31. Not committed or deployed in this
-checkpoint. The previous deployed helper was deterministic templates, not Phase 3
-AI. The implementation below replaces that helper rather than relabeling templates.
+Quality-gated implementation deployed 2026-10-31 with user authorisation: commit
+`2d80b9a`, Worker `d99da508-da11-4ca4-aba9-c26a5569e165`. All AI languages remain
+disabled pending real-output quality approval. The previous helper was deterministic
+templates, not Phase 3 AI. This implementation replaces that helper rather than
+relabeling templates. Live verification covers both editors and 16 width/theme
+layouts with no page errors or business writes; it does not verify model quality.
 
 ## Editor integration
 

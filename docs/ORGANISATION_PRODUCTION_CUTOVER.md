@@ -1,5 +1,17 @@
 # Organisation licensing production cutover
 
+Moment Studio quality-gated AI integration release (2026-10-31 IST): commit
+`2d80b9a` is deployed as Worker `d99da508-da11-4ca4-aba9-c26a5569e165` following
+explicit user authorisation. Existing 9/9 unit and 18/18 isolated browser checks
+pass. Exact-config deploy passes with `--keep-vars`; no migrations, settings,
+accounts or business records changed. Live checks pass both editor panels,
+16 width/theme layouts, asset delivery, manual editing and keyboard behavior.
+AI languages remain disabled pending real-output quality review, including in a
+simulated eligible browser; no model inference or language approval is claimed.
+No page errors, business writes or production-account use. Health 200 and unscoped
+records 409 remain intact. Evidence: `.publish/moment-phase3-deploy.log`,
+`.publish/moment-phase3-live.log`.
+
 Moment Studio local wording release (2026-10-31 IST): implementation commit
 `42cfda0` is deployed as Worker `aacfff16-6229-4f57-9d34-9c3b581b98ee`.
 Five focused Node tests and six isolated Chrome workflows pass. Exact-config
