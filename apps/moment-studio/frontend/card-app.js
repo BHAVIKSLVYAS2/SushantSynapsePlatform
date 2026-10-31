@@ -1,6 +1,5 @@
 import {downloadBlob as download} from '/shared/download.mjs';
 import {brandReady,requireBrand} from '/moment-studio/branding.mjs';
-import {mountWritingAssistant} from '/moment-studio/writing-ui.mjs';
 import {occasions,designs,palettes,validate,render,filename} from '/moment-studio/card-renderer.mjs?v=20261016-personal-memorial';
 
 const $=selector=>document.querySelector(selector);
@@ -129,12 +128,6 @@ document.addEventListener('click',event=>{
  if(link?.matches('.studio-nav a[aria-current=page]')&&!event.ctrlKey&&!event.metaKey&&!event.shiftKey&&!event.altKey){event.preventDefault();return;}
  if(!link||!link.matches('.studio-nav a,.platform-shell a,.platform-switcher a')||!dirty||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
  if(!confirm('You have an unfinished card. Switching sections clears its text and photo. Stay here to download it, or continue?'))event.preventDefault();
-});
-mountWritingAssistant({
- trigger:$('#open-ai'),panel:$('#ai-sheet'),maxLength:600,
- getText:()=>form.elements.message.value,
- getContext:()=>({occasion:form.elements.occasion.value,language:form.elements.language.value,recipient:form.elements.name.value,sender:form.elements.from.value,title:form.elements.title.value,date:$('#event-date').value,time:$('#event-time').value,location:$('#event-venue').value,details:form.elements.details.value}),
- apply:text=>{form.elements.message.value=text;edited.message=true;dirty=true;draw();$('#wording-status').textContent='Reviewed AI wording applied. You can edit it freely.';}
 });
 $('#suggest').onclick=()=>{
  const starter=occasions[form.elements.occasion.value][form.elements.language.value];

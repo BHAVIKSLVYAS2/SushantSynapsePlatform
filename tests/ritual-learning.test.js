@@ -15,9 +15,9 @@ test('checked Sanskrit formulas keep their deity and offering, and excerpts rema
  assert.match(prayers.self.locator,/chapter 2.*verse 20/);assert.match(prayers.offering.locator,/chapter 9.*verse 26/);
  assert.match(prayers.self.use.en,/not a substitute/);assert.match(prayers.offering.use.en,/does not replace/);
 });
-test('learning downloads retain original script, reading aids, source URLs and ceremony scope in both languages',async()=>{
+test('learning downloads retain original script, reading aids, without publisher URLs and ceremony scope in both languages',async()=>{
  const {guideById}=await import('../apps/ritual-assist/frontend/guides.mjs'),{learningText}=await import('../apps/ritual-assist/frontend/learning-view.mjs');
- for(const lang of ['en','hi']){const output=learningText(guideById('ganesh-puja'),lang);assert.match(output,/ॐ गणपतये नमः/);assert.match(output,/oṃ gaṇapataye namaḥ/);assert.match(output,/https:\/\/www.drikpanchang.com\/puja-vidhi/);assert.match(output,/2026-10-31/);assert.match(output,/Sushant Synapse/);}
+ for(const lang of ['en','hi']){const output=learningText(guideById('ganesh-puja'),lang);assert.match(output,/ॐ गणपतये नमः/);assert.match(output,/oṃ gaṇapataye namaḥ/);assert.doesNotMatch(output,/https?:\/\//);assert.match(output,/2026-10-31/);assert.match(output,/Sushant Synapse/);}
 });
 test('learning collection uses static local data and is explicitly allowlisted',()=>{
  const fs=require('node:fs'),{staticAssets}=require('../server/static-assets');

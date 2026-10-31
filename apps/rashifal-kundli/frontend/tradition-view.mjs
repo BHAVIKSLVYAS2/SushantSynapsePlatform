@@ -51,7 +51,7 @@ export function mountTraditions(container,report,{input,now,language='en'}){
  }
  query.addEventListener('input',renderNames);script.addEventListener('change',renderNames);match.addEventListener('change',renderNames);renderNames();
  const sources=el('details');sources.append(el('summary',t.source),el('p',namingData.version+' · '+term(namingData.variant,language)),el('p',l.fallback));
- for(const source of [namingData.source,...namingData.names.map(n=>n.source)])sources.append(el('p',source));root.append(sources);
+ root.append(sources);
  root.append(el('h3',t.annual),el('p',t.notice));
  const year=field(t.year,'input','observance-year');year.type='number';year.min='1951';year.max='2097';year.required=true;year.value=String(new Date(now()).getUTCFullYear());
  const city=field(t.query,'input','observance-query');city.type='search';city.maxLength=100;

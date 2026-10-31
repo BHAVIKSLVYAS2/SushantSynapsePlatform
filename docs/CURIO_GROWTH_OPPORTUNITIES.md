@@ -98,7 +98,6 @@ or provider qualification. No exact delivery dates are promised.
 | 7. Focus measured completed-session history | 3 | 5 | 2 | 4 | 3 | 2 | 3 | 5 | **75.0** | Medium. Daily return tied to actual work. Backlog: distinguish timer elapsed from productivity, avoid fabricated completion/streaks; backups/tasks already present. |
 | 8. BatchFee manual follow-up outcomes | 3 | 5 | 3 | 4 | 3 | 3 | 3 | 4 | **74.8** | Medium/domain change. Reduces repeated chasing. Backlog: scoped role/audit/stale updates and explicit manually-reported outcomes, never delivery receipts. |
 | 9. QR vector/print export with correct quiet zone | 4 | 3 | 2 | 4 | 2 | 1 | 4 | 5 | **73.8** | Small/medium. Better physical posters and repeat business use. Backlog: scan physical outputs and preserve metadata/privacy/licensing notices. |
-| 10. Moment Studio real-model/language qualification | 4 | 3 | 3 | 4 | 4 | 4 | 4 | 3 | **68.8** | Large/qualification dependent. Better wording if real output is good. **Blocked, not another fake template pass:** candidate already integrated, no language approved, current evaluation hardware unavailable. |
 
 No extra game, anonymous feed or new app is ranked merely to increase the count.
 Timetable and Team Mixer reuse opportunities exist but are below these candidate

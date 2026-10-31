@@ -2,7 +2,6 @@ import {downloadBlob} from '/shared/download.mjs';
 import {calendarIcs,reminderSelection,occasionTitle} from './calendar-export.mjs';
 import {preparationPack,packText,packGuides,defaultPackGuides,packTasks} from './preparation-pack.mjs';
 import {tithiLabel} from './panchang.mjs';
-import {sources} from './guides.mjs';
 
 let current=null,selected=new Set(defaultPackGuides),checked=new Set(),assignments=['','',''],open=false,days=1,printState=[];
 const element=(tag,text,cls)=>{const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(cls)el.className=cls;return el;};
@@ -36,7 +35,7 @@ export function mountCalendarTools(container,result,language){
   for(const guide of pack.guides){const article=element('details',undefined,'pack-guide');article.open=guide.id==='shraddha';const summary=element('summary');summary.append(element('h4',guide.title[language]));article.append(summary,element('p',guide.summary[language]),element('p',guide.materialReview[language],'fine'));if(guide.care)article.append(element('p',guide.care[language],'scope ritual-care'));const steps=element('ol');for(const step of guide.steps)steps.append(element('li',step[language]));article.append(steps);
    for(const part of guide.sections||[])if(part.id!=='seedha-chadhava')article.append(element('h5',part.title[language]),element('p',part.body[language]));
    const items=element('div',undefined,'checklist');for(const item of guide.items){const key=guide.id+':'+item.id,wrap=element('label',undefined,'check-item'),check=element('input');check.type='checkbox';check.checked=checked.has(key);check.dataset.packItem=key;check.addEventListener('change',()=>{check.checked?checked.add(key):checked.delete(key);});const body=element('span');body.append(element('strong',item.label[language]));if(item.kind==='confirm')body.append(element('small',hi?'पहले पुष्टि करें':'Confirm first','item-kind'));if(item.group&&!item.id.startsWith('seedha-'))body.append(element('small',item.group[language]));if(item.note[language])body.append(element('small',item.note[language]));wrap.append(check,body);items.append(wrap);}const seedha=guide.sections?.find(part=>part.id==='seedha-chadhava');if(seedha){const card=element('section',undefined,'seedha-card');card.append(element('h5',seedha.title[language]));const grouped=element('div',undefined,'checklist');for(const label of [...items.children])if(label.querySelector('input').dataset.packItem.startsWith(guide.id+':seedha-'))grouped.append(label);card.append(grouped,element('p',seedha.body[language],'seedha-guidance'));items.append(card);}article.append(items,element('p',guide.variation[language]),element('p',guide.preparation[language]));const questions=element('ul');for(const question of guide.questions)questions.append(element('li',question[language]));article.append(element('h5',hi?'पुरोहित और परिवार से पूछें':'Ask your officiant and family'),questions);
-   const references=element('ul',undefined,'pack-references');for(const id of guide.sources){const source=sources[id],li=element('li'),a=element('a',source.title);a.href=source.url;a.target='_blank';a.rel='noopener noreferrer';li.append(a,element('small',source.scope[language]),element('span',source.url,'pack-source-url'));references.append(li);}article.append(references);packSection.append(article);
+   packSection.append(article);
   }
  }
  drawPack();

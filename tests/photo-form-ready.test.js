@@ -24,7 +24,7 @@ test('JPEG density writes and updates real JFIF dimensions without changing inpu
 test('official profiles are document-scoped with source dates and conservative limits',async()=>{
  const {profiles,profileOptions}=await import('../apps/photo-resize/frontend/profiles.mjs');const {options}=await load;
  for(const [id,p]of Object.entries(profiles)){assert.ok(options(p));if(id==='custom')continue;assert.match(p.source,/^https:\/\/(indianvisaonline\.gov\.in|ssc\.gov\.in)\//);assert.equal(p.checked,'2026-10-31');}
- assert.equal(profiles['india-evisa'].maxBytes,1000000);assert.equal(profiles['ssc-cht-2026'].maxBytes,20000);assert.match(profiles['ssc-cht-2026'].note,/window has closed/);assert.throws(()=>profileOptions('upsc-universal'));
+ assert.equal(profiles['india-evisa'].maxBytes,1000000);assert.throws(()=>profileOptions('ssc-cht-2026'));assert.throws(()=>profileOptions('upsc-universal'));
  const {staticAssets}=require('../server/static-assets');for(const file of ['profiles.mjs','style.css'])assert.ok(staticAssets['/photo-resize/'+file]);
 });
 test('root sitemap discovers useful public tools and excludes private/noindex/alias routes',async()=>{

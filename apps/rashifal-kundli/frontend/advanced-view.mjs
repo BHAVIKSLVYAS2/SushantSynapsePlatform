@@ -1,7 +1,6 @@
 import {term} from './display-text.mjs';
 import {diagnosticText} from './diagnostic-text.mjs';
 import {advancedForBirth} from '../../../packages/vedic/birth-advanced.mjs';
-import {advancedVargaModels} from '../../../packages/vedic/advanced-vargas.mjs';
 import {mountCharts} from './chart-view.mjs';
 import {signName,bodyName,locale} from './locale.mjs';
 const el=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;return n;};
@@ -20,7 +19,7 @@ export function mountAdvanced(container,{input,d1,now,language='en'}){
   output.append(el('h3',t.av),el('p',t.avNotice));if(result.ashtakavarga.status==='available'){const av=result.ashtakavarga.value;const tab=table(output,t.av,[t.body,...Array.from({length:12},(_,i)=>`${i+1} ${signName(i+1,language)}`),t.total],[...av.bav.map(p=>({id:p.body,cells:[bodyName(p.body,language),...p.values,p.total],values:p.values})),{id:'SAV',cells:['SAV',...av.sav,av.total],values:av.sav}]);tab.dataset.kind='ashtakavarga';
    const details=el('details');details.append(el('summary',term('PAV · individual contribution details (English)',language)));for(const bav of av.bav)table(details,bodyName(bav.body,language),[term('Contributor',language),...Array.from({length:12},(_,i)=>i+1)],bav.contributions.map(c=>({cells:[term(bodyName(c.contributor,language),language),...c.values]})));output.append(details);
   }else output.append(el('p',t.unsupported));
-  const details=el('details');details.append(el('summary',t.sources),el('p',t.fallback),el('p',term(result.admission,language)));const models=[...Object.values(advancedVargaModels),result.uccha.model,...(result.ashtakavarga.status==='available'?[result.ashtakavarga.value.model]:[])];for(const model of models){const p=el('p',model.id+' · '+term(model.releaseStatus,language)),a=el('a',model.source.title+' · '+model.source.locator);a.lang='en';a.href=model.source.url;a.target='_blank';a.rel='noopener noreferrer';a.referrerPolicy='no-referrer';details.append(p,a);}for(const w of result.warnings)details.append(el('p',diagnosticText(w,language)));output.append(details);
+  const details=el('details');details.append(el('summary',t.sources),el('p',term(result.admission,language)));for(const w of result.warnings)details.append(el('p',diagnosticText(w,language)));output.append(details);
  }
  analyze.addEventListener('click',()=>{reset();const ticket=revision;analyze.disabled=true;status.textContent=t.busy;pending=setTimeout(()=>{pending=null;if(ticket!==revision)return;try{render(advancedForBirth(input,{now:now()}));status.textContent=t.ready;}catch{status.textContent=t.unsupported;}finally{if(ticket===revision)analyze.disabled=false;}},0);});clear.addEventListener('click',reset);
  return {destroy(){reset();root.remove();}};

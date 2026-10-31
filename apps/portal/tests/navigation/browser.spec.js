@@ -116,7 +116,7 @@ test('Ritual learning loads on demand, offers sourced bilingual prayers, and sup
  await page.locator('.ritual-learning>summary').click();await expect(page.locator('[data-learn-tab="vidhi"]')).toHaveAttribute('aria-selected','true');
  await page.locator('[data-learn-tab="mantras"]').click();await expect(page.locator('[data-prayer="ganesha-flower"] .mantra-script')).toHaveText('ॐ गणपतये नमः पुष्पं समर्पयामि।');
  await expect(page.locator('[data-prayer="ganesha-flower"] .mantra-iast')).toHaveText('oṃ gaṇapataye namaḥ puṣpaṃ samarpayāmi');
- await expect(page.locator('#learn-panel-mantras a')).toHaveCount(0);await expect(page.locator('#learn-panel-mantras')).not.toContainText(/Drik|Chinmaya|VedaBase/);await expect(page.locator('#learn-panel-sources a').first()).toHaveAttribute('href',/^https:/);
+ await expect(page.locator('#learn-panel-mantras a')).toHaveCount(0);await expect(page.locator('#learn-panel-mantras')).not.toContainText(/Drik|Chinmaya|VedaBase/);await expect(page.locator('#learn-panel-sources a')).toHaveCount(0);
  await page.goBack();await expect(page.locator('[data-learn-tab="vidhi"]')).toHaveAttribute('aria-selected','true');await page.goForward();await expect(page.locator('[data-learn-tab="mantras"]')).toHaveAttribute('aria-selected','true');
  await page.reload();await expect(page.locator('[data-prayer="ganesha-flower"]')).toBeVisible();
  await page.locator('[data-learn-tab="mantras"]').focus();await page.keyboard.press('ArrowRight');await expect(page.locator('[data-learn-tab="sources"]')).toHaveAttribute('aria-selected','true');await page.keyboard.press('Home');await expect(page.locator('[data-learn-tab="vidhi"]')).toHaveAttribute('aria-selected','true');await page.locator('[data-learn-tab="mantras"]').click();

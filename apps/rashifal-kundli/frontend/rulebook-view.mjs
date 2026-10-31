@@ -8,7 +8,7 @@ import {buildMatchingChartContext,matchingChartReading} from './matching-chart-r
 import {placeLabel,relabelPlaces} from './place-text.mjs';
 import {term,ruleDefinition} from './display-text.mjs';
 import {diagnosticText} from './diagnostic-text.mjs';
-import {matchingRulebook,traditionalRulebook,ruleSources} from '../../../packages/vedic/rulebooks.mjs';
+import {matchingRulebook,traditionalRulebook} from '../../../packages/vedic/rulebooks.mjs';
 import {matchingForBirths,traditionalChecksForBirth} from '../../../packages/vedic/birth-matching.mjs';
 import {normalizeInput} from '../../../packages/vedic/normalize.mjs';
 import {bodyName,locale} from './locale.mjs';
@@ -21,7 +21,7 @@ export const rulebookLabels={
 const textFor=language=>({...rulebookLabels[language]??rulebookLabels.en,fallback:locale(language).fallback,unavailable:(matchingBoundaryCopy[language]??matchingBoundaryCopy.en).exactRequired});
 const factorText=(factors,language)=>Object.entries(factors).map(([key,value])=>`${({personA:matchingJourneyCopy[language].personA,personB:matchingJourneyCopy[language].personB,aToB:'A → B',bToA:'B → A'})[key]??term(bodyName(key,language),language)}: ${term(bodyName(String(value),language),language)}`).join(' · ');
 const componentName=id=>({'varna':'Varna','vashya':'Vashya','tara':'Tara','yoni':'Yoni','graha-maitri':'Graha Maitri','gana':'Gana','bhakoot':'Bhakoot','nadi':'Nadi'})[id]??id;
-function sources(root,ids,t,metadata,language){const details=el('details');details.append(el('summary',t.source));for(const key of ['id','reviewStatus','region','vashyaVariant','yoniVariant','exceptionPolicy','scope'])if(metadata[key]){const p=el('p',term(metadata[key],language));p.lang=language;details.append(p);}for(const rule of metadata.rules??[]){const p=el('p',`${rule.id}: ${term(rule.definition,language)} ${term(rule.omissions,language)}`);p.lang=language;details.append(p);}for(const id of ids){const s=ruleSources[id],p=el('p');const a=el('a',s.title);a.lang='en';a.href=s.url;a.target='_blank';a.rel='noopener noreferrer';a.referrerPolicy='no-referrer';p.append(a);details.append(p);}root.append(details);}
+function sources(root,ids,t,metadata,language){const details=el('details');details.append(el('summary',t.source));for(const key of ['id','reviewStatus','region','vashyaVariant','yoniVariant','exceptionPolicy','scope'])if(metadata[key]){const p=el('p',term(metadata[key],language));p.lang=language;details.append(p);}for(const rule of metadata.rules??[]){const p=el('p',`${rule.id}: ${term(rule.definition,language)} ${term(rule.omissions,language)}`);p.lang=language;details.append(p);}root.append(details);}
 function matchingResult(root,value,language){root.replaceChildren();const t=textFor(language),r=value.matching,summary=matchingSummary(r,language),boundary=matchingBoundaryCopy[language];root.append(el('h2',`${r.total===null?boundary.rangeTitle:t.total}: ${matchingScore(r.total,r.totalRange)} / 36`));
  root.firstChild.tabIndex=-1;root.firstChild.id='matching-result-title';root.setAttribute('aria-labelledby','matching-result-title');
  if(r.boundaryScreen){const notice=el('aside');notice.className='matching-boundary-note';notice.setAttribute('role','note');notice.append(el('p',boundary.note));for(const person of r.boundaryScreen.people)notice.append(el('p',`${matchingJourneyCopy[language]['person'+person.axis]}: ${person.boundaries.map(key=>boundary[key]).join(' · ')}`));root.append(notice);}

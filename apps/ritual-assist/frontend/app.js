@@ -2,7 +2,7 @@ import {mountLearning} from './learning.mjs';
 import {createNavigation,bindDialogNavigation} from '/shared/navigation.mjs';
 import {illustration,categoryIcon,mountLanding,updateLanding} from './landing.mjs';
 import {exportBrandElement} from '/shared/export-brand.mjs';
-import {guides,categories,scope,sources,guideById,findGuides,checklistText} from './guides.mjs?v=20261010-mourning';
+import {guides,categories,scope,guideById,findGuides,checklistText} from './guides.mjs?v=20261010-mourning';
 import {storageKey,readState} from './checklist-state.mjs?v=20261016-ease';
 let savedState={version:1,remember:false,guides:{}},canSave=true,storageNotice='';
 try{savedState=readState(localStorage.getItem(storageKey),guides);}catch{canSave=false;storageNotice='Saved checklist could not be read. Your changes will stay in this tab; existing saved data is kept.';}
@@ -90,7 +90,6 @@ function renderGuide(){const root=$('#guide');root.replaceChildren();const top=n
  for(const section of selected.sections||[]){if(section.id==='seedha-chadhava')continue;const panel=node('section','card variation');panel.append(node('h3','',section.title[language]),node('p','',section.body[language]));root.append(panel);}
  const variation=node('section','card variation');variation.append(node('h3','',text('variation')),node('p','',selected.variation[language]),node('p','',selected.preparation[language]),node('h3','',text('ask')));const questions=node('ul');questions.append(...selected.questions.map(q=>node('li','fine',q[language])));variation.append(questions);root.append(variation);
  const references=node('details','reference');references.append(node('summary','',text('references')),node('p','fine',scope[language]));
- for(const id of selected.sources){const source=sources[id];if(!source)continue;const paragraph=node('p','fine'),link=node('a','',source.title);link.href=source.url;link.target='_blank';link.rel='noopener noreferrer';paragraph.append(link,document.createTextNode(' — '+source.scope[language]));references.append(paragraph);}
  root.append(references,exportBrandElement());progress();document.title=`${selected.title[language]} · Ritual Assist · Sushant Synapse`;
 }
 function applyFilters(){let count=0,total=0;for(const row of document.querySelectorAll('#guide .arrangement-item')){const id=row.querySelector('input[data-item]')?.dataset.item;if(!id)continue;const done=checked().has(id),assigned=Boolean(detailEntry(id).arranger.trim());let show=itemFilter==='all'||itemFilter==='arranged'&&done||itemFilter==='needed'&&!done||itemFilter==='unassigned'&&!done&&!assigned;if(!show&&document.activeElement?.matches('input[data-arrangement]')&&row.contains(document.activeElement))show=true;row.hidden=!show;if(show)count++;total++;}const status=$('#filter-status');if(status)status.textContent=language==='hi'?count+' / '+total+' सामग्री दिख रही हैं':count+' of '+total+' items shown';}
