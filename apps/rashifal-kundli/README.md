@@ -1,5 +1,25 @@
 # Rashifal and Kundli: internal birth, export and P11 traditions UI
 
+Matching also shows separate chart-selected relationship tendencies for Person A
+and Person B in English, Hindi and Gujarati. It reuses the existing Kundali Moon
+sign and seventh-house sign/element interpretation tables, displaying the actual
+sign/house and rule basis for every paragraph. Scores do not select behaviour;
+unavailable D1 context produces no guessed reading. These are fixed traditional
+interpretations selected by calculations, rather than measured personal behaviour.
+
+Matching presents one translated scope note above the form. Result summaries,
+factor explanations and rule definitions focus on the calculation and practical
+conversation prompts. Conditional boundary explanations, admission diagnostics,
+consent and privacy instructions retain their own functional roles.
+
+Conversational reading copy (2026-10-31, local): Kundali introductions, period and
+placement text, Rashifal transit narratives and all eight Matching explanations
+use everyday English, Hindi and Gujarati with practical, supportive suggestions.
+Scores and chart factors remain authoritative; relationship prompts do not infer
+personality, health or fertility from matching points. Current/upcoming period
+scope, uncertainty, consent and export redaction remain intact. No runtime AI is
+added. Local verification and deployment status are in the functionality ledger.
+
 English/Hindi/Gujarati presentation: one production-header selector applies to all
 four screens and remembers only language. Forms, results, terminology, warnings,
 matching rules, advanced details and report/calendar exports are localised.

@@ -1,5 +1,14 @@
 # Code ownership and adding apps
 
+Matching chart tendencies (2026-10-31, local): `matching-behaviour.mjs` selects
+existing Kundali prose deterministically from admitted D1 factors. The Moon sign
+selects `temperament[sign-1]`; the seventh-house sign selects
+`everyday.relationships[(sign-1)%4]` (Fire/Earth/Air/Water). Each person's output
+retains its rule ID and structured sign/house basis. Consented chart context adds
+only Moon sign/house, without birth identity. No Guna-score-to-behaviour mapping,
+new trait inference, aspect/strength synthesis, runtime AI or persistence is added.
+An unavailable D1 chart withholds both readings independently of Guna availability.
+
 Task-oriented workflow (2026-10-31, local): app-registry owns translated public
 task descriptors and static task-link rendering; home-discovery hydrates filters
 without changing access policy. `packages/ui/task-intent.mjs` allowlists private

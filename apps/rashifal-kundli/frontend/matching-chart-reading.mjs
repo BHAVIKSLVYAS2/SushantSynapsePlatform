@@ -10,8 +10,8 @@ export function buildMatchingChartContext({consent,inputs},context){
  if(consent!==true)fail('CONSENT_REQUIRED');
  return inputs.map(input=>{
   try{
-   const {chart}=birthChartForBirth(input,context),house=chart.houses.find(h=>h.houseNumber===7),ruler=signRulers[house.rashi-1],lord=chart.planets.find(p=>p.body===ruler);
-   return {status:'available',rising:chart.ascendant.rashi,
+   const {chart}=birthChartForBirth(input,context),house=chart.houses.find(h=>h.houseNumber===7),ruler=signRulers[house.rashi-1],lord=chart.planets.find(p=>p.body===ruler),moon=chart.planets.find(p=>p.body==='Moon');
+   return {status:'available',rising:chart.ascendant.rashi,moon:{sign:moon.rashi,house:moon.houseNumber},
     seventh:{house:7,sign:house.rashi,ruler,rulerHouse:lord.houseNumber,rulerSign:lord.rashi,occupants:[...house.bodies]},
     planets:['Venus','Mars'].map(body=>{const p=chart.planets.find(p=>p.body===body);return {body,house:p.houseNumber,sign:p.rashi};})};
   }catch(error){if(!(error instanceof VedicInputError)||error.code!=='UNSTABLE_BIRTH_TIME')throw error;return {status:'unavailable'};}
@@ -25,5 +25,5 @@ const copy={
 export function matchingChartReading(contexts,language){
  const t=copy[language];
  return {title:t.title,note:t.note,limit:t.limit,people:contexts.map((value,index)=>({title:t.person[index],status:value.status,
-  paragraphs:value.status==='available'?[t.rising(signName(value.rising,language)),t.seventh(signName(value.seventh.sign,language)),...kundliPlacementText(value.seventh,language),...value.planets.map(p=>t.planet(bodyName(p.body,language),signName(p.sign,language),p.house))]:[t.unavailable]}))};
+  paragraphs:value.status==='available'?[t.rising(signName(value.rising,language)),t.seventh(signName(value.seventh.sign,language)),...kundliPlacementText(value.seventh,language,{assessmentNote:false}),...value.planets.map(p=>t.planet(bodyName(p.body,language),signName(p.sign,language),p.house))]:[t.unavailable]}))};
 }

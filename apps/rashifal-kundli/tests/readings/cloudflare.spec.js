@@ -3,7 +3,7 @@ const {test,expect}=require('@playwright/test');const {fillDate,fillTime}=requir
 
 for(const language of ['hi','gu'])test(`Kundali generates a complete ${language} reading and matching private printable download`,async({page})=>{
  const errors=[];page.on('pageerror',error=>errors.push(error.message));await page.addInitScript(language=>localStorage.setItem('synapse-language',language),language);await page.setViewportSize({width:390,height:900});await page.goto(server.origin+'/rashifal-kundli');
- await expect(page.locator('html')).toHaveAttribute('lang',language);await editBirth(page,'#birth-name');await page.locator('#birth-name').fill('Private Sample');await editBirth(page,'#birth-date');await fillDate(page,'#birth-date','2000-01-01');await editBirth(page,'#birth-time');await fillTime(page,'#birth-time','12:15');await editBirth(page,'#birth-query');await page.locator('#birth-query').fill('New Delhi');await page.locator('[data-place-id="geonames:1261481"]').click();await page.locator('form button[type=submit]').click();await expect(page.locator('.kundli-reading')).toHaveAttribute('data-reading-prose','kundli-prose-4');
+ await expect(page.locator('html')).toHaveAttribute('lang',language);await editBirth(page,'#birth-name');await page.locator('#birth-name').fill('Private Sample');await editBirth(page,'#birth-date');await fillDate(page,'#birth-date','2000-01-01');await editBirth(page,'#birth-time');await fillTime(page,'#birth-time','12:15');await editBirth(page,'#birth-query');await page.locator('#birth-query').fill('New Delhi');await page.locator('[data-place-id="geonames:1261481"]').click();await page.locator('form button[type=submit]').click();await expect(page.locator('.kundli-reading')).toHaveAttribute('data-reading-prose','kundli-prose-5');
  const script=language==='hi'?/[\u0900-\u097f]/:/[\u0a80-\u0aff]/;
  const prose=await page.locator('.kundli-topic>p:not(.kundli-topic-action)').allTextContents();
  for(const paragraph of prose){expect(paragraph).toMatch(/[.!।]$/);expect(paragraph).not.toMatch(/undefined|\[object Object\]/);}
@@ -24,8 +24,15 @@ test('production matching explains eight factors and private partnership placeme
  for(const axis of ['a','b']){await fillDate(page,'#match-'+axis+'-date','2000-01-01');await fillTime(page,'#match-'+axis+'-time','12:15');await page.locator('#match-'+axis+'-query').fill('New Delhi');await page.locator('#match-'+axis+'-query-options [data-place-id="geonames:1261481"]').click();}
  await page.locator('#matching-review-button').click();await page.locator('#matching-calculate').click();await expect(page.locator('[data-matching-story]')).toHaveCount(8);await expect(page.locator('[data-matching-chart][data-status=available]')).toHaveCount(2);
  const scores=await page.locator('#matching-results tbody tr').evaluateAll(rows=>rows.map(r=>r.dataset.score));
+ await expect(page.locator('[data-matching-behaviour][data-status=available]')).toHaveCount(2);
+ const behaviourRules=await page.locator('[data-behaviour-rule]').evaluateAll(rows=>rows.map(r=>r.dataset.behaviourRule));expect(behaviourRules).toHaveLength(4);
  for(const language of ['en','hi','gu']){
   await page.evaluate(l=>SynapseLanguage.set(l),language);await expect(page.locator('html')).toHaveAttribute('lang',language);await expect(page.locator('[data-matching-story]')).toHaveCount(8);
+  await expect(page.locator('.matching-scope-note')).toHaveCount(1);await expect(page.locator('.matching-scope-note')).toBeVisible();
+  await expect(page.locator('#matching-results')).not.toContainText({en:'verdict',hi:'फैसला नहीं',gu:'ચુકાદો નથી'}[language]);
+  await expect(page.locator('#matching-results')).not.toContainText({en:'fertility',hi:'संतान',gu:'સંતાન'}[language]);
+  expect(await page.locator('[data-behaviour-rule]').evaluateAll(rows=>rows.map(r=>r.dataset.behaviourRule))).toEqual(behaviourRules);
+  for(const axis of ['0','1']){const person=page.locator('[data-matching-behaviour="'+axis+'"]');await expect(person.locator('[data-behaviour-rule]')).toHaveCount(2);await expect(person.locator('small')).toHaveCount(2);expect(await person.innerText()).toMatch(language==='hi'?/[\u0900-\u097f]/:language==='gu'?/[\u0a80-\u0aff]/:/Moon/);}
   const text=await page.locator('.matching-chart-context').innerText();expect(text).toMatch(language==='hi'?/[\u0900-\u097f]/:language==='gu'?/[\u0a80-\u0aff]/:/Mercury/);expect(text).not.toMatch(/undefined|NaN|\[object Object\]/);
   expect(await page.locator('#matching-results tbody tr').evaluateAll(rows=>rows.map(r=>r.dataset.score))).toEqual(scores);
   for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await page.evaluate(t=>SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}

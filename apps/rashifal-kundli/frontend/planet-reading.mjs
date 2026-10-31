@@ -4,19 +4,19 @@ import {houseContext,pick} from './kundli-reading-copy.mjs';
 const list=(values,language)=>new Intl.ListFormat({en:'en-IN',hi:'hi-IN',gu:'gu-IN'}[language],{style:'long',type:'conjunction'}).format(values);
 // Describe only the admitted D1 placements. These are topic links, not strength,
 // aspect, dignity, event timing or a new classical judgement.
-export function kundliPlacementText(data,language){
+export function kundliPlacementText(data,language,{assessmentNote=true}={}){
  if(!Number.isInteger(data?.house)||!Number.isInteger(data.rulerHouse))return [];
  const ruler=bodyName(data.ruler,language),sign=signName(data.rulerSign,language),theme=pick(houseContext[data.rulerHouse-1],language);
  const placement={
-  en:`In your calculated birth chart, ${ruler} is in ${sign} in house ${data.rulerHouse}. In traditional house symbolism, this connects the subject of house ${data.house} with ${theme}.`,
-  hi:`जन्म कुंडली में ${ruler}, ${sign} राशि में भाव ${data.rulerHouse} में स्थित हैं। पारंपरिक अर्थ में भाव ${data.house} से इन विषयों का संबंध बनता है: ${theme}।`,
-  gu:`જન્મ કુંડળીમાં ${ruler}, ${sign} રાશિમાં ભાવ ${data.rulerHouse}માં છે. ભાવોના પરંપરાગત અર્થ મુજબ, ભાવ ${data.house}નો વિષય ${theme} સાથે જોડાય છે.`
+  en:`In your birth chart, ${ruler} is in ${sign}, in house ${data.rulerHouse}. Traditionally, that links house ${data.house} with ${theme}. Think about where these parts of life meet for you.`,
+  hi:`आपकी जन्म कुंडली में ${ruler}, ${sign} राशि के ${data.rulerHouse} नंबर के भाव में हैं। परंपरा में इससे ${data.house} नंबर के भाव की बात इन बातों से जुड़ती है: ${theme}। देखें, आपकी जिंदगी में ये बातें कहाँ एक-दूसरे से जुड़ती हैं।`,
+  gu:`તમારી જન્મ કુંડળીમાં ${ruler}, ${sign} રાશિના ${data.rulerHouse} નંબરના ભાવમાં છે. પરંપરામાં તેનાથી ${data.house} નંબરના ભાવની વાત આ બાબતો સાથે જોડાય છે: ${theme}. તમારા જીવનમાં આ બાબતો ક્યાં એકબીજા સાથે જોડાય છે તે વિચારી જુઓ.`
  }[language];
  const names=list((data.occupants??[]).map(body=>bodyName(body,language)),language);
  const occupants=names?{
-  en:`${names} also ${data.occupants.length===1?'occupies':'occupy'} house ${data.house}; these placements belong in the interpretation alongside its ruler. Their combined strength and aspects have not been assessed.`,
-  hi:`${names} भी भाव ${data.house} में स्थित हैं। इस भाव को समझते समय स्वामी ग्रह के साथ इन स्थितियों को भी देखें। संयुक्त बल और दृष्टियों का आकलन नहीं हुआ है।`,
-  gu:`${names} પણ ભાવ ${data.house}માં છે. આ ભાવને સમજતી વખતે સ્વામી ગ્રહ સાથે આ સ્થિતિઓ પણ જુઓ. સંયુક્ત બળ અને દૃષ્ટિઓનું મૂલ્યાંકન થયું નથી.`
+  en:`${names} ${data.occupants.length===1?'is':'are'} also in house ${data.house}. Keep ${data.occupants.length===1?'this placement':'these placements'} in mind alongside the house ruler.${assessmentNote?' We haven’t combined their strength or aspects here.':''}`,
+  hi:`${names} भी ${data.house} नंबर के भाव में हैं। इस हिस्से को समझते समय इन्हें भाव के स्वामी के साथ देखें।${assessmentNote?' यहाँ इनका मिला-जुला बल या दृष्टियाँ नहीं जाँची गई हैं।':''}`,
+  gu:`${names} પણ ${data.house} નંબરના ભાવમાં છે. આ ભાગ સમજતી વખતે તેમને ભાવના સ્વામી સાથે જુઓ.${assessmentNote?' અહીં તેમનું ભેગું બળ કે દૃષ્ટિઓ તપાસ્યાં નથી.':''}`
  }[language]:null;
  return [placement,...occupants?[occupants]:[]];
 }
@@ -25,7 +25,7 @@ export function periodPlacementText(placements,language){
  if(!placements?.length)return '';
  return placements.map(p=>{
   const body=bodyName(p.body,language),sign=signName(p.sign,language),theme=pick(houseContext[p.house-1],language);
-  return {en:`Natal ${body} is in ${sign}, house ${p.house}, connecting this period's traditional interpretation with ${theme}.`,hi:`जन्म कुंडली में ${body}, ${sign} राशि में भाव ${p.house} में स्थित हैं। इस दशा की व्याख्या में इन विषयों पर भी ध्यान दें: ${theme}।`,gu:`જન્મ કુંડળીમાં ${body}, ${sign} રાશિમાં ભાવ ${p.house}માં છે. આ દશાના અર્થઘટનમાં આ વિષયો પણ ધ્યાનમાં લો: ${theme}.`}[language];
+  return {en:`In your birth chart, ${body} is in ${sign}, in house ${p.house}. That brings ${theme} into the traditional reading of this period.`,hi:`आपकी जन्म कुंडली में ${body}, ${sign} राशि के ${p.house} नंबर के भाव में हैं। इसलिए इस दशा को समझते समय इन बातों पर भी ध्यान दें: ${theme}।`,gu:`તમારી જન્મ કુંડળીમાં ${body}, ${sign} રાશિના ${p.house} નંબરના ભાવમાં છે. એટલે આ દશાને સમજતી વખતે આ બાબતો પર પણ ધ્યાન આપો: ${theme}.`}[language];
  }).join(' ');
 }
 
