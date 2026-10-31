@@ -1,5 +1,5 @@
 const fs=require('node:fs'),path=require('node:path');
-const {transformSync}=require('esbuild');
+const {transformSync,buildSync}=require('esbuild');
 const {appCss}=require('../home-css.cjs');
 
 // Filter only positively scoped rules; preserve shared rules and cascade order.
@@ -18,7 +18,10 @@ function prepareDelivery(output,files){
  let before=0,after=0;
  for(const [url,source]of files){
   if(url.startsWith('/_')||! /\.(?:js|mjs|css)$/.test(url))continue;
-  const filename=path.join(output,url),input=fs.readFileSync(filename,'utf8');
+  const filename=path.join(output,url);
+  // This shared Node module imports JSON with attributes. Bundle its public
+  // browser alias so chrome114 minification cannot strip the JSON type marker.
+  const input=source==='packages/vedic/places.mjs'?buildSync({entryPoints:[path.resolve(__dirname,'../..',source)],bundle:true,write:false,format:'esm',platform:'browser',target:'chrome114',charset:'utf8',legalComments:'inline'}).outputFiles[0].text:fs.readFileSync(filename,'utf8');
   const {code}=transformSync(input,{loader:url.endsWith('.css')?'css':'js',
    minifyWhitespace:true,minifySyntax:true,minifyIdentifiers:url.endsWith('.mjs')||/^\s*import\s/.test(input),target:'chrome114',legalComments:'inline',charset:'utf8'});
   before+=Buffer.byteLength(input);after+=Buffer.byteLength(code);
