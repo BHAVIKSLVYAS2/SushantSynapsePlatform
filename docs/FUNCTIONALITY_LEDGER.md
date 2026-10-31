@@ -1,5 +1,7 @@
 # Chambers functionality ledger
 
+**Moment Studio local wording helper (2026-10-31 IST):** Cards offer built-in English/Hindi template suggestions and short/formal edits, with a separate editable preview and an explicit Apply action. Generate preserves the existing message. The helper accurately identifies itself as templates, without model/download claims. Escape closes it and restores trigger focus; tone controls expose their selected state. Certificates offer local wording with confirmation before replacing an existing message. The new module is included in the public asset allowlist; invalid condolence language falls back safely. No external AI service, new dependency, persistence, API or schema change. Verification: 5/5 focused Node tests and 6/6 isolated Chrome workflows pass, including preview/apply, Hindi, Escape/focus, 320/390/768/1440px light/dark layouts, certificate editing, card exports and starter preservation. Production-config Worker dry run passes with `--keep-vars`. Evidence: `.publish/moment-helper-unit.log`, `.publish/moment-helper-final-browser.log`, `.publish/moment-helper-dryrun.log`. User authorised commit and deployment; live release evidence follows after publishing.
+
 **Private-product presentation production release (2026-10-31 IST):** Commit
 `1c250ec` is deployed as Worker `efbf18db-3b60-4904-a7dd-e9ebc080d731`, following
 explicit user authorisation. Isolated checks pass 5/5 account/admin API and 11/11

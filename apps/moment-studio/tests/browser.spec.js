@@ -1,5 +1,15 @@
 ﻿const {test,expect}=require('../../../tests/browser-fixture.js');const {spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');let child,base,dir;
 test.beforeEach(async({page})=>{page.on('dialog',dialog=>dialog.accept());});
+
+test('local wording helper previews before applying, preserves language and supports mobile editing',async({page})=>{
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/moment-studio/cards');const message=page.locator('[name=message]');await message.fill('A personal message. A second sentence.');await page.locator('#open-ai').click();await expect(page.locator('#ai-sheet')).toContainText('not an AI model');await page.locator('[data-ai-tone=short]').click();await page.locator('#generate-ai').click();await expect(message).toHaveValue('A personal message. A second sentence.');await expect(page.locator('#ai-result')).toHaveValue('A personal message.');await page.locator('#apply-ai').click();await expect(message).toHaveValue('A personal message.');await expect(page.locator('#ai-sheet')).toBeHidden();await expect(page.locator('#open-ai')).toBeFocused();
+ await page.locator('#open-ai').click();await page.keyboard.press('Escape');await expect(page.locator('#ai-sheet')).toBeHidden();await page.locator('[name=language]').selectOption('hi');await message.fill('');await page.locator('#open-ai').click();await page.locator('#generate-ai').click();await expect(page.locator('#ai-result')).toHaveValue(/\p{Script=Devanagari}/u);await expect(message).toHaveValue('');
+ for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:850});await page.evaluate(t=>SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}expect(errors).toEqual([]);
+});
+
+test('certificate local wording button works without changing contribution details',async({page})=>{
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/moment-studio');await page.locator('[name=recipient]').fill('Meera');await page.locator('textarea[name=description]').fill('Helping the community');await page.locator('#generate-cert-ai').click();await expect(page.locator('[name=message]')).not.toHaveValue('');await expect(page.locator('textarea[name=description]')).toHaveValue('Helping the community');await expect(page.locator('#status')).toContainText('template suggestion');expect(errors).toEqual([]);
+});
 test('reference workspace keeps the artboard visible while controls scroll and exports directly',async({page})=>{
  await page.setViewportSize({width:1440,height:900});await page.goto(base+'/moment-studio');
  await expect(page.locator('#quick-png')).toBeInViewport();await expect(page.locator('#quick-pdf')).toBeInViewport();

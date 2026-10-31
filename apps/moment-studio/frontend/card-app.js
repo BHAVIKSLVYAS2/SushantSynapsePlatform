@@ -1,5 +1,6 @@
 import {downloadBlob as download} from '/shared/download.mjs';
 import {brandReady,requireBrand} from '/moment-studio/branding.mjs';
+import {buildAiPrompt, generateAiText, getLocalAiState, improveExistingText} from '/moment-studio/ai.mjs';
 import {occasions,designs,palettes,validate,render,filename} from '/moment-studio/card-renderer.mjs?v=20261016-personal-memorial';
 
 const $=selector=>document.querySelector(selector);
@@ -129,6 +130,80 @@ document.addEventListener('click',event=>{
  if(!link||!link.matches('.studio-nav a,.platform-shell a,.platform-switcher a')||!dirty||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
  if(!confirm('You have an unfinished card. Switching sections clears its text and photo. Stay here to download it, or continue?'))event.preventDefault();
 });
+const aiState=getLocalAiState();
+let aiTone='warm';
+const aiPrompt=$('#ai-prompt');
+const aiSheet=$('#ai-sheet');
+const aiStatus=$('#ai-status');
+const aiApply=$('#apply-ai');
+
+function syncAiPrompt(){
+ const reason=buildAiPrompt(form.elements.occasion.value,form.elements.language.value);
+ if(!aiPrompt.value.trim())aiPrompt.value=reason;
+ aiStatus.textContent=`${aiState.model} is ready. Suggestions use local templates.`;
+}
+
+function openAiSheet(){
+ syncAiPrompt();
+ aiSheet.hidden=false;$('#open-ai').setAttribute('aria-expanded','true');
+ aiApply.hidden=true;$('#ai-result').value='';aiPrompt.focus();
+}
+
+function closeAiSheet(){
+ aiSheet.hidden=true;$('#open-ai').setAttribute('aria-expanded','false');
+ aiStatus.textContent='';$('#open-ai').focus();
+}
+
+function gatherAiContext(){
+ const occasion=form.elements.occasion.value;
+ return {
+  occasion,
+  language:form.elements.language.value,
+  name:form.elements.name.value,
+  title:form.elements.title.value,
+  date:$('#event-date')?.value || '',
+  venue:$('#event-venue')?.value || '',
+  host:form.elements.from.value,
+  event:$('#event-name')?.value || form.elements.title.value || '',
+  recipient:form.elements.name.value,
+  sender:form.elements.from.value,
+  message:form.elements.message.value
+ };
+}
+
+$('#open-ai').onclick=openAiSheet;
+$('#close-ai').onclick=closeAiSheet;
+$('#generate-ai').onclick=()=>{
+  const context=gatherAiContext();
+  const prompt=aiPrompt.value.trim() || buildAiPrompt(context.occasion,context.language);
+  const result = context.message && context.message.trim()
+    ? { text: improveExistingText(context.message, aiTone, context) }
+    : generateAiText({...context,prompt,tone:aiTone});
+  $('#ai-result').value=result.text;
+
+  aiStatus.textContent='Suggestion ready. Review or edit it before applying.';
+  aiApply.hidden=false;
+  aiApply.textContent='Apply to design';
+};
+$('#apply-ai').onclick=()=>{
+  const context=gatherAiContext();
+  const value=$('#ai-result').value.trim();
+  if(!value){aiStatus.textContent='Write a message before applying it.';return;}
+  form.elements.message.value=value;
+  edited.message=true;
+  dirty=true;draw();
+  closeAiSheet();
+  $('#wording-status').textContent='Suggested wording applied to the card.';
+};
+aiSheet.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();closeAiSheet();}});
+for(const button of document.querySelectorAll('[data-ai-tone]')){
+  button.setAttribute('aria-pressed',String(button.dataset.aiTone===aiTone));
+  button.onclick=()=>{
+    aiTone=button.dataset.aiTone;
+    document.querySelectorAll('[data-ai-tone]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
+    syncAiPrompt();
+  };
+}
 $('#suggest').onclick=()=>{
  const starter=occasions[form.elements.occasion.value][form.elements.language.value];
  if(edited.message&&form.elements.message.value.trim()&&form.elements.message.value!==starter.message&&!confirm('Replace your message with the suggested wording?'))return;

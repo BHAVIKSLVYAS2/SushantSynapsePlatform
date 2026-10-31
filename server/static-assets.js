@@ -145,6 +145,7 @@ const staticAssets={
  '/moment-studio/card-renderer.mjs':'apps/moment-studio/frontend/card-renderer.mjs',
  '/moment-studio/branding.mjs':'apps/moment-studio/frontend/branding.mjs',
  '/moment-studio/messages.mjs':'apps/moment-studio/frontend/messages.mjs',
+ '/moment-studio/ai.mjs':'apps/moment-studio/frontend/ai.mjs',
  '/moment-studio/cards.css':'apps/moment-studio/frontend/cards.css',
  '/moment-studio/certificate-app.js':'apps/moment-studio/frontend/certificate-app.js',
  '/moment-studio/batch.mjs':'apps/moment-studio/frontend/batch.mjs',
