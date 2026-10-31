@@ -27,6 +27,41 @@ and APIs remain unavailable. This guard is separate from the production Worker
 
 ## Features and boundaries
 
+### Administration experience
+
+Super Admin has a searchable organisation directory, selected-organisation
+overview, and a four-step creation flow: organisation details, primary Master
+Admin, apps/seats, then review/confirmation. Multiple initial app licences use
+the existing provisioning API. The review creates nothing until the final action;
+wizard drafts remain only in the mounted page. Back/Forward restores steps;
+refreshing cannot bypass required earlier fields.
+
+Organisation tasks are grouped into Overview, People, Apps & access, and Settings.
+Platform governance (suspension/reactivation, primary transfer, activation
+invitation controls, platform audit and supported recovery export) is separate
+and remains Super Admin-only. Master Admin has no licence/seat-limit mutation or
+platform governance controls. Existing confirmation, password, reason and stale
+version checks remain in place.
+
+Licence cards distinguish organisation and app seat usage, configured status,
+validity dates and optional read-only grace. Date/time controls explicitly use
+India time (IST, UTC+05:30), independent of device timezone, and convert to the
+existing ISO UTC API format. Switching licence apps discards unsaved values:
+existing licences reload their saved values/version; apps without a licence show
+fresh defaults and an explicit **New licence** state. App choices come from the
+current backend's supported app list; assignment choices also honour its
+`assignmentApps` capability (Chambers-only fallback in the separate Node preview).
+Public/personal apps and app-specific business permissions are unchanged.
+
+`frontend/experience.mjs` owns presentation, guided validation and navigation;
+`frontend/app.mjs` retains session handling and the existing API commands.
+The asset map `backend/preview-assets.cjs` is shared by the guarded Node preview
+and the enabled Worker build: `build.cjs --organisations` exports it under
+`/_organisations/`, and `fullstack-worker.mjs` serves its mapped public paths with
+organisation mode enabled. Thus the former unconditional “Local preview” wording
+was inaccurate on deployed `/admin` and `/account`; the template now explains that
+actions apply to the selected organisation. The local runtime guard is unchanged.
+
 Both paths support invitation-only primary/member identity activation, invitations,
 revocation, membership changes, explicit staff/client app entitlements and seat
 reservations. Super Admin also manages provisioning, licence validity/read-only

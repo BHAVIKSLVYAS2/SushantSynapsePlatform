@@ -1,9 +1,11 @@
 import {requestJson} from '/shared/http.mjs';
 import {escapeHtml as esc} from '/shared/text.mjs';
+import {licenceFields as buildLicenceFields,overview,organisePanels,mountWizard,apiDate} from './experience.mjs';
 const $=selector=>document.querySelector(selector);
 let index,view,busy=false,revision=0;
-let accountSessionSeen=false;
+let accountSessionSeen=false,adminNavigation,wizard;
 const accountPage=location.pathname==='/account';
+if(!accountPage)document.body.classList.add('organisation-admin');
 $('.admin-header').insertAdjacentHTML('afterend','<nav class="admin-footer" aria-label="Account navigation"><a href="/account">My account</a><button id="switch-account" type="button" hidden>Switch account</button></nav>');
 if(accountPage){document.title='My account · Sushant Synapse';$('.intro h1').textContent='My account';$('.intro p').textContent='Your organisations, memberships and assigned apps.';$('#organisation').closest('label').hidden=true;}
 const themeControl=$('[data-theme-select]');
@@ -13,7 +15,7 @@ const cap=n=>n===null?'Unlimited':n;
 const opts=(values,current)=>values.map(v=>{const [value,label]=Array.isArray(v)?v:[v,v];return `<option value="${esc(value)}"${value===current?' selected':''}>${esc(label)}</option>`;}).join('');
 const field=(label,name,value='',type='text',extra='')=>`<label>${esc(label)}<input name="${name}" type="${type}" value="${esc(value)}" ${extra}></label>`;
 const select=(label,name,values,current)=>`<label>${esc(label)}<select name="${name}">${opts(values,current)}</select></label>`;
-// Shared by both local administration entry pages; no secret enters a URL/storage.
+// Shared by administration entry pages; no secret enters a URL/storage.
 $('#signin').outerHTML=`<section class="card" id="signin" hidden><h2>Sign in</h2><form id="admin-login">${field('Account email','email','','email','required autocomplete="username"')}${field('Password','password','','password','required maxlength="128" autocomplete="current-password"')}<button type="submit">Sign in</button></form><details><summary>Activate a new Master Admin account</summary><p>Use the secret supplied privately by your Super Admin. Existing accounts should sign in and accept their invitation below.</p><form id="new-master">${field('Invitation secret','token','','text','required minlength="64" maxlength="64" autocomplete="off" spellcheck="false"')}${field('Invited email','email','','email','required maxlength="200" autocomplete="username"')}${field('Your name','name','','text','required maxlength="120" autocomplete="name"')}${field('Choose a password','password','','password','required minlength="12" maxlength="128" autocomplete="new-password"')}<button type="submit">Activate account</button></form></details></section>`;
 const reason=()=>field('Reason for change','reason','','text','required maxlength="500"');
 $('#new-master [name="token"]').closest('label').firstChild.textContent='New account invitation secret';
@@ -25,17 +27,16 @@ const form=(id,title,body,submit)=>`<details class="card"><summary>${title}</sum
 function status(text){$('#status').textContent=text;}
 const api=(path='',body)=>requestJson('/api/organisation-admin'+path,{method:body?'POST':'GET',headers:body?{'Content-Type':'application/json'}:{},body:body?JSON.stringify(body):undefined});
 function controls(disabled){busy=disabled;document.querySelectorAll('button,#organisation').forEach(el=>el.disabled=disabled);}
-function secret(result){if(!result.invitation)return;$('#secret').value=result.invitation.token;$('#secret-panel').hidden=false;$('#secret-panel').scrollIntoView({block:'nearest'});}
+function secret(result){if(!result.invitation)return;$('#secret').value=result.invitation.token;$('#secret-panel').hidden=false;$('#secret-panel').scrollIntoView({block:'nearest'});$('#secret').focus();}
 function clearSecret(){$('#secret').value='';$('#secret-panel').hidden=true;$('#accept [name="token"]').value='';}
 function clearCredentials(){for(const id of ['admin-login','new-master'])$('#'+id).reset();$('#own-password')?.reset();const password=$('form[data-command="recovery-export"] [name="password"]');if(password)password.value='';}
 const limitField=(label,name,value)=>field(label+' (blank = unlimited)',name,value===null?'':value,'number','min="0" step="1"');
-function licenceFields(l={}){return select('App','appId',index.apps.map(a=>[a.id,a.name]),l.appId)+select('Licence status','status',['Scheduled','Trial','Active','Suspended','Expired','Revoked'],l.status||'Active')+field('Starts at (UTC)','startsAt',l.startsAt||new Date().toISOString(),'text','required')+field('Ends at (UTC, blank = no expiry)','endsAt',l.endsAt)+field('Read-only until (UTC, optional)','readOnlyUntil',l.readOnlyUntil)+limitField('App staff seats','staffLimit',l.staffLimit??null)+limitField('App client seats','clientLimit',l.clientLimit??null);}
+function licenceFields(l={}){return buildLicenceFields(index,{field,select,limitField},l);}
 function render(){
- const org=view?.organisation,usage=view?.usage;
- $('#summary').innerHTML=org?`<h2>${esc(org.name)} <span class="badge">${esc(org.status)}</span></h2><div class="metrics"><div class="metric"><strong>${usage.members.staff} / ${cap(org.staffLimit)}</strong><span>Staff seats, including invitations</span></div><div class="metric"><strong>${usage.members.client} / ${cap(org.clientLimit)}</strong><span>Client seats, including invitations</span></div><div class="metric"><strong>${org.licences.length}</strong><span>App licences</span></div></div>`:'<p>No organisations to manage. You can accept an invitation below.</p>';
+ const org=view?.organisation;
+ $('#summary').innerHTML=overview(index,view);
  let html='';
  if(org){
-  html+=`<div class="panel-grid"><section class="card"><h2>Members</h2><div class="people">${view.members.map(m=>`<div class="person"><strong>${esc(m.name)}</strong><small>${esc(m.email)}</small><span class="badge">${esc(m.role)}</span><small>${esc(m.status)}${m.active?'':' · Account inactive'}</small></div>`).join('')}</div></section><section class="card"><h2>App licences</h2><div class="licences">${org.licences.map(l=>`<div class="licence"><strong>${esc(index.apps.find(a=>a.id===l.appId)?.name||l.appId)}</strong><span class="badge">${esc(l.status)}</span><small>Staff ${usage.apps[l.appId]?.staff||0} / ${cap(l.staffLimit)} · Clients ${usage.apps[l.appId]?.client||0} / ${cap(l.clientLimit)}</small><small>Ends ${esc(l.endsAt||'without expiry')}</small></div>`).join('')}</div></section></div>`;
   const members=view.members.map(m=>[m.userId,`${m.name} · ${m.role} · ${m.status}`]);
   html+=form('invite','Invite or reissue invitation',field('Existing account email','email','','email','required')+select('Membership role','role',['Staff','Administrator','Client']),'Create invitation');
   html+=form('member','Update a membership',select('Member','userId',members)+select('Membership role','role',['Staff','Administrator','Client'])+select('Membership status','status',['Active','Inactive']),'Update membership');
@@ -51,21 +52,18 @@ function render(){
  }
  if(index.superAdmin)html+=form('provision','Create an organisation',field('Organisation name','name','','text','required maxlength="160"')+field('Organisation type','type','Legal','text','required maxlength="80"')+field('Master Admin account email','masterAdminEmail','','email','required')+field('Timezone','timezone','Asia/Kolkata','text','required')+limitField('Organisation staff seats','orgStaff',5)+limitField('Organisation client seats','orgClients',0)+licenceFields({appId:'advocate',staffLimit:5,clientLimit:0}),'Create organisation');
  $('#panels').innerHTML=html;
- const assignmentForm=$('form[data-command="assignment"]');
- assignmentForm?.elements.appId.addEventListener('change',()=>{assignmentForm.elements.role.innerHTML=opts(assignmentForm.elements.appId.value==='pandit-booking'?['Customer','Pandit','Dispatcher','Reviewer','Owner']:assignmentForm.elements.appId.value==='tournament-lite'?['Advocate','Owner']:assignmentForm.elements.appId.value==='batchfee-lite'?['Viewer','Collector','Manager','Owner']:assignmentForm.elements.appId.value==='digital-samaj'?['Member','Owner']:['Clerk','Advocate','Owner']);});
- if(org)$('#panels').insertAdjacentHTML('afterbegin',`<section class="card"><a href="/organisation-audit?organisation=${encodeURIComponent(org.id)}">Review organisation audit</a></section>`);
- if(index.superAdmin)$('#panels').insertAdjacentHTML('beforeend','<section class="card"><a href="/platform-audit">Review platform audit</a></section>');
  if(index.superAdmin&&index.recoveryExportAvailable!==false)$('#panels').insertAdjacentHTML('beforeend',form('recovery-export','Platform recovery backup','<p>This downloads all organisations, private records, documents, account password hashes and audit history. Keep the file private. Sessions are excluded. Restore offline into a new empty SQLite database.</p>'+field('Your current password','password','','password','required maxlength="128" autocomplete="current-password"')+field('Type EXPORT ALL ORGANISATIONS','confirmation','','text','required autocomplete="off"'),'Download full recovery backup'));
  const provision=$('form[data-command="provision"]');
  if(provision)provision.insertAdjacentHTML('afterbegin',select('Master Admin account type','newAccount',[['false','Existing active account'],['true','New account — invitation activation required']],'false'));
  const invite=$('form[data-command="invite"]');
  if(invite){
   invite.insertAdjacentHTML('afterbegin',select('Invited account type','newAccount',[['false','Existing active account'],['true','New or pending account']],'false'));
-  const type=invite.elements.newAccount,emailLabel=invite.elements.email.closest('label').firstChild;
-  type.addEventListener('change',()=>{emailLabel.textContent=type.value==='true'?'New or pending account email':'Existing account email';});
+
  }
- const appSelect=$('form[data-command="licence"] select[name="appId"]');
- appSelect?.addEventListener('change',()=>{const l=org.licences.find(l=>l.appId===appSelect.value);if(!l)return;for(const name of ['status','startsAt','endsAt','readOnlyUntil','staffLimit','clientLimit'])appSelect.form.elements[name].value=l[name]??'';});
+ adminNavigation=organisePanels(index,view);wizard=provision?mountWizard($('form[data-command="provision"]'),{index,select,field,limitField}):null;
+ const activeInvite=$('form[data-command="invite"]');
+ if(activeInvite)activeInvite.elements.newAccount.addEventListener('change',()=>{activeInvite.elements.email.closest('label').firstChild.textContent=activeInvite.elements.newAccount.value==='true'?'New or pending account email':'Existing account email';});
+ adminNavigation.selectSection(location.hash.slice(1));wizard?.restore();
 }
 async function load(selected,strict=false){
  if(accountPage){
@@ -89,12 +87,15 @@ async function load(selected,strict=false){
  }
  $('#workspace').hidden=false;$('#accept-panel').hidden=false;$('#signin').hidden=true;clearCredentials();
  $('#organisation').innerHTML=opts(index.organisations.map(o=>[o.id,`${o.name} · ${o.status}`]),selected);
+ $('#organisation').closest('label').hidden=!index.superAdmin&&index.organisations.length===1;
  if(selected&&index.organisations.some(o=>o.id===selected))$('#organisation').value=selected;
  view=$('#organisation').value?await api('/organisations/'+encodeURIComponent($('#organisation').value)):null;
- if(current!==revision)return;render();status('Workspace ready.');
+ if(current!==revision)return;
+ if(selected&&view){const url=new URL(location.href);url.searchParams.set('organisation',view.organisation.id);history.replaceState(history.state,'',url);}
+ render();status('Workspace ready.');
 }
 async function run(task){if(busy)return;controls(true);status('Saving…');try{await task();}catch(error){status(accountPage&&accountSessionSeen&&error.status===401?'Session expired. Sign in again.':error.message+(error.status===409?' Refresh the workspace before retrying.':''));if([401,403].includes(error.status)&&error.code!=='reauthentication-failed'){clearSecret();if(accountPage)clearAccount();$('#workspace').hidden=true;view=null;}if(error.status===401)$('#signin').hidden=false;}finally{controls(false);}}
-function licenceData(data){return {appId:data.appId,status:data.status,startsAt:data.startsAt,endsAt:data.endsAt||null,readOnlyUntil:data.readOnlyUntil||null,staffLimit:data.staffLimit===''?null:Number(data.staffLimit),clientLimit:data.clientLimit===''?null:Number(data.clientLimit)};}
+function licenceData(data){return {appId:data.appId,status:data.status,startsAt:apiDate(data.startsAt),endsAt:apiDate(data.endsAt),readOnlyUntil:apiDate(data.readOnlyUntil),staffLimit:data.staffLimit===''?null:Number(data.staffLimit),clientLimit:data.clientLimit===''?null:Number(data.clientLimit)};}
 document.addEventListener('submit',event=>{
  if(event.target.id==='own-password'){
   event.preventDefault();const form=event.target,data=Object.fromEntries(new FormData(form)),passwordRevision=revision;
@@ -133,7 +134,7 @@ document.addEventListener('submit',event=>{
    return;
   }
   if(form.id==='accept')result=await api('/accept',{primary:data.primary==='true',token:data.token});
-  else if(command==='provision')result=await api('/provision',{newAccount:data.newAccount==='true',name:data.name,type:data.type,timezone:data.timezone,masterAdminEmail:data.masterAdminEmail,staffLimit:data.orgStaff===''?null:Number(data.orgStaff),clientLimit:data.orgClients===''?null:Number(data.orgClients),licences:[licenceData(data)]});
+  else if(command==='provision')result=await api('/provision',{newAccount:data.newAccount==='true',name:data.name,type:data.type,timezone:data.timezone,masterAdminEmail:data.masterAdminEmail,staffLimit:data.orgStaff===''?null:Number(data.orgStaff),clientLimit:data.orgClients===''?null:Number(data.orgClients),licences:wizard.licences().map(licenceData)});
   else{
    let body={...data,version:view.organisation.version};
    if(command==='invite')body.newAccount=data.newAccount==='true';
@@ -142,9 +143,12 @@ document.addEventListener('submit',event=>{
    if(command==='master-invitation')body.revokeOnly=data.revokeOnly==='true';
    result=await api('/organisations/'+encodeURIComponent(selected)+'/'+command,body);
   }
+  if(command==='provision')history.replaceState(history.state,'','#overview');
   clearSecret();await load(result.organisationId||selected);secret(result);status('Change saved.');
  });
 });
+document.addEventListener('click',event=>{const link=event.target.closest('[data-admin-nav]');if(!link)return;event.preventDefault();clearSecret();history.pushState(history.state,'',link.getAttribute('href'));wizard?.close();adminNavigation?.selectSection(link.dataset.adminNav,true);});
+addEventListener('popstate',()=>{if(accountPage)return;clearSecret();if(location.hash.startsWith('#create/'))wizard?.restore();else{wizard?.close();adminNavigation?.selectSection(location.hash.slice(1),true);}});
 $('#organisation').addEventListener('change',()=>{clearSecret();run(()=>load($('#organisation').value));});
 $('#refresh').addEventListener('click',()=>run(()=>load($('#organisation').value)));
 $('#dismiss-secret').addEventListener('click',clearSecret);
@@ -157,6 +161,7 @@ const signOut=()=>run(async()=>{
 });
 $('#admin-signout').addEventListener('click',signOut);$('#switch-account').addEventListener('click',signOut);
 addEventListener('pagehide',()=>{clearSecret();clearCredentials();});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){clearSecret();clearCredentials();}});
 function clearAccount(){if(!accountPage)return;revision++;clearCredentials();index=null;view=null;$('#workspace').hidden=true;$('#accept-panel').hidden=true;$('#summary').replaceChildren();$('#panels').replaceChildren();$('#account-security')?.remove();}
 addEventListener('pagehide',clearAccount);
 async function revalidateAccount(){clearAccount();try{await load();}catch(error){clearAccount();status(accountSessionSeen&&error.status===401?'Session expired. Sign in again.':error.message);if(error.status===401)$('#signin').hidden=false;}}

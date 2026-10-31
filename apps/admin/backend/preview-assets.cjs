@@ -1,4 +1,4 @@
-// Kept outside the public/cloud allowlist: these pages are disposable local QA only.
+// Shared administration assets: guarded Node preview and enabled Worker delivery.
 module.exports={
  '/platform-audit':'apps/admin/frontend/audit.html',
  '/organisation-audit':'apps/admin/frontend/audit.html',
@@ -12,6 +12,7 @@ module.exports={
  '/advocate/organisation-preview.css':'apps/advocate/frontend/organisation-preview.css',
  '/admin':'apps/admin/frontend/index.html',
  '/super-admin':'apps/super-admin/frontend/index.html',
+ '/admin/experience.mjs':'apps/admin/frontend/experience.mjs',
  '/admin/app.mjs':'apps/admin/frontend/app.mjs',
  '/admin/style.css':'apps/admin/frontend/style.css'
 };

@@ -1,5 +1,46 @@
 # Chambers functionality ledger
 
+**Organisation admin release preparation (2026-10-31 IST):** User now authorises
+commit and deployment of the verified redesign below. The preceding local-only
+restriction is superseded for publishing this change. Existing production
+configuration and `--keep-vars` will preserve organisation/D1 bindings; no migration,
+bootstrap, account, licence or business-data changes are included.
+
+**Organisation administration redesign (2026-10-31 IST, local/uncommitted):**
+Super Admin now has a searchable organisation directory, selected overview and
+four-step organisation/primary-admin/apps-and-seats/review creation wizard.
+Multiple initial licences use the existing API. Master Admin has task sections
+for People, Apps & access and Settings. Governance controls remain separated and
+Super Admin-only; existing confirmation/password/reason/version checks remain.
+App choices use backend capabilities; public/personal flows and Pandit Booking
+screens are unchanged. Licence controls use explicit India-time inputs converted
+to ISO UTC; new-app selections reset every licence field and display a distinct
+new-vs-existing state. Shared Worker/Node asset delivery was inspected before
+replacing misleading “Local preview” wording. No permissions, API, schema,
+production bindings/configuration or data changes. The generated guarded asset
+manifest adds only the new admin presentation module.
+
+Verification uses isolated OS-temporary SQLite DATA_DIR fixtures and local
+Miniflare/D1 only: 38/38 API regressions and 5/5 D1 checks pass, including browser
+provisioning through the Worker asset map. Local `build.cjs --fullstack
+--organisations` passes; no deploy command was run. All 21 admin browser scenarios
+are verified across the final/recovery runs: the full run passed 20 and hit one
+account timeout during a prolonged environment stall; an isolated recovery run
+passed 5/5, covering that account scenario, adjacent account regressions and the
+final mobile CSS assertions. Coverage includes 320/390/768/1440px, light/dark/system,
+keyboard basics, wizard validation and Back/Forward, multi-app review with no early
+write, new/existing licence switching and ISO time conversion, explicit suspension
+and recovery confirmations, invitations/secrecy, stale edits, tenant/role isolation
+and delayed-session responses. Evidence: `.publish/admin-redesign-{api,build,d1,
+final,recovered}.log`. Mobile screenshots were reviewed. `git diff --check` passes.
+HEAD remains `2244440`; nothing committed, deployed or tested against production.
+
+Remaining UX limits: native iOS/Android date-picker behaviour has not been checked
+on physical devices. Wizard drafts deliberately remain in page memory and reset
+on refresh; direct links cannot bypass validation. Invitation delivery remains
+manual, and account activation stays a separate flow. Pandit Booking screens are
+unchanged as requested. Implementation/ownership notes: `apps/admin/README.md`.
+
 **Committed production release (2026-10-31 IST):** Implementation commit `8a21191`
 is deployed as Worker `daa2d986-e138-493d-b451-f42c2b101181`, with `--keep-vars`.
 User authorised committing/deploying the verified mobile/navigation, Ritual Assist

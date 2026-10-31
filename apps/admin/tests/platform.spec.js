@@ -4,7 +4,7 @@ let fixture;
 
 test('platform audit is Super Admin only and clears on expiry',async({page})=>{
  await login(page,'master');await page.goto(fixture.base+'/platform-audit');await expect(page.getByRole('status')).toHaveText('Super Admin required');await expect(page.locator('#workspace')).toBeEmpty();
- await login(page,'super');await page.goto(fixture.base+'/super-admin');await page.getByRole('link',{name:'Review platform audit',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Audit ready.');
+ await login(page,'super');await page.goto(fixture.base+'/super-admin');await page.locator('[data-admin-nav="governance"]').click();await page.getByRole('link',{name:'Review platform audit',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Audit ready.');
  await expect(page.locator('#workspace')).toContainText('Platform-wide events');
  await page.getByRole('combobox',{name:'Action',exact:true}).selectOption('PlatformRecoveryExportCreated');await page.getByRole('button',{name:'Apply filter',exact:true}).click();await expect(page.locator('#workspace')).toContainText('No matching events.');
  const exported=await page.request.post(fixture.base+'/api/organisation-admin/recovery-export',{data:{password:fixture.password,confirmation:'EXPORT ALL ORGANISATIONS',reason:'Browser recovery audit review'}});expect(exported.status()).toBe(200);
@@ -20,7 +20,7 @@ test('organisation audit supports scoped pagination, action filtering and mobile
  for(let i=0;i<25;i++){
   const response=await fetch(endpoint+'/limits',{method:'POST',headers:{Cookie:cookie,'Content-Type':'application/json'},body:JSON.stringify({version,staffLimit:5,clientLimit:2,reason:'Audit review '+i})});expect(response.status).toBe(200);version=(await response.json()).version;
  }
- await login(page,'master');await page.goto(fixture.base+'/admin');await page.getByRole('link',{name:'Review organisation audit',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Audit ready.');
+ await login(page,'master');await page.goto(fixture.base+'/admin');await page.locator('.admin-sections [data-admin-nav="settings"]').click();await page.getByRole('link',{name:'Review organisation audit',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Audit ready.');
  await page.getByRole('combobox',{name:'Action',exact:true}).selectOption('OrganisationLimitsUpdated');await page.getByRole('button',{name:'Apply filter',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Audit ready.');await expect(page.locator('#workspace article')).toHaveCount(20);
  await page.getByRole('button',{name:'Older events',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Audit ready.');await expect(page.locator('#workspace article')).toHaveCount(5);await expect(page.getByRole('button',{name:'Older events',exact:true})).toBeHidden();
  for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await page.getByRole('combobox',{name:'Theme',exact:true}).selectOption(theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
@@ -38,7 +38,7 @@ test('audit refuses other-org and staff access while Super Admin governance gran
 
 test('Super Admin suspends and reactivates an organisation with explicit confirmation',async({page,browser})=>{
  await login(page,'super');await page.goto(fixture.base+'/super-admin');await expect(page.getByRole('status')).toHaveText('Workspace ready.');
- await page.locator('form[data-command="status"]').locator('..').locator('summary').click();
+ await page.locator('.admin-sections [data-admin-nav="governance"]').click();await page.locator('form[data-command="status"]').locator('..').locator('summary').click();
  let form=page.locator('form[data-command="status"]');
  await form.getByLabel('Type organisation name to confirm').fill('Wrong organisation');await form.getByLabel('Reason for change').fill('Suspend pending review');
  await form.getByRole('button',{name:'Update organisation status',exact:true}).click();await expect(page.getByRole('status')).toContainText('Type the organisation name exactly');
@@ -49,7 +49,7 @@ test('Super Admin suspends and reactivates an organisation with explicit confirm
   const member=await context.newPage();await login(member,'master');await member.goto(fixture.base+'/account');await expect(member.getByRole('status')).toHaveText('Account ready.');
   const own=member.locator('#panels section').filter({has:member.getByRole('heading',{name:'First Chambers',exact:true})});
   await expect(own.getByRole('link',{name:'Open Chambers',exact:true})).toHaveCount(0);await expect(own.getByRole('link',{name:'Manage this organisation'})).toHaveCount(0);
-  await page.locator('form[data-command="status"]').locator('..').locator('summary').click();form=page.locator('form[data-command="status"]');
+  await page.locator('.admin-sections [data-admin-nav="governance"]').click();await page.locator('form[data-command="status"]').locator('..').locator('summary').click();form=page.locator('form[data-command="status"]');
   await form.getByLabel('Type organisation name to confirm').fill('First Chambers');await form.getByLabel('Reason for change').fill('Review completed');
   await page.setViewportSize({width:390,height:844});await form.screenshot({path:'.publish/organisation-lifecycle-mobile.png'});
   await form.getByRole('button',{name:'Update organisation status',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Change saved.');await expect(page.locator('#summary')).toContainText('Active');
