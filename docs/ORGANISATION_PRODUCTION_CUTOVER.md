@@ -1,5 +1,16 @@
 # Organisation licensing production cutover
 
+Moment Studio local wording release (2026-10-31 IST): implementation commit
+`42cfda0` is deployed as Worker `aacfff16-6229-4f57-9d34-9c3b581b98ee`.
+Five focused Node tests and six isolated Chrome workflows pass. Exact-config
+dry run/deploy pass with `--keep-vars`; no schema, API, configuration, account or
+business-data changes. Live public editor checks pass module delivery,
+preview/apply, Hindi, keyboard behavior and eight width/theme layouts, with no
+page errors, business writes or production-account use. Health 200 and unscoped
+records 409 remain intact. Evidence: `.publish/moment-helper-unit.log`,
+`.publish/moment-helper-final-browser.log`, `.publish/moment-helper-dryrun.log`,
+`.publish/moment-helper-deploy.log`, `.publish/moment-helper-live.log`.
+
 Private-product account presentation release (2026-10-31 IST): implementation
 commit `1c250ec` is deployed as Worker `efbf18db-3b60-4904-a7dd-e9ebc080d731`.
 Product-specific account cards and admin wording retain existing access projections
