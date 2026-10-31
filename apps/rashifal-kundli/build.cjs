@@ -6,6 +6,7 @@ const stylesheetFiles=['../../packages/ui/premium.bundle.css','../../packages/ui
 function build(){
  const hash=require('node:crypto').createHash('sha256');hash.update(fs.readFileSync(__filename));
  hash.update(fs.readFileSync(path.resolve(__dirname,'../../infrastructure/home-css.cjs')));
+ hash.update(fs.readFileSync(path.resolve(__dirname,'../../packages/ui/legal-html.cjs')));
  for(const file of stylesheetFiles)hash.update(file).update(fs.readFileSync(path.resolve(__dirname,file)));
  for(const directory of ['dev','frontend','../../packages/vedic']){
   const root=path.resolve(__dirname,directory);
@@ -27,7 +28,7 @@ function build(){
   buildSync({stdin:{resolveDir:__dirname,sourcefile:'production-entry.mjs',contents:`import {${mount}} from './frontend/${module}.mjs'; import {initLanguageShell} from './frontend/language-shell.mjs'; ${mount}(document.querySelector('#${id}')); initLanguageShell();`},outfile:path.join(output,entry+'.mjs'),bundle:true,format:'esm',platform:'browser',target:'es2022',minify:true,charset:'utf8'});
   const nav=[['birth','Kundli',''],['rashifal','Rashifal','/rashifal'],['timeMachine','Time Machine','/time-machine'],['matching','Matching','/matching']].map(([key,label,suffix])=>`<a data-vedic-text="${key}" href="/rashifal-kundli${suffix}"${(entry==='birth'&&!suffix)||suffix==='/'+entry?' aria-current="page"':''}>${label}</a>`).join('');
   const html=`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><meta name="robots" content="noindex,nofollow"><title>Ritvayam · Sushant Synapse</title><link rel="icon" href="/logo-adaptive-192.png"><link rel="stylesheet" href="/rashifal-kundli/application.css"><script src="/shared/theme.js"></script><script src="/shared/platform-shell.js" defer></script><script src="/shared/language.js" defer></script></head><body data-ui-app="rashifal-kundli" data-platform-privacy="local-only" class="platform-shell-pending ${entry==='rashifal'?'vedic-rashifal-page':entry==='time-machine'?'vedic-tm-page':'vedic-birth-page'}"><a class="skip-link" href="#${id}">Skip to content</a><div class="vedic-app-header"><nav class="vedic-nav" aria-label="Vedic preview">${nav}</nav><details class="rashifal-preview-info"><summary data-vedic-text="previewDetails">About this preview</summary><p data-vedic-text="warning"></p><p data-vedic-text="privacy"></p></details></div><main id="${id}"></main><noscript>JavaScript is required. Birth details are processed on this device. <a href="/">Platform home</a></noscript><script type="module" src="/rashifal-kundli/${entry}.mjs"></script></body></html>`;
-  fs.writeFileSync(path.join(output,entry+'.html'),html);
+  fs.writeFileSync(path.join(output,entry+'.html'),require('../../packages/ui/legal-html.cjs').legalHtml(html));
  }
  buildSync({entryPoints:[path.join(__dirname,'dev/sensitivity-worker.mjs')],outfile:path.join(output,'sensitivity-worker.mjs'),bundle:true,format:'esm',platform:'browser',target:'es2022',minify:true,charset:'utf8'});
  buildSync({entryPoints:[path.join(__dirname,'frontend/rashifal-worker.mjs')],outfile:path.join(output,'rashifal-worker.mjs'),bundle:true,format:'esm',platform:'browser',target:'es2022',minify:true,charset:'utf8'});

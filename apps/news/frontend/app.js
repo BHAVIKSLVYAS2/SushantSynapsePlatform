@@ -152,14 +152,14 @@ function renderEdition(edition){
   document.querySelector('.edition-line span:nth-child(2)').textContent=(edition.deviceOnly?'On-device edition · ':'Saved edition · ')+edition.date;
   document.querySelector('#print-edition').disabled=false;
 }
-async function openEdition(date){
+async function openEdition(date,update=true){
   if(!date)return;
   const version=++requestVersion;selection=date;selectedSaved=false;clearReader();navigation();
   document.querySelector('#fetch-preview').hidden=true;updateFetchControl();
   document.querySelector('#edition-date').value=date;
   document.querySelector('.edition-line span:nth-child(2)').textContent=`Selected date · ${date}`;
   document.querySelector('#reader-status').textContent='Opening saved newspaper…';
-  const url=new URL(location.href);url.searchParams.set('date',date);history.replaceState(null,'',url);
+  const url=new URL(location.href);url.searchParams.set('date',date);if(update&&url.href!==location.href)history.pushState(history.state,'',url);
   if(!validSelection(date)){document.querySelector('#reader-status').textContent=date>editionToday?'Future dates cannot generate news. Choose today or a past date.':'Enter a valid edition date.';return;}
   try{
     const edition=await getJson('/api/news/editions/'+encodeURIComponent(date));
@@ -187,9 +187,10 @@ async function loadArchives(today){
   try{
     await archivePage();
     const requested=new URL(location.href).searchParams.get('date');
-    await openEdition(requested||today);
+    await openEdition(requested||today,false);
   }catch(error){document.querySelector('#reader-status').textContent=error.message;}
 }
+addEventListener('popstate',()=>openEdition(new URL(location.href).searchParams.get('date')||editionToday,false));
 document.querySelector('#edition-date').addEventListener('change',event=>openEdition(event.target.value));
 document.querySelector('#latest-edition').addEventListener('click',()=>{if(dates.length)openEdition(dates[0].date);});
 document.querySelector('#previous-edition').addEventListener('click',()=>{const index=dates.findIndex(e=>e.date===selection);if(index>=0&&dates[index+1])openEdition(dates[index+1].date);});

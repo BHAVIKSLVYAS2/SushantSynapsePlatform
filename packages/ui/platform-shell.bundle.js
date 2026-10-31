@@ -111,11 +111,14 @@ else root.SynapseCatalogue=catalogue;
   const destination=new URL(link.href,location.href);
   if(destination.origin!==location.origin||!['http:','https:'].includes(destination.protocol))return;
   if(destination.pathname===location.pathname&&destination.search===location.search)return;
-  loader.hidden=false;clearTimeout(loaderTimeout);loaderTimeout=setTimeout(clearLoader,8000);
+  clearTimeout(loaderTimeout);loaderTimeout=setTimeout(()=>{loader.hidden=false;loaderTimeout=setTimeout(clearLoader,8000);},180);
  });
  window.addEventListener('pageshow',clearLoader);
  window.addEventListener('pagehide',clearLoader);
  window.addEventListener('popstate',clearLoader);
+ window.addEventListener('focus',clearLoader);
+ document.addEventListener('pointerdown',clearLoader,{passive:true});
+ document.addEventListener('keydown',clearLoader);
  const account=header.querySelector('.platform-account');
  let authRevision=0;
  function showAccount(user){
@@ -158,7 +161,10 @@ else root.SynapseCatalogue=catalogue;
  const searchableLinks=[...modal.querySelectorAll('nav a')].map(link=>{const app=window.SynapseCatalogue?.apps.find(app=>app.path===new URL(link.href,location.href).pathname);return {link,text:(link.textContent+' '+(app?window.SynapseCatalogue.appSearchText(app):'')).normalize('NFKC').toLocaleLowerCase()};});
  function filterApps(){const query=input.value.normalize('NFKC').trim().toLocaleLowerCase(),words=query.split(/\s+/);let count=0;modal.querySelectorAll('.platform-switcher-group').forEach(label=>label.hidden=!!query);for(const {link,text}of searchableLinks){link.hidden=!words.every(word=>text.includes(word));if(!link.hidden)count++;}searchStatus.hidden=!!count;resetSearch.hidden=!query;}
  resetSearch.addEventListener('click',()=>{input.value='';filterApps();input.focus();});
- trigger.addEventListener('click',()=>{input.value='';filterApps();modal.showModal();trigger.setAttribute('aria-expanded','true');input.focus();});
+ let switcherNavigation;
+ const showSwitcher=()=>{input.value='';filterApps();modal.showModal();trigger.setAttribute('aria-expanded','true');input.focus();};
+ const switcherReady=import('/shared/navigation.mjs').then(({bindDialogNavigation})=>{switcherNavigation=bindDialogNavigation(modal,{value:'apps',show:showSwitcher});}).catch(()=>{});
+ trigger.addEventListener('click',async()=>{trigger.disabled=true;try{await switcherReady;if(switcherNavigation)switcherNavigation.open();else showSwitcher();}finally{trigger.disabled=false;}});
  modal.querySelector('button').addEventListener('click',()=>modal.close());
  modal.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();event.stopPropagation();modal.close();}});
  modal.addEventListener('close',()=>{trigger.setAttribute('aria-expanded','false');trigger.focus({preventScroll:true});});

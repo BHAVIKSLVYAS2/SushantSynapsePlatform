@@ -1,3 +1,4 @@
+import {createNavigation} from '/shared/navigation.mjs';
 import {createBreakCelebration} from './celebration.mjs';
 import {istDate} from '/daily-spark/engine.mjs';
 import {version,validDay,codePuzzle,codeVersion,scoreCode,memoryGame,memorySymbols,turnMemory,closeMemoryPair,lightsLevel,toggleLights,solveLights,parseChoices,faceOff,chooseFace,shuffle} from './engine.mjs';
@@ -5,7 +6,7 @@ const $=s=>document.querySelector(s),media=matchMedia('(prefers-color-scheme: da
 $('#theme').outerHTML=SynapseTheme.control('id="theme"');function theme(){const p=SynapseTheme.read();document.documentElement.dataset.theme=p==='system'?(media.matches?'dark':'light'):p;}$('#theme').addEventListener('change',theme);media.addEventListener('change',theme);theme();
 const params=new URLSearchParams(location.search),today=istDate(),day=validDay(params.get('day'),today)&&(!params.get('v')||params.get('v')===version)?params.get('day'):today;
 const games={chaos:{name:'One-Minute Chaos',description:'Catch falling chai, dodge meeting invites and silence alarms. Sixty seconds of escalating office absurdity.',next:'24'},24:{name:'Make 24',description:'The original Daily Spark number game. Use every number once to make 24.',next:'code'},code:{name:'Crack the Code',description:'Three digits. Five clues. One solution. Read the clues and work out the code—no blind guessing needed.',next:'memory'},memory:{name:'Memory Minute',description:'Turn over two cards and find six matching pairs. “Minute” is a little break, not a time limit.',next:'lights'},lights:{name:'Lights Out',description:'Turn every light off. Tapping a tile flips it and its neighbours above, below, left and right. Clear three increasingly challenging boards.',next:'face'},face:{name:'Face-Off',description:'Choose between two options until your favourite is left. This is your preference, not a random draw.',next:'24'}};
-const controllers={},panes={};let active=null,launchRevision=0,mountChaos,mountSpark,sparkMarkup;
+const controllers={},panes={};let active=null,hubScroll=0,hubCategory='all',launchRevision=0,mountChaos,mountSpark,sparkMarkup;
 const element=(tag,className,text)=>{const e=document.createElement(tag);e.className=className;e.textContent=text;return e;};
 const nonce=()=>String(crypto.getRandomValues(new Uint32Array(1))[0]);
 function url(game,date=day){const u=new URL('/take-a-break',location.origin);u.searchParams.set('game',game);if(game==='code')u.searchParams.set('cv',codeVersion);if(game!=='face'&&game!=='chaos'){u.searchParams.set('day',date);u.searchParams.set('v',version);}return u.href;}
@@ -90,12 +91,12 @@ async function openGame(id,update=true){if(!Object.hasOwn(games,id))return;
   finally{trigger?.removeAttribute('aria-busy');}
  }
  if(revision!==launchRevision)return;
- controllers[active]?.deactivate?.();active=id;$('#hub').hidden=true;$('#play-area').hidden=false;$('#share-box').hidden=true;$('#play-title').textContent=games[id].name;$('#play-description').textContent=games[id].description;$('#hub-edition').textContent=id==='face'?'YOUR CHOICES · NO UPLOAD':`${day} · IST`;
+ if(!$('#hub').hidden){hubScroll=scrollY;hubCategory=$('#hub').dataset.category||'all';}controllers[active]?.deactivate?.();active=id;$('#hub').hidden=true;$('#play-area').hidden=false;$('#share-box').hidden=true;$('#play-title').textContent=games[id].name;$('#play-description').textContent=games[id].description;$('#hub-edition').textContent=id==='face'?'YOUR CHOICES · NO UPLOAD':`${day} · IST`;
  if(!panes[id]){const root=element('div','game-pane','');root.dataset.pane=id;$('#game-panes').append(root);panes[id]=root;
   if(id==='24'){root.innerHTML=sparkMarkup;mountSpark(root,{day,challengeUrl:date=>url('24',date),onComplete:()=>{const section=root.querySelector('#result');if(!section.querySelector('[data-next-break]')){const next=element('button','','Try Crack the Code');next.type='button';next.dataset.nextBreak='1';next.onclick=()=>openGame('code');section.append(next);}}});}
   else controllers[id]=({code:mountCode,memory:mountMemory,lights:mountLights,face:mountFace,chaos:r=>mountChaos(r,{share})}[id])(root);
  }
- Object.entries(panes).forEach(([key,pane])=>pane.hidden=key!==id);$('#round-controls').hidden=id==='24'||id==='face'||id==='chaos';syncMode();$('#link-note').textContent='';if(update){const u=new URL(url(id));if(id==='24'&&panes[id].dataset.sparkLegacy!=='true')u.searchParams.set('level',panes[id].querySelector('#practice-difficulty').value);history.replaceState(null,'',u.href);}$('#play-title').focus({preventScroll:true});scrollTo(0,0);
+ Object.entries(panes).forEach(([key,pane])=>pane.hidden=key!==id);$('#round-controls').hidden=id==='24'||id==='face'||id==='chaos';syncMode();$('#link-note').textContent='';if(update){const u=new URL(url(id));if(id==='24'&&panes[id].dataset.sparkLegacy!=='true')u.searchParams.set('level',panes[id].querySelector('#practice-difficulty').value);navigation.go(u);}$('#play-title').focus({preventScroll:true});scrollTo(0,0);
 }
 function syncMode(){const mode=controllers[active]?.mode;$('#daily-mode').setAttribute('aria-pressed',String(mode==='daily'));$('#practice-mode').setAttribute('aria-pressed',String(mode==='practice'));$('#hub-edition').textContent=active==='chaos'?'60 SECONDS · THIS TAB ONLY':active==='face'?'YOUR CHOICES · NO UPLOAD':mode==='practice'?'PRACTICE · NEW BOARD':`${day} · IST`;}
 $('#daily-mode').onclick=()=>{controllers[active]?.reset(false);syncMode();};$('#practice-mode').onclick=()=>{controllers[active]?.reset(true);syncMode();};$('#challenge-friend').onclick=()=>share(`A little challenge for you: ${games[active].name}\n${url(active)}\nTake a Break · Sushant Synapse`);
@@ -110,7 +111,9 @@ function filterGames(kind,animate=true){
  });
  $('#break-filter-status').textContent=visible+(visible===1?' activity shown':' activities shown');
 }
-$('#all-breaks').onclick=()=>{launchRevision++;controllers[active]?.deactivate?.();$('#hub').hidden=false;$('#play-area').hidden=true;$('#share-box').hidden=true;filterGames(document.querySelector(`[data-game="${active}"]`)?.dataset.kind||'challenge',false);history.replaceState(null,'','/take-a-break');const card=document.querySelector(`[data-game="${active}"]`);card?.focus({preventScroll:true});scrollTo(0,0);};
+function showHub(){launchRevision++;controllers[active]?.deactivate?.();$('#hub').hidden=false;$('#play-area').hidden=true;$('#share-box').hidden=true;filterGames(hubCategory,false);const card=document.querySelector(`[data-game="${active}"]`);card?.focus({preventScroll:true});scrollTo(0,hubScroll);};
+const navigation=createNavigation(u=>{const game=u.searchParams.get('game');if(game&&Object.hasOwn(games,game))openGame(game,false);else showHub();});
+$('#all-breaks').onclick=()=>navigation.back('/take-a-break');
 document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>filterGames(b.dataset.filter));
 $('#daily-note').textContent=`${day} · New daily challenges at midnight IST`;
 const initial=params.get('game');if(initial&&Object.hasOwn(games,initial))openGame(initial,false);

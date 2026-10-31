@@ -1,5 +1,76 @@
 # Chambers functionality ledger
 
+**Committed release preparation (2026-10-31 IST):** User now authorises committing
+and deploying the previously verified mobile/navigation, Ritual Assist learning,
+source display and consistent-footer changes. Earlier no-commit notes below
+describe their verification checkpoints and are superseded by this authorisation.
+The same production configuration and `--keep-vars` will be used without any
+migration, bootstrap or business-data write. Final release evidence will be added
+after publishing the committed source.
+
+**Consistent platform footer (2026-10-31 IST, uncommitted):** Canonical server/build
+composition now adds one shared footer outside app render roots on every
+platform app page, including Ritvayam's generated pages and organisation account,
+admin and client templates. Legacy admin-only footers are replaced. Logo, Sushant Synapse
+branding, tagline and platform/help/legal links share responsive token-based
+styling, 44px links, mobile safe-area spacing and desktop workspace sidebar
+clearance. App-specific notes remain. Print and presentation screens omit the
+footer. Existing language controls and local-only privacy behaviour remain.
+Composition/language/beta/WhatsApp checks pass 7/7. Chrome footer verification
+passes across 18 routes and 72 width/theme combinations, including print hiding.
+Evidence: `.publish/footer-final-browser.log`. Final production Worker
+`e3d21043-5406-42c9-bf4e-60e124236453` is deployed with `--keep-vars`. Live Chrome
+passes 18 routes and 72 layouts, including the production sign-in/account redirect,
+print hiding, health 200 and unscoped records 409; no page errors. Evidence:
+`.publish/footer-final-deploy.log` and `.publish/footer-live-final.log`. No commit,
+migration or business-data write; HEAD remains `ec6f37a`.
+
+**Source display cleanup (2026-10-31 IST, uncommitted):** Site-wide frontend and
+public notice review removed unnecessary publisher names from Ritual Assist
+reference labels, repeated mantra citations and provider-specific legal/privacy
+disclaimers. Scripture references, traditional-formula distinctions, optional
+research links and required GeoNames/software credits remain. Focused text/export
+checks pass 8/8; Chrome learning verification passes. Production dry run passed;
+deployed with `--keep-vars` as Worker `1dc78702-5ae0-46be-84d4-ccdaf2c24f32`.
+Live Chrome passes citation cleanup and legal/privacy/terms checks, Hindi learning
+and downloads, nested history, 54 responsive light/dark layouts, health 200 and
+unscoped records 409, with no page errors or business writes. Evidence:
+`.publish/source-cleanup-{browser,live}.log`. No commit made.
+Scope: `docs/SOURCE_DISPLAY_REVIEW_2026-10-31.md`.
+
+**Ritual Assist learning production verification release (2026-10-31 IST, uncommitted):**
+User requested optional, authentic mantras/vidhi sections and deployment without
+committing. All fifteen guides now offer an optional learning disclosure with
+Vidhi, Mantras and Sources tabs. Eight source-checked Sanskrit texts include IAST
+and original English/Hindi meanings; three simplified household sequences are
+distinguished from priest-led samskaras, havan and mourning rites. The reading
+collection loads only when opened; direct links, Back/Forward, language changes
+and separate UTF-8 learning downloads are implemented. No calendar/planetary
+calculation, business API, account or licence changes. Source review and exact
+verification/deployment evidence: `docs/RITUAL_LEARNING_REVIEW_2026-10-31.md`.
+Production Worker: `a0fc697f-f684-4d95-9eca-f748fb4e3aab`, deployed with
+`--keep-vars` after an exact production-config dry run. Git HEAD stays `ec6f37a`.
+Final source/export checks pass 8/8; isolated final Chrome compatibility checks pass
+5/5. Live Chrome verifies learning text, Hindi meanings, downloads, nested history,
+54 layouts, health 200 and the unscoped-records 409 boundary with no page errors or
+business writes. Physical Android/iOS verification remains with the user.
+
+**Mobile navigation production verification release (2026-10-31 IST, uncommitted):**
+User explicitly requested deployment for verification without committing. Real
+history entries and restoration now cover Chambers sections/record forms/details,
+Ritual Assist guides/preview/calendar tabs, Take a Break activities, BatchFee
+sections/student ledgers, Tournament tournament/tabs, DIGITAL SAMAJ
+communities/sections/profiles, Feedback discussions and News edition dates.
+Shared app-switcher overlays support Back/Forward, completed sign-in replaces its
+screen and validates app return paths, dialogs fit short dynamic viewports, and
+Ritual Assist mobile spacing is more compact. No backend/data migration or
+production business writes are included. Initial public navigation, the 240-case
+public responsive sweep and focused workspace/authentication checks passed;
+final suite and deployed verification status are recorded in
+`docs/MOBILE_NAVIGATION_REVIEW_2026-10-31.md`. Physical Android/iOS keyboard and
+predictive-Back behavior remains device verification; specialist transient
+dialogs are not all serialized into history.
+
 **Ritvayam and featured demo production release (2026-10-31 IST):** User requested
 commit and deployment. Implementation commit `e1b117a` is deployed as Worker
 `d667f36f-dbda-42b0-a5b3-ed3ab4f16d09` with `--keep-vars`. Exact production-config

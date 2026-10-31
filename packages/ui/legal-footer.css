@@ -2,3 +2,25 @@
 .synapse-language{display:flex;align-items:center;flex-wrap:wrap;gap:6px;width:100%;font-family:'Segoe UI','Nirmala UI',Arial,sans-serif}.synapse-language>span{margin-right:8px}.synapse-language button{font:inherit;min-height:44px;padding:8px 14px;border:1px solid var(--legal-line);border-radius:8px;background:transparent;color:var(--legal-ink);cursor:pointer}.synapse-language button[aria-pressed=true]{background:var(--legal-ink);color:var(--legal-on-active);border-color:var(--legal-ink)}.synapse-language button:focus-visible{outline:2px solid var(--legal-ink);outline-offset:3px}.synapse-language small{color:var(--legal-muted);font-size:11px;margin-left:8px}.synapse-language[hidden]{display:none!important}.synapse-legal-footer{--legal-on-active:#fff}[data-theme=dark] .synapse-legal-footer{--legal-on-active:#191c25}
 
 .synapse-language-toggle{display:inline-flex;align-items:center;flex-shrink:0;gap:2px;padding:3px;border:1px solid var(--legal-line);border-radius:28px}.synapse-language .synapse-language-toggle button{min-height:44px;min-width:44px;padding:6px 12px;border:0;border-radius:24px;background:transparent;color:var(--legal-muted);font-size:12px}.synapse-language .synapse-language-toggle button[aria-pressed=true]{background:var(--legal-line);color:var(--legal-ink);font-weight:600}.synapse-language .synapse-language-toggle button:disabled{opacity:.6;cursor:wait}.synapse-language .synapse-language-toggle button:focus-visible{outline:2px solid var(--legal-ink);outline-offset:2px}.synapse-language small{flex:1 1 240px;margin-left:0}
+
+/* Shared footer sits after app content; app footer rules cannot change its layout. */
+body>footer.synapse-legal-footer{
+ --legal-ink:var(--shell-ink,var(--text,#253049));--legal-muted:var(--shell-muted,var(--muted,#66728b));--legal-line:var(--shell-line,var(--line,#e2e6f0));
+ position:relative;inset:auto;float:none;box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:start;justify-content:space-between;gap:24px;
+ width:calc(100% - 48px);max-width:1180px;height:auto;min-height:0;margin:40px auto 0;padding:28px 0 calc(24px + env(safe-area-inset-bottom));
+ border:0;border-top:1px solid var(--legal-line);border-radius:0;background:transparent;box-shadow:none;color:var(--legal-muted);font:12px/1.6 'Segoe UI','Nirmala UI',Arial,sans-serif;text-align:left;
+}
+body>footer.synapse-legal-footer .synapse-footer-brand{flex:1 1 240px;min-width:0}
+body>footer.synapse-legal-footer .synapse-footer-brand>a{gap:10px;font-size:15px;font-weight:650;text-decoration:none}
+body>footer.synapse-legal-footer .synapse-footer-brand img{display:block;width:36px;height:36px;object-fit:contain;flex:none}
+body>footer.synapse-legal-footer .synapse-footer-brand p{margin:8px 0 0;color:var(--legal-muted);font:inherit}
+body>footer.synapse-legal-footer nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));flex:1 1 480px;gap:4px 20px;margin:0;padding:0;border:0;background:transparent}
+body>footer.synapse-legal-footer nav a{display:flex;align-items:center;min-height:44px;margin:0;padding:4px 0;color:var(--legal-ink);font:inherit;text-decoration:none;overflow-wrap:anywhere}
+body>footer.synapse-legal-footer nav a:hover{text-decoration:underline;text-underline-offset:4px}
+@media screen{
+ @media(min-width:1000px){body[data-ui-app=advocate]:has(.sidebar)>footer.synapse-legal-footer,body[data-ui-app=batchfee-lite]:has(>aside)>footer.synapse-legal-footer,body[data-ui-app=digital-samaj]:has(#app>.nav)>footer.synapse-legal-footer{width:calc(100% - 288px);max-width:none;margin-left:264px;margin-right:24px}}
+ @media(max-width:759px){body>footer.synapse-legal-footer{width:calc(100% - 32px);margin-top:28px;gap:20px;padding-top:24px}body>footer.synapse-legal-footer nav{grid-template-columns:repeat(2,minmax(0,1fr));flex-basis:100%;gap:4px 16px}body:has(.bottom-nav)>footer.synapse-legal-footer{padding-bottom:calc(92px + env(safe-area-inset-bottom))}}
+ @media(max-width:999px){body[data-ui-app=batchfee-lite]:has(aside nav)>footer.synapse-legal-footer{padding-bottom:calc(92px + env(safe-area-inset-bottom))}}
+ body.screen-mode>footer.synapse-legal-footer,body:has(.showcase-screen)>footer.synapse-legal-footer{display:none}
+}
+@media print{body>footer.synapse-legal-footer{display:none!important}}

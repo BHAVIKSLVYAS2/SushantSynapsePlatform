@@ -50,7 +50,7 @@ function organisationGate(message,signin=false){
  stateRequest++;
  if(signin){organisations=[];organisation=null;}
  db=null;clearTimeout(searchTimer);$('#modal').close();$('#modal').innerHTML='';$('#print-area').innerHTML='';
- $('#app').innerHTML=`<main id="main" class="organisation-gate"><h1>Choose your Chambers workspace</h1><p role="status">${esc(message)}</p>${!signin&&organisations.length?`<form id="organisation-choice"><label>Organisation<select name="organisation" required><option value="">Choose an organisation</option>${organisationOptions()}</select></label><button class="primary" type="submit">Open workspace</button></form>`:''}<div class="button-row"><a class="secondary" href="${signin?'/signin':'/admin'}">${signin?'Sign in':'Organisation administration'}</a><a class="secondary" href="/">Platform home</a>${!signin?'<button class="secondary" data-action="reload-organisations">Refresh access</button>':''}</div></main>`;
+ $('#app').innerHTML=`<main id="main" class="organisation-gate"><h1>Choose your Chambers workspace</h1><p role="status">${esc(message)}</p>${!signin&&organisations.length?`<form id="organisation-choice"><label>Organisation<select name="organisation" required><option value="">Choose an organisation</option>${organisationOptions()}</select></label><button class="primary" type="submit">Open workspace</button></form>`:''}<div class="button-row"><a class="secondary" href="${signin?'/signin?next=advocate&returnTo='+encodeURIComponent(location.pathname+location.search+location.hash):'/admin'}">${signin?'Sign in':'Organisation administration'}</a><a class="secondary" href="/">Platform home</a>${!signin?'<button class="secondary" data-action="reload-organisations">Refresh access</button>':''}</div></main>`;
  const choice=$('#organisation-choice');if(choice)choice.onsubmit=e=>{e.preventDefault();switchOrganisation(choice.elements.organisation.value);};
  if(signin){
   $('#main .button-row a').remove();
@@ -99,9 +99,10 @@ async function api(route,method='GET',body) {
   }finally{if(writing)pendingWrites--;}
 }
 function toast(message) { $('#toast').textContent=message;$('#toast').classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('#toast').classList.remove('show'),4500); }
-async function refresh(){const request=++stateRequest,result=await api('state');if(scopedPreview&&(request!==stateRequest||inactiveDocument))return;db=result;render();}
-function navigate(target){ if(!pages[target])target='dashboard';page=target;query='';filter='All';selectedDay='';history.replaceState(null,'','#'+page);render();window.scrollTo(0,0);if(page==='ledger')loadLedger(); }
-function renderAuth() { if(scopedPreview)return organisationGate('Sign in with your existing account to open Chambers.',true);location.replace('/?next=advocate'); }
+async function refresh(){const request=++stateRequest,result=await api('state');if(scopedPreview&&(request!==stateRequest||inactiveDocument))return;db=result;render();const route=chamberRoute();if($('#modal').open&&['cases','clients','notes'].includes(route.params.get('kind')))detail(route.params.get('kind'),route.params.get('record'));}
+const pageViews=new Map(),formDrafts=new Map();
+function navigate(target,update=true){if(!pages[target])target='dashboard';if(update&&target===page)return;pageViews.set(page,{query,filter,selectedDay,scroll:scrollY});page=target;const view=pageViews.get(page);query=view?.query||'';filter=view?.filter||'All';selectedDay=view?.selectedDay||'';if(update)history.pushState(history.state,'','#'+page);$('#modal').close();render();window.scrollTo(0,view?.scroll||0);if(page==='ledger')loadLedger();}
+function renderAuth() { if(scopedPreview)return organisationGate('Sign in with your existing account to open Chambers.',true);location.replace('/signin?next=advocate&returnTo='+encodeURIComponent(location.pathname+location.search+location.hash)); }
 function themeControl(){return SynapseTheme.control('data-theme');}
 function navButton(p,mobile=false){return `<button class="${mobile?'bottom-item':'nav-item'} ${page===p?'selected':''}" data-action="nav" data-page="${p}" ${page===p?'aria-current="page"':''}>${icon(p)}<span>${mobile&&p==='hearings'?'Diary':pages[p]}</span>${!mobile&&p==='tasks'?`<b>${active('tasks').filter(t=>t.status!=='Done').length}</b>`:''}</button>`;}
 function render(){
@@ -178,8 +179,10 @@ function inputField(key,f,value){
 }
 function form(kind,record={},defaults={}){
  const schema=db.schemas[kind];if(!writable(kind))return toast(readOnly()?'This licence is read-only.':'Billing changes require an advocate or owner');
+ modalRoute({form:kind,...(record.id?{record:record.id}:{}),...Object.fromEntries(['caseId','clientId','invoiceId'].filter(key=>defaults[key]).map(key=>[key,defaults[key]]))});
  const values={...Object.fromEntries(Object.entries(schema.fields).map(([k,f])=>[k,f.default??(f.type==='date'?today():'')])),...defaults,...record};
  if(kind==='payments'&&values.invoiceId&&!record.id)values.amount=get('invoices',values.invoiceId)?.balance||'';
+ Object.assign(values,formDrafts.get(location.hash)||{});
  openModal(`${record.id?'Edit':'Add'} ${schema.label}`,`<form id="record-form"><div class="form-grid">${Object.entries(schema.fields).map(([k,f])=>inputField(k,f,values[k])).join('')}${kind==='documents'?`<label class="full">${record.id?'Replace file (optional)':'Choose file *'}<input type="file" name="file" ${record.id?'':'required'}><small>Maximum ${db.capabilities?.maxFileBytes===1000000?'1 MB':'5 MB'}. Files download in their original format.</small></label>`:''}</div>${kind==='cases'?'<p class="hint">Schedule hearing dates in the hearing diary after saving this case.</p>':''}${kind==='invoices'?'<p class="hint">This is a professional-fee record, not a GST tax invoice. Record payments separately.</p>':''}<p class="form-error" role="alert"></p><div class="modal-actions">${btn('Cancel','close')}<button type="submit" class="primary">${record.id?'Save changes':'Save '+schema.label}</button></div></form>`);
  const formEl=$('#record-form');
  if(kind==='invoices'){const client=formEl.elements.clientId,caseSelect=formEl.elements.caseId;const update=()=>{for(const option of caseSelect.options){if(option.value){option.hidden=get('cases',option.value)?.clientId!==client.value;option.disabled=option.hidden;}}if(caseSelect.value&&get('cases',caseSelect.value)?.clientId!==client.value)caseSelect.value='';};client.onchange=update;update();}
@@ -189,11 +192,11 @@ function form(kind,record={},defaults={}){
   for(const [k,f] of Object.entries(schema.fields)){if(f.type==='checkbox')input[k]=formEl.elements[k].checked;if(f.type==='money')input[k]=Number(input[k]);}
   if(kind==='documents'){const file=input.file;delete input.file;if(file?.size){const max=db.capabilities?.maxFileBytes||5*1024*1024;if(file.size>max)throw Error('Choose a file up to '+(max===1000000?'1 MB':'5 MB'));input.content=(await readFile(file)).split(',')[1];input.originalName=file.name;}else if(!record.id)throw Error('Choose a nonempty file');}
   if(record.id)input.version=record.version;
-  await api(kind+(record.id?'/'+record.id:''),record.id?'PATCH':'POST',input);$('#modal').close();await refresh();toast(`${schema.label[0].toUpperCase()+schema.label.slice(1)} saved`);
+  await api(kind+(record.id?'/'+record.id:''),record.id?'PATCH':'POST',input);formDrafts.delete(location.hash);history.replaceState({...history.state,chambersModalParent:null},'','#'+page);$('#modal').close();await refresh();toast(`${schema.label[0].toUpperCase()+schema.label.slice(1)} saved`);
  });};
 }
 function readFile(file){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(Error('Unable to read file'));reader.readAsDataURL(file);});}
-function detail(kind,id){const r=get(kind,id);if(!r)return toast('Record not found');
+function detail(kind,id){const r=get(kind,id);if(!r)return toast('Record not found');modalRoute({kind,record:id});
  if(kind==='notes'){openModal(r.title,`<p>${esc(r.type)} · ${fmtDate(r.date)} · ${esc(label('cases',r.caseId))}</p><div class="note-body">${esc(r.body)}</div>${recordActions(kind,r)}`);return;}
  if(kind==='cases'){
   const sections=[['hearings','Hearing history'],['tasks','Tasks'],['notes','Notes & communications'],['documents','Documents'],['invoices','Professional fees'],['expenses','Expenses']];
@@ -273,7 +276,12 @@ document.addEventListener('change',async e=>{
 });
 document.addEventListener('input',e=>{if(e.target.id==='list-search'){query=e.target.value;clearTimeout(searchTimer);searchTimer=setTimeout(()=>{const kind=page==='billing'?billingTab:page;const results=$('#collection-results');if(results&&db.schemas[kind])results.innerHTML=rowsView(kind,filtered(kind));},100);}});
 document.addEventListener('submit',e=>{if(e.target.id==='settings-form'){e.preventDefault();submit(e.target,async()=>{await api('settings','PATCH',Object.fromEntries(new FormData(e.target)));await refresh();toast('Chambers profile saved');});}});
-window.addEventListener('hashchange',()=>{if(db)navigate(location.hash.slice(1));});
+function chamberRoute(){const [name,search='']=location.hash.slice(1).split('?');return {page:pages[name]?name:'dashboard',params:new URLSearchParams(search)};}
+function modalRoute(values){const hash='#'+page+'?'+new URLSearchParams(values);if(location.hash!==hash)history.pushState({...history.state,chambersModalParent:location.href},'',hash);}
+function restoreChambersRoute(){if(!db)return;const route=chamberRoute();navigate(route.page,false);const kind=route.params.get('kind'),id=route.params.get('record'),formKind=route.params.get('form');if(kind&&['cases','clients','notes'].includes(kind)&&get(kind,id))detail(kind,id);else if(formKind&&db.schemas[formKind]&&(!id||get(formKind,id)))form(formKind,id?get(formKind,id):{},Object.fromEntries(['caseId','clientId','invoiceId'].filter(key=>route.params.has(key)).map(key=>[key,route.params.get(key)])));}
+$('#modal').addEventListener('close',()=>{if($('#modal').open)return;const route=chamberRoute();if(!route.params.has('record')&&!route.params.has('form'))return;const parent=history.state?.chambersModalParent;if(parent&&history.length>1)history.back();else history.replaceState(history.state,'','#'+route.page);});
+document.addEventListener('input',event=>{if(!event.target.closest('#record-form'))return;formDrafts.set(location.hash,Object.fromEntries([...$('#record-form').elements].filter(el=>el.name&&el.type!=='file').map(el=>[el.name,el.type==='checkbox'?el.checked:el.value])));});
+window.addEventListener('hashchange',()=>{if(db&&location.hash!=='#main')restoreChambersRoute();});
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='k'&&db){e.preventDefault();searchWorkspace();}});
 async function boot(){
  const auth=await api('auth/status');if(!auth.user)return renderAuth(auth.setupRequired);
@@ -284,9 +292,9 @@ async function boot(){
   if(!organisation)return organisationGate(!organisations.length?'No Chambers workspace is assigned to this account. Ask your organisation administrator for access.':requested?'That workspace is unavailable to this account. Choose an available organisation.':'Select an organisation to open its Chambers workspace.');
   url.searchParams.set('organisation',organisation.id);history.replaceState(null,'',url.href);
  }
- page=pages[location.hash.slice(1)]?location.hash.slice(1):'dashboard';await refresh();if(page==='ledger')await loadLedger();
+ page=chamberRoute().page;await refresh();restoreChambersRoute();
 }
 document.addEventListener('visibilitychange',()=>{if(scopedPreview&&db&&document.visibilityState==='visible')refresh().catch(e=>toast(e.message));});
-addEventListener('pagehide',()=>{if(scopedPreview){inactiveDocument=true;stateRequest++;db=null;$('#modal').close();$('#modal').innerHTML='';$('#print-area').innerHTML='';$('#app').innerHTML='<main id="main" class="loading">Checking organisation access…</main>';}});
+addEventListener('pagehide',()=>{if(scopedPreview){formDrafts.clear();pageViews.clear();inactiveDocument=true;stateRequest++;db=null;$('#modal').close();$('#modal').innerHTML='';$('#print-area').innerHTML='';$('#app').innerHTML='<main id="main" class="loading">Checking organisation access…</main>';}});
 addEventListener('pageshow',e=>{if(scopedPreview&&e.persisted){inactiveDocument=false;boot().catch(error=>organisationGate(error.message));}});
 boot().catch(error=>{if(scopedPreview)return organisationGate(error.message);$('#app').innerHTML=`<main id="main" class="loading"><h1>Unable to open Chambers</h1><p>${esc(error.message)}</p><p>Make sure the server is running, then reload this page.</p><button class="secondary" id="retry">Try again</button></main>`;$('#retry').onclick=()=>location.reload();});

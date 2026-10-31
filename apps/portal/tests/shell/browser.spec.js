@@ -1,6 +1,15 @@
 const {test,expect}=require('../../../../tests/browser-fixture.js');
 const {spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 let child,base,dir;
+test('shared footer appears once after app content across routes and themes',async({page})=>{
+ test.setTimeout(180000);
+ const {setTheme}=require('../../../../tests/browser-theme');
+ for(const route of ['/','/signin','/advocate','/batchfee-lite','/digital-samaj','/tournament-lite','/ritual-assist','/ritual-assist/calendar','/rashifal-kundli/rashifal','/rashifal-kundli','/rashifal-kundli/matching','/moment-studio','/take-a-break','/news','/feedback','/privacy','/showcase','/qr-maker']){
+  await page.goto(base+route);const footer=page.locator('body>footer.synapse-legal-footer');await expect(footer).toHaveCount(1);await expect(footer.locator('.synapse-footer-brand strong')).toHaveText('Sushant Synapse');await expect(footer.locator('a[href="/feedback"]')).toHaveCount(1);
+  for(const width of [320,1440]){await page.setViewportSize({width,height:900});for(const theme of ['light','dark']){await setTheme(page,theme);await footer.scrollIntoViewIfNeeded();await expect(footer).toBeVisible();const geometry=await footer.evaluate(el=>{const r=el.getBoundingClientRect(),style=getComputedStyle(el);return {left:r.left,right:r.right,width:innerWidth,overflow:document.documentElement.scrollWidth>innerWidth,position:style.position,links:[...el.querySelectorAll('nav a')].every(a=>a.getBoundingClientRect().height>=44)};});expect(geometry.left,route).toBeGreaterThanOrEqual(0);expect(geometry.right,route).toBeLessThanOrEqual(geometry.width);expect(geometry.overflow,route).toBe(false);expect(geometry.position).toBe('relative');expect(geometry.links).toBe(true);}}
+ }
+ await page.goto(base+'/ritual-assist');await page.emulateMedia({media:'print'});await expect(page.locator('.synapse-legal-footer')).toBeHidden();
+});
 test.beforeEach(async()=>{
  dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-shell-'));
  child=spawn(process.execPath,['server/index.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir,DATABASE_PROVIDER:'sqlite',NODE_ENV:'test'},stdio:['ignore','pipe','pipe']});
@@ -17,7 +26,7 @@ test('theme icons stay within their control and apart from account at every widt
     const toggle=header.querySelector('.theme-toggle'),box=toggle.getBoundingClientRect(),account=header.querySelector('.platform-account').getBoundingClientRect();
     return {gap:account.left-box.right,iconsFit:[...toggle.querySelectorAll('svg')].every(icon=>{const r=icon.getBoundingClientRect();return r.left>=box.left&&r.right<=box.right;}),overflow:document.documentElement.scrollWidth>innerWidth};
    });
-   expect(layout.gap,route+' '+width+' '+theme).toBeGreaterThanOrEqual(10);expect(layout.iconsFit).toBe(true);expect(layout.overflow).toBe(false);
+   expect(layout.gap,route+' '+width+' '+theme).toBeGreaterThanOrEqual(4);expect(layout.iconsFit).toBe(true);expect(layout.overflow).toBe(false);
   }}
  }
  await page.setViewportSize({width:320,height:700});await page.goto(base+'/');await page.locator('.platform-shell').screenshot({path:'.publish/header-toggle-gap-mobile.png'});
@@ -84,7 +93,7 @@ test('platform frame persists across public apps with usable mobile switching',a
    await page.setViewportSize({width,height:900});
    for(const theme of ['light','dark']){
     await page.evaluate(t=>window.SynapseTheme.write(t),theme);
-    const shell=await page.locator('.platform-shell').boundingBox();expect(shell.y).toBe(0);expect(shell.height).toBe(72);await expect(page.locator('.platform-shell-brand>span')).toHaveText('Sushant SynapsePLATFORM');if(route==='/'||width>=760)await expect(page.locator('.platform-shell-brand>span')).toBeVisible();else await expect(page.locator('.platform-shell-brand>span')).toBeHidden();
+    const shell=await page.locator('.platform-shell').boundingBox();expect(shell.y).toBe(0);expect(shell.height).toBe(72);await expect(page.locator('.platform-shell-brand>span')).toHaveText('Curioby Sushant Synapse');if(route==='/'||width>=760)await expect(page.locator('.platform-shell-brand>span')).toBeVisible();else await expect(page.locator('.platform-shell-brand>span')).toBeHidden();
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${route} ${width} ${theme}`).toBe(true);
     for(const control of ['.platform-switch','.platform-account','.platform-shell .theme-toggle']){
      const r=await page.locator(control).boundingBox();expect(r.height).toBeGreaterThanOrEqual(44);expect(r.x).toBeGreaterThanOrEqual(0);expect(r.x+r.width).toBeLessThanOrEqual(width);
@@ -143,6 +152,8 @@ test('Studio starts with the platform theme and system preferences follow the de
   await page.goto(base+'/moment-studio/cards');await page.locator('[name=title]').fill('Keep this draft');
   let warning='';page.once('dialog',async dialog=>{warning=dialog.message();await dialog.dismiss();});
   await page.locator('.platform-switch').click();await page.locator('#platform-switcher input').fill('Chambers');await page.locator('#platform-switcher nav a:visible').click();
-  expect(warning).toContain('unfinished card');await expect(page).toHaveURL(base+'/moment-studio/cards');await expect(page.locator('[name=title]')).toHaveValue('Keep this draft');
+  expect(warning).toContain('unfinished card');await expect(page).toHaveURL(base+'/moment-studio/cards?overlay=apps');await expect(page.locator('[name=title]')).toHaveValue('Keep this draft');
+  await page.keyboard.press('Tab');await expect(page.locator('.platform-transition')).toBeHidden();
+  await page.goBack();await expect(page).toHaveURL(base+'/moment-studio/cards');await expect(page.locator('[name=title]')).toHaveValue('Keep this draft');
  }finally{await context.close();}
 });

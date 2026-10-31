@@ -1,6 +1,12 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs');
+test('organisation and account templates receive one canonical footer without legacy duplicates',()=>{
+ const {legalHtml}=require('../packages/ui/legal-html.cjs');
+ for(const file of new Set(Object.values(require('../apps/admin/backend/preview-assets.cjs')).filter(f=>f.endsWith('.html')))){
+  const html=legalHtml(fs.readFileSync(file,'utf8'));assert.equal((html.match(/<footer class="synapse-legal-footer"/g)||[]).length,1,file);assert.ok(html.includes('/shared/legal-footer.css'),file);assert.ok(!html.includes('class="admin-footer"'),file);assert.equal(legalHtml(html),html,file);
+ }
+});
 test('every public layout has accessible footer language controls and an allowlisted local script',()=>{
- const {staticAssets}=require('../server/static-assets');assert.equal(staticAssets['/shared/language.js'],'packages/ui/language.js');let count=0;for(const file of [...new Set(Object.values(staticAssets))].filter(file=>file.endsWith('.html'))){const html=require('../packages/ui/legal-html.cjs').legalHtml(fs.readFileSync(file,'utf8'));if(!html.includes('synapse-legal-footer'))continue;assert.equal((html.match(/<footer class="synapse-legal-footer"[\s\S]*?<\/footer>/)?.[0].match(/data-language-control/g)||[]).length,1,file);assert.ok(html.includes('data-interface-language="en"'),file);assert.ok(html.includes('data-interface-language="hi"'),file);assert.ok(/\/shared\/language\.js\?v=[^"\s]+" defer/.test(html),file);count++;}assert.equal(count,28);
+ const {staticAssets}=require('../server/static-assets');assert.equal(staticAssets['/shared/language.js'],'packages/ui/language.js');let count=0;for(const file of [...new Set(Object.values(staticAssets))].filter(file=>file.endsWith('.html'))){const html=require('../packages/ui/legal-html.cjs').legalHtml(fs.readFileSync(file,'utf8'));if(!html.includes('synapse-legal-footer'))continue;assert.equal((html.match(/<footer class="synapse-legal-footer"[\s\S]*?<\/footer>/)?.[0].match(/data-language-control/g)||[]).length,1,file);assert.ok(html.includes('data-interface-language="en"'),file);assert.ok(html.includes('data-interface-language="hi"'),file);assert.ok(/\/shared\/language\.js(?:\?v=[^"\s]+)?" defer/.test(html),file);count++;}assert.ok(count>=32);
 });
 
 test('all shared-header pages load the canonical language service, including tools without a legal footer',()=>{

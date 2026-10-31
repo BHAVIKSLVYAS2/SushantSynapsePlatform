@@ -1,5 +1,45 @@
 # Organisation licensing production cutover
 
+Committed release preparation (2026-10-31 IST): user now authorises commit and
+deployment of the verified working tree described below. Historical no-commit
+checkpoints remain as evidence. Preserve organisation/D1 bindings and deploy with
+`--keep-vars`; no migrations or data changes are part of this release.
+
+Shared footer verification release (2026-10-31 IST): Worker
+`e3d21043-5406-42c9-bf4e-60e124236453` deploys the uncommitted canonical footer
+across shared-shell pages, including generated Ritvayam pages. Production dry run
+and deployment passed with `--keep-vars`; no migration or business-data changes.
+Git HEAD remains `ec6f37a`. Local composition checks pass 7/7; Chrome passes 18
+routes and 72 width/theme combinations. Live Chrome also passes all 18 routes and
+72 layouts, including production account redirects, print hiding, health 200 and
+unscoped records 409, with no page errors. The initial release omitted account
+templates; the final release above corrects that production-only discovery.
+Evidence: `.publish/footer-dryrun.log`, `.publish/footer-final-browser.log`,
+`.publish/footer-final-deploy.log` and `.publish/footer-live-final.log`.
+
+Source display verification release (2026-10-31 IST): uncommitted cleanup is
+deployed as Worker `1dc78702-5ae0-46be-84d4-ccdaf2c24f32`, after a production-config
+dry run, with `--keep-vars`. Required credits and optional research links remain;
+unnecessary publisher branding and provider-specific disclaimers are removed.
+No migration, account/licence change or business-data write. Git HEAD remains
+`ec6f37a`. Live Chrome verifies citation cleanup, updated public notices, Hindi
+learning/downloads, navigation and 54 light/dark layouts; health 200 and unscoped
+records 409; no page errors or business writes. Evidence:
+`.publish/source-cleanup-{dryrun,deploy,live}.log`.
+
+Latest verification release (2026-10-31 IST): uncommitted mobile/navigation and
+Ritual Assist learning changes are deployed as Worker
+`a0fc697f-f684-4d95-9eca-f748fb4e3aab`, using the production configuration with
+`--keep-vars`. Git HEAD remains `ec6f37a`; the user explicitly prohibited commits.
+The production-config dry run passed. Organisation mode, D1 bindings, rate limits
+and existing records/accounts remain in place; no migration or production business
+write was included. Source scope, test evidence and live verification are recorded
+in `RITUAL_LEARNING_REVIEW_2026-10-31.md` and
+`MOBILE_NAVIGATION_REVIEW_2026-10-31.md`.
+Live learning/navigation checks, 54 layout combinations, health 200 and unscoped
+records 409 pass, with no page errors or business writes. Evidence:
+`.publish/ritual-learning-mobile-{dryrun,deploy,live}.log`.
+
 Latest Ritvayam readings and featured demo release (2026-10-31 IST): commit
 `e1b117a` is deployed as Worker `d667f36f-dbda-42b0-a5b3-ed3ab4f16d09` with
 `--keep-vars`. Kundli/Dasha prose uses admitted natal placements; matching explains
