@@ -1,5 +1,10 @@
 # Rashifal and Kundli: internal birth, export and P11 traditions UI
 
+Release status (2026-10-31 IST): conversational readings, the single Matching
+scope note and both chart-selected relationship readings below are deployed in
+`df44c19` / Worker `da042078-7891-4d12-a4ba-897eb33824a8`. Live verification
+passes; evidence is in `docs/FUNCTIONALITY_LEDGER.md`.
+
 Matching also shows separate chart-selected relationship tendencies for Person A
 and Person B in English, Hindi and Gujarati. It reuses the existing Kundali Moon
 sign and seventh-house sign/element interpretation tables, displaying the actual

@@ -1,12 +1,12 @@
 # Curio · Sushant Synapse
 
-Local workflow improvements add direct task shortcuts for cards, certificates,
+Deployed workflow improvements add direct task shortcuts for cards, certificates,
 photo resizing, Shraddha/Barsi, Focus and QR. Private sign-in preserves the intended
 app and resolves currently eligible organisation access. QR previews update while
 editing; Focus tasks start directly; Decision Wheel needs only Spin; Timetable
 setup sections share one workspace with preserved unsaved drafts. Ritual results
 lead with the next observance and disclose the full calendar. These changes are
-not yet deployed; verification and release status are in the functionality ledger.
+live as of 2026-10-31; verification and release status are in the functionality ledger.
 
 Pandit Booking has a deployed restricted managed pilot at `/pandit-booking`, with
 puja details, approved Pandit service areas, private bookings, preparation and

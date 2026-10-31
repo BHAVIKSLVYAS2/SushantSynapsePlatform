@@ -1,5 +1,15 @@
 # Organisation licensing production cutover
 
+Ritvayam readings and workflow release (2026-10-31 IST): user authorised
+commit/deploy. Commits `df44c19` and `5d764f4` are live as Worker
+`da042078-7891-4d12-a4ba-897eb33824a8`, deployed with `--keep-vars`.
+Live Matching passes both chart-selected readings in three languages, one scope
+note, stable scores, consent cleanup and 24 responsive theme states. Native
+Kundali and Rashifal, task shortcuts and signed-out app intent pass. Health 200,
+unscoped records 409 and zero browser errors. Synthetic inputs only; no migration,
+configuration/account/licence or business-data changes. Evidence and local tests:
+`docs/FUNCTIONALITY_LEDGER.md`, `.publish/ritvayam-readings-{deploy,live}.log`.
+
 Shraddha/Barsi location-picker and cleanup release (2026-10-31 IST): user
 authorised commit/deploy. Commits `ac65a47`, `3382b06` and packaging correction
 `e02e3f5` are live as Worker `e38ecaf3-e39f-446e-ba5b-c95e23cf74b2`, deployed
