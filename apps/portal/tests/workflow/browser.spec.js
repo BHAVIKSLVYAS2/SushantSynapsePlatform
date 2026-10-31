@@ -1,10 +1,11 @@
 const {test,expect}=require('../../../../tests/browser-fixture.js'),{spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');let child,base,dir;
 test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-workflow-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,DATABASE_PROVIDER:'sqlite',NODE_ENV:'test',PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe'],windowsHide:true});await new Promise((resolve,reject)=>{let text='';child.stdout.on('data',data=>{text+=data;const match=text.match(/localhost:(\d+)/);if(match){base='http://127.0.0.1:'+match[1];resolve();}});child.once('error',reject);});});
 test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
-test('task discovery opens the actual workflow and preserves search, language and mobile layouts',async({page})=>{
- const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base);await expect(page.locator('[data-task-id]')).toHaveCount(6);await page.locator('.home-search input').fill('birthday');await expect(page.locator('[data-task-id=birthday]')).toBeVisible();await page.locator('[data-task-id=birthday]').click();await expect(page.locator('#occasion')).toHaveValue('birthday');
- await page.goto(base);await page.locator('[data-task-id=barsi]').click();await expect(page.locator('#calendar-form')).toBeVisible();await expect(page.locator('#calendar-use-location')).toBeVisible();
- await page.goto(base);await page.evaluate(()=>window.dispatchEvent(new CustomEvent('synapse-language-change',{detail:{language:'hi'}})));await expect(page.locator('[data-task-id=barsi]')).toHaveText('श्राद्ध / बरसी की तारीखें');
+test('home keeps one app catalogue without a redundant task strip and preserves task search',async({page})=>{
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base);await expect(page.locator('.home-task-shortcuts,[data-task-id]')).toHaveCount(0);
+ await page.locator('.home-search input').fill('birthday');await expect(page.locator('.public-app[data-app-id=moment-studio]')).toBeVisible();
+ await page.locator('.home-search input').fill('barsi');await expect(page.locator('.public-app[data-app-id=ritual-assist]')).toBeVisible();
+ await page.locator('.home-search input').fill('श्राद्ध');await expect(page.locator('.public-app[data-app-id=ritual-assist]')).toBeVisible();await page.locator('.home-search input').fill('');
  for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await page.evaluate(t=>SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}expect(errors).toEqual([]);
 });
 test('QR updates without an extra create click and never downloads an obsolete result',async({page})=>{

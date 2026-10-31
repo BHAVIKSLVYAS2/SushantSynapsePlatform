@@ -9,9 +9,9 @@ only Moon sign/house, without birth identity. No Guna-score-to-behaviour mapping
 new trait inference, aspect/strength synthesis, runtime AI or persistence is added.
 An unavailable D1 chart withholds both readings independently of Guna availability.
 
-Task-oriented workflow (2026-10-31, local): app-registry owns translated public
-task descriptors and static task-link rendering; home-discovery hydrates filters
-without changing access policy. `packages/ui/task-intent.mjs` allowlists private
+Task-oriented workflow (2026-10-31): app-registry owns translated task search
+terms; home-discovery filters the existing app catalogue. The redundant task-link
+strip was removed locally following user review. `packages/ui/task-intent.mjs` allowlists private
 app destinations, strips foreign URLs/query scope and derives continuation from
 the account's live membership/app projection. Production sign-in preserves that
 intent; one eligible organisation resumes, multiple choices stay explicit, and

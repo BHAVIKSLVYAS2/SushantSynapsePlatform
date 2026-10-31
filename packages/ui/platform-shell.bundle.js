@@ -83,8 +83,7 @@ const tasks=[
  {id:'focus',appId:'focus',path:'/focus',labels:{en:'Start focusing',hi:'ध्यान से काम करें',gu:'ધ્યાનથી કામ કરો'}},
  {id:'qr',appId:'qr-maker',path:'/qr-maker',labels:{en:'Create a QR code',hi:'QR कोड बनाएँ',gu:'QR કોડ બનાવો'}}
 ];
-const renderTaskLinks=()=>'<nav class="home-task-shortcuts" aria-label="Quick tasks">'+tasks.map(task=>'<a data-task-id="'+task.id+'" data-task-app="'+task.appId+'" href="'+escapeHtml(task.path)+'">'+escapeHtml(task.labels.en)+'</a>').join('')+'</nav>';
-const catalogue={apps,tasks,renderTaskLinks,resolveAppId,visibleApps,featuredApps,appSearchText,renderCard,renderCompactCard,escapeHtml};
+const catalogue={apps,tasks,resolveAppId,visibleApps,featuredApps,appSearchText,renderCard,renderCompactCard,escapeHtml};
 if(typeof module==='object'&&module.exports)module.exports=catalogue;
 else root.SynapseCatalogue=catalogue;
 
