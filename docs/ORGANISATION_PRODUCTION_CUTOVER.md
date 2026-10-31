@@ -1,9 +1,13 @@
 # Organisation licensing production cutover
 
-Committed release preparation (2026-10-31 IST): user now authorises commit and
-deployment of the verified working tree described below. Historical no-commit
-checkpoints remain as evidence. Preserve organisation/D1 bindings and deploy with
-`--keep-vars`; no migrations or data changes are part of this release.
+Committed production release (2026-10-31 IST): implementation commit `8a21191`
+is deployed as Worker `daa2d986-e138-493d-b451-f42c2b101181`, with `--keep-vars`.
+This supersedes the historical uncommitted checkpoints below. Focused checks pass
+15/15. Live footer verification passes 18 routes/72 layouts; learning/navigation
+passes 54 layouts, bilingual content/downloads, history, source cleanup and public
+notices. Health 200; unscoped records 409; no page errors or business writes.
+Organisation/D1 bindings remain; no migration, bootstrap or account/licence change.
+Evidence: `.publish/platform-committed-release-{deploy,footer,learning}.log`.
 
 Shared footer verification release (2026-10-31 IST): Worker
 `e3d21043-5406-42c9-bf4e-60e124236453` deploys the uncommitted canonical footer

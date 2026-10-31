@@ -1,12 +1,15 @@
 # Chambers functionality ledger
 
-**Committed release preparation (2026-10-31 IST):** User now authorises committing
-and deploying the previously verified mobile/navigation, Ritual Assist learning,
-source display and consistent-footer changes. Earlier no-commit notes below
-describe their verification checkpoints and are superseded by this authorisation.
-The same production configuration and `--keep-vars` will be used without any
-migration, bootstrap or business-data write. Final release evidence will be added
-after publishing the committed source.
+**Committed production release (2026-10-31 IST):** Implementation commit `8a21191`
+is deployed as Worker `daa2d986-e138-493d-b451-f42c2b101181`, with `--keep-vars`.
+User authorised committing/deploying the verified mobile/navigation, Ritual Assist
+learning, source display and consistent-footer changes. Earlier no-commit notes
+below describe historical verification checkpoints. Focused checks pass 15/15.
+Live footer verification passes 18 routes and 72 layouts; learning/navigation
+verification passes 54 layouts, Sanskrit/IAST, Hindi/downloads, nested Back/Forward,
+source cleanup, public notices, health 200 and unscoped records 409. No page errors,
+business writes, migration or bootstrap; organisation/D1 bindings are preserved.
+Evidence: `.publish/platform-committed-release-{deploy,footer,learning}.log`.
 
 **Consistent platform footer (2026-10-31 IST, uncommitted):** Canonical server/build
 composition now adds one shared footer outside app render roots on every
