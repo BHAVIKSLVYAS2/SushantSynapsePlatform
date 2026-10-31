@@ -11,6 +11,7 @@ fieldset.civil-input,.vedic-matching fieldset.civil-input{min-width:0;margin:0;p
 .civil-input:disabled{opacity:.6}
 .birthplace-combobox{position:relative}
 .birthplace-input-wrap{position:relative;width:100%}
+.birthplace-input-wrap>input{display:block;margin:0}
 .birthplace-options[data-placement=above]{top:auto;bottom:100%}
 .birthplace-options{position:absolute;top:100%;inset-inline:0;z-index:5;max-height:18rem;overflow:auto;border:1px solid var(--ui-edge);border-radius:.8rem;background:var(--ui-solid);box-shadow:0 .6rem 1.5rem color-mix(in srgb,var(--ui-ink) 15%,transparent)}
 .birthplace-options [role=option]{padding:.85rem;min-height:48px;cursor:pointer;line-height:1.5;border-bottom:1px solid var(--ui-edge)}

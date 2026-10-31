@@ -85,10 +85,12 @@ test('calendar server failure keeps inputs and editing cancels an in-flight resu
 async function selectCalendarCity(page){await page.locator('#calendar-location-query').fill('New Delhi');await page.locator('#calendar-location-results [data-place-id="geonames:1261481"]').click();}
 
 test('Vrat city autocomplete stays attached to the field and supports keyboard selection',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
  await page.goto(base+'/ritual-assist/calendar');await expect(page.locator('#observance-pin')).toHaveCount(0);const input=page.locator('#observance-location-query'),list=page.locator('#observance-location-results');await input.fill('New Delhi');await expect(list).toBeVisible();
  const field=await input.boundingBox(),options=await list.boundingBox();expect(Math.min(Math.abs(options.y-field.y-field.height),Math.abs(options.y+options.height-field.y))).toBeLessThan(3);expect(Math.abs(options.width-field.width)).toBeLessThan(3);
  await input.press('ArrowDown');await expect(input).toHaveAttribute('aria-activedescendant',/observance-location-option-/);await input.press('Enter');await expect(page.locator('#observance-location-place-id')).toHaveValue('geonames:1261481');await expect(list).toBeHidden();
  await chooseInterfaceLanguage(page,'hi');await expect(page.locator('#observance-location-place-id')).toHaveValue('geonames:1261481');await input.fill('zzzzzz');await expect(page.locator('#observance-location-place-id')).toHaveValue('');expect(await input.evaluate(el=>el.checkValidity())).toBe(false);await expect(list).toBeHidden();
+ await page.locator('#view-remembrance').click();await page.locator('#calendar-location-query').fill('New Delhi');await expect(page.locator('#calendar-location-results')).toBeVisible();const gap=await page.evaluate(()=>{const q=document.querySelector('#calendar-location-query').getBoundingClientRect(),l=document.querySelector('#calendar-location-results').getBoundingClientRect();return Math.min(Math.abs(l.top-q.bottom),Math.abs(l.bottom-q.top));});expect(gap).toBeLessThan(3);
 });
 
 test('remembrance location detection uses supported cities, keeps GPS out of requests and preserves translated drafts',async({page,context})=>{

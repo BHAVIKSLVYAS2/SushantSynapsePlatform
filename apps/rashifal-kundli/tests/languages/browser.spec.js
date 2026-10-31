@@ -5,6 +5,7 @@ let server,origin;test.beforeAll(async()=>{server=await require('../production-s
 const script={hi:/[\u0900-\u097f]/,gu:/[\u0a80-\u0aff]/};
 
 test('city suggestions stay attached to the input across Kundali, Matching and Time Machine',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
  for(const [route,prefix]of [['/rashifal-kundli','birth'],['/rashifal-kundli/matching','match-a'],['/rashifal-kundli/time-machine','tm']]){
   await page.goto(origin+route);if(prefix==='match-a')await page.locator('#matching-consent').check();if(prefix==='birth')await editBirth(page,'#birth-query');
   const input=page.locator('#'+prefix+'-query'),list=page.locator('#'+prefix+'-query-options');await input.fill('New Delhi');await expect(list).toBeVisible();const field=await input.boundingBox(),options=await list.boundingBox();expect(Math.min(Math.abs(options.y-field.y-field.height),Math.abs(options.y+options.height-field.y))).toBeLessThan(3);expect(Math.abs(options.width-field.width)).toBeLessThan(3);
