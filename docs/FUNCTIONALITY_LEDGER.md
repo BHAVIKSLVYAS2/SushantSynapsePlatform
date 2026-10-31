@@ -1,12 +1,18 @@
 # Chambers functionality ledger
 
-**Organisation admin release preparation (2026-10-31 IST):** User now authorises
-commit and deployment of the verified redesign below. The preceding local-only
-restriction is superseded for publishing this change. Existing production
-configuration and `--keep-vars` will preserve organisation/D1 bindings; no migration,
-bootstrap, account, licence or business-data changes are included.
+**Organisation admin production release (2026-10-31 IST):** Implementation commit
+`0793c7c` is deployed as Worker `24b9ccf0-09bf-4aca-81fe-d7f855c59959`, following
+user authorisation to commit/deploy the verified redesign. Exact production-config
+dry run and deployment passed with `--keep-vars`. Existing organisation/D1 bindings
+and production settings remain; no migration, bootstrap, account, licence or
+business-data change. Local verification below covers 38 API, 5 D1 and all 21 admin
+browser scenarios. Live read-only Chrome checks pass 18 signed-out layouts across
+admin/Super Admin/account pages, new module delivery, sign-in/account redirect,
+authentication boundary, health 200 and unscoped records 409. No page errors,
+business writes or production accounts used. Authenticated flows were tested only
+with isolated fixtures. Evidence: `.publish/admin-release-{dryrun,deploy,live}.log`.
 
-**Organisation administration redesign (2026-10-31 IST, local/uncommitted):**
+**Organisation administration redesign local verification checkpoint (2026-10-31 IST):**
 Super Admin now has a searchable organisation directory, selected overview and
 four-step organisation/primary-admin/apps-and-seats/review creation wizard.
 Multiple initial licences use the existing API. Master Admin has task sections
@@ -33,7 +39,8 @@ write, new/existing licence switching and ISO time conversion, explicit suspensi
 and recovery confirmations, invitations/secrecy, stale edits, tenant/role isolation
 and delayed-session responses. Evidence: `.publish/admin-redesign-{api,build,d1,
 final,recovered}.log`. Mobile screenshots were reviewed. `git diff --check` passes.
-HEAD remains `2244440`; nothing committed, deployed or tested against production.
+At this local checkpoint, HEAD was `2244440`; no commit, deployment or production
+testing had been performed. The production release above supersedes that status.
 
 Remaining UX limits: native iOS/Android date-picker behaviour has not been checked
 on physical devices. Wizard drafts deliberately remain in page memory and reset

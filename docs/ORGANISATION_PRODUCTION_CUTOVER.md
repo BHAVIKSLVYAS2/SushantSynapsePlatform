@@ -1,5 +1,19 @@
 # Organisation licensing production cutover
 
+Organisation administration redesign release (2026-10-31 IST): implementation
+commit `0793c7c` is deployed as Worker `24b9ccf0-09bf-4aca-81fe-d7f855c59959`.
+User explicitly authorised commit/deployment after the local-only review. Exact
+production-config dry run and deploy passed with `--keep-vars`; bindings, settings,
+accounts and data are preserved. No migration, bootstrap or licence/business write.
+Local evidence: 38 API checks, 5 local D1 checks and all 21 admin browser scenarios
+verified across final/recovery runs. Live checks use no production accounts and
+submit no writes: admin/Super Admin/account delivery, new presentation module,
+18 signed-out width/theme layouts, sign-in/account redirect and unauthenticated
+boundary pass. Health 200; unscoped records 409; no page errors. Authenticated
+workflows were verified only in isolated temporary fixtures. Evidence:
+`.publish/admin-release-{dryrun,deploy,live}.log`; scope/limits in the ledger and
+`apps/admin/README.md`.
+
 Committed production release (2026-10-31 IST): implementation commit `8a21191`
 is deployed as Worker `daa2d986-e138-493d-b451-f42c2b101181`, with `--keep-vars`.
 This supersedes the historical uncommitted checkpoints below. Focused checks pass
