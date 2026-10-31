@@ -1,5 +1,15 @@
 # Organisation licensing production cutover
 
+Private-product account presentation release (2026-10-31 IST): implementation
+commit `1c250ec` is deployed as Worker `efbf18db-3b60-4904-a7dd-e9ebc080d731`.
+Product-specific account cards and admin wording retain existing access projections
+and permissions. Exact-config dry run/deploy pass with `--keep-vars`; no migration,
+configuration, account/licence or business-data changes. Fresh isolated verification:
+5/5 API and 11/11 focused browser workflows. Live read-only checks pass new account
+copy/module delivery, 18 signed-out layouts, admin/account/auth routes, health 200
+and unscoped records 409, with no page errors, writes or production-account use.
+Evidence: `.publish/product-release-{api,browser,dryrun,deploy,live}.log`.
+
 Organisation administration redesign release (2026-10-31 IST): implementation
 commit `0793c7c` is deployed as Worker `24b9ccf0-09bf-4aca-81fe-d7f855c59959`.
 User explicitly authorised commit/deployment after the local-only review. Exact

@@ -1,11 +1,16 @@
 # Chambers functionality ledger
 
-**Private-product presentation release preparation (2026-10-31 IST):** User now
-authorises commit/deployment of the account cards and product-specific admin copy
-recorded below. Fresh isolated validation passes 5/5 account/admin API checks and
-11/11 focused browser workflows. Exact production-config dry run passes. Evidence:
-`.publish/product-release-{api,browser,dryrun}.log`. Publishing will preserve
-existing settings/bindings with `--keep-vars`, without migrations or business writes.
+**Private-product presentation production release (2026-10-31 IST):** Commit
+`1c250ec` is deployed as Worker `efbf18db-3b60-4904-a7dd-e9ebc080d731`, following
+explicit user authorisation. Isolated checks pass 5/5 account/admin API and 11/11
+focused browser workflows. Exact production-config dry run/deploy pass with
+`--keep-vars`; existing settings/bindings remain. No migration, account/licence or
+business-data change. Live Chrome verifies new account copy and module delivery,
+18 signed-out width/theme layouts, admin/Super Admin/account pages, sign-in/account
+redirect, auth boundary, health 200 and unscoped records 409. No page errors,
+business writes or production accounts used. Authenticated flows were verified
+only with temporary fixtures. Evidence: `.publish/product-release-{api,browser,
+dryrun,deploy,live}.log`. The local checkpoint below is historical.
 
 **Organisation admin production release (2026-10-31 IST):** Implementation commit
 `0793c7c` is deployed as Worker `24b9ccf0-09bf-4aca-81fe-d7f855c59959`, following
