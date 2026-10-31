@@ -10,6 +10,8 @@ fieldset.civil-input,.vedic-matching fieldset.civil-input{min-width:0;margin:0;p
 .civil-input-help{margin:.5rem 0 0;font-size:.8rem;line-height:1.5;color:var(--ui-muted)}
 .civil-input:disabled{opacity:.6}
 .birthplace-combobox{position:relative}
+.birthplace-input-wrap{position:relative;width:100%}
+.birthplace-options[data-placement=above]{top:auto;bottom:100%}
 .birthplace-options{position:absolute;top:100%;inset-inline:0;z-index:5;max-height:18rem;overflow:auto;border:1px solid var(--ui-edge);border-radius:.8rem;background:var(--ui-solid);box-shadow:0 .6rem 1.5rem color-mix(in srgb,var(--ui-ink) 15%,transparent)}
 .birthplace-options [role=option]{padding:.85rem;min-height:48px;cursor:pointer;line-height:1.5;border-bottom:1px solid var(--ui-edge)}
 .birthplace-options [role=option]:hover,.birthplace-options [aria-selected=true]{background:var(--ui-soft);outline:2px solid var(--ui-accent);outline-offset:-2px}
@@ -65,7 +67,7 @@ fieldset.civil-input,.vedic-matching fieldset.civil-input{min-width:0;margin:0;p
 .kundli-topic .kundli-topic-lead,.kundli-topic p{line-height:1.9;text-wrap:pretty;max-width:68ch}
 .kundli-topic .kundli-topic-action{margin-top:1rem;line-height:1.8;border-inline-start:3px solid var(--ui-accent)}
 .kundli-identity dd{line-height:1.5}.kundli-topic details summary{line-height:1.6}
-.vedic-matching .birthplace-options,.vedic-time-machine .birthplace-options{position:static;max-height:14rem;box-shadow:none}
+.vedic-matching .birthplace-options,.vedic-time-machine .birthplace-options{max-height:min(16rem,45dvh)}
 /* Journey enhancements reuse the existing form, reading and calculation views. */
 .vedic-birth-app>h1{margin:.25rem 0 .5rem}.vedic-birth-app>h1+p{max-width:65ch;margin:.25rem 0 1rem;color:var(--ui-muted);font-size:.9rem}
 .vedic-birth-app .kundli-input-panel{margin:.75rem 0;padding:.8rem;border-radius:1rem;background:var(--ui-solid)}

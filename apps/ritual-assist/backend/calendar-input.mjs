@@ -1,7 +1,6 @@
 import {cities,validateInput} from '../frontend/panchang.mjs';
 import {resolvePincode} from './pincode.mjs';
-import {getPlace} from '../../../packages/vedic/places.mjs';
-const northStates=new Set(['Delhi','Uttar Pradesh','Uttarakhand','Himachal Pradesh','Haryana','Punjab','Chandigarh','Rajasthan','Madhya Pradesh','Bihar','Jharkhand','Chhattisgarh','Jammu and Kashmir','Jammu & Kashmir']);
+import {resolveCalendarCity} from './calendar-city.mjs';
 const north=new Set(['delhi','jaipur','lucknow','varanasi','patna','bhopal','chandigarh','shimla','dehradun','jammu','ranchi','raipur']);
 export function calendarLocationResult(result,input){
  const location=input.selectedLocation||input.postal;
@@ -15,7 +14,7 @@ export function calendarInput(input,now=Date.now()){
  let selectedLocation=null;
  if(input.placeId!==undefined){
   if(typeof input.placeId!=='string'||input.pincode!==undefined||input.city!==undefined)throw Error('Choose one supported Indian city');
-  const place=getPlace(input.placeId);selectedLocation={id:place.id,name:place.label,lat:place.latitude,lon:place.longitude,state:place.state,approximate:true,source:'GeoNames · CC BY 4.0',calendar:northStates.has(place.state)?'purnimanta':'amanta'};
+  selectedLocation=resolveCalendarCity(input.placeId);
  }
  const postal=input.pincode===undefined?null:resolvePincode(input.pincode);
  if(postal&&input.city!==undefined)throw Error('Use a PIN code without a city selector');

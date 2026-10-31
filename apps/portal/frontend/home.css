@@ -707,3 +707,4 @@ body[data-ui-app=portal] .public-home .home-active-filters button{min-height:44p
  .home-vedic .almanac-compact>details>summary:after{flex-basis:18px;width:18px;font-size:22px}
 }
 @media(max-width:370px){.home-vedic .almanac-current-label{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.home-vedic .almanac-current-identity{padding-inline-end:6px}.home-vedic .almanac-current-timing small{font-size:10px}.home-vedic .almanac-compact>details>summary{padding-inline:8px}}
+.almanac-city-results [aria-selected=true]{background:var(--ui-soft);outline:2px solid var(--ui-accent);outline-offset:-2px}

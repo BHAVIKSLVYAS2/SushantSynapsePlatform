@@ -1,7 +1,7 @@
-import {placeLabel,relabelPlaces} from './place-text.mjs';
+import {placeLabel} from './place-text.mjs';
 import {term,limbText,nakshatraName} from './display-text.mjs';
 import {diagnosticText} from './diagnostic-text.mjs';
-import {searchPlaces} from '../../../packages/vedic/places.mjs';
+import {mountBirthplace} from './birthplace-input.mjs';
 import {yearlyTithiCandidates,birthdayRule} from '../../../packages/vedic/birth-observance.mjs';
 import {namingData,namingGuidance,findNames} from './naming-data.mjs';
 import {locale} from './locale.mjs';
@@ -63,9 +63,9 @@ export function mountTraditions(container,report,{input,now,language='en'}){
  function revoke(){for(const timer of timers)clearTimeout(timer);for(const url of urls)URL.revokeObjectURL(url);timers.clear();urls.clear();}
  function invalidate(){clearTimeout(pending);pending=null;annual=null;output.replaceChildren();status.textContent='';calculate.disabled=p.status!=='available'||month.status!=='available';revoke();}
  for(const c of [year,place,rule,policy]){c.addEventListener('input',invalidate);c.addEventListener('change',invalidate);}
- city.addEventListener('input',()=>{invalidate();place.replaceChildren(el('option',t.place));place.options[0].value='';try{for(const match of searchPlaces(city.value,{limit:12}).matches){const o=el('option',placeLabel(match,language));o.value=match.id;place.append(o);}}catch{status.textContent=l.error;}});
+ const cityHelp=el('p');city.parentElement.append(cityHelp);const cityPicker=mountBirthplace(city,place,cityHelp);cityPicker.translate(language);cityPicker.select(report.birth.place.id,false);city.addEventListener('input',invalidate);
  function downloadCalendar(){const url=URL.createObjectURL(new Blob([candidateCalendar(annual,language)],{type:'text/calendar;charset=utf-8'}));urls.add(url);const a=el('a');a.href=url;a.download='tithi-candidates.ics';a.click();const timer=setTimeout(()=>{URL.revokeObjectURL(url);urls.delete(url);timers.delete(timer);},1000);timers.add(timer);}
- calculate.addEventListener('click',()=>{if(![year,place,rule,policy].every(c=>c.reportValidity()))return;invalidate();calculate.disabled=true;status.textContent=t.busy;
+ calculate.addEventListener('click',()=>{if(![year,city,place,rule,policy].every(c=>c.reportValidity()))return;invalidate();calculate.disabled=true;status.textContent=t.busy;
   pending=setTimeout(()=>{pending=null;if(destroyed)return;try{annual=yearlyTithiCandidates({...input,language},{year:Number(year.value),observancePlaceId:place.value,ruleId:rule.value,adhikaPolicy:policy.value},{now:now()});
    status.textContent='';output.append(el('p',`${annual.rule.id} · ${term(annual.adhikaPolicy,language)} · ${placeLabel(annual.place,language)}`));
    if(!annual.occurrences.length)output.append(el('p',t.empty));
@@ -75,5 +75,5 @@ export function mountTraditions(container,report,{input,now,language='en'}){
   }catch(error){status.textContent=`${t.unavailable}: ${diagnosticText(error.code??'COMPUTATION_LIMIT',language)}`;}finally{if(!destroyed)calculate.disabled=false;}
   },0);
  });
- container.replaceChildren(root);return {destroy(){destroyed=true;clearTimeout(pending);revoke();annual=null;root.remove();}};
+ container.replaceChildren(root);return {destroy(){destroyed=true;cityPicker.destroy();clearTimeout(pending);revoke();annual=null;root.remove();}};
 }

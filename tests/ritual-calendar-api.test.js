@@ -4,6 +4,21 @@ before(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-ritual-api-')
 after(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
 const details={date:'2025-10-01',time:'12:00',pincode:'110001'};
 
+test('Vrat city IDs resolve identically in Node and Workers, retain defaults and reject mixed or raw locations',async()=>{
+ const {ritual}=await import('../apps/ritual-assist/backend/edge.mjs');
+ const {getPlace}=await import('../packages/vedic/places.mjs');
+ const env={CALENDAR_LIMITER:{limit:async()=>({success:true})}};
+ for(const [id,calendar]of [['geonames:1261481','purnimanta'],['geonames:1275339','amanta']]){
+  const input={month:'2026-10',placeId:id},headers={'Content-Type':'application/json','CF-Connecting-IP':id.endsWith('1481')?'192.0.2.211':'192.0.2.212'};
+  const response=await fetch(base+'/api/ritual-assist/observances',{method:'POST',headers,body:JSON.stringify(input)});assert.equal(response.status,200);
+  const node=await response.json(),edge=await(await ritual({request:new Request('https://example.test/api/ritual-assist/observances',{method:'POST',headers,body:JSON.stringify(input)}),env,route:'ritual-assist/observances'})).json();
+  assert.deepEqual(node,edge);assert.equal(node.result.location.id,id);assert.equal(node.result.location.lat,getPlace(id).latitude);assert.equal(node.result.calendar,calendar);assert.equal(node.result.calculation.stored,false);assert.equal(node.result.location.pincode,undefined);
+ }
+ for(const extra of [{pincode:'110001'},{lat:28,lon:77},{placeId:'unknown'},{placeId:null}]){
+  const response=await fetch(base+'/api/ritual-assist/observances',{method:'POST',headers:{'Content-Type':'application/json','CF-Connecting-IP':'192.0.2.213'},body:JSON.stringify({month:'2026-10',placeId:'geonames:1261481',...extra})});assert.equal(response.status,400);
+ }
+});
+
 test('city IDs use authoritative coordinates and preserve Node/Worker calendar metadata without GPS input',async()=>{
  const {calendarInput}=await import('../apps/ritual-assist/backend/calendar-input.mjs');
  const input={date:details.date,time:details.time,placeId:'geonames:1261481'};

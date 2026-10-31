@@ -1,5 +1,10 @@
 # Curio · Sushant Synapse
 
+Local calendar improvements replace Vrat's PIN field with city search and
+opt-in location detection, keep city suggestions beside the input across apps,
+and add a prominent next-ten-years action to Shraddha/Barsi results. This pass
+is not yet committed or deployed; evidence is in the functionality ledger.
+
 The home-page correction removes the redundant task-link label strip and
 restores the app catalogue layout. Task-related search terms remain available.
 This correction is deployed as of 2026-10-31.

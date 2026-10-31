@@ -1,5 +1,11 @@
 # Rashifal and Kundli: internal birth, export and P11 traditions UI
 
+Local city-search improvement: Kundali, Matching, Time Machine and annual tithi
+use one input-anchored combobox with bounded suggestions, arrow/Enter selection,
+Escape dismissal and above-field placement when the visible viewport needs it.
+Home/daily Panchang city suggestions also support keyboard selection. Calculation
+place IDs, native languages and chart/privacy rules remain intact.
+
 Release status (2026-10-31 IST): conversational readings, the single Matching
 scope note and both chart-selected relationship readings below are deployed in
 `df44c19` / Worker `da042078-7891-4d12-a4ba-897eb33824a8`. Live verification

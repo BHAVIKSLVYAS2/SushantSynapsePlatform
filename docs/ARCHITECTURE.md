@@ -1,5 +1,16 @@
 # Code ownership and adding apps
 
+City/calendar usability (2026-10-31, local): Ritual Assist reuses
+`calendar-location.mjs` for both Vrat and remembrance forms with distinct IDs.
+Both adapters validate city IDs through app-owned `calendar-city.mjs`; regional
+defaults and approximate settlement coordinates remain server-resolved. Vrat
+cache identity includes the city ID. Legacy PIN requests remain compatible.
+Suggestions use an anchored, bounded combobox with keyboard selection and flip
+above the input when the visual viewport lacks room below. Ritvayam's shared
+`birthplace-input.mjs` provides the same interaction for Kundali, Matching,
+Time Machine and annual tithi; home/daily Panchang supports keyboard suggestions.
+The remembrance result action opens and focuses its existing ten-year table.
+
 Matching chart tendencies (2026-10-31, local): `matching-behaviour.mjs` selects
 existing Kundali prose deterministically from admitted D1 factors. The Moon sign
 selects `temperament[sign-1]`; the seventh-house sign selects
@@ -28,7 +39,8 @@ uses the existing 75 km nearest-city policy and sends only the selected place ID
 Node and Workers; `calendarLocationResult` shares location metadata between
 adapters. Raw coordinates are not accepted through this new API input. The same
 selected city remains the death-day/observance location, with explicit UI guidance.
-Legacy PIN/city requests and the general monthly observance PIN interface remain.
+Legacy PIN/city requests remain compatible; the monthly Vrat interface now also
+uses the city picker in the local usability pass above.
 
 Planet-based readings (2026-10-30): app-owned `planet-reading.mjs` connects admitted
 D1 ruler/occupant placements to existing house-symbolism prose and groups Rashifal

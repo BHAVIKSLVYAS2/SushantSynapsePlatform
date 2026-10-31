@@ -3,6 +3,14 @@ const {fillDate,fillTime,openKundliCalculations}=require('../../../../tests/vedi
 const {test,expect}=require('@playwright/test'),fs=require('node:fs');
 let server,origin;test.beforeAll(async()=>{server=await require('../production-server.cjs').start();origin=server.origin;});test.afterAll(async()=>{await server.close();});
 const script={hi:/[\u0900-\u097f]/,gu:/[\u0a80-\u0aff]/};
+
+test('city suggestions stay attached to the input across Kundali, Matching and Time Machine',async({page})=>{
+ for(const [route,prefix]of [['/rashifal-kundli','birth'],['/rashifal-kundli/matching','match-a'],['/rashifal-kundli/time-machine','tm']]){
+  await page.goto(origin+route);if(prefix==='match-a')await page.locator('#matching-consent').check();if(prefix==='birth')await editBirth(page,'#birth-query');
+  const input=page.locator('#'+prefix+'-query'),list=page.locator('#'+prefix+'-query-options');await input.fill('New Delhi');await expect(list).toBeVisible();const field=await input.boundingBox(),options=await list.boundingBox();expect(Math.min(Math.abs(options.y-field.y-field.height),Math.abs(options.y+options.height-field.y))).toBeLessThan(3);expect(Math.abs(options.width-field.width)).toBeLessThan(3);
+  await input.press('ArrowDown');await input.press('Enter');await expect(page.locator('#'+prefix+'-place')).toHaveValue('geonames:1261481');await expect(list).toBeHidden();await input.fill('Mumbai');await input.press('Escape');await expect(list).toBeHidden();await expect(page.locator('#'+prefix+'-place')).toHaveValue('');
+ }
+});
 test('legacy Vedic preference migrates to the one shared header setting',async({page})=>{
  await page.addInitScript(()=>{if(!localStorage.getItem('synapse-language'))localStorage.setItem('synapse-vedic-language','gu');});
  await page.goto(origin+'/rashifal-kundli');await expect(page.locator('html')).toHaveAttribute('lang','gu');await expect(page.locator('[data-language-control]')).toHaveCount(1);

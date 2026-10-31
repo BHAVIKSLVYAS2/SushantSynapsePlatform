@@ -31,7 +31,7 @@ export function mountDailyAlmanac(container,{now=()=>Date.now(),compact=false}={
  container.append(root);
  if(compact){picker.append(pickerHead,detect,geoHint,geoStatus,label,matches,searchStatus,reference);root.append(picker);summary.addEventListener('click',event=>{event.preventDefault();if(!picker.open){picker.showModal();input.focus();}});closePicker.onclick=()=>picker.close();picker.addEventListener('close',()=>{locationRequest++;detect.disabled=false;detect.textContent=locationCopy[language].use;summary.focus();});}
  else change.insertBefore(detect,label),change.insertBefore(geoHint,label),change.insertBefore(geoStatus,label);
- function choosePlace(id){locationRequest++;detect.disabled=false;placeId=id;explicit=true;cached=null;try{localStorage.setItem(key,placeId);}catch{}input.value='';matches.replaceChildren();geoStatus.textContent='';change.open=false;if(picker.open)picker.close();summary.focus();render();window.dispatchEvent(new CustomEvent('ritvayam-almanac-place',{detail:{placeId}}));}
+ function choosePlace(id){input.setAttribute('aria-expanded','false');input.removeAttribute('aria-activedescendant');locationRequest++;detect.disabled=false;placeId=id;explicit=true;cached=null;try{localStorage.setItem(key,placeId);}catch{}input.value='';matches.replaceChildren();geoStatus.textContent='';change.open=false;if(picker.open)picker.close();summary.focus();render();window.dispatchEvent(new CustomEvent('ritvayam-almanac-place',{detail:{placeId}}));}
  detect.onclick=()=>{
   const request=++locationRequest,t=locationCopy[language];geoStatus.textContent='';
   if(!navigator.geolocation){geoStatus.textContent=t.failed;return;}
@@ -39,12 +39,15 @@ export function mountDailyAlmanac(container,{now=()=>Date.now(),compact=false}={
   const failed=error=>{if(destroyed||request!==locationRequest)return;detect.disabled=false;detect.textContent=locationCopy[language].use;geoStatus.textContent=locationCopy[language][error?.code===1?'denied':'failed'];};
   try{navigator.geolocation.getCurrentPosition(position=>{if(destroyed||request!==locationRequest)return;detect.disabled=false;detect.textContent=locationCopy[language].use;try{const nearby=nearestPlace(position.coords.latitude,position.coords.longitude);if(!nearby){geoStatus.textContent=locationCopy[language].outside;return;}choosePlace(nearby.place.id);}catch{failed();}},failed,{enableHighAccuracy:false,timeout:10000,maximumAge:300000});}catch{failed();}
  };
- function search(){matches.replaceChildren();searchStatus.textContent='';if(input.value.trim().length<2)return;
+ let cityActive=-1;
+ input.role='combobox';input.setAttribute('aria-autocomplete','list');input.setAttribute('aria-expanded','false');matches.id=pickerTitle.id+'-options';matches.role='listbox';input.setAttribute('aria-controls',matches.id);
+ function search(){cityActive=-1;input.removeAttribute('aria-activedescendant');input.setAttribute('aria-expanded','false');matches.replaceChildren();searchStatus.textContent='';if(input.value.trim().length<2)return;
   let found=[];try{found=searchPlaces(input.value,{limit:8}).matches;}catch{}
   if(!found.length)searchStatus.textContent=labels[language].none;
-  for(const place of found){const button=el('button',placeLabel(place,language));button.type='button';button.dataset.almanacPlace=place.id;button.onclick=()=>choosePlace(place.id);matches.append(button);}
+  input.setAttribute('aria-expanded',String(found.length>0));for(const [index,place]of found.entries()){const button=el('button',placeLabel(place,language));button.type='button';button.role='option';button.id=matches.id+'-'+index;button.setAttribute('aria-selected','false');button.dataset.almanacPlace=place.id;button.addEventListener('pointerdown',event=>event.preventDefault());button.onclick=()=>{input.setAttribute('aria-expanded','false');input.removeAttribute('aria-activedescendant');choosePlace(place.id);};matches.append(button);}
  }
  input.addEventListener('input',search);
+ input.addEventListener('keydown',event=>{const options=[...matches.children];if(!options.length)return;if(event.key==='Escape'){event.preventDefault();event.stopPropagation();matches.replaceChildren();input.setAttribute('aria-expanded','false');input.removeAttribute('aria-activedescendant');}else if(event.key==='ArrowDown'||event.key==='ArrowUp'){event.preventDefault();cityActive=cityActive<0?(event.key==='ArrowDown'?0:options.length-1):(cityActive+(event.key==='ArrowDown'?1:-1)+options.length)%options.length;options.forEach((option,index)=>option.setAttribute('aria-selected',String(index===cityActive)));input.setAttribute('aria-activedescendant',options[cityActive].id);options[cityActive].scrollIntoView({block:'nearest'});}else if(event.key==='Enter'){event.preventDefault();options[cityActive<0?0:cityActive].click();}});
  function render(){
   const t=labels[language],instant=now(),date=istDate(instant);
   const active=cached&&currentChoghadiya([...cached.previousNight,...cached.day,...cached.night],instant),renderKey=[date,placeId,language,explicit,active?.start].join(':');

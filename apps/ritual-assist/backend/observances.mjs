@@ -76,7 +76,7 @@ export function generateObservances(data){
 // in the key; no remembrance inputs or private records enter this bounded cache.
 export function createObservanceCache(limit=24){
  const cache=new Map();return {get(data,now=Date.now()){
-  const key=JSON.stringify([data.month,data.location.pincode,data.location.lat,data.location.lon,data.location.height||0,data.calendar,data.tradition,policyVersion]);
+  const key=JSON.stringify([data.month,data.location.id||data.location.pincode,data.location.lat,data.location.lon,data.location.height||0,data.calendar,data.tradition,policyVersion]);
   const hit=cache.get(key);if(hit&&now-hit.time<3600000)return hit.result;
   const result=generateObservances(data);cache.delete(key);cache.set(key,{time:now,result});if(cache.size>limit)cache.delete(cache.keys().next().value);return result;
  }};
