@@ -1,5 +1,15 @@
 # Code ownership and adding apps
 
+Shraddha/Barsi location selection (2026-10-31, local): Ritual Assist owns
+`calendar-location.mjs`, reusing `packages/vedic/places.mjs` and its public Indian
+city directory through explicit app asset aliases. Browser geolocation is opt-in,
+uses the existing 75 km nearest-city policy and sends only the selected place ID.
+`calendar-input.mjs` independently resolves IDs and regional defaults for both
+Node and Workers; `calendarLocationResult` shares location metadata between
+adapters. Raw coordinates are not accepted through this new API input. The same
+selected city remains the death-day/observance location, with explicit UI guidance.
+Legacy PIN/city requests and the general monthly observance PIN interface remain.
+
 Planet-based readings (2026-10-30): app-owned `planet-reading.mjs` connects admitted
 D1 ruler/occupant placements to existing house-symbolism prose and groups Rashifal
 observations by actual house/status. `matching-chart-reading.mjs` separately

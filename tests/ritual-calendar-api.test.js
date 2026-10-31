@@ -3,6 +3,19 @@ let child,base,dir;
 before(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-ritual-api-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe']});await new Promise((resolve,reject)=>{let out='';const timer=setTimeout(()=>reject(Error('Startup timeout')),15000);child.stdout.on('data',chunk=>{out+=chunk;const match=out.match(/localhost:(\d+)/);if(match){base='http://127.0.0.1:'+match[1];clearTimeout(timer);resolve();}});child.once('error',reject);});});
 after(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
 const details={date:'2025-10-01',time:'12:00',pincode:'110001'};
+
+test('city IDs use authoritative coordinates and preserve Node/Worker calendar metadata without GPS input',async()=>{
+ const {calendarInput}=await import('../apps/ritual-assist/backend/calendar-input.mjs');
+ const input={date:details.date,time:details.time,placeId:'geonames:1261481'};
+ const data=calendarInput(input);assert.equal(data.calendar,'purnimanta');assert.equal(data.city,'custom');assert.equal(data.selectedLocation.id,input.placeId);assert.equal(data.selectedLocation.approximate,true);
+ assert.equal(calendarInput({...input,calendar:'amanta'}).calendar,'amanta');
+ for(const change of [{placeId:''},{placeId:'geonames:1'},{placeId:123},{pincode:'110001'},{city:'delhi'},{lat:28.6},{longitude:77.2}])assert.throws(()=>calendarInput({...input,...change}));
+ const nodeResponse=await post(input,{'CF-Connecting-IP':'192.0.2.61'});assert.equal(nodeResponse.status,200);const nodeResult=(await nodeResponse.json()).result;
+ assert.equal(nodeResult.data.location.id,input.placeId);assert.match(nodeResult.data.location.name,/New Delhi/);assert.equal(nodeResult.data.location.pincode,undefined);assert.match(nodeResult.calculation.locationBasis,/Selected Indian city/);assert.equal(nodeResult.calculation.stored,false);
+ const {ritual}=await import('../apps/ritual-assist/backend/edge.mjs');
+ const response=await ritual({request:new Request('https://example.test/api/ritual-assist/calendar',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(input)}),env:{CALENDAR_LIMITER:{limit:async()=>({success:true})}},route:'ritual-assist/calendar'});
+ const edgeResult=(await response.json()).result;assert.deepEqual(edgeResult.data.location,nodeResult.data.location);assert.equal(edgeResult.annual.date,nodeResult.annual.date);assert.equal(edgeResult.yearly.length,11);
+});
 const post=(input,headers={})=>fetch(base+'/api/ritual-assist/calendar',{method:'POST',headers:{'Content-Type':'application/json',...headers},body:JSON.stringify(input)});
 test('simple public IST request produces early, monthly and ten-year dates without account or database writes',async()=>{
  const {DatabaseSync}=require('node:sqlite'),db=new DatabaseSync(path.join(dir,'chambers.sqlite'),{readOnly:true});const counts=()=>Object.fromEntries(db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'").all().map(({name})=>[name,db.prepare('SELECT COUNT(*) AS n FROM "'+name+'"').get().n]));const before=counts();

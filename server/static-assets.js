@@ -1,5 +1,9 @@
 // Explicit URL allowlist. Filesystem paths are never accepted from requests.
 const staticAssets={
+ '/ritual-assist/calendar-location.mjs':'apps/ritual-assist/frontend/calendar-location.mjs',
+ '/ritual-assist/places.mjs':'packages/vedic/places.mjs',
+ '/ritual-assist/diagnostics.mjs':'packages/vedic/diagnostics.mjs',
+ '/ritual-assist/data/india-places.json':'packages/vedic/data/india-places.json',
  ...require('../apps/rashifal-kundli/public-assets.cjs'),
  '/ads.txt':'packages/ui/ads.txt',
  '/shared/beta-notice.js':'packages/ui/beta-notice.js',

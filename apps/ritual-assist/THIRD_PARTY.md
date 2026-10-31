@@ -1,5 +1,11 @@
 # Astronomy Engine
 
+The Shraddha/Barsi city picker also uses the modified Indian GeoNames city
+directory shared with Ritvayam. Its source, licence, retrieval/version and
+modifications are recorded in `packages/vedic/THIRD_PARTY.md` at the repository
+root. City and postal coordinates are approximate; browser GPS is used only to
+select a supported nearby city, not as a saved or server-supplied coordinate.
+
 The same vendored engine executes on the platform Node server for the simplified calendar. This adds no Drik Panchang API or scraping. Expanded preparation summaries and source-review limits are documented in `docs/RITUAL_CONTENT_REVIEW_2026-10-10.md` at the repository root.
 
 `frontend/astronomy-engine.mjs` is a compatibility re-export of the shared pinned

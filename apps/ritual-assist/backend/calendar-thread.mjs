@@ -1,8 +1,9 @@
+import {calendarLocationResult} from './calendar-input.mjs';
 import {parentPort,workerData} from 'node:worker_threads';
 import {generateCalendar} from '../frontend/panchang.mjs';
 import {generateObservances} from './observances.mjs';
 try{
  const result=workerData.month?generateObservances(workerData):generateCalendar(workerData);
- if(!workerData.month){if(workerData.postal)result.data.location={...result.data.location,...workerData.postal};result.calculation={locationBasis:'Death PIN code area is also used as the observance location; postal coordinates are approximate',defaults:'Regional lunar-month label; civil death date is day 1; day 13 included',processing:'server',stored:false};}
+ if(!workerData.month)calendarLocationResult(result,workerData);
  parentPort.postMessage({result});
 }catch(error){parentPort.postMessage({error:error.message});}
