@@ -5,6 +5,12 @@ Research date: 31 October 2026. Repository baseline and verified feature invento
 confirmed, practical work. Objective: useful task completion and repeat use,
 not app count or entertainment engagement for its own sake.
 
+Release status: user subsequently authorised commit/deploy of the Photo Resize
+and public discovery increment. Implementation `640e4db` is deployed as Worker
+`fcc3df9c-bea0-4bb5-9c6c-aacd9ee82eac`; live image/discovery verification passes.
+This supersedes the local-only status in the implementation checkpoint below.
+Growth benefits and other ranked candidates remain unmeasured recommendations.
+
 ## Method and confidence
 
 Live public competitor product/help pages were reviewed; a product's advertised

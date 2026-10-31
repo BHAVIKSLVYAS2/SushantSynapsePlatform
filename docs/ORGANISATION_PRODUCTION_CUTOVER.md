@@ -1,5 +1,17 @@
 # Organisation licensing production cutover
 
+Curio utility-growth release (2026-10-31 IST): commit `640e4db` is deployed as
+Worker `fcc3df9c-bea0-4bb5-9c6c-aacd9ee82eac` following explicit user authorisation.
+Photo preparation and public utility discovery improvements preserve all licence,
+role, tenant, schema and app-availability boundaries. Exact-config deployment
+passes with `--keep-vars`; no settings/accounts/business records changed.
+Live synthetic-image verification passes actual PNG/WebP exports, exact crop
+pixels, JPEG density, size diagnostics, eight width/theme layouts and 14 public
+utility sitemap entries; private/noindex routes remain excluded from the addition.
+No page errors, business writes or production-account use; health 200 and unscoped
+records 409. Evidence: `.publish/curio-growth-deploy.log`,
+`.publish/curio-growth-live.log`.
+
 Moment Studio quality-gated AI integration release (2026-10-31 IST): commit
 `2d80b9a` is deployed as Worker `d99da508-da11-4ca4-aba9-c26a5569e165` following
 explicit user authorisation. Existing 9/9 unit and 18/18 isolated browser checks

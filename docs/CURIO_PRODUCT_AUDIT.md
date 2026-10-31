@@ -6,6 +6,13 @@ The user requested an inventory before implementation, then clarified: implement
 only needed, confirmed and practical changes. The supplied Phase 2 prompt stops
 within Photo Resize; no additional app-specific requirements were invented.
 
+Release update: user subsequently authorised commit/deploy. Implementation
+`640e4db` is live as Worker `fcc3df9c-bea0-4bb5-9c6c-aacd9ee82eac`. Live synthetic
+image/download/crop/density checks, eight layout/theme states and all 14 utility
+sitemap entries pass, with no page errors, production accounts or business writes.
+Evidence: `.publish/curio-growth-deploy.log`, `.publish/curio-growth-live.log`.
+This supersedes the historical local-only implementation status below.
+
 ## Implementation outcome
 
 Completed locally after the baseline/research: Photo Resize now offers explicit
