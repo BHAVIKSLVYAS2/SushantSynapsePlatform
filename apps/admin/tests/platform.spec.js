@@ -74,6 +74,52 @@ test('account separates two memberships, scoped app links and primary administra
  await page.goto(fixture.base+'/account');await expect(page.getByRole('status')).toHaveText('Account ready.');
  await page.getByRole('link',{name:'Open Chambers',exact:true}).last().click();await expect(page).toHaveURL(new RegExp('/advocate\\?organisation='+fixture.otherOrganisationId));
 });
+test('account presents each private product and organisation context separately',async({page})=>{
+ await login(page,'master');
+ const apps=[
+  {id:'advocate',name:'Chambers'},
+  {id:'tournament-lite',name:'Tournament Lite'},
+  {id:'batchfee-lite',name:'BatchFee Lite'},
+  {id:'digital-samaj',name:'DIGITAL SAMAJ'},
+  {id:'pandit-booking',name:'Pandit Booking'},
+  {id:'curio',name:'Curio',public:true}
+ ];
+ const membership=(id,name,role,administration,appData,clientPortal=null)=>({id,name,status:'Active',role,membershipStatus:'Active',administration,clientAccessManagement:false,clientPortal,apps:appData});
+ const staff=[
+  {id:'advocate',name:'Chambers',assigned:true,role:'Owner',available:true,mode:'full',reason:null},
+  {id:'tournament-lite',name:'Tournament Lite',assigned:false,role:null,available:false,mode:null,reason:'missing-assignment'},
+  {id:'batchfee-lite',name:'BatchFee Lite',assigned:true,role:'Viewer',available:true,mode:'read-only',reason:null},
+  {id:'digital-samaj',name:'DIGITAL SAMAJ',assigned:true,role:'Member',available:false,mode:null,reason:'community-grant-required'},
+  {id:'pandit-booking',name:'Pandit Booking',assigned:false,role:null,available:false,mode:null,reason:'missing-assignment'}
+ ];
+ const client=[
+  {id:'advocate',name:'Chambers',assigned:false,role:null,available:false,mode:null,reason:'client-portal-unavailable'},
+  {id:'pandit-booking',name:'Pandit Booking',assigned:true,role:'Customer',available:true,mode:'full',reason:null}
+ ];
+ await page.route('**/api/organisation-admin/account',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({
+  identity:{name:'Master Admin',email:'master@example.com'},superAdmin:false,apps,assignmentApps:apps.map(app=>app.id),
+  memberships:[membership('org-one','One Organisation','MasterAdmin',true,staff),membership('org-two','Second Organisation','Client',false,client,'Available')]
+ })}));
+ await page.goto(fixture.base+'/account');await expect(page.getByRole('status')).toHaveText('Account ready.');
+ const cards=page.locator('.account-app-card');await expect(cards).toHaveCount(7);
+ await expect(cards.filter({has:page.getByRole('heading',{name:'Chambers',exact:true})})).toHaveCount(1);
+ await expect(cards.filter({has:page.getByRole('heading',{name:'Chambers client portal',exact:true})})).toContainText('Organisation: Second Organisation');
+ await expect(cards.filter({has:page.getByRole('heading',{name:'BatchFee Lite',exact:true})})).toContainText('Read-only access');
+ await expect(cards.filter({has:page.getByRole('heading',{name:'DIGITAL SAMAJ',exact:true})})).toContainText('Community permission required');
+ const tournament=cards.filter({has:page.getByRole('heading',{name:'Tournament Lite',exact:true})});
+ await expect(tournament).toContainText('No app role assigned');await expect(tournament.getByRole('link',{name:/Open Tournament Lite/})).toHaveCount(0);
+ const panditCustomer=cards.filter({has:page.getByRole('heading',{name:'Pandit Booking',exact:true})}).filter({hasText:'Organisation: Second Organisation'});
+ await expect(panditCustomer).toContainText('Customer');await expect(panditCustomer.getByRole('link',{name:/Open Pandit Booking/})).toHaveAttribute('href','/pandit-booking?organisation=org-two');
+ await expect(page.getByRole('link',{name:'Open Chambers',exact:true})).toHaveAttribute('href','/advocate?organisation=org-one');
+ await expect(page.getByRole('link',{name:'Open Chambers client portal',exact:true})).toHaveAttribute('href','/client-portal?organisation=org-two');
+ await expect(page.getByRole('link',{name:'Manage this organisation'})).toHaveAttribute('href','/admin?organisation=org-one');
+ await expect(page.locator('.account-organisation-section')).toContainText('Organisation membership and staff/client seat limits are shared');
+ expect(await page.locator('.account-app-card h3').allTextContents()).not.toContain('Curio');
+ for(const width of [320,390,768,1440])for(const theme of ['light','dark','system']){
+  await page.setViewportSize({width,height:900});await page.getByRole('combobox',{name:'Theme',exact:true}).selectOption(theme);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ }
+});
 test('account sign-in, client portal and Super Admin navigation stay distinct',async({page})=>{
  await page.goto(fixture.base+'/account');await expect(page.locator('#signin')).toBeVisible();
  const signin=page.locator('#admin-login');await signin.getByLabel('Account email').fill('client@example.com');await signin.getByLabel('Password',{exact:true}).fill(fixture.password);await signin.getByRole('button',{name:'Sign in',exact:true}).click();
@@ -82,7 +128,7 @@ test('account sign-in, client portal and Super Admin navigation stay distinct',a
  const view=await(await fetch(org,{headers:{Cookie:cookie}})).json();
  const invited=await(await fetch(org+'/invite',{method:'POST',headers:{Cookie:cookie,'Content-Type':'application/json'},body:JSON.stringify({email:'client@example.com',role:'Client',version:view.organisation.version,reason:'Client navigation check'})})).json();
  await page.locator('#accept [name="token"]').fill(invited.invitation.token);await page.getByRole('button',{name:'Accept invitation',exact:true}).click();
- await expect(page.locator('#panels')).toContainText('Client portal unavailable');await expect(page.getByRole('link',{name:'Open Chambers',exact:true})).toHaveCount(0);
+ await expect(page.locator('#panels')).toContainText('Client portal approval required');await expect(page.getByRole('link',{name:'Open Chambers',exact:true})).toHaveCount(0);
  await page.getByRole('button',{name:'Sign out',exact:true}).click();await login(page,'super');await page.goto(fixture.base+'/account');await expect(page.getByRole('status')).toHaveText('Account ready.');
  await expect(page.getByRole('link',{name:'Open Super Admin'})).toBeVisible();await expect(page.locator('#panels')).toContainText('No organisation memberships');
 });
@@ -92,7 +138,7 @@ test('account refresh removes app links after assignment revocation',async({page
  const view=await(await fetch(org,{headers:{Cookie:cookie}})).json();
  expect((await fetch(org+'/assignment',{method:'POST',headers:{Cookie:cookie,'Content-Type':'application/json'},body:JSON.stringify({userId:'member',role:'Clerk',status:'Inactive',version:view.organisation.version,reason:'Revoke app access'})})).status).toBe(200);
  await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));
- await expect(page.getByRole('link',{name:'Open Chambers',exact:true})).toHaveCount(0);await expect(page.locator('#panels')).toContainText('No app assignment');
+ await expect(page.getByRole('link',{name:'Open Chambers',exact:true})).toHaveCount(0);await expect(page.locator('#panels')).toContainText('App assignment inactive');
  await expect(page.getByRole('link',{name:'Manage this organisation'})).toHaveCount(0);
 });
 

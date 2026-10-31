@@ -10,11 +10,64 @@ several organisations. Super Admin authority grants no private Chambers access.
 The D1 edge adapters use asynchronous governance services, current session authority,
 strict API validation and one revision-guarded atomic batch for each business write.
 Organisation/platform audit remain separately scoped. The production app catalogue
-and licence selector expose Chambers, Tournament Lite, BatchFee Lite and DIGITAL
-SAMAJ. All four use live organisation licences, memberships and app assignments;
-Samaj additionally retains its community grants and privacy rules.
+and licence selector expose Chambers, Tournament Lite, BatchFee Lite, DIGITAL
+SAMAJ and Pandit Booking. Each uses live organisation membership, a product-specific
+licence and a product-specific app assignment; Samaj additionally retains its
+community grants and privacy rules.
 See [the production cutover](../../docs/ORGANISATION_PRODUCTION_CUTOVER.md) for the
 live release, preserved legacy data and recovery/rollback boundaries.
+
+## Product and access scopes today
+
+Shared platform sign-in and the organisation administration screen are
+conveniences; they do not imply shared product records, app roles or entitlements.
+The current Workers/D1 model has one organisation-level membership per person in
+each organisation and organisation-wide staff/client seat limits. Each private
+product then has its own licence, app-specific seat limits and user-role
+assignments. Super Admin governs the platform and does not receive private
+business-data access by that role alone.
+Master Admin manages organisation membership and the app access configured inside
+that organisation; an app-specific role does not itself become a separate
+organisation administrator.
+
+| Private product | Organisation-bound data in Workers/D1 | Product roles and customer entry |
+|---|---|---|
+| Chambers | Record and file ownership, workspace settings and activity are scoped to the organisation. | Owner, Advocate or Clerk; `/account` links to `/advocate?organisation=...`. Clients use the separately gated client portal and record links. |
+| Tournament Lite | Each event has an explicit organisation owner. Published public results are a separate, explicit projection. | Owner or Advocate; `/account` links to the organisation-scoped Tournament workspace. |
+| BatchFee Lite | Workspace aggregate, revisions and event history are keyed by organisation. | Owner, Manager, Collector or Viewer; `/account` links to that organisation's workspace. |
+| DIGITAL SAMAJ | An organisation maps to one Samaj community; app access is additionally checked against Samaj grants and privacy rules. | Owner or Member plus the relevant community grant; `/account` is the product entry point. |
+| Pandit Booking | Its bounded workspace aggregate is keyed by organisation. Public operator/search and published projections remain separate. | Owner, Dispatcher, Reviewer, Pandit or Customer; Customer requires Client membership. `/account` links to the organisation-scoped booking app. |
+
+This is not yet true per-product workspace independence: membership, organisation
+administration and the top-level seat pools are shared across products inside one
+organisation. App data, licences, app-seat pools and app-role assignments are
+separate. No cross-product record/workflow integration or shared purchase
+entitlement is established by these adapters. The user-facing account now presents
+one product access card per app/organisation and shows the organisation separately;
+it uses the existing access projection and does not manufacture access.
+
+The production D1 account projection reports access for all five private products
+per membership. The separate default Node preview currently projects Chambers
+only; this UX refinement does not alter that runtime or its response. True
+per-product workspaces would require a separate decision and a backend/data-model
+change affecting all five products and their organisation-owned data:
+
+1. Decide whether product workspaces need their own memberships, administrators,
+   staff/client seat pools and billing/entitlement rules, distinct from the
+   existing shared organisation membership.
+2. Design additive product-workspace and membership records, plus explicit
+   ownership mappings for Chambers records/files, Tournament events, BatchFee
+   workspaces/events, Samaj communities/grants and Pandit Booking aggregates.
+   Initially map existing workspaces without splitting or moving customer data.
+3. Backfill and verify ownership, users, roles, active licences, reserved seats,
+   record counts, document blobs and audit histories using isolated recovery
+   copies. Preserve the current organisation path for rollback.
+4. Introduce the new policy and account projection behind a controlled rollout;
+   compare old/new access and data scope per product before switching each
+   product. Retire organisation coupling only after reconciliation and rollback
+   checks pass.
+
+No product workspaces are being simulated in this presentation change.
 
 ## Local SQLite preview
 
@@ -31,10 +84,11 @@ and APIs remain unavailable. This guard is separate from the production Worker
 
 Super Admin has a searchable organisation directory, selected-organisation
 overview, and a four-step creation flow: organisation details, primary Master
-Admin, apps/seats, then review/confirmation. Multiple initial app licences use
-the existing provisioning API. The review creates nothing until the final action;
-wizard drafts remain only in the mounted page. Back/Forward restores steps;
-refreshing cannot bypass required earlier fields.
+Admin, products/seats, then review/confirmation. Multiple initial product licences
+use the existing provisioning API but are described and reviewed as separate
+choices, not a bundle. The review creates nothing until the final action; wizard
+drafts remain only in the mounted page. Back/Forward restores steps; refreshing
+cannot bypass required earlier fields.
 
 Organisation tasks are grouped into Overview, People, Apps & access, and Settings.
 Platform governance (suspension/reactivation, primary transfer, activation
@@ -43,8 +97,12 @@ and remains Super Admin-only. Master Admin has no licence/seat-limit mutation or
 platform governance controls. Existing confirmation, password, reason and stale
 version checks remain in place.
 
-Licence cards distinguish organisation and app seat usage, configured status,
-validity dates and optional read-only grace. Date/time controls explicitly use
+Product-specific licence cards distinguish organisation and product seat usage,
+configured status, validity dates and optional read-only grace. Role assignments
+name the product and that product's role/status. Account product cards show each
+app's projected access state, role, organisation context and next action; the
+organisation membership and administration controls are in a separate section.
+Date/time controls explicitly use
 India time (IST, UTC+05:30), independent of device timezone, and convert to the
 existing ISO UTC API format. Switching licence apps discards unsaved values:
 existing licences reload their saved values/version; apps without a licence show

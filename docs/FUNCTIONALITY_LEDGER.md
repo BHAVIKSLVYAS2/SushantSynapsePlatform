@@ -1,5 +1,12 @@
 # Chambers functionality ledger
 
+**Private-product presentation release preparation (2026-10-31 IST):** User now
+authorises commit/deployment of the account cards and product-specific admin copy
+recorded below. Fresh isolated validation passes 5/5 account/admin API checks and
+11/11 focused browser workflows. Exact production-config dry run passes. Evidence:
+`.publish/product-release-{api,browser,dryrun}.log`. Publishing will preserve
+existing settings/bindings with `--keep-vars`, without migrations or business writes.
+
 **Organisation admin production release (2026-10-31 IST):** Implementation commit
 `0793c7c` is deployed as Worker `24b9ccf0-09bf-4aca-81fe-d7f855c59959`, following
 user authorisation to commit/deploy the verified redesign. Exact production-config
@@ -11,6 +18,31 @@ admin/Super Admin/account pages, new module delivery, sign-in/account redirect,
 authentication boundary, health 200 and unscoped records 409. No page errors,
 business writes or production accounts used. Authenticated flows were tested only
 with isolated fixtures. Evidence: `.publish/admin-release-{dryrun,deploy,live}.log`.
+
+**Private-product account/admin UX refinement (2026-10-31 IST, local):** My Account
+now presents one card per private app/organisation with the existing projected
+access state, product role, organisation context and next action. Organisation
+membership and organisation administration are in their own section. Chambers
+client portal, Pandit Booking Customer role, DIGITAL SAMAJ grants, read-only
+access, inactive assignments and unavailable roles remain product-specific.
+Organisation admin labels now distinguish shared organisation membership/seat
+limits from each product's licence, app seats and role assignments; the initial
+licence wizard describes each product as a separate choice, not a bundle. No API,
+schema, tenant boundary, access policy, public/personal flow, production data or
+configuration changed. `apps/admin/README.md` now records the five product scopes,
+the shared-membership gap and a staged migration approach for any future decision
+to support product-specific workspaces.
+
+Verification used isolated temporary DATA_DIR values: focused account/admin
+browser checks covered all seven product cards across 320/390/768/1440px and
+light/dark/system themes with no horizontal overflow; the first focused run passed
+11/12, and the corrected multi-card assertion passed in its isolated 1/1 rerun.
+Mobile account and Master Admin screenshots were reviewed. Account/admin API tests
+pass 5/5. `node --test tests/organisation-d1.test.js` passes 5/5, including the
+Worker/D1 browser provisioning/mobile check. The broader
+`npm.cmd run test:organisation-readiness` run passed 94 checks but hit one
+transient 5-second `Workspace ready` assertion in that D1 browser scenario; the
+complete D1/Worker file passed on isolated rerun. No commit or deployment.
 
 **Organisation administration redesign local verification checkpoint (2026-10-31 IST):**
 Super Admin now has a searchable organisation directory, selected overview and

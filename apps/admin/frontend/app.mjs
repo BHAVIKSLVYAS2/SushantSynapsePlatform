@@ -1,13 +1,13 @@
 import {requestJson} from '/shared/http.mjs';
 import {escapeHtml as esc} from '/shared/text.mjs';
-import {licenceFields as buildLicenceFields,overview,organisePanels,mountWizard,apiDate} from './experience.mjs';
+import {licenceFields as buildLicenceFields,overview,organisePanels,mountWizard,apiDate,accountProductCards,accountOrganisationCards} from './experience.mjs';
 const $=selector=>document.querySelector(selector);
 let index,view,busy=false,revision=0;
 let accountSessionSeen=false,adminNavigation,wizard;
 const accountPage=location.pathname==='/account';
 if(!accountPage)document.body.classList.add('organisation-admin');
 $('.admin-header').insertAdjacentHTML('afterend','<nav class="admin-footer" aria-label="Account navigation"><a href="/account">My account</a><button id="switch-account" type="button" hidden>Switch account</button></nav>');
-if(accountPage){document.title='My account · Sushant Synapse';$('.intro h1').textContent='My account';$('.intro p').textContent='Your organisations, memberships and assigned apps.';$('#organisation').closest('label').hidden=true;}
+if(accountPage){document.title='My account · Sushant Synapse';$('.intro h1').textContent='My account';$('.intro p').textContent='Your private product access and organisation memberships. Public apps remain in the Curio catalogue.';$('#organisation').closest('label').hidden=true;}
 const themeControl=$('[data-theme-select]');
 themeControl.value=window.SynapseTheme.read();
 themeControl.addEventListener('change',()=>window.SynapseTheme.write(themeControl.value));
@@ -41,11 +41,11 @@ function render(){
   html+=form('invite','Invite or reissue invitation',field('Existing account email','email','','email','required')+select('Membership role','role',['Staff','Administrator','Client']),'Create invitation');
   html+=form('member','Update a membership',select('Member','userId',members)+select('Membership role','role',['Staff','Administrator','Client'])+select('Membership status','status',['Active','Inactive']),'Update membership');
   html+=form('revoke-invitation','Revoke a pending invitation',select('Invited member','userId',view.members.filter(m=>m.status==='Invited'&&m.role!=='MasterAdmin').map(m=>[m.userId,m.name])),'Revoke invitation');
-  html+=form('assignment','App access',select('App','appId',index.apps.filter(a=>(index.assignmentApps||['advocate']).includes(a.id)).map(a=>[a.id,a.name]))+select('Member','userId',members)+select('App role','role',['Clerk','Advocate','Owner'])+select('Assignment status','status',['Active','Inactive']),'Save app access');
+  html+=form('assignment','Assign a product-specific app role','<p class="form-help full">The selected role applies only to the selected product. It requires the organisation membership and that product’s active licence.</p>'+select('Product','appId',index.apps.filter(a=>(index.assignmentApps||['advocate']).includes(a.id)).map(a=>[a.id,a.name]))+select('Member','userId',members)+select('Role in selected product','role',['Clerk','Advocate','Owner'])+select('Product assignment status','status',['Active','Inactive']),'Save app access');
   if(index.superAdmin){
    if(['Active','Suspended'].includes(org.status))html+=form('status','Organisation availability','<p>Suspension blocks organisation access and invitation acceptance. Memberships, records and licence dates are preserved. Reactivation rechecks existing permissions and licences.</p>'+select('Organisation status','status',[org.status==='Active'?['Suspended','Suspend organisation']:['Active','Reactivate organisation']])+field('Type organisation name to confirm','confirmation','','text','required maxlength="160" autocomplete="off"'),'Update organisation status');
-   html+=form('licence','Manage an app licence',licenceFields(org.licences[0]),'Save licence');
-   html+=form('limits','Organisation seat limits',limitField('Organisation staff seats','staffLimit',org.staffLimit)+limitField('Organisation client seats','clientLimit',org.clientLimit),'Save limits');
+   html+=form('licence','Manage a product licence',licenceFields(org.licences[0]),'Save licence');
+   html+=form('limits','Organisation-wide member seat limits','<p class="form-help full">These staff/client limits apply to organisation memberships across products. Each product licence has separate product staff/client seat limits.</p>'+limitField('Organisation staff seats','staffLimit',org.staffLimit)+limitField('Organisation client seats','clientLimit',org.clientLimit),'Save limits');
    html+=form('transfer','Transfer primary Master Admin',select('New primary Master Admin','userId',view.members.filter(m=>m.status==='Active'&&['Staff','Administrator'].includes(m.role)).map(m=>[m.userId,m.name]))+select('Previous Master Admin becomes','previousMasterRole',['Staff','Administrator']),'Transfer Master Admin');
    if(org.status==='PendingActivation')html+=form('master-invitation','Primary activation invitation',select('Invitation action','revokeOnly',[['false','Reissue'],['true','Revoke']]),'Update activation invitation');
   }
@@ -70,10 +70,7 @@ async function load(selected,strict=false){
   const current=++revision,account=await api('/account');if(current!==revision||document.hidden)return;
   index=account;view=null;clearCredentials();$('#signin').hidden=true;$('#workspace').hidden=false;$('#accept-panel').hidden=false;
   $('#summary').innerHTML=`<h2>${esc(account.identity.name)}</h2><p>${esc(account.identity.email)}</p>${account.superAdmin?'<p><a href="/super-admin">Open Super Admin</a></p>':''}`;
-  $('#panels').innerHTML=account.memberships.length?account.memberships.map(org=>`<section class="card"><h2>${esc(org.name)}</h2><p>${esc(org.role)} · ${esc(org.membershipStatus)} membership · Organisation ${esc(org.status)}</p>${org.administration?`<p><a href="/admin?organisation=${encodeURIComponent(org.id)}">Manage this organisation</a></p>`:''}${org.role==='Client'?'<p>Client portal unavailable — not implemented yet.</p>':org.apps.map(app=>`<div class="licence"><strong>${esc(app.name)}</strong><p>${app.assigned?'Assigned role: '+esc(app.role):'No app assignment'}</p>${app.available?`<a href="/${app.id}?organisation=${encodeURIComponent(org.id)}">Open ${esc(app.name)}${app.mode==='read-only'?' (read-only)':''}</a>`:`<p>App access unavailable. ${app.reason==='missing-assignment'?'Ask your Master Admin for an app assignment.':'Your membership, organisation and licence must allow access.'}</p>`}</div>`).join('')}</section>`).join(''):'<section class="card"><h2>No organisation memberships</h2><p>Accept an invitation below or ask your organisation administrator for one.</p></section>';
-  const cards=$('#panels').querySelectorAll('section');account.memberships.forEach((org,i)=>{if(org.clientAccessManagement)cards[i].insertAdjacentHTML('beforeend',`<p><a href="/client-access?organisation=${encodeURIComponent(org.id)}">Manage client record links</a></p>`);});
-  account.memberships.forEach((org,i)=>{if(org.role==='Client'){const message=[...cards[i].querySelectorAll('p')].find(p=>p.textContent.startsWith('Client portal unavailable'));if(message){if(org.clientPortal==='Available')message.innerHTML=`<a href="/client-portal?organisation=${encodeURIComponent(org.id)}">Open client portal</a>`;else message.textContent='Client portal unavailable. Ask your administrator to approve record links and portal access.';}}});
-  account.memberships.forEach((org,i)=>{if(org.role==='Client'){const app=org.apps.find(a=>a.id==='pandit-booking');if(app?.available)cards[i].insertAdjacentHTML('beforeend',`<p><a href="/pandit-booking?organisation=${encodeURIComponent(org.id)}">Open Pandit Booking</a></p>`);}});
+  $('#panels').innerHTML=accountProductCards(account.memberships,account)+accountOrganisationCards(account.memberships);
   accountSessionSeen=true;$('#account-security')?.remove();
   $('#workspace').insertAdjacentHTML('beforeend',`<details class="card" id="account-security"><summary>Change your password</summary><p>Use 12–128 characters. Other sessions will be signed out; this session will be renewed.</p><form id="own-password">${field('Current password','currentPassword','','password','required maxlength="128" autocomplete="current-password"')}${field('New password','newPassword','','password','required minlength="12" maxlength="128" autocomplete="new-password"')}${field('Confirm new password','confirmation','','password','required minlength="12" maxlength="128" autocomplete="new-password"')}<button type="submit">Change password</button></form></details>`);
   status('Account ready.');return;
