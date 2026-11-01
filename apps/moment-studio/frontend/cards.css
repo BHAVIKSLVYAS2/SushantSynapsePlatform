@@ -61,8 +61,8 @@ body#moment-cards[data-ui-app] .design-choice:has(input:checked){padding:4px;bor
 #moment-cards .hint,#moment-cards .privacy{color:var(--ui-muted);font-size:11px;line-height:1.65;margin:6px 0 12px}
 #moment-cards details{border-top:1px solid var(--ui-edge);margin-top:18px;padding-top:14px}
 #moment-cards summary{cursor:pointer;font-size:12px;font-weight:600;min-height:44px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-#moment-cards summary::before{content:'+';font-size:14px;font-weight:400}
-#moment-cards details[open]>summary::before{content:'−'}
+#moment-cards main details>summary::before{content:'+';font-size:14px;font-weight:400}
+#moment-cards main details[open]>summary::before{content:'−'}
 #moment-cards summary span{color:var(--ui-muted);font-size:10px;font-weight:400;margin-left:auto}
 #moment-cards #design-options{margin:4px 0 0;padding:0;border:0}
 #moment-cards #design-options summary{justify-content:start}

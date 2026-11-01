@@ -53,6 +53,15 @@ test('simple cards preserve styling, validate photos and keep responsive exports
  await page.setViewportSize({width:390,height:844});await page.evaluate(()=>window.scrollTo(0,0));await expect(page.locator('#editor')).toBeInViewport();
  await page.evaluate(()=>window.SynapseTheme.write('light'));await page.screenshot({path:'test-results/moment-simple-mobile.png',fullPage:true});expect(errors).toEqual([]);
 });
+test('cards disclosure markers stay inside the app and do not decorate the shared language menu',async({page})=>{
+ await page.goto(base+'/moment-studio/cards');
+ const summary=page.locator('.platform-language summary');
+ await expect(summary).toHaveText('EN');
+ expect(await summary.evaluate(el=>getComputedStyle(el,'::before').content)).toBe('none');
+ await summary.click();
+ expect(await summary.evaluate(el=>getComputedStyle(el,'::before').content)).toBe('none');
+ await expect(page.getByRole('button',{name:'English'})).toBeVisible();
+});
 test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-moment-studio-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,DATABASE_PROVIDER:'sqlite',NODE_ENV:'test',PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe']});await new Promise((resolve,reject)=>{let out='';const timer=setTimeout(()=>reject(Error('Startup timed out')),15000);child.stdout.on('data',chunk=>{out+=chunk;const match=out.match(/localhost:(\d+)/);if(match){base='http://127.0.0.1:'+match[1];clearTimeout(timer);resolve();}});child.once('error',reject);});});test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
 
 test('mobile creation starts at the form with visible wording and task-specific fields',async({page})=>{

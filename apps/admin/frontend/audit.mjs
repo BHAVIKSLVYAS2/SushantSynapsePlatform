@@ -6,7 +6,6 @@ const organisation=new URLSearchParams(location.search).get('organisation');let 
 const words=value=>value.replace(/([a-z])([A-Z])/g,'$1 $2');
 const labels={scope:'Scope',includesAccountHashes:'Includes account hashes',includesDocuments:'Includes documents',excludesSessions:'Excludes sessions',reason:'Reason',before:'Before',after:'After',userId:'Member ID',masterAdminUserId:'Primary administrator ID',previousUserId:'Previous member ID',appId:'App ID',appIds:'Apps',staffLimit:'Staff seats',clientLimit:'Client seats',startsAt:'Starts at',endsAt:'Ends at',readOnlyUntil:'Read-only until',previousMasterRole:'Previous administrator role',links:'Links cleared'};
 function detail(key,value){const text=value===null?(['staffLimit','clientLimit'].includes(key)?'Unlimited':'None'):Array.isArray(value)?value.join(', '):String(value);return `<dt>${esc(labels[key]||words(key))}</dt><dd>${value&&typeof value==='object'&&!Array.isArray(value)?'<dl>'+Object.entries(value).map(([k,v])=>detail(k,v)).join('')+'</dl>':esc(text)}</dd>`;}
-$('#theme').value=window.SynapseTheme.read();$('#theme').addEventListener('change',()=>window.SynapseTheme.write($('#theme').value));
 function clear(){revision++;next=null;$('#workspace').hidden=true;$('#workspace').replaceChildren();$('#older').hidden=true;}
 async function load(before){
  const action=$('#filter select').value;clear();const current=revision;$('#status').textContent='Checking access…';

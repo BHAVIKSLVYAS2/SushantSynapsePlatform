@@ -1,16 +1,17 @@
 const {test,expect}=require('../../../tests/browser-fixture.js');
+const {setTheme}=require('../../../tests/browser-theme');
 const {startPreview}=require('../../../tests/organisation-preview-fixture.cjs');
 let fixture;
 
 test('platform audit is Super Admin only and clears on expiry',async({page})=>{
- await login(page,'master');await page.goto(fixture.base+'/platform-audit');await expect(page.getByRole('status')).toHaveText('Super Admin required');await expect(page.locator('#workspace')).toBeEmpty();
+ await login(page,'master');await page.goto(fixture.base+'/platform-audit');await expect(page.getByRole('status')).toHaveText('Super Admin required');await expect(page.locator('#workspace')).toBeEmpty();await expect(page.locator('select[aria-label="Theme"]')).toHaveCount(0);await expect(page.locator('.platform-shell [data-theme-toggle]')).toBeVisible();
  await login(page,'super');await page.goto(fixture.base+'/super-admin');await page.locator('[data-admin-nav="governance"]').click();await page.getByRole('link',{name:'Review platform audit',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Audit ready.');
  await expect(page.locator('#workspace')).toContainText('Platform-wide events');
  await page.getByRole('combobox',{name:'Action',exact:true}).selectOption('PlatformRecoveryExportCreated');await page.getByRole('button',{name:'Apply filter',exact:true}).click();await expect(page.locator('#workspace')).toContainText('No matching events.');
  const exported=await page.request.post(fixture.base+'/api/organisation-admin/recovery-export',{data:{password:fixture.password,confirmation:'EXPORT ALL ORGANISATIONS',reason:'Browser recovery audit review'}});expect(exported.status()).toBe(200);
  await page.getByRole('button',{name:'Refresh latest',exact:true}).click();await expect(page.locator('#workspace')).toContainText('Platform Recovery Export Created');await expect(page.locator('#workspace')).toContainText('Browser recovery audit review');await expect(page.locator('#workspace')).toContainText('Includes account hashes');
- for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await page.getByRole('combobox',{name:'Theme',exact:true}).selectOption(theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
- await page.setViewportSize({width:390,height:844});await page.getByRole('combobox',{name:'Theme',exact:true}).selectOption('light');await page.screenshot({path:'.publish/platform-audit-mobile.png',fullPage:true});
+ for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await setTheme(page,theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+ await page.setViewportSize({width:390,height:844});await setTheme(page,'light');await page.screenshot({path:'.publish/platform-audit-mobile.png',fullPage:true});
  await page.request.post(fixture.base+'/api/auth/logout',{data:{}});await page.getByRole('button',{name:'Refresh latest',exact:true}).click();await expect(page.getByRole('status')).toContainText('Session expired');await expect(page.locator('#workspace')).toBeEmpty();
 });
 
@@ -23,8 +24,8 @@ test('organisation audit supports scoped pagination, action filtering and mobile
  await login(page,'master');await page.goto(fixture.base+'/admin');await page.locator('.admin-sections [data-admin-nav="settings"]').click();await page.getByRole('link',{name:'Review organisation audit',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Audit ready.');
  await page.getByRole('combobox',{name:'Action',exact:true}).selectOption('OrganisationLimitsUpdated');await page.getByRole('button',{name:'Apply filter',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Audit ready.');await expect(page.locator('#workspace article')).toHaveCount(20);
  await page.getByRole('button',{name:'Older events',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Audit ready.');await expect(page.locator('#workspace article')).toHaveCount(5);await expect(page.getByRole('button',{name:'Older events',exact:true})).toBeHidden();
- for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await page.getByRole('combobox',{name:'Theme',exact:true}).selectOption(theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
- await page.setViewportSize({width:390,height:844});await page.getByRole('combobox',{name:'Theme',exact:true}).selectOption('light');await page.screenshot({path:'.publish/organisation-audit-mobile.png',fullPage:true});
+ for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await setTheme(page,theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+ await page.setViewportSize({width:390,height:844});await setTheme(page,'light');await page.screenshot({path:'.publish/organisation-audit-mobile.png',fullPage:true});
  await page.getByRole('combobox',{name:'Action',exact:true}).selectOption('LicenceUpdated');await page.getByRole('button',{name:'Apply filter',exact:true}).click();await expect(page.locator('#workspace')).toContainText('No matching events.');
 });
 
@@ -53,7 +54,7 @@ test('Super Admin suspends and reactivates an organisation with explicit confirm
   await form.getByLabel('Type organisation name to confirm').fill('First Chambers');await form.getByLabel('Reason for change').fill('Review completed');
   await page.setViewportSize({width:390,height:844});await form.screenshot({path:'.publish/organisation-lifecycle-mobile.png'});
   await form.getByRole('button',{name:'Update organisation status',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Change saved.');await expect(page.locator('#summary')).toContainText('Active');
-  await member.getByRole('button',{name:'Refresh',exact:true}).click();await expect(member.getByRole('status')).toHaveText('Account ready.');await expect(own.getByRole('link',{name:'Open Chambers',exact:true})).toBeVisible();
+  await member.getByRole('button',{name:'Refresh',exact:true}).click();await expect(member.getByRole('status')).toHaveText('Account ready.');await expect(member.locator('#panels .account-app-card').filter({hasText:'First Chambers'}).getByRole('link',{name:'Open Chambers',exact:true})).toBeVisible();
  }finally{await context.close();}
 });
 test.beforeEach(async()=>{fixture=await startPreview({chambers:true,multi:true});});
@@ -65,10 +66,10 @@ test('account separates two memberships, scoped app links and primary administra
  await expect(page.getByRole('link',{name:'Manage this organisation'})).toHaveCount(1);
  expect(await page.getByRole('link',{name:'Manage this organisation'}).getAttribute('href')).toBe('/admin?organisation='+fixture.organisationId);
  for(const width of [320,390,768,1440])for(const theme of ['light','dark']){
-  await page.setViewportSize({width,height:900});await page.getByRole('combobox',{name:'Theme',exact:true}).selectOption(theme);
+  await page.setViewportSize({width,height:900});await setTheme(page,theme);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  }
- await page.setViewportSize({width:390,height:844});await page.getByRole('combobox',{name:'Theme',exact:true}).selectOption('light');await page.screenshot({path:'.publish/organisation-account-mobile.png',fullPage:true});
+ await page.setViewportSize({width:390,height:844});await setTheme(page,'light');await page.screenshot({path:'.publish/organisation-account-mobile.png',fullPage:true});
  await page.getByRole('link',{name:'Manage this organisation'}).click();await expect(page.getByRole('status')).toHaveText('Workspace ready.');await expect(page.locator('#organisation')).toHaveValue(fixture.organisationId);
  await page.goto(fixture.base+'/admin?organisation='+fixture.otherOrganisationId);await expect(page.getByRole('status')).toContainText('unavailable');await expect(page.locator('#workspace')).toBeHidden();
  await page.goto(fixture.base+'/account');await expect(page.getByRole('status')).toHaveText('Account ready.');
@@ -116,7 +117,7 @@ test('account presents each private product and organisation context separately'
  await expect(page.locator('.account-organisation-section')).toContainText('Organisation membership and staff/client seat limits are shared');
  expect(await page.locator('.account-app-card h3').allTextContents()).not.toContain('Curio');
  for(const width of [320,390,768,1440])for(const theme of ['light','dark','system']){
-  await page.setViewportSize({width,height:900});await page.getByRole('combobox',{name:'Theme',exact:true}).selectOption(theme);
+  await page.setViewportSize({width,height:900});await setTheme(page,theme);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  }
 });

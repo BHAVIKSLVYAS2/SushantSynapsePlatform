@@ -8,11 +8,10 @@ let accountSessionSeen=false,adminNavigation,wizard;
 const accountPage=location.pathname==='/account';
 const intendedTask=accountPage?taskIntent(new URL(location.href)):null;
 if(!accountPage)document.body.classList.add('organisation-admin');
-$('.admin-header').insertAdjacentHTML('afterend','<nav class="admin-footer" aria-label="Account navigation"><a href="/account">My account</a><button id="switch-account" type="button" hidden>Switch account</button></nav>');
+const adminHeader=$('.admin-header')||$('.platform-shell');
+if(!adminHeader)throw new Error('Administration header unavailable.');
+adminHeader.insertAdjacentHTML('afterend','<nav class="admin-footer" aria-label="Account navigation"><a href="/account">My account</a><button id="switch-account" type="button" hidden>Switch account</button></nav>');
 if(accountPage){document.title='My account · Sushant Synapse';$('.intro h1').textContent='My account';$('.intro p').textContent='Your private product access and organisation memberships. Public apps remain in the Curio catalogue.';$('#organisation').closest('label').hidden=true;}
-const themeControl=$('[data-theme-select]');
-themeControl.value=window.SynapseTheme.read();
-themeControl.addEventListener('change',()=>window.SynapseTheme.write(themeControl.value));
 const cap=n=>n===null?'Unlimited':n;
 const opts=(values,current)=>values.map(v=>{const [value,label]=Array.isArray(v)?v:[v,v];return `<option value="${esc(value)}"${value===current?' selected':''}>${esc(label)}</option>`;}).join('');
 const field=(label,name,value='',type='text',extra='')=>`<label>${esc(label)}<input name="${name}" type="${type}" value="${esc(value)}" ${extra}></label>`;

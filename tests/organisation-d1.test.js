@@ -1,4 +1,5 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const {setTheme}=require('./browser-theme');
 const {createRequire}=require('node:module'),{scryptSync}=require('node:crypto');
 const toolsRequire=createRequire(require.resolve('wrangler/package.json'));
 const {Miniflare,convertV4MiniflareOptions}=toolsRequire('miniflare');
@@ -199,8 +200,8 @@ test('production D1 organisations enforce provisioning, atomic capacity, tenant 
    const form=page.locator('form[data-command="provision"]');await form.locator('..').locator('summary').click();
    await form.getByLabel('Organisation name',{exact:true}).fill('Browser D1 Chambers');await form.getByRole('button',{name:'Continue',exact:true}).click();await form.getByLabel('Master Admin account email').fill('client@example.test');await form.getByRole('button',{name:'Continue',exact:true}).click();await form.getByRole('button',{name:'Continue',exact:true}).click();await form.getByLabel('Reason for change').fill('D1 browser verification');await form.getByRole('button',{name:'Create organisation',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Change saved.');await expect(page.locator('#summary')).toContainText('Browser D1 Chambers');await expect(page.locator('#secret')).toHaveValue(/^[a-f0-9]{64}$/);
    await page.getByRole('button',{name:'Clear secret'}).click();await expect(page.locator('#secret')).toHaveValue('');
-   for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await page.getByRole('combobox',{name:'Theme',exact:true}).selectOption(theme);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);}
-   await page.setViewportSize({width:390,height:844});await page.getByRole('combobox',{name:'Theme',exact:true}).selectOption('light');await page.screenshot({path:'.publish/organisation-d1-superadmin-mobile.png',fullPage:true});
+   for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await setTheme(page,theme);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);}
+   await page.setViewportSize({width:390,height:844});await setTheme(page,'light');await page.screenshot({path:'.publish/organisation-d1-superadmin-mobile.png',fullPage:true});
    await page.goto('https://organisation-ui.test/account');await expect(page.getByRole('status')).toHaveText('Account ready.');await page.locator('#admin-signout').click();await expect(page.getByRole('status')).toHaveText('Please sign in');
    await page.locator('#admin-login [name="email"]').fill('other@example.test');await page.locator('#admin-login [name="password"]').fill(password);await page.locator('#admin-login button').click();await expect(page.getByRole('status')).toHaveText('Account ready.');
    await page.getByRole('link',{name:'Open Chambers',exact:true}).click();await expect(page.getByRole('heading',{name:'Chambers overview',exact:true})).toBeVisible();

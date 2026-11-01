@@ -1,9 +1,24 @@
 const {test,expect}=require('../../../tests/browser-fixture.js');
+const {setTheme}=require('../../../tests/browser-theme');
 const {startPreview}=require('../../../tests/organisation-preview-fixture.cjs');
 let fixture;
 test.beforeEach(async()=>{fixture=await startPreview();});
 test.afterEach(async()=>{await fixture.stop();});
 async function login(page,user){const response=await page.request.post(fixture.base+'/api/auth/login',{data:{email:user+'@example.com',password:fixture.password}});expect(response.status()).toBe(200);}
+test('Admin and Super Admin use the shared theme toggle without a theme dropdown',async({page})=>{
+ for(const path of ['/admin','/super-admin']){
+  await page.goto(fixture.base+path);
+  await expect(page.locator('select[aria-label="Theme"]')).toHaveCount(0);
+  const toggle=page.locator('.platform-shell [data-theme-toggle]');
+  await expect(toggle).toBeVisible();
+  const before=await page.locator('html').getAttribute('data-theme');
+  await toggle.click();
+  const after=await page.locator('html').getAttribute('data-theme');
+  expect(after).not.toBe(before);
+  await page.reload();
+  await expect(page.locator('html')).toHaveAttribute('data-theme',after);
+ }
+});
 test('one eligible workspace resumes the requested task while an unavailable app remains at account',async({page})=>{
  await fixture.stop();fixture=await startPreview({chambers:true});await login(page,'master');await page.goto(fixture.base+'/account?next=advocate&returnTo=%2Fadvocate%23hearings');await expect(page).toHaveURL(fixture.base+'/advocate?organisation='+fixture.organisationId+'#hearings');
  await page.goto(fixture.base+'/account?next=batchfee-lite');await expect(page.getByRole('heading',{name:'Requested app access is unavailable'})).toBeVisible();await expect(page).toHaveURL(/\/account\?next=batchfee-lite$/);
@@ -39,7 +54,7 @@ test('licence switching resets every field for a new app and keeps existing date
 test('Master Admin mobile home separates membership, app roles and settings with history and keyboard access',async({page})=>{
  await login(page,'master');await page.goto(fixture.base+'/admin');await expect(page.getByRole('status')).toHaveText('Workspace ready.');await expect(page.locator('[data-admin-section="overview"]')).toBeVisible();await expect(page.locator('.access-model')).toContainText('Neither role automatically grants');await expect(page.locator('[data-admin-section="governance"]')).toHaveCount(0);await expect(page.locator('form[data-command="provision"]')).toHaveCount(0);
  await page.locator('.admin-sections [data-admin-nav="people"]').focus();await page.keyboard.press('Enter');await expect(page.locator('#section-people')).toBeFocused();await expect(page.locator('[data-admin-section="people"]')).toBeVisible();await expect(page.locator('[data-admin-section="people"]')).toContainText('separately gives them a role');await page.locator('.admin-sections [data-admin-nav="apps"]').click();await expect(page.locator('[data-admin-section="apps"]')).toContainText('Product-specific app roles');await expect(page.locator('[data-admin-section="apps"]')).toContainText('Each licence is for one named product');await expect(page.locator('[data-admin-section="apps"]')).toContainText('Organisation membership and organisation seat limits are shared separately');await page.goBack();await expect(page.locator('[data-admin-section="people"]')).toBeVisible();await page.goForward();await expect(page.locator('[data-admin-section="apps"]')).toBeVisible();await page.reload();await expect(page.locator('[data-admin-section="apps"]')).toBeVisible();
- for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:850});await page.getByRole('combobox',{name:'Theme',exact:true}).selectOption(theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+ for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:850});await setTheme(page,theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await page.setViewportSize({width:390,height:850});await page.locator('.admin-sections [data-admin-nav="overview"]').click();const compact=await page.evaluate(()=>({introPadding:getComputedStyle(document.querySelector('#main .intro')).paddingLeft,seatColumns:getComputedStyle(document.querySelector('#main .metrics')).gridTemplateColumns.split(' ').length}));expect(compact).toEqual({introPadding:'0px',seatColumns:3});await page.screenshot({path:'.publish/admin-redesign-master-mobile.png',fullPage:true});
 });
 
@@ -47,7 +62,7 @@ test('Super Admin directory selects the intended organisation and creation links
  await login(page,'super');await page.goto(fixture.base+'/super-admin');await expect(page.getByRole('status')).toHaveText('Workspace ready.');await page.getByRole('searchbox',{name:'Find an organisation'}).fill('Other');await expect(page.locator('[data-select-org]:visible')).toHaveCount(1);await page.locator('[data-select-org="'+fixture.otherOrganisationId+'"]').click();await expect(page.locator('#summary')).toContainText('Other Chambers');await expect(page.locator('#organisation')).toHaveValue(fixture.otherOrganisationId);await page.reload();await expect(page.getByRole('status')).toHaveText('Workspace ready.');await expect(page.locator('#organisation')).toHaveValue(fixture.otherOrganisationId);
  await expect(page.locator('[data-admin-section="governance"]')).toBeHidden();await page.locator('.admin-sections [data-admin-nav="governance"]').click();await expect(page.locator('[data-admin-section="governance"]')).toBeVisible();await expect(page.locator('[data-admin-section="governance"]')).toContainText('Sensitive and infrequent');
  await page.goto(fixture.base+'/super-admin#create/4');const create=page.locator('form[data-command="provision"]');await expect(create.locator('[data-step="0"]')).toBeVisible();await expect(create.getByRole('button',{name:'Create organisation',exact:true})).toBeHidden();const apps=await create.locator('[name=appId] option').evaluateAll(nodes=>nodes.map(n=>n.value));expect(apps).toContain('advocate');expect(apps).toContain('batchfee-lite');expect(apps).not.toContain('ritual-assist');expect(apps).not.toContain('rashifal-kundli');expect(apps).not.toContain('news');
- await page.setViewportSize({width:320,height:850});for(const theme of ['light','dark']){await page.getByRole('combobox',{name:'Theme',exact:true}).selectOption(theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}await page.screenshot({path:'.publish/admin-redesign-super-mobile.png',fullPage:true});
+ await page.setViewportSize({width:320,height:850});for(const theme of ['light','dark']){await setTheme(page,theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}await page.screenshot({path:'.publish/admin-redesign-super-mobile.png',fullPage:true});
 });
 
 test('Super Admin manages licences and provisions an organisation',async({page})=>{
@@ -71,8 +86,8 @@ test('membership assignment, stale edit handling and responsive themes',async({p
  const current=await (await page.request.get(fixture.base+'/api/organisation-admin/organisations/'+fixture.organisationId)).json();await page.request.post(fixture.base+'/api/organisation-admin/organisations/'+fixture.organisationId+'/assignment',{data:{userId:'member',role:'Advocate',status:'Active',version:current.organisation.version,reason:'Concurrent assignment change'}});
  await member.getByRole('button',{name:'Update membership'}).click();await expect(page.getByRole('status')).toContainText('Refresh the workspace');await expect(member.getByLabel('Reason for change')).toHaveValue('Keep this entered reason');
  await page.getByRole('button',{name:'Refresh',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Workspace ready.');
- for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await page.getByRole('combobox',{name:'Theme',exact:true}).selectOption(theme);await expect(page.locator('html')).toHaveAttribute('data-theme',theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
- await page.emulateMedia({colorScheme:'dark'});await page.getByRole('combobox',{name:'Theme',exact:true}).selectOption('system');await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await page.emulateMedia({colorScheme:'light'});await expect(page.locator('html')).toHaveAttribute('data-theme','light');
+ for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await setTheme(page,theme);await expect(page.locator('html')).toHaveAttribute('data-theme',theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+ await page.emulateMedia({colorScheme:'dark'});await setTheme(page,'system');await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await page.emulateMedia({colorScheme:'light'});await expect(page.locator('html')).toHaveAttribute('data-theme','light');
  await page.screenshot({path:'.publish/admin-desktop.png',fullPage:true});await page.setViewportSize({width:390,height:844});await page.screenshot({path:'.publish/admin-mobile.png',fullPage:true});expect(errors).toEqual([]);
 });
 test('signed-out and non-Super Admin visitors receive useful access states',async({page})=>{
@@ -105,10 +120,10 @@ test('new Master Admin invitation activates an account and signs into only its o
   await recipient.getByText('Activate a new account',{exact:true}).click();
   const activate=recipient.locator('#new-master');
   for(const width of [320,390,768,1440])for(const theme of ['light','dark']){
-   await recipient.setViewportSize({width,height:900});await recipient.getByRole('combobox',{name:'Theme',exact:true}).selectOption(theme);
+   await recipient.setViewportSize({width,height:900});await setTheme(recipient,theme);
    expect(await recipient.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   }
-  await recipient.setViewportSize({width:390,height:844});await recipient.getByRole('combobox',{name:'Theme',exact:true}).selectOption('light');
+  await recipient.setViewportSize({width:390,height:844});await setTheme(recipient,'light');
   await recipient.screenshot({path:'.publish/admin-new-master-mobile.png',fullPage:true});
   await activate.getByLabel('New account invitation secret').fill(token);
   await activate.getByLabel('Invited email').fill('invited@example.com');
@@ -157,10 +172,10 @@ test('Super Admin downloads an explicitly confirmed full recovery backup',async(
  await login(page,'super');await page.goto(fixture.base+'/super-admin');await expect(page.getByRole('status')).toHaveText('Workspace ready.');
  const recovery=await openForm(page,'recovery-export');
  for(const width of [320,390,768,1440])for(const theme of ['light','dark']){
-  await page.setViewportSize({width,height:900});await page.getByRole('combobox',{name:'Theme',exact:true}).selectOption(theme);
+  await page.setViewportSize({width,height:900});await setTheme(page,theme);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  }
- await page.setViewportSize({width:390,height:844});await page.getByRole('combobox',{name:'Theme',exact:true}).selectOption('light');
+ await page.setViewportSize({width:390,height:844});await setTheme(page,'light');
  await recovery.screenshot({path:'.publish/recovery-controls-mobile.png'});
  await recovery.getByLabel('Your current password').fill('Wrong password for recovery!');
  await recovery.getByLabel('Type EXPORT ALL ORGANISATIONS').fill('EXPORT ALL ORGANISATIONS');
