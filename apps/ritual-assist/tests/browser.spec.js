@@ -111,6 +111,11 @@ test('denied and out-of-coverage location allow manual search; late detection ca
  await page.locator('#calendar-use-location').click();await selectCalendarCity(page);await page.evaluate(()=>locationRequest.success({coords:{latitude:19.076,longitude:72.8777}}));await expect(page.locator('#placeId')).toHaveValue('geonames:1261481');await expect(page.locator('#calendar-location-selected')).toContainText('New Delhi');
  await page.locator('#calendar-use-location').click();await chooseInterfaceLanguage(page,'hi');await page.evaluate(()=>locationRequest.success({coords:{latitude:19.076,longitude:72.8777}}));await expect(page.locator('#placeId')).toHaveValue('geonames:1261481');
 });
+test('learning disclosure distinguishes simplified sequences from preparation-only guides',async({page})=>{
+ await page.goto(base+'/ritual-assist?guide=ganesh-puja&learn=vidhi');await expect(page.locator('.ritual-learning > summary')).toHaveText('Learn the simplified sequence and prayers');await expect(page.locator('#learn-panel-vidhi h3')).toHaveText('Simplified household sequence · not complete vidhi');
+ await page.goto(base+'/ritual-assist?guide=daily-puja&learn=vidhi');await expect(page.locator('.ritual-learning > summary')).toHaveText('Learn the simplified sequence and prayers');await expect(page.locator('[data-prayer=ganesha-name]')).toHaveCount(0);await expect(page.locator('#learn-panel-mantras')).not.toContainText('Ganapati');
+ await page.goto(base+'/ritual-assist?guide=satyanarayan&learn=vidhi');await chooseInterfaceLanguage(page,'hi');await expect(page.locator('.ritual-learning > summary')).toHaveText('तैयारी का दायरा और वैकल्पिक पाठ');await expect(page.locator('#learn-panel-vidhi h3')).toHaveText('केवल तैयारी · पूरी विधि नहीं');
+});
 test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
 test('all bilingual guides, materials, search, completion isolation, downloads and printing',async({page})=>{
  await page.goto(base+'/ritual-assist?guide=shraddha');await expect(page.locator('.seedha-group legend')).toHaveText('Seedha');await expect(page.locator('.seedha-group input[data-item]')).toHaveCount(8);await expect(page.locator('.seedha-group .item-name strong').first()).toHaveText('wheat flour / atta');

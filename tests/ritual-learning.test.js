@@ -3,6 +3,9 @@ test('every existing ritual has scoped bilingual learning without inventing full
  const {guides}=await import('../apps/ritual-assist/frontend/guides.mjs'),{learningFor,reviewedOn}=await import('../apps/ritual-assist/frontend/learning-content.mjs');
  assert.equal(reviewedOn,'2026-10-31');
  for(const guide of guides){const result=learningFor(guide);assert.ok(result.steps.length>=4);assert.ok(result.prayers.length>=2);for(const lang of ['en','hi']){for(const value of [result.note,...result.steps.flatMap(s=>[s.title,s.body]),...result.prayers.flatMap(p=>[p.title,p.kind,p.meaning,p.use])]){assert.ok(value[lang]);if(lang==='hi')assert.match(value[lang],/\p{Script=Devanagari}/u);assert.doesNotMatch(value[lang],/\?\?\?/);}}for(const prayer of result.prayers){assert.match(prayer.sanskrit,/\p{Script=Devanagari}/u);assert.ok(prayer.iast);assert.ok(prayer.locator);assert.ok(result.sources.some(s=>s.id===prayer.source));}for(const source of result.sources)assert.equal(new URL(source.url).protocol,'https:');if(guide.category==='ashubh'){assert.equal(result.mode,'remembrance');assert.deepEqual(result.prayers.map(p=>p.id),['self','peace']);}}
+ for(const id of ['daily-puja','ganesh-puja','lakshmi-puja'])for(const lang of ['en','hi'])assert.match(learningFor(guides.find(g=>g.id===id)).sequenceTitle[lang],/sequence|क्रम/u);
+ for(const guide of guides.filter(g=>!['daily-puja','ganesh-puja','lakshmi-puja'].includes(g.id)))for(const lang of ['en','hi'])assert.match(learningFor(guide).sequenceTitle[lang],lang==='en'?/preparation/i:/तैयारी/u);
+ assert.doesNotMatch(learningFor(guides.find(g=>g.id==='daily-puja')).prayers.map(p=>p.id).join(' '),/ganesha/);
  for(const id of ['vivah','havan','namkaran','griha-pravesh','satyanarayan'])assert.equal(learningFor(guides.find(g=>g.id===id)).mode,'guided');
  assert.throws(()=>learningFor({id:'made-up',category:'unknown'}));
 });
@@ -18,6 +21,9 @@ test('checked Sanskrit formulas keep their deity and offering, and excerpts rema
 test('learning downloads retain original script, reading aids, without publisher URLs and ceremony scope in both languages',async()=>{
  const {guideById}=await import('../apps/ritual-assist/frontend/guides.mjs'),{learningText}=await import('../apps/ritual-assist/frontend/learning-view.mjs');
  for(const lang of ['en','hi']){const output=learningText(guideById('ganesh-puja'),lang);assert.match(output,/ॐ गणपतये नमः/);assert.match(output,/oṃ gaṇapataye namaḥ/);assert.doesNotMatch(output,/https?:\/\//);assert.match(output,/2026-10-31/);assert.match(output,/Sushant Synapse/);}
+ assert.match(learningText(guideById('satyanarayan'),'en'),/Preparation only · not a complete vidhi/);
+ assert.match(learningText(guideById('ganesh-puja'),'hi'),/सरल घरेलू क्रम · पूरी विधि नहीं/);
+ assert.doesNotMatch(learningText(guideById('daily-puja'),'en'),/Salutation to Ganapati|ॐ गणपतये नमः/);
 });
 test('learning collection uses static local data and is explicitly allowlisted',()=>{
  const fs=require('node:fs'),{staticAssets}=require('../server/static-assets');
