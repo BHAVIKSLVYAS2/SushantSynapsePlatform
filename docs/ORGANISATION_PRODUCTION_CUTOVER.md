@@ -1,5 +1,15 @@
 # Organisation licensing production cutover
 
+Admin theme toggle and Moment Studio language-menu correction (2026-11-01 IST):
+Commit `c3df781` is live as Worker version
+`bd8c9261-1d95-4e7d-a389-b286e11dc047` with `--keep-vars`. Admin, Super Admin
+and both audit routes use the shared theme toggle with no local dropdown; the
+Moment Studio Cards language label is `EN` without disclosure markers. All 37
+selected Admin/Moment Studio browser tests and 5 isolated D1 organisation/browser
+checks pass. Production-config dry run passed. Live health is 200 and unscoped
+records remain 409. No migration, binding/configuration, account or business-data
+changes.
+
 City/calendar release (2026-10-31 IST): user authorised commit/deploy. Commits
 `6c778d4` and mobile-spacing correction `5d6e8fe` are live as Worker
 `f67452c5-27d9-4c15-a097-564353adce3f` with `--keep-vars`. Live city/GPS Vrat
