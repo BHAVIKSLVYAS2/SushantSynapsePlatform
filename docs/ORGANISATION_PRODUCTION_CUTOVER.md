@@ -1,5 +1,14 @@
 # Organisation licensing production cutover
 
+Ritual Assist share-card release (2026-11-04 IST): user authorised commit/deploy.
+Commit `5e9babe` is live as Worker `f054ce01-1ac5-4bc9-8deb-5a872e760bbc`,
+deployed with `--keep-vars` using the exact production config. The Vrats & dates
+calendar exports a compact bilingual Panchang-inspired PNG with the Sushant
+Synapse logo/name footer. Production calendar, module, stylesheet and health
+routes return 200; unscoped `/api/records` remains 409. The full 21-workflow
+Ritual Assist browser suite and 6 observance/export checks pass. No migration,
+binding/configuration, account or business-data changes.
+
 Admin theme toggle and Moment Studio language-menu correction (2026-11-01 IST):
 Commit `c3df781` is live as Worker version
 `bd8c9261-1d95-4e7d-a389-b286e11dc047` with `--keep-vars`. Admin, Super Admin
