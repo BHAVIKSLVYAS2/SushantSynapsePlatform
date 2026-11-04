@@ -450,7 +450,7 @@ Team Mixer is live at https://apps.sushantsynapse.com/team-mixer (2026-10-09); p
 
 ## Ritual Assist
 
-The remembrance calendar now includes the next ten Barsi/Samvatsari and ten Pitru Paksha Shraddha observances from today, including for older death dates. A bilingual table shows lunar timings and confirmation conditions; downloaded/printed plans include the future dates.
+The remembrance calendar highlights the next Barsi/Samvatsari and Pitru Paksha Shraddha independently, and includes the current year plus the next ten in its bilingual table. Print / Save PDF includes the complete table and expanded tithi/Aparahna calculations. A high-resolution bilingual PNG provides a locally rendered share/print card with both observance columns and minimal Sushant Synapse footer branding.
 
 The linked `/ritual-assist/calendar` adds a Hindu Panchang remembrance planner: inclusive Chautha/days 10–12 (optional 13), tithi-based Masik, Barsi and first Pitru Paksha after Barsi. Date, IST time or confirmed tithi, Indian place and lunar month/day-counting conventions are explicit. English/Hindi results download or print, with no personal-data upload. Adhik Maas and ambiguous boundaries need confirmation. This is an approximate astronomy-based planning aid, not a certified regional Panchang; see the app README for method, verified fixtures and limits.
 

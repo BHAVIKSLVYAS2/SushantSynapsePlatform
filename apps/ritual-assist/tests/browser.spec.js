@@ -181,3 +181,37 @@ test('compact language controls and calendar theme follow shared preferences',as
 });
 
 async function selectObservanceCity(page){await page.locator('#observance-location-query').fill('New Delhi');await page.locator('#observance-location-results [data-place-id="geonames:1261481"]').click();}
+
+test('Shraddha/Barsi shows both next dates and exports the complete bilingual 10-year image and PDF',async({page})=>{
+ const errors=[];page.on('pageerror',error=>errors.push(error.message));
+ await page.goto(base+'/ritual-assist/calendar?view=remembrance');
+ await page.locator('#date').fill('2025-10-01');await page.locator('#time').fill('12:00');await selectCalendarCity(page);await page.locator('#calculate').click();
+ await expect(page.locator('.future-plan tbody tr')).toHaveCount(11,{timeout:30000});
+ await expect(page.locator('.next-observance-item')).toHaveCount(2);
+ await expect(page.locator('.next-observance')).toContainText('Next Barsi / Samvatsari');
+ await expect(page.locator('.next-observance')).toContainText('Next Pitru Paksha Shraddha');
+ const canvas=page.locator('.shraddha-share-canvas');
+ await expect(canvas).toHaveAttribute('aria-label',/Current year \+ next 10 years/);
+ await expect(canvas).toHaveAttribute('aria-label',/Barsi \/ Samvatsari/);
+ await expect(canvas).toHaveAttribute('aria-label',/Pitru Paksha Shraddha/);
+ await expect(canvas).toHaveAttribute('aria-label',/Tithi interval · IST/);
+ await expect(canvas).toHaveAttribute('aria-label',/Aparahna candidates · IST/);
+ for(const year of await page.locator('.future-plan tbody th').allTextContents())await expect(canvas).toHaveAttribute('aria-label',new RegExp(year));
+ await page.locator('.shraddha-share-preview summary').click();await canvas.scrollIntoViewIfNeeded();await canvas.screenshot({path:'test-results/shraddha-barsi-preview.png'});
+ const dimensions=await canvas.evaluate(element=>({width:element.width,height:element.height}));
+ expect(dimensions.width).toBe(1080);expect(dimensions.height).toBeGreaterThan(2500);
+ const pngDownload=page.waitForEvent('download');await page.getByRole('button',{name:'Download 10-year PNG'}).click();const pngFile=await pngDownload;await pngFile.saveAs('test-results/shraddha-barsi-10-year.png');
+ const png=fs.readFileSync('test-results/shraddha-barsi-10-year.png');expect(png.subarray(0,8).toString('hex')).toBe('89504e470d0a1a0a');expect(png.readUInt32BE(16)).toBe(1080);expect(png.readUInt32BE(20)).toBeGreaterThan(2500);
+ await page.evaluate(()=>{window.print=()=>window.printInvoked=true;});
+ await page.getByRole('button',{name:'Print / save PDF'}).click();expect(await page.evaluate(()=>window.printInvoked)).toBe(true);
+ await expect(page.locator('.full-calendar')).toHaveAttribute('open','');await expect(page.locator('.future-plan details[open]')).toHaveCount(await page.locator('.future-plan details').count());
+ await page.emulateMedia({media:'print'});await expect(page.locator('.future-plan')).toBeVisible();await expect(page.locator('.shraddha-share')).toBeHidden();
+ const pdf=await page.pdf({path:'test-results/shraddha-barsi-10-year.pdf',format:'A4',printBackground:true});expect(pdf.subarray(0,8).toString()).toContain('%PDF-');
+ await page.emulateMedia({media:'screen'});await page.evaluate(()=>window.dispatchEvent(new Event('afterprint')));await expect(page.locator('.full-calendar')).not.toHaveAttribute('open','');
+ await chooseInterfaceLanguage(page,'hi');await expect(page.locator('.next-observance')).toContainText('अगली बरसी / संवत्सरी');await expect(page.locator('.next-observance')).toContainText('अगला पितृ पक्ष श्राद्ध');await expect(canvas).toHaveAttribute('aria-label',/श्राद्ध और बरसी/);
+ await page.evaluate(()=>{Object.defineProperty(navigator,'canShare',{configurable:true,value:()=>true});Object.defineProperty(navigator,'share',{configurable:true,value:async({title,files})=>{window.sharedShraddhaCard={title,name:files[0].name,type:files[0].type,size:files[0].size};}});});
+ await page.getByRole('button',{name:'अगले 10 वर्ष का PNG साझा करें'}).click();await expect(page.locator('.shraddha-share [role=status]')).toContainText('कैलेंडर चित्र साझा करने के लिए तैयार है।');expect(await page.evaluate(()=>window.sharedShraddhaCard)).toMatchObject({name:'ritual-assist-shraddha-barsi-10-year.png',type:'image/png'});
+ await page.evaluate(()=>Object.defineProperty(navigator,'canShare',{configurable:true,value:()=>false}));const fallback=page.waitForEvent('download');await page.getByRole('button',{name:'अगले 10 वर्ष का PNG साझा करें'}).click();expect((await fallback).suggestedFilename()).toBe('ritual-assist-shraddha-barsi-10-year.png');
+ for(const width of [320,390,1440]){await page.setViewportSize({width,height:900});for(const theme of ['light','dark']){await page.evaluate(value=>document.documentElement.dataset.theme=value,theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}}
+ expect(errors).toEqual([]);
+});

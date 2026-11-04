@@ -122,6 +122,7 @@ const staticAssets={
  '/ritual-assist/observance-export.mjs':'apps/ritual-assist/frontend/observance-export.mjs',
  '/ritual-assist/calendar-export.mjs':'apps/ritual-assist/frontend/calendar-export.mjs',
  '/ritual-assist/calendar-tools.mjs':'apps/ritual-assist/frontend/calendar-tools.mjs',
+ '/ritual-assist/shraddha-card.mjs':'apps/ritual-assist/frontend/shraddha-card.mjs',
  '/ritual-assist/preparation-pack.mjs':'apps/ritual-assist/frontend/preparation-pack.mjs',
  '/ritual-assist/calendar.css':'apps/ritual-assist/frontend/calendar.css',
  '/ritual-assist/panchang.mjs':'apps/ritual-assist/frontend/panchang.mjs',
