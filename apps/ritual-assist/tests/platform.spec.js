@@ -17,3 +17,19 @@ test('simple remembrance tabs, native inputs, exports, bilingual layouts and edi
 test('recent and first-year deaths select the appropriate period',async({page})=>{
  await page.clock.setFixedTime(new Date('2026-11-05T06:00:00Z'));await calculate(page,'2026-11-01');await expect(page.getByRole('tab',{name:'Immediate rites',exact:true})).toHaveAttribute('aria-selected','true');await calculate(page,'2026-05-01');await expect(page.getByRole('tab',{name:'First year',exact:true})).toHaveAttribute('aria-selected','true');
 });
+test('portrait PNG themes preserve uncertainty and fit bilingual exceptional rows without clipping',async({page})=>{
+ const response=page.waitForResponse(r=>r.url().endsWith('/api/ritual-assist/calendar'));await calculate(page,'2025-10-01');const payload=await(await response).json();
+ const checks=await page.evaluate(async calendar=>{
+  await document.fonts.ready;const {renderShraddhaCard}=await import('/ritual-assist/shraddha-card.mjs');const results=[];
+  for(const language of ['en','hi'])for(const theme of ['ivory','midnight'])for(const scenario of ['normal','conditional','empty','long']){
+   const data=structuredClone(calendar),year=data.yearly.find(y=>y.annual.length&&y.pitru.length);if(!year)throw Error('Fixture has no eligible year');
+   if(scenario==='conditional')for(const row of [...year.annual,...year.pitru]){row.conditional=true;row.date=null;row.status='two-day-tie';}
+   if(scenario==='empty'){year.annual=[];year.pitru=[];}
+   if(scenario==='long'){data.data.location.name='A long observance location with several words for wrapping across multiple lines in the card header';year.annual.push(structuredClone(year.annual[0]));}
+   const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d'),fill=ctx.fillText.bind(ctx),overflow=[];
+   ctx.fillText=(text,x,y,...rest)=>{const width=ctx.measureText(text).width,left=ctx.textAlign==='center'?x-width/2:ctx.textAlign==='right'?x-width:x;if(left<20||left+width>1060||y<20||y>canvas.height)overflow.push({text,left,y,width});return fill(text,x,y,...rest);};
+   const size=renderShraddhaCard(canvas,data,language,year.year,theme);results.push({language,theme,scenario,...size,overflow,uncertain:scenario!=='conditional'||canvas.getAttribute('aria-label').includes(language==='hi'?'संभावित':'Candidate')});
+  }return results;
+ },payload.result);
+ expect(checks).toHaveLength(16);for(const result of checks){expect(result.overflow,JSON.stringify(result)).toEqual([]);expect(result.width).toBe(1080);expect(result.height).toBeGreaterThanOrEqual(1350);expect(result.uncertain).toBe(true);}
+});

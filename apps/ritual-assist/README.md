@@ -110,6 +110,14 @@ Vendored MIT Astronomy Engine 2.1.19 computes geocentric Moon–Sun separation; 
 
 ## Ownership and verification
 
+Year PNGs use a portrait 1080×1350 layout (growing for exceptional content),
+stacked Barsi/Pitru sections and larger dates. Ivory and Midnight are explicit
+export colour choices, independent of the app theme and retained across language
+changes in the current result. The card shows tithi and the selected date's
+Aparahna window; full candidate intervals remain in accessible text/calendar/PDF.
+Conditional/unresolved/earlier-year labels remain visible. No death identity is
+added. Image generation stays local in canvas with existing branding and sharing.
+
 `remembrance-view.mjs` presents one calculation through Immediate rites, First
 year after death, and Future years from today. The appropriate period opens
 automatically; keyboard-accessible tabs and the 5/10-year selector use existing

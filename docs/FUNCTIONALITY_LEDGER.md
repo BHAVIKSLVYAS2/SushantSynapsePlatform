@@ -1,5 +1,24 @@
 # Chambers functionality ledger
 
+**Remembrance portrait PNG (2026-11-05 IST, implementation verification):**
+Sharing now uses a 1080x1350 portrait card, growing for exceptional content,
+with stacked Barsi/Pitru sections, larger dates, selected-date Aparahna windows
+and one planning note. Full intervals remain in accessible text/calendar/PDF;
+conditional, unresolved and earlier-year statuses remain explicit. Ivory and
+Midnight colour choices are independent of the app theme and retained through
+language changes. Existing local canvas generation, brand, filenames, native
+sharing/cancellation and download fallback remain. No image-generation service,
+saved death identity, schema or calculation changes. Three focused browser
+workflows pass across the run and corrected preview-opening rerun, covering
+real PNG/PDF/ICS, en/hi theme retention, native sharing/fallback and responsive
+layouts. Sixteen language/theme/normal/conditional/empty/long-content render
+combinations verify text bounds and uncertainty; four export tests pass.
+English Ivory/Midnight and Hindi Midnight previews visually reviewed. Evidence:
+`.publish/remembrance-card-{browser-final,sharing-final,fit,exports}.log`,
+`test-results/shraddha-barsi-{2027,midnight,midnight-hi}.png`.
+Production packaging/deployment/live verification follows from isolated source;
+unrelated working-tree edits and all existing records remain preserved.
+
 **Remembrance simplification production release (2026-11-05 IST):** Implementation
 commit `85fd7d1` is live as Worker `addf29a1-9bdf-4893-9b1b-602c39432ad1`.
 Deployed from a clean archive of that commit using the exact production config

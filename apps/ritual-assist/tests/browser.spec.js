@@ -217,16 +217,19 @@ test('Shraddha/Barsi selects a year for compact PNG sharing and retains the comp
  await expect(canvas).toHaveAttribute('aria-label',/Sushant Synapse/);
  await expect(page.locator('.shraddha-share-preview')).toHaveAttribute('open','');await canvas.scrollIntoViewIfNeeded();await canvas.screenshot({path:'test-results/shraddha-barsi-preview.png'});
  const dimensions=await canvas.evaluate(element=>({width:element.width,height:element.height}));
- expect(dimensions.width).toBe(1080);expect(dimensions.height).toBeGreaterThan(500);expect(dimensions.height).toBeLessThan(1100);
+ expect(dimensions.width).toBe(1080);expect(dimensions.height).toBe(1350);
  const pngDownload=page.waitForEvent('download');await page.locator('.shraddha-share-actions').getByRole('button',{name:'Download year PNG',exact:true}).click();const pngFile=await pngDownload;expect(pngFile.suggestedFilename()).toBe('ritual-assist-shraddha-barsi-2027.png');await pngFile.saveAs('test-results/shraddha-barsi-2027.png');
- const png=fs.readFileSync('test-results/shraddha-barsi-2027.png');expect(png.subarray(0,8).toString('hex')).toBe('89504e470d0a1a0a');expect(png.readUInt32BE(16)).toBe(1080);expect(png.readUInt32BE(20)).toBeLessThan(1100);
+ const png=fs.readFileSync('test-results/shraddha-barsi-2027.png');expect(png.subarray(0,8).toString('hex')).toBe('89504e470d0a1a0a');expect(png.readUInt32BE(16)).toBe(1080);expect(png.readUInt32BE(20)).toBe(1350);
+ await page.locator('#shraddha-theme').selectOption('midnight');await expect(canvas).toHaveAttribute('data-card-theme','midnight');
+ const darkDownload=page.waitForEvent('download');await page.getByRole('button',{name:'Download year PNG',exact:true}).click();const darkFile=await darkDownload;await darkFile.saveAs('test-results/shraddha-barsi-midnight.png');expect(fs.readFileSync('test-results/shraddha-barsi-midnight.png').equals(png)).toBe(false);
+ const colour=await canvas.evaluate(c=>Array.from(c.getContext('2d').getImageData(0,0,1,1).data));await page.evaluate(()=>window.SynapseTheme.write('light'));expect(await canvas.evaluate(c=>Array.from(c.getContext('2d').getImageData(0,0,1,1).data))).toEqual(colour);
  await page.evaluate(()=>{window.print=()=>window.printInvoked=true;});
  await page.getByRole('button',{name:'Print / save PDF'}).click();expect(await page.evaluate(()=>window.printInvoked)).toBe(true);
 
  await page.emulateMedia({media:'print'});await expect(page.locator('#remembrance-panel-2')).toBeVisible();await expect(page.locator('.shraddha-share')).toBeHidden();
  const pdf=await page.pdf({path:'test-results/shraddha-barsi-10-year.pdf',format:'A4',printBackground:true});expect(pdf.subarray(0,8).toString()).toContain('%PDF-');
  await page.emulateMedia({media:'screen'});await page.evaluate(()=>window.dispatchEvent(new Event('afterprint')));
- await chooseInterfaceLanguage(page,'hi');await expect(canvas).toHaveAttribute('aria-label',/श्राद्ध और बरसी/);
+ await chooseInterfaceLanguage(page,'hi');await expect(canvas).toHaveAttribute('aria-label',/श्राद्ध और बरसी/);await expect(page.locator('#shraddha-theme')).toHaveValue('midnight');await page.locator('.shraddha-share-preview>summary').click();await canvas.screenshot({path:'test-results/shraddha-barsi-midnight-hi.png'});
  await page.evaluate(()=>{Object.defineProperty(navigator,'canShare',{configurable:true,value:()=>true});Object.defineProperty(navigator,'share',{configurable:true,value:async({title,files})=>{window.sharedShraddhaCard={title,name:files[0].name,type:files[0].type,size:files[0].size};}});});
  await page.getByRole('button',{name:'वर्ष का PNG साझा करें'}).click();await expect(page.locator('.shraddha-share [role=status]')).toContainText('कैलेंडर चित्र साझा करने के लिए तैयार है।');expect(await page.evaluate(()=>window.sharedShraddhaCard)).toMatchObject({name:'ritual-assist-shraddha-barsi-2027.png',type:'image/png'});
  await page.evaluate(()=>Object.defineProperty(navigator,'canShare',{configurable:true,value:()=>false}));const fallback=page.waitForEvent('download');await page.getByRole('button',{name:'वर्ष का PNG साझा करें'}).click();expect((await fallback).suggestedFilename()).toBe('ritual-assist-shraddha-barsi-2027.png');

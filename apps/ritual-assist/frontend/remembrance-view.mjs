@@ -2,7 +2,7 @@ import {localDate,tithiLabel,calendarRows,calendarText} from './panchang.mjs';
 import {downloadBlob} from '/shared/download.mjs';
 import {occasionTitle} from './calendar-export.mjs';
 import {mountCalendarTools} from './calendar-tools.mjs';
-import {mountShraddhaCard} from './shraddha-card.mjs';
+import {mountShraddhaCard} from './shraddha-card.mjs?v=20261105-portrait';
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
 const button=(text,action)=>{const n=el('button',text);n.type='button';n.onclick=action;return n;};
 const views=new WeakMap();
