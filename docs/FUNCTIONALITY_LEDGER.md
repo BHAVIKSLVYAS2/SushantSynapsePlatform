@@ -1,5 +1,20 @@
 # Chambers functionality ledger
 
+**Remembrance portrait PNG production release (2026-11-05 IST):** Commit
+`831ad1b` is live as Worker `be433983-0397-4aac-ab69-e77bd3adf3a3` from a clean
+committed-source archive with the existing production config and `--keep-vars`.
+Packaging and deployment pass. Live Chrome verifies four real 1080x1350 PNGs
+(English/Hindi x Ivory/Midnight), preserved year selection, 16 language/theme/
+width layouts without overflow, real ICS, three-tab/range behavior with one
+calculation request and four exact deployed JS/CSS hashes. Health 200; legacy
+private records 409; zero page errors. Live Ivory-English and Midnight-Hindi PNGs
+visually reviewed. Focused local sharing/PDF/fallback, 16 exceptional render
+cases and export checks are recorded below. Evidence:
+`.publish/remembrance-card-{dryrun,deploy,live}.log` and
+`.publish/remembrance-card-live-{en,hi}-{ivory,midnight}.png`.
+No migration, account/licence or business-data writes; variables/bindings and
+unrelated working-tree edits preserved. Supersedes the release-pending note below.
+
 **Remembrance portrait PNG (2026-11-05 IST, implementation verification):**
 Sharing now uses a 1080x1350 portrait card, growing for exceptional content,
 with stacked Barsi/Pitru sections, larger dates, selected-date Aparahna windows
