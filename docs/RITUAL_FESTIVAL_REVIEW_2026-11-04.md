@@ -50,5 +50,9 @@ or independent certification of all cities/years.
 
 The new regression checks include published Holi dates for 2025/2026/2027 and
 confirmation/export exclusion across 2025–2030 for Delhi and Kochi. Focused
-Node/API suite: 30/30 pass. Browser, exact-config packaging, commit and release
-results are recorded in the functionality ledger when complete.
+Node/API suite: 30/30 pass. All 23 Ritual Assist Chrome workflows and exact-config
+packaging pass. Commit `196450e` is deployed as Worker
+`4336fbc9-c710-4d37-8e71-e239bdcaa375`. Live checks verify Holi 2027's confirmation
+and export exclusion, resolved festival ICS, selected-year PNG, eight responsive
+theme layouts, health 200 and unscoped records 409. No business-data changes.
+Evidence: `.publish/ritual-audit-{node,browser,dryrun,deploy,live}.log`.

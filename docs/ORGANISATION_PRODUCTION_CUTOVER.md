@@ -1,5 +1,15 @@
 # Organisation licensing production cutover
 
+Festival audit correction (2026-11-04 IST): implementation commit `196450e`
+is live as Worker `4336fbc9-c710-4d37-8e71-e239bdcaa375` using the exact
+organisation-enabled config and `--keep-vars`. All 30 focused Node/API checks,
+23 Ritual Assist browser workflows, dry run and live verification pass.
+Live Holi 2027 remains confirmation-only, with reminder disabled and no image
+inclusion; resolved festival ICS and selected-year PNG downloads pass. Health
+200; unscoped records 409. No migrations, bootstrap or account/business writes.
+Existing bindings and vars preserved. Details: `RITUAL_FESTIVAL_REVIEW_2026-11-04.md`
+and `.publish/ritual-audit-{deploy,live}.log`. Earlier Holi certainty is superseded.
+
 Ritual Assist compact exports/year dropdown/optional festivals (2026-11-04 IST):
 Worker `684e1328-5daa-4247-9ba0-44908b1bc15d` is deployed with the exact
 organisation-enabled production config and `--keep-vars`. All 29 focused Node/API
