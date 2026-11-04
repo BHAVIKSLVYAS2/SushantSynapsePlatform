@@ -13,6 +13,18 @@ const mod=(n,d)=>((n%d)+d)%d;
 export function tithiLabel(tithi,language='en'){const paksha=tithi<=15?(language==='hi'?'शुक्ल':'Shukla'):(language==='hi'?'कृष्ण':'Krishna');return paksha+' '+tithiNames[language][tithi-1];}
 function siderealSun(value){const date=new Date(value),sun=Ecliptic(GeoVector(Body.Sun,date,true)).elon,spica=Ecliptic(GeoVector(Body.Star1,date,true)).elon;return mod(sun-spica+180,360);}
 function solarSign(value){const longitude=siderealSun(value);return {sign:Math.floor(longitude/30),near:Math.min(longitude%30,30-longitude%30)<.15};}
+export function solarSignAt(value){return solarSign(value).sign;}
+export function lunarNakshatraAt(value){const date=new Date(value),moon=Ecliptic(GeoVector(Body.Moon,date,true)).elon,spica=Ecliptic(GeoVector(Body.Star1,date,true)).elon;return Math.floor(mod(moon-spica+180,360)/(360/27));}
+export function makarIngresses(start,end){
+ const result=[],target=270;
+ for(let day=start-DAY;day<end;day+=DAY){
+  if(siderealSun(day)>=target||siderealSun(day+DAY)<target)continue;
+  let low=day,high=day+DAY;
+  while(high-low>60000){const middle=Math.floor((low+high)/2);if(siderealSun(middle)>=target)high=middle;else low=middle;}
+  if(high>=start&&high<end)result.push({time:high,date:localDate(high)});
+ }
+ return result;
+}
 function lunarMonth(start){const end=phase(0,start+DAY,32),a=solarSign(start),b=solarSign(end),delta=mod(b.sign-a.sign,12);return {start,end,index:mod(a.sign+1,12),adhika:delta===0,kshaya:delta>1,uncertain:a.near||b.near};}
 export function monthAt(value){return lunarMonth(phase(0,value,-32));}
 export function displayedMonth(month,tithi,calendar){return calendar==='purnimanta'&&tithi>15?mod(month.index+1,12):month.index;}

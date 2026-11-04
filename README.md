@@ -1,5 +1,11 @@
 # Curio · Sushant Synapse
 
+Ritual Assist now uses compact image-export controls with expandable previews,
+a year dropdown for Shraddha/Barsi cards, and a separate optional Hindu festivals
+filter. Complete year-by-year details remain available in PDF. Festival dates
+are planning estimates requiring regional confirmation; verification and release
+evidence are recorded in the functionality ledger.
+
 Calendar improvements replace Vrat's PIN field with city search and
 opt-in location detection, keep city suggestions beside the input across apps,
 and add a prominent next-ten-years action to Shraddha/Barsi results. This pass

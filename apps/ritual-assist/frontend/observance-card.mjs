@@ -31,27 +31,6 @@ function drawMandala(ctx,x,y,radius){
  ctx.restore();
 }
 
-function drawDiya(ctx,x,y){
- ctx.save();
- ctx.translate(x,y);
- ctx.fillStyle=palette.saffron;
- ctx.beginPath();
- ctx.moveTo(0,-38);
- ctx.bezierCurveTo(26,-10,18,8,0,11);
- ctx.bezierCurveTo(-18,8,-26,-10,0,-38);
- ctx.fill();
- ctx.fillStyle=palette.gold;
- ctx.beginPath();
- ctx.ellipse(0,24,52,15,0,0,Math.PI*2);
- ctx.fill();
- ctx.beginPath();
- ctx.moveTo(-50,22);
- ctx.quadraticCurveTo(0,64,50,22);
- ctx.quadraticCurveTo(0,48,-50,22);
- ctx.fill();
- ctx.restore();
-}
-
 function dateParts(date,language){
  const locale=language==='hi'?'hi-IN':'en-IN';
  const value=new Date(date+'T12:00:00Z');
@@ -77,7 +56,7 @@ function writeText(ctx,text,x,y,{font,size=28,color=palette.ink,maxWidth,align='
 export function renderObservanceCard(canvas,events,{month,location,language='en'}){
  if(!Array.isArray(events)||events.length===0)throw Error(copy[language]?.empty||copy.en.empty);
  if(!['en','hi'].includes(language))throw Error('Unsupported card language.');
- const width=1080,margin=60,rowHeight=84,headerHeight=320,footerHeight=160,height=headerHeight+events.length*rowHeight+footerHeight;
+ const width=1080,margin=60,rowHeight=84,headerHeight=236,footerHeight=140,height=headerHeight+events.length*rowHeight+footerHeight;
  canvas.width=width;
  canvas.height=height;
  const ctx=canvas.getContext('2d');
@@ -95,19 +74,17 @@ export function renderObservanceCard(canvas,events,{month,location,language='en'
  roundedRect(ctx,36,36,width-72,headerHeight-48,28);
  ctx.fillStyle=header;
  ctx.fill();
- drawMandala(ctx,90,90,32);
- drawMandala(ctx,width-90,90,32);
- drawDiya(ctx,width/2,79);
- writeText(ctx,text.eyebrow,margin,160,{size:17,color:palette.gold});
- writeText(ctx,text.title,margin,213,{size:44,color:palette.paper,maxWidth:width-margin*2});
+ drawMandala(ctx,width-90,92,30);
+ writeText(ctx,text.eyebrow,margin,88,{size:17,color:palette.gold});
+ writeText(ctx,text.title,margin,143,{size:40,color:palette.paper,maxWidth:width-margin*2});
  const monthLabel=new Intl.DateTimeFormat(locale,{month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(month+'-15T12:00:00Z'));
- writeText(ctx,location,margin,263,{size:20,color:palette.paper,maxWidth:width/2-80});
- writeText(ctx,monthLabel,width-margin,263,{size:20,color:palette.gold,maxWidth:width/2-80,align:'right'});
+ writeText(ctx,location,margin,190,{size:20,color:palette.paper,maxWidth:width/2-80});
+ writeText(ctx,monthLabel,width-margin,190,{size:20,color:palette.gold,maxWidth:width/2-80,align:'right'});
  ctx.strokeStyle=palette.gold;
  ctx.globalAlpha=.45;
  ctx.beginPath();
- ctx.moveTo(margin,281);
- ctx.lineTo(width-margin,281);
+ ctx.moveTo(margin,211);
+ ctx.lineTo(width-margin,211);
  ctx.stroke();
  ctx.globalAlpha=1;
  events.forEach((event,index)=>{

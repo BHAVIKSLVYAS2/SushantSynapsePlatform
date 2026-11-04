@@ -1,14 +1,27 @@
 import {DAY,BOUNDARY_GUARD,localDate,midnight,addDays,tithiWindow,nextTithi,daylight,moonrise} from '../frontend/lunar-core.mjs';
-import {monthAt} from '../frontend/panchang.mjs';
+import {monthAt,solarSignAt,lunarNakshatraAt,makarIngresses} from '../frontend/panchang.mjs';
 import {policyVersion,observanceTypes} from '../frontend/observance-rules.mjs';
 const contains=(w,time)=>time!==null&&time>=w.start&&time<w.end;
 const near=(w,time)=>Math.min(Math.abs(time-w.start),Math.abs(time-w.end))<BOUNDARY_GUARD;
 const intersect=(w,start,end)=>({start:Math.max(w.start,start),end:Math.min(w.end,end)});
 const length=w=>Math.max(0,w.end-w.start);
+// Festival month selectors use canonical new-moon indexes so date selection is convention-independent.
+const festivals=[
+ {type:'diwali',month:6,tithi:30,mode:'evening',rule:'kartika-amavasya-pradosh'},
+ {type:'holi',month:11,tithi:15,mode:'evening-next-day',rule:'phalguna-purnima-following-day-candidates'},
+ {type:'janmashtami',month:4,tithi:23,mode:'midnight',rule:'bhadrapada-krishna-ashtami-nishita'},
+ {type:'ganesh-chaturthi',month:5,tithi:4,mode:'midday',rule:'bhadrapada-shukla-chaturthi-madhyahna'},
+ {type:'ram-navami',month:0,tithi:9,mode:'midday',rule:'chaitra-shukla-navami-madhyahna'},
+ {type:'navratri-start',month:6,tithi:1,mode:'sunrise',rule:'ashwin-shukla-pratipada-sunrise'},
+ {type:'vijayadashami',month:6,tithi:10,mode:'aparahna',rule:'ashwin-shukla-dashami-aparahna'},
+ {type:'raksha-bandhan',month:4,tithi:15,mode:'aparahna',rule:'shravana-purnima-aparahna'},
+ {type:'chhath',month:7,tithi:6,mode:'sunset',rule:'kartika-shukla-shashthi-sunset'}
+];
+const festivalByType=new Map(festivals.map(festival=>[festival.type,festival]));
 
 // Exported to exercise rare boundary cases without inventing astronomical fixtures.
 export function selectOccurrence(window,candidates,mode){
- if(mode==='sunrise'||mode==='moonrise'){
+ if(['sunrise','moonrise','sunset','midnight'].includes(mode)){
   const eligible=candidates.filter(day=>contains(window,day[mode]));
   const chosen=eligible[0];
   return chosen?{date:chosen.date,status:eligible.length!==1?'confirmation':near(window,chosen[mode])?'boundary':'computed',anchor:chosen[mode],candidateDates:eligible.map(d=>d.date)}:{date:localDate(window.start),status:'confirmation',anchor:null,candidateDates:[localDate(window.start),localDate(window.end)]};
@@ -45,18 +58,29 @@ export function generateObservances(data){
  }
  const events=[];let lunarMonth=null;
  for(const window of windows){
-  const types=window.number===11||window.number===26?['ekadashi']:window.number===30?['amavasya']:window.number===15?['purnima','purnima-vrat']:window.number===19?['sankashti']:window.number===4?['vinayaka']:window.number===13||window.number===28?['pradosh']:[];
-  if(!types.length)continue;
+  const regular=window.number===11||window.number===26?['ekadashi']:window.number===30?['amavasya']:window.number===15?['purnima','purnima-vrat']:window.number===19?['sankashti']:window.number===4?['vinayaka']:window.number===13||window.number===28?['pradosh']:[];
   if(!lunarMonth||window.start+1000>=lunarMonth.end)lunarMonth=monthAt(window.start+1000);
+  const festivalMatches=festivals.filter(festival=>festival.tithi===window.number&&festival.month===lunarMonth.index),types=[...regular,...festivalMatches.map(festival=>festival.type)];
+  if(!types.length)continue;
   const candidates=[];const start=localDate(window.start-DAY);
   for(let i=0;i<4;i++){
    const date=addDays(start,i),l=light(date),next=light(addDays(date,1)),dayLength=l.sunset-l.sunrise;
-   candidates.push({...l,moonrise:types.includes('sankashti')?moon(date):null,midday:[l.sunrise+dayLength*.4,l.sunrise+dayLength*.6],fasting:[l.sunrise+dayLength*.4,l.sunrise+dayLength*.6],evening:[l.sunset,l.sunset+(next.sunrise-l.sunset)/5]});
+   candidates.push({...l,moonrise:types.includes('sankashti')?moon(date):null,sunset:l.sunset,midnight:l.sunset+(next.sunrise-l.sunset)/2,midday:[l.sunrise+dayLength*.4,l.sunrise+dayLength*.6],fasting:[l.sunrise+dayLength*.4,l.sunrise+dayLength*.6],aparahna:[l.aparahnaStart,l.aparahnaEnd],evening:[l.sunset,l.sunset+(next.sunrise-l.sunset)/5]});
   }
   for(const type of types){
-   const mode=type==='sankashti'?'moonrise':type==='vinayaka'?'midday':type==='pradosh'?'evening':type==='purnima-vrat'?'fasting':'sunrise';
+   const festival=festivalByType.get(type),mode=festival?.mode==='evening-next-day'?'evening':festival?.mode||(type==='sankashti'?'moonrise':type==='vinayaka'?'midday':type==='pradosh'?'evening':type==='purnima-vrat'?'fasting':'sunrise');
    const selection=selectOccurrence(window,candidates,mode);
-   const event={id:type+'-'+Math.round(window.start/60000),type,...selection,window,month:lunarMonth,rule:observanceTypes[type].rule,angarki:type==='sankashti'&&new Date(selection.date+'T12:00:00+05:30').getUTCDay()===2};
+   const followingDay=festival?.mode==='evening-next-day';
+   const event={id:type+'-'+Math.round(window.start/60000),type,...selection,date:followingDay?addDays(selection.date,1):selection.date,window,month:lunarMonth,rule:festival?.rule||observanceTypes[type].rule,angarki:type==='sankashti'&&new Date(selection.date+'T12:00:00+05:30').getUTCDay()===2};
+   // Holika/Bhadra/eclipse decisions are not implemented. Keep astronomical
+   // planning candidates instead of publishing a universal Holi date.
+   if(followingDay){event.status='confirmation';event.candidateDates=[...new Set([event.date,addDays(localDate(window.end),1)])].sort();delete event.period;delete event.anchor;}
+   if(festival&&(lunarMonth.adhika||lunarMonth.kshaya||lunarMonth.uncertain))event.status='confirmation';
+   if(type==='janmashtami')event.status='confirmation'; // Rohini/tradition selection is not implemented.
+   // Generic greatest-overlap selection is insufficient for competing festival
+   // days: tradition-specific precedence must be reviewed rather than guessed.
+   if(festival&&Array.isArray(candidates[0]?.[mode])&&candidates.filter(day=>length(intersect(window,...day[mode]))>0).length>1)event.status='confirmation';
+   if(type==='raksha-bandhan'){event.status='confirmation';event.candidateDates=[selection.date];}
    if(type==='ekadashi'){
     event.parana=paranaFor(window,selection,light);
     // A Dwadashi skipped at the following sunrise can move the household fast
@@ -68,6 +92,9 @@ export function generateObservances(data){
    events.push(event);
   }
  }
+ for(const ingress of makarIngresses(monthStart,monthEnd))events.push({id:'makar-sankranti-pongal-'+Math.round(ingress.time/60000),type:'makar-sankranti-pongal',date:ingress.date,status:Math.min(ingress.time-midnight(ingress.date),midnight(addDays(ingress.date,1))-ingress.time)<BOUNDARY_GUARD?'boundary':'computed',anchor:ingress.time,rule:'spica-aligned-sidereal-sun-ingress'});
+ const onamDays=days.filter(day=>solarSignAt(day.sunrise)===4&&lunarNakshatraAt(day.sunrise)===21);
+ if(onamDays.length)events.push({id:'onam-'+onamDays[0].date,type:'onam',date:onamDays[0].date,status:'confirmation',candidateDates:onamDays.map(day=>day.date),rule:'chingam-shravana-at-sunrise'});
  events.sort((a,b)=>a.date.localeCompare(b.date)||a.type.localeCompare(b.type));
  return {month:data.month,location:data.location,calendar:data.calendar,tradition:data.tradition,days,events,calculation:{engine:'Astronomy Engine 2.1.19',policyVersion,zone:'Asia/Kolkata',processing:'server',stored:false,boundaryMinutes:5}};
 }

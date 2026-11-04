@@ -1,5 +1,16 @@
 # Organisation licensing production cutover
 
+Ritual Assist compact exports/year dropdown/optional festivals (2026-11-04 IST):
+Worker `684e1328-5daa-4247-9ba0-44908b1bc15d` is deployed with the exact
+organisation-enabled production config and `--keep-vars`. All 29 focused Node/API
+checks and 23 sequential Ritual Assist Chrome workflows pass. Live verification
+passes optional festival filtering and ICS, collapsed image preview, selected-year
+PNG download and eight responsive theme layouts. Health 200; unscoped records 409.
+No migration, bootstrap, account/licence or business-data writes; existing bindings
+and variables preserved. No commits made. Full evidence/limits in the functionality
+ledger and `.publish/ritual-polish-{deploy,live}.log`. This supersedes the prior
+full-eleven-year PNG presentation; complete calendar/PDF remains available.
+
 Ritual Assist Shraddha/Barsi 10-year exports (2026-11-04 IST): User authorised
 commit/deploy. Commit `ec93a3e` is live as Worker
 `51f67894-89c0-4066-b1c5-70ecff89410f`, deployed with `--keep-vars` using the

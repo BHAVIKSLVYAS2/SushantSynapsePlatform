@@ -43,14 +43,26 @@ result cache keyed by location, month, convention and policy version. No saved
 death record, account, new schema, external date API or scraping is involved.
 `frontend/lunar-core.mjs` shares the unchanged astronomy primitives with the
 remembrance engine. `backend/observances.mjs` owns public occurrence selection.
+An independent, default-off Hindu festivals checkbox covers Diwali, Holi,
+Janmashtami, Ganesh Chaturthi, Ram Navami, Navratri/Dussehra, Raksha Bandhan,
+Makar Sankranti (solar ingress), Chhath and Onam. Selected resolved dates are included in
+the month view, share card and ICS export; unselected festivals remain excluded.
 
 Each result records the engine/policy version and exposes local timing and its
 rule. Missing/repeated sunrise tithis, skipped following-Dwadashi sunrise,
 multiple moonrise candidates, close day overlaps and five-minute boundary cases
 are confirmation-only and excluded from reminders. Ordinary morning Parana is
-available; exceptional Parana windows are withheld. No Vaishnava/ISKCON rule,
-independent priest certification, additional monthly/annual festivals, Sankranti,
-calendar subscription or automatic notification delivery is claimed.
+available; exceptional Parana windows are withheld. Festival rules are
+city-calculated planning estimates, not a certified regional Panchang; each date
+shows its rule and local-confirmation caveat. Special rules such as Bhadra for
+Raksha Bandhan and Rohini-based Janmashtami selection are not calculated.
+Holi, Janmashtami, Onam and Raksha Bandhan remain confirmation-only and excluded
+from image/reminder exports until their missing regional/exception rules are
+implemented. Generic festival periods overlapping two civil days require
+confirmation too. No hardcoded annual-date overrides are used; review evidence
+is in `docs/RITUAL_FESTIVAL_REVIEW_2026-11-04.md`. No
+Vaishnava/ISKCON rule, independent priest certification, calendar subscription or
+automatic notification delivery is claimed.
 
 General-calendar ICS exports selected future resolved dates, with single-event
 exports, optional previous-evening/day-offset alarms and separate resolved
@@ -65,9 +77,11 @@ The **Share upcoming dates** card previews a Panchang-inspired bilingual image
 using only selected, resolved dates from today onward. Download a PNG or use the
 device share sheet when image sharing is supported; otherwise the card downloads
 for attaching to a message. Its compact ivory-and-green layout includes its city,
-month, subtle diya motif and the shared Sushant Synapse logo/name footer, plus a
+month, a subtle mandala motif and the shared Sushant Synapse logo/name footer, plus a
 reminder to confirm dates with family tradition and a regional Panchang. The
-image is rendered locally; no dates are sent to a sharing provider until the
+preview is collapsed by default to save screen space. The image uses a shorter
+header and a single mandala accent; the duplicated date paragraph is removed.
+The image is rendered locally; no dates are sent to a sharing provider until the
 user chooses to share the file. The result remains transient in the tab.
 
 Enter a past/present death date, exact IST time and select an Indian city. The Shraddha/Barsi form offers manual city search and opt-in Use my location, reusing Ritvayam's offline city directory and 75 km nearest-city limit. Detection requires browser permission and never starts automatically. Raw GPS coordinates stay in the browser; only the selected city ID goes to the server, which independently resolves its coordinates. Selection and death inputs remain in tab memory. Denied/unavailable/out-of-coverage detection leaves manual search available; editing or language changes invalidate late detection callbacks.
@@ -76,7 +90,7 @@ The selected city supplies both death-day and observance timings, as the existin
 
 The result includes first-year Chautha, days 10–13, Masik, first Barsi and first matching Pitru Paksha after Barsi. The yearly overview has the current year and next ten display years, retaining earlier current-year dates and multiple applicable observances. Masik/Barsi/Pitru dates use lunar tithis and local Aparahna; early mourning days use inclusive day counts. The post-first-Barsi Pitru policy is explicitly selected, not universal. Ten upcoming occurrence arrays remain internally for compatibility. Changing inputs clears results; no death record is stored.
 
-The result highlights the next Barsi/Samvatsari and next Pitru Paksha Shraddha separately. Print / Save PDF opens the complete current-year-plus-ten-years table and all tithi/Aparahna calculation details; preparation-pack printing remains isolated. The local, bilingual 10-year PNG shows both observance columns, each displayed occurrence, tithi/month, tithi interval, Aparahna candidates, confirmation status, place and a minimal Sushant Synapse logo/name footer. The high-resolution preview, download and device image-share use no external image service. It omits death inputs; no details leave the tab unless the user chooses to share the generated image.
+The result highlights the next Barsi/Samvatsari and next Pitru Paksha Shraddha separately. The year selector shows a compact, bilingual share card for one selected year at a time; it defaults to the next upcoming calculated observance. Choosing a year opens its preview and language changes retain that selection in tab memory. Download and device image-share use a year-specific PNG, with both observance columns, tithi/month, tithi interval, Aparahna candidates, confirmation status, place and a minimal Sushant Synapse logo/name footer. The complete year-by-year table is behind All years & details and remains available in Print / Save PDF; preparation-pack printing remains isolated. Image rendering is local and omits death inputs; no details leave the tab unless the user chooses to share the generated image.
 
 Public POST /api/ritual-assist/calendar runs in bounded Node worker threads: two concurrent calculations, six requests/address/minute and 20 seconds. Inputs undergo server validation. No SQLite write or request-body logging is introduced; hosting metadata and temporary rate limits still apply. Guides/form are served independently by Cloudflare, while a new calculation requires the backend.
 
@@ -98,7 +112,7 @@ Vendored MIT Astronomy Engine 2.1.19 computes geocentric Moon–Sun separation; 
 
 guides.mjs and its mourning/material modules own preparation content; app.js owns guide UI. panchang.mjs owns the existing engine. calendar-export.mjs owns pure ICS export; observance-card.mjs and shraddha-card.mjs own local image renderers; preparation-pack.mjs owns pack selection/text; calendar-tools.mjs owns transient pack/reminder UI. Server composition stays in server/index.js; frontend files are explicitly allowlisted. No new payment, booking, provider connection, schema or recipient configuration.
 
-Verification: node --test tests/ritual-calendar-export.test.js tests/ritual-panchang.test.js tests/ritual-pincode.test.js tests/ritual-calendar-api.test.js tests/ritual-assist.test.js and npx.cmd playwright test apps/ritual-assist/tests/browser.spec.js. The current local run passes 22 Node checks and all 22 Chrome workflows. Browser tests download actual ICS/TXT/PNG/PDF, verify the 11-year image and calculation labels, full-calendar print and pack-only print isolation, bilingual sharing/fallback, retained checks/assignments, stale clearing, failures/cancellation and responsive themes. All API/browser tests use isolated temporary DATA_DIR values. Live evidence is recorded separately in the functionality ledger.
+Verification: `node --test tests/ritual-calendar-export.test.js tests/ritual-panchang.test.js tests/ritual-pincode.test.js tests/ritual-calendar-api.test.js tests/ritual-assist.test.js tests/ritual-observances.test.js` and `npx.cmd playwright test apps/ritual-assist/tests/browser.spec.js`. Browser tests download actual ICS/TXT/PNG/PDF, verify the selected-year image and complete eleven-year PDF, optional festival filtering and export, full-calendar print and pack-only print isolation, bilingual sharing/fallback, retained checks/assignments, stale clearing, failures/cancellation and responsive themes. All API/browser tests use isolated temporary DATA_DIR values. Live evidence is recorded separately in the functionality ledger.
 
 Temple Seedha: the Shraddha/Barsi/Samvatsari guide includes bilingual raw-food donation materials, temple acceptance/quantity questions and packing notes via `frontend/seedha.mjs`. It appears in guide checklists and calendar preparation packs. The list is conditional and source-linked; quantities and family rites must be confirmed. No calculation or persistence change.
 

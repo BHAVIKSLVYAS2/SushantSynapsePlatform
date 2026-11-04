@@ -26,10 +26,49 @@ test('rare sunrise and Parana cases require confirmation and cannot silently bec
 });
 test('monthly calculations stay bounded and complete across leap years, locations, conventions and year boundaries',async()=>{
  const [{generateObservances},{observanceInput}]=await modules;
- for(const [month,pin]of [['2025-12','400001'],['2027-01','800001'],['2028-02','600001'],['2029-06','110001'],['2030-12','400001']]){const data=observanceInput({month,pincode:pin}),r=generateObservances(data);assert.equal(r.days[0].date,month+'-01');assert.equal(r.days.length,month==='2028-02'?29:[4,6,9,11].includes(+month.slice(5))?30:31);assert.ok(r.events.length>=7&&r.events.length<=14);assert.equal(new Set(r.events.map(e=>e.id)).size,r.events.length);assert.ok(r.events.every(e=>e.date.startsWith(month)));for(const e of r.events){assert.ok(e.window.end>e.window.start);if(e.parana?.status==='computed')assert.ok(e.parana.end>e.parana.start);}}
+ for(const [month,pin]of [['2025-12','400001'],['2027-01','800001'],['2028-02','600001'],['2029-06','110001'],['2030-12','400001']]){const data=observanceInput({month,pincode:pin}),r=generateObservances(data);assert.equal(r.days[0].date,month+'-01');assert.equal(r.days.length,month==='2028-02'?29:[4,6,9,11].includes(+month.slice(5))?30:31);assert.ok(r.events.length>=7&&r.events.length<=20);assert.equal(new Set(r.events.map(e=>e.id)).size,r.events.length);assert.ok(r.events.every(e=>e.date.startsWith(month)));for(const e of r.events){if(e.window)assert.ok(e.window.end>e.window.start);if(e.parana?.status==='computed')assert.ok(e.parana.end>e.parana.start);}}
  const a=generateObservances(observanceInput({month:'2026-10',pincode:'110001',calendar:'amanta'})),b=generateObservances(observanceInput({month:'2026-10',pincode:'110001',calendar:'purnimanta'}));assert.deepEqual(a.events.map(e=>[e.id,e.date]),b.events.map(e=>[e.id,e.date]));
  // Same global tithi, different local moonrise: never reuse a national date.
  const delhi=generateObservances(observanceInput({month:'2026-06',pincode:'110001'})).events.find(e=>e.type==='sankashti'),kolkata=generateObservances(observanceInput({month:'2026-06',pincode:'700001'})).events.find(e=>e.type==='sankashti');assert.equal(delhi.date,'2026-06-03');assert.equal(delhi.status,'confirmation');assert.deepEqual(delhi.candidateDates,['2026-06-03','2026-06-04']);assert.equal(kolkata.date,'2026-06-04');assert.equal(kolkata.status,'computed');assert.equal(delhi.window.start,kolkata.window.start);assert.ok(kolkata.anchor>=kolkata.window.start&&kolkata.anchor<kolkata.window.end);
+});
+test('eleven optional Hindu festivals use explicit planning rules and export only when selected',async()=>{
+ const [{generateObservances},{observanceInput},{reminderOccurrences,observanceIcs},{festivalTypes,festivalTypeKeys}]=await modules;
+ const expected=['diwali','holi','janmashtami','ganesh-chaturthi','ram-navami','navratri-start','vijayadashami','raksha-bandhan','makar-sankranti-pongal','chhath','onam'];
+ assert.deepEqual([...festivalTypeKeys].sort(),[...expected].sort());
+ const months=Array.from({length:12},(_,i)=>'2026-'+String(i+1).padStart(2,'0')),results=months.map(month=>generateObservances(observanceInput({month,pincode:'110001'}))),festivals=results.flatMap(result=>result.events.filter(event=>festivalTypeKeys.includes(event.type)));
+ assert.deepEqual([...new Set(festivals.map(event=>event.type))].sort(),[...expected].sort());
+ for(const event of festivals){assert.equal(event.rule,festivalTypes[event.type].rule);assert.ok(event.date.startsWith('2026-'));assert.ok(festivalTypes[event.type].basis.en.length>0);}
+ assert.ok(festivals.filter(event=>['makar-sankranti-pongal','onam'].includes(event.type)).every(event=>!event.window));
+ assert.equal(festivals.find(event=>event.type==='raksha-bandhan').status,'confirmation');
+ // The 2026 eclipse exception needs regional selection. Include the published
+ // March 4 date as a candidate, never publish an unreviewed universal date.
+ // https://www.drikpanchang.com/panchang/day-panchang.html?date=04%2F03%2F2026
+ assert.equal(festivals.find(event=>event.type==='holi').status,'confirmation');
+ assert.ok(festivals.find(event=>event.type==='holi').candidateDates.includes('2026-03-04'));
+ assert.equal(festivals.find(event=>event.type==='diwali').date,'2026-11-08');
+ assert.ok(festivals.filter(event=>event.month?.adhika||event.month?.kshaya||event.month?.uncertain).every(event=>event.status!=='computed'));
+ const november=results[10],now=at('2026-11-01T00:00:00+05:30'),defaults=reminderOccurrences(november,{now});
+ assert.ok(defaults.every(row=>!festivalTypeKeys.includes(row.event.type)));
+ const selected=reminderOccurrences(november,{types:['diwali','chhath'],now});assert.deepEqual(selected.map(row=>row.event.type).sort(),['chhath','diwali']);
+ const ics=(await observanceIcs(november,{types:['diwali','chhath'],now})).replace(/\r\n /g,'');
+ assert.match(ics,/SUMMARY:Diwali \/ Deepavali/);assert.match(ics,/SUMMARY:Chhath Puja/);assert.doesNotMatch(ics,/SUMMARY:Amavasya/);
+});
+test('incomplete festival policies never become resolved share/reminder dates across years and cities',async()=>{
+ const [{generateObservances},{observanceInput},{reminderOccurrences}]=await modules;
+ // Independent published Holi dates: 2025-03-14, 2026-03-04, 2027-03-22.
+ // https://www.mypanchang.com/dhuleti.php (2027); Delhi 2026 reference above.
+ for(const [year,published] of [[2025,'2025-03-14'],[2026,'2026-03-04'],[2027,'2027-03-22']]){
+  const r=generateObservances(observanceInput({month:year+'-03',pincode:'110001'})),holi=r.events.find(event=>event.type==='holi');
+  assert.equal(holi.status,'confirmation');assert.ok(holi.candidateDates.includes(published));
+  assert.equal(reminderOccurrences(r,{types:['holi'],now:at(year+'-01-01T00:00:00Z')}).length,0);
+ }
+ for(const year of [2025,2026,2027,2028,2029,2030])for(const pincode of ['110001','682001'])for(const month of ['03','08','09']){
+  const r=generateObservances(observanceInput({month:year+'-'+month,pincode}));
+  for(const event of r.events.filter(event=>['holi','janmashtami','onam','raksha-bandhan'].includes(event.type))){
+   assert.equal(event.status,'confirmation',`${event.type} ${event.date} ${pincode}`);
+   assert.equal(reminderOccurrences(r,{types:[event.type],now:at(year+'-01-01T00:00:00Z')}).length,0);
+  }
+ }
 });
 test('validation rejects unsupported policies, hidden personal fields and unbounded calculations',async()=>{
  const [,{observanceInput}]=await modules;

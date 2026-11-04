@@ -1,6 +1,6 @@
 import {localDate,addDays} from './lunar-core.mjs';
 import {foldCalendarLine} from './calendar-export.mjs';
-import {eventTitle,observanceTypes,policyVersion} from './observance-rules.mjs';
+import {eventTitle,observanceTypes,allObservanceTypes,policyVersion} from './observance-rules.mjs?v=20261104-festivals';
 const escape=value=>String(value).replaceAll('\\','\\\\').replace(/\r\n|\r|\n/g,'\\n').replaceAll(';','\\;').replaceAll(',','\\,');
 const stamp=value=>new Date(value).toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z');
 export function reminderOccurrences(result,{types=Object.keys(observanceTypes),eventId=null,timed=false,now=Date.now()}={}){
@@ -20,7 +20,7 @@ export async function observanceIcs(result,{language='en',reminder='1',...option
  for(const row of rows){
   const event=row.event,title=eventTitle(event,language)+(row.kind==='parana'?(hi?' · पारण':' · Parana'):row.kind==='moonrise'?(hi?' · चन्द्रोदय':' · Moonrise'):''),identity=JSON.stringify([result.location.lat,result.location.lon,event.id,row.kind]);
   const hash=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(identity)),uid=Array.from(new Uint8Array(hash),b=>b.toString(16).padStart(2,'0')).join('');
-  const description=[result.location.name,'Asia/Kolkata · '+policyVersion,observanceTypes[event.type].basis[language],hi?'गणना आधारित योजना; अपनी रीति की पुष्टि करें।':'Calculated planning date; confirm your tradition.','Created with Sushant Synapse · Ritual Assist'].join('\n');
+  const description=[result.location.name,'Asia/Kolkata · '+policyVersion,allObservanceTypes[event.type].basis[language],hi?'गणना आधारित योजना; अपनी रीति की पुष्टि करें।':'Calculated planning date; confirm your tradition.','Created with Sushant Synapse · Ritual Assist'].join('\n');
   lines.push('BEGIN:VEVENT','UID:'+uid+'@ritual-assist.sushantsynapse.com','DTSTAMP:'+stamp(now),'SEQUENCE:0');
   if(row.kind==='day')lines.push('DTSTART;VALUE=DATE:'+row.date.replaceAll('-',''),'DTEND;VALUE=DATE:'+addDays(row.date,1).replaceAll('-',''));
   else lines.push('DTSTART:'+stamp(row.start),'DTEND:'+stamp(row.end));

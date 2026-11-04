@@ -15,6 +15,16 @@ test('public calendar excludes exceptional Ekadashi reminders and finds next mon
  await page.getByRole('button',{name:'Clear selection',exact:true}).click();await expect(page.locator('#observance-download')).toBeDisabled();await page.locator('[data-observance-filter=amavasya]').check();await page.clock.setFixedTime(new Date('2026-05-31T00:00:00Z'));await page.getByRole('button',{name:'Next occurrence',exact:true}).click();await expect(page.locator('#observance-month')).toHaveValue('2026-06');await expect(page.locator('.observance-event[data-type=amavasya]')).toHaveCount(1);await expect(page.locator('.observance-event')).toHaveAttribute('data-upcoming','true');
 });
 
+test('Hindu festivals have a separate default-off filter and flow through calendar and ICS exports',async({page})=>{
+ await page.clock.setFixedTime(new Date('2026-11-01T00:00:00Z'));await page.setExtraHTTPHeaders({'CF-Connecting-IP':'192.0.2.46'});await page.goto(base+'/ritual-assist/calendar');await selectObservanceCity(page);await page.locator('#observance-month').fill('2026-11');await page.locator('#observance-calculate').click();
+ const festivals=page.locator('[data-observance-filter=festival]');await expect(festivals).not.toBeChecked();await expect(page.locator('.observance-event[data-type=diwali],.observance-event[data-type=chhath]')).toHaveCount(0);
+ await page.getByRole('button',{name:'Clear selection',exact:true}).click();await festivals.check();await expect(page.locator('.observance-event[data-type=diwali]')).toHaveCount(1);await expect(page.locator('.observance-event[data-type=chhath]')).toHaveCount(1);await expect(page.locator('#observance-output')).toContainText('not a certified regional Panchang');
+ const cardLabel=await page.locator('.observance-share-canvas').getAttribute('aria-label');expect(cardLabel).toContain('Diwali / Deepavali');expect(cardLabel).toContain('Chhath Puja');expect(cardLabel).not.toContain('Amavasya');
+ await page.getByRole('button',{name:'Month view',exact:true}).click();await expect(page.locator('.observance-day a')).toHaveCount(2);
+ const download=page.waitForEvent('download');await page.locator('#observance-download').click();const file=await download;await file.saveAs('test-results/festival-calendar.ics');const content=fs.readFileSync('test-results/festival-calendar.ics','utf8').replace(/\r\n /g,'');expect(content).toContain('Diwali / Deepavali');expect(content).toContain('Chhath Puja');expect(content).not.toContain('SUMMARY:Amavasya');
+ await chooseInterfaceLanguage(page,'hi');await expect(page.locator('[data-observance-filter=festival]')).toBeChecked();await expect(page.locator('.observance-event[data-type=diwali]')).toContainText('दीवाली');await expect(page.locator('.observance-day a')).toHaveCount(2);
+});
+
 test('Up Next hides past events while month view retains their details',async({page})=>{
  await page.clock.setFixedTime(new Date('2026-10-23T00:00:00Z'));await page.setExtraHTTPHeaders({'CF-Connecting-IP':'192.0.2.42'});await page.goto(base+'/ritual-assist/calendar');await selectObservanceCity(page);await page.locator('#observance-month').fill('2026-10');await page.locator('#observance-calculate').click();await expect(page.locator('#observance-status')).toContainText('Dates calculated for');
  const upcoming=page.locator('.observance-event'),upcomingDates=await upcoming.evaluateAll(cards=>cards.map(card=>card.dataset.date));expect(upcomingDates.length).toBeGreaterThan(0);expect(upcomingDates.every(date=>date>='2026-10-23')).toBe(true);
@@ -25,13 +35,13 @@ test('Up Next hides past events while month view retains their details',async({p
 test('upcoming date card is bilingual, shareable and exports an actual PNG',async({page})=>{
  await page.addInitScript(()=>{Object.defineProperty(navigator,'canShare',{value:()=>true});Object.defineProperty(navigator,'share',{value:async data=>{window.sharedObservanceCard={title:data.title,text:data.text,type:data.files?.[0]?.type};}});});
  await page.clock.setFixedTime(new Date('2026-10-01T00:00:00Z'));await page.setExtraHTTPHeaders({'CF-Connecting-IP':'192.0.2.43'});const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/ritual-assist/calendar');await selectObservanceCity(page);await page.locator('#observance-month').fill('2026-10');await page.locator('#observance-calculate').click();
- const preview=page.locator('#observance-output .observance-share-canvas');await expect(preview).toBeVisible();const dimensions=await preview.evaluate(canvas=>[canvas.width,canvas.height]);expect(dimensions[0]).toBe(1080);expect(dimensions[1]).toBeGreaterThan(1100);expect(dimensions[1]).toBeLessThan(1300);expect(await preview.getAttribute('aria-label')).toContain('Sushant Synapse');expect(await preview.getAttribute('aria-label')).toContain('New Delhi');
+ const preview=page.locator('#observance-output .observance-share-canvas');await expect(preview).toBeHidden();await page.locator('.observance-share-preview summary').click();await expect(preview).toBeVisible();const dimensions=await preview.evaluate(canvas=>[canvas.width,canvas.height]);expect(dimensions[0]).toBe(1080);expect(dimensions[1]).toBeGreaterThan(900);expect(dimensions[1]).toBeLessThan(1200);expect(await preview.getAttribute('aria-label')).toContain('Sushant Synapse');expect(await preview.getAttribute('aria-label')).toContain('New Delhi');
  await page.locator('[data-observance-filter=purnima]').uncheck();expect(await preview.getAttribute('aria-label')).not.toContain('Purnima / Poonam');expect(await preview.evaluate(canvas=>canvas.height)).toBe(dimensions[1]-84);
  const download=page.waitForEvent('download');await page.locator('#observance-card-download').click();const file=await download;await file.saveAs('test-results/ritual-observances.png');const png=fs.readFileSync('test-results/ritual-observances.png');expect(png.subarray(0,8).toString('hex')).toBe('89504e470d0a1a0a');expect(png.readUInt32BE(16)).toBe(1080);expect(png.readUInt32BE(20)).toBeGreaterThan(900);
  await page.locator('#observance-card-share').click();await expect.poll(()=>page.evaluate(()=>window.sharedObservanceCard?.type)).toBe('image/png');expect(await page.evaluate(()=>window.sharedObservanceCard.title)).toContain('Hindu');
  await chooseInterfaceLanguage(page,'hi');await expect(page.locator('#observance-output .observance-share-canvas')).toHaveAttribute('aria-label',/व्रत एवं तिथियों का साझा कार्ड/);await expect(page.getByRole('button',{name:'कार्ड डाउनलोड करें (PNG)'})).toBeVisible();
  for(const language of ['en','hi']){await chooseInterfaceLanguage(page,language);for(const theme of ['light','dark'])for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:950});await page.evaluate(t=>window.SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}}
- await page.setViewportSize({width:390,height:950});await page.locator('.observance-share').scrollIntoViewIfNeeded();await preview.screenshot({path:'test-results/ritual-observance-share-card-mobile.png'});expect(errors).toEqual([]);
+ await page.setViewportSize({width:390,height:950});await page.locator('.observance-share-preview summary').click();await page.locator('.observance-share').scrollIntoViewIfNeeded();await preview.screenshot({path:'test-results/ritual-observance-share-card-mobile.png'});expect(errors).toEqual([]);
 });
 
 test('public calendar failure keeps inputs and late requests cannot restore stale dates',async({page})=>{
@@ -182,7 +192,7 @@ test('compact language controls and calendar theme follow shared preferences',as
 
 async function selectObservanceCity(page){await page.locator('#observance-location-query').fill('New Delhi');await page.locator('#observance-location-results [data-place-id="geonames:1261481"]').click();}
 
-test('Shraddha/Barsi shows both next dates and exports the complete bilingual 10-year image and PDF',async({page})=>{
+test('Shraddha/Barsi selects a year for compact PNG sharing and retains the complete PDF',async({page})=>{
  const errors=[];page.on('pageerror',error=>errors.push(error.message));
  await page.goto(base+'/ritual-assist/calendar?view=remembrance');
  await page.locator('#date').fill('2025-10-01');await page.locator('#time').fill('12:00');await selectCalendarCity(page);await page.locator('#calculate').click();
@@ -191,17 +201,20 @@ test('Shraddha/Barsi shows both next dates and exports the complete bilingual 10
  await expect(page.locator('.next-observance')).toContainText('Next Barsi / Samvatsari');
  await expect(page.locator('.next-observance')).toContainText('Next Pitru Paksha Shraddha');
  const canvas=page.locator('.shraddha-share-canvas');
- await expect(canvas).toHaveAttribute('aria-label',/Current year \+ next 10 years/);
+ await expect(page.locator('#shraddha-year')).toBeVisible();
+ await page.locator('#shraddha-year').selectOption('2027');
+ await expect(canvas).toHaveAttribute('aria-label',/· 2027 ·/);
+ await expect(canvas).not.toHaveAttribute('aria-label',/2026/);
  await expect(canvas).toHaveAttribute('aria-label',/Barsi \/ Samvatsari/);
  await expect(canvas).toHaveAttribute('aria-label',/Pitru Paksha Shraddha/);
  await expect(canvas).toHaveAttribute('aria-label',/Tithi interval · IST/);
  await expect(canvas).toHaveAttribute('aria-label',/Aparahna candidates · IST/);
- for(const year of await page.locator('.future-plan tbody th').allTextContents())await expect(canvas).toHaveAttribute('aria-label',new RegExp(year));
- await page.locator('.shraddha-share-preview summary').click();await canvas.scrollIntoViewIfNeeded();await canvas.screenshot({path:'test-results/shraddha-barsi-preview.png'});
+ await expect(canvas).toHaveAttribute('aria-label',/Sushant Synapse/);
+ await expect(page.locator('.shraddha-share-preview')).toHaveAttribute('open','');await canvas.scrollIntoViewIfNeeded();await canvas.screenshot({path:'test-results/shraddha-barsi-preview.png'});
  const dimensions=await canvas.evaluate(element=>({width:element.width,height:element.height}));
- expect(dimensions.width).toBe(1080);expect(dimensions.height).toBeGreaterThan(2500);
- const pngDownload=page.waitForEvent('download');await page.getByRole('button',{name:'Download 10-year PNG'}).click();const pngFile=await pngDownload;await pngFile.saveAs('test-results/shraddha-barsi-10-year.png');
- const png=fs.readFileSync('test-results/shraddha-barsi-10-year.png');expect(png.subarray(0,8).toString('hex')).toBe('89504e470d0a1a0a');expect(png.readUInt32BE(16)).toBe(1080);expect(png.readUInt32BE(20)).toBeGreaterThan(2500);
+ expect(dimensions.width).toBe(1080);expect(dimensions.height).toBeGreaterThan(500);expect(dimensions.height).toBeLessThan(1100);
+ const pngDownload=page.waitForEvent('download');await page.getByRole('button',{name:'Download year PNG'}).click();const pngFile=await pngDownload;expect(pngFile.suggestedFilename()).toBe('ritual-assist-shraddha-barsi-2027.png');await pngFile.saveAs('test-results/shraddha-barsi-2027.png');
+ const png=fs.readFileSync('test-results/shraddha-barsi-2027.png');expect(png.subarray(0,8).toString('hex')).toBe('89504e470d0a1a0a');expect(png.readUInt32BE(16)).toBe(1080);expect(png.readUInt32BE(20)).toBeLessThan(1100);
  await page.evaluate(()=>{window.print=()=>window.printInvoked=true;});
  await page.getByRole('button',{name:'Print / save PDF'}).click();expect(await page.evaluate(()=>window.printInvoked)).toBe(true);
  await expect(page.locator('.full-calendar')).toHaveAttribute('open','');await expect(page.locator('.future-plan details[open]')).toHaveCount(await page.locator('.future-plan details').count());
@@ -210,8 +223,8 @@ test('Shraddha/Barsi shows both next dates and exports the complete bilingual 10
  await page.emulateMedia({media:'screen'});await page.evaluate(()=>window.dispatchEvent(new Event('afterprint')));await expect(page.locator('.full-calendar')).not.toHaveAttribute('open','');
  await chooseInterfaceLanguage(page,'hi');await expect(page.locator('.next-observance')).toContainText('अगली बरसी / संवत्सरी');await expect(page.locator('.next-observance')).toContainText('अगला पितृ पक्ष श्राद्ध');await expect(canvas).toHaveAttribute('aria-label',/श्राद्ध और बरसी/);
  await page.evaluate(()=>{Object.defineProperty(navigator,'canShare',{configurable:true,value:()=>true});Object.defineProperty(navigator,'share',{configurable:true,value:async({title,files})=>{window.sharedShraddhaCard={title,name:files[0].name,type:files[0].type,size:files[0].size};}});});
- await page.getByRole('button',{name:'अगले 10 वर्ष का PNG साझा करें'}).click();await expect(page.locator('.shraddha-share [role=status]')).toContainText('कैलेंडर चित्र साझा करने के लिए तैयार है।');expect(await page.evaluate(()=>window.sharedShraddhaCard)).toMatchObject({name:'ritual-assist-shraddha-barsi-10-year.png',type:'image/png'});
- await page.evaluate(()=>Object.defineProperty(navigator,'canShare',{configurable:true,value:()=>false}));const fallback=page.waitForEvent('download');await page.getByRole('button',{name:'अगले 10 वर्ष का PNG साझा करें'}).click();expect((await fallback).suggestedFilename()).toBe('ritual-assist-shraddha-barsi-10-year.png');
+ await page.getByRole('button',{name:'वर्ष का PNG साझा करें'}).click();await expect(page.locator('.shraddha-share [role=status]')).toContainText('कैलेंडर चित्र साझा करने के लिए तैयार है।');expect(await page.evaluate(()=>window.sharedShraddhaCard)).toMatchObject({name:'ritual-assist-shraddha-barsi-2027.png',type:'image/png'});
+ await page.evaluate(()=>Object.defineProperty(navigator,'canShare',{configurable:true,value:()=>false}));const fallback=page.waitForEvent('download');await page.getByRole('button',{name:'वर्ष का PNG साझा करें'}).click();expect((await fallback).suggestedFilename()).toBe('ritual-assist-shraddha-barsi-2027.png');
  for(const width of [320,390,1440]){await page.setViewportSize({width,height:900});for(const theme of ['light','dark']){await page.evaluate(value=>document.documentElement.dataset.theme=value,theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}}
  expect(errors).toEqual([]);
 });
