@@ -61,6 +61,15 @@ Import and actual alarm delivery depend on the user's calendar client and have
 not been provider-verified. Inputs/results stay in transient tab memory; calendar
 imports share the selected dates and PIN-area location with that provider.
 
+The **Share upcoming dates** card previews a Panchang-inspired bilingual image
+using only selected, resolved dates from today onward. Download a PNG or use the
+device share sheet when image sharing is supported; otherwise the card downloads
+for attaching to a message. Its compact ivory-and-green layout includes its city,
+month, subtle diya motif and the shared Sushant Synapse logo/name footer, plus a
+reminder to confirm dates with family tradition and a regional Panchang. The
+image is rendered locally; no dates are sent to a sharing provider until the
+user chooses to share the file. The result remains transient in the tab.
+
 Enter a past/present death date, exact IST time and select an Indian city. The Shraddha/Barsi form offers manual city search and opt-in Use my location, reusing Ritvayam's offline city directory and 75 km nearest-city limit. Detection requires browser permission and never starts automatically. Raw GPS coordinates stay in the browser; only the selected city ID goes to the server, which independently resolves its coordinates. Selection and death inputs remain in tab memory. Denied/unavailable/out-of-coverage detection leaves manual search available; editing or language changes invalidate late detection callbacks.
 
 The selected city supplies both death-day and observance timings, as the existing one-location calculation policy requires; the form explains that current location must be appropriate for both. Coordinates are approximate settlement points, not an exact address. Optional family settings override regional Amanta/Purnimanta defaults, civil/sunrise day counting, confirmed death tithi and day 13. Defaults do not determine family tradition. The legacy PIN/city API inputs remain supported for compatibility, while the separate general monthly observance calendar retains its PIN interface. No external map/geocoding provider is connected.
@@ -85,7 +94,7 @@ Vendored MIT Astronomy Engine 2.1.19 computes geocentric Moon–Sun separation; 
 
 ## Ownership and verification
 
-guides.mjs and its mourning/material modules own preparation content; app.js owns guide UI. panchang.mjs owns the existing engine. calendar-export.mjs owns pure ICS export; preparation-pack.mjs owns pack selection/text; calendar-tools.mjs owns transient pack/reminder UI. Server composition stays in server/index.js; frontend files are explicitly allowlisted. No new payment, booking, provider connection, schema or recipient configuration.
+guides.mjs and its mourning/material modules own preparation content; app.js owns guide UI. panchang.mjs owns the existing engine. calendar-export.mjs owns pure ICS export; observance-card.mjs owns the local share-card renderer; preparation-pack.mjs owns pack selection/text; calendar-tools.mjs owns transient pack/reminder UI. Server composition stays in server/index.js; frontend files are explicitly allowlisted. No new payment, booking, provider connection, schema or recipient configuration.
 
 Verification: node --test tests/ritual-calendar-export.test.js tests/ritual-panchang.test.js tests/ritual-pincode.test.js tests/ritual-calendar-api.test.js tests/ritual-assist.test.js and npx.cmd playwright test apps/ritual-assist/tests/browser.spec.js. Current local run: 19 Node checks and eight Chrome workflows pass. Browser tests download actual ICS/TXT/PDF, verify print isolation, bilingual retained checks/assignments, stale clearing, failure/cancellation and 320/390/1440px layouts. All API/browser tests use isolated temporary DATA_DIR values. Live evidence is recorded separately in the functionality ledger.
 

@@ -118,6 +118,7 @@ const staticAssets={
  '/ritual-assist/lunar-core.mjs':'apps/ritual-assist/frontend/lunar-core.mjs',
  '/ritual-assist/observance-rules.mjs':'apps/ritual-assist/frontend/observance-rules.mjs',
  '/ritual-assist/observance-calendar.mjs':'apps/ritual-assist/frontend/observance-calendar.mjs',
+ '/ritual-assist/observance-card.mjs':'apps/ritual-assist/frontend/observance-card.mjs',
  '/ritual-assist/observance-export.mjs':'apps/ritual-assist/frontend/observance-export.mjs',
  '/ritual-assist/calendar-export.mjs':'apps/ritual-assist/frontend/calendar-export.mjs',
  '/ritual-assist/calendar-tools.mjs':'apps/ritual-assist/frontend/calendar-tools.mjs',
