@@ -110,6 +110,24 @@ Vendored MIT Astronomy Engine 2.1.19 computes geocentric Moon–Sun separation; 
 
 ## Ownership and verification
 
+The remembrance dashboard uses `calendar-dashboard.mjs` for touch steppers and a
+rolling 1/2/3/5-year observation window. Chips filter already calculated annual
+and Pitru Paksha rows without API calls. Desktop uses a semantic summary table;
+at 768px and below its rows become vertical cards with year badges, dates and
+local Aparahna intervals. Advanced family rules and the complete calendar stay
+in disclosures. Day/month/year/hour/minute controls use 48px buttons and direct
+segment selects; no date/time is prefilled or inferred. AM/PM preserves midnight
+and noon, invalid month-day combinations clamp, and incomplete/future dates are
+rejected before submission. Canonical API fields and server validation remain.
+
+The sticky export bar forwards to the existing complete-calendar ICS/PDF and
+selected-year PNG actions. The timeframe filters the lookup view; exports retain
+their complete-calendar/selected-year scope. PDF hides the dashboard/action bar
+and retains all calculated years; pack-only printing remains isolated. All state
+stays transient. Dark mode uses slate/sky semantic tokens and sans-serif text;
+shared light/dark/system preferences, keyboard navigation and reduced motion
+remain supported. No raw-coordinate override or unsupported API input is added.
+
 guides.mjs and its mourning/material modules own preparation content; app.js owns guide UI. panchang.mjs owns the existing engine. calendar-export.mjs owns pure ICS export; observance-card.mjs and shraddha-card.mjs own local image renderers; preparation-pack.mjs owns pack selection/text; calendar-tools.mjs owns transient pack/reminder UI. Server composition stays in server/index.js; frontend files are explicitly allowlisted. No new payment, booking, provider connection, schema or recipient configuration.
 
 Verification: `node --test tests/ritual-calendar-export.test.js tests/ritual-panchang.test.js tests/ritual-pincode.test.js tests/ritual-calendar-api.test.js tests/ritual-assist.test.js tests/ritual-observances.test.js` and `npx.cmd playwright test apps/ritual-assist/tests/browser.spec.js`. Browser tests download actual ICS/TXT/PNG/PDF, verify the selected-year image and complete eleven-year PDF, optional festival filtering and export, full-calendar print and pack-only print isolation, bilingual sharing/fallback, retained checks/assignments, stale clearing, failures/cancellation and responsive themes. All API/browser tests use isolated temporary DATA_DIR values. Live evidence is recorded separately in the functionality ledger.
