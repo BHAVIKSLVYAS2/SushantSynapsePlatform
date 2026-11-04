@@ -1,5 +1,25 @@
 # Chambers functionality ledger
 
+**Remembrance simplification (2026-11-05 IST, implementation and release checks):**
+User approved implementation, commit and production deployment. One calculation
+now presents Immediate rites, First year after death and Future years from today.
+Accessible tabs choose the appropriate initial period; a single 5/10-year selector
+filters existing results without refetching. Native date/time controls replace
+the segmented steppers. Completed inputs collapse into an editable summary;
+dates appear before expandable calculation/preparation details. Existing lunar
+rules, withheld dates, city resolution and server validation remain unchanged.
+One Download / share disclosure retains ICS, text/PDF, preparation and year PNG.
+Print includes all periods and ten upcoming years, with separate pack-only print.
+17/17 focused Node/API/export/delivery checks and all 26 Ritual Assist browser
+workflows pass across the full run and three corrected-selector reruns. Includes
+native controls, default periods, no-refetch ranges, real ICS/PNG/PDF, full/pack
+printing, stale clearing, geolocation and 16 bilingual/theme/width states.
+Production-config packaging with --keep-vars passes. Deployment and live checks
+follow. Evidence: .publish/remembrance-{dryrun,browser-rerun}.log and
+.publish/remembrance-simple-mobile.png (reviewed).
+No schema, migration, account/licence or business-data changes. Unrelated working
+tree changes are excluded from the planned isolated committed-source release.
+
 **Remembrance dashboard production release (2026-11-04 IST):** Implementation commit `0dae606` is live as Worker `40d34b20-e793-4179-b7cf-31820eb7e895` using the exact organisation-enabled production config with `--keep-vars`. Dark slate/sky dashboard, rolling 1/2/3/5-year chips, 48px date/time steppers and AM/PM, desktop table/mobile cards, progressive disclosure and sticky ICS/PDF/year-PNG actions are deployed. First calculation focuses the result dashboard; language changes retain inputs and selected timeframe. All 24 unique Ritual Assist browser workflows pass across runs, final affected rerun 4/4 and final focus/geometry rerun 1/1; 14 focused Node/API checks pass. Exact-config dry run and deployment pass. Live Chrome passes real stepper calculation, chip filtering with one total calculation request, ten 320/390/768/769/1440px dark/light states, exact #0f172a background/#38bdf8 accent, real ICS/PNG downloads, full-calendar PDF path and zero page errors. Health 200; unscoped records 409. Live mobile screenshot visually reviewed. Evidence: `.publish/ritual-dashboard-{node,browser,browser-final,final-geometry,preview,dryrun,deploy,live}.log`, `.publish/ritual-dashboard-live-mobile.png`. Export scope remains full-calendar ICS/PDF and selected-year PNG; no calculation/API/schema/data or account/licence changes. Existing variables/bindings preserved; unrelated pre-existing edits remain untouched.
 
 **Shraddha/Barsi responsive dashboard (2026-11-04 IST, local verification):** Added a rolling next-1/2/3/5-year filter over existing annual/Pitru rows with no refetch, desktop summary table and <=768px stacked cards with year badges and Aparahna windows. Custom 48px date/time segment steppers and AM/PM replace native date/time entry; blank values are never inferred, leap-day/month clamping and incomplete/future-date rejection retain canonical API validation. Family rules and calculation/reference details stay collapsed. Sticky ICS/PDF/selected-year PNG controls reuse existing export paths; exports retain their complete-calendar/selected-year scope. Shared dark/light/system, en/hi, reduced motion and full/pack-only print remain. Exact requested dark background/accent and sans-serif dates verified in Chrome, with reviewed mobile/desktop/light screenshots. Focused Node/API 14/14 pass; all 24 Ritual Assist browser workflows pass across runs (21 initial plus three corrected-selector reruns; final affected run 4/4). Production-config dry run passes. No API/calculation/schema/data changes. Evidence: `.publish/ritual-dashboard-{node,browser,browser-final,preview,dryrun}.log`. Publishing/live verification follows.
