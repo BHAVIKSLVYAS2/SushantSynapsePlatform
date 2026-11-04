@@ -1,5 +1,24 @@
 # Chambers functionality ledger
 
+**Remembrance simplification production release (2026-11-05 IST):** Implementation
+commit `85fd7d1` is live as Worker `addf29a1-9bdf-4893-9b1b-602c39432ad1`.
+Deployed from a clean archive of that commit using the exact production config
+and `--keep-vars`, excluding all unrelated working-tree changes. Clean committed
+packaging and deployment pass. Live Chrome confirms the three tabs, native inputs,
+collapsed editable summary, 5/10-year range with one total calculation request,
+real ICS and selected-year PNG downloads, all 16 English/Hindi/light/dark/width
+states, zero page errors and three exact deployed JS/CSS hashes. Health `/healthz`
+is 200; unscoped private records remain 409. Live mobile screenshot reviewed.
+Local verification: 17/17 focused Node/API/export/delivery checks and all 26
+Ritual Assist browser workflows pass across the main run and three corrected
+selector reruns, including complete/pack-only PDF, transient preparation choices,
+geolocation and stale-result clearing. Evidence: `.publish/remembrance-deploy.log`,
+`.publish/remembrance-committed-dryrun.log`, `.publish/remembrance-live.log`,
+`.publish/remembrance-live-mobile.png`, `.publish/remembrance-browser-rerun.log`.
+No migration, bootstrap, account/licence or business-data writes; existing
+production variables and bindings preserved. Supersedes the release-pending
+status below; unrelated edits remain untouched.
+
 **Remembrance simplification (2026-11-05 IST, implementation and release checks):**
 User approved implementation, commit and production deployment. One calculation
 now presents Immediate rites, First year after death and Future years from today.
