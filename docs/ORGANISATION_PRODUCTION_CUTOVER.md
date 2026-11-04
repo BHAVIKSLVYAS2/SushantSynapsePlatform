@@ -1,5 +1,19 @@
 # Organisation licensing production cutover
 
+Ritual Assist Shraddha/Barsi 10-year exports (2026-11-04 IST): User authorised
+commit/deploy. Commit `ec93a3e` is live as Worker
+`51f67894-89c0-4066-b1c5-70ecff89410f`, deployed with `--keep-vars` using the
+exact organisation-enabled production config. The next Barsi/Samvatsari and
+Pitru Paksha Shraddha are separately highlighted. Print / Save PDF includes all
+11 displayed years and expanded tithi/Aparahna calculations; preparation-pack
+print remains isolated. The locally rendered bilingual PNG includes both
+observance columns, dates, calculations and a minimal Sushant Synapse brand
+footer, without death inputs. Focused Node checks pass 22/22 and all 22
+Ritual Assist browser workflows pass. Production calendar, module, stylesheet
+and health routes return 200; unscoped `/api/records` remains 409. Existing D1,
+rate-limit bindings and vars are retained; no migration, account or
+business-data changes.
+
 Ritual Assist share-card release (2026-11-04 IST): user authorised commit/deploy.
 Commit `5e9babe` is live as Worker `f054ce01-1ac5-4bc9-8deb-5a872e760bbc`,
 deployed with `--keep-vars` using the exact production config. The Vrats & dates
