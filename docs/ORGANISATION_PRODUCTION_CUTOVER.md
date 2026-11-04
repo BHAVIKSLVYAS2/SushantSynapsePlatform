@@ -1,5 +1,15 @@
 # Organisation licensing production cutover
 
+Responsive remembrance dashboard (2026-11-04 IST): implementation `0dae606`
+is live as Worker `40d34b20-e793-4179-b7cf-31820eb7e895`, using the existing
+organisation-enabled config and `--keep-vars`. Four timeframe chips, touch date/
+time controls, mobile cards/desktop table and sticky export actions are verified.
+14 focused Node/API checks and all 24 browser workflows pass across runs. Live
+checks pass ten responsive/theme states, exact dark palette, calculation-free
+filtering, ICS/PNG downloads and full-PDF path. Health 200; unscoped records 409.
+No migrations, bootstrap, business-data or account/licence changes; bindings and
+vars preserved. Evidence: `.publish/ritual-dashboard-{deploy,live}.log`.
+
 Festival audit correction (2026-11-04 IST): implementation commit `196450e`
 is live as Worker `4336fbc9-c710-4d37-8e71-e239bdcaa375` using the exact
 organisation-enabled config and `--keep-vars`. All 30 focused Node/API checks,
