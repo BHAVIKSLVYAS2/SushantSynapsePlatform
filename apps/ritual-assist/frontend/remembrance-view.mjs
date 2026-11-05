@@ -30,7 +30,7 @@ export function mountDashboard(container,result,language){
  const tabs=el('div',undefined,'remembrance-tabs');tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label',copy('Remembrance period','स्मरण अवधि'));container.append(tabs);
  const panels=[],buttons=[],elapsed=(Date.parse(today)-Date.parse(result.data.date))/86400000;
  const state=views.get(result)||{tab:(result.annual?.date?today<=result.annual.date:elapsed<=366)?0:1,year:Number(upcoming[0]?.date.slice(0,4)||result.yearly[0].year)};views.set(result,state);
- function select(index,focus=false){state.tab=index;panels.forEach((panel,i)=>{panel.hidden=i!==index;buttons[i].setAttribute('aria-selected',String(i===index));buttons[i].tabIndex=i===index?0:-1;});if(focus)buttons[index].focus();}
+ function select(index,focus=false){state.tab=index;panels.forEach((panel,i)=>{panel.hidden=i!==index;buttons[i].setAttribute('aria-selected',String(i===index));buttons[i].tabIndex=i===index?0:-1;});container.querySelector('.shraddha-share')?.updateScope(index===0?'first-year':'year',state.year);if(focus)buttons[index].focus();}
  for(const [i,title]of [copy('First year & early rites','पहला वर्ष और प्रारम्भिक संस्कार'),copy('Upcoming / by year','आगामी / वर्ष के अनुसार')].entries()){
  const panel=el('section',undefined,'remembrance-panel');panel.id='remembrance-panel-'+i;panel.setAttribute('role','tabpanel');panel.setAttribute('aria-labelledby','remembrance-tab-'+i);panel.tabIndex=0;
  const tab=button(title,()=>select(i));tab.id='remembrance-tab-'+i;tab.setAttribute('role','tab');tab.setAttribute('aria-controls',panel.id);tab.addEventListener('keydown',event=>{let next;if(event.key==='ArrowRight')next=(i+1)%2;if(event.key==='ArrowLeft')next=(i+1)%2;if(event.key==='Home')next=0;if(event.key==='End')next=1;if(next!==undefined){event.preventDefault();select(next,true);}});
@@ -64,7 +64,7 @@ export function mountDashboard(container,result,language){
  range.onchange=()=>{state.year=Number(range.value);drawYears();const shareYear=container.querySelector('#shraddha-year');if(shareYear){shareYear.value=range.value;shareYear.dispatchEvent(new Event('change'));}};
  drawYears();select(state.tab);
  const exports=el('details',undefined,'remembrance-downloads');exports.open=exportsOpen;exports.append(el('summary',copy('Download / share','डाउनलोड / साझा करें')));container.append(exports);
- exports.append(button(copy('Print / save PDF','प्रिन्ट / PDF सहेजें'),()=>{delete document.body.dataset.printMode;window.print();}),button(copy('Download calendar','कैलेंडर डाउनलोड करें'),()=>downloadBlob(new Blob([calendarText(result,language)],{type:'text/plain;charset=utf-8'}),'ritual-assist-shraddha-barsi-calendar.txt')));mountCalendarTools(exports,result,language);mountShraddhaCard(exports,result,language,state.year);
+ exports.append(button(copy('Print / save PDF','प्रिन्ट / PDF सहेजें'),()=>{delete document.body.dataset.printMode;window.print();}),button(copy('Download calendar','कैलेंडर डाउनलोड करें'),()=>downloadBlob(new Blob([calendarText(result,language)],{type:'text/plain;charset=utf-8'}),'ritual-assist-shraddha-barsi-calendar.txt')));mountCalendarTools(exports,result,language);mountShraddhaCard(exports,result,language,state.year,state.tab===0?'first-year':'year');
  const pack=exports.querySelector('.preparation-pack');if(pack)container.append(pack);
  const beforePrint=()=>{if(document.body.dataset.printMode!=='pack')drawYears(true);};
  const afterPrint=()=>drawYears();

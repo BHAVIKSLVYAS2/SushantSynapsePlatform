@@ -110,11 +110,14 @@ Vendored MIT Astronomy Engine 2.1.19 computes geocentric Moon–Sun separation; 
 
 ## Ownership and verification
 
-Year PNGs use a portrait 1080×1350 layout (growing for exceptional content),
-stacked Barsi/Pitru sections and larger dates. Ivory and Midnight are explicit
+PNGs follow the active calendar view: First year & early rites exports the
+combined schedule; Upcoming / by year exports the selected year in chronological
+order with the next date marked. Compact rows show calculation details directly.
+Width is 1080px; height follows content. First-year filenames differ from year
+filenames. Ivory and Midnight are explicit
 export colour choices, independent of the app theme and retained across language
-changes in the current result. The card shows tithi and the selected date's
-Aparahna window; full candidate intervals remain in accessible text/calendar/PDF.
+changes in the current result. The card shows tithi intervals, candidate Aparahna
+windows and counted-day bases directly.
 Conditional/unresolved/earlier-year labels remain visible. No death identity is
 added. Image generation stays local in canvas with existing branding and sharing.
 

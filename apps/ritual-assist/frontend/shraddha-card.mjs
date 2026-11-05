@@ -1,5 +1,6 @@
 import {downloadBlob} from '/shared/download.mjs';
 import {drawExportBrand} from '/shared/export-brand.mjs';
+import {occasionTitle} from './calendar-export.mjs';
 import {displayedMonth,monthNames,tithiLabel} from './panchang.mjs';
 
 const fonts='"Nirmala UI","Segoe UI",Arial,sans-serif';
@@ -59,41 +60,23 @@ const themes={
 };
 const selectedThemes=new WeakMap();
 function shortTime(value,locale){return new Intl.DateTimeFormat(locale,{hour:'numeric',minute:'2-digit',timeZone:'Asia/Kolkata',hour12:true}).format(new Date(Math.round(value/60000)*60000));}
-function summaryLines(row,language,calendar,labels){
- const hi=language==='hi',locale=hi?'hi-IN':'en-IN',lines=[];
- if(!row)return [labels.notReady];
- if(row.conditional||row.status!=='computed')lines.push(eventText(row,language,calendar,labels)[0]);
- if(row.date&&row.date<calendar.planningFrom)lines.push(labels.earlier);
- if(row.window)lines.push(tithiLabel(row.window.number,language)+' · '+monthNames[language][displayedMonth(row.month,row.window.number,calendar.data.calendar)]);
- if(row.date){const day=(row.candidates||[]).find(day=>day.date===row.date);if(day)lines.push((hi?'अपराह्न':'Aparahna')+' · '+shortTime(day.aparahnaStart,locale)+' – '+shortTime(day.aparahnaEnd,locale)+' IST');}
- else if(row.candidates?.length)lines.push((hi?'संभावित तारीखें: ':'Candidate dates: ')+row.candidates.map(day=>dateLabel(day.date,locale)).join(' / '));
- return lines;
-}
 function displayDate(row,language,labels){
  return row?.date?new Intl.DateTimeFormat(language==='hi'?'hi-IN':'en-IN',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(row.date+'T12:00:00Z')):labels.unresolved;
 }
-function eventHeight(ctx,rows,language,calendar,labels,width){
- let height=92;
- for(const row of rows.length?rows:[null]){
-  ctx.font=`600 54px ${fonts}`;height+=wrapLines(ctx,displayDate(row,language,labels),width-72).length*68;
-  ctx.font=`400 28px ${fonts}`;height+=summaryLines(row,language,calendar,labels).reduce((sum,line)=>sum+wrapLines(ctx,line,width-72).length*40,0)+38;
+function scheduleLines(row,language,calendar,labels,scope){
+ const hi=language==='hi',locale=hi?'hi-IN':'en-IN',lines=[];
+ if(!row)return [labels.notReady];
+ if(row.conditional||!['computed','counted'].includes(row.status))lines.push(eventText(row,language,calendar,labels)[0]);
+ if(scope==='year'&&row.date&&row.date<calendar.planningFrom)lines.push(hi?'बीती तिथि':'Past date');
+ if(row.status==='counted')lines.push((hi?'पहला दिन: ':'Day 1: ')+dateLabel(calendar.firstDate,locale));
+ if(row.window){
+  lines.push(tithiLabel(row.window.number,language)+' · '+monthNames[language][displayedMonth(row.month,row.window.number,calendar.data.calendar)]);
+  lines.push((hi?'तिथि अवधि':'Tithi interval')+': '+timeLabel(row.window.start,locale).replace(/ IST$/,'')+' → '+timeLabel(row.window.end,locale));
  }
- return Math.max(310,height);
+ for(const day of row.candidates||[])lines.push((hi?'अपराह्न: ':'Aparahna: ')+(day.date!==row.date?dateLabel(day.date,locale)+' · ':'')+shortTime(day.aparahnaStart,locale)+' – '+shortTime(day.aparahnaEnd,locale)+' IST');
+ if(scope==='first-year'&&row.kind==='pitru')lines.push(hi?'पहला लागू पितृ पक्ष; पहले वर्ष के बाद हो सकता है।':'First eligible Pitru Paksha; may fall after the first year.');
+ return lines;
 }
-function drawEvent(ctx,rows,{x,y,width,height,kind,language,calendar,labels,tone}){
- roundedRect(ctx,x,y,width,height,22);ctx.fillStyle=tone.paper;ctx.fill();ctx.strokeStyle=tone.line;ctx.lineWidth=1.5;ctx.stroke();
- ctx.fillStyle=tone.gold;roundedRect(ctx,x+30,y+32,5,27,2);ctx.fill();
- writeText(ctx,kind==='annual'?labels.barsi:labels.shraddha,x+50,y+54,{size:25,color:tone.muted,weight:600});
- let top=y+127;
- for(const row of rows.length?rows:[null]){
-  ctx.font=`600 54px ${fonts}`;ctx.fillStyle=tone.ink;
-  for(const line of wrapLines(ctx,displayDate(row,language,labels),width-72)){ctx.fillText(line,x+36,top);top+=68;}
-  top+=4;ctx.font=`400 28px ${fonts}`;ctx.fillStyle=tone.muted;
-  for(const line of summaryLines(row,language,calendar,labels))for(const part of wrapLines(ctx,line,width-72)){ctx.fillText(part,x+36,top);top+=40;}
-  top+=34;
- }
-}
-
 function cardRows(year){
  return [year.annual||[],year.pitru||[]];
 }
@@ -106,40 +89,49 @@ function defaultYear(calendar){
  return next?.year??calendar.yearly[0].year;
 }
 
-function accessibleRows(calendar,language,selected){
- const locale=language==='hi'?'hi-IN':'en-IN',labels=copy[language];
- const year=selected||calendar.yearly[0];
- return `${year.year}: ${cardRows(year).flatMap((rows,index)=>[index?'Pitru Paksha Shraddha':'Barsi / Samvatsari',...rows.map(row=>[row.date?dateLabel(row.date,locale):'candidate',...eventText(row,language,calendar,labels)].join(' · '))]).join(' · ')}`;
-}
-
-export function renderShraddhaCard(canvas,calendar,language='en',selectedYear,theme='ivory'){
- if(!['en','hi'].includes(language))throw Error('Unsupported calendar image language.');
- if(!themes[theme])throw Error('Unsupported calendar image theme.');
+export function renderShraddhaCard(canvas,calendar,language='en',selectedYear,theme='ivory',scope='year'){
+ if(!['en','hi'].includes(language)||!themes[theme]||!['year','first-year'].includes(scope))throw Error('Unsupported image options.');
  if(!Array.isArray(calendar?.yearly)||calendar.yearly.length!==11)throw Error('The complete 10-year calendar is not available.');
  const year=calendar.yearly.find(item=>item.year===Number(selectedYear??defaultYear(calendar)));if(!year)throw Error('The selected observance year is not available.');
  const ctx=canvas.getContext('2d');if(!ctx)throw Error('Image card rendering is unavailable in this browser.');
- const labels=copy[language],tone=themes[theme],width=1080,margin=64,eventWidth=width-margin*2;
- const heights=cardRows(year).map(rows=>eventHeight(ctx,rows,language,calendar,labels,eventWidth));
- const locationLines=(()=>{ctx.font=`400 27px ${fonts}`;return wrapLines(ctx,calendar.data.location.name,eventWidth-72);})();
- const header=350+Math.max(0,locationLines.length-1)*38,footer=188,gap=24;
- const height=Math.max(1350,header+heights[0]+heights[1]+gap+footer);
- canvas.width=width;canvas.height=height;canvas.dataset.cardTheme=theme;canvas.dataset.cardLayout='portrait';
+ const hi=language==='hi',labels=copy[language],tone=themes[theme],width=1080,margin=56,inner=width-margin*2,bodyWidth=inner-48;
+ const title=scope==='first-year'?(hi?'पहला वर्ष और प्रारम्भिक संस्कार':'First year & early rites'):labels.title;
+ const source=scope==='first-year'?[...(calendar.early||[]),...(calendar.monthly||[]),...(calendar.annual?[calendar.annual]:[]),...(calendar.pitru?[calendar.pitru]:[])]:cardRows(year).flat();
+ const rows=source.slice().sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999'));
+ const next=scope==='year'?rows.find(row=>row.date&&row.date>=calendar.planningFrom):null;
+ const layouts=(rows.length?rows:[null]).map(row=>{
+  let name=row?occasionTitle(row,language):labels.notReady;
+  if(row===next&&row)name+=' · '+(hi?'आगामी':'Next');
+  ctx.font=`600 28px ${fonts}`;const names=wrapLines(ctx,name,inner*.53-24);
+  ctx.font=`600 32px ${fonts}`;const dates=wrapLines(ctx,row?.date?displayDate(row,language,labels):labels.unresolved,inner*.44-24);
+  ctx.font=`400 26px ${fonts}`;const details=scheduleLines(row,language,calendar,labels,scope).flatMap(line=>wrapLines(ctx,line,bodyWidth));
+  const top=Math.max(names.length*38,dates.length*42);
+  return {row,names,dates,details,top,height:top+details.length*36+44};
+ });
+ ctx.font=`400 26px ${fonts}`;const locations=wrapLines(ctx,calendar.data.location.name,bodyWidth);
+ const header=282+(locations.length-1)*36,footer=164,height=Math.max(700,header+layouts.reduce((sum,item)=>sum+item.height,0)+footer+20);
+ canvas.width=width;canvas.height=height;canvas.dataset.cardTheme=theme;canvas.dataset.cardLayout='compact';canvas.dataset.cardScope=scope;canvas.dataset.cardRows=String(rows.length);
  ctx.fillStyle=tone.back;ctx.fillRect(0,0,width,height);
- roundedRect(ctx,24,24,width-48,height-48,32);ctx.strokeStyle=tone.line;ctx.lineWidth=2;ctx.stroke();
- const gradient=ctx.createLinearGradient(0,0,width,header);gradient.addColorStop(0,tone.night);gradient.addColorStop(1,tone.deep);
- roundedRect(ctx,margin,56,eventWidth,header-80,24);ctx.fillStyle=gradient;ctx.fill();
- writeText(ctx,'RITUAL ASSIST',margin+36,109,{size:23,color:'#e1c38b',weight:600});
- writeText(ctx,labels.title,margin+36,177,{size:48,color:tone.onHeader,weight:600});
- writeText(ctx,labels.subtitle,margin+36,219,{size:27,color:tone.onHeader});
- writeText(ctx,String(year.year),width-margin-36,110,{size:35,color:'#e1c38b',weight:600,align:'right'});
- ctx.font=`400 27px ${fonts}`;ctx.fillStyle=tone.onHeader;ctx.textAlign='left';
- locationLines.forEach((line,i)=>ctx.fillText(line,margin+36,276+i*38));
- drawEvent(ctx,year.annual||[],{x:margin,y:header,width:eventWidth,height:heights[0],kind:'annual',language,calendar,labels,tone});
- drawEvent(ctx,year.pitru||[],{x:margin,y:header+heights[0]+gap,width:eventWidth,height:heights[1],kind:'pitru',language,calendar,labels,tone});
- ctx.font=`400 24px ${fonts}`;ctx.fillStyle=tone.muted;ctx.textAlign='center';
- const note=wrapLines(ctx,labels.note,eventWidth-24);note.forEach((line,i)=>ctx.fillText(line,width/2,height-footer+55+i*34));
- ctx.save();ctx.translate(0,-34);drawExportBrand(ctx,{width,height,ink:tone.ink,size:26});ctx.restore();
- canvas.setAttribute('role','img');canvas.setAttribute('aria-label',`Sushant Synapse · Ritual Assist · ${labels.title} · ${year.year} · ${calendar.data.location.name} · ${accessibleRows(calendar,language,year)}`);
+ roundedRect(ctx,20,20,width-40,height-40,24);ctx.strokeStyle=tone.line;ctx.lineWidth=2;ctx.stroke();
+ roundedRect(ctx,margin,44,inner,header-68,18);ctx.fillStyle=tone.night;ctx.fill();
+ writeText(ctx,'RITUAL ASSIST',margin+24,86,{size:22,color:'#e1c38b',weight:600});
+ writeText(ctx,scope==='year'?String(year.year):(hi?'पहला वर्ष':'FIRST YEAR'),width-margin-24,86,{size:27,color:'#e1c38b',weight:600,align:'right'});
+ writeText(ctx,title,margin+24,145,{size:42,color:tone.onHeader,weight:600});
+ writeText(ctx,scope==='year'?labels.subtitle:(hi?'मृत्यु की तारीख से: ':'From death: ')+dateLabel(calendar.data.date,hi?'hi-IN':'en-IN'),margin+24,188,{size:26,color:tone.onHeader});
+ locations.forEach((line,i)=>writeText(ctx,line,margin+24,234+i*36,{size:26,color:tone.onHeader}));
+ let y=header;
+ for(const item of layouts){
+  if(item.row===next&&next){roundedRect(ctx,margin,y,inner,item.height,12);ctx.fillStyle=tone.wash;ctx.fill();}
+  ctx.textAlign='left';item.names.forEach((line,i)=>writeText(ctx,line,margin+24,y+34+i*38,{size:28,color:tone.ink,weight:600}));
+  item.dates.forEach((line,i)=>writeText(ctx,line,width-margin-24,y+34+i*42,{size:32,color:tone.ink,weight:600,align:'right'}));
+  item.details.forEach((line,i)=>writeText(ctx,line,margin+24,y+item.top+34+i*36,{size:26,color:tone.muted}));
+  y+=item.height;ctx.beginPath();ctx.moveTo(margin+24,y);ctx.lineTo(width-margin-24,y);ctx.strokeStyle=tone.line;ctx.lineWidth=1;ctx.stroke();
+ }
+ ctx.font=`400 23px ${fonts}`;const note=wrapLines(ctx,labels.note,inner-24);
+ note.forEach((line,i)=>writeText(ctx,line,width/2,height-footer+48+i*32,{size:23,color:tone.muted,align:'center'}));
+ ctx.save();ctx.translate(0,-26);drawExportBrand(ctx,{width,height,ink:tone.ink,size:25});ctx.restore();
+ const accessible=rows.map(row=>occasionTitle(row,language)+' · '+(row.date?displayDate(row,language,labels):labels.unresolved)+' · '+scheduleLines(row,language,calendar,labels,scope).join(' · ')).join(' | ');
+ canvas.setAttribute('role','img');canvas.setAttribute('aria-label',`Sushant Synapse · Ritual Assist · ${title} · ${scope==='year'?year.year:calendar.data.date} · ${calendar.data.location.name} · ${accessible}`);
  return {width,height};
 }
 
@@ -147,7 +139,8 @@ export function shraddhaCardPng(canvas){
  return new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(Error(copy.en.error)),'image/png'));
 }
 
-export function mountShraddhaCard(container,calendar,language='en',activeYear){
+export function mountShraddhaCard(container,calendar,language='en',activeYear,activeScope='year'){
+ let scope=activeScope;
  const labels=copy[language],panel=document.createElement('section'),initialYear=activeYear??selectedYears.get(calendar)??defaultYear(calendar);
  panel.className='shraddha-share card';
  panel.setAttribute('aria-labelledby','shraddha-share-title');
@@ -177,7 +170,17 @@ export function mountShraddhaCard(container,calendar,language='en',activeYear){
  summary.textContent=labels.preview;
  const canvas=document.createElement('canvas');
  canvas.className='shraddha-share-canvas';
- const render=()=>{heading.textContent=labels.title+' · '+yearSelect.value;if(activeYear!==undefined)help.textContent=language==='hi'?'कार्ड का वर्ष ऊपर आगामी सूची से चुनें।':'The card uses the year selected in the upcoming list above.';return renderShraddhaCard(canvas,calendar,language,yearSelect.value,themeSelect.value);};
+ const render=()=>{
+  const first=scope==='first-year',hi=language==='hi';
+  heading.textContent=first?(hi?'पहला वर्ष और प्रारम्भिक संस्कार':'First year & early rites'):labels.title+' · '+yearSelect.value;
+  help.textContent=hi?'PNG ऊपर चुनी हुई सूची के अनुसार बनता है।':'The PNG follows the calendar view selected above.';
+  summary.textContent=hi?'कार्ड का पूर्वावलोकन':'Preview card';
+  const buttons=panel.querySelectorAll('.shraddha-share-actions button');
+  if(buttons[0])buttons[0].textContent=first?(hi?'पहले वर्ष का PNG डाउनलोड करें':'Download first-year PNG'):labels.download;
+  if(buttons[1])buttons[1].textContent=first?(hi?'पहले वर्ष का PNG साझा करें':'Share first-year PNG'):labels.share;
+  return renderShraddhaCard(canvas,calendar,language,yearSelect.value,themeSelect.value,scope);
+ };
+ panel.updateScope=(value,year)=>{scope=value;if(year!==undefined)yearSelect.value=String(year);render();};
  render();
  document.fonts?.ready.then(()=>{if(canvas.isConnected)render();});
  yearSelect.addEventListener('change',()=>{selectedYears.set(calendar,Number(yearSelect.value));render();preview.open=true;status.textContent='';});
@@ -189,7 +192,7 @@ export function mountShraddhaCard(container,calendar,language='en',activeYear){
  status.setAttribute('aria-live','polite');
  const actions=document.createElement('div');
  actions.className='shraddha-share-actions';
- const fileName=()=>`ritual-assist-shraddha-barsi-${yearSelect.value}.png`;
+ const fileName=()=>scope==='first-year'?'ritual-assist-first-year.png':`ritual-assist-shraddha-barsi-${yearSelect.value}.png`;
  const download=document.createElement('button');
  download.type='button';
  download.className='primary';
@@ -203,17 +206,17 @@ export function mountShraddhaCard(container,calendar,language='en',activeYear){
  share.type='button';
  share.textContent=labels.share;
  share.addEventListener('click',async()=>{
-  const name=fileName(),year=yearSelect.value;
+  const name=fileName(),shareTitle=heading.textContent;
   try{
    const png=await shraddhaCardPng(canvas),file=new File([png],name,{type:'image/png'});
    if(navigator.share&&navigator.canShare?.({files:[file]})){
-    try{await navigator.share({title:`${labels.title} · ${year}`,text:labels.note,files:[file]});status.textContent=labels.shared;}
+    try{await navigator.share({title:shareTitle,text:labels.note,files:[file]});status.textContent=labels.shared;}
     catch(error){if(error.name==='AbortError')status.textContent=labels.cancelled;else throw error;}
    }else{downloadBlob(png,name,{cleanupDelay:1000});status.textContent=labels.fallback;}
   }catch(error){status.textContent=error.message||labels.error;}
  });
  actions.append(download,share);
  panel.append(heading,help,appearance,actions,status,preview);
- container.append(panel);
+ container.append(panel);render();
  return panel;
 }

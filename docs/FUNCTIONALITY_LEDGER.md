@@ -1,5 +1,24 @@
 # Chambers functionality ledger
 
+**View-aligned remembrance PNGs (2026-11-05 IST, verified locally):** PNGs now
+follow the active calendar tab. First year & early rites exports the complete
+combined schedule, including the explicitly labelled first eligible Pitru date;
+Upcoming / by year exports selected-year rows in chronological order with the
+next date marked. Compact rows show tithi intervals, candidate Aparahna windows,
+counted-day bases and confirmation states directly. Width remains 1080px; height
+is content-sized rather than fixed 1350px. First-year images use a distinct
+filename. Tab/year changes update the same preview and download/share labels
+without refetching or additional scope controls. Both themes/languages remain.
+Three final browser workflows pass, covering real first-year/year PNGs, scope/
+year/theme/language retention, native sharing/fallback, full PDF and 16 exceptional
+renderer bounds/uncertainty cases. Earlier compact-view regression also passes.
+Year and complete first-year PNGs visually reviewed. Evidence:
+`.publish/remembrance-scope-png-{tests,final,verified}.log`,
+`test-results/remembrance-first-year{,-hi}.png`,
+`test-results/shraddha-barsi-2027.png`. Production packaging, isolated committed
+deployment and live verification follow. No calculation/schema/data changes;
+unrelated working-tree edits preserved.
+
 **Compact remembrance production release (2026-11-05 IST):** Commit `83fcf77`
 is live as Worker `a671bb9d-9b4f-4b7e-a1b8-e97aee0d7365`, deployed from an
 isolated committed-source archive with the exact production config and
