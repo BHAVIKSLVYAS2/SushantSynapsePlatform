@@ -1,5 +1,21 @@
 # Chambers functionality ledger
 
+**Compact remembrance production release (2026-11-05 IST):** Commit `83fcf77`
+is live as Worker `a671bb9d-9b4f-4b7e-a1b8-e97aee0d7365`, deployed from an
+isolated committed-source archive with the exact production config and
+`--keep-vars`. Packaging/deployment pass. Live Chrome confirms two views, no
+duplicate next-date card, two selected-year entries, inline calculation details,
+one visible year control shared with the PNG, four real en/hi Ivory/Midnight
+PNGs, ICS, 16 language/theme/width states, one calculation request, four exact
+deployed asset hashes and zero page errors. Health 200; unscoped records 409.
+Live mobile screenshot reviewed. Focused local browser checks (five workflows
+plus final compact-layout rerun) cover first-year consolidation, keyboard/year
+selection, print/pack isolation, exports, state retention and stale clearing.
+Evidence: `.publish/remembrance-compact-{dryrun,deploy,live,browser,final}.log`,
+`.publish/remembrance-compact-live-mobile.png`. No migrations, data/account/
+licence writes or settings changes; bindings and unrelated local edits preserved.
+Supersedes the release-pending note below.
+
 **Compact remembrance workspace (2026-11-05 IST, implementation verification):**
 Merged Immediate rites with First year into one chronological First year & early
 rites view. Upcoming / by year replaces the rolling range and separate next-date
