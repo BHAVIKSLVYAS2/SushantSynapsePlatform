@@ -118,16 +118,18 @@ Aparahna window; full candidate intervals remain in accessible text/calendar/PDF
 Conditional/unresolved/earlier-year labels remain visible. No death identity is
 added. Image generation stays local in canvas with existing branding and sharing.
 
-`remembrance-view.mjs` presents one calculation through Immediate rites, First
-year after death, and Future years from today. The appropriate period opens
-automatically; keyboard-accessible tabs and the 5/10-year selector use existing
-results without refetching. Native date/time inputs replace segmented steppers.
+`remembrance-view.mjs` presents one calculation through First year & early rites
+and Upcoming / by year. The appropriate period opens automatically; accessible
+tabs and one shared observance-year selector use existing results without
+refetching. The next date is marked within the selected year's chronological
+list, with past dates labelled. Native date/time inputs replace segmented steppers.
 The completed form collapses into an editable summary. Dates lead each compact
-entry; tithi intervals, candidate windows and preparation links are expandable.
+entry; tithi intervals, candidate windows and day-count bases appear directly
+in compact desktop columns/mobile rows without per-observance disclosures.
 Uncertain dates remain labelled and existing calculation guards remain intact.
 
 One Download / share disclosure contains reminders, text/PDF, preparation tools
-and selected-year PNG sharing. Full-calendar PDF includes all periods and ten
+and selected-year PNG sharing using the same year selection. Full-calendar PDF includes all periods and ten
 upcoming years; pack-only printing remains separate. Language, theme, transient
 checklist state, canonical API fields and server validation remain supported.
 

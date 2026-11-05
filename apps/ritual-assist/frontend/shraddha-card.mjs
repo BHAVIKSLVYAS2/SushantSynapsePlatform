@@ -147,8 +147,8 @@ export function shraddhaCardPng(canvas){
  return new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(Error(copy.en.error)),'image/png'));
 }
 
-export function mountShraddhaCard(container,calendar,language='en'){
- const labels=copy[language],panel=document.createElement('section'),initialYear=selectedYears.get(calendar)??defaultYear(calendar);
+export function mountShraddhaCard(container,calendar,language='en',activeYear){
+ const labels=copy[language],panel=document.createElement('section'),initialYear=activeYear??selectedYears.get(calendar)??defaultYear(calendar);
  panel.className='shraddha-share card';
  panel.setAttribute('aria-labelledby','shraddha-share-title');
  const heading=document.createElement('h3');
@@ -165,7 +165,7 @@ export function mountShraddhaCard(container,calendar,language='en'){
  yearSelect.setAttribute('aria-label',labels.year);
  for(const year of calendar.yearly){const option=document.createElement('option');option.value=String(year.year);option.textContent=String(year.year);yearSelect.append(option);}
  yearSelect.value=String(initialYear);
- yearLabel.append(yearSelect);
+ yearLabel.append(yearSelect);if(activeYear!==undefined)yearLabel.hidden=true;
  const themeLabel=document.createElement('label');themeLabel.textContent=language==='hi'?'कार्ड का रंग':'Card colour';
  const themeSelect=document.createElement('select');themeSelect.id='shraddha-theme';themeSelect.setAttribute('aria-label',themeLabel.textContent);
  for(const [value,label]of [['ivory',language==='hi'?'आइवरी':'Ivory'],['midnight',language==='hi'?'मिडनाइट':'Midnight']])themeSelect.add(new Option(label,value));
@@ -177,7 +177,7 @@ export function mountShraddhaCard(container,calendar,language='en'){
  summary.textContent=labels.preview;
  const canvas=document.createElement('canvas');
  canvas.className='shraddha-share-canvas';
- const render=()=>renderShraddhaCard(canvas,calendar,language,yearSelect.value,themeSelect.value);
+ const render=()=>{heading.textContent=labels.title+' · '+yearSelect.value;if(activeYear!==undefined)help.textContent=language==='hi'?'कार्ड का वर्ष ऊपर आगामी सूची से चुनें।':'The card uses the year selected in the upcoming list above.';return renderShraddhaCard(canvas,calendar,language,yearSelect.value,themeSelect.value);};
  render();
  document.fonts?.ready.then(()=>{if(canvas.isConnected)render();});
  yearSelect.addEventListener('change',()=>{selectedYears.set(calendar,Number(yearSelect.value));render();preview.open=true;status.textContent='';});

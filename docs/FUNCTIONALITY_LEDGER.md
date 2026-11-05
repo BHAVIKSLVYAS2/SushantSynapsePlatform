@@ -1,5 +1,23 @@
 # Chambers functionality ledger
 
+**Compact remembrance workspace (2026-11-05 IST, implementation verification):**
+Merged Immediate rites with First year into one chronological First year & early
+rites view. Upcoming / by year replaces the rolling range and separate next-date
+card with one selected-year list, an inline next-in-year marker and past labels.
+Compact desktop columns/mobile rows show dates, tithi intervals, Aparahna windows,
+day-count basis and confirmation flags directly, without per-row disclosures.
+One year selector also controls the PNG; the duplicate image year field is hidden.
+English/Hindi, colour choices, existing calculation/uncertainty rules and privacy
+remain. Full-calendar printing includes all eleven calculated years and restores
+the selected year; pack-only printing remains separate. Five focused browser
+workflows pass, covering text/ICS/PNG/PDF, preparation retention, native sharing,
+year synchronisation/no refetch, default periods, keyboard navigation, stale
+clearing and 16 language/theme/width states. Desktop/mobile screenshots reviewed:
+`.publish/remembrance-compact-{desktop,mobile}.png`; evidence in
+`.publish/remembrance-compact-{browser,final}.log`. Exact production packaging,
+isolated-source deployment and live checks follow. No schema/calculation,
+account/licence or business-data changes; unrelated workspace edits preserved.
+
 **Remembrance portrait PNG production release (2026-11-05 IST):** Commit
 `831ad1b` is live as Worker `be433983-0397-4aac-ab69-e77bd3adf3a3` from a clean
 committed-source archive with the existing production config and `--keep-vars`.
