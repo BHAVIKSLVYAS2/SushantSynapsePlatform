@@ -1,5 +1,35 @@
 # Chambers functionality ledger
 
+**Ritual Assist density production release (2026-11-05 IST):** Source commit
+`b7e3c12` is live as Worker `d6875c2e-457a-495a-aa1d-0317c56279dd`, deployed from
+an isolated archive of that commit with the existing organisation-enabled
+production config and `--keep-vars`. Twenty changed assets uploaded; existing
+D1/auth/rate-limit bindings retained. No migration, bootstrap, account/licence,
+business-data or provider changes. Unrelated pending app canonicals/footer,
+AdSense/company tooling and their ledger entries remain uncommitted and excluded.
+All six density increments and the preceding browser checklist/input-memory
+improvements are included. First Ganesh material is at Y=651px in both languages
+at 390px (baseline 1,400px); checked Vrat entries average 140px (baseline about
+283px). Verification: 40/40 Ritual unit/API/export/delivery checks, 46/46 complete
+Ritual/navigation Chrome workflows, 5/5 exact committed-source browser workflows
+and both isolated production-config dry runs pass. Source manifests match all
+38 checked workspace/candidate/committed frontend/config/registry files.
+Live Chrome passes eight exact deployed JS/CSS hashes, 16 guide language/theme/
+width layouts, browser checklist/custom-item retention, sharing TXT and real PDF,
+Vrat grouping/local milestones/ICS/PNG, Holi 2027 confirmation/export exclusion,
+remembrance ICS/PNG and date/time/city restoration without automatic requests.
+Scoped memory clearing preserves the checklist. Health 200, unscoped private API
+409 and unchanged non-Ritual baseline checks pass with zero page errors. Only
+three stateless synthetic calendar POSTs were used; visitor counting and external
+requests were blocked. Live English/light, Hindi/dark and agenda captures visually
+reviewed. The initial verifier raced print-preview history closure; awaiting the
+overlay URL transition fixed the verifier without application changes.
+Evidence: `.publish/ritual-density-{source-manifest,live}.json`,
+`.publish/ritual-density-{committed-dryrun,deploy,live-final}.log`,
+`.publish/ritual-density-browser/`,
+`.publish/ritual-density-committed/.publish/committed-browser/` and
+`.publish/ritual-density-live-files/`. Supersedes the pending release notes below.
+
 **Ritual information density implementation (2026-11-05 IST, release checks):**
 User authorised all six improvements, commit and deployment. Compact calendar
 entry/header, one share/preview toolbar with More, concise save controls/settings,

@@ -1,5 +1,17 @@
 # Organisation licensing production cutover
 
+Ritual Assist density release (2026-11-05 IST): source `b7e3c12` is live as Worker
+`d6875c2e-457a-495a-aa1d-0317c56279dd` from an isolated committed archive using
+the existing production config and `--keep-vars`. Six density improvements,
+personalised checklist sharing/clearing and browser-local calendar field memory
+are included. Verification passes 40 Ritual unit/API checks, 46 full browser
+workflows, five committed-source workflows and exact-config packaging. Live
+checks pass eight asset hashes, 16 bilingual/theme/width states, actual TXT/PDF/
+ICS/PNG exports, input restoration, uncertainty guards, health 200 and unscoped
+records 409. No migrations, bootstrap, business-data or account/licence writes;
+existing D1/auth/rate-limit bindings and unrelated pending edits are preserved.
+Evidence and detailed limits are at the top of `FUNCTIONALITY_LEDGER.md`.
+
 Responsive remembrance dashboard (2026-11-04 IST): implementation `0dae606`
 is live as Worker `40d34b20-e793-4179-b7cf-31820eb7e895`, using the existing
 organisation-enabled config and `--keep-vars`. Four timeframe chips, touch date/
