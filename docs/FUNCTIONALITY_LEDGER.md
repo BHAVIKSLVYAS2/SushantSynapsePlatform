@@ -1,5 +1,21 @@
 # Chambers functionality ledger
 
+**View-aligned PNG production release (2026-11-05 IST):** Commit `9911614`
+is live as Worker `2d4ed0bc-363d-480e-aa75-4ea9ef5a425d`, built/deployed from
+an isolated committed archive with exact production config and `--keep-vars`.
+Packaging/deployment pass. Live Chrome verifies six actual PNGs: English/Hindi
+selected-year images in both colours plus both first-year schedules. First-year
+row counts match the displayed combined schedule; distinct scope filenames and
+content-sized dimensions pass. Tab/year/theme changes use one calculation,
+with 16 language/theme/width states, real ICS, four exact deployed JS/CSS hashes
+and zero page errors. Health 200; unscoped records 409. Live English year/Ivory
+and Hindi first-year/Midnight images visually reviewed. Local final three browser
+workflows and 16 exceptional renderer cases pass as recorded below. Evidence:
+`.publish/remembrance-scope-{dryrun,deploy,live}.log`,
+`.publish/remembrance-scope-live-{en,hi}-{ivory,midnight,first-year}.png`.
+No schema, migration, account/licence, business-data or settings writes; existing
+bindings and unrelated edits preserved. Supersedes release-pending status below.
+
 **View-aligned remembrance PNGs (2026-11-05 IST, verified locally):** PNGs now
 follow the active calendar tab. First year & early rites exports the complete
 combined schedule, including the explicitly labelled first eligible Pitru date;
