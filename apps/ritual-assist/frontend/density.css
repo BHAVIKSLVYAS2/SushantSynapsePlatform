@@ -1,0 +1,63 @@
+/* Task-first Ritual layouts. Existing theme tokens and touch targets are retained. */
+body.ritual-landing .compact-calendar{min-height:0;padding:8px 12px;margin:0 0 8px;display:flex;flex-wrap:wrap;gap:4px 16px;justify-content:space-between;border-radius:12px;background:var(--surface);box-shadow:none}
+body.ritual-landing .compact-calendar #calendar-launch-title{font-size:20px;line-height:1.3;letter-spacing:0;margin:0;max-width:none}
+body.ritual-landing .compact-calendar nav{display:flex;flex-wrap:wrap;gap:8px}
+body.ritual-landing .compact-calendar :is(.calendar-open,.remembrance-open){display:inline-flex;align-items:center;min-height:44px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-size:13px;box-shadow:none;text-decoration:none}
+body.ritual-landing .compact-calendar .calendar-open:after{display:none}
+body.ritual-landing #scope.compact-guidance{display:block;padding:6px 0;margin:0 0 8px;border:0;background:none;font-size:12px;line-height:1.5;box-shadow:none}
+body.ritual-landing .workspace>.library:not([open]){margin-bottom:10px;padding:4px 12px}
+body.ritual-landing #guide .guide-top{margin-bottom:8px;padding-bottom:0}
+body.ritual-landing #guide-title{margin:4px 0;font-size:25px}
+body.ritual-landing .guide-top>p{margin:4px 0 8px}
+body.ritual-landing #guide .actions{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;padding:0;border:0}
+body.ritual-landing #guide .actions>button,body.ritual-landing .guide-more>summary{min-height:44px;padding:8px 12px;font-size:13px;box-sizing:border-box}
+.guide-more{position:relative}.guide-more>summary{cursor:pointer;list-style-position:inside;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.guide-more[open]{z-index:10}.guide-more>button{display:block;min-width:170px;width:100%;text-align:left;min-height:44px;margin:4px 0}
+.guide-more[open]{padding:0 6px 6px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+body.ritual-landing #guide .guide-content{display:block}
+body.ritual-landing .puja-checklist{padding:12px;margin:0}
+body.ritual-landing .checklist-header{padding:0 0 6px;border:0}
+body.ritual-landing .checklist-heading{display:grid;grid-template-columns:minmax(140px,180px) minmax(100px,1fr);gap:0 12px;align-items:center}
+body.ritual-landing .checklist-heading input[type=date]{grid-row:1/3;margin:0;min-height:44px;max-width:100%;font-size:14px}
+body.ritual-landing .checklist-heading .progress-row{margin:0;font-size:12px}
+body.ritual-landing .checklist-saving{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 12px;margin:4px 0;padding:0;background:none;border:0}
+body.ritual-landing #checklist-save-status{grid-column:1/-1;font-size:12px;line-height:1.5;margin:0}
+body.ritual-landing .checklist-saving .remember-checks{font-size:12px;min-height:44px;margin:0}
+.checklist-settings{min-width:0}.checklist-settings>summary{min-height:44px;align-content:center;cursor:pointer;font-size:12px;color:var(--accent)}
+.checklist-settings[open]{grid-column:1/-1}.checklist-settings p{max-width:70ch}.checklist-settings #delete-saved-checklist{margin:0 0 8px}
+body.ritual-landing .checklist-controls{margin-top:4px}.puja-checklist[data-filter=all] #filter-status{display:none}
+body.ritual-landing .checklist-columns{margin-top:4px}.visible-item-note{flex-basis:100%;font-size:12px;line-height:1.5;color:var(--muted)}
+.priest-caption{display:none}.common-material-note{margin:8px 0;font-size:12px;line-height:1.5}
+.preparation-summary{margin:12px 0;padding:0 12px}.preparation-summary>summary{cursor:pointer;min-height:44px;align-content:center;font-weight:600}
+body.ritual-landing .ritual-learning{margin:12px 0}body.ritual-landing .variation{margin-top:12px}
+@media(min-width:1051px){body.ritual-landing .puja-checklist .checklist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px;align-items:start}.checklist>.seedha-group{margin:8px 0}.checklist-columns{display:none}.priest-caption{display:block;font-size:10px}.priest-control{gap:0}.priest-control input{margin:0}}
+body[data-ui-app=ritual-assist] .calendar-layout{display:block;max-width:none;margin:0}
+body[data-ui-app=ritual-assist] .calendar-layout>form{position:static;width:auto;margin:0 0 16px;padding:16px}
+body[data-ui-app=ritual-assist] #fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px;align-items:start}
+body[data-ui-app=ritual-assist] #fields>label{margin:0;min-width:0;font-size:13px}
+body[data-ui-app=ritual-assist] #fields>label :is(input,select){width:100%;min-width:0;box-sizing:border-box;font-size:16px}
+body[data-ui-app=ritual-assist] #fields>.calendar-location,body[data-ui-app=ritual-assist] #fields>.family-options{grid-column:1/-1;margin:0}
+body[data-ui-app=ritual-assist] .family-options{padding-top:4px}.family-options>summary{padding:8px 0;min-height:44px;box-sizing:border-box}
+.location-announcement{position:absolute;width:1px;height:1px;padding:0!important;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.calendar-location .location-short-help{margin:4px 0;font-size:12px;line-height:1.5}.location-details>summary{min-height:44px;align-content:center;cursor:pointer;font-size:12px;color:var(--accent)}
+.calendar-location [role=status]:empty{display:none}.calendar-location .location-details p{font-size:12px;margin:4px 0}
+body[data-ui-app=ritual-assist] #calculate{min-height:44px;margin-top:8px}
+body[data-ui-app=ritual-assist] #privacy{margin:8px 0;font-size:12px;line-height:1.5}
+body[data-ui-app=ritual-assist] .calendar-input-memory{display:flex;align-items:center;flex-wrap:wrap;gap:4px 12px;margin:8px 0 0;padding:0;border:0}
+.calendar-input-memory p{flex:1;min-width:180px;font-size:12px;margin:0}.calendar-input-memory button{font-size:12px}
+body[data-ui-app=ritual-assist] #calendar-form:has(.input-details:not([open])){padding:8px 12px;margin-bottom:12px}
+#calendar-form:has(.input-details:not([open])) #form-title{display:none}
+body[data-ui-app=ritual-assist] .input-details>summary{padding:8px 0;min-height:44px;box-sizing:border-box;font-size:13px}
+@media(min-width:801px){body[data-ui-app=ritual-assist] #fields{grid-template-columns:1fr 1fr 2fr}body[data-ui-app=ritual-assist] #fields>.calendar-location{grid-column:auto}body[data-ui-app=ritual-assist] #calculate{width:auto;min-width:200px}.observance-fields{grid-template-columns:2fr 1fr 1fr 1fr}.observance-fields>.observance-city-field{grid-column:auto}}
+body[data-ui-app=ritual-assist] .observance-list{display:block}
+.observance-date-group{margin:12px 0;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden}
+.observance-group-date{font-size:14px;margin:0;padding:8px 12px;background:var(--soft);color:var(--ink)}
+body[data-ui-app=ritual-assist] .observance-event{padding:8px 12px;margin:0;border:0;border-radius:0;box-shadow:none;border-bottom:1px solid var(--line)}
+.observance-event:last-child{border-bottom:0}.observance-heading{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;justify-content:space-between}
+.observance-heading h4{font-size:16px;line-height:1.4;margin:0}.observance-heading .badge{font-size:11px;padding:2px 6px}
+body[data-ui-app=ritual-assist] .observance-event>.fine,.observance-milestone{font-size:12px;line-height:1.5;margin:4px 0}
+body[data-ui-app=ritual-assist] .observance-event summary{min-height:44px;margin:0;font-size:12px}
+.observance-event details>button{min-height:44px;font-size:12px;margin-top:4px}
+@media(min-width:801px){body[data-ui-app=ritual-assist] .observance-event{display:grid;grid-template-columns:minmax(220px,1fr) minmax(220px,1fr) minmax(160px,.7fr);gap:0 16px;align-items:start}.observance-heading{grid-column:1}.observance-event>.fine{grid-column:1}.observance-event>.observance-milestone{grid-column:2;grid-row:1/3}.observance-event>details{grid-column:3;grid-row:1/4}.observance-event>details[open]{grid-column:1/-1;grid-row:auto}}
+@media(max-width:480px){body.ritual-landing .compact-calendar{padding:4px 8px}body.ritual-landing .compact-calendar #calendar-launch-title{font-size:18px}body.ritual-landing .compact-calendar :is(.calendar-open,.remembrance-open){font-size:12px;padding:8px}body.ritual-landing .compact-calendar nav{gap:6px}body.ritual-landing #guide-title{font-size:23px}body.ritual-landing #guide .actions>button,body.ritual-landing .guide-more>summary{font-size:12px;padding:8px 10px}}
+@media print{.guide-more,.checklist-settings,.checklist-saving,.compact-calendar,.calendar-input-memory{display:none!important}.preparation-summary>:not(summary){display:block!important}.preparation-summary>summary{font-weight:700}.observance-list{display:block}.observance-event{display:block!important}.observance-event details>button{display:none!important}}

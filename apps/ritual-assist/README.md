@@ -1,5 +1,44 @@
 # Ritual Assist
 
+Information density release (2026-11-05; release evidence in the functionality
+ledger): a compact calendar strip replaces the large guide banner; the selected
+ritual, date and progress no longer repeat a second title. Share checklist and
+Preview / Print remain directly available; More holds copy, text download and
+guide-link sharing. Checklist settings contains saved-list deletion and the long
+retention explanation, while the remember toggle and save failures stay visible.
+Specific existing material notes are visible inline; repeated common advice is
+shown once. Preparation & sequence retains the reviewed ceremony-specific notes,
+and desktop material groups use both columns without an empty sequence sidebar.
+Vrat agenda groups events by date and exposes admitted moonrise, Parana or
+selection windows; full rule/tithi details and single-date reminders expand on
+demand. Remembrance uses full-width editable inputs and a short result summary.
+Numerical policies, uncertainty exclusions, original guide data and exports are
+preserved. English/Hindi, themes, local checklists and input memory remain.
+
+Calendar field memory (2026-11-05; included in this release): returning
+visits restore the last remembrance date, IST time, confirmed city and family
+options from this browser. Vrats & dates remembers its city, month and lunar-month
+convention independently. Fields save as they are edited, including before a
+calculation; city search text, raw GPS, results and preparation packs are excluded.
+Restoring never starts geolocation or calculation. Each form offers Clear saved
+fields, which clears its input memory and current results without changing the
+other calendar or standalone checklists. English/Hindi copy explains device-local
+retention and storage failures; malformed saved data is preserved until cleared.
+
+Checklist usability (2026-11-05; included in this release): the
+searchable guide catalogue starts collapsed behind Change ritual and closes
+after selection. Selected guide URLs, learning links and browser history remain
+supported. Share checklist previews the personalised text, including the optional
+date, custom/edited items, quantities, responsibility names and completion state.
+Native sharing, copy/manual selection and UTF-8 text download share a labelled
+snapshot; later edits do not update it. Share guide link remains a separate action.
+The Remember checkmarks control and browser-saving explanation now sit beside
+progress and explicitly cover all rituals. Clear checkmarks retains the list and
+offers Undo clear. Delete saved checklist requires confirmation, restores this
+ritual's original guide and preserves other rituals. Storage failures or unreadable
+saved state are labelled and never silently overwritten. No cloud sync, calendar
+calculation change or new API is introduced. Verification is recorded in the ledger.
+
 Ashubh material update (2026-10-27): the existing day 11 and day 12 checklists
 include 64 and 33 English/Hindi additions from the family's Index.html and
 Vertical.Html reference lists. Quantities require priest confirmation; Pagdi
@@ -25,7 +64,7 @@ Standalone checklists use one list in original item order, followed by personal 
 
 The calendar entry now defaults to **Vrats & dates**, with a separate Shraddha &
 Barsi tab (`/ritual-assist/calendar?view=remembrance`). The general calendar needs
-only a PIN code and month, supports 2025–2030, English/Hindi, upcoming list/month
+only a selected Indian city and month, supports 2025–2030, English/Hindi, upcoming list/month
 views, category filters and a next-occurrence shortcut. Seven event types are
 available: Ekadashi, Amavasya, sunrise Purnima/Poonam, Purnima fasting, Sankashti
 Chauth, Vinayaka Chaturthi and Pradosh. Purnima fasting can precede the sunrise
@@ -35,7 +74,7 @@ all events, including past dates and their details, with earlier days visually
 de-emphasized. When the selected month has no future dates, the list says so
 without implying the month has no events.
 
-`POST /api/ritual-assist/observances` validates a bounded month, offline PIN,
+`POST /api/ritual-assist/observances` validates a bounded month, selected city (or legacy offline PIN),
 Amanta/Purnimanta labels and the explicit Smarta household planning policy. Node
 uses the existing two-thread/six-requests-per-minute calendar budget; Workers use
 the existing calendar limiter and a bounded 24-entry, one-hour in-memory public
@@ -70,7 +109,7 @@ moonrise/Parana entries. Timed reminders use 15 minutes before the event. Past
 alarms are omitted; UIDs remain stable across languages and include location.
 Files use individually calculated dates rather than Gregorian recurrence rules.
 Import and actual alarm delivery depend on the user's calendar client and have
-not been provider-verified. Inputs/results stay in transient tab memory; calendar
+not been provider-verified. Input fields are remembered in this browser; results stay in transient tab memory. Calendar
 imports share the selected dates and PIN-area location with that provider.
 
 The **Share upcoming dates** card previews a Panchang-inspired bilingual image
@@ -84,11 +123,11 @@ header and a single mandala accent; the duplicated date paragraph is removed.
 The image is rendered locally; no dates are sent to a sharing provider until the
 user chooses to share the file. The result remains transient in the tab.
 
-Enter a past/present death date, exact IST time and select an Indian city. The Shraddha/Barsi form offers manual city search and opt-in Use my location, reusing Ritvayam's offline city directory and 75 km nearest-city limit. Detection requires browser permission and never starts automatically. Raw GPS coordinates stay in the browser; only the selected city ID goes to the server, which independently resolves its coordinates. Selection and death inputs remain in tab memory. Denied/unavailable/out-of-coverage detection leaves manual search available; editing or language changes invalidate late detection callbacks.
+Enter a past/present death date, exact IST time and select an Indian city. The Shraddha/Barsi form offers manual city search and opt-in Use my location, reusing Ritvayam's offline city directory and 75 km nearest-city limit. Detection requires browser permission and never starts automatically. Raw GPS coordinates stay in the browser; only the selected city ID goes to the server, which independently resolves its coordinates. The selected city ID, date, IST time and family settings are remembered locally in this browser. Raw GPS and unselected city search text are not persisted. Denied/unavailable/out-of-coverage detection leaves manual search available; editing or language changes invalidate late detection callbacks.
 
 The selected city supplies both death-day and observance timings, as the existing one-location calculation policy requires; the form explains that current location must be appropriate for both. Coordinates are approximate settlement points, not an exact address. Optional family settings override regional Amanta/Purnimanta defaults, civil/sunrise day counting, confirmed death tithi and day 13. Defaults do not determine family tradition. The legacy PIN/city API inputs remain supported for compatibility, while the separate general monthly observance calendar retains its PIN interface. No external map/geocoding provider is connected.
 
-The result includes first-year Chautha, days 10–13, Masik, first Barsi and first matching Pitru Paksha after Barsi. The yearly overview has the current year and next ten display years, retaining earlier current-year dates and multiple applicable observances. Masik/Barsi/Pitru dates use lunar tithis and local Aparahna; early mourning days use inclusive day counts. The post-first-Barsi Pitru policy is explicitly selected, not universal. Ten upcoming occurrence arrays remain internally for compatibility. Changing inputs clears results; no death record is stored.
+The result includes first-year Chautha, days 10–13, Masik, first Barsi and first matching Pitru Paksha after Barsi. The yearly overview has the current year and next ten display years, retaining earlier current-year dates and multiple applicable observances. Masik/Barsi/Pitru dates use lunar tithis and local Aparahna; early mourning days use inclusive day counts. The post-first-Barsi Pitru policy is explicitly selected, not universal. Ten upcoming occurrence arrays remain internally for compatibility. Changing inputs clears results; no server death record is stored.
 
 The result highlights the next Barsi/Samvatsari and next Pitru Paksha Shraddha separately. The year selector shows a compact, bilingual share card for one selected year at a time; it defaults to the next upcoming calculated observance. Choosing a year opens its preview and language changes retain that selection in tab memory. Download and device image-share use a year-specific PNG, with both observance columns, tithi/month, tithi interval, Aparahna candidates, confirmation status, place and a minimal Sushant Synapse logo/name footer. The complete year-by-year table is behind All years & details and remains available in Print / Save PDF; preparation-pack printing remains isolated. Image rendering is local and omits death inputs; no details leave the tab unless the user chooses to share the generated image.
 
@@ -136,7 +175,7 @@ and selected-year PNG sharing using the same year selection. Full-calendar PDF i
 upcoming years; pack-only printing remains separate. Language, theme, transient
 checklist state, canonical API fields and server validation remain supported.
 
-guides.mjs and its mourning/material modules own preparation content; app.js owns guide UI. panchang.mjs owns the existing engine. calendar-export.mjs owns pure ICS export; observance-card.mjs and shraddha-card.mjs own local image renderers; preparation-pack.mjs owns pack selection/text; calendar-tools.mjs owns transient pack/reminder UI. Server composition stays in server/index.js; frontend files are explicitly allowlisted. No new payment, booking, provider connection, schema or recipient configuration.
+calendar-input-memory.mjs owns bounded, allowlisted browser form preferences; calculated results remain transient. guides.mjs and its mourning/material modules own preparation content; app.js owns guide UI. panchang.mjs owns the existing engine. calendar-export.mjs owns pure ICS export; observance-card.mjs and shraddha-card.mjs own local image renderers; preparation-pack.mjs owns pack selection/text; calendar-tools.mjs owns transient pack/reminder UI. Server composition stays in server/index.js; frontend files are explicitly allowlisted. No new payment, booking, provider connection, schema or recipient configuration.
 
 Verification: `node --test tests/ritual-calendar-export.test.js tests/ritual-panchang.test.js tests/ritual-pincode.test.js tests/ritual-calendar-api.test.js tests/ritual-assist.test.js tests/ritual-observances.test.js` and `npx.cmd playwright test apps/ritual-assist/tests/browser.spec.js`. Browser tests download actual ICS/TXT/PNG/PDF, verify the selected-year image and complete eleven-year PDF, optional festival filtering and export, full-calendar print and pack-only print isolation, bilingual sharing/fallback, retained checks/assignments, stale clearing, failures/cancellation and responsive themes. All API/browser tests use isolated temporary DATA_DIR values. Live evidence is recorded separately in the functionality ledger.
 

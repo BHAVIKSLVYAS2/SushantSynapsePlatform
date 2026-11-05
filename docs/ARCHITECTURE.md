@@ -1,5 +1,23 @@
 # Code ownership and adding apps
 
+Ritual information density (2026-11-05): app-owned `density.css` provides the
+guide toolbar/header, responsive material groups, compact calendar inputs and
+date-grouped Vrat agenda. `app.js` reorganises existing guide notes and controls;
+`observance-calendar.mjs` displays only existing admitted milestones and retains
+the original export admission checks. `remembrance-view.mjs` collapses input
+memory controls with the editable form; `calendar.js` restores those nodes when
+clearing saved fields. No calculation, organisation or persistence schema changes.
+
+Ritual calendar input memory (2026-11-05, local implementation): app-owned
+`calendar-input-memory.mjs` allowlists and bounds separate remembrance and
+monthly-observance browser preferences. Controllers restore editable inputs
+without calculation/geolocation, save canonical fields on edits and expose a
+scoped clear action. City labels/coordinates are re-resolved through the existing
+offline picker; raw GPS, free-text city queries, results and packs are excluded.
+Storage failures remain usable and unreadable data is preserved until explicit
+clearing. Public delivery uses the existing server asset registry; backend
+validation, numerical policy, SQLite/D1 and app permissions are unchanged.
+
 City/calendar usability (2026-10-31): Ritual Assist reuses
 `calendar-location.mjs` for both Vrat and remembrance forms with distinct IDs.
 Both adapters validate city IDs through app-owned `calendar-city.mjs`; regional

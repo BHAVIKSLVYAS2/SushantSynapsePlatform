@@ -1,4 +1,9 @@
 /* Ritual landing page. One layout and palette, scoped away from the calendar. */
+body.ritual-landing .workspace>.library:not([open]){padding:10px 16px;margin-bottom:16px}
+body.ritual-landing .library:not([open])>summary{min-height:44px;padding:0;font-size:18px}
+body.ritual-landing .library:not([open])>summary:after{top:50%}
+body.ritual-landing .library:not([open]) .guides-symbol{flex-basis:32px;width:32px;height:32px}
+body.ritual-landing .library>summary:focus-visible{outline:3px solid var(--accent);outline-offset:4px;border-radius:8px}
 body.ritual-landing{
  --ritual-bg:#f4f7f6;--ritual-panel:#fff;--ritual-raised:#eef4f5;--ritual-ink:#162f3f;--ritual-muted:#536b7a;--ritual-line:#cad8de;--ritual-gold:#916015;
  --ritual-emerald:#007d5e;--ritual-emerald-deep:#00634c;--ritual-on-emerald:#fff;--ritual-teal:#e3f3ed;--ritual-teal-line:#9dd8c5;--ritual-highlight:#fff;--ritual-shadow:#152e4014;--ritual-warm:#f4e6cf;

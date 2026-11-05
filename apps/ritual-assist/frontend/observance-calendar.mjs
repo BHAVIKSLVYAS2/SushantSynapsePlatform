@@ -1,3 +1,4 @@
+import {createCalendarInputMemory,calendarMemoryCopy} from './calendar-input-memory.mjs?v=20261105-density';
 import {downloadBlob} from '/shared/download.mjs';
 import {mountCalendarLocation} from './calendar-location.mjs';
 import {localDate} from './lunar-core.mjs';
@@ -13,6 +14,7 @@ export function mountObservanceCalendar(){
  const $=id=>document.getElementById(id),language=()=>$('language').value==='hi'?'hi':'en',w=key=>viewText[language()][key]??words[language()][key];
 Object.assign(words.en,{festivals:'Hindu festivals',unavailable:'Festival dates are planning aids, not a certified regional Panchang. Confirm locally before arranging observances.'});
 Object.assign(words.hi,{festivals:'हिन्दू त्योहार',unavailable:'त्योहारों की तारीखें योजना-सहायता हैं, प्रमाणित क्षेत्रीय पंचांग नहीं। अनुष्ठान तय करने से पहले स्थानीय पुष्टि करें।'});
+ const inputMemory=createCalendarInputMemory('observances');
  const original=[$('scope'),document.querySelector('.calendar-layout'),document.querySelector('.reference')],intro=document.querySelector('main .intro');
  const nav=node('nav',undefined,'calendar-views');nav.setAttribute('aria-label','Calendar views');
  const datesButton=node('button'),remembranceButton=node('button');datesButton.type=remembranceButton.type='button';datesButton.id='view-dates';remembranceButton.id='view-remembrance';nav.append(datesButton,remembranceButton);intro.after(nav);
@@ -21,9 +23,14 @@ Object.assign(words.hi,{festivals:'हिन्दू त्योहार',una
  const note=node('p',undefined,'scope'),formHeading=node('h2'),fields=node('div',undefined,'observance-fields');
  const field=(id,type)=>{const label=node('label'),caption=node('span'),input=node(type==='select'?'select':'input');input.id=id;input.name=id;if(type!=='select')input.type=type;label.append(caption,input);fields.append(label);return {label:caption,input};};
  const cityContainer=node('div',undefined,'observance-city-field');fields.append(cityContainer);let locationPicker=null;
- const month=field('observance-month','month');month.input.required=true;month.input.min='2025-01';month.input.max='2030-12';month.input.value=localDate(Date.now()).slice(0,7);
+ const month=field('observance-month','month');month.input.required=true;month.input.min='2025-01';month.input.max='2030-12';month.input.value=inputMemory.values.month||localDate(Date.now()).slice(0,7);
  const calendar=field('observance-convention','select'),tradition=field('observance-tradition','select');
  const help=node('p',undefined,'fine'),yearHelp=node('p',undefined,'fine'),submit=node('button',undefined,'primary');submit.id='observance-calculate';submit.type='submit';form.append(formHeading,fields,help,yearHelp,submit);
+ const memoryPanel=node('div',undefined,'calendar-input-memory'),memoryNote=node('p',undefined,'fine'),clearMemoryButton=node('button');
+ memoryNote.id='observance-memory-status';memoryNote.setAttribute('role','status');clearMemoryButton.id='clear-observance-inputs';clearMemoryButton.type='button';memoryPanel.append(memoryNote,clearMemoryButton);form.append(memoryPanel);
+ function refreshMemoryCopy(){memoryNote.textContent=calendarMemoryCopy(language(),inputMemory.status);clearMemoryButton.textContent=language()==='hi'?'सहेजे फ़ील्ड साफ करें':'Clear saved fields';}
+ function rememberInputs(){inputMemory.save({placeId:locationPicker?.value||'',month:month.input.value,calendar:calendar.input.value});refreshMemoryCopy();}
+ clearMemoryButton.onclick=()=>{if(!inputMemory.clear()){refreshMemoryCopy();return;}clear();locationPicker?.destroy();locationPicker=null;month.input.value=localDate(Date.now()).slice(0,7);calendar.input.value='';setup();$('observance-location-query').focus();};
  const status=node('p');status.id='observance-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');
  const output=node('div');output.id='observance-output';
  const method=node('details',undefined,'card observance-method'),methodTitle=node('summary'),methodText=node('p'),attribution=node('p');method.append(methodTitle,methodText,attribution);
@@ -40,15 +47,15 @@ Object.assign(words.hi,{festivals:'हिन्दू त्योहार',una
  addEventListener('popstate',()=>activate(new URL(location.href).searchParams.get('view')==='remembrance'?'remembrance':'dates',false));
  datesButton.onclick=()=>activate('dates');remembranceButton.onclick=()=>activate('remembrance');
  function setup(){
-  const city=locationPicker?.value||'';locationPicker?.destroy();locationPicker=mountCalendarLocation(cityContainer,{language:language(),value:city,onChange:clear,mode:'dates',prefix:'observance-location',detectId:'observance-use-location'});
+  const city=locationPicker?locationPicker.value:inputMemory.values.placeId||'';locationPicker?.destroy();locationPicker=mountCalendarLocation(cityContainer,{language:language(),value:city,onChange:()=>{rememberInputs();clear();},mode:'dates',prefix:'observance-location',detectId:'observance-use-location'});
   datesButton.textContent=w('dates');remembranceButton.textContent=w('remembrance');note.textContent=w('scope');formHeading.textContent=w('dates');month.label.textContent=w('month');calendar.label.textContent=w('calendar');tradition.label.textContent=w('tradition');
-  const prior=calendar.input.value;calendar.input.replaceChildren(...[['',w('automatic')],['amanta',w('amanta')],['purnimanta',w('purnimanta')]].map(([value,label])=>new Option(label,value)));calendar.input.value=prior;
+  const prior=calendar.input.options.length?calendar.input.value:inputMemory.values.calendar||'';calendar.input.replaceChildren(...[['',w('automatic')],['amanta',w('amanta')],['purnimanta',w('purnimanta')]].map(([value,label])=>new Option(label,value)));calendar.input.value=prior;
   tradition.input.replaceChildren(new Option(w('smarta'),'smarta'));help.textContent=w('traditionHelp');yearHelp.textContent=w('yearHelp');submit.textContent=w('load');methodTitle.textContent=w('sources');methodText.textContent=w('method');
   attribution.replaceChildren();const geo=node('a','GeoNames · CC BY 4.0');geo.href='https://www.geonames.org/';attribution.append(geo,document.createTextNode(language()==='hi'?' · शहर के अनुमानित निर्देशांक।':' · Approximate city coordinates.'));
-  activate(view,false);if(result)render();else status.textContent=w('empty');
+  activate(view,false);if(result)render();else status.textContent=w('empty');refreshMemoryCopy();
  }
  async function load({next=false}={}){
-  if(!form.reportValidity())return;
+  rememberInputs();if(!form.reportValidity())return;
   stop();const token=revision,request=new AbortController();controller=request;submit.disabled=true;form.setAttribute('aria-busy','true');status.textContent=w('busy');output.replaceChildren();result=null;
   const timer=setTimeout(()=>request.abort(),25000);
   try{
@@ -56,7 +63,7 @@ Object.assign(words.hi,{festivals:'हिन्दू त्योहार',una
    for(let attempt=0;attempt<(next?2:1);attempt++){
     const response=await fetch('/api/ritual-assist/observances',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({month:chosen,placeId:locationPicker.value,tradition:'smarta',...(calendar.input.value?{calendar:calendar.input.value}:{})}),cache:'no-store',signal:request.signal});
     const payload=await response.json();if(token!==revision)return;if(!response.ok)throw Error(payload.error||'Calculation unavailable');
-    result=payload.result;month.input.value=chosen;
+    result=payload.result;month.input.value=chosen;rememberInputs();
     if(!next||result.events.some(e=>isSelected(e)&&e.status==='computed'&&e.date>=localDate(Date.now())))break;
     const d=new Date(chosen+'-01T12:00:00Z');d.setUTCMonth(d.getUTCMonth()+1);chosen=d.toISOString().slice(0,7);if(chosen>'2030-12')break;
    }
@@ -73,10 +80,11 @@ Object.assign(words.hi,{festivals:'हिन्दू त्योहार',una
  }
  function eventCard(event){
   const card=node('article',undefined,'observance-event card');card.dataset.eventId=event.id;card.dataset.type=event.type;card.dataset.date=event.date;card.id='event-'+event.id;card.dataset.upcoming=String(event.date>=localDate(Date.now())&&event.status==='computed');
-  card.append(node('p',dateText(event.date),'observance-date'),node('h3',eventTitle(event,language())));
-  const badge=node('span',event.status==='computed'?(event.date<localDate(Date.now())?w('past'):w('computed')):w('candidate'),'badge');card.append(badge);
+  const heading=node('div',undefined,'observance-heading');heading.append(node('h4',eventTitle(event,language())));card.append(heading);
+  const badge=node('span',event.status==='computed'?(event.date<localDate(Date.now())?w('past'):w('computed')):w('candidate'),'badge');heading.append(badge);
   if(event.status!=='computed')card.append(node('p',w('confirm'),'fine'));
   if(event.month){const name=monthNames[language()][displayedMonth(event.month,event.window.number,result.calendar)];card.append(node('p',tithiLabel(event.window.number,language())+' · '+name+(event.month.adhika?(language()==='hi'?' · अधिक मास':' · Adhik Maas'):''),'fine'));}
+  if(event.status==='computed'){let milestone='';if(event.type==='sankashti'&&event.anchor)milestone=w('moonrise')+': '+timeText(event.anchor);else if(event.parana?.status==='computed')milestone=w('parana')+': '+timeText(event.parana.start)+' – '+timeText(event.parana.end);else if(event.period)milestone=w('period')+': '+timeText(event.period.start)+' – '+timeText(event.period.end);if(milestone)card.append(node('p',milestone,'observance-milestone'));}
   const details=node('details'),summary=node('summary',w('details'));details.append(summary);
   const info=node('dl',undefined,'observance-times');const pair=(label,value)=>info.append(node('dt',label),node('dd',value));if(event.window){pair(w('start'),timeText(event.window.start));pair(w('end'),timeText(event.window.end));}
   const day=result.days.find(d=>d.date===event.date);if(day){pair(w('sunrise'),timeText(day.sunrise));pair(w('sunset'),timeText(day.sunset));}
@@ -85,7 +93,7 @@ Object.assign(words.hi,{festivals:'हिन्दू त्योहार',una
   if(event.parana){if(event.parana.status==='computed')pair(w('parana'),timeText(event.parana.start)+' – '+timeText(event.parana.end));else pair(w('parana'),w('paranaHelp'));}
   details.append(info,node('p',allObservanceTypes[event.type].basis[language()],'fine'));
   if(event.candidateDates?.length>1)details.append(node('p',(language()==='hi'?'सम्भावित दिन: ':'Possible days: ')+event.candidateDates.map(dateText).join(' / '),'fine'));
-  card.append(details);const add=button(w('single'),()=>download(event.id));add.disabled=!reminderOccurrences(result,{types:selectedTypes(),eventId:event.id,timed}).length;card.append(add);return card;
+  card.append(details);const add=button(w('single'),()=>download(event.id));add.disabled=!reminderOccurrences(result,{types:selectedTypes(),eventId:event.id,timed}).length;details.append(add);return card;
  }
  function render(){
   if(!result)return;output.replaceChildren();status.textContent=w('ready')+' '+result.location.name+' · '+result.month;
@@ -101,7 +109,7 @@ Object.assign(words.hi,{festivals:'हिन्दू त्योहार',una
   const toggles=node('div',undefined,'observance-toolbar');for(const mode of ['list','grid']){const b=button(w(mode),()=>{display=mode;render();});b.setAttribute('aria-pressed',String(display===mode));toggles.append(b);}output.append(toggles);
   const events=result.events.filter(isSelected),list=node('div',undefined,'observance-list'),todayDate=localDate(Date.now());
   const monthEvents=[...events].sort((a,b)=>a.date.localeCompare(b.date)),upcoming=monthEvents.filter(event=>event.date>=todayDate),visibleEvents=display==='grid'?monthEvents:upcoming;
-  if(!events.length)list.append(node('p',w('noResults'),'notice'));else if(!visibleEvents.length)list.append(node('p',w('noUpcoming'),'notice'));else list.append(...visibleEvents.map(eventCard));
+  if(!events.length)list.append(node('p',w('noResults'),'notice'));else if(!visibleEvents.length)list.append(node('p',w('noUpcoming'),'notice'));else{let group,date;for(const event of visibleEvents){if(date!==event.date){date=event.date;group=node('section',undefined,'observance-date-group');group.dataset.date=date;group.append(node('h3',new Intl.DateTimeFormat(language()==='hi'?'hi-IN':'en-IN',{weekday:'short',day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(date+'T12:00:00Z')),'observance-group-date'));list.append(group);}group.append(eventCard(event));}}
   if(display==='grid'){
    const grid=node('div',undefined,'observance-grid');grid.setAttribute('aria-label',w('grid'));const weekdayNames=language()==='hi'?['रवि','सोम','मंगल','बुध','गुरु','शुक्र','शनि']:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];for(const name of weekdayNames)grid.append(node('div',name,'observance-weekday'));
    const offset=new Date(result.month+'-01T12:00:00Z').getUTCDay();for(let i=0;i<offset;i++){const blank=node('div',undefined,'observance-blank');blank.setAttribute('aria-hidden','true');grid.append(blank);}
@@ -147,6 +155,6 @@ Object.assign(words.hi,{festivals:'हिन्दू त्योहार',una
   if(!shareEvents.length)sharePanel.append(node('p',cardCopy.empty,'fine'));
   output.append(sharePanel);
  }
- form.addEventListener('input',clear);form.onsubmit=event=>{event.preventDefault();void load();};$('language').addEventListener('change',setup);addEventListener('pagehide',()=>{locationPicker?.cancel();clear();});
+ for(const event of ['input','change'])form.addEventListener(event,()=>{rememberInputs();clear();});form.onsubmit=event=>{event.preventDefault();void load();};$('language').addEventListener('change',setup);addEventListener('pagehide',()=>{locationPicker?.cancel();clear();});
  setup();
 }

@@ -109,3 +109,6 @@ body[data-ui-app=ritual-assist]:has(.death-steppers) .calendar-layout :is(h2,h3,
 @media print{.observation-dashboard,.remembrance-actions{display:none!important}.canonical-death-input{display:none!important}.death-steppers{display:none!important}}
 @media(max-width:600px){.next-observance-grid{grid-template-columns:1fr}.shraddha-share-actions button{flex:1 1 100%;width:100%}}
 @media print{.shraddha-share{display:none!important}.future-plan details{display:block}.future-plan details>*:not(summary){display:block}.full-calendar[open]{display:block}}
+
+.calendar-input-memory{margin-top:16px;padding-top:12px;border-top:1px solid var(--line);overflow-wrap:anywhere}.calendar-input-memory button{min-height:44px;max-width:100%;white-space:normal}.calendar-input-memory p{margin:0 0 10px}
+@media print{.calendar-input-memory{display:none!important}}

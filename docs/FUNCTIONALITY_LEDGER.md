@@ -1,5 +1,115 @@
 # Chambers functionality ledger
 
+**Ritual information density implementation (2026-11-05 IST, release checks):**
+User authorised all six improvements, commit and deployment. Compact calendar
+entry/header, one share/preview toolbar with More, concise save controls/settings,
+date-grouped Vrat agenda with admitted local milestones, full-width remembrance
+form/compact editable summary and responsive material groups are implemented.
+Specific existing notes appear inline; repeated common advice appears once and
+the sourced preparation sequence remains available. No new ritual prescriptions
+or numerical policies. Previous local checklist sharing/scoped reset and browser
+input memory are included. Existing saved IDs, raw-GPS exclusion, server validation,
+uncertain-date export guards and account/licence boundaries remain.
+First Ganesh material is at Y=651px in English/Hindi at 390px (baseline 1,400px);
+November Vrat entries average 140px (baseline approximately 283px). Two focused
+geometry workflows pass across 16 language/theme/width states, and 40/40 Ritual
+unit/API/export/delivery checks pass. All 46/46 Ritual/navigation Chrome workflows
+and isolated production-config packaging checks pass. Mobile guide/agenda and desktop Day 11 captures
+visually reviewed under `.publish/ritual-density-new-*.png`; measured evidence:
+`.publish/ritual-density-{guide,agenda}-metrics.json`. Browser artifacts:
+`.publish/ritual-density-browser/`; isolated packaging log:
+`.publish/ritual-density-dryrun.log`. Commit, exact-source deployment and live
+verification follow. No production change yet.
+Live Chrome baseline checks confirm the pending non-Ritual canonicals/footer
+edits are not currently served, so they will remain excluded. Ledger additions
+for the unrelated AdSense/company work also remain outside the release commit.
+No migrations, bootstrap, database/account/licence or provider changes are needed.
+
+**Ritual information density review (2026-11-05 IST, recommendations only):**
+Fresh local Chrome inspection covers five Ritual states at 390/1440px, including
+the pending checklist/input-memory changes. First Ganesh item begins at Y=1,400px
+on mobile; banner/actions/saving panel consume 271/148/184px respectively. Vrat
+cards are 277–333px tall for roughly 118–218 visible characters. Desktop's narrow
+340px remembrance form leaves a 784px empty results column before calculation.
+Prioritised six separate increments: compact opening/header, action toolbar,
+save/privacy controls, denser Vrat agenda, task-based desktop width and useful
+existing/sourced content. Detailed evidence, proposed targets and constraints:
+`docs/RITUAL_INFORMATION_DENSITY_REVIEW_2026-11-05.md`. Metrics and reviewed
+captures are under `.publish/ritual-density-*`. Uses synthetic calculations,
+disposable temporary DATA_DIR, stubbed visitor counting and blocked external
+requests. No application code, production access/change or deployment; no new
+correctness/accessibility certification. Existing unrelated edits preserved.
+
+**Ritual calendar field memory (2026-11-05 IST, local implementation):**
+User requested location/date/time retention between visits. Remembrance fields
+now remember date, IST time, confirmed city ID and family options in browser
+storage. Vrats & dates independently remembers city/month/month convention.
+Restoration never calculates or requests geolocation automatically. Each form's
+Clear saved fields clears only its memory and current results; remembrance also
+removes any old collapsed input summary. Free-text city queries, raw GPS,
+results, preparation packs and private app records are excluded. Bounded versioned
+validation, truthful English/Hindi storage status and preservation of malformed
+saved data until explicit clearing are implemented. Existing checklists and
+other calendar preferences are retained. New module is publicly allowlisted.
+Verification: 35/35 full Ritual Chrome workflows and 23/23 focused unit/API/
+delivery checks pass with isolated temporary DATA_DIR values; the initial 3/3
+focused memory workflows also pass. Includes reload,
+new tabs, language changes, canonical API requests, scoped clear, no automatic
+requests, incomplete city clearing and storage failures, plus existing real
+TXT/ICS/PNG/PDF, calendar/pack, geolocation, checklist and bilingual/theme layouts.
+Artifacts: `.publish/ritual-input-memory-{focused,regression}/`. Syntax and diff
+checks pass. Mobile Hindi/dark failure state
+visually reviewed (`.publish/ritual-input-memory-mobile.png`). No backend policy,
+schema, account/licence, production-data changes or deployment. Earlier tab-only
+input-retention statements describe historical behaviour; results/packs still
+remain transient. Existing unrelated workspace edits preserved.
+
+**Ritual checklist improvements 1–3 (2026-11-05 IST, local implementation):**
+User authorised sequential implementation. Change ritual now opens a compact,
+searchable chooser which closes after selection; direct guides/learning and
+browser navigation remain. Share checklist previews the optional date, edited/
+extra items, quantities, arranger names and checkmarks, with native share,
+copy/manual selection and UTF-8 snapshot download. Share guide link is separate.
+Browser-saving explanation and the global Remember checkmarks control sit near
+progress. Clear checkmarks offers Undo clear; confirmed Delete saved checklist
+restores only the selected ritual and retains other saved guides. Unreadable or
+unwritable browser storage is reported without overwriting retained data.
+Each increment's focused browser checks passed (1, 1 and 2 respectively), and
+8/8 existing guide/learning unit checks pass. All 37 distinct browser workflows
+pass across the main run (36/37) and final 11/11 affected rerun. The initial failure
+exposed the share dialog's reuse of the item-editor class; a common ritual-dialog
+styling class now preserves separate dialog identities. The unchanged editor
+regression passes. Coverage includes all bilingual guides, mobile chooser/search/
+history, customisations across reload, scoped delete/cancellation, undo, storage
+failures, native sharing/cancellation/fallback, actual TXT/ICS/PNG/PDF downloads,
+learning navigation and calendar/preparation regressions. English/Hindi and
+320/390/768/1440px light/dark checks pass without page overflow; syntax and diff
+checks pass. Evidence: `.publish/ritual-checklist-{regression,final}/` and the
+incremental `.publish/ritual-step{1-final,2-results,3-results}/` artifacts.
+Mobile chooser, share preview and Hindi/light saving-control images visually
+reviewed: `.publish/ritual-checklist-{first-viewport,share-mobile,saving-mobile}.png`.
+The final focused visual workflow passes 1/1 under `.publish/ritual-checklist-visual/`.
+Tests use
+isolated temporary DATA_DIR values. No API/calculation/schema, account/licence
+or production-data changes; no deployment. Pre-existing unrelated edits preserved.
+
+**Ritual Assist improvement review (2026-11-05 IST, recommendations only):**
+Reviewed app source and existing release/content evidence using UI/UX Pro Max.
+Fresh public Chrome inspection covers guide home, Vrats form and remembrance
+form at 390x844, with POSTs blocked and visitor counting stubbed. No horizontal
+page overflow observed; the initial guide starts about 1,465px down the home
+page. Home/remembrance visible main-content buttons/selects/non-checkbox inputs
+meet 44px height in the inspected state; this is not a full accessibility audit.
+Recommendations prioritise direct task/checklist entry, personalised checklist
+sharing, visible saved-state controls, safe unknown-time handling, separate
+death/ceremony cities, actionable uncertainty and calculation/reminder recovery.
+Report and evidence limits: `docs/RITUAL_UX_REVIEW_2026-11-05.md`.
+Live home/remembrance captures visually reviewed under
+`.publish/ritual-review-{home,remembrance}-visible.png`. No application code,
+calculation policy, schema, accounts, business data or deployment changed;
+existing unrelated working-tree edits preserved. Calculation/export tests were
+not rerun for this recommendation-only review.
+
 **View-aligned PNG production release (2026-11-05 IST):** Commit `9911614`
 is live as Worker `2d4ed0bc-363d-480e-aa75-4ea9ef5a425d`, built/deployed from
 an isolated committed archive with exact production config and `--keep-vars`.

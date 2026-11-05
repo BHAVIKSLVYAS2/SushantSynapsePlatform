@@ -115,6 +115,8 @@ const staticAssets={
  '/ritual-assist/calendar':'apps/ritual-assist/frontend/calendar.html',
  '/ritual-assist/calendar/':'apps/ritual-assist/frontend/calendar.html',
  '/ritual-assist/calendar.js':'apps/ritual-assist/frontend/calendar.js',
+ '/ritual-assist/calendar-input-memory.mjs':'apps/ritual-assist/frontend/calendar-input-memory.mjs',
+ '/ritual-assist/density.css':'apps/ritual-assist/frontend/density.css',
  '/ritual-assist/lunar-core.mjs':'apps/ritual-assist/frontend/lunar-core.mjs',
  '/ritual-assist/observance-rules.mjs':'apps/ritual-assist/frontend/observance-rules.mjs',
  '/ritual-assist/observance-calendar.mjs':'apps/ritual-assist/frontend/observance-calendar.mjs',

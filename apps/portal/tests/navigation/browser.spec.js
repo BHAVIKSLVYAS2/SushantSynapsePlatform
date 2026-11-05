@@ -12,7 +12,7 @@ test('home, guide, preview and browser traversal preserve the app hierarchy',asy
  await page.setViewportSize({width:360,height:740});
  await page.goto(base+'/');await page.locator('a[href="/ritual-assist"]').first().click();
  await expect(page.locator('#guide-list button')).not.toHaveCount(0);
- await page.locator('#search').fill('Ganesh');await page.locator('[data-guide="ganesh-puja"]').click();
+ await page.locator('#library>summary').click();await page.locator('#search').fill('Ganesh');await page.locator('[data-guide="ganesh-puja"]').click();
  await expect(page).toHaveURL(/guide=ganesh-puja/);
  await page.locator('#print-checklist').click();await expect(page.locator('#checklist-preview')).toBeVisible();
  await page.goBack();await expect(page.locator('#checklist-preview')).not.toBeVisible();await expect(page).toHaveURL(/guide=ganesh-puja/);

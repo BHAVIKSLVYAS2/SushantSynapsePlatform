@@ -14,8 +14,9 @@ export function mountDashboard(container,result,language){
  const exportsOpen=container.querySelector('.remembrance-downloads')?.open||false;
  container.replaceChildren();container.classList.add('simple-remembrance');
  const form=document.getElementById('calendar-form');let inputs=form.querySelector('.input-details');
- if(!inputs){inputs=el('details',undefined,'input-details');inputs.append(el('summary'));for(const id of ['fields','calculate','privacy'])inputs.append(document.getElementById(id));form.append(inputs);}
- inputs.querySelector('summary').textContent=`${format(result.data.date)} · ${result.data.time} IST · ${result.data.location.name} — ${copy('Edit details','विवरण बदलें')}`;inputs.open=false;
+ if(!inputs){inputs=el('details',undefined,'input-details');inputs.append(el('summary'));for(const id of ['fields','calculate','privacy','remembrance-memory-controls']){const part=document.getElementById(id);if(part)inputs.append(part);}form.append(inputs);}
+ const saving=form.querySelector('#remembrance-memory-controls')?.dataset.storageStatus;
+ inputs.querySelector('summary').textContent=`${format(result.data.date)} · ${result.data.time} IST · ${result.data.location.name} — ${copy('Edit details','विवरण बदलें')}${saving&&saving!=='ready'?copy(' · Browser fields not saved',' · फ़ील्ड सहेजे नहीं गए'):''}`;inputs.open=false;
  container.append(el('p',`${copy('Death tithi','मृत्यु तिथि')}: ${result.tithi?tithiLabel(result.tithi,language):copy('Confirmation required','पुष्टि आवश्यक')}`,'remembrance-summary'));
  const upcoming=calendarRows(result).filter(row=>['annual','pitru'].includes(row.kind)&&row.date&&row.date>=today).sort((a,b)=>a.date.localeCompare(b.date));
  const warnings={
