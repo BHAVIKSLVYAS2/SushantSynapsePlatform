@@ -1,5 +1,15 @@
 # Organisation licensing production cutover
 
+News saved-edition stability follow-up (2026-11-06 IST): source `b47d627` is live
+as Worker `cddf2bfc-86e1-4e23-9ad8-c55a78d77992`, retaining the compact place
+directory. Isolated committed archive; existing production config and `--keep-vars`.
+Six focused News/loading browser workflows and seven News/static checks pass.
+Live ten-story loading, three themes at three widths, three asset hashes and
+private API/health boundaries pass. Observed saved-edition shift sum falls from
+0.603 to 0.022; slow-network LCP still requires monitoring. D1/auth/organisation/
+rate-limit bindings retained; no migrations, recovery export or business/account
+writes. Full evidence and measurement limits are in the functionality ledger.
+
 Compact browser directory (2026-11-06 IST): source `1c0143a` is live as Worker
 `ba36a533-ea06-4b15-86f0-878577eee5c9`, from an isolated committed archive using
 the existing production config and `--keep-vars`. All place records/metadata

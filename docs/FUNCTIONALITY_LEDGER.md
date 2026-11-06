@@ -1,5 +1,28 @@
 # Chambers functionality ledger
 
+**News stability follow-up live (2026-11-06 IST):** Source `b47d627` is live as
+Worker `cddf2bfc-86e1-4e23-9ad8-c55a78d77992`, from an isolated committed archive
+with the existing production config and `--keep-vars`. Dry run/deploy pass:
+1,244 public assets; Worker 3,657.31 KiB / 783.48 KiB gzip. This retains the
+compact directory release and D1/auth/organisation/rate-limit bindings; no
+migrations, recovery exports or business/account writes.
+
+Live read-only Chrome shows ten saved stories, settled `aria-busy=false`, visible
+reading/footer controls and enabled date selection. All Light/Dark/Gold layouts
+at 320/390/1440px have no overflow; three asset hashes match the committed build,
+health is 200, unscoped records remain 409, and no page exceptions occur. Reviewed
+screenshot: `output/playwright/news-initial-stability-live.png`. Evidence:
+`output/playwright/news-stability-live-results.json`, `.publish/news-initial-live.log`.
+
+The same compressed-mobile diagnostic now records News shift sum **0.022 versus
+0.603** before this UI correction. Observed LCP was 3.992s for News and 4.000s for
+Matching; these single samples are variable and do not establish LCP target
+compliance or a News LCP improvement. The saved-edition layout jump is fixed;
+slow-network first-load timing remains a monitoring limit. Log:
+`.publish/news-stability-live-perf.log`. Seventeen focused browser workflows pass
+across this resumed work (eight astrology, three Ritual location, six News/loading),
+with the unit/API/runtime checks recorded below. No new full-suite claim is made.
+
 **News saved-edition loading follow-up (2026-11-06 IST; local verified):** A
 further read-only production sample exposed shift sum 0.603 when saved articles
 inserted above already-painted secondary controls/footer. News now defers those

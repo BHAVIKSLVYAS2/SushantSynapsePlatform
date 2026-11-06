@@ -12,6 +12,18 @@ introduced. Six focused Chrome workflows and seven News/static API/unit checks
 pass, including a held saved edition whose shift sum stays below 0.1. Live
 release evidence is recorded in the ledger after deployment.
 
+This fix is live from `b47d627` as Worker
+`cddf2bfc-86e1-4e23-9ad8-c55a78d77992`, retaining the compact place data. The live
+ten-story edition settles with controls available, no page exceptions and no
+overflow across Light/Dark/Gold at 320/390/1440px. Three asset hashes match the
+committed build; health and private API boundaries remain correct.
+
+The compressed-mobile diagnostic records shift sum **0.022 versus 0.603** before
+the correction. Observed LCP is 3.992s for News and 4.000s for Matching; these
+single samples vary with network/runtime conditions. This is a layout-stability
+improvement, not evidence of a News LCP improvement or field-vitals compliance.
+Cold loads under slow-network conditions remain a monitoring limit.
+
 ## Follow-up: compact offline place data
 
 The browser directory now uses a generated lossless column/dictionary format.
