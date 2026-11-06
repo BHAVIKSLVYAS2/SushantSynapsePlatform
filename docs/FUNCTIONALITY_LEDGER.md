@@ -1,5 +1,15 @@
 # Chambers functionality ledger
 
+**Black & Gold glass refinement (2026-11-06 IST; local verified):** Gold-only,
+screen-only CSS adds reflective layered surfaces, inset bevels, translucent
+blurred header/navigation, gold-lit header controls and a rounded floating mobile
+home dock with safe-area spacing. Card reflection tokens now share that depth.
+Existing Light/Dark styles and Ritual workflows remain intact. Four focused
+theme browser checks pass (320/390/1440px, six apps, exact Light/Dark restoration,
+keyboard/persistence/System/localised legacy initialisers); five static-cache
+checks pass. Mobile screenshot reviewed at `.publish/gold-theme-mobile.png`.
+Production verification follows after deployment; no business data changes.
+
 **Ritual three-section production release (2026-11-06 IST):** Source `de46393`
 is live as Worker `0af983ce-71fb-4f89-bfc4-6eea07d3124b`, deployed from an isolated
 committed archive with the existing production config and `--keep-vars`. Thirteen
