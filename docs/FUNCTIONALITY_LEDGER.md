@@ -1,5 +1,14 @@
 # Chambers functionality ledger
 
+**Silver / footer release live (2026-11-06 IST):** Source `8c8e884` is deployed
+as Worker `b9bb97ad-7ddd-4f8e-aab4-596376d9aa9c`. Built and deployed from an
+isolated committed archive with the existing production config and `--keep-vars`.
+Shared theme JS/CSS SHA256 hashes match the build; live homepage contains exactly
+three footer destinations; health 200. Syntax checks passed before commit.
+Full tests/browser visual verification remain deferred. No database changes or
+migrations. Deployment log: `.publish/silver-deploy.log`. The local status below
+is the historical implementation checkpoint superseded by this release.
+
 **Silver theme / footer follow-up — local implementation (2026-11-06 IST):**
 Shared theme picker adds opt-in Silver: cool metallic glass, chrome reflections,
 token-based app surfaces, and English/Hindi/Gujarati labels. Legacy controllers

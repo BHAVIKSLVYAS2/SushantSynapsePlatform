@@ -1,5 +1,12 @@
 # Organisation licensing production cutover
 
+Silver theme / footer release (2026-11-06 IST): source `8c8e884` is live as Worker
+`b9bb97ad-7ddd-4f8e-aab4-596376d9aa9c`. Isolated committed archive; existing
+production config and `--keep-vars`; D1/auth/organisation bindings preserved.
+Build/deploy succeeded, shared theme asset hashes match, homepage has three
+footer destinations and health returns 200. Full browser/regression checks remain
+deferred. No database changes or migrations. Evidence is in the ledger.
+
 Combined Ritual Assist / Moment Studio release (2026-11-06 IST): source
 `2dfb69a` is live as Worker `18398433-9d59-44dc-9a77-be511f3cd6fc`.
 Isolated committed archive; existing config and `--keep-vars`; preserved
