@@ -43,12 +43,21 @@ Object.assign(words.hi,{festivals:'हिन्दू त्योहार',una
  const dateText=date=>new Intl.DateTimeFormat(language()==='hi'?'hi-IN':'en-IN',{dateStyle:'long',timeZone:'Asia/Kolkata'}).format(new Date(date+'T12:00:00+05:30'));
  const timeText=value=>new Intl.DateTimeFormat(language()==='hi'?'hi-IN':'en-IN',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Kolkata',hour12:true}).format(new Date(Math.round(value/60000)*60000))+' IST';
  const button=(text,fn,cls)=>{const b=node('button',text,cls);b.type='button';b.onclick=fn;return b;};
+ const vratControl=node('div',undefined,'observance-vrat-control'),vratLabel=node('span'),vratMenu=node('details',undefined,'observance-vrat-menu'),vratSummary=node('summary'),vratChoices=node('div',undefined,'observance-vrat-choices'),vratError=node('p',undefined,'fine');
+ vratLabel.id='observance-vrat-label';vratMenu.id='observance-vrats';vratSummary.setAttribute('aria-describedby',vratLabel.id);vratError.setAttribute('role','alert');vratError.hidden=true;vratMenu.append(vratSummary,vratChoices);vratControl.append(vratLabel,vratMenu,vratError);fields.append(vratControl);
+ function updateVratSummary(){const names=[...selected].map(key=>observanceTypes[key][language()]);if(showFestivals)names.push(w('festivals'));vratSummary.textContent=selected.size===dateTypeKeys.length?(language()==='hi'?'सभी व्रत':'All vrats')+(showFestivals?' + '+w('festivals'):''):names.length?names.slice(0,2).join(', ')+(names.length>2?' +'+(names.length-2):''):(language()==='hi'?'व्रत चुनें':'Select vrats');vratSummary.title=names.join(', ');vratError.hidden=names.length>0;}
+ function selectionChanged(){updateVratSummary();if(result&&!controller)render();}
+ function drawVratControl(){vratLabel.textContent=language()==='hi'?'व्रत':'Vrats';vratChoices.replaceChildren();const actions=node('div',undefined,'observance-vrat-actions');actions.append(button(w('all'),()=>{selected=new Set(dateTypeKeys);showFestivals=true;drawVratControl();selectionChanged();}),button(w('none'),()=>{selected.clear();showFestivals=false;drawVratControl();selectionChanged();}));vratChoices.append(actions);
+  const list=node('fieldset');list.append(node('legend',language()==='hi'?'दिखाने वाले व्रत चुनें':'Choose vrats to include'));
+  for(const [key,type]of [...Object.entries(observanceTypes),['festival',{en:words.en.festivals,hi:words.hi.festivals}]]){const label=node('label'),input=node('input');input.type='checkbox';input.dataset.observanceFilter=key;input.checked=key==='festival'?showFestivals:selected.has(key);input.onchange=()=>{if(key==='festival')showFestivals=input.checked;else if(input.checked)selected.add(key);else selected.delete(key);selectionChanged();};label.append(input,node('span',type[language()]));list.append(label);}vratChoices.append(list,button(language()==='hi'?'हो गया':'Done',()=>{vratMenu.open=false;vratSummary.focus();}));updateVratSummary();}
+ vratMenu.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();vratMenu.open=false;vratSummary.focus();}});
  function stop(){revision++;controller?.abort();controller=null;submit.disabled=false;form.removeAttribute('aria-busy');}
  function clear(){stop();result=null;output.replaceChildren();status.textContent=w('empty');}
  function activate(value,updateUrl=true){view=value;panel.hidden=view!=='dates';for(const part of original)part.hidden=view==='dates';workspace.update(view,language());$('headline').textContent=view==='dates'?w('title'):(language()==='hi'?'श्राद्ध और बरसी कैलेंडर':'Shraddha & Barsi Calendar');$('description').textContent=w('description');document.title=$('headline').textContent+' · Ritual Assist';if(view==='remembrance'){stop();locationPicker?.cancel();}if(updateUrl){const url=new URL(location.href);url.searchParams.set('view',view);if(url.href!==location.href)history.pushState(history.state,'',url);}}
  addEventListener('popstate',()=>activate(new URL(location.href).searchParams.get('view')==='remembrance'?'remembrance':'dates',false));
  datesButton.onclick=()=>activate('dates');remembranceButton.onclick=()=>activate('remembrance');
  function setup(){
+  drawVratControl();
   const city=locationPicker?locationPicker.value:inputMemory.values.placeId||'';locationPicker?.destroy();locationPicker=mountCalendarLocation(cityContainer,{language:language(),value:city,onChange:()=>{rememberInputs();clear();},mode:'dates',prefix:'observance-location',detectId:'observance-use-location'});
   optionsTitle.textContent=language()==='hi'?'कैलेंडर सेटिंग (वैकल्पिक)':'Calendar settings (optional)';note.textContent=w('scope');formHeading.textContent=language()==='hi'?'स्थान और महीना':'Location & month';month.label.textContent=w('month');calendar.label.textContent=w('calendar');tradition.label.textContent=w('tradition');
   const prior=calendar.input.options.length?calendar.input.value:inputMemory.values.calendar||'';calendar.input.replaceChildren(...[['',w('automatic')],['amanta',w('amanta')],['purnimanta',w('purnimanta')]].map(([value,label])=>new Option(label,value)));calendar.input.value=prior;
@@ -57,6 +66,7 @@ Object.assign(words.hi,{festivals:'हिन्दू त्योहार',una
   activate(view,false);if(result)render();else status.textContent=w('empty');refreshMemoryCopy();
  }
  async function load({next=false}={}){
+  if(!selected.size&&!showFestivals){vratError.textContent=language()==='hi'?'कम से कम एक व्रत चुनें।':'Choose at least one vrat.';vratError.hidden=false;vratMenu.open=true;vratSummary.focus();return;}vratMenu.open=false;
   rememberInputs();if(!form.reportValidity())return;
   stop();const token=revision,request=new AbortController();controller=request;submit.disabled=true;form.setAttribute('aria-busy','true');status.textContent=w('busy');output.replaceChildren();result=null;
   const timer=setTimeout(()=>request.abort(),25000);
@@ -104,13 +114,6 @@ Object.assign(words.hi,{festivals:'हिन्दू त्योहार',una
   const prev=button('← '+w('previous'),()=>move(-1)),following=button(w('following')+' →',()=>move(1));prev.disabled=result.month<='2025-01';following.disabled=result.month>='2030-12';
   const today=button(w('reset'),()=>{month.input.value=localDate(Date.now()).slice(0,7);void load();}),next=button(w('next'),()=>{month.input.value=localDate(Date.now()).slice(0,7);display='list';void load({next:true});});next.disabled=!selected.size&&!showFestivals;
   toolbar.append(prev,today,following,next);output.append(toolbar);
-  const filters=node('fieldset',undefined,'observance-filters'),legend=node('legend',w('filter'));filters.append(legend);
-  for(const [key,type]of Object.entries(observanceTypes)){const label=node('label'),input=node('input');input.type='checkbox';input.checked=selected.has(key);input.dataset.observanceFilter=key;input.onchange=()=>{if(input.checked)selected.add(key);else selected.delete(key);render();output.querySelector('[data-observance-filter='+key+']')?.focus();};label.append(input,document.createTextNode(type[language()]));filters.append(label);}
-  const festivalLabel=node('label'),festivalCheck=node('input');festivalCheck.type='checkbox';festivalCheck.checked=showFestivals;festivalCheck.dataset.observanceFilter='festival';festivalCheck.onchange=()=>{showFestivals=festivalCheck.checked;render();output.querySelector('[data-observance-filter=festival]')?.focus();};festivalLabel.append(festivalCheck,document.createTextNode(w('festivals')));filters.append(festivalLabel);
-  const filterActions=node('div',undefined,'observance-toolbar');filterActions.append(button(w('all'),()=>{selected=new Set(dateTypeKeys);showFestivals=true;render();}),button(w('none'),()=>{selected.clear();showFestivals=false;render();}));filters.append(filterActions);
-  const quickFilters=node('div',undefined,'observance-quick-filters');quickFilters.setAttribute('role','group');quickFilters.setAttribute('aria-label',language()==='hi'?'व्रत का त्वरित चयन':'Quick vrat filters');
-  for(const key of ['all','ekadashi','pradosh','purnima','amavasya']){const group=key==='all'?dateTypeKeys:key==='purnima'?['purnima','purnima-vrat']:[key],label=key==='all'?(language()==='hi'?'सभी व्रत':'All vrats'):observanceTypes[key][language()],chip=button(label,()=>{selected=new Set(group);showFestivals=false;render();output.querySelector('[data-quick-vrat="'+key+'"]')?.focus();});chip.dataset.quickVrat=key;chip.setAttribute('aria-pressed',String(!showFestivals&&selected.size===group.length&&group.every(type=>selected.has(type))));quickFilters.append(chip);}output.append(quickFilters);
-  const moreFilters=node('details',undefined,'observance-more-filters');moreFilters.append(node('summary',language()==='hi'?'अन्य तिथियाँ और त्योहार चुनें':'More dates & festivals'),filters);output.append(moreFilters);
   const toggles=node('div',undefined,'observance-toolbar');for(const mode of ['list','grid']){const b=button(w(mode),()=>{display=mode;render();});b.setAttribute('aria-pressed',String(display===mode));toggles.append(b);}output.append(toggles);
   const events=result.events.filter(isSelected),list=node('div',undefined,'observance-list'),todayDate=localDate(Date.now());
   const monthEvents=[...events].sort((a,b)=>a.date.localeCompare(b.date)),upcoming=monthEvents.filter(event=>event.date>=todayDate),visibleEvents=display==='grid'?monthEvents:upcoming;
@@ -170,6 +173,6 @@ Object.assign(words.hi,{festivals:'हिन्दू त्योहार',una
   if(!shareEvents.length)sharePanel.append(node('p',cardCopy.empty,'fine'));
   output.append(sharePanel);
  }
- for(const event of ['input','change'])form.addEventListener(event,()=>{rememberInputs();clear();});form.onsubmit=event=>{event.preventDefault();void load();};$('language').addEventListener('change',setup);addEventListener('pagehide',()=>{locationPicker?.cancel();clear();});
+ for(const event of ['input','change'])form.addEventListener(event,event=>{if(vratControl.contains(event.target))return;rememberInputs();clear();});form.onsubmit=event=>{event.preventDefault();void load();};$('language').addEventListener('change',setup);addEventListener('pagehide',()=>{locationPicker?.cancel();clear();});
  setup();
 }

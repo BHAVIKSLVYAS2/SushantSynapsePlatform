@@ -1,5 +1,17 @@
 # Chambers functionality ledger
 
+**Vrat selection before calculation (2026-11-07 IST):** City, Month and Vrats are
+the main form controls. Added an accessible checkbox dropdown with Select all,
+Clear, Done and a compact selected-name/count summary. Existing date and festival
+choices remain. Removed duplicate result filter chips/disclosure. Selection is
+available before calculation and changes filter an already calculated month
+without clearing it; city/month changes retain the recalculation requirement.
+At least one selection is required. Calendar/PNG exports use the current
+selection through existing eligibility rules; calculation engine/API unchanged.
+Location placeholders explain the detect icon, now a visibly bordered, filled
+44px inline button. English/Hindi supported. Syntax reviewed; no tests run at
+the user's request. Production completion will be recorded after deployment.
+
 **Ritual inline location controls deployed (2026-11-07 IST):** Source `de8e8e2`
 is live as Worker `33e45d37-0d04-4c11-bc16-aae268b6546a`. Includes the inline
 location-detection icon and help disclosure for both Vrat and Shraddh. Isolated
