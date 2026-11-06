@@ -1,5 +1,14 @@
 # Organisation licensing production cutover
 
+Single result-image sharing deployed (2026-11-07 IST): source `a359c37`, Worker
+`bd41dd66-53b8-449d-9e89-79fd79fe9450`. Build/deploy succeeded from an isolated
+committed archive with production config and --keep-vars. Existing D1/auth and
+organisation settings retained; no database changes. All 39 Ritual browser cases
+passed across the initial run and targeted reruns; focused sharing suite 4/4.
+The wider platform sweep remains incomplete after 71 passes/3 failures; see the
+functionality ledger for exact test evidence and limits. Deployment log:
+`.publish/ritual-share-deploy.log`.
+
 Shraddh details layout deployed (2026-11-07 IST): source `79ee6e0`, Worker
 `d5391fd7-79ba-4e06-9e92-6ec6f0d52842`. Clear Edit details action, compact
 left/right calculation details, and paired mobile Barsi/Shraddh cards are live.

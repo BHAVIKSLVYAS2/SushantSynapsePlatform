@@ -1,5 +1,14 @@
 # Chambers functionality ledger
 
+Single result-image sharing deployed (2026-11-07 IST): source `a359c37`, Worker
+`bd41dd66-53b8-449d-9e89-79fd79fe9450`. Build/deploy succeeded from an isolated
+committed archive with production config and --keep-vars. Existing D1/auth and
+organisation settings retained; no database changes. All 39 Ritual browser cases
+passed across the initial run and targeted reruns; focused sharing suite 4/4.
+The wider platform sweep remains incomplete after 71 passes/3 failures; see the
+functionality ledger for exact test evidence and limits. Deployment log:
+`.publish/ritual-share-deploy.log`.
+
 **Single result-image sharing - local (2026-11-07 IST):** Vrat and Shraddh now
 offer one Share result button after nonempty results, without export disclosures,
 theme selection or preview controls. Vrat shares selected visible dates (Up Next
