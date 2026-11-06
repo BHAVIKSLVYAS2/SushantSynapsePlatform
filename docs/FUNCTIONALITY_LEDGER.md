@@ -1,5 +1,17 @@
 # Chambers functionality ledger
 
+**Moment Studio certificate emblems (2026-11-06 IST):** Replaced all certificate
+star motifs with thin, subtly embossed circular laurel seals on Laurel/Nocturne.
+Removed the Summit emblem and Jubilee/Fun Card ring emblem; small celebration
+accents are dots. Uploaded centre issuer logos suppress the top formal seal.
+Issuer logos, recipient/layout, signatures, donation wording, platform branding
+and disclaimer remain. Preview, PNG and PDF use the same renderer. Removed unused
+star/trophy drawing helpers; template descriptions updated. Syntax/whitespace
+checks pass and all five designs rendered and visually reviewed locally with
+isolated SQLite: `output/playwright/certificate-laurel-seals.png`, log
+`.publish/certificate-seals-review.log`. Full regression remains deferred.
+Production deployment completion will be recorded below.
+
 **Picksy live (2026-11-06 IST):** Source `22455bc` is deployed as Worker
 `19f813bd-af41-477c-83db-31345159ac07`. Includes the rename, approved punchline,
 Picksy Pulse and mobile workflow changes described below. Isolated committed
