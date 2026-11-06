@@ -19,6 +19,19 @@ test.afterEach(async()=>{
   if(dir)fs.rmSync(dir,{recursive:true,force:true});
 });
 
+test('slow initial saved edition avoids large layout shifts and releases secondary controls',async({page})=>{
+ execFileSync(process.execPath,[path.join(__dirname,'seed-fixtures.js'),dir]);
+ let release,arrived;const held=new Promise(resolve=>release=resolve),arrival=new Promise(resolve=>arrived=resolve);
+ await page.route('**/api/news/editions/2025-01-03',async route=>{arrived();await held;await route.continue();});
+ await page.addInitScript(()=>{window.__newsShift=0;new PerformanceObserver(list=>{for(const e of list.getEntries())if(!e.hadRecentInput)window.__newsShift+=e.value;}).observe({type:'layout-shift',buffered:true});});
+ try{
+  await page.setViewportSize({width:390,height:844});await page.goto(base+'/news?date=2025-01-03');await arrival;
+  await expect(page.locator('.masthead h1')).toBeVisible();await expect(page.locator('#reading-mode')).toBeVisible();await expect(page.locator('.synapse-legal-footer')).toBeHidden();
+  await page.waitForTimeout(200);release();await expect(page.locator('.saved-story')).toHaveCount(10);await expect(page.locator('#saved-reader')).toHaveAttribute('aria-busy','false');await expect(page.locator('.synapse-legal-footer')).toBeVisible();await expect(page.locator('.edition-tools')).toBeVisible();
+  await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));expect(await page.evaluate(()=>window.__newsShift)).toBeLessThan(.1);
+ }finally{release();}
+});
+
 test('Newsroom search combines with topics, preserves print and reading controls and fits phones',async({page})=>{
  execFileSync(process.execPath,[path.join(__dirname,'seed-fixtures.js'),dir]);
  const original=await(await page.request.get(base+'/api/news/editions/2025-01-03')).json(),edition=structuredClone(original);

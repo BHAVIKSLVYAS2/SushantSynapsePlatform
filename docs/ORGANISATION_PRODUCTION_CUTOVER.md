@@ -1,5 +1,14 @@
 # Organisation licensing production cutover
 
+Compact browser directory (2026-11-06 IST): source `1c0143a` is live as Worker
+`ba36a533-ea06-4b15-86f0-878577eee5c9`, from an isolated committed archive using
+the existing production config and `--keep-vars`. All place records/metadata
+remain exact. Node keeps canonical data; browser and Worker builds select the
+lossless compact mapping. Actual workerd normalization/search parity and live
+four-route/location/privacy/hash checks pass. Worker payload is 3,657.31 KiB /
+783.48 KiB gzip. D1/auth/organisation/rate-limit bindings retained; no migrations
+or business/account writes. Evidence and measurement limits are in the ledger.
+
 Launch hardening release (2026-11-06 IST): source `bcccf29` is live as Worker
 `8bd34e7f-fa7f-428a-b7fb-ba6e8ef0a311`, deployed from its isolated committed
 archive with the existing production config and `--keep-vars`. Dependency

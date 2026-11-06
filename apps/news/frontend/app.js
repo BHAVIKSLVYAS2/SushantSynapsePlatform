@@ -15,6 +15,7 @@ let deviceMode=false;
 const deviceEditions=new Map();
 function useDevice(){
   deviceMode=true;
+  document.body.classList.remove('news-initial-loading');
   document.querySelector('#device-note').hidden=false;
   document.querySelector('.reading-nav span').textContent='Prepared on this device';
   document.querySelector('#archive-note').textContent='Shared archives are unavailable. Choose a date to prepare a temporary edition.';
@@ -28,6 +29,8 @@ async function backendRequest(url,options={}){
   }catch{useDevice();return null;}
 }
 async function load(){
+  document.body.classList.add('news-initial-loading');
+  document.querySelector('#saved-reader').setAttribute('aria-busy','true');
   document.querySelector('#retry').hidden=true;
   document.querySelector('#gate-message').textContent='Loading newspaper…';
   try{
@@ -43,6 +46,7 @@ async function load(){
     document.querySelector('#fetch-note').textContent=status.fetchAvailable?'':'Newspaper generation is temporarily unavailable. Please retry shortly.';
     if(status.fetchAvailable)await setupFetching(status.today);
   }catch(error){document.querySelector('#gate-message').textContent=error.message;document.querySelector('#retry').hidden=false;}
+  finally{document.body.classList.remove('news-initial-loading');document.querySelector('#saved-reader').setAttribute('aria-busy','false');}
 }
 document.querySelector('#retry').addEventListener('click',load);
 load();

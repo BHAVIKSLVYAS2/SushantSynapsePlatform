@@ -1,5 +1,17 @@
 # Platform launch audit — 6 November 2026
 
+## Follow-up: saved News edition loading
+
+The resumed compressed-production check found a separate shift sum of 0.603
+when a saved edition pushed already-painted secondary controls down the page.
+News now delays those panels' first paint until the initial reader is ready.
+The heading and reading-mode button stay available; geometry, existing content
+order and print layout are retained. Offline/device fallback releases controls
+before any remaining archive read finishes. No extra request or fixed delay is
+introduced. Six focused Chrome workflows and seven News/static API/unit checks
+pass, including a held saved edition whose shift sum stays below 0.1. Live
+release evidence is recorded in the ledger after deployment.
+
 ## Follow-up: compact offline place data
 
 The browser directory now uses a generated lossless column/dictionary format.
@@ -21,6 +33,13 @@ three Ritual location workflows pass. The isolated actual Worker parity check
 passes with zero difference across 329 numbers. An initial combined check had a
 consumed-response-body error; the isolated rerun passes without code changes.
 Deployment and compressed-production evidence are recorded in the ledger.
+
+This compaction was deployed from source `1c0143a` as Worker
+`ba36a533-ea06-4b15-86f0-878577eee5c9`. Four live astrology routes, ambiguous city
+search/keyboard choice, privacy, Ritual sections and three committed asset hashes
+pass. A fresh compressed mobile sample shows Matching LCP 4.332s → 3.964s with
+shift sum unchanged at 0.018. Actual workerd with the compact browser mapping
+also matches sampled records, normalization, search and nearest-city results.
 
 Scope: the repository and existing organisation-enabled Workers/D1 release.
 Checks use disposable local databases. Production verification is read-only;

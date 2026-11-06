@@ -1,5 +1,37 @@
 # Chambers functionality ledger
 
+**News saved-edition loading follow-up (2026-11-06 IST; local verified):** A
+further read-only production sample exposed shift sum 0.603 when saved articles
+inserted above already-painted secondary controls/footer. News now defers those
+secondary panels' first paint until initial data settles, retaining geometry,
+the heading and reading-mode control. `aria-busy` brackets the initial reader;
+finally/error paths restore controls, and device fallback restores them before
+pending archive reads finish. No artificial delay, DOM reorder, backend/source/
+publication, print or stored-edition changes. Six Chrome workflows pass, including
+a held saved edition with shift sum below 0.1, pending/offline usability, search,
+printing, publishing and retry. Seven News/static unit/API checks pass. Evidence:
+`.publish/news-stability-final.log`, `.publish/news-stability-node.log`. Live
+verification follows deployment.
+
+**Compact directory production release (2026-11-06 IST):** Source `1c0143a`
+is live as Worker `ba36a533-ea06-4b15-86f0-878577eee5c9`, deployed from its
+isolated committed archive with the existing production config and `--keep-vars`.
+Dry run passes: 1,244 public assets; Worker 3,657.31 KiB / 783.48 KiB gzip. Existing
+D1/auth/organisation/rate-limit bindings retained; no migrations or business/
+account writes. Actual workerd using the compact browser mapping matches 28
+sampled records, birth normalization, search and nearest-city lookup exactly.
+
+Live Chrome verifies all four astrology routes (200, no mobile overflow,
+no-referrer), Rampur's 12 suggestions and keyboard selection, intact Ritual
+sections, health 200, unscoped records 409, three exact committed asset hashes
+and zero page exceptions. The first city fill was blocked by the existing
+session-consent control; the synthetic test passes after satisfying that
+prerequisite. Single compressed mobile Matching sample: LCP 4.332s to 3.964s,
+shift sum remains 0.018, largest chunk decoded 1,400,416 to 726,990 bytes.
+Diagnostic samples are not field-vitals certification. Logs:
+`.publish/compact-directory-live.log`, `.publish/compact-live-{before,after}.log`;
+reviewed screenshot `output/playwright/compact-directory-live-matching.png`.
+
 **Lossless browser place-directory compaction (2026-11-06 IST; local verified):**
 All 3,786 canonical places, aliases, coordinates, field order and provenance are
 preserved exactly. Node keeps the original JSON; browser builds use a generated
