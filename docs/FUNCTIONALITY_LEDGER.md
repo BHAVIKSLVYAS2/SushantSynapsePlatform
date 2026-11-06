@@ -1,5 +1,12 @@
 # Chambers functionality ledger
 
+**Improved Light live (2026-11-06 IST):** Source `cbc57fb` is deployed as Worker
+`39dc7099-bcb5-403d-a350-dd3aa5a12ab0`. Isolated committed archive, existing
+production configuration and `--keep-vars`; no database changes. Build/deploy
+succeeded, live theme JS/CSS hashes match the committed build and health is 200.
+Syntax/whitespace checks passed; full visual/regression checks remain deferred.
+Log: `.publish/improved-light-deploy.log`. Supersedes local status below.
+
 **Improved Light theme — local implementation (2026-11-06 IST):** Added a separate
 white-based picker option with dark text, restrained blue actions, neutral borders,
 soft card shadows and clearly filled footer selection. Existing Light remains.
