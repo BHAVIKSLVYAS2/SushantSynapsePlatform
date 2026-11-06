@@ -1,5 +1,14 @@
 # Chambers functionality ledger
 
+**Additional black themes (2026-11-06 IST):** Shared picker adds Black & Diamond,
+Glossy Black and Deep Black alongside existing palettes. Diamond uses cool
+faceted glass; Glossy uses neutral reflected black; Deep uses matte near-black
+surfaces. They reuse shared metallic token mappings, app surfaces and visible
+footer selection. English/Hindi/Gujarati names, saved browser preference and
+legacy dark projection are supported. Print/export palette rules remain separate.
+Syntax/whitespace checks pass. Full visual/regression checks remain deferred;
+production completion will be recorded after deployment.
+
 **Confessions removed and live data purged (2026-11-06 IST):** Source `0f520b3`
 is deployed as Worker `dfa69c85-5d53-47b0-8579-3b339f06f637` from an isolated
 committed archive with existing production config/variables preserved. Build
