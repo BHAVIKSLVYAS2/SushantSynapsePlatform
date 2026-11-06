@@ -6,7 +6,7 @@ test('three straightforward sections restore the gold icon and keep checklist wo
  await page.locator('#view-remembrance').click();await expect(page.locator('#date')).toBeVisible();await expect(page.locator('#view-remembrance')).toHaveAttribute('aria-current','page');expect((await page.locator('#calculate').boundingBox()).y).toBeLessThan(800);await page.screenshot({path:'.publish/ritual-tabs-shraddh.png',fullPage:true});
  await page.locator('#view-checklist').click();await expect(page.locator('#ritual-select')).toBeVisible();await page.locator('#ritual-select').selectOption('ganesh-puja');await expect(page.locator('#guide-title')).toContainText('Ganesh');const item=page.locator('input[data-item]').first(),id=await item.getAttribute('data-item');await item.check();await expect(page.locator('.preparation-summary')).toHaveAttribute('open','');await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'.publish/ritual-tabs-checklist.png',fullPage:true});
  await page.locator('#view-dates').click();await expect(page.locator('#observance-form')).toBeVisible();await page.locator('#view-checklist').click();await expect(page.locator('#ritual-select')).toHaveValue('ganesh-puja');await expect(page.locator('input[data-item='+id+']')).toBeChecked();
- for(const theme of ['light','dark','gold']){await require('../../../tests/browser-theme').setTheme(page,theme);for(const width of [320,390,1440]){await page.setViewportSize({width,height:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);for(const tab of await page.locator('[data-ritual-section]').all())expect((await tab.boundingBox()).height).toBeGreaterThanOrEqual(44);}}
+ for(const theme of ['light','dark','deep']){await require('../../../tests/browser-theme').setTheme(page,theme);for(const width of [320,390,1440]){await page.setViewportSize({width,height:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);for(const tab of await page.locator('[data-ritual-section]').all())expect((await tab.boundingBox()).height).toBeGreaterThanOrEqual(44);}}
 });
 
 test('Ritual Assist opens calendar generation first and keeps guides and legacy links reachable',async({page})=>{
@@ -328,7 +328,7 @@ test('Shraddha/Barsi selects a year for compact PNG sharing and retains the comp
   expect(await canvas.evaluate(c=>c.height)).toBeLessThan(16000);
  }
  const rangeDownload=page.waitForEvent('download');await page.getByRole('button',{name:'Download period PNG',exact:true}).click();expect((await rangeDownload).suggestedFilename()).toBe('ritual-assist-shraddha-barsi-next-10.png');
- for(const theme of ['light','dark','gold']){await require('../../../tests/browser-theme').setTheme(page,theme);for(const width of [320,390,1440]){await page.setViewportSize({width,height:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}}
+ for(const theme of ['light','dark','deep']){await require('../../../tests/browser-theme').setTheme(page,theme);for(const width of [320,390,1440]){await page.setViewportSize({width,height:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}}
  await page.setViewportSize({width:390,height:844});await page.locator('#remembrance-year').scrollIntoViewIfNeeded();await page.screenshot({path:'test-results/shraddha-range-mobile-gold.png'});
  await page.locator('#remembrance-year').selectOption('2027');
  await expect(canvas).toHaveAttribute('aria-label',/· 2027 ·/);

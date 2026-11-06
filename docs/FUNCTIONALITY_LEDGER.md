@@ -1,5 +1,30 @@
 # Chambers functionality ledger
 
+**Final theme simplification — local implementation (2026-11-06 IST):** Removed
+Silver and Black & Diamond picker options, labels, swatches and dedicated styles.
+Only Light, Dark and Deep Black remain. Deep Black keeps its shared token mapping
+without depending on removed metallic palettes; footer selection stays visible.
+Saved Silver/Diamond choices fall back to Dark, alongside Gold/Glossy. Previous
+pending removal entries describe intermediate checkpoints. Syntax and whitespace
+checks pass; full tests deferred. All theme removals remain uncommitted/undeployed.
+
+**Theme simplification — local implementation (2026-11-06 IST):** In addition
+to the pending Black & Gold removal, removed Glossy Black, Improved Light (the
+white-based theme) and System. Picker now offers Light, Dark, Silver, Black &
+Diamond and Deep Black. Removed obsolete palette/swatch/localised picker code
+and OS-following subscription. Saved Gold/Glossy preferences resolve to Dark;
+saved Improved Light/System and unknown preferences resolve to Light. Remaining
+custom themes keep their legacy dark projection. Existing checks updated for
+five choices; full tests remain deferred. Not committed or deployed yet.
+
+**Black & Gold removal — local implementation (2026-11-06 IST):** Removed the
+picker option, translated labels, swatch and all Gold-only palette/glass CSS.
+Previously saved `gold` preferences resolve to ordinary Dark through a small
+compatibility mapping; no Gold styling remains. Retained themes and shared
+semantic colour tokens are unchanged. Existing theme checks now exercise Silver
+instead of Gold. Syntax/whitespace checks pass; full tests remain deferred.
+Not committed or deployed yet. Historical release entries below remain history.
+
 **Improved Light live (2026-11-06 IST):** Source `cbc57fb` is deployed as Worker
 `39dc7099-bcb5-403d-a350-dd3aa5a12ab0`. Isolated committed archive, existing
 production configuration and `--keep-vars`; no database changes. Build/deploy
