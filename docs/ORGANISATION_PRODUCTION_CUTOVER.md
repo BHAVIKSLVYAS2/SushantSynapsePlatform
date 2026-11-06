@@ -1,5 +1,11 @@
 # Organisation licensing production cutover
 
+Take a Break icon/border fixes (2026-11-06 IST): source `f3891f7`, Worker
+`7f29623a-4878-4761-b6d5-3476a2bcfd6b`, is live. Copilot's three-theme changes
+retained. Isolated archive, existing production config and `--keep-vars`;
+D1/auth/organisation settings preserved. Build/deploy succeeded; no tests run
+at the user's request and no production database changes. Evidence in ledger.
+
 Three-theme parity release (2026-11-06 IST): source `c5f7b7b`, Worker
 `0403febd-f20d-476d-b960-eecdb54cd088`, is live. Deployed with the existing
 Free production configuration and `--keep-vars`; D1/auth/organisation bindings

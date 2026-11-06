@@ -1,5 +1,14 @@
 # Chambers functionality ledger
 
+**Take a Break fixes deployed (2026-11-06 IST):** Source `f3891f7` is live as
+Worker `7f29623a-4878-4761-b6d5-3476a2bcfd6b`. Preserves Copilot's three-theme
+work and includes the pending Deep Black icon adapter fix plus the solid Crack
+the Code outer border in every theme. Isolated committed archive, existing
+production configuration and `--keep-vars`; D1/auth/organisation settings intact.
+Build/deploy succeeded (1,237 public assets). No tests were run for this release
+at the user's explicit request; earlier local visual evidence is recorded below.
+No production database changes. Log: `.publish/break-icons-deploy.log`.
+
 **Take a Break continuation — local (2026-11-06 IST):** Preserved Copilot's
 committed three-theme changes and its pending Deep Black adapter fix/tests.
 Local Chrome confirms all seven activity SVGs resolve visible fills/strokes in
