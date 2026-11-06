@@ -1,5 +1,49 @@
 # Chambers functionality ledger
 
+**Single result-image sharing - local (2026-11-07 IST):** Vrat and Shraddh now
+offer one Share result button after nonempty results, without export disclosures,
+theme selection or preview controls. Vrat shares selected visible dates (Up Next
+or the selected month, including past/candidate rows with confirmation labels).
+Shraddh shares the active first-year or selected year/2/5/10-year period using the
+existing ivory card renderer. A shared app-owned helper prepares PNG files before
+the tap to retain mobile user activation, opens native file sharing when supported,
+and downloads the image otherwise. Cancellation is quiet; changing inputs removes
+stale actions. Empty result scopes hide the action. Removed the PDF/text/reminder
+and preparation-pack controls from this sharing area; underlying export modules
+remain available for separate future calendar work. New helper is explicitly in
+the public asset allowlist. Pending API and full browser suites are being run;
+release verification and deployment evidence will be recorded below.
+
+Verification for this release: the 612-test API/unit sweep initially passed 607
+and failed 5. Isolated reruns passed the booking/D1 and two Samaj failures;
+two stale expectations (catalogue count after Confessions removal and the already
+public synthetic preview script) were corrected, with the 11-test rerun passing.
+The full Ritual browser run initially passed 32/39; obsolete export/filter/copy
+selectors were brought up to date. Targeted reruns cover the failed sharing,
+details, Checklist controls, bilingual progress and timing checks; final counts
+follow below. The independent focused sharing suite passed 4/4, including valid
+PNG signatures, native sharing, cancellation, language and selected periods.
+A separate 450-test platform browser sweep was stopped after 71 passes and 3
+failures (two Admin checks and a legacy Checklist test in the Bill Splitter
+suite using removed quantity controls); remaining platform
+tests were not completed. It is not an all-green platform certification. Logs:
+`.publish/pending-api-tests.log`, `.publish/pending-api-failures-rerun.log`,
+`.publish/pending-api-final-rerun.log`, `.publish/ritual-share-all-tests.log`,
+`.publish/share-final-tests.log`, `.publish/ritual-updated-tests.log`,
+`.publish/ritual-last-tests.log`, `.publish/ritual-density-final-tests.log`,
+`.publish/pending-browser-parallel.log`. Test servers used temporary DATA_DIRs;
+production records and databases were not touched.
+Final scoped outcome: all 39 Ritual Assist browser cases passed across the
+initial run and targeted reruns (32 initial passes plus 7 successful reruns).
+The final runs are `.publish/ritual-updated-tests.log` (3 passes),
+`.publish/ritual-last-tests.log` (2 relevant passes),
+`.publish/ritual-density-final-tests.log` (1 pass) and
+`.publish/ritual-guide-verified-tests.log` (1 pass). The mobile guide toolbar
+margins were reduced from 8px to 4px to bring the first material into the phone
+viewport, retaining 44px controls. Existing help disclosures are tested through
+visible controls. No broad platform all-pass claim; stopped sweep still needs
+separate follow-up.
+
 **Remembrance result heading spacing (2026-11-07 IST):** Added 12px top margin
 to Your remembrance calendar on screen, scoped to Ritual Assist's result heading.
 Print layout unchanged. User authorised deployment without tests; no tests or

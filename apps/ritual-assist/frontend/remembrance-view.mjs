@@ -1,8 +1,6 @@
-import {localDate,tithiLabel,calendarRows,calendarText} from './panchang.mjs';
+import {localDate,tithiLabel,calendarRows} from './panchang.mjs';
 import {remembranceYears,remembranceRangeLabel} from './remembrance-range.mjs';
-import {downloadBlob} from '/shared/download.mjs';
 import {occasionTitle} from './calendar-export.mjs';
-import {mountCalendarTools} from './calendar-tools.mjs';
 import {mountShraddhaCard} from './shraddha-card.mjs?v=20261105-portrait';
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
 const button=(text,action)=>{const n=el('button',text);n.type='button';n.onclick=action;return n;};
@@ -12,7 +10,6 @@ export function mountDashboard(container,result,language){
  const format=date=>new Intl.DateTimeFormat(language==='hi'?'hi-IN':'en-IN',{dateStyle:'long',timeZone:'UTC'}).format(new Date(date+'T12:00:00Z'));
  const instant=value=>new Intl.DateTimeFormat(language==='hi'?'hi-IN':'en-IN',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit',timeZone:'Asia/Kolkata'}).format(new Date(Math.round(value/60000)*60000));
  const clock=value=>new Intl.DateTimeFormat(language==='hi'?'hi-IN':'en-IN',{hour:'numeric',minute:'2-digit',timeZone:'Asia/Kolkata'}).format(new Date(Math.round(value/60000)*60000));
- const exportsOpen=container.querySelector('.remembrance-downloads')?.open||false;
  container.replaceChildren();container.classList.add('simple-remembrance');
  container.append(el('p',`${copy('Remembrance calendar','स्मरण कैलेंडर')} · ${format(result.data.date)} · ${result.data.time} IST · ${result.data.location.name}`,'remembrance-print-meta'));
  const form=document.getElementById('calendar-form');let inputs=form.querySelector('.input-details');
@@ -82,10 +79,7 @@ export function mountDashboard(container,result,language){
  }}
  range.onchange=()=>{state.year=range.value;drawYears();container.querySelector('.shraddha-share')?.updateScope(state.tab===0?'first-year':'year',state.year);};
  drawYears();select(state.tab);
- const exports=el('details',undefined,'remembrance-downloads');exports.open=exportsOpen;exports.append(el('summary',copy('Download / share','डाउनलोड / साझा करें')));container.append(exports);
- exports.append(button(copy('Print / save PDF','प्रिन्ट / PDF सहेजें'),()=>{delete document.body.dataset.printMode;window.print();}),button(copy('Download calendar','कैलेंडर डाउनलोड करें'),()=>downloadBlob(new Blob([calendarText(result,language)],{type:'text/plain;charset=utf-8'}),'ritual-assist-shraddha-barsi-calendar.txt')));mountCalendarTools(exports,result,language);mountShraddhaCard(exports,result,language,state.year,state.tab===0?'first-year':'year');
- exports.insertBefore(exports.querySelector('.shraddha-share'),exports.children[1]);exports.insertBefore(el('p',copy('PNG follows the selected period, including past dates. PDF, text and reminder exports keep their complete-calendar scope.','PNG चुनी अवधि की बीती तारीखें भी रखता है। PDF, टेक्स्ट और रिमाइंडर निर्यात पूरे कैलेंडर के अनुसार हैं।'),'fine'),exports.children[1]);select(state.tab);
- const pack=exports.querySelector('.preparation-pack');if(pack)container.append(pack);
+ mountShraddhaCard(container,result,language,state.year,state.tab===0?'first-year':'year');
  let printDetails=[];
  const beforePrint=()=>{if(document.body.dataset.printMode!=='pack'){printDetails=[...panels[0].querySelectorAll('.remembrance-calculation')].map(node=>[node,node.open]);drawYears(true);for(const node of container.querySelectorAll('.remembrance-calculation'))node.open=true;}};
  const afterPrint=()=>{for(const [node,open]of printDetails)node.open=open;printDetails=[];drawYears();};

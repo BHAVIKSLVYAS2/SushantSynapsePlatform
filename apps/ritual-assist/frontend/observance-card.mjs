@@ -53,12 +53,14 @@ function writeText(ctx,text,x,y,{font,size=28,color=palette.ink,maxWidth,align='
  ctx.fillText(value,x,y);
 }
 
-export function renderObservanceCard(canvas,events,{month,location,language='en'}){
+export function renderObservanceCard(canvas,events,{month,location,language='en',view='list'}){
  if(!Array.isArray(events)||events.length===0)throw Error(copy[language]?.empty||copy.en.empty);
  if(!['en','hi'].includes(language))throw Error('Unsupported card language.');
- const width=1080,margin=60,rowHeight=84,headerHeight=236,footerHeight=140,height=headerHeight+events.length*rowHeight+footerHeight;
+ const width=1080,margin=60,rowHeight=events.some(event=>event.status&&event.status!=='computed')?112:84,headerHeight=236,footerHeight=140,height=headerHeight+events.length*rowHeight+footerHeight;
  canvas.width=width;
  canvas.height=height;
+ canvas.dataset.cardRows=String(events.length);canvas.dataset.cardView=view;
+ canvas.setAttribute('aria-label',`${location} · ${month} · ${events.map(event=>event.date+' · '+event.title+(event.status&&event.status!=='computed'?' · '+(language==='hi'?'पुष्टि आवश्यक':'Confirmation required'):'')).join('; ')}`);
  const ctx=canvas.getContext('2d');
  if(!ctx)throw Error('Image card rendering is unavailable in this browser.');
  const text=copy[language],locale=language==='hi'?'hi-IN':'en-IN';
@@ -76,7 +78,7 @@ export function renderObservanceCard(canvas,events,{month,location,language='en'
  ctx.fill();
  drawMandala(ctx,width-90,92,30);
  writeText(ctx,text.eyebrow,margin,88,{size:17,color:palette.gold});
- writeText(ctx,text.title,margin,143,{size:40,color:palette.paper,maxWidth:width-margin*2});
+ writeText(ctx,view==='grid'?(language==='hi'?'व्रत कैलेंडर':'Vrat calendar'):text.title,margin,143,{size:40,color:palette.paper,maxWidth:width-margin*2});
  const monthLabel=new Intl.DateTimeFormat(locale,{month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(month+'-15T12:00:00Z'));
  writeText(ctx,location,margin,190,{size:20,color:palette.paper,maxWidth:width/2-80});
  writeText(ctx,monthLabel,width-margin,190,{size:20,color:palette.gold,maxWidth:width/2-80,align:'right'});
@@ -104,6 +106,7 @@ export function renderObservanceCard(canvas,events,{month,location,language='en'
   ctx.lineTo(margin+348,y+rowHeight-28);
   ctx.stroke();
   writeText(ctx,event.title,margin+375,y+45,{size:26,color:palette.ink,maxWidth:width-margin*2-395});
+  if(event.status&&event.status!=='computed')writeText(ctx,language==='hi'?'पुष्टि आवश्यक':'Confirmation required',margin+375,y+78,{size:20,color:palette.muted,maxWidth:width-margin*2-395});
  });
  const footerY=headerHeight+events.length*rowHeight+16;
  ctx.strokeStyle=palette.line;

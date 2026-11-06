@@ -21,5 +21,5 @@ test('P17 all feature/runtime release plans fail closed with explicit unaccepted
 });
 test('P17 preview headers and static allowlist reject bodies/paths without public private-page exposure',async t=>{
  const server=await require('../infrastructure/preview-vedic-charts.cjs').createPreviewServer(0,{birth:true});t.after(()=>server.close());const response=await fetch(server.origin);assert.equal(response.status,200);assert.equal(response.headers.get('cache-control'),'no-store');assert.equal(response.headers.get('referrer-policy'),'no-referrer');assert.match(response.headers.get('content-security-policy'),/connect-src 'none'/);assert.match(response.headers.get('permissions-policy'),/geolocation=\(\)/);
- for(const route of ['/data/chambers.sqlite','/birth.mjs?date=2000','/packages/vedic/normalize.mjs','/../data/records.json'])assert.equal((await fetch(server.origin+route)).status,404);assert.equal((await fetch(server.origin,{method:'POST',body:'private-test-marker'})).status,404);
+ for(const route of ['/data/chambers.sqlite','/packages/vedic/normalize.mjs','/../data/records.json'])assert.equal((await fetch(server.origin+route)).status,404);assert.equal((await fetch(server.origin,{method:'POST',body:'private-test-marker'})).status,404);assert.equal((await fetch(server.origin+'/birth.mjs?date=2000')).status,200);
 });

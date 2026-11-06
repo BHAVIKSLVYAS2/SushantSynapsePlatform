@@ -1,11 +1,10 @@
-import {downloadBlob} from '/shared/download.mjs';
+import {mountShareResult} from './share-result.mjs';
 import {remembranceYears,remembranceRangeLabel} from './remembrance-range.mjs';
 import {drawExportBrand} from '/shared/export-brand.mjs';
 import {occasionTitle} from './calendar-export.mjs';
 import {displayedMonth,monthNames,tithiLabel} from './panchang.mjs';
 
 const fonts='"Nirmala UI","Segoe UI",Arial,sans-serif';
-const selectedYears=new WeakMap();
 const copy={
  en:{title:'Shraddha & Barsi',subtitle:'Annual remembrance dates',year:'Observance year',place:'Observance place',barsi:'BARSI / SAMVATSARI',shraddha:'PITRU PAKSHA SHRADDHA',notReady:'Not applicable yet · confirm with family tradition',candidate:'Candidate date · please confirm with family tradition',calculated:'Calculated date · confirm with a regional Panchang',unresolved:'Date requires confirmation',noOverlap:'No Aparahna overlap · confirm with a regional Panchang',tie:'Close candidate dates · confirm with a regional Panchang',near:'Near a tithi boundary · confirm with a regional Panchang',tithi:'Tithi',interval:'Tithi interval · IST',aparahna:'Aparahna candidates · IST',earlier:'Earlier this year',note:'Calculated planning dates · confirm with your family tradition and a regional Panchang.',download:'Download year PNG',share:'Share year PNG',preview:'Preview this year’s card',help:'Choose a year to view and share its Barsi and Pitru Paksha dates. The full year-by-year details remain available in the calendar and PDF.',downloaded:'Year card downloaded.',shared:'Share sheet opened for your calendar image.',cancelled:'Sharing cancelled. Your image is still available.',fallback:'Image downloaded. Attach it in your message.',empty:'Not applicable yet · date requires confirmation',status:'Share status',error:'Could not create the calendar image. Please try again.'},
  hi:{title:'श्राद्ध और बरसी',subtitle:'वार्षिक स्मरण तारीखें',year:'अनुष्ठान का वर्ष',place:'अनुष्ठान का स्थान',barsi:'बरसी / संवत्सरी',shraddha:'पितृ पक्ष श्राद्ध',notReady:'अभी लागू नहीं · पारिवारिक रीति से पुष्टि करें',candidate:'संभावित तारीख · पारिवारिक रीति से पक्की करें',calculated:'गणना की तारीख · क्षेत्रीय पंचांग से पक्की करें',unresolved:'तारीख निश्चित करने की आवश्यकता',noOverlap:'अपराह्न का मेल नहीं · क्षेत्रीय पंचांग से पक्की करें',tie:'संभावित तारीखें पास हैं · क्षेत्रीय पंचांग से पक्की करें',near:'तिथि सीमा के पास · क्षेत्रीय पंचांग से पक्की करें',tithi:'तिथि',interval:'तिथि का समय · IST',aparahna:'अपराह्न के संभावित समय · IST',earlier:'इस वर्ष की बीती तारीख',note:'गणना पर आधारित योजना · पारिवारिक रीति और क्षेत्रीय पंचांग से तारीखें पक्की करें।',download:'वर्ष का PNG डाउनलोड करें',share:'वर्ष का PNG साझा करें',preview:'इस वर्ष के कार्ड का पूर्वावलोकन',help:'बरसी और पितृ पक्ष की तारीखें देखने और साझा करने के लिए वर्ष चुनें। पूरा वर्ष-दर-वर्ष विवरण कैलेंडर और PDF में उपलब्ध है।',downloaded:'वर्ष का कार्ड डाउनलोड हुआ।',shared:'कैलेंडर चित्र साझा करने के लिए तैयार है।',cancelled:'साझा करना रद्द हुआ। चित्र अभी भी उपलब्ध है।',fallback:'चित्र डाउनलोड हुआ। इसे अपने संदेश में संलग्न करें।',empty:'अभी लागू नहीं · तारीख की पुष्टि आवश्यक है',status:'साझा करने की स्थिति',error:'कैलेंडर चित्र नहीं बन सका। फिर प्रयास करें।'}
@@ -59,7 +58,7 @@ const themes={
  ivory:{back:'#f4f0e8',paper:'#fffdf8',ink:'#263e38',muted:'#53665e',line:'#d8d4c6',gold:'#8b6634',night:'#183e35',deep:'#102e28',onHeader:'#fffdf8',wash:'#eee8dc'},
  midnight:{back:'#101d2a',paper:'#1b2c3c',ink:'#f5f0e5',muted:'#c5d1d7',line:'#3e5363',gold:'#e1c38b',night:'#203a4a',deep:'#142b38',onHeader:'#fffdf8',wash:'#253c4d'}
 };
-const selectedThemes=new WeakMap();
+
 function shortTime(value,locale){return new Intl.DateTimeFormat(locale,{hour:'numeric',minute:'2-digit',timeZone:'Asia/Kolkata',hour12:true}).format(new Date(Math.round(value/60000)*60000));}
 function displayDate(row,language,labels){
  return row?.date?new Intl.DateTimeFormat(language==='hi'?'hi-IN':'en-IN',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(row.date+'T12:00:00Z')):labels.unresolved;
@@ -141,85 +140,16 @@ export function shraddhaCardPng(canvas){
 }
 
 export function mountShraddhaCard(container,calendar,language='en',activeYear,activeScope='year'){
- let scope=activeScope;
- const labels=copy[language],panel=document.createElement('section'),initialYear=activeYear??selectedYears.get(calendar)??defaultYear(calendar);
- panel.className='shraddha-share card';
- panel.setAttribute('aria-labelledby','shraddha-share-title');
- const heading=document.createElement('h3');
- heading.id='shraddha-share-title';
- heading.textContent=labels.title;
- const help=document.createElement('p');
- help.className='fine';
- help.textContent=labels.help;
- const yearLabel=document.createElement('label');
- yearLabel.className='shraddha-year-control';
- yearLabel.textContent=labels.year;
- const yearSelect=document.createElement('select');
- yearSelect.id='shraddha-year';
- yearSelect.setAttribute('aria-label',labels.year);
- for(const count of [2,5,10])yearSelect.add(new Option(language==='hi'?`अगले ${count} वर्ष`:`Next ${count} years`,`next-${count}`));
- for(const year of calendar.yearly){const option=document.createElement('option');option.value=String(year.year);option.textContent=String(year.year);yearSelect.append(option);}
- yearSelect.value=String(initialYear);
- yearLabel.append(yearSelect);if(activeYear!==undefined)yearLabel.hidden=true;
- const themeLabel=document.createElement('label');themeLabel.textContent=language==='hi'?'कार्ड का रंग':'Card colour';
- const themeSelect=document.createElement('select');themeSelect.id='shraddha-theme';themeSelect.setAttribute('aria-label',themeLabel.textContent);
- for(const [value,label]of [['ivory',language==='hi'?'आइवरी':'Ivory'],['midnight',language==='hi'?'मिडनाइट':'Midnight']])themeSelect.add(new Option(label,value));
- themeSelect.value=selectedThemes.get(calendar)||'ivory';themeLabel.append(themeSelect);
- const appearance=document.createElement('div');appearance.className='shraddha-card-options';appearance.append(yearLabel,themeLabel);
- const preview=document.createElement('details');
- preview.className='shraddha-share-preview';
- const summary=document.createElement('summary');
- summary.textContent=labels.preview;
- const canvas=document.createElement('canvas');
- canvas.className='shraddha-share-canvas';
- const render=()=>{
-  const first=scope==='first-year',hi=language==='hi';
-  heading.textContent=first?(hi?'पहला वर्ष और प्रारम्भिक संस्कार':'First year & early rites'):labels.title+' · '+remembranceRangeLabel(calendar,yearSelect.value);
-  help.textContent=hi?'PNG चुनी हुई अवधि के अनुसार बनता है। पूरा PDF सभी वर्षों को रखता है।':'The PNG follows your selected period. The complete PDF includes all years.';
-  summary.textContent=hi?'कार्ड का पूर्वावलोकन':'Preview card';
-  const buttons=panel.querySelectorAll('.shraddha-share-actions button');
-  const multiple=yearSelect.value.startsWith('next-');
-  if(buttons[0])buttons[0].textContent=first?(hi?'पहले वर्ष का PNG डाउनलोड करें':'Download first-year PNG'):multiple?(hi?'चुनी अवधि का PNG डाउनलोड करें':'Download period PNG'):labels.download;
-  if(buttons[1])buttons[1].textContent=first?(hi?'पहले वर्ष का PNG साझा करें':'Share first-year PNG'):multiple?(hi?'चुनी अवधि का PNG साझा करें':'Share period PNG'):labels.share;
-  return renderShraddhaCard(canvas,calendar,language,yearSelect.value,themeSelect.value,scope);
- };
- panel.updateScope=(value,year)=>{scope=value;if(year!==undefined)yearSelect.value=String(year);render();};
- render();
- document.fonts?.ready.then(()=>{if(canvas.isConnected)render();});
- yearSelect.addEventListener('change',()=>{selectedYears.set(calendar,yearSelect.value);render();preview.open=true;status.textContent='';});
- themeSelect.addEventListener('change',()=>{selectedThemes.set(calendar,themeSelect.value);render();preview.open=true;status.textContent='';});
- preview.append(summary,canvas);
- const status=document.createElement('p');
- status.className='fine';
- status.setAttribute('role','status');
- status.setAttribute('aria-live','polite');
- const actions=document.createElement('div');
- actions.className='shraddha-share-actions';
- const fileName=()=>scope==='first-year'?'ritual-assist-first-year.png':`ritual-assist-shraddha-barsi-${yearSelect.value}.png`;
- const download=document.createElement('button');
- download.type='button';
- download.className='primary';
- download.textContent=labels.download;
- download.addEventListener('click',async()=>{
-  const name=fileName();
-  try{downloadBlob(await shraddhaCardPng(canvas),name,{cleanupDelay:1000});status.textContent=labels.downloaded;}
-  catch(error){status.textContent=error.message||labels.error;}
+ let scope=activeScope,year=activeYear??defaultYear(calendar);
+ const panel=mountShareResult(container,{
+  language,
+  title:()=>language==='hi'?'श्राद्ध और बरसी':'Shraddh & Barsi calendar',
+  filename:()=>scope==='first-year'?'ritual-assist-first-year.png':`ritual-assist-shraddha-barsi-${year}.png`,
+  render:canvas=>{
+   const rows=scope==='first-year'?[...(calendar.early||[]),...(calendar.monthly||[]),...(calendar.annual?[calendar.annual]:[]),...(calendar.pitru?[calendar.pitru]:[])]:remembranceYears(calendar,year).flatMap(item=>cardRows(item).flat());
+   if(!rows.length)return false;
+   canvas.className='shraddha-share-canvas';renderShraddhaCard(canvas,calendar,language,year,'ivory',scope);return true;
+  }
  });
- const share=document.createElement('button');
- share.type='button';
- share.textContent=labels.share;
- share.addEventListener('click',async()=>{
-  const name=fileName(),shareTitle=heading.textContent;
-  try{
-   const png=await shraddhaCardPng(canvas),file=new File([png],name,{type:'image/png'});
-   if(navigator.share&&navigator.canShare?.({files:[file]})){
-    try{await navigator.share({title:shareTitle,text:labels.note,files:[file]});status.textContent=labels.shared;}
-    catch(error){if(error.name==='AbortError')status.textContent=labels.cancelled;else throw error;}
-   }else{downloadBlob(png,name,{cleanupDelay:1000});status.textContent=labels.fallback;}
-  }catch(error){status.textContent=error.message||labels.error;}
- });
- actions.append(download,share);
- panel.append(heading,help,appearance,actions,status,preview);
- container.append(panel);render();
- return panel;
+ panel.classList.add('shraddha-share');panel.updateScope=(value,nextYear)=>{scope=value;if(nextYear!==undefined)year=nextYear;panel.prepare();};return panel;
 }

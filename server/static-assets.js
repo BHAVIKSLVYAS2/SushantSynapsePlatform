@@ -132,6 +132,7 @@ const staticAssets={
  '/ritual-assist/calendar-export.mjs':'apps/ritual-assist/frontend/calendar-export.mjs',
  '/ritual-assist/calendar-tools.mjs':'apps/ritual-assist/frontend/calendar-tools.mjs',
  '/ritual-assist/shraddha-card.mjs':'apps/ritual-assist/frontend/shraddha-card.mjs',
+ '/ritual-assist/share-result.mjs':'apps/ritual-assist/frontend/share-result.mjs',
  '/ritual-assist/calendar-dashboard.mjs':'apps/ritual-assist/frontend/calendar-dashboard.mjs',
  '/ritual-assist/remembrance-view.mjs':'apps/ritual-assist/frontend/remembrance-view.mjs',
  '/ritual-assist/remembrance-range.mjs':'apps/ritual-assist/frontend/remembrance-range.mjs',

@@ -10,6 +10,7 @@ body.ritual-landing #guide .guide-top{margin-bottom:8px;padding-bottom:0}
 body.ritual-landing #guide-title{margin:4px 0;font-size:25px}
 body.ritual-landing .guide-top>p{margin:4px 0 8px}
 body.ritual-landing #guide .actions{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;padding:0;border:0}
+@media screen and (max-width:600px){body.ritual-landing #guide .actions{margin:4px 0}}
 body.ritual-landing #guide .actions>button,body.ritual-landing .guide-more>summary{min-height:44px;padding:8px 12px;font-size:13px;box-sizing:border-box}
 .guide-more{position:relative}.guide-more>summary{cursor:pointer;list-style-position:inside;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
 .guide-more[open]{z-index:10}.guide-more>button{display:block;min-width:170px;width:100%;text-align:left;min-height:44px;margin:4px 0}
