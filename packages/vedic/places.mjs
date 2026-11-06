@@ -1,4 +1,4 @@
-import directory from './data/india-places.json' with {type: 'json'};
+import directory from './place-directory.mjs';
 import {fail, fields, freeze} from './diagnostics.mjs';
 
 freeze(directory);

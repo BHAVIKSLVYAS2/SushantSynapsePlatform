@@ -21,7 +21,7 @@ function prepareDelivery(output,files){
   const filename=path.join(output,url);
   // This shared Node module imports JSON with attributes. Bundle its public
   // browser alias so chrome114 minification cannot strip the JSON type marker.
-  const input=source==='packages/vedic/places.mjs'?buildSync({entryPoints:[path.resolve(__dirname,'../..',source)],bundle:true,write:false,format:'esm',platform:'browser',target:'chrome114',charset:'utf8',legalComments:'inline'}).outputFiles[0].text:fs.readFileSync(filename,'utf8');
+  const input=['packages/vedic/places.mjs','packages/vedic/place-directory.mjs'].includes(source)?buildSync({entryPoints:[path.resolve(__dirname,'../..',source)],bundle:true,write:false,format:'esm',platform:'browser',target:'chrome114',charset:'utf8',legalComments:'inline'}).outputFiles[0].text:fs.readFileSync(filename,'utf8');
   const {code}=transformSync(input,{loader:url.endsWith('.css')?'css':'js',
    minifyWhitespace:true,minifySyntax:true,minifyIdentifiers:url.endsWith('.mjs')||/^\s*import\s/.test(input),target:'chrome114',legalComments:'inline',charset:'utf8'});
   before+=Buffer.byteLength(input);after+=Buffer.byteLength(code);

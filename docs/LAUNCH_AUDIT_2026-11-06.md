@@ -1,5 +1,27 @@
 # Platform launch audit — 6 November 2026
 
+## Follow-up: compact offline place data
+
+The browser directory now uses a generated lossless column/dictionary format.
+Every field of all 3,786 records and all metadata reconstruct exactly; Node's
+canonical data and synchronous lookup API remain intact. No city is omitted,
+rounded or fetched from another provider. Browser-only mapping avoids changing
+the Node backend. Saved IDs and offline/privacy behaviour are preserved.
+
+The directory bundle drops from 1,246,676 to 573,242 bytes. Four-screen unique JS
+drops from 1,892,633 to 1,219,214 bytes (35.6% decoded), while aggregate gzip drops
+from 475,401 to 443,644 bytes (6.7%). Most benefit is reduced JavaScript parsing
+and decoded payload; this is not a 35.6% compressed-network saving. The recorded
+three-sample uncompressed Matching LCP falls from 11.540s to 8.072s under the
+existing lab throttle. These measurements have machine/network variability.
+
+Fourteen focused directory/privacy/Ritual/static checks, 22 edge/export checks,
+21 normalization/birth/directory checks, eight astrology browser workflows and
+three Ritual location workflows pass. The isolated actual Worker parity check
+passes with zero difference across 329 numbers. An initial combined check had a
+consumed-response-body error; the isolated rerun passes without code changes.
+Deployment and compressed-production evidence are recorded in the ledger.
+
 Scope: the repository and existing organisation-enabled Workers/D1 release.
 Checks use disposable local databases. Production verification is read-only;
 no migrations, account changes, recovery exports or business writes are needed.

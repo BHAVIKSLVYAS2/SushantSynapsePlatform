@@ -4,6 +4,7 @@ const entries={birth:'birth-app',rashifal:'rashifal-app',matching:'matching-app'
 // Preserve the exact original link order, including shared overrides at the end.
 const stylesheetFiles=['../../packages/ui/premium.bundle.css','../../packages/ui/platform-header.css','../../packages/ui/legal-footer.css',...['chart-view','birth-app','traditions','time-machine','sensitivity','rulebook','advanced','rashifal','export-report','daily-almanac','preview'].map(name=>'frontend/'+name+'.css'),'../../packages/ui/platform-shell.css'];
 function build(){
+ require('../../infrastructure/build-place-directory.cjs').buildPlaceDirectory();
  const hash=require('node:crypto').createHash('sha256');hash.update(fs.readFileSync(__filename));
  hash.update(fs.readFileSync(path.resolve(__dirname,'../../infrastructure/home-css.cjs')));
  hash.update(fs.readFileSync(path.resolve(__dirname,'../../packages/ui/legal-html.cjs')));

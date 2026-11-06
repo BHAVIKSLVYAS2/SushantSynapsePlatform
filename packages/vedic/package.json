@@ -3,6 +3,7 @@
   "version": "0.17.0",
   "private": true,
   "type": "module",
+  "browser": {"./place-directory.mjs":"./place-directory.browser.mjs"},
   "exports": {
     ".": "./index.mjs",
     "./astronomy": "./astronomy.mjs",

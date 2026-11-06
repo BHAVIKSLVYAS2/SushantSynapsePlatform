@@ -7,6 +7,7 @@ const staticAssets={
  '/shared/task-intent.mjs':'packages/ui/task-intent.mjs',
  '/ritual-assist/calendar-location.mjs':'apps/ritual-assist/frontend/calendar-location.mjs',
  '/ritual-assist/places.mjs':'packages/vedic/places.mjs',
+ '/ritual-assist/place-directory.mjs':'packages/vedic/place-directory.mjs',
  '/ritual-assist/diagnostics.mjs':'packages/vedic/diagnostics.mjs',
  '/ritual-assist/data/india-places.json':'packages/vedic/data/india-places.json',
  ...require('../apps/rashifal-kundli/public-assets.cjs'),

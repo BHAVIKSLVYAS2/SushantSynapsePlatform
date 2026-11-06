@@ -1,5 +1,27 @@
 # Chambers functionality ledger
 
+**Lossless browser place-directory compaction (2026-11-06 IST; local verified):**
+All 3,786 canonical places, aliases, coordinates, field order and provenance are
+preserved exactly. Node keeps the original JSON; browser builds use a generated
+column/dictionary representation through an explicit package mapping. Directory
+bundle is 573,242 bytes versus 1,246,676; aggregate four-screen JS falls from
+1,892,633 to 1,219,214 bytes (35.6% decoded), gzip aggregate 475,401 to 443,644
+(6.7%). Shared fingerprints/preloads and local-only privacy remain unchanged.
+Node Ritual aliases include the thin wrapper; both production directory aliases
+are bundled to preserve JSON-attribute compatibility.
+
+Verification: 14 directory/privacy/Ritual/static checks, 22 edge/export/budget
+checks, 21 normalization/birth/directory checks pass. Actual isolated workerd
+parity/protection passes with 329 numbers and zero difference; an initial combined
+run had a consumed-response-body error, not reproduced in the isolated rerun.
+Eight astrology saved/search/multilingual/calculation workflows and three Ritual
+location/geolocation workflows pass. Matching's three-sample uncompressed mobile
+lab LCP is 8.072s versus 11.540s in the previous recorded lab, with shift sum
+0.018; not field-vitals certification or a claim of the same percentage network
+savings. Production verification follows deployment. No business/data/schema,
+calculation, auth or organisation changes. Logs: `.publish/compact-*.log`,
+`.publish/place-compact-tests.log`.
+
 **Launch release live (2026-11-06 IST):** Source `bcccf29` is deployed as Worker
 `8bd34e7f-fa7f-428a-b7fb-ba6e8ef0a311` from an isolated committed archive using
 the existing production config and `--keep-vars`. Exact production dry run

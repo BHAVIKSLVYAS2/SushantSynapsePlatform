@@ -1,5 +1,16 @@
 # Code ownership and adding apps
 
+Browser place-directory compaction (2026-11-06): `packages/vedic/places.mjs`
+imports `place-directory.mjs`. Node reads the unchanged canonical JSON; the
+package's browser mapping selects a generated lossless column/dictionary module.
+`infrastructure/build-place-directory.cjs` regenerates it before astrology builds;
+tests require byte-equivalent reconstruction and matching lookup/search results.
+The generated source is committed, like the existing navigation bundle, so all
+browser build entry points work from a fresh checkout. Node's Ritual browser
+alias explicitly serves the thin JSON wrapper; Cloudflare bundles both shared
+directory aliases through the browser mapping. No new network/provider/data
+collection, calculation change or saved-location contract is introduced.
+
 Launch hardening (2026-11-06): `response-security.mjs` applies common edge
 response protections without replacing per-page CSP/privacy or successful asset
 cache headers. Internal build paths are decoded and denied before routing.
