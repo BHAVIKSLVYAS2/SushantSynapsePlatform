@@ -1,5 +1,13 @@
 # Chambers functionality ledger
 
+**Improved Light theme — local implementation (2026-11-06 IST):** Added a separate
+white-based picker option with dark text, restrained blue actions, neutral borders,
+soft card shadows and clearly filled footer selection. Existing Light remains.
+English/Hindi/Gujarati labels, browser persistence and legacy light projection
+are supported; legacy light initialisation retains this custom choice. All new
+palette CSS is screen-only, leaving print/export styling separate. Full visual
+and regression checks remain deferred. Not committed or deployed yet.
+
 **Black theme release live (2026-11-06 IST):** Source `bc7bca4` is deployed as
 Worker `ab18af1a-cb03-4c0c-aa03-704fdbdc277f`. Adds Black & Diamond, Glossy
 Black and Deep Black. Isolated committed archive, existing production config and

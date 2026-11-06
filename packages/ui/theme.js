@@ -9,18 +9,18 @@
  window.SynapseUI={observe(listener){listeners.add(listener);return ()=>listeners.delete(listener);}};
  const media=matchMedia('(prefers-color-scheme: dark)');
  let memory='light';
- const customThemes=['gold','silver','diamond','glossy','deep'];
- const extraThemes={diamond:{en:'Black & Diamond',hi:'काला और हीरा',gu:'કાળો અને હીરો'},glossy:{en:'Glossy Black',hi:'चमकदार काला',gu:'ચળકતો કાળો'},deep:{en:'Deep Black',hi:'गहरा काला',gu:'ઘેરો કાળો'}};
+ const customThemes=['gold','silver','diamond','glossy','deep','improved-light'];
+ const extraThemes={'improved-light':{en:'Improved Light',hi:'बेहतर हल्का',gu:'સુધારેલ લાઇટ'},diamond:{en:'Black & Diamond',hi:'काला और हीरा',gu:'કાળો અને હીરો'},glossy:{en:'Glossy Black',hi:'चमकदार काला',gu:'ચળકતો કાળો'},deep:{en:'Deep Black',hi:'गहरा काला',gu:'ઘેરો કાળો'}};
  const valid=value=>['light','dark',...customThemes,'system'].includes(value)?value:'system';
  const icons='<svg class="theme-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1 1m12 12 1 1M5 19l1-1M18 6l1-1"/></svg><svg class="theme-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15A9 9 0 0 1 9 4a9 9 0 1 0 11 11z"/></svg>';
  function preference(){try{return valid(localStorage.getItem('synapse-theme')||localStorage.getItem('chambers-theme')||memory);}catch{return memory;}}
  // Existing app controllers continue receiving a supported light/dark/system value.
- function read(){const value=preference();return customThemes.includes(value)?'dark':value;}
+ function read(){const value=preference();return value==='improved-light'?'light':customThemes.includes(value)?'dark':value;}
  function resolved(){const value=read();return value==='system'?(media.matches?'dark':'light'):value;}
  function sync(){const value=preference(),dark=resolved()==='dark',theme=dark?'dark':'light';document.documentElement.dataset.theme=theme;document.documentElement.dataset.themeStyle=customThemes.includes(value)?value:'';if(document.body){document.body.dataset.theme=theme;document.body.dataset.themeStyle=customThemes.includes(value)?value:'';}document.querySelectorAll('[data-theme-toggle]').forEach(button=>{button.value=value;button.setAttribute('aria-pressed',String(dark));button.setAttribute('aria-haspopup','dialog');button.setAttribute('aria-controls','synapse-theme-picker');button.setAttribute('aria-expanded',String(Boolean(picker?.open)));button.title='Choose theme';button.setAttribute('aria-label','Theme');});if(picker)picker.querySelectorAll('[data-theme-choice]').forEach(button=>button.setAttribute('aria-checked',String(button.dataset.themeChoice===value)));}
  // Legacy app initialisers re-save read()'s dark projection; only a deliberate
  // Dark choice in the picker should replace an existing Gold preference.
- function write(value,explicit=false){memory=value==='dark'&&customThemes.includes(preference())&&!explicit?preference():valid(value);try{localStorage.setItem('synapse-theme',memory);localStorage.setItem('chambers-theme',memory);}catch{}sync();}
+ function write(value,explicit=false){const previous=preference();memory=!explicit&&customThemes.includes(previous)&&value===(previous==='improved-light'?'light':'dark')?previous:valid(value);try{localStorage.setItem('synapse-theme',memory);localStorage.setItem('chambers-theme',memory);}catch{}sync();}
  function control(attributes=''){return `<button type="button" class="theme-toggle" data-theme-toggle aria-label="Dark mode" aria-pressed="${resolved()==='dark'}" value="${read()}" ${attributes}>${icons}</button>`;}
  let picker=null,trigger=null;
  window.SynapseTheme={read,write,control,preference};

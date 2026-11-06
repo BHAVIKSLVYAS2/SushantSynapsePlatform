@@ -1,4 +1,21 @@
 /* Shared picker: no changes to existing Light/Dark surfaces or app layout. */
+.swatch-improved-light{background:linear-gradient(135deg,#fff 55%,#e9edf2 56%,#fff);border-color:#a8b4c2}
+@media screen{
+ html[data-theme=light][data-theme-style=improved-light],html[data-theme=light][data-theme-style=improved-light] body[data-ui-app][data-theme]{
+  color-scheme:light;--ui-bg:#fff;--ui-solid:#fff;--ui-soft:#f1f4f7;--ui-ink:#17212f;--ui-text:var(--ui-ink);--ui-muted:#526174;--ui-edge:#ccd5df;--ui-accent:#174c84;--ui-on-accent:#fff;--ui-glass:#ffffffed;--ui-highlight:#fff;--ui-bloom:#174c8408;--ui-shadow:0 6px 22px #17212f0c;
+  --home-accent:var(--ui-accent);--home-surface:var(--ui-solid);--home-ink:var(--ui-ink);--home-muted:var(--ui-muted);--home-line:var(--ui-edge);
+  --ss-bg:var(--ui-bg);--ss-bg-secondary:var(--ui-soft);--ss-surface:var(--ui-solid);--ss-surface-glass:var(--ui-glass);--ss-primary:var(--ui-accent);--ss-primary-hover:#103b68;--ss-text:var(--ui-ink);--ss-text-secondary:var(--ui-muted);--ss-border:var(--ui-edge);
+  --shell-bg:var(--ui-bg);--shell-surface:var(--ui-solid);--shell-ink:var(--ui-ink);--shell-muted:var(--ui-muted);--shell-line:var(--ui-edge);--shell-accent:var(--ui-accent);--shell-on-accent:var(--ui-on-accent);
+  --bg:var(--ui-bg);--surface:var(--ui-solid);--text:var(--ui-ink);--ink:var(--ui-ink);--muted:var(--ui-muted);--line:var(--ui-edge);--border:var(--ui-edge);--soft:var(--ui-soft);--surface-soft:var(--ui-soft);--primary:var(--ui-accent);--accent:var(--ui-accent);--on-primary:var(--ui-on-accent);--on-accent:var(--ui-on-accent);
+ }
+ html[data-theme-style=improved-light] body{background:var(--ui-bg);color:var(--ui-ink)}
+ html[data-theme-style=improved-light] body :is(.public-app,.workspace-card,.app-card,.card,.panel,.game-card,.break-card){background:var(--ui-solid);border-color:var(--ui-edge);box-shadow:var(--ui-shadow)}
+ html[data-theme-style=improved-light] body :is(.platform-shell,.home-mobile-dock,.synapse-theme-picker){background:var(--ui-glass);border-color:var(--ui-edge);box-shadow:0 4px 20px #17212f10;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+ html[data-theme-style=improved-light] body :is(input,select,textarea){background:var(--ui-solid);color:var(--ui-ink);border-color:#9baabc}
+ html[data-theme-style=improved-light] body :is(.primary,button.primary){background:var(--ui-accent);color:var(--ui-on-accent)}
+ html[data-theme-style=improved-light] body[data-ui-app=portal] .public-home .home-mobile-dock a[aria-current]{background:var(--ui-accent);color:var(--ui-on-accent);box-shadow:inset 0 -3px 0 #fff8}
+ html[data-theme-style=improved-light] body :is(a,button,input,select,textarea,summary):focus-visible{outline:3px solid var(--ui-accent);outline-offset:3px}
+}
 .synapse-theme-picker{position:fixed;inset:76px 16px auto auto;margin:0;width:300px;max-width:calc(100vw - 32px);max-height:calc(100dvh - 100px);overflow:auto;box-sizing:border-box;padding:16px;border:1px solid var(--ui-edge,var(--line));border-radius:18px;background:var(--ui-solid,var(--surface));color:var(--ui-ink,var(--text));box-shadow:0 16px 56px #0005;font:inherit}
 .synapse-theme-picker::backdrop{background:#0003}
 .synapse-theme-picker .theme-picker-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
