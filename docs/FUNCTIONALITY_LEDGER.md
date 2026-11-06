@@ -1,5 +1,13 @@
 # Chambers functionality ledger
 
+**Ritual inline location controls deployed (2026-11-07 IST):** Source `de8e8e2`
+is live as Worker `33e45d37-0d04-4c11-bc16-aae268b6546a`. Includes the inline
+location-detection icon and help disclosure for both Vrat and Shraddh. Isolated
+committed archive; existing production config and `--keep-vars`; D1/auth/org
+settings preserved. Required build/deploy completed successfully. No checks,
+tests or live verification were run during this deployment at the user's request.
+No database changes. Log: `.publish/ritual-location-deploy.log`.
+
 **Ritual location control simplification — local (2026-11-07 IST):** Shared
 Vrat/Shraddh city control now embeds a 44px location icon inside the textbox.
 The visible field label remains; duplicate short guidance and the separate

@@ -1,5 +1,10 @@
 # Organisation licensing production cutover
 
+Ritual inline location controls (2026-11-07 IST): source `de8e8e2`, Worker
+`33e45d37-0d04-4c11-bc16-aae268b6546a`, deployed successfully. Existing production
+configuration and `--keep-vars`; D1/auth/organisation settings preserved. No
+checks/tests/live verification performed at the user's request. No data changes.
+
 Take a Break icon/border fixes (2026-11-06 IST): source `f3891f7`, Worker
 `7f29623a-4878-4761-b6d5-3476a2bcfd6b`, is live. Copilot's three-theme changes
 retained. Isolated archive, existing production config and `--keep-vars`;
