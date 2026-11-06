@@ -11,17 +11,18 @@ test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{ch
 test('home, guide, preview and browser traversal preserve the app hierarchy',async({page})=>{
  await page.setViewportSize({width:360,height:740});
  await page.goto(base+'/');await page.locator('a[href="/ritual-assist"]').first().click();
+ await expect(page.locator('#observance-form')).toBeVisible();await page.getByRole('link',{name:/Puja guides/}).first().click();
  await expect(page.locator('#guide-list button')).not.toHaveCount(0);
  await page.locator('#library>summary').click();await page.locator('#search').fill('Ganesh');await page.locator('[data-guide="ganesh-puja"]').click();
  await expect(page).toHaveURL(/guide=ganesh-puja/);
  await page.locator('#print-checklist').click();await expect(page.locator('#checklist-preview')).toBeVisible();
  await page.goBack();await expect(page.locator('#checklist-preview')).not.toBeVisible();await expect(page).toHaveURL(/guide=ganesh-puja/);
- await page.goBack();await expect(page).toHaveURL(base+'/ritual-assist');await expect(page.locator('#search')).toHaveValue('Ganesh');
+ await page.goBack();await expect(page).toHaveURL(base+'/ritual-assist/guides');await expect(page.locator('#search')).toHaveValue('Ganesh');
  await page.goForward();await expect(page).toHaveURL(/guide=ganesh-puja/);
  await page.goForward();await expect(page.locator('#checklist-preview')).toBeVisible();
  await page.reload();await expect(page.locator('#checklist-preview')).toBeVisible();
  await page.locator('#checklist-preview button').first().click();await expect(page.locator('#checklist-preview')).not.toBeVisible();
- await page.goBack();await page.goBack();await expect(page).toHaveURL(base+'/');
+ await page.goBack();await page.goBack();await expect(page).toHaveURL(base+'/ritual-assist');await expect(page.locator('#observance-form')).toBeVisible();await page.goBack();await expect(page).toHaveURL(base+'/');
 });
 
 test('games support Back, Forward and in-app return without discarding the board',async({page})=>{
@@ -93,7 +94,7 @@ test('feedback detail Back and Forward retain the list query',async({page})=>{
 
 test('a failed lazy game load keeps navigation usable and does not add a broken entry',async({page})=>{
  await page.route('**/daily-spark/play.mjs',route=>route.abort());await page.goto(base+'/take-a-break');
- const before=await page.evaluate(()=>history.length);await page.locator('[data-feature-game]').click();
+ const before=await page.evaluate(()=>history.length);await page.locator('[data-game="24"]').click();
  await expect(page.locator('#break-filter-status')).toContainText('could not load');await expect(page.locator('#hub')).toBeVisible();
  expect(await page.evaluate(()=>history.length)).toBe(before);await page.locator('[data-game="code"]').click();
  await expect(page.locator('#play-title')).toHaveText('Crack the Code');

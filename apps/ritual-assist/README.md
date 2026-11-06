@@ -1,5 +1,12 @@
 # Ritual Assist
 
+Calendar-first correction (2026-11-06; deployed, see the functionality ledger): `/ritual-assist`
+now opens calendar generation directly, with Vrat and Shraddha/Barsi choices.
+`/ritual-assist/calendar` remains supported. Puja guides and existing checklist
+features live at `/ritual-assist/guides`; old `?guide=...` links forward there.
+Saved calendar fields, calculations and exports retain their existing behaviour.
+This supersedes the guide-first landing described in the historical entry below.
+
 Information density release (2026-11-05; release evidence in the functionality
 ledger): a compact calendar strip replaces the large guide banner; the selected
 ritual, date and progress no longer repeat a second title. Share checklist and

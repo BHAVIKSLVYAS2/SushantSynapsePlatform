@@ -8,7 +8,10 @@ const symbols={'+':'+','-':'−','*':'×','/':'÷'};
 const params=new URLSearchParams(location.search),difficulty=$('#practice-difficulty');
 let legacyRound=params.has('day')&&!params.has('level');
 difficulty.value=['warmup','challenge','expert'].includes(params.get('level'))?params.get('level'):'challenge';
-difficulty.onchange=()=>{legacyRound=false;start(mode==='practice');};
+difficulty.onchange=()=>{if(dirty()&&!confirm('Discard this unfinished round and change difficulty?')){difficulty.value=currentDifficulty;return;}currentDifficulty=difficulty.value;legacyRound=false;start(mode==='practice');};
+let currentDifficulty=difficulty.value;
+function dirty(){return !finished&&(history.length>0||selected.length>0||assisted);}
+function fresh(practice=false){if(dirty()&&!confirm('Discard this unfinished round and start again?'))return;start(practice);}
 const descriptions={warmup:'A gentle start: no division needed.',challenge:'Division is required; whole-number steps are possible.',expert:'A tougher spark: a fractional step is required.'};
 function start(practice=false){date=day||istDate();mode=practice?'practice':'daily';original=!practice&&legacyRound?puzzle(date):levelPuzzle(practice?String(crypto.getRandomValues(new Uint32Array(1))[0]):date,difficulty.value);reset();if(!practice&&!legacyRound){const u=new URL(location.href);u.searchParams.set('day',date);u.searchParams.set('level',difficulty.value);window.history.replaceState(null,'',u.href);}}
 function reset(){celebration.clear();items=tokens(original);selected=[];op=null;history=[];hintStep=0;assisted=false;finished=false;revealed=false;$('#status').textContent='';$('#result').hidden=true;$('#share-fallback').hidden=true;render();}
@@ -23,7 +26,7 @@ function render(){
 }
 root.querySelectorAll('[data-op]').forEach(b=>b.onclick=()=>{op=b.dataset.op;render();});
 $('#combine').onclick=()=>{const [a,b]=selected.map(index=>items[index]);try{const value=calculate(a.value,op,b.value);history.push({items:structuredClone(items),label:`${display(a.value)} ${symbols[op]} ${display(b.value)} = ${display(value)}`});items=[...items.filter((_,index)=>!selected.includes(index)),{value,expression:`(${a.expression} ${op} ${b.expression})`}];selected=[];op=null;hintStep=0;$('#status').textContent='';if(items.length===1){if(Math.abs(items[0].value-24)<1e-8)complete(false);else $('#status').textContent=`You made ${display(items[0].value)}. Undo a move or start again.`;}render();$('#numbers').querySelector('button:not(:disabled)')?.focus();}catch(error){$('#status').textContent=error.message;}};
-$('#undo').onclick=()=>{items=history.pop().items;selected=[];op=null;hintStep=0;$('#status').textContent='';render();};$('#reset').onclick=reset;$('#daily').onclick=()=>start();$('#practice').onclick=()=>start(true);$('#another').onclick=()=>start(true);
+$('#undo').onclick=()=>{items=history.pop().items;selected=[];op=null;hintStep=0;$('#status').textContent='';render();};$('#reset').onclick=()=>{if(!dirty()||confirm('Discard this unfinished round and restart?'))reset();};$('#daily').onclick=()=>{if(mode!=='daily')fresh();};$('#practice').onclick=()=>fresh(true);$('#another').onclick=()=>fresh(true);
 $('#hint').onclick=()=>{assisted=true;const steps=solutionSteps(items);if(!steps){$('#status').textContent='No route to 24 remains. Undo or start again.';return;}const step=steps[0];hintStep++;const names={'+':'addition','-':'subtraction','*':'multiplication','/':'division'};$('#status').textContent=hintStep===1?`A nudge: try ${names[step.op]}.`:hintStep===2?`Try combining ${display(step.a)} ${symbols[step.op]} ${display(step.b)} first.`:`First move: ${display(step.a)} ${symbols[step.op]} ${display(step.b)} = ${display(step.value)}. Use Show solution for the full route.`;};
 function complete(show){
  if(finished)return;
@@ -45,4 +48,8 @@ function shareUrl(){const u=new URL(challengeUrl(mode==='daily'?date:istDate()),
 const sharedDay=day||params.get('day');
 if(sharedDay&&/^\d{4}-\d{2}-\d{2}$/.test(sharedDay)&&!Number.isNaN(Date.parse(sharedDay))&&new Date(sharedDay).toISOString().slice(0,10)===sharedDay&&sharedDay<=istDate())day=sharedDay;
 start();
+return {get mode(){return mode;},get dirty(){return dirty();},reset(practice=false){start(practice);},
+snapshot(){return {date,mode,original,items,selected,op,history,assisted,finished,revealed,hintStep,difficulty:difficulty.value,legacyRound};},
+restore(v){if(!v||!Array.isArray(v.original)||v.original.length!==4||v.original.some(x=>!Number.isInteger(x)||x<1||x>9)||!Array.isArray(v.items)||v.items.length<1||v.items.length>4||v.items.some(x=>!Number.isFinite(x.value)||typeof x.expression!=='string'||x.expression.length>200)||!Array.isArray(v.selected)||v.selected.some(x=>!Number.isInteger(x)||x<0||x>=v.items.length)||!Array.isArray(v.history)||v.history.length>3||v.history.some(h=>!h||!Array.isArray(h.items)||h.items.length<2||h.items.length>4||h.items.some(x=>!Number.isFinite(x.value)||typeof x.expression!=='string'||x.expression.length>200))||!Object.hasOwn(descriptions,v.difficulty))throw Error('Invalid saved puzzle');date=v.date;mode=v.mode==='practice'?'practice':'daily';original=v.original;items=v.items;selected=v.selected;op=['+','-','*','/'].includes(v.op)?v.op:null;history=v.history;assisted=Boolean(v.assisted);const wasFinished=Boolean(v.finished);finished=false;revealed=Boolean(v.revealed);hintStep=Number.isInteger(v.hintStep)?Math.max(0,Math.min(v.hintStep,3)):0;difficulty.value=currentDifficulty=v.difficulty;legacyRound=Boolean(v.legacyRound);if(wasFinished){complete(revealed);celebration.clear();}render();}
+};
 }

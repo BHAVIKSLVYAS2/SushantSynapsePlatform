@@ -67,7 +67,7 @@ test('offline home keeps public tools usable and every dependent app shows a res
     await expect(page.getByRole('link', {name: 'Fund Lens', exact: true})).toBeVisible();
     await expect(page.getByRole('link', {name: 'News (temporary editions)', exact: true})).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-    await page.getByRole('button', {name: 'Dark mode', exact: true}).click();
+    await require('../../../tests/browser-theme.js').toggleTheme(page);
   }
   await page.screenshot({path: 'test-results/cloudflare-unavailable-mobile.png', fullPage: true});
   online = true;

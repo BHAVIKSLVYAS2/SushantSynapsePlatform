@@ -1,5 +1,97 @@
 # Chambers functionality ledger
 
+**Black & Gold theme picker (2026-11-06 IST; implementation, release pending):**
+The existing header theme control now opens an accessible native popup with
+Light, Dark, Black & Gold and System. Escape/outside click closes it, focus
+returns to the trigger, and arrow/Home/End keys move through the options.
+Labels support English/Hindi/Gujarati. The third palette is opt-in, uses scoped
+screen-only tokens and glossy surfaces, and retains existing layout and artwork.
+Light/Dark defaults and saved System behaviour are retained. Gold projects as
+dark to existing controllers; app startup normalisation cannot silently erase
+it, while explicit picker choices can. Cross-tab and denied-storage handling
+remain usable. No business logic, database schema, account or permission changes.
+The browser theme helper and affected interactions now use explicit popup choices.
+Verification: 15/15 cache/catalogue/game Node checks and 5/5 final focused Chrome
+workflows pass: keyboard/cancellation, Gold reload/cross-tab preference, six-app
+320/390/1440px layouts and exact Light/Dark body-colour restoration, System/OS,
+denied storage, Hindi labels and legacy initialisers across five additional app
+routes. Screenshots are `.publish/gold-theme-{mobile,picker}.png`. Broader platform
+tests have five stale failures that also reproduce on the prior live release
+(catalogue counts and legacy surface assertions). An exploratory language run
+also has outdated QR/wheel/Ritual expectations and exposed a translated-trigger
+test-helper issue; the helper now uses the stable control selector, verified by
+the final localized test. No clean full-suite pass is claimed. Syntax and diff
+checks pass. Production release details are recorded separately after deployment.
+
+**Calendar-first and Take a Break production release (2026-11-06 IST):** Worker
+`a961949f-5766-4ce7-b74a-612461e3613b` is live at
+`https://apps.sushantsynapse.com`. The isolated release uses base `75aa941` plus
+11 explicitly overlaid application/routing files; exact SHA-256 source evidence
+is in `.publish/calendar-break-release-manifest.json`. The release is not a new
+Git commit. Unrelated pending AdSense/company/canonical/footer edits are excluded.
+Exact production-config dry run and deployment succeeded with `--keep-vars`;
+existing D1, authentication and rate-limit bindings were retained. No migration,
+bootstrap, account/licence or business-record changes were made. Fifty-six built
+assets changed, including dependency fingerprints and regenerated page shells.
+
+Live Playwright CLI/Chrome verification passes calendar-first entry, eight
+upcoming Vrat events for the selected November/New Delhi inputs, actual Shraddha
+generation, saved date/time restoration without restoring results or calculating,
+legacy Havan guide forwarding, four hub filters/seven activities, active Daily
+progress preservation, Code reload resume, and cancelling a discard prompt.
+Code layouts fit 390px and 1440px. Seven live JS/CSS SHA-256 hashes match the exact
+isolated build. `/healthz` returns 200 and unscoped `/api/records` returns 409.
+Synthetic calendar requests only; business writes and external hosts were blocked
+in the audit browser. Console resource errors reflect deliberately blocked
+analytics/advertising hosts. Screenshots are under `output/playwright/`.
+This is a focused live smoke check, supported by the local regression evidence
+below; a full production regression was not run.
+
+**Calendar-first correction and Take a Break usability (2026-11-06 IST; local,
+not committed or deployed):** Ritual Assist's root and trailing slash now open
+the existing calendar workspace directly. Vrat and Shraddha/Barsi generation
+are the primary choices; puja preparation is available at `/ritual-assist/guides`.
+Existing calendar URLs and old root `?guide` links remain supported. Generated
+guide/preview links use the new guide route to preserve browser traversal.
+The static allowlist, public Worker route and app catalogue metadata agree.
+Calendar input memory, calculations, uncertainty exclusions and exports retain
+their existing behaviour; no database, business-record or account changes.
+
+Take a Break review items 1–5 are implemented: active Daily selection is harmless,
+unfinished mode/restart/difficulty changes are guarded, four visible categories
+replace seven overlapping filters, counts are derived, compact cards expose
+timing/hint/level metadata, and Make 24 has a single entry with Daily Spark as
+its subtitle. Code, Memory, Lights Out and hub Make 24 restore browser-local
+snapshots of boards, moves and notes, keyed by IST date and puzzle versions
+(Make 24 shared difficulty variants are separate). Explicit restart replaces
+saved progress. Failed saving keeps games playable. Face-Off lists and Chaos
+remain tab-only. Shared Daily Spark gains reset guards and a snapshot interface;
+standalone Daily Spark still has tab-only progress. Review item 6 (a puzzle-specific
+Code solution walkthrough) is deferred, outside the requested first five.
+
+Verification: 27/27 targeted Node unit/API/export/input-memory/game checks and
+15/15 cache/catalogue/game checks pass (these sets overlap). The combined Chrome
+run passed 57/58 workflows; its sole failure expected the old guide-first landing.
+That expectation was corrected and its rerun passes. Six final targeted Chrome
+checks pass, including root calendar discovery, legacy links, protected resets,
+actual board/move restoration and undo, storage denial, and restored Make 24
+reveals. The broader navigation run passes eight workflows, including calendar
+to guide Back/Forward/preview reload, on-demand bilingual learning and 320px/theme
+layouts. Its ninth test used the removed duplicate Daily Spark button; after
+targeting the single Make 24 card, its rerun passes too. Across the combined run
+and targeted corrected reruns, all 68 distinct browser workflows pass; this was
+not a single clean 68-test invocation. Syntax checks and `git diff --check` pass.
+All browser/server fixtures use temporary DATA_DIR values. Unrelated pending
+AdSense/company/footer/app changes are preserved. No production claim is made.
+
+**Take a Break UX review (2026-11-06 IST):** Analysis only, recorded in
+`docs/TAKE_A_BREAK_UX_REVIEW_2026-11-06.md`. Local isolated-data Chrome review at
+390px and 1440px confirmed seven cards initially labelled eight, a mobile
+filter strip measuring 618px inside 266px, and an unfinished Code check being
+silently cleared by reselecting Daily challenge. Six prioritised improvements
+are proposed for individual approval. No app changes, commit or deployment;
+this is not a full regression or production verification.
+
 **Ritual Assist density production release (2026-11-05 IST):** Source commit
 `b7e3c12` is live as Worker `d6875c2e-457a-495a-aa1d-0317c56279dd`, deployed from
 an isolated archive of that commit with the existing organisation-enabled

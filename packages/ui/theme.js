@@ -9,16 +9,32 @@
  window.SynapseUI={observe(listener){listeners.add(listener);return ()=>listeners.delete(listener);}};
  const media=matchMedia('(prefers-color-scheme: dark)');
  let memory='light';
- const valid=value=>['light','dark','system'].includes(value)?value:'system';
+ const valid=value=>['light','dark','gold','system'].includes(value)?value:'system';
  const icons='<svg class="theme-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1 1m12 12 1 1M5 19l1-1M18 6l1-1"/></svg><svg class="theme-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15A9 9 0 0 1 9 4a9 9 0 1 0 11 11z"/></svg>';
- function read(){try{return valid(localStorage.getItem('synapse-theme')||localStorage.getItem('chambers-theme')||memory);}catch{return memory;}}
+ function preference(){try{return valid(localStorage.getItem('synapse-theme')||localStorage.getItem('chambers-theme')||memory);}catch{return memory;}}
+ // Existing app controllers continue receiving a supported light/dark/system value.
+ function read(){const value=preference();return value==='gold'?'dark':value;}
  function resolved(){const value=read();return value==='system'?(media.matches?'dark':'light'):value;}
- function sync(){const value=read(),dark=resolved()==='dark',theme=dark?'dark':'light';document.documentElement.dataset.theme=theme;if(document.body)document.body.dataset.theme=theme;document.querySelectorAll('[data-theme-toggle]').forEach(button=>{button.value=value;button.setAttribute('aria-pressed',String(dark));button.title=dark?'Switch to light mode':'Switch to dark mode';});}
- function write(value){memory=valid(value);try{localStorage.setItem('synapse-theme',memory);localStorage.setItem('chambers-theme',memory);}catch{}sync();}
+ function sync(){const value=preference(),dark=resolved()==='dark',theme=dark?'dark':'light';document.documentElement.dataset.theme=theme;document.documentElement.dataset.themeStyle=value==='gold'?'gold':'';if(document.body){document.body.dataset.theme=theme;document.body.dataset.themeStyle=value==='gold'?'gold':'';}document.querySelectorAll('[data-theme-toggle]').forEach(button=>{button.value=value;button.setAttribute('aria-pressed',String(dark));button.setAttribute('aria-haspopup','dialog');button.setAttribute('aria-controls','synapse-theme-picker');button.setAttribute('aria-expanded',String(Boolean(picker?.open)));button.title='Choose theme';button.setAttribute('aria-label','Theme');});if(picker)picker.querySelectorAll('[data-theme-choice]').forEach(button=>button.setAttribute('aria-checked',String(button.dataset.themeChoice===value)));}
+ // Legacy app initialisers re-save read()'s dark projection; only a deliberate
+ // Dark choice in the picker should replace an existing Gold preference.
+ function write(value,explicit=false){memory=value==='dark'&&preference()==='gold'&&!explicit?'gold':valid(value);try{localStorage.setItem('synapse-theme',memory);localStorage.setItem('chambers-theme',memory);}catch{}sync();}
  function control(attributes=''){return `<button type="button" class="theme-toggle" data-theme-toggle aria-label="Dark mode" aria-pressed="${resolved()==='dark'}" value="${read()}" ${attributes}>${icons}</button>`;}
- window.SynapseTheme={read,write,control};
- document.addEventListener('click',event=>{const button=event.target.closest('[data-theme-toggle]');if(!button)return;write(resolved()==='dark'?'light':'dark');button.dispatchEvent(new Event('change',{bubbles:true}));});
- window.addEventListener('storage',event=>{if(event.key!==null&&!['synapse-theme','chambers-theme'].includes(event.key))return;memory='light';sync();document.querySelectorAll('[data-theme-toggle]').forEach(button=>button.dispatchEvent(new Event('change',{bubbles:true})));});
+ let picker=null,trigger=null;
+ window.SynapseTheme={read,write,control,preference};
+ const stylesheet=document.createElement('link');stylesheet.rel='stylesheet';stylesheet.href='/shared/theme-picker.css';document.head.append(stylesheet);
+ function changed(){document.querySelectorAll('[data-theme-toggle]').forEach(button=>button.dispatchEvent(new Event('change',{bubbles:true})));sync();}
+ function openPicker(button){
+  trigger=button;
+  if(!picker){picker=document.createElement('dialog');picker.id='synapse-theme-picker';picker.className='synapse-theme-picker';picker.setAttribute('aria-labelledby','synapse-theme-title');picker.setAttribute('data-language-preserve','');picker.innerHTML='<div class="theme-picker-heading"><h2 id="synapse-theme-title">Theme</h2><button type="button" data-theme-close aria-label="Close theme picker">×</button></div><div role="radiogroup" aria-label="Theme"><button type="button" role="radio" data-theme-choice="light"><span class="theme-swatch swatch-light" aria-hidden="true"></span><span>Light</span></button><button type="button" role="radio" data-theme-choice="dark"><span class="theme-swatch swatch-dark" aria-hidden="true"></span><span>Dark</span></button><button type="button" role="radio" data-theme-choice="gold"><span class="theme-swatch swatch-gold" aria-hidden="true"></span><span>Black &amp; Gold</span></button><button type="button" role="radio" data-theme-choice="system"><span class="theme-swatch swatch-system" aria-hidden="true"></span><span>System</span></button></div><p>Your choice is saved on this browser.</p>';document.body.append(picker);
+   picker.querySelector('[data-theme-close]').onclick=()=>picker.close();picker.addEventListener('close',()=>{sync();if(trigger?.isConnected)trigger.focus();});
+   picker.addEventListener('click',event=>{const option=event.target.closest('[data-theme-choice]');if(option){write(option.dataset.themeChoice,true);changed();picker.close();}else if(event.target===picker){const box=picker.getBoundingClientRect();if(event.clientX<box.left||event.clientX>box.right||event.clientY<box.top||event.clientY>box.bottom)picker.close();}});
+   picker.addEventListener('keydown',event=>{if(!event.target.matches('[data-theme-choice]')||!['ArrowDown','ArrowUp','ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const options=[...picker.querySelectorAll('[data-theme-choice]')],index=options.indexOf(event.target),next=event.key==='Home'?0:event.key==='End'?options.length-1:(index+(['ArrowDown','ArrowRight'].includes(event.key)?1:options.length-1))%options.length;options[next].focus();});
+  }
+  const lang=document.documentElement.lang,copy=lang==='hi'?['थीम','हल्का','गहरा','काला और सुनहरा','सिस्टम','थीम बंद करें','आपकी पसंद इस ब्राउज़र में सहेजी जाती है।']:lang==='gu'?['થીમ','લાઇટ','ડાર્ક','કાળો અને સોનેરી','સિસ્ટમ','થીમ બંધ કરો','તમારી પસંદ આ બ્રાઉઝરમાં સાચવવામાં આવે છે.']:['Theme','Light','Dark','Black & Gold','System','Close theme picker','Your choice is saved on this browser.'];picker.querySelector('h2').textContent=copy[0];picker.querySelector('[role=radiogroup]').setAttribute('aria-label',copy[0]);picker.querySelectorAll('[data-theme-choice]>span:last-child').forEach((span,i)=>{span.textContent=copy[i+1];span.parentElement.setAttribute('aria-label',copy[i+1]);});picker.querySelector('[data-theme-close]').setAttribute('aria-label',copy[5]);picker.querySelector('p').textContent=copy[6];picker.showModal();sync();picker.querySelector('[aria-checked=true]').focus();
+ }
+ document.addEventListener('click',event=>{const button=event.target.closest('[data-theme-toggle]');if(button)openPicker(button);});
+ window.addEventListener('storage',event=>{if(event.key!==null&&!['synapse-theme','chambers-theme'].includes(event.key))return;memory='light';sync();changed();});
  media.addEventListener('change',sync);
  window.SynapseUI.observe(records=>{if(records.some(record=>[...record.addedNodes].some(node=>node.nodeType===1&&(node.matches('body,[data-theme-toggle]')||node.querySelector('[data-theme-toggle]')))))sync();});
  sync();

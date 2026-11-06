@@ -1,5 +1,13 @@
 # Organisation licensing production cutover
 
+Calendar-first / Take a Break release (2026-11-06 IST): Worker
+`a961949f-5766-4ce7-b74a-612461e3613b` is live from isolated base `75aa941` plus
+11 allowlisted source overlays. The existing organisation-enabled production
+config and `--keep-vars` retained D1/auth/rate-limit bindings. No migrations,
+bootstrap or business/account writes. Live calendar generation, input memory,
+puzzle resume, guide forwarding and seven asset hashes pass; health is 200 and
+unscoped records remain 409. Detailed evidence is in the functionality ledger.
+
 Ritual Assist density release (2026-11-05 IST): source `b7e3c12` is live as Worker
 `d6875c2e-457a-495a-aa1d-0317c56279dd` from an isolated committed archive using
 the existing production config and `--keep-vars`. Six density improvements,

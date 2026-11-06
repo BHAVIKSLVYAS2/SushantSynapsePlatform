@@ -1,5 +1,7 @@
 // Explicit URL allowlist. Filesystem paths are never accepted from requests.
 const staticAssets={
+ '/shared/theme-picker.css':'packages/ui/theme-picker.css',
+ '/take-a-break/usability.css':'apps/take-a-break/frontend/usability.css',
  '/shared/task-intent.mjs':'packages/ui/task-intent.mjs',
  '/ritual-assist/calendar-location.mjs':'apps/ritual-assist/frontend/calendar-location.mjs',
  '/ritual-assist/places.mjs':'packages/vedic/places.mjs',
@@ -111,7 +113,9 @@ const staticAssets={
  '/support.css':'apps/portal/frontend/support.css',
  '/support-engine.mjs':'apps/portal/frontend/support-engine.mjs',
  '/support-qr.mjs':'apps/portal/frontend/support-qr.mjs',
- '/ritual-assist':'apps/ritual-assist/frontend/index.html',
+ '/ritual-assist':'apps/ritual-assist/frontend/calendar.html',
+ '/ritual-assist/guides':'apps/ritual-assist/frontend/index.html',
+ '/ritual-assist/guides/':'apps/ritual-assist/frontend/index.html',
  '/ritual-assist/calendar':'apps/ritual-assist/frontend/calendar.html',
  '/ritual-assist/calendar/':'apps/ritual-assist/frontend/calendar.html',
  '/ritual-assist/calendar.js':'apps/ritual-assist/frontend/calendar.js',
@@ -131,7 +135,7 @@ const staticAssets={
  '/ritual-assist/calendar.css':'apps/ritual-assist/frontend/calendar.css',
  '/ritual-assist/panchang.mjs':'apps/ritual-assist/frontend/panchang.mjs',
  '/ritual-assist/astronomy-engine.mjs':'packages/vedic/vendor/astronomy-engine-2.1.19.mjs',
- '/ritual-assist/':'apps/ritual-assist/frontend/index.html',
+ '/ritual-assist/':'apps/ritual-assist/frontend/calendar.html',
  '/ritual-assist/app.js':'apps/ritual-assist/frontend/app.js',
  '/ritual-assist/guides.mjs':'apps/ritual-assist/frontend/guides.mjs',
  '/ritual-assist/learning.mjs':'apps/ritual-assist/frontend/learning.mjs',

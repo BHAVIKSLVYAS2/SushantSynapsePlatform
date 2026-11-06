@@ -24,7 +24,7 @@ test('shared settings carry across home and Vedic apps, preserve inputs and sync
   await other.goto(base+'/');await expect(toggle(other,'gu')).toHaveAttribute('aria-pressed','true');expect(await other.evaluate(()=>localStorage.getItem('synapse-language'))).toBe('gu');
   await other.goto(base+'/ritual-assist');await expect(other.locator('#language')).toHaveValue('en');expect(await other.evaluate(()=>localStorage.getItem('synapse-language'))).toBe('gu');
   await choose(other,'hi');await expect(page.locator('html')).toHaveAttribute('lang','hi');await expect(page.locator('#birth-date')).toHaveValue('2000-01-01');
-  await expect(other.locator('html')).toHaveAttribute('data-theme','dark');await other.locator('.platform-shell [data-theme-toggle]').click();await expect(other.locator('html')).toHaveAttribute('data-theme','light');await expect(page.locator('html')).toHaveAttribute('data-theme','light');
+  await expect(other.locator('html')).toHaveAttribute('data-theme','dark');await require('../../../../tests/browser-theme').setTheme(other,'light');await expect(other.locator('html')).toHaveAttribute('data-theme','light');await expect(page.locator('html')).toHaveAttribute('data-theme','light');
  }finally{await other.close();}
 });
 

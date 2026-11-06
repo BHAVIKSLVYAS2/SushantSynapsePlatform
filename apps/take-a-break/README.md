@@ -1,5 +1,15 @@
 # Take a Break
 
+Usability improvements (2026-11-06; deployed, see the functionality ledger): four visible hub
+filters, derived activity counts, compact cards with visible metadata and a
+single Make 24 entry (Daily Spark is its subtitle). Selecting the active daily
+mode keeps progress. Explicit restart and mode changes protect unfinished rounds.
+Code, Memory, Lights Out and hub Make 24 save browser-local snapshots, keyed by
+IST challenge date and puzzle versions; Make 24 shared difficulty variants are
+separate. Reload restores boards, notes and moves. Fresh starts replace the saved
+round. Storage failures keep play usable. Face-Off lists and Chaos remain tab-only.
+The older tab-only puzzle descriptions below are historical.
+
 Lights Out replaces Clue Club: tapping a tile flips itself and its
 orthogonal neighbours. Clear solvable 3×3, 4×4 and 5×5 boards with a move counter,
 optimal move target, undo, restart and optional shortest-solution hints. Keyboard

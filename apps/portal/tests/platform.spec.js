@@ -58,7 +58,7 @@ test('premium bento keeps all tools discoverable across touch layouts and both t
  await expect(page.locator('.home-welcome')).toHaveCount(0);
  for(const route of ['/timetable-lite','/ritual-assist','/ritual-assist/calendar','/team-mixer','/decision-wheel','/moment-studio','/moment-studio/certificates','/take-a-break','/daily-spark','/news','/fund-overlap','/advocate','/digital-samaj','/batchfee-lite','/tournament-lite','/satire-arena']){
   await page.goto(base+route);await expect(page.locator('link[href*="/shared/premium.css"],link[href*="/home.bundle.css"]')).toHaveCount(1);
-  await expect(page.getByRole('button',{name:'Dark mode',exact:true})).toBeVisible();
+  await expect(page.getByRole('button',{name:'Theme',exact:true})).toBeVisible();
   await expect(page.locator('html'),route).toHaveAttribute('data-theme','dark');
   // App-owned dark palettes may differ while retaining a readable dark canvas.
   await expect.poll(async()=>page.locator('body').evaluate(el=>{
@@ -84,17 +84,17 @@ test('theme toggle supports light default, saved system preference, keyboard, cr
  try{
   const page=await context.newPage(),other=await context.newPage();
   await page.goto(base+'/');await other.goto(base+'/news');
-  const toggle=page.getByRole('button',{name:'Dark mode',exact:true});await expect(toggle).toHaveAttribute('aria-pressed','false');
+  const toggle=page.getByRole('button',{name:'Theme',exact:true});await expect(toggle).toHaveAttribute('aria-pressed','false');
   await expect(page.locator('html')).toHaveAttribute('data-theme','light');
   await setTheme(page,'system');await expect(toggle).toHaveAttribute('aria-pressed','true');
-  await expect(page.locator('select#theme')).toHaveCount(0);await toggle.focus();await page.keyboard.press('Space');
+  await expect(page.locator('select#theme')).toHaveCount(0);await toggle.focus();await page.keyboard.press('Space');await page.locator('#synapse-theme-picker [data-theme-choice=light]').click();
   await expect(toggle).toHaveAttribute('aria-pressed','false');await expect(page.locator('html')).toHaveAttribute('data-theme','light');await expect(other.locator('html')).toHaveAttribute('data-theme','light');
   await page.reload();await expect(toggle).toHaveAttribute('aria-pressed','false');await page.goto(base+'/timetable-lite');await expect(page.locator('body')).toHaveAttribute('data-theme','light');
-  await page.getByRole('button',{name:'Dark mode',exact:true}).click();await expect(other.locator('html')).toHaveAttribute('data-theme','dark');
+  await require('../../../tests/browser-theme.js').toggleTheme(page);await expect(other.locator('html')).toHaveAttribute('data-theme','dark');
  }finally{await context.close();}
  const blocked=await require('../../../tests/browser-fixture.js').acknowledgedContext(browser);try{
   await blocked.addInitScript(()=>{Storage.prototype.getItem=Storage.prototype.setItem=()=>{throw new Error('Storage blocked');};});
-  const page=await blocked.newPage();await page.goto(base+'/');const toggle=page.getByRole('button',{name:'Dark mode',exact:true});await toggle.click();await expect(toggle).toHaveAttribute('aria-pressed','true');await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+  const page=await blocked.newPage();await page.goto(base+'/');const toggle=page.getByRole('button',{name:'Theme',exact:true});await toggle.click();await page.locator('#synapse-theme-picker [data-theme-choice=dark]').click();await expect(toggle).toHaveAttribute('aria-pressed','true');await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
  }finally{await blocked.close();}
 });
 const {spawn}=require('node:child_process');

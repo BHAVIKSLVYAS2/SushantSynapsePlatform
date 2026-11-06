@@ -112,7 +112,7 @@ test('mobile themes, outage honesty and homepage discovery', async ({page, brows
   await page.goto(base + '/support');
   await expect(page.locator('#qr')).toBeVisible();
   for (const theme of ['dark', 'light']) {
-    await page.getByRole('button', {name: 'Dark mode', exact: true}).click();
+    await require('../../../../tests/browser-theme.js').toggleTheme(page);
     await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
     await page.screenshot({path: 'test-results/support-mobile-' + theme + '.png', fullPage: true});
   }

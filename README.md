@@ -1,5 +1,15 @@
 # Curio · Sushant Synapse
 
+Theme picker (2026-11-06): the header theme icon opens Light, Dark, Black & Gold
+and System choices. Black & Gold is an opt-in third visual palette inspired by
+the supplied reference; existing app layouts and Light/Dark palettes are retained.
+Preferences remain browser-local. Release verification is in the functionality ledger.
+
+Deployed changes (2026-11-06; see the functionality ledger) restore Ritual Assist's primary
+calendar workflow at `/ritual-assist`, with Vrat and Shraddha/Barsi generation.
+Puja preparation remains at `/ritual-assist/guides`. Take a Break adds simpler
+discovery, progress protection and browser-local puzzle resume.
+
 Ritual Assist now uses compact image-export controls with expandable previews,
 a year dropdown for Shraddha/Barsi cards, and a separate optional Hindu festivals
 filter. Complete year-by-year details remain available in PDF. Festival dates

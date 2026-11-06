@@ -1,5 +1,28 @@
 # Code ownership and adding apps
 
+Shared theme picker (2026-11-06): `packages/ui/theme.js` owns a native dialog,
+keyboard/focus handling and saved preference. `theme-picker.css` is explicitly
+allowlisted and delivered through the existing dependency fingerprint pipeline.
+The `gold` preference resolves as dark for existing app controllers, with a
+separate `data-theme-style=gold` marker and scoped screen-only palette. Dark
+projection writes from legacy app initialisers preserve Gold; explicit picker
+selection can replace it. System remains an OS-following setting. App layouts,
+calculations, exports and original Light/Dark styles are unchanged.
+
+Calendar-first correction (2026-11-06; local): the explicit static registry maps
+`/ritual-assist` and its trailing slash to the existing calendar page. Puja
+checklists use `/ritual-assist/guides`; legacy root `?guide` links forward there.
+The Worker treats the guide route as public, like the existing calendar. App
+registry metadata presents Vrat and Shraddha/Barsi generation first. Calendar
+calculation, input memory, export admission and organisation boundaries are intact.
+
+Take a Break usability (2026-11-06; local): app-owned `usability.css` provides
+compact discovery. Controllers serialize browser-local puzzle snapshots bounded
+by IST day and engine versions, with difficulty-aware Make 24 keys. The shared
+Daily Spark controller exposes snapshot/restore and protects unfinished resets;
+standalone Daily Spark still has tab-only progress. Face-Off custom lists and
+Chaos are excluded from snapshot persistence. No backend/schema changes.
+
 Ritual information density (2026-11-05): app-owned `density.css` provides the
 guide toolbar/header, responsive material groups, compact calendar inputs and
 date-grouped Vrat agenda. `app.js` reorganises existing guide notes and controls;

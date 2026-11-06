@@ -21,7 +21,7 @@ test('shared platform header owns settings and navigation without making birth-p
  await expect(page.locator('.platform-shell')).toHaveCount(1);await expect(page.locator('html')).toHaveAttribute('lang','hi');
  await expect(page.locator('.platform-shell [data-theme-toggle]')).toHaveCount(1);await expect(page.locator('#theme')).toHaveCount(0);
  await expect(page.locator('.platform-shell [data-language-control]')).toHaveCount(1);await expect(page.locator('#vedic-language')).toHaveCount(0);await expect(page.locator('main #birth-language')).toBeHidden();
- await page.locator('.platform-shell [data-theme-toggle]').click();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+ await require('../../../tests/browser-theme').toggleTheme(page);await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
  await chooseLanguage(page,'gu');await expect(page.locator('html')).toHaveAttribute('lang','gu');
  await page.locator('.platform-switch').click();await expect(page.locator('#platform-switcher')).toBeVisible();await page.keyboard.press('Escape');
  await page.locator('.vedic-nav a[href="/rashifal-kundli/rashifal"]').click();await expect(page.locator('[data-interface-language=gu]')).toHaveAttribute('aria-pressed','true');
@@ -118,7 +118,7 @@ test('calculated timeline shows IST roots and rule reasons across every Rashi, p
   await expect(ingress.locator('time')).toHaveAttribute('datetime',/^2026-10-25T13:52:/);await expect(ingress.locator('time')).toContainText('19:22');
   await expect(timeline.locator('li[data-kind=guard-enter] [data-affected]')).not.toHaveCount(0);
  }
- await page.locator('[data-view=weekly]').click();await page.locator('.platform-shell [data-theme-toggle]').click();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+ await page.locator('[data-view=weekly]').click();await require('../../../tests/browser-theme').toggleTheme(page);await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
  await expect(page.locator('.rashifal-timeline h3')).toHaveText('Changes this week');
  for(const language of ['hi','gu','en']){await chooseLanguage(page,language);await expect(page.locator('.rashifal-reading')).toHaveAttribute('lang',language);await expect(page.locator('.rashifal-timeline')).toHaveAttribute('data-status','available');
   for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:900});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}

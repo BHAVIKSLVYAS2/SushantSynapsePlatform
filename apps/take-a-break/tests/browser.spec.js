@@ -1,19 +1,61 @@
 const {test,expect}=require('../../../tests/browser-fixture.js'),{spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path'),{setTheme}=require('../../../tests/browser-theme');let child,base,dir;
+
+test('unfinished rounds survive active-mode clicks, rejected resets and reloads',async({page})=>{
+ await page.goto(base+'/take-a-break?game=code&day=2026-10-04&cv=2');
+ await page.getByLabel('Your code guess').fill('123');await page.getByRole('button',{name:'Check code',exact:true}).click();
+ await page.getByRole('button',{name:'Digit 0: unmarked',exact:true}).click();
+ await page.locator('#daily-mode').click();await expect(page.locator('.code-row')).toHaveCount(1);
+ page.once('dialog',d=>d.dismiss());await page.locator('#practice-mode').click();await expect(page.locator('.code-row')).toHaveCount(1);
+ await page.reload();await expect(page.locator('.code-row')).toHaveCount(1);await expect(page.getByRole('button',{name:'Digit 0: ruled out',exact:true})).toBeVisible();
+ page.once('dialog',d=>d.accept());await page.locator('#restart-round').click();await expect(page.locator('.code-row')).toHaveCount(0);
+ await page.reload();await expect(page.locator('.code-row')).toHaveCount(0);
+});
+
+test('memory, Lights Out and Make 24 restore their actual boards and moves',async({page})=>{
+ for(const game of ['memory','lights','24']){
+  await page.goto(base+'/take-a-break?game='+game+'&day=2026-10-05&level=challenge');
+  const tile=page.locator(game==='memory'?'.memory-tile':game==='lights'?'.lights-tile':'[data-pane="24"] #numbers button').first();await tile.click();
+  if(game==='memory')await page.locator('.memory-tile').nth(1).click();
+  if(game==='24'){await page.locator('[data-pane="24"] #numbers button').nth(1).click();await page.locator('[data-pane="24"] [data-op="+"]').click();await page.locator('[data-pane="24"] #combine').click();await expect(page.locator('[data-pane="24"] #numbers button')).toHaveCount(3);}
+  const selector=game==='memory'?'.memory-tile':game==='lights'?'.lights-tile':'[data-pane="24"] #numbers button';
+  const snapshot=await page.locator(selector).evaluateAll(tiles=>tiles.map(t=>[t.textContent,t.getAttribute('aria-pressed')]));
+  await page.reload();await expect(page.locator(selector).first()).toBeVisible();expect(await page.locator(selector).evaluateAll(tiles=>tiles.map(t=>[t.textContent,t.getAttribute('aria-pressed')]))).toEqual(snapshot);
+  if(game==='memory')await expect(page.locator('.moves')).toHaveText('1 moves');
+  if(game==='lights'){await expect(page.locator('.lights-moves')).toContainText('1 move');await page.getByRole('button',{name:'Undo move',exact:true}).click();await expect(page.locator('.lights-moves')).toContainText('0 moves');}
+  if(game==='24'){await page.locator('[data-pane="24"] #undo').click();await expect(page.locator('[data-pane="24"] #numbers button')).toHaveCount(4);}
+ }
+});
+
+test('unavailable saving leaves puzzles usable and custom lists are excluded from saved progress',async({page})=>{
+ await page.addInitScript(()=>{Storage.prototype.setItem=function(){throw new DOMException('Unavailable','QuotaExceededError');};});
+ await page.goto(base+'/take-a-break?game=memory');await page.locator('.memory-tile').first().click();await expect(page.locator('#save-note')).toContainText('unavailable');await expect(page.locator('.memory-tile[aria-pressed=true]')).toHaveCount(1);
+ await page.goto(base+'/take-a-break?game=face');await page.locator('textarea[name=choices]').fill('Private A\nPrivate B');await page.getByRole('button',{name:'Start Face-Off',exact:true}).click();
+ expect(await page.evaluate(()=>localStorage.getItem('synapse-break-progress-v1')||'')).not.toContain('Private');
+});
+
+test('Make 24 preserves active daily selections and restores a revealed result',async({page})=>{
+ await page.goto(base+'/take-a-break?game=24&day=2026-10-06&level=expert');await page.locator('[data-pane="24"] #numbers button').first().click();
+ await page.locator('[data-pane="24"] #daily').click();await expect(page.locator('[data-pane="24"] #numbers button').first()).toHaveAttribute('aria-pressed','true');
+ await page.locator('[data-pane="24"] .spark-details').first().locator('summary').click();await page.locator('[data-pane="24"] #reveal').click();
+ await expect(page.locator('[data-pane="24"] #result-title')).toHaveText('One way to make 24.');await page.reload();
+ await expect(page.locator('[data-pane="24"] #result')).toBeVisible();await expect(page.locator('[data-pane="24"] #result-title')).toHaveText('One way to make 24.');
+ await expect(page.locator('[data-pane="24"] #practice-difficulty')).toHaveValue('expert');await page.locator('#restart-round').click();await expect(page.locator('[data-pane="24"] #result')).toBeHidden();
+});
 test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-break-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe']});base=await new Promise((resolve,reject)=>{let out='';const timer=setTimeout(()=>reject(Error('Startup timeout')),15000);child.stdout.on('data',c=>{out+=c;const match=out.match(/localhost:(\d+)/);if(match){clearTimeout(timer);resolve('http://127.0.0.1:'+match[1]);}});child.once('error',reject);});});test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});fs.rmSync(dir,{recursive:true,force:true});});
 test('bento filters balance cards and keep the logic puzzle available',async({page})=>{
  await page.goto(base+'/take-a-break');
  for(const width of [320,768,1440]){await page.setViewportSize({width,height:900});for(const theme of ['light','dark']){
   await setTheme(page,theme);
-  for(const [kind,count]of [['all',7],['puzzle',3],['memory',1],['logic',3],['quick',3],['challenge',5],['choose',2]]){
-   const pill=page.locator(`[data-filter=${kind}]`);await pill.click();await expect(pill).toHaveAttribute('aria-pressed','true');await expect(page.locator('.break-card:not([hidden])')).toHaveCount(count);await expect(page.locator('#break-filter-status')).toHaveText(count+(count===1?' activity shown':' activities shown'));expect((await pill.boundingBox()).height).toBeGreaterThanOrEqual(48);
+  for(const [kind,count]of [['all',7],['puzzle',4],['quick',3],['choose',2]]){
+   const pill=page.locator(`[data-filter=${kind}]`);await pill.click();await expect(pill).toHaveAttribute('aria-pressed','true');await expect(page.locator('.break-card:not([hidden])')).toHaveCount(count);await expect(page.locator('#break-filter-status')).toHaveText(count+(count===1?' activity shown':' activities shown'));expect((await pill.boundingBox()).height).toBeGreaterThanOrEqual(44);
   }
-  await page.locator('[data-filter=challenge]').click();
+  await page.locator('[data-filter=all]').click();
   if(width===1440){expect(await page.locator('.break-grid').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length)).toBe(2);expect(await page.locator('[data-game=chaos]').evaluate(el=>getComputedStyle(el).gridColumnStart)).toBe('auto');}
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  }}
  await page.screenshot({path:'.publish/break-bento-desktop.png',fullPage:true});await page.setViewportSize({width:390,height:844});await page.screenshot({path:'.publish/break-bento-mobile.png',fullPage:true});
  await page.emulateMedia({reducedMotion:'reduce'});await page.locator('[data-filter=choose]').press('Enter');await expect(page.locator('[data-filter=choose]')).toHaveAttribute('aria-pressed','true');expect(await page.locator('.break-card:not([hidden])').first().evaluate(el=>el.getAnimations().length)).toBe(0);
- await page.locator('[data-filter=challenge]').click();await expect(page.locator('[data-game=code]')).toBeEnabled();await expect(page.locator('#code-access')).toBeVisible();await expect(page.locator('[data-game=code]')).toHaveAccessibleDescription('Free to play · No unlock needed');await page.locator('[data-game=code]').click();await expect(page.locator('#play-title')).toHaveText('Crack the Code');
+ await page.locator('[data-filter=all]').click();await expect(page.locator('[data-game=code]')).toBeEnabled();await expect(page.locator('#code-access')).toBeVisible();await expect(page.locator('[data-game=code]')).toHaveAccessibleDescription('Untimed · Starting hint available');await page.locator('[data-game=code]').click();await expect(page.locator('#play-title')).toHaveText('Crack the Code');
 });
 
 test('restrained hub fits reference widths, keeps daily navigation and keyboard focus',async({page})=>{
@@ -27,8 +69,8 @@ test('restrained hub fits reference widths, keeps daily navigation and keyboard 
  }
  await page.setViewportSize({width:390,height:900});await page.screenshot({path:'.publish/break-polish-mobile.png',fullPage:true});
  await page.setViewportSize({width:1280,height:900});await page.screenshot({path:'.publish/break-polish-desktop.png',fullPage:true});
- await page.emulateMedia({reducedMotion:'reduce'});await page.locator('[data-filter=memory]').focus();await page.keyboard.press('Enter');await expect(page.locator('[data-filter=memory]')).toBeFocused();await expect(page.locator('.break-card:not([hidden])')).toHaveCount(1);
- await page.locator('.spark-feature').click();await expect(page.locator('#play-title')).toHaveText('Make 24');await expect(page.locator('[data-pane="24"] #practice-difficulty')).toBeVisible();expect(errors).toEqual([]);
+ await page.emulateMedia({reducedMotion:'reduce'});await page.locator('[data-filter=puzzle]').focus();await page.keyboard.press('Enter');await expect(page.locator('[data-filter=puzzle]')).toBeFocused();await expect(page.locator('.break-card:not([hidden])')).toHaveCount(4);
+ await page.locator('[data-game="24"]').click();await expect(page.locator('#play-title')).toHaveText('Make 24');await expect(page.locator('[data-pane="24"] #practice-difficulty')).toBeVisible();expect(errors).toEqual([]);
 });
 
 test('chaos supports keyboard, pause, completion and a mobile layout',async({page})=>{
@@ -40,7 +82,7 @@ test('confession artwork and chaos fit desktop and reduced-motion small screens'
  await page.setViewportSize({width:320,height:568});await page.emulateMedia({reducedMotion:'reduce'});await setTheme(page,'light');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.locator('[data-pause]').click();const box=await page.locator('.chaos-board').boundingBox();await page.locator('.chaos-board').click({position:{x:box.width*.9,y:30}});await expect(page.locator('.chaos-tray')).toHaveAttribute('style',/90%/);
 });
 test('one mobile entry opens all seven breaks and preserves in-tab progress and Make 24',async({page})=>{
- const errors=[],api=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(new URL(r.url()).pathname.startsWith('/api/')&&new URL(r.url()).pathname!=='/api/platform/visitors'&&!(r.method()==='GET'&&new URL(r.url()).pathname==='/api/auth/status'))api.push(r.url());});await page.setViewportSize({width:320,height:700});await page.goto(base+'/take-a-break');await expect(page.locator('.break-card')).toHaveCount(7);await page.locator('[data-filter=choose]').click();await expect(page.locator('.break-card:visible')).toHaveCount(2);await page.locator('[data-filter=challenge]').click();
+ const errors=[],api=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(new URL(r.url()).pathname.startsWith('/api/')&&new URL(r.url()).pathname!=='/api/platform/visitors'&&!(r.method()==='GET'&&new URL(r.url()).pathname==='/api/auth/status'))api.push(r.url());});await page.setViewportSize({width:320,height:700});await page.goto(base+'/take-a-break');await expect(page.locator('.break-card')).toHaveCount(7);await page.locator('[data-filter=choose]').click();await expect(page.locator('.break-card:visible')).toHaveCount(2);await page.locator('[data-filter=all]').click();
  await page.locator('[data-game="24"]').click();await expect(page.locator('[data-pane="24"] #numbers button')).toHaveCount(4);const numbers=await page.locator('[data-pane="24"] #numbers').innerText();await page.locator('[data-pane="24"] #numbers button').first().click();await page.locator('#all-breaks').click();await page.locator('[data-game=code]').click();await page.getByLabel('Your code guess').fill('123');await page.getByRole('button',{name:'Check code',exact:true}).click();await expect(page.locator('.code-row')).toHaveCount(1);await page.locator('#all-breaks').click();await page.locator('[data-game="24"]').click();expect(await page.locator('[data-pane="24"] #numbers').innerText()).toContain(numbers.split('\n')[0]);await expect(page.locator('[data-pane="24"] #numbers button').first()).toHaveAttribute('aria-pressed','true');
  await page.locator('[data-pane="24"] .spark-details').first().locator('summary').click();await page.locator('[data-pane="24"] #reveal').click();await expect(page.locator('[data-pane="24"] #result-copy')).toContainText('24');await page.getByRole('button',{name:'Try Crack the Code'}).click();await expect(page.locator('.code-row')).toHaveCount(1);
  await page.locator('#all-breaks').click();await page.locator('[data-filter=choose]').click();await page.getByRole('link',{name:/Decision Wheel/}).click();await expect(page.locator('#spin')).toBeVisible();await page.getByRole('link',{name:'All breaks ↗',exact:true}).click();await expect(page.locator('.break-card')).toHaveCount(7);expect(api).toEqual([]);expect(errors).toEqual([]);
@@ -60,13 +102,13 @@ test('code clues support deduction, scratchpad, validation, hints, honest reveal
  await page.getByRole('button',{name:'Give me a starting hint'}).click();await expect(page.locator('.code-hint-copy')).toContainText('are all absent');
  await input.fill(secret);await submit.click();await expect(page.locator('.result-card')).toContainText('2 checks · starting hint used');await expect(submit).toBeDisabled();
  await page.getByRole('button',{name:'Share result'}).click();const message=await page.locator('#share-message').inputValue();expect(message).toContain('cv=2');expect(message).toContain('hint used');expect(message).not.toContain(secret);
- await page.locator('#close-share').click();await page.locator('#daily-mode').click();await expect(page.locator('.code-row')).toHaveCount(0);await expect(page.getByRole('button',{name:'Digit 0: unmarked',exact:true})).toBeVisible();
+ await page.locator('#close-share').click();await page.locator('#restart-round').click();await expect(page.locator('.code-row')).toHaveCount(0);await expect(page.getByRole('button',{name:'Digit 0: unmarked',exact:true})).toBeVisible();
  page.once('dialog',dialog=>dialog.dismiss());await page.getByRole('button',{name:'Reveal solution'}).click();await expect(submit).toBeEnabled();
  page.once('dialog',dialog=>dialog.accept());await page.getByRole('button',{name:'Reveal solution'}).click();await expect(page.locator('.result-card')).toContainText('Answer revealed');await expect(submit).toBeDisabled();
  await page.getByRole('button',{name:'Share result'}).click();await expect(page.locator('#share-message')).toHaveValue(/Solution revealed/);expect(await page.locator('#share-message').inputValue()).not.toContain(secret);
  await page.locator('#close-share').click();await page.locator('#practice-mode').click();await expect(page.locator('.code-row')).toHaveCount(0);await expect(page.locator('.code-clue')).toHaveCount(5);await expect(submit).toBeEnabled();await expect(page.locator('#hub-edition')).toContainText('PRACTICE');
  await page.locator('#daily-mode').click();await input.fill(secret);await submit.click();await expect(page.locator('.result-card')).toContainText('1 check · no hints');
- await page.reload();await expect(page.locator('.code-row')).toHaveCount(0);await expect(page.locator('.code-clue')).toHaveCount(5);
+ await page.reload();await expect(page.locator('.code-row')).toHaveCount(1);await expect(page.locator('.code-clue')).toHaveCount(5);
 });
 
 test('memory handles mismatch without timers and solves six pairs',async({page})=>{
@@ -76,8 +118,8 @@ test('victory presentation celebrates genuine solves, cleans up and respects red
  const day='2026-10-01',{codePuzzle}=await import('../frontend/engine.mjs'),secret=codePuzzle(day).secret;await page.clock.install();await page.emulateMedia({reducedMotion:'no-preference'});await page.setViewportSize({width:390,height:844});await page.goto(base+'/take-a-break?game=code&day='+day);
  async function solve(){await page.getByLabel('Your code guess').fill(secret);await page.getByRole('button',{name:'Check code',exact:true}).click();await expect(page.locator('.break-win-badge')).toHaveText('Code cracked!');await expect(page.locator('.break-win-title')).toBeFocused();}
  await solve();await expect(page.locator('.spark-party-overlay')).toHaveCount(1);await expect(page.locator('.spark-popper')).toHaveCount(2);expect(await page.locator('.spark-party-overlay').evaluate(e=>getComputedStyle(e).pointerEvents)).toBe('none');expect(await page.locator('.spark-party-overlay>span').count()).toBeLessThan(120);await page.screenshot({path:'.publish/break-victory-mobile.png',fullPage:true});await page.clock.fastForward(3000);await expect(page.locator('.spark-party-overlay')).toHaveCount(0);
- await page.locator('#daily-mode').click();await solve();await page.locator('#all-breaks').click();await expect(page.locator('.spark-party-overlay')).toHaveCount(0);await page.locator('[data-game=code]').click();await expect(page.locator('.spark-party-overlay')).toHaveCount(0);await page.locator('#daily-mode').click();page.once('dialog',d=>d.accept());await page.getByRole('button',{name:'Reveal solution',exact:true}).click();await expect(page.locator('.result-card')).not.toHaveClass(/break-won/);await expect(page.locator('.break-win-medal')).toHaveCount(0);await expect(page.locator('.spark-party-overlay')).toHaveCount(0);
- await page.locator('#daily-mode').click();await page.emulateMedia({reducedMotion:'reduce'});await solve();await expect(page.locator('.break-win-medal')).toBeVisible();await expect(page.locator('.spark-party-overlay')).toHaveCount(0);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await page.locator('#restart-round').click();await solve();await page.locator('#all-breaks').click();await expect(page.locator('.spark-party-overlay')).toHaveCount(0);await page.locator('[data-game=code]').click();await expect(page.locator('.spark-party-overlay')).toHaveCount(0);await page.locator('#restart-round').click();page.once('dialog',d=>d.accept());await page.getByRole('button',{name:'Reveal solution',exact:true}).click();await expect(page.locator('.result-card')).not.toHaveClass(/break-won/);await expect(page.locator('.break-win-medal')).toHaveCount(0);await expect(page.locator('.spark-party-overlay')).toHaveCount(0);
+ await page.locator('#restart-round').click();await page.emulateMedia({reducedMotion:'reduce'});await solve();await expect(page.locator('.break-win-medal')).toBeVisible();await expect(page.locator('.spark-party-overlay')).toHaveCount(0);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 test('Lights Out supports hints, keyboard, undo, stable reset and three solvable levels',async({page})=>{
  const day='2026-10-03',{lightsLevel,solveLights}=await import('../frontend/engine.mjs');
@@ -107,5 +149,5 @@ test('Face-Off validates, keeps safe custom choices, handles byes and undoes the
  await page.goto(base+'/take-a-break?game=face');await page.getByLabel('Choices, one per line').fill('A\na');await page.getByRole('button',{name:'Start Face-Off'}).click();await expect(page.locator('.face-error')).toContainText('different name');await page.getByLabel('Choices, one per line').fill('<img src=x>\nहिन्दी\nOption C\nOption D\nOption E');await page.getByLabel('Face-Off title').fill('My safe choices');await page.getByRole('button',{name:'Start Face-Off'}).click();for(let i=0;i<4;i++)await page.locator('.face-pair button').first().click();await expect(page.locator('[data-pane=face] .result-card')).toContainText('4 comparisons');await expect(page.locator('[data-pane=face] .break-win-badge')).toHaveText('Your favourite is crowned!');await expect(page.locator('.face-layout img')).toHaveCount(0);await page.getByRole('button',{name:'Undo last choice'}).click();await expect(page.locator('.face-pair button')).toHaveCount(2);await expect(page.locator('[data-pane=face] .result-card')).toBeHidden();
 });
 test('hub and every game fit small phones, desktop themes and keyboard focus',async({page})=>{
- const errors=[];page.on('pageerror',e=>errors.push(e.message));for(const [width,height,theme] of [[320,568,'light'],[390,844,'dark'],[1440,900,'light']]){await page.setViewportSize({width,height});await page.goto(base+'/take-a-break');await setTheme(page,theme);await page.screenshot({path:`test-results/break-hub-${width}.png`,fullPage:true});for(const id of ['24','code','memory','lights','face']){await page.locator(id==='face'?'[data-filter=choose]':'[data-filter=challenge]').click();await page.locator(`[data-game="${id}"]`).click();await expect(page.locator('#play-title')).toBeFocused();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:`test-results/break-${id}-${width}.png`});await page.locator('#all-breaks').click();await expect(page.locator(`[data-game="${id}"]`)).toBeFocused();}}await page.goto(base+'/take-a-break?game=code&day=2026-02-30&v=9');await expect(page.locator('.quiet-note').first()).toContainText('unavailable');expect(errors).toEqual([]);
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));for(const [width,height,theme] of [[320,568,'light'],[390,844,'dark'],[1440,900,'light']]){await page.setViewportSize({width,height});await page.goto(base+'/take-a-break');await setTheme(page,theme);await page.screenshot({path:`test-results/break-hub-${width}.png`,fullPage:true});for(const id of ['24','code','memory','lights','face']){await page.locator(id==='face'?'[data-filter=choose]':'[data-filter=all]').click();await page.locator(`[data-game="${id}"]`).click();await expect(page.locator('#play-title')).toBeFocused();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:`test-results/break-${id}-${width}.png`});await page.locator('#all-breaks').click();await expect(page.locator(`[data-game="${id}"]`)).toBeFocused();}}await page.goto(base+'/take-a-break?game=code&day=2026-02-30&v=9');await expect(page.locator('.quiet-note').first()).toContainText('unavailable');expect(errors).toEqual([]);
 });
