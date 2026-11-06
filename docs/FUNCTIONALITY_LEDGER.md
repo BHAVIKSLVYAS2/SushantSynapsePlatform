@@ -1,5 +1,17 @@
 # Chambers functionality ledger
 
+**Combined release live (2026-11-06 IST):** Source `2dfb69a` is deployed as Worker
+`18398433-9d59-44dc-9a77-be511f3cd6fc`. Includes all pending Vrat, Shraddh,
+Checklist and Moment Studio/export-design changes described below. Built and
+deployed from an isolated committed archive using the existing production
+configuration and `--keep-vars`; 1,246 public frontend assets. Six changed public
+JS/CSS asset SHA256 hashes match the committed build. Live health 200, unscoped
+records 409 and unauthenticated Chambers 401. Deployment log:
+`.publish/ritual-moment-deploy.log`. No database migration or saved business data
+write. Full regression tests remain deferred at the user's request; targeted PDF
+visual review from the prior entry is the available design evidence. Earlier
+local/uncommitted labels below describe pre-release checkpoints.
+
 **Combined Ritual Assist / Moment Studio release (2026-11-06 IST):** User has
 authorised committing and deploying the pending Vrat, Shraddh, Checklist and
 export-design changes together. The implementation entries below describe the

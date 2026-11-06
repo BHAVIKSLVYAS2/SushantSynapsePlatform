@@ -1,5 +1,13 @@
 # Organisation licensing production cutover
 
+Combined Ritual Assist / Moment Studio release (2026-11-06 IST): source
+`2dfb69a` is live as Worker `18398433-9d59-44dc-9a77-be511f3cd6fc`.
+Isolated committed archive; existing config and `--keep-vars`; preserved
+D1/auth/organisation bindings. Production build/deploy and six changed asset
+hash comparisons pass; health 200, unscoped records 409, unauthenticated Chambers
+401. Full regression remains deferred at the user's request. No migrations or
+saved business-data writes. Scope and prior PDF visual evidence are in the ledger.
+
 Ritual Assist range/mobile follow-up (2026-11-06 IST): source `ab1b7fb` is live
 as Worker `3cb7d774-2f34-4dfc-afc0-1233ffb1aaeb`. Isolated committed archive;
 existing production config and `--keep-vars`; D1/auth/organisation bindings
