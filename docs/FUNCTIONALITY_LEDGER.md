@@ -1,5 +1,18 @@
 # Chambers functionality ledger
 
+**Shraddh results cleanup - local (2026-11-07 IST):** Removed the duplicate
+Next remembrance summary and shortcut actions. Barsi and Pitru Paksha Shraddh
+now share one year card, stacked on phones and side by side on wider screens.
+Both dates remain visible, including past dates; individual timings, conditional
+statuses and multiple annual candidates are retained. Removed the redundant
+past/upcoming filter; individual years and next 2/5/10-year selection remain.
+First-year early/monthly rites stay separate, with first Barsi and eligible Pitru
+paired below them and the eligibility note retained. Download / Share stays after
+results instead of moving above them. Calculation engines and export admission
+rules unchanged. JavaScript syntax passed; no tests or browser verification run
+(deferred). Release authorised; deployment pending. The repeated Next in this year label and
+its obsolete highlight styles are removed.
+
 **Vrat results cleanup deployed (2026-11-07 IST):** Source `178adcb` is live as
 Worker `747e45f0-9680-499b-8990-452cdffc94e2`. Up Next / Month View lead results;
 duplicate next-observance/navigation controls removed; exports under Download /
