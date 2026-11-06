@@ -1,5 +1,17 @@
 # Chambers functionality ledger
 
+**Black & Gold glass production release (2026-11-06 IST):** Source `507e0f7`
+is live as Worker `753775fd-bd26-405e-9d83-ae39a2221fe6`, from an isolated
+committed archive using the existing production config and `--keep-vars`.
+Live Playwright CLI/Chrome verifies 18px header backdrop blur, 24px rounded
+mobile dock with 10px side insets, no overflow at 320/390/1440px, correct
+Light/Dark/Gold backgrounds and preserved Vrat/Shraddh/Checklist navigation.
+The live stylesheet SHA-256 matches the committed build; health is 200,
+unscoped records remain 409, and no page exceptions occurred. External requests
+and business writes were blocked in the browser audit. Reviewed live screenshot:
+`output/playwright/gold-glass-live.png`. D1/auth/organisation bindings preserved;
+no migrations or account/business data writes. Focused local checks below pass.
+
 **Black & Gold glass refinement (2026-11-06 IST; local verified):** Gold-only,
 screen-only CSS adds reflective layered surfaces, inset bevels, translucent
 blurred header/navigation, gold-lit header controls and a rounded floating mobile

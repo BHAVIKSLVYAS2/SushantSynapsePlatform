@@ -1,5 +1,14 @@
 # Organisation licensing production cutover
 
+Black & Gold glass refinement (2026-11-06 IST): source `507e0f7` is live as Worker
+`753775fd-bd26-405e-9d83-ae39a2221fe6` from an isolated committed archive using
+the existing production config and `--keep-vars`. Only the opt-in gold screen
+stylesheet changes: reflective bevels, blurred header/navigation and floating
+mobile home dock. Live responsive/theme-restoration/asset-hash checks pass;
+Ritual sections remain available, health is 200 and unscoped records remain 409.
+D1/auth/organisation bindings retained; no migrations or business/account writes.
+Detailed verification is recorded in the functionality ledger.
+
 Ritual three-section release (2026-11-06 IST): source `de46393` is live as Worker
 `0af983ce-71fb-4f89-bfc4-6eea07d3124b`, from an isolated archive with the existing
 production config and `--keep-vars`. Vrat/Shraddh/Checklist share a task-first
