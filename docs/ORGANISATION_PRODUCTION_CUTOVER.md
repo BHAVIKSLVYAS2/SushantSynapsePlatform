@@ -1,5 +1,11 @@
 # Organisation licensing production cutover
 
+Black theme release (2026-11-06 IST): source `bc7bca4` is live as Worker
+`ab18af1a-cb03-4c0c-aa03-704fdbdc277f`. Adds Black & Diamond, Glossy Black
+and Deep Black. Isolated archive, existing production config and `--keep-vars`;
+D1/auth/organisation settings preserved. Build/deploy, shared theme asset hashes
+and health 200 confirmed. No database changes; full visual/regression deferred.
+
 Confessions removal (2026-11-06 IST): source `0f520b3`, Worker
 `dfa69c85-5d53-47b0-8579-3b339f06f637`, is live. Existing production bindings
 preserved; shared public limiter renamed to `PUBLIC_LIMITER` with the same

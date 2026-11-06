@@ -1,5 +1,13 @@
 # Chambers functionality ledger
 
+**Black theme release live (2026-11-06 IST):** Source `bc7bca4` is deployed as
+Worker `ab18af1a-cb03-4c0c-aa03-704fdbdc277f`. Adds Black & Diamond, Glossy
+Black and Deep Black. Isolated committed archive, existing production config and
+`--keep-vars`. Production build/deploy succeeded; shared theme JS/CSS SHA256 hashes
+match the build; health 200. No database changes. Syntax/whitespace checks passed;
+full browser visual/regression checks remain deferred. Deployment evidence:
+`.publish/black-themes-deploy.log`. Supersedes pending-release wording below.
+
 **Additional black themes (2026-11-06 IST):** Shared picker adds Black & Diamond,
 Glossy Black and Deep Black alongside existing palettes. Diamond uses cool
 faceted glass; Glossy uses neutral reflected black; Deep uses matte near-black
