@@ -1,5 +1,16 @@
 # Chambers functionality ledger
 
+**Silver theme / footer follow-up — local implementation (2026-11-06 IST):**
+Shared theme picker adds opt-in Silver: cool metallic glass, chrome reflections,
+token-based app surfaces, and English/Hindi/Gujarati labels. Legacy controllers
+receive the supported dark projection while the Silver preference persists,
+matching Gold's compatibility contract. Existing Light/Dark/Gold choices remain.
+Home footer removes the duplicate Apps link and uses three columns: Home, Games,
+Workspace. Selected footer styles now accept both page and location current
+states, with filled high-contrast treatments in all palettes. Home also clears
+the Games filter and search; category filtering keeps footer selection in sync.
+Full tests and visual verification deferred. Not committed or deployed yet.
+
 **Combined release live (2026-11-06 IST):** Source `2dfb69a` is deployed as Worker
 `18398433-9d59-44dc-9a77-be511f3cd6fc`. Includes all pending Vrat, Shraddh,
 Checklist and Moment Studio/export-design changes described below. Built and

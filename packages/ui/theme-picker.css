@@ -13,6 +13,30 @@
 .synapse-theme-picker button:focus-visible{outline:3px solid var(--ui-accent,var(--accent));outline-offset:3px}
 .theme-swatch{display:block;width:24px;height:24px;flex:0 0 24px;border:1px solid #89909b;border-radius:50%}
 .swatch-light{background:#f8fafc}.swatch-dark{background:#182234}.swatch-gold{background:linear-gradient(135deg,#6b6657,#080808 45%,#080808 65%,#e7be58)}.swatch-system{background:linear-gradient(90deg,#f8fafc 50%,#182234 50%)}
+.swatch-silver{background:linear-gradient(135deg,#fff,#bbc7d4 28%,#323d4b 52%,#e6edf6 78%,#69798e)}
+@media screen{
+ html[data-theme=dark][data-theme-style=silver],html[data-theme=dark][data-theme-style=silver] body[data-ui-app][data-theme]{
+  color-scheme:dark;--dark-background:#10151d;--dark-surface:#202934;--dark-elevated:#344253;--dark-text:#f4f7fc;--dark-text-secondary:#c1ccd9;--dark-accent:#d6e6fa;--dark-accent-hover:#fff;--dark-on-accent:#152032;--dark-border:#a9bfd155;--dark-navigation:#151c26;--dark-reflection:#ffffff24;
+  --ui-bg:#10151d;--ui-solid:#202934;--ui-ink:#f4f7fc;--ui-text:var(--ui-ink);--ui-muted:#c1ccd9;--ui-glass:#1b2634df;--ui-edge:#a9bfd155;--ui-soft:#344253;--ui-accent:#d6e6fa;--ui-on-accent:#152032;--ui-highlight:#ffffff3d;--ui-bloom:#b1d7ff24;--ui-gold:#d6e6fa;--ui-gold-ink:#e4efff;
+  --silver-glass:linear-gradient(160deg,#ffffff35,transparent 35%),linear-gradient(180deg,#344151d9,#141c27ed);--silver-bevel:inset 0 1px 1px #ffffff9c,inset 0 -1px 0 #a7c2e380,0 10px 28px #0007;
+  --dark-card-gradient:var(--silver-glass);--dark-shadow:var(--silver-bevel);--dark-shadow-raised:var(--silver-bevel);--ui-shadow:var(--silver-bevel);
+  --home-accent:var(--ui-accent);--home-surface:var(--ui-solid);--home-ink:var(--ui-ink);--home-muted:var(--ui-muted);--home-line:var(--ui-edge);
+  --ss-bg:var(--ui-bg);--ss-bg-secondary:var(--ui-soft);--ss-surface:var(--ui-solid);--ss-surface-glass:var(--ui-glass);--ss-primary:var(--ui-accent);--ss-primary-hover:#fff;--ss-text:var(--ui-ink);--ss-text-secondary:var(--ui-muted);--ss-border:var(--ui-edge);
+  --shell-bg:var(--ui-bg);--shell-surface:var(--ui-solid);--shell-ink:var(--ui-ink);--shell-muted:var(--ui-muted);--shell-line:var(--ui-edge);--shell-accent:var(--ui-accent);--shell-on-accent:var(--ui-on-accent);
+  --bg:var(--ui-bg);--surface:var(--ui-solid);--text:var(--ui-ink);--ink:var(--ui-ink);--muted:var(--ui-muted);--line:var(--ui-edge);--border:var(--ui-edge);--soft:var(--ui-soft);--surface-soft:var(--ui-soft);--primary:var(--ui-accent);--accent:var(--ui-accent);--on-primary:var(--ui-on-accent);--on-accent:var(--ui-on-accent);
+ }
+ html[data-theme-style=silver] body{background:radial-gradient(ellipse at 85% 0,#b4d3fb22,transparent 45%),var(--ui-bg);color:var(--ui-ink)}
+ html[data-theme-style=silver] body :is(.public-app,.workspace-card,.app-card,.card,.panel,.game-card,.break-card){background:var(--silver-glass);border-color:var(--ui-edge);box-shadow:var(--silver-bevel)}
+ html[data-theme-style=silver] body :is(.platform-shell,.home-mobile-dock,.synapse-theme-picker){background:var(--silver-glass);border-color:var(--ui-edge);box-shadow:var(--silver-bevel);-webkit-backdrop-filter:blur(18px) saturate(115%);backdrop-filter:blur(18px) saturate(115%)}
+ html[data-theme-style=silver] body .platform-shell :is(.platform-switch,.theme-toggle,.platform-language>summary,.platform-account){background:var(--silver-glass);border:1px solid var(--ui-edge);box-shadow:var(--silver-bevel);color:var(--ui-ink)}
+ html[data-theme-style=silver] body :is(input,select,textarea){background:var(--ui-bg);color:var(--ui-ink);border-color:var(--ui-edge)}
+ html[data-theme-style=silver] body :is(.primary,button.primary){background:var(--ui-accent);color:var(--ui-on-accent)}
+ body[data-ui-app=portal] .public-home .home-mobile-dock{grid-template-columns:repeat(3,minmax(0,1fr))}
+ body[data-ui-app=portal] .public-home .home-mobile-dock a[aria-current]{background:var(--ss-primary,var(--ui-accent));color:var(--on-primary,var(--ui-on-accent));border-radius:14px;box-shadow:inset 0 -3px 0 currentColor;font-weight:700}
+ html[data-theme-style=gold] body[data-ui-app=portal] .public-home .home-mobile-dock a[aria-current]{background:linear-gradient(155deg,#655023,#2c2514);color:#ffe29a;box-shadow:inset 0 1px 0 #fff8,inset 0 -3px 0 #f0cc72}
+ html[data-theme-style=silver] body[data-ui-app=portal] .public-home .home-mobile-dock a[aria-current]{background:linear-gradient(155deg,#e6eef9,#a5b7d0);color:#152032;box-shadow:inset 0 1px 0 #fff,inset 0 -3px 0 #7390b4}
+ html[data-theme-style=silver] body[data-ui-app=portal] .home-mobile-dock{inset:auto 10px calc(8px + env(safe-area-inset-bottom));border-radius:24px;padding:5px;gap:4px}
+}
 @media print{.synapse-theme-picker{display:none!important}}
 
 /* Opt-in third palette. Legacy app controllers still resolve this as dark. */
