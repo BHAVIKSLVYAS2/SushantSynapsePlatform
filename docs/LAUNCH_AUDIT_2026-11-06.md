@@ -92,6 +92,24 @@ stricter policies. Third-party advertising performance and provider outages are
 not simulated as healthy integrations. Reference:
 https://support.google.com/adsense/answer/16283098
 
-Full-suite and production release evidence is recorded in the functionality
-ledger after completion. No claim of independent certification, perfect security
-or verified external payments/court/message integrations is made.
+## Production verification
+
+Committed source `bcccf29` is live as Worker
+`8bd34e7f-fa7f-428a-b7fb-ba6e8ef0a311`. The production dry run and deployment
+pass with 1,242 public assets and Worker payload 4,314.92 KiB / 810.35 KiB gzip.
+Five organisation checks pass against the exact compiled minified Worker using
+disposable D1. Twenty live routes return 200, with no mobile overflow or page
+exceptions; expected private API and internal-build-path rejections remain.
+Four live asset hashes match the committed build. No production business writes
+or database migrations were performed.
+
+Single-sample compressed production diagnostics, using the same mobile throttle
+and Light theme, show News LCP 3.216s → 1.692s and Matching 4.552s → 3.880s;
+unexpected layout-shift sums fall to 0.020 and 0.018. These are individual
+diagnostic samples, not repeatable medians or field-vitals certification. The
+final sample uses a fresh context to avoid duplicate observer registration.
+Matching's substantial first-load directory is still a performance follow-up.
+
+Full-suite and production evidence is also recorded in the functionality ledger.
+No claim of independent certification, perfect security or verified external
+payments/court/message integrations is made.

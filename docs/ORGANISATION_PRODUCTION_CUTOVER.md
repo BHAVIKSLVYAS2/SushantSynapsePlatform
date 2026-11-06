@@ -1,5 +1,16 @@
 # Organisation licensing production cutover
 
+Launch hardening release (2026-11-06 IST): source `bcccf29` is live as Worker
+`8bd34e7f-fa7f-428a-b7fb-ba6e8ef0a311`, deployed from its isolated committed
+archive with the existing production config and `--keep-vars`. Dependency
+security updates, common edge response protections, encoded internal-path
+denial, minified Worker, shared astrology chunks and stable loading/navigation
+are included. Full API/unit checks pass 614/614; exact compiled local D1 checks
+pass 5/5. Twenty live routes, private/encoded-path boundaries and four deployed
+asset hashes pass. Existing D1/auth/organisation/rate-limit bindings retained;
+no migrations, bootstrap, recovery export or business/account writes. See the
+functionality ledger and `LAUNCH_AUDIT_2026-11-06.md` for evidence and limits.
+
 Black & Gold glass refinement (2026-11-06 IST): source `507e0f7` is live as Worker
 `753775fd-bd26-405e-9d83-ae39a2221fe6` from an isolated committed archive using
 the existing production config and `--keep-vars`. Only the opt-in gold screen

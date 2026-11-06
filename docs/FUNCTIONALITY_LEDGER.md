@@ -1,5 +1,30 @@
 # Chambers functionality ledger
 
+**Launch release live (2026-11-06 IST):** Source `bcccf29` is deployed as Worker
+`8bd34e7f-fa7f-428a-b7fb-ba6e8ef0a311` from an isolated committed archive using
+the existing production config and `--keep-vars`. Exact production dry run
+passes: 1,242 public assets; Worker 4,314.92 KiB / 810.35 KiB gzip; observed
+startup 29ms. D1/auth/organisation/rate-limit bindings retained; no migrations,
+bootstrap, sensitive exports or business/account writes. Five organisation/D1
+checks also pass against that exact minified Worker in disposable local storage.
+
+Read-only live Chrome/Playwright CLI checks 20 routes: all 200, no horizontal
+overflow at 390px, HSTS/nosniff present and zero page exceptions. Private Chambers
+returns 401, unscoped records 409, three encoded internal build URLs 404, health
+200; API/errors are no-store with the intended Permissions Policy. Four live
+JS/CSS hashes match the exact committed build. Gold mobile screenshot reviewed:
+`output/playwright/launch-live-home-gold.png`. Evidence:
+`output/playwright/launch-live-results.json`, `.publish/launch-exact-d1.log`.
+
+Single-sample live compressed mobile checks (4x CPU, 100ms, 200KB/s, cold cache,
+Light, external providers blocked) show News LCP 3.216s to 1.692s and unexpected
+layout-shift sum 0.320 to 0.020; Matching LCP 4.552s to 3.880s and shift 0.392 to
+0.018. These are diagnostic samples, not field-vitals certification. Matching's
+large first-load directory remains a performance follow-up; aggregate shared
+reuse is substantially improved. One exploratory measurement reused observers;
+the recorded final measurement uses a fresh context and one observer. Logs:
+`.publish/launch-live-performance-before.log`, `launch-live-performance-final.log`.
+
 **Launch audit and fixes (2026-11-06 IST; local verified):** Compatible lockfile
 updates resolve all six npm-reported vulnerable dependency packages; full audit
 now reports zero. Common edge protections cover every response, preserve CSP/
