@@ -1,5 +1,17 @@
 # Chambers functionality ledger
 
+Readable Shraddh range images and preparation UI deployed (2026-11-07 IST):
+source `ece7431`, Worker `07c8af10-59fc-438d-be2b-d91fc017f168`. Ten-year
+PNG is a compact year table (reviewed actual file 1080 x 1646); single-year
+exports retain detailed timings. Includes clearer tabs, one ritual chooser and
+Share checklist + Save / print toolbar. Five export-focused browser cases passed;
+the preceding chooser and toolbar runs passed 5 and 4 cases respectively.
+Build/deploy succeeded from isolated committed archive with --keep-vars, retaining
+D1/auth/organisation settings. No database changes. Production module smoke reads
+confirmed year-table export and Ritual Prep navigation. Deployment log:
+`.publish/shraddh-readable-deploy.log`. Broader platform test limitations from the
+previous release remain recorded separately.
+
 **Readable multi-year Shraddh PNG - release preparation (2026-11-07 IST):**
 Replaced the multi-year export's tall sequence of detailed observances with a
 compact Year / Barsi / Pitru Paksha Shraddh table. Each selected year remains

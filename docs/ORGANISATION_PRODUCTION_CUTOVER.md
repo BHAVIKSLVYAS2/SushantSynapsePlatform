@@ -1,5 +1,17 @@
 # Organisation licensing production cutover
 
+Readable Shraddh range images and preparation UI deployed (2026-11-07 IST):
+source `ece7431`, Worker `07c8af10-59fc-438d-be2b-d91fc017f168`. Ten-year
+PNG is a compact year table (reviewed actual file 1080 x 1646); single-year
+exports retain detailed timings. Includes clearer tabs, one ritual chooser and
+Share checklist + Save / print toolbar. Five export-focused browser cases passed;
+the preceding chooser and toolbar runs passed 5 and 4 cases respectively.
+Build/deploy succeeded from isolated committed archive with --keep-vars, retaining
+D1/auth/organisation settings. No database changes. Production module smoke reads
+confirmed year-table export and Ritual Prep navigation. Deployment log:
+`.publish/shraddh-readable-deploy.log`. Broader platform test limitations from the
+previous release remain recorded separately.
+
 Single result-image sharing deployed (2026-11-07 IST): source `a359c37`, Worker
 `bd41dd66-53b8-449d-9e89-79fd79fe9450`. Build/deploy succeeded from an isolated
 committed archive with production config and --keep-vars. Existing D1/auth and
