@@ -1,5 +1,35 @@
 # Chambers functionality ledger
 
+**Picksy Pulse / rename release preparation (2026-11-06 IST):** Implements the
+approved Picksy name and “Can’t choose? Give it a spin.” across app/catalogue,
+navigation/related links and result sharing, keeping `/decision-wheel` and
+existing backup format stable. Three-second spins show a Picksy Pulse label
+cycling actual pointer options, retain decelerating ticks, mark the winning
+slice and announce “Picksy picked…”. Cryptographic selection and landing math
+are unchanged; selection precedes animation. Sound is opt-in; supported-device
+vibration is opt-in and rate-limited. Reduced motion/hidden pages skip the spin
+effects. Earlier choice-editing shortcut, raised starter lists, collapsed reuse
+tools and conditional Undo/empty history are implemented too.
+Targeted isolated local Chrome review passes a normal spin, single winning
+slice, remove/undo, edit focus and reduced-motion completion; no page exceptions
+or mobile overflow. Reviewed `output/playwright/picksy-pulse-spinning.png`.
+Evidence `.publish/picksy-pulse-review.log`. Full regression remains deferred;
+physical vibration support varies and was not verified on a phone. Production
+release completion will be recorded after deployment.
+
+**Picksy rename / UI review — local (2026-11-06 IST):** Decision Wheel is now
+named Picksy with “Can’t choose? Give it a spin.” in its main heading/punchline
+and catalogue metadata. Visible platform/switcher/related-app/showcase names,
+accessible wheel label and result sharing use Picksy; generated catalogue and
+language assets rebuilt. Existing `/decision-wheel` URLs, internal ID and choice
+backup format are preserved. Syntax/whitespace checks pass. Local Chrome review
+at 390×844 confirms heading and punchline; screenshot:
+`output/playwright/picksy-mobile.png`. Main Spin starts around y=740; editor
+starts around y=1045. Suggested next changes: Edit choices shortcut near wheel,
+earlier starter lists, collapsible reuse tools and conditional Undo/empty history.
+These UI suggestions are not implemented. No full regression, commit or deployment
+performed for this rename yet.
+
 **Simplified themes live (2026-11-06 IST):** Source `91414b3` is deployed as Worker
 `916fce2d-8b4c-497c-bccb-db27a11bcf3a`. Only Light, Dark and Deep Black remain;
 all pending theme removals below are included. Isolated committed archive,

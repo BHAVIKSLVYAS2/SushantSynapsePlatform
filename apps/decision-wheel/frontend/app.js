@@ -7,22 +7,25 @@ $('#theme').addEventListener('change',theme);media.addEventListener('change',the
 let options=[],rotation=0,spinning=false,result=null,history=[];
 for(const selector of ['#wheel-title','#winner','#history'])document.querySelector(selector)?.setAttribute('data-language-preserve','');
 let removals=[];
-const undoWinner=document.createElement('button');undoWinner.type='button';undoWinner.id='undo-winner';undoWinner.textContent='Undo removed winner';undoWinner.disabled=true;$('.play').append(undoWinner);
-undoWinner.onclick=()=>{if(spinning||!removals.length)return;options=removals.pop();$('#options').value=options.join('\n');rotation=0;clearResult();draw();undoWinner.disabled=!removals.length;$('#status').textContent='Removed winner restored. Every option has an equal chance.';};
-let soundEnabled=true,audio=null,activeAnimation=null;
+const undoWinner=document.createElement('button');undoWinner.type='button';undoWinner.id='undo-winner';undoWinner.textContent='Undo removed winner';undoWinner.disabled=true;undoWinner.hidden=true;$('.play').append(undoWinner);
+undoWinner.onclick=()=>{if(spinning||!removals.length)return;options=removals.pop();$('#options').value=options.join('\n');rotation=0;clearResult();draw();undoWinner.disabled=!removals.length;undoWinner.hidden=!removals.length;$('#status').textContent='Removed winner restored. Every option has an equal chance.';};
+let soundEnabled=false,hapticsEnabled=false,audio=null,activeAnimation=null,lastHaptic=0;
 const confetti=new Set();
-const soundButton=document.createElement('button');soundButton.type='button';soundButton.className='wheel-sound';soundButton.textContent='Tick sound: on';soundButton.setAttribute('aria-pressed','true');$('#spin').after(soundButton);
+const soundButton=document.createElement('button');soundButton.type='button';soundButton.className='wheel-sound';soundButton.textContent='Tick sound: off';soundButton.setAttribute('aria-pressed','false');$('#spin').after(soundButton);
+const hapticButton=document.createElement('button');hapticButton.type='button';hapticButton.className='wheel-haptics';hapticButton.textContent='Vibration: off';hapticButton.setAttribute('aria-pressed','false');hapticButton.hidden=typeof navigator.vibrate!=='function';soundButton.after(hapticButton);
+function vibrate(pattern){if(!hapticsEnabled||motion.matches||document.hidden)return;try{navigator.vibrate?.(pattern);}catch{}}
+hapticButton.onclick=()=>{hapticsEnabled=!hapticsEnabled;hapticButton.setAttribute('aria-pressed',String(hapticsEnabled));hapticButton.textContent='Vibration: '+(hapticsEnabled?'on':'off');if(hapticsEnabled)vibrate(15);else try{navigator.vibrate?.(0);}catch{}};
 soundButton.onclick=()=>{soundEnabled=!soundEnabled;soundButton.setAttribute('aria-pressed',String(soundEnabled));soundButton.textContent='Tick sound: '+(soundEnabled?'on':'off');if(soundEnabled)prepareAudio();};
 function prepareAudio(){try{const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)return;if(!audio||audio.state==='closed')audio=new Audio();audio.resume().catch(()=>{});}catch{/* Visual ticks work without audio support. */}}
 function clickSound(){if(!soundEnabled||motion.matches||document.hidden||audio?.state!=='running')return;try{const oscillator=audio.createOscillator(),gain=audio.createGain(),now=audio.currentTime;oscillator.type='triangle';oscillator.frequency.setValueAtTime(1800,now);oscillator.frequency.exponentialRampToValueAtTime(700,now+.04);gain.gain.setValueAtTime(0,now);gain.gain.linearRampToValueAtTime(.18,now+.002);gain.gain.setValueAtTime(.12,now+.009);gain.gain.exponentialRampToValueAtTime(.001,now+.05);oscillator.connect(gain);gain.connect(audio.destination);oscillator.start(now);oscillator.stop(now+.055);oscillator.onended=()=>{oscillator.disconnect();gain.disconnect();};}catch{}}
-function stopEffects(){for(const effect of confetti)effect.cancel();confetti.clear();$('.pointer').getAnimations().forEach(a=>a.cancel());}
+function stopEffects(){for(const effect of confetti)effect.cancel();confetti.clear();$('.pointer').getAnimations().forEach(a=>a.cancel());try{if(hapticsEnabled)navigator.vibrate?.(0);}catch{}}
 motion.addEventListener('change',()=>{if(motion.matches){activeAnimation?.finish();stopEffects();}});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){activeAnimation?.finish();stopEffects();}});
 window.addEventListener('pagehide',()=>{activeAnimation?.finish();stopEffects();if(audio)audio.close().catch(()=>{});});
 function node(name,attributes={}){const element=document.createElementNS(svgNS,name);for(const [key,value]of Object.entries(attributes))element.setAttribute(key,String(value));return element;}
 function draw(){
  const wheel=$('#wheel');wheel.replaceChildren();wheel.style.transform=`rotate(${rotation}deg)`;
- wheel.setAttribute('aria-label',`Decision wheel with ${options.length} equal choices. Options are listed in the editor.`);
+ wheel.setAttribute('aria-label',`Picksy wheel with ${options.length} equal choices. Options are listed in the editor.`);
  if(options.length===1)wheel.append(node('circle',{cx:200,cy:200,r:194,class:'slice slice-0'}));
  options.forEach((label,index)=>{
   const step=360/options.length,start=(-90+index*step)*Math.PI/180,end=start+step*Math.PI/180,mid=(start+end)/2;
@@ -34,46 +37,47 @@ function draw(){
  $('#count').textContent=`${options.length} ${options.length===1?'OPTION LEFT':'EQUAL CHOICES'}`;$('#spin').disabled=spinning||options.length<2;
  $('#wheel-title').textContent=$('#question').value.trim()||'Let the wheel decide.';
 }
-function clearResult(){stopEffects();result=null;$('.play').classList.remove('has-winner');$('#result').hidden=true;$('#share-fallback').hidden=true;}
+function clearResult(){stopEffects();result=null;$('.play').classList.remove('has-winner');document.querySelectorAll('.is-winning').forEach(slice=>slice.classList.remove('is-winning'));$('#result').hidden=true;$('#share-fallback').hidden=true;}
 function clearOptionsError(){$('#options-error').hidden=true;$('#options-error').textContent='';$('#options').removeAttribute('aria-invalid');}
 function showError(error){const invalid=error.name==='OptionsValidationError',message=invalid?'Check the options. '+error.message:error.message;$('#status').textContent=message;if(invalid){$('#options-error').textContent=message+' Edit the list, then spin again.';$('#options-error').hidden=false;$('#options').setAttribute('aria-invalid','true');$('#options').focus();}}
-function update(preserveRotation=false){const next=parseOptions($('#options').value),same=next.length===options.length&&next.every((value,index)=>value===options[index]);clearOptionsError();if(!same){removals=[];undoWinner.disabled=true;}options=next;if(!preserveRotation||!same)rotation=0;clearResult();draw();$('#status').textContent='Wheel ready. Every option has an equal chance.';}
+function update(preserveRotation=false){const next=parseOptions($('#options').value),same=next.length===options.length&&next.every((value,index)=>value===options[index]);clearOptionsError();if(!same){removals=[];undoWinner.disabled=true;undoWinner.hidden=true;}options=next;if(!preserveRotation||!same)rotation=0;clearResult();draw();$('#status').textContent='Wheel ready. Every option has an equal chance.';}
 $('#options-form').onsubmit=event=>{event.preventDefault();if(spinning)return;try{update();}catch(error){showError(error);}};
-for(const field of ['#options','#question'])$(field).addEventListener('input',()=>{if(!spinning){if(field==='#options')clearOptionsError();removals=[];undoWinner.disabled=true;clearResult();$('#status').textContent='Spin to use your changes.';$('#spin').disabled=false;}});
-function lock(value){spinning=value;undoWinner.disabled=value||!removals.length;document.querySelectorAll('#options-form input,#options-form textarea,#options-form button,[data-preset],#spin,#remove,#share,#clear-history').forEach(control=>control.disabled=value);if(!value){$('#spin').disabled=options.length<2;$('#remove').disabled=options.length<2;$('#clear-history').disabled=history.length===0;}}
-function showResult(value,last=false){result={value,title:$('#wheel-title').textContent,last};$('#winner').textContent=value;$('#result .eyebrow').textContent=last?'LAST OPTION REMAINING':'THE WHEEL CHOSE';$('#result').hidden=false;$('#share-fallback').hidden=true;$('#remove').disabled=options.length<2;}
+for(const field of ['#options','#question'])$(field).addEventListener('input',()=>{if(!spinning){if(field==='#options')clearOptionsError();removals=[];undoWinner.disabled=true;undoWinner.hidden=true;clearResult();$('#status').textContent='Spin to use your changes.';$('#spin').disabled=false;}});
+function lock(value){spinning=value;undoWinner.disabled=value||!removals.length;undoWinner.hidden=!removals.length;document.querySelectorAll('#options-form input,#options-form textarea,#options-form button,[data-preset],#spin,#remove,#share,#clear-history,#edit-choices').forEach(control=>control.disabled=value);if(!value){$('#spin').disabled=options.length<2;$('#remove').disabled=options.length<2;$('#clear-history').disabled=history.length===0;}}
+function showResult(value,last=false){result={value,title:$('#wheel-title').textContent,last};$('#winner').textContent=value;$('#result .eyebrow').textContent=last?'LAST OPTION REMAINING':'PICKSY PICKED…';$('#result').hidden=false;$('#share-fallback').hidden=true;$('#remove').disabled=options.length<2;}
 function renderHistory(){
- $('#history').replaceChildren(...history.map(pick=>{const li=document.createElement('li');li.textContent=pick.value;const subtitle=document.createElement('small');subtitle.textContent=pick.title;li.append(subtitle);return li;}));$('#empty-history').hidden=history.length>0;$('#clear-history').disabled=spinning||history.length===0;
+ $('#history').replaceChildren(...history.map(pick=>{const li=document.createElement('li');li.textContent=pick.value;const subtitle=document.createElement('small');subtitle.textContent=pick.title;li.append(subtitle);return li;}));$('#empty-history').hidden=history.length>0;$('#clear-history').disabled=spinning||history.length===0;$('.history').hidden=history.length===0;
 }
 $('#spin').onclick=async()=>{
  if(spinning)return;
  try{update(true);const index=chooseIndex(options.length),next=landingRotation(rotation,index,options.length);lock(true);$('#status').textContent='Spinning\u2026';if(soundEnabled)prepareAudio();
   const play=$('.play'),pointer=$('.pointer');let frame=0,lastSlice=-1;
   play.classList.add('is-spinning');$('#spin').textContent='Spinning…';
-  const preview=document.createElement('p');preview.className='spin-preview';preview.setAttribute('aria-hidden','true');preview.textContent='Round and round…';$('.wheel-stage').after(preview);
+  const preview=document.createElement('p');preview.className='spin-preview picksy-pulse';preview.setAttribute('aria-hidden','true');const pulseLabel=document.createElement('span');pulseLabel.className='picksy-pulse-label';pulseLabel.textContent='PICKSY PULSE';const pulseChoice=document.createElement('strong');pulseChoice.setAttribute('data-language-preserve','');pulseChoice.textContent='Here we go…';preview.append(pulseLabel,pulseChoice);$('.wheel-stage').after(preview);
   // Cubic ease-out: continuous forward motion, with the last revolution taking
   // roughly half the spin. Selection and the exact landing angle stay unchanged.
-  const duration=motion.matches||document.hidden?0:6800;
+  const duration=motion.matches||document.hidden?0:3000;
   const animation=$('#wheel').animate([{transform:`rotate(${rotation}deg)`},{transform:`rotate(${next}deg)`}],{duration,easing:'cubic-bezier(.333333,1,.666667,1)',fill:'forwards'});activeAnimation=animation;
-  function tick(){const progress=Math.min(1,Number(animation.currentTime||0)/6800),remaining=(next-rotation)*Math.pow(1-progress,3),settling=remaining<=360;if(settling&&!play.classList.contains('is-settling'))$('#status').textContent='Final turn… tick, tick.';play.classList.toggle('is-settling',settling);const matrix=new DOMMatrixReadOnly(getComputedStyle($('#wheel')).transform),angle=(Math.atan2(matrix.b,matrix.a)*180/Math.PI+360)%360,slice=Math.floor(((360-angle)%360)/(360/options.length));if(slice!==lastSlice){preview.textContent=options[slice];if(lastSlice!==-1)clickSound();lastSlice=slice;pointer.getAnimations().forEach(a=>a.cancel());pointer.animate([{transform:'translateX(-50%) rotate(-18deg)'},{transform:'translateX(-50%) rotate(5deg)',offset:.45},{transform:'translateX(-50%) rotate(0deg)'}],{duration:settling?220:100});}frame=requestAnimationFrame(tick);}
-  if(!motion.matches)frame=requestAnimationFrame(tick);
+  function tick(){const progress=Math.min(1,Number(animation.currentTime||0)/duration),remaining=(next-rotation)*Math.pow(1-progress,3),settling=remaining<=360;if(settling&&!play.classList.contains('is-settling'))$('#status').textContent='Final turn… tick, tick.';play.classList.toggle('is-settling',settling);const matrix=new DOMMatrixReadOnly(getComputedStyle($('#wheel')).transform),angle=(Math.atan2(matrix.b,matrix.a)*180/Math.PI+360)%360,slice=Math.floor(((360-angle)%360)/(360/options.length));if(slice!==lastSlice){pulseChoice.textContent=options[slice];if(performance.now()-lastHaptic>90){vibrate(8);lastHaptic=performance.now();}if(lastSlice!==-1)clickSound();lastSlice=slice;pointer.getAnimations().forEach(a=>a.cancel());pointer.animate([{transform:'translateX(-50%) rotate(-18deg)'},{transform:'translateX(-50%) rotate(5deg)',offset:.45},{transform:'translateX(-50%) rotate(0deg)'}],{duration:settling?220:100});}frame=requestAnimationFrame(tick);}
+  if(duration>0)frame=requestAnimationFrame(tick);
   try{await animation.finished;rotation=next;$('#wheel').style.transform=`rotate(${rotation}deg)`;}finally{cancelAnimationFrame(frame);activeAnimation=null;animation.cancel();pointer.getAnimations().forEach(a=>a.cancel());preview.remove();play.classList.remove('is-spinning','is-settling');$('#spin').textContent='Spin the wheel';}
   play.classList.add('has-winner');
+  $('#wheel').querySelectorAll('.slice')[index]?.classList.add('is-winning');vibrate([20,35,35]);
   if(!motion.matches&&!document.hidden){const stage=$('.wheel-stage');for(let i=0;i<24;i++){const piece=document.createElement('i');piece.className='wheel-confetti';piece.setAttribute('aria-hidden','true');piece.style.background=`var(--wheel-${i%8})`;stage.append(piece);const angle=i*Math.PI/12,distance=80+(i%4)*18;const burst=piece.animate([{transform:'translate(-50%,-50%) scale(0)',opacity:0},{offset:.15,opacity:1},{transform:`translate(${Math.cos(angle)*distance}px,${Math.sin(angle)*distance+40}px) rotate(${i*47}deg)`,opacity:0}],{duration:1100,easing:'cubic-bezier(.15,.6,.3,1)'});confetti.add(burst);const clean=()=>{piece.remove();confetti.delete(burst);};burst.finished.then(clean,clean);}}
-  showResult(options[index]);history.unshift({...result});history=history.slice(0,20);renderHistory();$('#status').textContent=`Selected: ${options[index]}.`;$('#winner').setAttribute('tabindex','-1');$('#winner').focus();
+  showResult(options[index]);history.unshift({...result});history=history.slice(0,20);renderHistory();$('#status').textContent=`Picksy picked: ${options[index]}.`;$('#winner').setAttribute('tabindex','-1');$('#winner').focus();
  }catch(error){showError(error);}finally{lock(false);}
 };
 $('#remove').onclick=()=>{
  if(spinning||!result||options.length<2)return;
- removals.push([...options]);undoWinner.disabled=false;const removed=result.value;options=options.filter(value=>value!==removed);$('#options').value=options.join('\n');rotation=0;clearResult();draw();
+ removals.push([...options]);undoWinner.disabled=false;undoWinner.hidden=false;const removed=result.value;options=options.filter(value=>value!==removed);$('#options').value=options.join('\n');rotation=0;clearResult();draw();
  if(options.length===1){showResult(options[0],true);$('#status').textContent=`${removed} removed. Only ${options[0]} remains. Add more options or choose a starter list to spin again.`;}else $('#status').textContent=`${removed} removed. ${options.length} options remain.`;
 };
 const presetTitles={lunch:"What's for lunch?",tasks:'Which task next?',team:'Which team goes first?'};
 document.querySelectorAll('[data-preset]').forEach(button=>button.onclick=()=>{if(spinning)return;$('#options').value=presets[button.dataset.preset].join('\n');$('#question').value=presetTitles[button.dataset.preset];update();});
-$('#clear-history').onclick=()=>{history=[];renderHistory();};
+$('#clear-history').onclick=()=>{history=[];renderHistory();$('#spin').focus();};
 $('#share').onclick=async()=>{
- if(!result||spinning)return;const text=`Decision Wheel\n${result.title}\n${result.last?'Remaining option':'Selected'}: ${result.value}\nCreated with Sushant Synapse · Decision Wheel\nTry your own wheel: ${location.origin}/decision-wheel`;
- try{if(navigator.share){await navigator.share({title:'Decision Wheel',text});return;}if(navigator.clipboard){await navigator.clipboard.writeText(text);$('#status').textContent='Result copied. Paste it wherever you like.';return;}}catch(error){if(error.name==='AbortError')return;}
+ if(!result||spinning)return;const text=`Picksy\n${result.title}\n${result.last?'Remaining option':'Selected'}: ${result.value}\nCreated with Sushant Synapse · Picksy\nTry your own wheel: ${location.origin}/decision-wheel`;
+ try{if(navigator.share){await navigator.share({title:'Picksy',text});return;}if(navigator.clipboard){await navigator.clipboard.writeText(text);$('#status').textContent='Result copied. Paste it wherever you like.';return;}}catch(error){if(error.name==='AbortError')return;}
  $('#share-text').value=text;$('#share-fallback').hidden=false;$('#share-text').focus();$('#share-text').select();$('#status').textContent='Copy the message below to share your result.';
 };
 $('#options').value=presets.lunch.join('\n');update();renderHistory();
@@ -81,8 +85,10 @@ const listTools=document.createElement('fieldset');
 const legend=document.createElement('legend');legend.textContent='Reuse your choices';listTools.append(legend);
 const saveList=document.createElement('button');saveList.type='button';saveList.textContent='Export choice list';
 const loadLabel=document.createElement('label');loadLabel.textContent='Import choice list (JSON)';
-const loadList=document.createElement('input');loadList.type='file';loadList.accept='.json,application/json';loadLabel.append(loadList);listTools.append(saveList,loadLabel);$('#options-form').append(listTools);
+const loadList=document.createElement('input');loadList.type='file';loadList.accept='.json,application/json';loadLabel.append(loadList);listTools.append(saveList,loadLabel);const reuse=document.createElement('details');reuse.className='picksy-reuse';const reuseTitle=document.createElement('summary');reuseTitle.textContent='Reuse choices';reuse.append(reuseTitle,listTools);$('#options-form').append(reuse);
 saveList.onclick=()=>{if(spinning)return;try{const values=parseOptions($('#options').value),data={format:'synapse-wheel-v1',title:$('#question').value.trim(),options:values},url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='decision-wheel-list.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),60000);$('#status').textContent='List exported. Import it whenever you need these choices.';}catch(e){$('#status').textContent=e.message;}};
 loadList.onchange=async()=>{try{if(spinning)return;const file=loadList.files[0];if(!file)return;if(file.size>20000)throw Error('Keep choice backups under 20 KB.');const data=JSON.parse(await file.text());if(spinning)throw Error('Wait for the spin to finish.');if(data.format!=='synapse-wheel-v1'||typeof data.title!=='string'||data.title.length>100||!Array.isArray(data.options)||data.options.some(x=>typeof x!=='string'||/[\r\n]/.test(x)))throw Error('Invalid choice-list backup.');const values=parseOptions(data.options.join('\n'));$('#options').value=values.join('\n');$('#question').value=data.title;history=[];update();renderHistory();$('#status').textContent='Choice list imported. Previous picks cleared.';}catch(e){$('#status').textContent=e.message;}finally{loadList.value='';}};
 
 import('/shared/presentation.mjs?v=20261016-tools').then(({mountPresentation})=>mountPresentation(document.querySelector('.play'),{label:'Present wheel fullscreen'})).catch(()=>{/* Core wheel remains available if the optional helper cannot load. */});
+
+const quickActions=document.createElement('div');quickActions.className='picksy-quick-actions';const editChoices=document.createElement('button');editChoices.id='edit-choices';editChoices.type='button';editChoices.textContent='Edit choices';editChoices.onclick=()=>{$('#options').focus({preventScroll:true});$('.editor').scrollIntoView({block:'start'});};quickActions.append($('#count'),editChoices);$('.play').prepend(quickActions);const starters=$('.presets');quickActions.after(starters);for(const hint of document.querySelectorAll('.editor>.hint'))if(hint.textContent==='Need a starting point?')hint.remove();

@@ -1,4 +1,4 @@
-# Decision Wheel
+# Picksy
 
 The spinner refresh adds the existing Sushant Synapse logo in an upright
 centre hub, an animated rim, settling preview and a longer 6.8-second cubic

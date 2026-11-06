@@ -321,7 +321,7 @@ Memory Minute|यादों का एक मिनट|યાદશક્ત�
 Lights Out|बत्तियाँ बुझाएँ|લાઇટ બંધ કરો
 Daily number puzzle|रोज़ की अंकों की पहेली|રોજનો અંકોનો કોયડો
 Let chance choose|किस्मत को चुनने दें|નસીબને પસંદ કરવા દો
-Spin the Decision Wheel|चुनाव का पहिया घुमाएँ|પસંદગીનું ચક્ર ફેરવો
+Spin the Picksy|चुनाव का पहिया घुमाएँ|પસંદગીનું ચક્ર ફેરવો
 MATH PUZZLE|अंकों की पहेली|અંકોનો કોયડો
 LOGIC|तर्क|તર્ક
 Public life. Pop culture. Plenty to laugh about.|सार्वजनिक जीवन। पॉप संस्कृति। हँसने की ढेरों बातें।|જાહેર જીવન. પૉપ સંસ્કૃતિ. હસવાની ઘણી વાતો.
@@ -955,7 +955,7 @@ Enter names to create random teams.|यादृच्छिक टीमें 
 Replace the sample names with your own.|उदाहरण के नामों की जगह अपने नाम भरें।|ઉદાહરણનાં નામની જગ્યાએ પોતાનાં નામ ભરો.
 Swap two people from different teams. Together/apart rules still apply.|अलग टीमों के दो लोग बदलें। साथ/अलग रखने के नियम लागू रहेंगे।|અલગ ટીમની બે વ્યક્તિ બદલો. સાથે/અલગ રાખવાના નિયમ લાગુ રહેશે.
 Copy these teams|यह टीमें कॉपी करें|આ ટીમ કૉપી કરો
-Pick with Decision Wheel ↗|Decision Wheel से चुनें ↗|Decision Wheelથી પસંદ કરો ↗
+Pick with Picksy ↗|Picksy से चुनें ↗|Picksyથી પસંદ કરો ↗
 Organize a tournament ↗|प्रतियोगिता का आयोजन करें ↗|સ્પર્ધાનું આયોજન કરો ↗
 Make an invitation ↗|निमंत्रण बनाएँ ↗|આમંત્રણ બનાવો ↗
 Undo task removal|हटाया काम वापस लाएँ|દૂર કરેલું કામ પાછું લાવો

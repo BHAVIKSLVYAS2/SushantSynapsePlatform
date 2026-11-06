@@ -82,3 +82,19 @@ body[data-ui-app="decision-wheel"] .has-winner .hub{animation:wheel-logo-pop .5s
 }
 .options-error{border:1px solid var(--accent);border-radius:12px;background:var(--soft);color:var(--text);padding:12px;margin:0 0 14px;font-size:13px;overflow-wrap:anywhere}
 #options[aria-invalid=true]{border:2px solid var(--accent)}
+.picksy-quick-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+body[data-ui-app=decision-wheel] .picksy-quick-actions #edit-choices{min-height:44px;padding:6px 12px;font-size:13px;border-radius:999px}
+body[data-ui-app=decision-wheel] .play>.presets{justify-content:center;margin:8px 0 14px;gap:6px}
+body[data-ui-app=decision-wheel] .play>.presets button{font-size:12px;padding:6px 10px;min-height:44px}
+.picksy-reuse>summary{min-height:44px;align-content:center;color:var(--accent);cursor:pointer;font-size:14px}
+body[data-ui-app=decision-wheel] main .picksy-reuse fieldset{margin:4px 0 12px}
+body[data-ui-app=decision-wheel] .picksy-pulse{display:grid;gap:3px;min-height:58px;margin:0 auto 12px;padding:8px 12px;max-width:100%;border:1px solid var(--line);border-radius:14px;background:var(--soft);color:var(--text);line-height:1.4}
+.picksy-pulse-label{font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--muted)}
+.picksy-pulse strong{font-size:16px;overflow-wrap:anywhere}
+body[data-ui-app=decision-wheel] .is-settling .picksy-pulse{display:grid;margin:0 auto 12px;padding:8px 12px;border-radius:14px}
+body[data-ui-app=decision-wheel] .wheel-haptics{min-height:44px;margin:8px auto;padding:6px 14px;font-size:12px;border-radius:999px}
+body[data-ui-app=decision-wheel] .wheel-haptics[aria-pressed=true]{border-color:var(--accent);color:var(--accent)}
+.slice.is-winning{stroke:var(--accent);stroke-width:5;animation:picksy-winner-pulse 650ms ease-in-out 2}
+.editor{scroll-margin-top:90px}
+@keyframes picksy-winner-pulse{50%{opacity:.65;stroke-width:8}}
+@media(prefers-reduced-motion:reduce){.slice.is-winning{animation:none}}
