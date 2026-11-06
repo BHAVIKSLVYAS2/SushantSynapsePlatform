@@ -18,8 +18,17 @@ export function mountDashboard(container,result,language){
  const form=document.getElementById('calendar-form');let inputs=form.querySelector('.input-details');
  if(!inputs){inputs=el('details',undefined,'input-details');inputs.append(el('summary'));for(const id of ['fields','calculate','privacy','remembrance-memory-controls']){const part=document.getElementById(id);if(part)inputs.append(part);}form.append(inputs);}
  const saving=form.querySelector('#remembrance-memory-controls')?.dataset.storageStatus;
- inputs.querySelector('summary').textContent=`${format(result.data.date)} · ${result.data.time} IST · ${result.data.location.name} — ${copy('Edit details','विवरण बदलें')}${saving&&saving!=='ready'?copy(' · Browser fields not saved',' · फ़ील्ड सहेजे नहीं गए'):''}`;inputs.open=false;
- container.append(el('p',`${copy('Death tithi','मृत्यु तिथि')}: ${result.tithi?tithiLabel(result.tithi,language):copy('Confirmation required','पुष्टि आवश्यक')}`,'remembrance-summary'));
+ const summary=inputs.querySelector('summary');summary.replaceChildren();
+ const heading=el('span',undefined,'remembrance-details-heading'),edit=el('span',copy('Edit details','विवरण बदलें'),'remembrance-edit-action');
+ heading.append(el('strong',copy('Calculation details','गणना का विवरण')),edit);
+ const facts=el('span',undefined,'remembrance-details-facts');
+ for(const [label,value] of [[copy('Date & time','तारीख और समय'),`${format(result.data.date)} · ${result.data.time} IST`],[copy('Location','स्थान'),result.data.location.name],[copy('Death tithi','मृत्यु तिथि'),result.tithi?tithiLabel(result.tithi,language):copy('Confirmation required','पुष्टि आवश्यक')]]){
+  const fact=el('span',undefined,'remembrance-detail-fact');fact.append(el('span',label,'remembrance-detail-label'),el('strong',value));facts.append(fact);
+ }
+ summary.append(heading,facts);
+ if(saving&&saving!=='ready')summary.append(el('span',copy('Browser fields not saved','फ़ील्ड सहेजे नहीं गए'),'remembrance-storage-warning'));
+ inputs.ontoggle=()=>{edit.textContent=inputs.open?copy('Close details','विवरण बंद करें'):copy('Edit details','विवरण बदलें');};inputs.open=false;
+ container.append(el('p',`${copy('Death tithi','मृत्यु तिथि')}: ${result.tithi?tithiLabel(result.tithi,language):copy('Confirmation required','पुष्टि आवश्यक')}`,'remembrance-print-meta'));
  const upcoming=calendarRows(result).filter(row=>['annual','pitru'].includes(row.kind)&&row.date&&row.date>=today).sort((a,b)=>a.date.localeCompare(b.date));
  const warnings={
  'time-required':copy('Enter the exact time or a priest-confirmed death tithi.','सही समय या पुरोहित द्वारा निश्चित मृत्यु तिथि भरें।'),

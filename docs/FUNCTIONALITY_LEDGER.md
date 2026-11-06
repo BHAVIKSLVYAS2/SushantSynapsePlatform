@@ -1,5 +1,16 @@
 # Chambers functionality ledger
 
+**Shraddh detail density and edit affordance - local (2026-11-07 IST):**
+Replaced the long inline input summary with a labelled Calculation details card:
+date/time on the left, location and death tithi on the right. Edit details has a
+bordered 44px action treatment within the native keyboard-accessible disclosure;
+its label changes to Close details when open. Removed the extra on-screen death
+tithi line, retaining it in print metadata. Paired Barsi/Shraddh columns now start
+at 380px viewport width rather than 600px, with narrow screens stacking and text
+wrapping. Existing input controls, location lookup, saved fields and calculations
+are retained. No tests or browser verification run (deferred). Not committed or
+deployed.
+
 Shraddh results cleanup deployed (2026-11-07 IST): source `7859183`, Worker
 `ceee36b3-8065-4b8b-b96d-3780be725a03`. Paired Barsi/Shraddh year cards,
 removed repeated Next in this year label and duplicate summary/actions, exports

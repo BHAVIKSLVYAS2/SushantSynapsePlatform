@@ -101,7 +101,18 @@ body[data-ui-app=ritual-assist] .remembrance-pair-column{min-width:0;padding:0 1
 body[data-ui-app=ritual-assist] .remembrance-pair-column+.remembrance-pair-column{border-top:1px solid var(--line)}
 body[data-ui-app=ritual-assist] .remembrance-pair-column>.remembrance-entry:last-child{border-bottom:0}
 body[data-ui-app=ritual-assist] .simple-remembrance>.remembrance-downloads{margin:20px 0 0}
-@media screen and (min-width:600px){body[data-ui-app=ritual-assist] .remembrance-pair{grid-template-columns:repeat(2,minmax(0,1fr))}body[data-ui-app=ritual-assist] .remembrance-pair-column+.remembrance-pair-column{border-top:0;border-left:1px solid var(--line)}body[data-ui-app=ritual-assist] .remembrance-pair .remembrance-entry{grid-template-columns:minmax(0,1fr)}}
+@media screen and (min-width:380px){body[data-ui-app=ritual-assist] .remembrance-pair{grid-template-columns:repeat(2,minmax(0,1fr))}body[data-ui-app=ritual-assist] .remembrance-pair-column+.remembrance-pair-column{border-top:0;border-left:1px solid var(--line)}body[data-ui-app=ritual-assist] .remembrance-pair .remembrance-entry{grid-template-columns:minmax(0,1fr)}body[data-ui-app=ritual-assist] .remembrance-pair .date{font-size:15px}}
+body[data-ui-app=ritual-assist] .input-details>summary{list-style:none;cursor:pointer;border-radius:8px}
+body[data-ui-app=ritual-assist] .input-details>summary::-webkit-details-marker{display:none}
+body[data-ui-app=ritual-assist] .input-details>summary:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+body[data-ui-app=ritual-assist] .remembrance-details-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--ink);font-size:14px}
+body[data-ui-app=ritual-assist] .remembrance-edit-action{display:inline-flex;align-items:center;justify-content:center;min-height:44px;box-sizing:border-box;padding:8px 12px;border:1px solid var(--accent);border-radius:9px;background:var(--soft);color:var(--accent);font-weight:700;text-align:center}
+body[data-ui-app=ritual-assist] .remembrance-details-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 16px;margin-top:8px;color:var(--ink)}
+body[data-ui-app=ritual-assist] .remembrance-detail-fact{display:flex;flex-direction:column;gap:3px;min-width:0;overflow-wrap:anywhere;font-size:14px;line-height:1.5}
+body[data-ui-app=ritual-assist] .remembrance-detail-fact:first-child{grid-row:span 2;border-right:1px solid var(--line);padding-right:12px}
+body[data-ui-app=ritual-assist] .remembrance-detail-label{font-size:12px;color:var(--muted);font-weight:400}
+body[data-ui-app=ritual-assist] .remembrance-storage-warning{display:block;margin-top:8px;color:var(--muted)}
+body[data-ui-app=ritual-assist] .remembrance-pair-column{overflow-wrap:anywhere}
 @media print{body[data-ui-app=ritual-assist] .remembrance-pair{display:block}body[data-ui-app=ritual-assist] .remembrance-year{overflow:visible}}
 body[data-ui-app=ritual-assist] .remembrance-tabs button{min-height:48px;white-space:normal;line-height:1.4}
 body[data-ui-app=ritual-assist] .remembrance-downloads>summary{min-height:48px;align-content:center;cursor:pointer}
