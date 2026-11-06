@@ -1,5 +1,28 @@
 # Chambers functionality ledger
 
+**Take a Break continuation — local (2026-11-06 IST):** Preserved Copilot's
+committed three-theme changes and its pending Deep Black adapter fix/tests.
+Local Chrome confirms all seven activity SVGs resolve visible fills/strokes in
+Deep Black; retained the exclusion of Deep Black from the cyclic dark adapter.
+Changed Crack the Code's outer card border from dashed to solid in the shared
+app rule, covering every theme. Updated the pending regression assertion to
+support both gradient artwork and outline-only SVGs and check solid borders.
+Screenshot: `output/playwright/break-deep-icons.png`; diagnostic:
+`.publish/break-icons-review.log`. These Take a Break changes are not deployed.
+
+Certificate deployment from the preceding task completed as Worker
+`14fd9fa9-da28-43c5-ac82-212f32b96f50` (source `4c2f6b9`). Copilot subsequently
+committed/deployed the newer three-theme source recorded below; that work is
+preserved. No new deployment performed during this continuation.
+
+**Take a Break Deep Black icon contrast (2026-11-06 IST; local):** Deep Black
+had circular CSS variable references in the app's dark palette adapter. That
+left all seven activity SVG icons without valid fill colors against the black
+surface. Added explicit Deep Black token values and a browser assertion that
+each icon's face color resolves distinctly from the surface. The 320/360/390/
+430/768/1280 px responsive hub test passes across Light, Dark and Deep Black.
+Production deployment pending.
+
 **Three-theme parity and visual regression (2026-11-06 IST; deployed):** Source
 `c5f7b7b` is live as Worker `0403febd-f20d-476d-b960-eecdb54cd088`. The shared
 picker, Chambers settings, and client settings expose only Light, Dark and Deep

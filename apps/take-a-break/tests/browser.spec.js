@@ -63,9 +63,11 @@ test('restrained hub fits reference widths, keeps daily navigation and keyboard 
  await expect(page.locator('#hub h1')).toHaveText('Take a Break');await expect(page.locator('.break-card:not([hidden])')).toHaveCount(7);
  expect(await page.locator('.break-card').evaluateAll(cards=>cards.slice(0,4).map(c=>c.dataset.game))).toEqual(['24','code','memory','lights']);
  await expect(page.locator('.break-hero-art svg')).toHaveCount(1);await expect(page.locator('[data-game=lights] .card-symbol rect')).toHaveCount(16);
- for(const width of [320,360,390,430,768,1280])for(const theme of ['light','dark']){
+ for(const width of [320,360,390,430,768,1280])for(const theme of ['light','dark','deep']){
   await page.setViewportSize({width,height:900});await setTheme(page,theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),width+' '+theme).toBe(true);
   for(const card of await page.locator('.break-card').all())expect(await card.evaluate(c=>c.scrollWidth<=c.clientWidth)).toBe(true);
+  await expect(page.locator('.code-card')).toHaveCSS('border-top-style','solid');
+  if(theme==='deep'){const colors=await page.locator('.break-card .card-symbol svg').evaluateAll(svgs=>svgs.map(svg=>{const stop=svg.querySelector('linearGradient stop');return {background:getComputedStyle(document.body).getPropertyValue('--ui-bg').trim(),face:stop?getComputedStyle(stop).stopColor:getComputedStyle(svg).stroke};}));expect(colors).toHaveLength(7);for(const {background,face}of colors){expect(background).not.toBe('');expect(face).not.toBe('');expect(face).not.toBe('none');expect(face).not.toBe(background);}}
  }
  await page.setViewportSize({width:390,height:900});await page.screenshot({path:'.publish/break-polish-mobile.png',fullPage:true});
  await page.setViewportSize({width:1280,height:900});await page.screenshot({path:'.publish/break-polish-desktop.png',fullPage:true});

@@ -7,7 +7,7 @@
 /* Reference-inspired activity hub; gameplay remains independent. */
 @media screen {
  #break-workspace{--break-card-top:var(--ui-solid);--break-card-bottom:var(--ui-soft);--break-halo:color-mix(in srgb,var(--ui-accent) 16%,transparent);--break-edge:color-mix(in srgb,var(--ui-accent) 24%,var(--ui-edge));background:radial-gradient(ellipse at 75% 0%,var(--break-halo),transparent 45%),var(--ui-bg)}
- html[data-theme=dark] #break-workspace{--ui-bg:var(--ss-bg);--ui-solid:var(--ss-surface);--ui-soft:var(--ss-surface-soft);--ui-text:var(--ss-text);--ui-muted:var(--ss-muted);--ui-accent:var(--ss-accent);--ui-edge:var(--ss-border);--break-card-top:var(--ss-surface-raised);--break-card-bottom:var(--ss-surface)}
+ html[data-theme=dark]:not([data-theme-style=deep]) #break-workspace{--ui-bg:var(--ss-bg);--ui-solid:var(--ss-surface);--ui-soft:var(--ss-surface-soft);--ui-text:var(--ss-text);--ui-muted:var(--ss-muted);--ui-accent:var(--ss-accent);--ui-edge:var(--ss-border);--break-card-top:var(--ss-surface-raised);--break-card-bottom:var(--ss-surface)}
  #break-workspace main{position:relative;isolation:isolate;max-width:1280px;padding:0 32px}
  #break-workspace main::before{content:"";position:absolute;z-index:-1;pointer-events:none;inset:0;opacity:.1;background:repeating-radial-gradient(ellipse at 72% 0%,transparent 0 25px,var(--break-edge) 26px,transparent 27px 52px);mask-image:linear-gradient(transparent,black 40%,transparent)}
  #break-workspace #hub{padding:44px 0 18px}
@@ -87,7 +87,7 @@
  #break-workspace .filters button {background:var(--ui-solid);border-color:var(--ui-edge);color:var(--ui-text)}
  #break-workspace .filters button[aria-pressed=true] {background:var(--ui-accent);color:var(--ui-on-accent);border-color:var(--ui-accent);box-shadow:none}
  #break-workspace .filter-status {min-height:20px;font-size:12px;margin:0 0 14px;color:var(--ui-muted)}
- #break-workspace .code-card {background:linear-gradient(145deg,var(--ui-solid),var(--ui-soft));border-style:dashed}
+ #break-workspace .code-card {background:linear-gradient(145deg,var(--ui-solid),var(--ui-soft));border-style:solid}
  #break-workspace .code-card #code-access {display:block;font-size:11px;line-height:1.5;color:var(--ui-muted);margin-top:4px}
  #break-workspace .code-card .card-symbol {display:grid;place-items:center;padding:10px;border:1px solid var(--ui-edge);border-radius:16px;background:var(--ui-soft);opacity:.8;transition:opacity .2s,background-color .2s}
  #break-workspace .break-card:focus-visible,#break-workspace .filters button:focus-visible,#break-workspace #surprise:focus-visible {outline:3px solid var(--ui-accent);outline-offset:4px}
