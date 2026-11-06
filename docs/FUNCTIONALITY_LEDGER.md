@@ -1,5 +1,17 @@
 # Chambers functionality ledger
 
+**Ritual location control simplification — local (2026-11-07 IST):** Shared
+Vrat/Shraddh city control now embeds a 44px location icon inside the textbox.
+The visible field label remains; duplicate short guidance and the separate
+Use my location button are removed. A tappable, keyboard-accessible help icon
+beside the label reveals existing mode-specific timing/location/privacy guidance.
+Detection remains user-triggered with accessible busy labels and reduced-motion
+handling; success/errors, manual search, keyboard autocomplete, revision guards
+and browser-saved fields retain their existing behaviour. No automatic GPS
+request on restore. Existing localisation assertion uses the accessible name
+instead of visible button text. Syntax/whitespace checks pass; no tests run.
+Changes are uncommitted and not deployed.
+
 **Take a Break fixes deployed (2026-11-06 IST):** Source `f3891f7` is live as
 Worker `7f29623a-4878-4761-b6d5-3476a2bcfd6b`. Preserves Copilot's three-theme
 work and includes the pending Deep Black icon adapter fix plus the solid Crack
