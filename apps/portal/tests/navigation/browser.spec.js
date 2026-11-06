@@ -11,7 +11,7 @@ test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{ch
 test('home, guide, preview and browser traversal preserve the app hierarchy',async({page})=>{
  await page.setViewportSize({width:360,height:740});
  await page.goto(base+'/');await page.locator('a[href="/ritual-assist"]').first().click();
- await expect(page.locator('#observance-form')).toBeVisible();await page.getByRole('link',{name:/Puja guides/}).first().click();
+ await expect(page.locator('#observance-form')).toBeVisible();await page.getByRole('link',{name:'Checklist',exact:true}).first().click();
  await expect(page.locator('#guide-list button')).not.toHaveCount(0);
  await page.locator('#library>summary').click();await page.locator('#search').fill('Ganesh');await page.locator('[data-guide="ganesh-puja"]').click();
  await expect(page).toHaveURL(/guide=ganesh-puja/);

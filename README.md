@@ -1,5 +1,10 @@
 # Curio · Sushant Synapse
 
+Ritual Assist's mobile workspace (2026-11-06) uses three clear sections: Vrat,
+Shraddh and Checklist, with the restored golden calendar icon. Calendar forms
+start with essential inputs; Checklist offers a direct ritual selector and
+visible preparation steps. See the functionality ledger for release evidence.
+
 Theme picker (2026-11-06): the header theme icon opens Light, Dark, Black & Gold
 and System choices. Black & Gold is an opt-in third visual palette inspired by
 the supplied reference; existing app layouts and Light/Dark palettes are retained.

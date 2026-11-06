@@ -1,5 +1,32 @@
 # Chambers functionality ledger
 
+**Ritual Assist three-section mobile workspace (2026-11-06 IST; release pending):**
+One compact header restores the existing golden calendar artwork. Vrat, Shraddh
+and Checklist form one consistent three-way bar on the existing calendar and
+guide routes; duplicate calendar headings/guide links are removed from the visible
+workflow. Vrat starts with city/month and a full-width calculation action; lunar
+labels/tradition remain under optional settings. Shraddh starts with date/time/
+place. Guidance and all date-admission rules remain available and unchanged.
+
+Checklist has an always-visible native ritual selector. Material items remain
+directly visible and preparation steps are open by default. The optional gallery
+is secondary. Explicit section navigation preserves the chosen ritual and
+unfinished checks using a consumed sessionStorage draft validated by existing
+`readState`; ordinary refresh and the opt-in persistent-save policy are retained.
+Draft preservation requires available session storage. No backend, schema,
+account, permission or provider changes; existing data and saved fields remain.
+
+Verification so far: 18/18 Ritual unit/API/export/input-memory checks pass; four
+final layout/checklist workflows pass (three-tab state, gallery, bilingual dense
+layout, all 15 guides/download/print). Eight initial navigation/calendar workflows
+pass, plus personalised sharing and save/delete checks. First checklist material
+is at Y=739px in English/Hindi and Light/Dark at 390px. Final simplified-form and
+production verification will be recorded before completing this release. All five
+final simplified-form checks now pass: three-tab state, actual bilingual Vrat
+generation/reminders, Shraddh generation/text export, and separate calendar input
+restoration. Both primary calculate actions are above Y=800px at 390×844. Syntax
+and diff checks pass. This is focused verification, not a new full-platform run.
+
 **Black & Gold production release (2026-11-06 IST):** Source commit `2e86864`
 is live as Worker `0e9e9f3d-d793-445f-b8a7-8b6fd20bc9d6` at
 `https://apps.sushantsynapse.com`, deployed from an isolated committed archive.

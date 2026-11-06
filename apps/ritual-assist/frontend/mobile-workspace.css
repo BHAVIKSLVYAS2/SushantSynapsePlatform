@@ -1,0 +1,37 @@
+/* One task hierarchy across all three screens. Themes remain token-driven. */
+body[data-ui-app=ritual-assist] main>.intro,body.ritual-landing .calendar-launch{display:none}
+body[data-ui-app=ritual-assist] .ritual-task-header{display:flex;align-items:center;gap:12px;padding:16px 0 12px;margin:0;min-height:0;background:none;border:0;box-shadow:none}
+body[data-ui-app=ritual-assist] .ritual-calendar-icon{display:block;width:76px;height:76px;object-fit:contain;flex:0 0 76px;filter:none}
+body[data-ui-app=ritual-assist] .ritual-task-header h1{font:700 25px/1.2 var(--ss-font,system-ui);letter-spacing:-.025em;margin:0 0 6px}
+body[data-ui-app=ritual-assist] .ritual-task-header p{margin:0;font-size:13px;line-height:1.5;color:var(--muted);max-width:58ch}
+body[data-ui-app=ritual-assist] .ritual-task-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:4px;margin:0 0 16px;border:1px solid var(--line);border-radius:14px;background:var(--soft);position:sticky;top:72px;z-index:12}
+body[data-ui-app=ritual-assist] .ritual-task-tabs :is(a,button){display:flex;align-items:center;justify-content:center;width:auto;min-height:48px;min-width:0;padding:8px;font:600 14px/1.3 var(--ss-font,system-ui);text-align:center;text-decoration:none;border:1px solid transparent;border-radius:10px;background:transparent;color:var(--muted);box-shadow:none;overflow-wrap:anywhere}
+body[data-ui-app=ritual-assist] .ritual-task-tabs [aria-current=page]{background:var(--surface);color:var(--accent);border-color:var(--line);box-shadow:var(--shadow)}
+body[data-ui-app=ritual-assist] .ritual-task-tabs :is(a,button):focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+body[data-ui-app=ritual-assist] .observance-form>h2,body[data-ui-app=ritual-assist] #form-title{font-size:19px;margin:0 0 14px}
+body[data-ui-app=ritual-assist] .calendar-layout>section:has(#result:empty)>h2{display:none}
+body[data-ui-app=ritual-assist] #observance-form .observance-fields>label{grid-column:1/-1}
+body[data-ui-app=ritual-assist] .observance-options{padding:0;margin:12px 0;border:0;background:none;box-shadow:none}
+body[data-ui-app=ritual-assist] .observance-options>summary{min-height:44px;align-content:center;cursor:pointer;font-size:13px;color:var(--accent)}
+body[data-ui-app=ritual-assist] .observance-options>label{display:block;margin:10px 0}
+body[data-ui-app=ritual-assist] #observance-calculate{width:100%;min-height:48px}
+body.ritual-landing .ritual-selector{margin:0 0 10px;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+body.ritual-landing .ritual-selector label{display:block;margin:0 0 8px;font-size:14px;font-weight:650}
+body.ritual-landing .ritual-selector select{width:100%;min-height:48px;font-size:16px;margin:0}
+body.ritual-landing .ritual-selector{display:grid;grid-template-columns:minmax(70px,110px) minmax(0,1fr);align-items:center;gap:10px;padding:10px}
+body.ritual-landing .ritual-selector select{min-width:0}
+body.ritual-landing .ritual-selector label{margin:0}
+@media screen{body.ritual-landing .guide-top>p{display:none}body.ritual-landing #scope.compact-guidance{display:none}}
+body.ritual-landing .workspace{display:block}
+body.ritual-landing .workspace>.library{width:auto;margin:0 0 14px;position:static}
+body.ritual-landing .workspace>.library:not([open]){padding:0 10px}
+body.ritual-landing .library>summary{min-height:44px;padding:8px 2px;font-size:13px;gap:8px}
+body.ritual-landing .library>summary .ritual-art{display:none}
+body.ritual-landing #guide .guide-top{padding:0;margin-bottom:12px}
+body.ritual-landing #guide-title{font-size:21px}
+body.ritual-landing #guide .guide-top>.badge{display:none}
+body.ritual-landing #guide .guide-top>p{font-size:13px;line-height:1.5}
+body.ritual-landing #guide .preparation-summary{padding:14px;margin-top:14px}
+@media(max-width:600px){body[data-ui-app=ritual-assist] main{padding-left:16px;padding-right:16px}body[data-ui-app=ritual-assist] .ritual-task-header{padding-top:12px}body[data-ui-app=ritual-assist] .ritual-task-header h1{font-size:23px}body[data-ui-app=ritual-assist] .ritual-task-tabs{top:64px}body[data-ui-app=ritual-assist] .ritual-task-tabs :is(a,button){font-size:14px}body.ritual-landing #guide .actions{gap:6px}body.ritual-landing #guide .actions>button{flex:1 1 auto}}
+body[data-ui-app=ritual-assist] .ritual-task-tabs{top:var(--ritual-shell-height,72px)}
+@media print{body[data-ui-app=ritual-assist] .ritual-task-tabs,body.ritual-landing .ritual-selector{display:none}body[data-ui-app=ritual-assist] .ritual-task-header{position:static}}

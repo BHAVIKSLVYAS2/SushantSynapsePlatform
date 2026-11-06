@@ -1,3 +1,4 @@
+import {mountRitualWorkspace} from './workspace-nav.mjs';
 import {createCalendarInputMemory,calendarMemoryCopy} from './calendar-input-memory.mjs?v=20261105-density';
 import {downloadBlob} from '/shared/download.mjs';
 import {mountCalendarLocation} from './calendar-location.mjs';
@@ -16,8 +17,8 @@ Object.assign(words.en,{festivals:'Hindu festivals',unavailable:'Festival dates 
 Object.assign(words.hi,{festivals:'हिन्दू त्योहार',unavailable:'त्योहारों की तारीखें योजना-सहायता हैं, प्रमाणित क्षेत्रीय पंचांग नहीं। अनुष्ठान तय करने से पहले स्थानीय पुष्टि करें।'});
  const inputMemory=createCalendarInputMemory('observances');
  const original=[$('scope'),document.querySelector('.calendar-layout'),document.querySelector('.reference')],intro=document.querySelector('main .intro');
- const nav=node('nav',undefined,'calendar-views');nav.setAttribute('aria-label','Calendar views');
- const datesButton=node('button'),remembranceButton=node('button');datesButton.type=remembranceButton.type='button';datesButton.id='view-dates';remembranceButton.id='view-remembrance';nav.append(datesButton,remembranceButton);intro.after(nav);
+ const workspace=mountRitualWorkspace({language:language(),onView:value=>activate(value)});
+ const {nav,datesButton,remembranceButton}=workspace;
  const panel=node('section',undefined,'observance-panel');panel.id='observance-panel';nav.after(panel);
  const form=node('form',undefined,'card observance-form');form.id='observance-form';
  const note=node('p',undefined,'scope'),formHeading=node('h2'),fields=node('div',undefined,'observance-fields');
@@ -25,7 +26,8 @@ Object.assign(words.hi,{festivals:'हिन्दू त्योहार',una
  const cityContainer=node('div',undefined,'observance-city-field');fields.append(cityContainer);let locationPicker=null;
  const month=field('observance-month','month');month.input.required=true;month.input.min='2025-01';month.input.max='2030-12';month.input.value=inputMemory.values.month||localDate(Date.now()).slice(0,7);
  const calendar=field('observance-convention','select'),tradition=field('observance-tradition','select');
- const help=node('p',undefined,'fine'),yearHelp=node('p',undefined,'fine'),submit=node('button',undefined,'primary');submit.id='observance-calculate';submit.type='submit';form.append(formHeading,fields,help,yearHelp,submit);
+ const help=node('p',undefined,'fine'),yearHelp=node('p',undefined,'fine'),submit=node('button',undefined,'primary');submit.id='observance-calculate';submit.type='submit';
+ const options=node('details',undefined,'observance-options'),optionsTitle=node('summary');options.append(optionsTitle,calendar.input.parentElement,tradition.input.parentElement,help,yearHelp);form.append(formHeading,fields,options,submit);
  const memoryPanel=node('div',undefined,'calendar-input-memory'),memoryNote=node('p',undefined,'fine'),clearMemoryButton=node('button');
  memoryNote.id='observance-memory-status';memoryNote.setAttribute('role','status');clearMemoryButton.id='clear-observance-inputs';clearMemoryButton.type='button';memoryPanel.append(memoryNote,clearMemoryButton);form.append(memoryPanel);
  function refreshMemoryCopy(){memoryNote.textContent=calendarMemoryCopy(language(),inputMemory.status);clearMemoryButton.textContent=language()==='hi'?'सहेजे फ़ील्ड साफ करें':'Clear saved fields';}
@@ -34,7 +36,7 @@ Object.assign(words.hi,{festivals:'हिन्दू त्योहार',una
  const status=node('p');status.id='observance-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');
  const output=node('div');output.id='observance-output';
  const method=node('details',undefined,'card observance-method'),methodTitle=node('summary'),methodText=node('p'),attribution=node('p');method.append(methodTitle,methodText,attribution);
- panel.append(note,form,status,output,method);
+ panel.append(form,note,status,output,method);document.querySelector('.calendar-layout').after($('scope'));
  const dateTypeKeys=Object.keys(observanceTypes),festivalTypeSet=new Set(festivalTypeKeys);
  let result=null,controller=null,revision=0,view=new URLSearchParams(location.search).get('view')==='remembrance'?'remembrance':'dates',display='list',selected=new Set(dateTypeKeys),showFestivals=false,reminder='1',timed=false;
  const selectedTypes=()=>[...selected,...(showFestivals?festivalTypeKeys:[])],isSelected=event=>festivalTypeSet.has(event.type)?showFestivals:selected.has(event.type);
@@ -43,12 +45,12 @@ Object.assign(words.hi,{festivals:'हिन्दू त्योहार',una
  const button=(text,fn,cls)=>{const b=node('button',text,cls);b.type='button';b.onclick=fn;return b;};
  function stop(){revision++;controller?.abort();controller=null;submit.disabled=false;form.removeAttribute('aria-busy');}
  function clear(){stop();result=null;output.replaceChildren();status.textContent=w('empty');}
- function activate(value,updateUrl=true){view=value;panel.hidden=view!=='dates';for(const part of original)part.hidden=view==='dates';datesButton.setAttribute('aria-pressed',String(view==='dates'));remembranceButton.setAttribute('aria-pressed',String(view==='remembrance'));$('headline').textContent=view==='dates'?w('title'):(language()==='hi'?'श्राद्ध और बरसी कैलेंडर':'Shraddha & Barsi Calendar');$('description').textContent=w('description');document.title=$('headline').textContent+' · Ritual Assist';if(view==='remembrance'){stop();locationPicker?.cancel();}if(updateUrl){const url=new URL(location.href);url.searchParams.set('view',view);if(url.href!==location.href)history.pushState(history.state,'',url);}}
+ function activate(value,updateUrl=true){view=value;panel.hidden=view!=='dates';for(const part of original)part.hidden=view==='dates';workspace.update(view,language());$('headline').textContent=view==='dates'?w('title'):(language()==='hi'?'श्राद्ध और बरसी कैलेंडर':'Shraddha & Barsi Calendar');$('description').textContent=w('description');document.title=$('headline').textContent+' · Ritual Assist';if(view==='remembrance'){stop();locationPicker?.cancel();}if(updateUrl){const url=new URL(location.href);url.searchParams.set('view',view);if(url.href!==location.href)history.pushState(history.state,'',url);}}
  addEventListener('popstate',()=>activate(new URL(location.href).searchParams.get('view')==='remembrance'?'remembrance':'dates',false));
  datesButton.onclick=()=>activate('dates');remembranceButton.onclick=()=>activate('remembrance');
  function setup(){
   const city=locationPicker?locationPicker.value:inputMemory.values.placeId||'';locationPicker?.destroy();locationPicker=mountCalendarLocation(cityContainer,{language:language(),value:city,onChange:()=>{rememberInputs();clear();},mode:'dates',prefix:'observance-location',detectId:'observance-use-location'});
-  datesButton.textContent=w('dates');remembranceButton.textContent=w('remembrance');note.textContent=w('scope');formHeading.textContent=w('dates');month.label.textContent=w('month');calendar.label.textContent=w('calendar');tradition.label.textContent=w('tradition');
+  optionsTitle.textContent=language()==='hi'?'कैलेंडर सेटिंग (वैकल्पिक)':'Calendar settings (optional)';note.textContent=w('scope');formHeading.textContent=language()==='hi'?'स्थान और महीना':'Location & month';month.label.textContent=w('month');calendar.label.textContent=w('calendar');tradition.label.textContent=w('tradition');
   const prior=calendar.input.options.length?calendar.input.value:inputMemory.values.calendar||'';calendar.input.replaceChildren(...[['',w('automatic')],['amanta',w('amanta')],['purnimanta',w('purnimanta')]].map(([value,label])=>new Option(label,value)));calendar.input.value=prior;
   tradition.input.replaceChildren(new Option(w('smarta'),'smarta'));help.textContent=w('traditionHelp');yearHelp.textContent=w('yearHelp');submit.textContent=w('load');methodTitle.textContent=w('sources');methodText.textContent=w('method');
   attribution.replaceChildren();const geo=node('a','GeoNames · CC BY 4.0');geo.href='https://www.geonames.org/';attribution.append(geo,document.createTextNode(language()==='hi'?' · शहर के अनुमानित निर्देशांक।':' · Approximate city coordinates.'));

@@ -1,5 +1,13 @@
 # Code ownership and adding apps
 
+Ritual three-section workspace (2026-11-06): app-owned `workspace-nav.mjs` and
+`mobile-workspace.css` share the header, golden calendar asset and Vrat/Shraddh/
+Checklist navigation across the existing two controllers. Calendar switching
+retains same-page state; Checklist uses ordinary app routes and a consumed
+sessionStorage draft only for explicit section navigation. Drafts pass the
+existing `readState` validation. No iframe, calculation/schema change or private
+API change. Existing guides/calendar routes and export ownership remain intact.
+
 Shared theme picker (2026-11-06): `packages/ui/theme.js` owns a native dialog,
 keyboard/focus handling and saved preference. `theme-picker.css` is explicitly
 allowlisted and delivered through the existing dependency fingerprint pipeline.

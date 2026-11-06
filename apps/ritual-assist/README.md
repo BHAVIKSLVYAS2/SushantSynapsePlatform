@@ -1,5 +1,15 @@
 # Ritual Assist
 
+Three-section mobile workspace (2026-11-06): one compact header restores the
+existing golden calendar artwork. Vrat, Shraddh and Checklist share a consistent
+three-way navigation bar. Calendar forms use task labels, not repeated calendar
+headings. Checklist exposes a native ritual selector and open preparation steps;
+the gallery remains optional. Switching to a calendar section and back restores
+the selected ritual and unfinished checks using a consumed tab-local draft.
+Ordinary refresh and optional persistent checklist saving retain their existing
+policy. Calculations, reminder admission, exports and saved calendar fields are
+unchanged. Verification/deployment evidence is in the functionality ledger.
+
 Calendar-first correction (2026-11-06; deployed, see the functionality ledger): `/ritual-assist`
 now opens calendar generation directly, with Vrat and Shraddha/Barsi choices.
 `/ritual-assist/calendar` remains supported. Puja guides and existing checklist
