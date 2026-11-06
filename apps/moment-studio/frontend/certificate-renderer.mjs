@@ -104,10 +104,10 @@ export function render(canvas,data,images={},scale=1.25){
  if(template==='Jubilee'||template==='Fun Card'){
   c.fillStyle='#382558';c.fillRect(0,0,W,18);c.fillRect(0,735,W,9);
   circle(1086,333,211,'#eed9cf');circle(1086,333,161,'#f6e9d8');
-  c.fillStyle='#bd654b';c.fillRect(1019,52,27,637);c.fillStyle='#d6a548';c.fillRect(1056,52,8,637);
-  circle(953,283,61,'#382558');circle(953,283,53,'#68409a');trophy(953,281,'#efd192');
-  for(let i=0;i<12;i++){const a=i*Math.PI/6;line(953+Math.cos(a)*70,283+Math.sin(a)*70,953+Math.cos(a)*82,283+Math.sin(a)*82,'#b58340',1.2);}
-  polygon([[35,184],[55,174],[55,239],[35,249]],'#bd654b');polygon([[35,258],[55,248],[55,313],[35,323]],'#68409a');
+  c.fillStyle='#68409a';c.fillRect(110,186,68,4);
+  // Quiet geometric celebration keeps attention on the recipient, not a stock medal.
+  circle(999,234,35,'#68409a');circle(999,234,20,paper);
+  line(110,646,1012,646,'#d5c8dc',.8);
   for(const [x,y,r,color]of [[982,540,9,'#bd654b'],[968,590,6,'#68409a'],[96,668,5,'#bd654b'],[997,635,5,'#d6a548']])star(x,y,r,color,4);
   line(110,171,335,171,'#cebaab',1);
   if(template==='Fun Card'){for(const [x,y]of [[900,465],[940,610],[80,520]]){circle(x,y,21,'#efd192');circle(x-7,y-5,2,'#382558');circle(x+7,y-5,2,'#382558');c.beginPath();c.arc(x,y+1,10,0,Math.PI);c.strokeStyle='#382558';c.lineWidth=2;c.stroke();}}

@@ -1,5 +1,66 @@
 # Chambers functionality ledger
 
+**Combined Ritual Assist / Moment Studio release (2026-11-06 IST):** User has
+authorised committing and deploying the pending Vrat, Shraddh, Checklist and
+export-design changes together. The implementation entries below describe the
+completed scope; their local/deferred status is historical once the production
+release record is added. Full regression remains deferred at the user's request.
+Deployment uses an isolated committed archive, existing production configuration
+and preserved variables/bindings. No schema or production-data migration required.
+
+**Export design review — local implementation (2026-11-06 IST):** Ritual print
+styling now has a theme-independent white/dark palette, stronger date hierarchy,
+cleaner Checklist tables, repeated table headings, print metadata and refined
+observance pagination. Moment greeting templates gain design-specific typography
+and framing; Jubilee/Fun Card certificate ornamentation is simplified. Brand,
+issuer/signature/donation content and disclaimer remain. Targeted local Chrome
+PDF generation and before/after visual samples were reviewed using isolated
+SQLite data; full regression and physical printer checks remain deferred.
+See `docs/EXPORT_DESIGN_REVIEW_2026-11-06.md` for scope, artifacts and limitations.
+No combined commit or deployment performed; all pending changes remain local.
+
+**Checklist results follow-up — implemented, no tests run at the user's request
+(2026-11-06 IST):** Progress now reads X of Y items arranged with a live status
+and progress bar. Direct To arrange / Arranged / All buttons share the existing
+filter state; assignment filters remain available in a separate disclosure and
+empty selections explain how to return to All. Edited quantities stay beside
+item names, confirmation labels stay visible, and item/shared guidance expands
+on demand. Share checklist, Download and Preview / Print are directly available
+at the top; Copy and guide-link sharing remain under More. Reset checkmarks with
+Undo now lives in checklist settings, separately explained from deletion of the
+saved checklist. Reset retains quantities, names, date and calendar inputs.
+Existing saved state and export contents remain in use. English/Hindi labels,
+theme tokens and mobile touch targets are included. No test/browser verification
+or deployment performed. This follow-up and the pending Vrat/Shraddh changes
+below remain local and unverified.
+
+**Vrat results follow-up — implemented, checks deferred at the user's request
+(2026-11-06 IST):** A next selected, resolved observance summary now leads the
+results with available observance/moonrise/Parana times, a focused date/timing
+jump and an eligible single-event .ics action. Empty months offer the existing
+bounded next-occurrence search. Month navigation remains above results; calendar
+download and expandable reminder settings/import guidance now precede the list.
+Quick All vrats / Ekadashi / Pradosh / Purnima / Amavasya chips complement the
+full date/festival filters; Purnima includes separately labelled fasting and
+calendar dates. Entry timings remain in their disclosure instead of repeating
+milestones outside it. Existing calculation and export eligibility rules remain.
+Both languages and theme tokens are used. No tests, browser checks or deployment
+performed; this and the Shraddh follow-up below remain local and unverified.
+
+**Ritual Assist results follow-up — implemented, verification deferred at the
+user's request (2026-11-06 IST):** Download / Share moves with the active results
+tab, beside the future-period controls or above first-year entries, with PNG
+actions first and explicit export scope. Date entries keep occasion/date/status
+visible and disclose calculation timings on demand. Upcoming only / Include past
+filters future-period screen results; unresolved dates remain visible. Full PDF
+printing restores all years and opens timing details. The next-remembrance card
+offers a focused jump to its date and a single-event .ics download only when the
+existing reminder eligibility function admits it. Manual calendar import and
+notification limitations are explained. Both languages and CSS tokens are used.
+No test/browser verification or deployment performed for this follow-up; these
+changes must not be described as verified or live. Existing production release
+below remains the last verified deployment.
+
 **Ritual Assist period selection (2026-11-06 IST):** Shraddh's observance-year
 selector now offers Next 2 / 5 / 10 years alongside individual years. Ranges
 start at the existing calculation's planning year (shown beside the control),
