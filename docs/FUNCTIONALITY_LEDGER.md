@@ -1,5 +1,13 @@
 # Chambers functionality ledger
 
+**Vrat dropdown deployed (2026-11-07 IST):** Source `910e289` is live as Worker
+`f6cb5966-dcea-4be5-8dff-73e8fa497998`. Includes pre-calculation checkbox
+dropdown, removal of result filter buttons, and location placeholder/button
+clarity. Isolated committed archive; existing production config and `--keep-vars`;
+D1/auth/organisation settings preserved. Required build/deploy succeeded. No
+tests run at the user's request; no browser/live verification performed for this
+release. No database changes. Log: `.publish/vrat-select-deploy.log`.
+
 **Vrat selection before calculation (2026-11-07 IST):** City, Month and Vrats are
 the main form controls. Added an accessible checkbox dropdown with Select all,
 Clear, Done and a compact selected-name/count summary. Existing date and festival

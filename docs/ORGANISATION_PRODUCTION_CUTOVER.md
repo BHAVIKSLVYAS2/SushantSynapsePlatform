@@ -1,5 +1,10 @@
 # Organisation licensing production cutover
 
+Vrat selection dropdown (2026-11-07 IST): source `910e289`, Worker
+`f6cb5966-dcea-4be5-8dff-73e8fa497998`, deployed successfully. Existing production
+config and `--keep-vars`; D1/auth/organisation settings preserved. No tests run
+at the user's request; no browser/live verification. No data changes.
+
 Ritual inline location controls (2026-11-07 IST): source `de8e8e2`, Worker
 `33e45d37-0d04-4c11-bc16-aae268b6546a`, deployed successfully. Existing production
 configuration and `--keep-vars`; D1/auth/organisation settings preserved. No
