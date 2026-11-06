@@ -1,5 +1,15 @@
 const prefix='/rashifal-kundli',base='apps/rashifal-kundli/frontend/';
 const assets={};
+function generatedChunks(){
+ const fs=require('node:fs'),path=require('node:path'),manifest=path.join(__dirname,'frontend/production/chunks.json');
+ if(!fs.existsSync(manifest))return {};
+ return Object.fromEntries(JSON.parse(fs.readFileSync(manifest,'utf8')).map(file=>{
+  if(!/^chunks\/chunk-[A-Z0-9]+\.mjs$/.test(file))throw Error('Invalid public chunk manifest');
+  return [prefix+'/'+file,base+'production/'+file];
+ }));
+}
+Object.assign(assets,generatedChunks());
+Object.defineProperty(assets,'generatedChunks',{value:generatedChunks});
 for(let sign=1;sign<=12;sign++)for(const theme of ['light','dark'])assets[`${prefix}/moon-signs/${sign}-${theme}.webp`]=`${base}assets/moon-signs/${sign}-${theme}.webp`;
 for(const entry of ['birth','rashifal','matching','time-machine']){
  const route=entry==='birth'?prefix:prefix+'/'+entry;

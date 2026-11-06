@@ -28,12 +28,18 @@
   const destination=new URL(link.href,location.href);
   if(destination.origin!==location.origin||!['http:','https:'].includes(destination.protocol))return;
   if(destination.pathname===location.pathname&&destination.search===location.search)return;
-  clearTimeout(loaderTimeout);loaderTimeout=setTimeout(()=>{loader.hidden=false;loaderTimeout=setTimeout(clearLoader,8000);},180);
+  // Delegated app handlers may cancel navigation later in the same event.
+  // Wait until dispatch completes, and never obscure the page while offline.
+  clearTimeout(loaderTimeout);loaderTimeout=setTimeout(()=>{
+   if(event.defaultPrevented||!navigator.onLine)return;
+   clearTimeout(loaderTimeout);loaderTimeout=setTimeout(()=>{loader.hidden=false;loaderTimeout=setTimeout(clearLoader,8000);},250);
+  },0);
  });
  window.addEventListener('pageshow',clearLoader);
  window.addEventListener('pagehide',clearLoader);
  window.addEventListener('popstate',clearLoader);
  window.addEventListener('focus',clearLoader);
+ window.addEventListener('offline',clearLoader);
  document.addEventListener('pointerdown',clearLoader,{passive:true});
  document.addEventListener('keydown',clearLoader);
  const account=header.querySelector('.platform-account');

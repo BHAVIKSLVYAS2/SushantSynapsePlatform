@@ -13,7 +13,7 @@ body.has-platform-shell :is(.theme-control,.theme-picker):not(.platform-shell *)
  }
 }
 @media screen and (scripting: enabled) {
- .platform-transition {position:fixed;inset:0;z-index:200;display:grid;place-items:center;pointer-events:none;background:color-mix(in srgb,var(--shell-bg) 88%,transparent)}
+ .platform-transition {position:fixed;inset:0;z-index:200;display:grid;place-items:center;pointer-events:none;background:color-mix(in srgb,var(--shell-bg) 88%,transparent);animation:platform-transition-in 140ms ease-out both}
  .platform-transition[hidden] {display:none}
  .platform-transition-card {display:flex;flex-direction:column;align-items:center;gap:12px;min-width:220px;max-width:calc(100vw - 32px);padding:28px;border:1px solid var(--shell-line);border-radius:24px;background:var(--shell-surface);color:var(--shell-ink);box-shadow:0 16px 48px color-mix(in srgb,var(--shell-ink) 12%,transparent)}
  .platform-transition-card img {width:64px;height:64px;object-fit:contain}
@@ -22,7 +22,8 @@ body.has-platform-shell :is(.theme-control,.theme-picker):not(.platform-shell *)
  .platform-transition-track {width:180px;height:4px;overflow:hidden;border-radius:999px;background:var(--shell-line)}
  .platform-transition-track i {display:block;width:45%;height:100%;border-radius:inherit;background:var(--shell-accent);animation:platform-loading 1.2s ease-in-out infinite}
  @keyframes platform-loading {from{transform:translateX(-105%)}to{transform:translateX(325%)}}
- @media(prefers-reduced-motion:reduce) {.platform-transition-track i {animation:none;transform:translateX(60%)}}
+ @keyframes platform-transition-in {from{opacity:0}to{opacity:1}}
+ @media(prefers-reduced-motion:reduce) {.platform-transition{animation:none}.platform-transition-track i {animation:none;transform:translateX(60%)}}
 }
 @media print {.platform-transition {display:none!important}}
 @media screen and (scripting: enabled) {

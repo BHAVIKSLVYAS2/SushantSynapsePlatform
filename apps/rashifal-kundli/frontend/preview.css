@@ -41,3 +41,5 @@ body[data-shared-language] label:has(> :is(#birth-language,#rashifal-language,#m
 .rashifal-timeline .rashifal-timeline-limits{font-size:.72rem;border-top:1px solid var(--ui-edge);padding-top:.8rem;margin-bottom:0}
 @media(max-width:600px){.rashifal-reading>[data-category=observations]{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:600px){body[data-ui-app=rashifal-kundli] .vedic-app-header nav{flex-wrap:nowrap;max-width:100%;overflow-x:auto}body[data-ui-app=rashifal-kundli] .vedic-nav a{flex-shrink:0;white-space:nowrap}}
+/* Keep the footer below the first screen while local calculation code loads. */
+@media screen{body[data-ui-app=rashifal-kundli] main{min-block-size:calc(100svh - 140px)}.vedic-initial-loading{padding:24px;color:var(--ui-muted);font:inherit}}

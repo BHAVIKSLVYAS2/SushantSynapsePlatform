@@ -72,8 +72,10 @@ html[data-theme=dark] body[data-ui-app=news]{--bg:#071724;--paper:#0c2434;--ink:
  #newspaper .reading-tools label{flex-wrap:wrap;gap:6px}
  #newspaper #fetch-preview{font-size:11px;padding-block:12px}
  #newspaper .archive{border-radius:18px;margin-top:20px}
- #newspaper .gate{padding:25px 0}
- #newspaper .gate h1{font-size:26px}
+ #newspaper .gate{position:fixed;inset:calc(var(--shell-height,72px) + 8px) 12px auto;z-index:55;max-width:600px;margin-inline:auto;padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:var(--paper);box-shadow:0 4px 16px #0002;pointer-events:none}
+ #newspaper .gate h1{display:none}
+ #newspaper .gate p{margin:0;font-size:14px}
+ #newspaper .gate button{pointer-events:auto}
  body[data-ui-app=news].light-reading #newspaper .saved-story,body[data-ui-app=news].reader-layout #newspaper .saved-story{grid-template-columns:minmax(0,1fr)}
  body[data-ui-app=news]:is(.light-reading,.reader-layout) #newspaper .saved-story :is(.story-topline,h2,.story-brief,.story-actions){grid-column:1}
  body[data-ui-app=news].reader-layout #newspaper .saved-story:not(.expanded) .story-brief{display:block}

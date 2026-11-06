@@ -2,6 +2,7 @@
  "$schema":"../../node_modules/wrangler/config-schema.json",
  "name":"sushant-synapse-frontend-production",
  "main":"fullstack-worker.mjs",
+ "minify":true,
  "compatibility_date":"2026-10-01",
  "compatibility_flags":["nodejs_compat"],
  "workers_dev":false,

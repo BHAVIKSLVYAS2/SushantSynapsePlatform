@@ -1,5 +1,14 @@
 # Code ownership and adding apps
 
+Launch hardening (2026-11-06): `response-security.mjs` applies common edge
+response protections without replacing per-page CSP/privacy or successful asset
+cache headers. Internal build paths are decoded and denied before routing.
+Astrology's app-owned `frontend/entries/` uses ESM splitting; only the validated
+generated `chunks.json` list enters its public asset registry. The Cloudflare
+build refreshes this list after rebuilding, before export/fingerprinting. No
+directory listing or source path becomes request-controlled. Existing Node/D1
+ownership, calculation engines and data schemas are unchanged.
+
 Ritual three-section workspace (2026-11-06): app-owned `workspace-nav.mjs` and
 `mobile-workspace.css` share the header, golden calendar asset and Vrat/Shraddh/
 Checklist navigation across the existing two controllers. Calendar switching

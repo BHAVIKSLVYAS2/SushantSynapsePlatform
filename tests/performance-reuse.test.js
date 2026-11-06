@@ -25,7 +25,7 @@ test('public Arena and editorial reads avoid unrelated global revision and sessi
 });
 
 test('Worker bundle keeps public reference tables out of executable startup code',()=>{
- const {buildSync}=require('esbuild'),bundle=buildSync({entryPoints:['infrastructure/cloudflare/fullstack-worker.mjs'],bundle:true,write:false,platform:'node',format:'esm',metafile:true,logLevel:'silent'});
+ const {buildSync}=require('esbuild'),bundle=buildSync({entryPoints:['infrastructure/cloudflare/fullstack-worker.mjs'],bundle:true,minify:true,write:false,platform:'node',format:'esm',metafile:true,logLevel:'silent'});
  assert(bundle.outputFiles[0].contents.length<5*1024*1024,'Worker source bundle exceeds the 5 MiB budget');
  assert(!Object.keys(bundle.metafile.inputs).some(name=>name.endsWith('fund-runtime-references.json')),'Monolithic reference data returned to executable startup');
 });

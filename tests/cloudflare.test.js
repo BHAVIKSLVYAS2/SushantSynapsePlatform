@@ -80,6 +80,7 @@ test('Cloudflare export contains only allowlisted frontend files and shared outa
   const manifest=JSON.parse(fs.readFileSync('infrastructure/cloudflare/fund-runtime-manifest.json','utf8'));assert.equal(files.length,exported.files.size+1+3+manifest.rows.length);
   for (const [url,source] of exported.files) {
     if(source==='packages/vedic/vendor/astronomy-engine-2.1.19.mjs')assert.match(url,/^(?:\/_static\/[a-f0-9]{32})?\/ritual-assist\/astronomy-engine\.mjs$/);
+    else if(['packages/vedic/places.mjs','packages/vedic/diagnostics.mjs','packages/vedic/data/india-places.json'].includes(source))assert.ok(Object.entries(require('../server/static-assets').staticAssets).some(([allowed,file])=>file===source&&(url===allowed||url.endsWith(allowed)&&/^\/_static\/[a-f0-9]{32}\//.test(url))),'Only explicitly registered public Vedic aliases may be exported');
     else assert.match(source, /^(apps\/[^/]+\/frontend\/|packages\/(?:ui|http)\/|apps\/fund-overlap\/data\/holdings\/[a-z0-9-]{1,80}\/\d{4}-\d{2}-\d{2}-[a-f0-9]{16}\.json$)/);
   }
   for (const [route,name] of Object.entries(exported.pages)) {

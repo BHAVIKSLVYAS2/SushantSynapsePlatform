@@ -4,9 +4,11 @@ import {cloudPages} from '../../apps/satire-arena/backend/cloud-pages.mjs';
 import adsense from '../../packages/ui/adsense.cjs';
 import vedicPrivacy from '../../apps/rashifal-kundli/privacy.cjs';
 import {accountIntentPath} from '../../packages/ui/task-intent.mjs';
-export default {
- async fetch(request,env){
+import {secureResponse} from './response-security.mjs';
+async function handleRequest(request,env){
   const url=new URL(request.url);
+  let decoded;try{decoded=decodeURIComponent(url.pathname);}catch{return new Response('Not found',{status:404});}
+  if(/^\/_(?:pages|edge|organisations)(?:\/|$)/.test(decoded))return new Response('Not found',{status:404});
   if(url.pathname.startsWith('/_static/')||url.pathname.startsWith('/_fund-runtime/')){
    if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405,headers:{'Cache-Control':'no-store'}});
    const asset=await env.ASSETS.fetch(request),headers=new Headers(asset.headers);
@@ -59,5 +61,5 @@ export default {
   if(assetPath.startsWith('/_pages/')||assetPath.startsWith('/_edge/'))return new Response('Not found',{status:404});
   if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405});
   return env.ASSETS.fetch(request);
- }
-};
+}
+export default {async fetch(request,env){return secureResponse(request,await handleRequest(request,env));}};

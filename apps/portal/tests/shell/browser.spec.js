@@ -36,14 +36,15 @@ test('branded transition follows native navigation and clears on return',async({
  await page.setViewportSize({width:390,height:900});
  await page.goto(base+'/');const loader=page.locator('.platform-transition');await expect(loader).toBeHidden();
  await page.locator('.home-mobile-dock a[href="#free-apps"]').first().click();await expect(loader).toBeHidden();
- // Stop the default action after the document handler so the old-page cue is inspectable.
+ // App handlers can cancel after the document handler; this must not show a cue.
  await page.evaluate(()=>{window.holdTransition=event=>event.preventDefault();window.addEventListener('click',window.holdTransition);});
  await page.locator('a.public-app[href="/qr-maker"]').click();
- await expect(loader).toBeVisible();await expect(loader.locator('img')).toHaveAttribute('src','/logo-adaptive-192.png');
- await page.emulateMedia({reducedMotion:'reduce'});expect(await loader.locator('i').evaluate(el=>getComputedStyle(el).animationName)).toBe('none');
- await page.screenshot({path:'.publish/platform-transition.png'});
- await page.evaluate(()=>{window.removeEventListener('click',window.holdTransition);dispatchEvent(new PageTransitionEvent('pageshow',{persisted:true}));});await expect(loader).toBeHidden();
- await page.locator('a.public-app[href="/qr-maker"]').click();await page.waitForURL(base+'/qr-maker');await expect(page.locator('.platform-transition')).toBeHidden();
+ await page.waitForTimeout(350);await expect(loader).toBeHidden();
+ await page.evaluate(()=>window.removeEventListener('click',window.holdTransition));
+ await page.emulateMedia({reducedMotion:'reduce'});
+ expect(await page.evaluate(()=>getComputedStyle(document.querySelector('.platform-transition-track i')).animationName)).toBe('none');
+ await page.locator('a.public-app[href="/qr-maker"]').click();
+ await page.waitForURL(base+'/qr-maker');await expect(page.locator('.platform-transition')).toBeHidden();
  await page.goBack();await expect(page.locator('.platform-transition')).toBeHidden();
 });
 

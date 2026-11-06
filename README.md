@@ -1,5 +1,10 @@
 # Curio · Sushant Synapse
 
+Launch audit (2026-11-06): dependency security fixes, consistent edge response
+protections, shared cached astrology chunks and steadier loading/navigation.
+See [the audit report](docs/LAUNCH_AUDIT_2026-11-06.md) and functionality ledger
+for verification, measurement conditions and remaining monitoring needs.
+
 Ritual Assist's mobile workspace (2026-11-06) uses three clear sections: Vrat,
 Shraddh and Checklist, with the restored golden calendar icon. Calendar forms
 start with essential inputs; Checklist offers a direct ritual selector and

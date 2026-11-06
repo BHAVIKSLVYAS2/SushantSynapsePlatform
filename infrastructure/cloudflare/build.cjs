@@ -7,6 +7,9 @@ const output = path.join(__dirname, 'dist');
 // Export only the public allowlist, never data, credentials or backend source.
 function build({fullstack=false,organisations=false}={}) {
   require('../build-home.cjs').buildHome();
+  // Refresh after the build: the registry may have loaded an older chunk manifest.
+  for(const url of Object.keys(staticAssets))if(url.startsWith('/rashifal-kundli/chunks/'))delete staticAssets[url];
+  Object.assign(staticAssets,require('../../apps/rashifal-kundli/public-assets.cjs').generatedChunks());
   if (fs.existsSync(output)) {
     if (fs.realpathSync(output) !== output || path.relative(root, output) !== path.join('infrastructure', 'cloudflare', 'dist')) throw Error('Unsafe export path');
     fs.rmSync(output, {recursive: true});

@@ -7,14 +7,15 @@ async function main(){
  const label=process.argv[2]||'baseline',out=path.resolve('.publish/frontend-performance');fs.mkdirSync(out,{recursive:true});
  const fixture=await startPreview({enabled:false}),browser=await chromium.launch({channel:'chrome'}),results=[];
  try{
-  for(const route of ['/','/ritual-assist?guide=day-11','/rashifal-kundli/matching','/take-a-break','/news'])for(let sample=0;sample<3;sample++){
+  const routes=process.env.AUDIT_ROUTES?.split(',')||['/','/ritual-assist?guide=day-11','/rashifal-kundli/matching','/take-a-break','/news'],samples=Number(process.env.AUDIT_SAMPLES)||3;
+  for(const route of routes)for(let sample=0;sample<samples;sample++){
    const context=await browser.newContext({viewport:{width:390,height:844}});await acknowledgeBeta(context);await interceptAds(context);
    const page=await context.newPage(),client=await context.newCDPSession(page);
    await client.send('Network.enable');await client.send('Network.setCacheDisabled',{cacheDisabled:true});
    await client.send('Emulation.setCPUThrottlingRate',{rate:4});
    await client.send('Network.emulateNetworkConditions',{offline:false,latency:100,downloadThroughput:200000,uploadThroughput:100000});
    await client.send('Performance.enable');await page.coverage.startCSSCoverage();
-   await page.addInitScript(()=>{window.__lab={lcp:0,cls:0,longTasks:[]};for(const [type,apply]of [['largest-contentful-paint',e=>window.__lab.lcp=e.startTime],['layout-shift',e=>{if(!e.hadRecentInput)window.__lab.cls+=e.value;}],['longtask',e=>window.__lab.longTasks.push(e.duration)]])try{new PerformanceObserver(list=>list.getEntries().forEach(apply)).observe({type,buffered:true});}catch{}});
+   await page.addInitScript(()=>{window.__lab={lcp:0,cls:0,shifts:[],longTasks:[]};for(const [type,apply]of [['largest-contentful-paint',e=>window.__lab.lcp=e.startTime],['layout-shift',e=>{if(!e.hadRecentInput){window.__lab.cls+=e.value;window.__lab.shifts.push({value:e.value,sources:e.sources.map(s=>({node:s.node?.id||s.node?.className,from:s.previousRect.toJSON(),to:s.currentRect.toJSON()}))});}}],['longtask',e=>window.__lab.longTasks.push(e.duration)]])try{new PerformanceObserver(list=>list.getEntries().forEach(apply)).observe({type,buffered:true});}catch{}});
    await page.goto(fixture.base+route);await page.waitForTimeout(1200);
    const metrics=(await client.send('Performance.getMetrics')).metrics;
    const measurement=await page.evaluate(()=>({ ...window.__lab,dom:document.querySelectorAll('*').length,resources:performance.getEntriesByType('resource').map(r=>({url:new URL(r.name).pathname,bytes:r.decodedBodySize,encoded:r.encodedBodySize,duration:r.duration})),navigation:performance.getEntriesByType('navigation').map(n=>({dcl:n.domContentLoadedEventEnd,load:n.loadEventEnd})),paint:performance.getEntriesByType('paint').map(p=>({name:p.name,start:p.startTime}))}));
@@ -28,7 +29,7 @@ async function main(){
    results.push({route,sample,...measurement});console.log('Measured',route,'sample',sample+1);await context.close();
   }
   const cssFile='apps/portal/frontend/home.bundle.css',css=fs.readFileSync(cssFile);
-  const report={label,metricNotes:{cls:'Unexpected layout-shift sum during capture; not the official session-window maximum.',search:'Synchronous synthetic workload, not INP.'},conditions:{cpuSlowdown:4,latencyMs:100,downloadBytesPerSecond:200000,coldCache:true,samplesPerRoute:3,externalAds:'blocked',origin:'isolated local Node fixture'},assets:{homeCss:{bytes:css.length,gzip:zlib.gzipSync(css).length}},results};
+  const report={label,metricNotes:{cls:'Unexpected layout-shift sum during capture; not the official session-window maximum.',search:'Synchronous synthetic workload, not INP.'},conditions:{cpuSlowdown:4,latencyMs:100,downloadBytesPerSecond:200000,coldCache:true,samplesPerRoute:samples,externalAds:'blocked',origin:'isolated local Node fixture'},assets:{homeCss:{bytes:css.length,gzip:zlib.gzipSync(css).length}},results};
   fs.writeFileSync(path.join(out,label+'.json'),JSON.stringify(report,null,2));
   const median=xs=>xs.sort((a,b)=>a-b)[Math.floor(xs.length/2)];
   for(const route of [...new Set(results.map(r=>r.route))]){const rows=results.filter(r=>r.route===route);console.log(JSON.stringify({route,lcpMs:median(rows.map(r=>r.lcp)),cls:median(rows.map(r=>r.cls)),scriptMs:median(rows.map(r=>r.cpu.ScriptDuration*1000)),bytes:rows[0].resources.reduce((n,r)=>n+r.bytes,0),searchMs:rows[0].search&&median(rows.map(r=>r.search.duration)),sameStateMutations:rows[0].almanac?.sameStateMutations}));}

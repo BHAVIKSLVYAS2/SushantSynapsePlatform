@@ -1,6 +1,10 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),crypto=require('node:crypto');
-test('P17 Ritual primitives, ten-year remembrance and two monthly calendars exactly preserve captured baseline',{timeout:60000},async()=>{
- const current=await require('../infrastructure/vedic-integration-cases.cjs').ritualCases();assert.deepEqual(current,require('./fixtures/vedic-ritual-baseline.json').result);
+test('Ritual launch preserves deployed calendars and original P17 astronomical primitives',{timeout:60000},async()=>{
+ const current=await require('../infrastructure/vedic-integration-cases.cjs').ritualCases(),original=require('./fixtures/vedic-ritual-baseline.json').result;
+ // Festival/policy metadata evolved after P17; retain that historical evidence
+ // and compare complete outputs to the deployed release before launch changes.
+ assert.deepEqual(current,require('./fixtures/vedic-ritual-launch-2026-11-06.json').result);
+ assert.deepEqual(current.primitives,original.primitives);assert.equal(current.remembrance.annual,original.remembrance.annual);assert.equal(current.remembrance.pitru,original.remembrance.pitru);
 });
 test('P17 canonical engine export identities, public URL bytes and licence remain unchanged',async()=>{
  const shared=await import('../packages/vedic/vendor/astronomy-engine-2.1.19.mjs'),ritual=await import('../apps/ritual-assist/frontend/astronomy-engine.mjs');assert.deepEqual(Object.keys(shared),Object.keys(ritual));for(const key of Object.keys(shared))assert.equal(ritual[key],shared[key]);
