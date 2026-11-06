@@ -1,5 +1,16 @@
 # Chambers functionality ledger
 
+**Vrat results hierarchy simplification — local (2026-11-07 IST):** Up Next /
+Month View now starts the calculated output as a clear two-choice view switch.
+Removed duplicate Next vrat/observance card and previous/today/next/next-occurrence
+button toolbar; city/month selection stays in the existing form. Month View shows
+the calendar and details only for a date selected in it, instead of duplicating
+the entire list. Calendar reminders and PNG sharing are retained under a single
+closed Download / Share disclosure after the result. Disclosure state survives
+view/selection redraws. Empty Up Next guides users back to Month View or the
+month control. Calculation engine and export admission rules unchanged. Syntax
+check only; no tests run. Changes are local, uncommitted and not deployed.
+
 **Vrat dropdown deployed (2026-11-07 IST):** Source `910e289` is live as Worker
 `f6cb5966-dcea-4be5-8dff-73e8fa497998`. Includes pre-calculation checkbox
 dropdown, removal of result filter buttons, and location placeholder/button

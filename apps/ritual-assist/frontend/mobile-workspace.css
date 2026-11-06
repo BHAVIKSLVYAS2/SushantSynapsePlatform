@@ -1,4 +1,13 @@
 /* One task hierarchy across all three screens. Themes remain token-driven. */
+body[data-ui-app=ritual-assist] #observance-output{scroll-margin-top:150px}
+body[data-ui-app=ritual-assist] .observance-result-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;padding:4px;margin:4px 0 14px;border:1px solid var(--line);border-radius:12px;background:var(--soft)}
+body[data-ui-app=ritual-assist] .observance-result-tabs button{min-height:48px;padding:10px 8px;border:1px solid transparent;border-radius:9px;background:transparent;color:var(--muted);font-size:14px;font-weight:600}
+body[data-ui-app=ritual-assist] .observance-result-tabs [aria-pressed=true]{border-color:var(--accent);background:var(--surface);color:var(--accent);box-shadow:inset 0 -2px 0 var(--accent)}
+body[data-ui-app=ritual-assist] .observance-downloads{margin:16px 0;border-top:1px solid var(--line)}
+body[data-ui-app=ritual-assist] .observance-downloads>summary{min-height:48px;align-content:center;cursor:pointer;color:var(--accent);font-size:14px;font-weight:600}
+body[data-ui-app=ritual-assist] .observance-day-details{padding:12px;margin-top:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+body[data-ui-app=ritual-assist] .observance-day-details>h3{font-size:16px;margin:0 0 8px}
+@media print{.observance-result-tabs,.observance-downloads{display:none!important}}
 body[data-ui-app=ritual-assist] .observance-vrat-control{grid-column:1/-1;min-width:0;font-size:13px}
 body[data-ui-app=ritual-assist] .observance-vrat-control>span{display:block;margin-bottom:6px}
 body[data-ui-app=ritual-assist] .observance-vrat-menu{position:relative;padding:0;margin:0;border:0;background:none}
@@ -74,19 +83,11 @@ body.ritual-landing .checklist-reset-group{margin:12px 0;padding:12px 0;border-b
 body.ritual-landing .checklist-reset-group h4{margin:0 0 6px;font-size:14px}
 body.ritual-landing .checklist-reset-group button{min-height:44px;margin:6px 6px 0 0}
 @media print{.checklist-quick-filters,.checklist-filter-more,.checklist-reset-group,.checklist-common-notes{display:none!important}}
-body[data-ui-app=ritual-assist] .observance-next{margin:12px 0;padding:14px;border-left:3px solid var(--accent)}
-body[data-ui-app=ritual-assist] .observance-next h3{margin:0 0 10px;font-size:15px;color:var(--muted)}
-body[data-ui-app=ritual-assist] .observance-next>.date{margin:6px 0;font-size:19px;color:var(--accent)}
-body[data-ui-app=ritual-assist] .observance-next-actions,body[data-ui-app=ritual-assist] .observance-quick-filters{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
-body[data-ui-app=ritual-assist] .observance-next-actions button{flex:1 1 145px;min-height:44px;font-size:13px}
-body[data-ui-app=ritual-assist] .observance-quick-filters button{min-height:44px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);font-size:13px}
-body[data-ui-app=ritual-assist] .observance-quick-filters [aria-pressed=true]{background:var(--soft);color:var(--accent);border-color:var(--accent)}
 body[data-ui-app=ritual-assist] :is(.observance-more-filters,.observance-export-options)>summary{min-height:44px;align-content:center;cursor:pointer;color:var(--accent);font-size:13px}
 body[data-ui-app=ritual-assist] .observance-reminders{padding:14px;margin:12px 0}
 body[data-ui-app=ritual-assist] #observance-download{width:100%;min-height:48px;font-size:14px}
 body[data-ui-app=ritual-assist] .observance-event{scroll-margin-top:160px}
 body[data-ui-app=ritual-assist] .observance-event:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-@media print{.observance-next,.observance-quick-filters,.observance-more-filters{display:none!important}}
 body[data-ui-app=ritual-assist] .remembrance-filter{display:block;margin:12px 0;font-size:13px}
 body[data-ui-app=ritual-assist] #remembrance-date-filter{display:block;width:100%;min-height:48px;font-size:16px;margin-top:6px}
 body[data-ui-app=ritual-assist] .remembrance-panel>.remembrance-downloads{margin:12px 0;border:1px solid var(--line);border-radius:12px;padding:0 12px;background:var(--surface)}
