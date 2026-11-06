@@ -127,6 +127,7 @@ body[data-ui-app=ritual-assist] .ritual-task-tabs [aria-current=page]{background
 body[data-ui-app=ritual-assist] .ritual-task-tabs :is(a,button):focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 body[data-ui-app=ritual-assist] .observance-form>h2,body[data-ui-app=ritual-assist] #form-title{font-size:19px;margin:0 0 14px}
 body[data-ui-app=ritual-assist] .calendar-layout>section:has(#result:empty)>h2{display:none}
+@media screen{body[data-ui-app=ritual-assist] .calendar-layout>section>#plan-title{margin-top:12px}}
 body[data-ui-app=ritual-assist] #observance-form .observance-fields>label{grid-column:1/-1}
 body[data-ui-app=ritual-assist] .observance-options{padding:0;margin:12px 0;border:0;background:none;box-shadow:none}
 body[data-ui-app=ritual-assist] .observance-options>summary{min-height:44px;align-content:center;cursor:pointer;font-size:13px;color:var(--accent)}

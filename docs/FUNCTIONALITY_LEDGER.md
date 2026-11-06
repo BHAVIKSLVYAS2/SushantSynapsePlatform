@@ -1,5 +1,10 @@
 # Chambers functionality ledger
 
+**Remembrance result heading spacing (2026-11-07 IST):** Added 12px top margin
+to Your remembrance calendar on screen, scoped to Ritual Assist's result heading.
+Print layout unchanged. User authorised deployment without tests; no tests or
+browser verification run.
+
 Shraddh details layout deployed (2026-11-07 IST): source `79ee6e0`, Worker
 `d5391fd7-79ba-4e06-9e92-6ec6f0d52842`. Clear Edit details action, compact
 left/right calculation details, and paired mobile Barsi/Shraddh cards are live.
