@@ -1,5 +1,46 @@
 # Chambers functionality ledger
 
+**Readable multi-year Shraddh PNG - release preparation (2026-11-07 IST):**
+Replaced the multi-year export's tall sequence of detailed observances with a
+compact Year / Barsi / Pitru Paksha Shraddh table. Each selected year remains
+visible; multiple annual dates, death tithis and confirmation warnings are kept.
+The year column supplies the year so dates need not repeat it. Single-year and
+first-year exports retain their full timing details; the range card explains
+where to obtain those timings. A typical ten-year card now targets about 1080 by
+1700 pixels rather than several thousand pixels tall, avoiding extreme preview
+scaling. Dynamic row sizing handles translated and uncertain dates. Includes the
+previously implemented navigation/chooser and preparation-toolbar changes.
+Five focused browser cases passed, including actual PNG download, English/Hindi,
+multiple dates, uncertainty, text overflow and existing single-year/first-year
+sharing. Reviewed `.publish/shraddh-ten-year-readable.png`: 1080 x 1646 pixels.
+Log: `.publish/shraddh-readable-tests.log`. Commit/deployment authorised.
+
+**Preparation action hierarchy - local (2026-11-07 IST):** Reduced the guide
+toolbar to one primary Share checklist button plus a Save / print disclosure.
+Print / PDF, Download text and Copy text sit inside its compact dropdown. Guide
+link sharing moved to the checklist sharing dialog, retaining its distinction
+from sharing personal prepared details. Escape closes the dropdown; closing print
+preview returns focus to its visible Save / print trigger. Existing snapshot,
+copy/download and preview flows retained. Four focused browser cases passed:
+single primary action and dropdown/Escape, saved edits and text export/preview,
+snapshot privacy/native sharing/manual fallback, bilingual mobile layouts and
+guide-link cancellation. Mobile screenshot reviewed. Log:
+`.publish/ritual-actions-final-tests.log`.
+Not committed or deployed; earlier chooser changes remain in this working tree.
+
+**Clear Ritual navigation and single chooser - local (2026-11-07 IST):**
+Tabs now name the tasks: Vrat Dates, Shraddh & Barsi and Ritual Prep, with Hindi
+equivalents. Removed the separate Checklist for dropdown and Browse all rituals
+header. One native disclosure shows Choose a ritual, the current ritual name and
+a Change/Close action; it opens the existing searchable ritual cards. Selection
+closes the chooser and focuses the preparation heading. Shared tab return links
+read the selected ritual from the existing URL, preserving saved preparation and
+browser navigation without a hidden duplicate picker. No storage or calculation
+changes. Five focused browser cases passed: cross-tab saved state, legacy links,
+bilingual/theme/mobile layouts, search/history/keyboard selection and preparation
+density. Mobile screenshot reviewed. Log: `.publish/ritual-chooser-tests.log`.
+Not committed or deployed.
+
 Single result-image sharing deployed (2026-11-07 IST): source `a359c37`, Worker
 `bd41dd66-53b8-449d-9e89-79fd79fe9450`. Build/deploy succeeded from an isolated
 committed archive with production config and --keep-vars. Existing D1/auth and

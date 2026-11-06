@@ -1,5 +1,6 @@
 .checklist-share textarea{box-sizing:border-box;width:100%;max-width:100%;margin:8px 0;padding:12px;min-height:180px;font:14px/1.6 'Segoe UI','Nirmala UI',sans-serif;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;resize:vertical}
 .checklist-share-actions{display:flex;flex-wrap:wrap;gap:8px}.checklist-share-actions button{min-height:44px;flex:1 1 180px}
+.checklist-share [role=status]{overflow-wrap:anywhere;user-select:text}
 .checklist-saving{margin:12px 0 16px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--soft)}
 .checklist-saving p{margin:0 0 8px}.checklist-saving .remember-checks{min-height:44px;line-height:1.5}.checklist-saving #delete-saved-checklist{margin-top:8px;min-height:44px;font-size:13px}
 @media print{.checklist-saving,.checklist-share{display:none!important}}

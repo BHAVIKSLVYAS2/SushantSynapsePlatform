@@ -42,7 +42,7 @@ body.ritual-landing .workspace>.library{position:static;max-height:none;padding:
 body.ritual-landing .library>summary{position:relative;display:flex;align-items:center;gap:10px;list-style:none;padding:0 0 12px;font-size:26px;line-height:1.25;font-weight:650;color:var(--ritual-ink)}
 body.ritual-landing .library>summary::-webkit-details-marker{display:none}
 body.ritual-landing .library>summary:after{content:'⌄';position:absolute;right:10px;top:calc(50% - 8px);transform:translateY(-50%);font-size:20px;color:var(--ritual-muted)}
-body.ritual-landing #guide-count{margin-left:auto;margin-right:0;border:1px solid var(--ritual-line);border-radius:12px;padding:10px 30px 10px 12px;white-space:nowrap;font-size:12px;font-weight:400;color:var(--ritual-muted)}
+
 body.ritual-landing .library-body{padding:0}
 body.ritual-landing .library-body>label{display:block;font-size:14px;color:var(--ritual-muted);margin:0 0 8px}
 body.ritual-landing .guide-search{position:relative;margin-bottom:14px}
@@ -116,7 +116,7 @@ body.ritual-landing :is(.guide-option,.calendar-open,.filters button,.language b
  body.ritual-landing #scope{font-size:11px;line-height:1.5}
  body.ritual-landing .workspace>.library{padding:13px 11px}
  body.ritual-landing .library>summary{font-size:21px;gap:6px}
- body.ritual-landing #guide-count{font-size:10px;padding:8px 26px 8px 8px}
+
  body.ritual-landing .library-body>label{font-size:13px}
  body.ritual-landing .library .filters button{font-size:11px;padding:9px 11px}
  body.ritual-landing .library .guide-option strong{font-size:13px}

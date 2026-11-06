@@ -89,11 +89,61 @@ function defaultYear(calendar){
  return next?.year??calendar.yearly[0].year;
 }
 
+function renderYearOverview(canvas,calendar,years,language,theme,period){
+ const hi=language==='hi',labels=copy[language],tone=themes[theme],ctx=canvas.getContext('2d');
+ const width=1080,margin=48,inner=width-margin*2,yearWidth=112,cellWidth=(inner-yearWidth)/2;
+ const date=new Intl.DateTimeFormat(hi?'hi-IN':'en-IN',{day:'numeric',month:'long',timeZone:'UTC'});
+ const layouts=years.map(year=>{
+  const cells=cardRows(year).map(rows=>{
+   const lines=[];
+   for(const row of rows){
+    if(lines.length)lines.push({text:'',size:16,weight:400});
+    lines.push({text:row.date?date.format(new Date(row.date+'T12:00:00Z')):labels.unresolved,size:34,weight:600});
+    if(row.window)lines.push({text:tithiLabel(row.window.number,language),size:26,weight:400});
+    if(row.date&&(row.conditional||!['computed','counted'].includes(row.status)))lines.push({text:hi?'संभावित · पुष्टि करें':'Candidate · confirm date',size:24,weight:600});
+   }
+   if(!rows.length)lines.push({text:labels.notReady,size:26,weight:400});
+   return lines.flatMap(line=>{ctx.font=`${line.weight} ${line.size}px ${fonts}`;return (line.text?wrapLines(ctx,line.text,cellWidth-40):['']).map(text=>({...line,text,height:line.size+10}));});
+  });
+  return {year:year.year,cells,height:Math.max(112,...cells.map(lines=>lines.reduce((sum,line)=>sum+line.height,0)+32))};
+ });
+ ctx.font=`400 26px ${fonts}`;const locations=wrapLines(ctx,calendar.data.location.name,inner-48),header=220+locations.length*34,tableTop=header+52,footer=220;
+ const height=tableTop+layouts.reduce((sum,row)=>sum+row.height,0)+footer;
+ canvas.width=width;canvas.height=height;Object.assign(canvas.dataset,{cardTheme:theme,cardLayout:'year-table',cardScope:'year',cardRows:String(years.flatMap(year=>cardRows(year).flat()).length)});
+ ctx.fillStyle=tone.back;ctx.fillRect(0,0,width,height);
+ roundedRect(ctx,20,20,width-40,height-40,24);ctx.strokeStyle=tone.line;ctx.lineWidth=2;ctx.stroke();
+ roundedRect(ctx,margin,40,inner,header-52,18);ctx.fillStyle=tone.night;ctx.fill();
+ writeText(ctx,'RITUAL ASSIST',margin+24,82,{size:22,color:tone.onHeader,weight:600});
+ writeText(ctx,period,width-margin-24,82,{size:30,color:tone.onHeader,align:'right',weight:600});
+ writeText(ctx,labels.title,margin+24,140,{size:42,color:tone.onHeader,weight:600});
+ writeText(ctx,hi?'वर्ष के अनुसार स्मरण तिथियाँ':'Year-by-year remembrance dates',margin+24,184,{size:26,color:tone.onHeader});
+ locations.forEach((line,i)=>writeText(ctx,line,margin+24,220+i*34,{size:26,color:tone.onHeader}));
+ writeText(ctx,hi?'वर्ष':'Year',margin+16,header+32,{size:25,weight:600,color:tone.ink});
+ writeText(ctx,hi?'बरसी':'Barsi',margin+yearWidth+20,header+32,{size:27,weight:600,color:tone.ink});
+ writeText(ctx,hi?'पितृ पक्ष श्राद्ध':'Pitru Paksha Shraddh',margin+yearWidth+cellWidth+20,header+32,{size:27,weight:600,color:tone.ink});
+ let y=tableTop;
+ for(const row of layouts){
+  ctx.fillStyle=tone.paper;ctx.fillRect(margin,y,inner,row.height);
+  writeText(ctx,row.year,margin+16,y+48,{size:32,weight:600,color:tone.ink});
+  row.cells.forEach((lines,column)=>{let baseline=y+16;for(const line of lines){baseline+=line.height;writeText(ctx,line.text,margin+yearWidth+column*cellWidth+20,baseline-8,{size:line.size,weight:line.weight,color:line.weight===600?tone.ink:tone.muted});}});
+  ctx.strokeStyle=tone.line;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(margin,y+row.height);ctx.lineTo(width-margin,y+row.height);
+  for(const x of [margin+yearWidth,margin+yearWidth+cellWidth]){ctx.moveTo(x,y);ctx.lineTo(x,y+row.height);}ctx.stroke();y+=row.height;
+ }
+ const notes=[labels.note,hi?'विस्तृत समय के लिए ऐप में एक वर्ष चुनें।':'For detailed timings, select one year in Ritual Assist.'];
+ ctx.font=`400 24px ${fonts}`;let baseline=y+40;
+ for(const note of notes){for(const line of wrapLines(ctx,note,inner-24)){writeText(ctx,line,width/2,baseline,{size:24,color:tone.muted,align:'center'});baseline+=32;}baseline+=8;}
+ ctx.save();ctx.translate(0,-20);drawExportBrand(ctx,{width,height,ink:tone.ink,size:25});ctx.restore();
+ const accessible=years.map(year=>year.year+' · '+cardRows(year).flat().map(row=>occasionTitle(row,language)+' · '+displayDate(row,language,labels)+' · '+scheduleLines(row,language,calendar,labels,'year').join(' · ')).join(' | ')).join(' | ');
+ canvas.setAttribute('role','img');canvas.setAttribute('aria-label',`Sushant Synapse · ${labels.title} · ${period} · ${calendar.data.location.name} · ${accessible}`);
+ return {width,height};
+}
+
 export function renderShraddhaCard(canvas,calendar,language='en',selectedYear,theme='ivory',scope='year'){
  if(!['en','hi'].includes(language)||!themes[theme]||!['year','first-year'].includes(scope))throw Error('Unsupported image options.');
  if(!Array.isArray(calendar?.yearly)||calendar.yearly.length!==11)throw Error('The complete 10-year calendar is not available.');
  const years=remembranceYears(calendar,selectedYear??defaultYear(calendar)),year=years[0],period=remembranceRangeLabel(calendar,selectedYear??defaultYear(calendar));if(!year)throw Error('The selected observance year is not available.');
  const ctx=canvas.getContext('2d');if(!ctx)throw Error('Image card rendering is unavailable in this browser.');
+ if(scope==='year'&&years.length>1)return renderYearOverview(canvas,calendar,years,language,theme,period);
  const hi=language==='hi',labels=copy[language],tone=themes[theme],width=1080,margin=56,inner=width-margin*2,bodyWidth=inner-48;
  const title=scope==='first-year'?(hi?'पहला वर्ष और प्रारम्भिक संस्कार':'First year & early rites'):labels.title;
  const source=scope==='first-year'?[...(calendar.early||[]),...(calendar.monthly||[]),...(calendar.annual?[calendar.annual]:[]),...(calendar.pitru?[calendar.pitru]:[])]:years.flatMap(item=>cardRows(item).flat());

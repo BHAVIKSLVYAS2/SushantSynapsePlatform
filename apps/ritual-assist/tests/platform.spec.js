@@ -34,6 +34,23 @@ test('portrait PNG themes preserve uncertainty and fit bilingual exceptional row
  },payload.result);
  expect(checks).toHaveLength(16);for(const result of checks){expect(result.overflow,JSON.stringify(result)).toEqual([]);expect(result.width).toBe(1080);expect(result.height).toBeGreaterThanOrEqual(700);expect(result.uncertain).toBe(true);}
 });
+test('ten-year PNG is a compact readable table with complete dates and uncertainty',async({page})=>{
+ await page.clock.setFixedTime(new Date('2026-11-05T06:00:00Z'));
+ const response=page.waitForResponse(r=>r.url().endsWith('/api/ritual-assist/calendar'));await calculate(page,'2025-10-01');const payload=await(await response).json();
+ const checks=await page.evaluate(async calendar=>{
+  await document.fonts.ready;const {renderShraddhaCard}=await import('/ritual-assist/shraddha-card.mjs');const checks=[];
+  for(const language of ['en','hi'])for(const exceptional of [false,true]){
+   const data=structuredClone(calendar);if(exceptional){const year=data.yearly.find(y=>y.annual.length&&y.pitru.length);year.annual.push({...year.annual[0],conditional:true});year.pitru[0]={...year.pitru[0],date:null,conditional:true,status:'two-day-tie'};}
+   const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d'),draw=ctx.fillText.bind(ctx),overflow=[],texts=[];
+   ctx.fillText=(text,x,y,...rest)=>{texts.push(String(text));const width=ctx.measureText(text).width,left=ctx.textAlign==='center'?x-width/2:ctx.textAlign==='right'?x-width:x;if(left<20||left+width>1060||y<20||y>canvas.height)overflow.push({text,left,y,width});return draw(text,x,y,...rest);};
+   renderShraddhaCard(canvas,data,language,'next-10');checks.push({language,exceptional,width:canvas.width,height:canvas.height,layout:canvas.dataset.cardLayout,rows:canvas.dataset.cardRows,expected:data.yearly.slice(0,10).flatMap(y=>[...y.annual,...y.pitru]).length,overflow,years:data.yearly.slice(0,10).every(y=>texts.includes(String(y.year))),uncertain:!exceptional||texts.some(text=>text.includes(language==='hi'?'पुष्टि':'confirmation'))});
+  }return checks;
+ },payload.result);
+ for(const result of checks){expect(result.layout).toBe('year-table');expect(result.width).toBe(1080);expect(result.height).toBeLessThanOrEqual(2200);expect(Number(result.rows)).toBe(result.expected);expect(result.years).toBe(true);expect(result.uncertain).toBe(true);expect(result.overflow,JSON.stringify(result)).toEqual([]);}
+ await page.getByRole('tab',{name:'Upcoming / by year',exact:true}).click();await page.locator('#remembrance-year').selectOption('next-10');await expect(page.locator('.shraddha-share-canvas')).toHaveAttribute('data-card-layout','year-table');
+ await page.evaluate(()=>Object.defineProperty(navigator,'canShare',{configurable:true,value:()=>false}));const download=page.waitForEvent('download');await page.locator('.ritual-result-share>button').click();const file=await download;await file.saveAs('.publish/shraddh-ten-year-readable.png');const bytes=fs.readFileSync('.publish/shraddh-ten-year-readable.png');expect(bytes.readUInt32BE(16)).toBe(1080);expect(bytes.readUInt32BE(20)).toBeLessThanOrEqual(2200);
+});
+
 test('single PNG share follows first-year, year ranges, language and native cancellation',async({page})=>{
  await page.clock.setFixedTime(new Date('2026-11-05T06:00:00Z'));await page.addInitScript(()=>{Object.defineProperty(navigator,'canShare',{configurable:true,value:()=>false});});
  await calculate(page,'2026-11-01');const canvas=page.locator('.shraddha-share-canvas'),share=page.locator('.ritual-result-share>button');await expect(canvas).toHaveAttribute('data-card-scope','first-year');await expect(share).toBeEnabled();

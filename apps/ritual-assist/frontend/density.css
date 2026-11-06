@@ -13,8 +13,9 @@ body.ritual-landing #guide .actions{display:flex;flex-wrap:wrap;gap:8px;margin:8
 @media screen and (max-width:600px){body.ritual-landing #guide .actions{margin:4px 0}}
 body.ritual-landing #guide .actions>button,body.ritual-landing .guide-more>summary{min-height:44px;padding:8px 12px;font-size:13px;box-sizing:border-box}
 .guide-more{position:relative}.guide-more>summary{cursor:pointer;list-style-position:inside;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
-.guide-more[open]{z-index:10}.guide-more>button{display:block;min-width:170px;width:100%;text-align:left;min-height:44px;margin:4px 0}
-.guide-more[open]{padding:0 6px 6px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.guide-more[open]{z-index:20}
+.guide-save-options{position:absolute;right:0;top:calc(100% + 4px);display:grid;gap:4px;min-width:190px;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--surface);box-shadow:var(--shadow)}
+.guide-save-options>button{display:block;width:100%;text-align:left;min-height:44px;margin:0}
 body.ritual-landing #guide .guide-content{display:block}
 body.ritual-landing .puja-checklist{padding:12px;margin:0}
 body.ritual-landing .checklist-header{padding:0 0 6px;border:0}

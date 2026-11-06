@@ -139,12 +139,11 @@ body[data-ui-app=ritual-assist] .observance-options{padding:0;margin:12px 0;bord
 body[data-ui-app=ritual-assist] .observance-options>summary{min-height:44px;align-content:center;cursor:pointer;font-size:13px;color:var(--accent)}
 body[data-ui-app=ritual-assist] .observance-options>label{display:block;margin:10px 0}
 body[data-ui-app=ritual-assist] #observance-calculate{width:100%;min-height:48px}
-body.ritual-landing .ritual-selector{margin:0 0 10px;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
-body.ritual-landing .ritual-selector label{display:block;margin:0 0 8px;font-size:14px;font-weight:650}
-body.ritual-landing .ritual-selector select{width:100%;min-height:48px;font-size:16px;margin:0}
-body.ritual-landing .ritual-selector{display:grid;grid-template-columns:minmax(70px,110px) minmax(0,1fr);align-items:center;gap:10px;padding:10px}
-body.ritual-landing .ritual-selector select{min-width:0}
-body.ritual-landing .ritual-selector label{margin:0}
+body.ritual-landing .ritual-chooser-copy{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1;overflow-wrap:anywhere}
+body.ritual-landing .ritual-chooser-label{font-size:12px;font-weight:400;color:var(--muted)}
+body.ritual-landing #selected-ritual{font-size:16px;line-height:1.4;color:var(--ink)}
+body.ritual-landing .ritual-chooser-action{display:flex;align-items:center;justify-content:center;min-height:44px;box-sizing:border-box;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--soft);color:var(--accent);font-size:13px;font-weight:600}
+body.ritual-landing .library>summary:after{display:none}
 @media screen{body.ritual-landing .guide-top>p{display:none}body.ritual-landing #scope.compact-guidance{display:none}}
 body.ritual-landing .workspace{display:block}
 body.ritual-landing .workspace>.library{width:auto;margin:0 0 14px;position:static}
@@ -158,4 +157,4 @@ body.ritual-landing #guide .guide-top>p{font-size:13px;line-height:1.5}
 body.ritual-landing #guide .preparation-summary{padding:14px;margin-top:14px}
 @media(max-width:600px){body[data-ui-app=ritual-assist] main{padding-left:16px;padding-right:16px}body[data-ui-app=ritual-assist] .ritual-task-header{padding-top:12px}body[data-ui-app=ritual-assist] .ritual-task-header h1{font-size:23px}body[data-ui-app=ritual-assist] .ritual-task-tabs{top:64px}body[data-ui-app=ritual-assist] .ritual-task-tabs :is(a,button){font-size:14px}body.ritual-landing #guide .actions{gap:6px}body.ritual-landing #guide .actions>button{flex:1 1 auto}}
 body[data-ui-app=ritual-assist] .ritual-task-tabs{top:var(--ritual-shell-height,72px)}
-@media print{body[data-ui-app=ritual-assist] .ritual-task-tabs,body.ritual-landing .ritual-selector{display:none}body[data-ui-app=ritual-assist] .ritual-task-header{position:static}}
+@media print{body[data-ui-app=ritual-assist] .ritual-task-tabs{display:none}body[data-ui-app=ritual-assist] .ritual-task-header{position:static}}
