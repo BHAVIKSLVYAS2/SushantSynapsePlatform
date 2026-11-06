@@ -1,5 +1,13 @@
 # Organisation licensing production cutover
 
+Ritual three-section release (2026-11-06 IST): source `de46393` is live as Worker
+`0af983ce-71fb-4f89-bfc4-6eea07d3124b`, from an isolated archive with the existing
+production config and `--keep-vars`. Vrat/Shraddh/Checklist share a task-first
+mobile layout and the restored golden icon. Live calendar calculations, checklist
+round trips, three-theme layouts and four asset hashes pass. D1/auth/organisation
+bindings remain; no migrations or business/account writes. Health is 200 and
+unscoped records remain 409. Detailed evidence is in the functionality ledger.
+
 Black & Gold release (2026-11-06 IST): committed source `2e86864` is live as
 Worker `0e9e9f3d-d793-445f-b8a7-8b6fd20bc9d6` from an isolated archive, with the
 existing production config and `--keep-vars`. D1/auth/organisation/rate-limit

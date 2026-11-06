@@ -1,6 +1,26 @@
 # Chambers functionality ledger
 
-**Ritual Assist three-section mobile workspace (2026-11-06 IST; release pending):**
+**Ritual three-section production release (2026-11-06 IST):** Source `de46393`
+is live as Worker `0af983ce-71fb-4f89-bfc4-6eea07d3124b`, deployed from an isolated
+committed archive with the existing production config and `--keep-vars`. Thirteen
+built assets updated; organisation/D1/auth/rate-limit bindings retained. No
+migrations, bootstrap, business records or accounts changed. Unrelated pending
+canonical/footer/AdSense/company changes remain excluded.
+
+Live Chrome/Playwright CLI verifies exactly Vrat, Shraddh and Checklist navigation,
+the restored golden calendar image, actual Vrat generation (eight current
+November/New Delhi events), actual Shraddh generation, selected ritual and
+unfinished check preservation on section return, and three themes at 390/1440px
+without horizontal overflow. Mobile calculate actions are at Y=652px (Vrat) and
+Y=668px (Shraddh) at 390×844. Four live JS/CSS hashes match the exact committed
+build; health is 200 and unscoped records remain 409. An initial CLI read ran
+before navigation settled; an explicitly awaited round-trip confirms correct
+restoration. Synthetic stateless calculations only; external hosts and business
+writes were blocked in the browser audit. Screenshot:
+`output/playwright/ritual-three-tabs-live-checklist.png`. Local checks and focused
+regression scope are recorded below; no full-platform regression claim is made.
+
+**Ritual Assist three-section mobile workspace (2026-11-06 IST; implementation):**
 One compact header restores the existing golden calendar artwork. Vrat, Shraddh
 and Checklist form one consistent three-way bar on the existing calendar and
 guide routes; duplicate calendar headings/guide links are removed from the visible
