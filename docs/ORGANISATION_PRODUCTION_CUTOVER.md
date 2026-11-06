@@ -1,5 +1,15 @@
 # Organisation licensing production cutover
 
+Confessions removal (2026-11-06 IST): source `0f520b3`, Worker
+`dfa69c85-5d53-47b0-8579-3b339f06f637`, is live. Existing production bindings
+preserved; shared public limiter renamed to `PUBLIC_LIMITER` with the same
+namespace/threshold. User explicitly authorised stored-record deletion. Exact
+Confessions settings/access/licence/assignment/preference cleanup completed in
+local SQLite and production D1; separate remote counts are all zero. No shared
+table deletion, bootstrap or legacy mapping. Removed pages/assets 404; no API
+handler; homepage references gone. Health/Feedback/visitor reads 200. Full
+regression deferred. Evidence and backup/history limits are in the ledger.
+
 Silver theme / footer release (2026-11-06 IST): source `8c8e884` is live as Worker
 `b9bb97ad-7ddd-4f8e-aab4-596376d9aa9c`. Isolated committed archive; existing
 production config and `--keep-vars`; D1/auth/organisation bindings preserved.

@@ -1,5 +1,24 @@
 # Chambers functionality ledger
 
+**Confessions removed and live data purged (2026-11-06 IST):** Source `0f520b3`
+is deployed as Worker `dfa69c85-5d53-47b0-8579-3b339f06f637` from an isolated
+committed archive with existing production config/variables preserved. Build
+exports 1,237 public assets. Page, JS and CSS return 404; the removed API has no
+handler and receives the existing organisation-mode unknown/private API 409.
+No replacement/tombstone feature. Homepage has no reference. Active source and
+tests scan clean; historical release documentation is retained.
+
+User explicitly authorised deletion. Deleted only `settings.id=confessions-v1`,
+Confessions app-access/licence/assignment rows and its favourites/recent entries;
+shared tables and unrelated records were not deleted. Local SQLite transaction
+and remote D1 cleanup completed. Separate production count query returns zero
+for all five categories. Edge revision advanced around remote maintenance.
+No message contents or recovery export were printed. Existing backups and Git
+history were not rewritten. `PUBLIC_LIMITER` retains the existing namespace and
+6/minute threshold; Feedback and visitor reads return 200, health 200. Full
+regression remains deferred. Logs: `.publish/remove-confessions-deploy.log`,
+`.publish/confessions-purge-results.log`, `.publish/confessions-purge-verify.log`.
+
 **Confessions complete removal (2026-11-06 IST):** User explicitly authorised
 removing the feature and its stored records. App/frontend/backend/CAPTCHA and
 dedicated tests removed, Node/Worker routes and static allowlist removed, public
