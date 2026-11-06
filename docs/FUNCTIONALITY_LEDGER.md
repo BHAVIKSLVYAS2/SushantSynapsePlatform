@@ -4,6 +4,9 @@
 to Your remembrance calendar on screen, scoped to Ritual Assist's result heading.
 Print layout unchanged. User authorised deployment without tests; no tests or
 browser verification run.
+Deployed source `c26df5a` as Worker `54b21d6e-34a0-46de-97f2-1fe4fd9693cd`.
+Required build/deploy succeeded using isolated archive and --keep-vars. No database
+changes. Log: `.publish/shraddh-spacing-deploy.log`.
 
 Shraddh details layout deployed (2026-11-07 IST): source `79ee6e0`, Worker
 `d5391fd7-79ba-4e06-9e92-6ec6f0d52842`. Clear Edit details action, compact
