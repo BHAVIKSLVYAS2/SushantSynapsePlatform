@@ -1,5 +1,14 @@
 # Organisation licensing production cutover
 
+Shraddh results cleanup deployed (2026-11-07 IST): source `7859183`, Worker
+`ceee36b3-8065-4b8b-b96d-3780be725a03`. Paired Barsi/Shraddh year cards,
+removed repeated Next in this year label and duplicate summary/actions, exports
+below results. Build/deploy succeeded from isolated committed archive with
+production config and --keep-vars; existing D1/auth/organisation settings retained.
+No tests or browser verification run. No database changes. Deployment log:
+`.publish/shraddh-results-deploy.log`. Initial attempt stopped before publishing
+because assets were built outside the archive; corrected release working directory.
+
 Vrat results cleanup (2026-11-07 IST): source `178adcb`, Worker
 `747e45f0-9680-499b-8990-452cdffc94e2`, deployed successfully. Existing production
 config and `--keep-vars`; D1/auth/organisation settings preserved. No tests/live

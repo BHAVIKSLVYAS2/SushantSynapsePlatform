@@ -1,5 +1,14 @@
 # Chambers functionality ledger
 
+Shraddh results cleanup deployed (2026-11-07 IST): source `7859183`, Worker
+`ceee36b3-8065-4b8b-b96d-3780be725a03`. Paired Barsi/Shraddh year cards,
+removed repeated Next in this year label and duplicate summary/actions, exports
+below results. Build/deploy succeeded from isolated committed archive with
+production config and --keep-vars; existing D1/auth/organisation settings retained.
+No tests or browser verification run. No database changes. Deployment log:
+`.publish/shraddh-results-deploy.log`. Initial attempt stopped before publishing
+because assets were built outside the archive; corrected release working directory.
+
 **Shraddh results cleanup - local (2026-11-07 IST):** Removed the duplicate
 Next remembrance summary and shortcut actions. Barsi and Pitru Paksha Shraddh
 now share one year card, stacked on phones and side by side on wider screens.
