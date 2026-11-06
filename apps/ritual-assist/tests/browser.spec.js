@@ -269,15 +269,15 @@ test('public homepage finder and no-JavaScript discovery link to the new app',as
  await page.goto(base+'/');await page.getByRole('searchbox',{name:'Search web apps'}).fill('samagri');await expect(page.locator('.public-app:not([hidden])')).toHaveCount(1);await page.locator('.public-app:not([hidden])').click();await expect(page).toHaveURL(/\/ritual-assist/);await expect(page.locator('#observance-form')).toBeVisible();
  const context=await require('../../../tests/browser-fixture.js').acknowledgedContext(browser,{javaScriptEnabled:false});try{const nojs=await context.newPage();await nojs.goto(base+'/');await nojs.getByRole('link',{name:'Ritual Assist',exact:true}).click();await expect(nojs.locator('noscript p')).toContainText('JavaScript and an internet connection are required');}finally{await context.close();}
 });
-test('compact language controls and calendar theme follow shared preferences',async({page})=>{
- await page.addInitScript(()=>{if(!localStorage.getItem('synapse-theme'))localStorage.setItem('synapse-theme','system');});
+test('compact language controls and calendar preserve the explicit shared theme',async({page})=>{
+ await page.addInitScript(()=>{if(!localStorage.getItem('synapse-theme'))localStorage.setItem('synapse-theme','dark');});
  await page.emulateMedia({colorScheme:'dark'});
  await page.goto(base+'/ritual-assist/calendar?view=remembrance');
  await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
  const dark=await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundColor);
- await require('../../../tests/browser-theme.js').toggleTheme(page);
- await expect(page.locator('html')).toHaveAttribute('data-theme','light');
- expect(await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundColor)).not.toBe(dark);
+ await page.emulateMedia({colorScheme:'light'});
+ await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+ expect(await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundColor)).toBe(dark);
  const languageMenu=page.locator('.platform-language');await languageMenu.locator('summary').click();
  await languageMenu.locator('[data-interface-language=en]').focus();
  await page.keyboard.press('Tab');
@@ -288,7 +288,7 @@ test('compact language controls and calendar theme follow shared preferences',as
  await expect(page.locator('#headline')).toContainText('श्राद्ध');
  await expect(languageMenu.locator('[data-interface-language=hi]')).toHaveAttribute('aria-pressed','true');
  await page.reload();
- await expect(page.locator('html')).toHaveAttribute('data-theme','light');
+ await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
  await expect(page.locator('#language')).toHaveValue('hi');
  await page.goto(base+'/ritual-assist/guides?guide=havan');
  await page.locator('[data-item=samagri]').check();

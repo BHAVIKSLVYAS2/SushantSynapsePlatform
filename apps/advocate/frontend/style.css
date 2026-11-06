@@ -34,6 +34,25 @@
   --brand-ring: #d7b57755;
   --card-shadow: 0 2px 8px #00000012;
 }
+html[data-theme=dark][data-theme-style=deep] body[data-ui-app=advocate][data-theme-style=deep] {
+  --bg: #000;
+  --surface: #080808;
+  --sidebar: #050505;
+  --surface-soft: #181818;
+  --tint: #252525;
+  --text: #f2f2f2;
+  --muted: #c2c2c2;
+  --faint: #aaa;
+  --border: #383838;
+  --primary: #eee;
+  --on-primary: #080808;
+  --accent: #ddd;
+  --brand-bg: #080808;
+  --brand-fg: #eee;
+  --brand-ring: #666;
+  --card-shadow: none;
+  --shadow: none;
+}
 .brand-mark {
   display: inline-flex;
   align-items: center;

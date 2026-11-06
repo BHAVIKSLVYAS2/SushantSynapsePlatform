@@ -2,8 +2,8 @@
 const $=s=>document.querySelector(s),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const sports=['Cricket','Badminton','Table Tennis','Pickleball','Chess','Carrom'],icons=['🏏','🏸','🏓','🥒','♟','◉'],formats=['Knockout','League / Round Robin','League + Knockout','Group Stage + Knockout'];
 let tournaments=[],current=null,tab='Fixtures',filter='all',busy=false;const publicToken=new URLSearchParams(location.search).get('share'),readonly=!!publicToken;
-function theme(){const v=$('#theme').value;SynapseTheme.write(v);document.documentElement.dataset.theme=v==='system'?(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'):v;}
-$('#theme').value=SynapseTheme.read();$('#theme').onchange=theme;matchMedia('(prefers-color-scheme:dark)').addEventListener('change',theme);theme();
+function theme(explicit=false){const v=$('#theme').value;SynapseTheme.write(v,explicit);document.documentElement.dataset.theme=v==='deep'?'dark':v;}
+$('#theme').value=SynapseTheme.preference();$('#theme').onchange=()=>theme(true);theme();
 let organisation=null,organisationScoped=false,workspaceReadOnly=false;
 async function api(path='',body){if(body&&workspaceReadOnly)throw Error('This licence is read-only. Contact your administrator to renew it.');const scope=organisationScoped&&!readonly?'/organisations/'+encodeURIComponent(organisation.id):'';const r=await fetch('/api/tournament-lite'+scope+path,{method:body?'POST':'GET',headers:body?{'Content-Type':'application/json'}:{},body:body?JSON.stringify(body):undefined,cache:'no-store'});const data=await r.json();if(!r.ok){const e=Error(data.error);e.status=r.status;throw e;}return data;}
 function notice(message){$('#notice').textContent=message;setTimeout(()=>$('#notice').textContent='',6000);}

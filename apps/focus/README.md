@@ -16,7 +16,7 @@ The task editor changes title, priority, estimate and date without replacing the
 
 Tasks persist in localStorage under the existing `synapse-focus-plan-v1` key. Reordering stores optional per-lane positions; older saved tasks without positions continue to load in creation order. Changes refresh other tabs in the same browser profile. Limits remain 100 tasks/day, 500/browser, 160 characters/task and estimated minutes from 5 to 240. Invalid storage and failed writes preserve existing saved tasks and show an error. Clearing browser data removes tasks and preferences.
 
-Light/dark/system themes, responsive layouts, 44px control targets and reduced motion use the platform's shared tokens. Previously saved account plans remain preserved behind the legacy authenticated API; this public UI does not read, migrate or write them. The legacy model accepts the validated ordering/edit commands without changing ownership or revision checks.
+Light, Dark and Deep Black themes, responsive layouts, 44px control targets and reduced motion use the platform's shared tokens. Previously saved account plans remain preserved behind the legacy authenticated API; this public UI does not read, migrate or write them. The legacy model accepts the validated ordering/edit commands without changing ownership or revision checks.
 
 ## Verification
 

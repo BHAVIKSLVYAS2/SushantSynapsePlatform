@@ -11,12 +11,14 @@ test('Admin and Super Admin use the shared theme toggle without a theme dropdown
   await expect(page.locator('select[aria-label="Theme"]')).toHaveCount(0);
   const toggle=page.locator('.platform-shell [data-theme-toggle]');
   await expect(toggle).toBeVisible();
-  const before=await page.locator('html').getAttribute('data-theme');
+  const before=await page.evaluate(()=>SynapseTheme.preference());
+  const choice=before==='dark'?'light':'dark';
   await toggle.click();
-  const after=await page.locator('html').getAttribute('data-theme');
-  expect(after).not.toBe(before);
+  await expect(page.locator('#synapse-theme-picker')).toBeVisible();
+  await page.locator('#synapse-theme-picker [data-theme-choice='+choice+']').click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme',choice);
   await page.reload();
-  await expect(page.locator('html')).toHaveAttribute('data-theme',after);
+  await expect(page.locator('html')).toHaveAttribute('data-theme',choice);
  }
 });
 test('one eligible workspace resumes the requested task while an unavailable app remains at account',async({page})=>{
@@ -87,7 +89,7 @@ test('membership assignment, stale edit handling and responsive themes',async({p
  await member.getByRole('button',{name:'Update membership'}).click();await expect(page.getByRole('status')).toContainText('Refresh the workspace');await expect(member.getByLabel('Reason for change')).toHaveValue('Keep this entered reason');
  await page.getByRole('button',{name:'Refresh',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Workspace ready.');
  for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await setTheme(page,theme);await expect(page.locator('html')).toHaveAttribute('data-theme',theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
- await page.emulateMedia({colorScheme:'dark'});await setTheme(page,'system');await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await page.emulateMedia({colorScheme:'light'});await expect(page.locator('html')).toHaveAttribute('data-theme','light');
+ await setTheme(page,'dark');await page.emulateMedia({colorScheme:'light'});await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
  await page.screenshot({path:'.publish/admin-desktop.png',fullPage:true});await page.setViewportSize({width:390,height:844});await page.screenshot({path:'.publish/admin-mobile.png',fullPage:true});expect(errors).toEqual([]);
 });
 test('signed-out and non-Super Admin visitors receive useful access states',async({page})=>{

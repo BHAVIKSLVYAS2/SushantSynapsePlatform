@@ -74,7 +74,7 @@ test('saved theme resolves before body and delayed enhancement never paints the 
  const images=[];page.on('request',r=>{if(/\.(png|webp)(\?|$)/.test(r.url())&&r.url().includes('/satire-arena/'))images.push(r.url());});
  try{await page.goto(base+'/satire-arena/politicians',{waitUntil:'commit'});await requested;await expect(page.locator('html')).toHaveAttribute('data-theme','dark');expect(await page.locator('.arena-card').count()).toBe(0);}finally{release();}
  await expect(page.locator('.character-hero')).toHaveCount(13);await expect(page.locator('.arena-card').first().locator('.reactions button').first()).toBeEnabled();expect(await page.evaluate(()=>window.badArenaFrames)).toEqual([]);expect(images.filter(url=>/cartoon-cast|\.png$|expressions-original\.webp/.test(url))).toEqual([]);
- await page.emulateMedia({colorScheme:'light'});await page.evaluate(()=>localStorage.setItem('synapse-theme','system'));await page.reload();await expect(page.locator('html')).toHaveAttribute('data-theme','light');
+ await page.emulateMedia({colorScheme:'dark'});await page.evaluate(()=>localStorage.setItem('synapse-theme','light'));await page.reload();await expect(page.locator('html')).toHaveAttribute('data-theme','light');
 });
 test('loading scoreboard never overflows before the app module arrives',async({page})=>{
  let release;const gate=new Promise(resolve=>release=resolve);await page.setViewportSize({width:320,height:900});await page.route('**/satire-arena/app.js*',async route=>{await gate;await route.continue();});

@@ -15,7 +15,7 @@ test('D1/D9 North/South graphics agree with numeric tables across mobile and sha
   expect(actual).toEqual(expected.planets.map(p=>({body:p.body,rashi:p.rashi,house:p.houseNumber})));
   const groups=page.locator('svg g[data-house]');await expect(groups).toHaveCount(12);
   for(const h of expected.houses)await expect(page.locator(`svg g[data-house="${h.houseNumber}"]`)).toHaveAttribute('data-rashi',String(h.rashi));
-  for(const width of [320,390,1440])for(const theme of ['light','dark','system']){
+  for(const width of [320,390,1440])for(const theme of ['light','dark','deep']){
    await page.setViewportSize({width,height:1000});await page.emulateMedia({colorScheme:'dark'});await page.locator('#theme').selectOption(theme);
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
    const box=await page.locator('svg').boundingBox();expect(box.width).toBeGreaterThan(250);
@@ -23,7 +23,7 @@ test('D1/D9 North/South graphics agree with numeric tables across mobile and sha
    expect(await page.locator('html').getAttribute('data-theme')).toBe(theme==='light'?'light':'dark');
   }
  }
- await page.locator('#theme').selectOption('system');await page.emulateMedia({colorScheme:'light'});await expect(page.locator('html')).toHaveAttribute('data-theme','light');
+ await page.locator('#theme').selectOption('deep');await expect(page.locator('html')).toHaveAttribute('data-theme-style','deep');await page.emulateMedia({colorScheme:'light'});await expect(page.locator('html')).toHaveAttribute('data-theme-style','deep');
  await page.getByRole('button',{name:'North Indian',exact:true}).click();await page.setViewportSize({width:390,height:1100});await page.screenshot({path:'.publish/vedic-p07-north-390-light.png',fullPage:true});
  await page.getByRole('button',{name:'South Indian',exact:true}).click();await page.locator('#theme').selectOption('dark');await page.setViewportSize({width:320,height:1100});await page.screenshot({path:'.publish/vedic-p07-south-320-dark.png',fullPage:true});
  expect(errors).toEqual([]);expect(external).toEqual([]);

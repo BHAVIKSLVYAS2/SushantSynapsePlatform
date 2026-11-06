@@ -131,8 +131,8 @@ test('Fund Lens: selection, analysis, simulation, share, export, themes and resp
  await page.screenshot({path:'test-results/fund-lens-mobile-dark.png',fullPage:true});
  for(const width of [320,768,1440]){await page.setViewportSize({width,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await setTheme(page,'light');await page.screenshot({path:'test-results/fund-lens-desktop-light.png',fullPage:true});
- await page.emulateMedia({colorScheme:'dark'});await setTheme(page,'system');await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
- await page.emulateMedia({colorScheme:'light'});await expect(page.locator('html')).toHaveAttribute('data-theme','light');
+ await setTheme(page,'deep');await expect(page.locator('html')).toHaveAttribute('data-theme-style','deep');
+ await page.emulateMedia({colorScheme:'light'});await expect(page.locator('html')).toHaveAttribute('data-theme-style','deep');
  expect(requests.filter(r=>r.url.includes('/api/fund-overlap/')).every(r=>r.method==='GET'&&!r.body)).toBe(true);expect(errors).toEqual([]);
 });
 

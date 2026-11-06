@@ -63,7 +63,7 @@ npm.cmd run test:fund-overlap
 npm.cmd run test:e2e
 ```
 
-API/browser tests use isolated temporary SQLite databases. Public source fixtures under `tests/fixtures` are official July 2026 XLSX files; no user data is included. Golden totals guard omissions or accidental inclusion of debt. Browser tests cover the portal launch, anonymous access, selection, both bases, filters, minimum-two simulator, shared links, CSV, printing, missing-source retry, 320/768/1440px layouts, and light/dark/system preferences.
+API/browser tests use isolated temporary SQLite databases. Public source fixtures under `tests/fixtures` are official July 2026 XLSX files; no user data is included. Golden totals guard omissions or accidental inclusion of debt. Browser tests cover the portal launch, anonymous access, selection, both bases, filters, minimum-two simulator, shared links, CSV, printing, missing-source retry, 320/768/1440px layouts, and Light/Dark/Deep Black preferences.
 
 The public comparison runs on Cloudflare without the laptop backend. The prepared official-data release serves verified holdings directly and retains bounded secondary-provider verification. The published national catalogue can support discovery during MFapi outages, with its audit date displayed. Public edge caches retain last-good secondary references for up to 30 days but may be evicted earlier. Official reference updates require a frontend redeployment. Internet and source availability still apply to uncached secondary portfolios.
 

@@ -48,7 +48,7 @@ test('branded hub, default sound, slow final ticks and motion cancellation keep 
 });
 
 test('validation, safe labels, theme, reduced motion, history bound and phone layouts',async({page})=>{
- await page.addInitScript(()=>{if(!localStorage.getItem('synapse-theme'))localStorage.setItem('synapse-theme','system');});await page.emulateMedia({reducedMotion:'reduce',colorScheme:'dark'});await page.goto(base+'/decision-wheel/');await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+ await page.addInitScript(()=>{if(!localStorage.getItem('synapse-theme'))localStorage.setItem('synapse-theme','dark');});await page.emulateMedia({reducedMotion:'reduce',colorScheme:'light'});await page.goto(base+'/decision-wheel/');await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
  for(const [value,error]of [['One','between 2 and 30'],['Dosa\ndosa','unique'],['x'.repeat(61)+'\nOK','60 characters']]){await page.locator('#options').fill(value);await page.locator('#spin').click();await expect(page.locator('#spin')).toBeEnabled();await expect(page.locator('#status')).toContainText(error);await expect(page.locator('#result')).toBeHidden();}
  await page.locator('#options').fill('<img src=x onerror=alert(1)>\nNormal');await page.locator('#spin').click();await expect(page.locator('#spin')).toBeEnabled();await expect(page.locator('#wheel path')).toHaveCount(2);await expect(page.locator('#wheel img')).toHaveCount(0);
  await page.getByRole('button',{name:'Pick a team'}).click();for(let i=0;i<22;i++){await page.locator('#spin').click();await expect(page.locator('#spin')).toBeEnabled();}await expect(page.locator('#history li')).toHaveCount(20);

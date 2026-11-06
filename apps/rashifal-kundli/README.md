@@ -174,7 +174,7 @@ D9 labels/longitudes identify divisional signs and their source D1 longitude.
 
 Load `frontend/chart-view.css` with shared theme tokens from packages/ui;
 component colours use existing --ui-* tokens. Shared theme.js remains the owner
-of light/dark/system preferences. Future public UI must preserve platform
+of Light/Dark/Deep Black preferences. Future public UI must preserve platform
 authentication, availability and privacy; do not export the dev harness.
 
 Local synthetic preview:

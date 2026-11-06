@@ -3,14 +3,13 @@ import {brandReady,requireBrand} from '/moment-studio/branding.mjs';
 import {occasions,designs,palettes,validate,render,filename} from '/moment-studio/card-renderer.mjs?v=20261016-personal-memorial';
 
 const $=selector=>document.querySelector(selector);
-const form=$('#editor'),canvas=$('#card'),media=matchMedia('(prefers-color-scheme: dark)');
+const form=$('#editor'),canvas=$('#card');
 $('#theme').outerHTML=window.SynapseTheme.control('id="theme"');
 function theme(){
  const preference=window.SynapseTheme.read();
- document.documentElement.dataset.theme=preference==='system'?(media.matches?'dark':'light'):preference;
+ document.documentElement.dataset.theme=preference;
 }
 $('#theme').addEventListener('change',theme);
-media.addEventListener('change',theme);
 theme();
 
 const params=new URLSearchParams(location.search),initialOccasion=params.get('occasion');

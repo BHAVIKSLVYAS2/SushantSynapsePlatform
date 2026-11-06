@@ -63,8 +63,8 @@ Object.assign(words.en,{preview:'Checklist preview / Print',all:'All',needed:'St
 Object.assign(words.hi,{preview:'सामग्री सूची देखें / प्रिंट',all:'सभी',needed:'बाकी सामग्री',arranged:'तैयार',unassigned:'जिम्मेदारी बाकी',quantity:'मात्रा',arranger:'व्यवस्था',item:'सामग्री',close:'बंद करें',printList:'सामग्री सूची प्रिंट करें',details:'मात्रा / जिम्मेदारी'});
 const text=k=>words[language][k],node=(tag,className='',value='')=>{const el=document.createElement(tag);el.className=className;el.textContent=value;return el;};
 function checked(){if(!checks.has(selected.id))checks.set(selected.id,new Set());return checks.get(selected.id);}
-function theme(){const choice=window.SynapseTheme.read();document.documentElement.dataset.theme=choice==='system'?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):choice;}
-$('#theme').outerHTML=window.SynapseTheme.control('id="theme"');$('#theme').addEventListener('change',theme);matchMedia('(prefers-color-scheme: dark)').addEventListener('change',theme);addEventListener('storage',theme);theme();
+function theme(){document.documentElement.dataset.theme=window.SynapseTheme.read();}
+$('#theme').outerHTML=window.SynapseTheme.control('id="theme"');$('#theme').addEventListener('change',theme);addEventListener('storage',theme);theme();
 function url(){const u=new URL('/ritual-assist/guides',location.origin);u.searchParams.set('guide',selected.id);u.searchParams.set('lang',language);return u;}
 const navigation=createNavigation(u=>{const guide=guideById(u.searchParams.get('guide'));if(guide.id!==selected.id){selected=guide;itemFilter='all';renderList();renderGuide();$('#library').open=false;$('#copy-fallback').hidden=true;$('#guide-title').focus({preventScroll:true});}learning?.restore(u.searchParams.get('learn'));});
 function syncUrl(push=false){const target=url();if(push)navigation.go(target);else{const tab=new URL(location.href).searchParams.get('learn');if(['vidhi','mantras','sources'].includes(tab))target.searchParams.set('learn',tab);history.replaceState(history.state,'',target);}}

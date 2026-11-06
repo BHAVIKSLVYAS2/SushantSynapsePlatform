@@ -116,7 +116,7 @@ test('account presents each private product and organisation context separately'
  await expect(page.getByRole('link',{name:'Manage this organisation'})).toHaveAttribute('href','/admin?organisation=org-one');
  await expect(page.locator('.account-organisation-section')).toContainText('Organisation membership and staff/client seat limits are shared');
  expect(await page.locator('.account-app-card h3').allTextContents()).not.toContain('Curio');
- for(const width of [320,390,768,1440])for(const theme of ['light','dark','system']){
+ for(const width of [320,390,768,1440])for(const theme of ['light','dark','deep']){
   await page.setViewportSize({width,height:900});await setTheme(page,theme);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  }

@@ -21,7 +21,7 @@ test('P12 manual sign/period factors, native draft translations, mobile themes a
  for(const language of ['hi','gu']){await page.locator('#rashifal-language').selectOption(language);await expect(page.locator('.rashifal-reading')).toHaveAttribute('lang',language);await expect(page.locator('#rashifal-fallback')).not.toBeEmpty();
   expect(await page.locator('li[data-date]').evaluateAll(nodes=>nodes.map(n=>[n.dataset.date,n.dataset.moonRashi,n.dataset.relativeHouse]))).toEqual(factors);
  }
- for(const width of [320,390,1440])for(const theme of ['light','dark','system']){await page.setViewportSize({width,height:900});await page.locator('#theme').selectOption(theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+ for(const width of [320,390,1440])for(const theme of ['light','dark','deep']){await page.setViewportSize({width,height:900});await page.locator('#theme').selectOption(theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await page.setViewportSize({width:390,height:900});await page.locator('#theme').selectOption('light');await page.screenshot({path:'.publish/vedic-p12-rashifal-gu-390.png',fullPage:true});
  await page.locator('#rashifal-language').selectOption('en');await page.locator('#rashifal-result').screenshot({path:'.publish/vedic-p12-reading-en-390.png'});
  await page.locator('[data-view=tomorrow]').click();await expect(page.locator('li[data-date]')).toHaveCount(1);

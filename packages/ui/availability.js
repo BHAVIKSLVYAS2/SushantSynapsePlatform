@@ -2,10 +2,9 @@
 (() => {
   if (window.SynapseAvailability) {
     if (document.body?.hasAttribute('data-backend-unavailable') && window.SynapseTheme) {
-      const apply = () => { const value = SynapseTheme.read(); document.documentElement.dataset.theme = value === 'system' ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : value; };
+      const apply = () => { document.documentElement.dataset.theme = SynapseTheme.read(); };
       document.querySelector('#unavailable-theme').insertAdjacentHTML('afterbegin', SynapseTheme.control());
       document.addEventListener('change', apply);
-      matchMedia('(prefers-color-scheme: dark)').addEventListener('change', apply);
       apply();
     }
     return;

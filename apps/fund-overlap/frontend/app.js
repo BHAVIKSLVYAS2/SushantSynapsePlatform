@@ -34,9 +34,8 @@ function holdingsStatus(f) {
   if (!snapshot) return f.portfolioDate ? 'Dated snapshot available' : 'Holdings not checked';
   return [snapshot.cacheStatus === 'stale' ? 'Saved data · refresh unavailable' : 'Holdings loaded', snapshot.unresolvedHoldings?.length ? 'Partial coverage' : '', snapshot.source.publisher].filter(Boolean).join(' · ');
 }
-const system = matchMedia('(prefers-color-scheme: dark)');
-function theme() {const value = $('#theme').value; SynapseTheme.write(value); document.documentElement.dataset.theme = value === 'system' ? (system.matches ? 'dark' : 'light') : value;}
-$('#theme').value = SynapseTheme.read(); theme(); $('#theme').addEventListener('change', theme); system.addEventListener('change', theme);
+function theme(explicit=false) {const value = $('#theme').value; SynapseTheme.write(value,explicit); document.documentElement.dataset.theme = value==='deep'?'dark':value;}
+$('#theme').value = SynapseTheme.preference(); theme(); $('#theme').addEventListener('change',()=>theme(true));
 function notice(message) {$('#notice').textContent = message; $('#notice').classList.add('show'); clearTimeout(notice.timer); notice.timer = setTimeout(() => $('#notice').classList.remove('show'), 5000);}
 async function jsonFetch(url, attempt = 0, options = {}) {
   const deadline = options.deadline || Date.now() + 120000;

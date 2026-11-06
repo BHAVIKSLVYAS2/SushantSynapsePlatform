@@ -29,8 +29,8 @@ const sculpture=(app,cls='app-sculpture')=>{const definition=catalogue.apps.find
 const initials=name=>name.split(' ').filter(Boolean).slice(0,2).map(p=>p[0]).join('').toUpperCase();
 let editingFavorites=false;
 let state,section=new URLSearchParams(location.search).get('section')==='profile'?'profile':'apps',category='All',query='',authStatus;
-let theme=SynapseTheme.read();
-function setTheme(value){theme=value;SynapseTheme.write(value);}
+let theme=SynapseTheme.preference();
+function setTheme(value){theme=value;SynapseTheme.write(value,true);}
 function themeControl(){return SynapseTheme.control('data-theme');}
 function brand(){return `<a class="brand" href="/" aria-label="Sushant Synapse home"><img src="/logo-adaptive-192.png" alt="" width="42" height="42"><span translate="no">Curio<small>by Sushant Synapse</small></span></a>`;}
 function notice(text){$('#notice').textContent=text;$('#notice').classList.add('show');clearTimeout(notice.timer);notice.timer=setTimeout(()=>$('#notice').classList.remove('show'),3500);}

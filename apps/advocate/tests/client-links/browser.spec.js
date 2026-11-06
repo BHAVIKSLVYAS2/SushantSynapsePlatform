@@ -1,4 +1,5 @@
 const {test,expect}=require('../../../../tests/browser-fixture.js');
+const {setTheme}=require('../../../../tests/browser-theme');
 const {startPreview}=require('../../../../tests/organisation-preview-fixture.cjs');
 let f,cookies,clientId;
 const post=(path,body,actor='master')=>fetch(f.base+'/api/'+path,{method:'POST',headers:{Cookie:cookies[actor],'Content-Type':'application/json'},body:JSON.stringify(body)});
@@ -17,7 +18,7 @@ test('primary Owner grants and revokes scoped links with mobile and theme suppor
  await login(page);await page.goto(f.base+'/account');await page.getByRole('link',{name:'Manage client record links'}).click();await expect(page.getByRole('status')).toHaveText('Links ready.');
  await expect(page.locator('body')).not.toContainText('Hidden internal note');await expect(page.locator('body')).not.toContainText('Other private client');await expect(page.locator('#grant [name="clientId"] option')).toHaveCount(1);
  await page.getByLabel('Reason for grant').fill('Client confirmed ownership');await page.getByRole('button',{name:'Grant link',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Link saved.');await expect(page.locator('article')).toContainText('Link status: Active');
- for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await page.getByLabel('Theme',{exact:true}).selectOption(theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+ for(const width of [320,390,768,1440])for(const theme of ['light','dark','deep']){await page.setViewportSize({width,height:900});await page.getByLabel('Theme',{exact:true}).selectOption(theme);await expect(page.locator('html')).toHaveAttribute('data-theme-style',theme==='deep'?'deep':'');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await page.setViewportSize({width:390,height:844});await page.getByLabel('Theme',{exact:true}).selectOption('light');await page.screenshot({path:'.publish/client-links-mobile.png',fullPage:true});
  await page.getByLabel('Reason for revocation').fill('Approval withdrawn');await page.getByRole('button',{name:'Revoke link',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Link saved.');await expect(page.locator('article')).toContainText('Revoked');await expect(page.getByRole('button',{name:'Revoke link',exact:true})).toHaveCount(0);
 });
@@ -50,7 +51,7 @@ test('administrator enables a licensed client portal, client sees only approved 
   await expect(client.locator('#workspace')).toContainText('Private client');await expect(client.locator('#workspace')).toContainText('CASE-1');await expect(client.locator('#workspace')).toContainText('Delhi');
   for(const secret of ['Hidden internal note','Other private client','Secret case title','Secret case note'])await expect(client.locator('body')).not.toContainText(secret);
   await expect(client.locator('#workspace form')).toHaveCount(0);
-  for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await client.setViewportSize({width,height:900});await client.getByLabel('Theme',{exact:true}).selectOption(theme);expect(await client.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+  for(const width of [320,390,768,1440])for(const theme of ['light','dark','deep']){await client.setViewportSize({width,height:900});await client.getByLabel('Theme',{exact:true}).selectOption(theme);await expect(client.locator('html')).toHaveAttribute('data-theme-style',theme==='deep'?'deep':'');expect(await client.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
   await client.setViewportSize({width:390,height:844});await client.getByLabel('Theme',{exact:true}).selectOption('light');await client.screenshot({path:'.publish/client-portal-mobile.png',fullPage:true});
   let release,arrived;const gate=new Promise(resolve=>release=resolve),waiting=new Promise(resolve=>arrived=resolve);let first=true;
   await client.route('**/api/client-portal/*',async route=>{if(!first)return route.continue();first=false;const response=await route.fetch();arrived();await gate;await route.fulfill({response});});
@@ -69,8 +70,8 @@ for(const actor of ['master','client'])test(`${actor} changes only their passwor
   const other=await context.newPage();await login(other,actor);await other.goto(f.base+'/account');await expect(other.getByRole('status')).toHaveText('Account ready.');
   await page.locator('#account-security summary').click();const form=page.locator('#own-password');
   if(actor==='client'){
-   for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await page.getByRole('combobox',{name:'Theme',exact:true}).selectOption(theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
-   await page.setViewportSize({width:390,height:844});await page.getByRole('combobox',{name:'Theme',exact:true}).selectOption('light');await page.locator('#account-security').screenshot({path:'.publish/account-password-mobile.png'});
+   for(const width of [320,390,768,1440])for(const theme of ['light','dark','deep']){await page.setViewportSize({width,height:900});await setTheme(page,theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+   await page.setViewportSize({width:390,height:844});await setTheme(page,'light');await page.locator('#account-security').screenshot({path:'.publish/account-password-mobile.png'});
   }
   await form.getByLabel('Current password',{exact:true}).fill('Incorrect current password!');await form.getByLabel('New password',{exact:true}).fill('New account password 2026!');await form.getByLabel('Confirm new password',{exact:true}).fill('New account password 2026!');
   await form.getByRole('button',{name:'Change password',exact:true}).click();await expect(page.getByRole('status')).toHaveText('Current password is incorrect');

@@ -82,7 +82,7 @@
 .observance-share-preview>summary{min-height:44px;padding:10px 0;cursor:pointer;color:var(--accent);font-weight:600}.observance-share-preview{margin-top:8px}
 .observance-share>[role=status]:empty,.shraddha-share>[role=status]:empty{display:none}
 
-/* Remembrance dashboard: semantic tokens retain light/dark/system preferences. */
+/* Remembrance dashboard: semantic tokens follow the selected shared theme. */
 html[data-theme=dark]:has(.death-steppers){--bg:#0f172a;--surface:#1e293b;--line:#334155;--accent:#38bdf8;--ink:#f1f5f9;--muted:#cbd5e1;--soft:#172338;--on-accent:#0f172a}
 body:has(.death-steppers){font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
 html[data-theme=dark] body[data-ui-app=ritual-assist]:has(.death-steppers){--dark-background:#0f172a;--dark-surface:#1e293b;--dark-elevated:#334155;--dark-border:#334155;--dark-accent:#38bdf8;--dark-accent-hover:#7dd3fc;--dark-on-accent:#0f172a;--dark-text:#f1f5f9;--dark-text-secondary:#cbd5e1;--dark-card-gradient:none;--bg:#0f172a;--surface:#1e293b;--line:#334155;--accent:#38bdf8;--ink:#f1f5f9;--muted:#cbd5e1;--soft:#172338;--on-accent:#0f172a}

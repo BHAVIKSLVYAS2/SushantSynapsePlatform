@@ -1,9 +1,9 @@
 // Fullscreen is optional: a slow helper must not delay drawing the wheel.
 ﻿import {parseOptions,chooseIndex,landingRotation,presets} from './engine.mjs';
-const $=s=>document.querySelector(s),svgNS='http://www.w3.org/2000/svg',media=matchMedia('(prefers-color-scheme: dark)'),motion=matchMedia('(prefers-reduced-motion: reduce)');
+const $=s=>document.querySelector(s),svgNS='http://www.w3.org/2000/svg',motion=matchMedia('(prefers-reduced-motion: reduce)');
 $('#theme').outerHTML=window.SynapseTheme.control('id="theme"');
-function theme(){const p=window.SynapseTheme.read();document.documentElement.dataset.theme=p==='system'?(media.matches?'dark':'light'):p;}
-$('#theme').addEventListener('change',theme);media.addEventListener('change',theme);theme();
+function theme(){document.documentElement.dataset.theme=window.SynapseTheme.read();}
+$('#theme').addEventListener('change',theme);theme();
 let options=[],rotation=0,spinning=false,result=null,history=[];
 for(const selector of ['#wheel-title','#winner','#history'])document.querySelector(selector)?.setAttribute('data-language-preserve','');
 let removals=[];

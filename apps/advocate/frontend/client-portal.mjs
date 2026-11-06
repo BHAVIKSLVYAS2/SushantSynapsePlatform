@@ -1,7 +1,7 @@
 import {escapeHtml as esc} from '/shared/text.mjs';
 const $=s=>document.querySelector(s);
 const organisation=new URLSearchParams(location.search).get('organisation');let revision=0;
-$('#theme').value=window.SynapseTheme.read();$('#theme').addEventListener('change',()=>window.SynapseTheme.write($('#theme').value));
+$('#theme').value=window.SynapseTheme.preference();$('#theme').addEventListener('change',()=>window.SynapseTheme.write($('#theme').value,true));
 function clear(){revision++;$('#workspace').hidden=true;$('#workspace').replaceChildren();}
 async function load(){
  clear();const current=revision;$('#status').textContent='Checking access…';

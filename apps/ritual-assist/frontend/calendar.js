@@ -36,12 +36,10 @@ function render(){mountDashboard($('result'),result,language);$('status').textCo
 const setupDetails=setup;
 setup=function(){setupDetails();document.querySelector('.reference').open=false;};
 for(const event of ['input','change'])$('calendar-form').addEventListener(event,()=>{rememberInputs();stale();});$('calendar-form').addEventListener('submit',async event=>{event.preventDefault();rememberInputs();stale();const data=inputData();data.include13=$('include13').checked;$('status').textContent=w('busy');$('calculate').disabled=true;$('calendar-form').setAttribute('aria-busy','true');const request=new AbortController();worker=request;timer=setTimeout(()=>{if(worker===request){stop();$('status').textContent=language==='hi'?'गणना में अधिक समय लगा। फिर प्रयास करें।':'Calculation timed out. Please try again.';}},25000);try{const response=await fetch('/api/ritual-assist/calendar',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data),signal:request.signal,cache:'no-store'});const payload=await response.json();if(worker!==request)return;if(!response.ok)throw Error(payload.error||'Calculation is unavailable. Please try again.');stop();result=payload.result;render();}catch(error){if(worker!==request)return;stop();$('status').textContent=language==='hi'?'गणना नहीं हो सकी। विवरण और सर्वर कनेक्शन जाँचें। '+error.message:error.message;}});$('language').addEventListener('change',()=>{language=$('language').value;setup();});setup();
-// Resolve the shared theme preference for the calendar, including system changes.
-function applyTheme(){const choice=window.SynapseTheme.read();document.documentElement.dataset.theme=choice==='system'?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):choice;}
+function applyTheme(){document.documentElement.dataset.theme=window.SynapseTheme.read();}
 const themeButton=document.querySelector('[data-theme-toggle]');
 themeButton.outerHTML=window.SynapseTheme.control();
 document.querySelector('[data-theme-toggle]').addEventListener('change',applyTheme);
-matchMedia('(prefers-color-scheme: dark)').addEventListener('change',applyTheme);
 addEventListener('storage',applyTheme);
 applyTheme();
 mountObservanceCalendar();

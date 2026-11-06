@@ -2,8 +2,8 @@ import {requestJson} from '/shared/http.mjs';
 import {emptySupport,treats,validateSupport,paymentTarget} from './support-engine.mjs';
 import QRCode from './support-qr.mjs';
 const $=selector=>document.querySelector(selector);let config={...emptySupport},selected=treats[1],version=0;
-function theme(){const value=window.SynapseTheme.read();document.documentElement.dataset.theme=value==='system'?(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'):value;$('#theme').innerHTML=window.SynapseTheme.control().match(/<button[^>]*>([\s\S]*)<\/button>/)[1];}
-theme();$('#theme').addEventListener('change',theme);matchMedia('(prefers-color-scheme:dark)').addEventListener('change',theme);
+function theme(){document.documentElement.dataset.theme=window.SynapseTheme.read();$('#theme').innerHTML=window.SynapseTheme.control().match(/<button[^>]*>([\s\S]*)<\/button>/)[1];}
+theme();$('#theme').addEventListener('change',theme);
 const request=(path,options={})=>requestJson('/api/'+path,{timeoutMs:10000,...options});
 async function render(){
  const current=++version,target=paymentTarget(config,selected);$('#treats').hidden=!!target&&!config.upiId;$('#payment').hidden=!target;$('#availability').hidden=!!target;$('#manual-copy').hidden=true;$('#status').textContent='';$('#qr').hidden=true;

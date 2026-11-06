@@ -145,11 +145,11 @@ test('home, account, Chambers and switching retain the frame after authenticatio
  await page.setViewportSize({width:390,height:850});await page.screenshot({path:'test-results/shell-home-mobile.png',fullPage:true});
 });
 
-test('Studio starts with the platform theme and system preferences follow the device',async({browser})=>{
+test('Studio starts with the platform theme and explicit preferences persist across routes',async({browser})=>{
  const context=await require('../../../../tests/browser-fixture.js').acknowledgedContext(browser);try{
   const page=await context.newPage();await page.goto(base+'/moment-studio/cards');await expect(page.locator('html')).toHaveAttribute('data-theme','light');
-  await page.evaluate(()=>SynapseTheme.write('system'));await page.emulateMedia({colorScheme:'dark'});await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
-  await page.goto(base+'/moment-studio');await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await page.emulateMedia({colorScheme:'light'});await expect(page.locator('html')).toHaveAttribute('data-theme','light');
+  await page.evaluate(()=>SynapseTheme.write('dark',true));await page.emulateMedia({colorScheme:'light'});await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+  await page.goto(base+'/moment-studio');await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await page.emulateMedia({colorScheme:'dark'});await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
   await page.goto(base+'/moment-studio/cards');await page.locator('[name=title]').fill('Keep this draft');
   let warning='';page.once('dialog',async dialog=>{warning=dialog.message();await dialog.dismiss();});
   await page.locator('.platform-switch').click();await page.locator('#platform-switcher input').fill('Chambers');await page.locator('#platform-switcher nav a:visible').click();

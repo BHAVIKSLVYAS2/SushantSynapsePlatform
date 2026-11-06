@@ -981,7 +981,7 @@ Shared scores unavailable|साझा अंक उपलब्ध नहीं
 Today in the Arena|आज अरीना में|આજે અરીનામાં
 Today’s results are loading…|आज के परिणाम लोड हो रहे हैं…|આજનાં પરિણામ લોડ થઈ રહ્યાં છે…
 Yesterday’s results are loading…|कल के परिणाम लोड हो रहे हैं…|ગઈકાલનાં પરિણામ લોડ થઈ રહ્યાં છે…
-Choose light, dark or system appearance in the platform header.|प्लेटफ़ॉर्म हेडर में हल्का, गहरा या उपकरण के अनुसार रूप चुनें।|પ્લેટફૉર્મ હેડરમાં આછો, ઘેરો કે ઉપકરણ મુજબ દેખાવ પસંદ કરો.
+Choose Light, Dark or Deep Black appearance in the platform header.|प्लेटफ़ॉर्म हेडर में हल्का, गहरा या डीप ब्लैक रूप चुनें।|પ્લેટફૉર્મ હેડરમાં લાઇટ, ડાર્ક કે ડીપ બ્લેક દેખાવ પસંદ કરો.
 More free fun:|और मुफ़्त मनोरंजन:|વધુ મફત મનોરંજન:
 Choose your Chambers workspace|अपना Chambers कार्यक्षेत्र चुनें|તમારું Chambers કાર્યક્ષેત્ર પસંદ કરો
 Sign in with your existing account to open Chambers.|Chambers खोलने के लिए अपने मौजूदा खाते से साइन इन करें।|Chambers ખોલવા તમારા હાલના ખાતાથી સાઇન ઇન કરો.

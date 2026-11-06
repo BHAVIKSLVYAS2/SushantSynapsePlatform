@@ -2,14 +2,12 @@
 const theme=document.querySelector('#theme');
 const readingButton=document.querySelector('#reading-mode');readingButton.onclick=()=>{const active=document.body.classList.toggle('light-reading');readingButton.setAttribute('aria-pressed',String(active));readingButton.textContent=active?'Illustrated reading':'Light reading';};
 document.querySelector('#newsroom-tools').append(readingButton);
-const systemTheme=matchMedia('(prefers-color-scheme: dark)');
-function applyTheme(){document.documentElement.dataset.theme=theme.value==='system'?(systemTheme.matches?'dark':'light'):theme.value;}
-theme.value=window.SynapseTheme.read();
-if(!theme.value)theme.value='system';
+function applyTheme(){document.documentElement.dataset.theme=theme.value==='deep'?'dark':theme.value;}
+theme.value=window.SynapseTheme.preference();
+if(!theme.value)theme.value='light';
 applyTheme();
-theme.addEventListener('change',()=>{window.SynapseTheme.write(theme.value);applyTheme();});
-systemTheme.addEventListener('change',applyTheme);
-window.addEventListener('storage',()=>{theme.value=window.SynapseTheme.read();if(!theme.value)theme.value='system';applyTheme();});
+theme.addEventListener('change',()=>{window.SynapseTheme.write(theme.value,true);applyTheme();});
+window.addEventListener('storage',()=>{theme.value=window.SynapseTheme.preference();if(!theme.value)theme.value='light';applyTheme();});
 // Temporary editions stay in this tab. Shared archives remain authoritative in SQLite.
 let deviceMode=false;
 const deviceEditions=new Map();

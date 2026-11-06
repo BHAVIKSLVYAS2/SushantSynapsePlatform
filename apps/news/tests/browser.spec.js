@@ -211,9 +211,8 @@ test('News access, available catalogue, empty states, responsive themes and prin
   await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
   await expect(page.locator('#newspaper')).toBeVisible();
   await page.screenshot({path:'test-results/news-mobile-dark.png',fullPage:true});
-  await setTheme(page,'system');
-  await page.emulateMedia({colorScheme:'light'});await expect(page.locator('html')).toHaveAttribute('data-theme','light');
-  await page.emulateMedia({colorScheme:'dark'});await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+  await setTheme(page,'deep');await expect(page.locator('html')).toHaveAttribute('data-theme-style','deep');
+  await page.emulateMedia({colorScheme:'light'});await expect(page.locator('html')).toHaveAttribute('data-theme-style','deep');
   await page.emulateMedia({media:'print'});await expect(page.locator('.edition-tools')).toBeHidden();await expect(page.locator('.masthead')).toBeVisible();
   await page.emulateMedia({media:'screen'});
   expect((await page.request.post(base+'/api/users',{data:{name:'News Reader',email:'reader@news.example',password,role:'Clerk',appIds:[]}})).status()).toBe(201);

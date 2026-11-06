@@ -26,7 +26,7 @@ async function createPreviewServer(port=0,{birth=false,rashifal=false,timeMachin
  if(birth)assets.set('/traditions.css',['text/css; charset=utf-8',fs.readFileSync(path.join(root,'apps/rashifal-kundli/frontend/traditions.css'))]);
  if(birth){const {reportCss,reportLayoutCss,reportTableCss}=await import('../apps/rashifal-kundli/frontend/export-report.mjs');assets.set('/export-report.css',['text/css; charset=utf-8',reportCss+reportLayoutCss+reportTableCss]);}
  const server=http.createServer((request,response)=>{
-  const asset=request.method==='GET'?assets.get(request.url):null;
+  const asset=request.method==='GET'?assets.get(new URL(request.url,'http://127.0.0.1').pathname):null;
   response.setHeader('Cache-Control','no-store');response.setHeader('X-Content-Type-Options','nosniff');
   response.setHeader('Referrer-Policy','no-referrer');response.setHeader('Cross-Origin-Opener-Policy','same-origin');
   response.setHeader('Permissions-Policy','geolocation=(), camera=(), microphone=(), payment=()');

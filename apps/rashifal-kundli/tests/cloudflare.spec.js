@@ -36,7 +36,7 @@ test('built production Kundli computes privately, loads worker and preserves mob
  await expect(page.locator('.platform-shell-brand')).toBeVisible();
  await editBirth(page,'#birth-date');await fillDate(page,'#birth-date','2000-01-01');await editBirth(page,'#birth-time');await fillTime(page,'#birth-time','12:15');await editBirth(page,'#birth-query');await page.locator('#birth-query').fill('New Delhi');await page.locator('[data-place-id="geonames:1261481"]').click();
  await page.locator('form button[type=submit]').click();await openKundliCalculations(page);await expect(page.locator('[data-feature=dasha] table tbody tr')).toHaveCount(9);
- for(const width of [320,390,1440])for(const theme of ['light','dark','system']){
+ for(const width of [320,390,1440])for(const theme of ['light','dark','deep']){
   await page.setViewportSize({width,height:900});await page.evaluate(t=>SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  }
  await page.screenshot({path:'.publish/vedic-production-preview.png',fullPage:true});
@@ -61,7 +61,7 @@ test('Rashifal reading-first production layout keeps translations, theme and pri
  await expect(page.locator('.rashifal-signs')).toBeHidden();
  for(const language of ['en','hi','gu']){
   await chooseLanguage(page,language);await expect(page.locator('.rashifal-reading')).toHaveAttribute('lang',language);
-  for(const width of [320,390,768,1440])for(const theme of ['light','dark','system']){
+  for(const width of [320,390,768,1440])for(const theme of ['light','dark','deep']){
    await page.setViewportSize({width,height:844});await page.evaluate(t=>SynapseTheme.write(t),theme);
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   }

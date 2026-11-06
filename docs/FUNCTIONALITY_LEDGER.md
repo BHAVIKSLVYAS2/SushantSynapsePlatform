@@ -1,5 +1,30 @@
 # Chambers functionality ledger
 
+**Three-theme parity and visual regression (2026-11-06 IST; local, not deployed):**
+The shared picker, Chambers settings, and client settings expose only Light,
+Dark and Deep Black. Saved legacy System values migrate to Light and no longer
+follow OS appearance changes. Chambers preserves Deep Black instead of
+collapsing it to ordinary Dark, and its own surfaces and controls map its tokens.
+Focused browser coverage captures 320/390/768/1440 px dashboard screenshots for
+all three themes and checks OS independence, legacy preference migration,
+settings/picker parity and Deep Black tokens. The Vedic preview server also
+resolves cache-busted shared assets correctly.
+Run `npm.cmd run test:e2e -- apps/admin/tests/browser.spec.js
+apps/admin/tests/platform.spec.js apps/advocate/tests/browser.spec.js
+apps/advocate/tests/platform.spec.js apps/advocate/tests/client-links/browser.spec.js
+apps/portal/tests/theme-picker/browser.spec.js apps/portal/tests/shell/browser.spec.js
+apps/rashifal-kundli/tests/browser.spec.js apps/rashifal-kundli/tests/cloudflare.spec.js
+apps/fund-overlap/tests/browser.spec.js apps/tournament-lite/tests/browser.spec.js
+apps/daily-spark/tests/browser.spec.js apps/decision-wheel/tests/browser.spec.js
+apps/team-mixer/tests/browser.spec.js apps/pandit-booking/tests/browser.spec.js
+apps/ritual-assist/tests/browser.spec.js apps/satire-arena/tests/browser.spec.js
+--grep theme` for the focused theme check or `npm.cmd run test:e2e` for the full
+visual/regression suite. Test output is under `test-results/`. The focused
+cross-app run passes **31/31 theme tests**. The full suite has not been verified
+to completion; no full-suite pass is claimed. The production frontend build and
+production-config dry run pass, including the existing D1 bindings. Production
+deployment remains pending.
+
 **Moment Studio certificate emblems (2026-11-06 IST):** Replaced all certificate
 star motifs with thin, subtly embossed circular laurel seals on Laurel/Nocturne.
 Removed the Summit emblem and Jubilee/Fun Card ring emblem; small celebration

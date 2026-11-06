@@ -10,10 +10,9 @@ Shraddh and Checklist, with the restored golden calendar icon. Calendar forms
 start with essential inputs; Checklist offers a direct ritual selector and
 visible preparation steps. See the functionality ledger for release evidence.
 
-Theme picker (2026-11-06): the header theme icon opens Light, Dark, Black & Gold
-and System choices. Black & Gold is an opt-in third visual palette inspired by
-the supplied reference; existing app layouts and Light/Dark palettes are retained.
-Preferences remain browser-local. Release verification is in the functionality ledger.
+Theme picker: Light, Dark, and Deep Black are available across the shared platform
+header and Chambers settings. The preference is saved in this browser and applies
+consistently across apps.
 
 Deployed changes (2026-11-06; see the functionality ledger) restore Ritual Assist's primary
 calendar workflow at `/ritual-assist`, with Vrat and Shraddha/Barsi generation.
@@ -230,7 +229,7 @@ A Cloudflare-native backend is prepared for **Workers + D1 + private R2**, with 
 
 Current URLs: certificates at `/moment-studio`, greeting/remembrance cards at `/moment-studio/cards`, and Garland or Roast at `/satire-arena`. The old `/certificates`, `/celebration-studio` and `/arena` URLs/assets are removed and live-verified as 404 on 2026-10-11. Occasion links use `/moment-studio/cards?occasion=...`. Saved favourites/history retain app-ID migration mappings.
 
-All served apps use one persistent platform header with searchable app switching, theme and account controls. The account entry shows Sign in when signed out and up to two name initials when signed in, linking to the profile; it reads the existing session without retaining identity in browser storage. App actions and navigation sit inside that frame. Home provides uniform launcher cards, public/private access labels and app search; Chambers uses a compact practice overview. Saved light/dark/system themes remain shared, including Moment Studio. App-specific content, printable records and exported artwork retain their owning layouts.
+All served apps use one persistent platform header with searchable app switching, theme and account controls. The account entry shows Sign in when signed out and up to two name initials when signed in, linking to the profile; it reads the existing session without retaining identity in browser storage. App actions and navigation sit inside that frame. Home provides uniform launcher cards, public/private access labels and app search; Chambers uses a compact practice overview. Saved Light, Dark and Deep Black themes remain shared, including Moment Studio and Chambers. App-specific content, printable records and exported artwork retain their owning layouts.
 
 The retained local backend uses **one SQL Server LocalDB database, `SushantSynapsePlatform`, with eight separate schemas**, including Satire Arena's `satire`. Local flow remains UI → Node API → SQL Server. Production now uses Cloudflare Workers → D1 directly, with no forwarding of private APIs to the laptop. SQL Server, SQLite recovery files and legacy JSON remain preserved; cloud writes do not synchronize back to the old source. See [SQL Server setup and recovery](docs/SQLSERVER_MIGRATION.md).
 
@@ -286,7 +285,7 @@ A mobile-first home for connected apps at **apps.sushantsynapse.com**. Chambers,
 Run `npm.cmd start`, then open http://localhost:3000. The backend uses the local Windows Cloudflare Tunnel. The Cloudflare deployment runs implemented apps directly on Workers and D1 while the laptop is off. The local runtime remains available for development and recovery. Fund Lens retrieves public third-party data on Cloudflare; internet and provider availability still apply. See the [deployment guide](docs/DEPLOYMENT.md) for release status and commands.
 
 ## Chambers advocate app
-A mobile-first case and practice management application for advocates and chamber staff in India. Light, dark, and system themes. SQLite persistence, authenticated accounts, and a saved functionality ledger for continuing development.
+A mobile-first case and practice management application for advocates and chamber staff in India. Light, dark and Deep Black themes. SQLite persistence, authenticated accounts, and a saved functionality ledger for continuing development.
 
 The interface uses a consistent legal SVG icon set (scales, courthouse, advocate briefcase, gavel, certified documents and fee receipts), shared sans-serif headings, touch-sized controls and mobile bottom-sheet forms. All icons are local assets and adapt to the selected theme.
 
@@ -364,7 +363,7 @@ npm.cmd ci
 npm.cmd run test:e2e
 ```
 
-API integration tests run with built-in Node tooling and isolated temporary databases. Browser tests use Playwright with installed Google Chrome (`channel: 'chrome'` in `playwright.config.js`). They cover mobile setup and daily workflows, desktop search/reporting/team administration, themes, layouts, printing, and recovery controls. No real workspace records are modified by tests. Screenshots and traces are written to `test-results/`.
+API integration tests run with built-in Node tooling and isolated temporary databases. Browser tests use Playwright with installed Google Chrome (`channel: 'chrome'` in `playwright.config.js`). Run `npm.cmd run test:e2e` for the full visual/regression suite; run `npm.cmd run test:e2e -- apps/admin/tests/browser.spec.js apps/advocate/tests/platform.spec.js apps/advocate/tests/client-links/browser.spec.js apps/portal/tests/theme-picker/browser.spec.js` for focused shared-theme coverage. The theme matrix captures Chambers dashboard screenshots at 320, 390, 768 and 1440 px in Light, Dark and Deep Black, verifies that OS appearance changes do not override the saved theme, checks legacy System-preference migration, verifies Deep Black tokens and compares the shared picker with Chambers settings and client screens. Tests use isolated temporary databases and do not modify real workspace records. Screenshots and traces are written to `test-results/`.
 
 ## Project map and continuation
 

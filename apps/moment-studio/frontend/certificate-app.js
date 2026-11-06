@@ -4,7 +4,7 @@ import {pdfBlob,pngBlob,download} from '/moment-studio/certificate-export.js';
 import {certificateRows} from '/moment-studio/batch.mjs';
 import {zip} from '/shared/archive.mjs';
 const $=s=>document.querySelector(s),form=$('#details'),canvas=$('#certificate'),status=$('#status'),images={},versions={logo:0,signature:0};
-// The shared platform owns initial and saved light/dark/system preferences.
+// The shared platform owns the saved theme preference.
 $('#certificate-disclaimer').textContent=disclaimer;
 let dirty=false;
 form.addEventListener('input',()=>dirty=true);
@@ -123,8 +123,8 @@ for(const format of ['png','pdf','print'])$('#quick-'+format).onclick=async()=>{
 };
 new MutationObserver(()=>{$('#export-status').textContent=status.textContent||'Export locally. Your certificate details stay in this tab.';}).observe(status,{childList:true,characterData:true,subtree:true});
 window.addEventListener('beforeprint',()=>{document.body.classList.toggle('brand-unavailable',!brandReady);if(brandReady)render(canvas,data(),images,3508/1122);});window.addEventListener('afterprint',preview);
-const media=matchMedia('(prefers-color-scheme: dark)');let preference='system';try{preference=window.SynapseTheme.read();}catch{}
-$('#theme').value=preference;function theme(){document.documentElement.dataset.theme=preference==='system'?(media.matches?'dark':'light'):preference;}$('#theme').onchange=e=>{preference=e.target.value;try{window.SynapseTheme.write(preference);}catch{}theme();};media.addEventListener('change',theme);theme();preview();
+let preference='light';try{preference=window.SynapseTheme.preference();}catch{}
+$('#theme').value=preference;function theme(){document.documentElement.dataset.theme=preference==='deep'?'dark':preference;}$('#theme').onchange=e=>{preference=e.target.value;try{window.SynapseTheme.write(preference,true);}catch{}theme();};theme();preview();
 
 // Explicitly saved organisation branding only; recipient and signature data are never persisted.
 const organisationKey='synapse.certificates.organisations.v1',organisationStatus=$('#organisation-status'),savedSelect=$('#saved-organisation');

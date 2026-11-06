@@ -1,8 +1,8 @@
 import {swapMembers} from './swaps.mjs?v=20261016-tools';
 import {sample,parseNames,constrainedMix,resultText,safeFilename} from './engine.mjs?v=20261010-aakanksha';
 import {renderCard,pngBlob,download} from './export.mjs';
-const $=s=>document.querySelector(s),media=matchMedia('(prefers-color-scheme: dark)'),motion=matchMedia('(prefers-reduced-motion: reduce)');
-$('#theme').outerHTML=window.SynapseTheme.control('id="theme"');function theme(){const p=window.SynapseTheme.read();document.documentElement.dataset.theme=p==='system'?(media.matches?'dark':'light'):p;}$('#theme').addEventListener('change',theme);media.addEventListener('change',theme);theme();
+const $=s=>document.querySelector(s),motion=matchMedia('(prefers-reduced-motion: reduce)');
+$('#theme').outerHTML=window.SynapseTheme.control('id="theme"');function theme(){document.documentElement.dataset.theme=window.SynapseTheme.read();}$('#theme').addEventListener('change',theme);theme();
 let result=null,busy=false,lastMixed=null,previous=null,swapUndo=null;
 const modeLabel=document.createElement('label');modeLabel.textContent='Split by';
 for(const selector of ['#teams','#results-title'])document.querySelector(selector)?.setAttribute('data-language-preserve','');

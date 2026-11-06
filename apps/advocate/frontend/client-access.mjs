@@ -2,7 +2,7 @@ import {escapeHtml as esc} from '/shared/text.mjs';
 const $=s=>document.querySelector(s);
 const organisationId=new URLSearchParams(location.search).get('organisation');
 let view=null,busy=false,revision=0;
-$('#theme').value=window.SynapseTheme.read();$('#theme').addEventListener('change',()=>window.SynapseTheme.write($('#theme').value));
+$('#theme').value=window.SynapseTheme.preference();$('#theme').addEventListener('change',()=>window.SynapseTheme.write($('#theme').value,true));
 const status=text=>$('#status').textContent=text;
 function clear(){revision++;view=null;$('#workspace').hidden=true;$('#workspace').replaceChildren();}
 async function api(body,operation='client-access'){

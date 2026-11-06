@@ -76,7 +76,7 @@ test('Rashifal feature replaces Daily Satire with a live calendar and working ap
  await expect(card.locator('[data-vedic-date]')).toContainText('25 Oct 2026');await expect(card.locator('[data-vedic-tithi]')).not.toHaveText('—');
  await expect(card.getByRole('link',{name:'Read your Rashifal'})).toHaveAttribute('href','/rashifal-kundli/rashifal');await expect(card.getByRole('link',{name:'Explore Kundli'})).toHaveAttribute('href','/rashifal-kundli');
  await expect(page.locator('.arena-discovery,[data-home-satire]')).toHaveCount(0);expect(editorial).toEqual([]);
- for(const width of [320,390,768,1440])for(const theme of ['light','dark','system']){
+ for(const width of [320,390,768,1440])for(const theme of ['light','dark','deep']){
   await page.setViewportSize({width,height:900});await page.evaluate(t=>SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  }
  await page.setViewportSize({width:390,height:900});await page.evaluate(()=>SynapseTheme.write('light'));await card.screenshot({path:'.publish/home-vedic-mobile-light.png'});

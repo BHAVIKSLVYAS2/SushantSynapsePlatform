@@ -3,7 +3,7 @@ const {setTheme}=require('../../../../tests/browser-theme');
 const {spawn}=require('child_process'),fs=require('fs'),os=require('os'),path=require('path');let child,base,dir;
 test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'theme-picker-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,DATA_DIR:dir,PORT:'0',DATABASE_PROVIDER:'sqlite',NODE_ENV:'test'},stdio:['ignore','pipe','pipe'],windowsHide:true});base=await new Promise((resolve,reject)=>{let out='';child.stdout.on('data',d=>{out+=d;const m=out.match(/localhost:(\d+)/);if(m)resolve('http://127.0.0.1:'+m[1]);});child.once('error',reject);});});
 test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(r=>{child.once('exit',r);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
-test('popup keyboard, deep reload and cross-tab preference',async({page,context})=>{
+test('three-choice popup keyboard, deep reload and cross-tab preference',async({page,context})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/');await expect(page.locator('html')).toHaveAttribute('data-theme','light');const trigger=page.getByRole('button',{name:'Theme',exact:true});await trigger.focus();await page.keyboard.press('Enter');await expect(page.getByRole('radio')).toHaveCount(3);await page.keyboard.press('Escape');await expect(trigger).toBeFocused();await trigger.click();await page.getByRole('radio',{name:'Light',exact:true}).focus();await page.keyboard.press('ArrowDown');await page.keyboard.press('ArrowDown');await expect(page.getByRole('radio',{name:'Deep Black',exact:true})).toBeFocused();await page.keyboard.press('Space');await expect(page.locator('html')).toHaveAttribute('data-theme-style','deep');expect(await page.evaluate(()=>SynapseTheme.read())).toBe('dark');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-theme-style','deep');const other=await context.newPage();await other.goto(base+'/ritual-assist');await expect(other.locator('html')).toHaveAttribute('data-theme-style','deep');await setTheme(page,'light');await expect(other.locator('html')).toHaveAttribute('data-theme','light');await expect(other.locator('html')).toHaveAttribute('data-theme-style','');await other.close();expect(errors).toEqual([]);
 });
 test('deep fits mobile and desktop and restores existing Light and Dark surfaces',async({page})=>{
@@ -13,6 +13,26 @@ test('deep fits mobile and desktop and restores existing Light and Dark surfaces
 });
 test('denied storage remains usable',async({browser})=>{
  const blocked=await acknowledgedContext(browser);try{await blocked.addInitScript(()=>{Storage.prototype.getItem=Storage.prototype.setItem=()=>{throw Error('blocked');};});const p=await blocked.newPage();await p.goto(base+'/');await setTheme(p,'deep');await expect(p.locator('html')).toHaveAttribute('data-theme-style','deep');await setTheme(p,'light');}finally{await blocked.close();}
+});
+
+test('saved themes survive OS changes and legacy app initializers',async({page})=>{
+ await page.emulateMedia({colorScheme:'dark'});await page.goto(base+'/');await setTheme(page,'dark');
+ for(const route of ['/batchfee-lite','/tournament-lite','/digital-samaj','/news','/moment-studio/certificates']){await page.goto(base+route);await expect.poll(()=>page.evaluate(()=>SynapseTheme.preference())).toBe('dark');await expect(page.locator('html')).toHaveAttribute('data-theme','dark');}
+ await page.emulateMedia({colorScheme:'light'});await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await setTheme(page,'deep');
+ for(const route of ['/batchfee-lite','/tournament-lite','/digital-samaj','/news','/moment-studio/certificates']){await page.goto(base+route);await expect.poll(()=>page.evaluate(()=>SynapseTheme.preference())).toBe('deep');await expect(page.locator('html')).toHaveAttribute('data-theme-style','deep');}
+});
+
+test('stale System preference migrates to Light and is not offered',async({page})=>{
+ await page.addInitScript(()=>{localStorage.setItem('synapse-theme','system');localStorage.setItem('chambers-theme','system');});
+ await page.emulateMedia({colorScheme:'dark'});await page.goto(base+'/');
+ await expect(page.locator('html')).toHaveAttribute('data-theme','light');
+ await expect.poll(()=>page.evaluate(()=>SynapseTheme.preference())).toBe('light');
+ expect(await page.evaluate(()=>[localStorage.getItem('synapse-theme'),localStorage.getItem('chambers-theme')])).toEqual(['light','light']);
+ await page.getByRole('button',{name:'Theme',exact:true}).click();
+ await expect(page.getByRole('radio')).toHaveCount(3);
+ await expect(page.getByRole('radio',{name:'System'})).toHaveCount(0);
+ await page.emulateMedia({colorScheme:'light'});await page.emulateMedia({colorScheme:'dark'});
+ await expect(page.locator('html')).toHaveAttribute('data-theme','light');
 });
 
 test('localized picker and legacy app initialisers preserve Deep Black across navigation',async({page})=>{

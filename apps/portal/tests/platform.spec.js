@@ -79,14 +79,14 @@ test('legal information works without JavaScript, has real notices and fits mobi
  await page.goto(base+'/showcase?screen=1');await expect(page.locator('.synapse-legal-footer')).toBeHidden();expect(errors).toEqual([]);
 });
 
-test('theme toggle supports light default, saved system preference, keyboard, cross-tab sharing and blocked storage',async({browser})=>{
+test('theme toggle supports light default, explicit theme saving, keyboard, cross-tab sharing and blocked storage',async({browser})=>{
  const context=await require('../../../tests/browser-fixture.js').acknowledgedContext(browser,{colorScheme:'dark'});
  try{
   const page=await context.newPage(),other=await context.newPage();
   await page.goto(base+'/');await other.goto(base+'/news');
   const toggle=page.getByRole('button',{name:'Theme',exact:true});await expect(toggle).toHaveAttribute('aria-pressed','false');
   await expect(page.locator('html')).toHaveAttribute('data-theme','light');
-  await setTheme(page,'system');await expect(toggle).toHaveAttribute('aria-pressed','true');
+  await setTheme(page,'deep');await expect(toggle).toHaveAttribute('aria-pressed','true');
   await expect(page.locator('select#theme')).toHaveCount(0);await toggle.focus();await page.keyboard.press('Space');await page.locator('#synapse-theme-picker [data-theme-choice=light]').click();
   await expect(toggle).toHaveAttribute('aria-pressed','false');await expect(page.locator('html')).toHaveAttribute('data-theme','light');await expect(other.locator('html')).toHaveAttribute('data-theme','light');
   await page.reload();await expect(toggle).toHaveAttribute('aria-pressed','false');await page.goto(base+'/timetable-lite');await expect(page.locator('body')).toHaveAttribute('data-theme','light');
@@ -167,7 +167,7 @@ test('public tools and private destinations stay distinct through sign-in',async
   await page.goto(base+'/signin?next='+app);
   await expect(page.locator('#auth-form')).toBeVisible();
   await expect(page.getByRole('link',{name:/Back to all apps/})).toBeVisible();
-  for(const theme of ['light','dark','system']){
+  for(const theme of ['light','dark','deep']){
    await setTheme(page,theme);
    for(const width of [320,390,768,1440]){
     await page.setViewportSize({width,height:1000});
