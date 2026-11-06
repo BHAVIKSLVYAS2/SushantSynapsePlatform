@@ -1,5 +1,18 @@
 # Organisation licensing production cutover
 
+Three-theme parity release (2026-11-06 IST): source `c5f7b7b`, Worker
+`0403febd-f20d-476d-b960-eecdb54cd088`, is live. Deployed with the existing
+Free production configuration and `--keep-vars`; D1/auth/organisation bindings
+are preserved, with no migrations or business/account writes. The focused
+cross-app theme run passes 31/31. Build and production-config dry run pass.
+Health is 200 (`storage: d1-free`); home and Chambers return 200. The live
+Chambers picker exposes only Light, Dark and Deep Black. Versioned theme assets
+match the production build: `theme.js` SHA-256
+`C34C1B1A124A9254F1539B84DA99C8ADE4F7A24DE387BBD27673416F39A47D82` and
+`theme-picker.css` SHA-256
+`FF64D23B6E009FDF64B15DDCE270C11B539050CE93F3DF8ACF80B11E4E0E3533`. The full
+all-app regression suite was not completed.
+
 Picksy release (2026-11-06 IST): source `22455bc`, Worker
 `19f813bd-af41-477c-83db-31345159ac07`, is live. Rename/punchline, three-second
 Picksy Pulse and mobile choice controls included; `/decision-wheel` remains.
