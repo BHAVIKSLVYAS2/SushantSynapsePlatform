@@ -138,7 +138,6 @@ Play puzzles, memory games and One-Minute Chaos.|पहेलियाँ, म�
 Pick an arena, react to fictional personalities and see yearly scores.|अरीना चुनें, काल्पनिक पात्रों पर प्रतिक्रिया दें और साल के अंक देखें।|અરીના પસંદ કરો, કાલ્પનિક પાત્રો પર પ્રતિક્રિયા આપો અને વાર્ષિક ગુણ જુઓ.
 Compare the holdings shared by your mutual funds.|अपने म्यूचुअल फ़ंड की साझा होल्डिंग की तुलना करें।|તમારા મ્યુચ્યુઅલ ફંડની સહિયારી હોલ્ડિંગ સરખાવો.
 Add your options and spin to choose one.|विकल्प जोड़ें और एक चुनने के लिए पहिया घुमाएँ।|વિકલ્પો ઉમેરો અને એક પસંદ કરવા ચક્ર ફેરવો.
-Share a confession and scratch to read others.|अपनी बात साझा करें और दूसरों की बातें पढ़ने के लिए स्क्रैच करें।|પોતાની વાત જણાવો અને બીજાની વાત વાંચવા સ્ક્રૅચ કરો.
 Create QR codes for links, text or Wi-Fi.|लिंक, टेक्स्ट या वाई-फ़ाई के QR कोड बनाएँ।|લિંક, લખાણ કે વાઇ-ફાઇના QR કોડ બનાવો.
 Resize a photo to a target file size.|फ़ोटो को तय फ़ाइल साइज़ में बदलें।|ફોટોને નક્કી કરેલી ફાઇલ સાઇઝમાં ફેરવો.
 Split bills and work out who owes whom.|बिल बाँटें और देखें किसे कितना देना है।|બિલ વહેંચો અને કોને કેટલું આપવાનું છે તે જુઓ.
@@ -391,7 +390,6 @@ Public results, sources and external services|सार्वजनिक पर
 Retention, removal and requests|संरक्षण, हटाना और अनुरोध|સંગ્રહ, દૂર કરવું અને વિનંતી
 Payments and contact|भुगतान और संपर्क|ચુકવણી અને સંપર્ક
 Questions and updates|सवाल और अपडेट|પ્રશ્નો અને અપડેટ
-Public confession stream|सार्वजनिक अनकही बातों की धारा|જાહેર કબૂલાતનો પ્રવાહ
 Public feedback and feature requests|सार्वजनिक प्रतिक्रिया और सुविधा अनुरोध|જાહેર પ્રતિસાદ અને સુવિધાની વિનંતી
 Help us keep good tools free|उपयोगी टूल मुफ़्त रखने में मदद करें|ઉપયોગી સાધનો મફત રાખવામાં મદદ કરો
 Choose a one-time amount|एक बार की राशि चुनें|એક વખતની રકમ પસંદ કરો
@@ -625,7 +623,6 @@ Holdings|होल्डिंग|હોલ્ડિંગ
 Overlap|साझा निवेश|સહિયારું રોકાણ
 Search funds|फ़ंड खोजें|ફંડ શોધો
 Choose funds to compare|तुलना के लिए फ़ंड चुनें|સરખાવવા ફંડ પસંદ કરો
-Share a confession and scratch to read others.|अपनी बात साझा करें और दूसरों की बातें पढ़ने के लिए स्क्रैच करें।|પોતાની વાત જણાવો અને બીજાની વાત વાંચવા સ્ક્રૅચ કરો.
 Post|साझा करें|શેર કરો
 Reveal|खोलें|ખોલો
 Scratch to reveal|स्क्रैच करके पढ़ें|સ્ક્રૅચ કરીને વાંચો
@@ -879,29 +876,6 @@ This session's picks|इस सत्र के चुनाव|આ સત્ર
 Clear history|इतिहास हटाएँ|ઇતિહાસ સાફ કરો
 Explore all apps ↗|सभी ऐप देखें ↗|બધી ઍપ જુઓ ↗
 Make a certificate ↗|प्रमाणपत्र बनाएँ ↗|પ્રમાણપત્ર બનાવો ↗
-Skip to confessions|अनकही बातों पर जाएँ|કબૂલાત પર જાઓ
-Share without a name. Scratch to read.|बिना नाम बात कहें। स्क्रैच करके पढ़ें।|નામ વગર વાત કહો. સ્ક્રૅચ કરીને વાંચો.
-A quiet moment. Leave a thought below.|कुछ शांत पल। नीचे अपनी बात कहें।|થોડી શાંત ક્ષણો. નીચે પોતાની વાત કહો.
-See new confessions ↓|नई बातें देखें ↓|નવી વાતો જુઓ ↓
-A little space for what’s on your mind.|मन की बात के लिए थोड़ी जगह।|મનની વાત માટે થોડી જગ્યા.
-No confessions here yet. Yours could be the first.|अभी कोई बात नहीं है। आपकी पहली हो सकती है।|હજી કોઈ વાત નથી. તમારી પહેલી હોઈ શકે.
-Try sample cards|उदाहरण के कार्ड देखें|ઉદાહરણનાં કાર્ડ જુઓ
-Leave a confession|अपनी बात कहें|પોતાની વાત કહો
-Quick check|छोटी जाँच|નાની ચકાસણી
-Answer a small sum before posting.|भेजने से पहले छोटा सवाल हल करें।|મોકલતાં પહેલાં નાનો દાખલો ગણો.
-New question|नया सवाल|નવો પ્રશ્ન
-No sign-in or personal details needed.|साइन इन या निजी जानकारी नहीं चाहिए।|સાઇન ઇન કે અંગત માહિતી જરૂરી નથી.
-Let it out|मन की बात कहें|મનની વાત કહો
-Public for up to 7 days. Leave out names and identifying details.|7 दिन तक सार्वजनिक। नाम और पहचान की जानकारी न दें।|7 દિવસ સુધી જાહેર. નામ અને ઓળખની માહિતી ન આપો.
-A KINDER CORNER|अपनापन भरा कोना|હૂંફાળો ખૂણો
-Before you post|भेजने से पहले|મોકલતાં પહેલાં
-Free to read|मुफ़्त पढ़ें|મફત વાંચો
-Anyone can reveal a published confession.|प्रकाशित बात कोई भी पढ़ सकता है।|પ્રકાશિત વાત કોઈ પણ વાંચી શકે છે.
-Confession drafts are not saved.|बातों के मसौदे सहेजे नहीं जाते।|વાતોના મુસદ્દા સાચવવામાં આવતા નથી.
-Platform privacy information|प्लेटफ़ॉर्म की गोपनीयता जानकारी|પ્લેટફૉર્મની ગોપનીયતાની માહિતી
-Confession review|बातों की समीक्षा|વાતોની સમીક્ષા
-Refresh review queue|समीक्षा सूची फिर लोड करें|સમીક્ષાની યાદી ફરી લોડ કરો
-Owner sign-in|मालिक साइन इन करें|માલિક સાઇન ઇન કરે
 Resize a photo to the file size your form requires.|फ़ॉर्म के अनुसार फ़ोटो का फ़ाइल साइज़ बदलें।|ફોર્મ મુજબ ફોટોની ફાઇલ સાઇઝ બદલો.
 Choose photo|फ़ोटो चुनें|ફોટો પસંદ કરો
 Under 100 KB|100 KB से कम|100 KBથી ઓછી

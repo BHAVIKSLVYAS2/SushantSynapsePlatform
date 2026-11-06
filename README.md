@@ -97,13 +97,6 @@ does not delete saved profiles. Birthplace uses one local city/state search fiel
 The shared header owns English/Hindi/Gujarati interface preference across pages.
 Language sources, content exclusions and verification: docs/INTERFACE_LANGUAGE_AUDIT.md.
 
-Sponsorship pages and manual ad placements have been removed. Google AdSense
-Auto Ads code loads globally on eligible anonymous public pages; Google manages
-any resulting placements. It is excluded from private workspaces, sign-in,
-Confessions and Feedback. The voluntary one-time [Support Us page](/support)
-remains available.
-See the functionality ledger for current implementation and verification status.
-
 Satire Arena's news anchors, actors and corporates now use coordinated cartoon
 caricatures, with matching happy, startled, annoyed and laughing reaction faces.
 Cards, character details and share images use the same optimized artwork.
@@ -176,37 +169,10 @@ images, duplicate stylesheet and initial-auth request removal, and anonymous-hom
 DOM reuse. Measurements and remaining priorities are
 in `docs/PERFORMANCE_REVIEW_2026-10-16.md`.
 
-Deployed and live-verified (2026-10-16): Confessions uses scratch-first cards
-with accessible reveal, vertical phone scrolling and feed-edge handoff to the
-page. The shared header displays the full Sushant Synapse Platform name,
-including on mobile. See the ledger for release and verification details.
-
 Small export credits (2026-10-16): QR PNGs, team cards/copied teams, Ritual
 Assist material lists/guide shares, copied bill settlements and wheel shares
 carry Sushant Synapse branding. QR codes retain their unmodified payload and
 quiet zone. Paid branding removal is deferred; see the ledger for release status.
-
-Deployed and live-verified (2026-10-16): One-Minute Chaos joins
-Take a Break with a 60-second touch/keyboard chai-catching game, meeting
-obstacles, alarms, calmer pace, pause and result sharing. Confessions now
-uses a heart-in-a-speech-bubble icon. See the ledger for verification.
-
-Deployed and live-verified (2026-10-16): Confessions uses compact chat bubbles and shares new
-CAPTCHA-checked posts directly with everyone across browsers. Older pending
-submissions stay private. Confessions, QR Maker and Photo Resize now have
-relevant speech, QR and image-resize icons. Release details are in the ledger.
-
-Confessions posting has a server-verified, single-use maths
-CAPTCHA with a five-minute expiry. It needs no external widget or personal
-details and keeps the existing rate limits/review flow. This protection is tested
-locally and deployed with the chat refinement; see the ledger for verification.
-
-Deployed and live-verified (2026-10-16): `/confessions` adds a shared scratch-card stream
-with no name/sign-in requested, phone/mouse/tap reveals, posting, reports and
-seven-day expiry. Data stays in the platform SQL database. Header/footer/desktop
-ad placements and five-reveal rewarded batches are prepared but disabled pending
-real unit IDs and explicit page-only ad security approval. See the functionality
-ledger and `apps/confessions/README.md` for release and activation details.
 
 Bill Splitter now opens with a simple equal split: bill amount, names and who
 paid. Trips, multiple payments and unequal shares sit under More options; example

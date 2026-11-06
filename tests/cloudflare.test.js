@@ -62,7 +62,7 @@ test('AdSense Auto Ads is global on eligible anonymous public pages only',async(
   assert.equal([...html.matchAll(/<script\b[^>]*>/g)].every(([tag])=>tag.includes(`nonce="${nonce}"`)),true,route);
   assert.equal(response.headers.get('Content-Length'),null,route);assert.equal(response.headers.get('ETag'),null,route);assert.equal(response.headers.get('Cache-Control'),'no-store',route);
  }
- for(const [route,cookie]of [['/','other=1; chambers_session=private'],['/qr-maker','chambers_session=private'],['/confessions',''],['/feedback',''],['/signin',''],['/satire-arena/editor',''],['/advocate','']]){
+ for(const [route,cookie]of [['/','other=1; chambers_session=private'],['/qr-maker','chambers_session=private'],['/feedback',''],['/signin',''],['/satire-arena/editor',''],['/advocate','']]){
   const response=await handle(new Request(base+route,{headers:{Cookie:cookie}}),env,async()=>new Response('ok'));
   assert.doesNotMatch(await response.text(),/google-adsense-account|pagead2\.googlesyndication\.com/,route);
   assert.match(response.headers.get('Content-Security-Policy'),/script-src 'self';/,route);

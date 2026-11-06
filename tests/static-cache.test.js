@@ -43,7 +43,7 @@ test('fullstack delivery injects global AdSense only on eligible anonymous publi
   assert.equal(response.status,200);assert.match(html,/google-adsense-account/);assert.match(html,/pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js\?client=ca-pub-1894051755496526/);
   assert.match(response.headers.get('Content-Security-Policy'),/nonce-/);assert.doesNotMatch(html,/data-ad-placement|<ins[^>]+adsbygoogle/i);
  }
- for(const [route,cookie]of [['/','chambers_session=private'],['/confessions',''],['/feedback',''],['/advocate','']]){
+ for(const [route,cookie]of [['/','chambers_session=private'],['/feedback',''],['/advocate','']]){
   const response=await worker.fetch(new Request('https://example.test'+route,{headers:{Cookie:cookie}}),env);
   assert.doesNotMatch(await response.text(),/google-adsense-account|pagead2\.googlesyndication\.com/);
   assert.match(response.headers.get('Content-Security-Policy'),/script-src 'self';/);

@@ -143,7 +143,6 @@
     }
   }
   /* App adapters: presentation wrappers only; board geometry and art stay app-owned. */
-  body[data-ui-app=confessions] {--ss-control-min:48px}
   body[data-ui-app=portal]:not(:has(.public-home)) :is(.app-card,.panel) {border-radius:16px}
   body[data-ui-app=portal] .app-card-top {min-height:76px}
   body[data-ui-app=portal] .app-art-wrap,body[data-ui-app=portal] .app-sculpture {width:84px;height:76px}

@@ -31,7 +31,7 @@ test('AdSense Auto Ads loads globally on eligible anonymous public pages only',a
   assert.match(response.headers.get('content-security-policy'),/nonce-/,path);
   assert.doesNotMatch(html,/data-ad-placement|<ins[^>]+adsbygoogle/i,path);
  }
- for(const path of ['/confessions','/feedback','/signin','/advocate']){
+ for(const path of ['/feedback','/signin','/advocate']){
   const response=await fetch(base+path),html=await response.text();
   assert.doesNotMatch(html,/google-adsense-account|pagead2\.googlesyndication\.com/,path);
   assert.match(response.headers.get('content-security-policy'),/script-src 'self';/,path);

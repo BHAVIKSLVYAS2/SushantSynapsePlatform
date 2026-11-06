@@ -1,5 +1,4 @@
 import {visitors,visitorKey} from '../apps/portal/backend/visitors.mjs';
-import {confessions,storageKey as confessionsKey} from '../apps/confessions/backend/service.mjs';
 import {feedback,storageKey as feedbackKey} from '../apps/feedback/backend/service.mjs';
 import {D1Repository,Conflict} from '../packages/database/d1.mjs';
 import {PrivateFiles} from '../packages/storage/r2.mjs';
@@ -70,18 +69,18 @@ export async function edgeApi(request,env){
     const bookingAccess=await bookingOrganisations(repo,user);
     result=await portal({...context,user:{...user,role:'Clerk',appIds:[...(organisations.length?['advocate']:[]),...(tournamentAccess.organisations.length?['tournament-lite']:[]),...(batchfeeAccess.organisations.length?['batchfee-lite']:[]),...(samajAccess.communities.length||samajAccess.canSetup?['digital-samaj']:[]),...(bookingAccess.length?['pandit-booking']:[])]}});
     if(route==='platform'&&result.ok){const data=await result.json();data.apps=data.apps.map(app=>!app.public&&!['advocate','tournament-lite','batchfee-lite','digital-samaj','pandit-booking'].includes(app.id)?{...app,status:'Unavailable',accessible:false,description:'Organisation integration is not available for this app yet.'}:app);result=json(data);}
-   }else if(!(/^(platform\/visitors|feedback|confessions|arena-metrics|arena-editorial|satire-arena|news)(\/|$)/.test(route)||route==='support'||route==='ritual-assist/calendar'||route==='ritual-assist/observances'))fail(409,'Use organisation-scoped APIs. Other private applications are unavailable.');
+   }else if(!(/^(platform\/visitors|feedback|arena-metrics|arena-editorial|satire-arena|news)(\/|$)/.test(route)||route==='support'||route==='ritual-assist/calendar'||route==='ritual-assist/observances'))fail(409,'Use organisation-scoped APIs. Other private applications are unavailable.');
    if(result){if(request.method==='GET'&&!await repo.unchanged())throw new Conflict();return result;}
   }
   if(route==='pandit-booking'||route.startsWith('pandit-booking/'))result=await edgeBooking(context);
   else if(route==='feedback'||route.startsWith('feedback/')){
    const canModerate=!!user&&(env.ORGANISATIONS_ENABLED==='true'?(await repo.first('SELECT active FROM platform_super_admins WHERE userId=?',user.id))?.active===1:user.role==='Owner');
-   result=await feedback(request,{canModerate,read:()=>repo.setting(feedbackKey),write:next=>repo.commit([repo.settingWrite(feedbackKey,next)]),limit:()=>env.CONFESSIONS_LIMITER?.limit({key:'feedback:'+request.headers.get('CF-Connecting-IP')})||{success:false}});
+   result=await feedback(request,{canModerate,read:()=>repo.setting(feedbackKey),write:next=>repo.commit([repo.settingWrite(feedbackKey,next)]),limit:()=>env.PUBLIC_LIMITER?.limit({key:'feedback:'+request.headers.get('CF-Connecting-IP')})||{success:false}});
   }else if(route==='platform/visitors'){
  if(!['GET','POST'].includes(request.method))fail(405,'Method not allowed');
- if(request.method==='POST'&&!(await env.CONFESSIONS_LIMITER?.limit({key:'platform-visitors:'+request.headers.get('CF-Connecting-IP')}))?.success)fail(429,'Please try again later.');
+ if(request.method==='POST'&&!(await env.PUBLIC_LIMITER?.limit({key:'platform-visitors:'+request.headers.get('CF-Connecting-IP')}))?.success)fail(429,'Please try again later.');
  result=await visitors(request,{readVisitors:()=>repo.setting(visitorKey),writeVisitors:next=>repo.commit([repo.settingWrite(visitorKey,next)])});
- }else if(route==='confessions'||route.startsWith('confessions/'))result=await confessions(request,{user,read:()=>repo.setting(confessionsKey),write:next=>repo.commit([repo.settingWrite(confessionsKey,next)]),limit:()=>env.CONFESSIONS_LIMITER?.limit({key:'confessions:'+request.headers.get('CF-Connecting-IP')})||{success:false}});
+ }
   else if(route==='arena-metrics'||route.startsWith('arena-metrics/'))result=await metrics(request,{enabled:env.ARENA_ANALYTICS_ENABLED==='true',user,read:()=>repo.setting(metricsKey),write:next=>repo.commit([repo.settingWrite(metricsKey,next)]),limit:()=>env.ARENA_LIMITER?.limit({key:'metrics:'+request.headers.get('CF-Connecting-IP')})||{success:false}});
   else if(route==='arena-editorial'||route.startsWith('arena-editorial/'))result=await editorial(request,{user,read:()=>repo.setting(editorialKey),write:next=>repo.commit([repo.settingWrite(editorialKey,next),repo.audit(user.name,'Updated satire editorial library','satire-arena',{version:next.version})])});
   else if(route==='satire-arena'||route.startsWith('satire-arena/'))result=await arena(request,{...env,ARENA_DB:env.PLATFORM_DB});

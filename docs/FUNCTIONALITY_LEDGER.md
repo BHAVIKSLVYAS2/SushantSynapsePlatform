@@ -1,5 +1,18 @@
 # Chambers functionality ledger
 
+**Confessions complete removal (2026-11-06 IST):** User explicitly authorised
+removing the feature and its stored records. App/frontend/backend/CAPTCHA and
+dedicated tests removed, Node/Worker routes and static allowlist removed, public
+catalogue/artwork/translations/policies cleaned, generated catalogue/language
+assets regenerated. Old URLs have no replacement feature or removed-app page.
+Feedback/visitor limits are preserved under `PUBLIC_LIMITER` with the existing
+namespace and thresholds. Historical release records are retained as history.
+No dedicated Confessions table exists: data lives at `settings.id=confessions-v1`.
+Local database inspection found zero such settings rows. Production deletion and
+release completion will be recorded after deployment; unrelated shared tables,
+Chambers records, accounts and document data are outside the deletion scope.
+Syntax and whitespace checks pass; full regression remains deferred.
+
 **Silver / footer release live (2026-11-06 IST):** Source `8c8e884` is deployed
 as Worker `b9bb97ad-7ddd-4f8e-aab4-596376d9aa9c`. Built and deployed from an
 isolated committed archive with the existing production config and `--keep-vars`.
