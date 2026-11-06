@@ -1,5 +1,10 @@
 # Organisation licensing production cutover
 
+Vrat results cleanup (2026-11-07 IST): source `178adcb`, Worker
+`747e45f0-9680-499b-8990-452cdffc94e2`, deployed successfully. Existing production
+config and `--keep-vars`; D1/auth/organisation settings preserved. No tests/live
+browser verification; no database changes. Calendar integration remains deferred.
+
 Vrat selection dropdown (2026-11-07 IST): source `910e289`, Worker
 `f6cb5966-dcea-4be5-8dff-73e8fa497998`, deployed successfully. Existing production
 config and `--keep-vars`; D1/auth/organisation settings preserved. No tests run

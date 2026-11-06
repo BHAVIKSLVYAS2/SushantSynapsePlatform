@@ -1,5 +1,14 @@
 # Chambers functionality ledger
 
+**Vrat results cleanup deployed (2026-11-07 IST):** Source `178adcb` is live as
+Worker `747e45f0-9680-499b-8990-452cdffc94e2`. Up Next / Month View lead results;
+duplicate next-observance/navigation controls removed; exports under Download /
+Share. Google Calendar integration explicitly deferred; existing ICS remains.
+Isolated committed archive, existing production config and `--keep-vars`;
+D1/auth/organisation settings preserved. Required build/deploy succeeded. No tests
+or live browser verification run for this release. No database changes. Log:
+`.publish/vrat-results-deploy.log`.
+
 **Vrat results hierarchy simplification — local (2026-11-07 IST):** Up Next /
 Month View now starts the calculated output as a clear two-choice view switch.
 Removed duplicate Next vrat/observance card and previous/today/next/next-occurrence
