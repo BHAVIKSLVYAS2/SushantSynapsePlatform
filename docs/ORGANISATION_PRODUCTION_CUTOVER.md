@@ -1,5 +1,13 @@
 # Organisation licensing production cutover
 
+Picksy release (2026-11-06 IST): source `22455bc`, Worker
+`19f813bd-af41-477c-83db-31345159ac07`, is live. Rename/punchline, three-second
+Picksy Pulse and mobile choice controls included; `/decision-wheel` remains.
+Isolated archive, existing config and `--keep-vars`; D1/auth/organisation settings
+preserved. Build/deploy, live branding, app/navigation asset hashes and health 200
+confirmed. Local normal/reduced-motion/remove/undo/edit workflow passes; full
+regression deferred. No production database writes.
+
 Theme simplification (2026-11-06 IST): source `91414b3`, Worker
 `916fce2d-8b4c-497c-bccb-db27a11bcf3a`, is live. Only Light, Dark and Deep Black
 remain. Isolated archive, existing production config and `--keep-vars`;

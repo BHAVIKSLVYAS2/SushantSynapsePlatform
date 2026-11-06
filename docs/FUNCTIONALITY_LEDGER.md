@@ -1,5 +1,16 @@
 # Chambers functionality ledger
 
+**Picksy live (2026-11-06 IST):** Source `22455bc` is deployed as Worker
+`19f813bd-af41-477c-83db-31345159ac07`. Includes the rename, approved punchline,
+Picksy Pulse and mobile workflow changes described below. Isolated committed
+archive; existing production configuration and `--keep-vars`; no database writes.
+Build/deploy succeeded. Live page confirms Picksy/title/punchline; app JS/CSS and
+shared public navigation JS hashes match the build; health 200. Initial check
+mistakenly used the build-only bundle filename (404); corrected public
+`/shared/platform-shell.js` hash passes. Local targeted Chrome workflow passed;
+full regression and physical-device haptics remain unverified. Log:
+`.publish/picksy-deploy.log`. Previous local/pending entries are historical.
+
 **Picksy Pulse / rename release preparation (2026-11-06 IST):** Implements the
 approved Picksy name and “Can’t choose? Give it a spin.” across app/catalogue,
 navigation/related links and result sharing, keeping `/decision-wheel` and
