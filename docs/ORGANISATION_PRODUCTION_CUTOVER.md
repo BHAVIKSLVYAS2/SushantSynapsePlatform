@@ -1,5 +1,14 @@
 # Organisation licensing production cutover
 
+Ritual Assist range/mobile follow-up (2026-11-06 IST): source `ab1b7fb` is live
+as Worker `3cb7d774-2f34-4dfc-afc0-1233ffb1aaeb`. Isolated committed archive;
+existing production config and `--keep-vars`; D1/auth/organisation bindings
+preserved. Twenty-two focused Node checks and ten browser workflows pass. Live
+2/5/10-year groups and matching PNG, all three themes at three widths, four asset
+hashes, health/private API boundaries pass with no page exceptions. One stateless
+sample calculation; no migrations or saved business/account writes. Full evidence
+is recorded in the functionality ledger.
+
 News saved-edition stability follow-up (2026-11-06 IST): source `b47d627` is live
 as Worker `cddf2bfc-86e1-4e23-9ad8-c55a78d77992`, retaining the compact place
 directory. Isolated committed archive; existing production config and `--keep-vars`.

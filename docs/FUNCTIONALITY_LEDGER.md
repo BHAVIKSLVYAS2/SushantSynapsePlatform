@@ -16,7 +16,16 @@ paths, Vrat reminders, range/single-year PNG and complete PDF. Range results hav
 no overflow in Light/Dark/Gold at 320/390/1440px. Reviewed mobile image:
 `test-results/shraddha-range-mobile-gold.png`. Logs: `.publish/ritual-range-node.log`,
 `.publish/ritual-ranges-final.log`, `.publish/ritual-range-errors.log`.
-Production verification will be recorded after deployment.
+Production: source `ab1b7fb` is live as Worker
+`3cb7d774-2f34-4dfc-afc0-1233ffb1aaeb`, deployed from its isolated archive with
+the existing production config and `--keep-vars`. Dry run/deploy pass; 1,246
+public assets, unchanged Worker size (3,657.31 KiB / 783.48 KiB gzip). Live Chrome
+confirms 2/5/10 year groups, matching PNG period, nine theme/width combinations
+without overflow and zero page exceptions. Health 200; unscoped records 409;
+unauthenticated Chambers 401. Four deployed asset SHA256 hashes match the build.
+Reviewed live screenshot: `output/playwright/ritual-periods-live.png`; browser
+evidence `.publish/ritual-periods-live.log`. Production testing used one stateless
+sample calendar calculation; no migrations or saved business/account writes.
 
 **News stability follow-up live (2026-11-06 IST):** Source `b47d627` is live as
 Worker `cddf2bfc-86e1-4e23-9ad8-c55a78d77992`, from an isolated committed archive
