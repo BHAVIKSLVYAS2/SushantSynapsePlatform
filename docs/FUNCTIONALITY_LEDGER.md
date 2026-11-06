@@ -1,5 +1,13 @@
 # Chambers functionality ledger
 
+Shraddh details layout deployed (2026-11-07 IST): source `79ee6e0`, Worker
+`d5391fd7-79ba-4e06-9e92-6ec6f0d52842`. Clear Edit details action, compact
+left/right calculation details, and paired mobile Barsi/Shraddh cards are live.
+Required build and deployment succeeded from an isolated committed archive using
+production config and --keep-vars. Existing D1/auth/organisation settings retained;
+no database changes. No tests or browser verification run at user request. Log:
+`.publish/shraddh-details-deploy.log`.
+
 **Shraddh detail density and edit affordance - local (2026-11-07 IST):**
 Replaced the long inline input summary with a labelled Calculation details card:
 date/time on the left, location and death tithi on the right. Edit details has a

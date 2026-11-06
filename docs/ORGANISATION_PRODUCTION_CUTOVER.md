@@ -1,5 +1,13 @@
 # Organisation licensing production cutover
 
+Shraddh details layout deployed (2026-11-07 IST): source `79ee6e0`, Worker
+`d5391fd7-79ba-4e06-9e92-6ec6f0d52842`. Clear Edit details action, compact
+left/right calculation details, and paired mobile Barsi/Shraddh cards are live.
+Required build and deployment succeeded from an isolated committed archive using
+production config and --keep-vars. Existing D1/auth/organisation settings retained;
+no database changes. No tests or browser verification run at user request. Log:
+`.publish/shraddh-details-deploy.log`.
+
 Shraddh results cleanup deployed (2026-11-07 IST): source `7859183`, Worker
 `ceee36b3-8065-4b8b-b96d-3780be725a03`. Paired Barsi/Shraddh year cards,
 removed repeated Next in this year label and duplicate summary/actions, exports
