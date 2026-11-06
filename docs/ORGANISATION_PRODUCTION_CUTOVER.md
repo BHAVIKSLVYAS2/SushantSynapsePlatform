@@ -1,5 +1,11 @@
 # Organisation licensing production cutover
 
+Theme simplification (2026-11-06 IST): source `91414b3`, Worker
+`916fce2d-8b4c-497c-bccb-db27a11bcf3a`, is live. Only Light, Dark and Deep Black
+remain. Isolated archive, existing production config and `--keep-vars`;
+D1/auth/organisation settings preserved. Build/deploy, shared theme asset hashes
+and health 200 confirmed. No database changes; full visual/regression deferred.
+
 Improved Light release (2026-11-06 IST): source `cbc57fb`, Worker
 `39dc7099-bcb5-403d-a350-dd3aa5a12ab0`, is live. Isolated archive, existing
 production config and `--keep-vars`; D1/auth/organisation settings preserved.

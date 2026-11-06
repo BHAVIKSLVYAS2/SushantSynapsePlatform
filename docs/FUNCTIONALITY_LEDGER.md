@@ -1,5 +1,13 @@
 # Chambers functionality ledger
 
+**Simplified themes live (2026-11-06 IST):** Source `91414b3` is deployed as Worker
+`916fce2d-8b4c-497c-bccb-db27a11bcf3a`. Only Light, Dark and Deep Black remain;
+all pending theme removals below are included. Isolated committed archive,
+existing production config and `--keep-vars`; no database changes. Build/deploy
+succeeded, live shared theme JS/CSS hashes match the build and health is 200.
+Syntax/whitespace checks passed; full visual/regression checks remain deferred.
+Log: `.publish/theme-simplification-deploy.log`. Supersedes local status below.
+
 **Final theme simplification — local implementation (2026-11-06 IST):** Removed
 Silver and Black & Diamond picker options, labels, swatches and dedicated styles.
 Only Light, Dark and Deep Black remain. Deep Black keeps its shared token mapping
