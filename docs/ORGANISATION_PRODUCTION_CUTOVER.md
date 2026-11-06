@@ -1,5 +1,13 @@
 # Organisation licensing production cutover
 
+Black & Gold release (2026-11-06 IST): committed source `2e86864` is live as
+Worker `0e9e9f3d-d793-445f-b8a7-8b6fd20bc9d6` from an isolated archive, with the
+existing production config and `--keep-vars`. D1/auth/organisation/rate-limit
+bindings are preserved; no migration or business/account writes. Focused local
+checks and live picker/persistence/colour-restoration checks pass. Live theme
+asset hashes match; health is 200 and unscoped records remain 409. See the ledger
+for evidence and broader-suite limits.
+
 Calendar-first / Take a Break release (2026-11-06 IST): Worker
 `a961949f-5766-4ce7-b74a-612461e3613b` is live from isolated base `75aa941` plus
 11 allowlisted source overlays. The existing organisation-enabled production

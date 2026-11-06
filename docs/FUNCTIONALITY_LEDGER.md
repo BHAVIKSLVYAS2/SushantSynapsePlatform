@@ -1,6 +1,25 @@
 # Chambers functionality ledger
 
-**Black & Gold theme picker (2026-11-06 IST; implementation, release pending):**
+**Black & Gold production release (2026-11-06 IST):** Source commit `2e86864`
+is live as Worker `0e9e9f3d-d793-445f-b8a7-8b6fd20bc9d6` at
+`https://apps.sushantsynapse.com`, deployed from an isolated committed archive.
+The exact production-config dry run and deployment passed with `--keep-vars`;
+45 built assets updated. Existing organisation/D1/auth/rate-limit bindings were
+retained. No migrations, bootstrap or business/account writes. Unrelated pending
+canonical/footer/AdSense/company edits were excluded from commit and release.
+
+Live Playwright CLI/Chrome checks pass the native theme popup, opt-in Gold rendering,
+reload and six-route persistence (Ritual, Take a Break, Moment cards/certificates,
+Fund Lens and Timetable), with no horizontal overflow at 390/1440px. Switching
+back restores the same Light body colours (`rgb(243,247,250)` / `rgb(20,45,61)`)
+and Dark colours (`rgb(9,22,37)` / `rgb(241,246,248)`). Both live theme JS/CSS
+SHA-256 hashes match the exact committed build. `/healthz` is 200 and unscoped
+records remain 409. Zero page errors; external analytics/advertising requests and
+all writes were deliberately blocked in the audit browser. Screenshot:
+`output/playwright/gold-live-home.png`. Five focused local Chrome workflows and
+15 Node checks pass; broader-suite limits remain recorded in the baseline below.
+
+**Black & Gold theme picker (2026-11-06 IST; implementation baseline):**
 The existing header theme control now opens an accessible native popup with
 Light, Dark, Black & Gold and System. Escape/outside click closes it, focus
 returns to the trigger, and arrow/Home/End keys move through the options.
