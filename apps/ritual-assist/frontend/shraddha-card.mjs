@@ -1,4 +1,5 @@
 import {downloadBlob} from '/shared/download.mjs';
+import {remembranceYears,remembranceRangeLabel} from './remembrance-range.mjs';
 import {drawExportBrand} from '/shared/export-brand.mjs';
 import {occasionTitle} from './calendar-export.mjs';
 import {displayedMonth,monthNames,tithiLabel} from './panchang.mjs';
@@ -92,11 +93,11 @@ function defaultYear(calendar){
 export function renderShraddhaCard(canvas,calendar,language='en',selectedYear,theme='ivory',scope='year'){
  if(!['en','hi'].includes(language)||!themes[theme]||!['year','first-year'].includes(scope))throw Error('Unsupported image options.');
  if(!Array.isArray(calendar?.yearly)||calendar.yearly.length!==11)throw Error('The complete 10-year calendar is not available.');
- const year=calendar.yearly.find(item=>item.year===Number(selectedYear??defaultYear(calendar)));if(!year)throw Error('The selected observance year is not available.');
+ const years=remembranceYears(calendar,selectedYear??defaultYear(calendar)),year=years[0],period=remembranceRangeLabel(calendar,selectedYear??defaultYear(calendar));if(!year)throw Error('The selected observance year is not available.');
  const ctx=canvas.getContext('2d');if(!ctx)throw Error('Image card rendering is unavailable in this browser.');
  const hi=language==='hi',labels=copy[language],tone=themes[theme],width=1080,margin=56,inner=width-margin*2,bodyWidth=inner-48;
  const title=scope==='first-year'?(hi?'पहला वर्ष और प्रारम्भिक संस्कार':'First year & early rites'):labels.title;
- const source=scope==='first-year'?[...(calendar.early||[]),...(calendar.monthly||[]),...(calendar.annual?[calendar.annual]:[]),...(calendar.pitru?[calendar.pitru]:[])]:cardRows(year).flat();
+ const source=scope==='first-year'?[...(calendar.early||[]),...(calendar.monthly||[]),...(calendar.annual?[calendar.annual]:[]),...(calendar.pitru?[calendar.pitru]:[])]:years.flatMap(item=>cardRows(item).flat());
  const rows=source.slice().sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999'));
  const next=scope==='year'?rows.find(row=>row.date&&row.date>=calendar.planningFrom):null;
  const layouts=(rows.length?rows:[null]).map(row=>{
@@ -115,7 +116,7 @@ export function renderShraddhaCard(canvas,calendar,language='en',selectedYear,th
  roundedRect(ctx,20,20,width-40,height-40,24);ctx.strokeStyle=tone.line;ctx.lineWidth=2;ctx.stroke();
  roundedRect(ctx,margin,44,inner,header-68,18);ctx.fillStyle=tone.night;ctx.fill();
  writeText(ctx,'RITUAL ASSIST',margin+24,86,{size:22,color:'#e1c38b',weight:600});
- writeText(ctx,scope==='year'?String(year.year):(hi?'पहला वर्ष':'FIRST YEAR'),width-margin-24,86,{size:27,color:'#e1c38b',weight:600,align:'right'});
+ writeText(ctx,scope==='year'?period:(hi?'पहला वर्ष':'FIRST YEAR'),width-margin-24,86,{size:27,color:'#e1c38b',weight:600,align:'right'});
  writeText(ctx,title,margin+24,145,{size:42,color:tone.onHeader,weight:600});
  writeText(ctx,scope==='year'?labels.subtitle:(hi?'मृत्यु की तारीख से: ':'From death: ')+dateLabel(calendar.data.date,hi?'hi-IN':'en-IN'),margin+24,188,{size:26,color:tone.onHeader});
  locations.forEach((line,i)=>writeText(ctx,line,margin+24,234+i*36,{size:26,color:tone.onHeader}));
@@ -131,7 +132,7 @@ export function renderShraddhaCard(canvas,calendar,language='en',selectedYear,th
  note.forEach((line,i)=>writeText(ctx,line,width/2,height-footer+48+i*32,{size:23,color:tone.muted,align:'center'}));
  ctx.save();ctx.translate(0,-26);drawExportBrand(ctx,{width,height,ink:tone.ink,size:25});ctx.restore();
  const accessible=rows.map(row=>occasionTitle(row,language)+' · '+(row.date?displayDate(row,language,labels):labels.unresolved)+' · '+scheduleLines(row,language,calendar,labels,scope).join(' · ')).join(' | ');
- canvas.setAttribute('role','img');canvas.setAttribute('aria-label',`Sushant Synapse · Ritual Assist · ${title} · ${scope==='year'?year.year:calendar.data.date} · ${calendar.data.location.name} · ${accessible}`);
+ canvas.setAttribute('role','img');canvas.setAttribute('aria-label',`Sushant Synapse · Ritual Assist · ${title} · ${scope==='year'?period:calendar.data.date} · ${calendar.data.location.name} · ${accessible}`);
  return {width,height};
 }
 
@@ -156,6 +157,7 @@ export function mountShraddhaCard(container,calendar,language='en',activeYear,ac
  const yearSelect=document.createElement('select');
  yearSelect.id='shraddha-year';
  yearSelect.setAttribute('aria-label',labels.year);
+ for(const count of [2,5,10])yearSelect.add(new Option(language==='hi'?`अगले ${count} वर्ष`:`Next ${count} years`,`next-${count}`));
  for(const year of calendar.yearly){const option=document.createElement('option');option.value=String(year.year);option.textContent=String(year.year);yearSelect.append(option);}
  yearSelect.value=String(initialYear);
  yearLabel.append(yearSelect);if(activeYear!==undefined)yearLabel.hidden=true;
@@ -172,18 +174,19 @@ export function mountShraddhaCard(container,calendar,language='en',activeYear,ac
  canvas.className='shraddha-share-canvas';
  const render=()=>{
   const first=scope==='first-year',hi=language==='hi';
-  heading.textContent=first?(hi?'पहला वर्ष और प्रारम्भिक संस्कार':'First year & early rites'):labels.title+' · '+yearSelect.value;
-  help.textContent=hi?'PNG ऊपर चुनी हुई सूची के अनुसार बनता है।':'The PNG follows the calendar view selected above.';
+  heading.textContent=first?(hi?'पहला वर्ष और प्रारम्भिक संस्कार':'First year & early rites'):labels.title+' · '+remembranceRangeLabel(calendar,yearSelect.value);
+  help.textContent=hi?'PNG चुनी हुई अवधि के अनुसार बनता है। पूरा PDF सभी वर्षों को रखता है।':'The PNG follows your selected period. The complete PDF includes all years.';
   summary.textContent=hi?'कार्ड का पूर्वावलोकन':'Preview card';
   const buttons=panel.querySelectorAll('.shraddha-share-actions button');
-  if(buttons[0])buttons[0].textContent=first?(hi?'पहले वर्ष का PNG डाउनलोड करें':'Download first-year PNG'):labels.download;
-  if(buttons[1])buttons[1].textContent=first?(hi?'पहले वर्ष का PNG साझा करें':'Share first-year PNG'):labels.share;
+  const multiple=yearSelect.value.startsWith('next-');
+  if(buttons[0])buttons[0].textContent=first?(hi?'पहले वर्ष का PNG डाउनलोड करें':'Download first-year PNG'):multiple?(hi?'चुनी अवधि का PNG डाउनलोड करें':'Download period PNG'):labels.download;
+  if(buttons[1])buttons[1].textContent=first?(hi?'पहले वर्ष का PNG साझा करें':'Share first-year PNG'):multiple?(hi?'चुनी अवधि का PNG साझा करें':'Share period PNG'):labels.share;
   return renderShraddhaCard(canvas,calendar,language,yearSelect.value,themeSelect.value,scope);
  };
  panel.updateScope=(value,year)=>{scope=value;if(year!==undefined)yearSelect.value=String(year);render();};
  render();
  document.fonts?.ready.then(()=>{if(canvas.isConnected)render();});
- yearSelect.addEventListener('change',()=>{selectedYears.set(calendar,Number(yearSelect.value));render();preview.open=true;status.textContent='';});
+ yearSelect.addEventListener('change',()=>{selectedYears.set(calendar,yearSelect.value);render();preview.open=true;status.textContent='';});
  themeSelect.addEventListener('change',()=>{selectedThemes.set(calendar,themeSelect.value);render();preview.open=true;status.textContent='';});
  preview.append(summary,canvas);
  const status=document.createElement('p');

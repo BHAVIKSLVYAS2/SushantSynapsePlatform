@@ -1,4 +1,5 @@
 import {localDate,tithiLabel,calendarRows,calendarText} from './panchang.mjs';
+import {remembranceYears,remembranceRangeLabel} from './remembrance-range.mjs';
 import {downloadBlob} from '/shared/download.mjs';
 import {occasionTitle} from './calendar-export.mjs';
 import {mountCalendarTools} from './calendar-tools.mjs';
@@ -19,6 +20,7 @@ export function mountDashboard(container,result,language){
  inputs.querySelector('summary').textContent=`${format(result.data.date)} · ${result.data.time} IST · ${result.data.location.name} — ${copy('Edit details','विवरण बदलें')}${saving&&saving!=='ready'?copy(' · Browser fields not saved',' · फ़ील्ड सहेजे नहीं गए'):''}`;inputs.open=false;
  container.append(el('p',`${copy('Death tithi','मृत्यु तिथि')}: ${result.tithi?tithiLabel(result.tithi,language):copy('Confirmation required','पुष्टि आवश्यक')}`,'remembrance-summary'));
  const upcoming=calendarRows(result).filter(row=>['annual','pitru'].includes(row.kind)&&row.date&&row.date>=today).sort((a,b)=>a.date.localeCompare(b.date));
+ if(upcoming[0]){const next=el('p',undefined,'remembrance-next');next.append(el('strong',copy('Next remembrance','अगला स्मरण')),document.createTextNode(` · ${occasionTitle(upcoming[0],language)} · ${format(upcoming[0].date)}`));container.append(next);}
  const warnings={
  'time-required':copy('Enter the exact time or a priest-confirmed death tithi.','सही समय या पुरोहित द्वारा निश्चित मृत्यु तिथि भरें।'),
  'confirm-boundary-tithi':copy('Death time is near a tithi change. Confirm the death tithi.','मृत्यु समय तिथि सीमा के पास है। मृत्यु तिथि की पुष्टि करें।'),
@@ -50,19 +52,20 @@ export function mountDashboard(container,result,language){
  for(const row of firstRows)panels[0].append(entry(row));
  if(result.pitru){panels[0].append(el('h4',copy('First eligible Pitru Paksha (may fall after the first year)','पहला लागू पितृ पक्ष (पहले वर्ष के बाद हो सकता है)')),entry(result.pitru));}
  const future=panels[1],years=el('label',copy('Observance year','अनुष्ठान का वर्ष')),range=el('select');range.id='remembrance-year';
+ for(const count of [2,5,10])range.add(new Option(copy(`Next ${count} years`,`अगले ${count} वर्ष`),`next-${count}`));
  for(const year of result.yearly||[])range.add(new Option(String(year.year),String(year.year)));
  range.value=String(state.year);years.append(range);future.append(years);
- const schedule=el('div',undefined,'remembrance-years');future.append(schedule);
- function drawYears(all=false){schedule.replaceChildren();for(const year of result.yearly||[]){
-  if(!all&&year.year!==state.year)continue;
-  const group=el('section',undefined,'remembrance-year');if(all)group.append(el('h4',String(year.year)));
+ const rangeHelp=el('p',undefined,'fine');rangeHelp.id='remembrance-range-help';range.setAttribute('aria-describedby',rangeHelp.id);
+ const schedule=el('div',undefined,'remembrance-years');schedule.setAttribute('aria-live','polite');future.append(rangeHelp,schedule);
+ function drawYears(all=false){schedule.replaceChildren();const selected=all?result.yearly:remembranceYears(result,state.year);rangeHelp.textContent=copy(`Showing ${remembranceRangeLabel(result,state.year)}. Ranges start in ${result.yearly[0].year}.`,`दिखाए गए वर्ष: ${remembranceRangeLabel(result,state.year)}। अवधि ${result.yearly[0].year} से शुरू होती है।`);for(const year of selected){
+  const group=el('section',undefined,'remembrance-year');if(all||selected.length>1)group.append(el('h4',String(year.year)));
   const rows=[...(year.annual||[]),...(year.pitru||[])].sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999'));
   const next=rows.find(row=>row.date&&row.date>=today);
   for(const row of rows){const item=entry(row);if(row===next){item.classList.add('is-next');item.querySelector('h4').append(el('span',copy('Next in this year','इस वर्ष की अगली तिथि'),'next-label'));}else if(row.date&&row.date<today)item.querySelector('h4').append(el('span',copy('Past','बीती तिथि'),'past-label'));group.append(item);}
   if(!rows.length)group.append(el('p',copy('Not yet applicable / confirmation required.','अभी लागू नहीं / पुष्टि आवश्यक।')));
   schedule.append(group);
  }}
- range.onchange=()=>{state.year=Number(range.value);drawYears();const shareYear=container.querySelector('#shraddha-year');if(shareYear){shareYear.value=range.value;shareYear.dispatchEvent(new Event('change'));}};
+ range.onchange=()=>{state.year=range.value;drawYears();container.querySelector('.shraddha-share')?.updateScope(state.tab===0?'first-year':'year',state.year);const preview=container.querySelector('.shraddha-share-preview');if(preview)preview.open=true;};
  drawYears();select(state.tab);
  const exports=el('details',undefined,'remembrance-downloads');exports.open=exportsOpen;exports.append(el('summary',copy('Download / share','डाउनलोड / साझा करें')));container.append(exports);
  exports.append(button(copy('Print / save PDF','प्रिन्ट / PDF सहेजें'),()=>{delete document.body.dataset.printMode;window.print();}),button(copy('Download calendar','कैलेंडर डाउनलोड करें'),()=>downloadBlob(new Blob([calendarText(result,language)],{type:'text/plain;charset=utf-8'}),'ritual-assist-shraddha-barsi-calendar.txt')));mountCalendarTools(exports,result,language);mountShraddhaCard(exports,result,language,state.year,state.tab===0?'first-year':'year');

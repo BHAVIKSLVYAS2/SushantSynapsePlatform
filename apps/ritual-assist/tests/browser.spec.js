@@ -319,6 +319,17 @@ test('Shraddha/Barsi selects a year for compact PNG sharing and retains the comp
  await page.locator('.remembrance-downloads>summary').click();
  const canvas=page.locator('.shraddha-share-canvas');
  await page.getByRole('tab',{name:'Upcoming / by year',exact:true}).click();
+ for(const count of [2,5,10]){
+  await page.locator('#remembrance-year').selectOption(`next-${count}`);
+  await expect(page.locator('#remembrance-panel-1 .remembrance-year')).toHaveCount(count);
+  const headings=await page.locator('#remembrance-panel-1 .remembrance-year>h4').allTextContents();
+  expect(Number(headings.at(-1))-Number(headings[0])).toBe(count-1);
+  await expect(canvas).toHaveAttribute('aria-label',new RegExp(`${headings[0]}–${headings.at(-1)}`));
+  expect(await canvas.evaluate(c=>c.height)).toBeLessThan(16000);
+ }
+ const rangeDownload=page.waitForEvent('download');await page.getByRole('button',{name:'Download period PNG',exact:true}).click();expect((await rangeDownload).suggestedFilename()).toBe('ritual-assist-shraddha-barsi-next-10.png');
+ for(const theme of ['light','dark','gold']){await require('../../../tests/browser-theme').setTheme(page,theme);for(const width of [320,390,1440]){await page.setViewportSize({width,height:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}}
+ await page.setViewportSize({width:390,height:844});await page.locator('#remembrance-year').scrollIntoViewIfNeeded();await page.screenshot({path:'test-results/shraddha-range-mobile-gold.png'});
  await page.locator('#remembrance-year').selectOption('2027');
  await expect(canvas).toHaveAttribute('aria-label',/· 2027 ·/);
  await expect(canvas).not.toHaveAttribute('aria-label',/2026/);

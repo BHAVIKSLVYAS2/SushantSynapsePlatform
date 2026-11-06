@@ -1,5 +1,23 @@
 # Chambers functionality ledger
 
+**Ritual Assist period selection (2026-11-06 IST):** Shraddh's observance-year
+selector now offers Next 2 / 5 / 10 years alongside individual years. Ranges
+start at the existing calculation's planning year (shown beside the control),
+use already calculated dates, show year headings, and feed the same period to
+PNG preview/download/share. Individual-year and first-year images, complete
+calendar text/PDF and reminder admission rules remain intact. A next-remembrance
+summary brings the nearest date above the result tabs. Mobile period controls,
+result tabs and download disclosure use 48px targets and existing theme tokens.
+Vrat / Shraddh / Checklist navigation and the golden calendar artwork remain.
+Verification: 22 focused Node API/calendar/baseline/static checks and ten browser
+workflows pass, covering all three sections, checklist edits, input restoration,
+unavailable storage, autocomplete keyboard use, both calendar error/cancellation
+paths, Vrat reminders, range/single-year PNG and complete PDF. Range results have
+no overflow in Light/Dark/Gold at 320/390/1440px. Reviewed mobile image:
+`test-results/shraddha-range-mobile-gold.png`. Logs: `.publish/ritual-range-node.log`,
+`.publish/ritual-ranges-final.log`, `.publish/ritual-range-errors.log`.
+Production verification will be recorded after deployment.
+
 **News stability follow-up live (2026-11-06 IST):** Source `b47d627` is live as
 Worker `cddf2bfc-86e1-4e23-9ad8-c55a78d77992`, from an isolated committed archive
 with the existing production config and `--keep-vars`. Dry run/deploy pass:

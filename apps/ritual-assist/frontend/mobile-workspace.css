@@ -1,4 +1,9 @@
 /* One task hierarchy across all three screens. Themes remain token-driven. */
+body[data-ui-app=ritual-assist] #remembrance-year{width:100%;min-height:48px;font-size:16px;margin-top:6px}
+body[data-ui-app=ritual-assist] .remembrance-year>h4{margin:16px 0 8px;padding:8px 12px;border-left:3px solid var(--accent);background:var(--soft);font-size:16px}
+body[data-ui-app=ritual-assist] .remembrance-tabs button{min-height:48px;white-space:normal;line-height:1.4}
+body[data-ui-app=ritual-assist] .remembrance-downloads>summary{min-height:48px;align-content:center;cursor:pointer}
+body[data-ui-app=ritual-assist] .remembrance-next{padding:12px;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;background:var(--soft);font-size:14px;line-height:1.6}
 body[data-ui-app=ritual-assist] main>.intro,body.ritual-landing .calendar-launch{display:none}
 body[data-ui-app=ritual-assist] .ritual-task-header{display:flex;align-items:center;gap:12px;padding:16px 0 12px;margin:0;min-height:0;background:none;border:0;box-shadow:none}
 body[data-ui-app=ritual-assist] .ritual-calendar-icon{display:block;width:76px;height:76px;object-fit:contain;flex:0 0 76px;filter:none}
