@@ -1,5 +1,16 @@
 # Chambers functionality ledger
 
+Photo Resize minimal design deployed (2026-11-08 IST): source `0779623`, Worker
+`9434f4d0-a478-4fb6-9fe7-c313eea1067a`. Isolated committed archive build/deploy
+passed with --keep-vars; existing D1/auth/organisation settings retained. Build
+exported 1,247 public assets. Live mobile Chrome verified HTTP 200, collapsed
+More options, initially hidden results, no horizontal overflow, successful actual
+JPEG download and zero page errors. API writes and advertising blocked during
+verification. Prior release checks: 10 unit/catalogue and 12 focused Chrome cases
+pass. No migration, business-data changes or wider platform suite. Evidence:
+`.publish/photo-minimal-deploy.log`, `.publish/photo-minimal-live.log`,
+`.publish/photo-minimal-live-mobile.png`. No repository push.
+
 Photo Resize design preview (2026-11-08 IST): captured local desktop and 390px
 mobile entry screens with isolated temporary SQLite data; mobile image reviewed.
 No application code or deployment changes. Previews:
