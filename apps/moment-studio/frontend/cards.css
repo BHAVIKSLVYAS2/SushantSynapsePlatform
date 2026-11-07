@@ -33,25 +33,25 @@ body#moment-cards[data-ui-app] #editor .panel{padding:0 0 18px;margin:0 0 18px;b
 #moment-cards h2{font-size:14px;line-height:1.4;letter-spacing:0;margin:0 0 12px}
 #moment-cards h2 b{font-size:10px;color:var(--ui-accent);background:var(--ui-soft);padding:6px;border-radius:6px;margin-right:8px}
 #moment-cards h3{font-size:12px;line-height:1.4;margin:18px 0 0}
-#moment-cards label,#moment-cards legend{display:block;font-size:12px;font-weight:600}
-#moment-cards label{margin-top:12px}
-#moment-cards label small{color:var(--ui-muted);font-weight:400}
-#moment-cards :is(input,select,textarea,button){font:inherit;max-width:100%}
-#moment-cards :is(input,select,textarea){display:block;width:100%;min-width:0;min-height:40px;margin:6px 0 0;padding:9px 10px;border:1px solid var(--ui-edge);border-radius:7px;background:var(--ui-solid);color:var(--ui-ink);font-size:13px}
+#moment-cards main label,#moment-cards main legend{display:block;font-size:12px;font-weight:600}
+#moment-cards main label{margin-top:12px}
+#moment-cards main label small{color:var(--ui-muted);font-weight:400}
+#moment-cards main :is(input,select,textarea,button){font:inherit;max-width:100%}
+#moment-cards main :is(input,select,textarea){display:block;width:100%;min-width:0;min-height:40px;margin:6px 0 0;padding:9px 10px;border:1px solid var(--ui-edge);border-radius:7px;background:var(--ui-solid);color:var(--ui-ink);font-size:13px}
 #moment-cards textarea{resize:vertical}
 #moment-cards input[type=file]{font-size:11px}
 #moment-cards .pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
 #moment-cards fieldset{border:0;margin:8px 0 0;padding:0;min-width:0}
-#moment-cards legend{margin-bottom:8px}
+#moment-cards main legend{margin-bottom:8px}
 #moment-cards .designs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
 body#moment-cards[data-ui-app] .design-choice{display:block;min-width:0;margin:0;padding:5px;border:1px solid var(--ui-edge);border-radius:8px;background:var(--ui-solid);font-size:10px;cursor:pointer}
 body#moment-cards[data-ui-app] .design-choice:has(input:checked){padding:4px;border:2px solid var(--ui-accent);background:var(--ui-soft)}
 #moment-cards .design-choice canvas{display:block;width:100%;height:auto;margin-bottom:3px;border-radius:4px;aspect-ratio:1;box-shadow:none}
 #moment-cards .design-choice input{display:inline;min-height:0;width:12px;height:12px;margin:3px;padding:0;accent-color:var(--ui-accent)}
-#moment-cards button{min-height:44px;padding:10px 14px;border:1px solid var(--ui-edge);border-radius:8px;background:var(--ui-solid);color:var(--ui-ink);font-size:12px;font-weight:600;cursor:pointer}
-#moment-cards button:hover{border-color:var(--ui-accent)}
-#moment-cards button:disabled{opacity:.5;cursor:default}
-#moment-cards button.primary{background:var(--ui-accent);color:var(--ui-on-accent);border-color:var(--ui-accent)}
+#moment-cards main button{min-height:44px;padding:10px 14px;border:1px solid var(--ui-edge);border-radius:8px;background:var(--ui-solid);color:var(--ui-ink);font-size:12px;font-weight:600;cursor:pointer}
+#moment-cards main button:hover{border-color:var(--ui-accent)}
+#moment-cards main button:disabled{opacity:.5;cursor:default}
+#moment-cards main button.primary{background:var(--ui-accent);color:var(--ui-on-accent);border-color:var(--ui-accent)}
 #moment-cards .text-button{min-height:44px;padding:8px 0;border:0;background:none;box-shadow:none;color:var(--ui-accent);font-size:11px}
 #moment-cards .message-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
 #moment-cards .message-heading label{margin:0}
@@ -59,11 +59,11 @@ body#moment-cards[data-ui-app] .design-choice:has(input:checked){padding:4px;bor
 #moment-cards .message-heading button{text-align:right;line-height:1.3}
 #moment-cards .message-heading+textarea{margin-top:0}
 #moment-cards .hint,#moment-cards .privacy{color:var(--ui-muted);font-size:11px;line-height:1.65;margin:6px 0 12px}
-#moment-cards details{border-top:1px solid var(--ui-edge);margin-top:18px;padding-top:14px}
-#moment-cards summary{cursor:pointer;font-size:12px;font-weight:600;min-height:44px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+#moment-cards main details{border-top:1px solid var(--ui-edge);margin-top:18px;padding-top:14px}
+#moment-cards main summary{cursor:pointer;font-size:12px;font-weight:600;min-height:44px;display:flex;align-items:center;justify-content:space-between;gap:10px}
 #moment-cards main details>summary::before{content:'+';font-size:14px;font-weight:400}
 #moment-cards main details[open]>summary::before{content:'−'}
-#moment-cards summary span{color:var(--ui-muted);font-size:10px;font-weight:400;margin-left:auto}
+#moment-cards main summary span{color:var(--ui-muted);font-size:10px;font-weight:400;margin-left:auto}
 #moment-cards #design-options{margin:4px 0 0;padding:0;border:0}
 #moment-cards #design-options summary{justify-content:start}
 #moment-cards #message-help{margin:0;padding:0;border:0}
