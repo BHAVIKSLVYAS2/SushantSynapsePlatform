@@ -1,5 +1,18 @@
 # Chambers functionality ledger
 
+RozHisab committed release verification (2026-11-08 IST): implementation `089fa35`.
+All 632 distinct Node/API checks verified across the full run (630 passing) and
+focused reruns: 15/15 Cloudflare checks resolve the concurrent-build asset-count
+failure; 15/15 Take a Break/RozHisab checks resolve the old fourteen-app expectation
+and explicitly verify RozHisab as the fifteenth public app. Five source Chrome
+workflows pass; isolated committed production-bundle Chrome also passes service
+creation, absence, persistence, offline reload and offline edits, with zero page
+errors or failed asset requests. Isolated production build exports 1,270 assets.
+No outstanding tested runtime failure. Deployment now in progress with --keep-vars;
+no production success or live verification claimed until the release entry below.
+Evidence: `.publish/rozhisab-cloudflare-rerun.log`, `.publish/rozhisab-final-unit.log`,
+`.publish/rozhisab-release-build.log`, `.publish/rozhisab-built-browser.log`.
+
 RozHisab implementation (2026-11-08 IST; release verification in progress): new
 public `/rozhisab` app with four sections, automatic scheduled deliveries through
 today, fractional edits, effective-dated rates/activation, paid-leave salary rules,
