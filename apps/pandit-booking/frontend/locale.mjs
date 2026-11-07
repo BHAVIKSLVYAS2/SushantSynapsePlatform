@@ -2,7 +2,6 @@ import {copy,text} from './copy.mjs';
 
 let language='en',registered=false,scheduled=false;
 const originals=new WeakMap(),attributes=new WeakMap();
-export const checklistLine=item=>`${text(item.responsibility,language)} | ${text(item.done?'done':'pending',language)} | ${item.text}`;
 export const canonical=value=>{
  for(const key of ['Customer','Pandit','pending','done'])if(key===value||copy[key].includes(value))return key;
  return value;

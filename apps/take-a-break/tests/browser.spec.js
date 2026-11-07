@@ -3,6 +3,8 @@ const {test,expect}=require('../../../tests/browser-fixture.js'),{spawn}=require
 test('compact options keep difficulty and restart off the board layout',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto(base+'/take-a-break?game=24&level=challenge');
+ await expect(page.locator('.platform-language>summary')).toBeVisible();
+ expect(await page.locator('.platform-language>summary').evaluate(el=>getComputedStyle(el,'::before').content)).toBe('none');
  for(const width of [320,390,768,1440])for(const theme of ['light','dark','deep']){
   await page.setViewportSize({width,height:900});await setTheme(page,theme);
   const before=await page.locator('#numbers').boundingBox();

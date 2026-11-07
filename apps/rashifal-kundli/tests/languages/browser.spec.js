@@ -31,7 +31,7 @@ test('one three-option language preference covers every production page, navigat
   }
   await page.reload();await expect(page.locator('html')).toHaveAttribute('lang',language);
  }
- expect(errors).toEqual([]);expect(requests.every(r=>r.method()==='GET'&&r.url().startsWith(origin)&&!new URL(r.url()).search)).toBe(true);
+ expect(errors).toEqual([]);expect(requests.every(r=>{const u=new URL(r.url());return r.method()==='GET'&&u.origin===origin&&(!u.search||(u.pathname.endsWith('/shared/theme-picker.css')&&u.search==='?v=20261106-three-theme'));})).toBe(true);
  expect(await page.evaluate(()=>Object.keys(localStorage))).toEqual(['synapse-language']);expect(await page.evaluate(()=>sessionStorage.length)).toBe(0);
 });
 for(const language of ['hi','gu'])test(language+' Kundli details, advanced factors, warnings and offline export use native text without changing numbers',async({page})=>{

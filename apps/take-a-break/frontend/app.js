@@ -2,7 +2,7 @@ const confirmLocalized=message=>window.confirm(window.SynapseLanguage?.text(mess
 import {createNavigation} from '/shared/navigation.mjs';
 import {createBreakCelebration} from './celebration.mjs';
 import {istDate} from '/daily-spark/engine.mjs';
-import {version,validDay,codePuzzle,codeVersion,scoreCode,memoryGame,memorySymbols,turnMemory,closeMemoryPair,lightsLevel,toggleLights,solveLights,parseChoices,faceOff,chooseFace,shuffle} from './engine.mjs';
+import {version,validDay,codePuzzle,codeVersion,scoreCode,memoryGame,memorySymbols,turnMemory,closeMemoryPair,lightsLevel,toggleLights,solveLights,parseChoices,faceOff,chooseFace} from './engine.mjs';
 const $=s=>document.querySelector(s);
 $('#theme').outerHTML=SynapseTheme.control('id="theme"');function theme(){document.documentElement.dataset.theme=SynapseTheme.read();}$('#theme').addEventListener('change',theme);theme();
 const params=new URLSearchParams(location.search),today=istDate(),day=validDay(params.get('day'),today)&&(!params.get('v')||params.get('v')===version)?params.get('day'):today;

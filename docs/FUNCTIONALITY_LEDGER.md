@@ -1,5 +1,48 @@
 # Chambers functionality ledger
 
+Confirmed dead-code cleanup (2026-11-08 IST; release verification): removed the
+eight audited source targets, totalling 6,998 authored bytes before the pending
+Take a Break interface refinements. Includes retired filter/Surprise/featured-art
+CSS, unused controller import/category marker, obsolete disclosure rules, retired
+Ritual text-sharing copy and unused Pandit/certificate/Ritvayam helper metadata.
+Preserved compatibility exports, operational tools, live registry URLs and data.
+Take a Break language symbol and Options styling fixes are included.
+All 623 distinct Node/API checks verified across the full run (608 passing,
+15 blocked by generated-language-file write permissions) and the successful
+15/15 Cloudflare rerun with required filesystem access. Organisation-enabled build
+exports 1,247 assets. Take a Break/Daily Spark Chrome passes 21/21; certificate
+export/disclosure and Ritual PNG/PDF checks pass. Ritvayam language regression
+passes after allowing only the existing same-origin theme-picker CSS version query
+in its network assertion; legacy language migration also passes. Pandit full
+fixture verification and production deployment remain pending at this checkpoint.
+Evidence: `.publish/dead-cleanup-node.log`, `.publish/dead-cleanup-cloudflare-rerun.log`,
+`.publish/dead-cleanup-games.log`, `.publish/dead-cleanup-tools.log`,
+`.publish/dead-cleanup-language-final.log`. No production/data change at this point.
+
+Repository-wide dead-code detection (2026-11-08 IST; detection only): inventoried
+1,888 tracked files and screened sources across all 27 app directories, packages,
+server and infrastructure. Manually confirmed first cleanup targets in Take a Break
+(retired component CSS and unused import), Ritual checklist-sharing copy, Pandit
+locale, certificate template metadata and Ritvayam language metadata. Explicitly
+retained tested compatibility exports, public compatibility URLs, extensionless
+Node imports, generated/vendor code and operational entry points. Findings,
+screening limits and post-removal checks: `docs/DEAD_CODE_DETECTION_2026-11-08.md`.
+No application removal, tests/build, commit, deployment or production/data access
+in this detection pass; pending Take a Break interface fixes preserved.
+
+Take a Break language/Options refinement (2026-11-08 IST; local): restricted app
+summary chevrons to main content, removing the unwanted symbol from the shared
+language control. Options uses a consistent CSS chevron, selected trigger state,
+opaque token-based panel, compact action rows and explicit hover/focus styling.
+Existing native popover lifecycle and game handlers unchanged. Two focused Chrome
+workflows pass (compact options and Lights Out); final compact-options rerun passes
+with a regression assertion for absent language-summary pseudo content. Includes
+320/390/768/1440px Light/Dark/Deep panel bounds, stable board geometry, Escape/focus,
+outside click, difficulty cancellation and restart. Direct local Chrome confirms
+the language pseudo content is none; opaque mobile Deep panel screenshot reviewed:
+`output/playwright/break-options-open.png`. Whitespace checks pass. No full suite,
+build, commit or deployment; no API/schema/business-data changes.
+
 Photo Resize minimal design deployed (2026-11-08 IST): source `0779623`, Worker
 `9434f4d0-a478-4fb6-9fe7-c313eea1067a`. Isolated committed archive build/deploy
 passed with --keep-vars; existing D1/auth/organisation settings retained. Build

@@ -10,7 +10,6 @@ export function donationAmount(value){
 }
 export const templates=['Laurel','Nocturne','Summit','Jubilee','Fun Card'];
 export const templateNotes={Laurel:'Ceremonial · laurel seal',Nocturne:'Gala · midnight laurel seal',Summit:'Modern · architectural','Fun Card':'Personal · playful keepsake',Jubilee:'Celebration · bold graphic'};
-export const playfulTemplates=['Jubilee','Fun Card'];
 export const accentTemplates=['Summit'];
 export const disclaimer='Digitally generated; not independently verified. Issuer is responsible for content. Sushant Synapse provides the tool only.';
 export const accents={blue:'#234560',teal:'#216d68',gold:'#82652e',plum:'#68405e',digital:'#6335cf'};
