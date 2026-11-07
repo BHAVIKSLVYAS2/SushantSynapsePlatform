@@ -1,5 +1,27 @@
 # Chambers functionality ledger
 
+RozHisab production release (2026-11-08 IST): implementation `089fa35`, verification
+follow-up `13ab054`, Worker `cbe4fed0-4b74-407b-bb33-77fc92226c3d` deployed to
+https://apps.sushantsynapse.com/rozhisab from the isolated committed archive.
+Production build/deploy passed with --keep-vars, preserving D1/auth/organisation
+settings; 1,270 frontend assets exported. Live mobile Chrome confirms HTTP 200,
+three exact deployed app/stylesheet/manifest comparisons, automatic receipt,
+absence, fractional 1.5-unit delivery and the correct ₹90 bill, reload persistence,
+offline-ready activation and 36 locale/theme/viewport combinations without overflow
+or page exceptions. Health remains 200; legacy private records remain denied 409.
+API writes and ad traffic blocked during verification; zero API writes attempted.
+All test household changes live only in a disposable browser's IndexedDB.
+Mobile screenshot reviewed: `.publish/rozhisab-live-mobile.png`.
+Also includes the earlier authorised dead-code cleanup and Take a Break fixes;
+live mobile check confirms no extra language chevron and an opaque Options panel.
+This supersedes the earlier cleanup deployment-connectivity blocker below.
+Local release evidence: 632 distinct Node/API checks across full/focused runs,
+five source Chrome workflows and committed-bundle offline/reload/edit checks.
+No database migration, production household/business-data write, repository push,
+physical Android/iOS device test or cloud-sync/gateway integration.
+Logs: `.publish/rozhisab-deploy.log`, `.publish/rozhisab-live.log`,
+`.publish/rozhisab-built-browser.log`. User requested commit and deployment.
+
 RozHisab committed release verification (2026-11-08 IST): implementation `089fa35`.
 All 632 distinct Node/API checks verified across the full run (630 passing) and
 focused reruns: 15/15 Cloudflare checks resolve the concurrent-build asset-count

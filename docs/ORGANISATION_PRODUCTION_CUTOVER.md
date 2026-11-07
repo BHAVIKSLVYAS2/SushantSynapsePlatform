@@ -1,5 +1,14 @@
 # Organisation licensing production cutover
 
+RozHisab public app release (2026-11-08 IST): source `089fa35`, Worker
+`cbe4fed0-4b74-407b-bb33-77fc92226c3d`. Committed isolated build/deploy with
+--keep-vars preserves organisation mode, D1 binding and authentication settings.
+No schema/bootstrap/mapping/data changes. Household records use explicitly
+requested device-local IndexedDB; this app adds no private API or app assignment.
+Live app/asset checks pass; health 200 and unscoped private records denied 409.
+Includes earlier authorised cleanup/Take a Break refinements. Detailed release
+evidence and browser/storage limitations are in the functionality ledger.
+
 Public Hindi/Gujarati fixes deployed (2026-11-07 IST): source `a347ad1`, Worker
 `e341b4ee-cb77-40b2-83dc-d77a6a28211b`. Isolated committed archive build/deploy
 passed with --keep-vars; D1/auth/organisation settings retained, no database
