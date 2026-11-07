@@ -1,5 +1,26 @@
 # Chambers functionality ledger
 
+Dead-code cleanup release ready; deployment connectivity blocked (2026-11-08 IST):
+implementation commit `463ca5b`. All 623 distinct Node/API checks verified across
+the complete run and 15/15 permission-corrected Cloudflare rerun. All 32 affected
+Chrome workflows verified: 21 games, three certificate/Ritual export/disclosure,
+six full Pandit fixture cases and two Ritvayam language cases across initial and
+corrected runs. The isolated Pandit language selection initially lacked the earlier
+fixture setup; full six-case file passes. Ritvayam assertion now narrowly allows
+the existing versioned same-origin theme-picker CSS request; language checks pass.
+No outstanding application assertion failure from the affected verification set.
+Isolated committed production archive builds successfully (1,247 assets), but two
+Wrangler deploy attempts fail with `fetch failed` before deployment confirmation.
+Public HTTPS probes to api.cloudflare.com and site health return ETIMEDOUT; DNS
+resolves, and IPv4 preference does not resolve connectivity. No new Worker version
+or live verification established. No database migration, production business write
+or repository push. Do not describe this cleanup as deployed.
+Resume: retry `npm.cmd run deploy:frontend` from `.publish/dead-cleanup-release`
+when HTTPS connectivity returns, then run `.publish/verify-dead-cleanup-live.cjs`
+from the repository root and record the actual Worker version/live results.
+Logs: `.publish/dead-cleanup-deploy.log`, `.publish/dead-cleanup-deploy-retry.log`,
+`.publish/dead-cleanup-pandit.log`, `.publish/dead-cleanup-language-final.log`.
+
 Confirmed dead-code cleanup (2026-11-08 IST; release verification): removed the
 eight audited source targets, totalling 6,998 authored bytes before the pending
 Take a Break interface refinements. Includes retired filter/Surprise/featured-art
