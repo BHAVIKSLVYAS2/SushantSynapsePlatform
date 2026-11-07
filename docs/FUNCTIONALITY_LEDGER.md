@@ -1,5 +1,13 @@
 # Chambers functionality ledger
 
+Picksy compact choice controls (2026-11-07 IST; committed locally): removed the
+Household tasks starter button and placed Edit choices alongside Lunch ideas and
+Pick a team in one responsive group. Choice count stays above the group. No engine,
+saved-data or API changes. Previously verified: three focused Chrome cases pass,
+covering startup, validation recovery, themes/history and 320/390/768/1440px layouts;
+mobile screenshot reviewed. Syntax/whitespace checks pass. Not deployed; no new
+browser run or wider platform suite for this commit-only step.
+
 Take a Break compact options deployed (2026-11-07 IST): source `7044cef`, Worker
 `0fef2253-5dc0-4809-9709-96e79122683e`. Isolated committed archive build/deploy
 succeeded with --keep-vars, retaining D1/auth/organisation settings; no database

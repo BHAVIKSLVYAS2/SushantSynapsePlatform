@@ -82,10 +82,9 @@ body[data-ui-app="decision-wheel"] .has-winner .hub{animation:wheel-logo-pop .5s
 }
 .options-error{border:1px solid var(--accent);border-radius:12px;background:var(--soft);color:var(--text);padding:12px;margin:0 0 14px;font-size:13px;overflow-wrap:anywhere}
 #options[aria-invalid=true]{border:2px solid var(--accent)}
-.picksy-quick-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
-body[data-ui-app=decision-wheel] .picksy-quick-actions #edit-choices{min-height:44px;padding:6px 12px;font-size:13px;border-radius:999px}
-body[data-ui-app=decision-wheel] .play>.presets{justify-content:center;margin:8px 0 14px;gap:6px}
-body[data-ui-app=decision-wheel] .play>.presets button{font-size:12px;padding:6px 10px;min-height:44px}
+.picksy-quick-actions{margin:8px 0 14px}
+body[data-ui-app=decision-wheel] .picksy-quick-actions>.presets{justify-content:center;margin:0;gap:8px}
+body[data-ui-app=decision-wheel] .picksy-quick-actions>.presets button{font-size:12px;padding:6px 10px;min-height:44px}
 .picksy-reuse>summary{min-height:44px;align-content:center;color:var(--accent);cursor:pointer;font-size:14px}
 body[data-ui-app=decision-wheel] main .picksy-reuse fieldset{margin:4px 0 12px}
 body[data-ui-app=decision-wheel] .picksy-pulse{display:grid;gap:3px;min-height:58px;margin:0 auto 12px;padding:8px 12px;max-width:100%;border:1px solid var(--line);border-radius:14px;background:var(--soft);color:var(--text);line-height:1.4}
