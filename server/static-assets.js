@@ -1,5 +1,6 @@
 // Explicit URL allowlist. Filesystem paths are never accepted from requests.
 const staticAssets={
+ '/ritual-assist/checklist-image.mjs':'apps/ritual-assist/frontend/checklist-image.mjs',
  '/ritual-assist/workspace.mjs':'apps/ritual-assist/frontend/workspace.mjs',
  '/ritual-assist/prep-template.mjs':'apps/ritual-assist/frontend/prep-template.mjs',
  '/shared/place-search.mjs':'packages/ui/place-search.mjs',

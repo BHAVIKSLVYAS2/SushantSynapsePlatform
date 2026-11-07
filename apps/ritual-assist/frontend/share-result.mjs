@@ -1,10 +1,10 @@
 import {downloadBlob} from '/shared/download.mjs';
 
 // Prepare the file before the tap so mobile Web Share keeps its user activation.
-export function mountShareResult(container,{language='en',render,filename,title}){
+export function mountShareResult(container,{language='en',render,filename,title,label}){
  const hi=language==='hi',panel=document.createElement('div'),button=document.createElement('button'),status=document.createElement('p'),canvas=document.createElement('canvas');
  panel.className='ritual-result-share';button.type='button';button.className='primary';
- button.textContent=hi?'परिणाम साझा करें':'Share result';status.className='fine';status.setAttribute('role','status');canvas.hidden=true;
+ button.textContent=label||(hi?'परिणाम साझा करें':'Share result');status.className='fine';status.setAttribute('role','status');canvas.hidden=true;
  panel.append(button,status,canvas);container.append(panel);
  let file=null,generation=0,busy=false;
  function prepare(){
