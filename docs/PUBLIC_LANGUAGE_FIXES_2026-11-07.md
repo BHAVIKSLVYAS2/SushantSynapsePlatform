@@ -72,3 +72,10 @@ their original text. Artwork/export language choices remain app-owned; this pass
 does not assert every PDF/PNG or all technical astrology results are translated.
 The residual scan is a candidate inventory, not a proof of universal coverage or
 independent native-speaker editorial review.
+# Production release
+
+Deployed source `a347ad1` on 2026-11-07 IST as Worker
+`e341b4ee-cb77-40b2-83dc-d77a6a28211b` from an isolated committed archive,
+with production variables/bindings retained and no database changes. Live mobile
+Chrome passed Hindi and Gujarati across five affected public apps with no page
+errors. This supersedes the pre-release local-only status recorded below.

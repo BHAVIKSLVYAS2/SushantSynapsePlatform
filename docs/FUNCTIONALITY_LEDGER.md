@@ -1,5 +1,16 @@
 # Chambers functionality ledger
 
+Public Hindi/Gujarati fixes deployed (2026-11-07 IST): source `a347ad1`, Worker
+`e341b4ee-cb77-40b2-83dc-d77a6a28211b`. Isolated committed archive build/deploy
+passed with --keep-vars; D1/auth/organisation settings retained, no database
+changes. Includes previously committed Picksy compact controls. Local release
+verification: 30 focused unit checks and 28 distinct Chrome cases passed.
+Live mobile Chrome passed both languages across Take a Break, Picksy, Bill
+Splitter, Photo Resize and Ritual guides: translated controls/options/errors,
+literal names, settlement copy and Ritual navigation, with no page errors.
+Production build exported 1,247 assets. No wider platform suite. Logs:
+`.publish/public-language-deploy.log`, `.publish/public-language-live.log`.
+
 Public Hindi/Gujarati fixes (2026-11-07 IST; implemented locally): shared catalogue
 now has 1,464 paired entries (478 net additions), plus 74 dynamic message templates.
 Fixed audited public controls/help, opted-in dropdowns, counters, confirmations,
