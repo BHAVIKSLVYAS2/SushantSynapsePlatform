@@ -49,12 +49,13 @@ The Worker treats the guide route as public, like the existing calendar. App
 registry metadata presents Vrat and Shraddha/Barsi generation first. Calendar
 calculation, input memory, export admission and organisation boundaries are intact.
 
-Take a Break usability (2026-11-06; local): app-owned `usability.css` provides
-compact discovery. Controllers serialize browser-local puzzle snapshots bounded
-by IST day and engine versions, with difficulty-aware Make 24 keys. The shared
-Daily Spark controller exposes snapshot/restore and protects unfinished resets;
-standalone Daily Spark still has tab-only progress. Face-Off custom lists and
-Chaos are excluded from snapshot persistence. No backend/schema changes.
+Take a Break simplification (2026-11-07): app-owned controllers retain rounds
+only in memory for same-visit switching; the hub no longer reads/writes puzzle
+snapshots. Old saved-round keys are ignored. Difficulty and Chaos calmer pace
+remain optional browser preferences. Daily Spark's opt-in `simple` presentation
+reuses the existing number engine for the hub without altering its standalone
+mode controls. Chaos owns its countdown, pause lifecycle, fair-arrival spacing
+and score feedback. No backend/schema or business persistence changes.
 
 Ritual information density (2026-11-05): app-owned `density.css` provides the
 guide toolbar/header, responsive material groups, compact calendar inputs and

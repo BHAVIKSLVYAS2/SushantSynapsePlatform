@@ -1,14 +1,11 @@
 /* Compact discovery retains full-card targets and existing theme tokens. */
 #break-workspace .break-heading{min-height:112px;padding:18px 24px;margin-bottom:12px}
 #break-workspace .break-hero-art{width:88px;flex-basis:88px}
-#break-workspace .break-toolbar{flex-wrap:wrap}
-#break-workspace .filters{overflow:visible;flex-wrap:wrap;flex-basis:100%;padding-bottom:0}
-#break-workspace #surprise{margin-top:0;min-height:44px}
-#break-workspace #restart-round{margin-bottom:12px;min-height:44px}
 #break-workspace #hub .break-card{grid-template-columns:56px minmax(0,1fr);grid-template-rows:auto auto auto auto;min-height:124px;padding:14px;gap:3px 12px}
 #break-workspace #hub .break-card .card-symbol{width:56px;height:60px;grid-row:1/5}
 #break-workspace #hub .break-card::after{display:none}
 #break-workspace #hub .break-card small{display:block;grid-column:2;grid-row:4;color:var(--ui-muted);font-size:12px;line-height:1.5}
 #break-workspace #hub .break-card #code-access{position:static;width:auto;height:auto;clip-path:none}
 #break-workspace .break-heading .eyebrow{font-size:10px}
-@media(max-width:767px){#break-workspace .break-heading{min-height:110px;padding:16px}#break-workspace .break-heading h1{font-size:28px}#break-workspace .filters{gap:6px}#break-workspace .filters button{min-height:44px;padding:8px 12px;font-size:13px}#break-workspace #hub .break-card{min-height:114px}#break-workspace #hub .break-card strong{font-size:19px}}
+
+#break-workspace summary{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px}#break-workspace summary::before{content:"+"}#break-workspace details[open]>summary::before{content:"-"}#break-workspace .round-controls{align-items:start}#break-workspace .round-controls details button{margin-block:8px}.chaos-feedback{min-height:1.5em;text-align:center;color:var(--text)}

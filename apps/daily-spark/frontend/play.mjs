@@ -1,6 +1,6 @@
 import {istDate,puzzle,levelPuzzle,tokens,calculate,solve,display,solutionSteps} from './engine.mjs';
 import {createSparkCelebration} from './celebration.mjs';
-export function mountSpark(root,{day=null,challengeUrl=date=>`${location.origin}/daily-spark?day=${date}`,onComplete}={}){
+export function mountSpark(root,{day=null,challengeUrl=date=>`${location.origin}/daily-spark?day=${date}`,onComplete,simple=false}={}){
 const $=selector=>root.querySelector(selector);
 const celebration=createSparkCelebration(root);
 let date,mode='daily',original,items,selected=[],op=null,history=[],assisted=false,finished=false,revealed=false,hintStep=0;
@@ -8,7 +8,8 @@ const symbols={'+':'+','-':'−','*':'×','/':'÷'};
 const params=new URLSearchParams(location.search),difficulty=$('#practice-difficulty');
 let legacyRound=params.has('day')&&!params.has('level');
 difficulty.value=['warmup','challenge','expert'].includes(params.get('level'))?params.get('level'):'challenge';
-difficulty.onchange=()=>{if(dirty()&&!confirm('Discard this unfinished round and change difficulty?')){difficulty.value=currentDifficulty;return;}currentDifficulty=difficulty.value;legacyRound=false;start(mode==='practice');};
+try{const preference=localStorage.getItem('synapse-break-difficulty');if(simple&&!params.has('level')&&['warmup','challenge','expert'].includes(preference))difficulty.value=preference;}catch{}
+difficulty.onchange=()=>{if(dirty()&&!confirm('Discard this unfinished round and change difficulty?')){difficulty.value=currentDifficulty;return;}currentDifficulty=difficulty.value;try{if(simple)localStorage.setItem('synapse-break-difficulty',currentDifficulty);}catch{}legacyRound=false;start(mode==='practice');};
 let currentDifficulty=difficulty.value;
 function dirty(){return !finished&&(history.length>0||selected.length>0||assisted);}
 function fresh(practice=false){if(dirty()&&!confirm('Discard this unfinished round and start again?'))return;start(practice);}
@@ -18,7 +19,7 @@ function reset(){celebration.clear();items=tokens(original);selected=[];op=null;
 function render(){
  root.dataset.sparkLegacy=String(legacyRound&&mode==='daily');
  $('#difficulty-note').textContent=legacyRound&&mode==='daily'?'Original shared puzzle · difficulty varies.':descriptions[difficulty.value];
- $('#edition').textContent=mode==='daily'?`DAILY · ${date} · IST`:'PRACTICE · JUST FOR FUN';$('#daily').setAttribute('aria-pressed',String(mode==='daily'));$('#practice').setAttribute('aria-pressed',String(mode==='practice'));
+ $('#edition').textContent=simple?(mode==='daily'?"Today's puzzle":''):mode==='daily'?`DAILY · ${date} · IST`:'PRACTICE · JUST FOR FUN';$('#daily').setAttribute('aria-pressed',String(mode==='daily'));$('#practice').setAttribute('aria-pressed',String(mode==='practice'));
  $('#numbers').replaceChildren(...items.map((item,index)=>{const b=document.createElement('button');b.type='button';b.className='tile';b.textContent=display(item.value);b.disabled=finished;b.setAttribute('aria-label',`Number ${index+1}: ${display(item.value)}`);b.setAttribute('aria-pressed',String(selected.includes(index)));if(selected.includes(index)){const order=document.createElement('small');order.textContent=selected.indexOf(index)===0?'FIRST':'SECOND';b.append(order);}b.onclick=()=>{if(selected.includes(index))selected=selected.filter(n=>n!==index);else if(selected.length<2)selected.push(index);else selected=[index];render();$('#numbers').children[index]?.focus();};return b;}));
  root.querySelectorAll('[data-op]').forEach(b=>{b.setAttribute('aria-pressed',String(op===b.dataset.op));b.disabled=finished;});$('#combine').disabled=finished||selected.length!==2||!op;$('#undo').disabled=!history.length||finished;$('#hint').disabled=finished;$('#reveal').disabled=finished;
  $('#move').textContent=finished?'Round complete.':selected.length===2?`${display(items[selected[0]].value)} ${symbols[op]||'?'} ${display(items[selected[1]].value)}`:selected.length===1?'Select your second number.':'Select your first number.';
@@ -47,8 +48,9 @@ function shareUrl(){const u=new URL(challengeUrl(mode==='daily'?date:istDate()),
 // Preserve dated v1 links; new links include their selected v2 level.
 const sharedDay=day||params.get('day');
 if(sharedDay&&/^\d{4}-\d{2}-\d{2}$/.test(sharedDay)&&!Number.isNaN(Date.parse(sharedDay))&&new Date(sharedDay).toISOString().slice(0,10)===sharedDay&&sharedDay<=istDate())day=sharedDay;
+if(simple){root.querySelector('.modes').hidden=true;$('#another').textContent='Play again';$('#share').textContent='Share result';const setup=root.querySelector('.spark-setup'),details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Difficulty';setup.before(details);details.append(summary,setup);$('#reset').textContent='Restart this puzzle';}
 start();
-return {get mode(){return mode;},get dirty(){return dirty();},reset(practice=false){start(practice);},
+return {get mode(){return mode;},get dirty(){return dirty();},reset(practice=false){start(practice);},restart(){reset();},
 snapshot(){return {date,mode,original,items,selected,op,history,assisted,finished,revealed,hintStep,difficulty:difficulty.value,legacyRound};},
 restore(v){if(!v||!Array.isArray(v.original)||v.original.length!==4||v.original.some(x=>!Number.isInteger(x)||x<1||x>9)||!Array.isArray(v.items)||v.items.length<1||v.items.length>4||v.items.some(x=>!Number.isFinite(x.value)||typeof x.expression!=='string'||x.expression.length>200)||!Array.isArray(v.selected)||v.selected.some(x=>!Number.isInteger(x)||x<0||x>=v.items.length)||!Array.isArray(v.history)||v.history.length>3||v.history.some(h=>!h||!Array.isArray(h.items)||h.items.length<2||h.items.length>4||h.items.some(x=>!Number.isFinite(x.value)||typeof x.expression!=='string'||x.expression.length>200))||!Object.hasOwn(descriptions,v.difficulty))throw Error('Invalid saved puzzle');date=v.date;mode=v.mode==='practice'?'practice':'daily';original=v.original;items=v.items;selected=v.selected;op=['+','-','*','/'].includes(v.op)?v.op:null;history=v.history;assisted=Boolean(v.assisted);const wasFinished=Boolean(v.finished);finished=false;revealed=Boolean(v.revealed);hintStep=Number.isInteger(v.hintStep)?Math.max(0,Math.min(v.hintStep,3)):0;difficulty.value=currentDifficulty=v.difficulty;legacyRound=Boolean(v.legacyRound);if(wasFinished){complete(revealed);celebration.clear();}render();}
 };

@@ -1,20 +1,25 @@
 # Take a Break
 
-Usability improvements (2026-11-06; deployed, see the functionality ledger): four visible hub
-filters, derived activity counts, compact cards with visible metadata and a
-single Make 24 entry (Daily Spark is its subtitle). Selecting the active daily
-mode keeps progress. Explicit restart and mode changes protect unfinished rounds.
-Code, Memory, Lights Out and hub Make 24 save browser-local snapshots, keyed by
-IST challenge date and puzzle versions; Make 24 shared difficulty variants are
-separate. Reload restores boards, notes and moves. Fresh starts replace the saved
-round. Storage failures keep play usable. Face-Off lists and Chaos remain tab-only.
-The older tab-only puzzle descriptions below are historical.
+Simplified experience (2026-11-07): all seven activity cards appear directly,
+without filters, activity counts or Surprise me. Puzzles open today's board;
+New game makes a fresh board, and Options holds Restart this puzzle. Unfinished
+rounds remain in memory while switching games during this visit, and refresh or
+closing the page clears them. Old saved-round data is ignored. Difficulty is a
+browser preference; game progress is never written to browser storage.
+Results offer Play again, Choose another game and optional sharing.
+
+Chaos starts inside its board, with three short instructions and a three-second
+countdown. The HUD, pause and movement controls appear during play. Calmer pace
+and scoring details sit under How to play. Catch/hit resolution aligns with the
+tray; visible streak multipliers and score feedback accompany three escalating
+stages. Opposing falling objects have a reaction gap. There are no lives or early
+elimination, and leaving the activity pauses the round, including its countdown.
 
 Lights Out replaces Clue Club: tapping a tile flips itself and its
 orthogonal neighbours. Clear solvable 3×3, 4×4 and 5×5 boards with a move counter,
 optimal move target, undo, restart and optional shortest-solution hints. Keyboard
 arrows move focus; Space/Enter flips tiles. Lit/unlit symbols and labels accompany
-colour. Daily/practice modes retain tab-only progress, and sharing records hint
+colour. Today and fresh boards retain in-memory progress, and sharing records hint
 use. Old `?game=clue` links open the replacement with an explanation. This change
 was deployed and live-verified on 2026-10-16 from `45bc638`, Worker
 `a30b46e9-abba-4336-a112-f3ab1bbfa819`; Crack the Code is unchanged.

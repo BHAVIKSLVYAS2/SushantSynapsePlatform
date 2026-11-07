@@ -107,7 +107,7 @@ test('hub Make 24 celebrates genuine wins and stops effects when changing games 
  await page.emulateMedia({reducedMotion:'no-preference'});
  await scope.locator('.spark-details').first().locator('summary').click();await scope.locator('#reset').click();await solveBoard(page,scope);
  await expect(page.locator('.spark-party-overlay')).toHaveCount(1);
- await page.getByRole('button',{name:'Try Crack the Code',exact:true}).click();
+ await page.getByRole('button',{name:'Choose another game',exact:true}).click();await page.locator('[data-game=code]').click();
  await expect(page.locator('[data-pane="code"]')).toBeVisible();await expect(page.locator('.spark-party-overlay')).toHaveCount(0);
  await page.locator('#all-breaks').click();await page.locator('[data-game="24"]').click();
  await expect(scope.locator('#result-title')).toHaveText('You made 24!');
