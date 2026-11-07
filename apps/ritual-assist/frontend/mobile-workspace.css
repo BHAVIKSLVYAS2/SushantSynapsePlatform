@@ -163,3 +163,17 @@ html[data-theme=dark] body[data-ui-app=ritual-assist]{--ritual-tab-fill:var(--da
 @media screen{html[data-theme-style=deep] body[data-ui-app=ritual-assist]{--ritual-tab-fill:var(--ui-accent);--ritual-tab-ink:var(--ui-on-accent)}}
 body[data-ui-app=ritual-assist] nav.ritual-task-tabs :is(a,button){background:transparent!important;color:var(--muted)!important;border-color:transparent!important;box-shadow:none!important}
 body[data-ui-app=ritual-assist] nav.ritual-task-tabs :is(a,button)[aria-current=page]{background:var(--ritual-tab-fill)!important;color:var(--ritual-tab-ink)!important;border-color:var(--ritual-tab-fill)!important;box-shadow:inset 0 -3px 0 currentColor!important;font-weight:750}
+
+/* The selected ritual is the single preparation heading and chooser trigger. */
+body.ritual-landing #library>summary{gap:10px}
+body.ritual-landing #library #guide-title{margin:0;min-width:0;font:600 18px/1.35 var(--ss-font,system-ui);color:var(--ink)}
+body.ritual-landing #selected-ritual{font:inherit}
+body.ritual-landing #selected-ritual-icon{display:flex;flex:0 0 32px;align-items:center}
+body.ritual-landing #selected-ritual-icon .ritual-art{display:block;flex:0 0 32px;width:32px;height:32px}
+body.ritual-landing #guide .guide-top{border:0;margin:0 0 12px}
+body.ritual-landing #guide .guide-top .actions{margin-top:0}
+@media print{
+ body.ritual-landing:not(.checklist-print) #library{display:block!important;border:0;padding:0;margin:0 0 12px;background:none;box-shadow:none}
+ body.ritual-landing #library>.library-body,body.ritual-landing #selected-ritual-icon,body.ritual-landing #ritual-chooser-action{display:none!important}
+ body.ritual-landing #library>summary{display:block;padding:0;list-style:none}
+}
