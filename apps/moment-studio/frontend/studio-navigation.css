@@ -1,5 +1,8 @@
 /* Identical navigation geometry across Certificates, Cards and Remembrance. */
 @media screen {
+ /* Deep Black defines --ss-* through --ui-* on body. Inherit the resolved
+    root palette instead of feeding those aliases back into each other. */
+ html[data-theme-style=deep] body:is(#moment-certificate,#moment-cards)[data-ui-app]{--ui-bg:inherit;--ui-solid:inherit;--ui-ink:inherit;--ui-muted:inherit;--ui-edge:inherit;--ui-soft:inherit;--ui-accent:inherit;--ui-on-accent:inherit}
  body:is(#moment-certificate,#moment-cards)[data-ui-app] .studio-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;flex-wrap:nowrap;margin:12px 0 0;padding:4px;border:1px solid var(--ui-edge);border-radius:12px;background:var(--ui-solid)}
  body:is(#moment-certificate,#moment-cards)[data-ui-app] .studio-nav a,
  body:is(#moment-certificate,#moment-cards)[data-ui-app] .studio-nav a[aria-current=page]{display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;min-height:48px;margin:0;padding:10px 8px;border:0;border-radius:9px;background:transparent;color:var(--ui-ink);text-align:center;box-shadow:none}
