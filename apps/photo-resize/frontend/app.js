@@ -3,7 +3,7 @@ import {compress,drawImage,geometry,estimate,options} from './engine.mjs?v=20261
 import {profiles} from './profiles.mjs';
 init();let image=null,version=0,sourceVersion=0,output=null,busy=false,loading=false,originalBytes=0,originalName='',controller=null,estimateController=null,estimateTimer,estimateWorking=false;
 const form=$('#editor');for(const [id,profile]of Object.entries(profiles))$('#profile').add(new Option(profile.name,id));
-function clear(){output=null;$('#comparison').textContent='';$('#checks').replaceChildren();$('#download').disabled=true;$('#preview').hidden=true;}
+function clear(){output=null;$('#comparison').textContent='';$('#checks').replaceChildren();$('#download').disabled=true;$('#preview').hidden=true;$('#result').hidden=true;}
 function invalidate(){version++;controller?.abort();estimateController?.abort();clearTimeout(estimateTimer);clear();$('#estimate').textContent='';}
 function settings(){const profile=profiles[$('#profile').value];return options({width:Number($('#width').value),height:Number($('#height').value),kb:Number($('#target').value),minKb:Number($('#minimum').value),format:$('#format').value,fit:$('#fit').value,x:Number($('#crop-x').value),y:Number($('#crop-y').value),zoom:Number($('#crop-zoom').value),rotation:Number($('#rotation').value),dpi:Number($('#dpi').value),upscale:$('#upscale').checked,...(profile.maxBytes?{maxBytes:profile.maxBytes}:{})});}
 function ui(){
@@ -55,8 +55,8 @@ form.onsubmit=async event=>{
   $('#comparison').textContent='Before: '+(originalBytes/1024).toFixed(1)+' KB \u2192 After: '+(result.blob.size/1024).toFixed(1)+' KB \u00b7 '+result.width+' \u00d7 '+result.height+' px';
   const heading=document.createElement('h3');heading.textContent=result.valid?'Digital size checks pass':'Digital size checks need attention';const list=document.createElement('ul');
   for(const check of result.checks){const item=document.createElement('li');for(const value of [check.pass?'Pass:':'Check:',check.label,'-',check.detail]){const part=document.createElement('span');part.textContent=value;item.append(part,document.createTextNode(' '));}list.append(item);}
-  $('#checks').append(heading,list);for(const warning of result.warnings){const p=document.createElement('p');p.textContent=warning;$('#checks').append(p);}
-  $('#download').textContent=result.valid?'Download '+result.blob.type.split('/')[1].toUpperCase():'Download for review (size check failed)';$('#download').disabled=false;$('#status').textContent=result.valid?'Ready to download. Review visual quality and your current official requirements; this is not an acceptance guarantee.':'The output does not meet every size rule. Review the failed checks before using it.';
+  $('#checks').append(heading,list);for(const warning of result.warnings){const p=document.createElement('p');p.textContent=warning;$('#checks').append(p);}$('#result-details').open=!result.valid||result.warnings.length>0;$('#result').hidden=false;
+  $('#download').textContent=result.valid?'Download '+result.blob.type.split('/')[1].toUpperCase():'Download for review (size check failed)';$('#download').disabled=false;$('#status').textContent=result.valid?'Ready to download. Review visual quality and your current official requirements; this is not an acceptance guarantee.':'The output does not meet every size rule. Review the failed checks before using it.';$('#result').focus();
  }catch(error){if(current===version)$('#status').textContent=error.name==='AbortError'?'Processing cancelled. Your source image is unchanged.':error.message;}
  finally{busy=false;if(controller===pending)controller=null;$('#create').disabled=loading;$('#cancel').hidden=true;form.setAttribute('aria-busy','false');}
 };

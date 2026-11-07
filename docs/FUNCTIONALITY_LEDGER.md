@@ -1,5 +1,25 @@
 # Chambers functionality ledger
 
+Photo Resize design preview (2026-11-08 IST): captured local desktop and 390px
+mobile entry screens with isolated temporary SQLite data; mobile image reviewed.
+No application code or deployment changes. Previews:
+`output/playwright/photo-resize-desktop.png`,
+`output/playwright/photo-resize-mobile.png`.
+
+Photo Resize continuation verification (2026-11-08 IST; local): resumed the existing
+uncommitted interface simplification. Main flow keeps image selection, maximum KB
+and resize together; More options contains profiles, dimensions, formats and crop
+controls. Results appear after processing, clear on edits and focus after completion;
+failed checks or warnings expand the review details. Existing image engine unchanged.
+Verification: 10/10 photo/catalogue unit checks, 10/10 Photo Resize Chrome checks and
+2/2 Hindi/Gujarati photo regression checks pass using isolated temporary DATA_DIRs.
+Covers actual PNG/JPEG/WebP bytes, crop geometry, density, validation, cancellation,
+stale-result invalidation and 320/390/768/1440px light/dark layouts. Mobile dark crop
+screenshot reviewed; JavaScript syntax and whitespace checks pass. No full platform
+suite, new build, commit or deployment. Existing security/performance review files
+preserved. Browser artifacts: `.publish/resume-photo-results`,
+`.publish/resume-photo-language-results`, `.publish/curio-photo-crop-dark.png`.
+
 Public Hindi/Gujarati fixes deployed (2026-11-07 IST): source `a347ad1`, Worker
 `e341b4ee-cb77-40b2-83dc-d77a6a28211b`. Isolated committed archive build/deploy
 passed with --keep-vars; D1/auth/organisation settings retained, no database
@@ -44,6 +64,15 @@ covering startup, validation recovery, themes/history and 320/390/768/1440px lay
 mobile screenshot reviewed. Syntax/whitespace checks pass. Not deployed; no new
 browser run or wider platform suite for this commit-only step.
 
+Public performance discussion (2026-11-07 IST): measured eight live signed-out
+entry pages, three cold mobile Chrome samples each, plus four layout-shift source
+traces. Matching median LCP is 4.18s; remaining entries range 1.27–2.56s under the
+documented lab throttle. Proposed stable first-render layouts, smaller shared
+logo, scoped/on-demand translation data and a separate Matching dependency split.
+The roughly 70KB shared-payload saving is a target, not achieved output or a
+promised timing improvement. No runtime changes, build, commit or deployment.
+Scope, measurements, caveats and evidence: `docs/PUBLIC_PERFORMANCE_REVIEW_2026-11-07.md`.
+
 Take a Break compact options deployed (2026-11-07 IST): source `7044cef`, Worker
 `0fef2253-5dc0-4809-9709-96e79122683e`. Isolated committed archive build/deploy
 succeeded with --keep-vars, retaining D1/auth/organisation settings; no database
@@ -66,6 +95,24 @@ shift, with keyboard dismissal, outside click and dirty-difficulty cancellation.
 Mobile screenshot reviewed. No wider platform sweep.
 No API, schema or business-data changes; Picksy and security-review work are excluded
 from this implementation commit.
+
+Take a Break controls review (2026-11-07 IST; discussion only): source confirms
+the usability stylesheet adds plus/minus markers to every disclosure inside
+break-workspace, including embedded Make 24; Make 24 mounts Difficulty as a
+separate disclosure beneath the shared New game/Options toolbar. Proposed compact
+New game + Options popover containing difficulty and restart, with a chevron and
+no layout shift. Awaiting user component preference before UI edits; no runtime
+changes or tests for this discussion. Other standalone apps were not established
+to share this scoped plus/minus rule.
+
+OWASP targeted review (2026-11-07 IST; local, no runtime changes): documented
+unknown-error disclosure, unthrottled authenticated password verification,
+policy-dependent legacy Owner editorial/metrics authority, and unverified security
+monitoring. Synthetic local probes reproduce error disclosure and legacy service
+access; nine existing organisation-policy/client-access checks pass. Dependency
+audit remains unverified after registry failure and automatic review rejection of
+metadata export. No live probes, deployment or business-data writes. Findings,
+recommended fixes and limits: `docs/OWASP_REVIEW_2026-11-07.md`.
 
 Bill Splitter redesign deployed (2026-11-07 IST): source `f0dfeba`, Worker `19dd84c9-ad2d-438d-b5be-bd904419edab`. Isolated committed archive build/deploy succeeded with --keep-vars, retaining D1/auth/organisation configuration; no database changes. Live page and current fingerprinted controller/engine/stylesheet returned 200. The served engine correctly allocates sample expenses independently and rejects an empty participant list. Live mobile Chrome verified the example, excluded Neel from Taxi only, displayed Meera-to-Aarav 250.00 and Neel-to-Aarav 400.00, enabled copy and had no horizontal overflow or page errors. Screenshot `.publish/bill-group-live-mobile.png` reviewed. Local release checks: 16 unit/catalogue and 8 focused browser checks passed; no wider platform sweep. Logs `.publish/bill-group-deploy.log`, `.publish/bill-group-live.log`, `.publish/bill-group-live-browser.log`.
 
