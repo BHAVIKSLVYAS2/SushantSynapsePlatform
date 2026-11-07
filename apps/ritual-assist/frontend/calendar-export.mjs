@@ -1,4 +1,4 @@
-import {addDays,calendarRows,localDate,tithiLabel,monthNames,displayedMonth} from './panchang.mjs';
+import {addDays,calendarRows,localDate,tithiLabel,monthNames,displayedMonth} from './calendar-display.mjs';
 
 export function occasionTitle(row,language='en'){
  const hi=language==='hi';

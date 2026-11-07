@@ -14,9 +14,9 @@ const copy={
  en:{label:'RITUAL CALENDAR',title:'Ritual Assist',intro:'Find Ekadashi, Poonam, Amavasya and Chauth, with calendar reminders and a separate Shraddha / Barsi planner.',open:'Vrats & dates',remembrance:'Shraddha / Barsi',guides:'Choose a ritual',count:'guides',notice:'Guidance, not a fixed rule',scope:'Confirm rituals, quantities and dates with your priest or family elder.',placeholder:'e.g. Ganesh, wedding, श्राद्ध'},
  hi:{label:'अनुष्ठान कैलेंडर',title:'रिचुअल असिस्ट',intro:'एकादशी, पूनम, अमावस्या और चौथ देखें, कैलेंडर में याद दिलाएँ और अलग श्राद्ध / बरसी योजना बनाएँ।',open:'व्रत और तिथियाँ',remembrance:'श्राद्ध / बरसी',guides:'अनुष्ठान चुनें',count:'मार्गदर्शिकाएँ',notice:'मार्गदर्शन, कोई निश्चित नियम नहीं',scope:'अनुष्ठान, मात्रा और तिथियाँ पुरोहित या परिवार के बड़े से पक्की करें।',placeholder:'जैसे गणेश, विवाह, श्राद्ध'}
 };
-export function updateLanding(language){
- const text=copy[language];for(const [key,value]of Object.entries(text))document.querySelectorAll('[data-landing="'+key+'"]').forEach(el=>el.textContent=value);
- document.querySelector('#search').placeholder=text.placeholder;
+export function updateLanding(language,root=document){
+ const text=copy[language];for(const [key,value]of Object.entries(text))root.querySelectorAll('[data-landing="'+key+'"]').forEach(el=>el.textContent=value);
+ root.querySelector('#search').placeholder=text.placeholder;
 }
 export function mountLanding(){
  const placeLanguage=()=>{const shell=document.querySelector('.platform-shell'),language=document.querySelector('main .language');if(shell&&language)shell.append(language);};

@@ -1,4 +1,4 @@
-import {localDate,tithiLabel,calendarRows} from './panchang.mjs';
+import {localDate,tithiLabel,calendarRows} from './calendar-display.mjs';
 import {remembranceYears,remembranceRangeLabel} from './remembrance-range.mjs';
 import {occasionTitle} from './calendar-export.mjs';
 import {mountShraddhaCard} from './shraddha-card.mjs?v=20261105-portrait';

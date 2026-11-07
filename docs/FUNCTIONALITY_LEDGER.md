@@ -1,5 +1,55 @@
 # Chambers functionality ledger
 
+**Ritual audit fixes - release preparation (2026-11-07 IST):** Implemented the pending audit batch. Ritual Assist now keeps one shared header/navigation and persistent calendar/Prep roots in one document. Prep loads its app-owned template/controller/styles on demand; inactive roots detach without losing results, guide edits or checkmarks. Direct/legacy routes, Back/Forward and selected-guide return work. Rapid first-load cancellation leaves no duplicate IDs. Same-section print/share history does not suspend the checklist. All three themes share one selected-tab style with an underline; Deep Black Prep uses neutral tokens and shared header ownership. Existing earlyTheme delivery remains in place.
+
+Shared GET/HEAD `/api/places` supports bounded city search and ID resolution in Node and Workers, using the existing canonical directory without a database read. It validates parameters, rejects coordinates/unknown/repeated fields, caches successful public responses and uses a dedicated CITY_LIMITER (120/minute; separate production/staging namespaces). Search clients debounce and bound their cache and ignore stale responses. Ritual forms resolve saved IDs through the API and download the local directory only for explicit browser-side GPS matching. Ritvayam's main/home city search uses the same API and its pending inline detection/help UI is included. Raw GPS remains browser-only. Ritvayam's existing local timing calculation and other birth/chart forms still use their required directory; no claim that all Ritvayam directory loading is removed.
+
+Display-only date/tithi/month/row helpers now live in `calendar-display.mjs`; the server calculation modules re-export them while preserving astronomy calculations. Calendar UI no longer imports the astronomy engine through display helpers or duplicates Panchang URLs. Removed retired dashboard/tools modules and public mappings, the superseded standalone Prep document, unused card conversion helpers, dead next-month load branch and unused controller functions. Retired-selector cleanup reduced calendar.css from 27,244 to 15,437 bytes and mobile-workspace.css from 20,383 to 20,202 before the new selected-tab rules. Mixed selectors retain active styles. Pure preparation-pack/text exports and per-event ICS remain supported/tested; shared translations remain active.
+
+Verification: 29 existing calculation/export/input/API/Seedha checks passed, plus 2 new public city validation/edge-boundary checks. Focused browser sweep: 38 passed initially; all 5 failures corrected and targeted rerun passed (43/43 cases across runs). Returning-visitor mobile CLI review: one initial document request only across all tabs, retained checkmarks/in-memory marker, zero page errors/overflow, exactly one selected tab and matching settled active colours in Light/Dark/Deep. Deep header #080808 in all three sections. A separate rapid-load/Back/Forward review passed with retained Havan selection and no duplicate IDs. Screenshot `.publish/audit-deep-prep.png`; logs `.publish/audit-browser.log`, `.publish/audit-rerun.log`, `.publish/audit-unit.log`, `.publish/audit-place-api.log`, `.publish/audit-ux.log`, `.publish/audit-history.log`. Required home build passed. Final delta browser run passed 3/3; 9 additional delivery/content/learning checks passed; dedicated city-limiter API checks passed again 2/2. Production build exported 1,243 assets. Static calendar-controller graph comparison (excluding shared chrome, optional Prep/GPS and duplicate query identities) fell from 810,930 bytes / 323,541 gzip to 115,929 / 44,543 gzip; this is a build graph estimate, not a network-speed benchmark. Deployment evidence follows. No migrations or business/account data changes. Prior wider-platform sweep limitations remain unchanged.
+
+**Ritvayam inline city control - local (2026-11-07 IST):** Main daily-timings
+city selection and the homepage Ritvayam card now place the detection icon inside
+the search field, with translated accessible labels and an explicit auto-detect
+placeholder. Location help is a 44px information disclosure instead of a permanent
+paragraph. A single app-owned stylesheet enters both application and home bundles;
+the local preview also serves it. Manual typing invalidates pending GPS callbacks;
+permission denial/out-of-coverage errors retain manual search. Only explicit city
+selection is saved, using existing place IDs, 75km matching and browser-local GPS.
+No location API or calculation changes. Required frontend build passed. Focused
+browser case passed across English/Hindi/Gujarati and mobile/desktop widths,
+covering icon bounds, permission/error/success, persistence and stale responses.
+Screenshot reviewed; log `.publish/ritvayam-location-verified-tests.log`.
+Preview launcher syntax passed. Not committed or deployed. Previous audit notes
+remain pending; cleanup, shared city API and Ritual tab/navigation/theme fixes
+were not implemented by this city-control update.
+
+**Ritual active-tab theme audit (2026-11-07 IST):** Checked all three sections
+in Light, Dark and Deep Black after animations settled. Vrat/Shraddh selected
+surface blends with the Light strip; calendar and Prep active fills differ;
+Deep Black calendar tabs retain teal. Text contrast passes in measured states.
+Recommended one component-owned selected style with theme tokens and a persistent
+non-colour selection cue. Audit extended with measured colours and evidence;
+no runtime edits, commit or deployment.
+
+**Additional Ritual UX audit (2026-11-07 IST):** Read-only live browser review
+confirmed Prep uses a full document request while Vrat/Shraddh switch in place.
+With Deep Black still selected, the platform header changes from #080808 on the
+calendar to #0a2032 on Prep because gallery CSS overrides shared header colours.
+Recommended persistent section workspace plus Deep Black token alignment; no
+runtime fixes or deployment performed. Evidence, implementation constraints and
+verification plan appended to `docs/RITUAL_CODE_CLEANUP_AUDIT_2026-11-07.md`.
+
+**Dead-code/loading audit only (2026-11-07 IST):** Reviewed Ritual Assist entry
+graphs, production-built module URLs and retired CSS families. Found two unused
+UI modules (25.8 KB source), about 13.7 KB candidate retired CSS (~2.4 KB gzip),
+and duplicate queried/unqueried Panchang imports (~6.7 KB gzip). Larger loading
+opportunities require refactoring active dependencies: calculation engine versus
+display helpers, and lazy location data. Preparation-pack exports remain tested;
+per-event ICS exports remain called and are not dead. No runtime code changed,
+no tests/build/deployment run. Scope, measurements, exclusions and recommended
+sequence: `docs/RITUAL_CODE_CLEANUP_AUDIT_2026-11-07.md`.
+
 Readable Shraddh range images and preparation UI deployed (2026-11-07 IST):
 source `ece7431`, Worker `07c8af10-59fc-438d-be2b-d91fc017f168`. Ten-year
 PNG is a compact year table (reviewed actual file 1080 x 1646); single-year

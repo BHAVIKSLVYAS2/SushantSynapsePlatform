@@ -1,3 +1,4 @@
+import {placeResponse} from '../packages/vedic/place-api.mjs';
 import {visitors,visitorKey} from '../apps/portal/backend/visitors.mjs';
 import {feedback,storageKey as feedbackKey} from '../apps/feedback/backend/service.mjs';
 import {D1Repository,Conflict} from '../packages/database/d1.mjs';
@@ -31,6 +32,10 @@ export async function edgeApi(request,env){
   const url=new URL(request.url),configured=env.PUBLIC_ORIGIN;if(!configured)fail(503,'PUBLIC_ORIGIN is not configured');if(url.origin!==configured)fail(403,'Host rejected');
   if(request.headers.get('Origin')&&request.headers.get('Origin')!==configured)fail(403,'Origin rejected');if(request.headers.get('Sec-Fetch-Site')==='cross-site')fail(403,'Cross-site request rejected');
   if(env.MAINTENANCE_MODE==='true')fail(503,'The workspace is undergoing maintenance. Please try again shortly.');
+  if(url.pathname==='/api/places'){
+   if(!(await env.CITY_LIMITER?.limit({key:'places:'+request.headers.get('CF-Connecting-IP')}))?.success)fail(429,'Please wait before searching again.');
+   return placeResponse(request);
+  }
   const free=env.FREE_MODE==='true';
   if(!env.PLATFORM_DB||(!free&&!env.PRIVATE_FILES))fail(503,'Cloudflare backend storage is not configured');
   // Public editorial snapshots need one atomic setting read, not a workspace revision.

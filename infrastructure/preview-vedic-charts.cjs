@@ -14,7 +14,7 @@ async function createPreviewServer(port=0,{birth=false,rashifal=false,timeMachin
   ['/tokens.css',['text/css; charset=utf-8',fs.readFileSync(path.join(root,'packages/ui/premium.bundle.css'))]],
   ['/theme.js',['text/javascript; charset=utf-8',fs.readFileSync(path.join(root,'packages/ui/theme.js'))]]
  ]);
- if(rashifal){assets.set('/daily-almanac.css',['text/css; charset=utf-8',fs.readFileSync(path.join(root,'apps/rashifal-kundli/frontend/daily-almanac.css'))]);const html=assets.get('/');html[1]=html[1].toString().replace('</head>','<link rel="stylesheet" href="/daily-almanac.css"></head>');}
+ if(rashifal){assets.set('/location-control.css',['text/css; charset=utf-8',fs.readFileSync(path.join(root,'apps/rashifal-kundli/frontend/location-control.css'))]);assets.set('/daily-almanac.css',['text/css; charset=utf-8',fs.readFileSync(path.join(root,'apps/rashifal-kundli/frontend/daily-almanac.css'))]);const html=assets.get('/');html[1]=html[1].toString().replace('</head>','<link rel="stylesheet" href="/daily-almanac.css"><link rel="stylesheet" href="/location-control.css"></head>');}
  if(rashifal)for(let sign=1;sign<=12;sign++)for(const theme of ['light','dark'])assets.set(`/rashifal-kundli/moon-signs/${sign}-${theme}.webp`,['image/webp',fs.readFileSync(path.join(root,`apps/rashifal-kundli/frontend/assets/moon-signs/${sign}-${theme}.webp`))]);
  if(birth||matching||timeMachine)assets.set('/birth-app.css',['text/css; charset=utf-8',fs.readFileSync(path.join(root,'apps/rashifal-kundli/frontend/birth-app.css'))]);
  if(birth||matching)assets.set('/rulebook.css',['text/css; charset=utf-8',fs.readFileSync(path.join(root,'apps/rashifal-kundli/frontend/rulebook.css'))]);
@@ -25,12 +25,14 @@ async function createPreviewServer(port=0,{birth=false,rashifal=false,timeMachin
  if(rashifal){const worker=await require('esbuild').build({entryPoints:[path.join(root,'apps/rashifal-kundli/frontend/rashifal-worker.mjs')],bundle:true,write:false,format:'esm',platform:'browser',target:'es2022',minify:true});assets.set('/rashifal-worker.mjs',['text/javascript; charset=utf-8',worker.outputFiles[0].contents]);}
  if(birth)assets.set('/traditions.css',['text/css; charset=utf-8',fs.readFileSync(path.join(root,'apps/rashifal-kundli/frontend/traditions.css'))]);
  if(birth){const {reportCss,reportLayoutCss,reportTableCss}=await import('../apps/rashifal-kundli/frontend/export-report.mjs');assets.set('/export-report.css',['text/css; charset=utf-8',reportCss+reportLayoutCss+reportTableCss]);}
+ const {placeLookup}=await import('../packages/vedic/place-api.mjs');
  const server=http.createServer((request,response)=>{
+  if(rashifal&&new URL(request.url,'http://127.0.0.1').pathname==='/api/places'){const result=placeLookup(new URL(request.url,'http://127.0.0.1'),request.method);response.writeHead(result.status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});response.end(request.method==='HEAD'?undefined:JSON.stringify(result.body));return;}
   const asset=request.method==='GET'?assets.get(new URL(request.url,'http://127.0.0.1').pathname):null;
   response.setHeader('Cache-Control','no-store');response.setHeader('X-Content-Type-Options','nosniff');
   response.setHeader('Referrer-Policy','no-referrer');response.setHeader('Cross-Origin-Opener-Policy','same-origin');
   response.setHeader('Permissions-Policy','geolocation=(), camera=(), microphone=(), payment=()');
-  response.setHeader('Content-Security-Policy',"default-src 'none'; script-src 'self'; worker-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; frame-ancestors 'none'");
+  response.setHeader('Content-Security-Policy',"default-src 'none'; script-src 'self'; worker-src 'self'; style-src 'self'; img-src 'self'; connect-src "+(rashifal?"'self'":"'none'")+"; frame-ancestors 'none'");
   if(!asset){response.writeHead(404);response.end('Not found');return;}
   response.writeHead(200,{'Content-Type':asset[0]});response.end(asset[1]);
  });

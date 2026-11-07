@@ -3,8 +3,8 @@ import {mountRitualWorkspace} from './workspace-nav.mjs';
 import {createCalendarInputMemory,calendarMemoryCopy} from './calendar-input-memory.mjs?v=20261105-density';
 import {downloadBlob} from '/shared/download.mjs';
 import {mountCalendarLocation} from './calendar-location.mjs';
-import {localDate} from './lunar-core.mjs';
-import {tithiLabel,monthNames,displayedMonth} from './panchang.mjs?v=20261104-festivals';
+import {localDate} from './calendar-display.mjs';
+import {tithiLabel,monthNames,displayedMonth} from './calendar-display.mjs';
 import {observanceTypes,allObservanceTypes,festivalTypeKeys,eventTitle} from './observance-rules.mjs?v=20261104-festivals';
 import {observanceIcs,reminderOccurrences} from './observance-export.mjs?v=20261104-festivals';
 import {renderObservanceCard} from './observance-card.mjs';
@@ -12,15 +12,15 @@ const node=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefi
 const words={en:{title:'Vrat & Shraddha Calendars',description:'Find upcoming vrats and lunar dates for your location, or calculate a family remembrance plan.',dates:'Vrat calendar',remembrance:'Shraddha / Barsi calendar',location:'Indian city',month:'Month',calendar:'Lunar month labels',automatic:'Automatic for the selected city',amanta:'Amanta',purnimanta:'Purnimanta',tradition:'Ekadashi tradition',smarta:'Smarta household planning',traditionHelp:'Vaishnava / ISKCON and exceptional fasting rules need separate confirmation.',load:'Calculate dates',intro:'Choose your location and month. All times are IST. No death details are needed.',scope:'Calculated planning dates. Confirm regional and family practice before observing a vrat. Uncertain dates stay out of reminder exports.',busy:'Calculating local tithis and observance times…',empty:'Choose a city and calculate a month.',ready:'Dates calculated for',list:'Upcoming list',grid:'Month view',filter:'Dates to show',all:'Select all',none:'Clear selection',next:'Next occurrence',previous:'Previous month',following:'Next month',past:'Past date',candidate:'Confirm date',computed:'Calculated date',details:'Timings & calculation rule',start:'Tithi begins',end:'Tithi ends',sunrise:'Sunrise',sunset:'Sunset',moonrise:'Moonrise',period:'Observance window',parana:'Parana · following day',paranaHelp:'Special Parana timing needs confirmation; no timed reminder will be exported.',noResults:'No selected observances in this month. Choose another filter or month.',reminders:'Calendar reminders',alarm:'Reminder time',download:'Download selected dates (.ics)',single:'Add this date (.ics)',timed:'Also include resolved moonrise and Parana times (15-minute reminders)',reminderHelp:'Download and open the file in your calendar app. This is a one-time import; reminders depend on the app. Reimporting can duplicate events. No automatic sync or notification delivery.',reminderPrivacy:'Importing shares selected dates and the selected city with your calendar provider. Your inputs are not saved as a server record.',downloaded:'Calendar file downloaded. Check notifications after import.',excluded:'Past and unconfirmed dates are excluded. Purnima fasting and the Purnima calendar date can differ.',yearHelp:'Supported years: 2025–2030. Monthly requests keep calculation bounded.',sources:'About these dates',method:'Dates use local sunrise, midday, moonrise or evening, depending on the observance. Confirm uncertain dates and regional fasting rules before making plans.',noNext:'No next occurrence in this or the next month within the supported range.',reset:'Today',confirm:'Possible observance only. Confirm the fasting/puja date locally; no reminder is available.',noUpcoming:'No upcoming resolved dates in the selection.',viewDate:'Show details for',checked:'selected',unavailable:'Additional festival rules, Vaishnava calendars and automatic notifications are not available yet.'},hi:{title:'व्रत और श्राद्ध कैलेंडर',description:'अपने स्थान के आगामी व्रत और तिथियाँ देखें या पारिवारिक श्राद्ध और बरसी की योजना बनाएँ।',dates:'व्रत कैलेंडर',remembrance:'श्राद्ध / बरसी कैलेंडर',location:'भारतीय शहर',month:'महीना',calendar:'हिन्दू मास के नाम',automatic:'चुने शहर के अनुसार',amanta:'अमान्त',purnimanta:'पूर्णिमान्त',tradition:'एकादशी की परम्परा',smarta:'स्मार्त गृहस्थ योजना',traditionHelp:'वैष्णव / इस्कॉन और विशेष व्रत नियमों के लिए अलग पुष्टि आवश्यक है।',load:'तिथियाँ निकालें',intro:'स्थान और महीना चुनें। सभी समय IST हैं। मृत्यु का विवरण आवश्यक नहीं।',scope:'गणना आधारित योजना। व्रत से पहले क्षेत्रीय और पारिवारिक रीति की पुष्टि करें। अनिश्चित तारीखें याद दिलाने वाली फ़ाइल में नहीं जातीं।',busy:'स्थानीय तिथि और व्रत समय निकाले जा रहे हैं…',empty:'शहर चुनें और महीने की गणना करें।',ready:'इनके लिए तिथियाँ तैयार हैं',list:'आगामी सूची',grid:'महीने का दृश्य',filter:'दिखाई जाने वाली तिथियाँ',all:'सभी चुनें',none:'चयन हटाएँ',next:'अगली तिथि',previous:'पिछला महीना',following:'अगला महीना',past:'बीती तारीख',candidate:'तारीख की पुष्टि करें',computed:'गणना की तारीख',details:'समय और गणना का नियम',start:'तिथि आरम्भ',end:'तिथि समाप्त',sunrise:'सूर्योदय',sunset:'सूर्यास्त',moonrise:'चन्द्रोदय',period:'अनुष्ठान की अवधि',parana:'पारण · अगले दिन',paranaHelp:'विशेष पारण समय की पुष्टि आवश्यक है; समय वाला रिमाइंडर नहीं निकलेगा।',noResults:'इस महीने चुने हुए व्रत नहीं हैं। चयन या महीना बदलें।',reminders:'कैलेंडर में याद दिलाएँ',alarm:'याद दिलाने का समय',download:'चुनी तिथियाँ डाउनलोड करें (.ics)',single:'यह तारीख जोड़ें (.ics)',timed:'निश्चित चन्द्रोदय और पारण समय भी जोड़ें (15 मिनट पहले याद दिलाएँ)',reminderHelp:'फ़ाइल डाउनलोड करके अपने कैलेंडर ऐप में खोलें। यह एक बार का आयात है; सूचनाएँ ऐप पर निर्भर हैं। दोबारा आयात करने पर घटनाएँ दोहर सकती हैं। अपने आप सिंक या सूचना वितरण नहीं होता।',reminderPrivacy:'आयात से चुनी हुई तिथियाँ और चुना हुआ शहर आपके कैलेंडर प्रदाता को मिलता है। विवरण सर्वर पर रिकॉर्ड के रूप में नहीं सहेजा जाता।',downloaded:'कैलेंडर फ़ाइल डाउनलोड हुई। आयात के बाद सूचना सेटिंग देखें।',excluded:'बीती और अनिश्चित तारीखें शामिल नहीं होतीं। पूर्णिमा व्रत और पंचांग की पूर्णिमा की तारीख अलग हो सकती है।',yearHelp:'समर्थित वर्ष: 2025–2030। गणना एक महीने की होती है।',sources:'इन तिथियों के बारे में',method:'हर व्रत के अनुसार स्थानीय सूर्योदय, मध्याह्न, चन्द्रोदय या शाम का समय लिया जाता है। योजना से पहले अनिश्चित तिथियों और क्षेत्रीय व्रत नियमों की पुष्टि करें।',noNext:'इस या अगले महीने में समर्थित सीमा के भीतर अगली तिथि नहीं है।',reset:'आज',confirm:'केवल सम्भावित अनुष्ठान। व्रत/पूजा की तारीख स्थानीय रूप से पक्की करें; रिमाइंडर उपलब्ध नहीं है।',noUpcoming:'चयन में निश्चित आगामी तारीखें नहीं हैं।',viewDate:'इस दिन का विवरण देखें',checked:'चुनी गई',unavailable:'अतिरिक्त त्योहार नियम, वैष्णव कैलेंडर और अपने आप सूचनाएँ अभी उपलब्ध नहीं हैं।'}};
 
 const viewText={en:{list:'Up Next',noUpcoming:'No upcoming dates in this month. Choose another month above or use Month view.'},hi:{list:'आगामी तिथियाँ',noUpcoming:'इस महीने कोई आगामी तारीख नहीं है। ऊपर दूसरा महीना चुनें या महीने का दृश्य देखें।'}};
-export function mountObservanceCalendar(){
- const $=id=>document.getElementById(id),language=()=>$('language').value==='hi'?'hi':'en',w=key=>viewText[language()][key]??words[language()][key];
+export function mountObservanceCalendar(calendarRoot=document){
+ const $=id=>id==='language'?document.getElementById(id):calendarRoot.querySelector('#'+id),language=()=>$('language').value==='hi'?'hi':'en',w=key=>viewText[language()][key]??words[language()][key];
 Object.assign(words.en,{festivals:'Hindu festivals',unavailable:'Festival dates are planning aids, not a certified regional Panchang. Confirm locally before arranging observances.'});
 Object.assign(words.hi,{festivals:'हिन्दू त्योहार',unavailable:'त्योहारों की तारीखें योजना-सहायता हैं, प्रमाणित क्षेत्रीय पंचांग नहीं। अनुष्ठान तय करने से पहले स्थानीय पुष्टि करें।'});
  const inputMemory=createCalendarInputMemory('observances');
- const original=[$('scope'),document.querySelector('.calendar-layout'),document.querySelector('.reference')],intro=document.querySelector('main .intro');
+ const original=[$('scope'),calendarRoot.querySelector('.calendar-layout'),calendarRoot.querySelector('.reference')],intro=calendarRoot.querySelector('.intro');
  const workspace=mountRitualWorkspace({language:language(),onView:value=>activate(value)});
  const {nav,datesButton,remembranceButton}=workspace;
- const panel=node('section',undefined,'observance-panel');panel.id='observance-panel';nav.after(panel);
+ const panel=node('section',undefined,'observance-panel');panel.id='observance-panel';intro.before(panel);
  const form=node('form',undefined,'card observance-form');form.id='observance-form';
  const note=node('p',undefined,'scope'),formHeading=node('h2'),fields=node('div',undefined,'observance-fields');
  const field=(id,type)=>{const label=node('label'),caption=node('span'),input=node(type==='select'?'select':'input');input.id=id;input.name=id;if(type!=='select')input.type=type;label.append(caption,input);fields.append(label);return {label:caption,input};};
@@ -37,7 +37,7 @@ Object.assign(words.hi,{festivals:'हिन्दू त्योहार',una
  const status=node('p');status.id='observance-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');
  const output=node('div');output.id='observance-output';
  const method=node('details',undefined,'card observance-method'),methodTitle=node('summary'),methodText=node('p'),attribution=node('p');method.append(methodTitle,methodText,attribution);
- panel.append(form,note,status,output,method);document.querySelector('.calendar-layout').after($('scope'));
+ panel.append(form,note,status,output,method);calendarRoot.querySelector('.calendar-layout').after($('scope'));
  const dateTypeKeys=Object.keys(observanceTypes),festivalTypeSet=new Set(festivalTypeKeys);
  let result=null,controller=null,revision=0,view=new URLSearchParams(location.search).get('view')==='remembrance'?'remembrance':'dates',display='list',selected=new Set(dateTypeKeys),showFestivals=false,reminder='1',timed=false;
  const selectedTypes=()=>[...selected,...(showFestivals?festivalTypeKeys:[])],isSelected=event=>festivalTypeSet.has(event.type)?showFestivals:selected.has(event.type);
@@ -55,7 +55,7 @@ Object.assign(words.hi,{festivals:'हिन्दू त्योहार',una
  function stop(){revision++;controller?.abort();controller=null;submit.disabled=false;form.removeAttribute('aria-busy');}
  function clear(){stop();result=null;output.replaceChildren();status.textContent=w('empty');}
  function activate(value,updateUrl=true){view=value;panel.hidden=view!=='dates';for(const part of original)part.hidden=view==='dates';workspace.update(view,language());$('headline').textContent=view==='dates'?w('title'):(language()==='hi'?'श्राद्ध और बरसी कैलेंडर':'Shraddha & Barsi Calendar');$('description').textContent=w('description');document.title=$('headline').textContent+' · Ritual Assist';if(view==='remembrance'){stop();locationPicker?.cancel();}if(updateUrl){const url=new URL(location.href);url.searchParams.set('view',view);if(url.href!==location.href)history.pushState(history.state,'',url);}}
- addEventListener('popstate',()=>activate(new URL(location.href).searchParams.get('view')==='remembrance'?'remembrance':'dates',false));
+ addEventListener('popstate',()=>{if(location.pathname.includes('/guides'))return;activate(new URL(location.href).searchParams.get('view')==='remembrance'?'remembrance':'dates',false);});
  datesButton.onclick=()=>activate('dates');remembranceButton.onclick=()=>activate('remembrance');
  function setup(){
   drawVratControl();
@@ -66,22 +66,17 @@ Object.assign(words.hi,{festivals:'हिन्दू त्योहार',una
   attribution.replaceChildren();const geo=node('a','GeoNames · CC BY 4.0');geo.href='https://www.geonames.org/';attribution.append(geo,document.createTextNode(language()==='hi'?' · शहर के अनुमानित निर्देशांक।':' · Approximate city coordinates.'));
   activate(view,false);if(result)render();else status.textContent=w('empty');refreshMemoryCopy();
  }
- async function load({next=false}={}){
+ async function load(){
   if(!selected.size&&!showFestivals){vratError.textContent=language()==='hi'?'कम से कम एक व्रत चुनें।':'Choose at least one vrat.';vratError.hidden=false;vratMenu.open=true;vratSummary.focus();return;}vratMenu.open=false;
   rememberInputs();if(!form.reportValidity())return;
   stop();const token=revision,request=new AbortController();controller=request;submit.disabled=true;form.setAttribute('aria-busy','true');status.textContent=w('busy');output.replaceChildren();result=null;
   const timer=setTimeout(()=>request.abort(),25000);
   try{
    let chosen=month.input.value;
-   for(let attempt=0;attempt<(next?2:1);attempt++){
     const response=await fetch('/api/ritual-assist/observances',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({month:chosen,placeId:locationPicker.value,tradition:'smarta',...(calendar.input.value?{calendar:calendar.input.value}:{})}),cache:'no-store',signal:request.signal});
     const payload=await response.json();if(token!==revision)return;if(!response.ok)throw Error(payload.error||'Calculation unavailable');
     result=payload.result;month.input.value=chosen;rememberInputs();
-    if(!next||result.events.some(e=>isSelected(e)&&e.status==='computed'&&e.date>=localDate(Date.now())))break;
-    const d=new Date(chosen+'-01T12:00:00Z');d.setUTCMonth(d.getUTCMonth()+1);chosen=d.toISOString().slice(0,7);if(chosen>'2030-12')break;
-   }
    if(token!==revision)return;controller=null;submit.disabled=false;form.removeAttribute('aria-busy');render();
-   if(next){const target=output.querySelector('.observance-event[data-upcoming=true]');if(target){target.scrollIntoView({behavior:'smooth',block:'center'});target.querySelector('summary')?.focus();}else status.textContent=w('noNext');}
   }catch(error){if(token!==revision)return;result=null;output.replaceChildren();controller=null;submit.disabled=false;form.removeAttribute('aria-busy');status.textContent=error.name==='AbortError'?(language()==='hi'?'गणना का समय समाप्त हुआ। फिर प्रयास करें।':'Calculation timed out. Please try again.'):error.message;}
   finally{clearTimeout(timer);}
  }
@@ -133,4 +128,5 @@ Object.assign(words.hi,{festivals:'हिन्दू त्योहार',una
  }
  for(const event of ['input','change'])form.addEventListener(event,event=>{if(vratControl.contains(event.target))return;rememberInputs();clear();});form.onsubmit=event=>{event.preventDefault();void load();};$('language').addEventListener('change',setup);addEventListener('pagehide',()=>{locationPicker?.cancel();clear();});
  setup();
+ return {activate(value){activate(value,false);},suspend(){stop();locationPicker?.cancel();}};
 }

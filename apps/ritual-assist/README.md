@@ -1,3 +1,5 @@
+Audit release (2026-11-07): one persistent three-section workspace now serves calendar and guides routes. Prep mounts lazily via workspace.mjs, app.js and prep-template.mjs; calendar-display.mjs keeps presentation independent of the astronomy engine. City search uses shared `/api/places`; explicit GPS matching stays local. Retired dashboard/tools UI and old standalone index.html were removed, while tested pure pack/text and active per-event ICS remain. Current verification and deployment status are in the platform functionality ledger. Older release descriptions below are historical.
+
 # Ritual Assist
 
 Three-section mobile workspace (2026-11-06): one compact header restores the

@@ -1,0 +1,14 @@
+.home-vedic .daily-almanac{--almanac-input-edge:var(--rv-edge);--almanac-input-fill:var(--rv-panel);--almanac-input-accent:var(--rv-period-ink)}
+.daily-almanac .almanac-city-control{display:grid;gap:6px;min-width:0}
+.daily-almanac .almanac-location-caption{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.daily-almanac .almanac-location-caption>label{display:block;font-size:14px;margin:0}
+.daily-almanac .almanac-city-input{position:relative;min-width:0}
+.daily-almanac .almanac-city-control .almanac-city-input>input{height:48px;min-height:48px;padding-inline-end:56px;font-size:16px;margin:0}
+.daily-almanac .almanac-city-input>.almanac-detect-location{position:absolute;inset:50% 2px auto auto;transform:translateY(-50%);box-sizing:border-box;display:grid;place-items:center;width:44px;height:44px;min-height:44px;margin:0;padding:0;border:1px solid var(--almanac-input-edge,var(--ss-border));border-radius:7px;background:var(--almanac-input-fill,var(--ss-bg-secondary));color:var(--almanac-input-accent,var(--ss-primary))}
+.almanac-detect-location svg,.almanac-location-help svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.daily-almanac .almanac-detect-location[aria-busy=true]{opacity:.6}
+.daily-almanac .almanac-location-help{position:relative;flex:none}
+.daily-almanac .almanac-location-help>summary{display:grid;place-items:center;min-width:44px;min-height:44px;padding:0;list-style:none;color:var(--almanac-input-accent,var(--ss-primary));cursor:pointer}
+.almanac-location-help>summary::-webkit-details-marker{display:none}
+.daily-almanac .almanac-location-help>.almanac-location-hint{position:absolute;inset:100% 0 auto auto;z-index:5;width:min(280px,70vw);box-sizing:border-box;margin:4px 0;padding:12px;border:1px solid var(--almanac-input-edge,var(--ss-border));border-radius:10px;background:var(--ss-surface,var(--almanac-input-fill,var(--ss-bg-secondary)));color:var(--ss-text-secondary);font-size:13px;line-height:1.5;box-shadow:var(--ui-shadow)}
+.daily-almanac .almanac-location-status:empty{display:none}

@@ -1,5 +1,9 @@
 # Code ownership and adding apps
 
+Ritual persistent workspace (2026-11-07): `workspace.mjs` owns section routing, lazy Prep loading, root attachment, cancellation and section scroll. `app.js` exposes one Prep mount/resume/suspend contract; `prep-template.mjs` owns its trusted static markup. Both calendar and guide URL entry points serve calendar.html. Calendar/Prep IDs are unique in the connected document, and controllers scope queries to their retained roots. `calendar-display.mjs` owns pure presentation helpers shared with the calculation modules; it has no ephemeris dependency. Removed retired calendar-dashboard/calendar-tools UI. Tested preparation-pack pure exports and active per-date ICS remain.
+
+Shared public city search (2026-11-07): `packages/vedic/place-api.mjs` validates read-only directory search/ID resolution; Node composition and Workers expose `/api/places` before private storage/session handling. Origin/maintenance boundaries still apply; dedicated CITY_LIMITER bounds edge work. `packages/ui/place-search.mjs` owns bounded request caching. Ritual GPS loads the existing local directory on explicit detection and does not send coordinates to the endpoint. Ritvayam's daily/home search shares the API; existing browser calculation/birth-place directory dependencies remain. No database/schema/provider change.
+
 Browser place-directory compaction (2026-11-06): `packages/vedic/places.mjs`
 imports `place-directory.mjs`. Node reads the unchanged canonical JSON; the
 package's browser mapping selects a generated lossless column/dictionary module.
@@ -1158,7 +1162,7 @@ WhatsApp contact is a frontend flow owned by portal forms and `packages/ui/whats
 
 Ritual Assist owns its stateless calendar backend in `apps/ritual-assist/backend`. `server/index.js` composes public `POST /api/ritual-assist/calendar`; bounded Indian/IST inputs run in worker threads without SQLite writes or retained death records. Cloudflare independently serves guides/form; calculation requires Node. App-owned content modules provide 15 bilingual guides.
 
-Ritual calendar reminder/pack exports belong to app-owned frontend modules: `calendar-export.mjs` generates individual ICS events, `preparation-pack.mjs` prepares original guide content/text and `calendar-tools.mjs` manages transient selections, checks, responsibilities and dedicated print/PDF. No account/provider connection, saved record, schema or external message delivery is introduced. Uncertain/conditional dates remain in the pack but are excluded from reminder exports. New modules are explicitly allowlisted and exported to Cloudflare.
+Ritual calendar reminder/pack exports belong to app-owned frontend modules: `calendar-export.mjs` generates individual ICS events, `preparation-pack.mjs` prepares original guide content/text; the retired `calendar-tools.mjs` UI has been removed. No account/provider connection, saved record, schema or external message delivery is introduced. Uncertain/conditional dates remain in the pack but are excluded from reminder exports. New modules are explicitly allowlisted and exported to Cloudflare.
 
 Public information routes `/privacy`, `/terms`, `/contact`, `/legal` and `/legal/third-party-notices` belong to the portal frontend. Their static shared footer belongs to `packages/ui/legal-footer.css`; no browser tracking, legal-form submission or storage is introduced. All pages link to them without JavaScript; Cloudflare independently serves the routes and slash aliases. Information reflects current app storage/limitations, with operator/contact details explicitly pending until supplied. See `docs/LEGAL_SOURCE_REGISTER.md` for notices and unresolved rights decisions.
 

@@ -66,29 +66,29 @@ body.ritual-landing .guides-symbol{--art-x:100%;--art-y:100%;flex-basis:36px;wid
 body.ritual-landing .ritual-art{clip-path:inset(3%)}
 body.ritual-landing .category-symbol{display:inline-block;width:19px;height:19px;vertical-align:middle;margin-right:7px;fill:none;stroke:var(--ritual-gold);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 /* Keep shared account/theme/app behavior; correct their palette only on this page. */
-body.ritual-landing .platform-shell{background:var(--ritual-panel)!important;border-color:var(--ritual-line);color:var(--ritual-ink);box-shadow:0 3px 15px var(--ritual-shadow)}
-body.ritual-landing .platform-shell :is(.platform-switch,.platform-account,.theme-toggle){background:var(--ritual-panel)!important;color:var(--ritual-ink)!important;border:1px solid var(--ritual-line)!important;box-shadow:inset 0 1px var(--ritual-highlight)}
-body.ritual-landing .platform-shell .theme-toggle{--header-text:var(--ritual-ink);--header-muted:var(--ritual-gold);--header-surface:var(--ritual-raised);--header-line:var(--ritual-line);border-radius:999px}
-body.ritual-landing .platform-shell .theme-toggle:before{background:var(--ritual-raised)!important;box-shadow:0 2px 5px var(--ritual-shadow)}
+
+
+
+
 body.ritual-landing .language{padding:3px;background:var(--ritual-panel);border:1px solid var(--ritual-line);border-radius:999px;gap:3px}
 body.ritual-landing .language button{background:transparent!important;color:var(--ritual-muted)!important;border:0!important;min-height:36px;padding:7px 13px;font:500 13px/1.4 'Segoe UI','Nirmala UI',sans-serif;box-shadow:none}
 body.ritual-landing .language button[aria-pressed=true]{background:linear-gradient(145deg,var(--ritual-emerald),var(--ritual-emerald-deep))!important;color:var(--ritual-on-emerald)!important;box-shadow:inset 0 1px 2px var(--ritual-highlight)}
-body.ritual-landing .platform-shell .language{margin-left:8px;order:4}
+
 /* Theme colours switch together; inherited background transitions otherwise show
    pale intermediate controls during a dark-mode change. */
 body.ritual-landing :is(.platform-shell,.platform-switch,.platform-account,.theme-toggle,.language button,.filters button,.guide-option){transition:border-color .15s ease,box-shadow .15s ease!important}
 body.ritual-landing :is(.guide-option,.calendar-open,.filters button,.language button):focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 @media(max-width:768px){
  body.ritual-landing{--shell-height:72px}
- body.ritual-landing .platform-shell{display:flex;align-items:center;gap:4px;height:72px;padding:0 8px}
- body.ritual-landing .platform-shell-brand{flex:0 0 auto;font-size:16px;gap:7px}
- body.ritual-landing .platform-shell-brand img{width:24px;height:24px}
- body.ritual-landing .platform-shell-actions{gap:4px;margin:0}
- body.ritual-landing .platform-shell .theme-toggle{width:48px;min-width:48px;padding:7px;gap:4px}
- body.ritual-landing .platform-shell .platform-switch{flex:0 1 auto;width:auto;max-width:calc(100vw - 250px);min-height:44px;padding:6px;font-size:11px;gap:3px}
- body.ritual-landing .platform-shell .language{flex:0 0 auto;margin:0}
- body.ritual-landing .platform-shell .language button{min-height:40px;padding:6px 7px;font-size:11px}
- body.ritual-landing .platform-shell .platform-shell-divider{display:none}
+
+
+
+
+
+
+
+
+
  body.ritual-landing main{padding:14px 13px}
  body.ritual-landing .calendar-launch{padding:23px 22px;min-height:260px;border-radius:17px}
  body.ritual-landing #calendar-launch-title{font-size:30px}
@@ -125,10 +125,10 @@ body.ritual-landing :is(.guide-option,.calendar-open,.filters button,.language b
 }
 @media(max-width:600px){body.ritual-landing .guide-option{min-height:56px;font-size:14px}body.ritual-landing .guide-option small,body.ritual-landing .check-item small,body.ritual-landing .fine,body.ritual-landing .reference li,body.ritual-landing .reference small{font-size:12px;line-height:1.5}body.ritual-landing .check-item{min-height:56px;font-size:14px}body.ritual-landing #guide .checklist-controls :is(button,select){min-height:44px;font-size:14px}body.ritual-landing .guide-top>p,body.ritual-landing .variation p{font-size:14px}body.ritual-landing .filters button,body.ritual-landing .progress-row button,body.ritual-landing .actions button,body.ritual-landing .reference summary{min-height:44px;font-size:12px}}
 @media(max-width:360px){
- body.ritual-landing .platform-shell{padding-inline:10px}
- body.ritual-landing .platform-shell-brand{font-size:13px;gap:5px}
- body.ritual-landing .platform-shell-brand img{width:27px;height:27px}
- body.ritual-landing .platform-shell-actions{gap:5px}
+
+
+
+
  body.ritual-landing .platform-account{font-size:10px;padding:7px}
  body.ritual-landing #calendar-launch-title{font-size:23px}
  body.ritual-landing .calendar-copy{flex-basis:63%}
@@ -157,3 +157,5 @@ body.ritual-landing :is(.guide-option,.calendar-open,.filters button,.language b
 .mantra-iast{white-space:pre-line;font-size:14px;font-style:italic;color:var(--muted)}.learning-citation{font-size:12px;line-height:1.7}.learning-citation small{display:block;color:var(--muted);margin-top:4px}.learning-citation a{display:inline-flex;align-items:center;min-height:44px;max-width:100%;text-decoration:underline;text-underline-offset:3px}.learning-download{margin-top:16px;min-height:44px}
 @media(max-width:760px){.ritual-learning>summary{padding:14px;font-size:14px}.learning-body{padding:0 14px 14px}.learning-tabs{gap:6px}.learning-tabs button{flex:1 1 130px}.learning-mantra{padding:14px 0}}
 @media print{.ritual-learning{display:none!important}body.ritual-landing .calendar-launch,body.ritual-landing .guidance-notice,body.ritual-landing .landing-toolbar{display:none!important}body.ritual-landing main{padding:0}}
+
+@media screen{html[data-theme-style=deep] body.ritual-landing{--ritual-bg:var(--ui-bg);--ritual-panel:var(--deep-surface);--ritual-raised:var(--ui-soft);--ritual-ink:var(--ui-ink);--ritual-muted:var(--ui-muted);--ritual-line:var(--ui-edge);--ritual-gold:var(--ui-accent);--ritual-emerald:var(--ui-accent);--ritual-emerald-deep:var(--ui-accent);--ritual-on-emerald:var(--ui-on-accent);--ritual-teal:var(--ui-soft);--ritual-teal-line:var(--ui-edge);--ritual-warm:var(--ui-soft);--accent:var(--ui-accent);--on-accent:var(--ui-on-accent)}}

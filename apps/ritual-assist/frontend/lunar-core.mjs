@@ -1,13 +1,8 @@
 // Astronomy primitives shared by remembrance and public observance calendars.
 // All dates in this app are India/IST; no network or persistent state is used.
 import {Body,Observer,MoonPhase,SearchMoonPhase,SearchRiseSet} from './astronomy-engine.mjs';
-export const DAY=86400000,IST=330*60000,BOUNDARY_GUARD=5*60000;
-export const localDate=value=>new Date(Number(value instanceof Date?value:new Date(value))+IST).toISOString().slice(0,10);
-export function midnight(date){
- if(typeof date!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(date))throw Error('Enter a valid date');
- const d=new Date(date+'T00:00:00+05:30');if(!Number.isFinite(+d)||localDate(d)!==date)throw Error('Enter a valid date');return +d;
-}
-export const addDays=(date,days)=>localDate(midnight(date)+days*DAY);
+import {DAY,IST,localDate,midnight,addDays,BOUNDARY_GUARD} from './calendar-display.mjs';
+export {DAY,IST,localDate,midnight,addDays,BOUNDARY_GUARD};
 export function tithiAt(value){return Math.floor(MoonPhase(new Date(value))/12)+1;}
 export function phase(angle,start,days){const value=SearchMoonPhase(angle,new Date(start),days);if(!value)throw Error('Lunar boundary could not be resolved');return +value.date;}
 export function tithiWindow(value){

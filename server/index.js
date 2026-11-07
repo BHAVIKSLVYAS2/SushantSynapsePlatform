@@ -1,3 +1,4 @@
+const placeRequests=new Map();
 const http=require('node:http');
 const fs=require('node:fs');
 const path=require('node:path');
@@ -110,6 +111,16 @@ async function dispatch(req,res) {
     if(url.pathname==='/api/feedback'||url.pathname.startsWith('/api/feedback/'))return await feedbackApp(req,res,allowedOrigin);
     if(url.pathname==='/api/pandit-booking'||url.pathname.startsWith('/api/pandit-booking/'))return await panditBooking(req,res,allowedOrigin);
     if(url.pathname==='/api/satire-arena'||url.pathname.startsWith('/api/satire-arena/'))return await satireArena(req,res,allowedOrigin);
+    if(route==='places'){
+      const ip=req.socket.remoteAddress||'local',now=Date.now();
+      for(const [key,value]of placeRequests)if(now-value.start>=60000)placeRequests.delete(key);
+      const entry=placeRequests.get(ip)||{start:now,count:0};
+      if(++entry.count>120)return json(429,{error:'Please wait before searching again.'});
+      if(placeRequests.size<10000||placeRequests.has(ip))placeRequests.set(ip,entry);
+      const {placeLookup}=await import('../packages/vedic/place-api.mjs');
+      const response=placeLookup(url,method);res.writeHead(response.status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':response.status===200?'public, max-age=86400':'no-store','X-Content-Type-Options':'nosniff',...(response.status===405?{Allow:'GET, HEAD'}:{})});
+      res.end(method==='HEAD'?undefined:JSON.stringify(response.body));return;
+    }
     const user=auth.session(req);
     const context={route,method,req,res,json,user};
     if(route==='organisation-admin'||route.startsWith('organisation-admin/')){

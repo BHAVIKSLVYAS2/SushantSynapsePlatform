@@ -1,4 +1,4 @@
-import {localDate,addDays} from './lunar-core.mjs';
+import {localDate,addDays} from './calendar-display.mjs';
 import {foldCalendarLine} from './calendar-export.mjs';
 import {eventTitle,observanceTypes,allObservanceTypes,policyVersion} from './observance-rules.mjs?v=20261104-festivals';
 const escape=value=>String(value).replaceAll('\\','\\\\').replace(/\r\n|\r|\n/g,'\\n').replaceAll(';','\\;').replaceAll(',','\\,');

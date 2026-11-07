@@ -1,5 +1,6 @@
+import {searchPlaces} from '../../../packages/ui/place-search.mjs';
 import {dailyAlmanac,currentChoghadiya,istDate} from '../../../packages/vedic/daily-almanac.mjs';
-import {getPlace,searchPlaces,nearestPlace} from '../../../packages/vedic/places.mjs';
+import {getPlace,nearestPlace} from '../../../packages/vedic/places.mjs';
 import {placeLabel} from './place-text.mjs';
 
 const labels={
@@ -18,33 +19,42 @@ export function mountDailyAlmanac(container,{now=()=>Date.now(),compact=false}={
  const root=el('section');root.className='daily-almanac'+(compact?' almanac-compact':'');root.setAttribute('translate','no');
  let language=window.SynapseLanguage?.get()||'en',placeId=fallback,explicit=false,cached=null,lastRender='';
  try{const saved=localStorage.getItem(key);if(saved){getPlace(saved);placeId=saved;explicit=true;}}catch{}
- const title=el('h3'),locality=el('p'),reference=el('p'),change=el('details'),summary=el('summary'),label=el('label'),caption=el('span'),input=el('input'),matches=el('div'),searchStatus=el('p');
+ const title=el('h3'),locality=el('p'),reference=el('p'),change=el('details'),summary=el('summary'),label=el('div'),caption=el('label'),input=el('input'),matches=el('div'),searchStatus=el('p');
  const cityName=el('span');if(compact)summary.append(cityName);
  const detect=el('button'),geoStatus=el('p'),geoHint=el('p'),picker=el('dialog'),pickerTitle=el('h3'),closePicker=el('button'),pickerHead=el('div');
  let locationRequest=0,destroyed=false;
  detect.type=closePicker.type='button';detect.className='almanac-detect-location';geoStatus.role='status';geoStatus.className='almanac-location-status';geoHint.className='almanac-location-hint';picker.className='almanac-location-dialog';pickerHead.className='almanac-location-dialog-head';pickerTitle.id='almanac-city-'+Math.random().toString(36).slice(2);picker.setAttribute('aria-labelledby',pickerTitle.id);pickerHead.append(pickerTitle,closePicker);
- input.type='search';input.autocomplete='off';input.maxLength=100;label.append(caption,input);matches.className='almanac-city-results';searchStatus.role='status';change.append(summary,label,matches,searchStatus);
+ const fieldWrap=el('div'),captionWrap=el('div'),help=el('details'),helpSummary=el('summary');
+ fieldWrap.className='almanac-city-input';captionWrap.className='almanac-location-caption';label.className='almanac-city-control';help.className='almanac-location-help';
+ input.id=pickerTitle.id+'-query';caption.htmlFor=input.id;geoHint.id=pickerTitle.id+'-help';geoStatus.id=pickerTitle.id+'-status';input.setAttribute('aria-describedby',geoStatus.id);
+ detect.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="6"/><path d="M12 2v4m0 12v4M2 12h4m12 0h4"/><circle cx="12" cy="12" r="1"/></svg>';
+ helpSummary.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M9.5 8.5a2.5 2.5 0 0 1 5 0c0 2-2.5 2-2.5 4M12 16h.01"/></svg>';
+ help.addEventListener('keydown',event=>{if(event.key==='Escape'&&help.open){event.preventDefault();event.stopPropagation();help.open=false;helpSummary.focus();}});
+ help.append(helpSummary,geoHint);captionWrap.append(caption,help);fieldWrap.append(input,detect);label.append(captionWrap,fieldWrap);
+ function updateDetect(){const t=locationCopy[language],name=detect.disabled?t.busy:t.use;detect.setAttribute('aria-label',name);detect.title=name;detect.setAttribute('aria-busy',String(detect.disabled));}
+ input.type='search';input.autocomplete='off';input.maxLength=100;matches.className='almanac-city-results';searchStatus.role='status';change.append(summary,label,matches,searchStatus);
  const header=el('div');header.className='almanac-heading';header.append(title,change);locality.className='almanac-locality';reference.className='almanac-note';
  const facts=el('dl');facts.className='almanac-events';const current=el('p');current.className='almanac-current';current.role='status';
  const details=el('details'),detailsSummary=el('summary'),periods=el('div'),note=el('p');periods.className='almanac-periods';note.className='almanac-note';details.append(detailsSummary,periods,note);
  root.append(header,locality,reference,facts,current,details);if(compact){current.remove();detailsSummary.append(current);root.insertBefore(facts,header);change.append(reference);}
  container.append(root);
- if(compact){picker.append(pickerHead,detect,geoHint,geoStatus,label,matches,searchStatus,reference);root.append(picker);summary.addEventListener('click',event=>{event.preventDefault();if(!picker.open){picker.showModal();input.focus();}});closePicker.onclick=()=>picker.close();picker.addEventListener('close',()=>{locationRequest++;detect.disabled=false;detect.textContent=locationCopy[language].use;summary.focus();});}
- else change.insertBefore(detect,label),change.insertBefore(geoHint,label),change.insertBefore(geoStatus,label);
+ if(compact){picker.append(pickerHead,label,geoStatus,matches,searchStatus,reference);root.append(picker);summary.addEventListener('click',event=>{event.preventDefault();if(!picker.open){picker.showModal();input.focus();}});closePicker.onclick=()=>picker.close();picker.addEventListener('close',()=>{locationRequest++;detect.disabled=false;updateDetect();summary.focus();});}
+ else change.insertBefore(geoStatus,matches);
  function choosePlace(id){input.setAttribute('aria-expanded','false');input.removeAttribute('aria-activedescendant');locationRequest++;detect.disabled=false;placeId=id;explicit=true;cached=null;try{localStorage.setItem(key,placeId);}catch{}input.value='';matches.replaceChildren();geoStatus.textContent='';change.open=false;if(picker.open)picker.close();summary.focus();render();window.dispatchEvent(new CustomEvent('ritvayam-almanac-place',{detail:{placeId}}));}
  detect.onclick=()=>{
   const request=++locationRequest,t=locationCopy[language];geoStatus.textContent='';
   if(!navigator.geolocation){geoStatus.textContent=t.failed;return;}
-  detect.disabled=true;detect.textContent=t.busy;
-  const failed=error=>{if(destroyed||request!==locationRequest)return;detect.disabled=false;detect.textContent=locationCopy[language].use;geoStatus.textContent=locationCopy[language][error?.code===1?'denied':'failed'];};
-  try{navigator.geolocation.getCurrentPosition(position=>{if(destroyed||request!==locationRequest)return;detect.disabled=false;detect.textContent=locationCopy[language].use;try{const nearby=nearestPlace(position.coords.latitude,position.coords.longitude);if(!nearby){geoStatus.textContent=locationCopy[language].outside;return;}choosePlace(nearby.place.id);}catch{failed();}},failed,{enableHighAccuracy:false,timeout:10000,maximumAge:300000});}catch{failed();}
+  detect.disabled=true;updateDetect();geoStatus.textContent=t.busy;
+  const failed=error=>{if(destroyed||request!==locationRequest)return;detect.disabled=false;updateDetect();geoStatus.textContent=locationCopy[language][error?.code===1?'denied':'failed'];};
+  try{navigator.geolocation.getCurrentPosition(position=>{if(destroyed||request!==locationRequest)return;detect.disabled=false;updateDetect();try{const nearby=nearestPlace(position.coords.latitude,position.coords.longitude);if(!nearby){geoStatus.textContent=locationCopy[language].outside;return;}choosePlace(nearby.place.id);}catch{failed();}},failed,{enableHighAccuracy:false,timeout:10000,maximumAge:300000});}catch{failed();}
  };
  let cityActive=-1;
  input.role='combobox';input.setAttribute('aria-autocomplete','list');input.setAttribute('aria-expanded','false');matches.id=pickerTitle.id+'-options';matches.role='listbox';input.setAttribute('aria-controls',matches.id);
- function search(){cityActive=-1;input.removeAttribute('aria-activedescendant');input.setAttribute('aria-expanded','false');matches.replaceChildren();searchStatus.textContent='';if(input.value.trim().length<2)return;
-  let found=[];try{found=searchPlaces(input.value,{limit:8}).matches;}catch{}
+ let searchTimer;
+ function search(){clearTimeout(searchTimer);locationRequest++;detect.disabled=false;updateDetect();geoStatus.textContent='';cityActive=-1;input.removeAttribute('aria-activedescendant');input.setAttribute('aria-expanded','false');matches.replaceChildren();searchStatus.textContent='';if(input.value.trim().length<2)return;
+  const request=locationRequest,term=input.value;searchTimer=setTimeout(async()=>{let found=[];try{found=(await searchPlaces(term,{limit:8})).matches;}catch{if(!destroyed&&request===locationRequest)searchStatus.textContent=locationCopy[language].failed;return;}if(destroyed||request!==locationRequest)return;
   if(!found.length)searchStatus.textContent=labels[language].none;
-  input.setAttribute('aria-expanded',String(found.length>0));for(const [index,place]of found.entries()){const button=el('button',placeLabel(place,language));button.type='button';button.role='option';button.id=matches.id+'-'+index;button.setAttribute('aria-selected','false');button.dataset.almanacPlace=place.id;button.addEventListener('pointerdown',event=>event.preventDefault());button.onclick=()=>{input.setAttribute('aria-expanded','false');input.removeAttribute('aria-activedescendant');choosePlace(place.id);};matches.append(button);}
+  input.setAttribute('aria-expanded',String(found.length>0));for(const [index,place]of found.entries()){const button=el('button',placeLabel(place,language));button.type='button';button.role='option';button.id=matches.id+'-'+index;button.setAttribute('aria-selected','false');button.dataset.almanacPlace=place.id;button.addEventListener('pointerdown',event=>event.preventDefault());button.onclick=()=>{input.setAttribute('aria-expanded','false');input.removeAttribute('aria-activedescendant');choosePlace(place.id);};matches.append(button);}},180);
  }
  input.addEventListener('input',search);
  input.addEventListener('keydown',event=>{const options=[...matches.children];if(!options.length)return;if(event.key==='Escape'){event.preventDefault();event.stopPropagation();matches.replaceChildren();input.setAttribute('aria-expanded','false');input.removeAttribute('aria-activedescendant');}else if(event.key==='ArrowDown'||event.key==='ArrowUp'){event.preventDefault();cityActive=cityActive<0?(event.key==='ArrowDown'?0:options.length-1):(cityActive+(event.key==='ArrowDown'?1:-1)+options.length)%options.length;options.forEach((option,index)=>option.setAttribute('aria-selected',String(index===cityActive)));input.setAttribute('aria-activedescendant',options[cityActive].id);options[cityActive].scrollIntoView({block:'nearest'});}else if(event.key==='Enter'){event.preventDefault();options[cityActive<0?0:cityActive].click();}});
@@ -52,7 +62,7 @@ export function mountDailyAlmanac(container,{now=()=>Date.now(),compact=false}={
   const t=labels[language],instant=now(),date=istDate(instant);
   const active=cached&&currentChoghadiya([...cached.previousNight,...cached.day,...cached.night],instant),renderKey=[date,placeId,language,explicit,active?.start].join(':');
   if(cached?.localDate===date&&lastRender===renderKey)return;
-  const locationText=locationCopy[language];pickerTitle.textContent=t.city;closePicker.textContent=locationText.close;detect.textContent=detect.disabled?locationText.busy:locationText.use;geoHint.textContent=locationText.hint;
+  const locationText=locationCopy[language];pickerTitle.textContent=t.city;closePicker.textContent=locationText.close;updateDetect();geoHint.textContent=locationText.hint;input.placeholder=language==='hi'?'शहर खोजें या स्थान आइकन दबाएँ':language==='gu'?'શહેર શોધો અથવા સ્થાન આઇકન દબાવો':'Search city or tap location icon';helpSummary.setAttribute('aria-label',language==='hi'?'स्थान की जानकारी':language==='gu'?'સ્થાનની માહિતી':'Location help');
   root.lang=language;root.dataset.placeId=placeId;title.textContent=t.title;if(compact)cityName.textContent=placeLabel(getPlace(placeId),language).split(',')[0];else summary.textContent=t.city;summary.setAttribute('aria-label',t.city+': '+placeLabel(getPlace(placeId),language));caption.textContent=t.search;reference.textContent=t.reference;reference.hidden=explicit;
   locality.textContent=placeLabel(getPlace(placeId),language)+' · '+new Intl.DateTimeFormat(({en:'en-IN',hi:'hi-IN',gu:'gu-IN'})[language],{timeZone:'Asia/Kolkata',day:'numeric',month:'short',year:'numeric'}).format(instant)+' · IST';
   if(!compact)detailsSummary.textContent=t.all;else detailsSummary.setAttribute('aria-label',t.all);note.textContent=t.note;facts.replaceChildren();periods.replaceChildren();
@@ -89,6 +99,6 @@ export function mountDailyAlmanac(container,{now=()=>Date.now(),compact=false}={
  window.addEventListener('synapse-language-change',languageChanged);window.addEventListener('ritvayam-almanac-place',cityChanged);window.addEventListener('storage',storage);window.addEventListener('pageshow',refresh);document.addEventListener('visibilitychange',refresh);
  // One-second boundary checks update only when the date or active interval changes.
  let signature='';const timer=setInterval(()=>{if(!root.isConnected){destroy();return;}if(document.visibilityState==='hidden')return;const instant=now(),active=cached&&currentChoghadiya([...cached.previousNight,...cached.day,...cached.night],instant),next=istDate(instant)+':'+active?.start;if(next!==signature){signature=next;render();}},1000);
- function destroy(){destroyed=true;locationRequest++;if(picker.open)picker.close();clearInterval(timer);window.removeEventListener('synapse-language-change',languageChanged);window.removeEventListener('ritvayam-almanac-place',cityChanged);window.removeEventListener('storage',storage);window.removeEventListener('pageshow',refresh);document.removeEventListener('visibilitychange',refresh);root.remove();}
+ function destroy(){clearTimeout(searchTimer);destroyed=true;locationRequest++;if(picker.open)picker.close();clearInterval(timer);window.removeEventListener('synapse-language-change',languageChanged);window.removeEventListener('ritvayam-almanac-place',cityChanged);window.removeEventListener('storage',storage);window.removeEventListener('pageshow',refresh);document.removeEventListener('visibilitychange',refresh);root.remove();}
  render();return {destroy,translate(value){if(!labels[value])throw new TypeError('Unsupported language.');language=value;render();search();}};
 }

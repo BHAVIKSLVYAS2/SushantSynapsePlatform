@@ -122,11 +122,3 @@ export function renderObservanceCard(canvas,events,{month,location,language='en'
  ctx.restore();
  return {width,height};
 }
-
-export function observanceCardPng(canvas){
- return new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(Error('Could not create the date card. Please try again.')),'image/png'));
-}
-
-export function observanceCardCopy(language='en'){
- return copy[language]||copy.en;
-}

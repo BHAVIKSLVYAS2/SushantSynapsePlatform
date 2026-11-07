@@ -11,6 +11,7 @@
  "vars":{"PUBLIC_ORIGIN":"https://sushant-synapse-free-staging.bhavik-slvyas.workers.dev","MAINTENANCE_MODE":"false","FREE_MODE":"true","AUTH_METHOD":"password","FULL_APPS":"true"},
  "d1_databases":[{"binding":"PLATFORM_DB","database_name":"synapse-platform-free-staging","database_id":"721bc0d6-f730-43e6-a7ed-eb3869851b5d","migrations_dir":"d1-free-migrations"}],
  "ratelimits":[
+  {"name":"CITY_LIMITER","namespace_id":"2026110702","simple":{"limit":120,"period":60}},
   {"name":"AUTH_LIMITER","namespace_id":"2026101107","simple":{"limit":6,"period":60}},
   {"name":"SAMAJ_LIMITER","namespace_id":"2026101109","simple":{"limit":120,"period":60}},
   {"name":"CALENDAR_LIMITER","namespace_id":"2026101110","simple":{"limit":6,"period":60}},

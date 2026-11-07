@@ -2,7 +2,7 @@ import {mountShareResult} from './share-result.mjs';
 import {remembranceYears,remembranceRangeLabel} from './remembrance-range.mjs';
 import {drawExportBrand} from '/shared/export-brand.mjs';
 import {occasionTitle} from './calendar-export.mjs';
-import {displayedMonth,monthNames,tithiLabel} from './panchang.mjs';
+import {displayedMonth,monthNames,tithiLabel} from './calendar-display.mjs';
 
 const fonts='"Nirmala UI","Segoe UI",Arial,sans-serif';
 const copy={
@@ -183,10 +183,6 @@ export function renderShraddhaCard(canvas,calendar,language='en',selectedYear,th
  const accessible=rows.map(row=>occasionTitle(row,language)+' · '+(row.date?displayDate(row,language,labels):labels.unresolved)+' · '+scheduleLines(row,language,calendar,labels,scope).join(' · ')).join(' | ');
  canvas.setAttribute('role','img');canvas.setAttribute('aria-label',`Sushant Synapse · Ritual Assist · ${title} · ${scope==='year'?period:calendar.data.date} · ${calendar.data.location.name} · ${accessible}`);
  return {width,height};
-}
-
-export function shraddhaCardPng(canvas){
- return new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(Error(copy.en.error)),'image/png'));
 }
 
 export function mountShraddhaCard(container,calendar,language='en',activeYear,activeScope='year'){
