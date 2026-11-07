@@ -8,4 +8,15 @@
 #break-workspace #hub .break-card #code-access{position:static;width:auto;height:auto;clip-path:none}
 #break-workspace .break-heading .eyebrow{font-size:10px}
 
-#break-workspace summary{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px}#break-workspace summary::before{content:"+"}#break-workspace details[open]>summary::before{content:"-"}#break-workspace .round-controls{align-items:start}#break-workspace .round-controls details button{margin-block:8px}.chaos-feedback{min-height:1.5em;text-align:center;color:var(--text)}
+#break-workspace summary{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px}#break-workspace summary{list-style:none}#break-workspace summary::-webkit-details-marker{display:none}#break-workspace summary::before{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);margin-inline:3px 5px;flex:none}#break-workspace details[open]>summary::before{transform:rotate(45deg)}#break-workspace .round-controls{align-items:start}#break-workspace .round-controls details button{margin-block:8px}.chaos-feedback{min-height:1.5em;text-align:center;color:var(--text)}
+
+/* Native popovers keep secondary controls out of the game layout. */
+#break-workspace .round-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#break-workspace .round-controls>button{margin:0;min-height:44px}
+#break-workspace .break-options{position:fixed;inset:auto;margin:0;padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--text);box-shadow:0 12px 32px color-mix(in srgb,var(--text) 18%,transparent);max-height:calc(100dvh - 24px);overflow:auto}
+#break-workspace .break-options::backdrop{background:transparent}
+#break-workspace .break-options .spark-setup{margin:0}
+#break-workspace .break-options .difficulty-label{display:grid;gap:6px;justify-content:stretch;text-align:left}
+#break-workspace .break-options select{width:100%;min-height:44px}
+#break-workspace .break-options>button{width:100%;min-height:44px;margin:0;text-align:left}
+#break-workspace .break-options .fine{margin:8px 0 14px}

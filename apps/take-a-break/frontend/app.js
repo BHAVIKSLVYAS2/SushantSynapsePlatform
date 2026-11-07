@@ -8,6 +8,17 @@ const params=new URLSearchParams(location.search),today=istDate(),day=validDay(p
 const games={chaos:{name:'One-Minute Chaos',description:'Catch falling chai, dodge meeting invites and silence alarms. Sixty seconds of escalating office absurdity.',next:'24'},24:{name:'Make 24',description:'The original Daily Spark number game. Use every number once to make 24.',next:'code'},code:{name:'Crack the Code',description:'Three digits. Five clues. One solution. Read the clues and work out the code—no blind guessing needed.',next:'memory'},memory:{name:'Memory Minute',description:'Turn over two cards and find six matching pairs. “Minute” is a little break, not a time limit.',next:'lights'},lights:{name:'Lights Out',description:'Turn every light off. Tapping a tile flips it and its neighbours above, below, left and right. Clear three increasingly challenging boards.',next:'face'},face:{name:'Face-Off',description:'Choose between two options until your favourite is left. This is your preference, not a random draw.',next:'24'}};
 const controllers={},panes={};let active=null,hubScroll=0,launchRevision=0,mountChaos,mountSpark,sparkMarkup;
 const element=(tag,className,text)=>{const e=document.createElement(tag);e.className=className;e.textContent=text;return e;};
+function optionPanel(root,id,trigger){
+ const panel=element('div','break-options','');panel.id=id;panel.setAttribute('popover','auto');panel.setAttribute('aria-label','Game options');root.append(panel);trigger.setAttribute('popovertarget',id);
+ const position=()=>{const box=trigger.getBoundingClientRect(),width=Math.min(280,innerWidth-24);panel.style.width=width+'px';panel.style.left=Math.max(12,Math.min(box.right-width,innerWidth-width-12))+'px';panel.style.top=Math.max(12,Math.min(box.bottom+8,innerHeight-panel.offsetHeight-12))+'px';};
+ panel.addEventListener('beforetoggle',event=>{if(event.newState==='open')for(const other of document.querySelectorAll('.break-options:popover-open'))if(other!==panel)other.hidePopover();});
+ panel.addEventListener('toggle',event=>{trigger.setAttribute('aria-expanded',String(event.newState==='open'));if(event.newState==='open')position();});
+ panel.addEventListener('click',event=>{if(event.target.closest('button')){panel.hidePopover();trigger.focus();}});
+ panel.addEventListener('change',()=>{panel.hidePopover();trigger.focus();});
+ return panel;
+}
+function closeOptions(){for(const panel of document.querySelectorAll('.break-options:popover-open'))panel.hidePopover();}
+window.addEventListener('resize',closeOptions);
 const nonce=()=>String(crypto.getRandomValues(new Uint32Array(1))[0]);
 function url(game,date=day){const u=new URL('/take-a-break',location.origin);u.searchParams.set('game',game);if(game==='code')u.searchParams.set('cv',codeVersion);if(game!=='face'&&game!=='chaos'){u.searchParams.set('day',date);u.searchParams.set('v',version);}return u.href;}
 async function share(text){try{if(navigator.share){await navigator.share({title:'Take a Break · Sushant Synapse',text});return;}if(navigator.clipboard){await navigator.clipboard.writeText(text);$('#link-note').textContent='Message copied. Share it when you like.';return;}}catch(e){if(e.name==='AbortError')return;}$('#share-box').hidden=false;$('#share-message').value=text;$('#share-message').focus();$('#share-message').select();}
@@ -50,7 +61,8 @@ function mountMemory(root){
  const controller={get mode(){return mode;},get dirty(){return (state.moves>0||state.open.length>0)&&state.matched.length<12;},restart(){state=memoryGame(seed);hideResult(card);render();status.textContent='Turn over a card to begin.';},reset(practice=false){mode=practice?'practice':'daily';seed=practice?nonce():day;state=memoryGame(seed);hideResult(card);status.textContent='Turn over a card to begin.';render();}};controller.reset();return controller;
 }
 function mountLights(root){
- root.innerHTML='<section class="game-card lights-game"><div class="progress-line"><strong class="lights-level"></strong><span class="lights-moves"></span></div><p>Tap a tile to flip it and its four neighbours. Lit tiles show ☀; unlit tiles show ○. Turn them all off.</p><div class="lights-board" role="group" aria-label="Lights Out board"></div><p class="lights-status status" role="status"></p><div class="actions"><button type="button" class="lights-undo">Undo move</button><details><summary>Options</summary><button type="button" class="lights-reset">Restart level</button></details><button type="button" class="lights-hint">Show one move</button><button type="button" class="lights-next" hidden>Next level</button></div><p class="lights-help fine" role="status"></p><p class="fine">Use arrow keys to move between tiles, then Space or Enter to flip. Every board is solvable; no timer.</p></section>';
+ root.innerHTML='<section class="game-card lights-game"><div class="progress-line"><strong class="lights-level"></strong><span class="lights-moves"></span></div><p>Tap a tile to flip it and its four neighbours. Lit tiles show ☀; unlit tiles show ○. Turn them all off.</p><div class="lights-board" role="group" aria-label="Lights Out board"></div><p class="lights-status status" role="status"></p><div class="actions"><button type="button" class="lights-undo">Undo move</button><button type="button" class="lights-options" aria-expanded="false">Options <span aria-hidden="true">⌄</span></button><button type="button" class="lights-reset" hidden>Restart level</button><button type="button" class="lights-hint">Show one move</button><button type="button" class="lights-next" hidden>Next level</button></div><p class="lights-help fine" role="status"></p><p class="fine">Use arrow keys to move between tiles, then Space or Enter to flip. Every board is solvable; no timer.</p></section>';
+ const levelOptions=optionPanel(root,'lights-level-options',root.querySelector('.lights-options'));const levelReset=root.querySelector('.lights-reset');levelReset.hidden=false;levelOptions.append(levelReset);
  const card=root.querySelector('.game-card'),board=root.querySelector('.lights-board'),status=root.querySelector('.lights-status'),help=root.querySelector('.lights-help'),next=root.querySelector('.lights-next');let mode,seed,level,data,cells,moves,hints,totalMoves,totalHints,done,focus=0;
  function render(){
   root.querySelector('.lights-level').textContent='Level '+level+' / 3 · '+data.size+' × '+data.size;
@@ -91,6 +103,7 @@ async function openGame(id,update=true){if(!Object.hasOwn(games,id))return;
   finally{trigger?.removeAttribute('aria-busy');}
  }
  if(revision!==launchRevision)return;
+ closeOptions();
  if(!$('#hub').hidden){hubScroll=scrollY;}controllers[active]?.deactivate?.();active=id;$('#hub').hidden=true;$('#play-area').hidden=false;$('#share-box').hidden=true;$('#play-title').textContent=games[id].name;$('#play-description').textContent=games[id].description;$('#hub-edition').textContent=id==='face'?'YOUR CHOICES · NO UPLOAD':`${day} · IST`;
  if(!panes[id]){const root=element('div','game-pane','');root.dataset.pane=id;$('#game-panes').append(root);panes[id]=root;
   if(id==='24'){root.innerHTML=sparkMarkup;controllers[id]=mountSpark(root,{day,simple:true,challengeUrl:date=>url('24',date),onComplete:()=>{const section=root.querySelector('#result');if(!section.querySelector('[data-next-break]')){const next=element('button','','Choose another game');next.type='button';next.dataset.nextBreak='1';next.onclick=()=>{navigation.go('/take-a-break');showHub();};section.append(next);}}});}
@@ -98,13 +111,17 @@ async function openGame(id,update=true){if(!Object.hasOwn(games,id))return;
   if(id==='24')root.querySelector(':scope > p.fine').textContent='No timer. Play at your own pace.';
 
  }
+ if(!panes[id].querySelector(':scope > .break-options'))optionPanel(panes[id],'options-'+id,$('#round-options'));
+ const panel=panes[id].querySelector(':scope > .break-options');$('#round-options').setAttribute('popovertarget',panel.id);$('#round-options').setAttribute('aria-expanded','false');
+ const setup=panes[id].querySelector('.spark-setup');if(setup)panel.append(setup);
+ const restart=$('#restart-round');restart.hidden=false;panel.append(restart);
  Object.entries(panes).forEach(([key,pane])=>pane.hidden=key!==id);$('#round-controls').hidden=id==='face'||id==='chaos';syncMode();$('#link-note').textContent='';if(update){const u=new URL(url(id));if(id==='24'&&panes[id].dataset.sparkLegacy!=='true')u.searchParams.set('level',panes[id].querySelector('#practice-difficulty').value);navigation.go(u);}$('#play-title').focus({preventScroll:true});scrollTo(0,0);
 }
 function syncMode(){const mode=controllers[active]?.mode;$('#hub-edition').textContent=active==='chaos'?'60 SECONDS':active==='face'?'YOUR CHOICES':mode==='practice'?'':"Today's puzzle";}
 function replaceRound(fresh=true){const c=controllers[active];if(!c)return;if(c.dirty&&!confirm('Discard this unfinished round and start again?'))return;if(!fresh&&c.restart)c.restart();else c.reset(fresh?true:c.mode==='practice');syncMode();}
 $('#new-game').onclick=()=>replaceRound(true);$('#restart-round').onclick=()=>replaceRound(false);
 document.querySelectorAll('[data-game]').forEach(b=>b.onclick=()=>openGame(b.dataset.game));
-function showHub(){launchRevision++;controllers[active]?.deactivate?.();$('#hub').hidden=false;$('#play-area').hidden=true;$('#share-box').hidden=true;const card=document.querySelector(`[data-game="${active}"]`);card?.focus({preventScroll:true});scrollTo(0,hubScroll);};
+function showHub(){closeOptions();launchRevision++;controllers[active]?.deactivate?.();$('#hub').hidden=false;$('#play-area').hidden=true;$('#share-box').hidden=true;const card=document.querySelector(`[data-game="${active}"]`);card?.focus({preventScroll:true});scrollTo(0,hubScroll);};
 const navigation=createNavigation(u=>{const game=u.searchParams.get('game');if(game&&Object.hasOwn(games,game))openGame(game,false);else showHub();});
 $('#all-breaks').onclick=()=>navigation.back('/take-a-break');
 const initial=params.get('game');if(initial&&Object.hasOwn(games,initial))openGame(initial,false);

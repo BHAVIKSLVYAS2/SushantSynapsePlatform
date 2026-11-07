@@ -48,7 +48,7 @@ function shareUrl(){const u=new URL(challengeUrl(mode==='daily'?date:istDate()),
 // Preserve dated v1 links; new links include their selected v2 level.
 const sharedDay=day||params.get('day');
 if(sharedDay&&/^\d{4}-\d{2}-\d{2}$/.test(sharedDay)&&!Number.isNaN(Date.parse(sharedDay))&&new Date(sharedDay).toISOString().slice(0,10)===sharedDay&&sharedDay<=istDate())day=sharedDay;
-if(simple){root.querySelector('.modes').hidden=true;$('#another').textContent='Play again';$('#share').textContent='Share result';const setup=root.querySelector('.spark-setup'),details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Difficulty';setup.before(details);details.append(summary,setup);$('#reset').textContent='Restart this puzzle';}
+if(simple){root.querySelector('.modes').hidden=true;$('#another').textContent='Play again';$('#share').textContent='Share result';$('#reset').textContent='Restart this puzzle';}
 start();
 return {get mode(){return mode;},get dirty(){return dirty();},reset(practice=false){start(practice);},restart(){reset();},
 snapshot(){return {date,mode,original,items,selected,op,history,assisted,finished,revealed,hintStep,difficulty:difficulty.value,legacyRound};},

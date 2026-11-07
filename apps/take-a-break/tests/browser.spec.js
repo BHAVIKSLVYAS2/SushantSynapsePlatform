@@ -1,5 +1,24 @@
 const {test,expect}=require('../../../tests/browser-fixture.js'),{spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path'),{setTheme}=require('../../../tests/browser-theme');let child,base,dir;
 
+test('compact options keep difficulty and restart off the board layout',async({page})=>{
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(base+'/take-a-break?game=24&level=challenge');
+ for(const width of [320,390,768,1440])for(const theme of ['light','dark','deep']){
+  await page.setViewportSize({width,height:900});await setTheme(page,theme);
+  const before=await page.locator('#numbers').boundingBox();
+  await page.locator('#round-options').click();await expect(page.locator('#practice-difficulty')).toBeVisible();
+  const panel=await page.locator('#options-24').boundingBox();expect(panel.x).toBeGreaterThanOrEqual(0);expect(panel.x+panel.width).toBeLessThanOrEqual(width);
+  expect((await page.locator('#numbers').boundingBox()).y).toBe(before.y);
+  const buttons=await page.locator('#round-controls>button:visible').evaluateAll(els=>els.map(el=>el.getBoundingClientRect().y));expect(Math.abs(buttons[0]-buttons[1])).toBeLessThan(2);
+  await page.keyboard.press('Escape');await expect(page.locator('#options-24')).toBeHidden();await expect(page.locator('#round-options')).toBeFocused();
+ }
+ await page.locator('#round-options').click();await page.locator('#practice-difficulty').selectOption('expert');await expect(page.locator('#options-24')).toBeHidden();await expect(page).toHaveURL(/level=expert/);
+ await page.locator('#numbers button').first().click();await page.locator('#round-options').click();page.once('dialog',d=>d.dismiss());await page.locator('#practice-difficulty').selectOption('warmup');await expect(page.locator('#practice-difficulty')).toHaveValue('expert');await expect(page.locator('#numbers button').first()).toHaveAttribute('aria-pressed','true');
+ await page.locator('#round-options').click();await page.locator('#play-title').click();await expect(page.locator('#options-24')).toBeHidden();
+ await page.locator('#round-options').click();await expect(page.locator('#options-24')).toBeVisible();await page.screenshot({path:'.publish/break-options-desktop.png'});await page.keyboard.press('Escape');await page.setViewportSize({width:390,height:844});await page.locator('#round-options').click();await expect(page.locator('#options-24')).toBeVisible();await page.screenshot({path:'.publish/break-options-mobile.png'});
+ expect(errors).toEqual([]);
+});
+
 test('rounds stay during this visit, reset on reload and ignore old stored progress',async({page})=>{
  await page.addInitScript(()=>localStorage.setItem('synapse-break-progress-v1','{"old":"ignored"}'));
  await page.goto(base+'/take-a-break?game=code&day=2026-10-04&cv=2');
@@ -47,7 +66,7 @@ test('restrained hub fits reference widths, keeps daily navigation and keyboard 
  await page.setViewportSize({width:390,height:900});await page.screenshot({path:'.publish/break-polish-mobile.png',fullPage:true});
  await page.setViewportSize({width:1280,height:900});await page.screenshot({path:'.publish/break-polish-desktop.png',fullPage:true});
  await expect(page.locator('[data-filter]')).toHaveCount(0);
- await page.locator('[data-game="24"]').click();await expect(page.locator('#play-title')).toHaveText('Make 24');await page.locator('[data-pane="24"] > details').first().locator('summary').click();await expect(page.locator('[data-pane="24"] #practice-difficulty')).toBeVisible();expect(errors).toEqual([]);
+ await page.locator('[data-game="24"]').click();await expect(page.locator('#play-title')).toHaveText('Make 24');await page.locator('#round-options').click();await expect(page.locator('#practice-difficulty')).toBeVisible();expect(errors).toEqual([]);
 });
 
 test('chaos supports keyboard, pause, completion and a mobile layout',async({page})=>{
@@ -78,7 +97,7 @@ test('code clues support deduction, scratchpad, validation, hints, honest reveal
  await page.getByRole('button',{name:'Give me a starting hint'}).click();await expect(page.locator('.code-hint-copy')).toContainText('are all absent');
  await input.fill(secret);await submit.click();await expect(page.locator('.result-card')).toContainText('2 checks · starting hint used');await expect(submit).toBeDisabled();
  await page.getByRole('button',{name:'Share result'}).click();const message=await page.locator('#share-message').inputValue();expect(message).toContain('cv=2');expect(message).toContain('hint used');expect(message).not.toContain(secret);
- await page.locator('#close-share').click();await page.locator('#round-controls > details > summary').click();await page.locator('#restart-round').click();await page.locator('#round-controls > details > summary').click();await expect(page.locator('.code-row')).toHaveCount(0);await expect(page.getByRole('button',{name:'Digit 0: unmarked',exact:true})).toBeVisible();
+ await page.locator('#close-share').click();await page.locator('#round-options').click();await page.locator('#restart-round').click();await page.locator('#round-options').click();await expect(page.locator('.code-row')).toHaveCount(0);await expect(page.getByRole('button',{name:'Digit 0: unmarked',exact:true})).toBeVisible();
  page.once('dialog',dialog=>dialog.dismiss());await page.getByRole('button',{name:'Reveal solution'}).click();await expect(submit).toBeEnabled();
  page.once('dialog',dialog=>dialog.accept());await page.getByRole('button',{name:'Reveal solution'}).click();await expect(page.locator('.result-card')).toContainText('Answer revealed');await expect(submit).toBeDisabled();
  await page.getByRole('button',{name:'Share result'}).click();await expect(page.locator('#share-message')).toHaveValue(/Solution revealed/);expect(await page.locator('#share-message').inputValue()).not.toContain(secret);
@@ -94,8 +113,8 @@ test('victory presentation celebrates genuine solves, cleans up and respects red
  const day='2026-10-01',{codePuzzle}=await import('../frontend/engine.mjs'),secret=codePuzzle(day).secret;await page.clock.install();await page.emulateMedia({reducedMotion:'no-preference'});await page.setViewportSize({width:390,height:844});await page.goto(base+'/take-a-break?game=code&day='+day);
  async function solve(){await page.getByLabel('Your code guess').fill(secret);await page.getByRole('button',{name:'Check code',exact:true}).click();await expect(page.locator('.break-win-badge')).toHaveText('Code cracked!');await expect(page.locator('.break-win-title')).toBeFocused();}
  await solve();await expect(page.locator('.spark-party-overlay')).toHaveCount(1);await expect(page.locator('.spark-popper')).toHaveCount(2);expect(await page.locator('.spark-party-overlay').evaluate(e=>getComputedStyle(e).pointerEvents)).toBe('none');expect(await page.locator('.spark-party-overlay>span').count()).toBeLessThan(120);await page.screenshot({path:'.publish/break-victory-mobile.png',fullPage:true});await page.clock.fastForward(3000);await expect(page.locator('.spark-party-overlay')).toHaveCount(0);
- await page.locator('#round-controls > details > summary').click();await page.locator('#restart-round').click();await page.locator('#round-controls > details > summary').click();await solve();await page.locator('#all-breaks').click();await expect(page.locator('.spark-party-overlay')).toHaveCount(0);await page.locator('[data-game=code]').click();await expect(page.locator('.spark-party-overlay')).toHaveCount(0);await page.locator('#round-controls > details > summary').click();await page.locator('#restart-round').click();await page.locator('#round-controls > details > summary').click();page.once('dialog',d=>d.accept());await page.getByRole('button',{name:'Reveal solution',exact:true}).click();await expect(page.locator('.result-card')).not.toHaveClass(/break-won/);await expect(page.locator('.break-win-medal')).toHaveCount(0);await expect(page.locator('.spark-party-overlay')).toHaveCount(0);
- await page.locator('#round-controls > details > summary').click();await page.locator('#restart-round').click();await page.locator('#round-controls > details > summary').click();await page.emulateMedia({reducedMotion:'reduce'});await solve();await expect(page.locator('.break-win-medal')).toBeVisible();await expect(page.locator('.spark-party-overlay')).toHaveCount(0);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await page.locator('#round-options').click();await page.locator('#restart-round').click();await page.locator('#round-options').click();await solve();await page.locator('#all-breaks').click();await expect(page.locator('.spark-party-overlay')).toHaveCount(0);await page.locator('[data-game=code]').click();await expect(page.locator('.spark-party-overlay')).toHaveCount(0);await page.locator('#round-options').click();await page.locator('#restart-round').click();await page.locator('#round-options').click();page.once('dialog',d=>d.accept());await page.getByRole('button',{name:'Reveal solution',exact:true}).click();await expect(page.locator('.result-card')).not.toHaveClass(/break-won/);await expect(page.locator('.break-win-medal')).toHaveCount(0);await expect(page.locator('.spark-party-overlay')).toHaveCount(0);
+ await page.locator('#round-options').click();await page.locator('#restart-round').click();await page.locator('#round-options').click();await page.emulateMedia({reducedMotion:'reduce'});await solve();await expect(page.locator('.break-win-medal')).toBeVisible();await expect(page.locator('.spark-party-overlay')).toHaveCount(0);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 test('Lights Out supports hints, keyboard, undo, stable reset and three solvable levels',async({page})=>{
  const day='2026-10-03',{lightsLevel,solveLights}=await import('../frontend/engine.mjs');
@@ -105,7 +124,7 @@ test('Lights Out supports hints, keyboard, undo, stable reset and three solvable
  await page.locator('.lights-tile').first().focus();await page.keyboard.press('ArrowRight');await expect(page.locator('.lights-tile').nth(1)).toBeFocused();await page.keyboard.press('Space');
  await expect(page.locator('.lights-moves')).toContainText('1 move');await page.getByRole('button',{name:'Undo move',exact:true}).click();expect(await page.locator('.lights-tile').evaluateAll(tiles=>tiles.map(t=>t.getAttribute('aria-pressed')))).toEqual(original);
  await page.getByRole('button',{name:'Show one move',exact:true}).click();await expect(page.locator('.lights-help')).toContainText('shortest solution');await expect(page.locator('.lights-tile.is-hint')).toHaveCount(1);
- await page.locator('.lights-game details summary').click();await page.getByRole('button',{name:'Restart level',exact:true}).click();expect(await page.locator('.lights-tile').evaluateAll(tiles=>tiles.map(t=>t.getAttribute('aria-pressed')))).toEqual(original);
+ await page.locator('.lights-options').click();await page.getByRole('button',{name:'Restart level',exact:true}).click();expect(await page.locator('.lights-tile').evaluateAll(tiles=>tiles.map(t=>t.getAttribute('aria-pressed')))).toEqual(original);
  await page.locator('#all-breaks').click();await page.locator('[data-game=lights]').click();await expect(page.locator('.lights-tile')).toHaveCount(9);
  for(let level=1;level<=3;level++){
   const data=lightsLevel(day,level);await expect(page.locator('.lights-tile')).toHaveCount(data.size**2);

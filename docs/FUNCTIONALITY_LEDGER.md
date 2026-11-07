@@ -1,5 +1,18 @@
 # Chambers functionality ledger
 
+Take a Break compact options (2026-11-07 IST; local release candidate): New game
+and Options share one row. Native popovers contain Make 24 difficulty and puzzle
+restart; Lights Out level options use the same treatment. Disclosure markers are
+chevrons scoped to Take a Break. Escape/outside click dismiss, selection closes,
+and navigation/resize clear panels; existing progress confirmations remain.
+Nine engine/catalogue checks and all 21 affected browser cases pass across the main
+run and targeted reruns (initial selector correction and overlapping artifact cleanup
+failure resolved). Layout tested at 320/390/768/1440px in Light/Dark/Deep; no board
+shift, with keyboard dismissal, outside click and dirty-difficulty cancellation.
+Mobile screenshot reviewed. No wider platform sweep.
+No API, schema or business-data changes; Picksy and security-review work are excluded
+from this implementation commit.
+
 Bill Splitter redesign deployed (2026-11-07 IST): source `f0dfeba`, Worker `19dd84c9-ad2d-438d-b5be-bd904419edab`. Isolated committed archive build/deploy succeeded with --keep-vars, retaining D1/auth/organisation configuration; no database changes. Live page and current fingerprinted controller/engine/stylesheet returned 200. The served engine correctly allocates sample expenses independently and rejects an empty participant list. Live mobile Chrome verified the example, excluded Neel from Taxi only, displayed Meera-to-Aarav 250.00 and Neel-to-Aarav 400.00, enabled copy and had no horizontal overflow or page errors. Screenshot `.publish/bill-group-live-mobile.png` reviewed. Local release checks: 16 unit/catalogue and 8 focused browser checks passed; no wider platform sweep. Logs `.publish/bill-group-deploy.log`, `.publish/bill-group-live.log`, `.publish/bill-group-live-browser.log`.
 
 **Bill Splitter person-owned expenses (2026-11-07 IST, verified locally):** Replaced bill/trip modes, advanced setup and global percentage/weight/custom controls with one people-and-expenses flow. Add expenses directly under their payer; equal sharing defaults to everyone, with a contextual participant chooser for each expense. Payers may be excluded. Settlements update live once entries are valid; edits clear stale output/copy text. Results contain concise who-pays-whom rows and an optional full breakdown. Example/Start fresh are secondary actions; remove buttons have accessible SVG labels and participant checkbox focus survives updates. Person IDs preserve selections across renames. New people join everyone-shared expenses but not explicit subsets. Removing the last selected participant produces an invalid empty subset rather than broadening the expense. Removing a payer with entered expenses confirms deletion. Inputs remain tab-only and refresh clears them. No editable sharing link, payment provider, backend/schema or business-data changes.
