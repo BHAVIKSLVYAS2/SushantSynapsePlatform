@@ -1,5 +1,15 @@
 # Chambers functionality ledger
 
+Take a Break compact options deployed (2026-11-07 IST): source `7044cef`, Worker
+`0fef2253-5dc0-4809-9709-96e79122683e`. Isolated committed archive build/deploy
+succeeded with --keep-vars, retaining D1/auth/organisation settings; no database
+changes. All 21 affected browser cases passed across main/targeted runs, plus nine
+engine/catalogue checks. Live mobile Chrome passed difficulty selection, no board
+shift/overflow, Escape/focus recovery, code restart and Lights Out level restart,
+with no page errors. Initial live check was blocked by the beta notice; rerun
+acknowledged it normally. Live screenshot reviewed. No wider platform sweep.
+Logs: `.publish/break-options-deploy.log`, `.publish/break-options-live.log`.
+
 Take a Break compact options (2026-11-07 IST; local release candidate): New game
 and Options share one row. Native popovers contain Make 24 difficulty and puzzle
 restart; Lights Out level options use the same treatment. Disclosure markers are

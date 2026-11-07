@@ -1,5 +1,15 @@
 # Organisation licensing production cutover
 
+Take a Break compact options deployed (2026-11-07 IST): source `7044cef`, Worker
+`0fef2253-5dc0-4809-9709-96e79122683e`. Isolated committed archive build/deploy
+succeeded with --keep-vars, retaining D1/auth/organisation settings; no database
+changes. All 21 affected browser cases passed across main/targeted runs, plus nine
+engine/catalogue checks. Live mobile Chrome passed difficulty selection, no board
+shift/overflow, Escape/focus recovery, code restart and Lights Out level restart,
+with no page errors. Initial live check was blocked by the beta notice; rerun
+acknowledged it normally. Live screenshot reviewed. No wider platform sweep.
+Logs: `.publish/break-options-deploy.log`, `.publish/break-options-live.log`.
+
 Bill Splitter redesign deployed (2026-11-07 IST): source `f0dfeba`, Worker `19dd84c9-ad2d-438d-b5be-bd904419edab`. Isolated committed archive build/deploy succeeded with --keep-vars, retaining D1/auth/organisation configuration; no database changes. Live page and current fingerprinted controller/engine/stylesheet returned 200. The served engine correctly allocates sample expenses independently and rejects an empty participant list. Live mobile Chrome verified the example, excluded Neel from Taxi only, displayed Meera-to-Aarav 250.00 and Neel-to-Aarav 400.00, enabled copy and had no horizontal overflow or page errors. Screenshot `.publish/bill-group-live-mobile.png` reviewed. Local release checks: 16 unit/catalogue and 8 focused browser checks passed; no wider platform sweep. Logs `.publish/bill-group-deploy.log`, `.publish/bill-group-live.log`, `.publish/bill-group-live-browser.log`.
 
 Take a Break simplification deployed (2026-11-07 IST): source `412d41b`, Worker `be13c578-ec55-4580-aeeb-6ba85b155691`. Isolated committed archive build/deploy succeeded with --keep-vars, retaining D1/auth/organisation configuration; no database changes. Live Take a Break and Daily Spark pages returned 200. The current fingerprinted hub controller, Chaos controller/engine and usability stylesheet returned 200; live markup confirms New game, removal of filters/mode/saved-progress controls, and the new refresh-clearing message. Served Chaos modules confirm Start game, combo feedback and result navigation. Fourteen focused unit checks and all 20 affected browser cases passed across the main runs and corrected targeted reruns, as detailed below. No additional live browser suite or wider platform sweep. Logs `.publish/break-simple-deploy.log`, `.publish/break-simple-live.log`.
