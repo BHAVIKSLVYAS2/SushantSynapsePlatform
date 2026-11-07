@@ -1,5 +1,14 @@
 # Code ownership and adding apps
 
+Bill Splitter person-owned expenses (2026-11-07): the app controller holds
+transient person IDs and expense participant selections in the current DOM only.
+The app-owned `splitGroup` engine validates and allocates each expense in integer
+paise before net settlement; earlier global-method exports remain compatible.
+Default everyone-sharing includes new people; explicit subsets never silently
+expand after additions or removals. Names/expenses/results use text rendering,
+not user-supplied markup. Copy is explicit; no API write, backend/schema, saved
+session or editable sharing-link integration is introduced.
+
 Ritual persistent workspace (2026-11-07): `workspace.mjs` owns section routing, lazy Prep loading, root attachment, cancellation and section scroll. `app.js` exposes one Prep mount/resume/suspend contract; `prep-template.mjs` owns its trusted static markup. Both calendar and guide URL entry points serve calendar.html. Calendar/Prep IDs are unique in the connected document, and controllers scope queries to their retained roots. `calendar-display.mjs` owns pure presentation helpers shared with the calculation modules; it has no ephemeris dependency. Removed retired calendar-dashboard/calendar-tools UI. Tested preparation-pack pure exports and active per-date ICS remain.
 
 Shared public city search (2026-11-07): `packages/vedic/place-api.mjs` validates read-only directory search/ID resolution; Node composition and Workers expose `/api/places` before private storage/session handling. Origin/maintenance boundaries still apply; dedicated CITY_LIMITER bounds edge work. `packages/ui/place-search.mjs` owns bounded request caching. Ritual GPS loads the existing local directory on explicit detection and does not send coordinates to the endpoint. Ritvayam's daily/home search shares the API; existing browser calculation/birth-place directory dependencies remain. No database/schema/provider change.

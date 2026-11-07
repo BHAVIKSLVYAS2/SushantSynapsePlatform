@@ -1,68 +1,76 @@
 import {$,init,copy} from '/shared/local-tools.mjs?v=20261016-wins';
-import {split,splitExpenses,money,paise} from './engine.mjs?v=20261016-ease';
-init();let result=null,lastMode='equal',undo=null,isExample=false;
-const labels={custom:'Individual share (₹)',percentage:'Percentage (%)',shares:'Shares'};
-function clear(){result=null;$('#settlement-cards').replaceChildren();liveSummary();$('#result').textContent='Enter who paid, then calculate a fair split.';$('#copy').disabled=true;$('#copy-text').hidden=true;$('#status').textContent='';}
-function advanced(){return $('#advanced').checked;}
-function liveSummary(){
- if(!advanced()){let text='Enter your bill to get started.';try{if($('#bill-amount').value)text='Bill total: '+money(paise($('#bill-amount').value));}catch{text='Check the bill amount';}$('#entered-total').textContent=text;$('#percentage-status').hidden=true;return;}
- const trip=$('#entry-mode').value==='trip',inputs=trip?[...document.querySelectorAll('[data-expense=amount]')]:[...document.querySelectorAll('[data-field=paid]')];let total=0,valid=true;for(const input of inputs){try{total+=paise(input.value||'0');}catch{valid=false;}}
- $('#entered-total').textContent=valid?'Entered total: '+money(total):'Check the payment amounts';
- const percentage=$('#mode').value==='percentage';$('#percentage-status').hidden=!percentage;if(percentage){let sum=0,ok=true;for(const input of document.querySelectorAll('[data-field=share]')){try{const n=paise(input.value||'0');if(n>10000)ok=false;sum+=n;}catch{ok=false;}}
- $('#percentage-status').textContent=!ok?'Enter valid percentages from 0 to 100.':(sum/100).toFixed(2)+'% entered'+(sum===10000?' · Ready to split':sum<10000?' · '+((10000-sum)/100).toFixed(2)+'% remaining':' · '+((sum-10000)/100).toFixed(2)+'% over');$('#percentage-status').dataset.ready=String(ok&&sum===10000);}
+import {splitGroup,money} from './engine.mjs?v=20261107-simple';
+init();
+let result=null,example=false,showErrors=false;
+const people=()=>[...$('#people').children];
+const expenses=()=>[...document.querySelectorAll('.expense-row')];
+const nameOf=card=>card.querySelector('[data-name]').value.trim();
+const labelOf=card=>nameOf(card)||'Person '+(people().indexOf(card)+1);
+function node(tag,className,text){const e=document.createElement(tag);e.className=className;if(text!==undefined)e.textContent=text;return e;}
+function button(text,action,className=''){const e=node('button',className,text);e.type='button';e.onclick=action;if(className.startsWith('remove-')){e.setAttribute('aria-label',text);e.title=text;e.textContent='';const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('aria-hidden','true');const path=document.createElementNS(svg.namespaceURI,'path');path.setAttribute('d','M6 6l12 12M18 6 6 18');svg.append(path);e.append(svg);}return e;}
+function clear(){result=null;$('#settlement-cards').replaceChildren();$('#result').textContent='';$('#copy').disabled=true;$('#copy-text').hidden=true;$('#copy-text').value='';}
+function calculate(force=false){
+ clear();
+ const cards=people(),entries=expenses().filter(row=>row.querySelector('[data-title]').value.trim()||row.querySelector('[data-amount]').value.trim());
+ $('#settlement').hidden=!entries.length;
+ if(!entries.length){$('#status').textContent='Add names and an expense to get started.';return;}
+ try{
+  result=splitGroup(cards.map(card=>({name:nameOf(card)})),entries.map(row=>({title:row.querySelector('[data-title]').value,amount:row.querySelector('[data-amount]').value,payer:cards.indexOf(row.closest('.person-card')),...(row.shared===null?{}:{members:row.shared.map(id=>cards.findIndex(card=>card.dataset.id===id))})})));
+  showErrors=true;$('#entered-total').textContent='Total: '+money(result.total);
+  if(!result.transfers.length)$('#settlement-cards').append(node('p','settled','Everyone is settled.'));
+  for(const t of result.transfers){const card=node('article','settlement-card');card.append(node('span','',t.from+' pays '+t.to),node('strong','',money(t.amount)));$('#settlement-cards').append(card);}
+  $('#result').textContent='Total: '+money(result.total)+'\n\n'+result.expenses.map(e=>e.payer+' paid '+money(e.amount)+' - '+e.title+'\nShared by: '+e.members.join(', ')).join('\n\n')+'\n\n'+result.people.map(p=>p.name+' - paid '+money(p.paid)+' - share '+money(p.share)).join('\n')+'\n\n'+(result.transfers.length?result.transfers.map(t=>t.from+' pays '+t.to+' '+money(t.amount)).join('\n'):'Everyone is settled.');
+  $('#copy').disabled=false;$('#status').textContent='';
+ }catch(error){result=null;$('#entered-total').textContent='Finish the entries to see the split.';$('#status').textContent=showErrors||force?error.message:'Add everyone\'s name and a valid expense amount.';}
 }
-function invalidateUndo(){undo=null;$('#undo-removal').hidden=true;}
-function removeRow(row,kind){isExample=false;$('#example-notice').hidden=true;undo={row,parent:row.parentElement,next:row.nextSibling,kind};row.remove();$('#undo-removal').hidden=false;syncPayers();clear();$('#status').textContent=kind+' removed. You can undo this removal.';}
-$('#undo-removal').onclick=()=>{if(!undo)return;const {row,parent,next}=undo;parent.insertBefore(row,next?.parentElement===parent?next:null);invalidateUndo();syncPayers();sync();clear();$('#status').textContent='Removed entry restored.';};
-function personRows(){return [...$('#people').children];}
-function syncPayers(){const payer=$('#bill-payer'),saved=payer.value;payer.replaceChildren(...personRows().map((row,i)=>new Option(row.querySelector('[data-field=name]').value.trim()||'Person '+(i+1),row.dataset.id)));if([...payer.options].some(option=>option.value===saved))payer.value=saved;for(const select of document.querySelectorAll('[data-expense=payer]')){const value=select.value;select.replaceChildren(...personRows().map((row,i)=>new Option(row.querySelector('[data-field=name]').value.trim()||'Person '+(i+1),row.dataset.id)));if([...select.options].some(o=>o.value===value))select.value=value;}}
-function equalPercent(){const rows=personRows(),base=Math.floor(10000/rows.length),left=10000%rows.length;rows.forEach((row,i)=>row.querySelector('[data-field=share]').value=((base+(i<left?1:0))/100).toFixed(2));clear();}
-function sync(){
- const mode=advanced()?$('#mode').value:'equal',trip=advanced()&&$('#entry-mode').value==='trip';
- $('#editor').classList.toggle('simple-split',!advanced());$('#simple-bill').hidden=advanced();$('#bill-amount').disabled=advanced();$('#bill-amount').required=!advanced();$('#bill-payer').disabled=advanced();$('#advanced-options').hidden=!advanced();$('#advanced-options').disabled=!advanced();
- document.querySelectorAll('.custom-share').forEach(cell=>{cell.hidden=mode==='equal';const input=cell.querySelector('input');if(input){input.required=mode!=='equal';input.disabled=mode==='equal';input.setAttribute('aria-label',labels[mode]||'Individual share');cell.dataset.label=labels[mode]||'Share (₹)';}});
- $('#share-heading').textContent=labels[mode]||'Share (₹)';
- document.querySelectorAll('.paid-cell').forEach(cell=>{cell.hidden=!advanced()||trip;const input=cell.querySelector('input');if(input)input.disabled=!advanced()||trip;});
- $('#expenses-section').hidden=!trip;document.querySelectorAll('#expenses-section input,#expenses-section select').forEach(input=>input.disabled=!trip);
- $('#equal-percent').hidden=mode!=='percentage';
- const help={equal:'Everyone has an equal share. Extra paise go to the first people listed.',custom:'Enter each person’s total share in rupees. Shares must match the total paid.',percentage:'Percentages must total 100%. Up to two decimal places are supported.',shares:'Use relative shares: 2, 1, 1 means half, a quarter and a quarter. Zero excludes someone from the cost.'};
- $('#split-help').textContent=help[mode]+(trip?' The same split applies to the combined total of all expenses.':' Enter each person’s total paid.');
-}
-function add(name='',paid='0'){
- invalidateUndo();
- if(personRows().length>=20){$('#status').textContent='Add up to 20 people.';return;}
- const row=document.createElement('tr');row.dataset.id=crypto.randomUUID();
- for(const [field,value]of [['name',name],['paid',paid],['share',$('#mode').value==='shares'?'1':'0']]){
-  const cell=document.createElement('td'),input=document.createElement('input');cell.dataset.label=field==='name'?'Name':field==='paid'?'Paid (₹)':'Share (₹)';input.dataset.field=field;input.className=field==='name'?'participant-name':'paid';input.value=value;input.required=true;input.setAttribute('aria-label',field==='name'?'Person name':field==='paid'?'Amount paid':'Individual share');if(field==='name')input.maxLength=50;else{input.inputMode='decimal';input.maxLength=11;}if(field==='share')cell.className='custom-share';if(field==='paid')cell.className='paid-cell';cell.append(input);row.append(cell);
+function updateSharing(){
+ const cards=people();
+ for(const row of expenses()){
+  const details=row.querySelector('details'),summary=details.querySelector('summary'),list=details.querySelector('.shared-people');
+  const focused=[...list.querySelectorAll('input')].indexOf(document.activeElement);
+  summary.textContent=row.shared===null?'Shared by everyone':row.shared.length?'Shared by '+row.shared.map(id=>labelOf(cards.find(c=>c.dataset.id===id))).join(', '):'Choose who shares';list.replaceChildren();
+  const all=node('label','shared-option'),allInput=node('input','');allInput.type='checkbox';allInput.checked=row.shared===null;all.append(allInput,document.createTextNode('Everyone'));list.append(all);
+  allInput.onchange=()=>{row.shared=allInput.checked?null:[];changed();updateSharing();};
+  for(const card of cards){const label=node('label','shared-option'),input=node('input','');input.type='checkbox';input.checked=row.shared===null||row.shared.includes(card.dataset.id);label.append(input,document.createTextNode(labelOf(card)));list.append(label);input.onchange=()=>{
+   const selected=new Set(row.shared===null?cards.map(c=>c.dataset.id):row.shared);if(input.checked)selected.add(card.dataset.id);else selected.delete(card.dataset.id);
+   row.shared=[...selected];changed();updateSharing();
+  };}
+  if(focused>=0)list.querySelectorAll('input')[focused]?.focus({preventScroll:true});
  }
- const cell=document.createElement('td'),remove=document.createElement('button');remove.type='button';remove.textContent='×';remove.setAttribute('aria-label','Remove person');remove.onclick=()=>{if(personRows().length<=2){$('#status').textContent='Keep at least two people.';return;}if([...document.querySelectorAll('[data-expense=payer]')].some(s=>s.value===row.dataset.id)){$('#status').textContent='Change or remove this person’s expenses before removing them.';return;}removeRow(row,'Person');};cell.append(remove);row.append(cell);$('#people').append(row);sync();syncPayers();clear();
 }
-function addExpense(){
- invalidateUndo();
- if($('#expenses').children.length>=100){$('#status').textContent='Add up to 100 expenses.';return;}
- const fieldset=document.createElement('fieldset');fieldset.className='expense-row';const legend=document.createElement('legend');legend.textContent='Expense';fieldset.append(legend);
- for(const [field,label]of [['title','What was it for?'],['payer','Who paid?'],['amount','Amount (₹)']]){
-  const wrapper=document.createElement('label');wrapper.textContent=label;const input=document.createElement(field==='payer'?'select':'input');input.dataset.expense=field;if(field!=='payer'){input.maxLength=field==='title'?80:11;input.required=field==='amount';if(field==='amount')input.inputMode='decimal';else input.placeholder='e.g. Dinner or train tickets';}wrapper.append(input);fieldset.append(wrapper);
- }
- const remove=document.createElement('button');remove.type='button';remove.textContent='Remove expense';remove.onclick=()=>removeRow(fieldset,'Expense');fieldset.append(remove);$('#expenses').append(fieldset);syncPayers();sync();clear();
+function changed(){example=false;$('#example-notice').hidden=true;calculate();}
+function addExpense(card,values={},focus=true){
+ if(expenses().length>=100){$('#status').textContent='Add up to 100 expenses.';return;}
+ const row=node('div','expense-row');row.shared=values.members??null;
+ const titleLabel=node('label','','What was it for?'),title=node('input','');title.dataset.title='';title.placeholder='e.g. Dinner';title.maxLength=80;title.value=values.title||'';titleLabel.append(title);
+ const amountLabel=node('label','','Amount (\u20b9)'),amount=node('input','');amount.dataset.amount='';amount.inputMode='decimal';amount.maxLength=11;amount.placeholder='0.00';amount.value=values.amount||'';amountLabel.append(amount);
+ const details=node('details','sharing');details.append(node('summary','','Shared by everyone'),node('div','shared-people'));
+ row.append(titleLabel,amountLabel,button('Remove expense',()=>{row.remove();changed();},'remove-expense'),details);card.querySelector('.person-expenses').append(row);updateSharing();calculate();if(focus)title.focus();return row;
 }
-$('#add').onclick=()=>add();$('#add-expense').onclick=addExpense;$('#equal-percent').onclick=equalPercent;
-$('#mode').onchange=()=>{const mode=$('#mode').value;for(const row of personRows()){const input=row.querySelector('[data-field=share]');input.dataset[lastMode]=input.value;input.value=input.dataset[mode]??(mode==='shares'?'1':'0');}if(mode==='percentage'&&personRows().every(row=>!row.querySelector('[data-field=share]').dataset.percentage))equalPercent();lastMode=mode;sync();clear();};
-$('#entry-mode').onchange=()=>{if($('#entry-mode').value==='trip'&&!$('#expenses').children.length)addExpense();sync();clear();};
-$('#editor').addEventListener('input',event=>{invalidateUndo();isExample=false;$('#example-notice').hidden=true;if(event.target.dataset.field==='name')syncPayers();clear();});
-$('#editor').onsubmit=e=>{e.preventDefault();try{
- const elements=personRows(),rows=elements.map(row=>Object.fromEntries([...row.querySelectorAll('input')].map(input=>[input.dataset.field,input.value])));
- if(!advanced()){const payer=elements.findIndex(row=>row.dataset.id===$('#bill-payer').value);if(payer<0)throw Error('Choose who paid the bill.');const amount=$('#bill-amount').value;result=split(rows.map((row,i)=>({...row,paid:i===payer?amount:'0'})),'equal');}else if($('#entry-mode').value==='trip'){const expenses=[...$('#expenses').children].map(row=>{const get=f=>row.querySelector('[data-expense='+f+']').value;return {title:get('title'),amount:get('amount'),payer:elements.findIndex(person=>person.dataset.id===get('payer'))};});result=splitExpenses(rows,expenses,$('#mode').value);}else result=split(rows,$('#mode').value);
- const title=advanced()?$('#group-title').value.trim():'',expenseText=result.expenses?'\n\nExpenses\n'+result.expenses.map(e=>e.title+' · '+e.payer+' paid '+money(e.amount)).join('\n'):'';
- $('#result').textContent=(title?title+'\n\n':'')+'Total: '+money(result.total)+expenseText+'\n\n'+result.people.map(p=>p.name+' · paid '+money(p.paid)+' · share '+money(p.share)).join('\n')+'\n\n'+(result.transfers.length?result.transfers.map(t=>t.from+' pays '+t.to+' '+money(t.amount)).join('\n'):'Everyone is settled.');
- $('#entered-total').textContent='Total to split: '+money(result.total);
- $('#settlement-cards').replaceChildren();const cards=result.transfers.length?result.transfers:[{from:'Everyone is settled',to:'',amount:0}];for(const transfer of cards){const card=document.createElement('article');card.className='settlement-card';const who=document.createElement('p'),amount=document.createElement('strong');who.textContent=transfer.to?transfer.from+' pays '+transfer.to:transfer.from;amount.textContent=money(transfer.amount);card.append(who,amount);$('#settlement-cards').append(card);}
- document.querySelectorAll('[data-step]').forEach(button=>{if(button.dataset.step==='settle')button.setAttribute('aria-current','step');else button.removeAttribute('aria-current');});$('#settle-step').focus();
- $('#copy').disabled=false;$('#status').textContent='Split calculated. No money has been transferred.';
- }catch(error){clear();$('#status').textContent=error.message;}};
-$('#copy').onclick=()=>{if(result)copy($('#result').textContent+'\n\nCreated with Sushant Synapse · Bill Splitter\n'+location.origin+'/bill-splitter');};
-function reset(example,focus=true){if(!isExample&&($('#bill-amount').value||personRows().some(r=>r.querySelector('[data-field=name]').value.trim())||$('#expenses').children.length)&&!confirm('Replace the current people and expenses?'))return;invalidateUndo();$('#people').replaceChildren();$('#expenses').replaceChildren();$('#group-title').value='';$('#advanced').checked=example;$('#bill-amount').value='';$('#mode').value='equal';lastMode='equal';$('#entry-mode').value='bill';isExample=example;$('#example-notice').hidden=!example;if(example){add('Aarav','600');add('Meera','0');add('Neel','0');}else{add();add();}sync();clear();document.querySelectorAll('[data-step]').forEach(b=>b.removeAttribute('aria-current'));document.querySelector('[data-step=people]').setAttribute('aria-current','step');if(focus)(example?$('#people-step'):$('#bill-amount')).focus();}
- $('#fresh').onclick=()=>reset(false);$('#example').onclick=()=>reset(true);
- document.querySelectorAll('[data-step]').forEach(button=>button.onclick=()=>{document.querySelectorAll('[data-step]').forEach(b=>b.removeAttribute('aria-current'));button.setAttribute('aria-current','step');if(button.dataset.step==='settle'){$('#editor').requestSubmit();return;}const target=button.dataset.step==='expenses'&&$('#entry-mode').value==='trip'?$('#expenses-step'):$('#people-step');target.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});target.focus();});
- $('#advanced').onchange=()=>{invalidateUndo();sync();clear();};
- reset(false,false);
+function addPerson(name='',focus=true){
+ if(people().length>=20){$('#status').textContent='Add up to 20 people.';return;}
+ const card=node('section','person-card');card.dataset.id=crypto.randomUUID();
+ const header=node('div','person-heading'),label=node('label','','Name'),input=node('input','');input.dataset.name='';input.maxLength=50;input.placeholder='Person '+(people().length+1);input.value=name;label.append(input);
+ const remove=button('Remove person',()=>{
+  if(people().length<=2){$('#status').textContent='Keep at least two people.';return;}
+  const entered=[...card.querySelectorAll('.expense-row input')].some(e=>e.type!=='checkbox'&&e.value.trim());
+  if(entered&&!confirm('Remove '+labelOf(card)+' and their expenses?'))return;
+  card.remove();for(const row of expenses())if(row.shared!==null)row.shared=row.shared.filter(id=>id!==card.dataset.id);
+  changed();updateSharing();$('#add').focus();
+ },'remove-person');
+ header.append(label,remove);card.append(header,node('div','person-expenses'),button('Add expense',()=>addExpense(card),'add-expense'));$('#people').append(card);updateSharing();calculate();if(focus)input.focus();return card;
+}
+$('#editor').addEventListener('input',event=>{if(event.target.type==='checkbox')return;changed();if(event.target.hasAttribute('data-name'))updateSharing();});
+$('#editor').onsubmit=event=>{event.preventDefault();calculate(true);};
+$('#add').onclick=()=>{addPerson();changed();};
+$('#copy').onclick=()=>{if(result)copy($('#result').textContent+'\n\nCreated with Sushant Synapse - Bill Splitter\n'+location.origin+'/bill-splitter');};
+function reset(sample=false,initial=false){
+ const entered=people().some(card=>nameOf(card))||expenses().some(row=>[...row.querySelectorAll('input')].some(input=>input.type!=='checkbox'&&input.value.trim()));
+ if(!initial&&!example&&entered&&!confirm('Replace the current people and expenses?'))return;
+ $('#people').replaceChildren();showErrors=false;
+ if(sample){const a=addPerson('Aarav',false),b=addPerson('Meera',false);addPerson('Neel',false);addExpense(a,{title:'Dinner',amount:'1200'},false);addExpense(b,{title:'Taxi',amount:'300'},false);}
+ else {const a=addPerson('',false);addPerson('',false);addExpense(a,{},false);}
+ example=sample;$('#example-notice').hidden=!sample;calculate();if(!initial)people()[0].querySelector('[data-name]').focus();
+}
+$('#fresh').onclick=()=>reset();$('#example').onclick=()=>reset(true);
+reset(false,true);

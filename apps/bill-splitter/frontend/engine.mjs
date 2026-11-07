@@ -13,7 +13,8 @@ function allocate(total,weights){
 function settle(people,mode){
  const total=people.reduce((s,p)=>s+p.paid,0);if(!total)throw Error('Enter at least one payment.');
  let amounts;
- if(mode==='custom'){amounts=people.map(p=>paise(p.value));if(amounts.reduce((a,b)=>a+b,0)!==total)throw Error('Individual shares must add up exactly to the total paid.');}
+ if(mode==='allocated')amounts=people.map(p=>p.share);
+ else if(mode==='custom'){amounts=people.map(p=>paise(p.value));if(amounts.reduce((a,b)=>a+b,0)!==total)throw Error('Individual shares must add up exactly to the total paid.');}
  else {const weights=mode==='equal'?people.map(()=>1):people.map(p=>{let value;try{value=paise(p.value);}catch{throw Error(mode==='percentage'?'Enter a percentage from 0 to 100, with up to two decimals.':'Enter non-negative shares with up to two decimals.');}if(mode==='percentage'&&value>10000)throw Error('Each percentage must be between 0 and 100.');return value;});if(mode==='percentage'&&weights.reduce((a,b)=>a+b,0)!==10000)throw Error('Percentages must add up exactly to 100%.');amounts=allocate(total,weights);}
  people.forEach((p,i)=>{p.share=amounts[i];delete p.value;});
  const creditors=[],debtors=[];for(const p of people){const balance=p.paid-p.share;if(balance>0)creditors.push({name:p.name,left:balance});if(balance<0)debtors.push({name:p.name,left:-balance});}
@@ -26,4 +27,23 @@ export function splitExpenses(rows,expenses,mode='equal'){
  if(!Array.isArray(expenses)||expenses.length<1||expenses.length>100)throw Error('Add 1–100 expenses.');
  const clean=expenses.map((e,i)=>{if(!e||!Number.isInteger(e.payer)||e.payer<0||e.payer>=people.length)throw Error('Choose a person who paid each expense.');const title=String(e.title||'').trim()||'Expense '+(i+1);if([...title].length>80)throw Error('Keep expense names under 80 characters.');const amount=paise(e.amount);if(!amount)throw Error('Each expense must be greater than zero.');people[e.payer].paid+=amount;return {title,payer:people[e.payer].name,amount};});
  return {...settle(people,mode),expenses:clean};
+}
+// Allocate each expense independently before settling the group's net balances.
+export function splitGroup(rows,expenses){
+ const people=peopleFrom(rows,'equal');
+ if(!Array.isArray(expenses)||expenses.length<1||expenses.length>100)throw Error('Add 1–100 expenses.');
+ const clean=expenses.map((expense,index)=>{
+  if(!expense||!Number.isInteger(expense.payer)||expense.payer<0||expense.payer>=people.length)throw Error('Choose a valid payer for each expense.');
+  const title=String(expense.title||'').trim()||'Expense '+(index+1);
+  if([...title].length>80)throw Error('Keep expense names under 80 characters.');
+  const amount=paise(expense.amount);if(!amount)throw Error('Each expense must be greater than zero.');
+  const members=expense.members===undefined?people.map((_,i)=>i):expense.members;
+  if(!Array.isArray(members)||!members.length||new Set(members).size!==members.length||members.some(i=>!Number.isInteger(i)||i<0||i>=people.length))throw Error('Choose at least one valid person to share each expense.');
+  // Input order provides a stable tie-break for indivisible paise.
+  const included=new Set(members),amounts=allocate(amount,people.map((_,i)=>included.has(i)?1:0));
+  people[expense.payer].paid+=amount;
+  people.forEach((person,i)=>person.share+=amounts[i]);
+  return {title,payer:people[expense.payer].name,amount,members:people.filter((_,i)=>included.has(i)).map(p=>p.name)};
+ });
+ return {...settle(people,'allocated'),expenses:clean};
 }
