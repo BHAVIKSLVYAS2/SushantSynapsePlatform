@@ -1,5 +1,12 @@
 # Curio · Sushant Synapse
 
+RozHisab at `/rozhisab` tracks recurring household services, delivery exceptions,
+monthly bills and payments in English, Hindi and Gujarati. Data stays in IndexedDB
+on this device; no sign-in or payment gateway. Offline PWA, JSON backup/restore,
+CSV, local sharing and browser Print/Save PDF are app-owned. Billing conventions
+and verification limits: [RozHisab](docs/ROZHISAB.md). See the functionality ledger
+for the actual deployment status.
+
 Launch audit (2026-11-06): dependency security fixes, consistent edge response
 protections, shared cached astrology chunks and steadier loading/navigation.
 See [the audit report](docs/LAUNCH_AUDIT_2026-11-06.md) and functionality ledger

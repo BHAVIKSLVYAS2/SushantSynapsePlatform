@@ -1,5 +1,13 @@
 # Code ownership and adding apps
 
+RozHisab (2026-11-08): `apps/rozhisab` owns the standalone household tracker,
+integer-paise/thousandth-unit billing engine, effective-dated service settings,
+revision-checked IndexedDB store, local backup validation and scoped offline PWA.
+IndexedDB is explicitly requested for this public app; existing SQLite/D1 business
+records are unaffected. No household API or mandatory login. Shared registry,
+navigation, theme and language preferences remain platform-owned. No ad eligibility
+on its route. See `docs/ROZHISAB.md` for salary, pause, cycle and recovery semantics.
+
 Public interface localisation (2026-11-07; local): shared runtime and generated
 language bundle remain owned by packages/ui. Authored public-interface, planning
 and workflow copy extend interface-copy.mjs; public-interface-templates.mjs owns

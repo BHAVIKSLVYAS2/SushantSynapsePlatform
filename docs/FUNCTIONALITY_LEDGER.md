@@ -1,5 +1,22 @@
 # Chambers functionality ledger
 
+RozHisab implementation (2026-11-08 IST; release verification in progress): new
+public `/rozhisab` app with four sections, automatic scheduled deliveries through
+today, fractional edits, effective-dated rates/activation, paid-leave salary rules,
+custom billing cycles, advances/carry, payments, protected closing/reopening, undo,
+local reports, JSON backup/restore and CSV. Uses user-requested versioned IndexedDB,
+revision-checked transactions and scoped offline PWA; no household backend, gateway,
+ads or mandatory account. Shared catalogue/switcher/sitemap/theme/language integrated.
+13 focused engine/catalogue checks and five Chrome workflows pass, including actual
+offline reload/browser-profile restart, downloads, storage conflicts, historical
+closing and 36 locale/theme/viewport states. Production bundle build exports 1,268
+assets. Full platform suite in progress; one shared-output asset-count failure
+requires isolated rerun. Final committed bundle checks/deployment remain pending.
+No physical Android/iOS verification or closed-app scheduled-reminder guarantee.
+Ownership/semantics: `docs/ROZHISAB.md`. Evidence: `.publish/rozhisab-unit.log`,
+`.publish/rozhisab-browser.log`, `.publish/rozhisab-full-node.log`,
+`.publish/rozhisab-build.log`. No database migration or production data changes.
+
 Dead-code cleanup release ready; deployment connectivity blocked (2026-11-08 IST):
 implementation commit `463ca5b`. All 623 distinct Node/API checks verified across
 the complete run and 15/15 permission-corrected Cloudflare rerun. All 32 affected

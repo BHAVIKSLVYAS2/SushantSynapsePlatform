@@ -1,5 +1,9 @@
 // Explicit URL allowlist. Filesystem paths are never accepted from requests.
 const staticAssets={
+ '/rozhisab':'apps/rozhisab/frontend/index.html',
+ '/rozhisab/':'apps/rozhisab/frontend/index.html',
+ '/rozhisab-sw.js':'apps/rozhisab/frontend/sw.js',
+ ...Object.fromEntries(['app.js','engine.mjs','storage.mjs','copy.mjs','style.css','icon.svg','icon-192.png','icon-512.png','manifest.webmanifest'].map(file=>['/rozhisab/'+file,'apps/rozhisab/frontend/'+file])),
  '/moment-studio/studio-navigation.css':'apps/moment-studio/frontend/studio-navigation.css',
  '/ritual-assist/checklist-image.mjs':'apps/ritual-assist/frontend/checklist-image.mjs',
  '/ritual-assist/workspace.mjs':'apps/ritual-assist/frontend/workspace.mjs',
