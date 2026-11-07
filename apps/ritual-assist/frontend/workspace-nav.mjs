@@ -1,6 +1,7 @@
 // Shared task navigation; calendar calculations and checklist state stay app-owned.
 const copy={en:{title:'Ritual Assist',dates:'Vrat Dates',remembrance:'Shraddh & Barsi',checklist:'Ritual Prep',datesHelp:'Choose a city and month to find your vrat dates.',remembranceHelp:'Enter the date, time and place to plan Shraddh and Barsi.',checklistHelp:'Choose a ritual, then arrange and tick off its materials.'},hi:{title:'रिचुअल असिस्ट',dates:'व्रत तिथियाँ',remembrance:'श्राद्ध और बरसी',checklist:'अनुष्ठान तैयारी',datesHelp:'शहर और महीना चुनकर व्रत की तारीखें निकालें।',remembranceHelp:'तारीख, समय और स्थान भरकर श्राद्ध और बरसी की योजना बनाएँ।',checklistHelp:'अनुष्ठान चुनें, फिर सामग्री की व्यवस्था करें और टिक लगाएँ।'}};
 let mounted;
+copy.gu={title:'રિચ્યુઅલ અસિસ્ટ',dates:'વ્રતની તારીખો',remembrance:'શ્રાદ્ધ અને વરસી',checklist:'વિધિની તૈયારી',datesHelp:'શહેર અને મહિનો પસંદ કરીને વ્રતની તારીખો શોધો.',remembranceHelp:'તારીખ, સમય અને સ્થળ ભરીને શ્રાદ્ધ અને વરસીની યોજના બનાવો.',checklistHelp:'વિધિ પસંદ કરો, પછી તેની સામગ્રી ગોઠવો અને ટિક કરો.'};
 export function mountRitualWorkspace({active='dates',language='en',onView}={}){
  if(mounted)return mounted;
  const main=document.querySelector('main'),header=document.createElement('header');header.className='ritual-task-header';header.setAttribute('data-language-preserve','');
@@ -13,6 +14,7 @@ export function mountRitualWorkspace({active='dates',language='en',onView}={}){
  const routeKey='synapse-ritual-checklist-route';
  if(active!=='checklist')try{const saved=new URL(sessionStorage.getItem(routeKey)||'/ritual-assist/guides',location.origin);if(saved.origin===location.origin&&saved.pathname==='/ritual-assist/guides')controls.checklist.href=saved.pathname+saved.search;}catch{}
  else for(const id of ['dates','remembrance'])controls[id].addEventListener('click',()=>{window.dispatchEvent(new Event('ritual:leave-checklist'));try{const url=new URL('/ritual-assist/guides',location.origin),guide=new URL(location.href).searchParams.get('guide');if(/^[a-z0-9-]{1,60}$/.test(guide||''))url.searchParams.set('guide',guide);sessionStorage.setItem(routeKey,url.pathname+url.search);}catch{}});
- function update(next=active,lang=language){active=next;language=lang;const words=copy[lang]||copy.en;title.textContent=words.title;help.textContent=words[active+'Help'];for(const [id,control]of Object.entries(controls)){control.textContent=words[id];if(id===active)control.setAttribute('aria-current','page');else control.removeAttribute('aria-current');if(control.tagName==='BUTTON')control.setAttribute('aria-pressed',String(id===active));}}
+ function update(next=active,lang=language){active=next;language=lang;const words=copy[window.SynapseLanguage?.get()||lang]||copy.en;title.textContent=words.title;help.textContent=words[active+'Help'];for(const [id,control]of Object.entries(controls)){control.textContent=words[id];if(id===active)control.setAttribute('aria-current','page');else control.removeAttribute('aria-current');if(control.tagName==='BUTTON')control.setAttribute('aria-pressed',String(id===active));}}
+ window.addEventListener('synapse-language-change',()=>update());
  update();return mounted={nav,datesButton:controls.dates,remembranceButton:controls.remembrance,update};
 }

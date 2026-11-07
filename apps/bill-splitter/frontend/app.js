@@ -1,6 +1,8 @@
+const confirmLocalized=message=>window.confirm(window.SynapseLanguage?.text(message)||message);
 import {$,init,copy} from '/shared/local-tools.mjs?v=20261016-wins';
 import {splitGroup,money} from './engine.mjs?v=20261107-simple';
 init();
+const uiText=value=>window.SynapseLanguage?.text(value)||value;
 let result=null,example=false,showErrors=false;
 const people=()=>[...$('#people').children];
 const expenses=()=>[...document.querySelectorAll('.expense-row')];
@@ -18,8 +20,8 @@ function calculate(force=false){
   result=splitGroup(cards.map(card=>({name:nameOf(card)})),entries.map(row=>({title:row.querySelector('[data-title]').value,amount:row.querySelector('[data-amount]').value,payer:cards.indexOf(row.closest('.person-card')),...(row.shared===null?{}:{members:row.shared.map(id=>cards.findIndex(card=>card.dataset.id===id))})})));
   showErrors=true;$('#entered-total').textContent='Total: '+money(result.total);
   if(!result.transfers.length)$('#settlement-cards').append(node('p','settled','Everyone is settled.'));
-  for(const t of result.transfers){const card=node('article','settlement-card');card.append(node('span','',t.from+' pays '+t.to),node('strong','',money(t.amount)));$('#settlement-cards').append(card);}
-  $('#result').textContent='Total: '+money(result.total)+'\n\n'+result.expenses.map(e=>e.payer+' paid '+money(e.amount)+' - '+e.title+'\nShared by: '+e.members.join(', ')).join('\n\n')+'\n\n'+result.people.map(p=>p.name+' - paid '+money(p.paid)+' - share '+money(p.share)).join('\n')+'\n\n'+(result.transfers.length?result.transfers.map(t=>t.from+' pays '+t.to+' '+money(t.amount)).join('\n'):'Everyone is settled.');
+  for(const t of result.transfers){const card=node('article','settlement-card');const from=node('span','',t.from),to=node('span','',t.to);from.setAttribute('data-language-preserve','');to.setAttribute('data-language-preserve','');const names=node('span','');names.append(from,document.createTextNode(' '+uiText('pays')+' '),to);card.append(names,node('strong','',money(t.amount)));$('#settlement-cards').append(card);}
+  $('#result').setAttribute('data-language-preserve','');$('#result').textContent=uiText('Total: '+money(result.total))+'\n\n'+result.expenses.map(e=>e.payer+' '+uiText('paid')+' '+money(e.amount)+' - '+e.title+'\n'+uiText('Shared by:')+' '+e.members.join(', ')).join('\n\n')+'\n\n'+result.people.map(p=>p.name+' - '+uiText('paid')+' '+money(p.paid)+' - '+uiText('share')+' '+money(p.share)).join('\n')+'\n\n'+(result.transfers.length?result.transfers.map(t=>t.from+' '+uiText('pays')+' '+t.to+' '+money(t.amount)).join('\n'):uiText('Everyone is settled.'));
   $('#copy').disabled=false;$('#status').textContent='';
  }catch(error){result=null;$('#entered-total').textContent='Finish the entries to see the split.';$('#status').textContent=showErrors||force?error.message:'Add everyone\'s name and a valid expense amount.';}
 }
@@ -31,7 +33,7 @@ function updateSharing(){
   summary.textContent=row.shared===null?'Shared by everyone':row.shared.length?'Shared by '+row.shared.map(id=>labelOf(cards.find(c=>c.dataset.id===id))).join(', '):'Choose who shares';list.replaceChildren();
   const all=node('label','shared-option'),allInput=node('input','');allInput.type='checkbox';allInput.checked=row.shared===null;all.append(allInput,document.createTextNode('Everyone'));list.append(all);
   allInput.onchange=()=>{row.shared=allInput.checked?null:[];changed();updateSharing();};
-  for(const card of cards){const label=node('label','shared-option'),input=node('input','');input.type='checkbox';input.checked=row.shared===null||row.shared.includes(card.dataset.id);label.append(input,document.createTextNode(labelOf(card)));list.append(label);input.onchange=()=>{
+  for(const card of cards){const label=node('label','shared-option'),input=node('input','');input.type='checkbox';input.checked=row.shared===null||row.shared.includes(card.dataset.id);const name=node('span','',labelOf(card));if(nameOf(card))name.setAttribute('data-language-preserve','');label.append(input,name);list.append(label);input.onchange=()=>{
    const selected=new Set(row.shared===null?cards.map(c=>c.dataset.id):row.shared);if(input.checked)selected.add(card.dataset.id);else selected.delete(card.dataset.id);
    row.shared=[...selected];changed();updateSharing();
   };}
@@ -54,7 +56,7 @@ function addPerson(name='',focus=true){
  const remove=button('Remove person',()=>{
   if(people().length<=2){$('#status').textContent='Keep at least two people.';return;}
   const entered=[...card.querySelectorAll('.expense-row input')].some(e=>e.type!=='checkbox'&&e.value.trim());
-  if(entered&&!confirm('Remove '+labelOf(card)+' and their expenses?'))return;
+  if(entered&&!confirmLocalized('Remove '+labelOf(card)+' and their expenses?'))return;
   card.remove();for(const row of expenses())if(row.shared!==null)row.shared=row.shared.filter(id=>id!==card.dataset.id);
   changed();updateSharing();$('#add').focus();
  },'remove-person');
@@ -66,11 +68,12 @@ $('#add').onclick=()=>{addPerson();changed();};
 $('#copy').onclick=()=>{if(result)copy($('#result').textContent+'\n\nCreated with Sushant Synapse - Bill Splitter\n'+location.origin+'/bill-splitter');};
 function reset(sample=false,initial=false){
  const entered=people().some(card=>nameOf(card))||expenses().some(row=>[...row.querySelectorAll('input')].some(input=>input.type!=='checkbox'&&input.value.trim()));
- if(!initial&&!example&&entered&&!confirm('Replace the current people and expenses?'))return;
+ if(!initial&&!example&&entered&&!confirmLocalized('Replace the current people and expenses?'))return;
  $('#people').replaceChildren();showErrors=false;
  if(sample){const a=addPerson('Aarav',false),b=addPerson('Meera',false);addPerson('Neel',false);addExpense(a,{title:'Dinner',amount:'1200'},false);addExpense(b,{title:'Taxi',amount:'300'},false);}
  else {const a=addPerson('',false);addPerson('',false);addExpense(a,{},false);}
  example=sample;$('#example-notice').hidden=!sample;calculate();if(!initial)people()[0].querySelector('[data-name]').focus();
 }
 $('#fresh').onclick=()=>reset();$('#example').onclick=()=>reset(true);
+window.addEventListener('synapse-language-change',()=>{if(result)calculate();});
 reset(false,true);

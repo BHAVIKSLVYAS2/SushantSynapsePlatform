@@ -1,9 +1,10 @@
 import {interfaceCopy} from './interface-copy.mjs';
+import {localizePublicMessage} from './public-interface-templates.mjs';
 // Interface preference only. Never translate inputs, editor artwork or saved business records.
 (() => {
  if(window.SynapseLanguage)return;
  const key='synapse-language',valid=value=>['en','hi','gu'].includes(value),originals=new WeakMap();
- let language='en',scheduled=false,adapter=null,applied=null,syncing=false,broadcast=null;const dirty=new Set();
+ let language='en',scheduled=false,adapter=null,applied=null,syncing=false,broadcast=null;const dirty=new Set(),attributeOriginals=new WeakMap();
  let initialPreference;try{initialPreference=localStorage.getItem(key);}catch{}
  const translationRoots='body';
  const protectedContent='script,style,textarea,input,svg,canvas,[contenteditable],[data-language-control],[translate=no],[data-language-preserve],.card-artwork,.certificate-artwork,#print-document,#profile-details dd,.message-body,#review-items p,.post-body,.story-body,.article-body,.story-brief,.saved-story h2,.task-title,.item-name .custom,.quantity-badge,.idea-title,.idea-body>p,#discussion-title,#detail>.description,.comment>p,#duplicates a';
@@ -40,7 +41,7 @@ import {interfaceCopy} from './interface-copy.mjs';
  }
  const reverse=new Map();for(const [source,value]of Object.entries(dictionary))reverse.set(value,source);
  for(const [source,values]of Object.entries(interfaceCopy))for(const value of values)if(value)reverse.set(value,source);
- function localize(value,locale=language){const source=reverse.get(value)||value;return locale==='en'?source:interfaceCopy[source]?.[locale==='hi'?0:1]||(locale==='hi'?dictionary[source]:null)||source;}
+ function localize(value,locale=language){const source=reverse.get(value)||value;return (locale==='en'?null:interfaceCopy[source]?.[locale==='hi'?0:1]||(locale==='hi'?dictionary[source]:null))||localizePublicMessage(source,locale);}
  function remember(value){language=value;try{localStorage.setItem(key,value);}catch{}}
  // Only catalogue UI uses brand-script projection. Saved records and app content remain untouched.
  function homeCopy(value,node,attribute=false){
@@ -56,7 +57,7 @@ import {interfaceCopy} from './interface-copy.mjs';
   while(walker.nextNode()){
    const text=walker.currentNode,parent=text.parentElement;
    if(!parent||parent.closest(protectedContent)||parent.closest('select')&&!parent.matches('option'))continue;
-   if(parent.matches('option')&&!parent.closest('#kind,#security,#entry-mode,#mode,#item-filter,#priority,#language,[data-interface-options]'))continue;
+   if(parent.matches('option')&&!parent.closest('#kind,#security,#entry-mode,#mode,#item-filter,#priority,#language,#practice-difficulty,#profile,#document-kind,#format,#fit,#rotation,[data-interface-options]'))continue;
    if(adapter&&parent.closest('main')&&!parent.closest('.vedic-app-header'))continue;
    if(privatePage&&!parent.closest(uiOnly))continue;
    if(parent.closest('td,dd')&&!parent.closest('button,label,[data-interface-text]'))continue;
@@ -67,8 +68,8 @@ import {interfaceCopy} from './interface-copy.mjs';
    if(/[A-Za-z\u0900-\u097f\u0a80-\u0aff]/.test(next)){const nextLanguage=/[\u0a80-\u0aff]/.test(next)?'gu':/[\u0900-\u097f]/.test(next)?'hi':'en';if(parent.lang!==nextLanguage)parent.lang=nextLanguage;}
   }
   for(const node of root.querySelectorAll('[placeholder],[aria-label],[title]')){
-   if(node.closest('script,style,svg,canvas,[contenteditable],[data-language-control],[translate=no],[data-language-preserve]')||adapter&&node.closest('main')||privatePage&&!node.closest(uiOnly))continue;
-   for(const attr of ['placeholder','aria-label','title'])if(node.hasAttribute(attr)){const source=node.getAttribute(attr);const next=homeCopy(source,node,true);if(source!==next)node.setAttribute(attr,next);}
+   if(node.closest('script,style,canvas,[contenteditable],[data-language-control],[translate=no],[data-language-preserve]')||adapter&&node.closest('main')||privatePage&&!node.closest(uiOnly))continue;
+   for(const attr of ['placeholder','aria-label','title'])if(node.hasAttribute(attr)){const current=node.getAttribute(attr);let records=attributeOriginals.get(node);if(!records){records=new Map();attributeOriginals.set(node,records);}let record=records.get(attr);if(!record||record.last!==current){record={source:current,last:current};records.set(attr,record);}const next=homeCopy(record.source,node,true);if(current!==next)node.setAttribute(attr,next);record.last=next;}
   }
  }
  function mountControl(){

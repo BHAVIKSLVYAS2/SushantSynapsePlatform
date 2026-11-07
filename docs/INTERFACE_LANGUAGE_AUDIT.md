@@ -1,5 +1,12 @@
 # Platform language and RITVAYAM audit — 25 October 2026
 
+Follow-up, 7 November 2026: public Hindi and Gujarati gaps are fixed locally with
+1,464 paired entries and 74 dynamic message templates, opted-in UI dropdowns,
+protected user values and app-owned Gujarati Ritual navigation. See
+`PUBLIC_LANGUAGE_FIXES_2026-11-07.md` and the functionality ledger for exact
+verification, source-content boundaries and commit/deployment status. The original
+1,000-entry count below describes the October checkpoint.
+
 The earlier shared-control release centralized preference ownership, but did not
 provide complete interface localization. This follow-up audited 30 anonymous
 page routes against the real Node composition, plus the production asset export.

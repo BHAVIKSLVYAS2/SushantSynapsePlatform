@@ -1,4 +1,4 @@
-function invalidOptions(message){const error=Error(message);error.name='OptionsValidationError';throw error;}
+function invalidOptions(message,duplicates){const error=Error(message);error.name='OptionsValidationError';if(duplicates)error.duplicateOptions=duplicates.map(group=>({value:group[0].value,lines:group.map(entry=>entry.line)}));throw error;}
 export function parseOptions(text){
  if(typeof text!=='string'||text.length>4096)invalidOptions('Keep the list to 4,096 characters or fewer.');
  const entries=text.split(/\r\n?|\n/).map((value,index)=>({value:value.trim(),line:index+1})).filter(entry=>entry.value);
@@ -7,7 +7,7 @@ export function parseOptions(text){
  if(long)invalidOptions(`Line ${long.line} has ${[...long.value].length} characters. Keep each option to 60 characters or fewer.`);
  const groups=new Map();for(const entry of entries){const key=entry.value.normalize('NFKC').toLocaleLowerCase('en-IN');if(!groups.has(key))groups.set(key,[]);groups.get(key).push(entry);}
  const duplicates=[...groups.values()].filter(group=>group.length>1);
- if(duplicates.length){const details=duplicates.slice(0,4).map(group=>`"${group[0].value}" on lines ${group.map(entry=>entry.line).join(', ')}`).join('; ');invalidOptions(`Repeated ${duplicates.length===1?'option':'options'}: ${details}.${duplicates.length>4?` Plus ${duplicates.length-4} other repeated options.`:''} Remove or rename repeats. Each unique option gets one equal slice.`);}
+ if(duplicates.length){const details=duplicates.slice(0,4).map(group=>`"${group[0].value}" on lines ${group.map(entry=>entry.line).join(', ')}`).join('; ');invalidOptions(`Repeated ${duplicates.length===1?'option':'options'}: ${details}.${duplicates.length>4?` Plus ${duplicates.length-4} other repeated options.`:''} Remove or rename repeats. Each unique option gets one equal slice.`,duplicates);}
  return entries.map(entry=>entry.value);
 }
 // Rejection sampling avoids modulo bias; each listed option has the same chance.

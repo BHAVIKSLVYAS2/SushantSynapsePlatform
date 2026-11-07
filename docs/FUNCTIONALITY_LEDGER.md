@@ -1,5 +1,30 @@
 # Chambers functionality ledger
 
+Public Hindi/Gujarati fixes (2026-11-07 IST; implemented locally): shared catalogue
+now has 1,464 paired entries (478 net additions), plus 74 dynamic message templates.
+Fixed audited public controls/help, opted-in dropdowns, counters, confirmations,
+photo validation/results and protected Ritual Gujarati header/tabs. Literal user
+names/choices are preserved, including Bill Splitter settlement/copy and Face-Off.
+Picksy duplicate metadata preserves its original engine error-message contract.
+30 focused unit/catalogue/engine checks and 28 Chrome cases pass; four final
+delta cases pass again. Two theme cases cover 72 locale/tool/width/theme states
+at 320/390/1440px in Light/Dark/Deep. Mobile screenshots reviewed.
+Frontend production build passes (1,247 exported assets);
+syntax/whitespace pass. No wider platform suite, commit or deployment. Original
+news/reference/source diagnostic content and app-owned artwork/export language are
+outside this UI pass. Verification, ownership and limits:
+`docs/PUBLIC_LANGUAGE_FIXES_2026-11-07.md`.
+
+Gujarati coverage discussion (2026-11-07 IST): reviewed source plus 17 live public
+routes/states with Gujarati selected; rechecked lazy Ritual Prep after its title
+loaded. Confirmed missing phrase keys, uncatalogued variable text and UI dropdowns
+excluded from option translation. All 986 existing catalogue entries contain
+Gujarati, but this does not cover current app copy. Recent game/Picksy controls,
+Bill Splitter, Photo Resize, Ritual Prep, Timetable and Fund Lens have gaps.
+No translation/runtime changes, build, commit or deployment. Findings, intentional
+content exclusions, proposed vocabulary and phased verification plan:
+`docs/GUJARATI_COVERAGE_REVIEW_2026-11-07.md`.
+
 Picksy compact choice controls (2026-11-07 IST; committed locally): removed the
 Household tasks starter button and placed Edit choices alongside Lunch ideas and
 Pick a team in one responsive group. Choice count stays above the group. No engine,

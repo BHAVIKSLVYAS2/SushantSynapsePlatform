@@ -1,5 +1,6 @@
 // Authored interface copy only. Brand names, documents and user content retain
 // their own language. Columns: source English | Hindi | Gujarati.
+import {publicInterfaceCopy} from './public-interface-copy.mjs';
 const rows=`
 Start focusing|ध्यान से काम शुरू करें|ધ્યાનથી કામ શરૂ કરો
 Check QR code|QR कोड जाँचें|QR કોડ તપાસો
@@ -991,4 +992,4 @@ Open workspace|कार्यक्षेत्र खोलें|કાર્
 Organisation administration|संगठन का प्रशासन|સંસ્થાનો વહીવટ
 Refresh access|अनुमति फिर जाँचें|મંજૂરી ફરી તપાસો
 `;
-export const interfaceCopy=Object.freeze(Object.fromEntries(rows.trim().split('\n').map(row=>{const [source,hi,gu]=row.split('|');if(!source||!hi||!gu)throw new Error('Incomplete interface translation');return [source,[hi,gu]];})));
+export const interfaceCopy=Object.freeze({...Object.fromEntries(rows.trim().split('\n').map(row=>{const [source,hi,gu]=row.split('|');if(!source||!hi||!gu)throw new Error('Incomplete interface translation');return [source,[hi,gu]];})),...publicInterfaceCopy});

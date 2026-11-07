@@ -1,5 +1,13 @@
 # Code ownership and adding apps
 
+Public interface localisation (2026-11-07; local): shared runtime and generated
+language bundle remain owned by packages/ui. Authored public-interface, planning
+and workflow copy extend interface-copy.mjs; public-interface-templates.mjs owns
+complete dynamic UI shapes with opaque user parameters. App controllers retain
+business state and protect displayed names/choices from generic translation.
+Ritual's protected workspace header owns its Gujarati copy separately from the
+native calendar language bridge. No storage, schema or calculation ownership changes.
+
 Bill Splitter person-owned expenses (2026-11-07): the app controller holds
 transient person IDs and expense participant selections in the current DOM only.
 The app-owned `splitGroup` engine validates and allocates each expense in integer

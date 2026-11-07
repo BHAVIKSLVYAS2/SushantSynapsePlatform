@@ -54,7 +54,7 @@ form.onsubmit=async event=>{
   output=result;const c=$('#preview');c.width=preview.width;c.height=preview.height;c.getContext('2d').drawImage(preview,0,0);preview.close();c.hidden=false;
   $('#comparison').textContent='Before: '+(originalBytes/1024).toFixed(1)+' KB \u2192 After: '+(result.blob.size/1024).toFixed(1)+' KB \u00b7 '+result.width+' \u00d7 '+result.height+' px';
   const heading=document.createElement('h3');heading.textContent=result.valid?'Digital size checks pass':'Digital size checks need attention';const list=document.createElement('ul');
-  for(const check of result.checks){const item=document.createElement('li');item.textContent=(check.pass?'Pass: ':'Check: ')+check.label+' - '+check.detail;list.append(item);}
+  for(const check of result.checks){const item=document.createElement('li');for(const value of [check.pass?'Pass:':'Check:',check.label,'-',check.detail]){const part=document.createElement('span');part.textContent=value;item.append(part,document.createTextNode(' '));}list.append(item);}
   $('#checks').append(heading,list);for(const warning of result.warnings){const p=document.createElement('p');p.textContent=warning;$('#checks').append(p);}
   $('#download').textContent=result.valid?'Download '+result.blob.type.split('/')[1].toUpperCase():'Download for review (size check failed)';$('#download').disabled=false;$('#status').textContent=result.valid?'Ready to download. Review visual quality and your current official requirements; this is not an acceptance guarantee.':'The output does not meet every size rule. Review the failed checks before using it.';
  }catch(error){if(current===version)$('#status').textContent=error.name==='AbortError'?'Processing cancelled. Your source image is unchanged.':error.message;}
