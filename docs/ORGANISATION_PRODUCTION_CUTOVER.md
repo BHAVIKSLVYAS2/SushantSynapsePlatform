@@ -1,5 +1,7 @@
 # Organisation licensing production cutover
 
+Ritual audit release deployed (2026-11-07 IST): source `0f77a52`, Worker `16505fe7-a694-444f-937b-fc1a0a383fa7`, live at https://apps.sushantsynapse.com. Isolated committed archive build/deploy succeeded with --keep-vars; D1/auth/organisation bindings retained. CITY_LIMITER confirmed active at 120 requests/minute. No migrations, account or business-data writes. Public smoke reads passed for both Ritual workspace entry routes/module delivery, Mumbai search, New Delhi ID resolution and rejection of coordinate parameters. Existing edge API security retains Cache-Control: no-store (the shared browser client still caches bounded responses in memory); Node advertises public cache headers. Logs: `.publish/audit-release-deploy.log`, `.publish/audit-live-smoke.log`. Focused verification: 43 browser cases passed across initial/corrected runs, final delta 3/3, 29 calculation/API/export checks + 9 delivery/content checks + 2 new city API checks passed. Wider platform sweep was not rerun; prior limitations remain recorded.
+
 Readable Shraddh range images and preparation UI deployed (2026-11-07 IST):
 source `ece7431`, Worker `07c8af10-59fc-438d-be2b-d91fc017f168`. Ten-year
 PNG is a compact year table (reviewed actual file 1080 x 1646); single-year
