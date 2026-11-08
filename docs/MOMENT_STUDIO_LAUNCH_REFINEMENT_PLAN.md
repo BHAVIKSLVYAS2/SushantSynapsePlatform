@@ -2,7 +2,7 @@
 
 Updated: 8 November 2026 (Asia/Kolkata).
 Status: user authorised implementation, commit and deployment on 8 November 2026.
-Implementation is complete locally; release evidence is in FUNCTIONALITY_LEDGER.md.
+Implemented and deployed as source `3b813eb`; release evidence is in FUNCTIONALITY_LEDGER.md.
 
 ## Launch priorities
 

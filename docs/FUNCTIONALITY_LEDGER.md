@@ -1,3 +1,16 @@
+Moment Studio launch refinement deployed (2026-11-08): source `3b813eb`, Worker
+`92ad7369-d5aa-4a9a-bae9-64551e676e7a`, at https://apps.sushantsynapse.com.
+Deployment used an isolated committed archive and --keep-vars; organisation mode,
+D1/auth settings and existing records are preserved. No migrations or account
+changes. Live mobile Chrome passed maximum-donation PNG download (3508x2480),
+unreadable contribution guard, photo-led Birthday, family-addressed sympathy,
+memorial photo, English/Hindi rendering and no overflow/page errors. Health is
+200; unscoped private state remains denied 409. Live screenshots reviewed.
+Business API writes and ad traffic were blocked; their resource errors were
+expected. Evidence: `.publish/studio-launch-deploy.log`,
+`.publish/studio-live-check.log`, `.publish/studio-live-donation.png` and
+`.publish/studio-live-{birthday,condolence,remembrance}.png`.
+
 Moment Studio combined launch refinement (2026-11-08, release preparation):
 Birthday now has a large-photo split composition for square Confetti/Bold cards
 and a photo-led vertical composition; typography-led cards retain a short form.
