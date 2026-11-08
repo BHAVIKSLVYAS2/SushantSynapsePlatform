@@ -1,5 +1,15 @@
 # Chambers functionality ledger
 
+RozHisab Calendar discoverability (2026-11-08 IST; local verification): live Chrome
+confirmed the existing bottom Calendar link is visible/clickable at 390/1440/1366px,
+but its location was missed in user use. Added an explicit labelled calendar-icon
+button beside Today and its date, opening the current calendar without changing
+the four primary sections. Verified an earlier date can be reduced to 0.5 units.
+13 focused engine/catalogue checks and two Chrome history/language/layout workflows
+pass; 36 locale/theme/viewport combinations retain no overflow. Mobile Gujarati
+Deep screenshot reviewed. No billing/storage/API/schema changes; deployment pending.
+Logs: `.publish/rozhisab-calendar.log`, `.publish/rozhisab-calendar-unit.log`.
+
 RozHisab production release (2026-11-08 IST): implementation `089fa35`, verification
 follow-up `13ab054`, Worker `cbe4fed0-4b74-407b-bb33-77fc92226c3d` deployed to
 https://apps.sushantsynapse.com/rozhisab from the isolated committed archive.
