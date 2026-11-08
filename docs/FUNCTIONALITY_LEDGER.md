@@ -52,6 +52,14 @@ into in this session. Evidence `.publish/booking-chambers-deploy.log`,
 Final compatibility correction sends Booking's account link to the shared
 `/signin?section=profile` page, which works in both deployment modes; local
 Chrome verifies the Sign out control. No live demo accounts have been provisioned.
+Final source `531cf6f` deployed as Worker
+`2e3f2e0a-cb0f-4aba-8f90-2b1610c65ac8`; four live controller/stylesheet checks,
+app/health/account routes and the private 409 boundary pass again. Local demo
+server remains healthy. Log `.publish/booking-chambers-final-deploy.log`;
+final read-only evidence `.publish/booking-chambers-live-verification.json`.
+No schema migration, production account reset, production business-data seed or
+repository push. Live demo provisioning remains pending existing Super Admin
+authentication; the user's available test credentials are localhost-only.
 
 Pandit Booking discussion audit (2026-11-08): no application implementation or
 deployment requested at this stage. Fifteen focused booking/D1/language/setup
