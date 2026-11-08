@@ -41,6 +41,17 @@ Chrome verifies the content heading remains below it at 320/390/768/1440px.
 Reviewed `.publish/pandit-demo-operator-final-mobile.png` and
 `.publish/chambers-demo-mobile.png`. Local demo server remains available for the
 user; its private restart metadata is `.publish/pandit-demo-local-server.json`.
+Initial source `96b1d9b` deployed as Worker
+`15bf7a9e-e975-4e8f-8c21-4390a788d31a`, preserving D1/auth/organisation settings.
+Read-only live verification confirms both updated JS/CSS pairs, app pages and
+health 200, booking public index 200/pilot=true/publicOperators=0, and unscoped
+private state denied 409. Public mobile Chrome passes four widths with no page
+errors and business writes blocked. Private production workflows were not signed
+into in this session. Evidence `.publish/booking-chambers-deploy.log`,
+`.publish/booking-chambers-live-verification.json`.
+Final compatibility correction sends Booking's account link to the shared
+`/signin?section=profile` page, which works in both deployment modes; local
+Chrome verifies the Sign out control. No live demo accounts have been provisioned.
 
 Pandit Booking discussion audit (2026-11-08): no application implementation or
 deployment requested at this stage. Fifteen focused booking/D1/language/setup
