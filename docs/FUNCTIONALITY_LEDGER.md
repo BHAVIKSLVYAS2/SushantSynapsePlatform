@@ -7,6 +7,14 @@ the former Fund Lens position after the four featured apps. Static fallback and
 generated shared navigation rebuilt. Six focused checks and four affected browser
 cases pass for compact/mobile layouts, signed-in/out, no-JavaScript and outages.
 No app/data deletion or access-policy change.
+Deployed source `69b5769`; Worker `6cebba47-f1df-4481-b67e-bed7fe79e73a`
+with production configuration preserved. Live Chrome confirms one Hisabio card in
+the former Fund Lens position, no Fund Lens card/search/switcher listing, Hisabio
+launch, 12 language/width combinations without overflow, and direct Fund Lens
+route still 200. No page errors; business API writes blocked. Screenshot reviewed.
+Logs `.publish/hisabio-home-deploy.log`, `.publish/hisabio-home-live.log`.
+Legacy platform discovery assertions now reference Hisabio; their wider suite was
+not rerun. No production data changes or repository push.
 
 Hisabio rename (2026-11-08): user-facing RozHisab branding replaced across app,
 English/Hindi/Gujarati catalogue names, install manifest, reports, notifications,
