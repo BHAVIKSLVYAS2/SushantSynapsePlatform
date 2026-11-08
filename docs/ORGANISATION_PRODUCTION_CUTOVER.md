@@ -1,5 +1,12 @@
 # Organisation licensing production cutover
 
+Dead-code cleanup deployed (2026-11-09 IST): source `ddcfa8e`, Worker
+`fdd5fb4b-7c3f-4b1a-893f-e5e797998a5e`. Isolated committed archive deployment with
+--keep-vars retains organisation mode, password authentication and D1 binding.
+No schema, account or data changes. Thirty live layout states and eight retired
+URL checks pass; health 200 and unscoped private state denial 409 retained.
+Detailed evidence: `docs/DEAD_CODE_RESCAN_2026-11-09.md`.
+
 Times retirement deployed (2026-11-09 IST): source `53a3216`, Worker
 `30d54225-691a-4d27-87ac-d9f673af6cc8`. Isolated committed archive deployment with
 --keep-vars retains organisation mode, password authentication and D1 binding.

@@ -1,6 +1,15 @@
 # Dead-code rescan after Fund Lens and Times retirement
 
-Implemented locally at the user's request; no commit or deployment in this pass.
+Committed and deployed at the user's request: source `ddcfa8e`, production Worker
+`fdd5fb4b-7c3f-4b1a-893f-e5e797998a5e` (2026-11-09 IST).
+Deployment used an isolated committed archive and `--keep-vars`; organisation mode,
+password authentication and D1 binding remain enabled. No migrations or data changes.
+Read-only live checks passed thirty mobile/desktop theme/layout states, eight
+retired URL 404 checks, Home search and Ritual reader controls. No page errors or
+horizontal overflow; health returned 200 and unscoped private state remained denied
+with 409. Browser API writes and advertising requests were blocked during review.
+Evidence: `.publish/dead-rescan-deploy.log`, `.publish/dead-rescan-live.log`, and
+`output/playwright/dead-rescan-live-home.png` (visually reviewed).
 Unrelated untracked OWASP/performance reports were left untouched.
 
 ## Analysis and removals

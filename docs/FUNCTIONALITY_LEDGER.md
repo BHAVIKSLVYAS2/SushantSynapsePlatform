@@ -1,4 +1,12 @@
-Dead-code rescan implemented locally (2026-11-09): parsed 442 maintained JS files
+Dead-code cleanup deployed (2026-11-09 IST): source `ddcfa8e`, Worker
+`fdd5fb4b-7c3f-4b1a-893f-e5e797998a5e`, from an isolated committed archive with
+--keep-vars. Organisation mode, password authentication and D1 binding retained;
+no migrations or data changes. Read-only live checks pass thirty layout states,
+eight retired URLs, Home search and Ritual reader controls; no overflow/page errors.
+Health 200 and unscoped private state denial 409 retained. Release evidence is in
+`docs/DEAD_CODE_RESCAN_2026-11-09.md`.
+
+Prior local verification checkpoint (2026-11-09): parsed 442 maintained JS files
 and screened 68 authored CSS files after both app retirements. Removed confirmed
 unused locals/imports/helpers in fifteen modules, two unreferenced wrappers and
 548 unreachable selector branches plus 66 equal-specificity alternatives across
