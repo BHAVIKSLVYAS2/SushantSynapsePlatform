@@ -4,7 +4,7 @@ let child,base,dir;
 test('shared footer appears once after app content across routes and themes',async({page})=>{
  test.setTimeout(180000);
  const {setTheme}=require('../../../../tests/browser-theme');
- for(const route of ['/','/signin','/advocate','/batchfee-lite','/digital-samaj','/tournament-lite','/ritual-assist','/ritual-assist/calendar','/rashifal-kundli/rashifal','/rashifal-kundli','/rashifal-kundli/matching','/moment-studio','/take-a-break','/news','/feedback','/privacy','/showcase','/qr-maker']){
+ for(const route of ['/','/signin','/advocate','/batchfee-lite','/digital-samaj','/tournament-lite','/ritual-assist','/ritual-assist/calendar','/rashifal-kundli/rashifal','/rashifal-kundli','/rashifal-kundli/matching','/moment-studio','/take-a-break','/feedback','/privacy','/showcase','/qr-maker']){
   await page.goto(base+route);const footer=page.locator('body>footer.synapse-legal-footer');await expect(footer).toHaveCount(1);await expect(footer.locator('.synapse-footer-brand strong')).toHaveText('Sushant Synapse');await expect(footer.locator('a[href="/feedback"]')).toHaveCount(1);
   for(const width of [320,1440]){await page.setViewportSize({width,height:900});for(const theme of ['light','dark']){await setTheme(page,theme);await footer.scrollIntoViewIfNeeded();await expect(footer).toBeVisible();const geometry=await footer.evaluate(el=>{const r=el.getBoundingClientRect(),style=getComputedStyle(el);return {left:r.left,right:r.right,width:innerWidth,overflow:document.documentElement.scrollWidth>innerWidth,position:style.position,links:[...el.querySelectorAll('nav a')].every(a=>a.getBoundingClientRect().height>=44)};});expect(geometry.left,route).toBeGreaterThanOrEqual(0);expect(geometry.right,route).toBeLessThanOrEqual(geometry.width);expect(geometry.overflow,route).toBe(false);expect(geometry.position).toBe('relative');expect(geometry.links).toBe(true);}}
  }
@@ -73,7 +73,7 @@ test('account entry follows live sign-in, profile edits, navigation and sign-out
  await page.locator('#auth-form button[type=submit]').click();
  await expect(page.locator('.platform-account')).toHaveText('UN');
  await page.request.post(base+'/api/auth/logout');
- await page.goto(base+'/news');await expect(page.locator('.platform-account')).toHaveText('Sign in');
+ await page.goto(base+'/take-a-break');await expect(page.locator('.platform-account')).toHaveText('Sign in');
 });
 
 test('account initials handle Unicode and auth outages without breaking public tools',async({page})=>{
@@ -87,7 +87,7 @@ test('account initials handle Unicode and auth outages without breaking public t
 
 test('platform frame persists across public apps with usable mobile switching',async({page})=>{
  test.setTimeout(300000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
- const routes=['/','/signin','/moment-studio','/moment-studio/cards','/ritual-assist','/ritual-assist/calendar','/timetable-lite','/news','/satire-arena','/take-a-break','/daily-spark','/decision-wheel','/team-mixer','/support','/contact','/privacy','/terms','/legal/third-party-notices'];
+ const routes=['/','/signin','/moment-studio','/moment-studio/cards','/ritual-assist','/ritual-assist/calendar','/timetable-lite','/satire-arena','/take-a-break','/daily-spark','/decision-wheel','/team-mixer','/support','/contact','/privacy','/terms','/legal/third-party-notices'];
  for(const route of routes){
   await page.goto(base+route,{waitUntil:'domcontentloaded'});await expect(page.locator('.platform-shell')).toHaveCount(1);
   for(const width of [320,390,768,1440]){

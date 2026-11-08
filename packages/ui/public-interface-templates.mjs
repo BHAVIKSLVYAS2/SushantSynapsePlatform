@@ -31,7 +31,6 @@ Six pairs in {n} moves. No clock to beat.|छह जोड़ियाँ, {n} �
 {n} classes · {m} teachers · {k} weekly lessons|{n} कक्षाएँ · {m} शिक्षक · {k} साप्ताहिक पाठ|{n} વર્ગ · {m} શિક્ષક · {k} સાપ્તાહિક પાઠ
 {n} of 8 funds selected|8 में से {n} फ़ंड चुने|8માંથી {n} ફંડ પસંદ કર્યાં
 Selected date · {date}|चुनी तारीख · {date}|પસંદ કરેલી તારીખ · {date}
-No saved newspaper for {date}.|{date} का अख़बार सहेजा नहीं है।|{date}નું અખબાર સાચવેલું નથી.
 You made {amount}. Undo a move or start again.|आपने {amount} बनाया। पिछला कदम वापस लें या फिर शुरू करें।|તમે {amount} બનાવ્યા. છેલ્લું પગલું પાછું લો અથવા ફરી શરૂ કરો.
 Picksy picked: {names}.|Picksy ने चुना: {names}।|Picksyએ પસંદ કર્યું: {names}.
 Solution revealed: {code}.|हल दिखाया गया: {code}।|ઉકેલ બતાવ્યો: {code}.

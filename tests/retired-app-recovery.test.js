@@ -18,8 +18,22 @@ test('retired financial records survive a full SQLite recovery export without ac
 });
 test('fresh workspaces do not create retired app tables or publish retired assets',()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'retired-fresh-'));let store;
- try{store=new Store(dir);assert.equal(store.sql.prepare("SELECT COUNT(*) n FROM sqlite_master WHERE name LIKE 'fund_lens_%'").get().n,0);assert.doesNotMatch(store.exportSql(),/CREATE TABLE[^;]*fund_lens_/);}
+ try{store=new Store(dir);assert.equal(store.sql.prepare("SELECT COUNT(*) n FROM sqlite_master WHERE name LIKE 'fund_lens_%' OR name LIKE 'news_%'").get().n,0);assert.doesNotMatch(store.exportSql(),/CREATE TABLE[^;]*(?:fund_lens_|news_)/);}
  finally{store?.sql.close();fs.rmSync(dir,{recursive:true,force:true});}
  assert.ok(!require('../packages/app-registry').apps.some(a=>a.id==='fund-overlap'));
  assert.ok(!Object.entries(require('../server/static-assets').staticAssets).some(([url,file])=>url.includes('fund-overlap')||file.includes('fund-overlap')));
+});
+
+test('retired newspaper archives and fetch-budget rows survive full SQLite recovery',()=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'retired-news-recovery-'));let store,restored;
+ try{
+  store=new Store(dir);for(const file of ['001-editions.sql','002-fetch-budget.sql'])store.sql.exec(fs.readFileSync(path.join(__dirname,'../packages/database/retired/news',file),'utf8'));
+  store.sql.prepare('INSERT INTO news_editions VALUES(?,?,?,?,?,?,?,?,?,?)').run('2026-01-01','Retained edition','Original author','2026-01-01T00:00:00Z','2026-01-01T01:00:00Z','Original heading','Original text',1,'retained-model','v1');
+  store.sql.prepare('INSERT INTO news_stories VALUES(?,?,?,?,?,?,?)').run('2026-01-01',1,'Retained story','Original brief','Original source','https://example.test/story','2026-01-01T00:00:00Z');
+  store.sql.prepare('INSERT INTO news_fetch_budget VALUES(?,?)').run('2026-01-01',9);
+  restored=new DatabaseSync(':memory:');restored.exec(store.exportSql());
+  assert.equal(restored.prepare('SELECT author FROM news_editions').get().author,'Original author');
+  assert.equal(restored.prepare('SELECT brief FROM news_stories').get().brief,'Original brief');
+  assert.equal(restored.prepare('SELECT requests FROM news_fetch_budget').get().requests,9);
+ }finally{restored?.close();store?.sql.close();fs.rmSync(dir,{recursive:true,force:true});}
 });

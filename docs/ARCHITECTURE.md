@@ -1,5 +1,13 @@
 # Code ownership and adding apps
 
+Sushant Synapse Times retirement (2026-11-09): the `apps/news` implementation,
+source/publication APIs, assets and catalogue/tooling are removed. Old `/news`
+and `/api/news` endpoints return 404. Older News ownership descriptions below
+are historical. Immutable schemas now belong to `packages/database/retired/news`;
+existing archived records remain recoverable through database-owned metadata and
+full exports. No DROP migration or record purge. Satire Arena's News Anchors
+feature remains independently owned by `apps/satire-arena` and is unchanged.
+
 Fund Lens retired and deployed (2026-11-09, source `24f6117`): removed the complete app implementation,
 reference datasets, ingestion/refresh tooling, Node/edge APIs, public assets,
 catalogue identity, dedicated tests and CI job. Older Fund Lens sections below

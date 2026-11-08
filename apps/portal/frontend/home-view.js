@@ -11,7 +11,6 @@
  'qr-maker':['Make QR codes','QR कोड बनाएँ','QR કોડ બનાવો'],
  'photo-resize':['Resize your photos','फ़ोटो का आकार बदलें','ફોટોનું કદ બદલો'],
  'bill-splitter':['Split shared expenses','साझा खर्च बाँटें','સહિયારો ખર્ચ વહેંચો'],
- 'news':['Read the news','खबरें पढ़ें','સમાચાર વાંચો'],
  'timetable-lite':['Plan a timetable','समय-सारणी बनाएँ','સમયપત્રક બનાવો'],
  'team-mixer':['Make random teams','टीमें बनाएँ','ટીમો બનાવો'],
  'focus':['Tasks and focus timer','काम और फोकस टाइमर','કામ અને ફોકસ ટાઇમર'],

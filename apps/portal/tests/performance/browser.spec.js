@@ -69,12 +69,6 @@ test('deferred game loading preserves newer choices and never loads unused contr
  await page.locator('#all-breaks').click();await page.locator('[data-game="24"]').click();await expect(page.locator('[data-pane="24"] #numbers button')).toHaveCount(4);
 });
 
-test('Newsroom remains visible while status is pending and fallback stays available',async({page})=>{
- let release;const gate=new Promise(resolve=>release=resolve);await page.route('**/api/news/status',async route=>{await gate;await route.fulfill({status:503,json:{error:'Offline fixture'}});});
- let releaseArchive;const archiveGate=new Promise(resolve=>releaseArchive=resolve);await page.route('**/api/news/editions',async route=>{await archiveGate;await route.fulfill({status:503,json:{error:'Offline fixture'}});});
- try{await page.goto(base+'/news');await expect(page.locator('.masthead h1')).toHaveText('Newsroom');await expect(page.locator('#reading-mode')).toBeVisible();await expect(page.locator('#edition-date')).toBeDisabled();release();await expect(page.locator('#device-note')).toBeVisible();await expect(page.locator('.edition-tools')).toBeVisible();}finally{release();releaseArchive();}
-});
-
 test('failed game module keeps the catalogue usable without an unhandled error',async({page})=>{
  const errors=[];page.on('pageerror',error=>errors.push(error.message));await page.route('**/take-a-break/chaos.mjs',route=>route.fulfill({status:503,body:'Unavailable fixture'}));await page.goto(base+'/take-a-break');await page.locator('[data-game=chaos]').click();await expect(page.locator('#break-filter-status')).toContainText('Reload the page');await expect(page.locator('#hub')).toBeVisible();await expect(page.locator('[data-game=chaos]')).not.toHaveAttribute('aria-busy','true');await page.locator('[data-game=lights]').click();await expect(page.locator('#play-title')).toHaveText('Lights Out');expect(errors).toEqual([]);
 });

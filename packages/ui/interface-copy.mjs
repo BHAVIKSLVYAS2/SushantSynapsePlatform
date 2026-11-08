@@ -357,7 +357,6 @@ Read|पढ़ें|વાંચો
 Search editions|संस्करण खोजें|આવૃત્તિ શોધો
 Archives|पुराने अंक|જૂના અંક
 Latest edition|नया संस्करण|નવી આવૃત્તિ
-Daily newspaper|दैनिक समाचारपत्र|દૈનિક અખબાર
 Prepare edition|संस्करण तैयार करें|આવૃત્તિ તૈયાર કરો
 Your message|आपका संदेश|તમારો સંદેશ
 Send a message|संदेश भेजें|સંદેશ મોકલો
@@ -703,7 +702,7 @@ Use only what you are authorized to use|केवल अनुमत सुव�
 Certificates and creative work|प्रमाणपत्र और रचनात्मक काम|પ્રમાણપત્ર અને સર્જનાત્મક કામ
 Ritual and calendar guidance|अनुष्ठान और कैलेंडर का मार्गदर्शन|અનુષ્ઠાન અને કૅલેન્ડરનું માર્ગદર્શન
 Financial and professional scope|वित्तीय और पेशेवर दायरा|નાણાકીય અને વ્યાવસાયિક કાર્યક્ષેત્ર
-News, games and demonstrations|समाचार, खेल और प्रदर्शन|સમાચાર, રમતો અને પ્રદર્શન
+Games and demonstrations|खेल और प्रदर्शन|રમતો અને પ્રદર્શન
 External services and availability|बाहरी सेवाएँ और उपलब्धता|બાહ્ય સેવાઓ અને ઉપલબ્ધતા
 Voluntary support|स्वैच्छिक सहयोग|સ્વૈચ્છિક સહયોગ
 Rights and complaints|अधिकार और शिकायतें|અધિકાર અને ફરિયાદ
@@ -895,39 +894,11 @@ Example data is loaded. Start fresh to enter your own bill.|उदाहरण �
 3 · Settle|3 · हिसाब|3 · હિસાબ
 Divide percentages equally|प्रतिशत बराबर बाँटें|ટકાવારી સરખી વહેંચો
 Undo removal|हटाया हुआ वापस लाएँ|દૂર કરેલું પાછું લાવો
-Skip to newspaper|समाचारपत्र पर जाएँ|અખબાર પર જાઓ
-The daily pause|रोज़ का विराम|રોજનો વિરામ
-Ten credited stories, a newspaper to keep.|स्रोत सहित दस खबरें, सहेजने लायक अख़बार।|સ્રોત સાથે દસ સમાચાર, સાચવવા જેવું અખબાર.
-Newsroom|समाचार कक्ष|સમાચાર કક્ષ
-The front page|मुखपृष्ठ|મુખપૃષ્ઠ
-Past editions|पिछले संस्करण|પાછલી આવૃત્તિઓ
-One edition. Shared by everyone.|एक संस्करण। सबके साथ साझा।|એક આવૃત્તિ. બધાં સાથે શેર.
-Loading newspaper…|समाचारपत्र लोड हो रहा है…|અખબાર લોડ થઈ રહ્યું છે…
 Retry|फिर कोशिश करें|ફરી પ્રયાસ કરો
-Search this edition|इस संस्करण में खोजें|આ આવૃત્તિમાં શોધો
 Clear search|खोज हटाएँ|શોધ સાફ કરો
-Light reading|हल्का पढ़ना|હળવું વાંચન
-Article text size|लेख के अक्षरों का आकार|લેખના અક્ષરનું કદ
 Comfortable|सहज|સહજ
 Large|बड़ा|મોટું
 Extra large|बहुत बड़ा|ખૂબ મોટું
-Reader layout|पढ़ने का रूप|વાંચનનો દેખાવ
-Edition date|संस्करण की तारीख|આવૃત્તિની તારીખ
-Choose today or a past date to generate or open its newspaper.|समाचारपत्र बनाने या खोलने के लिए आज या पिछली तारीख चुनें।|અખબાર બનાવવા કે ખોલવા આજની કે જૂની તારીખ પસંદ કરો.
-Fetch today's newspaper|आज का समाचारपत्र लाएँ|આજનું અખબાર લાવો
-Today’s newspaper|आज का समाचारपत्र|આજનું અખબાર
-About this edition|इस संस्करण के बारे में|આ આવૃત્તિ વિશે
-Your first edition is still to come.|आपका पहला संस्करण अभी आना है।|તમારી પહેલી આવૃત્તિ હજી આવવાની છે.
-Ten credited stories.|स्रोत सहित दस खबरें।|સ્રોત સાથે દસ સમાચાર.
-No newspaper has been generated|अभी समाचारपत्र नहीं बना है|હજી અખબાર બન્યું નથી
-Ten stories|दस खबरें|દસ સમાચાર
-One saved edition|एक सहेजा संस्करण|એક સાચવેલી આવૃત્તિ
-Previous edition|पिछला संस्करण|પહેલાની આવૃત્તિ
-Next edition|अगला संस्करण|આગળની આવૃત્તિ
-The collection|संग्रह|સંગ્રહ
-Previous editions|पिछले संस्करण|પહેલાની આવૃત્તિઓ
-Older editions|पुराने संस्करण|જૂની આવૃત્તિઓ
-News briefs with source credits.|स्रोत सहित संक्षिप्त खबरें।|સ્રોત સાથે ટૂંકા સમાચાર.
 LESS ADMIN. MORE LEARNING.|कम प्रशासन। अधिक सीखना।|ઓછું વહીવટ. વધુ શીખવું.
 A well-planned week starts here.|सुव्यवस्थित सप्ताह की शुरुआत यहाँ।|સુવ્યવસ્થિત અઠવાડિયાની શરૂઆત અહીં.
 No login. Your device. Your timetable.|बिना लॉगिन। आपका उपकरण। आपकी समय-सारणी।|લૉગિન વગર. તમારું ઉપકરણ. તમારું સમયપત્રક.

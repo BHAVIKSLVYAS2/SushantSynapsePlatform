@@ -17,8 +17,8 @@ async function create(kind,body){const r=await request(kind,'POST',body);assert.
 async function patch(kind,record,body){return request(kind+'/'+record.id,'PATCH',{version:record.version,...body});}
 before(start);after(async()=>{await stop();fs.rmSync(dir,{recursive:true,force:true});});
 
-test('retired Fund Lens pages, assets and APIs are unavailable without sign-in',async()=>{
- for(const route of ['/fund-overlap','/fund-overlap/','/fund-overlap/app.js','/api/fund-overlap/search?q=hdfc','/api/fund-overlap/portfolio','/api/fund-overlap/watchlists']){
+test('retired app pages, assets and APIs are unavailable without sign-in',async()=>{
+ for(const route of ['/news','/news/','/news/app.js','/api/news/sources','/api/news/fetch','/api/news/editions/2026-01-01','/fund-overlap','/fund-overlap/','/fund-overlap/app.js','/api/fund-overlap/search?q=hdfc','/api/fund-overlap/portfolio','/api/fund-overlap/watchlists']){
   for(const method of ['GET','POST'])assert.equal((await fetch(base+route,{method})).status,404,method+' '+route);
  }
 });

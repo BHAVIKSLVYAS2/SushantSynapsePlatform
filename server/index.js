@@ -10,7 +10,6 @@ const {createSupport}=require('../apps/portal/backend/support');
 const {createFocus}=require('../apps/focus/backend/routes');
 const {createRitualCalendar}=require('../apps/ritual-assist/backend/routes');
 const {createAdvocate}=require('../apps/advocate/backend/routes');
-const {createNews}=require('../apps/news/backend/routes');
 const {createBatchFee}=require('../apps/batchfee-lite/backend/routes');
 const {createTournament}=require('../apps/tournament-lite/backend/routes');
 const {createDigitalSamaj}=require('../apps/digital-samaj/backend/routes');
@@ -39,7 +38,6 @@ const visitorCounter=require('../apps/portal/backend/visitors.cjs').createVisito
 const support=createSupport({store,auth});
 const focus=createFocus({store});
 const ritualCalendar=createRitualCalendar();
-const news=createNews({auth,store});
 const batchFee=createBatchFee({auth,store});
 const tournament=createTournament({auth,store});
 const digitalSamaj=createDigitalSamaj({auth,store});
@@ -53,7 +51,7 @@ async function dispatch(req,res) {
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('X-Frame-Options','DENY');res.setHeader('Referrer-Policy','same-origin');
   res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'");
     const url = new URL(req.url,'http://localhost');
-    if(/^\/(?:api\/)?fund-overlap(?:\/|$)/.test(url.pathname))return json(404,{error:'Not found'});
+    if(/^\/(?:api\/)?(?:fund-overlap|news)(?:\/|$)/.test(url.pathname))return json(404,{error:'Not found'});
     if(url.pathname.startsWith('/api/arena-editorial')||url.pathname.startsWith('/api/arena-metrics')||url.pathname.startsWith('/satire-arena/')||url.pathname==='/sitemap.xml'||url.pathname==='/robots.txt'){
       const {editorial,editorialKey,published,empty}=await import('../apps/satire-arena/backend/editorial.mjs');
       const {publicEditorialPath,publicPage}=await import('../apps/satire-arena/backend/public-pages.mjs');
@@ -79,7 +77,6 @@ async function dispatch(req,res) {
     }
     if(url.pathname==='/healthz'&&req.method==='GET')return json(200,{status:'ok'});
     if(url.pathname==='/advocate/'){res.writeHead(308,{Location:'/advocate'+url.search});return res.end();}
-    if(url.pathname==='/news/'){res.writeHead(308,{Location:'/news'+url.search});return res.end();}
     if (!url.pathname.startsWith('/api/')) {
       if(['/admin','/super-admin'].includes(url.pathname)&&!adminPreview){res.writeHead(404);return res.end('Not found');}
       const assets=adminPreview?{...staticAssets,...require('../apps/admin/backend/preview-assets.cjs')}:staticAssets;
@@ -140,7 +137,6 @@ async function dispatch(req,res) {
     if(route==='support'||route==='platform/support')return await support(context);
     if(route==='focus'||route.startsWith('focus/'))return await focus(context);
     if(route==='ritual-assist/calendar'||route==='ritual-assist/observances')return await ritualCalendar(context);
-    if(route==='news'||route.startsWith('news/'))return await news(context);
     if(route==='tournament-lite'||route.startsWith('tournament-lite/'))return await tournament(context);
     if(route==='digital-samaj'||route.startsWith('digital-samaj/'))return await digitalSamaj(context);
     if(!user)fail(401,'Please sign in');

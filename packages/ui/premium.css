@@ -107,8 +107,6 @@
   .public-app-arrow {width:32px;height:32px;flex-shrink:0;background:var(--ui-soft);border:0}
   .public-app-head .app-icon {width:32px;height:32px;border-radius:10px}
   .public-app-head .app-icon .icon {width:20px;height:20px}
-  .public-app :is(.news-visual) {height:120px;margin:0 12px;border-radius:14px;background:var(--ui-soft);color:var(--ui-accent)}
-  .public-app .news-visual strong {font-family:inherit;font-size:clamp(20px,2.2vw,30px);font-weight:700;line-height:1.1;letter-spacing:-.04em;margin:8px 0}
   .public-app .mini-paper-kicker {font-size:8px;letter-spacing:.1em;padding:0 8px}
   .public-app .mini-paper-byline {display:none}
   .public-app .orbit-a {left:calc(50% - 60px)}
@@ -126,7 +124,6 @@
   .public-app[href="/timetable-lite"] {order:-3}
   .public-app[href="/ritual-assist"] {order:-2}
   .public-app[href="/team-mixer"] {order:-1}
-  .public-app:is([href="/timetable-lite"],[href="/ritual-assist"],[href="/team-mixer"]) .news-visual {height:140px;background:linear-gradient(120deg,var(--ui-soft),var(--ui-bloom))}
   .workspace-card {padding:18px;min-width:0}
   .workspace-card h3 {font-size:20px;overflow-wrap:anywhere}
   .workspace-card .secondary {white-space:normal;overflow-wrap:anywhere}
@@ -159,7 +156,6 @@
   }
   @media(min-width:1100px) {
     .public-apps,.app-grid,.workspace-grid,.break-grid {grid-template-columns:repeat(4,minmax(0,1fr))}
-    .public-app:is([href="/timetable-lite"],[href="/ritual-assist"],[href="/team-mixer"]) .news-visual {height:160px}
   }
   @media(max-width:760px) {
     .app-card {padding:14px}

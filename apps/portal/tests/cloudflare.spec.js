@@ -58,12 +58,9 @@ test('offline home keeps public tools usable and every dependent app shows a res
   await page.goto(base + '/decision-wheel'); await expect(page.locator('#spin')).toBeVisible(); await page.locator('#spin').click(); await expect(page.locator('#winner')).toBeVisible({timeout:10000}); await expect(page.locator('#backend-notice')).toHaveCount(0);
   await page.goto(base + '/daily-spark'); await expect(page.locator('#numbers button')).toHaveCount(4); await expect(page.locator('#backend-notice')).toHaveCount(0);
   await page.goto(base + '/timetable-lite'); await expect(page.locator('#backend-notice')).toHaveCount(0);
-  await page.goto(base + '/news'); await expect(page.locator('#newspaper')).toBeVisible();
-  await expect(page.locator('#device-note')).toBeVisible(); await expect(page.locator('#backend-notice')).toHaveCount(0);
   for (const route of ['/signin?next=advocate', '/advocate', '/digital-samaj', '/batchfee-lite', '/tournament-lite?share=abc']) {
     const response = await page.goto(base + route); expect(response.status()).toBe(503);
     await expect(page.getByRole('heading', {name: 'This app is temporarily unavailable.'})).toBeVisible();
-    await expect(page.getByRole('link', {name: 'News (temporary editions)', exact: true})).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await require('../../../tests/browser-theme.js').toggleTheme(page);
   }

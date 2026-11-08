@@ -42,7 +42,6 @@ const staticAssets={
  '/shared/crc32.mjs':'packages/ui/crc32.mjs',
  '/shared/archive.mjs':'packages/ui/archive.mjs',
  '/shared/visitors.mjs':'packages/ui/visitors.mjs',
- '/news/newsroom.css':'apps/news/frontend/newsroom.css',
  '/shared/platform-shell.js':'packages/ui/platform-shell.bundle.js',
  '/shared/platform-shell.css':'packages/ui/platform-shell.css',
  '/home.css':'apps/portal/frontend/home.css',
@@ -198,7 +197,6 @@ const staticAssets={
  '/':'apps/portal/frontend/index.html',
  '/signin':'apps/portal/frontend/index.html',
  '/advocate':'apps/advocate/frontend/index.html',
- '/news':'apps/news/frontend/index.html',
  '/timetable-lite':'apps/timetable-lite/frontend/index.html',
  '/timetable-lite/':'apps/timetable-lite/frontend/index.html',
  '/shared/theme.js':'packages/ui/theme.js',
@@ -214,11 +212,9 @@ for(const route of ['/privacy','/terms','/contact','/legal','/legal/third-party-
 for(const file of ['platform.js','platform.css','manifest.webmanifest','logo-adaptive.png','logo-adaptive-192.png','logo-adaptive-512.png','logo-adaptive-uhd.png'])staticAssets['/'+file]='apps/portal/frontend/'+file;
 staticAssets['/favicon.svg']='apps/portal/frontend/favicon.svg';
 for(const file of ['app.js','style.css','icon.svg','advocate.webmanifest'])staticAssets['/'+file]='apps/advocate/frontend/'+file;
-for(const file of ['app.js','engine.js','style.css','comic.css'])staticAssets['/news/'+file]='apps/news/frontend/'+file;
 module.exports={staticAssets};
 staticAssets['/shared/tool-refinements.css']='packages/ui/tool-refinements.css';
 for(const file of ['presentation.mjs','presentation.css'])staticAssets['/shared/'+file]='packages/ui/'+file;
-for(const file of ['reading-tools.mjs','reading-tools.css'])staticAssets['/news/'+file]='apps/news/frontend/'+file;
 staticAssets['/qr-maker/wifi.mjs']='apps/qr-maker/frontend/wifi.mjs';
 staticAssets['/photo-resize/profiles.mjs']='apps/photo-resize/frontend/profiles.mjs';
 staticAssets['/photo-resize/style.css']='apps/photo-resize/frontend/style.css';

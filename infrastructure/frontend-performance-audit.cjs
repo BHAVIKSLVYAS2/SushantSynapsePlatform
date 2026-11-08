@@ -7,7 +7,7 @@ async function main(){
  const label=process.argv[2]||'baseline',out=path.resolve('.publish/frontend-performance');fs.mkdirSync(out,{recursive:true});
  const fixture=await startPreview({enabled:false}),browser=await chromium.launch({channel:'chrome'}),results=[];
  try{
-  const routes=process.env.AUDIT_ROUTES?.split(',')||['/','/ritual-assist?guide=day-11','/rashifal-kundli/matching','/take-a-break','/news'],samples=Number(process.env.AUDIT_SAMPLES)||3;
+  const routes=process.env.AUDIT_ROUTES?.split(',')||['/','/ritual-assist?guide=day-11','/rashifal-kundli/matching','/take-a-break'],samples=Number(process.env.AUDIT_SAMPLES)||3;
   for(const route of routes)for(let sample=0;sample<samples;sample++){
    const context=await browser.newContext({viewport:{width:390,height:844}});await acknowledgeBeta(context);await interceptAds(context);
    const page=await context.newPage(),client=await context.newCDPSession(page);

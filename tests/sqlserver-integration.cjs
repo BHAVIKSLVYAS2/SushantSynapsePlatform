@@ -9,8 +9,6 @@ const {createAuth}=require('../packages/auth');
 const {createDigitalSamaj}=require('../apps/digital-samaj/backend/routes');
 const {createBatchFee}=require('../apps/batchfee-lite/backend/routes');
 const {createTournament}=require('../apps/tournament-lite/backend/routes');
-const {createNewsRepository}=require('../apps/news/backend/repository');
-const {edition}=require('../apps/news/tests/fixtures');
 const root=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-sql-integration-'));
 let source,target,store;
 async function main(){
@@ -19,8 +17,9 @@ async function main(){
  for(const [id,role]of [['owner','Owner'],['reviewer','Owner'],['clerk','Clerk']])source.sql.prepare('INSERT INTO [platform].[users] VALUES(?,?,?,?,?,1)').run(id,id,id+'@example.test',role,'unused');
  source.setAccess('clerk',['advocate']);source.setPreferences('owner',{favorites:['advocate'],recent:[]});
  source.create('clients',{id:'retained-client',name:'हिन्दी client'});source.addFile('retained-document','test.bin','application/octet-stream',Buffer.from([0,1,255]));
- createDigitalSamaj({store:source,auth});createBatchFee({store:source,auth});createTournament({store:source,auth});createNewsRepository(source).publish(edition('2025-01-01'));
+ createDigitalSamaj({store:source,auth});createBatchFee({store:source,auth});createTournament({store:source,auth});
  source.sql.exec(fs.readFileSync(path.join(__dirname,'../packages/database/retired/fund-lens/001-portfolio.sql'),'utf8'));
+ for(const file of ['001-editions.sql','002-fetch-budget.sql'])source.sql.exec(fs.readFileSync(path.join(__dirname,'../packages/database/retired/news',file),'utf8'));
  registerArena(source);
  source.sql.close();source=null;
  console.log('SQL integration: initializing eight schemas');target=new SqlServerDatabase({migrate:true});
@@ -47,7 +46,6 @@ async function main(){
  assert.equal((await restored.json()).characters[0].selected,'applause');
  assert.throws(()=>store.transaction(()=>{store.create('clients',{id:'rollback-client',name:'Rollback'});throw Error('rollback-check');}),/rollback-check/);assert.equal(store.get('clients','rollback-client'),null);
  const sqlAuth=createAuth({store,initializeWorkspace(){}}),samaj=createDigitalSamaj({store,auth:sqlAuth});createBatchFee({store,auth:sqlAuth});createTournament({store,auth:sqlAuth});
- const news=createNewsRepository(store);assert.equal(news.get('2025-01-01').stories.length,10);assert.equal(news.publish(edition('2025-01-02')).stories.length,10);
  const {Readable}=require('node:stream');
  async function call(route,method='GET',body={},id='owner'){let result;await store.requestContext(()=>samaj({route:'digital-samaj'+route,method,user:store.user(id),req:Object.assign(Readable.from([Buffer.from(JSON.stringify(body))]),{headers:{'content-type':'application/json'},url:'/api/digital-samaj'+route}),json(status,data){result={status,data};}}));return result.data;}
  console.log('SQL integration: checking Samaj permissions and genealogy');const community=await call('','POST',{name:'Isolated Samaj'}),base='/'+community.id;
@@ -94,6 +92,6 @@ async function main(){
   assert.equal((await request('auth/login','POST',{email:'clerk@example.test',password:'clerk-integration-secret-123'})).status,200);
   assert.equal((await request('payments','POST',{invoiceId:invoice.data.id,amount:1,date:'2026-01-01',method:'Cash'})).status,403);
  }finally{child.kill();await new Promise(resolve=>{if(child.exitCode!==null)return resolve();child.once('exit',resolve);setTimeout(resolve,5000);});}
- console.log('SQL Server integration passed: eight schemas, D1 ballot import/identity preservation, concurrent Arena votes/export/removal, full migration, preserved records/blobs/accounts, rollback, Samaj privacy/relationships, News and concurrent API payments.');
+ console.log('SQL Server integration passed: eight schemas, D1 ballot import/identity preservation, concurrent Arena votes/export/removal, full migration, preserved records/blobs/accounts, rollback, Samaj privacy/relationships, concurrent API payments.');
 }
 main().catch(error=>{console.error(error);process.exitCode=1;}).finally(()=>{source?.sql.close();target?.close();store?.sql.close();if(path.dirname(root)===path.resolve(os.tmpdir()))fs.rmSync(root,{recursive:true,force:true});}).then(()=>process.exit(process.exitCode||0));

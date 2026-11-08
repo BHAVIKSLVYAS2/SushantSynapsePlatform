@@ -283,11 +283,10 @@ tests/             # Cross-app API and production tests
 This is an npm workspace monorepo. See [code ownership and adding apps](docs/ARCHITECTURE.md). Each app owns its functionality; shared packages provide common services. All commands below run from the repository root. The apps currently share one deployment and database.
 
 
-A mobile-first home for connected apps at **apps.sushantsynapse.com**. Chambers and News are available; Projects, Finance and Knowledge are roadmap previews only.
+A mobile-first home for connected apps at **apps.sushantsynapse.com**. Chambers is available; Projects, Finance and Knowledge are roadmap previews only.
 
-- `/`: public collections and tools (Take a Break, Team Mixer, Moment Studio, Timetable Lite and News), followed by a separate sign-in section for Chambers, Tournament Lite organizing and owner-only BatchFee Lite. Tournament results are public only through an organizer-shared link. Sign-in also opens the account catalogue, favourites, recent launches, profile and owner-managed app access.
+- `/`: public collections and tools (Take a Break, Team Mixer, Moment Studio, Timetable Lite), followed by a separate sign-in section for Chambers, Tournament Lite organizing and owner-only BatchFee Lite. Tournament results are public only through an organizer-shared link. Sign-in also opens the account catalogue, favourites, recent launches, profile and owner-managed app access.
 - `/advocate`: the complete Chambers workspace described below, using the same account and theme.
-- `/news` (no login required): **Sushant Synapse Times**, by **Aakanksha**. Generate present or past editions with ten dated stories across available topics, including Masala entertainment, short credited excerpts and a fictional three-panel comic. Future dates are rejected. SQLite archives reopen without fetching. Historical availability depends on source coverage. See [News usage and source scope](apps/news/README.md). Automatic 05:00 publication remains deferred.
 - SQLite stores accounts, app grants, preferences and Chambers records. Existing accounts receive Chambers access during migration; existing records are preserved.
 - This release serves one organisation with one Chambers workspace. It does not yet provide separate customer tenants or isolated databases per app.
 
@@ -423,10 +422,6 @@ Open **Help, browser storage & sample document** in the timetable app for setup 
 Recipient details and signatures stay in tab memory; refreshing clears them. You may explicitly save up to ten organisation names, reduced logos and logo positions in this browser, reuse/delete them and restore the last selected organisation. Saved organisations are visible to anyone using that browser profile, disappear when site data is cleared, and do not sync between devices. No certificate upload or storage endpoint exists.
 
 Lossless PNG offers 7016 × 4961 pixels (600 DPI) or 3508 × 2480 (300 DPI), with embedded density metadata. PDF and print use 300 DPI and A4 landscape. PDF embeds a high-quality raster image; text is not selectable. Uploaded PNG/JPEG/WebP images are limited to 5 MB and 24 megapixels and resized locally to at most 1600 pixels. Printer margins and source-image quality affect physical output. References are optional, unverified identifiers. No certificate accounts, saved history, paid upgrade or delivery provider is connected. See [Moment Studio usage](apps/moment-studio/README.md) and the ledger for separate implementation/release status.
-
-## News during backend outages
-
-The hosted News app can prepare temporary editions on your device while the Windows backend is unavailable. Cloudflare retrieves dated source metadata, using credited BBC News feeds when Indian Express archives are unavailable. Fresh generation still requires internet access; historical coverage depends on the sources. Temporary editions remain only in the current tab (up to 30), and Print / Save PDF keeps a copy. Reload to reconnect to shared SQLite archives. See [News details](apps/news/README.md).
 
 ## Daily Spark
 

@@ -6,10 +6,10 @@ test('delivery filters app CSS while preserving public-script globals and source
  const output=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-delivery-'));
  try{
   const sources={
-   '/shared/premium.css':'body[data-ui-app=news] .news {color:red} body[data-ui-app=advocate] .case {color:blue} .shared {display:block}',
+   '/shared/premium.css':'body[data-ui-app=focus] .focus {color:red} body[data-ui-app=advocate] .case {color:blue} .shared {display:block}',
    '/tool.mjs':'export function calculateTotal(firstValue,secondValue){const calculatedValue=firstValue+secondValue;return calculatedValue;} export const label=\"public contract\";',
    '/entry.js':'// source comment\n var SharedContract = {value: 1 + 2}; function readContract() {return SharedContract.value;}',
-   '/_pages/news.html':'<body data-ui-app="news"><link href="/shared/premium.css?v=old"></body>',
+   '/_pages/focus.html':'<body data-ui-app="focus"><link href="/shared/premium.css?v=old"></body>',
    '/_pages/unknown.html':'<body><link href="/shared/premium.css"></body>',
    '/_organisations/admin.mjs':'// private adapter stays unchanged\n export const value = 1;'
   },files=new Map();
@@ -19,8 +19,8 @@ test('delivery filters app CSS while preserving public-script globals and source
   }
   const result=prepareDelivery(output,files);assert.ok(result.after<result.before);
   const read=url=>fs.readFileSync(path.join(output,url),'utf8');
-  assert.ok(read('/_pages/news.html').includes('/shared/premium-news.css?v=old'));
-  assert.match(read('/shared/premium-news.css'),/\.news|\.shared/);assert.doesNotMatch(read('/shared/premium-news.css'),/\.case/);
+  assert.ok(read('/_pages/focus.html').includes('/shared/premium-focus.css?v=old'));
+  assert.match(read('/shared/premium-focus.css'),/\.focus|\.shared/);assert.doesNotMatch(read('/shared/premium-focus.css'),/\.case/);
   assert.ok(read('/_pages/unknown.html').includes('/shared/premium.css'));
   assert.equal(read('/_organisations/admin.mjs'),sources['/_organisations/admin.mjs']);
   const context={};vm.runInNewContext(read('/entry.js'),context);assert.equal(context.readContract(),3);assert.equal(context.SharedContract.value,3);const module=await import('data:text/javascript;base64,'+Buffer.from(read('/tool.mjs')).toString('base64'));assert.equal(module.calculateTotal(2,3),5);assert(Object.keys(module).includes('calculateTotal'));assert.equal(module.label,'public contract');

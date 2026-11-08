@@ -100,15 +100,12 @@ test('a failed lazy game load keeps navigation usable and does not add a broken 
  await expect(page.locator('#play-title')).toHaveText('Crack the Code');
 });
 
-test('calendar tabs and News dates restore through Back and Forward',async({page})=>{
+test('calendar tabs restore through Back and Forward',async({page})=>{
  await page.goto(base+'/ritual-assist/calendar?view=dates');
  await page.locator('#view-remembrance').click();
  await expect(page).toHaveURL(/view=remembrance/);await page.goBack();await expect(page).toHaveURL(/view=dates/);
  await page.goForward();await expect(page).toHaveURL(/view=remembrance/);
- await page.goto(base+'/news');const input=page.locator('#edition-date');await expect(input).not.toHaveValue('');
- await input.fill('2026-10-28');await input.dispatchEvent('change');await expect(page).toHaveURL(/date=2026-10-28/);
- await input.fill('2026-10-27');await input.dispatchEvent('change');await expect(page).toHaveURL(/date=2026-10-27/);
- await page.goBack();await expect(input).toHaveValue('2026-10-28');await page.goForward();await expect(input).toHaveValue('2026-10-27');
+
 });
 
 test('Ritual learning loads on demand, offers sourced bilingual prayers, and supports nested Back and direct refresh',async({page})=>{
@@ -132,7 +129,7 @@ test('Ritual learning loads on demand, offers sourced bilingual prayers, and sup
 
 test('public apps fit narrow screens and themes, including the shared keyboard-height dialog',async({page})=>{
  test.setTimeout(180000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
- for(const route of ['/','/ritual-assist','/ritual-assist/calendar','/moment-studio/cards','/moment-studio/certificates','/rashifal-kundli','/rashifal-kundli/matching','/rashifal-kundli/rashifal','/take-a-break','/team-mixer','/decision-wheel','/timetable-lite','/news','/feedback']){
+ for(const route of ['/','/ritual-assist','/ritual-assist/calendar','/moment-studio/cards','/moment-studio/certificates','/rashifal-kundli','/rashifal-kundli/matching','/rashifal-kundli/rashifal','/take-a-break','/team-mixer','/decision-wheel','/timetable-lite','/feedback']){
   await page.goto(base+route);await expect(page.locator('.platform-shell')).toBeVisible();
   for(const width of [320,360,375,390,412,430,768,1440])for(const theme of ['light','dark']){
    await page.setViewportSize({width,height:740});await page.evaluate(theme=>document.documentElement.dataset.theme=theme,theme);

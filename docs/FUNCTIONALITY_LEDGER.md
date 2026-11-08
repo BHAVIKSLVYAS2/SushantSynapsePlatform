@@ -1,3 +1,19 @@
+Sushant Synapse Times removal (2026-11-09, release preparation): removed all News
+app/frontend/backend/provider/publication/reading/artwork code, dedicated tests and
+verification/source tooling, catalogue/assets/SEO/ad/outage links, translations,
+workspace commands/lock entries and rate-limit configuration. Retired page/assets
+and APIs return 404 before authentication/provider dispatch. News Anchors Arena
+is independent and retained. Rebuilt shared bundles. Four immutable migration
+sources moved byte-for-byte into database-owned retired metadata; existing archive
+records, private data, accounts, preferences, backups and runtime caches preserved.
+Extended and tested full-export recovery of existing news tables; fresh Node
+workspaces do not create them. No database migration/purge or production write.
+
+Verification: 34 focused checks pass; full suite 559/560, with one stale generic
+HEAD test now using an active app. Focused edge/catalogue/recovery rerun passes 14/14.
+Local browser passed 48 layout states and six retired URLs with no page errors.
+See `docs/TIMES_RETIREMENT_2026-11-09.md` for scope and evidence. Deployment pending.
+
 Fund Lens retirement deployed (2026-11-09 IST): source `24f6117`, Worker version
 `f7e48c5a-bf6c-435b-b97c-d932fa9e8d70`, at https://apps.sushantsynapse.com.
 Deployment from an isolated committed archive with --keep-vars succeeded;

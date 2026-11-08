@@ -2,7 +2,7 @@
 // Retired applications have no runtime routes. Preserve their existing SQLite
 // tables in full recovery exports without recreating tables on fresh workspaces.
 function retiredRecovery(sql,literal){
- const {tables}=require('./catalog'),names=Object.values(tables).filter(t=>t.schema==='fundlens').map(t=>t.name),schema=[],inserts=[];
+ const {tables}=require('./catalog'),names=Object.values(tables).filter(t=>['fundlens','news'].includes(t.schema)).map(t=>t.name),schema=[],inserts=[];
  for(const name of names){
   const table=sql.prepare("SELECT sql FROM sqlite_master WHERE type='table' AND name=?").get(name);
   if(!table)continue;

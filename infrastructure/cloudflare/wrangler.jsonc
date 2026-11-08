@@ -24,14 +24,7 @@
       "name": "sushant-synapse-frontend-preview",
       "workers_dev": true,
       "ratelimits": [
-        {
-          "name": "NEWS_LIMITER",
-          "namespace_id": "2026100102",
-          "simple": {
-            "limit": 6,
-            "period": 60
-          }
-        }
+
       ]
     },
     "production": {
@@ -43,14 +36,7 @@
         }
       ],
       "ratelimits": [
-        {
-          "name": "NEWS_LIMITER",
-          "namespace_id": "2026100101",
-          "simple": {
-            "limit": 6,
-            "period": 60
-          }
-        },
+
 
         {
           "name": "ARENA_LIMITER",
@@ -64,14 +50,7 @@
     }
   },
   "ratelimits": [
-    {
-      "name": "NEWS_LIMITER",
-      "namespace_id": "2026100101",
-      "simple": {
-        "limit": 6,
-        "period": 60
-      }
-    }
+
   ],
   "compatibility_flags": [
     "nodejs_compat"
