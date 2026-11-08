@@ -1,5 +1,13 @@
 # Chambers functionality ledger
 
+Hisabio rename (2026-11-08): user-facing RozHisab branding replaced across app,
+English/Hindi/Gujarati catalogue names, install manifest, reports, notifications,
+backup/CSV filenames and errors. Retains `/rozhisab`, app ID, IndexedDB name,
+broadcast channel and backup format. Shell cache advances to v2; only previous
+app shell caches expire, never household data. Old name remains a search alias.
+13 household/catalogue checks and all five existing isolated browser cases pass,
+including backup restore, languages/themes, offline reload and browser restart.
+
 Home labelled view chooser (2026-11-08): replaced the ambiguous bare switch with
 a grid icon, current Comfort/Compact label and native disclosure beside Filters.
 Both choices explain their layout in English/Hindi/Gujarati; the selected choice

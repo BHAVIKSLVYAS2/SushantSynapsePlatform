@@ -3,7 +3,7 @@ const NAME='synapse-rozhisab',VERSION=1;
 let database;
 export async function openStore(){
  if(database)return database;if(!globalThis.indexedDB)throw Error('Local storage is unavailable');
- database=await new Promise((resolve,reject)=>{const r=indexedDB.open(NAME,VERSION);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains('workspace'))r.result.createObjectStore('workspace');};r.onerror=()=>reject(r.error);r.onblocked=()=>reject(Error('Close other RozHisab tabs to upgrade storage'));r.onsuccess=()=>{r.result.onversionchange=()=>{r.result.close();database=null;};resolve(r.result);};});return database;
+ database=await new Promise((resolve,reject)=>{const r=indexedDB.open(NAME,VERSION);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains('workspace'))r.result.createObjectStore('workspace');};r.onerror=()=>reject(r.error);r.onblocked=()=>reject(Error('Close other Hisabio tabs to upgrade storage'));r.onsuccess=()=>{r.result.onversionchange=()=>{r.result.close();database=null;};resolve(r.result);};});return database;
 }
 export async function read(){const db=await openStore();return new Promise((resolve,reject)=>{const tx=db.transaction('workspace','readonly'),r=tx.objectStore('workspace').get('state');tx.oncomplete=()=>{try{resolve(r.result?validateBackup(r.result):emptyState());}catch(error){reject(error);}};tx.onerror=()=>reject(tx.error);});}
 export async function write(next,expected){
