@@ -1,5 +1,12 @@
 # Chambers functionality ledger
 
+Home view arrow alignment (2026-11-08): replaced the font-dependent arrow glyph
+with a fixed 12px SVG chevron, aligned with the grid icon and explicit label line
+height; open state rotates the icon. Rebuilt home CSS. Six focused checks pass;
+Chrome measures centered icon/text/arrow within 1px in 144 combinations of view,
+open/closed state, language, theme and width (320/390/768/1440). Both mobile
+toolbar screenshots reviewed; no overflow or page errors. No data/API changes.
+
 Temporary Fund Lens discovery removal (2026-11-08): registry catalogueHidden flag
 excludes Fund Lens from home, shared app switcher and signed-in discovery while
 retaining its app identity/direct route. Hisabio moves to home order 0, occupying
