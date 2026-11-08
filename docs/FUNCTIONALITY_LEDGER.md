@@ -1,5 +1,15 @@
 # Chambers functionality ledger
 
+Home labelled view chooser (2026-11-08): replaced the ambiguous bare switch with
+a grid icon, current Comfort/Compact label and native disclosure beside Filters.
+Both choices explain their layout in English/Hindi/Gujarati; the selected choice
+has a checkmark. Device preference/default Comfort retained. Keyboard selection,
+Escape/focus return, outside dismissal and 44px trigger remain usable. Six Node
+checks and three affected isolated browser cases pass, including signed-in
+remounts and blocked storage. Chrome CLI passes 36 locale/theme/width states,
+menu bounds, usable search, remembered selection and outside taps; mobile image
+reviewed. No backend, dependency, account or data changes.
+
 Fund Lens mobile picker (2026-11-08): phone-width suggestions now use a full-width
 in-flow panel with readable wrapping rows, separate availability/action text and
 viewport-aware scrolling. Focus brings search near the top; Hide keyboard keeps
