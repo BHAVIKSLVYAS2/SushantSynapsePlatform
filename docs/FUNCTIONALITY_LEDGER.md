@@ -1,3 +1,13 @@
+Home discovery icon controls (2026-11-08): filter and view triggers now show
+consistent outline sliders/grid icons with matching 44px touch targets. Spoken
+labels, localized view names, keyboard operation and explanatory menu choices
+remain available; an active category adds a small filter indicator. Removed the
+old view chevron and narrow-screen icon hiding. Generated home CSS rebuilt.
+Verification: six focused Node checks and all three existing launcher browser
+cases pass (responsive layouts, English/Hindi/Gujarati, themes, persistence and
+keyboard controls). Local Chrome mobile screenshot reviewed; filter indicator
+and both view choices exercised. No data/schema/auth changes. Release pending.
+
 # Chambers functionality ledger
 
 Pandit Booking / Chambers implementation (2026-11-08): customer entry is shorter,
