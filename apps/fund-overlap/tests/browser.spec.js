@@ -3,9 +3,27 @@ const {test,expect}=require('../../../tests/browser-fixture.js');
 const {spawn}=require('node:child_process');
 const fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 let child,base,dir;
+// Retained provider-backed compatibility coverage explicitly opts into the legacy
+// controller state. New product tests below use the default official-only UI.
+async function openLegacy(page,url){await page.goto(url);if(new URL(url).pathname!=='/fund-overlap')return;await page.locator('#fund-search').waitFor();await page.evaluate(()=>{libraryView='national';browseLibrary=true;document.querySelector('.library-switch').hidden=false;renderFunds();if(location.hash)readShare();});}
 const referenceIndex = require('../data/fund-index.json');
+test('official-only simple comparison and local NAV performance need no external calls',async({page})=>{
+ const requests=[],errors=[];page.on('request',r=>{if(r.url().includes('/api/fund-overlap/'))requests.push(r.url());});page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(base+'/fund-overlap');await expect(page.locator('#fund-search')).toBeVisible();await expect(page.locator('.fund-card')).toHaveCount(0);await expect(page.getByRole('button',{name:'Nationwide search',exact:true})).toBeHidden();
+ await page.locator('#fund-search').fill('parag');await expect(page.locator('.fund-card')).toHaveCount(5);
+ await page.getByRole('button',{name:'Add Parag Parikh Flexi Cap Fund',exact:true}).click();await page.getByRole('button',{name:'Add Parag Parikh ELSS Tax Saver Fund',exact:true}).click();await page.locator('#compare').click();await expect(page.locator('#simple-summary')).toContainText('common companies');await expect(page.locator('#comparison-details')).not.toHaveAttribute('open','');await page.getByRole('button',{name:'What’s different',exact:true}).click();await expect(page.locator('#simple-companies')).toContainText('just one');
+ await page.getByRole('button',{name:'Fund performance',exact:true}).click();
+ const rows=['scheme_code,scheme_name,date,nav'];for(let year=2020;year<=2025;year++)for(let code=123456;code<=123457;code++)rows.push(`${code},Example ${code} Direct Growth,${year}-01-02,${100+(year-2020)*(code===123456?10:5)}`);
+ await page.locator('#nav-file').setInputFiles({name:'official-history.csv',mimeType:'text/csv',buffer:Buffer.from(rows.join('\n'))});await expect(page.locator('#performance-output')).toContainText('₹15,000');await expect(page.locator('.performance-chart')).toBeVisible();await page.locator('#performance-period').selectOption('3');await expect(page.locator('#performance-output')).toContainText('2022-01-02 to 2025-01-02');
+ const download=page.waitForEvent('download');await page.locator('#nav-export').click();expect((await download).suggestedFilename()).toBe('fund-lens-performance.csv');
+ for(const theme of ['light','dark','deep']){await setTheme(page,theme);for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:900});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();}}
+ await page.screenshot({path:'test-results/fund-performance-local.png',fullPage:true});
+ await page.locator('#nav-file').setInputFiles({name:'bad.csv',mimeType:'text/csv',buffer:Buffer.from('invalid')});await expect(page.locator('#nav-error')).toBeVisible();await expect(page.locator('.performance-chart')).toHaveCount(0);
+ expect(requests.every(url=>/fund-index\.json|coverage\.json|holdings\//.test(url))).toBeTruthy();expect(errors).toEqual([]);
+ await page.goto(base+'/fund-overlap#funds=amfi-123456,ppfas-elss');await expect(page.locator('#notice')).toContainText('external holdings source');expect(requests.every(url=>/fund-index\.json|coverage\.json|holdings\//.test(url))).toBeTruthy();
+});
 test('local planners calculate, validate and download without provider calls',async({page})=>{
- await page.goto(base+'/fund-overlap');
+ await openLegacy(page,base+'/fund-overlap');
  await page.getByRole('button',{name:'Plan money',exact:true}).click();
  await expect(page.locator('#planner-result')).toContainText('Estimated corpus at retirement');
  const numbers=page.locator('.planner-numbers strong');const corpus=await numbers.nth(0).innerText();
@@ -64,7 +82,7 @@ test.beforeEach(async({page})=>{
  });
 });
 test('transient gateway errors recover once without retrying rate limits', async ({page}) => {
- await page.goto(base+'/fund-overlap');
+ await openLegacy(page,base+'/fund-overlap');
  let calls=0;
  await page.route('**/api/fund-overlap/scheme/123456',route=>++calls===1 ? route.fulfill({status:503,contentType:'text/html',body:'Gateway unavailable'}) : route.fulfill({json:{schemeId:'amfi-123456'}}));
  expect(await page.evaluate(()=>jsonFetch('/api/fund-overlap/scheme/123456'))).toEqual({schemeId:'amfi-123456'});
@@ -75,7 +93,7 @@ test('transient gateway errors recover once without retrying rate limits', async
  expect(calls).toBe(1);
 });
 test('comparison retry reuses successful funds when one source fails', async ({page}) => {
- await page.goto(base+'/fund-overlap');
+ await openLegacy(page,base+'/fund-overlap');
  let good=0,bad=0,recovered=false;
  await page.route('**/api/fund-overlap/holdings/ppfas-flexi-cap/*.json',async route=>{good++;await route.fallback();});
  await page.route('**/api/fund-overlap/holdings/ppfas-elss/*.json',async route=>{bad++;if(recovered)await route.fallback();else await route.fulfill({status:503,json:{error:'Source unavailable'}});});
@@ -89,7 +107,7 @@ test('comparison retry reuses successful funds when one source fails', async ({p
  expect(good).toBe(1);expect(bad).toBe(3);
 });
 test('HTML search failures and rate limits recover on retry and retain selection', async ({page}) => {
- await page.goto(base+'/fund-overlap');
+ await openLegacy(page,base+'/fund-overlap');
  await page.getByRole('button',{name:'Add Parag Parikh Flexi Cap Fund',exact:true}).click();
  let status=503;
  await page.route('**/api/fund-overlap/search?**',route=>status===200 ? route.fulfill({json:{funds:[],nextOffset:null}}) : route.fulfill({status,contentType:'text/html',body:'<!DOCTYPE html><html>Unavailable</html>'}));
@@ -114,7 +132,7 @@ test.beforeAll(async()=>{
 test.afterAll(async()=>{if(child.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});fs.rmSync(dir,{recursive:true,force:true});});
 
 test('Cloudflare verification continues before returning a complete snapshot', async ({page}) => {
- await page.goto(base+'/fund-overlap');
+ await openLegacy(page,base+'/fund-overlap');
  let calls=0;
  await page.route('**/api/fund-overlap/scheme/123456',route=>route.fulfill({status:++calls===1?202:200,json:calls===1?{code:'FUND_CONTINUE'}:{schemeId:'amfi-123456',holdings:[]}}));
  const value=await page.evaluate(()=>{window.verificationRounds=[];return jsonFetch('/api/fund-overlap/scheme/123456',0,{onProgress:round=>window.verificationRounds.push(round)});});
@@ -124,16 +142,16 @@ test('Cloudflare verification continues before returning a complete snapshot', a
 });
 
 test('mobile portfolio labels are readable and primary fund actions remain tappable',async({page})=>{
- await page.setViewportSize({width:390,height:844});await page.goto(base+'/fund-overlap');await expect(page.locator('.fund-card').first()).toBeVisible();
+ await page.setViewportSize({width:390,height:844});await openLegacy(page,base+'/fund-overlap');await expect(page.locator('.fund-card').first()).toBeVisible();
  const sizes=await page.evaluate(()=>({category:parseFloat(getComputedStyle(document.querySelector('.fund-card .category')).fontSize),description:parseFloat(getComputedStyle(document.querySelector('.fund-card p')).fontSize),button:document.querySelector('.fund-card button').getBoundingClientRect().height,badge:parseFloat(getComputedStyle(document.querySelector('.coverage-badge')).fontSize)}));
  expect(sizes.category).toBeGreaterThanOrEqual(12);expect(sizes.description).toBeGreaterThanOrEqual(12);expect(sizes.button).toBeGreaterThanOrEqual(44);expect(sizes.badge).toBeGreaterThanOrEqual(12);
 });
 test('Fund Lens: selection, analysis, simulation, share, export, themes and responsive layout',async({page,context})=>{
  const errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push({url:r.url(),method:r.method(),body:r.postData()}));
- await page.setViewportSize({width:390,height:844});await page.goto(base+'/fund-overlap');
+ await page.setViewportSize({width:390,height:844});await openLegacy(page,base+'/fund-overlap');
  await expect(page.locator('#fund-search')).toBeVisible();
- await expect(page.locator('#my-portfolio, #fund-analytics, input[type=file]')).toHaveCount(0);
- await page.goto(base);await page.getByRole('link',{name:'Fund Lens',exact:true}).click();
+ await expect(page.locator('#my-portfolio, #fund-analytics')).toHaveCount(0);
+ await openLegacy(page,base);await page.getByRole('link',{name:'Fund Lens',exact:true}).click();await page.locator('#fund-search').waitFor();await page.evaluate(()=>{browseLibrary=true;libraryView='national';renderFunds();});
  await expect(page.locator('.fund-card')).toHaveCount(5);await expect(page.getByRole('button',{name:'Compare funds →'})).toBeDisabled();
  await page.route('**/api/fund-overlap/search?**',route=>route.fulfill({json:{funds:[],nextOffset:null}}));
  await page.getByRole('searchbox',{name:'Search funds',exact:true}).fill('not in library');await expect(page.getByText('No matching funds found.',{exact:false})).toBeVisible();
@@ -143,7 +161,7 @@ test('Fund Lens: selection, analysis, simulation, share, export, themes and resp
  await expect(page.getByRole('heading',{name:'Your funds, under the lens.'})).toBeVisible();
  await expect(page.locator('.pair')).toHaveCount(3);await expect(page.locator('.matrix tbody tr')).toHaveCount(3);
  await expect(page.locator('.matrix')).toBeHidden();
- await page.getByText('View full overlap matrix',{exact:true}).click();await expect(page.locator('.matrix')).toBeVisible();
+ await page.locator('#comparison-details>summary').click();await page.getByText('View full overlap matrix',{exact:true}).click();await expect(page.locator('.matrix')).toBeVisible();
  await page.getByRole('navigation',{name:'Comparison sections'}).getByRole('button',{name:'Industries',exact:true}).click();
  await expect(page.locator('#result-industries')).toBeVisible();
  await page.getByRole('navigation',{name:'Comparison sections'}).getByRole('button',{name:'Sources',exact:true}).click();
@@ -158,16 +176,16 @@ test('Fund Lens: selection, analysis, simulation, share, export, themes and resp
  await page.locator('#results').scrollIntoViewIfNeeded();
  expect(requests.filter(r=>r.url.includes('/api/fund-overlap/holdings/'))).toHaveLength(3);
  const before=await page.locator('.stat').first().locator('.number').innerText();await page.getByLabel('Weight basis').selectOption('nav');
- const after=await page.locator('.stat').first().locator('.number').innerText();expect(before).not.toBe(after);
+ await page.locator('#comparison-details>summary').click();const after=await page.locator('.stat').first().locator('.number').innerText();expect(before).not.toBe(after);
  await page.getByLabel('Holdings view').selectOption('unique');await page.getByRole('searchbox',{name:'Search holdings',exact:true}).fill('No such security');await expect(page.getByText('No holdings match this view.',{exact:false})).toBeVisible();
  await page.getByRole('searchbox',{name:'Search holdings',exact:true}).fill('');await page.getByLabel('Holdings view').selectOption('common');
- await page.locator('[data-simulate="ppfas-large-cap"]').uncheck();await expect(page.locator('.pair')).toHaveCount(1);
+ await page.locator('[data-simulate="ppfas-large-cap"]').uncheck();await expect(page.locator('.pair')).toHaveCount(1);await page.locator('#comparison-details>summary').click();
  await page.locator('[data-simulate="ppfas-flexi-cap"]').click();await expect(page.locator('[data-simulate="ppfas-flexi-cap"]')).toBeChecked();
- await page.getByRole('button',{name:'Restore all funds'}).click();await expect(page.locator('.pair')).toHaveCount(3);
+ await page.getByRole('button',{name:'Restore all funds'}).click();await expect(page.locator('.pair')).toHaveCount(3);await page.locator('#comparison-details>summary').click();
  await context.grantPermissions(['clipboard-read','clipboard-write']);await page.getByRole('button',{name:'Copy comparison link'}).click();const shared=await page.evaluate(()=>navigator.clipboard.readText());expect(shared).toContain('#funds=');expect(shared).toContain('basis=nav');
  const downloadPromise=page.waitForEvent('download');await page.getByRole('button',{name:'Export holdings CSV'}).click();const download=await downloadPromise;const csv=fs.readFileSync(await download.path(),'utf8');expect(csv).toContain('ISIN');expect(csv).toContain('Portfolio date');expect(csv).toContain('ppfas.com');
  await page.evaluate(()=>window.print=()=>{window.printInvoked=true;});await page.getByRole('button',{name:'Print report'}).click();expect(await page.evaluate(()=>window.printInvoked)).toBe(true);
- await page.goto(shared);await expect(page.locator('.pair')).toHaveCount(3);await expect(page.getByLabel('Weight basis')).toHaveValue('nav');
+ await openLegacy(page,shared);await expect(page.locator('.pair')).toHaveCount(3);await expect(page.getByLabel('Weight basis')).toHaveValue('nav');
  await setTheme(page,'dark');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await expect(page.locator('.pair')).toHaveCount(3);
  await page.screenshot({path:'test-results/fund-lens-mobile-dark.png',fullPage:true});
  for(const width of [320,768,1440]){await page.setViewportSize({width,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
@@ -180,7 +198,7 @@ test('Fund Lens: selection, analysis, simulation, share, export, themes and resp
 test('invalid share links, missing snapshot retry and selection changes clear obsolete results',async({page})=>{
  if((await (await page.request.get(base+'/api/auth/status')).json()).setupRequired)await page.request.post(base+'/api/auth/setup',{data:{name:'Lens owner',email:'owner@lens.test',password:'Browser test password 2026!',firmName:'Test'}});
  await page.request.post(base+'/api/auth/login',{data:{email:'owner@lens.test',password:'Browser test password 2026!'}});
- await page.goto(base+'/fund-overlap#funds=unknown,ppfas-elss');await expect(page.locator('#notice')).toContainText('unavailable');
+ await openLegacy(page,base+'/fund-overlap#funds=unknown,ppfas-elss');await expect(page.locator('#notice')).toContainText('unavailable');
  await page.route('**/api/fund-overlap/holdings/**',route=>route.fulfill({status:503,contentType:'application/json',body:'{"error":"Disclosure temporarily unavailable"}'}));
  await page.getByRole('button',{name:'Explore a comparison'}).click();await expect(page.locator('#load-error')).toContainText('temporarily unavailable');await expect(page.locator('.selected')).toHaveCount(3);
  await page.unroute('**/api/fund-overlap/holdings/**');await page.getByRole('button',{name:'Compare funds →'}).click();await expect(page.locator('.pair')).toHaveCount(3);
@@ -197,7 +215,7 @@ test('national search compares another fund house with an official snapshot and 
  const entry={id:snapshot.schemeId,name:snapshot.name,amc:snapshot.amc,category:snapshot.category,provider:'Groww',holdingsPath:'/api/fund-overlap/remote/'+fixture.fund.search_id};
  await page.route('**/api/fund-overlap/search?**',route=>route.fulfill({json:{funds:[entry],nextOffset:null}}));
  await page.route('**/api/fund-overlap/remote/**',route=>route.fulfill({json:snapshot}));
- await page.goto(base+'/fund-overlap');
+ await openLegacy(page,base+'/fund-overlap');
  await page.getByRole('button',{name:'Add Parag Parikh Flexi Cap Fund',exact:true}).click();
  await page.getByRole('searchbox',{name:'Search funds',exact:true}).fill('hdfc');
  await page.getByRole('button',{name:'Add '+snapshot.name,exact:true}).click();
@@ -205,7 +223,7 @@ test('national search compares another fund house with an official snapshot and 
  await expect(page.locator('.pair')).toHaveCount(1);
  await expect(page.locator('#results')).toContainText(snapshot.name);
  await expect(page.locator('#results')).toContainText('secondary source');
- await page.goto(base+'/fund-overlap#funds=ppfas-flexi-cap,'+snapshot.schemeId+'&basis=nav');
+ await openLegacy(page,base+'/fund-overlap#funds=ppfas-flexi-cap,'+snapshot.schemeId+'&basis=nav');
  await expect(page.locator('.pair')).toHaveCount(1);
  await expect(page.getByLabel('Weight basis')).toHaveValue('nav');
 });
@@ -225,7 +243,7 @@ test('AMFI search pagination, retry, shared portfolios, duplicate plans and stal
   return route.fulfill({json:{funds:offset==='20'?[second]:[entry],nextOffset:offset==='20'?null:20,total:2}});
  });
  await page.route('**/api/fund-overlap/scheme/**',route=>route.fulfill({json:route.request().url().endsWith('101762')?{...snapshot,schemeId:second.id,name:second.name}:snapshot}));
- await page.goto(base+'/fund-overlap');
+ await openLegacy(page,base+'/fund-overlap');
  await page.getByRole('searchbox',{name:'Search funds',exact:true}).fill('hdfc');
  await expect(page.locator('#search-status')).toContainText('temporarily unavailable');
  await page.getByRole('button',{name:'Retry fund search'}).click();
@@ -234,10 +252,10 @@ test('AMFI search pagination, retry, shared portfolios, duplicate plans and stal
  await expect(page.locator('.fund-card')).toHaveCount(2);
  await page.getByRole('button',{name:'Add '+second.name,exact:true}).click();
  await page.locator('#compare').click();await expect(page.locator('#load-error')).toContainText('share a portfolio');
- await page.goto(base+'/fund-overlap#funds=amfi-118955,ppfas-elss&basis=nav');
+ await openLegacy(page,base+'/fund-overlap#funds=amfi-118955,ppfas-elss&basis=nav');
  await expect(page.locator('.pair')).toHaveCount(1);await expect(page.getByLabel('Weight basis')).toHaveValue('nav');
  await expect(page.locator('#results')).toContainText('Source refresh failed');
- await page.reload();await expect(page.locator('.pair')).toHaveCount(1);
+ await page.reload();await page.locator('#fund-search').waitFor();await page.evaluate(()=>{libraryView='national';readShare();});await expect(page.locator('.pair')).toHaveCount(1);
  await page.setViewportSize({width:320,height:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 
@@ -250,7 +268,7 @@ test('HDFC selection survives switching to Parag Parikh, clearing search and ret
   const q=new URL(route.request().url()).searchParams.get('q');
   return route.fulfill({json:q==='offline'?{funds:[],nextOffset:null,warning:'Search temporarily unavailable'}:{funds:q==='hdfc'?[hdfc]:parag,nextOffset:null}});
  });
- await page.setViewportSize({width:390,height:844});await page.goto(base+'/fund-overlap');
+ await page.setViewportSize({width:390,height:844});await openLegacy(page,base+'/fund-overlap');
  const search=page.getByRole('searchbox',{name:'Search funds',exact:true});
  await search.fill('hdfc');await page.getByRole('button',{name:'Add '+hdfc.name,exact:true}).click();
  await search.fill('parag parikh');await expect(page.locator('.fund-card')).toHaveCount(5);
@@ -285,7 +303,7 @@ test('official coverage separates verified holdings from discovery and preserves
  await page.route('**/api/fund-overlap/coverage.json',route=>route.fulfill({json:data}));
  let nationalCalls=0;
  await page.route('**/api/fund-overlap/search?**',route=>{nationalCalls++;return route.fulfill({json:{funds:[debt],total:1,nextOffset:null}});});
- await page.setViewportSize({width:320,height:844});await page.goto(base+'/fund-overlap');
+ await page.setViewportSize({width:320,height:844});await openLegacy(page,base+'/fund-overlap');
  const panel=page.getByRole('region',{name:'Official data coverage'});
  await page.locator('.coverage-audit>summary').click();
  await expect(panel).toContainText('6');await expect(panel).toContainText('10');
@@ -293,8 +311,8 @@ test('official coverage separates verified holdings from discovery and preserves
  await page.getByRole('button',{name:'Add Parag Parikh Flexi Cap Fund',exact:true}).click();
  await page.getByRole('button',{name:'Verified official library',exact:true}).click();
  await expect(page.locator('#official-library')).toHaveAttribute('aria-pressed','true');
- await expect(page.locator('.fund-card')).toHaveCount(6);
- await expect(page.locator('#fund-grid')).not.toContainText(older.name);
+ await expect(page.locator('.fund-card')).toHaveCount(7);
+ await expect(page.locator('#fund-grid')).toContainText(older.name);
  const search=page.getByRole('searchbox',{name:'Search funds',exact:true});
  await search.fill('HDFC');await expect(page.locator('.fund-card')).toHaveCount(1);
  await expect(page.locator('#fund-grid')).toContainText('Verified official');
@@ -326,7 +344,7 @@ test('official coverage separates verified holdings from discovery and preserves
 test('coverage register failure is recoverable and does not block comparison',async({page})=>{
  let unavailable=true;
  await page.route('**/api/fund-overlap/coverage.json',route=>unavailable?route.fulfill({status:503,json:{error:'Coverage unavailable'}}):route.fulfill({json:coverageFixture}));
- await page.goto(base+'/fund-overlap');
+ await openLegacy(page,base+'/fund-overlap');
  await page.locator('.coverage-audit>summary').click();
  await expect(page.getByRole('button',{name:'Retry coverage check',exact:true})).toBeVisible();
  await expect(page.getByRole('region',{name:'Official data coverage'})).toContainText('You can still select funds and compare');
@@ -350,10 +368,10 @@ test('recent retained official portfolios show source refresh failures in previe
  let snapshotRequests=0;
  await page.route('**'+retained.holdingsPath,route=>{snapshotRequests++;return route.fulfill({json:original});});
  await page.route('**'+other.holdingsPath,route=>route.fulfill({json:otherSnapshot}));
- await page.goto(base+'/fund-overlap');
+ await openLegacy(page,base+'/fund-overlap');
  await expect(page.locator('.fund-card').filter({hasText:retained.name})).toContainText(reason);
  await page.getByRole('button',{name:'Add '+retained.name,exact:true}).click();
- await page.getByRole('button',{name:'Check coverage',exact:true}).click();
+ await page.locator('.selection-data>summary').click();await page.getByRole('button',{name:'Check coverage',exact:true}).click();
  await expect(page.locator('#selected-funds')).toContainText('Saved data');
  expect(await page.evaluate(id=>({date:snapshots.get(id).portfolioDate,status:snapshots.get(id).cacheStatus,warning:snapshots.get(id).cacheWarning}),retained.id)).toEqual({date:retained.portfolioDate,status:'stale',warning:expect.stringContaining(reason)});
  expect(await page.evaluate(id=>snapshots.get(id).cacheWarning.length,retained.id)).toBeLessThan(340);
@@ -372,7 +390,7 @@ test('large official libraries paginate locally and match separate complete sear
  const lookalike={...funds[0],id:'official-meridianity',name:'Meridianity Equity Fund',amc:'Another Mutual Fund'};
  await page.route('**/api/fund-overlap/fund-index.json',route=>route.fulfill({json:{...referenceIndex,funds:[...funds,lookalike]}}));
  let requests=0;await page.route('**/api/fund-overlap/search?**',route=>{requests++;return route.fulfill({json:{funds:[],nextOffset:null}});});
- await page.setViewportSize({width:320,height:844});await page.goto(base+'/fund-overlap');
+ await page.setViewportSize({width:320,height:844});await openLegacy(page,base+'/fund-overlap');
  await page.getByRole('button',{name:'Verified official library',exact:true}).click();
  await expect(page.locator('.fund-card')).toHaveCount(12);
  await expect(page.locator('#search-status')).toContainText('12 of 241');
@@ -389,14 +407,14 @@ test('large official libraries paginate locally and match separate complete sear
 
 test('official labels age on opening the page while coverage counts retain their audit date',async({page})=>{
  await page.clock.install({time:new Date('2027-01-01T00:00:00Z')});
- await page.goto(base+'/fund-overlap');
+ await openLegacy(page,base+'/fund-overlap');
  await expect(page.locator('.fund-card .coverage-stale')).toHaveCount(5);
  await page.locator('.coverage-audit>summary').click();
  await expect(page.getByRole('region',{name:'Official data coverage'})).toContainText('12 Oct 2026');
  await expect(page.getByRole('region',{name:'Official data coverage'})).toContainText('Counts reflect the dated coverage check above');
  await page.getByRole('button',{name:'Verified official library',exact:true}).click();
- await expect(page.locator('.fund-card')).toHaveCount(0);
- await expect(page.locator('#fund-grid')).toContainText('No current verified official portfolios match');
+ await expect(page.locator('.fund-card')).toHaveCount(5);
+ await expect(page.locator('#fund-grid .coverage-stale')).toHaveCount(5);
  await page.getByRole('button',{name:'Nationwide search',exact:true}).click();
  await expect(page.locator('.fund-card .coverage-stale')).toHaveCount(5);
 });

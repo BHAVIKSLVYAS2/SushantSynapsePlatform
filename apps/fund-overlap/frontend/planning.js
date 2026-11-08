@@ -33,10 +33,11 @@
  window.mountFundPlanning=function(){
   if(document.querySelector('#fund-workspace-nav'))return;
   const main=document.querySelector('#main'),compare=document.createElement('div');compare.id='comparison-view';while(main.firstChild)compare.append(main.firstChild);
-  const nav=document.createElement('nav');nav.id='fund-workspace-nav';nav.className='planner-tabs';nav.setAttribute('aria-label','Fund Lens tools');nav.innerHTML='<button type="button" aria-pressed="true">Compare funds</button><button type="button" aria-pressed="false">Plan money</button>';
+  const nav=document.createElement('nav');nav.id='fund-workspace-nav';nav.className='planner-tabs';nav.setAttribute('aria-label','Fund Lens tools');nav.innerHTML='<button type="button" aria-pressed="true">Check fund overlap</button><button type="button" aria-pressed="false">Plan money</button>';
   host=document.createElement('section');host.id='planning-view';host.hidden=true;host.setAttribute('translate','no');main.append(nav,compare,host);render();
-  [...nav.children].forEach((b,i)=>b.onclick=()=>{planningActive=!!i;compare.hidden=!!i;host.hidden=!i;[...nav.children].forEach((item,j)=>item.setAttribute('aria-pressed',String(i===j)));});
-  if(planningActive)nav.children[1].click();
+  const performance=window.mountFundPerformance(main),performanceButton=document.createElement('button');performanceButton.type='button';performanceButton.textContent='Fund performance';performanceButton.setAttribute('aria-pressed','false');nav.append(performanceButton);
+  [...nav.children].forEach((b,i)=>b.onclick=()=>{planningActive=i===1;compare.hidden=i!==0;host.hidden=i!==1;performance.hidden=i!==2;window.fundLensView=i;[...nav.children].forEach((item,j)=>item.setAttribute('aria-pressed',String(i===j)));});
+  nav.children[window.fundLensView??(planningActive?1:0)].click();
  };
  window.addEventListener('synapse-language-change',()=>{if(host?.isConnected)render();});
 })();

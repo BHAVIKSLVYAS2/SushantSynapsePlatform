@@ -1,5 +1,30 @@
 # Chambers functionality ledger
 
+Fund Lens simpler official comparison / local NAV performance (2026-11-08; pending
+release): search starts empty and uses saved official disclosures, with an optional
+browse action. No default external discovery; external-source share links are
+refused rather than fetching competitor holdings. Overlap answer, common-company
+count, shared/different company tables and reporting-date/NAV coverage appear first;
+the matrix, full holdings, source audit and calculations sit under View details.
+Legacy provider-backed services and private persistence remain compatible.
+
+Separate Fund performance tab imports bounded CSV or AMFI historical text into
+memory only. Computes matched-date total/CAGR returns, 1/3/5-year windows, growth of
+₹10,000, observed drawdown, gap/age warnings and summary download without any API,
+file upload, persisted user data, dependency or bundled fabricated performance.
+Exact Growth plan identity remains separate from holdings families. No automatic
+fresh performance without imported history. AMFI's 90-day export limit means long
+histories need a combined maintained file. Documentation records assumptions/limits.
+13 focused calculation/validation tests pass. New product browser case confirms
+official-only search, simple results, local import/CSV, invalid-file clearing and
+12 theme/width combinations with no provider requests. Existing provider-backed
+browser checks explicitly opt into retained legacy controller state; current UI
+does not expose that switch. All 17 distinct browser cases pass across the main
+run and corrected pagination rerun. Default external-source link rejection passes
+an additional product rerun. Full Node/API regression: 639 passed, zero failures.
+Syntax/diff checks pass; Deep Black performance screenshot reviewed. Production
+build/live verification pending. No new package, schema or production data write.
+
 Fund Lens recalculation clarification (2026-11-08; deployed): live
 reproduction confirmed amount/rate edits already update each calculator. Return
 edits affect retirement/goal monthly savings rather than the future expense target.

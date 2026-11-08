@@ -213,7 +213,7 @@ for(const route of ['/privacy','/terms','/contact','/legal','/legal/third-party-
 for(const file of ['platform.js','platform.css','manifest.webmanifest','logo-adaptive.png','logo-adaptive-192.png','logo-adaptive-512.png','logo-adaptive-uhd.png'])staticAssets['/'+file]='apps/portal/frontend/'+file;
 staticAssets['/favicon.svg']='apps/portal/frontend/favicon.svg';
 for(const file of ['app.js','style.css','icon.svg','advocate.webmanifest'])staticAssets['/'+file]='apps/advocate/frontend/'+file;
-for(const file of ['app.js','engine.js','style.css','icon.svg','planning-engine.js','planning-copy.js','planning.js','workspace.css'])staticAssets['/fund-overlap/'+file]='apps/fund-overlap/frontend/'+file;
+for(const file of ['app.js','engine.js','style.css','icon.svg','planning-engine.js','planning-copy.js','planning.js','workspace.css','performance-engine.js','performance.js','simple-comparison.js'])staticAssets['/fund-overlap/'+file]='apps/fund-overlap/frontend/'+file;
 for(const file of ['app.js','engine.js','style.css','comic.css'])staticAssets['/news/'+file]='apps/news/frontend/'+file;
 module.exports={staticAssets};
 staticAssets['/shared/tool-refinements.css']='packages/ui/tool-refinements.css';

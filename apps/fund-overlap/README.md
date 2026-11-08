@@ -1,5 +1,33 @@
 # Fund Lens
 
+**Current UI update (2026-11-08; release verification pending):** Check fund overlap
+uses saved official disclosures only. Search starts empty, with optional browsing;
+the overlap answer, shared companies, differences and snapshot dates appear first.
+Detailed analytics remain in View details. The national/provider sections below
+describe retained compatibility services, not the current default search UI.
+External-source share links are refused by the default official-only view.
+
+Fund performance runs entirely on device from user-imported NAV CSV or AMFI
+historical text (maximum 2 MB / 30,000 rows / eight Growth plans). It does not call
+an API, scrape another platform or upload files. Import replaces the previous
+dataset; reload/clear removes it. Exact plan names and scheme codes remain separate
+from holdings families. Supported columns: `scheme_code,scheme_name,date,nav`;
+dates ISO or DD-Mon-YYYY. Download an empty template from the app. Use your own
+maintained history or official fund-house/[AMFI NAV files](https://www.amfiindia.com/net-asset-value/nav-download).
+AMFI's download page limits a download to 90 days, so longer comparisons require
+a combined history file maintained outside the app. No historical NAV dataset is
+bundled and no current/fabricated returns are substituted when history is absent.
+
+The local engine computes total returns, actual-day CAGR, growth of ₹10,000 and
+observed drawdown on matching dates. Available-history and 1/3/5-year windows use
+the latest shared end date; a year boundary needs an observation on/before it
+within seven days. Unsupported windows show insufficient history. Short periods
+do not display CAGR. Old history and gaps are flagged. The chart samples at most
+251 observations per plan; table values use full shared observations. Drawdown can
+miss falls between observations and is not a risk rating. NAVs are user-supplied,
+not independently verified; distribution options, taxes, exit loads and corporate
+adjustment reconstruction are unsupported. Past performance is not a forecast.
+
 **Release status (2026-10-07):** Laptop-independent comparison is deployed on [Fund Lens](https://apps.sushantsynapse.com/fund-overlap). Live Chrome verified comparison without backend requests at mobile and desktop sizes.
 
 Fund Lens lives at `/fund-overlap` and in the platform catalogue. Anyone can open it without a platform login, including comparison share links. The interface focuses on public holdings overlap, industries, unique contributions and what-if fund combinations.

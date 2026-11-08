@@ -1,5 +1,16 @@
 # Code ownership and adding apps
 
+Fund Lens official-only UI / local performance (2026-11-08): app-owned
+`simple-comparison.js` presents the overlap answer before optional analytics;
+default search uses saved official disclosure metadata and rejects remote-source
+share links. Retained national/NAV provider/private APIs keep their compatibility
+and persistence boundaries. `performance-engine.js` parses bounded user NAV files
+and calculates aligned historical returns/drawdown; `performance.js` owns transient
+file state, accessible SVG/table presentation and client CSV exports. Files/values
+are neither persisted nor uploaded. No new external API, package, schema or shared
+authentication policy is introduced. Exact Growth plan history is separate from
+holdings-family identity, and user imports do not gain verified-source status.
+
 RozHisab (2026-11-08): `apps/rozhisab` owns the standalone household tracker,
 integer-paise/thousandth-unit billing engine, effective-dated service settings,
 revision-checked IndexedDB store, local backup validation and scoped offline PWA.

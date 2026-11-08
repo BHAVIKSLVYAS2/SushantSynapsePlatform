@@ -6,7 +6,7 @@ const dateLabel = value => new Date(value).toLocaleDateString('en-IN', {day:'num
 const short = name => name.replace('Parag Parikh ', '').replace(/ Fund$/, '');
 let index, selected = [], excluded = new Set(), snapshots = new Map(), result, query = '', busy = false;
 let searchFunds = null, searchMessage = '', searchPending = false, searchVersion = 0, searchTimer, nextOffset = null, searchFailed = false;
-let libraryView = 'national', libraryLimit = 12, coverage = null, coverageLoading = true, coverageError = '', coverageFilter = 'all';
+let libraryView = 'official', browseLibrary = false, libraryLimit = 12, coverage = null, coverageLoading = true, coverageError = '', coverageFilter = 'all';
 let coverageByFundId = new Map(), coverageBySchemeCode = new Map();
 const coverageLabels = {verified:'Verified official',partial:'Partly verified',unavailable:'Official holdings unavailable',unsupported:'Outside equity comparison',stale:'Older official data'};
 const coverageStatuses = new Set(Object.keys(coverageLabels));
@@ -183,6 +183,7 @@ function screen() {
   const scopeSummary = document.createElement('summary'); scopeSummary.textContent = 'About search sources and available holdings';
   $('.coverage-line').before(scope); scope.append(scopeSummary, $('.coverage-line'));
   renderFunds(); renderCoverage();
+  window.simplifyFundSelection();
   window.mountFundPlanning();
 }
 function switchLibrary(view) {
@@ -209,14 +210,14 @@ async function searchLibrary(offset = 0) {
 }
 function renderFunds() {
   const needle = query.trim().toLowerCase();
-  const localFunds = index.funds.filter(f => isOfficial(f) && (libraryView !== 'official' || officialStatus(f) === 'verified') && matchesLibrary(f, needle));
-  const funds = libraryView === 'national' && searchFunds ? searchFunds : localFunds.slice(0, libraryLimit);
+  const localFunds = index.funds.filter(f => isOfficial(f) && matchesLibrary(f, needle));
+  const funds = libraryView === 'national' && searchFunds ? searchFunds : (needle || browseLibrary ? localFunds.slice(0, libraryLimit) : []);
   $('#national-library').setAttribute('aria-pressed', String(libraryView === 'national')); $('#official-library').setAttribute('aria-pressed', String(libraryView === 'official'));
   $('#library-description').textContent = libraryView === 'official' ? 'Published fund-house equity holdings that passed verification. Plans sharing a portfolio are grouped. Browse or search this library without a secondary data source.' : 'Search includes schemes without verified holdings. Check each fund’s data coverage.';
   $('#fund-search').placeholder = libraryView === 'official' ? 'Search verified official funds…' : 'Search any Indian mutual fund…';
   $('#search-status').textContent = searchPending ? 'Searching Indian mutual funds…' : libraryView === 'official' ? `${funds.length} of ${localFunds.length} verified official portfolios shown.` : searchMessage || (needle.length === 1 ? 'Type at least 2 characters to search all fund houses.' : 'Start with available official portfolios below, or search by fund name, fund house or category.');
   $('#fund-grid').innerHTML = funds.length ? funds.map(f => `<article class="fund-card ${selected.includes(f.id)?'selected':''}"><span class="category">${esc(f.category)}</span><h3>${esc(f.name)}</h3><p>${esc(f.amc)}${f.holdingsCount ? ' · ' + f.holdingsCount + ' equities' : ''}</p><p>${f.portfolioDate ? dateLabel(f.portfolioDate) + ' · ' + pct(f.includedNavWeight) + ' NAV included' : esc(holdingsStatus(f))}</p><button data-select="${esc(f.id)}" aria-pressed="${selected.includes(f.id)}" aria-label="${selected.includes(f.id)?'Remove':'Add'} ${esc(f.name)}" ${busy||(!selected.includes(f.id)&&selected.length===8)?'disabled':''}>${selected.includes(f.id)?'✓ Selected':'+ Add fund'}</button></article>`).join('') : `<p class="empty">${searchPending ? 'Looking for matching funds…' : 'No matching funds found. Try a shorter name or another fund house.'}</p>`;
-  if (!funds.length && libraryView === 'official') $('#fund-grid .empty').textContent = 'No current verified official portfolios match. Nationwide search can show schemes with older or secondary holdings.';
+  if (!funds.length && libraryView === 'official') $('#fund-grid .empty').textContent = 'No saved official equity portfolios match. Try another name or fund house.';
   $('#selected-funds').innerHTML = selected.map(id => `<button class="text-button" data-select="${esc(id)}" aria-label="Remove selected ${esc(index.funds.find(f=>f.id===id).name)}" ${busy?'disabled':''}>${esc(index.funds.find(f=>f.id===id).name)} ×</button>`).join('');
   for(const id of selected){const f=index.funds.find(f=>f.id===id),p=document.createElement('p'),button=document.createElement('button');p.className='subtext';p.textContent=f.name+' · '+(f.portfolioDate?dateLabel(f.portfolioDate)+' · '+pct(f.includedNavWeight)+' NAV included':'Date and coverage not yet checked')+' · '+holdingsStatus(f);button.type='button';button.textContent='Check coverage';button.disabled=busy;button.onclick=()=>previewCoverage(id);p.append(' ',button);$('#selected-funds').append(p);}
   $('#retry-search').hidden = !searchFailed;
@@ -247,6 +248,7 @@ function renderFunds() {
     const fund = index.funds.find(f => f.id === id), state = loadStates.get(id);
     return `<p><strong>${esc(fund.name)}</strong> <span>${esc(holdingsStatus(fund))}</span>${state.error ? `<span class="error">${esc(state.error)}</span>` : ''}</p>`;
   }).join('');
+  window.simplifyFundRows();
 }
 function changed() {
   excluded.clear(); result = null; $('#results').innerHTML = ''; $('#load-error').textContent = ''; renderFunds();
@@ -346,6 +348,7 @@ function renderResults() {
   const matrixDetails = document.createElement('details'); matrixDetails.className = 'matrix-details';
   const matrixSummary = document.createElement('summary'); matrixSummary.textContent = 'View full overlap matrix';
   matrix.before(matrixDetails); matrixDetails.append(matrixSummary, matrix, sections[0].querySelector('.legend'));
+  window.simplifyFundResults(r);
 
 }
 function filteredHoldings() {
@@ -387,6 +390,7 @@ function readShare() {
   const params = new URLSearchParams(location.hash.slice(1));
   const raw = params.get('funds'); if (!raw) return;
   const ids = raw.split(',');
+  if (libraryView === 'official' && ids.some(id => !index.funds.some(f => f.id === id && isOfficial(f)))) {notice('This link needs an external holdings source. Search the official library to compare without competitor data.'); return;}
   if (ids.length<2||ids.length>8||new Set(ids).size!==ids.length||ids.some(id=>(!index.funds.some(f=>f.id===id)&&!/^groww-[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)&&!/^amfi-\d{5,8}$/.test(id))||id.length>166)) {notice('This comparison link contains unavailable or duplicate funds. Choose funds from the library.'); return;}
   for (const id of ids) if (!index.funds.some(f=>f.id===id)) { const national = id.startsWith('amfi-'); index.funds.push({id,name:national?'AMFI scheme '+id.slice(5):id.slice(6).replaceAll('-', ' '),amc:national?'Indian mutual fund':'Groww',category:'Mutual fund',provider:national?'MFapi':'Groww',holdingsPath:national?'/api/fund-overlap/scheme/'+id.slice(5):'/api/fund-overlap/remote/'+id.slice(6)}); }
   if (busy && selected.join(',') !== ids.join(',')) comparisonController?.abort();

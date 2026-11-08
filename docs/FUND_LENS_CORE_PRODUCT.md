@@ -51,3 +51,18 @@ The official-library view pages locally and does not call a secondary source. Co
 The verified official downloads require no provider subscription. Engineering, maintenance, hosting/storage limits and each publisher's applicable reuse terms still matter. Public access is not a representation of unrestricted republication rights. No paid provider, advisory service, trading account or court connection is introduced.
 
 The registry is the national coverage target, not a guarantee that every AMC exposes an automatically discoverable spreadsheet. Dynamic, missing, inaccessible, ambiguous and unsupported sources remain explicitly recorded. Expanding a source requires a current official download, independently reviewed parser evidence and fixtures. Debt/gold comparison, fund look-through, active-status certification and personalized recommendations require separately scoped work.
+# 2026-11-08 current interface amendment
+
+The user authorised the simpler search → select → overlap answer, plus historical
+performance without additional APIs or competitor-data collection. Current default
+search is official-library-only (dated, not live); legacy provider routes are kept
+for compatibility and do not back this UI. External-source share links prompt the
+user to choose official-library funds. Older national-discovery UI requirements
+below are historical where they conflict with this amendment.
+
+Performance is a separate device-local NAV import tool: exact Growth plans,
+matched dates, total/annualised returns, ₹10,000 growth, observed drawdown and CSV.
+No fresh NAV dataset or performance ranking is promised. No third-party comparison
+data is fetched. Users supply maintained official histories as CSV/AMFI text; the
+app does not upload or verify provenance of these files. See app README for format,
+limits and calculation conventions. Existing calculators and private APIs remain.
