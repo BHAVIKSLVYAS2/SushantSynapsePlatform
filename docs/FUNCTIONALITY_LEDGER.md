@@ -1,6 +1,6 @@
 # Chambers functionality ledger
 
-Fund Lens recalculation clarification (2026-11-08; release pending): live
+Fund Lens recalculation clarification (2026-11-08; deployed): live
 reproduction confirmed amount/rate edits already update each calculator. Return
 edits affect retirement/goal monthly savings rather than the future expense target.
 Added a visible Recalculate action and result confirmation, translated explanation
@@ -8,7 +8,17 @@ of return versus inflation effects, and handling for both input and change event
 Every calculation now reads all current form values, covering committed edits and
 manual recalculation after autofill. Regression checks assert actual monetary output
 changes, change-only events, submit-only edits, SIP amount/return effects and the
-goal target remaining stable while required saving changes. Verification pending.
+goal target remaining stable while required saving changes. Ten focused Node tests
+and all 16 Fund Lens browser cases pass. Duplicate blur events do not rebuild an
+unchanged result, preserving download/copy clicks after editing a field. Initial
+new-event implementation interrupted a download on blur; regression caught it and
+the correction passes the complete browser suite. Source `8014fc9` deployed from
+an isolated committed archive with --keep-vars; 1,278 assets and existing D1/org/auth
+settings retained. Worker `d676848f-a3b2-40f5-94d8-1e3efb28a6db`. Live Chrome passes
+amount edits, return edits, change-only events and Recalculate on all three tools,
+plus CSV download. API writes blocked. No schema or production record changes.
+Logs: `.publish/fund-recalc-deploy.log`, `.publish/fund-recalc-live-final.log`;
+browser output `.publish/fund-recalc-browser-final`. No push.
 
 Fund Lens comparison/planning deployed (2026-11-08 IST): source `01fbcbb`, Worker
 `0353b80c-f0ec-4439-83a6-18cd8867e810`. Isolated committed production build exports
