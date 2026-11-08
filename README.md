@@ -1,5 +1,10 @@
 # Curio · Sushant Synapse
 
+Home offers a larger Comfort view by default (two apps per row) and the existing
+Compact view. The switch remembers the choice on this device. Comfort keeps app
+names readable, uses short English/Hindi/Gujarati purpose labels and clearly marks
+restricted workspaces; it does not change access permissions.
+
 RozHisab at `/rozhisab` tracks recurring household services, delivery exceptions,
 monthly bills and payments in English, Hindi and Gujarati. Data stays in IndexedDB
 on this device; no sign-in or payment gateway. Offline PWA, JSON backup/restore,

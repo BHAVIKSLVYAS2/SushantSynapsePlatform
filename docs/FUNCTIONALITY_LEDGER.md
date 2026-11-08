@@ -1,5 +1,23 @@
 # Chambers functionality ledger
 
+Home Comfort/Compact views (2026-11-08; release pending): Comfort is the initial
+default, with two tiles per row, 72×64 icons, 20px+ wrapping app names and a short
+16px purpose in English/Hindi/Gujarati. Very narrow/enlarged-text layouts collapse
+to one column below 19rem. Existing Compact card layout remains available. Native
+pressed-state buttons remember the device choice in localStorage; an early script
+sets the preference before CSS to avoid a remembered-layout flash. Storage denial
+falls back to in-memory choice. Home catalogue remounts retain the switch and
+translated purposes, including signed-in/favourite/recent views. Comfort exposes
+workspace access labels without enabling unavailable apps. No private preference,
+authentication, licence, API, database or business-data changes.
+17 focused registry/delivery/language/access checks pass. Comfort passes 36
+locale/theme/width states, Compact its existing responsive/language checks, and
+storage-denial switching passes. Initial small-screen toolbar squeezing was caught
+and corrected by wrapping the view control onto its own row. All six affected
+browser cases pass, including sign-in/out, favourites/recent, locked/unavailable
+apps and no-JavaScript fallback. Gujarati mobile screenshot reviewed. Production
+build/live verification pending. Generated home CSS rebuilt.
+
 Fund Lens mobile autocomplete deployed (2026-11-08 IST): source `62b9ec0`, Worker
 `3ac7544f-9dec-4499-8f49-82602f6040c8`. Isolated committed production build exports
 1,290 assets; --keep-vars retains existing D1/auth/organisation settings. 22 focused

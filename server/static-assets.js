@@ -48,6 +48,7 @@ const staticAssets={
  '/home.css':'apps/portal/frontend/home.css',
  '/home.bundle.css':'apps/portal/frontend/home.bundle.css',
  '/home-discovery.js':'apps/portal/frontend/home-discovery.js',
+ '/home-view.js':'apps/portal/frontend/home-view.js',
  '/home-vedic.js':'apps/portal/frontend/home-vedic.js',
  '/ritvayam-logo.svg':'apps/portal/frontend/ritvayam-logo.svg',
  '/ritvayam-petals.svg':'apps/portal/frontend/ritvayam-petals.svg',

@@ -1,5 +1,13 @@
 # Code ownership and adding apps
 
+Home presentation modes (2026-11-08): `apps/portal/frontend/home-view.js` owns
+the device-local Comfort/Compact preference, early root attribute, accessible
+switch and short translated purpose labels. `home-discovery.js` remounts that
+presentation after catalogue hydration. Existing shared catalogue renderer owns
+links, app availability and access enforcement; mode never changes those. CSS
+stays in portal `home.css` and generated `home.bundle.css`. No server preference,
+account, business persistence or app-assignment schema changes are introduced.
+
 Fund Lens autocomplete (2026-11-08): `search-engine.js` owns prefix matching and
 holdings-family suggestion grouping; `fund-picker.js` owns the mobile combobox,
 keyboard/touch interaction and visual-viewport placement. A generated static
