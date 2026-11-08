@@ -1,5 +1,9 @@
 // Authored interface copy. User-entered service text and conversations are not translated.
 export const copy=Object.fromEntries(`
+How booking works|बुकिंग कैसे होती है|બુકિંગ કેવી રીતે થાય છે
+Completion is available after the ceremony ends. Refresh then.|पूजा समाप्त होने के बाद पूर्ण होने की जानकारी दर्ज कर सकते हैं। तब रीफ़्रेश करें।|પૂજા પૂરી થયા પછી પૂર્ણ થયાની નોંધ કરી શકો છો. ત્યારે રિફ્રેશ કરો.
+Preferred date (IST)|पसंदीदा तारीख (IST)|પસંદગીની તારીખ (IST)
+Choose a date to narrow published availability. The operator confirms your request.|प्रकाशित उपलब्धता देखने के लिए तारीख चुनें। संचालक आपके अनुरोध की पुष्टि करेगा।|પ્રકાશિત ઉપલબ્ધતા જોવા તારીખ પસંદ કરો. સંચાલક તમારી વિનંતીની પુષ્ટિ કરશે.
 Skip to booking|बुकिंग पर जाएँ|બુકિંગ પર જાઓ
 TRADITIONS · PREPARED TOGETHER|परंपराएँ · तैयारी मिलकर|પરંપરાઓ · તૈયારી સાથે મળીને
 A meaningful puja.|श्रद्धा से पूजा।|શ્રદ્ધાથી પૂજા.

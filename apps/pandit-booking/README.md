@@ -3,6 +3,24 @@
 Managed, invitation-only booking pilot at `/pandit-booking`. No payments or external
 message delivery. See `docs/PANDIT_BOOKING_PROGRESS.md` for verification and limits.
 
+Customer discovery includes an optional IST date filter over published windows.
+The chosen ceremony/date carries into the request; submitting opens My bookings
+with the Requested state. Availability and conflicts are still checked by the API.
+Mobile section tabs stay reachable as users move between search and bookings.
+Completion/no-show controls appear only after the confirmed ceremony ends.
+
+`seed-demo.mjs` is an explicit command-line tool, not a public endpoint. It uses
+normal governance/booking APIs to create a separate, labelled fictional demo with
+Operator, Pandit and Customer accounts, three services, one provider and
+Requested/Confirmed/Cancelled examples. Existing demos are never reset. Live
+mode requires an existing Super Admin session/password and uses a 30-day licence.
+`--apply` reads settings from stdin and saves generated credentials privately
+under ignored `.publish/`; no passwords belong in source or documentation.
+An explicit `local:true` mode only accepts localhost and an empty default Node
+workspace. It also creates a fictional Chambers case for review, keeping Node
+demo persistence separate from production Workers/D1. Future bookings are never
+fabricated as completed. A live deployment alone does not create demo accounts.
+
 Workers/D1 requires organisation mode, additive migration 0009, an active app
 licence and explicit assignments. Customers use Client memberships and Customer
 app assignments; staff roles are Owner, Dispatcher, Reviewer and Pandit. Shared

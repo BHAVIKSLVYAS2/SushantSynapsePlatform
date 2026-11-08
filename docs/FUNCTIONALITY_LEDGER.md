@@ -1,5 +1,67 @@
 # Chambers functionality ledger
 
+Pandit Booking / Chambers implementation (2026-11-08): customer entry is shorter,
+published availability can be narrowed by IST date, and ceremony/date carries into
+the request. Submitting a request opens My bookings immediately. Mobile tabs stay
+reachable; completion/no-show controls wait until the ceremony ends. New copy is
+authored in English/Hindi/Gujarati; approval, confirmation, conflicts and role
+enforcement remain server-owned. Chambers surfaces past Scheduled hearings that
+need outcomes, shows today's/overdue counts, guards legacy missing task dates,
+and adds keyboard-focusable case section shortcuts and newest-first hearing
+history. View all hearings clears a remembered selected diary date. Atomic
+outcome/next-date writes and monetary validation are unchanged.
+
+Explicit app-owned demo provisioning tool uses normal governance/booking APIs.
+Live mode requires an existing Super Admin and creates a separate labelled
+organisation with a 30-day licence; repeat runs refuse existing demo state.
+Local mode accepts only localhost and an empty isolated default Node workspace.
+Created the requested local demo at `http://127.0.0.1:3190`: three role-specific
+accounts, three services, a fictional provider, Requested/Confirmed/Cancelled
+bookings, checklist/chat and a fictional Chambers case/hearings/tasks/invoice.
+Local persistence lives in a new OS-temporary DATA_DIR, never `data/chambers.sqlite`.
+Credentials and server metadata are ignored under `.publish/`; no passwords are
+in source. Live demo provisioning awaits administrator authentication; no
+production accounts or business records have been written in this session.
+
+Verification: 22 focused booking/D1/organisation checks pass. Final demo tool
+passes real isolated Workers/D1 API provisioning, role restrictions, repeat-run
+refusal and unchanged existing booking data. Six Pandit browser cases and eight
+Chambers regression cases pass, plus the focused daily-work case; corrected an
+initial test expectation from 09:30 to the actual published 09:00 slot, then reran
+the dependent booking suite successfully. Final request/navigation and remembered
+diary-date checks pass separately. Local demo credentials verified, customer and
+operator Chrome flows checked, and 12 Chambers viewport/theme states pass.
+Logs `.publish/booking-final-browser.log`, `.publish/chambers-regression-browser.log`,
+`.publish/chambers-daily-final.log`, `.publish/pandit-request-final.log`,
+`.publish/booking-chambers-unit.log`, `.publish/pandit-demo-final-d1.log`.
+Final local role checks confirm customer booking states/date carry-forward,
+operator pending requests and completion timing, and Pandit access to only the
+confirmed sample. Operator tabs use one horizontally scrollable sticky row;
+Chrome verifies the content heading remains below it at 320/390/768/1440px.
+Reviewed `.publish/pandit-demo-operator-final-mobile.png` and
+`.publish/chambers-demo-mobile.png`. Local demo server remains available for the
+user; its private restart metadata is `.publish/pandit-demo-local-server.json`.
+
+Pandit Booking discussion audit (2026-11-08): no application implementation or
+deployment requested at this stage. Fifteen focused booking/D1/language/setup
+checks and all six existing isolated Chrome workflows pass, covering customer,
+Pandit/operator setup, approval, availability, confirmation, privacy, languages,
+chat, drafts and expiry. Browser fixtures create dummy records only in temporary
+SQLite workspaces; no live seed or account changes. Browser runner reports 6
+passed; PowerShell redirected stderr records NativeCommandError for the existing
+Node colour warning and exits 1, without a reported browser-test failure.
+Evidence `.publish/pandit-review-unit.log`, `.publish/pandit-review-browser.log`.
+Read-only live page and booking index return 200, pilot=true, signedIn=false and
+publicOperators=0. This confirms public discovery has no published operator
+listing; it does not establish the state of private assigned workspaces or live
+end-to-end bookings. Local mobile screenshot reviewed. Proposed discussion scope:
+shorter ceremony/area/date/provider/request flow, retain operator confirmation,
+and isolated labelled demo fixtures before deliberate real operator activation.
+Payments and external message/reminder delivery remain unconnected. Chambers
+follows as a separate discussion/audit of Today priorities, hearing update speed
+and case-detail navigation; no Chambers changes or current-session end-to-end
+verification performed. Preserve existing SQL/D1 data and permission boundaries.
+
 Home view arrow alignment (2026-11-08): replaced the font-dependent arrow glyph
 with a fixed 12px SVG chevron, aligned with the grid icon and explicit label line
 height; open state rotates the icon. Rebuilt home CSS. Six focused checks pass;

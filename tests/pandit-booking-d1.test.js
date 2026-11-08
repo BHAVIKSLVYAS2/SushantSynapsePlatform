@@ -42,4 +42,12 @@ test('real Workers/D1 booking roles, isolation, atomic confirmation, revocation,
  assert.equal((await db.prepare('SELECT data FROM pandit_booking_workspaces WHERE organisationId=?').bind('first').first()).data.includes('Private D1 address'),true);
  // Force two repositories to read the same revision; actual D1 rolls back loser.
  const {D1Repository}=await import('../packages/database/d1.mjs'),a=await new D1Repository(db).begin(),b=await new D1Repository(db).begin();await a.commit([a.settingWrite('pandit-test',{preserved:true})]);await assert.rejects(b.commit([b.statement("DELETE FROM pandit_booking_workspaces WHERE organisationId='first'")]),{status:409});assert(await db.prepare("SELECT 1 FROM pandit_booking_workspaces WHERE organisationId='first'").first());
+ // The explicit demo tool uses the same audited APIs and cannot access Chambers.
+ const beforeDemo=(await db.prepare("SELECT data FROM pandit_booking_workspaces WHERE organisationId='first'").first()).data;
+ const {seedDemo}=await import('../apps/pandit-booking/seed-demo.mjs');
+ const demo=await seedDemo({origin,adminCookie:'chambers_session='+tokens.super,request:(url,init)=>mf.dispatchFetch(url,init)});
+ assert.equal(demo.accounts.length,3);assert.deepEqual(demo.examples.map(b=>b.status),['Requested','Confirmed','Cancelled']);
+ const demoRow=await db.prepare('SELECT data FROM pandit_booking_workspaces WHERE organisationId=?').bind(demo.organisationId).first();const demoState=JSON.parse(demoRow.data);assert.equal(demoState.services.length,3);assert.equal(demoState.profiles.length,1);assert.equal(demoState.bookings.length,3);assert.equal(demoState.bookings.filter(b=>b.status==='Confirmed').length,1);
+ assert.equal((await db.prepare("SELECT data FROM pandit_booking_workspaces WHERE organisationId='first'").first()).data,beforeDemo);
+ await assert.rejects(seedDemo({origin,adminCookie:'chambers_session='+tokens.super,request:(url,init)=>mf.dispatchFetch(url,init)}),/already exists/);
 });
