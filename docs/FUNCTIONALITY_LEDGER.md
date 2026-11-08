@@ -24,6 +24,10 @@ run and corrected pagination rerun. Default external-source link rejection passe
 an additional product rerun. Full Node/API regression: 639 passed, zero failures.
 Syntax/diff checks pass; Deep Black performance screenshot reviewed. Production
 build/live verification pending. No new package, schema or production data write.
+Visual release review additionally compacts search cards into name/date/action
+rows with optional holdings metadata, removes the duplicate two-fund pair summary
+and hides completed loading rows. Focused default-product and mobile tap-target
+browser checks pass for this refinement. Final deployment recorded after release.
 
 Fund Lens recalculation clarification (2026-11-08; deployed): live
 reproduction confirmed amount/rate edits already update each calculator. Return
