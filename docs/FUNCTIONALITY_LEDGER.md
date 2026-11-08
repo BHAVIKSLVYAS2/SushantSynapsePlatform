@@ -1,5 +1,27 @@
 # Chambers functionality ledger
 
+Fund Lens autocomplete correction (2026-11-08; release pending): mobile-first
+combobox supports partial words, multiple spaces, case/punctuation, arrows/Enter,
+Escape, touch selection, selected chips and clearing/refocusing after add. At most
+eight suggestions show; available official snapshots rank first. Known unavailable
+funds are labelled/disabled rather than hidden. Duplicate plan/option names group
+for holdings discovery only. Stopwords do not crowd prefix searches with “and”.
+`hdfc a`, `hdfc bal` and full Balanced Advantage names tested against real saved
+data. Balanced Advantage has no validated official snapshot; HDFC's official
+disclosure page did not expose a usable file in this check, so comparison remains
+disabled rather than relaxing validation or fetching competitor holdings.
+
+Production coverage summaries omit the full scheme audit. A compact, generated
+static catalogue (12,448 grouped unavailable names, 772 KB uncompressed) is loaded
+on focus and cached in memory, without an additional API/provider. Regenerate via
+`node apps/fund-overlap/ingestion/build-picker-catalogue.cjs` after reference changes.
+Dropdown placement uses the visual viewport for keyboard space; options have touch
+targets and aria-disabled/selected state. No schema/storage or business-data change.
+22 distinct focused Node checks pass, including the shipped real catalogue and
+HDFC queries. Real touch/keyboard, compact-coverage fallback, theme/320px layout,
+official-only product and corrected prefix-pagination browser checks pass. Final
+full Fund Lens browser run and production deployment pending.
+
 Fund Lens official-only comparison / local performance deployed (2026-11-08 IST):
 base source `f44783a`, compact-row refinement `a017dd5`; final Worker
 `9a3c11c8-d8ba-4111-8b78-217a7ebf9816` (supersedes initial feature Worker

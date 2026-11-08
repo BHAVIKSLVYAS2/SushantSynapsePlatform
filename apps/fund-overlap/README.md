@@ -1,5 +1,13 @@
 # Fund Lens
 
+Autocomplete (2026-11-08): partial multiword search, mobile touch and keyboard
+selection, and clearly disabled known funds without official holdings. Names such
+as HDFC Balanced Advantage can be found even when comparison data is unavailable.
+Availability never bypasses snapshot validation. A static name catalogue is loaded
+on focus because production coverage summaries omit scheme rows. Regenerate it
+from saved metadata with `node apps/fund-overlap/ingestion/build-picker-catalogue.cjs`.
+No external search API is used by the picker.
+
 **Current UI update (2026-11-08; deployed and verified):** Check fund overlap
 uses saved official disclosures only. Search starts empty, with optional browsing;
 the overlap answer, shared companies, differences and snapshot dates appear first.

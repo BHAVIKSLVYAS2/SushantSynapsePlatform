@@ -97,9 +97,7 @@ function withOfficialSnapshotStatus(fund, snapshot) {
   return {...snapshot, cacheStatus:'stale', cacheWarning:snapshot.cacheWarning || warning};
 }
 function matchesLibrary(fund, search) {
-  const tokens = search.match(/[\p{L}\p{N}]+/gu) || [];
-  const words = new Set(`${fund.name} ${fund.amc} ${fund.category} ${(fund.previousNames || []).join(' ')}`.toLowerCase().match(/[\p{L}\p{N}]+/gu) || []);
-  return tokens.every(token => words.has(token));
+  return FundSearch.matches(fund, search);
 }
 function coverageBadge(status) {return coverageStatuses.has(status) ? `<span class="coverage-badge coverage-${status}">${coverageLabels[status]}</span>` : '';}
 function sourceCoverageStatus(source) {
@@ -184,6 +182,7 @@ function screen() {
   $('.coverage-line').before(scope); scope.append(scopeSummary, $('.coverage-line'));
   renderFunds(); renderCoverage();
   window.simplifyFundSelection();
+  window.mountFundPicker();
   window.mountFundPlanning();
 }
 function switchLibrary(view) {
@@ -249,6 +248,7 @@ function renderFunds() {
     return `<p><strong>${esc(fund.name)}</strong> <span>${esc(holdingsStatus(fund))}</span>${state.error ? `<span class="error">${esc(state.error)}</span>` : ''}</p>`;
   }).join('');
   window.simplifyFundRows();
+  window.renderFundPicker();
 }
 function changed() {
   excluded.clear(); result = null; $('#results').innerHTML = ''; $('#load-error').textContent = ''; renderFunds();

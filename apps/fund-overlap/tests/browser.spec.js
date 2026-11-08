@@ -7,11 +7,25 @@ let child,base,dir;
 // controller state. New product tests below use the default official-only UI.
 async function openLegacy(page,url){await page.goto(url);if(new URL(url).pathname!=='/fund-overlap')return;await page.locator('#fund-search').waitFor();await page.evaluate(()=>{libraryView='national';browseLibrary=true;document.querySelector('.library-switch').hidden=false;renderFunds();if(location.hash)readShare();});}
 const referenceIndex = require('../data/fund-index.json');
+test('autocomplete loads known unavailable names from the static catalogue when coverage is compact',async({page})=>{
+ await page.route('**/api/fund-overlap/coverage.json',r=>r.fulfill({json:{...coverageFixture,schemes:[],schemeRows:40000}}));await page.goto(base+'/fund-overlap');const input=page.getByRole('combobox',{name:'Search funds'});await input.fill('hdfc balanced advantage');const option=page.locator('#fund-suggestions [role=option]');await expect(option).toHaveCount(1);await expect(option).toContainText('HDFC Balanced Advantage Fund');await expect(option).toHaveAttribute('aria-disabled','true');await input.fill('hdfc a');await expect(page.locator('#fund-suggestions')).toContainText('HDFC Balanced Advantage Fund');
+});
+test('mobile autocomplete matches partial multiword queries and distinguishes unavailable holdings',async({browser})=>{
+ const context=await browser.newContext({viewport:{width:320,height:800},isMobile:true,hasTouch:true});await require('../../../tests/browser-fixture').acknowledgeBeta(context);const page=await context.newPage();
+ try{const fund={...referenceIndex.funds[0],id:'hdfc-asset',name:'HDFC Multi Asset Allocation Fund',amc:'HDFC Mutual Fund'};
+ await page.route('**/api/fund-overlap/fund-index.json',r=>r.fulfill({json:{...referenceIndex,funds:[fund,...referenceIndex.funds]}}));await page.route('**/api/fund-overlap/coverage.json',r=>r.fulfill({json:{...coverageFixture,schemes:[...coverageFixture.schemes,{schemeCode:123456,name:'HDFC Balanced Advantage Fund - Direct Plan - Growth',amc:'HDFC Mutual Fund',status:'unavailable'},{schemeCode:123457,name:'HDFC Balanced Advantage Fund - Regular Plan - Growth',amc:'HDFC Mutual Fund',status:'unavailable'}]}}));
+ const requests=[];page.on('request',r=>{if(/\/api\/fund-overlap\/(search|scheme|remote|plans|nav)/.test(r.url()))requests.push(r.url());});await page.goto(base+'/fund-overlap');const search=page.getByRole('combobox',{name:'Search funds'});await search.fill('hdfc balanced advantage');await expect(page.locator('#fund-suggestions [role=option]')).toHaveCount(1);await expect(page.locator('#fund-suggestions [role=option]')).toHaveAttribute('aria-disabled','true');await expect(page.locator('#fund-suggestions [role=option]')).toContainText('Holdings unavailable');await search.press('ArrowDown');await search.press('Enter');await expect(page.locator('#selection-count')).toContainText('0 of 8');
+ await search.fill('  hdfc   a');await expect(page.locator('#fund-suggestions [role=option]')).toHaveCount(2);await search.press('ArrowDown');await expect(search).toHaveAttribute('aria-activedescendant','fund-option-0');await search.press('Enter');await expect(search).toHaveValue('');await expect(page.locator('#selection-count')).toContainText('1 of 8');await expect(search).toBeFocused();
+ await search.fill('parag fl');await page.getByRole('option',{name:/Parag Parikh Flexi Cap/}).tap();await expect(page.locator('#selection-count')).toContainText('2 of 8');await expect(search).toHaveValue('');await search.fill('hdfc a');await search.press('Escape');await expect(page.getByRole('listbox',{name:'Fund suggestions'})).toBeHidden();await search.press('ArrowDown');await expect(search).toHaveAttribute('aria-expanded','true');
+ for(const theme of ['light','dark','deep']){await setTheme(page,theme);await search.focus();await expect(page.getByRole('listbox',{name:'Fund suggestions'})).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();}
+ await page.screenshot({path:'test-results/fund-picker-mobile.png',fullPage:true});expect(requests).toEqual([]);
+ }finally{await context.close();}
+});
 test('official-only simple comparison and local NAV performance need no external calls',async({page})=>{
  const requests=[],errors=[];page.on('request',r=>{if(r.url().includes('/api/fund-overlap/'))requests.push(r.url());});page.on('pageerror',e=>errors.push(e.message));
  await page.goto(base+'/fund-overlap');await expect(page.locator('#fund-search')).toBeVisible();await expect(page.locator('.fund-card')).toHaveCount(0);await expect(page.getByRole('button',{name:'Nationwide search',exact:true})).toBeHidden();
  await page.locator('#fund-search').fill('parag');await expect(page.locator('.fund-card')).toHaveCount(5);
- await page.getByRole('button',{name:'Add Parag Parikh Flexi Cap Fund',exact:true}).click();await page.getByRole('button',{name:'Add Parag Parikh ELSS Tax Saver Fund',exact:true}).click();await page.locator('#compare').click();await expect(page.locator('#simple-summary')).toContainText('common companies');await expect(page.locator('#comparison-details')).not.toHaveAttribute('open','');await page.getByRole('button',{name:'What’s different',exact:true}).click();await expect(page.locator('#simple-companies')).toContainText('just one');
+ await page.getByRole('option',{name:/Parag Parikh Flexi Cap Fund/}).click();await page.locator('#fund-search').fill('parag elss');await page.getByRole('option',{name:/Parag Parikh ELSS Tax Saver Fund/}).click();await page.locator('#compare').click();await expect(page.locator('#simple-summary')).toContainText('common companies');await expect(page.locator('#comparison-details')).not.toHaveAttribute('open','');await page.getByRole('button',{name:'What’s different',exact:true}).click();await expect(page.locator('#simple-companies')).toContainText('just one');
  await page.getByRole('button',{name:'Fund performance',exact:true}).click();
  const rows=['scheme_code,scheme_name,date,nav'];for(let year=2020;year<=2025;year++)for(let code=123456;code<=123457;code++)rows.push(`${code},Example ${code} Direct Growth,${year}-01-02,${100+(year-2020)*(code===123456?10:5)}`);
  await page.locator('#nav-file').setInputFiles({name:'official-history.csv',mimeType:'text/csv',buffer:Buffer.from(rows.join('\n'))});await expect(page.locator('#performance-output')).toContainText('₹15,000');await expect(page.locator('.performance-chart')).toBeVisible();await page.locator('#performance-period').selectOption('3');await expect(page.locator('#performance-output')).toContainText('2022-01-02 to 2025-01-02');
@@ -154,8 +168,8 @@ test('Fund Lens: selection, analysis, simulation, share, export, themes and resp
  await openLegacy(page,base);await page.getByRole('link',{name:'Fund Lens',exact:true}).click();await page.locator('#fund-search').waitFor();await page.evaluate(()=>{browseLibrary=true;libraryView='national';renderFunds();});
  await expect(page.locator('.fund-card')).toHaveCount(5);await expect(page.getByRole('button',{name:'Compare funds →'})).toBeDisabled();
  await page.route('**/api/fund-overlap/search?**',route=>route.fulfill({json:{funds:[],nextOffset:null}}));
- await page.getByRole('searchbox',{name:'Search funds',exact:true}).fill('not in library');await expect(page.getByText('No matching funds found.',{exact:false})).toBeVisible();
- await page.getByRole('searchbox',{name:'Search funds',exact:true}).fill('');
+ await page.locator('#fund-search').fill('not in library');await expect(page.getByText('No matching funds found.',{exact:false})).toBeVisible();
+ await page.locator('#fund-search').fill('');
  expect(requests.filter(r=>r.url.includes('/api/fund-overlap/holdings/'))).toHaveLength(0);
  await page.getByRole('button',{name:'Explore a comparison'}).click();
  await expect(page.getByRole('heading',{name:'Your funds, under the lens.'})).toBeVisible();
@@ -170,7 +184,7 @@ test('Fund Lens: selection, analysis, simulation, share, export, themes and resp
  await page.locator('#result-sources').getByText('Source verification details',{exact:true}).first().click();
  await expect(page.locator('.source code').first()).toBeVisible();
  await page.getByRole('button',{name:'Edit funds',exact:false}).click();
- await expect(page.getByRole('searchbox',{name:'Search funds',exact:true})).toBeFocused();
+ await expect(page.locator('#fund-search')).toBeFocused();
  await page.locator('#fund-grid').scrollIntoViewIfNeeded();
  await expect(page.locator('#compare')).toBeInViewport();
  await page.locator('#results').scrollIntoViewIfNeeded();
@@ -217,7 +231,7 @@ test('national search compares another fund house with an official snapshot and 
  await page.route('**/api/fund-overlap/remote/**',route=>route.fulfill({json:snapshot}));
  await openLegacy(page,base+'/fund-overlap');
  await page.getByRole('button',{name:'Add Parag Parikh Flexi Cap Fund',exact:true}).click();
- await page.getByRole('searchbox',{name:'Search funds',exact:true}).fill('hdfc');
+ await page.locator('#fund-search').fill('hdfc');
  await page.getByRole('button',{name:'Add '+snapshot.name,exact:true}).click();
  await page.locator('#compare').click();
  await expect(page.locator('.pair')).toHaveCount(1);
@@ -244,7 +258,7 @@ test('AMFI search pagination, retry, shared portfolios, duplicate plans and stal
  });
  await page.route('**/api/fund-overlap/scheme/**',route=>route.fulfill({json:route.request().url().endsWith('101762')?{...snapshot,schemeId:second.id,name:second.name}:snapshot}));
  await openLegacy(page,base+'/fund-overlap');
- await page.getByRole('searchbox',{name:'Search funds',exact:true}).fill('hdfc');
+ await page.locator('#fund-search').fill('hdfc');
  await expect(page.locator('#search-status')).toContainText('temporarily unavailable');
  await page.getByRole('button',{name:'Retry fund search'}).click();
  await page.getByRole('button',{name:'Add '+entry.name,exact:true}).click();
@@ -269,7 +283,7 @@ test('HDFC selection survives switching to Parag Parikh, clearing search and ret
   return route.fulfill({json:q==='offline'?{funds:[],nextOffset:null,warning:'Search temporarily unavailable'}:{funds:q==='hdfc'?[hdfc]:parag,nextOffset:null}});
  });
  await page.setViewportSize({width:390,height:844});await openLegacy(page,base+'/fund-overlap');
- const search=page.getByRole('searchbox',{name:'Search funds',exact:true});
+ const search=page.locator('#fund-search');
  await search.fill('hdfc');await page.getByRole('button',{name:'Add '+hdfc.name,exact:true}).click();
  await search.fill('parag parikh');await expect(page.locator('.fund-card')).toHaveCount(5);
  await expect(page.locator('#selected-funds [data-select]')).toHaveCount(1);
@@ -313,7 +327,7 @@ test('official coverage separates verified holdings from discovery and preserves
  await expect(page.locator('#official-library')).toHaveAttribute('aria-pressed','true');
  await expect(page.locator('.fund-card')).toHaveCount(7);
  await expect(page.locator('#fund-grid')).toContainText(older.name);
- const search=page.getByRole('searchbox',{name:'Search funds',exact:true});
+ const search=page.locator('#fund-search');
  await search.fill('HDFC');await expect(page.locator('.fund-card')).toHaveCount(1);
  await expect(page.locator('#fund-grid')).toContainText('Verified official');
  await expect(page.locator('#fund-grid')).toContainText('30 Sept 2026');
@@ -396,9 +410,9 @@ test('large official libraries paginate locally and match separate complete sear
  await expect(page.locator('#search-status')).toContainText('12 of 241');
  await page.getByRole('button',{name:'Show more matches'}).click();await expect(page.locator('.fund-card')).toHaveCount(24);
  await page.getByRole('button',{name:'Add Meridian 1 Equity Fund',exact:true}).click();
- await page.getByRole('searchbox',{name:'Search funds',exact:true}).fill('meridian equity');
- await expect(page.locator('.fund-card')).toHaveCount(12);await expect(page.locator('#search-status')).toContainText('12 of 240');
- await page.getByRole('searchbox',{name:'Search funds',exact:true}).fill('meridian 219');
+ await page.locator('#fund-search').fill('meridian equity');
+ await expect(page.locator('.fund-card')).toHaveCount(12);await expect(page.locator('#search-status')).toContainText('12 of 241');
+ await page.locator('#fund-search').fill('meridian 219');
  await expect(page.locator('.fund-card')).toHaveCount(1);await expect(page.locator('#fund-grid')).toContainText('Meridian 219 Equity Fund');
  await expect(page.getByRole('button',{name:'Show more matches'})).toBeHidden();
  await expect(page.locator('#selected-funds')).toContainText('Meridian 1 Equity Fund');expect(requests).toBe(0);

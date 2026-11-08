@@ -1,5 +1,14 @@
 # Code ownership and adding apps
 
+Fund Lens autocomplete (2026-11-08): `search-engine.js` owns prefix matching and
+holdings-family suggestion grouping; `fund-picker.js` owns the mobile combobox,
+keyboard/touch interaction and visual-viewport placement. A generated static
+`picker-catalogue.json` supplies known unavailable names from existing saved audit
+metadata because public coverage summaries omit full scheme rows. Its generator
+is `ingestion/build-picker-catalogue.cjs`; it makes no external request. Name
+discovery never enables a fund without an existing official snapshot ID. No new
+API/provider, database, persistent financial data or schema ownership is added.
+
 Fund Lens official-only UI / local performance (2026-11-08): app-owned
 `simple-comparison.js` presents the overlap answer before optional analytics;
 default search uses saved official disclosure metadata and rejects remote-source
