@@ -1,5 +1,15 @@
 # Chambers functionality ledger
 
+Fund Lens recalculation clarification (2026-11-08; release pending): live
+reproduction confirmed amount/rate edits already update each calculator. Return
+edits affect retirement/goal monthly savings rather than the future expense target.
+Added a visible Recalculate action and result confirmation, translated explanation
+of return versus inflation effects, and handling for both input and change events.
+Every calculation now reads all current form values, covering committed edits and
+manual recalculation after autofill. Regression checks assert actual monetary output
+changes, change-only events, submit-only edits, SIP amount/return effects and the
+goal target remaining stable while required saving changes. Verification pending.
+
 Fund Lens comparison/planning deployed (2026-11-08 IST): source `01fbcbb`, Worker
 `0353b80c-f0ec-4439-83a6-18cd8867e810`. Isolated committed production build exports
 1,278 assets and deploys with --keep-vars; existing D1/org/auth bindings retained.
