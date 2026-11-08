@@ -333,6 +333,7 @@ test('official coverage separates verified holdings from discovery and preserves
  await expect(page.locator('#fund-grid')).toContainText('30 Sept 2026');
  await expect(page.locator('#selected-funds')).toContainText('Parag Parikh Flexi Cap Fund');
  expect(nationalCalls).toBe(0);
+ await search.press('Escape');
  await page.getByRole('button',{name:'Nationwide search',exact:true}).click();
  await expect(page.locator('#fund-grid')).toContainText(debt.name);
  await expect(page.locator('#fund-grid')).toContainText('Outside equity comparison');

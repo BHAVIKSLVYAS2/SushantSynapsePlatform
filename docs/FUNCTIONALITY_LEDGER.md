@@ -1,6 +1,25 @@
 # Chambers functionality ledger
 
-Fund Lens autocomplete correction (2026-11-08; release pending): mobile-first
+Fund Lens mobile autocomplete deployed (2026-11-08 IST): source `62b9ec0`, Worker
+`3ac7544f-9dec-4499-8f49-82602f6040c8`. Isolated committed production build exports
+1,290 assets; --keep-vars retains existing D1/auth/organisation settings. 22 focused
+Node checks and all 19 distinct Fund Lens browser cases pass across main/focused
+runs. Initial browser failures were obsolete role/count expectations and a legacy
+control click behind an open list; tests now scope options to the combobox, expect
+prefix semantics and use Escape before another control. Final mobile touch,
+keyboard and compact-production-catalogue cases pass. No runtime bypass added.
+Live Chrome verifies the exact HDFC full/partial/extra-space searches, unavailable
+guard, touch/Enter selection, cleared/refocused input, chips, Escape and a real
+official comparison. Nine theme/width states pass without horizontal overflow or
+page errors. Provider endpoints/business writes blocked; no provider calls made.
+Live dropdown screenshot reviewed. Balanced Advantage remains unavailable for
+comparison: no validated official snapshot was obtained. No new provider/API,
+schema, persisted user financial data or production record writes. No push.
+Logs: `.publish/fund-picker-deploy.log`, `.publish/fund-picker-live.log`; browser
+outputs `.publish/fund-picker-release-browser`, `.publish/fund-picker-coverage-final`,
+`.publish/fund-picker-final-touch-browser`, `.publish/fund-picker-static-browser`.
+
+Fund Lens autocomplete correction (2026-11-08; released above): mobile-first
 combobox supports partial words, multiple spaces, case/punctuation, arrows/Enter,
 Escape, touch selection, selected chips and clearing/refocusing after add. At most
 eight suggestions show; available official snapshots rank first. Known unavailable
@@ -20,7 +39,7 @@ targets and aria-disabled/selected state. No schema/storage or business-data cha
 22 distinct focused Node checks pass, including the shipped real catalogue and
 HDFC queries. Real touch/keyboard, compact-coverage fallback, theme/320px layout,
 official-only product and corrected prefix-pagination browser checks pass. Final
-full Fund Lens browser run and production deployment pending.
+full Fund Lens browser run and production deployment verified as recorded above.
 
 Fund Lens official-only comparison / local performance deployed (2026-11-08 IST):
 base source `f44783a`, compact-row refinement `a017dd5`; final Worker
