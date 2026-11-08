@@ -73,3 +73,18 @@ Shared auth/access/preferences and preserved private portfolio/watchlist records
 Removed the personal transaction/import interface, performance/risk/rolling-return panels, SIP simulator, saved-watchlist panel and amount-based exposure calculator from the served app. The public comparison retains search, 2?8 funds, overlap, holdings/industry views, what-if combinations, source provenance, share links, holdings report export and printing.
 
 Existing portfolio/watchlist records, schemas, authenticated compatibility APIs and their regression tests remain preserved. Official source spreadsheet ingestion is a maintainer data-refresh tool, not a user upload feature; it remains necessary for verified reference snapshots.
+# Local planning tools (2026-11-08)
+
+Comparison uses a compact selection/summary flow, with optional source coverage,
+overlap matrix, contribution and industry details. Navigation opens each requested
+breakdown; warnings and reporting dates remain attached to the comparison.
+
+The separate Plan money view provides retirement corpus, goal-saving and SIP
+calculations without external services or additional packages. Inputs remain in
+memory and exports are generated locally. Returns and inflation are editable
+illustrations, not forecasts; taxes, fees and variable returns are excluded.
+Effective annual rates convert to monthly rates. Contributions occur at the
+start of each month. Retirement withdrawals start immediately, rise monthly with
+inflation and consume the target corpus by the chosen end age. No pension or
+one-off expenditure is assumed. See `frontend/planning-engine.js` and
+`tests/fund-planning.test.js` at the repository root for formula verification.

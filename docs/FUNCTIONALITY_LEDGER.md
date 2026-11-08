@@ -1,5 +1,28 @@
 # Chambers functionality ledger
 
+Fund Lens comparison and planning update (2026-11-08; release pending): separate Compare funds
+and Plan money views; compact comparison hero; retirement corpus, goal saving and
+SIP projections with editable inflation/return assumptions, annual SIP increases,
+yearly projection table, copy and CSV export. Calculations run in browser memory;
+no account/provider calls, persistence or new package. Planning remains available
+while the fund catalogue loads or fails. New labels support English/Hindi/Gujarati.
+Illustrative fixed returns exclude tax/fees/volatility; retirement withdrawals begin
+immediately and target zero remaining corpus at the selected end age. Independent
+monthly drawdown/accumulation, zero-rate, negative-return, validation and overflow
+checks pass (10 planning/overlap Node tests). Browser suite initially 15/16 passed;
+sticky comparison action regression corrected; both focused browser checks pass.
+Catalogue-failure fallback browser check also passes. Desktop and 320px mobile
+planning screenshots reviewed; no horizontal overflow. Syntax/diff checks pass.
+Main comparison now keeps the coverage register and source explanation in optional
+disclosures below the main flow. Pair summaries remain visible; the full matrix,
+fund contributions and industry breakdown expand on demand. Result navigation
+opens the requested breakdown. Selection remains sticky. Planning view selection
+survives asynchronous catalogue loading. Final Fund Lens browser suite passes all
+16 cases, including collapsed matrix/industry navigation, catalogue failure and
+three-language/three-theme mobile planning layouts. Full regression/build pending.
+No schema,
+production data or deployment changes.
+
 RozHisab clear absence markers deployed (2026-11-08 IST): source `9354954`, Worker
 `f2c1807f-7a93-4f1c-9165-2e8c623ff950`. Isolated committed build/deploy passes
 with --keep-vars and 1,270 assets; D1/auth/organisation settings retained. Final

@@ -4,6 +4,35 @@ const {spawn}=require('node:child_process');
 const fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 let child,base,dir;
 const referenceIndex = require('../data/fund-index.json');
+test('local planners calculate, validate and download without provider calls',async({page})=>{
+ await page.goto(base+'/fund-overlap');
+ await page.getByRole('button',{name:'Plan money',exact:true}).click();
+ await expect(page.locator('#planner-result')).toContainText('Estimated corpus at retirement');
+ let providerCalls=0;await page.route('**/api/fund-overlap/**',route=>{providerCalls++;return route.abort();});
+ await page.locator('[name=expense]').fill('50000');
+ await expect(page.locator('#planner-result .planner-primary strong')).toContainText('₹');
+ await page.locator('[name=expense]').fill('');await expect(page.locator('#planner-result [role=alert]')).toBeVisible();
+ await page.getByRole('button',{name:'SIP projection',exact:true}).click();
+ await page.locator('[name=returnRate]').fill('0');
+ await expect(page.locator('#planner-result')).toContainText('₹9,00,000');
+ const download=page.waitForEvent('download');await page.getByRole('button',{name:'Download calculation'}).click();expect((await download).suggestedFilename()).toBe('fund-lens-sip.csv');
+ await page.getByRole('button',{name:'Save for a goal',exact:true}).click();
+ await expect(page.locator('#planner-result')).toContainText('Monthly saving');
+ expect(providerCalls).toBe(0);
+ await page.setViewportSize({width:1440,height:1000});await page.screenshot({path:'test-results/fund-lens-planning-desktop.png',fullPage:true});
+ await page.setViewportSize({width:320,height:800});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
+ await page.screenshot({path:'test-results/fund-lens-planning-mobile.png',fullPage:true});
+ for(const language of ['hi','gu','en']){
+  await page.evaluate(language=>window.SynapseLanguage.set(language),language);
+  for(const theme of ['light','dark','deep']){await setTheme(page,theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();}
+  await expect(page.locator('#planning-view h1')).toHaveText({hi:'पैसों की योजना',gu:'પૈસાનું આયોજન',en:'Plan money'}[language]);
+ }
+ await page.route('**/api/fund-overlap/fund-index.json',route=>route.fulfill({status:503,json:{error:'Offline fixture'}}));
+ await page.reload();await page.getByRole('button',{name:'Plan money',exact:true}).click();
+ await expect(page.locator('#planner-result')).toContainText('Estimated corpus at retirement');
+ await expect(page.locator('#comparison-view .gate')).toBeAttached();
+ await expect(page.locator('#planner-result')).toContainText('Estimated corpus at retirement');
+});
 const coverageFixture = {
  version:1,generatedAt:'2026-10-12T08:00:00Z',
  summary:{fundHouses:4,totalSchemes:10,verifiedSchemes:5,unsupportedSchemes:1,unavailableSchemes:3,staleSchemes:1},
@@ -105,6 +134,10 @@ test('Fund Lens: selection, analysis, simulation, share, export, themes and resp
  await page.getByRole('button',{name:'Explore a comparison'}).click();
  await expect(page.getByRole('heading',{name:'Your funds, under the lens.'})).toBeVisible();
  await expect(page.locator('.pair')).toHaveCount(3);await expect(page.locator('.matrix tbody tr')).toHaveCount(3);
+ await expect(page.locator('.matrix')).toBeHidden();
+ await page.getByText('View full overlap matrix',{exact:true}).click();await expect(page.locator('.matrix')).toBeVisible();
+ await page.getByRole('navigation',{name:'Comparison sections'}).getByRole('button',{name:'Industries',exact:true}).click();
+ await expect(page.locator('#result-industries')).toBeVisible();
  await page.getByRole('navigation',{name:'Comparison sections'}).getByRole('button',{name:'Sources',exact:true}).click();
  await expect(page.locator('#result-sources')).toBeInViewport();
  await expect(page.locator('.source code').first()).toBeHidden();
@@ -246,6 +279,7 @@ test('official coverage separates verified holdings from discovery and preserves
  await page.route('**/api/fund-overlap/search?**',route=>{nationalCalls++;return route.fulfill({json:{funds:[debt],total:1,nextOffset:null}});});
  await page.setViewportSize({width:320,height:844});await page.goto(base+'/fund-overlap');
  const panel=page.getByRole('region',{name:'Official data coverage'});
+ await page.locator('.coverage-audit>summary').click();
  await expect(panel).toContainText('6');await expect(panel).toContainText('10');
  await expect(panel).toContainText('National discovery helps you find funds');
  await page.getByRole('button',{name:'Add Parag Parikh Flexi Cap Fund',exact:true}).click();
@@ -285,6 +319,7 @@ test('coverage register failure is recoverable and does not block comparison',as
  let unavailable=true;
  await page.route('**/api/fund-overlap/coverage.json',route=>unavailable?route.fulfill({status:503,json:{error:'Coverage unavailable'}}):route.fulfill({json:coverageFixture}));
  await page.goto(base+'/fund-overlap');
+ await page.locator('.coverage-audit>summary').click();
  await expect(page.getByRole('button',{name:'Retry coverage check',exact:true})).toBeVisible();
  await expect(page.getByRole('region',{name:'Official data coverage'})).toContainText('You can still select funds and compare');
  await page.getByRole('button',{name:'Explore a comparison'}).click();
@@ -348,6 +383,7 @@ test('official labels age on opening the page while coverage counts retain their
  await page.clock.install({time:new Date('2027-01-01T00:00:00Z')});
  await page.goto(base+'/fund-overlap');
  await expect(page.locator('.fund-card .coverage-stale')).toHaveCount(5);
+ await page.locator('.coverage-audit>summary').click();
  await expect(page.getByRole('region',{name:'Official data coverage'})).toContainText('12 Oct 2026');
  await expect(page.getByRole('region',{name:'Official data coverage'})).toContainText('Counts reflect the dated coverage check above');
  await page.getByRole('button',{name:'Verified official library',exact:true}).click();

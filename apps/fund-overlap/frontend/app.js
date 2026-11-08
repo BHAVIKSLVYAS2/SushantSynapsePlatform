@@ -145,7 +145,7 @@ function renderCoverage() {
   $('#coverage-filter').onchange = e => {coverageFilter = e.target.value; const open = region.querySelector('details').open; renderCoverage(); region.querySelector('details').open = open; $('#coverage-filter').focus();};
 }
 function screen() {
-  $('#main').innerHTML = `<section class="hero"><div class="hero-copy"><p class="eyebrow">FUND LENS / MUTUAL FUND OVERLAP ANALYZER</p><h1>Fund Lens</h1><p>Compare the equity holdings of 2–8 mutual funds.</p><div class="pills"><span class="pill">Dated portfolio holdings</span><span class="pill">Calculated in your browser</span><span class="pill">No portfolio connection</span></div></div><div class="hero-art" aria-hidden="true"><svg viewBox="0 0 350 240"><path class="orbit-line" d="M15 120h320M175 12v210"/><circle class="orbit" cx="135" cy="112" r="81"/><circle class="orbit orbit-two" cx="215" cy="112" r="81"/><text class="art-label" x="102" y="116">FUND A</text><text class="art-label" x="225" y="116">FUND B</text><text class="art-center" x="166" y="118">∩</text><text class="art-label" x="120" y="225">SHARED HOLDINGS</text></svg><p>Different names. Sometimes the same companies.</p></div></section>
+  $('#main').innerHTML = `<section class="hero"><div class="hero-copy"><p class="eyebrow">FUND LENS / COMPARE</p><h1>See what your funds share.</h1><p>Choose 2–8 mutual funds to compare their equity holdings. No investment amounts or account connection needed.</p></div></section>
   <section class="workbench" aria-labelledby="select-title"><div class="section-head"><div><h2 id="select-title">Choose your funds</h2><p class="subtext">Search by name, category or fund house.</p></div><span class="step">01 / SELECT</span></div><div class="search-row"><label><span class="sr-only">Search funds</span><input id="fund-search" type="search" placeholder="Search any Indian mutual fund…" autocomplete="off"></label><button id="explore">Explore a comparison ↗</button></div><p id="search-status" role="status"></p><button id="retry-search" hidden>Retry fund search</button><div id="fund-grid" class="fund-grid"></div><button id="more-funds" hidden>Show more matches</button><div id="selected-funds" class="keys"></div><p class="coverage-line">Search the national MFapi catalogue across Indian fund houses, alongside five official PPFAS snapshots. Holdings come from Tickertape or Groww when verified. The catalogue includes historical schemes; a search result does not guarantee available equity holdings. Direct and regular plans share a portfolio. Debt, gold and fund-of-funds look-through are not available.</p><div class="selection"><div><strong id="selection-count"></strong><p>Only the selected snapshots are downloaded. No investment amounts needed.</p></div><div class="selection-actions"><button id="clear" class="text-button">Clear</button><button id="compare" class="primary">Compare funds →</button></div></div><p id="load-error" class="error" role="alert"></p></section>
   <section id="results" class="results" aria-live="polite"></section>
   <details class="methodology"><summary>How Fund Lens measures overlap</summary><p>Weighted overlap adds the smaller of each shared security’s weights. ISINs identify securities; names are display labels. Direct/regular plans and growth/distribution options are not counted as separate underlying portfolios.</p><ul><li><strong>Equity composition:</strong> each fund’s included equity holdings are scaled to 100%. This compares equity composition, not total fund exposure.</li><li><strong>Disclosed NAV weights:</strong> original published percentages are retained. A low-equity hybrid fund can have low NAV overlap even if its equity choices closely match another fund.</li><li>Included: positive-weight physical listed equities, including foreign shares and arbitrage legs. Excluded: cash, debt, derivatives, REIT/InvIT units and fund units. No hedge netting or fund look-through. Positions disclosed as less than 0.01% with a rounded zero are omitted.</li><li>Industry similarity uses each source’s industry classifications. Unknown classifications are excluded. Top-ten means the ten largest included equity positions, or all positions when fewer than ten exist.</li><li>Average overlap is an unweighted average of pairs. It is not a score for your personal portfolio. No buy, sell or redemption recommendations are made.</li></ul><p>Fund selections stay in browser memory. The server uses MFapi for the national catalogue and Tickertape or Groww for public holdings. No account details are sent to these sources. Verified reference data is saved for recovery during source outages. Share links contain public scheme IDs in the URL fragment; anyone can open them without signing in. Downloads identify individual public snapshots to the server. No login or financial account connection is required.</p></details><footer class="footer"><span>FUND LENS · SUSHANT SYNAPSE</span><span>Portfolio analytics, not personalized investment advice.</span></footer>`;
@@ -176,7 +176,14 @@ function screen() {
   $('#clear').onclick = () => {selected = []; changed();};
   $('#explore').onclick = () => {if (selected.length) return; selected = ['ppfas-flexi-cap', 'ppfas-elss', 'ppfas-large-cap'].filter(id => index.funds.some(f => f.id === id)); changed(); compare(true);};
   $('#national-library').onclick = () => switchLibrary('national'); $('#official-library').onclick = () => switchLibrary('official');
+  const coverageAudit = document.createElement('details'); coverageAudit.className = 'coverage-audit';
+  const coverageSummary = document.createElement('summary'); coverageSummary.textContent = 'Official data coverage and reporting dates';
+  $('.methodology').before(coverageAudit); coverageAudit.append(coverageSummary, coverageRegion);
+  const scope = document.createElement('details'); scope.className = 'discovery-scope';
+  const scopeSummary = document.createElement('summary'); scopeSummary.textContent = 'About search sources and available holdings';
+  $('.coverage-line').before(scope); scope.append(scopeSummary, $('.coverage-line'));
   renderFunds(); renderCoverage();
+  window.mountFundPlanning();
 }
 function switchLibrary(view) {
   libraryView = view; libraryLimit = 12; clearTimeout(searchTimer); searchController?.abort(); searchVersion++;
@@ -313,7 +320,7 @@ function renderResults() {
   $('.result-heading').after(nav);
   for (const [id,, section] of destinations) {
     section.id = 'result-' + id; section.tabIndex = -1;
-    nav.querySelector(`[data-section="${id}"]`).onclick = () => {section.scrollIntoView({block:'start'}); section.focus({preventScroll:true});};
+    nav.querySelector(`[data-section="${id}"]`).onclick = () => {const disclosure = section.closest('details'); if (disclosure) disclosure.open = true; section.scrollIntoView({block:'start'}); section.focus({preventScroll:true});};
   }
   $('#edit-funds').onclick = () => {$('#fund-search').focus(); $('#fund-search').scrollIntoView({block:'center'});};
   sections[5].querySelector(':scope > p').textContent = 'Monthly portfolio snapshots. Tickertape and Groww are secondary sources; classifications may differ from AMC disclosures. Check each fund’s reporting date and included coverage.';
@@ -330,6 +337,15 @@ function renderResults() {
   renderHoldings();
   const industryTable = $('#result-industries .table-scroll');
   industryTable.tabIndex = 0; industryTable.setAttribute('role', 'region'); industryTable.setAttribute('aria-label', 'Scrollable industry weights');
+  for (const section of [sections[2], sections[3]]) {
+    const details = document.createElement('details'); details.className = 'result-disclosure';
+    const summary = document.createElement('summary'); summary.textContent = section.querySelector('h2').textContent;
+    section.before(details); details.append(summary, section);
+  }
+  const matrix = sections[0].querySelector('.table-scroll');
+  const matrixDetails = document.createElement('details'); matrixDetails.className = 'matrix-details';
+  const matrixSummary = document.createElement('summary'); matrixSummary.textContent = 'View full overlap matrix';
+  matrix.before(matrixDetails); matrixDetails.append(matrixSummary, matrix, sections[0].querySelector('.legend'));
 
 }
 function filteredHoldings() {
@@ -377,11 +393,13 @@ function readShare() {
   selected = ids; basis = params.get('basis')==='nav'?'nav':'equity'; excluded.clear(); $('#results').innerHTML=''; $('#load-error').textContent=''; renderFunds(); compare(false);
 }
 async function boot() {
+  window.mountFundPlanning();
   try {index = await jsonFetch('/api/fund-overlap/fund-index.json'); screen(); loadCoverage(); readShare();}
   catch (error) {
     const heading = error.status===401?'Sign in to open Fund Lens':error.status===403?'Fund Lens access is needed':'The fund library is unavailable';
     $('#main').innerHTML = `<section class="gate"><p class="eyebrow">FUND LENS</p><h1>${heading}</h1><p>${error.status===401?'Use your existing Sushant Synapse account, then open Fund Lens from the app catalogue.':error.status===403?'Ask your platform owner to enable Fund Lens in Team access.':esc(error.message)}</p><a href="/">Go to the platform →</a>${!error.status?'<p><button id="retry">Retry loading</button></p>':''}</section>`;
     if ($('#retry')) $('#retry').onclick = boot;
+    window.mountFundPlanning();
   }
 }
 window.addEventListener('hashchange', () => { if (index && $('#fund-grid')) readShare(); });
