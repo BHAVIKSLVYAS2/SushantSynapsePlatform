@@ -1,6 +1,21 @@
 # Chambers functionality ledger
 
-Fund Lens comparison and planning update (2026-11-08; release pending): separate Compare funds
+Fund Lens comparison/planning deployed (2026-11-08 IST): source `01fbcbb`, Worker
+`0353b80c-f0ec-4439-83a6-18cd8867e810`. Isolated committed production build exports
+1,278 assets and deploys with --keep-vars; existing D1/org/auth bindings retained.
+Full Node/API regression: 636 passed, zero failures. Fund Lens browser suite:
+16 passed. Live Chrome verifies retirement/SIP/goal results, three-pair public
+sample comparison, matrix collapsed initially and industry navigation expansion.
+27 language/theme/viewport planning layouts pass without overflow or page errors.
+Live comparison screenshot reviewed. First smoke run was intercepted by the existing
+beta acknowledgement dialog; script corrected to use its real checkbox/submit,
+then all checks passed. Concurrent initial browser runs had a trace-output collision;
+final full run used an isolated output directory. No runtime workaround was added.
+All API writes/ad traffic blocked during live QA. No database/schema changes or push.
+Logs: `.publish/fund-lens-regression.log`, `.publish/fund-lens-deploy.log`,
+`.publish/fund-lens-live-final.log`; browser output `.publish/fund-lens-browser`.
+
+Fund Lens comparison and planning update (2026-11-08; released above): separate Compare funds
 and Plan money views; compact comparison hero; retirement corpus, goal saving and
 SIP projections with editable inflation/return assumptions, annual SIP increases,
 yearly projection table, copy and CSV export. Calculations run in browser memory;
@@ -19,9 +34,8 @@ fund contributions and industry breakdown expand on demand. Result navigation
 opens the requested breakdown. Selection remains sticky. Planning view selection
 survives asynchronous catalogue loading. Final Fund Lens browser suite passes all
 16 cases, including collapsed matrix/industry navigation, catalogue failure and
-three-language/three-theme mobile planning layouts. Full regression/build pending.
-No schema,
-production data or deployment changes.
+three-language/three-theme mobile planning layouts. Full regression and production
+build pass as recorded above. No schema or production business-data changes.
 
 RozHisab clear absence markers deployed (2026-11-08 IST): source `9354954`, Worker
 `f2c1807f-7a93-4f1c-9165-2e8c623ff950`. Isolated committed build/deploy passes
