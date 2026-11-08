@@ -1,3 +1,16 @@
+Ritual Prep content research (2026-11-08, discussion only): audited all fifteen
+guides and their actual learning coverage. Daily/Ganesh/Lakshmi have simplified
+sequences and selected sourced prayers; most other Shubh guides share two general
+reflections and mourning guides share Gita 2.20 plus a peace refrain. Full katha
+and aarti collections are absent. Reviewed published Satyanarayan chapter/vidhi
+references, deity-specific aarti and named Ekadashi collections, temple references,
+BAPS tradition-scoped material, Gita Press catalogue and Sanskrit Documents reuse
+restrictions. Proposed first four integrated packs, a single reading entry and
+versioned text/meaning review in `docs/RITUAL_PREP_CONTENT_RESEARCH_2026-11-08.md`.
+Language preference was asked and remains pending. Full-text reuse clearance and
+practitioner review are not established. No application changes, imports, outreach,
+API/calendar/storage changes or deployment occurred.
+
 Moment Studio launch refinement deployed (2026-11-08): source `3b813eb`, Worker
 `92ad7369-d5aa-4a9a-bae9-64551e676e7a`, at https://apps.sushantsynapse.com.
 Deployment used an isolated committed archive and --keep-vars; organisation mode,
@@ -9151,3 +9164,14 @@ Audited every maintained app, governance/client screen, shared shell and game be
 Validation: 339/339 Node/API tests; 14/14 focused Cloudflare Node tests; 228 route/size/theme combinations; 112 main and 42 governance audit captures plus 40 focused review checks without overflow or page errors. The full existing browser suite executed 242 cases; initial stale assertions and fixture failures are resolved through focused reruns recorded in the audit document. Organisation-enabled build succeeds with 803 exported assets. All test data is isolated; no records, blobs, accounts, schema, API/business logic, authentication, game engines or production bindings changed.
 
 Production release: implementation `bc9657a` deployed using `deploy:frontend --keep-vars` to `https://apps.sushantsynapse.com`, Worker version `d89391af-4494-41bc-b35b-33ed214674a8`. Existing organisation mode, D1 binding and variables preserved. Live verification passed six exact source-asset comparisons and 96 route/size/theme combinations across 24 routes, without horizontal overflow or page errors. Health and Arena return 200; legacy private API remains denied with 409. Browser API writes and ad traffic were blocked; only passive visitor writes were attempted. Evidence: `.publish/platform-refinement-deploy.log`, `.publish/platform-refinement-live.json`, and mobile/desktop screenshots. No production test data, migrations, bootstrap or repository push. Final browser batch: 26 passed, one reference-dependent failure subsequently passed with deterministic fixtures; all initial 24 failures and two blocked cases have passing focused reruns.
+# Ritual Prep reading companion — 2026-11-08
+
+Implemented four original English/Hindi reading packs in the existing lazy-loaded
+learning disclosure: daily prayer, Ganesh, Lakshmi and a five-part Satyanarayan
+story summary. Explicitly labels summaries and newly authored prayers; no copied
+third-party aarti lyrics, modern translations, media or scanned editions added.
+Includes chapter selection, previous/next, large text, local reading-position
+resume and inclusion in the existing learning-notes download. Existing mantra
+selection and checklist preference semantics remain unchanged. Content provenance
+and deferred full liturgical text work are documented in
+`docs/RITUAL_PREP_CONTENT_RESEARCH_2026-11-08.md`. No API, schema or auth changes.

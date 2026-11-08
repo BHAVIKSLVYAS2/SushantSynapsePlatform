@@ -159,3 +159,13 @@ body.ritual-landing :is(.guide-option,.calendar-open,.filters button,.language b
 @media print{.ritual-learning{display:none!important}body.ritual-landing .calendar-launch,body.ritual-landing .guidance-notice,body.ritual-landing .landing-toolbar{display:none!important}body.ritual-landing main{padding:0}}
 
 @media screen{html[data-theme-style=deep] body.ritual-landing{--ritual-bg:var(--ui-bg);--ritual-panel:var(--deep-surface);--ritual-raised:var(--ui-soft);--ritual-ink:var(--ui-ink);--ritual-muted:var(--ui-muted);--ritual-line:var(--ui-edge);--ritual-gold:var(--ui-accent);--ritual-emerald:var(--ui-accent);--ritual-emerald-deep:var(--ui-accent);--ritual-on-emerald:var(--ui-on-accent);--ritual-teal:var(--ui-soft);--ritual-teal-line:var(--ui-edge);--ritual-warm:var(--ui-soft);--accent:var(--ui-accent);--on-accent:var(--ui-on-accent)}}
+.ritual-reader{max-width:70ch;margin-inline:auto;overflow-wrap:anywhere}
+.ritual-reader>p{line-height:1.8}
+.ritual-reader .reader-prose{font-size:19px;line-height:1.95;white-space:pre-line}
+.ritual-reader[data-large=true] .reader-prose{font-size:25px}
+.ritual-reader h4{font-size:20px;line-height:1.6}
+.reader-tools{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin-block:18px}
+.reader-tools label{display:grid;gap:6px;flex:1 1 220px;min-width:0}
+.reader-tools select{width:100%;max-width:100%;min-height:46px;font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px}
+.reader-tools button{min-height:46px;padding:10px 16px}
+.ritual-reader>p:last-child{font-size:13px;color:var(--muted)}

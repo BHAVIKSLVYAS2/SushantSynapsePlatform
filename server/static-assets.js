@@ -152,6 +152,7 @@ const staticAssets={
  '/ritual-assist/':'apps/ritual-assist/frontend/calendar.html',
  '/ritual-assist/app.js':'apps/ritual-assist/frontend/app.js',
  '/ritual-assist/guides.mjs':'apps/ritual-assist/frontend/guides.mjs',
+ '/ritual-assist/readings.mjs':'apps/ritual-assist/frontend/readings.mjs',
  '/ritual-assist/learning.mjs':'apps/ritual-assist/frontend/learning.mjs',
  '/ritual-assist/learning-view.mjs':'apps/ritual-assist/frontend/learning-view.mjs',
  '/ritual-assist/learning-content.mjs':'apps/ritual-assist/frontend/learning-content.mjs',

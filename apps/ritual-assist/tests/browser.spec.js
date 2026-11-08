@@ -215,9 +215,9 @@ test('denied and out-of-coverage location allow manual search; late detection ca
  await page.locator('#calendar-use-location').click();await chooseInterfaceLanguage(page,'hi');await page.evaluate(()=>locationRequest.success({coords:{latitude:19.076,longitude:72.8777}}));await expect(page.locator('#placeId')).toHaveValue('geonames:1261481');
 });
 test('learning disclosure distinguishes simplified sequences from preparation-only guides',async({page})=>{
- await page.goto(base+'/ritual-assist/guides?guide=ganesh-puja&learn=vidhi');await expect(page.locator('.ritual-learning > summary')).toHaveText('Learn the simplified sequence and prayers');await expect(page.locator('#learn-panel-vidhi h3')).toHaveText('Simplified household sequence · not complete vidhi');
- await page.goto(base+'/ritual-assist/guides?guide=daily-puja&learn=vidhi');await expect(page.locator('.ritual-learning > summary')).toHaveText('Learn the simplified sequence and prayers');await expect(page.locator('[data-prayer=ganesha-name]')).toHaveCount(0);await expect(page.locator('#learn-panel-mantras')).not.toContainText('Ganapati');
- await page.goto(base+'/ritual-assist/guides?guide=satyanarayan&learn=vidhi');await chooseInterfaceLanguage(page,'hi');await expect(page.locator('.ritual-learning > summary')).toHaveText('तैयारी का दायरा और वैकल्पिक पाठ');await expect(page.locator('#learn-panel-vidhi h3')).toHaveText('केवल तैयारी · पूरी विधि नहीं');
+ await page.goto(base+'/ritual-assist/guides?guide=ganesh-puja&learn=vidhi');await expect(page.locator('.ritual-learning > summary')).toHaveText('Steps, prayers & story / reading');await expect(page.locator('#learn-panel-vidhi h3')).toHaveText('Simplified household sequence · not complete vidhi');
+ await page.goto(base+'/ritual-assist/guides?guide=daily-puja&learn=vidhi');await expect(page.locator('.ritual-learning > summary')).toHaveText('Steps, prayers & story / reading');await expect(page.locator('[data-prayer=ganesha-name]')).toHaveCount(0);await expect(page.locator('#learn-panel-mantras')).not.toContainText('Ganapati');
+ await page.goto(base+'/ritual-assist/guides?guide=satyanarayan&learn=vidhi');await chooseInterfaceLanguage(page,'hi');await expect(page.locator('.ritual-learning > summary')).toHaveText('\u091a\u0930\u0923, \u092a\u094d\u0930\u093e\u0930\u094d\u0925\u0928\u093e\u090f\u0901 \u0914\u0930 \u0915\u0925\u093e / \u092a\u093e\u0920');await expect(page.locator('#learn-panel-vidhi h3')).toHaveText('केवल तैयारी · पूरी विधि नहीं');
 });
 test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
 test('all bilingual guides, materials, search, completion isolation, downloads and printing',async({page})=>{
@@ -289,3 +289,13 @@ async function openRitualChooser(page){if(!await page.locator('#library').evalua
 
 async function openPdfPreview(page){await page.evaluate(()=>window.print=()=>{});await page.locator('#print-checklist').click();await expect(page.locator('#checklist-preview')).toBeVisible();}
 async function openChecklistSettings(page){if(!await page.locator('.checklist-settings').evaluate(el=>el.open))await page.locator('.checklist-settings>summary').click();}
+
+test('original reading packs support mobile chapters, resume and separate checklist state',async({page})=>{
+ await page.setViewportSize({width:320,height:740});await page.goto(base+'/ritual-assist/guides?guide=satyanarayan&learn=readings');
+ const reader=page.locator('.ritual-reader');await expect(reader).toBeVisible();await expect(reader).toContainText('not the complete ritual katha');await expect(reader.locator('option')).toHaveCount(5);
+ await page.locator('#remember-checks').check();const item=page.locator('input[data-item]').first();await item.check();await reader.getByRole('button',{name:'Next',exact:true}).click();await expect(reader.locator('h4')).toContainText('woodcutter');await reader.getByRole('button',{name:'Larger text',exact:true}).click();await expect(reader).toHaveAttribute('data-large','true');expect(await reader.locator('.reader-prose').evaluate(n=>getComputedStyle(n).fontSize)).toBe('25px');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.reload();await expect(reader.locator('h4')).toContainText('woodcutter');await expect(page.locator('input[data-item]').first()).toBeChecked();
+ await chooseInterfaceLanguage(page,'hi');await expect(reader).toHaveAttribute('lang','hi');await expect(reader).toBeVisible();await expect(reader.locator('select')).toHaveValue('1');await page.screenshot({path:'.publish/ritual-reader-mobile.png',fullPage:true});
+ for(const id of ['daily-puja','ganesh-puja','lakshmi-puja']){await page.goto(base+'/ritual-assist/guides?guide='+id+'&learn=readings&lang=en');await expect(reader).toBeVisible();await expect(reader.locator('option')).toHaveCount(3);}
+ await page.goto(base+'/ritual-assist/guides?guide=shraddha&learn=vidhi');await expect(page.locator('[data-learn-tab=readings]')).toHaveCount(0);
+});
