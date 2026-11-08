@@ -1,5 +1,18 @@
 # Chambers functionality ledger
 
+RozHisab clear absence markers deployed (2026-11-08 IST): source `9354954`, Worker
+`f2c1807f-7a93-4f1c-9165-2e8c623ff950`. Isolated committed build/deploy passes
+with --keep-vars and 1,270 assets; D1/auth/organisation settings retained. Final
+history-marker assertion passes. Live Chrome verifies absent/extra glyphs together
+in all 36 locale/theme/viewport states without clipping, overflow or page errors;
+absence-only day and translated legend also visually reviewed. The first live
+verification attempt had a Windows text-encoding mismatch in the script's expected
+cross; corrected UTF-8 script passes. No runtime correction was needed for it.
+API writes/ad traffic blocked and fixture records exist only in disposable browser
+IndexedDB. No schema, billing/storage changes, production business writes or push.
+Logs: `.publish/rozhisab-markers-deploy.log`, `.publish/rozhisab-markers-live.log`,
+`.publish/rozhisab-markers-final.log`; `.publish/rozhisab-markers-light.png` reviewed.
+
 RozHisab clearer absence markers (2026-11-08 IST; local): replaced tiny calendar
 dots/squares with visible check, cross and plus glyphs and a matching translated
 legend. Any absence gives its day a strong dashed outline; absence-only markers
