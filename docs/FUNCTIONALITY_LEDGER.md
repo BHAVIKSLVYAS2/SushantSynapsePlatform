@@ -5,6 +5,11 @@ with one 32px switch beside Filters, retaining a 44px touch target, localized
 accessible name, keyboard operation and remembered preference. Toolbar stays one
 row at 320px. Six focused Node checks and two isolated Chrome cases pass,
 including 36 locale/theme/width states and blocked storage. No data/API changes.
+Deployed source `d25cd1d` with preserved production variables; Worker version
+`9ac2fe82-1461-4204-b2eb-6cfdefc6fd6f`. Live Chrome passes 36 locale/theme/width
+states, remembered mode reloads, search and app navigation without page errors;
+mobile screenshot reviewed. Business API writes blocked during QA. Evidence:
+`.publish/home-view-toggle-deploy.log`, `.publish/home-view-toggle-live.log`.
 
 Home Comfort/Compact deployed (2026-11-08 IST): source `3dad070`, Worker
 `9932152f-2eb7-4b30-adfb-8269638af8c4`. Isolated committed build exports 1,292 assets;
