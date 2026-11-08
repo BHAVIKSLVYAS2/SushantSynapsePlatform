@@ -1,5 +1,11 @@
 # Chambers functionality ledger
 
+Home inline view switch (2026-11-08): replaced the separate Comfort/Compact row
+with one 32px switch beside Filters, retaining a 44px touch target, localized
+accessible name, keyboard operation and remembered preference. Toolbar stays one
+row at 320px. Six focused Node checks and two isolated Chrome cases pass,
+including 36 locale/theme/width states and blocked storage. No data/API changes.
+
 Home Comfort/Compact deployed (2026-11-08 IST): source `3dad070`, Worker
 `9932152f-2eb7-4b30-adfb-8269638af8c4`. Isolated committed build exports 1,292 assets;
 --keep-vars retains D1/auth/organisation configuration. 17 focused registry,
