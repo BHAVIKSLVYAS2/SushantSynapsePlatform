@@ -6,7 +6,13 @@ old view chevron and narrow-screen icon hiding. Generated home CSS rebuilt.
 Verification: six focused Node checks and all three existing launcher browser
 cases pass (responsive layouts, English/Hindi/Gujarati, themes, persistence and
 keyboard controls). Local Chrome mobile screenshot reviewed; filter indicator
-and both view choices exercised. No data/schema/auth changes. Release pending.
+and both view choices exercised. No data/schema/auth changes. Source `04d0de9` deployed from an isolated committed
+archive with --keep-vars; Worker `14d872f4-35a5-48cf-b398-48efa984b8b5`.
+Live mobile Chrome passed equal 44px targets, category selection/indicator,
+Comfort/Compact switching and reload persistence, with no horizontal overflow.
+Live screenshot reviewed. Business API writes and ads were blocked during checks;
+resulting resource errors are expected. Evidence: `.publish/home-icons-live.log`,
+`.publish/home-icons-live.png`, `.publish/home-icons-deploy.log`.
 
 # Chambers functionality ledger
 
