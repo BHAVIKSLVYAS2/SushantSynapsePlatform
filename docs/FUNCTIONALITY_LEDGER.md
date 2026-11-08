@@ -1,5 +1,18 @@
 # Chambers functionality ledger
 
+RozHisab clearer absence markers (2026-11-08 IST; local): replaced tiny calendar
+dots/squares with visible check, cross and plus glyphs and a matching translated
+legend. Any absence gives its day a strong dashed outline; absence-only markers
+are larger, while mixed absence/extra days show both exceptions. Full accessible
+date labels retain every status; delivered marks yield visual priority to exceptions.
+Service-row Absent labels also use stronger text. Removed obsolete dot CSS. No
+billing, scheduling or storage changes. Two focused Chrome workflows pass; mixed
+markers fit all 36 en/hi/gu × Light/Dark/Deep × 320/390/768/1440px states without
+overflow/page errors. Light and Deep calendar captures visually reviewed.
+Logs: `.publish/rozhisab-markers.log`, `.publish/rozhisab-markers-layout.log`;
+captures `.publish/rozhisab-markers-light.png`, `.publish/rozhisab-markers-deep.png`.
+Final history-marker assertion rerun and deployment recorded separately below.
+
 RozHisab Calendar shortcut deployed (2026-11-08 IST): implementation `f6430aa`,
 Worker `5100cf55-d3c9-48ba-89ef-edb5701bbf7c`. Isolated committed build/deploy
 passed with --keep-vars (1,270 assets), retaining D1/auth/organisation settings.
