@@ -1,5 +1,15 @@
 # Chambers functionality ledger
 
+Fund Lens mobile picker (2026-11-08): phone-width suggestions now use a full-width
+in-flow panel with readable wrapping rows, separate availability/action text and
+viewport-aware scrolling. Focus brings search near the top; Hide keyboard keeps
+matches open, touch selection dismisses the keyboard, and a new query resets
+result scrolling. Desktop retains its keyboard-accessible dropdown. No new API,
+dependency, catalogue/data or permission change. Nine search checks and three
+existing browser cases pass; the mobile case passes again after focus refinement.
+Chrome CLI verifies 15 width/theme states, shortened viewport scrolling, keyboard
+dismissal, selection and query scroll reset. Screenshots reviewed under `.publish/`.
+
 Home inline view switch (2026-11-08): replaced the separate Comfort/Compact row
 with one 32px switch beside Filters, retaining a 44px touch target, localized
 accessible name, keyboard operation and remembered preference. Toolbar stays one
