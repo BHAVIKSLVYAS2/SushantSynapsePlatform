@@ -7,6 +7,22 @@ broadcast channel and backup format. Shell cache advances to v2; only previous
 app shell caches expire, never household data. Old name remains a search alias.
 13 household/catalogue checks and all five existing isolated browser cases pass,
 including backup restore, languages/themes, offline reload and browser restart.
+Deployed source `4cf22f9`; Worker `3170e26d-91ca-48b8-b9ce-db9e914f36c6`,
+production variables/bindings retained. Live Chrome verifies Hisabio heading,
+document/manifest name, stable manifest/IndexedDB identity, three themes and all
+three catalogue brand translations without page errors. Screenshot reviewed;
+business API writes blocked. Logs `.publish/hisabio-deploy.log`,
+`.publish/hisabio-live.log`; no production record changes or push.
+
+Fund Lens provider research (2026-11-08): public material from Groww, Value
+Research, ET Money, Advisorkhoj, Morningstar and Tickertape reviewed alongside
+AMFI and local implementation. Findings/proposed sequence documented in
+`docs/FUND_LENS_RESEARCH_2026-11-08.md`. AMFI supports 90-day historical exports;
+current import replacement makes multi-year preparation awkward. Priorities:
+merge official NAV files locally, distinguish exact plan identity, surface dates
+and coverage, simplify summary; optional allocation exposure/rolling returns
+follow. Dormant engines are not presented as shipped features. Fund Lens product
+changes remain for discussion; no competitor financial dataset or API added.
 
 Home labelled view chooser (2026-11-08): replaced the ambiguous bare switch with
 a grid icon, current Comfort/Compact label and native disclosure beside Filters.
