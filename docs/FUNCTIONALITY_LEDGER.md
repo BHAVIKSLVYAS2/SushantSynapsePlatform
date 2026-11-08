@@ -1,5 +1,16 @@
 # Chambers functionality ledger
 
+RozHisab Calendar shortcut deployed (2026-11-08 IST): implementation `f6430aa`,
+Worker `5100cf55-d3c9-48ba-89ef-edb5701bbf7c`. Isolated committed build/deploy
+passed with --keep-vars (1,270 assets), retaining D1/auth/organisation settings.
+Live mobile Chrome confirms the Calendar shortcut is visible beside Today, opens
+the date grid, and a 1 November reduction to 0.5 persists through reload with zero
+page errors. All changes during verification remain in disposable IndexedDB;
+API writes/ad traffic blocked. No database migration or production business write.
+Prior local checks: 13 focused unit/catalogue and two Chrome history/layout cases
+pass. Logs: `.publish/rozhisab-calendar-deploy.log`,
+`.publish/rozhisab-calendar-live.log`; screenshot `.publish/rozhisab-calendar-live.png`.
+
 RozHisab Calendar discoverability (2026-11-08 IST; local verification): live Chrome
 confirmed the existing bottom Calendar link is visible/clickable at 390/1440/1366px,
 but its location was missed in user use. Added an explicit labelled calendar-icon
