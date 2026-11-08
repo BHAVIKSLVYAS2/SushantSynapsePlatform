@@ -1,7 +1,29 @@
 # Chambers functionality ledger
 
-Fund Lens simpler official comparison / local NAV performance (2026-11-08; pending
-release): search starts empty and uses saved official disclosures, with an optional
+Fund Lens official-only comparison / local performance deployed (2026-11-08 IST):
+base source `f44783a`, compact-row refinement `a017dd5`; final Worker
+`9a3c11c8-d8ba-4111-8b78-217a7ebf9816` (supersedes initial feature Worker
+`c7835a52-20d8-4db3-a9fa-9db2b5eadeb6`). Isolated committed build exports 1,284
+assets and deploys with --keep-vars, retaining D1/org/auth configuration. Full
+Node/API suite: 639 passed before final visual refinement. All 17 distinct Fund
+Lens cases pass across full/focused runs; final compact flow and mobile controls
+also pass a two-case rerun. Live Chrome verifies real official snapshot comparison,
+single two-fund overlap answer, differences, local test NAV import, aligned returns,
+chart, CSV and clear. 27 locale/theme/width states have no overflow or page errors;
+provider endpoints and all business API writes blocked. No provider requests made.
+Live comparison and performance screenshots reviewed. Test NAVs were synthetic,
+explicitly named QA Example, confined to a disposable browser tab and cleared;
+no fabricated performance is bundled or persisted in production. No schema/data
+changes, dependency additions or push. Source UI is official-only; compatibility
+provider/private APIs remain. Performance requires user-maintained NAV history;
+no automatic/live NAV archive is claimed. Logs: `.publish/fund-local-regression.log`,
+`.publish/fund-local-compact-deploy.log`, `.publish/fund-local-compact-live.log`;
+initial/focused browser outputs `.publish/fund-local-browser`,
+`.publish/fund-local-final-browser`, `.publish/fund-local-link-browser`,
+`.publish/fund-local-compact-browser`.
+
+Fund Lens simpler official comparison / local NAV performance (2026-11-08; released
+above): search starts empty and uses saved official disclosures, with an optional
 browse action. No default external discovery; external-source share links are
 refused rather than fetching competitor holdings. Overlap answer, common-company
 count, shared/different company tables and reporting-date/NAV coverage appear first;
@@ -23,11 +45,11 @@ does not expose that switch. All 17 distinct browser cases pass across the main
 run and corrected pagination rerun. Default external-source link rejection passes
 an additional product rerun. Full Node/API regression: 639 passed, zero failures.
 Syntax/diff checks pass; Deep Black performance screenshot reviewed. Production
-build/live verification pending. No new package, schema or production data write.
+build/live verification passes as recorded above. No new package/schema/data write.
 Visual release review additionally compacts search cards into name/date/action
 rows with optional holdings metadata, removes the duplicate two-fund pair summary
 and hides completed loading rows. Focused default-product and mobile tap-target
-browser checks pass for this refinement. Final deployment recorded after release.
+browser checks pass for this refinement. Final deployment recorded above.
 
 Fund Lens recalculation clarification (2026-11-08; deployed): live
 reproduction confirmed amount/rate edits already update each calculator. Return

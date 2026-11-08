@@ -1,6 +1,6 @@
 # Fund Lens
 
-**Current UI update (2026-11-08; release verification pending):** Check fund overlap
+**Current UI update (2026-11-08; deployed and verified):** Check fund overlap
 uses saved official disclosures only. Search starts empty, with optional browsing;
 the overlap answer, shared companies, differences and snapshot dates appear first.
 Detailed analytics remain in View details. The national/provider sections below
