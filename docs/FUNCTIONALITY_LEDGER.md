@@ -1,6 +1,19 @@
 # Chambers functionality ledger
 
-Home Comfort/Compact views (2026-11-08; release pending): Comfort is the initial
+Home Comfort/Compact deployed (2026-11-08 IST): source `3dad070`, Worker
+`9932152f-2eb7-4b30-adfb-8269638af8c4`. Isolated committed build exports 1,292 assets;
+--keep-vars retains D1/auth/organisation configuration. 17 focused registry,
+delivery, language and access checks pass. Six affected browser cases pass for
+Comfort/Compact, blocked storage, compact legacy dimensions, sign-in/out,
+favourites/recent and restricted/unavailable/no-JavaScript app access. Live Chrome
+passes 36 locale/theme/width states, unclipped names, saved Compact/Comfort reload,
+search and app launch with no page errors; mobile screenshot reviewed. All business
+API writes blocked during live QA; no production accounts or data changed. No
+schema, backend permission, dependency or private-preference change. No push.
+Logs `.publish/home-view-deploy.log`, `.publish/home-view-live.log`; browser outputs
+`.publish/home-view-final-browser`, `.publish/home-view-account-browser`.
+
+Home Comfort/Compact views (2026-11-08; released above): Comfort is the initial
 default, with two tiles per row, 72×64 icons, 20px+ wrapping app names and a short
 16px purpose in English/Hindi/Gujarati. Very narrow/enlarged-text layouts collapse
 to one column below 19rem. Existing Compact card layout remains available. Native
@@ -16,7 +29,7 @@ storage-denial switching passes. Initial small-screen toolbar squeezing was caug
 and corrected by wrapping the view control onto its own row. All six affected
 browser cases pass, including sign-in/out, favourites/recent, locked/unavailable
 apps and no-JavaScript fallback. Gujarati mobile screenshot reviewed. Production
-build/live verification pending. Generated home CSS rebuilt.
+build/live verification passed as recorded above. Generated home CSS rebuilt.
 
 Fund Lens mobile autocomplete deployed (2026-11-08 IST): source `62b9ec0`, Worker
 `3ac7544f-9dec-4499-8f49-82602f6040c8`. Isolated committed production build exports
