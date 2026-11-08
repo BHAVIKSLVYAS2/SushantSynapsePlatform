@@ -6,6 +6,13 @@ height; open state rotates the icon. Rebuilt home CSS. Six focused checks pass;
 Chrome measures centered icon/text/arrow within 1px in 144 combinations of view,
 open/closed state, language, theme and width (320/390/768/1440). Both mobile
 toolbar screenshots reviewed; no overflow or page errors. No data/API changes.
+Deployed source `e137ae7`; Worker `259a944b-4d32-4aaf-9379-8acec1d5ab7b`
+with production configuration preserved. Live Chrome passes 36 view/menu-state/
+language/width alignment measurements; mobile Comfort and Compact captures
+reviewed. No overflow/page errors, business API writes blocked. Evidence:
+`.publish/home-arrow-deploy.log`, `.publish/home-arrow-live.log` and
+`.publish/home-arrow-comfort.png`, `.publish/home-arrow-compact.png`. No data
+changes or repository push.
 
 Temporary Fund Lens discovery removal (2026-11-08): registry catalogueHidden flag
 excludes Fund Lens from home, shared app switcher and signed-in discovery while
