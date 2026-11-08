@@ -1,3 +1,25 @@
+Moment Studio Birthday / memorial template redesign (2026-11-08, local): replaced
+shared generic stacking for Birthday, Condolence and Remembrance with separate
+occasion compositions. Birthday adds larger display typography, a serif recipient,
+restrained confetti/paper accents and a clear sender area. Memorial designs use
+quiet frames/header bands, botanical ornaments, a prominent name, reserved photo
+space and distinct gathering details. Larger two-column design samples retain
+keyboard focus. Removed the superseded memorial branch. Other occasions,
+certificate rendering, local photo handling and export branding are preserved.
+
+Verification: six existing Node checks and six focused browser cases pass;
+browser coverage includes 90 branded occasion/design/format renders, real PNG
+exports, wording preservation, photo validation, mobile themes/layouts and eight
+memorial photo/language/format gathering-region checks. Additional local Chrome
+matrix passes all 80 redesigned combinations across English/Hindi, square/story,
+photo/no-photo and supported designs, with gathering details included. Reviewed
+final contact sheet and mobile Deep Black picker. Oversized copy still uses the
+existing fit failure/export guard. Evidence: `.publish/moment-design-review.log`,
+`.publish/moment-redesign-final-browser.log`, `.publish/moment-final-review.log`,
+`.publish/moment-redesign-contact-sheet.png`. Full-resolution local previews:
+`.publish/moment-birthday-redesign.png`, `.publish/moment-condolence-redesign.png`.
+No API, storage, authentication or database changes. Not deployed in this session.
+
 Shared account/MFA direction agreed (2026-11-08): one existing platform identity for personal and workspace use; email/password followed by email OTP. Workspace-first implementation is queued after user-specified Moment Studio fixes. Free-app integration is explicitly deferred in order: Hisabio, Timetable Lite, Moment Studio. Plan and remaining decisions: `docs/SHARED_ACCOUNT_MFA_PLAN.md`. Documentation only; no authentication, app storage, database or deployment changes. This supersedes the earlier pending authentication-method decision below.
 
 Personal account saving deferred (2026-11-08): user cancelled the initial Google sign-in approach to reconsider email login. Removed all unfinished account/authentication code, schema and migration files and restored tracked dependency manifests and route composition. No account-saving UI, database migration, production change or deployment occurred. Hisabio remains device-local; Timetable Lite and Moment Studio account saving have not started. Authentication method and implementation are pending discussion.

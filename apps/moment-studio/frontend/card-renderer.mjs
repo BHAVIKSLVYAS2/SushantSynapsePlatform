@@ -18,7 +18,101 @@ export function filename(data){const safe=data.title.normalize('NFKC').replace(/
 const font='"Segoe UI", "Nirmala UI", Arial, sans-serif';
 function lines(ctx,text,width){const output=[];const segmenter=new Intl.Segmenter(undefined,{granularity:'grapheme'});for(const paragraph of text.split('\n')){let line='';for(const word of paragraph.split(/\s+/).filter(Boolean)){const candidate=line?line+' '+word:word;if(ctx.measureText(candidate).width<=width){line=candidate;continue;}if(line){output.push(line);line='';}if(ctx.measureText(word).width<=width){line=word;continue;}for(const {segment}of segmenter.segment(word)){if(line&&ctx.measureText(line+segment).width>width){output.push(line);line='';}line+=segment;}}output.push(line);}return output;}
 function textBlock(ctx,text,{x,y,width,height,max=44,min=24,bold=false,color,align='center',family}){if(!text)return true;let wrapped,size;for(size=max;size>=min;size--){ctx.font=`${bold?600:400} ${size}px ${family||(bold?'Georgia, "Nirmala UI", serif':font)}`;wrapped=lines(ctx,text,width);if(wrapped.length*size*1.45<=height)break;}if(size<min)return false;ctx.fillStyle=color;ctx.textAlign=align;ctx.textBaseline='middle';const step=size*1.45,top=y+(height-wrapped.length*step)/2;wrapped.forEach((line,i)=>ctx.fillText(line,align==='left'?x:x+width/2,top+step*(i+.5)));return true;}
+// Occasion-specific compositions share the same measured text and export path.
+function botanical(ctx,x,y,scale,p,mirror=false){
+ ctx.save();ctx.translate(x,y);ctx.scale(mirror?-scale:scale,scale);ctx.strokeStyle=p.accent;ctx.lineWidth=2;
+ ctx.beginPath();ctx.moveTo(0,110);ctx.bezierCurveTo(25,55,10,-45,88,-120);ctx.stroke();
+ for(let i=0;i<8;i++){const px=12+i*7,py=80-i*24;for(const side of [-1,1]){ctx.save();ctx.translate(px,py);ctx.rotate(side*.72);ctx.globalAlpha=i%2?.65:.9;ctx.fillStyle=i%2?p.soft:p.accent;ctx.beginPath();ctx.ellipse(side*14,-13,10,25,side*.18,0,Math.PI*2);ctx.fill();ctx.restore();}}
+ ctx.restore();
+}
+function portrait(ctx,image,x,y,width,height,radius,p){
+ ctx.save();ctx.fillStyle=p.bg;ctx.strokeStyle=p.accent;ctx.lineWidth=2;
+ ctx.beginPath();ctx.roundRect(x-9,y-9,width+18,height+18,radius+9);ctx.stroke();
+ ctx.beginPath();ctx.roundRect(x,y,width,height,radius);ctx.clip();
+ const scale=Math.max(width/image.width,height/image.height);ctx.drawImage(image,x+(width-image.width*scale)/2,y+(height-image.height*scale)/2,image.width*scale,image.height*scale);ctx.restore();
+}
+function occasionCard(canvas,d,image){
+ const {width:w,height:h}=sizes[d.format],p=palettes[d.palette],story=d.format==='story',memorial=d.occasion!=='birthday';
+ canvas.width=w;canvas.height=h;const ctx=canvas.getContext('2d');let fits=true;
+ const sans='"Segoe UI", "Nirmala UI", Arial, sans-serif',serif='Georgia, "Nirmala UI", serif';
+ const block=(value,x,y,width,height,max,min=24,bold=false,align='center',family=serif,color=p.ink)=>{fits=textBlock(ctx,value,{x,y,width,height,max,min,bold,align,family,color})&&fits;};
+ const line=(x,y,width,color=p.accent)=>{ctx.save();ctx.strokeStyle=color;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+width,y);ctx.stroke();ctx.restore();};
+ ctx.fillStyle=p.bg;ctx.fillRect(0,0,w,h);
+ if(memorial){
+  // A single frame and sparse branches leave the person's name as the focus.
+  if(d.design==='elegant'){
+   ctx.fillStyle=p.soft;ctx.fillRect(0,0,w,story?150:100);line(80,story?150:100,w-160);
+   line(80,h-145,w-160);
+  }else{
+   ctx.strokeStyle=p.accent;ctx.lineWidth=1.5;ctx.strokeRect(42,42,w-84,h-84);
+   botanical(ctx,67,story?310:235,.8,p);botanical(ctx,w-67,h-280,.65,p,true);
+  }
+  if(d.design==='bloom'){
+   botanical(ctx,w-110,story?310:235,.8,p,true);
+   for(const [x,y]of [[110,story?180:125],[w-110,h-205]]){ctx.save();ctx.fillStyle=p.soft;for(let i=0;i<6;i++){const a=i*Math.PI/3;ctx.beginPath();ctx.ellipse(x+18*Math.cos(a),y+18*Math.sin(a),12,23,a,0,Math.PI*2);ctx.fill();}ctx.fillStyle=p.accent;ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fill();ctx.restore();}
+  }
+  const gathering=!!(d.event||d.when||d.place);
+  block(d.language==='hi'?'स्नेह और संवेदना के साथ':d.occasion==='remembrance'?'A LIFE REMEMBERED':'WITH DEEPEST SYMPATHY',150,story?76:62,780,42,22,20,false,'center',sans,p.accent);
+  if(image){const side=story?370:180;portrait(ctx,image,(w-side)/2,story?225:145,side,side,side/2,p);}
+  else{
+   // A small olive sprig gives a deliberate focal point when no photo is supplied.
+   ctx.save();ctx.translate(w/2-12,story?280:195);ctx.rotate(-.65);botanical(ctx,0,0,.38,p);ctx.restore();
+  }
+  const titleY=story?(image?670:400):(image?350:262),nameY=story?(image?830:580):(image?440:365);
+  block(d.title,140,titleY,800,story?125:76,story?62:43,27);
+  block(d.name,130,nameY,820,story?170:115,story?82:64,28,true);
+  const messageY=story?(image?1040:820):(image?564:530),messageEnd=story?(gathering?1320:1550):(gathering?735:825);
+  const detailsHeight=d.details?(story?105:62):0;
+  block(d.message,170,messageY,740,messageEnd-messageY-detailsHeight,story?42:34,22,false,'center',sans);
+  if(d.details)block(d.details,160,messageEnd-detailsHeight+8,760,detailsHeight-8,story?29:25,18,false,'center',sans,p.accent);
+  if(gathering){
+   const y=story?1370:758;line(400,y-15,280);
+   block(d.event,145,y,790,story?90:48,story?39:30,22,true);
+   block(d.when,145,y+(story?100:55),790,story?65:40,28,20,false,'center',sans);
+   block(d.place,145,y+(story?170:100),790,story?95:60,30,20,false,'center',sans);
+  }
+  const fromY=story?1710:926;line(480,fromY-22,120);
+  block(d.from?(d.language==='hi'?'प्रेषक: ':'From: ')+d.from:'',145,fromY,790,story?85:43,story?31:27,20,false,'center',sans);
+ }else{
+  const modern=['bold','confetti'].includes(d.design);
+  if(d.design==='bold'){
+   ctx.fillStyle=p.soft;ctx.fillRect(0,0,w,story?690:380);
+   ctx.fillStyle=p.accent;ctx.fillRect(0,story?690:380,w,12);
+  }else if(d.design==='elegant'){
+   ctx.strokeStyle=p.accent;ctx.lineWidth=2;ctx.strokeRect(42,42,w-84,h-84);ctx.strokeRect(54,54,w-108,h-108);
+   line(420,story?195:155,240);
+  }else if(d.design==='bloom'){
+   ctx.fillStyle=p.soft;ctx.beginPath();ctx.roundRect(64,64,w-128,h-128,story?460:420);ctx.fill();
+   ctx.fillStyle=p.bg;ctx.beginPath();ctx.roundRect(88,88,w-176,h-176,story?430:390);ctx.fill();
+   botanical(ctx,75,story?400:290,1.1,p);botanical(ctx,w-75,h-300,1,p,true);
+  }else{
+   // An asymmetric pair of paper arcs plus intentional, edge-only confetti.
+   ctx.fillStyle=p.soft;ctx.beginPath();ctx.arc(w+100,-70,story?500:390,0,Math.PI*2);ctx.fill();
+   for(let i=0;i<34;i++){const x=50+(i*173)%(w-100),y=45+(i*137)%(h-160);if(x>115&&x<w-115&&y>45&&y<h-100)continue;ctx.save();ctx.translate(x,y);ctx.rotate(i*.73);ctx.fillStyle=i%3?p.accent:p.ink;ctx.globalAlpha=.65;if(i%3){ctx.fillRect(-4,-10,8,20);}else{ctx.beginPath();ctx.arc(0,0,5,0,Math.PI*2);ctx.fill();}ctx.restore();}
+  }
+  // A hand-drawn four-point star keeps decoration away from the message area.
+  const star=(x,y,r)=>{ctx.save();ctx.translate(x,y);ctx.fillStyle=p.accent;ctx.beginPath();ctx.moveTo(0,-r);ctx.quadraticCurveTo(r*.2,-r*.2,r,0);ctx.quadraticCurveTo(r*.2,r*.2,0,r);ctx.quadraticCurveTo(-r*.2,r*.2,-r,0);ctx.quadraticCurveTo(-r*.2,-r*.2,0,-r);ctx.fill();ctx.restore();};
+  star(155,story?270:190,28);star(w-150,story?580:420,18);
+  block(d.language==='hi'?'आज का दिन आपके नाम':'TODAY IS ALL ABOUT YOU',150,story?110:85,780,45,23,21,false,'center',sans,p.accent);
+  if(image){const side=story?410:210;portrait(ctx,image,(w-side)/2,story?225:165,side,side,d.design==='elegant'?side/2:side*.46,p);}
+  const titleY=image?(story?710:407):(story?320:220),titleH=image?(story?245:125):(story?370:240);
+  const starter=occasions.birthday[d.language].title;
+  const heading=d.title===starter&&d.language==='en'?'Happy\nBirthday!':d.title;
+  block(heading,115,titleY,850,titleH,story?140:image?78:110,34,true,'center',modern?sans:serif);
+  const nameY=titleY+titleH+(story?38:20),nameH=story?145:95;
+  block(d.name,125,nameY,830,nameH,story?83:62,28,false,'center',serif);
+  const messageY=nameY+(d.name?nameH:0)+(story?75:35),end=story?1610:844,detailH=d.details?(story?120:65):0;
+  block(d.message,165,messageY,750,end-messageY-detailH,story?43:34,22,false,'center',sans);
+  if(d.details)block(d.details,155,end-detailH+4,770,detailH-4,29,20,false,'center',sans,p.accent);
+  const fromY=story?1730:920;line(480,fromY-26,120);
+  block(d.from,145,fromY,790,story?80:45,story?34:29,22,false,'center',sans);
+ }
+ drawWatermark(ctx,{x:60,y:h-104,width:w-120,height:64,ink:p.ink,background:p.bg});
+ return {fits,width:w,height:h};
+}
 export function render(canvas,raw,image=null){
+ const specific=validate(raw);
+ if(['birthday','condolence','remembrance'].includes(specific.occasion))return occasionCard(canvas,specific,image);
  const d=validate(raw),size=sizes[d.format],p=palettes[d.palette];canvas.width=size.width;canvas.height=size.height;const ctx=canvas.getContext('2d'),w=size.width,h=size.height,story=d.format==='story';ctx.fillStyle=p.bg;ctx.fillRect(0,0,w,h);
  ctx.fillStyle=p.soft;ctx.strokeStyle=p.accent;ctx.lineWidth=3;
  if(d.design==='confetti'){for(let i=0;i<85;i++){const x=(i*137+31)%w,y=(i*197+47)%h;if(x>115&&x<w-115&&y>120&&y<h-140)continue;ctx.save();ctx.translate(x,y);ctx.rotate(i*.71);ctx.fillStyle=i%2?p.accent:p.soft;ctx.globalAlpha=.65;if(i%3){ctx.fillRect(-3,-6,6,14);}else{ctx.beginPath();ctx.arc(0,0,4,0,Math.PI*2);ctx.fill();}ctx.restore();}}
@@ -30,45 +124,14 @@ export function render(canvas,raw,image=null){
  if(d.design==='quiet'){ctx.strokeStyle=p.accent;ctx.lineWidth=2;ctx.strokeRect(42,42,w-84,h-84);for(const flip of [false,true]){ctx.save();if(flip){ctx.translate(w,h);ctx.rotate(Math.PI);}ctx.beginPath();ctx.moveTo(55,190);ctx.quadraticCurveTo(110,105,190,65);ctx.stroke();for(let i=0;i<5;i++){ctx.beginPath();ctx.ellipse(78+i*19,157-i*18,8,20,-.7,0,Math.PI*2);ctx.fill();}ctx.restore();}}
  // Fine rules and layered botanical ornaments are part of the exported artwork.
  const rule=y=>{ctx.save();ctx.strokeStyle=p.accent;ctx.globalAlpha=.5;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(w/2-90,y);ctx.lineTo(w/2-12,y);ctx.moveTo(w/2+12,y);ctx.lineTo(w/2+90,y);ctx.stroke();ctx.translate(w/2,y);ctx.rotate(Math.PI/4);ctx.fillStyle=p.accent;ctx.fillRect(-3,-3,6,6);ctx.restore();};
- const memorial=['condolence','remembrance'].includes(d.occasion);
  if(['quiet','bloom'].includes(d.design)){for(const flip of [false,true]){ctx.save();if(flip){ctx.translate(w,h);ctx.rotate(Math.PI);}ctx.translate(58,180);ctx.strokeStyle=p.accent;ctx.lineWidth=1.5;ctx.globalAlpha=.55;ctx.beginPath();ctx.moveTo(0,85);ctx.bezierCurveTo(8,20,40,-65,95,-120);ctx.stroke();for(let i=0;i<7;i++){for(const side of [-1,1]){ctx.save();ctx.translate(8+i*12,55-i*25);ctx.rotate(side*.7);ctx.fillStyle=i%2?p.soft:p.accent;ctx.globalAlpha=side===1?.35:.6;ctx.beginPath();ctx.ellipse(side*11,-10,8,23,side*.3,0,Math.PI*2);ctx.fill();ctx.restore();}}ctx.restore();}}
  if(['quiet','elegant'].includes(d.design)){ctx.save();ctx.strokeStyle=p.accent;ctx.globalAlpha=.18;ctx.lineWidth=1;ctx.strokeRect(26,26,w-52,h-52);ctx.restore();}
  if(d.design==='bold'){ctx.save();ctx.fillStyle=p.accent;ctx.fillRect(140,story?228:151,92,8);ctx.restore();}else rule(story?220:145);
  const margin=140,content=w-2*margin;let ok=true;
- const block=(text,y,height,max,min,bold=false)=>{ok=textBlock(ctx,text,{x:margin,y,width:content,height,max,min,bold,color:p.ink,align:d.design==='bold'&&!memorial?'left':'center',family:['bold','confetti'].includes(d.design)?font:undefined})&&ok;};
+ const block=(text,y,height,max,min,bold=false)=>{ok=textBlock(ctx,text,{x:margin,y,width:content,height,max,min,bold,color:p.ink,align:d.design==='bold'?'left':'center',family:['bold','confetti'].includes(d.design)?font:undefined})&&ok;};
  block(['condolence','remembrance'].includes(d.occasion)?(d.language==='hi'?'स्नेह और स्मरण के साथ':'WITH CARE & REMEMBRANCE'):(d.language==='hi'?'एक खास पल':'A MOMENT TO SHARE'),story?155:85,48,24,20);
- if(memorial){
-  // Fixed regions keep the portrait, name, gathering and sender distinct.
-  const portraitY=story?270:165,portraitSide=story?390:180;
-  if(image){
-   const x=(w-portraitSide)/2,y=portraitY,side=portraitSide;
-   ctx.save();ctx.strokeStyle=p.accent;ctx.lineWidth=2;ctx.beginPath();ctx.arc(w/2,y+side/2,side/2+8,0,Math.PI*2);ctx.stroke();
-   ctx.beginPath();ctx.arc(w/2,y+side/2,side/2,0,Math.PI*2);ctx.clip();
-   const scale=Math.max(side/image.width,side/image.height);
-   ctx.drawImage(image,x+(side-image.width*scale)/2,y+(side-image.height*scale)/2,image.width*scale,image.height*scale);ctx.restore();
-  }
-  const headingY=image?portraitY+portraitSide+24:story?285:175;
-  block(d.title,headingY,story?125:60,story?62:40,24,true);
-  const nameY=headingY+(story?140:70);
-  block(d.name,nameY,story?150:75,story?76:48,24,true);
-  const messageY=nameY+(story?170:90),eventY=story?1300:735;
-  const hasEvent=Boolean(d.event||d.when||d.place);
-  const detailsY=story?(hasEvent?1160:1450):(hasEvent?675:790);
-  const messageEnd=d.details?detailsY-12:hasEvent?eventY-20:story?1570:865;
-  block(d.message,messageY,Math.min(story?390:200,messageEnd-messageY),story?40:30,20);
-  if(d.details)block(d.details,detailsY,hasEvent?(story?110:48):(story?140:90),28,18);
-  if(hasEvent){
-   rule(eventY-6);
-   block(d.event,eventY+10,story?100:52,story?42:32,22,true);
-   block(d.when,eventY+(story?115:66),story?60:40,28,20);
-   block(d.place,eventY+(story?185:110),story?110:65,30,20);
-  }
-  const fromY=story?1650:925;
-  rule(fromY-12);
-  block(d.from?(d.language==='hi'?'प्रेषक: ':'From: ')+d.from:'',fromY,story?100:48,30,20,true);
- }else{
  let titleY=story?260:170;
- if(image){const side=story?420:210,x=(w-side)/2,y=story?275:175;ctx.save();ctx.strokeStyle=p.accent;ctx.lineWidth=1.5;ctx.beginPath();ctx.roundRect(x-8,y-8,side+16,side+16,memorial?side/2+8:16);ctx.stroke();ctx.beginPath();ctx.roundRect(x,y,side,side,memorial?side/2:8);ctx.clip();const scale=Math.max(side/image.width,side/image.height),iw=image.width*scale,ih=image.height*scale;ctx.drawImage(image,x+(side-iw)/2,y+(side-ih)/2,iw,ih);ctx.restore();titleY=y+side+24;}
+ if(image){const side=story?420:210,x=(w-side)/2,y=story?275:175;ctx.save();ctx.strokeStyle=p.accent;ctx.lineWidth=1.5;ctx.beginPath();ctx.roundRect(x-8,y-8,side+16,side+16,16);ctx.stroke();ctx.beginPath();ctx.roundRect(x,y,side,side,8);ctx.clip();const scale=Math.max(side/image.width,side/image.height),iw=image.width*scale,ih=image.height*scale;ctx.drawImage(image,x+(side-iw)/2,y+(side-ih)/2,iw,ih);ctx.restore();titleY=y+side+24;}
  const titleH=story?250:image?120:200;block(d.title,titleY,titleH,story?90:76,34,true);
  const nameY=titleY+titleH+8,nameH=d.name?(story?90:60):0;block(d.name,nameY,nameH,story?54:42,24,true);
  const footerY=story?h-260:h-210,detailsH=d.details?(story?140:85):0;
@@ -76,7 +139,6 @@ export function render(canvas,raw,image=null){
  const messageH=Math.min(story?330:230,messageEnd-messageY);block(d.message,messageY,messageH,story?44:36,24);
  if(d.details)block(d.details,messageEnd+12,detailsH,30,21);
  rule(footerY-10);block(d.from,footerY+12,65,30,22,true);
- }
  drawWatermark(ctx,{x:60,y:h-104,width:w-120,height:64,ink:p.ink,background:p.bg});
  return {fits:ok,width:w,height:h};
 }

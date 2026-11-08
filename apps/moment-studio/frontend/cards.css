@@ -43,7 +43,7 @@ body#moment-cards[data-ui-app] #editor .panel{padding:0 0 18px;margin:0 0 18px;b
 #moment-cards .pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
 #moment-cards fieldset{border:0;margin:8px 0 0;padding:0;min-width:0}
 #moment-cards main legend{margin-bottom:8px}
-#moment-cards .designs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+#moment-cards .designs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 body#moment-cards[data-ui-app] .design-choice{display:block;min-width:0;margin:0;padding:5px;border:1px solid var(--ui-edge);border-radius:8px;background:var(--ui-solid);font-size:10px;cursor:pointer}
 body#moment-cards[data-ui-app] .design-choice:has(input:checked){padding:4px;border:2px solid var(--ui-accent);background:var(--ui-soft)}
 #moment-cards .design-choice canvas{display:block;width:100%;height:auto;margin-bottom:3px;border-radius:4px;aspect-ratio:1;box-shadow:none}
@@ -112,3 +112,9 @@ body#moment-cards[data-ui-app] .canvas-stage{display:grid;place-items:center;mar
 }
 @media(max-width:360px){#moment-cards main{padding:0 10px}#moment-cards #editor{padding:14px}#moment-cards .pair{gap:8px}#moment-cards .photo-help{flex-wrap:wrap;gap:0}}
 @media print{#moment-cards .skip,#moment-cards .studio-nav,#moment-cards .intro,#moment-cards #editor,#moment-cards footer,#moment-cards .preview-heading,#moment-cards .studio-export-bar,#moment-cards .sharing-help{display:none!important}#moment-cards main,#moment-cards .workspace,#moment-cards .preview-column{display:block;margin:0;padding:0;max-width:none;position:static}body#moment-cards[data-ui-app] .canvas-stage{border:0;background:none;margin:0;padding:0}#moment-cards #card{max-height:none;min-height:0;box-shadow:none}#moment-cards.brand-unavailable canvas{display:none!important}}
+
+/* Larger design samples make the actual exported layout easier to choose. */
+body#moment-cards[data-ui-app] .design-choice{padding:8px;border-radius:12px;font-size:12px;line-height:1.5}
+body#moment-cards[data-ui-app] .design-choice:has(input:checked){padding:7px}
+#moment-cards .design-choice canvas{margin-bottom:8px;border-radius:6px}
+body#moment-cards[data-ui-app] .design-choice:focus-within{outline:2px solid var(--ui-accent);outline-offset:3px}
