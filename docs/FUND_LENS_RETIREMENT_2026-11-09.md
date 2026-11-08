@@ -1,8 +1,12 @@
 # Fund Lens removal and confirmed CSS cleanup
 
 User authorised removal of confident dead-code/CSS findings and the entire Fund
-Lens implementation. Changes are local and uncommitted; no deployment requested
-in this increment. Production remains on its existing release.
+Lens implementation, then authorised commit and deployment. Source `24f6117` is
+deployed to production, Worker `f7e48c5a-bf6c-435b-b97c-d932fa9e8d70`.
+Live verification passed seven retired URL checks and thirty layout states;
+health 200 and legacy private API denial 409 remain intact. Organisation/D1/auth
+settings and existing records are preserved. See the functionality ledger for
+release evidence; the remaining sections document implementation verification.
 
 ## Removed
 

@@ -1,5 +1,12 @@
 # Organisation licensing production cutover
 
+Fund Lens retirement deployed (2026-11-09 IST): source `24f6117`, Worker
+`f7e48c5a-bf6c-435b-b97c-d932fa9e8d70`. Isolated committed archive deploy with
+--keep-vars preserves organisation mode, password authentication and D1 binding.
+No schema/data/account changes. Retired app/API URLs return 404; live checks pass
+thirty layout states, health 200 and unscoped private state denial 409. Legacy
+financial records and immutable migration/recovery metadata remain preserved.
+
 RozHisab public app release (2026-11-08 IST): source `089fa35`, Worker
 `cbe4fed0-4b74-407b-bb33-77fc92226c3d`. Committed isolated build/deploy with
 --keep-vars preserves organisation mode, D1 binding and authentication settings.

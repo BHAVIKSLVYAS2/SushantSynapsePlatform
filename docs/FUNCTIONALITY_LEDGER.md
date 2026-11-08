@@ -1,3 +1,16 @@
+Fund Lens retirement deployed (2026-11-09 IST): source `24f6117`, Worker version
+`f7e48c5a-bf6c-435b-b97c-d932fa9e8d70`, at https://apps.sushantsynapse.com.
+Deployment from an isolated committed archive with --keep-vars succeeded;
+organisation mode, password authentication and production D1 binding preserved.
+No migrations, record deletion, account changes or repository push. Read-only live
+Chrome checks passed seven retired page/asset/API URLs returning 404, thirty
+mobile/desktop/theme/layout states, both Home modes, no Fund Lens links/results,
+Hisabio discovery and Ritual reader controls. Health 200; legacy private state
+remains denied 409. No page errors; API writes/ad traffic blocked during review.
+Screenshot reviewed. Evidence: `.publish/fund-retirement-deploy.log`,
+`.publish/fund-retirement-live.log`,
+`output/playwright/fund-retirement-live-home.png`.
+
 Fund Lens retirement and confirmed dead-code cleanup (2026-11-09, local only):
 removed the complete Fund Lens app, public reference datasets, provider/private
 APIs, app registry/assets, calculators, ingestion and refresh job, dedicated tests,
