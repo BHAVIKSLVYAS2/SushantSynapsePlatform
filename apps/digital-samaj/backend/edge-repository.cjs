@@ -1,9 +1,7 @@
 // Cloudflare asynchronous adaptation; app rules remain owned by this module.
-const A=require('../../../packages/database/async-arrays.cjs');
 'use strict';
 const {randomUUID,createHash}=require('node:crypto');
 const {fail}=require('../../../server/http');
-const {roles,permissions}=require('./edge-security.cjs');
 const {clean,privacy,date}=require('./validation');
 const tables={person:'[samaj].[samaj_persons]',family:'[samaj].[samaj_families]'};
 function repository(store){

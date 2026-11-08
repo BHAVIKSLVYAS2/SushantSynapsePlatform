@@ -1,3 +1,19 @@
+Dead-code rescan implemented locally (2026-11-09): parsed 442 maintained JS files
+and screened 68 authored CSS files after both app retirements. Removed confirmed
+unused locals/imports/helpers in fifteen modules, two unreferenced wrappers and
+548 unreachable selector branches plus 66 equal-specificity alternatives across
+27 stylesheets (45,848 authored CSS bytes). Rebuilt shared bundles. Dynamic classes,
+intentional object omissions, compatibility/test contracts, business writes,
+validation/roles and all data/schema/recovery boundaries remain preserved.
+
+Final isolated Node/API suite 560/560; focused Samaj/BatchFee 32/32; initial focused
+checks 11/11. Browser audit: 192 public/signed-in layout states, zero removed-rule
+DOM matches, no overflow/page errors. Nine fee/theme workflow cases pass across
+the main run and isolated cross-tab timeout rerun. Isolated organisation/D1
+production dry build passes (644 exported assets); syntax/diff checks pass. No
+commit, deployment, production access, database migration or data deletion in this
+pass. Details and limits: `docs/DEAD_CODE_RESCAN_2026-11-09.md`.
+
 Sushant Synapse Times retirement deployed (2026-11-09 IST): source `53a3216`,
 Worker `30d54225-691a-4d27-87ac-d9f673af6cc8`, at https://apps.sushantsynapse.com.
 Isolated committed archive deployment with --keep-vars passed; organisation mode,

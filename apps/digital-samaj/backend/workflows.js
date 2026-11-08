@@ -1,7 +1,7 @@
 'use strict';
 const {randomUUID}=require('node:crypto');
 const {fail}=require('../../../server/http');
-const {clean,privacy,text,personFields}=require('./validation');
+const {clean,personFields}=require('./validation');
 const {csv,xlsx}=require('./spreadsheet');
 const {decodeFile}=require('./files');
 function workflows({repo,store}){
@@ -61,7 +61,7 @@ function workflows({repo,store}){
       const p=m.personId?repo.ref('person',m.personId,samajId):repo.create('person',{data:{state:d.family.state||'',district:d.family.district||'',nativeVillage:d.family.nativeVillage||'',...m.data},privacy:d.privacy},ctx);
       if(i===0)head=p;
       people.push(p);
-      const joined=repo.membership({personId:p.id,familyId:family.id,type:m.type||'BirthFamily',isPrimary:!sql.prepare("SELECT 1 FROM [samaj].[samaj_memberships] WHERE person_id=? AND is_primary=1 AND end_date=''").get(p.id)},ctx);
+      repo.membership({personId:p.id,familyId:family.id,type:m.type||'BirthFamily',isPrimary:!sql.prepare("SELECT 1 FROM [samaj].[samaj_memberships] WHERE person_id=? AND is_primary=1 AND end_date=''").get(p.id)},ctx);
       if(m.photo){
        if(m.personId)fail(400,'Change an existing member photo from their own profile');
        sec.require('person.edit',p);const file=decodeFile(m.photo,{photoOnly:true});if(file.content.length>120*1024)fail(400,'Member photo exceeds 120 KB');const fid=randomUUID();

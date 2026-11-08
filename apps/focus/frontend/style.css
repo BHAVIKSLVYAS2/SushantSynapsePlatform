@@ -96,15 +96,13 @@ body[data-ui-app=focus] .task-top {display:flex;gap:9px;align-items:start}
 body[data-ui-app=focus] .task-row input[type=checkbox] {width:22px;height:22px;min-width:22px;min-height:22px;margin:0;flex:none;accent-color:var(--ui-accent);cursor:pointer}
 body[data-ui-app=focus] .task-row .check-target {display:flex;align-items:start;justify-content:center;min-width:44px;min-height:44px;margin:-11px -10px 0;padding-top:11px;flex:none}
 body[data-ui-app=focus] .task-title {display:block;flex:1;min-width:0;margin:0;overflow-wrap:anywhere;font-size:14px;font-weight:650;line-height:1.55;color:var(--ui-ink)}
-body[data-ui-app=focus] .task-copy {min-width:0;flex:1}
 body[data-ui-app=focus] .drag-handle {display:grid;place-items:center;min-width:44px;width:44px;min-height:44px;padding:4px;margin:-10px -9px 0 0;background:transparent;border-color:transparent;border-radius:8px;font-size:20px;line-height:1;color:var(--ui-muted);cursor:grab;flex:none;touch-action:none}
 body[data-ui-app=focus] .drag-handle:active {cursor:grabbing}
 body[data-ui-app=focus] .task-badges {display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
-body[data-ui-app=focus] .priority-badge,body[data-ui-app=focus] .estimate-badge,body[data-ui-app=focus] .date-badge,body[data-ui-app=focus] .task-date,body[data-ui-app=focus] .focus-badge {display:inline-flex;align-items:center;gap:4px;min-height:26px;padding:3px 7px;border:1px solid var(--ui-edge);border-radius:6px;background:var(--ui-solid);color:var(--ui-muted);font-size:11px;font-weight:550}
+body[data-ui-app=focus] .priority-badge,body[data-ui-app=focus] .estimate-badge,body[data-ui-app=focus] .date-badge,body[data-ui-app=focus] .focus-badge {display:inline-flex;align-items:center;gap:4px;min-height:26px;padding:3px 7px;border:1px solid var(--ui-edge);border-radius:6px;background:var(--ui-solid);color:var(--ui-muted);font-size:11px;font-weight:550}
 body[data-ui-app=focus] .focus-badge {color:var(--ui-accent);background:var(--focus-wash);border-color:var(--focus-edge);font-weight:650}
 body[data-ui-app=focus] .task-row[data-priority=High] .priority-badge {color:var(--ui-accent);border-color:var(--focus-edge);background:var(--focus-wash)}
 body[data-ui-app=focus] .task-row[data-priority=Normal] .priority-badge {color:var(--ui-ink);background:var(--ui-bg)}
-body[data-ui-app=focus] .task-meta {display:block;font-size:10px;margin:10px 0;color:var(--ui-muted)}
 body[data-ui-app=focus] .task-actions {display:flex;gap:4px;align-items:center;flex-wrap:wrap}
 body[data-ui-app=focus] .task-actions button {padding:8px;font-size:11px;border-color:transparent;background:var(--ui-bg);border-radius:8px}
 body[data-ui-app=focus] .task-actions button:first-child:not(:last-child) {color:var(--ui-accent);background:var(--focus-wash)}
@@ -118,8 +116,7 @@ body[data-ui-app=focus] .task-row.done {box-shadow:none;background:color-mix(in 
 body[data-ui-app=focus] .task-row.done .task-title {text-decoration:line-through;color:var(--ui-muted);font-weight:500}
 body[data-ui-app=focus] .task-row.dragging {opacity:.45}
 body[data-ui-app=focus] .priority-lane.drop-target {border-color:var(--ui-accent);background:color-mix(in srgb,var(--ui-accent) 10%,var(--ui-solid));outline:2px dashed var(--focus-edge);outline-offset:3px}
-body[data-ui-app=focus] .task-row.drop-before::before,body[data-ui-app=focus] .task-row.drop-after::before {content:"";position:absolute;inset:-7px -2px auto;height:3px;border-radius:5px;background:var(--ui-accent)}
-body[data-ui-app=focus] .task-row.drop-after::before {inset:auto -2px -7px}
+body[data-ui-app=focus] .task-row.drop-before::before{content:"";position:absolute;inset:-7px -2px auto;height:3px;border-radius:5px;background:var(--ui-accent)}
 body[data-ui-app=focus] .drag-preview {position:fixed;z-index:100;pointer-events:none;max-width:260px;padding:11px 15px;border:1px solid var(--ui-accent);border-radius:12px;background:var(--ui-solid);color:var(--ui-ink);box-shadow:0 10px 28px color-mix(in srgb,var(--ui-ink) 18%,transparent);font-size:12px;font-weight:650;overflow-wrap:anywhere}
 body[data-ui-app=focus] .empty-list {font-size:12px;margin:16px 0 0;padding:18px;text-align:center;background:var(--focus-wash);border:1px dashed var(--focus-edge);border-radius:13px}
 body[data-ui-app=focus] .secondary-list-section {border-top:1px solid var(--ui-edge);margin-top:26px;padding-top:19px}

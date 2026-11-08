@@ -12,7 +12,6 @@ const adminHeader=$('.admin-header')||$('.platform-shell');
 if(!adminHeader)throw new Error('Administration header unavailable.');
 adminHeader.insertAdjacentHTML('afterend','<nav class="admin-footer" aria-label="Account navigation"><a href="/account">My account</a><button id="switch-account" type="button" hidden>Switch account</button></nav>');
 if(accountPage){document.title='My account · Sushant Synapse';$('.intro h1').textContent='My account';$('.intro p').textContent='Your private product access and organisation memberships. Public apps remain in the Curio catalogue.';$('#organisation').closest('label').hidden=true;}
-const cap=n=>n===null?'Unlimited':n;
 const opts=(values,current)=>values.map(v=>{const [value,label]=Array.isArray(v)?v:[v,v];return `<option value="${esc(value)}"${value===current?' selected':''}>${esc(label)}</option>`;}).join('');
 const field=(label,name,value='',type='text',extra='')=>`<label>${esc(label)}<input name="${name}" type="${type}" value="${esc(value)}" ${extra}></label>`;
 const select=(label,name,values,current)=>`<label>${esc(label)}<select name="${name}">${opts(values,current)}</select></label>`;

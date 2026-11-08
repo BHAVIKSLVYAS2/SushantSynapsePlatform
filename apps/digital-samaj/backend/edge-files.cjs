@@ -1,5 +1,4 @@
 // Cloudflare asynchronous adaptation; app rules remain owned by this module.
-const A=require('../../../packages/database/async-arrays.cjs');
 'use strict';
 const {randomUUID}=require('node:crypto');
 const {fail}=require('../../../server/http');

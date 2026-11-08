@@ -11,7 +11,6 @@ export function codePuzzle(seed){
  const rows=[['345',0,0],['620',0,2],['582',1,0],['294',0,1],['702',1,1]];
  return {secret:transform('012'),clues:shuffle(rows,`${seed}:code:v2:clues`).map(([guess,exact,elsewhere])=>({guess:transform(guess),exact,elsewhere}))};
 }
-export function codeSecret(seed){return codePuzzle(seed).secret;}
 export function scoreCode(secret,guess){
  if(typeof secret!=='string'||typeof guess!=='string'||!/^\d{3}$/.test(secret)||!/^\d{3}$/.test(guess)||new Set(secret).size!==3||new Set(guess).size!==3)throw Error('Use three different digits from 0 to 9.');
  let exact=0;const remainingSecret=[],remainingGuess=[];

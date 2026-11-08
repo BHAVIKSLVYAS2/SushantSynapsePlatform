@@ -1,9 +1,4 @@
 /* Task-first Ritual layouts. Existing theme tokens and touch targets are retained. */
-body.ritual-landing .compact-calendar{min-height:0;padding:8px 12px;margin:0 0 8px;display:flex;flex-wrap:wrap;gap:4px 16px;justify-content:space-between;border-radius:12px;background:var(--surface);box-shadow:none}
-body.ritual-landing .compact-calendar #calendar-launch-title{font-size:20px;line-height:1.3;letter-spacing:0;margin:0;max-width:none}
-body.ritual-landing .compact-calendar nav{display:flex;flex-wrap:wrap;gap:8px}
-body.ritual-landing .compact-calendar :is(.calendar-open,.remembrance-open){display:inline-flex;align-items:center;min-height:44px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-size:13px;box-shadow:none;text-decoration:none}
-body.ritual-landing .compact-calendar .calendar-open:after{display:none}
 body.ritual-landing #scope.compact-guidance{display:block;padding:6px 0;margin:0 0 8px;border:0;background:none;font-size:12px;line-height:1.5;box-shadow:none}
 body.ritual-landing .workspace>.library:not([open]){margin-bottom:10px;padding:4px 12px}
 body.ritual-landing #guide .guide-top{margin-bottom:8px;padding-bottom:0}
@@ -24,7 +19,7 @@ body.ritual-landing .checklist-saving .remember-checks{font-size:12px;min-height
 .checklist-settings{min-width:0}.checklist-settings>summary{min-height:44px;align-content:center;cursor:pointer;font-size:12px;color:var(--accent)}
 .checklist-settings[open]{grid-column:1/-1}.checklist-settings p{max-width:70ch}.checklist-settings #delete-saved-checklist{margin:0 0 8px}
 body.ritual-landing .checklist-controls{margin-top:4px}.puja-checklist[data-filter=all] #filter-status{display:none}
-body.ritual-landing .checklist-columns{margin-top:4px}.visible-item-note{flex-basis:100%;font-size:12px;line-height:1.5;color:var(--muted)}
+body.ritual-landing .checklist-columns{margin-top:4px}
 .priest-caption{display:none}.common-material-note{margin:8px 0;font-size:12px;line-height:1.5}
 .preparation-summary{margin:12px 0;padding:0 12px}.preparation-summary>summary{cursor:pointer;min-height:44px;align-content:center;font-weight:600}
 body.ritual-landing .ritual-learning{margin:12px 0}body.ritual-landing .variation{margin-top:12px}
@@ -53,12 +48,12 @@ body[data-ui-app=ritual-assist] .observance-list{display:block}
 body[data-ui-app=ritual-assist] .observance-event{padding:8px 12px;margin:0;border:0;border-radius:0;box-shadow:none;border-bottom:1px solid var(--line)}
 .observance-event:last-child{border-bottom:0}.observance-heading{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;justify-content:space-between}
 .observance-heading h4{font-size:16px;line-height:1.4;margin:0}.observance-heading .badge{font-size:11px;padding:2px 6px}
-body[data-ui-app=ritual-assist] .observance-event>.fine,.observance-milestone{font-size:12px;line-height:1.5;margin:4px 0}
+body[data-ui-app=ritual-assist] .observance-event>.fine{font-size:12px;line-height:1.5;margin:4px 0}
 body[data-ui-app=ritual-assist] .observance-event summary{min-height:44px;margin:0;font-size:12px}
 .observance-event details>button{min-height:44px;font-size:12px;margin-top:4px}
-@media(min-width:801px){body[data-ui-app=ritual-assist] .observance-event{display:grid;grid-template-columns:minmax(220px,1fr) minmax(220px,1fr) minmax(160px,.7fr);gap:0 16px;align-items:start}.observance-heading{grid-column:1}.observance-event>.fine{grid-column:1}.observance-event>.observance-milestone{grid-column:2;grid-row:1/3}.observance-event>details{grid-column:3;grid-row:1/4}.observance-event>details[open]{grid-column:1/-1;grid-row:auto}}
-@media(max-width:480px){body.ritual-landing .compact-calendar{padding:4px 8px}body.ritual-landing .compact-calendar #calendar-launch-title{font-size:18px}body.ritual-landing .compact-calendar :is(.calendar-open,.remembrance-open){font-size:12px;padding:8px}body.ritual-landing .compact-calendar nav{gap:6px}body.ritual-landing #guide-title{font-size:23px}body.ritual-landing #guide .actions>button{font-size:12px;padding:8px 10px}}
-@media print{.checklist-settings,.checklist-saving,.compact-calendar,.calendar-input-memory{display:none!important}.preparation-summary>:not(summary){display:block!important}.preparation-summary>summary{font-weight:700}.observance-list{display:block}.observance-event{display:block!important}.observance-event details>button{display:none!important}}
+@media(min-width:801px){body[data-ui-app=ritual-assist] .observance-event{display:grid;grid-template-columns:minmax(220px,1fr) minmax(220px,1fr) minmax(160px,.7fr);gap:0 16px;align-items:start}.observance-heading{grid-column:1}.observance-event>.fine{grid-column:1}.observance-event>details{grid-column:3;grid-row:1/4}.observance-event>details[open]{grid-column:1/-1;grid-row:auto}}
+@media(max-width:480px){body.ritual-landing #guide-title{font-size:23px}body.ritual-landing #guide .actions>button{font-size:12px;padding:8px 10px}}
+@media print{.checklist-settings,.checklist-saving,.calendar-input-memory{display:none!important}.preparation-summary>:not(summary){display:block!important}.preparation-summary>summary{font-weight:700}.observance-list{display:block}.observance-event{display:block!important}.observance-event details>button{display:none!important}}
 
 body.ritual-landing #guide .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 body.ritual-landing .checklist-image-action,body.ritual-landing .checklist-image-action .ritual-result-share{display:contents}

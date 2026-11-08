@@ -25,7 +25,6 @@ const paths={
  plus:'<path d="M12 4v16M4 12h16"/>',
 };
 const icon=name=>`<svg viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name]||paths.grid}</svg>`;
-const sculpture=(app,cls='app-sculpture')=>{const definition=catalogue.apps.find(a=>a.id===app.id||a.path===app.path);return '<svg class="'+cls+'" viewBox="0 0 180 160" aria-hidden="true" focusable="false"><use href="/home-art.svg#'+escapeHtml(definition?.art||'documents')+'"></use></svg>';};
 const initials=name=>name.split(' ').filter(Boolean).slice(0,2).map(p=>p[0]).join('').toUpperCase();
 let editingFavorites=false;
 let state,section=new URLSearchParams(location.search).get('section')==='profile'?'profile':'apps',category='All',query='',authStatus;

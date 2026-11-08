@@ -19,7 +19,7 @@ Object.assign(words.hi,{festivals:'हिन्दू त्योहार',una
  const inputMemory=createCalendarInputMemory('observances');
  const original=[$('scope'),calendarRoot.querySelector('.calendar-layout'),calendarRoot.querySelector('.reference')],intro=calendarRoot.querySelector('.intro');
  const workspace=mountRitualWorkspace({language:language(),onView:value=>activate(value)});
- const {nav,datesButton,remembranceButton}=workspace;
+ const {datesButton,remembranceButton}=workspace;
  const panel=node('section',undefined,'observance-panel');panel.id='observance-panel';intro.before(panel);
  const form=node('form',undefined,'card observance-form');form.id='observance-form';
  const note=node('p',undefined,'scope'),formHeading=node('h2'),fields=node('div',undefined,'observance-fields');

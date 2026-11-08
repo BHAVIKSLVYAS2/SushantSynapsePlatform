@@ -8,7 +8,6 @@ export const lunarCalendarModel=freeze({id:'amanta-ingress-candidate-1',monthSys
  phase:'P05 apparent geocentric Moon-minus-Sun',rootToleranceSeconds:0.5,
  naming:'month after sidereal solar sign at opening new moon; zero ingresses means adhika; two ingresses withheld',
  releaseStatus:'internal-candidate-month-reference-acceptance-pending'});
-const day=86400000;
 function sample(jd){const s=siderealSnapshot({timeScale:'TT',julianDay:jd,bodies:['Sun','Moon'],calculationProfileId:siderealProfile.id});
  return {phase:normalizeDegrees(s.positions[1].tropicalLongitude-s.positions[0].tropicalLongitude),sun:s.positions[0].siderealLongitude,warnings:s.warnings};}
 
@@ -51,4 +50,3 @@ export function amantaMonthAtInstant(input){
  return freeze({model:lunarCalendarModel,number:monthNumber,name:lunarCalendarModel.monthNames[monthNumber-1],adhika:ingresses===0,
   ingresses,start:first,end:last,warnings:[...new Set([...time.warnings,...first.warnings,...last.warnings,'AMANTA_MONTH_REFERENCE_ACCEPTANCE_PENDING'])]});
 }
-export function civilBoundary(jd){return civilInstantFromTT(jd).utcInstant;}

@@ -3,11 +3,9 @@ body[data-ui-app=ritual-assist] #observance-output{scroll-margin-top:150px}
 body[data-ui-app=ritual-assist] .observance-result-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;padding:4px;margin:4px 0 14px;border:1px solid var(--line);border-radius:12px;background:var(--soft)}
 body[data-ui-app=ritual-assist] .observance-result-tabs button{min-height:48px;padding:10px 8px;border:1px solid transparent;border-radius:9px;background:transparent;color:var(--muted);font-size:14px;font-weight:600}
 body[data-ui-app=ritual-assist] .observance-result-tabs [aria-pressed=true]{border-color:var(--accent);background:var(--surface);color:var(--accent);box-shadow:inset 0 -2px 0 var(--accent)}
-body[data-ui-app=ritual-assist] .observance-downloads{margin:16px 0;border-top:1px solid var(--line)}
-body[data-ui-app=ritual-assist] .observance-downloads>summary{min-height:48px;align-content:center;cursor:pointer;color:var(--accent);font-size:14px;font-weight:600}
 body[data-ui-app=ritual-assist] .observance-day-details{padding:12px;margin-top:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
 body[data-ui-app=ritual-assist] .observance-day-details>h3{font-size:16px;margin:0 0 8px}
-@media print{.observance-result-tabs,.observance-downloads{display:none!important}}
+@media print{.observance-result-tabs{display:none!important}}
 body[data-ui-app=ritual-assist] .observance-vrat-control{grid-column:1/-1;min-width:0;font-size:13px}
 body[data-ui-app=ritual-assist] .observance-vrat-control>span{display:block;margin-bottom:6px}
 body[data-ui-app=ritual-assist] .observance-vrat-menu{position:relative;padding:0;margin:0;border:0;background:none}
@@ -81,9 +79,7 @@ body.ritual-landing .checklist-reset-group{margin:12px 0;padding:12px 0;border-b
 body.ritual-landing .checklist-reset-group h4{margin:0 0 6px;font-size:14px}
 body.ritual-landing .checklist-reset-group button{min-height:44px;margin:6px 6px 0 0}
 @media print{.checklist-quick-filters,.checklist-filter-more,.checklist-reset-group,.checklist-common-notes{display:none!important}}
-body[data-ui-app=ritual-assist] :is(.observance-more-filters,.observance-export-options)>summary{min-height:44px;align-content:center;cursor:pointer;color:var(--accent);font-size:13px}
-body[data-ui-app=ritual-assist] .observance-reminders{padding:14px;margin:12px 0}
-body[data-ui-app=ritual-assist] #observance-download{width:100%;min-height:48px;font-size:14px}
+body[data-ui-app=ritual-assist] :is(.observance-export-options)>summary{min-height:44px;align-content:center;cursor:pointer;color:var(--accent);font-size:13px}
 body[data-ui-app=ritual-assist] .observance-event{scroll-margin-top:160px}
 body[data-ui-app=ritual-assist] .observance-event:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 body[data-ui-app=ritual-assist] .remembrance-calculation>summary{min-height:44px;padding:8px 0;box-sizing:border-box;align-content:center}
@@ -98,7 +94,6 @@ body[data-ui-app=ritual-assist] .remembrance-pair{display:grid;grid-template-col
 body[data-ui-app=ritual-assist] .remembrance-pair-column{min-width:0;padding:0 12px}
 body[data-ui-app=ritual-assist] .remembrance-pair-column+.remembrance-pair-column{border-top:1px solid var(--line)}
 body[data-ui-app=ritual-assist] .remembrance-pair-column>.remembrance-entry:last-child{border-bottom:0}
-body[data-ui-app=ritual-assist] .simple-remembrance>.remembrance-downloads{margin:20px 0 0}
 @media screen and (min-width:380px){body[data-ui-app=ritual-assist] .remembrance-pair{grid-template-columns:repeat(2,minmax(0,1fr))}body[data-ui-app=ritual-assist] .remembrance-pair-column+.remembrance-pair-column{border-top:0;border-left:1px solid var(--line)}body[data-ui-app=ritual-assist] .remembrance-pair .remembrance-entry{grid-template-columns:minmax(0,1fr)}body[data-ui-app=ritual-assist] .remembrance-pair .date{font-size:15px}}
 body[data-ui-app=ritual-assist] .input-details>summary{list-style:none;cursor:pointer;border-radius:8px}
 body[data-ui-app=ritual-assist] .input-details>summary::-webkit-details-marker{display:none}
@@ -113,8 +108,7 @@ body[data-ui-app=ritual-assist] .remembrance-storage-warning{display:block;margi
 body[data-ui-app=ritual-assist] .remembrance-pair-column{overflow-wrap:anywhere}
 @media print{body[data-ui-app=ritual-assist] .remembrance-pair{display:block}body[data-ui-app=ritual-assist] .remembrance-year{overflow:visible}}
 body[data-ui-app=ritual-assist] .remembrance-tabs button{min-height:48px;white-space:normal;line-height:1.4}
-body[data-ui-app=ritual-assist] .remembrance-downloads>summary{min-height:48px;align-content:center;cursor:pointer}
-body[data-ui-app=ritual-assist] main>.intro,body.ritual-landing .calendar-launch{display:none}
+body[data-ui-app=ritual-assist] main>.intro{display:none}
 body[data-ui-app=ritual-assist] .ritual-task-header{display:flex;align-items:center;gap:12px;padding:16px 0 12px;margin:0;min-height:0;background:none;border:0;box-shadow:none}
 body[data-ui-app=ritual-assist] .ritual-calendar-icon{display:block;width:76px;height:76px;object-fit:contain;flex:0 0 76px;filter:none}
 body[data-ui-app=ritual-assist] .ritual-task-header h1{font:700 25px/1.2 var(--ss-font,system-ui);letter-spacing:-.025em;margin:0 0 6px}

@@ -1,7 +1,7 @@
 'use strict';
 // Initial migration generator. Once deployed, add ordered migrations rather than rewriting v1.
 const fs=require('node:fs'),path=require('node:path');
-const {ROOT,owners,tables,views,qualified,splitSql}=require('../packages/database/catalog');
+const {ROOT,owners,tables,qualified}=require('../packages/database/catalog');
 function type(c){
  if(/\bBLOB\b/.test(c.definition))return 'VARBINARY(MAX)';
  if(/\bREAL\b/.test(c.definition))return 'FLOAT(53)'; // Preserve SQLite REAL / existing JS double values exactly.

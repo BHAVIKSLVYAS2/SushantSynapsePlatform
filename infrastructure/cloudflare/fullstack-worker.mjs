@@ -1,4 +1,3 @@
-import {handle as frontend} from './worker.mjs';
 import {edgeApi} from '../../server/edge-index.mjs';
 import {cloudPages} from '../../apps/satire-arena/backend/cloud-pages.mjs';
 import adsense from '../../packages/ui/adsense.cjs';

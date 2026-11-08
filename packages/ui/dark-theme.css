@@ -45,7 +45,7 @@
     --on-primary:var(--dark-on-accent);--on-accent:var(--dark-on-accent);
     background:var(--dark-background);color:var(--dark-text);
   }
-  html[data-theme=dark] body[data-ui-app] :is(.panel,.card,.stat,.app-card,.public-app,.workspace-card,.library,.workbench,.tool-tile,.settings-panel,.registration) {
+  html[data-theme=dark] body[data-ui-app] :is(.panel,.card,.stat,.app-card,.public-app,.workspace-card,.library,.registration) {
     background-color:var(--dark-surface);background-image:var(--dark-card-gradient);
     border-color:var(--dark-border);box-shadow:var(--dark-shadow);
   }

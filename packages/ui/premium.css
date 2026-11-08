@@ -48,11 +48,11 @@
     font-family: Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI","Nirmala UI",sans-serif;
     -webkit-font-smoothing: antialiased;
   }
-  :is(.intro,.hero,.public-hero,.page-heading,.page-top) h1 {
+  :is(.intro,.hero,.page-heading,.page-top) h1 {
     font-family: inherit; font-weight: 750; letter-spacing: -.045em; line-height: 1.08;
   }
-  :is(.intro,.hero,.public-hero) h1 em {font-family:inherit;font-style:normal;font-weight:inherit;color:var(--ui-accent)}
-  :is(.panel,.card,.workspace-card,.app-card,.public-app,.client-card,.stat,.library,.game-card,.break-card,.arena-card,.score,.game,.empty,.intro-banner,.support-card,.support-partner) {
+  :is(.intro,.hero) h1 em {font-family:inherit;font-style:normal;font-weight:inherit;color:var(--ui-accent)}
+  :is(.panel,.card,.workspace-card,.app-card,.public-app,.client-card,.stat,.library,.game-card,.break-card,.arena-card,.score,.game,.empty,.support-card,.support-partner) {
     background: var(--ui-glass); border-color: var(--ui-edge); border-radius: 22px;
     box-shadow: var(--ui-shadow);
   }
@@ -75,7 +75,7 @@
     transition: transform .35s var(--ui-ease),box-shadow .35s var(--ui-ease),background-color .25s var(--ui-ease),border-color .25s var(--ui-ease);
   }
   :where(button,.button,.primary,.secondary,.launch,.public-launch,.all-apps) {min-height:44px;border-radius:14px}
-  :is(.primary,.secondary,.launch,.public-launch,.all-apps) {min-height:44px;border-radius:14px}
+  :is(.primary,.secondary,.launch,.all-apps) {min-height:44px;border-radius:14px}
   :is(button,.button,.primary,.secondary,.launch,.all-apps):not(:disabled):active {transform:scale(.97)}
   :is(.public-app,.break-card,.app-card,.guide-option,.design-choice,.template) {
     transition:transform .4s var(--ui-ease),box-shadow .4s var(--ui-ease),border-color .4s var(--ui-ease);
@@ -88,9 +88,7 @@
   :is(.badge,.access-label,.pill,.public-tags span,.feature-tags span) {border-radius:999px}
   :is(.mobile-nav,.bottom-nav) {background:var(--ui-glass);box-shadow:0 -8px 30px var(--ui-bloom)}
   .theme-toggle {border-radius:999px}
-  .theme-toggle::before {transition:transform .4s var(--ui-ease)}
-  /* Rapid game taps retain their original short feedback duration. */
-  .bubble {transition:transform .12s var(--ui-ease),opacity .12s var(--ui-ease)}
+  .theme-toggle::before {transition:transform .4s var(--ui-ease)}/* Rapid game taps retain their original short feedback duration. */
   .synapse-help-nav a {min-height:44px;display:inline-flex;align-items:center}
   :is(.support-card,.support-hero,.home-paths a[href="/support"]) {animation:ui-support-bloom 4s ease-in-out infinite}
   @keyframes ui-support-bloom {
@@ -99,27 +97,12 @@
   }
   /* Home: compact bento tiles with deliberate featured rows. Works before JS. */
   .public-home main {max-width:1320px;padding-inline:clamp(16px,4vw,40px)}
-  .public-apps,.app-grid,.workspace-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .public-apps,.workspace-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
   .public-app {min-width:0;position:relative}
   .app-card :is(h3,p) {overflow-wrap:anywhere}
-  .public-app-head {padding:16px;gap:8px}
-  .public-app-category {font-size:9px;letter-spacing:.08em;overflow-wrap:anywhere}
-  .public-app-arrow {width:32px;height:32px;flex-shrink:0;background:var(--ui-soft);border:0}
-  .public-app-head .app-icon {width:32px;height:32px;border-radius:10px}
-  .public-app-head .app-icon .icon {width:20px;height:20px}
   .public-app .mini-paper-kicker {font-size:8px;letter-spacing:.1em;padding:0 8px}
   .public-app .mini-paper-byline {display:none}
-  .public-app .orbit-a {left:calc(50% - 60px)}
-  .public-app .orbit-b {left:calc(50% - 20px)}
-  .public-app .orbit-caption {bottom:10px;font-size:9px}
-  .public-app-copy {padding:16px;gap:0}
-  .public-app-copy h2 {font-size:clamp(19px,2vw,27px);font-weight:700;letter-spacing:-.035em;margin-bottom:10px;overflow-wrap:anywhere}
-  .public-app-copy>p {font-size:12px;line-height:1.65;margin:0}
   .public-app .access-label {font-size:9px;padding:5px 8px;margin-bottom:12px;max-width:100%}
-  .public-tags {gap:5px;margin:16px 0}
-  .public-tags span {font-size:9px;padding:5px 7px}
-  .public-launch {font-size:11px;padding:12px;min-height:44px;background:var(--ui-soft);color:var(--ui-accent);border:1px solid var(--ui-edge)}
-  .news-app .public-launch {background:var(--ui-soft);color:var(--ui-accent)}
   .public-app[href="/timetable-lite"],.public-app[href="/ritual-assist"],.public-app[href="/team-mixer"] {grid-column:span 2}
   .public-app[href="/timetable-lite"] {order:-3}
   .public-app[href="/ritual-assist"] {order:-2}
@@ -149,27 +132,18 @@
     .public-app:active {transform:scale(.97)}
   }
   @media(min-width:760px) {
-    .public-apps,.app-grid,.break-grid {grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    .public-apps,.break-grid {grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
     .workspace-grid {grid-template-columns:repeat(2,minmax(0,1fr))}
-    .public-app-copy {padding:22px}
-    .public-app-head {padding:20px}
   }
   @media(min-width:1100px) {
-    .public-apps,.app-grid,.workspace-grid,.break-grid {grid-template-columns:repeat(4,minmax(0,1fr))}
+    .public-apps,.workspace-grid,.break-grid {grid-template-columns:repeat(4,minmax(0,1fr))}
   }
   @media(max-width:760px) {
     .app-card {padding:14px}
     .app-card h2 {font-size:20px;overflow-wrap:anywhere}
-    .app-card-top {display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
-    .app-card-top .app-icon {width:40px;height:40px}
-    .app-card-top .badge {grid-column:1 / -1;margin-left:0;width:fit-content;white-space:normal}
-    .app-card-top .favorite {grid-column:2;grid-row:1;width:44px;height:44px}
     .app-card .launch {padding:12px 10px;font-size:12px;overflow-wrap:anywhere}
-    .app-card .feature-tags span {overflow-wrap:anywhere;min-width:0}
     .library .guide-list {grid-template-columns:repeat(2,minmax(0,1fr))}
-    .public-app-copy>p {font-size:11px}
     .public-app .mini-paper-kicker {font-size:7px}
-    .public-app-head .app-icon {display:none}
   }
   @media(prefers-reduced-motion:reduce) {
     :is(button,.button,.primary,.secondary,.launch,.public-launch,.nav-item,.bottom-item,.all-apps,.public-app,.break-card,.app-card,.guide-option,.design-choice,.template),.theme-toggle::before {transition:none;transform:none!important}

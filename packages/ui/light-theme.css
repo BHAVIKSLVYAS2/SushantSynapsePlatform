@@ -52,7 +52,7 @@
     background:var(--light-background);color:var(--light-text);
   }
 
-  html[data-theme=light] body[data-ui-app] :is(.panel,.card,.stat,.app-card,.public-app,.workspace-card,.library,.workbench,.tool-tile,.settings-panel,.registration) {
+  html[data-theme=light] body[data-ui-app] :is(.panel,.card,.stat,.app-card,.public-app,.workspace-card,.library,.registration) {
     background-color:var(--light-surface);background-image:none;
     border-color:var(--light-border);box-shadow:var(--light-shadow);
   }
@@ -142,7 +142,7 @@
       border-color:color-mix(in srgb,var(--light-accent) 22%,var(--light-border));
       box-shadow:var(--light-shadow-raised);
     }
-    html[data-theme=light] body[data-ui-app] :is(.primary,.launch,.public-launch):not(:disabled):hover {
+    html[data-theme=light] body[data-ui-app] :is(.primary,.launch):not(:disabled):hover {
       background-color:var(--light-accent-hover);border-color:var(--light-accent-hover);
     }
   }
