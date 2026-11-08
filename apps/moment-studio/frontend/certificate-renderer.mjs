@@ -16,8 +16,8 @@ export const accents={blue:'#234560',teal:'#216d68',gold:'#82652e',plum:'#68405e
 const legacyTemplates={Minimal:'Laurel',Aurora:'Nocturne',Corporate:'Summit',Studio:'Jubilee',Editorial:'Laurel'};
 const styles={
  Laurel:{paper:'#fffaf0',ink:'#342d25',muted:'#776951',accent:'#9b7739',family:'Georgia',align:'center',x:150,w:822,title:[204,72,37],name:[327,95,62],presented:300,rule:435,intro:454,description:[489,82],message:[587,45],donation:{title:[192,66,34],name:[292,85,57],presented:267,rule:388,intro:405,description:[438,56]}},
- Nocturne:{paper:'#111d2c',ink:'#fff5df',muted:'#cec4b4',accent:'#e3bf7d',family:'Georgia',align:'center',x:130,w:862,bodyX:125,bodyW:660,bodyAlign:'left',title:[178,69,31],name:[307,108,80],presented:275,rule:441,intro:462,description:[495,81],message:[590,42],donation:{title:[181,66,31],name:[290,89,66],presented:260,rule:393,intro:409,description:[442,52]}},
- Summit:{paper:'#fcfcf8',ink:'#192d3c',muted:'#60717c',accent:'#234560',family:'Arial',align:'left',x:326,w:690,title:[209,81,43],name:[347,88,62],presented:311,rule:450,intro:469,description:[501,79],message:[592,40],donation:{title:[194,76,38],name:[304,85,56],presented:278,rule:403,intro:419,description:[451,43]}},
+ Nocturne:{paper:'#111d2c',ink:'#fff5df',muted:'#cec4b4',accent:'#e3bf7d',family:'Georgia',align:'center',x:130,w:862,bodyX:150,bodyW:822,bodyAlign:'center',title:[178,69,31],name:[307,108,80],presented:275,rule:441,intro:462,description:[495,81],message:[590,42],donation:{title:[181,66,31],name:[290,89,66],presented:260,rule:393,intro:409,description:[442,52]}},
+ Summit:{paper:'#fcfcf8',ink:'#192d3c',muted:'#60717c',accent:'#234560',family:'Arial',align:'left',x:245,w:770,title:[209,81,43],name:[347,88,62],presented:311,rule:450,intro:469,description:[501,79],message:[592,40],donation:{title:[194,76,38],name:[304,85,56],presented:278,rule:403,intro:419,description:[451,43]}},
  Jubilee:{paper:'#fff8ee',ink:'#382558',muted:'#796678',accent:'#68409a',family:'Arial',align:'left',x:110,w:760,title:[185,100,45],name:[337,100,73],presented:305,rule:454,intro:473,description:[506,76],message:[596,37],donation:{title:[178,83,39],name:[303,88,62],presented:276,rule:405,intro:423,description:[453,41]}}
 };
 
@@ -27,7 +27,7 @@ export function render(canvas,data,images={},scale=1.25){
  canvas.width=Math.round(W*scale);canvas.height=Math.round(H*scale);
  const c=canvas.getContext('2d');c.scale(canvas.width/W,canvas.height/H);
  const template=templates.includes(data.template)?data.template:legacyTemplates[data.template]||'Laurel',s=styles[template==='Fun Card'?'Jubilee':template];
- const ink=s.ink,muted=s.muted,paper=s.paper;
+ const ink=s.ink,muted=s.muted,paper=s.paper,fitIssues=new Set();
  let accent=template==='Summit'?(accents[data.accent]||s.accent):s.accent;
  const gold=c.createLinearGradient(40,0,W-40,H);gold.addColorStop(0,'#c39a56');gold.addColorStop(.35,'#efd9a2');gold.addColorStop(.65,'#a77e39');gold.addColorStop(1,'#dfbd78');
  c.fillStyle=paper;c.fillRect(0,0,W,H);
@@ -51,8 +51,8 @@ export function render(canvas,data,images={},scale=1.25){
  function block(text,x,y,w,h,size=22,family='Arial',color=ink,weight='normal',align='center'){
   text=String(text||'').replace(/\s+/g,' ').trim();if(!text)return;
   const segmenter=typeof Intl.Segmenter==='function'?new Intl.Segmenter(undefined,{granularity:'grapheme'}):null,split=word=>segmenter?[...segmenter.segment(word)].map(v=>v.segment):Array.from(word);
-  let lines=[],fontSize=size;
-  for(;fontSize>=5;fontSize--){
+  let lines=[],fontSize=size;const minimum=size>=29?28:size>=17?14:size>=13?11:Math.min(9,size);
+  for(;fontSize>=minimum;fontSize--){
    c.font=`${weight} ${fontSize}px ${family}`;lines=[];let current='';
    for(const word of text.split(/\s+/)){
     if(c.measureText((current?current+' ':'')+word).width<=w){current+=(current?' ':'')+word;continue;}
@@ -61,6 +61,7 @@ export function render(canvas,data,images={},scale=1.25){
    }
    if(current)lines.push(current);if(lines.length*fontSize*1.3<=h)break;
   }
+  if(fontSize<minimum){fitIssues.add(text===data.recipient?'recipient name':text===data.description?'contribution':text===data.message?'message':text===data.organization?'organisation name':text===data.signatory?'signatory':text===data.designation?'designation':'wording');return;}
   c.font=`${weight} ${fontSize}px ${family}`;c.fillStyle=color;c.textAlign=align;c.textBaseline='middle';
   lines.forEach((text,i)=>c.fillText(text,align==='left'?x:x+w/2,y+h/2+(i-(lines.length-1)/2)*fontSize*1.3));
  }
@@ -73,7 +74,7 @@ export function render(canvas,data,images={},scale=1.25){
   }
   if(!images.logo||data.logoPosition!=='center')seal(561,102,30);
   line(300,186,822,186,'#d7c49e',.8);
-  seal(561,674,30);
+  line(495,674,627,674,accent,.8);
  }
  if(template==='Nocturne'){
   rect(35,35,W-70,709,gold,1.5);rect(44,44,W-88,697,'#7a673f',.65);
@@ -83,18 +84,15 @@ export function render(canvas,data,images={},scale=1.25){
    c.restore();
   }
   c.save();c.globalAlpha=.25;for(let i=0;i<17;i++){const a=(i-8)*.08;line(561+Math.sin(a)*50,20,561+Math.sin(a)*190,145-Math.abs(i-8)*5,'#e3bf7d',.6);}c.restore();
-  if(!images.logo||data.logoPosition!=='center')seal(561,102,27);
+  if(!images.logo||data.logoPosition!=='center'){line(530,106,592,106,gold,1.2);}
   line(198,181,449,181,'#776643',.6);line(673,181,924,181,'#776643',.6);
   for(const [x,y,flip]of [[58,713,1],[W-58,713,-1]]){c.save();c.translate(x,y);c.scale(flip,1);line(0,0,45,0,gold,.8);line(0,0,0,-72,gold,.8);line(9,-9,35,-9,gold,.8);c.restore();}
-  line(836,463,836,619,'#776643',.7);
-  seal(938,526,48);
+  line(480,640,642,640,gold,.8);
  }
  if(template==='Summit'){
-  polygon([[0,0],[256,0],[285,735],[0,735]],'#172f40');polygon([[256,0],[264,0],[293,735],[285,735]],gold);
-  c.save();c.globalAlpha=.17;for(let i=0;i<5;i++){rect(41+i*15,224+i*15,183-i*22,361-i*45,'#e8cf99',.8);}c.restore();
-  polygon([[73,580],[113,523],[148,551],[189,450],[229,580]],'#26495f');
-  for(const [x,h]of [[83,89],[125,141],[167,193]]){c.fillStyle=gold;c.fillRect(x,620-h,22,h);}
-  line(326,184,1016,184,'#c9d1d2',.8);c.fillStyle=accent;c.fillRect(326,184,104,4);
+  polygon([[0,0],[180,0],[205,735],[0,735]],'#172f40');polygon([[180,0],[185,0],[210,735],[205,735]],gold);
+  c.save();c.globalAlpha=.28;for(let i=0;i<4;i++)rect(30+i*12,330+i*12,118-i*18,210-i*28,'#e8cf99',.8);c.restore();
+  line(245,184,1016,184,'#c9d1d2',.8);c.fillStyle=accent;c.fillRect(245,184,80,3);
   polygon([[W-86,0],[W,0],[W,86]],'#e9edf0');line(1016,641,1016,736,'#d2d8db',.7);
  }
  if(template==='Jubilee'||template==='Fun Card'){
@@ -114,7 +112,10 @@ export function render(canvas,data,images={},scale=1.25){
  const isDonation=data.type==='Donation Appreciation',donation=isDonation?donationAmount(data.donationAmount):null,layout=isDonation?s.donation:s;
  const personal=template==='Fun Card';
  const title=data.title||(personal?'Officially the best!':'Certificate of Appreciation');
- block(title,s.x,layout.title[0],s.w,layout.title[1],layout.title[2],s.family,accent,template==='Laurel'?'normal':'600',s.align);
+ if(title==='Certificate of Appreciation'&&template!=='Fun Card'){
+  block('CERTIFICATE',s.x,layout.title[0]-4,s.w,layout.title[1]*.65,template==='Summit'?39:45,s.family,ink,'normal',s.align);
+  block('OF APPRECIATION',s.x,layout.title[0]+layout.title[1]*.65,s.w,layout.title[1]*.35,16,'Arial',accent,'600',s.align);
+ }else block(title,s.x,layout.title[0],s.w,layout.title[1],layout.title[2],s.family,accent,template==='Laurel'?'normal':'600',s.align);
  block(isDonation?'PRESENTED WITH GRATITUDE TO':personal?'ONE OF A KIND. ABSOLUTELY YOU.':'PROUDLY PRESENTED TO',s.x,layout.presented,s.w,24,11,'Arial',muted,'600',s.align);
  block(data.recipient||'Recipient Name',s.x,layout.name[0],s.w,layout.name[1],layout.name[2],s.family,ink,template==='Laurel'||template==='Nocturne'?'normal':'700',s.align);
  const ruleX=s.align==='left'?s.x:W/2-130;line(ruleX,layout.rule,ruleX+(s.align==='left'?230:260),layout.rule,accent,.8);
@@ -123,21 +124,24 @@ export function render(canvas,data,images={},scale=1.25){
  block(data.description||'your valuable contribution and support to our community',bodyX,layout.description[0],bodyW,layout.description[1],22,'Arial',ink,'normal',bodyAlign);
  if(donation){
   const x=bodyX,w=bodyW,y=500;
-  c.save();c.globalAlpha=template==='Nocturne'?.09:.07;c.fillStyle=accent;c.fillRect(x,y,w,91);c.restore();line(x,y,x+w,y,accent,.8);line(x,y+91,x+w,y+91,accent,.8);
+  c.save();c.globalAlpha=template==='Nocturne'?.09:.07;c.fillStyle=accent;c.fillRect(x,y,w,108);c.restore();line(x,y,x+w,y,accent,.8);line(x,y+108,x+w,y+108,accent,.8);
   block('DONATION · INR',x+16,y+7,w-32,16,10,'Arial',muted,'600',bodyAlign);
-  block(donation.number,x+16,y+26,w-32,34,29,s.family,accent,'600',bodyAlign);
-  block(donation.words,x+16,y+63,w-32,24,14,'Arial',muted,'normal',bodyAlign);
+  block(donation.number,x+16,y+26,w-32,40,29,s.family,accent,'600',bodyAlign);
+  block(donation.words,x+16,y+63,w-32,39,14,'Arial',muted,'normal',bodyAlign);
  }
- const message=isDonation?[599,38]:s.message;
+ const message=isDonation?[614,24]:s.message;
  block(data.message,bodyX,message[0],bodyW,message[1],17,template==='Laurel'||template==='Nocturne'?'Georgia':'Arial',muted,'normal',bodyAlign);
  image(images.signature,755,643,200,48,template==='Nocturne');
  const date=data.date?new Date(data.date+'T12:00:00'):null,dateText=date&&!Number.isNaN(date.getTime())?date.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}):'';
- const dateX=template==='Summit'?315:115,dateW=template==='Summit'?290:300;
+ const dateX=template==='Summit'?235:115,dateW=template==='Summit'?290:300;
  block(dateText,dateX,662,dateW,27,17,'Arial',ink);line(dateX+25,697,dateX+dateW-25,697,accent,.7);line(735,697,975,697,accent,.7);
  block(data.location||'DATE OF APPRECIATION',dateX,701,dateW,26,11,'Arial',muted);
  block(data.signatory,690,699,330,22,15,'Arial',ink,'600');block(data.designation,690,720,330,14,10,'Arial',muted);
  block(data.reference,421,718,280,18,10,'Arial',muted);
  drawWatermark(c,{x:270,y:744,width:582,height:34,ink:muted,background:paper});
- c.fillStyle=paper;c.fillRect(80,778,W-160,15);block(disclaimer,90,779,W-180,12,9.5,'Arial',muted);
+ c.fillStyle=paper;c.fillRect(80,778,W-160,15);block(disclaimer,90,779,W-180,14,9.5,'Arial',muted);
+ canvas.certificateFit={fits:fitIssues.size===0,fields:[...fitIssues]};
  return canvas;
 }
+
+export function requireReadable(canvas){if(canvas.certificateFit?.fits===false)throw Error('Shorten the '+canvas.certificateFit.fields.join(', ')+' or choose another design. Text must remain readable.');return canvas;}

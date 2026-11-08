@@ -167,6 +167,27 @@ test('personal awards suggest a fun card and memorial gatherings keep separate e
  for(const result of results){expect(result.fits).toBe(true);for(let i=0;i<result.ordered.length;i++){expect(result.ordered[i]).toBeTruthy();expect(result.ordered[i].bottom).toBeLessThan(i===3?result.watermarkTop:result.ordered[i+1].top);}if(result.preview)fs.writeFileSync('.publish/moment-memorial-preview.png',Buffer.from(result.preview.split(',')[1],'base64'));}
 });
 
+test('donation appreciation stays readable and oversized certificates cannot export',async({page})=>{
+ await page.goto(base+'/moment-studio');
+ const result=await page.evaluate(async()=>{
+  const {render,requireReadable,donationAmount}=await import('/moment-studio/certificate-renderer.mjs');
+  const amount=donationAmount('999999999.99'),results=[];
+  for(const template of ['Laurel','Nocturne','Summit','Jubilee']){
+   const c=document.createElement('canvas'),ctx=c.getContext('2d'),draw=ctx.fillText.bind(ctx),runs=[];
+   ctx.fillText=(text,...args)=>{runs.push(text);return draw(text,...args);};
+   const data={template,type:'Donation Appreciation',recipient:'Ananya Sharma',description:'Supporting community education',organization:'THE KINDNESS FOUNDATION',donationAmount:'999999999.99',message:'With gratitude for your generous support.',date:'2026-11-08',signatory:'Meera Shah',designation:'Coordinator'};
+   render(c,data,{},1);results.push({template,fits:c.certificateFit.fits,donor:runs.includes(data.recipient),amount:runs.includes(amount.number),words:runs.join(' ').includes('Ninety Nine Paise')});
+   render(c,{...data,description:'A lengthy contribution description '.repeat(30)}, {},1);
+   let blocked=false;try{requireReadable(c);}catch{blocked=true;}results.at(-1).blocked=blocked;
+  }return results;
+ });
+ for(const row of result){expect(row.fits,row.template).toBe(true);expect(row.donor).toBe(true);expect(row.amount).toBe(true);expect(row.words).toBe(true);expect(row.blocked).toBe(true);}
+ await page.locator('[name=recipient]').fill('Ananya Sharma');await page.locator('#details [name=description]').fill('A lengthy contribution description '.repeat(14));
+ await expect(page.locator('#certificate-fit-status')).toContainText('Shorten');
+ const downloads=[];page.on('download',d=>downloads.push(d));await page.locator('#quick-png').click();await expect(page.locator('#export-status')).toContainText('Text must remain readable');expect(downloads).toHaveLength(0);await page.evaluate(()=>dispatchEvent(new Event('beforeprint')));await expect(page.locator('body')).toHaveClass(/certificate-unreadable/);await page.emulateMedia({media:'print'});await expect(page.locator('#certificate')).not.toBeVisible();await page.emulateMedia({media:'screen'});await page.evaluate(()=>dispatchEvent(new Event('afterprint')));
+ await page.locator('#details [name=description]').fill('Supporting community education');await expect(page.locator('#certificate-fit-status')).toBeEmpty();
+});
+
 test('retired URLs return 404 and root occasion queries keep the certificate entry',async({page,request})=>{
  for(const route of ['/certificates','/certificates/','/certificates/app.js','/certificates/renderer.js','/certificates/export.js','/certificates/style.css','/certificates/branding.mjs','/celebration-studio','/celebration-studio/','/celebration-studio/app.js','/celebration-studio/renderer.mjs','/celebration-studio/style.css','/celebration-studio/branding.mjs','/arena','/arena/'])expect((await request.get(base+route)).status()).toBe(404);
  await page.goto(base+'/moment-studio?occasion=birthday');await expect(page.locator('#certificate')).toBeVisible();await expect(page.locator('#occasion')).toHaveCount(0);

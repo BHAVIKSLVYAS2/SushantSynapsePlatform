@@ -77,8 +77,8 @@ function draw(){
 function syncOccasion(){
  const id=form.elements.occasion.value,invitation=id==='invitation',remembrance=id==='remembrance';
  $('#studio-title').textContent=memorial?'Condolences & remembrance':'Cards & greetings';
- $('#recipient-label').textContent=memorial?'Person’s name':invitation?'Guest name':'Recipient name';
- form.elements.name.placeholder=memorial?'Name of the person':invitation?'Optional guest name':'e.g. Aarav';
+ $('#recipient-label').textContent=id==='condolence'?'Recipient / family (optional)':memorial?'Person’s name':invitation?'Guest name':'Recipient name';
+ form.elements.name.placeholder=id==='condolence'?'e.g. The Sharma family':memorial?'Name of the person':invitation?'Optional guest name':'e.g. Aarav';
  $('#headline-label').textContent=invitation?'Event name':remembrance?'Tribute headline':'Headline';
  form.elements.title.placeholder=invitation?'e.g. Family get-together':'Your card headline';
  $('#message-label').textContent=id==='condolence'?'Sympathy message':remembrance?'Tribute message':invitation?'Invitation message':'Your message';

@@ -8,12 +8,20 @@ Safe local starter wording follows the selected occasion and language until the 
 
 Wording uses editable English/Hindi starters and manual input.
 
-Birthday, Condolence and Remembrance now use occasion-specific compositions. Birthday has a larger two-line starter headline, serif recipient name, paper-arc/confetti accents and a dedicated sender area. Memorial cards use a restrained frame or header band, olive/botanical details, a more prominent name and a separate optional gathering area. Photo layouts reserve their own portrait space. Confetti, Elegant, Bloom and Bold remain available for celebrations; Quiet remembrance, Elegant and Bloom remain available for memorial cards. The design picker uses larger two-column samples. Other occasions retain their existing renderer.
+Birthday, Condolence and Remembrance now use occasion-specific compositions. Birthday has a typography-led composition and a large-photo composition for Confetti/Bold, with square split layouts and vertical photo layouts. Sympathy messages address a recipient or family with a quiet letter composition. Memorial cards use a restrained frame or header band, olive/botanical details, larger portraits, a prominent name and a separate optional gathering area. Photo layouts reserve their own portrait space. Confetti, Elegant, Bloom and Bold remain available for celebrations; Quiet remembrance, Elegant and Bloom remain available for memorial cards. The design picker uses larger two-column samples. Other occasions retain their existing renderer.
 
 Exports remain 1080 x 1080 or 1080 x 1920 PNG. Preview and export share one renderer; artwork-fit or validation failures disable export until the content fits. Photos stay local, accept PNG/JPEG/WebP up to 5 MB and 24 megapixels, and resize to at most 1600 pixels before centre cropping. Removing or replacing a photo cancels stale loads.
 
-Certificates have four authored A4 landscape designs: Laurel, Nocturne, Summit and Jubilee. Seventeen certificate types and awards retain donation amount wording, organisation branding, signing details and optional local logo/signature images. PDF/print use 300 DPI; PNG offers 300/600 DPI. Up to ten organisation names/logos may be explicitly saved in this browser under the existing organisation storage key. Recipient details and signatures are not saved. Legacy template names map to the new compositions; legacy catalogue preference IDs still map to Moment Studio without rewriting platform data.
+Certificates have four authored A4 landscape designs: Laurel, Nocturne, Summit and Jubilee. Four contribution types and ten personal awards retain donation amount wording, organisation branding, signing details and optional local logo/signature images. PDF/print use 300 DPI; PNG offers 300/600 DPI. Up to ten organisation names/logos may be explicitly saved in this browser under the existing organisation storage key. Recipient details and signatures are not saved. Legacy template names map to the new compositions; legacy catalogue preference IDs still map to Moment Studio without rewriting platform data.
 
 All artwork includes the official same-origin Sushant Synapse logo/name through `branding.mjs`. Exports and certificate printing require the brand logo to load. No external AI service, paid tier, checkout, watermark-removal endpoint, external delivery or verification provider is connected. Card and personal certificate content stays in tab memory and clears on refresh. Explicitly saved organisation branding and the shared theme preference remain browser-local.
 
 The retired `/certificates`, `/celebration-studio` and old asset URLs return 404. Current source lives entirely in `apps/moment-studio/frontend`; the old app workspaces retain compatibility tests and historical documentation. No new API, schema, upload or business persistence is introduced. Implementation, test evidence and production release status are recorded separately in `docs/FUNCTIONALITY_LEDGER.md`.
+
+Launch refinement (8 November 2026): classic, dark ceremonial and modern certificate
+layouts have clearer two-level headings, fewer repeated seals, a narrower modern
+sidebar and aligned issuer details. Donation amounts retain Indian rupee/paise
+wording in a taller block. Preview reports unreadable fields; download, batch and
+print paths reject text that cannot fit at a readable minimum. Browser printing
+shows the warning instead of an incomplete certificate. Certificates are
+appreciation documents, not independently verified credentials or tax receipts.

@@ -1,3 +1,46 @@
+Moment Studio combined launch refinement (2026-11-08, release preparation):
+Birthday now has a large-photo split composition for square Confetti/Bold cards
+and a photo-led vertical composition; typography-led cards retain a short form.
+Sympathy messages address a recipient/family, with a distinct letter layout;
+memorial portraits are larger and optional gathering regions remain separate.
+Three formal certificate directions have clearer headings, fewer repeated seals,
+a narrower Summit sidebar and consistent issuer alignment. Donation appreciation
+retains donor/purpose, amount and Indian amount-in-words, with more vertical room.
+Readable minimum text sizes replace shrinking to tiny text: preview identifies
+problem fields and single/batch exports reject them. Browser printing hides an
+unreadable certificate and displays its warning. No extra editor steps, APIs,
+authentication, persistence or database changes. Earlier local card refinements
+are included in this release. Shared account/MFA remains deferred as documented.
+
+Verification: six Node checks; all twelve existing Studio browser cases pass
+across the main run and corrected two-case rerun. One added browser case passes
+maximum supported donation amounts across four formal styles, oversized wording,
+blocked download, blocked browser-print output and recovery after correction.
+Initial failures identified fixed-region sizing issues and a test selector;
+these were corrected. An additional 80-combination card rendering matrix passes.
+Local Chrome checked 36 route/width/theme states with no overflow/page errors;
+actual 600 DPI PNG is 7016x4961 with pHYs 23622 pixels/metre. Final screenshots
+reviewed. Group export produced two valid PDF files in one ZIP. Production release follows below.
+Evidence: `.publish/studio-launch-browser.log`, `.publish/studio-launch-cert-rerun.log`,
+`.publish/studio-launch-donation.log`, `.publish/studio-launch-card-review.log`,
+`.publish/studio-release-review.log`. No wider platform suite was rerun.
+
+Moment Studio certificates/appreciation review (2026-11-08, discussion only): visually reviewed four local formal compositions with fictional volunteer details and a public Canva appreciation preview, alongside official Canva/Adobe galleries. Certificates are closer to launch quality than greetings; priorities are typography, readable long-text fitting, margins, signature/issuer alignment and reducing decorative repetition. Existing A4 300 DPI PDF/print, 300/600 DPI PNG, local branding/signatures, batch workflow and donation wording are strengths to preserve. Combined proposed scope and launch principles saved in `docs/MOMENT_STUDIO_LAUNCH_REFINEMENT_PLAN.md`; output `.publish/certificate-review-current.png`. No app changes, new export verification or deployment in this review.
+
+Moment Studio competitor review (2026-11-08, discussion only): reviewed public
+Canva and Adobe Express gallery listings and directly inspected four Greetings
+Island Birthday/sympathy preview images against the current local redesign.
+Reference examples: greetingsisland.com/preview/cards/abstract-and-bold-photo/76-42343,
+/preview/cards/trendy-bold-text-21/560-24819, /preview/cards/offset-panel/330-26805
+and /preview/cards/iris-petals/401-46462. Assessment: current cards are readable
+and simpler to create, but photo scale, typography variety, artwork and distinct
+compositions still trail the selected professionally designed examples. Sympathy
+messages and memorial announcements need clearer intent separation. Current
+1080-square/1080x1920 exports suit digital sharing; competitor paid/HD exports
+were not downloaded or verified. Browser galleries returned access restrictions;
+public listings and accessible public preview images were used, without bypass.
+No implementation or deployment; next direction pending user discussion.
+
 Moment Studio Birthday / memorial template redesign (2026-11-08, local): replaced
 shared generic stacking for Birthday, Condolence and Remembrance with separate
 occasion compositions. Birthday adds larger display typography, a serif recipient,

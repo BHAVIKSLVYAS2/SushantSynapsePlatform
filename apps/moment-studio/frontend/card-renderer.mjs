@@ -1,7 +1,7 @@
 import {drawWatermark} from './branding.mjs';
 ﻿export const occasions={
- condolence:{name:'Condolence / sympathy',en:{title:'With heartfelt sympathy',message:'There are no perfect words for a loss like this. Thinking of you and your family, and wishing you care and support in the days ahead.'},hi:{title:'हार्दिक संवेदनाएँ',message:'इस कठिन समय में हमारी संवेदनाएँ आपके और आपके परिवार के साथ हैं। आने वाले दिनों में आपको अपनों का सहारा और स्नेह मिले।'}},
- remembrance:{name:'Remembrance / tribute',en:{title:'Forever in our memories',message:'Remembering a life that touched ours with kindness. The stories we shared and the love we carry will stay with us.'},hi:{title:'स्मृतियों में हमेशा',message:'स्नेह और दया से हमारे जीवन को छूने वाले अपने प्रियजन को याद करते हुए। उनकी यादें और प्यार हमेशा हमारे साथ रहेंगे।'}},
+ condolence:{name:'Sympathy message',en:{title:'With heartfelt sympathy',message:'There are no perfect words for a loss like this. Thinking of you and your family, and wishing you care and support in the days ahead.'},hi:{title:'हार्दिक संवेदनाएँ',message:'इस कठिन समय में हमारी संवेदनाएँ आपके और आपके परिवार के साथ हैं। आने वाले दिनों में आपको अपनों का सहारा और स्नेह मिले।'}},
+ remembrance:{name:'Memorial / tribute',en:{title:'Forever in our memories',message:'Remembering a life that touched ours with kindness. The stories we shared and the love we carry will stay with us.'},hi:{title:'स्मृतियों में हमेशा',message:'स्नेह और दया से हमारे जीवन को छूने वाले अपने प्रियजन को याद करते हुए। उनकी यादें और प्यार हमेशा हमारे साथ रहेंगे।'}},
  congratulations:{name:'Congratulations',en:{title:'A moment worth celebrating',message:'Your hard work, patience and courage brought you here. Congratulations on this wonderful milestone!'},hi:{title:'आपकी सफलता पर बधाई!',message:'आपकी मेहनत, धैर्य और हिम्मत रंग लाई। इस खास उपलब्धि पर हार्दिक बधाई!'}},
  birthday:{name:'Birthday',en:{title:'Happy Birthday!',message:'Another year of stories, laughter and wonderful memories. Wishing you a day as special as you are.'},hi:{title:'जन्मदिन मुबारक!',message:'खुशियों, हँसी और खूबसूरत यादों से भरा एक नया साल। आपका दिन आपके जैसा ही खास हो।'}},
  invitation:{name:'Invitation',en:{title:"You're invited!",message:'Good company, happy moments and a reason to celebrate. Come join us!'},hi:{title:'आप सादर आमंत्रित हैं!',message:'अपनों का साथ और खुशियों के कुछ पल। आइए, मिलकर इस खास मौके को यादगार बनाएँ।'}},
@@ -38,6 +38,33 @@ function occasionCard(canvas,d,image){
  const block=(value,x,y,width,height,max,min=24,bold=false,align='center',family=serif,color=p.ink)=>{fits=textBlock(ctx,value,{x,y,width,height,max,min,bold,align,family,color})&&fits;};
  const line=(x,y,width,color=p.accent)=>{ctx.save();ctx.strokeStyle=color;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+width,y);ctx.stroke();ctx.restore();};
  ctx.fillStyle=p.bg;ctx.fillRect(0,0,w,h);
+ if(!memorial&&image&&['confetti','bold'].includes(d.design)){
+  // The photo leads this composition; the short form and original fields stay the same.
+  const x=story?110:570,width=story?860:420;
+  portrait(ctx,image,story?90:70,story?150:155,story?900:440,story?820:650,24,p);
+  ctx.fillStyle=p.soft;ctx.fillRect(story?90:70,story?982:817,story?900:440,8);
+  block(d.title,x,story?1050:205,width,story?180:220,story?108:75,34,true,'center',serif);
+  block(d.name,x,story?1240:455,width,story?115:110,story?76:56,28,false,'center',serif);
+  const details=d.details?(story?100:65):0;
+  block(d.message,x,story?1390:595,width,(story?1650:830)-(story?1390:595)-details,story?40:30,22,false,'center',sans);
+  if(d.details)block(d.details,x,(story?1650:830)-details+5,width,details-5,28,20,false,'center',sans,p.accent);
+  line(480,story?1700:896,120);block(d.from,145,story?1730:920,790,story?80:45,story?34:29,22,false,'center',sans);
+  drawWatermark(ctx,{x:60,y:h-104,width:w-120,height:64,ink:p.ink,background:p.bg});return {fits,width:w,height:h};
+ }
+ if(d.occasion==='condolence'&&!image&&!d.event&&!d.when&&!d.place){
+  // Sympathy is addressed to the bereaved, rather than presented as a memorial poster.
+  const left=story?160:145,width=w-left*2;
+  botanical(ctx,w-150,story?260:140,.65,p,true);
+  if(d.design==='bloom')botanical(ctx,70,h-290,.8,p);
+  line(left,story?210:140,95);
+  block(d.title,left,story?310:220,width,story?250:160,story?94:67,32,false,'left',serif);
+  block(d.name?(d.language==='hi'?'प्रिय ':'To ')+d.name:'',left,story?650:430,width,story?110:80,story?43:35,24,false,'left',sans,p.accent);
+  const details=d.details?(story?130:85):0;
+  block(d.message,left,story?860:550,width,(story?1500:820)-(story?860:550)-details,story?47:37,24,false,'left',sans);
+  if(d.details)block(d.details,left,(story?1500:820)-details,width,details,30,20,false,'left',sans,p.accent);
+  line(left,story?1660:890,95);block(d.from?(d.language==='hi'?'प्रेषक: ':'From: ')+d.from:'',left,story?1700:915,width,story?90:50,32,20,false,'left',sans);
+  drawWatermark(ctx,{x:60,y:h-104,width:w-120,height:64,ink:p.ink,background:p.bg});return {fits,width:w,height:h};
+ }
  if(memorial){
   // A single frame and sparse branches leave the person's name as the focus.
   if(d.design==='elegant'){
@@ -53,15 +80,15 @@ function occasionCard(canvas,d,image){
   }
   const gathering=!!(d.event||d.when||d.place);
   block(d.language==='hi'?'स्नेह और संवेदना के साथ':d.occasion==='remembrance'?'A LIFE REMEMBERED':'WITH DEEPEST SYMPATHY',150,story?76:62,780,42,22,20,false,'center',sans,p.accent);
-  if(image){const side=story?370:180;portrait(ctx,image,(w-side)/2,story?225:145,side,side,side/2,p);}
+  if(image){const side=story?(gathering?380:500):(gathering?200:280);portrait(ctx,image,(w-side)/2,story?225:130,side,side,side/2,p);}
   else{
    // A small olive sprig gives a deliberate focal point when no photo is supplied.
    ctx.save();ctx.translate(w/2-12,story?280:195);ctx.rotate(-.65);botanical(ctx,0,0,.38,p);ctx.restore();
   }
-  const titleY=story?(image?670:400):(image?350:262),nameY=story?(image?830:580):(image?440:365);
+  const titleY=story?(image?(gathering?700:790):400):(image?(gathering?365:440):262),nameY=story?(image?(gathering?850:960):580):(image?(gathering?455:525):365);
   block(d.title,140,titleY,800,story?125:76,story?62:43,27);
-  block(d.name,130,nameY,820,story?170:115,story?82:64,28,true);
-  const messageY=story?(image?1040:820):(image?564:530),messageEnd=story?(gathering?1320:1550):(gathering?735:825);
+  block(d.occasion==='condolence'&&d.name?(d.language==='hi'?'\u092a\u094d\u0930\u093f\u092f ':'To ')+d.name:d.name,130,nameY,820,story?170:115,story?82:64,28,true);
+  const messageY=story?(image?(gathering?1040:1160):820):(image?(gathering?580:650):530),messageEnd=story?(gathering?1320:1550):(gathering?750:850);
   const detailsHeight=d.details?(story?105:62):0;
   block(d.message,170,messageY,740,messageEnd-messageY-detailsHeight,story?42:34,22,false,'center',sans);
   if(d.details)block(d.details,160,messageEnd-detailsHeight+8,760,detailsHeight-8,story?29:25,18,false,'center',sans,p.accent);
@@ -74,7 +101,7 @@ function occasionCard(canvas,d,image){
   const fromY=story?1710:926;line(480,fromY-22,120);
   block(d.from?(d.language==='hi'?'प्रेषक: ':'From: ')+d.from:'',145,fromY,790,story?85:43,story?31:27,20,false,'center',sans);
  }else{
-  const modern=['bold','confetti'].includes(d.design);
+
   if(d.design==='bold'){
    ctx.fillStyle=p.soft;ctx.fillRect(0,0,w,story?690:380);
    ctx.fillStyle=p.accent;ctx.fillRect(0,story?690:380,w,12);
@@ -98,7 +125,7 @@ function occasionCard(canvas,d,image){
   const titleY=image?(story?710:407):(story?320:220),titleH=image?(story?245:125):(story?370:240);
   const starter=occasions.birthday[d.language].title;
   const heading=d.title===starter&&d.language==='en'?'Happy\nBirthday!':d.title;
-  block(heading,115,titleY,850,titleH,story?140:image?78:110,34,true,'center',modern?sans:serif);
+  block(heading,115,titleY,850,titleH,story?140:image?78:110,34,true,'center',d.design==='bold'?sans:serif);
   const nameY=titleY+titleH+(story?38:20),nameH=story?145:95;
   block(d.name,125,nameY,830,nameH,story?83:62,28,false,'center',serif);
   const messageY=nameY+(d.name?nameH:0)+(story?75:35),end=story?1610:844,detailH=d.details?(story?120:65):0;
