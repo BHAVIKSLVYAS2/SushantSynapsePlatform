@@ -9,6 +9,16 @@ dependency, catalogue/data or permission change. Nine search checks and three
 existing browser cases pass; the mobile case passes again after focus refinement.
 Chrome CLI verifies 15 width/theme states, shortened viewport scrolling, keyboard
 dismissal, selection and query scroll reset. Screenshots reviewed under `.publish/`.
+Deployed source `705fad6`; Worker `8f7a238b-1125-493c-b632-7b7d13a0247b`,
+with existing production variables/bindings retained. Live Chrome touch QA passes
+HDFC full/spaced searches, unavailable guard, keyboard dismissal, touch selection,
+15 width/theme states, constrained viewport/query scroll reset and comparison;
+no page errors or provider requests. Business API writes blocked. Initial live
+check asserted before catalogue loading; corrected verification waits for the
+actual option. Logs `.publish/fund-mobile-picker-deploy.log` and
+`.publish/fund-mobile-picker-live.log`; screenshot `.publish/fund-mobile-picker-live.png`.
+No production data changes or repository push. Native phone keyboard behaviour
+was checked through focus and viewport emulation, not a physical-device session.
 
 Home inline view switch (2026-11-08): replaced the separate Comfort/Compact row
 with one 32px switch beside Filters, retaining a 44px touch target, localized
