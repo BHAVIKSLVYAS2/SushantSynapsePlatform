@@ -1,6 +1,6 @@
 # Code ownership and adding apps
 
-Sushant Synapse Times retirement (2026-11-09): the `apps/news` implementation,
+Sushant Synapse Times retired and deployed (2026-11-09, source `53a3216`): the `apps/news` implementation,
 source/publication APIs, assets and catalogue/tooling are removed. Old `/news`
 and `/api/news` endpoints return 404. Older News ownership descriptions below
 are historical. Immutable schemas now belong to `packages/database/retired/news`;

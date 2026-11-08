@@ -1,5 +1,12 @@
 # Organisation licensing production cutover
 
+Times retirement deployed (2026-11-09 IST): source `53a3216`, Worker
+`30d54225-691a-4d27-87ac-d9f673af6cc8`. Isolated committed archive deployment with
+--keep-vars retains organisation mode, password authentication and D1 binding.
+No database/account changes or archive purge. Live retirement and thirty layout
+checks pass; health 200 and legacy private state denial 409 retained. Immutable
+news schemas and existing archived records remain in recovery ownership.
+
 Fund Lens retirement deployed (2026-11-09 IST): source `24f6117`, Worker
 `f7e48c5a-bf6c-435b-b97c-d932fa9e8d70`. Isolated committed archive deploy with
 --keep-vars preserves organisation mode, password authentication and D1 binding.

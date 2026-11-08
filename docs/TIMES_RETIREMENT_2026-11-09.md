@@ -1,5 +1,11 @@
 # Sushant Synapse Times retirement
 
+Deployed source `53a3216`, Worker `30d54225-691a-4d27-87ac-d9f673af6cc8`,
+9 November 2026 IST. Eight retired URLs and thirty live layout states pass, with
+health 200 and legacy private state denial 409. Organisation/D1/auth settings and
+existing archive records are preserved. Live evidence is in the functionality
+ledger. No-JavaScript catalogue checks pass with twelve cards and no Times link.
+
 User authorised complete app/code removal, commit and production deployment.
 
 Removed `apps/news` frontend/backend, source providers, publication/fetch/cache

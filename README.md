@@ -1,5 +1,9 @@
 # Curio · Sushant Synapse
 
+Sushant Synapse Times and Fund Lens are retired. Their old pages and APIs return
+404; existing stored records remain preserved for recovery. See the functionality
+ledger for the deployed releases and verification.
+
 Home offers a larger Comfort view by default (two apps per row) and the existing
 Compact view. The switch remembers the choice on this device. Comfort keeps app
 names readable, uses short English/Hindi/Gujarati purpose labels and clearly marks

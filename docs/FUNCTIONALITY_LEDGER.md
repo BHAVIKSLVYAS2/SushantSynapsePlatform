@@ -1,3 +1,17 @@
+Sushant Synapse Times retirement deployed (2026-11-09 IST): source `53a3216`,
+Worker `30d54225-691a-4d27-87ac-d9f673af6cc8`, at https://apps.sushantsynapse.com.
+Isolated committed archive deployment with --keep-vars passed; organisation mode,
+password authentication and production D1 binding preserved. No data/account/
+schema migration, archive purge or repository push. Live read-only Chrome passed
+eight retired page/asset/API URL checks (404), thirty theme/width/layout states,
+both Home modes, no Times listings/results, Hisabio search, Ritual reader controls,
+Moment Studio and the independent News Anchors game. Health 200; legacy private
+state remains denied 409. No page errors; API writes/ad traffic blocked. Reviewed
+live mobile screenshot. Local no-JavaScript catalogue verifies twelve cards and
+no Times link. Evidence: `.publish/times-deploy.log`, `.publish/times-live.log`,
+`.publish/times-nojs-final.log`,
+`output/playwright/times-retirement-live-home.png`.
+
 Sushant Synapse Times removal (2026-11-09, release preparation): removed all News
 app/frontend/backend/provider/publication/reading/artwork code, dedicated tests and
 verification/source tooling, catalogue/assets/SEO/ad/outage links, translations,
