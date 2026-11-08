@@ -9175,3 +9175,17 @@ resume and inclusion in the existing learning-notes download. Existing mantra
 selection and checklist preference semantics remain unchanged. Content provenance
 and deferred full liturgical text work are documented in
 `docs/RITUAL_PREP_CONTENT_RESEARCH_2026-11-08.md`. No API, schema or auth changes.
+
+Verification: three focused browser tests passed (learning scope, all fifteen
+bilingual guides/checklist/download/print regression, new mobile reader), followed
+by a passing reader rerun after preserving the reading tab across language changes.
+All four packs' English/Hindi notes exports verified. Production build and deploy
+passed from committed source `cd77de4`; Worker version
+`73808134-07c9-4823-a36c-b6568f3e7f60`. Live browser verification passed four packs,
+five Satyanarayan chapters, next/resume, large text, visible Hindi switching and
+390px overflow checks; no page errors. Health 200; legacy private API remains 409.
+API writes and ad traffic blocked during live verification. D1/organisation
+bindings preserved; no migrations, records or account changes. Evidence:
+`.publish/ritual-reader-deploy.log`, `.publish/ritual-reader-live.log`,
+`.publish/ritual-reader-live-mobile.png`. Full traditional aarti/katha and dedicated
+reading print layouts remain deferred pending verified editions and review.
