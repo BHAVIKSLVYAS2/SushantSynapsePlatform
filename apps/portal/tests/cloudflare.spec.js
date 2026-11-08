@@ -60,11 +60,9 @@ test('offline home keeps public tools usable and every dependent app shows a res
   await page.goto(base + '/timetable-lite'); await expect(page.locator('#backend-notice')).toHaveCount(0);
   await page.goto(base + '/news'); await expect(page.locator('#newspaper')).toBeVisible();
   await expect(page.locator('#device-note')).toBeVisible(); await expect(page.locator('#backend-notice')).toHaveCount(0);
-  await page.goto(base + '/fund-overlap'); await expect(page.locator('#fund-search')).toBeVisible();
   for (const route of ['/signin?next=advocate', '/advocate', '/digital-samaj', '/batchfee-lite', '/tournament-lite?share=abc']) {
     const response = await page.goto(base + route); expect(response.status()).toBe(503);
     await expect(page.getByRole('heading', {name: 'This app is temporarily unavailable.'})).toBeVisible();
-    await expect(page.getByRole('link', {name: 'Fund Lens', exact: true})).toBeVisible();
     await expect(page.getByRole('link', {name: 'News (temporary editions)', exact: true})).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await require('../../../tests/browser-theme.js').toggleTheme(page);

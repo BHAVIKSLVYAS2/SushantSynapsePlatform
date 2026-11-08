@@ -125,7 +125,6 @@ TRADITIONS / HINDU PREPARATION|परंपरा / अनुष्ठान त
 CREATE / CARDS & CERTIFICATES|बनाएँ / कार्ड और प्रमाणपत्र|બનાવો / કાર્ડ અને પ્રમાણપત્ર
 PLAY / YOUR BREAK COLLECTION|खेलें / विराम के लिए|રમો / વિરામ માટે
 PLAY / SATIRE & POP CULTURE|खेलें / व्यंग्य और पॉप संस्कृति|રમો / વ્યંગ અને પૉપ સંસ્કૃતિ
-INVESTING / FUND LENS|निवेश / फ़ंड लेंस|રોકાણ / ફંડ લેન્સ
 CHOOSE / RANDOM PICKER|चुनें / यादृच्छिक चुनाव|પસંદ કરો / રૅન્ડમ પસંદગી
 PLAY / UNTOLD THOUGHTS|खेलें / अनकही बातें|રમો / ન કહેવાયેલી વાતો
 FREE / EVERYDAY TOOLS|मुफ़्त / रोज़मर्रा के टूल|મફત / રોજિંદા સાધનો

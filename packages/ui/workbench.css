@@ -1,20 +1,7 @@
 /* Moment Studio materials: theme-aware, screen-only, independent of exported artwork. */
 @media screen {
-  body[data-ui-app=moment-studio]:has(.studio-bento) {
-    --studio-amber:var(--ui-muted);--studio-glow:transparent;--studio-backdrop:color-mix(in srgb,var(--ui-bg) 65%,transparent);
-  }
-  body[data-ui-app=moment-studio]:has(.studio-bento) :is(.panel,.studio-featured,.tool-tile,.studio-intro,#studio-command) {background:var(--ui-glass);border-color:var(--ui-edge);backdrop-filter:blur(16px)}
-  body[data-ui-app=moment-studio]:has(.studio-bento) :is(button,.tool-tile,.studio-featured,a) {transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s cubic-bezier(.16,1,.3,1),border-color .3s cubic-bezier(.16,1,.3,1),background .3s cubic-bezier(.16,1,.3,1)}
-  body[data-ui-app=moment-studio]:has(.studio-bento) .studio-badge {color:var(--studio-amber);background:color-mix(in srgb,var(--studio-amber) 12%,transparent);border:1px solid color-mix(in srgb,var(--studio-amber) 30%,transparent)}
-  body[data-ui-app=moment-studio]:has(.studio-bento) button[aria-pressed=true]:not([data-theme-toggle]) {background:var(--ui-accent);color:var(--ui-on-accent);border-color:var(--ui-accent)}
-  body[data-ui-app=moment-studio]:has(.studio-bento) .tool-tile:focus-within {border-color:var(--ui-accent);box-shadow:0 8px 32px -8px var(--studio-glow)}
-  body[data-ui-app=moment-studio]:has(.studio-bento) .drag-active {outline:2px dashed var(--ui-accent);outline-offset:4px}
-  body[data-ui-app=moment-studio] #studio-command::backdrop {background:var(--studio-backdrop);backdrop-filter:blur(8px)}
-  body[data-ui-app=moment-studio]:has(.studio-bento) :is(input,select,textarea) {background:var(--ui-solid);color:var(--ui-text);border-color:var(--ui-edge)}
-  body[data-ui-app=moment-studio]:has(.studio-bento) .studio-intro h1 em {color:var(--ui-accent);font-style:normal}
-  @media(hover:hover) {body[data-ui-app=moment-studio]:has(.studio-bento) .tool-tile:hover {transform:translateY(-3px);border-color:var(--ui-accent);box-shadow:0 8px 32px -8px var(--studio-glow)}body[data-ui-app=moment-studio]:has(.studio-bento) button:not(:disabled):hover {transform:translateY(-2px)}}
-  body[data-ui-app=moment-studio]:has(.studio-bento) button:not(:disabled):active {transform:scale(.97)}
-  @media(prefers-reduced-motion:reduce) {body[data-ui-app=moment-studio]:has(.studio-bento) :is(button,a,.tool-tile,.studio-featured) {transition:none!important;transform:none!important}}
+  @media(hover:hover) {}
+  @media(prefers-reduced-motion:reduce) {}
 }
 /* Arena score colours distinguish all three reaction groups in both themes. */
 @media screen {
@@ -114,7 +101,7 @@
   body[data-ui-app]:not(:has(.public-home)) :is(.intro,.hero):has(>.ui-tool-art) {padding-right:148px}
   body[data-ui-app=timetable-lite] .hero>.ui-tool-art {display:none}
   body[data-ui-app=timetable-lite]:not(:has(.public-home)) .hero:has(>.ui-tool-art) {padding-right:32px}
-  body[data-ui-app] :is(.panel,.card,.library,.game,.playground,.workbench,.fund-card,.team,.match,.intro-banner) {
+  body[data-ui-app] :is(.panel,.card,.library,.game,.playground,.workbench,.team,.match,.intro-banner) {
     border-radius:20px; border-color:var(--ui-edge); background:var(--ui-glass); box-shadow:var(--ui-shadow);
   }
   body[data-ui-app] :is(.panel,.card,.library,.workbench) {min-width:0}
@@ -231,11 +218,6 @@
   body[data-ui-app=tournament-lite] .hero {border-color:var(--ui-mint-edge)}
   body[data-ui-app=tournament-lite] .match {padding:16px;border:1px solid var(--ui-edge)}
   body[data-ui-app=tournament-lite] .round {border-radius:16px}
-  /* Remaining tools: coherent workbenches while retaining their native game/art colours. */
-  body[data-ui-app=fund-overlap] .workbench {border-color:var(--ui-mint-edge)}
-  body[data-ui-app=fund-overlap] .fund-card.selected {background:var(--ui-mint-wash);border-color:var(--ui-accent)}
-  body[data-ui-app=fund-overlap] .stat:first-child {background:var(--ui-mint-wash);color:var(--ui-ink);border-color:var(--ui-mint-edge)}
-  body[data-ui-app=fund-overlap] .selection {background:var(--ui-mint-wash);border-color:var(--ui-mint-edge);border-radius:14px}
   body[data-ui-app=take-a-break] .break-card {border-radius:20px;border-color:var(--ui-edge)}
   body[data-ui-app=take-a-break] .card-symbol {border-radius:16px;box-shadow:inset 0 1px 0 var(--ui-highlight)}
   body[data-ui-app=daily-spark] .game {border-color:var(--ui-mint-edge);background:var(--ui-panel)}

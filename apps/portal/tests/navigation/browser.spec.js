@@ -132,7 +132,7 @@ test('Ritual learning loads on demand, offers sourced bilingual prayers, and sup
 
 test('public apps fit narrow screens and themes, including the shared keyboard-height dialog',async({page})=>{
  test.setTimeout(180000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
- for(const route of ['/','/ritual-assist','/ritual-assist/calendar','/moment-studio/cards','/moment-studio/certificates','/rashifal-kundli','/rashifal-kundli/matching','/rashifal-kundli/rashifal','/take-a-break','/team-mixer','/decision-wheel','/timetable-lite','/fund-overlap','/news','/feedback']){
+ for(const route of ['/','/ritual-assist','/ritual-assist/calendar','/moment-studio/cards','/moment-studio/certificates','/rashifal-kundli','/rashifal-kundli/matching','/rashifal-kundli/rashifal','/take-a-break','/team-mixer','/decision-wheel','/timetable-lite','/news','/feedback']){
   await page.goto(base+route);await expect(page.locator('.platform-shell')).toBeVisible();
   for(const width of [320,360,375,390,412,430,768,1440])for(const theme of ['light','dark']){
    await page.setViewportSize({width,height:740});await page.evaluate(theme=>document.documentElement.dataset.theme=theme,theme);

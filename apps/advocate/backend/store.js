@@ -38,13 +38,14 @@ class Store extends PlatformDatabase {
       if(beforeExport)beforeExport();
     const literal = value => value === null ? 'NULL' : value instanceof Uint8Array ? "X'" + Buffer.from(value).toString('hex') + "'" : typeof value === 'number' ? String(value) : "CAST(X'" + Buffer.from(String(value),'utf8').toString('hex') + "' AS TEXT)";
     const extension=require('../../../packages/database/organisation-recovery.cjs').organisationRecovery(this.sql,literal);
-    const lines = ['-- Chambers full SQLite export. Import into a NEW, empty database.', '-- Includes account password hashes, audit records and documents; excludes live sessions.', '-- Exported '+new Date().toISOString(), this.schemaSql, extension.schema, 'BEGIN TRANSACTION;'];
+    const retired=require('../../../packages/database/retired-recovery.cjs').retiredRecovery(this.sql,literal);
+    const lines = ['-- Chambers full SQLite export. Import into a NEW, empty database.', '-- Includes account password hashes, audit records and documents; excludes live sessions.', '-- Exported '+new Date().toISOString(), this.schemaSql, extension.schema, retired.schema, 'BEGIN TRANSACTION;'];
     for (const table of ['users','app_access','platform_preferences','records','files','settings','audit',...(this.extraExportTables||[])]) {
       for (const row of this.sql.prepare(`SELECT * FROM ${table}`).all()) {
         lines.push(`INSERT INTO ${table} (${Object.keys(row).map(k=>'"'+k+'"').join(', ')}) VALUES (${Object.values(row).map(literal).join(', ')});`);
       }
     }
-    lines.push(...extension.inserts);
+    lines.push(...extension.inserts,...retired.inserts);
     lines.push('COMMIT;');
     return lines.join('\n');
     });

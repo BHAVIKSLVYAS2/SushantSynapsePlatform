@@ -46,12 +46,10 @@ for(const language of ['hi','gu']){
  });
  test(language+' audited public tools translate instructions and keep mobile layout',async({page})=>{
   await page.addInitScript(l=>localStorage.setItem('synapse-language',l),language);await page.setViewportSize({width:390,height:844});const script=language==='hi'?/[\u0900-\u097f]/:/[\u0a80-\u0aff]/;
-  await page.route('**/api/fund-overlap/fund-index.json',route=>route.fulfill({json:require('../../../fund-overlap/data/fund-index.json')}));
-  for(const [route,selector]of [['/photo-resize','label:has(#document-kind)'],['/timetable-lite','button[type=submit]'],['/fund-overlap','#main h2'],['/ritual-assist/guides','#share-checklist']]){
+  for(const [route,selector]of [['/photo-resize','label:has(#document-kind)'],['/timetable-lite','button[type=submit]'],['/ritual-assist/guides','#share-checklist']]){
    await page.goto(base+route);if(route.includes('guides'))await page.locator('#guide-title').waitFor();
    if(route==='/photo-resize'){await expect(page.locator('#document-kind option[value=photo]')).toHaveText(language==='hi'?'फोटो':'ફોટો');await expect(page.locator('#fit')).toHaveValue('fit');}
    else if(route==='/timetable-lite'){await page.locator('#steps [data-step="1"]').click();await expect(page.getByRole('button',{name:language==='hi'?'कक्षा जोड़ें':'વર્ગ ઉમેરો',exact:true})).toBeVisible();}
-   else if(route==='/fund-overlap')await expect(page.getByRole('button',{name:language==='hi'?'देशव्यापी खोज':'દેશભરમાં શોધ',exact:true})).toBeVisible();
    else {await expect(page.getByRole('button',{name:language==='hi'?'चित्र साझा करें':'ચિત્ર શેર કરો',exact:true})).toBeVisible();await expect(page.locator('[data-ritual-section=dates]')).toHaveText(language==='hi'?'व्रत तिथियाँ':'વ્રતની તારીખો');await expect(page.locator('.ritual-task-header p')).toHaveText(language==='hi'?'अनुष्ठान चुनें, फिर सामग्री की व्यवस्था करें और टिक लगाएँ।':'વિધિ પસંદ કરો, પછી તેની સામગ્રી ગોઠવો અને ટિક કરો.');}
    await expect(page.locator('html')).toHaveAttribute('lang',language);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),route).toBe(true);
   }

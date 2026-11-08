@@ -1,3 +1,41 @@
+Fund Lens retirement and confirmed dead-code cleanup (2026-11-09, local only):
+removed the complete Fund Lens app, public reference datasets, provider/private
+APIs, app registry/assets, calculators, ingestion and refresh job, dedicated tests,
+workspace commands/lock entries and obsolete product documents. Retired page and
+API routes return 404 before forwarding/authentication. Removed unused Ritual
+mountLanding import/helper and confirmed obsolete CSS across twelve authored
+stylesheets (18,719 source bytes), then rebuilt shared CSS/catalogue/language
+bundles. Kept dynamic/live CSS and non-Fund test-covered contracts.
+
+Preserved existing user records, databases, backups and runtime caches. Moved
+immutable SQLite/SQL Server migration sources byte-for-byte to database-owned
+retired metadata. Added full SQLite export preservation for existing retired
+tables/rows/indexes without creating those tables in fresh Node workspaces.
+Historical D1 migrations and transfer/catalogue ownership remain intact.
+
+Verification: initial full run 571/575; four integration expectations corrected.
+Focused 39/39 pass. Final full run 577/578, with one export-directory concurrency
+failure caused by simultaneous build validation; sequential edge rerun passes
+7/7. Final source/catalogue/recovery checks pass 6/6. Production-profile dry build
+passes in an isolated working-tree copy with organisation/D1 configuration and no
+Fund Lens/archive/runtime assets. Playwright CLI passes 48 local layout states,
+four retired URLs, Home search and reader controls; reviewed screenshots. No page
+errors; blocked ad requests are expected. All fixtures use temporary DATA_DIR.
+Syntax and diff whitespace checks pass. No deployment, production requests,
+database migrations or commit in this increment. Details/evidence:
+`docs/FUND_LENS_RETIREMENT_2026-11-09.md`.
+
+Dead code/CSS audit (2026-11-09, analysis only): refreshed repository screening
+across 1,927 tracked files and 28 app directories. Reviewed 74 authored CSS files;
+984 selector occurrences across 42 files were flagged as lexical candidates, not
+confirmed unused rules. Manually identified retired Home/Studio/News/Fund/Ritual
+component selector families, smaller Admin/certificate/Daily Spark leftovers and
+one unused Ritual import; separately recorded three helper/export candidates.
+Checked dynamic heat/slice/theme class false positives and preserved compatibility,
+test-covered, generated, database and recovery boundaries. Detailed findings and
+cleanup validation plan: `docs/DEAD_CODE_CSS_AUDIT_2026-11-09.md`. No application
+edits/deletions, build/test execution, production requests or deployment performed.
+
 Ritual Prep content research (2026-11-08, discussion only): audited all fifteen
 guides and their actual learning coverage. Daily/Ganesh/Lakshmi have simplified
 sequences and selected sourced prayers; most other Shubh guides share two general

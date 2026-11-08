@@ -472,38 +472,6 @@ main {
   font-size: .7rem;
 }
 
-.headline-index {
-  border: 1px solid var(--line);
-  background: var(--paper);
-  border-radius: 10px;
-  margin-bottom: 22px;
-  padding: 12px 16px;
-}
-
-.headline-index summary {
-  font-size: .78rem;
-  font-weight: 650;
-}
-
-.headline-index ol {
-  grid-template-columns: 1fr 1fr;
-  gap: 12px 30px;
-  margin: 18px 0 8px;
-  padding-left: 24px;
-  font-size: .8rem;
-  display: grid;
-}
-
-.headline-index a {
-  padding: 5px 0;
-  text-decoration: none;
-  display: inline-block;
-}
-
-.headline-index a:hover {
-  text-decoration: underline;
-}
-
 .saved-stories {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
@@ -833,10 +801,6 @@ footer {
     font-size: .65rem;
   }
 
-  .headline-index ol {
-    grid-template-columns: 1fr;
-  }
-
   .archive {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -912,7 +876,7 @@ footer {
     --coral: #222;
   }
 
-  .topbar, .skip, .edition-tools, .reading-nav, #fetch-preview, .preview-note, .headline-index, #edition-navigation, .archive, #reader-status, .expand-brief, .reading-time {
+  .topbar, .skip, .edition-tools, .reading-nav, #fetch-preview, .preview-note, #edition-navigation, .archive, #reader-status, .expand-brief, .reading-time {
     display: none !important;
   }
 

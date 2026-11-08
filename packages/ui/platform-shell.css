@@ -78,8 +78,6 @@ body.has-platform-shell :is(.theme-control,.theme-picker):not(.platform-shell *)
  body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending):not(:has(.public-home)) :is(main .page-heading,main .page-top,main .intro,main .hero) {padding:0;background:none;border:0;box-shadow:none;border-radius:0;min-height:0;margin-top:0;margin-bottom:24px}
  body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) :is(main .panel,main .card,main .stat) {border-radius:12px;backdrop-filter:none;box-shadow:none;background:var(--shell-surface)}
  :is(.has-platform-shell,.platform-shell-pending) :is(.ui-workspace-art,.ui-section-art,.ui-tool-art,main .hero-mark) {display:none}
- html[data-theme] body:is(.has-platform-shell,.platform-shell-pending)[data-ui-app=moment-studio]:has(.studio-bento) {--ui-bg:var(--shell-bg);--ui-solid:var(--shell-surface);--ui-text:var(--shell-ink);--ui-muted:var(--shell-muted);--ui-edge:var(--shell-line);--ui-accent:var(--shell-accent);--ui-soft:var(--shell-soft);--ui-glass:var(--shell-surface);--ui-on-accent:var(--shell-on-accent);--studio-glow:transparent;--studio-amber:var(--shell-muted);background:var(--shell-bg)}
- body:is(.has-platform-shell,.platform-shell-pending)[data-ui-app=moment-studio]:has(.studio-bento) :is(.panel,.studio-featured,.tool-tile,.studio-intro) {backdrop-filter:none;box-shadow:none}
  body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home {padding-left:0}
  body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home main {max-width:1280px;padding:24px}
  body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-hero {padding:0;margin:0 0 20px;display:block}
@@ -91,7 +89,7 @@ body.has-platform-shell :is(.theme-control,.theme-picker):not(.platform-shell *)
  body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-apps {grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
  body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-app {display:flex;flex-direction:column;grid-column:auto!important;min-height:0;border-radius:12px;background:var(--shell-surface);box-shadow:none;border-color:var(--shell-line)}
  body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-app::after {display:none}
- body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-app :is(.news-visual,.fund-visual) {height:64px;width:auto;margin:16px 18px 0;justify-content:flex-start;align-items:center;grid-column:auto;grid-row:auto}
+ body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-app :is(.news-visual) {height:64px;width:auto;margin:16px 18px 0;justify-content:flex-start;align-items:center;grid-column:auto;grid-row:auto}
  body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-app .home-sculpture {width:72px;height:64px}
  body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-app .public-app-copy {padding:12px 18px 18px;flex:1;justify-content:flex-start;grid-column:auto;grid-row:auto}
  body[data-ui-app]:is(.has-platform-shell,.platform-shell-pending) .public-home .public-app-copy h2 {font:650 20px/1.25 Inter,"Segoe UI",Arial,sans-serif;letter-spacing:-.4px}

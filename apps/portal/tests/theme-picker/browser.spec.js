@@ -37,6 +37,6 @@ test('stale System preference migrates to Light and is not offered',async({page}
 
 test('localized picker and legacy app initialisers preserve Deep Black across navigation',async({page})=>{
  await page.goto(base+'/');await page.evaluate(()=>SynapseLanguage.set('hi'));await page.locator('[data-theme-toggle]:visible').click();await expect(page.locator('[data-theme-choice=deep]')).toHaveAccessibleName('गहरा काला');await page.locator('[data-theme-choice=deep]').click();
- for(const route of ['/moment-studio/cards','/moment-studio/certificates','/fund-overlap','/timetable-lite','/ritual-assist']){await page.goto(base+route);await expect(page.locator('html')).toHaveAttribute('data-theme-style','deep');await expect.poll(()=>page.evaluate(()=>SynapseTheme.preference())).toBe('deep');}
+ for(const route of ['/moment-studio/cards','/moment-studio/certificates','/timetable-lite','/ritual-assist']){await page.goto(base+route);await expect(page.locator('html')).toHaveAttribute('data-theme-style','deep');await expect.poll(()=>page.evaluate(()=>SynapseTheme.preference())).toBe('deep');}
  await expect(page.locator('body')).toHaveCSS('background-color','rgb(0, 0, 0)');await setTheme(page,'dark');await expect(page.locator('html')).toHaveAttribute('data-theme-style','');await expect(page.locator('html')).toHaveAttribute('lang','hi');
 });

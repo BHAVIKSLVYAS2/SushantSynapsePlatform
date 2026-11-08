@@ -7,7 +7,6 @@
  'moment-studio':['Cards and certificates','कार्ड और प्रमाणपत्र','કાર્ડ અને પ્રમાણપત્ર'],
  'daily-spark':['Puzzles and games','पहेलियाँ और खेल','કોયડા અને રમતો'],
  'satire-arena':['Fictional satire games','काल्पनिक व्यंग्य खेल','કાલ્પનિક વ્યંગ્ય રમતો'],
- 'fund-overlap':['Funds and money planning','फंड और बचत की योजना','ફંડ અને બચતનું આયોજન'],
  'decision-wheel':['Pick a random choice','एक विकल्प चुनें','એક વિકલ્પ પસંદ કરો'],
  'qr-maker':['Make QR codes','QR कोड बनाएँ','QR કોડ બનાવો'],
  'photo-resize':['Resize your photos','फ़ोटो का आकार बदलें','ફોટોનું કદ બદલો'],

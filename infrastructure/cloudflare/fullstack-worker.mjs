@@ -7,12 +7,12 @@ import {accountIntentPath} from '../../packages/ui/task-intent.mjs';
 import {secureResponse} from './response-security.mjs';
 async function handleRequest(request,env){
   const url=new URL(request.url);
+  if(/^\/(?:api\/)?fund-overlap(?:\/|$)/.test(url.pathname))return new Response('Not found',{status:404,headers:{'Cache-Control':'no-store'}});
   let decoded;try{decoded=decodeURIComponent(url.pathname);}catch{return new Response('Not found',{status:404});}
   if(/^\/_(?:pages|edge|organisations)(?:\/|$)/.test(decoded))return new Response('Not found',{status:404});
-  if(url.pathname.startsWith('/_static/')||url.pathname.startsWith('/_fund-runtime/')){
+  if(url.pathname.startsWith('/_static/')){
    if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405,headers:{'Cache-Control':'no-store'}});
    const asset=await env.ASSETS.fetch(request),headers=new Headers(asset.headers);
-   if(url.pathname.startsWith('/_fund-runtime/'))headers.set('Cache-Control','public, max-age=31536000, immutable');
    // Missing/retired release URLs must never become long-lived cached errors.
    if(![200,206,304].includes(asset.status))headers.set('Cache-Control','no-store');
    return new Response(request.method==='HEAD'?null:asset.body,{status:asset.status,headers});
@@ -36,13 +36,12 @@ async function handleRequest(request,env){
   // The existing public source endpoints continue at the edge. Private APIs never
   // fall through to the laptop or share staging/production storage bindings.
   if(url.pathname.startsWith('/api/')||url.pathname==='/healthz'){
-   const publicFund=url.pathname.startsWith('/api/fund-overlap/')&&!/^\/api\/fund-overlap\/(portfolio|watchlists|plans|nav)(\/|$)/.test(url.pathname);
-   if(publicFund||url.pathname==='/api/news/sources')return frontend(request,env,req=>edgeApi(req,env));
+   if(url.pathname==='/api/news/sources')return frontend(request,env,req=>edgeApi(req,env));
    return edgeApi(request,env);
   }
   // Page readiness now comes from D1, including on the separate staging hostname.
   const {default:pages}=await import('./pages.json',{with:{type:'json'}});
-  const canonical=['/news/','/advocate/','/fund-overlap/','/signin/'].includes(url.pathname)?url.pathname.slice(0,-1):url.pathname;
+  const canonical=['/news/','/advocate/','/signin/'].includes(url.pathname)?url.pathname.slice(0,-1):url.pathname;
   if(pages[canonical]){
    if(env.FREE_MODE==='true'&&env.FULL_APPS!=='true'&&/^\/(digital-samaj|batchfee-lite|tournament-lite)(\/|$)/.test(canonical))return new Response('This workspace is unavailable in the free cloud version. Existing records are preserved in the local workspace.',{status:503,headers:{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'}});
    if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405});

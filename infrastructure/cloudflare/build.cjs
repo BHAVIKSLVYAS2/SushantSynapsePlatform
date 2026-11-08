@@ -1,7 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const {staticAssets} = require('../../server/static-assets');
-const {createOfficialReferenceStore,officialArchives} = require('../../apps/fund-overlap/backend/official-reference-store');
 const root = path.resolve(__dirname, '../..');
 const output = path.join(__dirname, 'dist');
 // Export only the public allowlist, never data, credentials or backend source.
@@ -15,23 +14,6 @@ function build({fullstack=false,organisations=false}={}) {
     fs.rmSync(output, {recursive: true});
   }
   fs.mkdirSync(output, {recursive: true});
-  const references = createOfficialReferenceStore(path.join(root,'apps/fund-overlap/data')).read();
-  fs.writeFileSync(path.join(__dirname, 'fund-references.json'), JSON.stringify(references));
-  // Portfolio bytes belong in free static assets, rather than growing the
-  // compressed Worker bundle with every covered fund or reporting month.
-  const runtimeReferences=Object.fromEntries(Object.entries(references).filter(([url])=>!url.startsWith('/api/fund-overlap/holdings/')));
-  fs.writeFileSync(path.join(__dirname,'fund-runtime-references.json'),JSON.stringify(runtimeReferences));
-  const report=runtimeReferences.__officialCoverage,messages=[...new Set(report.schemes.map(row=>row.message))],statuses=[...new Set(report.schemes.map(row=>row.status))];
-  const partitions={base:Object.fromEntries(Object.entries(runtimeReferences).filter(([key])=>!['__officialCoverage','__officialAuditSearch','__officialCatalogueSearch'].includes(key))),search:{__officialCatalogueSearch:runtimeReferences.__officialCatalogueSearch},coverage:{__officialAuditSearch:runtimeReferences.__officialAuditSearch}};
-  partitions.base.__officialCoverage={...report,schemes:report.schemes.map(row=>[row.schemeCode,statuses.indexOf(row.status),messages.indexOf(row.message)]),compact:{messages,statuses}};
-  const referenceManifest={},writePartition=(name,value)=>{const bytes=Buffer.from(JSON.stringify(value)),digest=require('node:crypto').createHash('sha256').update(bytes).digest('hex').slice(0,24),target='/_fund-runtime/'+digest+'/'+name+'.json';fs.mkdirSync(path.dirname(path.join(output,target)),{recursive:true});fs.writeFileSync(path.join(output,target),bytes);return target;};
-  for(const [name,value]of Object.entries(partitions))referenceManifest[name]=writePartition(name,value);
-  referenceManifest.rows=[];referenceManifest.chunkSize=1024;
-  for(let i=0;i<report.schemes.length;i+=referenceManifest.chunkSize)referenceManifest.rows.push(writePartition('rows-'+i,report.schemes.slice(i,i+referenceManifest.chunkSize)));
-  fs.writeFileSync(path.join(__dirname,'fund-runtime-manifest.json'),JSON.stringify(referenceManifest));
-  const current=Object.keys(references).filter(url=>url.startsWith('/api/fund-overlap/holdings/')).map(url=>({url,relative:url.slice('/api/fund-overlap/'.length),target:'/_fund-archive/'+url.slice('/api/fund-overlap/'.length)}));
-  const archives=[...current,...officialArchives(path.join(root,'apps/fund-overlap/data'),references)];
-  fs.writeFileSync(path.join(__dirname,'fund-archives.json'),JSON.stringify(Object.fromEntries(archives.map(item=>[item.url,item.target]))));
   const pages = {}, files = new Map();
   for (const [url, source] of Object.entries(staticAssets)) {
     const target = source.endsWith('.html') ? '/_pages/' + (url.replaceAll('/', '') || 'home') + '.html' : url;
@@ -41,7 +23,6 @@ function build({fullstack=false,organisations=false}={}) {
   files.set('/_pages/unavailable.html', 'apps/portal/frontend/unavailable.html');
   files.set('/shared/availability.js', 'packages/ui/availability.js');
   files.set('/shared/availability.css', 'packages/ui/availability.css');
-  for(const archive of archives)files.set(archive.target,'apps/fund-overlap/data/'+archive.relative);
   for (const [url, source] of files) {
     const target = path.join(output, url);
     fs.mkdirSync(path.dirname(target), {recursive: true});

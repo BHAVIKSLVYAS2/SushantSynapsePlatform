@@ -1,10 +1,9 @@
 import {newsSources} from './news-sources.mjs';
-import {fundSources} from './fund-sources.mjs';
 import adsense from '../../packages/ui/adsense.cjs';
 import vedicPrivacy from '../../apps/rashifal-kundli/privacy.cjs';
 import pages from './pages.json' with {type: 'json'};
 import {cloudPages} from '../../apps/satire-arena/backend/cloud-pages.mjs';
-const independent = new Set(['/qr-maker','/qr-maker/','/photo-resize','/photo-resize/','/bill-splitter','/bill-splitter/','/satire-arena','/satire-arena/','/privacy', '/privacy/', '/terms', '/terms/', '/contact', '/contact/', '/legal', '/legal/', '/legal/third-party-notices', '/legal/third-party-notices/', '/showcase', '/showcase/', '/support', '/support/', '/ritual-assist', '/ritual-assist/', '/ritual-assist/guides', '/ritual-assist/guides/', '/ritual-assist/calendar', '/ritual-assist/calendar/', '/take-a-break', '/take-a-break/', '/moment-studio', '/moment-studio/', '/moment-studio/cards', '/moment-studio/cards/', '/moment-studio/certificates', '/moment-studio/certificates/', '/team-mixer', '/team-mixer/', '/decision-wheel', '/decision-wheel/', '/daily-spark', '/daily-spark/', '/', '/fund-overlap', '/news', '/timetable-lite', '/timetable-lite/']);
+const independent = new Set(['/qr-maker','/qr-maker/','/photo-resize','/photo-resize/','/bill-splitter','/bill-splitter/','/satire-arena','/satire-arena/','/privacy', '/privacy/', '/terms', '/terms/', '/contact', '/contact/', '/legal', '/legal/', '/legal/third-party-notices', '/legal/third-party-notices/', '/showcase', '/showcase/', '/support', '/support/', '/ritual-assist', '/ritual-assist/', '/ritual-assist/guides', '/ritual-assist/guides/', '/ritual-assist/calendar', '/ritual-assist/calendar/', '/take-a-break', '/take-a-break/', '/moment-studio', '/moment-studio/', '/moment-studio/cards', '/moment-studio/cards/', '/moment-studio/certificates', '/moment-studio/certificates/', '/team-mixer', '/team-mixer/', '/decision-wheel', '/decision-wheel/', '/daily-spark', '/daily-spark/', '/', '/news', '/timetable-lite', '/timetable-lite/']);
 independent.add('/feedback');independent.add('/feedback/');
 const security = {
   'Strict-Transport-Security': 'max-age=3600',
@@ -14,7 +13,7 @@ const security = {
   'Content-Security-Policy': "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
 };
 function unavailable(method) {
-  return new Response(method === 'HEAD' ? null : JSON.stringify({error: 'The backend is currently unavailable. Please try again later. Fund Lens, News temporary editions, Moment Studio, Timetable Lite, Daily Spark, Decision Wheel, Team Mixer remain available with an internet connection. Chambers, DIGITAL SAMAJ, Tournament Lite, BatchFee Lite and News saved editions need the server connection to return.', code: 'BACKEND_UNAVAILABLE'}), {
+  return new Response(method === 'HEAD' ? null : JSON.stringify({error: 'The backend is currently unavailable. Please try again later. News temporary editions, Moment Studio, Timetable Lite, Daily Spark, Decision Wheel, Team Mixer remain available with an internet connection. Chambers, DIGITAL SAMAJ, Tournament Lite, BatchFee Lite and News saved editions need the server connection to return.', code: 'BACKEND_UNAVAILABLE'}), {
     status: 503, headers: {...security, 'Content-Type': 'application/json; charset=utf-8', 'Retry-After': '30'},
   });
 }
@@ -22,6 +21,7 @@ function unavailable(method) {
 // would change fetch(request) routing and must not replace this configuration.
 export async function handle(request, env, originFetch = fetch, sourceOptions = {}) {
   const url = new URL(request.url), pathname = url.pathname;
+  if(/^\/(?:api\/)?fund-overlap(?:\/|$)/.test(url.pathname))return new Response('Not found',{status:404,headers:{'Cache-Control':'no-store'}});
   const satirePage=await cloudPages(request,req=>url.hostname==='apps.sushantsynapse.com'?originFetch(req):Promise.resolve(new Response(null,{status:503})));if(satirePage)return adsense.responseWithAds(satirePage,pathname,request.headers.get('Cookie')||'',crypto.randomUUID(),request.method);
   if(env.MAINTENANCE_MODE==='true'&&(pathname.startsWith('/api/')||pathname==='/healthz'))return new Response(JSON.stringify({error:'The workspace is undergoing maintenance. Please try again shortly.'}),{status:503,headers:{...security,'Content-Type':'application/json; charset=utf-8','Retry-After':'60'}});
   const arenaRoute=pathname === '/api/satire-arena' || pathname.startsWith('/api/satire-arena/');
@@ -30,7 +30,6 @@ export async function handle(request, env, originFetch = fetch, sourceOptions = 
     const limit=await env.ARENA_LIMITER.limit({key:request.headers.get('CF-Connecting-IP')||'unknown'});
     if(!limit.success)return new Response(JSON.stringify({error:'Please wait a minute before trying again.'}),{status:429,headers:{...security,'Content-Type':'application/json; charset=utf-8'}});
   }
-  if (pathname.startsWith('/api/fund-overlap/') && !/^\/api\/fund-overlap\/(portfolio|watchlists|plans|nav)(\/|$)/.test(pathname)) return fundSources(request, env, sourceOptions);
   if (pathname === '/api/news/sources') return newsSources(request, env, sourceOptions);
   if (pathname.startsWith('/api/') || pathname === '/healthz') {
     // Never forward preview-host credentials/writes to the production database.
@@ -49,7 +48,7 @@ export async function handle(request, env, originFetch = fetch, sourceOptions = 
     headers.set('Content-Type','text/plain; charset=utf-8');headers.set('Cache-Control','public, max-age=86400');
     return new Response(request.method==='HEAD'?null:asset.body,{status:asset.status,headers});
   }
-  const canonical = ['/news/', '/advocate/', '/fund-overlap/', '/signin/'].includes(pathname) ? pathname.slice(0, -1) : pathname;
+  const canonical = ['/news/', '/advocate/', '/signin/'].includes(pathname) ? pathname.slice(0, -1) : pathname;
   let page = pages[canonical];
   if (!page) return new Response('Not found', {status: 404, headers: security});
   let offline = false;

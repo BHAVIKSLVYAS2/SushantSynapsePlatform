@@ -10,7 +10,6 @@ const {createDigitalSamaj}=require('../apps/digital-samaj/backend/routes');
 const {createBatchFee}=require('../apps/batchfee-lite/backend/routes');
 const {createTournament}=require('../apps/tournament-lite/backend/routes');
 const {createNewsRepository}=require('../apps/news/backend/repository');
-const {createPortfolio}=require('../apps/fund-overlap/backend/portfolio');
 const {edition}=require('../apps/news/tests/fixtures');
 const root=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-sql-integration-'));
 let source,target,store;
@@ -20,7 +19,8 @@ async function main(){
  for(const [id,role]of [['owner','Owner'],['reviewer','Owner'],['clerk','Clerk']])source.sql.prepare('INSERT INTO [platform].[users] VALUES(?,?,?,?,?,1)').run(id,id,id+'@example.test',role,'unused');
  source.setAccess('clerk',['advocate']);source.setPreferences('owner',{favorites:['advocate'],recent:[]});
  source.create('clients',{id:'retained-client',name:'हिन्दी client'});source.addFile('retained-document','test.bin','application/octet-stream',Buffer.from([0,1,255]));
- createDigitalSamaj({store:source,auth});createBatchFee({store:source,auth});createTournament({store:source,auth});createPortfolio({store:source,auth,nav:{}});createNewsRepository(source).publish(edition('2025-01-01'));
+ createDigitalSamaj({store:source,auth});createBatchFee({store:source,auth});createTournament({store:source,auth});createNewsRepository(source).publish(edition('2025-01-01'));
+ source.sql.exec(fs.readFileSync(path.join(__dirname,'../packages/database/retired/fund-lens/001-portfolio.sql'),'utf8'));
  registerArena(source);
  source.sql.close();source=null;
  console.log('SQL integration: initializing eight schemas');target=new SqlServerDatabase({migrate:true});
@@ -46,7 +46,7 @@ async function main(){
  const restored=await arena(new Request('https://apps.sushantsynapse.com/api/satire-arena',{headers:{Cookie:arenaCookie}}),{ARENA_DB:arenaDatabase(store),ARENA_COOKIE_SECRET:arenaFixture.env.ARENA_COOKIE_SECRET},{now:arenaNow});
  assert.equal((await restored.json()).characters[0].selected,'applause');
  assert.throws(()=>store.transaction(()=>{store.create('clients',{id:'rollback-client',name:'Rollback'});throw Error('rollback-check');}),/rollback-check/);assert.equal(store.get('clients','rollback-client'),null);
- const sqlAuth=createAuth({store,initializeWorkspace(){}}),samaj=createDigitalSamaj({store,auth:sqlAuth});createBatchFee({store,auth:sqlAuth});createTournament({store,auth:sqlAuth});createPortfolio({store,auth:sqlAuth,nav:{}});
+ const sqlAuth=createAuth({store,initializeWorkspace(){}}),samaj=createDigitalSamaj({store,auth:sqlAuth});createBatchFee({store,auth:sqlAuth});createTournament({store,auth:sqlAuth});
  const news=createNewsRepository(store);assert.equal(news.get('2025-01-01').stories.length,10);assert.equal(news.publish(edition('2025-01-02')).stories.length,10);
  const {Readable}=require('node:stream');
  async function call(route,method='GET',body={},id='owner'){let result;await store.requestContext(()=>samaj({route:'digital-samaj'+route,method,user:store.user(id),req:Object.assign(Readable.from([Buffer.from(JSON.stringify(body))]),{headers:{'content-type':'application/json'},url:'/api/digital-samaj'+route}),json(status,data){result={status,data};}}));return result.data;}
@@ -88,7 +88,6 @@ async function main(){
   let academy=(await request('batchfee-lite')).data;
   const command={type:'profile',input:{name:'SQL Academy',owner:'Test owner',mobile:'9876543210',dueDay:5,sessionMonth:4},revision:academy.revision,requestId:'sql-idempotency-profile-001'};
   academy=await request('batchfee-lite/command','POST',command);assert.equal(academy.status,200);const retry=await request('batchfee-lite/command','POST',command);assert.equal(retry.status,200);assert.equal(retry.data.revision,academy.data.revision);
-  assert.equal((await request('fund-overlap/portfolio')).status,200);
   assert.equal((await request('tournament-lite')).status,200);
   assert.equal((await request('platform')).status,200);
   assert.equal((await request('users/clerk','PATCH',{name:'clerk',email:'clerk@example.test',role:'Clerk',active:true,password:'clerk-integration-secret-123'})).status,200);

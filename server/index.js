@@ -10,7 +10,6 @@ const {createSupport}=require('../apps/portal/backend/support');
 const {createFocus}=require('../apps/focus/backend/routes');
 const {createRitualCalendar}=require('../apps/ritual-assist/backend/routes');
 const {createAdvocate}=require('../apps/advocate/backend/routes');
-const {createFundOverlap}=require('../apps/fund-overlap/backend/routes');
 const {createNews}=require('../apps/news/backend/routes');
 const {createBatchFee}=require('../apps/batchfee-lite/backend/routes');
 const {createTournament}=require('../apps/tournament-lite/backend/routes');
@@ -49,12 +48,12 @@ const feedbackApp=require('../apps/feedback/backend/routes.cjs').createFeedback(
 const panditBooking=require('../apps/pandit-booking/backend/routes.cjs').createPanditBooking({store,auth});
 const metricsBuckets=new Map();
 const advocate=createAdvocate({store,auth});
-const fundOverlap=createFundOverlap({auth,store,cacheDir:path.join(process.env.DATA_DIR||path.join(ROOT,'data'),'fund-overlap-cache')});
 async function dispatch(req,res) {
   const json = (code,data) => { res.writeHead(code, {'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'}); res.end(JSON.stringify(data)); };
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('X-Frame-Options','DENY');res.setHeader('Referrer-Policy','same-origin');
   res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'");
     const url = new URL(req.url,'http://localhost');
+    if(/^\/(?:api\/)?fund-overlap(?:\/|$)/.test(url.pathname))return json(404,{error:'Not found'});
     if(url.pathname.startsWith('/api/arena-editorial')||url.pathname.startsWith('/api/arena-metrics')||url.pathname.startsWith('/satire-arena/')||url.pathname==='/sitemap.xml'||url.pathname==='/robots.txt'){
       const {editorial,editorialKey,published,empty}=await import('../apps/satire-arena/backend/editorial.mjs');
       const {publicEditorialPath,publicPage}=await import('../apps/satire-arena/backend/public-pages.mjs');
@@ -144,7 +143,6 @@ async function dispatch(req,res) {
     if(route==='news'||route.startsWith('news/'))return await news(context);
     if(route==='tournament-lite'||route.startsWith('tournament-lite/'))return await tournament(context);
     if(route==='digital-samaj'||route.startsWith('digital-samaj/'))return await digitalSamaj(context);
-    if(route==='fund-overlap'||route.startsWith('fund-overlap/'))return await fundOverlap(context);
     if(!user)fail(401,'Please sign in');
     if(route==='ledger'&&method==='GET')return json(200,{markdown:fs.readFileSync(path.join(ROOT,'docs/FUNCTIONALITY_LEDGER.md'),'utf8')});
     if(route==='platform'||route.startsWith('platform/'))return await portal(context);

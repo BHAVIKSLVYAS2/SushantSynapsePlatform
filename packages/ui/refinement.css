@@ -162,7 +162,6 @@
   body[data-ui-app=tournament-lite] :is(.tournament-card,.match-card,.tournament-panel) {border-color:var(--ss-border);box-shadow:var(--ss-shadow)}
   body[data-ui-app=timetable-lite] :is(.panel,.setup-card,.tabs) {border-color:var(--ss-border)}
   body[data-ui-app=news] :is(.edition-cover,.edition-tools,.news-filter) {box-shadow:var(--ss-shadow);border-color:var(--ss-border)}
-  body[data-ui-app=fund-overlap] :is(.selection,.coverage-note,.comparison) {border-color:var(--ss-border);border-radius:14px}
   body[data-ui-app=moment-studio] :is(.studio-nav,.studio-panel,.studio-intro) {background:var(--ss-surface);border-color:var(--ss-border);box-shadow:var(--ss-shadow)}
   body[data-ui-app=ritual-assist] :is(.guide-option,.pack-card,.result-card) {border-color:var(--ss-border);box-shadow:var(--ss-shadow)}
   body[data-ui-app=ritual-assist] :is(.library,.results-heading) {border-radius:16px}

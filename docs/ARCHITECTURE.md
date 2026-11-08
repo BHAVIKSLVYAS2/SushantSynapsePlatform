@@ -1,5 +1,16 @@
 # Code ownership and adding apps
 
+Fund Lens retired locally (2026-11-09): removed the complete app implementation,
+reference datasets, ingestion/refresh tooling, Node/edge APIs, public assets,
+catalogue identity, dedicated tests and CI job. Older Fund Lens sections below
+describe historical implementations, not current functionality. Retired page/API
+URLs return 404 without provider requests. No deployment or database cleanup is
+part of this change. Immutable SQLite/SQL Server schema sources moved to
+`packages/database/retired/fund-lens`; their catalogue owner remains for SQL/D1
+recovery compatibility. Existing private tables/preferences/grants/cache/backups
+are not erased. `retired-recovery.cjs` adds existing retired SQLite tables and
+indexes to full exports without creating them in fresh Node workspaces.
+
 Home presentation modes (2026-11-08): `apps/portal/frontend/home-view.js` owns
 the device-local Comfort/Compact preference, early root attribute, accessible
 switch and short translated purpose labels. `home-discovery.js` remounts that

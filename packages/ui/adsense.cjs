@@ -3,8 +3,7 @@ const publicPages=new Set([
  '/', '/qr-maker', '/photo-resize', '/bill-splitter', '/moment-studio',
  '/moment-studio/cards', '/moment-studio/certificates', '/take-a-break',
  '/daily-spark', '/decision-wheel', '/focus', '/news', '/ritual-assist',
- '/ritual-assist/calendar', '/team-mixer', '/timetable-lite', '/fund-overlap',
- '/satire-arena', '/satire-arena/politicians', '/satire-arena/news-anchors',
+ '/ritual-assist/calendar', '/team-mixer', '/timetable-lite', '/satire-arena', '/satire-arena/politicians', '/satire-arena/news-anchors',
  '/satire-arena/actors', '/satire-arena/corporates', '/privacy', '/terms',
  '/contact', '/legal', '/legal/third-party-notices', '/showcase', '/support',
 ]);

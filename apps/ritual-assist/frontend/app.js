@@ -4,7 +4,7 @@ import {renderChecklistImage} from './checklist-image.mjs';
 import {mountRitualWorkspace} from './workspace-nav.mjs';
 import {mountLearning} from './learning.mjs';
 import {createNavigation,bindDialogNavigation} from '/shared/navigation.mjs';
-import {illustration,categoryIcon,mountLanding,updateLanding} from './landing.mjs';
+import {illustration,categoryIcon,updateLanding} from './landing.mjs';
 import {exportBrandElement} from '/shared/export-brand.mjs';
 import {guides,categories,scope,guideById,findGuides} from './guides.mjs?v=20261010-mourning';
 import {storageKey,readState} from './checklist-state.mjs?v=20261016-ease';

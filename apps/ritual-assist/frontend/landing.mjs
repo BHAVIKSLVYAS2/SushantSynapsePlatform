@@ -18,7 +18,3 @@ export function updateLanding(language,root=document){
  const text=copy[language];for(const [key,value]of Object.entries(text))root.querySelectorAll('[data-landing="'+key+'"]').forEach(el=>el.textContent=value);
  root.querySelector('#search').placeholder=text.placeholder;
 }
-export function mountLanding(){
- const placeLanguage=()=>{const shell=document.querySelector('.platform-shell'),language=document.querySelector('main .language');if(shell&&language)shell.append(language);};
- placeLanguage();if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',placeLanguage,{once:true});
-}

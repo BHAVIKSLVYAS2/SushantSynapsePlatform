@@ -62,26 +62,5 @@ Your generated timetable will appear here. Free periods stay visibly empty.|ब�
 Teacher workload|शिक्षक का कार्यभार|શિક્ષકનો કાર્યભાર
 Based on your allocations and available teaching slots. Holiday annotations do not change recurring workload.|आवंटन और उपलब्ध समय पर आधारित। छुट्टी की टिप्पणियाँ नियमित कार्यभार नहीं बदलतीं।|ફાળવણી અને ઉપલબ્ધ સમય પર આધારિત. રજાની નોંધ નિયમિત કાર્યભાર બદલતી નથી.
 Creates an optional, dated cover sheet using qualified, available teachers. The weekly timetable stays unchanged. Review suggestions before sharing; uncovered lessons are clearly marked.|योग्य उपलब्ध शिक्षकों से वैकल्पिक, तारीख वाली प्रतिस्थापन सूची बनती है। साप्ताहिक सारणी नहीं बदलती। साझा करने से पहले सुझाव देखें; बिना शिक्षक के पाठ स्पष्ट हैं।|લાયક ઉપલબ્ધ શિક્ષકોથી વૈકલ્પિક, તારીખવાળી અવેજી યાદી બને છે. સાપ્તાહિક સમયપત્રક બદલાતું નથી. શેર કરતાં પહેલાં સૂચનો જુઓ; શિક્ષક વિનાના પાઠ સ્પષ્ટ છે.
-OFFICIAL MONTHLY DISCLOSURES|आधिकारिक मासिक विवरण|સત્તાવાર માસિક ખુલાસા
-Know what is covered.|जानें कौन सा डेटा उपलब्ध है।|કયો ડેટા ઉપલબ્ધ છે તે જાણો.
-National discovery helps you find funds. Verified official coverage confirms which schemes have usable equity holdings from their fund house.|राष्ट्रीय खोज फ़ंड ढूँढने में मदद करती है। सत्यापित आधिकारिक कवरेज बताता है कि किन योजनाओं की उपयोगी इक्विटी हिस्सेदारी उपलब्ध है।|દેશવ્યાપી શોધ ફંડ શોધવામાં મદદ કરે છે. ચકાસેલો સત્તાવાર વ્યાપ કઈ યોજનાની ઉપયોગી ઇક્વિટી હોલ્ડિંગ ઉપલબ્ધ છે તે બતાવે છે.
-Coverage as of|कवरेज की तारीख|વ્યાપની તારીખ
-schemes with verified official holdings|सत्यापित आधिकारिक हिस्सेदारी वाली योजनाएँ|ચકાસેલી સત્તાવાર હોલ્ડિંગવાળી યોજનાઓ
-schemes in national discovery|राष्ट्रीय खोज की योजनाएँ|દેશવ્યાપી શોધની યોજનાઓ
-fund houses in the coverage register|कवरेज रजिस्टर के फ़ंड हाउस|વ્યાપ નોંધણીના ફંડ હાઉસ
-View fund-house coverage and reporting dates|फ़ंड हाउस का कवरेज और रिपोर्ट की तारीख देखें|ફંડ હાઉસનો વ્યાપ અને અહેવાલની તારીખ જુઓ
-Show fund houses|फ़ंड हाउस दिखाएँ|ફંડ હાઉસ બતાવો
-Partly verified|आंशिक सत्यापन|આંશિક ચકાસણી
-Some official portfolios are verified; others await usable disclosures.|कुछ आधिकारिक पोर्टफ़ोलियो सत्यापित हैं; बाकी उपयोगी विवरण की प्रतीक्षा में हैं।|કેટલાક સત્તાવાર પોર્ટફોલિયો ચકાસેલા છે; બાકીના ઉપયોગી ખુલાસાની રાહમાં છે.
-Source verification details|स्रोत सत्यापन का विवरण|સ્રોત ચકાસણીની વિગતો
-Official monthly equity disclosures passed validation.|आधिकारिक मासिक इक्विटी विवरण की जाँच सफल हुई।|સત્તાવાર માસિક ઇક્વિટી ખુલાસાની તપાસ સફળ થઈ.
-Official holdings unavailable|आधिकारिक हिस्सेदारी उपलब्ध नहीं|સત્તાવાર હોલ્ડિંગ ઉપલબ્ધ નથી
-Usable official equity holdings were unavailable in this check.|इस जाँच में उपयोगी आधिकारिक इक्विटी हिस्सेदारी उपलब्ध नहीं थी।|આ તપાસમાં ઉપયોગી સત્તાવાર ઇક્વિટી હોલ્ડિંગ ઉપલબ્ધ નહોતી.
-Automatic retrieval for this fund house is not configured.|इस फ़ंड हाउस के लिए स्वचालित डेटा प्राप्ति तय नहीं है।|આ ફંડ હાઉસ માટે આપમેળે ડેટા મેળવવાની ગોઠવણ નથી.
-Equity composition:|इक्विटी संरचना:|ઇક્વિટીનું બંધારણ:
-each fund’s included equity holdings are scaled to 100%. This compares equity composition, not total fund exposure.|हर फ़ंड की शामिल इक्विटी को 100% पर मापा जाता है। यह इक्विटी संरचना की तुलना है, पूरे फ़ंड की नहीं।|દરેક ફંડની સામેલ ઇક્વિટીને 100% પર માપવામાં આવે છે. આ ઇક્વિટીના બંધારણની સરખામણી છે, આખા ફંડની નહીં.
-Disclosed NAV weights:|प्रकाशित NAV भार:|પ્રકાશિત NAV વજન:
-original published percentages are retained. A low-equity hybrid fund can have low NAV overlap even if its equity choices closely match another fund.|मूल प्रकाशित प्रतिशत रहते हैं। कम इक्विटी वाले हाइब्रिड फ़ंड का NAV मेल कम हो सकता है, भले इक्विटी दूसरे फ़ंड जैसी हो।|મૂળ પ્રકાશિત ટકાવારી રહે છે. ઓછી ઇક્વિટીવાળા હાઇબ્રિડ ફંડનું NAV સામ્ય ઓછું હોઈ શકે, ભલે ઇક્વિટી બીજા ફંડ જેવી હોય.
-Average overlap is an unweighted average of pairs. It is not a score for your personal portfolio. No buy, sell or redemption recommendations are made.|औसत समानता जोड़ियों का बिना भार औसत है। यह आपके निजी पोर्टफ़ोलियो का स्कोर नहीं। खरीद, बिक्री या निकासी की सलाह नहीं दी जाती।|સરેરાશ સામ્ય જોડીઓની વજન વિનાની સરેરાશ છે. તે તમારા વ્યક્તિગત પોર્ટફોલિયોનો સ્કોર નથી. ખરીદી, વેચાણ કે ઉપાડની સલાહ અપાતી નથી.
 `;
 export const publicPlanningCopy=Object.freeze(Object.fromEntries(rows.trim().split('\n').map(row=>{const parts=row.split('|');if(parts.length!==3||parts.some(p=>!p))throw Error('Incomplete planning interface translation');return [parts[0],parts.slice(1)];})));

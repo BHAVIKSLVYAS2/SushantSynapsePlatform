@@ -17,6 +17,12 @@ async function create(kind,body){const r=await request(kind,'POST',body);assert.
 async function patch(kind,record,body){return request(kind+'/'+record.id,'PATCH',{version:record.version,...body});}
 before(start);after(async()=>{await stop();fs.rmSync(dir,{recursive:true,force:true});});
 
+test('retired Fund Lens pages, assets and APIs are unavailable without sign-in',async()=>{
+ for(const route of ['/fund-overlap','/fund-overlap/','/fund-overlap/app.js','/api/fund-overlap/search?q=hdfc','/api/fund-overlap/portfolio','/api/fund-overlap/watchlists']){
+  for(const method of ['GET','POST'])assert.equal((await fetch(base+route,{method})).status,404,method+' '+route);
+ }
+});
+
 test('monorepo serves app assets and shared theme without exposing source or SQL',async()=>{
  for(const asset of ['/','/advocate','/platform.js','/app.js','/shared/theme.js','/platform.css','/style.css','/favicon.svg'])assert.equal((await fetch(base+asset)).status,200,asset);
  for(const source of ['/server/index.js','/apps/advocate/backend/routes.js','/packages/database/schema.sql','/data/chambers.sqlite'])assert.equal((await fetch(base+source)).status,404,source);
@@ -24,7 +30,7 @@ test('monorepo serves app assets and shared theme without exposing source or SQL
 });
 
 test('AdSense Auto Ads loads globally on eligible anonymous public pages only',async()=>{
- for(const path of ['/','/qr-maker','/moment-studio/cards','/ritual-assist/calendar','/fund-overlap','/support','/satire-arena']){
+ for(const path of ['/','/qr-maker','/moment-studio/cards','/ritual-assist/calendar','/support','/satire-arena']){
   const response=await fetch(base+path),html=await response.text();
   assert.match(html,/google-adsense-account/,path);
   assert.match(html,/pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js\?client=ca-pub-1894051755496526/,path);
