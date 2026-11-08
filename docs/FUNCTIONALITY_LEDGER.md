@@ -1,3 +1,7 @@
+Shared account/MFA direction agreed (2026-11-08): one existing platform identity for personal and workspace use; email/password followed by email OTP. Workspace-first implementation is queued after user-specified Moment Studio fixes. Free-app integration is explicitly deferred in order: Hisabio, Timetable Lite, Moment Studio. Plan and remaining decisions: `docs/SHARED_ACCOUNT_MFA_PLAN.md`. Documentation only; no authentication, app storage, database or deployment changes. This supersedes the earlier pending authentication-method decision below.
+
+Personal account saving deferred (2026-11-08): user cancelled the initial Google sign-in approach to reconsider email login. Removed all unfinished account/authentication code, schema and migration files and restored tracked dependency manifests and route composition. No account-saving UI, database migration, production change or deployment occurred. Hisabio remains device-local; Timetable Lite and Moment Studio account saving have not started. Authentication method and implementation are pending discussion.
+
 Home discovery icon controls (2026-11-08): filter and view triggers now show
 consistent outline sliders/grid icons with matching 44px touch targets. Spoken
 labels, localized view names, keyboard operation and explanatory menu choices
