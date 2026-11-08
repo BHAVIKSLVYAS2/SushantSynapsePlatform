@@ -9,6 +9,13 @@ checks and three affected isolated browser cases pass, including signed-in
 remounts and blocked storage. Chrome CLI passes 36 locale/theme/width states,
 menu bounds, usable search, remembered selection and outside taps; mobile image
 reviewed. No backend, dependency, account or data changes.
+Deployed source `a0a58eb`; Worker `2d9f0b04-2cd3-4ae8-9484-d52963f5a4b2`
+with production variables/bindings preserved. Live Chrome passes all 36
+locale/theme/width states, menu bounds, touch choices, selected-state marking,
+reload persistence, Escape and outside dismissal; no page errors. Mobile image
+reviewed. Business API writes blocked throughout live verification. Logs:
+`.publish/home-view-menu-deploy.log`, `.publish/home-view-menu-live.log`;
+image `.publish/home-view-menu-mobile.png`. No production data changes or push.
 
 Fund Lens mobile picker (2026-11-08): phone-width suggestions now use a full-width
 in-flow panel with readable wrapping rows, separate availability/action text and
