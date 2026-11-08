@@ -1,5 +1,13 @@
 # Chambers functionality ledger
 
+Temporary Fund Lens discovery removal (2026-11-08): registry catalogueHidden flag
+excludes Fund Lens from home, shared app switcher and signed-in discovery while
+retaining its app identity/direct route. Hisabio moves to home order 0, occupying
+the former Fund Lens position after the four featured apps. Static fallback and
+generated shared navigation rebuilt. Six focused checks and four affected browser
+cases pass for compact/mobile layouts, signed-in/out, no-JavaScript and outages.
+No app/data deletion or access-policy change.
+
 Hisabio rename (2026-11-08): user-facing RozHisab branding replaced across app,
 English/Hindi/Gujarati catalogue names, install manifest, reports, notifications,
 backup/CSV filenames and errors. Retains `/rozhisab`, app ID, IndexedDB name,
