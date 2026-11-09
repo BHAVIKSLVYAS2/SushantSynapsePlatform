@@ -1,3 +1,31 @@
+Requested live demos created and verified (2026-11-09 IST): the subsequently
+supplied Super Admin credential succeeded through the normal login API. Created
+two separate labelled fictional production organisations using validated
+administration/app APIs; prior credential-blocked checkpoints below are superseded.
+No password is recorded here. Demo credentials remain private under ignored
+`.publish/`; no administrator password is persisted by the operator tools.
+
+BatchFee organisation `ae2b173e-8171-45d1-8d93-6167f30cbc83`: active Owner and
+Collector, two batches, four fictional students, full/partial/unpaid fee examples,
+two sample payments and one expense. Pandit organisation
+`ab2bf7bc-4b84-473c-b4ba-e59dbf6e99a9`: active Operator/Owner, Pandit and Customer,
+three services, one fictional approved provider with availability and three
+Requested/Confirmed/Cancelled sample bookings, a checklist and an in-app message.
+Both demo licences end 2026-12-09. No real service, external message or payment
+collection is represented; existing organisations/data and local SQLite preserved.
+
+Initial Pandit setup encountered a network failure after creating the workspace
+and two members. Inspected saved progress and resumed in place, without repeating
+provisioning or deleting data. A final helper reference error happened after
+bookings were saved; separate verification completed without repeating writes.
+All five real demo sign-ins, app/account navigation, sample counts and role views
+pass; each account is denied the other demo workspace and Chambers (403).
+Operator sees all three bookings; Pandit sees only the confirmed one; Customer
+sees their three. Temporary verification sessions signed out. No migration,
+password reset or deployment required. Sanitised evidence under `.publish/`:
+`requested-live-demos-retry.log`, `pandit-demo-resume-inspection.log`,
+`pandit-demo-resume.log`, `live-demo-verification.{log,json}`.
+
 Sign-in/demo-tools committed-source release deployed (2026-11-09 IST): source
 `8526b31`, Worker `9b6d1fe8-49fc-4a5b-b813-e6ea4b6a9942`, at
 apps.sushantsynapse.com. Isolated committed archive production dry-run and deploy
