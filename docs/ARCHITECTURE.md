@@ -1,5 +1,14 @@
 # Code ownership and adding apps
 
+Ritual Shloki collection (2026-11-09, local): app-owned `shloki.mjs` mounts
+one independent, lazy disclosure in Prep and restores its `shloka` query route.
+`shloki-view.mjs` owns the accessible reader, optional meanings/sources and text
+copy/download; `shloki-content.mjs` owns 19 source-reviewed readings, original
+English/Hindi meanings and PDF-number provenance. Sanskrit is protected from
+interface translation. No database, storage key, provider or calculation changes.
+The two unverified PDF entries are excluded; source decisions are documented in
+`docs/SHLOKI_SOURCE_REVIEW_2026-11-09.md`. Assets use the shared explicit registry.
+
 Sushant Synapse Times retired and deployed (2026-11-09, source `53a3216`): the `apps/news` implementation,
 source/publication APIs, assets and catalogue/tooling are removed. Old `/news`
 and `/api/news` endpoints return 404. Older News ownership descriptions below

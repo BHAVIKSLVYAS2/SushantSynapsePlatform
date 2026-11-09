@@ -2,9 +2,8 @@
 let viewModule;
 export function mountLearning(parent,{guide,language,onNavigate}){
  const tabs=['vidhi','mantras','sources',...(['daily-puja','ganesh-puja','lakshmi-puja','satyanarayan'].includes(guide.id)?['readings']:[])];
- const hi=language==='hi',simple=['daily-puja','ganesh-puja','lakshmi-puja'].includes(guide.id),root=document.createElement('details');root.className='ritual-learning';root.dataset.ritualLearning=guide.id;root.translate=false;
- const summary=document.createElement('summary');summary.textContent=hi?(simple?'सरल पूजा-क्रम और प्रार्थनाएँ समझें':'तैयारी का दायरा और वैकल्पिक पाठ'):(simple?'Learn the simplified sequence and prayers':'Learn preparation scope and optional readings');
- if(tabs.includes('readings'))summary.textContent=hi?'चरण, प्रार्थनाएँ और कथा / पाठ':'Steps, prayers & story / reading';
+ const hi=language==='hi',root=document.createElement('details');root.className='ritual-learning';root.dataset.ritualLearning=guide.id;root.translate=false;
+ const summary=document.createElement('summary');summary.textContent=hi?'चरण और प्रार्थनाएँ':'Steps & prayers';
  const body=document.createElement('div');body.className='learning-body';root.append(summary,body);parent.append(root);
  let selected='vidhi',view,loading=false;
  const choose=(tab,update=true)=>{if(!tabs.includes(tab))tab='vidhi';selected=tab;if(update)onNavigate(tab);root.open=true;void load();view?.select(tab);};

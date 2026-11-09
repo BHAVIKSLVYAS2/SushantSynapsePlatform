@@ -1,3 +1,39 @@
+Ritual Prep/Shloki release preparation (2026-11-09 IST): user requested commit
+and deployment of the implemented simplification, 19-reading collection and
+cleanup analysis. The analysis's proposed removals remain pending discussion.
+Prior local checks: 17/17 focused tests, 6/6 Prep Chrome workflows, 38 bilingual
+reading states, 12 themed layouts and 650-asset organisation-mode export pass.
+Full release suite, isolated committed production dry-run and live verification
+are being completed; this checkpoint alone does not claim deployment. Unrelated
+untracked security/performance reports are excluded. No migrations or data writes.
+
+Ritual cleanup analysis (2026-11-09 IST): analysed 36 frontend JS/MJS modules and
+followed current templates, runtime/test consumers and CSS references. Identified
+23 obsolete bilingual Prep copy keys, seven multiply defined keys, nine obsolete
+landing labels per language, unreachable print/filter branches and obsolete CSS
+families. Identified reader/loader/download duplication, a real screen/download
+sequence mismatch, heavily repeated material notes and live editorial/companion
+content for discussion. Legacy draft/export contracts remain separately classified.
+No exact Sanskrit duplicates between existing prayers and the new Shloki texts.
+See `docs/RITUAL_CLEANUP_ANALYSIS_2026-11-09.md` for evidence and proposed order.
+Analysis/documentation only: no application removal, test/build rerun, dependency
+change, data change, production access or deployment. Awaiting cleanup decisions.
+
+Ritual Prep content simplification (2026-11-09 IST, local): checklist controls,
+progress, quantities, responsibility, saved state and PDF/image exports remain.
+Removed the repeated top notice, footer storage explanation, checklist editorial
+review and standalone scope section. Preparation and ceremony-specific steps now
+live in the optional Steps & prayers disclosure alongside prayers/readings. One
+collapsed family/Pandit section retains ritual-specific care and decisions;
+the learning Sources tab lists existing references without certification/editorial
+commentary. English/Hindi labels and existing learning deep links are retained.
+Verification: 13/13 focused Ritual data/export/storage checks and JS syntax/diff
+checks pass. Four Chrome workflows pass across final/isolated runs: mobile
+layout/themes and tab retention, learning deep links/Hindi, reading resume, and
+all 15 guides in both languages with completion isolation and PDF printing.
+Initial stale selector/print-hook failures were corrected; final bilingual/PDF
+rerun passes. Mobile screenshot reviewed. No deployment or data/schema change.
+
 Dead-code cleanup deployed (2026-11-09 IST): source `ddcfa8e`, Worker
 `fdd5fb4b-7c3f-4b1a-893f-e5e797998a5e`, from an isolated committed archive with
 --keep-vars. Organisation mode, password authentication and D1 binding retained;
@@ -9294,3 +9330,26 @@ bindings preserved; no migrations, records or account changes. Evidence:
 `.publish/ritual-reader-deploy.log`, `.publish/ritual-reader-live.log`,
 `.publish/ritual-reader-live-mobile.png`. Full traditional aarti/katha and dedicated
 reading print layouts remain deferred pending verified editions and review.
+Ritual Shloki collection (2026-11-09 IST, local): Prep now has one collapsed,
+lazy reading collection independent of the checklist. Reviewed the user-supplied
+eight-page, 21-topic PDF against the source editions documented in
+`docs/SHLOKI_SOURCE_REVIEW_2026-11-09.md`. Admitted 19 readings; withheld the
+unverified Shiva Purana and Garuda Purana summary verses. Corrected truncated
+verses and misleading titles, and included all four verses of Gita 10.8–11 and
+Bhagavata 2.9.33–36. Sanskrit stays unchanged across interface languages; original
+English/Hindi meanings and source references are optional disclosures. Native
+selection, Previous/Next, larger type, copy, UTF-8 download, deep links and browser
+history are implemented without adding storage keys, APIs or external requests.
+Existing checklist state, PDF/image exports, calculations and data are preserved.
+
+Verification: 17/17 focused Ritual/Shloki checks and 6/6 existing Prep Chrome
+workflows pass with disposable data. Playwright CLI verifies all 19 readings in
+both languages (38 exact rendered-Sanskrit checks), 12 light/dark/deep-black
+320/390/768/1440px layouts, clipboard/download, keyboard focus, direct links,
+Back/Forward, section return/reload, checklist isolation and unknown-link recovery.
+Hindi mobile light/deep screenshots visually reviewed:
+`output/playwright/shloki-mobile-hi-{light,deep}.png`. Actual downloaded Gita text
+has UTF-8 BOM and all four verses. Local organisation-mode frontend export passes
+(650 assets), including all three new reader modules; syntax/diff checks pass.
+Source comparison does not claim independent Sanskrit-scholar or accent/recitation
+certification. No production access, deployment, database or schema changes.

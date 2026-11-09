@@ -1,5 +1,11 @@
 # Curio · Sushant Synapse
 
+Ritual Prep's Shloki collection (local, 2026-11-09) adds 19 source-reviewed
+Sanskrit readings with optional English/Hindi meanings, larger text and separate
+text downloads. The supplied collection's incomplete verses/titles were reviewed;
+the Gita and Bhagavata four-verse groups are complete. Two unverified entries are
+excluded. [Source review](docs/SHLOKI_SOURCE_REVIEW_2026-11-09.md).
+
 Sushant Synapse Times and Fund Lens are retired. Their old pages and APIs return
 404; existing stored records remain preserved for recovery. See the functionality
 ledger for the deployed releases and verification.
