@@ -3,16 +3,17 @@ import {evaluateAppAccess,canManageOrganisation} from '../../../packages/auth/or
 import registry from '../../../packages/app-registry/index.js';
 import {clientPortalScope} from '../../advocate/backend/client-portal-d1.mjs';
 import {OrganisationError} from '../../../packages/database/organisation-repository-d1.mjs';
+import {assignmentAppIds,isMembershipAppRole} from '../../../packages/auth/app-roles.mjs';
 export async function accountOverview(repo,userId){
  const db=repo.db,authority=(await repo.authority(userId));
  const identity=(await db.prepare('SELECT name,email FROM users WHERE id=?').get(userId));
  const memberships=(await Promise.all((await db.prepare('SELECT o.*,m.role AS membershipRole,m.status AS membershipStatus FROM platform_organisations o JOIN platform_memberships m ON m.organisationId=o.id WHERE m.userId=? ORDER BY o.name,o.id').all(userId)).map(async org=>{
   const membership={organisationId:org.id,userId,role:org.membershipRole,status:org.membershipStatus};
   const apps=[];let access={allowed:false},assignment;
-  for(const appId of ['advocate','tournament-lite','batchfee-lite','digital-samaj','pandit-booking']){
+  for(const appId of assignmentAppIds){
    const currentAssignment=await db.prepare('SELECT * FROM platform_app_assignments WHERE organisationId=? AND userId=? AND appId=?').get(org.id,userId,appId);
    const licence=await db.prepare('SELECT * FROM platform_app_licences WHERE organisationId=? AND appId=?').get(org.id,appId);
-   const staff=appId==='pandit-booking'?(membership.role==='Client'?currentAssignment?.role==='Customer':['Owner','Dispatcher','Reviewer','Pandit'].includes(currentAssignment?.role)):membership.role!=='Client'&&(appId==='advocate'?['Owner','Advocate','Clerk']:appId==='tournament-lite'?['Owner','Advocate']:appId==='batchfee-lite'?['Owner','Manager','Collector','Viewer']:['Owner','Member']).includes(currentAssignment?.role);
+   const staff=isMembershipAppRole(appId,currentAssignment?.role,membership.role);
    const granted=evaluateAppAccess({...authority,organisation:org,membership,assignment:currentAssignment,licence,app:registry.apps.find(a=>a.id===appId),permissions:staff?[appId+':read']:[],action:'read',now:repo.now()});
    let appReady=true;
    if(appId==='digital-samaj'&&staff){

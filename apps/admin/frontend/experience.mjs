@@ -5,7 +5,6 @@ export const localDate=value=>value?new Date(new Date(value).getTime()+19800000)
 export const apiDate=value=>value?new Date(value+'+05:30').toISOString():null;
 const date=value=>value?new Intl.DateTimeFormat('en-IN',{dateStyle:'medium',timeStyle:'short',timeZone:zone}).format(new Date(value))+' IST':'No expiry';
 const cap=n=>n===null?'Unlimited':String(n);
-const roles={advocate:['Clerk','Advocate','Owner'],'tournament-lite':['Advocate','Owner'],'batchfee-lite':['Viewer','Collector','Manager','Owner'],'digital-samaj':['Member','Owner'],'pandit-booking':['Customer','Pandit','Dispatcher','Reviewer','Owner']};
 function validateDates(start,end,grace){
  end.setCustomValidity('');grace.setCustomValidity('');
  if(end.value&&start.value&&apiDate(end.value)<=apiDate(start.value))end.setCustomValidity('End time must follow the start time.');
@@ -78,7 +77,22 @@ export function organisePanels(index,view){
   $('[data-open-create]',directory).onclick=()=>{const detail=$('form[data-command="provision"]')?.parentElement;if(detail){detail.open=true;detail.scrollIntoView({block:'start'});$('input',detail)?.focus();}};
  }
  const assignment=$('form[data-command="assignment"]');
- if(assignment){const update=()=>{const app=assignment.elements.appId.value;assignment.elements.role.innerHTML=(roles[app]||[]).map(r=>`<option>${r}</option>`).join('');};assignment.elements.appId.addEventListener('change',update);update();}
+ if(assignment){
+  const hint=document.createElement('p');hint.id='assignment-role-help';hint.className='form-help full';hint.setAttribute('aria-live','polite');assignment.elements.role.closest('label').after(hint);assignment.elements.role.setAttribute('aria-describedby',hint.id);
+  let available=[];
+  const explain=()=>{hint.textContent=available.find(role=>role.id===assignment.elements.role.value)?.description||'This member has no assignable role in this product. Chambers client access is managed separately through client record links and entitlements.';};
+  const update=()=>{
+   const app=assignment.elements.appId.value,member=view.members.find(member=>member.userId===assignment.elements.userId.value),client=member?.role==='Client';
+   const definitions=index.apps.find(product=>product.id===app)?.roles||[];
+   const previous=assignment.elements.role.value,existing=view.assignments.find(entry=>entry.appId===app&&entry.userId===member?.userId);
+   available=definitions.filter(role=>role.memberType===(client?'Client':'Staff')||assignment.elements.status.value==='Inactive'&&existing?.role===role.id);
+   assignment.elements.role.innerHTML=available.length?available.map(role=>`<option value="${esc(role.id)}">${esc(role.id)}</option>`).join(''):'<option value="">No compatible role</option>';
+   const selected=available.some(role=>role.id===existing?.role)?existing.role:previous;if(available.some(role=>role.id===selected))assignment.elements.role.value=selected;
+   assignment.elements.role.required=true;explain();
+  };
+  for(const name of ['appId','userId','status'])assignment.elements[name].addEventListener('change',update);
+  assignment.elements.role.addEventListener('change',explain);update();
+ }
  const licence=$('form[data-command="licence"]');
  if(licence){
   licence.insertAdjacentHTML('afterbegin','<p class="licence-state full" aria-live="polite"></p>');

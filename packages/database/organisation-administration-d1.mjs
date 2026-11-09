@@ -3,6 +3,7 @@ import {randomBytes,randomUUID,createHash,scryptSync} from 'node:crypto';
 import registry from '../app-registry/index.js';
 import {OrganisationRepository,OrganisationError} from './organisation-repository-d1.mjs';
 import {canManageOrganisation,evaluateAppAccess} from '../auth/organisation-policy.mjs';
+import {assignmentAppIds,isAssignmentRole,isMembershipAppRole} from '../auth/app-roles.mjs';
 
 const fail=(code,message)=>{throw new OrganisationError(code,message);};
 const hash=value=>createHash('sha256').update(value).digest('hex');
@@ -202,13 +203,13 @@ export class OrganisationAdministration {
   }
   async assignChambers(input){
     const appId=input.appId||'advocate';
-    if(!['advocate','tournament-lite','batchfee-lite','digital-samaj','pandit-booking'].includes(appId))fail('invalid-app','Unsupported app');
+    if(!assignmentAppIds.includes(appId))fail('invalid-app','Unsupported app');
     return (await this.transaction(async ()=>{
       const org=(await this.context(input)),member=(await this.member(org.id,input.userId)),user=(await this.repo.user(input.userId));
-      if(!member||!['Active','Inactive'].includes(input.status)||!(appId==='pandit-booking'?['Owner','Dispatcher','Reviewer','Pandit','Customer']:appId==='advocate'?['Owner','Advocate','Clerk']:appId==='tournament-lite'?['Owner','Advocate']:appId==='batchfee-lite'?['Owner','Manager','Collector','Viewer']:['Owner','Member']).includes(input.role))fail('invalid-input','Invalid app assignment');
+      if(!member||!['Active','Inactive'].includes(input.status)||!isAssignmentRole(appId,input.role))fail('invalid-input','Invalid app assignment');
       const old=(await this.db.prepare("SELECT * FROM platform_app_assignments WHERE organisationId=? AND userId=? AND appId=?").get(org.id,input.userId,appId));
       if(input.status==='Active'){
-        if(!user?.active||member.status!=='Active'||(appId==='pandit-booking'?(input.role==='Customer')!==(member.role==='Client'):member.role==='Client'))fail('invalid-member','The app role must match an active staff or customer membership');
+        if(!user?.active||member.status!=='Active'||!isMembershipAppRole(appId,input.role,member.role))fail('invalid-member','The app role must match an active staff or customer membership');
         const licence=(await this.db.prepare("SELECT * FROM platform_app_licences WHERE organisationId=? AND appId=?").get(org.id,appId));
         const access=evaluateAppAccess({user,organisation:org,membership:member,app:registry.apps.find(a=>a.id===appId),licence,
           assignment:{organisationId:org.id,userId:user.id,appId,status:'Active'},permissions:[appId+':write'],action:'write',now:this.repo.now()});

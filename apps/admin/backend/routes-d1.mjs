@@ -5,6 +5,7 @@ import registry from '../../../packages/app-registry/index.js';
 import {body as readBody} from '../../../server/edge-http.mjs';
 import {accountOverview} from './account-d1.mjs';
 import {organisationAudit,platformAudit} from './audit-d1.mjs';
+import {assignmentAppIds,assignmentRoles} from '../../../packages/auth/app-roles.mjs';
 
 
 const statuses={forbidden:403,conflict:409,'seat-limit-reached':409,'invalid-state':409,'invitation-required':409,'invalid-member':400,'invalid-input':400,'invalid-app':400,'invalid-user':400,'invalid-licence':409,'invalid-invitation':400};
@@ -27,7 +28,7 @@ export async function createOrganisationAdmin({db}){
    if(route==='organisation-admin/recovery-export')return json(503,{error:'Cloud recovery uses the offline D1 export tool; browser SQL export is unavailable.'});
    if(route==='organisation-admin'&&method==='GET'){
     const organisations=superAdmin?(await db.prepare('SELECT id,name,status FROM platform_organisations ORDER BY name,id').all()):(await db.prepare("SELECT o.id,o.name,o.status FROM platform_organisations o JOIN platform_memberships m ON m.organisationId=o.id AND m.userId=o.masterAdminUserId WHERE m.userId=? AND m.role='MasterAdmin' AND m.status='Active' AND o.status='Active' ORDER BY o.name,o.id").all(actorUserId));
-    return json(200,{superAdmin,organisations,recoveryExportAvailable:false,assignmentApps:['advocate','tournament-lite','batchfee-lite','digital-samaj','pandit-booking'],apps:registry.apps.filter(a=>['advocate','tournament-lite','batchfee-lite','digital-samaj','pandit-booking'].includes(a.id)&&a.status==='Available').map(({id,name})=>({id,name}))});
+    return json(200,{superAdmin,organisations,recoveryExportAvailable:false,assignmentApps:assignmentAppIds,apps:registry.apps.filter(a=>assignmentAppIds.includes(a.id)&&a.status==='Available').map(({id,name})=>({id,name,roles:assignmentRoles(id)}))});
    }
    const match=/^organisation-admin\/organisations\/([a-zA-Z0-9-]{1,200})(?:\/([a-z-]+))?$/.exec(route);
    if(route==='organisation-admin/platform-audit'&&method==='GET')return json(200,(await platformAudit(repo,{actorUserId,params:new URL(req.url,'http://localhost').searchParams})));

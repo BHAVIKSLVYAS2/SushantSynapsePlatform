@@ -166,6 +166,29 @@ test('account refresh removes app links after assignment revocation',async({page
  await expect(page.getByRole('link',{name:'Manage this organisation'})).toHaveCount(0);
 });
 
+test('app role choices come from the server and match the selected member without removing revocation',async({page})=>{
+ const {assignmentRoles}=await import('../../../packages/auth/app-roles.mjs');
+ await login(page,'master');
+ const indexResponse=await page.request.get(fixture.base+'/api/organisation-admin');expect(indexResponse.status()).toBe(200);const index=await indexResponse.json();index.assignmentApps=['advocate','batchfee-lite','pandit-booking'];index.apps=index.assignmentApps.map(id=>({id,name:id,roles:assignmentRoles(id)}));
+ const viewResponse=await page.request.get(fixture.base+'/api/organisation-admin/organisations/'+fixture.organisationId);expect(viewResponse.status()).toBe(200);const view=await viewResponse.json();view.members.push({userId:'demo-client',name:'Demo Client',email:'demo-client@example.test',role:'Client',status:'Active',active:1});view.assignments.push({userId:'demo-client',appId:'pandit-booking',role:'Reviewer',status:'Active'});
+ await page.route('**/api/organisation-admin',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(index)}));
+ await page.route('**/api/organisation-admin/organisations/'+fixture.organisationId,route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(view)}));
+ await page.goto(fixture.base+'/admin?organisation='+fixture.organisationId);await expect(page.getByRole('status')).toHaveText('Workspace ready.');
+ await page.locator('.admin-sections [data-admin-nav="apps"]').click();
+ const form=page.locator('form[data-command="assignment"]');await form.locator('..').locator('summary').click();
+ await form.locator('[name=userId]').selectOption('master');await form.locator('[name=appId]').selectOption('batchfee-lite');
+ await expect(form.locator('[name=role] option')).toHaveText(['Viewer','Collector','Manager','Owner']);
+ await form.locator('[name=role]').selectOption('Collector');await expect(form.locator('#assignment-role-help')).toHaveText('View academy records and record fee payments.');
+ await form.locator('[name=userId]').selectOption('demo-client');await expect(form.locator('[name=role]')).toHaveValue('');
+ expect(await form.locator('[name=role]').evaluate(el=>el.checkValidity())).toBe(false);
+ await form.locator('[name=appId]').selectOption('pandit-booking');await expect(form.locator('[name=role] option')).toHaveText(['Customer']);
+ await form.locator('[name=status]').selectOption('Inactive');await expect(form.locator('[name=role] option')).toHaveText(['Customer','Reviewer']);await expect(form.locator('[name=role]')).toHaveValue('Reviewer');
+ await form.locator('[name=status]').selectOption('Active');await expect(form.locator('[name=role] option')).toHaveText(['Customer']);
+ await form.locator('[name=userId]').selectOption('master');await expect(form.locator('[name=role] option')).toHaveText(['Pandit','Dispatcher','Reviewer','Owner']);
+ for(const width of [320,390,768,1440])for(const theme of ['light','dark','deep']){await page.setViewportSize({width,height:900});await setTheme(page,theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+ await page.setViewportSize({width:390,height:844});await setTheme(page,'dark');await form.scrollIntoViewIfNeeded();await page.screenshot({path:'.publish/role-simplification-mobile.png',fullPage:true});
+});
+
 test('a delayed account response cannot restore membership data after sign-in expires',async({page})=>{
  await login(page,'member');await page.goto(fixture.base+'/account');await expect(page.getByRole('link',{name:'Open Chambers',exact:true})).toBeVisible();
  let release,arrived;const waiting=new Promise(resolve=>arrived=resolve),gate=new Promise(resolve=>release=resolve);

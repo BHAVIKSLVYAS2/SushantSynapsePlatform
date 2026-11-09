@@ -1,5 +1,18 @@
 # Code ownership and adding apps
 
+Role simplification (2026-11-09, local): `packages/auth/app-roles.mjs` owns the
+ordinary administration app/role vocabulary, staff/client compatibility and
+plain-language role descriptions. Native/D1 administration and account projection
+consume it. Administration APIs return role metadata; `experience.mjs` uses that
+metadata for member-compatible role selection and explanatory help. Dedicated
+Chambers Client entitlements, Samaj grants, app business-command permissions,
+licence/seat checks and record visibility remain independently enforced. No
+database schema, stored role or default Node runtime activation change.
+`infrastructure/audit-database-structure.cjs` replays source schemas only in memory
+and compares optional read-only metadata; it opens an existing local database only
+when explicitly supplied. Full inventory and phased decisions are recorded in
+`docs/ROLES_DATABASE_SIMPLIFICATION_2026-11-09.md`.
+
 Ritual Shloki collection (2026-11-09, deployed as `c236e68`): app-owned `shloki.mjs` mounts
 one independent, lazy disclosure in Prep and restores its `shloka` query route.
 `shloki-view.mjs` owns the accessible reader, optional meanings/sources and text

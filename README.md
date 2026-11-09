@@ -1,5 +1,11 @@
 # Curio · Sushant Synapse
 
+The [roles and database review](docs/ROLES_DATABASE_SIMPLIFICATION_2026-11-09.md)
+maps all 88 production tables and proposes simpler app setup. Its first local
+increment shares app-role definitions and filters/explains role choices; existing
+permissions and data remain intact. See the ledger for verification and release
+status.
+
 Ritual Prep's Shloki collection (deployed, 2026-11-09; source `c236e68`) adds 19 source-reviewed
 Sanskrit readings with optional English/Hindi meanings, larger text and separate
 text downloads. The supplied collection's incomplete verses/titles were reviewed;

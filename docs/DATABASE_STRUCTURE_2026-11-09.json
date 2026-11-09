@@ -1,0 +1,5647 @@
+{
+  "date": "2026-11-09",
+  "scope": "Schema definitions and aggregate role counts only; no business rows or credential values.",
+  "summary": {
+    "tables": 88,
+    "groups": {
+      "D1 system": 2,
+      "Shared identity and compatibility": 6,
+      "Satire Arena": 8,
+      "BatchFee Lite": 7,
+      "Chambers": 8,
+      "D1 infrastructure": 6,
+      "Retired recovery": 8,
+      "Pandit Booking": 1,
+      "Organisation administration": 10,
+      "DIGITAL SAMAJ": 29,
+      "Tournament Lite": 3
+    },
+    "sourceTables": 86,
+    "nativeSourceTables": 51,
+    "localTables": null
+  },
+  "migrationFiles": [
+    "0001-platform.sql",
+    "0002-free-guards.sql",
+    "0003-document-blobs.sql",
+    "0004-samaj-blobs.sql",
+    "0005-organisations.sql",
+    "0006-tournament-organisations.sql",
+    "0007-batchfee-organisations.sql",
+    "0007-news-anchors.sql",
+    "0008-samaj-organisations.sql",
+    "0008-spotlight-arenas.sql",
+    "0009-pandit-booking.sql",
+    "0009-workweek-corporates.sql"
+  ],
+  "differences": {
+    "productionOnly": [
+      "_cf_KV",
+      "d1_migrations"
+    ],
+    "sourceOnly": [],
+    "columnsKeysOrIndexes": []
+  },
+  "aggregateRoles": {
+    "assignments": [
+      {
+        "appId": "advocate",
+        "role": "Advocate",
+        "status": "Active",
+        "assignments": 1
+      },
+      {
+        "appId": "advocate",
+        "role": "Clerk",
+        "status": "Active",
+        "assignments": 2
+      },
+      {
+        "appId": "advocate",
+        "role": "Owner",
+        "status": "Active",
+        "assignments": 1
+      },
+      {
+        "appId": "batchfee-lite",
+        "role": "Collector",
+        "status": "Active",
+        "assignments": 1
+      },
+      {
+        "appId": "batchfee-lite",
+        "role": "Owner",
+        "status": "Active",
+        "assignments": 2
+      },
+      {
+        "appId": "digital-samaj",
+        "role": "Owner",
+        "status": "Active",
+        "assignments": 1
+      },
+      {
+        "appId": "pandit-booking",
+        "role": "Customer",
+        "status": "Active",
+        "assignments": 2
+      },
+      {
+        "appId": "pandit-booking",
+        "role": "Owner",
+        "status": "Active",
+        "assignments": 2
+      },
+      {
+        "appId": "pandit-booking",
+        "role": "Pandit",
+        "status": "Active",
+        "assignments": 2
+      },
+      {
+        "appId": "tournament-lite",
+        "role": "Owner",
+        "status": "Active",
+        "assignments": 1
+      }
+    ],
+    "memberships": [
+      {
+        "role": "Client",
+        "status": "Active",
+        "memberships": 2
+      },
+      {
+        "role": "MasterAdmin",
+        "status": "Active",
+        "memberships": 3
+      },
+      {
+        "role": "Staff",
+        "status": "Active",
+        "memberships": 6
+      }
+    ],
+    "legacyAccounts": [
+      {
+        "role": "Advocate",
+        "active": 1,
+        "accounts": 1
+      },
+      {
+        "role": "Clerk",
+        "active": 1,
+        "accounts": 10
+      },
+      {
+        "role": "Owner",
+        "active": 1,
+        "accounts": 1
+      }
+    ]
+  },
+  "nativeSourceTableNames": [
+    "app_access",
+    "arena_additions_votes",
+    "arena_anchors_votes",
+    "arena_boardroom_votes",
+    "arena_cast_votes",
+    "arena_expanded_votes",
+    "arena_speakers_votes",
+    "arena_spotlight_votes",
+    "arena_votes",
+    "audit",
+    "batchfee_events",
+    "batchfee_migrations",
+    "batchfee_staff",
+    "batchfee_workspace",
+    "files",
+    "pandit_booking_workspaces",
+    "platform_preferences",
+    "records",
+    "samaj_announcements",
+    "samaj_audit",
+    "samaj_blocks",
+    "samaj_communities",
+    "samaj_consent",
+    "samaj_conversations",
+    "samaj_drafts",
+    "samaj_duplicate_decisions",
+    "samaj_event_rsvps",
+    "samaj_events",
+    "samaj_families",
+    "samaj_files",
+    "samaj_grants",
+    "samaj_import_jobs",
+    "samaj_memberships",
+    "samaj_message_attachments",
+    "samaj_message_preferences",
+    "samaj_message_reports",
+    "samaj_messages",
+    "samaj_migrations",
+    "samaj_participants",
+    "samaj_permissions",
+    "samaj_persons",
+    "samaj_relationships",
+    "samaj_reviews",
+    "samaj_role_permissions",
+    "samaj_roles",
+    "samaj_user_person",
+    "sessions",
+    "settings",
+    "tournament_lite_events",
+    "tournament_lite_migrations",
+    "users"
+  ],
+  "tables": [
+    {
+      "name": "_cf_KV",
+      "owner": "D1 system",
+      "columns": [
+        {
+          "name": "key",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "value",
+          "type": "BLOB",
+          "required": false,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex__cf_KV_1",
+          "unique": true,
+          "columns": [
+            "key"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE _cf_KV (\n        key TEXT PRIMARY KEY,\n        value BLOB\n      ) WITHOUT ROWID"
+    },
+    {
+      "name": "app_access",
+      "owner": "Shared identity and compatibility",
+      "columns": [
+        {
+          "name": "userId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "appId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "userId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_app_access_1",
+          "unique": true,
+          "columns": [
+            "userId",
+            "appId"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE app_access (\n    userId TEXT NOT NULL REFERENCES users(id),\n    appId TEXT NOT NULL,\n    PRIMARY KEY (userId, appId)\n)"
+    },
+    {
+      "name": "arena_additions_votes",
+      "owner": "Satire Arena",
+      "columns": [
+        {
+          "name": "voter",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "character",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        },
+        {
+          "name": "round",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 3
+        },
+        {
+          "name": "reaction",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "updated_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "arena_additions_counts",
+          "unique": false,
+          "columns": [
+            "round",
+            "character",
+            "reaction"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_arena_additions_votes_1",
+          "unique": true,
+          "columns": [
+            "voter",
+            "character",
+            "round"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE arena_additions_votes (\n voter TEXT NOT NULL,\n character TEXT NOT NULL CHECK(character IN ('highway-hari','budget-beena')),\n round TEXT NOT NULL,\n reaction TEXT NOT NULL CHECK(reaction IN ('garland','shoe','finger','applause','tomato','laugh')),\n updated_at TEXT NOT NULL,\n PRIMARY KEY(voter,character,round)\n)"
+    },
+    {
+      "name": "arena_anchors_votes",
+      "owner": "Satire Arena",
+      "columns": [
+        {
+          "name": "voter",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "character",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        },
+        {
+          "name": "round",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 3
+        },
+        {
+          "name": "reaction",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "updated_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "arena_anchors_counts",
+          "unique": false,
+          "columns": [
+            "round",
+            "character",
+            "reaction"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_arena_anchors_votes_1",
+          "unique": true,
+          "columns": [
+            "voter",
+            "character",
+            "round"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE arena_anchors_votes (voter TEXT NOT NULL,character TEXT NOT NULL CHECK(character IN ('roar-nab','ravish-reflection','sudhir-studio','anjana-awaaz','rajat-ruling','rubika-rapid')),round TEXT NOT NULL,reaction TEXT NOT NULL CHECK(reaction IN ('garland','shoe','finger','applause','tomato','laugh')),updated_at TEXT NOT NULL,PRIMARY KEY(voter,character,round))"
+    },
+    {
+      "name": "arena_boardroom_votes",
+      "owner": "Satire Arena",
+      "columns": [
+        {
+          "name": "voter",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "character",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        },
+        {
+          "name": "round",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 3
+        },
+        {
+          "name": "reaction",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "updated_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "arena_boardroom_counts",
+          "unique": false,
+          "columns": [
+            "round",
+            "character",
+            "reaction"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_arena_boardroom_votes_1",
+          "unique": true,
+          "columns": [
+            "voter",
+            "character",
+            "round"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE arena_boardroom_votes (voter TEXT NOT NULL,character TEXT NOT NULL CHECK(character IN ('ghanta-guru','sunday-seth','mileage-maharaj')),round TEXT NOT NULL,reaction TEXT NOT NULL CHECK(reaction IN ('garland','shoe','finger','applause','tomato','laugh')),updated_at TEXT NOT NULL,PRIMARY KEY(voter,character,round))"
+    },
+    {
+      "name": "arena_cast_votes",
+      "owner": "Satire Arena",
+      "columns": [
+        {
+          "name": "voter",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "character",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        },
+        {
+          "name": "round",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 3
+        },
+        {
+          "name": "reaction",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "updated_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "arena_cast_counts",
+          "unique": false,
+          "columns": [
+            "round",
+            "character",
+            "reaction"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_arena_cast_votes_1",
+          "unique": true,
+          "columns": [
+            "voter",
+            "character",
+            "round"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE arena_cast_votes (\n voter TEXT NOT NULL,\n character TEXT NOT NULL CHECK(character IN ('namo-nimbus','rally-rohan','muffler-mohan','briefcase-babu','drumroll-didi','coalition-chacha','saffron-sage','cycle-captain','lexicon-lord')),\n round TEXT NOT NULL,\n reaction TEXT NOT NULL CHECK(reaction IN ('garland','shoe','finger','applause','tomato','laugh')),\n updated_at TEXT NOT NULL,\n PRIMARY KEY(voter,character,round)\n)"
+    },
+    {
+      "name": "arena_expanded_votes",
+      "owner": "Satire Arena",
+      "columns": [
+        {
+          "name": "voter",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "character",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        },
+        {
+          "name": "round",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 3
+        },
+        {
+          "name": "reaction",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "updated_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "arena_expanded_counts",
+          "unique": false,
+          "columns": [
+            "round",
+            "character",
+            "reaction"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_arena_expanded_votes_1",
+          "unique": true,
+          "columns": [
+            "voter",
+            "character",
+            "round"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE arena_expanded_votes (\n voter TEXT NOT NULL,\n character TEXT NOT NULL CHECK(character IN ('namo-nimbus','rally-rohan','muffler-mohan','briefcase-babu','drumroll-didi','coalition-chacha')),\n round TEXT NOT NULL,\n reaction TEXT NOT NULL CHECK(reaction IN ('garland','shoe','finger','applause','tomato','laugh')),\n updated_at TEXT NOT NULL,\n PRIMARY KEY(voter,character,round)\n)"
+    },
+    {
+      "name": "arena_speakers_votes",
+      "owner": "Satire Arena",
+      "columns": [
+        {
+          "name": "voter",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "character",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        },
+        {
+          "name": "round",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 3
+        },
+        {
+          "name": "reaction",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "updated_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "arena_speakers_counts",
+          "unique": false,
+          "columns": [
+            "round",
+            "character",
+            "reaction"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_arena_speakers_votes_1",
+          "unique": true,
+          "columns": [
+            "voter",
+            "character",
+            "round"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE arena_speakers_votes (\n voter TEXT NOT NULL,\n character TEXT NOT NULL CHECK(character IN ('rally-raja','debate-dastan')),\n round TEXT NOT NULL,\n reaction TEXT NOT NULL CHECK(reaction IN ('garland','shoe','finger','applause','tomato','laugh')),\n updated_at TEXT NOT NULL,\n PRIMARY KEY(voter,character,round)\n)"
+    },
+    {
+      "name": "arena_spotlight_votes",
+      "owner": "Satire Arena",
+      "columns": [
+        {
+          "name": "voter",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "character",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        },
+        {
+          "name": "round",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 3
+        },
+        {
+          "name": "reaction",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "updated_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "arena_spotlight_counts",
+          "unique": false,
+          "columns": [
+            "round",
+            "character",
+            "reaction"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_arena_spotlight_votes_1",
+          "unique": true,
+          "columns": [
+            "voter",
+            "character",
+            "round"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE arena_spotlight_votes (voter TEXT NOT NULL,character TEXT NOT NULL CHECK(character IN ('king-khanvas','salman-slowmo','aamir-again','akshay-action','deepika-drama','alia-encore','mukesh-megaplan','gautam-grandplan','elon-launchpad','sundar-slidechai','satya-synergy','indra-boardroom')),round TEXT NOT NULL,reaction TEXT NOT NULL CHECK(reaction IN ('garland','shoe','finger','applause','tomato','laugh')),updated_at TEXT NOT NULL,PRIMARY KEY(voter,character,round))"
+    },
+    {
+      "name": "arena_votes",
+      "owner": "Satire Arena",
+      "columns": [
+        {
+          "name": "voter",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "character",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        },
+        {
+          "name": "round",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 3
+        },
+        {
+          "name": "reaction",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "updated_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "arena_round_counts",
+          "unique": false,
+          "columns": [
+            "round",
+            "character",
+            "reaction"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_arena_votes_1",
+          "unique": true,
+          "columns": [
+            "voter",
+            "character",
+            "round"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE arena_votes (\n voter TEXT NOT NULL,\n character TEXT NOT NULL CHECK(character IN ('namo-nimbus','rally-rohan','muffler-mohan')),\n round TEXT NOT NULL,\n reaction TEXT NOT NULL CHECK(reaction IN ('garland','shoe','finger')),\n updated_at TEXT NOT NULL,\n PRIMARY KEY(voter,character,round)\n)"
+    },
+    {
+      "name": "audit",
+      "owner": "Shared identity and compatibility",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "actor",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "action",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "kind",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "recordId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "label",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [],
+      "sql": "CREATE TABLE audit (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    at TEXT NOT NULL,\n    actor TEXT NOT NULL,\n    action TEXT NOT NULL,\n    kind TEXT NOT NULL,\n    recordId TEXT NOT NULL,\n    label TEXT NOT NULL\n)"
+    },
+    {
+      "name": "batchfee_events",
+      "owner": "BatchFee Lite",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "actor",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "action",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "data",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [],
+      "sql": "CREATE TABLE batchfee_events (\n id INTEGER PRIMARY KEY AUTOINCREMENT, at TEXT NOT NULL, actor TEXT NOT NULL,\n action TEXT NOT NULL, data TEXT NOT NULL CHECK(json_valid(data))\n)"
+    },
+    {
+      "name": "batchfee_legacy_ownership",
+      "owner": "BatchFee Lite",
+      "columns": [
+        {
+          "name": "legacyWorkspaceId",
+          "type": "INTEGER",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "organisationId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "platform_organisations",
+          "from": "organisationId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_batchfee_legacy_ownership_1",
+          "unique": true,
+          "columns": [
+            "organisationId"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE batchfee_legacy_ownership (\n legacyWorkspaceId INTEGER PRIMARY KEY CHECK(legacyWorkspaceId=1),\n organisationId TEXT NOT NULL UNIQUE REFERENCES platform_organisations(id)\n)"
+    },
+    {
+      "name": "batchfee_migrations",
+      "owner": "BatchFee Lite",
+      "columns": [
+        {
+          "name": "version",
+          "type": "INTEGER",
+          "required": false,
+          "primaryOrder": 1
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [],
+      "sql": "CREATE TABLE batchfee_migrations (version INTEGER PRIMARY KEY)"
+    },
+    {
+      "name": "batchfee_organisation_events",
+      "owner": "BatchFee Lite",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "organisationId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "actor",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "action",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "data",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "batchfee_organisation_workspaces",
+          "from": "organisationId",
+          "to": "organisationId",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "batchfee_organisation_events_scope",
+          "unique": false,
+          "columns": [
+            "organisationId",
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE batchfee_organisation_events (\n id INTEGER PRIMARY KEY AUTOINCREMENT,\n organisationId TEXT NOT NULL REFERENCES batchfee_organisation_workspaces(organisationId),\n at TEXT NOT NULL,\n actor TEXT NOT NULL,\n action TEXT NOT NULL,\n data TEXT NOT NULL CHECK(json_valid(data))\n)"
+    },
+    {
+      "name": "batchfee_organisation_workspaces",
+      "owner": "BatchFee Lite",
+      "columns": [
+        {
+          "name": "organisationId",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "revision",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "data",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "platform_organisations",
+          "from": "organisationId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_batchfee_organisation_workspaces_1",
+          "unique": true,
+          "columns": [
+            "organisationId"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE batchfee_organisation_workspaces (\n organisationId TEXT PRIMARY KEY REFERENCES platform_organisations(id),\n revision INTEGER NOT NULL DEFAULT 0 CHECK(revision >= 0),\n data TEXT NOT NULL CHECK(json_valid(data))\n)"
+    },
+    {
+      "name": "batchfee_staff",
+      "owner": "BatchFee Lite",
+      "columns": [
+        {
+          "name": "user_id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "role",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "user_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_batchfee_staff_1",
+          "unique": true,
+          "columns": [
+            "user_id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE batchfee_staff (user_id TEXT PRIMARY KEY REFERENCES users(id), role TEXT NOT NULL CHECK(role IN ('Viewer','Collector','Manager')))"
+    },
+    {
+      "name": "batchfee_workspace",
+      "owner": "BatchFee Lite",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "revision",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "data",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [],
+      "sql": "CREATE TABLE batchfee_workspace (\n id INTEGER PRIMARY KEY CHECK(id=1), revision INTEGER NOT NULL DEFAULT 0,\n data TEXT NOT NULL CHECK(json_valid(data))\n)"
+    },
+    {
+      "name": "chambers_activity",
+      "owner": "Chambers",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "organisationId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "actorUserId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "actor",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "action",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "kind",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "recordId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "label",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "actorUserId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "platform_organisations",
+          "from": "organisationId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "chambers_activity_org",
+          "unique": false,
+          "columns": [
+            "organisationId",
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE chambers_activity (\n id INTEGER PRIMARY KEY AUTOINCREMENT,\n organisationId TEXT NOT NULL REFERENCES platform_organisations(id),\n actorUserId TEXT NOT NULL REFERENCES users(id),\n actor TEXT NOT NULL,\n action TEXT NOT NULL,\n kind TEXT NOT NULL,\n recordId TEXT NOT NULL,\n label TEXT NOT NULL,\n at TEXT NOT NULL\n)"
+    },
+    {
+      "name": "chambers_client_access",
+      "owner": "Chambers",
+      "columns": [
+        {
+          "name": "organisationId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "userId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        },
+        {
+          "name": "kind",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "clientId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 3
+        },
+        {
+          "name": "status",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "createdAt",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "updatedAt",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "chambers_record_ownership",
+          "from": "organisationId",
+          "to": "organisationId",
+          "onUpdate": "NO ACTION",
+          "onDelete": "CASCADE"
+        },
+        {
+          "id": 0,
+          "seq": 1,
+          "table": "chambers_record_ownership",
+          "from": "kind",
+          "to": "kind",
+          "onUpdate": "NO ACTION",
+          "onDelete": "CASCADE"
+        },
+        {
+          "id": 0,
+          "seq": 2,
+          "table": "chambers_record_ownership",
+          "from": "clientId",
+          "to": "recordId",
+          "onUpdate": "NO ACTION",
+          "onDelete": "CASCADE"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "platform_memberships",
+          "from": "organisationId",
+          "to": "organisationId",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 1,
+          "table": "platform_memberships",
+          "from": "userId",
+          "to": "userId",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_chambers_client_access_1",
+          "unique": true,
+          "columns": [
+            "organisationId",
+            "userId",
+            "clientId"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE chambers_client_access (\n organisationId TEXT NOT NULL,\n userId TEXT NOT NULL,\n kind TEXT NOT NULL DEFAULT 'clients' CHECK(kind='clients'),\n clientId TEXT NOT NULL,\n status TEXT NOT NULL CHECK(status IN ('Active','Revoked')),\n createdAt INTEGER NOT NULL,\n updatedAt INTEGER NOT NULL,\n PRIMARY KEY(organisationId,userId,clientId),\n FOREIGN KEY(organisationId,userId) REFERENCES platform_memberships(organisationId,userId),\n FOREIGN KEY(organisationId,kind,clientId) REFERENCES chambers_record_ownership(organisationId,kind,recordId) ON DELETE CASCADE\n)"
+    },
+    {
+      "name": "chambers_file_ownership",
+      "owner": "Chambers",
+      "columns": [
+        {
+          "name": "fileId",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "organisationId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "platform_organisations",
+          "from": "organisationId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "files",
+          "from": "fileId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "chambers_files_org",
+          "unique": false,
+          "columns": [
+            "organisationId"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_chambers_file_ownership_1",
+          "unique": true,
+          "columns": [
+            "fileId"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE chambers_file_ownership (\n fileId TEXT PRIMARY KEY REFERENCES files(id),\n organisationId TEXT NOT NULL REFERENCES platform_organisations(id)\n)"
+    },
+    {
+      "name": "chambers_record_ownership",
+      "owner": "Chambers",
+      "columns": [
+        {
+          "name": "kind",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "recordId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        },
+        {
+          "name": "organisationId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "records",
+          "from": "kind",
+          "to": "kind",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 0,
+          "seq": 1,
+          "table": "records",
+          "from": "recordId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "platform_organisations",
+          "from": "organisationId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "chambers_records_org",
+          "unique": false,
+          "columns": [
+            "organisationId",
+            "kind"
+          ]
+        },
+        {
+          "name": "chambers_owner_scope",
+          "unique": true,
+          "columns": [
+            "organisationId",
+            "kind",
+            "recordId"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_chambers_record_ownership_1",
+          "unique": true,
+          "columns": [
+            "kind",
+            "recordId"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE chambers_record_ownership (\n kind TEXT NOT NULL,\n recordId TEXT NOT NULL,\n organisationId TEXT NOT NULL REFERENCES platform_organisations(id),\n PRIMARY KEY (kind,recordId),\n FOREIGN KEY (kind,recordId) REFERENCES records(kind,id)\n)"
+    },
+    {
+      "name": "chambers_snapshots",
+      "owner": "Chambers",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "organisationId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "bucket",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "data",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "platform_organisations",
+          "from": "organisationId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_chambers_snapshots_2",
+          "unique": true,
+          "columns": [
+            "organisationId",
+            "bucket"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_chambers_snapshots_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE chambers_snapshots (\n id TEXT PRIMARY KEY,\n organisationId TEXT NOT NULL REFERENCES platform_organisations(id),\n bucket TEXT NOT NULL,\n at TEXT NOT NULL,\n data TEXT NOT NULL CHECK (json_valid(data)),\n UNIQUE (organisationId,bucket)\n)"
+    },
+    {
+      "name": "chambers_workspace_settings",
+      "owner": "Chambers",
+      "columns": [
+        {
+          "name": "organisationId",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "data",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "platform_organisations",
+          "from": "organisationId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_chambers_workspace_settings_1",
+          "unique": true,
+          "columns": [
+            "organisationId"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE chambers_workspace_settings (\n organisationId TEXT PRIMARY KEY REFERENCES platform_organisations(id),\n data TEXT NOT NULL CHECK (json_valid(data))\n)"
+    },
+    {
+      "name": "d1_migrations",
+      "owner": "D1 system",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "name",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "applied_at",
+          "type": "TIMESTAMP",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_d1_migrations_1",
+          "unique": true,
+          "columns": [
+            "name"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE \"d1_migrations\"(\n\t\tid         INTEGER PRIMARY KEY AUTOINCREMENT,\n\t\tname       TEXT UNIQUE,\n\t\tapplied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL\n)"
+    },
+    {
+      "name": "edge_document_blobs",
+      "owner": "D1 infrastructure",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "name",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "mime",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "size",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "sha256",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "content",
+          "type": "BLOB",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "files",
+          "from": "id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_edge_document_blobs_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE edge_document_blobs (\n id TEXT PRIMARY KEY REFERENCES files(id) DEFERRABLE INITIALLY DEFERRED,\n name TEXT NOT NULL CHECK(length(name) BETWEEN 1 AND 200),\n mime TEXT NOT NULL,\n size INTEGER NOT NULL CHECK(size BETWEEN 1 AND 1000000),\n sha256 TEXT NOT NULL CHECK(length(sha256)=64),\n content BLOB NOT NULL CHECK(typeof(content)='blob' AND length(content)=size),\n created_at TEXT NOT NULL\n)"
+    },
+    {
+      "name": "edge_imports",
+      "owner": "D1 infrastructure",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "manifest_hash",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "completed_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_edge_imports_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE edge_imports(id TEXT PRIMARY KEY,manifest_hash TEXT NOT NULL,completed_at TEXT NOT NULL)"
+    },
+    {
+      "name": "edge_objects",
+      "owner": "D1 infrastructure",
+      "columns": [
+        {
+          "name": "scope",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        },
+        {
+          "name": "object_key",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "name",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "mime",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "size",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "sha256",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_edge_objects_2",
+          "unique": true,
+          "columns": [
+            "scope",
+            "id"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_edge_objects_1",
+          "unique": true,
+          "columns": [
+            "object_key"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE edge_objects(scope TEXT NOT NULL CHECK(scope IN ('chambers','samaj')),id TEXT NOT NULL,object_key TEXT NOT NULL UNIQUE,name TEXT NOT NULL,mime TEXT NOT NULL,size INTEGER NOT NULL,sha256 TEXT NOT NULL,created_at TEXT NOT NULL,PRIMARY KEY(scope,id))"
+    },
+    {
+      "name": "edge_revision",
+      "owner": "D1 infrastructure",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "revision",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [],
+      "sql": "CREATE TABLE edge_revision(id INTEGER PRIMARY KEY CHECK(id=1),revision INTEGER NOT NULL)"
+    },
+    {
+      "name": "edge_samaj_blobs",
+      "owner": "D1 infrastructure",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "file_id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "attachment_id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "name",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "mime",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "size",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "sha256",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "content",
+          "type": "BLOB",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "samaj_message_attachments",
+          "from": "attachment_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "CASCADE"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "samaj_files",
+          "from": "file_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "CASCADE"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_edge_samaj_blobs_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE edge_samaj_blobs (\n id TEXT PRIMARY KEY,\n file_id TEXT REFERENCES samaj_files(id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,\n attachment_id TEXT REFERENCES samaj_message_attachments(id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,\n name TEXT NOT NULL CHECK(length(name) BETWEEN 1 AND 200),\n mime TEXT NOT NULL,\n size INTEGER NOT NULL CHECK(size BETWEEN 1 AND 1000000),\n sha256 TEXT NOT NULL CHECK(length(sha256)=64),\n content BLOB NOT NULL CHECK(typeof(content)='blob' AND length(content)=size),\n created_at TEXT NOT NULL,\n CHECK((file_id IS NOT NULL AND file_id=id AND attachment_id IS NULL) OR\n       (attachment_id IS NOT NULL AND attachment_id=id AND file_id IS NULL))\n)"
+    },
+    {
+      "name": "edge_write_guard",
+      "owner": "D1 infrastructure",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "valid",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_edge_write_guard_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE edge_write_guard(id TEXT PRIMARY KEY,valid INTEGER NOT NULL CONSTRAINT edge_revision_conflict CHECK(valid=1))"
+    },
+    {
+      "name": "files",
+      "owner": "Chambers",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "name",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "mime",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "content",
+          "type": "BLOB",
+          "required": false,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_files_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE files (\n    id TEXT PRIMARY KEY,\n    name TEXT NOT NULL,\n    mime TEXT NOT NULL,\n    content BLOB\n)"
+    },
+    {
+      "name": "fund_lens_migrations",
+      "owner": "Retired recovery",
+      "columns": [
+        {
+          "name": "version",
+          "type": "INTEGER",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "appliedAt",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [],
+      "sql": "CREATE TABLE fund_lens_migrations (version INTEGER PRIMARY KEY, appliedAt TEXT NOT NULL)"
+    },
+    {
+      "name": "fund_lens_portfolios",
+      "owner": "Retired recovery",
+      "columns": [
+        {
+          "name": "userId",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "revision",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "userId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_fund_lens_portfolios_1",
+          "unique": true,
+          "columns": [
+            "userId"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE fund_lens_portfolios (userId TEXT PRIMARY KEY REFERENCES users(id), revision INTEGER NOT NULL DEFAULT 0)"
+    },
+    {
+      "name": "fund_lens_transactions",
+      "owner": "Retired recovery",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "userId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "schemeCode",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "schemeName",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "date",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "type",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "units",
+          "type": "REAL",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "amount",
+          "type": "REAL",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "reference",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "fingerprint",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "userId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "fund_lens_transactions_user_date",
+          "unique": false,
+          "columns": [
+            "userId",
+            "date"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_fund_lens_transactions_2",
+          "unique": true,
+          "columns": [
+            "userId",
+            "fingerprint"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_fund_lens_transactions_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE fund_lens_transactions (\n id TEXT PRIMARY KEY, userId TEXT NOT NULL REFERENCES users(id),\n schemeCode TEXT NOT NULL, schemeName TEXT NOT NULL, date TEXT NOT NULL,\n type TEXT NOT NULL CHECK(type IN ('BUY','SELL','DIVIDEND')),\n units REAL NOT NULL CHECK(units >= 0), amount REAL NOT NULL CHECK(amount > 0),\n reference TEXT NOT NULL DEFAULT '', fingerprint TEXT NOT NULL,\n UNIQUE(userId,fingerprint)\n)"
+    },
+    {
+      "name": "news_editions",
+      "owner": "Retired recovery",
+      "columns": [
+        {
+          "name": "date",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "name",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "author",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "cutoff",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "publishedAt",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "satireTitle",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "satireBody",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "satireStory",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "model",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "promptVersion",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_news_editions_1",
+          "unique": true,
+          "columns": [
+            "date"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE news_editions(\n date TEXT PRIMARY KEY, name TEXT NOT NULL, author TEXT NOT NULL,\n cutoff TEXT NOT NULL, publishedAt TEXT NOT NULL,\n satireTitle TEXT NOT NULL, satireBody TEXT NOT NULL,\n satireStory INTEGER NOT NULL CHECK(satireStory BETWEEN 1 AND 10),\n model TEXT NOT NULL, promptVersion TEXT NOT NULL\n)"
+    },
+    {
+      "name": "news_fetch_budget",
+      "owner": "Retired recovery",
+      "columns": [
+        {
+          "name": "day",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "requests",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_news_fetch_budget_1",
+          "unique": true,
+          "columns": [
+            "day"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE news_fetch_budget(\n day TEXT PRIMARY KEY, requests INTEGER NOT NULL DEFAULT 0 CHECK(requests >= 0)\n)"
+    },
+    {
+      "name": "news_migrations",
+      "owner": "Retired recovery",
+      "columns": [
+        {
+          "name": "version",
+          "type": "INTEGER",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "appliedAt",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [],
+      "sql": "CREATE TABLE news_migrations(version INTEGER PRIMARY KEY, appliedAt TEXT NOT NULL)"
+    },
+    {
+      "name": "news_runs",
+      "owner": "Retired recovery",
+      "columns": [
+        {
+          "name": "date",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "cutoff",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "state",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "sourceJson",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "attempts",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "leaseToken",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "leaseUntil",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "error",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "createdAt",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "updatedAt",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_news_runs_1",
+          "unique": true,
+          "columns": [
+            "date"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE news_runs(\n date TEXT PRIMARY KEY, cutoff TEXT NOT NULL,\n state TEXT NOT NULL CHECK(state IN ('pending','running','failed','published')),\n sourceJson TEXT NOT NULL DEFAULT '[]', attempts INTEGER NOT NULL DEFAULT 0,\n leaseToken TEXT, leaseUntil TEXT, error TEXT,\n createdAt TEXT NOT NULL, updatedAt TEXT NOT NULL\n)"
+    },
+    {
+      "name": "news_stories",
+      "owner": "Retired recovery",
+      "columns": [
+        {
+          "name": "editionDate",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "position",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 2
+        },
+        {
+          "name": "title",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "brief",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "source",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "url",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "publishedAt",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "news_editions",
+          "from": "editionDate",
+          "to": "date",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_news_stories_2",
+          "unique": true,
+          "columns": [
+            "editionDate",
+            "url"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_news_stories_1",
+          "unique": true,
+          "columns": [
+            "editionDate",
+            "position"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE news_stories(\n editionDate TEXT NOT NULL REFERENCES news_editions(date),\n position INTEGER NOT NULL CHECK(position BETWEEN 1 AND 10),\n title TEXT NOT NULL, brief TEXT NOT NULL, source TEXT NOT NULL,\n url TEXT NOT NULL, publishedAt TEXT NOT NULL,\n PRIMARY KEY(editionDate,position), UNIQUE(editionDate,url)\n)"
+    },
+    {
+      "name": "pandit_booking_workspaces",
+      "owner": "Pandit Booking",
+      "columns": [
+        {
+          "name": "organisationId",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "version",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "data",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_pandit_booking_workspaces_1",
+          "unique": true,
+          "columns": [
+            "organisationId"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE pandit_booking_workspaces (\n organisationId TEXT PRIMARY KEY,\n version INTEGER NOT NULL DEFAULT 0,\n data TEXT NOT NULL\n)"
+    },
+    {
+      "name": "platform_app_assignments",
+      "owner": "Organisation administration",
+      "columns": [
+        {
+          "name": "organisationId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "userId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        },
+        {
+          "name": "appId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 3
+        },
+        {
+          "name": "role",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "status",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "platform_app_licences",
+          "from": "organisationId",
+          "to": "organisationId",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 0,
+          "seq": 1,
+          "table": "platform_app_licences",
+          "from": "appId",
+          "to": "appId",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "platform_memberships",
+          "from": "organisationId",
+          "to": "organisationId",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 1,
+          "table": "platform_memberships",
+          "from": "userId",
+          "to": "userId",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_platform_app_assignments_1",
+          "unique": true,
+          "columns": [
+            "organisationId",
+            "userId",
+            "appId"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE platform_app_assignments (\n organisationId TEXT NOT NULL,\n userId TEXT NOT NULL,\n appId TEXT NOT NULL,\n role TEXT NOT NULL,\n status TEXT NOT NULL CHECK (status IN ('Active','Inactive')),\n PRIMARY KEY (organisationId,userId,appId),\n FOREIGN KEY (organisationId,userId) REFERENCES platform_memberships(organisationId,userId),\n FOREIGN KEY (organisationId,appId) REFERENCES platform_app_licences(organisationId,appId)\n)"
+    },
+    {
+      "name": "platform_app_licences",
+      "owner": "Organisation administration",
+      "columns": [
+        {
+          "name": "organisationId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "appId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        },
+        {
+          "name": "status",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "startsAt",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "endsAt",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "readOnlyUntil",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "staffLimit",
+          "type": "INTEGER",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "clientLimit",
+          "type": "INTEGER",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "version",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "platform_organisations",
+          "from": "organisationId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_platform_app_licences_1",
+          "unique": true,
+          "columns": [
+            "organisationId",
+            "appId"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE platform_app_licences (\n organisationId TEXT NOT NULL REFERENCES platform_organisations(id),\n appId TEXT NOT NULL,\n status TEXT NOT NULL CHECK (status IN ('Scheduled','Trial','Active','Suspended','Expired','Revoked')),\n startsAt TEXT NOT NULL,\n endsAt TEXT,\n readOnlyUntil TEXT,\n staffLimit INTEGER CHECK (staffLimit IS NULL OR (typeof(staffLimit) = 'integer' AND staffLimit >= 0)),\n clientLimit INTEGER CHECK (clientLimit IS NULL OR (typeof(clientLimit) = 'integer' AND clientLimit >= 0)),\n version INTEGER NOT NULL DEFAULT 1 CHECK (version >= 1),\n PRIMARY KEY (organisationId,appId)\n)"
+    },
+    {
+      "name": "platform_legacy_workspaces",
+      "owner": "Organisation administration",
+      "columns": [
+        {
+          "name": "appId",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "organisationId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "mappedAt",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "snapshotHash",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "platform_organisations",
+          "from": "organisationId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_platform_legacy_workspaces_3",
+          "unique": true,
+          "columns": [
+            "appId",
+            "organisationId"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_platform_legacy_workspaces_2",
+          "unique": true,
+          "columns": [
+            "organisationId"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_platform_legacy_workspaces_1",
+          "unique": true,
+          "columns": [
+            "appId"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE platform_legacy_workspaces (\n appId TEXT PRIMARY KEY CHECK (appId = 'advocate'),\n organisationId TEXT NOT NULL UNIQUE REFERENCES platform_organisations(id),\n mappedAt INTEGER NOT NULL,\n snapshotHash TEXT NOT NULL CHECK (length(snapshotHash) = 64),\n UNIQUE (appId,organisationId)\n)"
+    },
+    {
+      "name": "platform_memberships",
+      "owner": "Organisation administration",
+      "columns": [
+        {
+          "name": "organisationId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "userId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        },
+        {
+          "name": "role",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "status",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "createdAt",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "userId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "platform_organisations",
+          "from": "organisationId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "platform_one_master_admin",
+          "unique": true,
+          "columns": [
+            "organisationId"
+          ]
+        },
+        {
+          "name": "platform_memberships_user",
+          "unique": false,
+          "columns": [
+            "userId",
+            "organisationId"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_platform_memberships_2",
+          "unique": true,
+          "columns": [
+            "organisationId",
+            "userId",
+            "role"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_platform_memberships_1",
+          "unique": true,
+          "columns": [
+            "organisationId",
+            "userId"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE platform_memberships (\n organisationId TEXT NOT NULL REFERENCES platform_organisations(id),\n userId TEXT NOT NULL REFERENCES users(id),\n role TEXT NOT NULL CHECK (role IN ('MasterAdmin','Administrator','Staff','Client')),\n status TEXT NOT NULL CHECK (status IN ('Invited','Active','Inactive')),\n createdAt INTEGER NOT NULL,\n PRIMARY KEY (organisationId,userId),\n UNIQUE (organisationId,userId,role)\n)"
+    },
+    {
+      "name": "platform_organisation_audit",
+      "owner": "Organisation administration",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "organisationId",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "actorUserId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "action",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "at",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "details",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "actorUserId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "platform_organisations",
+          "from": "organisationId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [],
+      "sql": "CREATE TABLE platform_organisation_audit (\n id INTEGER PRIMARY KEY AUTOINCREMENT,\n organisationId TEXT REFERENCES platform_organisations(id),\n actorUserId TEXT NOT NULL REFERENCES users(id),\n action TEXT NOT NULL,\n at INTEGER NOT NULL,\n details TEXT NOT NULL CHECK (json_valid(details))\n)"
+    },
+    {
+      "name": "platform_organisation_invitations",
+      "owner": "Organisation administration",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "organisationId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "userId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "email",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "tokenHash",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "expiresAt",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "consumedAt",
+          "type": "INTEGER",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "revokedAt",
+          "type": "INTEGER",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "createdAt",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "platform_memberships",
+          "from": "organisationId",
+          "to": "organisationId",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 0,
+          "seq": 1,
+          "table": "platform_memberships",
+          "from": "userId",
+          "to": "userId",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "platform_one_open_invitation",
+          "unique": true,
+          "columns": [
+            "organisationId",
+            "userId"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_platform_organisation_invitations_2",
+          "unique": true,
+          "columns": [
+            "tokenHash"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_platform_organisation_invitations_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE platform_organisation_invitations (\n id TEXT PRIMARY KEY,\n organisationId TEXT NOT NULL,\n userId TEXT NOT NULL,\n email TEXT NOT NULL,\n tokenHash TEXT NOT NULL UNIQUE CHECK (length(tokenHash) = 64),\n expiresAt INTEGER NOT NULL,\n consumedAt INTEGER,\n revokedAt INTEGER,\n createdAt INTEGER NOT NULL,\n FOREIGN KEY (organisationId,userId) REFERENCES platform_memberships(organisationId,userId),\n CHECK (expiresAt > createdAt),\n CHECK (consumedAt IS NULL OR revokedAt IS NULL)\n)"
+    },
+    {
+      "name": "platform_organisation_migrations",
+      "owner": "Organisation administration",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "checksum",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_platform_organisation_migrations_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE platform_organisation_migrations(id TEXT PRIMARY KEY,checksum TEXT NOT NULL)"
+    },
+    {
+      "name": "platform_organisations",
+      "owner": "Organisation administration",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "name",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "type",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "timezone",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "status",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "masterAdminUserId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "masterAdminRole",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "staffLimit",
+          "type": "INTEGER",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "clientLimit",
+          "type": "INTEGER",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "version",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "createdAt",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "platform_memberships",
+          "from": "id",
+          "to": "organisationId",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 0,
+          "seq": 1,
+          "table": "platform_memberships",
+          "from": "masterAdminUserId",
+          "to": "userId",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 0,
+          "seq": 2,
+          "table": "platform_memberships",
+          "from": "masterAdminRole",
+          "to": "role",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "users",
+          "from": "masterAdminUserId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_platform_organisations_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE platform_organisations (\n id TEXT PRIMARY KEY,\n name TEXT NOT NULL CHECK (length(trim(name)) BETWEEN 1 AND 160),\n type TEXT NOT NULL CHECK (length(type) BETWEEN 1 AND 80),\n timezone TEXT NOT NULL,\n status TEXT NOT NULL CHECK (status IN ('Draft','PendingActivation','Active','Suspended','Closed')),\n masterAdminUserId TEXT NOT NULL REFERENCES users(id),\n masterAdminRole TEXT NOT NULL DEFAULT 'MasterAdmin' CHECK (masterAdminRole = 'MasterAdmin'),\n staffLimit INTEGER CHECK (staffLimit IS NULL OR (typeof(staffLimit) = 'integer' AND staffLimit >= 1)),\n clientLimit INTEGER CHECK (clientLimit IS NULL OR (typeof(clientLimit) = 'integer' AND clientLimit >= 0)),\n version INTEGER NOT NULL DEFAULT 1 CHECK (version >= 1),\n createdAt INTEGER NOT NULL,\n FOREIGN KEY (id,masterAdminUserId,masterAdminRole)\n   REFERENCES platform_memberships(organisationId,userId,role) DEFERRABLE INITIALLY DEFERRED\n)"
+    },
+    {
+      "name": "platform_pending_identities",
+      "owner": "Organisation administration",
+      "columns": [
+        {
+          "name": "userId",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "createdAt",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "activatedAt",
+          "type": "INTEGER",
+          "required": false,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "userId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_platform_pending_identities_1",
+          "unique": true,
+          "columns": [
+            "userId"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE platform_pending_identities (\n  userId TEXT PRIMARY KEY REFERENCES users(id),\n  createdAt INTEGER NOT NULL,\n  activatedAt INTEGER\n)"
+    },
+    {
+      "name": "platform_preferences",
+      "owner": "Shared identity and compatibility",
+      "columns": [
+        {
+          "name": "userId",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "data",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "userId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_platform_preferences_1",
+          "unique": true,
+          "columns": [
+            "userId"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE platform_preferences (\n    userId TEXT PRIMARY KEY REFERENCES users(id),\n    data TEXT NOT NULL CHECK (json_valid(data))\n)"
+    },
+    {
+      "name": "platform_super_admins",
+      "owner": "Organisation administration",
+      "columns": [
+        {
+          "name": "userId",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "active",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "createdAt",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "userId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_platform_super_admins_1",
+          "unique": true,
+          "columns": [
+            "userId"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE platform_super_admins (\n userId TEXT PRIMARY KEY REFERENCES users(id),\n active INTEGER NOT NULL CHECK (active IN (0,1)),\n createdAt INTEGER NOT NULL\n)"
+    },
+    {
+      "name": "records",
+      "owner": "Chambers",
+      "columns": [
+        {
+          "name": "kind",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        },
+        {
+          "name": "data",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "records_invoice",
+          "unique": false,
+          "columns": [
+            "kind",
+            null
+          ]
+        },
+        {
+          "name": "records_client",
+          "unique": false,
+          "columns": [
+            "kind",
+            null
+          ]
+        },
+        {
+          "name": "records_case",
+          "unique": false,
+          "columns": [
+            "kind",
+            null
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_records_1",
+          "unique": true,
+          "columns": [
+            "kind",
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE records (\n    kind TEXT NOT NULL,\n    id TEXT NOT NULL,\n    data TEXT NOT NULL CHECK (json_valid(data)),\n    PRIMARY KEY (kind, id)\n)"
+    },
+    {
+      "name": "samaj_announcements",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "samaj_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "title",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "body",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "actor",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "actor",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "samaj_communities",
+          "from": "samaj_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_samaj_announcements_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_announcements (\n id TEXT PRIMARY KEY, samaj_id TEXT NOT NULL REFERENCES samaj_communities(id), title TEXT NOT NULL, body TEXT NOT NULL, actor TEXT NOT NULL REFERENCES users(id), created_at TEXT NOT NULL\n)"
+    },
+    {
+      "name": "samaj_audit",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "samaj_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "actor",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "action",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "entity_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "old_value",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "new_value",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "actor",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "samaj_communities",
+          "from": "samaj_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_samaj_audit_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_audit (\n id TEXT PRIMARY KEY, samaj_id TEXT NOT NULL REFERENCES samaj_communities(id), actor TEXT NOT NULL REFERENCES users(id), action TEXT NOT NULL,\n entity_id TEXT NOT NULL, old_value TEXT NOT NULL CHECK(json_valid(old_value)), new_value TEXT NOT NULL CHECK(json_valid(new_value)), at TEXT NOT NULL\n)"
+    },
+    {
+      "name": "samaj_blocks",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "user_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "blocked_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "blocked_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "users",
+          "from": "user_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_samaj_blocks_1",
+          "unique": true,
+          "columns": [
+            "user_id",
+            "blocked_id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_blocks (user_id TEXT NOT NULL REFERENCES users(id), blocked_id TEXT NOT NULL REFERENCES users(id), PRIMARY KEY(user_id,blocked_id), CHECK(user_id<>blocked_id))"
+    },
+    {
+      "name": "samaj_communities",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "name",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_samaj_communities_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_communities (id TEXT PRIMARY KEY, name TEXT NOT NULL, created_at TEXT NOT NULL)"
+    },
+    {
+      "name": "samaj_consent",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "family_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "user_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "version",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "given_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "user_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "samaj_families",
+          "from": "family_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_samaj_consent_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_consent (\n id TEXT PRIMARY KEY, family_id TEXT NOT NULL REFERENCES samaj_families(id), user_id TEXT NOT NULL REFERENCES users(id), version TEXT NOT NULL, given_at TEXT NOT NULL\n)"
+    },
+    {
+      "name": "samaj_conversations",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "samaj_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "sender",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "receiver",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "reason",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "status",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "receiver",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "users",
+          "from": "sender",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 2,
+          "seq": 0,
+          "table": "samaj_communities",
+          "from": "samaj_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "samaj_open_conversation",
+          "unique": true,
+          "columns": [
+            "samaj_id",
+            null,
+            null
+          ]
+        },
+        {
+          "name": "samaj_conversations_receiver",
+          "unique": false,
+          "columns": [
+            "receiver",
+            "samaj_id"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_samaj_conversations_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_conversations (\n id TEXT PRIMARY KEY, samaj_id TEXT NOT NULL REFERENCES samaj_communities(id), sender TEXT NOT NULL REFERENCES users(id), receiver TEXT NOT NULL REFERENCES users(id),\n reason TEXT NOT NULL, status TEXT NOT NULL CHECK(status IN ('PENDING','ACCEPTED','DECLINED')), created_at TEXT NOT NULL, CHECK(sender<>receiver)\n)"
+    },
+    {
+      "name": "samaj_drafts",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "samaj_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "user_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "revision",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "step",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "data",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "submitted_family_id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "updated_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "samaj_families",
+          "from": "submitted_family_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "users",
+          "from": "user_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 2,
+          "seq": 0,
+          "table": "samaj_communities",
+          "from": "samaj_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "samaj_draft_owner",
+          "unique": false,
+          "columns": [
+            "user_id",
+            "samaj_id"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_samaj_drafts_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_drafts (\n id TEXT PRIMARY KEY, samaj_id TEXT NOT NULL REFERENCES samaj_communities(id), user_id TEXT NOT NULL REFERENCES users(id), revision INTEGER NOT NULL DEFAULT 1,\n step INTEGER NOT NULL DEFAULT 0 CHECK(step BETWEEN 0 AND 9), data TEXT NOT NULL CHECK(json_valid(data)), submitted_family_id TEXT REFERENCES samaj_families(id), updated_at TEXT NOT NULL\n)"
+    },
+    {
+      "name": "samaj_duplicate_decisions",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "person_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "related_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        },
+        {
+          "name": "decision",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "actor",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "actor",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "samaj_persons",
+          "from": "related_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 2,
+          "seq": 0,
+          "table": "samaj_persons",
+          "from": "person_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_samaj_duplicate_decisions_1",
+          "unique": true,
+          "columns": [
+            "person_id",
+            "related_id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_duplicate_decisions (\n person_id TEXT NOT NULL REFERENCES samaj_persons(id), related_id TEXT NOT NULL REFERENCES samaj_persons(id), decision TEXT NOT NULL CHECK(decision IN ('IGNORE','MERGE')), actor TEXT NOT NULL REFERENCES users(id), at TEXT NOT NULL, PRIMARY KEY(person_id,related_id)\n)"
+    },
+    {
+      "name": "samaj_event_rsvps",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "user_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        },
+        {
+          "name": "response",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "user_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "samaj_events",
+          "from": "event_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_samaj_event_rsvps_1",
+          "unique": true,
+          "columns": [
+            "event_id",
+            "user_id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_event_rsvps (event_id TEXT NOT NULL REFERENCES samaj_events(id),user_id TEXT NOT NULL REFERENCES users(id),response TEXT NOT NULL CHECK(response IN ('Going','Maybe','Not going')),PRIMARY KEY(event_id,user_id))"
+    },
+    {
+      "name": "samaj_events",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "samaj_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "title",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "starts_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "location",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "description",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "family_id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "created_by",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "cancelled",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "created_by",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "samaj_families",
+          "from": "family_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 2,
+          "seq": 0,
+          "table": "samaj_communities",
+          "from": "samaj_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "samaj_events_calendar",
+          "unique": false,
+          "columns": [
+            "samaj_id",
+            "starts_at"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_samaj_events_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_events (id TEXT PRIMARY KEY,samaj_id TEXT NOT NULL REFERENCES samaj_communities(id),title TEXT NOT NULL,starts_at TEXT NOT NULL,location TEXT NOT NULL,description TEXT NOT NULL,family_id TEXT REFERENCES samaj_families(id),created_by TEXT NOT NULL REFERENCES users(id),cancelled INTEGER NOT NULL DEFAULT 0)"
+    },
+    {
+      "name": "samaj_families",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "samaj_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "code",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "head_id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "status",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "revision",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "data",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "privacy",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "created_by",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "updated_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "created_by",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "samaj_persons",
+          "from": "head_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 2,
+          "seq": 0,
+          "table": "samaj_communities",
+          "from": "samaj_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "samaj_family_community",
+          "unique": false,
+          "columns": [
+            "samaj_id",
+            "status"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_samaj_families_2",
+          "unique": true,
+          "columns": [
+            "code"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_samaj_families_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_families (\n id TEXT PRIMARY KEY, samaj_id TEXT NOT NULL REFERENCES samaj_communities(id), code TEXT NOT NULL UNIQUE,\n head_id TEXT REFERENCES samaj_persons(id), status TEXT NOT NULL CHECK(status IN ('DRAFT','SUBMITTED','UNDER_REVIEW','CORRECTION_REQUIRED','VERIFIED','REJECTED','ARCHIVED')),\n revision INTEGER NOT NULL DEFAULT 1, data TEXT NOT NULL CHECK(json_valid(data)), privacy TEXT NOT NULL CHECK(json_valid(privacy)),\n created_by TEXT NOT NULL REFERENCES users(id), created_at TEXT NOT NULL, updated_at TEXT NOT NULL\n)"
+    },
+    {
+      "name": "samaj_files",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "samaj_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "person_id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "family_id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "name",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "mime",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "content",
+          "type": "BLOB",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "created_by",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "created_by",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "samaj_families",
+          "from": "family_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 2,
+          "seq": 0,
+          "table": "samaj_persons",
+          "from": "person_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 3,
+          "seq": 0,
+          "table": "samaj_communities",
+          "from": "samaj_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_samaj_files_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_files (\n id TEXT PRIMARY KEY, samaj_id TEXT NOT NULL REFERENCES samaj_communities(id), person_id TEXT REFERENCES samaj_persons(id), family_id TEXT REFERENCES samaj_families(id),\n name TEXT NOT NULL, mime TEXT NOT NULL, content BLOB, created_by TEXT NOT NULL REFERENCES users(id), created_at TEXT NOT NULL,\n CHECK((person_id IS NULL)<>(family_id IS NULL))\n)"
+    },
+    {
+      "name": "samaj_grants",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "user_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "samaj_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "role_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "scope",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "scope_value",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "samaj_roles",
+          "from": "role_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "samaj_communities",
+          "from": "samaj_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 2,
+          "seq": 0,
+          "table": "users",
+          "from": "user_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "samaj_grant_user",
+          "unique": false,
+          "columns": [
+            "user_id",
+            "samaj_id"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_samaj_grants_2",
+          "unique": true,
+          "columns": [
+            "user_id",
+            "samaj_id",
+            "role_id",
+            "scope",
+            "scope_value"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_samaj_grants_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_grants (\n id TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES users(id), samaj_id TEXT NOT NULL REFERENCES samaj_communities(id),\n role_id TEXT NOT NULL REFERENCES samaj_roles(id), scope TEXT NOT NULL CHECK(scope IN ('ALL','STATE','DISTRICT','VILLAGE','FAMILY','SELF')),\n scope_value TEXT NOT NULL, created_at TEXT NOT NULL,\n UNIQUE(user_id,samaj_id,role_id,scope,scope_value)\n)"
+    },
+    {
+      "name": "samaj_import_jobs",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "samaj_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "created_by",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "status",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "data",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "created_by",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "samaj_communities",
+          "from": "samaj_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_samaj_import_jobs_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_import_jobs (\n id TEXT PRIMARY KEY, samaj_id TEXT NOT NULL REFERENCES samaj_communities(id), created_by TEXT NOT NULL REFERENCES users(id), status TEXT NOT NULL, data TEXT NOT NULL CHECK(json_valid(data)), created_at TEXT NOT NULL\n)"
+    },
+    {
+      "name": "samaj_memberships",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "person_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "family_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "type",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "is_primary",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "start_date",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "end_date",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "samaj_families",
+          "from": "family_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "samaj_persons",
+          "from": "person_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "samaj_primary_family",
+          "unique": true,
+          "columns": [
+            "person_id"
+          ]
+        },
+        {
+          "name": "samaj_membership_family",
+          "unique": false,
+          "columns": [
+            "family_id"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_samaj_memberships_2",
+          "unique": true,
+          "columns": [
+            "person_id",
+            "family_id",
+            "type"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_samaj_memberships_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_memberships (\n id TEXT PRIMARY KEY, person_id TEXT NOT NULL REFERENCES samaj_persons(id), family_id TEXT NOT NULL REFERENCES samaj_families(id),\n type TEXT NOT NULL CHECK(type IN ('BirthFamily','MaritalFamily','GuardianFamily','Other')), is_primary INTEGER NOT NULL CHECK(is_primary IN (0,1)), start_date TEXT NOT NULL DEFAULT '', end_date TEXT NOT NULL DEFAULT '',\n UNIQUE(person_id,family_id,type)\n)"
+    },
+    {
+      "name": "samaj_message_attachments",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "message_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "name",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "mime",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "content",
+          "type": "BLOB",
+          "required": false,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "samaj_messages",
+          "from": "message_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_samaj_message_attachments_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_message_attachments (\n id TEXT PRIMARY KEY, message_id TEXT NOT NULL REFERENCES samaj_messages(id), name TEXT NOT NULL, mime TEXT NOT NULL, content BLOB\n)"
+    },
+    {
+      "name": "samaj_message_preferences",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "user_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "samaj_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        },
+        {
+          "name": "visibility",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "samaj_communities",
+          "from": "samaj_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "users",
+          "from": "user_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_samaj_message_preferences_1",
+          "unique": true,
+          "columns": [
+            "user_id",
+            "samaj_id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_message_preferences (\n user_id TEXT NOT NULL REFERENCES users(id), samaj_id TEXT NOT NULL REFERENCES samaj_communities(id), visibility TEXT NOT NULL CHECK(visibility IN ('Nobody','FamilyOnly','VerifiedMembers','Connections','SamajMembers')), PRIMARY KEY(user_id,samaj_id)\n)"
+    },
+    {
+      "name": "samaj_message_reports",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "message_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "reporter",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "reason",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "status",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "reporter",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "samaj_messages",
+          "from": "message_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_samaj_message_reports_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_message_reports (\n id TEXT PRIMARY KEY, message_id TEXT NOT NULL REFERENCES samaj_messages(id), reporter TEXT NOT NULL REFERENCES users(id), reason TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'OPEN', created_at TEXT NOT NULL\n)"
+    },
+    {
+      "name": "samaj_messages",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "conversation_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "sender",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "body",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "sender",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "samaj_conversations",
+          "from": "conversation_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "samaj_message_thread",
+          "unique": false,
+          "columns": [
+            "conversation_id",
+            "created_at"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_samaj_messages_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_messages (\n id TEXT PRIMARY KEY, conversation_id TEXT NOT NULL REFERENCES samaj_conversations(id), sender TEXT NOT NULL REFERENCES users(id), body TEXT NOT NULL, created_at TEXT NOT NULL\n)"
+    },
+    {
+      "name": "samaj_migrations",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "version",
+          "type": "INTEGER",
+          "required": false,
+          "primaryOrder": 1
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [],
+      "sql": "CREATE TABLE samaj_migrations (version INTEGER PRIMARY KEY)"
+    },
+    {
+      "name": "samaj_organisation_ownership",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "samajId",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "organisationId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "platform_organisations",
+          "from": "organisationId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "samaj_communities",
+          "from": "samajId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_samaj_organisation_ownership_2",
+          "unique": true,
+          "columns": [
+            "organisationId"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_samaj_organisation_ownership_1",
+          "unique": true,
+          "columns": [
+            "samajId"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_organisation_ownership (\n samajId TEXT PRIMARY KEY REFERENCES samaj_communities(id),\n organisationId TEXT NOT NULL UNIQUE REFERENCES platform_organisations(id)\n)"
+    },
+    {
+      "name": "samaj_participants",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "conversation_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "user_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        },
+        {
+          "name": "read_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "muted",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "user_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "samaj_conversations",
+          "from": "conversation_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_samaj_participants_1",
+          "unique": true,
+          "columns": [
+            "conversation_id",
+            "user_id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_participants (\n conversation_id TEXT NOT NULL REFERENCES samaj_conversations(id), user_id TEXT NOT NULL REFERENCES users(id), read_at TEXT NOT NULL DEFAULT '', muted INTEGER NOT NULL DEFAULT 0 CHECK(muted IN (0,1)), PRIMARY KEY(conversation_id,user_id)\n)"
+    },
+    {
+      "name": "samaj_permissions",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_samaj_permissions_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_permissions (id TEXT PRIMARY KEY)"
+    },
+    {
+      "name": "samaj_persons",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "samaj_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "code",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "status",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "revision",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "data",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "privacy",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "created_by",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "updated_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "merged_into",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "samaj_persons",
+          "from": "merged_into",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "users",
+          "from": "created_by",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 2,
+          "seq": 0,
+          "table": "samaj_communities",
+          "from": "samaj_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "samaj_person_community",
+          "unique": false,
+          "columns": [
+            "samaj_id",
+            "status"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_samaj_persons_2",
+          "unique": true,
+          "columns": [
+            "code"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_samaj_persons_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_persons (\n id TEXT PRIMARY KEY, samaj_id TEXT NOT NULL REFERENCES samaj_communities(id), code TEXT NOT NULL UNIQUE,\n status TEXT NOT NULL CHECK(status IN ('DRAFT','SUBMITTED','UNDER_REVIEW','CORRECTION_REQUIRED','VERIFIED','REJECTED','ARCHIVED')),\n revision INTEGER NOT NULL DEFAULT 1, data TEXT NOT NULL CHECK(json_valid(data)), privacy TEXT NOT NULL CHECK(json_valid(privacy)),\n created_by TEXT NOT NULL REFERENCES users(id), created_at TEXT NOT NULL, updated_at TEXT NOT NULL, merged_into TEXT REFERENCES samaj_persons(id) DEFERRABLE INITIALLY DEFERRED\n)"
+    },
+    {
+      "name": "samaj_relationships",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "person_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "related_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "type",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "status",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "end_date",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "created_by",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "created_by",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "samaj_persons",
+          "from": "related_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 2,
+          "seq": 0,
+          "table": "samaj_persons",
+          "from": "person_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "samaj_relationship_related",
+          "unique": false,
+          "columns": [
+            "related_id"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_samaj_relationships_2",
+          "unique": true,
+          "columns": [
+            "person_id",
+            "related_id",
+            "type"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_samaj_relationships_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_relationships (\n id TEXT PRIMARY KEY, person_id TEXT NOT NULL REFERENCES samaj_persons(id), related_id TEXT NOT NULL REFERENCES samaj_persons(id),\n type TEXT NOT NULL CHECK(type IN ('Father','Mother','Parent','Spouse','Sibling','Guardian','Other')),\n status TEXT NOT NULL DEFAULT 'SUBMITTED', end_date TEXT NOT NULL DEFAULT '', created_by TEXT NOT NULL REFERENCES users(id),\n CHECK(person_id<>related_id), UNIQUE(person_id,related_id,type)\n)"
+    },
+    {
+      "name": "samaj_reviews",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "samaj_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "kind",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "entity_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "requested_by",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "status",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "old_value",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "new_value",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "reviewed_by",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "reviewed_at",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 0
+        },
+        {
+          "name": "reason",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "reviewed_by",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "users",
+          "from": "requested_by",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 2,
+          "seq": 0,
+          "table": "samaj_communities",
+          "from": "samaj_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "samaj_review_queue",
+          "unique": false,
+          "columns": [
+            "samaj_id",
+            "status"
+          ]
+        },
+        {
+          "name": "samaj_pending_review",
+          "unique": true,
+          "columns": [
+            "kind",
+            "entity_id",
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_samaj_reviews_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_reviews (\n id TEXT PRIMARY KEY, samaj_id TEXT NOT NULL REFERENCES samaj_communities(id), kind TEXT NOT NULL,\n entity_id TEXT NOT NULL, requested_by TEXT NOT NULL REFERENCES users(id), status TEXT NOT NULL DEFAULT 'PENDING',\n old_value TEXT NOT NULL CHECK(json_valid(old_value)), new_value TEXT NOT NULL CHECK(json_valid(new_value)),\n created_at TEXT NOT NULL, reviewed_by TEXT REFERENCES users(id), reviewed_at TEXT, reason TEXT NOT NULL DEFAULT ''\n)"
+    },
+    {
+      "name": "samaj_role_permissions",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "role_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "permission",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "samaj_permissions",
+          "from": "permission",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "samaj_roles",
+          "from": "role_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_samaj_role_permissions_1",
+          "unique": true,
+          "columns": [
+            "role_id",
+            "permission"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_role_permissions (\n role_id TEXT NOT NULL REFERENCES samaj_roles(id), permission TEXT NOT NULL REFERENCES samaj_permissions(id), PRIMARY KEY(role_id,permission)\n)"
+    },
+    {
+      "name": "samaj_roles",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_samaj_roles_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_roles (id TEXT PRIMARY KEY)"
+    },
+    {
+      "name": "samaj_user_person",
+      "owner": "DIGITAL SAMAJ",
+      "columns": [
+        {
+          "name": "user_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 1
+        },
+        {
+          "name": "samaj_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 2
+        },
+        {
+          "name": "person_id",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "samaj_persons",
+          "from": "person_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "samaj_communities",
+          "from": "samaj_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 2,
+          "seq": 0,
+          "table": "users",
+          "from": "user_id",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_samaj_user_person_2",
+          "unique": true,
+          "columns": [
+            "user_id",
+            "samaj_id"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_samaj_user_person_1",
+          "unique": true,
+          "columns": [
+            "person_id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE samaj_user_person (\n user_id TEXT NOT NULL REFERENCES users(id), samaj_id TEXT NOT NULL REFERENCES samaj_communities(id), person_id TEXT NOT NULL UNIQUE REFERENCES samaj_persons(id), PRIMARY KEY(user_id,samaj_id)\n)"
+    },
+    {
+      "name": "sessions",
+      "owner": "Shared identity and compatibility",
+      "columns": [
+        {
+          "name": "token",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "userId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "expires",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "users",
+          "from": "userId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sessions_user",
+          "unique": false,
+          "columns": [
+            "userId"
+          ]
+        },
+        {
+          "name": "sessions_expiry",
+          "unique": false,
+          "columns": [
+            "expires"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_sessions_1",
+          "unique": true,
+          "columns": [
+            "token"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE sessions (\n    token TEXT PRIMARY KEY,\n    userId TEXT NOT NULL REFERENCES users(id),\n    expires INTEGER NOT NULL\n)"
+    },
+    {
+      "name": "settings",
+      "owner": "Shared identity and compatibility",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "data",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_settings_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE settings (\n    id TEXT PRIMARY KEY,\n    data TEXT NOT NULL CHECK (json_valid(data))\n)"
+    },
+    {
+      "name": "tournament_lite_events",
+      "owner": "Tournament Lite",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "owner",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "revision",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "public_token",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "data",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_tournament_lite_events_2",
+          "unique": true,
+          "columns": [
+            "public_token"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_tournament_lite_events_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE tournament_lite_events (id TEXT PRIMARY KEY, owner TEXT NOT NULL, revision INTEGER NOT NULL, public_token TEXT NOT NULL UNIQUE, data TEXT NOT NULL)"
+    },
+    {
+      "name": "tournament_lite_migrations",
+      "owner": "Tournament Lite",
+      "columns": [
+        {
+          "name": "version",
+          "type": "INTEGER",
+          "required": false,
+          "primaryOrder": 1
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [],
+      "sql": "CREATE TABLE tournament_lite_migrations (version INTEGER PRIMARY KEY)"
+    },
+    {
+      "name": "tournament_lite_ownership",
+      "owner": "Tournament Lite",
+      "columns": [
+        {
+          "name": "eventId",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "organisationId",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "platform_organisations",
+          "from": "organisationId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "tournament_lite_events",
+          "from": "eventId",
+          "to": "id",
+          "onUpdate": "NO ACTION",
+          "onDelete": "NO ACTION"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "tournament_lite_ownership_organisation",
+          "unique": false,
+          "columns": [
+            "organisationId"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_tournament_lite_ownership_1",
+          "unique": true,
+          "columns": [
+            "eventId"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE tournament_lite_ownership (\n eventId TEXT PRIMARY KEY REFERENCES tournament_lite_events(id),\n organisationId TEXT NOT NULL REFERENCES platform_organisations(id)\n)"
+    },
+    {
+      "name": "users",
+      "owner": "Shared identity and compatibility",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "required": false,
+          "primaryOrder": 1
+        },
+        {
+          "name": "name",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "email",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "role",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "password",
+          "type": "TEXT",
+          "required": true,
+          "primaryOrder": 0
+        },
+        {
+          "name": "active",
+          "type": "INTEGER",
+          "required": true,
+          "primaryOrder": 0
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_users_2",
+          "unique": true,
+          "columns": [
+            "email"
+          ]
+        },
+        {
+          "name": "sqlite_autoindex_users_1",
+          "unique": true,
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "sql": "CREATE TABLE users (\n    id TEXT PRIMARY KEY,\n    name TEXT NOT NULL,\n    email TEXT NOT NULL UNIQUE,\n    role TEXT NOT NULL CHECK (role IN ('Owner', 'Advocate', 'Clerk')),\n    password TEXT NOT NULL,\n    active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0, 1))\n)"
+    }
+  ]
+}

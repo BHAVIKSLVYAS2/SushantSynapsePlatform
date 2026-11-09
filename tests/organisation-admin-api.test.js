@@ -16,6 +16,9 @@ test('session identity and organisation boundaries protect administration endpoi
  const call=(path='',{cookie=master,body,headers={}}={})=>fetch(f.base+'/api/organisation-admin'+path,{method:body?'POST':'GET',headers:{Cookie:cookie,...(body?{'Content-Type':'application/json'}:{}),...headers},body:body?JSON.stringify(body):undefined});
  assert.equal((await call('',{cookie:''})).status,401);
  const own=await (await call()).json();assert.equal(own.superAdmin,false);assert.equal(own.organisations.length,1);
+ assert.deepEqual(own.assignmentApps,['advocate']);
+ assert.deepEqual(own.apps.find(app=>app.id==='advocate').roles.map(role=>role.id),['Clerk','Advocate','Owner']);
+ assert(own.apps.filter(app=>app.id!=='advocate').every(app=>app.roles.length===0));
  assert.equal((await (await call('',{cookie:superCookie})).json()).organisations.length,2);
  assert.equal((await (await call('',{cookie:member})).json()).organisations.length,0);
  const path='/organisations/'+f.organisationId;

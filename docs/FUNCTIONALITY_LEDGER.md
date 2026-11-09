@@ -1,3 +1,48 @@
+Role simplification release preparation (2026-11-09 IST): user authorised commit
+and deployment of the reviewed first increment and schema audit. Release scope
+is shared role vocabulary, server-driven compatible role selection/descriptions,
+native/D1 administration/account integration, tests, audit utility and schema-only
+documentation. All 565 API/unit checks across the recorded main/rerun, 27 admin
+Chrome workflows, twelve picker layouts and production dry build pass. Unrelated
+security/performance reports remain excluded. Committed-source dry build,
+deployment and live verification are pending; no database migration or permission
+rewrite is included.
+
+Role/database simplification audit and first implementation (2026-11-09 IST,
+local only): read-only production schema and aggregate-role queries find 88
+tables, including two Cloudflare system tables. All 86 application table names,
+columns, key positions, foreign keys and indexes match isolated replay of the
+twelve committed D1 migration files. Live foreign-key violation count is zero;
+query batches report zero rows written. No personal records or credentials
+exported. Existing Node read-only file inspection failed; native schema sources
+were reconstructed in memory instead (51 tables before organisation extensions).
+
+Added a repeatable read-only structure audit, complete schema-only JSON inventory
+and `docs/ROLES_DATABASE_SIMPLIFICATION_2026-11-09.md`: maps all role layers,
+current aggregate usage, all 88 tables, retained/legacy storage, permission risks
+and phased recommendations. A solo Pandit cannot currently hold Owner and Pandit
+in the same app/workspace; Collector reads currently include the full workspace
+projection. These are explicit product decisions, not silently changed access.
+
+First local implementation centralises all 16 assignable app roles for native/D1
+administration and account projection. Server-supplied role metadata replaces
+frontend duplication; the picker explains roles, filters staff/customer mismatch
+and preserves existing incompatible assignments for revocation. Default native
+preview still supports only Chambers. No stored roles, app mutation permissions,
+seats, licences, recovery formats, data or schemas changed. 27 focused checks,
+three native administration API checks and six real Workers/D1 checks pass.
+All 27 administration Chrome workflows pass; a final picker rerun passes twelve
+Light/Dark/Deep Black layouts at 320/390/768/1440px. Mobile screenshot reviewed.
+All 565 API/unit checks pass across the initial run (558 pass, seven Cloudflare
+checks blocked by generated language-bundle filesystem access) and isolated
+seven-check rerun with appropriate access (7/7). Exact production-configuration
+dry build passes, exporting 650 public assets. Initial browser tests caught and
+led to correction of a native administration response typo. Evidence under
+`.publish/`: `role-simplification-{focused,api,d1,admin-final,layout,full,
+cloudflare-rerun,dryrun}.log`, `role-simplification-mobile.png` and
+`roles-database-{production-metadata,integrity-metadata,structure-audit}.json`.
+No production write, deployment, migration, commit or push in this increment.
+
 Requested live demos created and verified (2026-11-09 IST): the subsequently
 supplied Super Admin credential succeeded through the normal login API. Created
 two separate labelled fictional production organisations using validated

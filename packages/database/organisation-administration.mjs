@@ -2,6 +2,7 @@ import {randomBytes,randomUUID,createHash,scryptSync} from 'node:crypto';
 import registry from '../app-registry/index.js';
 import {OrganisationRepository,OrganisationError} from './organisation-repository.mjs';
 import {canManageOrganisation,evaluateAppAccess} from '../auth/organisation-policy.mjs';
+import {isAssignmentRole,isMembershipAppRole} from '../auth/app-roles.mjs';
 
 const fail=(code,message)=>{throw new OrganisationError(code,message);};
 const hash=value=>createHash('sha256').update(value).digest('hex');
@@ -202,10 +203,10 @@ export class OrganisationAdministration {
   assignChambers(input){
     return this.transaction(()=>{
       const org=this.context(input),member=this.member(org.id,input.userId),user=this.repo.user(input.userId);
-      if(!member||!['Active','Inactive'].includes(input.status)||!['Owner','Advocate','Clerk'].includes(input.role))fail('invalid-input','Invalid Chambers assignment');
+      if(!member||!['Active','Inactive'].includes(input.status)||!isAssignmentRole('advocate',input.role))fail('invalid-input','Invalid Chambers assignment');
       const old=this.db.prepare("SELECT * FROM platform_app_assignments WHERE organisationId=? AND userId=? AND appId='advocate'").get(org.id,input.userId);
       if(input.status==='Active'){
-        if(!user?.active||member.status!=='Active'||member.role==='Client')fail('invalid-member','Only active staff can receive Chambers access');
+        if(!user?.active||member.status!=='Active'||!isMembershipAppRole('advocate',input.role,member.role))fail('invalid-member','Only active staff can receive Chambers access');
         const licence=this.db.prepare("SELECT * FROM platform_app_licences WHERE organisationId=? AND appId='advocate'").get(org.id);
         const access=evaluateAppAccess({user,organisation:org,membership:member,app:registry.apps.find(a=>a.id==='advocate'),licence,
           assignment:{organisationId:org.id,userId:user.id,appId:'advocate',status:'Active'},permissions:['advocate:write'],action:'write',now:this.repo.now()});
