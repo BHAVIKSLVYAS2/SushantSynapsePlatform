@@ -1,6 +1,6 @@
 # Code ownership and adding apps
 
-Role simplification (2026-11-09, local): `packages/auth/app-roles.mjs` owns the
+Role simplification (2026-11-09, deployed source `bbfce70`): `packages/auth/app-roles.mjs` owns the
 ordinary administration app/role vocabulary, staff/client compatibility and
 plain-language role descriptions. Native/D1 administration and account projection
 consume it. Administration APIs return role metadata; `experience.mjs` uses that

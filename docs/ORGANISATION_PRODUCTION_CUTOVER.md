@@ -1,5 +1,16 @@
 # Organisation licensing production cutover
 
+Role simplification deployed (2026-11-09 IST): source `bbfce70`, Worker
+`b7e0ddcb-f544-41c9-97fc-dde7ea1ebb3e`, from an isolated committed archive using
+the exact production configuration and --keep-vars. Shared role vocabulary and
+server-driven compatible role choices/descriptions are live. D1, authentication,
+organisation mode and rate limits retained; no migrations, role rewrites or
+business/account changes. Production dry build and live exact administration
+assets, five-app role metadata, health 200/D1 and private access denials pass.
+Prior 565 API/unit checks across main/rerun, 27 admin Chrome workflows and twelve
+picker layouts pass. Full schema audit and phased product decisions are in
+`ROLES_DATABASE_SIMPLIFICATION_2026-11-09.md`; evidence is in the ledger.
+
 Sign-in retention / demo operator tools (2026-11-09 IST): source `8526b31`,
 Worker `9b6d1fe8-49fc-4a5b-b813-e6ea4b6a9942`, deployed from an isolated committed
 archive with the exact production configuration and --keep-vars. D1, password

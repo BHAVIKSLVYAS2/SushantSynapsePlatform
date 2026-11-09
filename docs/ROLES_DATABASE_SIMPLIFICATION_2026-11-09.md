@@ -1,7 +1,8 @@
 # Roles and database simplification review
 
-Date: 9 November 2026 (IST). Status: read-only production audit and first local
-implementation. No production role/data/schema changes or deployment in this pass.
+Date: 9 November 2026 (IST). Status: first increment committed as `bbfce70` and
+deployed as Worker `b7e0ddcb-f544-41c9-97fc-dde7ea1ebb3e`. Production audit was
+read-only; no stored-role rewrites or business-data/schema changes were made.
 
 ## Recommendation
 
@@ -161,7 +162,7 @@ flowchart TD
 
 ## Proposed sequence
 
-1. **Implemented locally:** one role vocabulary, server-driven role picker,
+1. **Implemented and deployed:** one role vocabulary, server-driven role picker,
    compatible member choices, role explanations, explicit revocation preservation,
    and a repeatable read-only database structure audit.
 2. **Next interface increment:** standard setup with Owner and only the app's
@@ -202,8 +203,15 @@ passed; seven Cloudflare checks blocked by a generated language-bundle filesyste
 permission) and isolated rerun (all seven pass with appropriate filesystem access).
 Exact production-configuration dry build passes with 650 public assets. Initial
 browser runs exposed a Node administration response typo; fixed and verified.
-No production changes, deployment or commit. Unrelated untracked security and
-performance reports remain excluded.
+Committed-source production release subsequently passed an isolated exact-config
+dry build and deployment with --keep-vars. Live verification matches three
+administration assets to that committed export and validates authenticated role
+metadata for all five private apps, health 200/D1 and private access denials.
+Authentication/organisation/D1/rate-limit configuration and business data remain
+intact. The remaining recommendations are analysis, not deployed permission or
+schema changes. Unrelated untracked security/performance reports remain excluded.
+Release evidence: `.publish/roles-release-{dryrun,deploy,live}.log` and
+`.publish/roles-release-live.json`.
 
 Evidence under `.publish/`: `role-simplification-focused.log`,
 `role-simplification-api.log`, `role-simplification-d1.log`,

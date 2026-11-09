@@ -1,3 +1,19 @@
+Role simplification deployed (2026-11-09 IST): source `bbfce70`, Worker
+`b7e0ddcb-f544-41c9-97fc-dde7ea1ebb3e`, at apps.sushantsynapse.com. Exact committed
+archive production-config dry build and deployment with --keep-vars pass;
+organisation mode, password authentication, D1 and rate limits retained. Live
+read-only verification passes three account/admin pages, exact committed bytes
+for three administration assets, and authenticated metadata for all sixteen
+ordinary app/role combinations across the five private apps. Health 200/D1,
+unscoped records denial 409, Super Admin with no business memberships and private
+workspace denial 403 remain intact. Verification session signed out. No migration,
+stored-role rewrite, account/configuration or business-data changes. Prior
+565 API/unit checks across main/rerun, 27 admin Chrome workflows and twelve picker
+layouts are the implementation verification; no wider repeat run. Unrelated
+security/performance reports remain untracked and excluded; no repository push.
+Evidence under `.publish/`: `roles-release-dryrun.log`,
+`roles-release-deploy.log`, `roles-release-live.{log,json}`.
+
 Role simplification release preparation (2026-11-09 IST): user authorised commit
 and deployment of the reviewed first increment and schema audit. Release scope
 is shared role vocabulary, server-driven compatible role selection/descriptions,
