@@ -1,3 +1,18 @@
+Sign-in/demo-tools committed-source release deployed (2026-11-09 IST): source
+`8526b31`, Worker `9b6d1fe8-49fc-4a5b-b813-e6ea4b6a9942`, at
+apps.sushantsynapse.com. Isolated committed archive production dry-run and deploy
+with --keep-vars pass; D1/authentication/organisation/rate-limit settings retained.
+Live read-only checks pass five account/sign-in routes, exact committed exported
+sign-in asset bytes, health 200/D1, password/full-app metadata and unscoped records
+denial 409. Export screening confirms operator tools/data are excluded. Prior ten
+administration Chrome workflows and isolated Workers/D1 demo test remain the
+implementation verification; no broad regression rerun. No migration, account
+creation, password reset or business-data write. Demo creation remains blocked by
+the rejected Super Admin credential. Unrelated security/performance reports remain
+untracked and excluded; no repository push. Evidence under `.publish/`:
+`signin-committed-dryrun.log`, `signin-committed-deploy.log`,
+`signin-committed-live.{log,json}`.
+
 Sign-in/demo-tools committed-source release preparation (2026-11-09 IST): user
 requested committing pending implementation and deployment. Release scope is the
 sign-in retention fix, BatchFee demo operator tool, configurable Pandit demo

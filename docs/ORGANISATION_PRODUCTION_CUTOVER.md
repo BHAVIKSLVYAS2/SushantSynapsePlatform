@@ -1,5 +1,16 @@
 # Organisation licensing production cutover
 
+Sign-in retention / demo operator tools (2026-11-09 IST): source `8526b31`,
+Worker `9b6d1fe8-49fc-4a5b-b813-e6ea4b6a9942`, deployed from an isolated committed
+archive with the exact production configuration and --keep-vars. D1, password
+authentication, organisation mode and rate limits retained. Production dry-run,
+live exact sign-in asset bytes, five entry routes, health 200/D1 and unscoped
+records denial 409 pass. Existing ten administration Chrome workflows and
+disposable Workers/D1 demo/isolation test pass. No migrations or data/account
+changes. Demo tools are operator-only and excluded from public assets; actual
+demo creation remains blocked by incorrect Super Admin authentication. Evidence
+and limits are at the top of the functionality ledger.
+
 Ritual Prep/Shloki deployed (2026-11-09 IST): source `c236e68`, Worker
 `dc1fb966-74e8-4017-a1e5-5f042af381da`. Isolated committed archive deployment
 with --keep-vars retains organisation mode, password authentication, D1 and rate
