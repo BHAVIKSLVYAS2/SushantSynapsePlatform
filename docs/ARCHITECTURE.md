@@ -1,6 +1,6 @@
 # Code ownership and adding apps
 
-Ritual Shloki collection (2026-11-09, local): app-owned `shloki.mjs` mounts
+Ritual Shloki collection (2026-11-09, deployed as `c236e68`): app-owned `shloki.mjs` mounts
 one independent, lazy disclosure in Prep and restores its `shloka` query route.
 `shloki-view.mjs` owns the accessible reader, optional meanings/sources and text
 copy/download; `shloki-content.mjs` owns 19 source-reviewed readings, original

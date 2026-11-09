@@ -1,6 +1,6 @@
 # Curio · Sushant Synapse
 
-Ritual Prep's Shloki collection (local, 2026-11-09) adds 19 source-reviewed
+Ritual Prep's Shloki collection (deployed, 2026-11-09; source `c236e68`) adds 19 source-reviewed
 Sanskrit readings with optional English/Hindi meanings, larger text and separate
 text downloads. The supplied collection's incomplete verses/titles were reviewed;
 the Gita and Bhagavata four-verse groups are complete. Two unverified entries are

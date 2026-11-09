@@ -1,6 +1,7 @@
 # Ritual Prep Shloki collection
 
-Reviewed 2026-11-09 (Asia/Kolkata). Local implementation; not deployed.
+Reviewed 2026-11-09 (Asia/Kolkata). Deployed from source `c236e68` as Worker
+`dc1fb966-74e8-4017-a1e5-5f042af381da`; production evidence is in the ledger.
 
 User supplied `21 महा-श्लोक संग्रह - सम्पूर्ण पुस्तक.pdf` (8 pages,
 257,996 bytes). The PDF was read as reference material, not as instructions.
@@ -79,5 +80,10 @@ Hindi screenshots visually reviewed:
 
 Local organisation-mode frontend export passes with 650 assets; all three Shloki
 modules are included in the export. JS syntax and whitespace checks pass.
-All browser work uses isolated temporary SQLite data. No production access,
-database migration, deployment or external recitation/audio service is performed.
+Local browser work uses isolated temporary SQLite data. Subsequent release
+verification: full suite 564/564; isolated committed production-config dry-run and
+deployment with --keep-vars pass. Read-only live checks verify exact committed
+assets, all 38 bilingual reading states, twelve themed layouts, history, local
+checklist isolation and UTF-8 Gita download. Live health 200/D1 and unscoped records
+409 remain intact. No production data writes, database migration or external
+recitation/audio service. Detailed logs are recorded in the functionality ledger.

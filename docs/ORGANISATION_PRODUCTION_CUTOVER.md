@@ -1,5 +1,13 @@
 # Organisation licensing production cutover
 
+Ritual Prep/Shloki deployed (2026-11-09 IST): source `c236e68`, Worker
+`dc1fb966-74e8-4017-a1e5-5f042af381da`. Isolated committed archive deployment
+with --keep-vars retains organisation mode, password authentication, D1 and rate
+limits. No migration, account or business-data write. Full suite 564/564 and
+production dry-run pass; exact live assets, 38 bilingual readings, twelve layouts,
+history, checklist isolation and download pass. Health 200/D1; unscoped records
+remain 409. Proposed audit removals remain pending. Evidence in the ledger.
+
 Dead-code cleanup deployed (2026-11-09 IST): source `ddcfa8e`, Worker
 `fdd5fb4b-7c3f-4b1a-893f-e5e797998a5e`. Isolated committed archive deployment with
 --keep-vars retains organisation mode, password authentication and D1 binding.

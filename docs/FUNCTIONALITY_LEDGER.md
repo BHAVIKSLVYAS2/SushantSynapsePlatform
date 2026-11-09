@@ -1,3 +1,31 @@
+Ritual Prep/Shloki deployed (2026-11-09 IST): implementation `c236e68`, Worker
+`dc1fb966-74e8-4017-a1e5-5f042af381da`, at apps.sushantsynapse.com. Deployment
+used an isolated committed archive, exact production-config dry-run and --keep-vars;
+organisation mode, password authentication, D1 and rate-limit bindings retained.
+No migrations, account changes or production business-data writes. Cleanup audit
+proposals remain analysis only; this releases the implemented Prep simplification,
+19-reading collection and their documentation.
+
+Final full suite passes 564/564. The initial sandboxed attempt encountered a
+generated language-bundle permission error; the completed run with appropriate
+filesystem access passes. Prior six Prep Chrome regression workflows pass.
+Isolated production export/dry-run passes with 650 assets. Live read-only checks
+verify four pages, eight changed assets and their fingerprinted versions against
+the exact committed export, health 200/D1, password/full-app metadata, and unscoped
+records denial 409. Live Chrome passes 38 English/Hindi reading states, twelve
+light/dark/deep layouts at 320/390/768/1440px, history, local checklist isolation
+and complete UTF-8/BOM Gita download, with no page exceptions or overflow.
+Hindi deep-theme mobile screenshot reviewed. Browser blocks API writes and ad
+traffic; its initial console also records a Cloudflare-injected beacon blocked
+by the existing self-only CSP and the deliberately blocked visitor request.
+
+Evidence: `.publish/ritual-shloki-release-tests-final.log`,
+`ritual-shloki-release-dryrun.log`, `ritual-shloki-release-deploy.log`,
+`ritual-shloki-release-live.{log,json}`, `ritual-shloki-release-browser.log`,
+`verify-shloki-release.cjs` (all under `.publish/`), and
+`output/playwright/ritual-shloki-release-live-hi.png`. Unrelated security and
+performance reports remain untracked and excluded; no repository push.
+
 Ritual Prep/Shloki release preparation (2026-11-09 IST): user requested commit
 and deployment of the implemented simplification, 19-reading collection and
 cleanup analysis. The analysis's proposed removals remain pending discussion.
