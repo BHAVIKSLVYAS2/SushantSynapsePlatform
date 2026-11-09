@@ -29,7 +29,7 @@ const api=(path='',body)=>requestJson('/api/organisation-admin'+path,{method:bod
 function controls(disabled){busy=disabled;document.querySelectorAll('button,#organisation').forEach(el=>el.disabled=disabled);}
 function secret(result){if(!result.invitation)return;$('#secret').value=result.invitation.token;$('#secret-panel').hidden=false;$('#secret-panel').scrollIntoView({block:'nearest'});$('#secret').focus();}
 function clearSecret(){$('#secret').value='';$('#secret-panel').hidden=true;$('#accept [name="token"]').value='';}
-function clearCredentials(){for(const id of ['admin-login','new-master'])$('#'+id).reset();$('#own-password')?.reset();const password=$('form[data-command="recovery-export"] [name="password"]');if(password)password.value='';}
+function clearCredentials({preserveEntry=false}={}){if(!preserveEntry)for(const id of ['admin-login','new-master'])$('#'+id).reset();$('#own-password')?.reset();const password=$('form[data-command="recovery-export"] [name="password"]');if(password)password.value='';}
 const limitField=(label,name,value)=>field(label+' (blank = unlimited)',name,value===null?'':value,'number','min="0" step="1"');
 function licenceFields(l={}){return buildLicenceFields(index,{field,select,limitField},l);}
 function render(){
@@ -159,10 +159,12 @@ const signOut=()=>run(async()=>{
 });
 $('#admin-signout').addEventListener('click',signOut);$('#switch-account').addEventListener('click',signOut);
 addEventListener('pagehide',()=>{clearSecret();clearCredentials();});
-document.addEventListener('visibilitychange',()=>{if(document.hidden){clearSecret();clearCredentials();}});
-function clearAccount(){if(!accountPage)return;revision++;clearCredentials();index=null;view=null;$('#workspace').hidden=true;$('#accept-panel').hidden=true;$('#summary').replaceChildren();$('#panels').replaceChildren();$('#account-security')?.remove();}
+// Keep unfinished sign-in/activation inputs in this document while users copy
+// credentials from another app. Sensitive signed-in forms still clear on hide.
+document.addEventListener('visibilitychange',()=>{if(document.hidden){clearSecret();clearCredentials({preserveEntry:true});}});
+function clearAccount({preserveEntry=false}={}){if(!accountPage)return;revision++;clearCredentials({preserveEntry});index=null;view=null;$('#workspace').hidden=true;$('#accept-panel').hidden=true;$('#summary').replaceChildren();$('#panels').replaceChildren();$('#account-security')?.remove();}
 addEventListener('pagehide',clearAccount);
-async function revalidateAccount(){clearAccount();try{await load();}catch(error){clearAccount();status(accountSessionSeen&&error.status===401?'Session expired. Sign in again.':error.message);if(error.status===401)$('#signin').hidden=false;}}
+async function revalidateAccount(){clearAccount({preserveEntry:true});try{await load();}catch(error){clearAccount({preserveEntry:true});status(accountSessionSeen&&error.status===401?'Session expired. Sign in again.':error.message);if(error.status===401)$('#signin').hidden=false;}}
 addEventListener('pageshow',event=>{if(accountPage&&event.persisted)revalidateAccount();});
-document.addEventListener('visibilitychange',()=>{if(accountPage){clearAccount();if(!document.hidden)revalidateAccount();}});
+document.addEventListener('visibilitychange',()=>{if(accountPage){clearAccount({preserveEntry:true});if(!document.hidden)revalidateAccount();}});
 try{await load(new URLSearchParams(location.search).get('organisation'),true);}catch(error){status(error.message);if(error.status===401)$('#signin').hidden=false;}

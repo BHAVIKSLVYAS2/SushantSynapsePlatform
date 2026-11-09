@@ -14,7 +14,8 @@ normal governance/booking APIs to create a separate, labelled fictional demo wit
 Operator, Pandit and Customer accounts, three services, one provider and
 Requested/Confirmed/Cancelled examples. Existing demos are never reset. Live
 mode requires an existing Super Admin session/password and uses a 30-day licence.
-`--apply` reads settings from stdin and saves generated credentials privately
+`--apply` reads settings from stdin (including an optional `demoPassword` of
+12–128 characters for explicitly requested demo credentials) and saves credentials privately
 under ignored `.publish/`; no passwords belong in source or documentation.
 An explicit `local:true` mode only accepts localhost and an empty default Node
 workspace. It also creates a fictional Chambers case for review, keeping Node

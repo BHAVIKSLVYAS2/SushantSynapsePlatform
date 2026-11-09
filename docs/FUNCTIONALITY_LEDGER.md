@@ -1,3 +1,51 @@
+Sign-in/demo-tools committed-source release preparation (2026-11-09 IST): user
+requested committing pending implementation and deployment. Release scope is the
+sign-in retention fix, BatchFee demo operator tool, configurable Pandit demo
+passwords, D1/browser regression coverage and related documentation. Prior ten
+administration Chrome workflows and disposable Workers/D1 demo/isolation test pass;
+unchanged implementation reviewed and whitespace checks pass. Unrelated untracked
+security/performance reports remain excluded. Committed-source production dry-run,
+deployment and live read-only verification are pending. No demo account creation,
+password reset, migration or data write is included in this release.
+
+Live demo creation attempt (2026-11-09 IST): tried the user-confirmed Super Admin
+credential once through the normal production login API. It returned 401
+Email or password is incorrect, before any provisioning. No demo organisations,
+accounts or business records were created, and no credentials were reset.
+Correct Super Admin authentication remains required. No password recorded here.
+Evidence: `.publish/requested-live-demos.log` (sanitised login failure only).
+
+Sign-in copy/paste retention deployed; demo preparation (2026-11-09 IST):
+unfinished sign-in and invitation-activation entries survive tab/app visibility
+changes in My account, Admin and Super Admin. Entries remain only in the current
+document; successful sign-in, sign-out and pagehide clear them. Signed-in password
+and recovery fields still clear on hide; private account DOM still clears and
+revalidates, with stale-response protection retained. Three focused Chrome checks
+pass, including all three sign-in routes, assignment revocation and delayed expiry.
+All ten administration Chrome workflows pass. Isolated HEAD archive plus the
+allowlisted sign-in module/status ledger passed the exact production-config dry
+run and deployed with --keep-vars as Worker
+`95f295e6-b928-45c7-a7ca-a5219a8433a4`. Live read-only checks pass five account/
+sign-in routes, exact exported module bytes, health 200/D1, password/full-app
+metadata and unscoped records denial 409. Existing organisation/authentication/
+D1/rate-limit settings retained. No migrations or production data writes.
+Initial dry-run exported successfully but returned nonzero on an out-of-workspace
+Wrangler log path; final run uses an ignored workspace log path and passes.
+Evidence: `.publish/signin-retention-admin-browser.log`,
+`signin-retention-dryrun-final.log`, `signin-retention-deploy.log`,
+`signin-retention-live.{log,json}` (all under `.publish/`). No commit or push.
+
+Added an explicit BatchFee demo operator tool using normal administration and
+business APIs: separate fictional organisation, Owner/Collector, two batches,
+four students, full/partial/unpaid fees, two sample payments and one expense.
+Pandit demo accepts an optional operator-supplied 12–128-character demo password.
+Neither tool stores passwords in source/docs or overwrites an existing demo.
+Actual Workers/D1 disposable-fixture test passes both tools, role access, sample
+counts, existing-state preservation and repeat-run refusal. No live demo accounts
+or records created: authenticated Super Admin access is pending. Node data and
+production business/account data remain unchanged. Evidence:
+`.publish/signin-retention-browser.log`, `.publish/demo-seed-d1.log`.
+
 Ritual Prep/Shloki deployed (2026-11-09 IST): implementation `c236e68`, Worker
 `dc1fb966-74e8-4017-a1e5-5f042af381da`, at apps.sushantsynapse.com. Deployment
 used an isolated committed archive, exact production-config dry-run and --keep-vars;

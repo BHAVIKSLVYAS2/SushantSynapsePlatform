@@ -4,11 +4,12 @@ import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 
-export async function seedDemo({origin,adminEmail,adminPassword,adminCookie,local=false,request=fetch,onProgress=()=>{},onCheckpoint=async()=>{}}){
+export async function seedDemo({origin,adminEmail,adminPassword,adminCookie,demoPassword,local=false,request=fetch,onProgress=()=>{},onCheckpoint=async()=>{}}){
+ if(demoPassword!==undefined&&(typeof demoPassword!=='string'||demoPassword.length<12||demoPassword.length>128))throw Error('Demo password must contain 12–128 characters');
  const sessions=new Set();
  const call=async(route,{cookie='',body,status=200}={})=>{const response=await request(origin+route,{method:body?'POST':'GET',headers:{Origin:origin,...(body?{'Content-Type':'application/json'}:{}),...(cookie?{Cookie:cookie}:{})},...(body?{body:JSON.stringify(body)}:{})});const data=await response.json();if(response.status!==status)throw Error(`${route}: ${response.status} ${data.error||'Unexpected response'}`);return {data,cookie:response.headers.get('set-cookie')?.split(';')[0]};};
  const login=async(email,password)=>{const result=await call('/api/auth/login',{body:{email,password}});if(!result.cookie)throw Error('No sign-in session returned');sessions.add(result.cookie);return result.cookie;};
- const accounts=[['Operator','booking.demo.operator@sushantsynapse.com'],['Pandit','booking.demo.pandit@sushantsynapse.com'],['Customer','booking.demo.customer@sushantsynapse.com']].map(([role,email])=>({role,email,password:randomBytes(18).toString('base64url')+'!aA3'}));
+ const accounts=[['Operator','booking.demo.operator@sushantsynapse.com'],['Pandit','booking.demo.pandit@sushantsynapse.com'],['Customer','booking.demo.customer@sushantsynapse.com']].map(([role,email])=>({role,email,password:demoPassword??randomBytes(18).toString('base64url')+'!aA3'}));
  let orgId;
  try {
   if(local){

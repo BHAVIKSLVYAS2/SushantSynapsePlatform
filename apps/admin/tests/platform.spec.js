@@ -60,6 +60,29 @@ test('Super Admin suspends and reactivates an organisation with explicit confirm
 test.beforeEach(async()=>{fixture=await startPreview({chambers:true,multi:true});});
 test.afterEach(async()=>{await fixture.stop();});
 async function login(page,id){expect((await page.request.post(fixture.base+'/api/auth/login',{data:{email:id+'@example.com',password:fixture.password}})).status()).toBe(200);}
+
+test('sign-in survives switching away to copy credentials and clears after success or navigation',async({page})=>{
+ for(const route of ['/account','/admin','/super-admin']){
+  await page.goto(fixture.base+route);await expect(page.locator('#signin')).toBeVisible();
+  const form=page.locator('#admin-login');
+  await form.getByLabel('Account email').fill('super@example.com');
+  await page.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new Event('visibilitychange'));});
+  await page.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,value:false});document.dispatchEvent(new Event('visibilitychange'));});
+  await expect(form.getByLabel('Account email')).toHaveValue('super@example.com');
+  await form.getByLabel('Password',{exact:true}).fill(fixture.password);
+  await page.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new Event('visibilitychange'));});
+  await page.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,value:false});document.dispatchEvent(new Event('visibilitychange'));});
+  await expect(form.getByLabel('Account email')).toHaveValue('super@example.com');
+  await expect(form.getByLabel('Password',{exact:true})).toHaveValue(fixture.password);
+  await form.getByRole('button',{name:'Sign in',exact:true}).click();
+  await expect(page.getByRole('status')).toHaveText('Workspace ready.');
+  await expect(page.locator('#admin-login [name="password"]')).toHaveValue('');
+  await page.getByRole('button',{name:'Sign out',exact:true}).click();
+  await page.locator('#admin-login [name="email"]').fill('unfinished@example.com');
+  await page.evaluate(()=>window.dispatchEvent(new Event('pagehide')));
+  await expect(page.locator('#admin-login [name="email"]')).toHaveValue('');
+ }
+});
 test('account separates two memberships, scoped app links and primary administration',async({page})=>{
  await login(page,'master');await page.goto(fixture.base+'/account');await expect(page.getByRole('status')).toHaveText('Account ready.');
  await expect(page.locator('#panels section')).toHaveCount(2);await expect(page.getByRole('link',{name:'Open Chambers',exact:true})).toHaveCount(2);

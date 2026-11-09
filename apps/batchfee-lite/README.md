@@ -18,7 +18,14 @@ Screens: Home, Students/ledger/family, Batches, Fees, Notifications, More/histor
 
 ## Start using it
 
-Run `npm.cmd start` at the repository root and open `/batchfee-lite`. The owner sets the academy name and contact details, creates a batch, then adds students or imports the supplied CSV template. Authorized staff use their existing platform accounts. No demonstration records are written to the live database.
+Run `npm.cmd start` at the repository root and open `/batchfee-lite`. The owner sets the academy name and contact details, creates a batch, then adds students or imports the supplied CSV template. Authorized staff use their existing platform accounts. Starting the app does not add demonstration records.
+
+`seed-demo.mjs --apply` is an explicit operator tool that reads Super Admin
+credentials/session and optional `demoPassword` from stdin. It creates a separate
+labelled fictional organisation with a 30-day licence, Owner/Collector accounts,
+two batches, four students, two sample payments and one expense using validated
+APIs. It refuses to overwrite an existing demo. Access details are saved privately
+under ignored `.publish/`; passwords must never enter source or documentation.
 
 Payments accept full, partial or advance amounts. Open a student to see the ledger and family balance; use the same explicit family key for siblings. A payment's original receipt remains unchanged when its advance is subsequently allocated. Corrections reverse the original entry with a reason; create a separate replacement payment. Batch defaults affect new students only. New enrolments on an existing student and frequency changes begin next month. Per-class/custom charges use **Fees → Add a fee**. Course and one-time obligations generate once.
 
