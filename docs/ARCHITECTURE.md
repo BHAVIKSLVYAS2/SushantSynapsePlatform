@@ -7,6 +7,8 @@ Atomic local revision checks prevent stale tab overwrites. The shared A4 PDF
 encoder lives in packages/ui/canvas-pdf.mjs and also serves Moment Studio.
 Other apps retain SQLite/D1 ownership. Scope: docs/JAPSEVA.md; audio provenance:
 docs/JAPSEVA_AUDIO.md.
+Screen UI loads shared premium themes and uses --ui-* tokens; layout styles are
+scoped to #main so shared navigation controls keep their platform styling.
 
 Role simplification (2026-11-09, deployed source `bbfce70`): `packages/auth/app-roles.mjs` owns the
 ordinary administration app/role vocabulary, staff/client compatibility and

@@ -72,3 +72,10 @@ the player lifecycle; storage.mjs validates bounded audio targets/counts.
 
 Each sankalp includes a direct Meaning, pronunciation & audio button. No login,
 external speech provider, server business write or production database migration.
+
+## Platform layout and themes
+
+Screen UI uses the shared premium stylesheet and --ui-* theme tokens. App CSS
+is scoped to #main; it does not restyle shared navigation or theme controls.
+Learning/player content is side by side on desktop and stacked on phones.
+The fixed print certificate palette is independent of screen theme.

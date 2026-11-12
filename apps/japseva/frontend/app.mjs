@@ -34,6 +34,8 @@ for(const m of mantras){const a=el('article');a.append(el('h3',m.name),el('p',m.
 for(const [i,m]of mantras.entries()){const meaning=el('p',m.meaningHi);meaning.lang='hi';meaning.setAttribute('data-language-preserve','');$('#library').children[i].querySelector('h4').nextElementSibling.after(meaning);}
 $('#library').setAttribute('data-language-preserve','');$('#sankalps').setAttribute('data-language-preserve','');
 for(const [i,m]of mantras.entries()){const card=$('#library').children[i];card.dataset.mantraId=m.id;const audio=card.querySelector('audio');if(audio){const session=audioPractice(audio,m.id,next=>{if(!document.hidden)state=next;});card.append(session.element);audioSessions.push(session);}}
+
+for(const card of $('#library').children){const audio=card.querySelector('audio');if(!audio)continue;card.classList.add('with-audio');const copy=el('div',undefined,'learning-copy'),player=el('div',undefined,'learning-audio');let reached=false;for(const child of [...card.children]){if(child===audio)reached=true;(reached?player:copy).append(child);}card.append(copy,player);}
 document.addEventListener('visibilitychange',()=>{if(document.hidden)audioSessions.forEach(s=>s.stop());});window.addEventListener('pagehide',()=>audioSessions.forEach(s=>s.stop()));
 document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>audioSessions.forEach(s=>s.stop())));
 $('#import-backup').addEventListener('change',()=>audioSessions.forEach(s=>s.stop()),true);

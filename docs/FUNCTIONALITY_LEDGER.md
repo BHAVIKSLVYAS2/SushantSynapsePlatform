@@ -1,3 +1,24 @@
+JapSeva platform-theme/layout alignment (2026-11-12 IST): replaced the
+independent cream/brown palettes and serif interface overrides with shared UI
+tokens. Added the existing premium stylesheet used by other apps. All screen
+controls, typography, surfaces, borders and focus styles are scoped to the app;
+shared header/theme/language controls retain their own styles. Certificate
+artwork and print colors remain independently designed.
+
+Compact left-aligned heading, consistent controls and responsive practice/library
+grids replace the oversized centered layout. Gayatri learning text and player
+share a two-column desktop card, stacked on phones. Backup controls move after
+the workspace. No storage, counter, audio, certificate-data or API changes.
+
+Initial reference comparison passes 21 viewport/theme combinations against
+Hisabio: identical body colors and shared theme-control styles, no horizontal
+overflow, 44px touch targets and content below the header. Phone/desktop previews
+reviewed. Final isolated regression: 7/7 Chrome workflows pass. A further
+21-combination stress rerun passes with a 120-character name and large counters.
+Production-config dry build passes. No wider API suite repeated for this screen
+layout change. Evidence: .publish/japseva-layout-{browser,stress,dryrun}.log
+and .publish/japseva-layout-*.png. Committed deployment/live checks follow.
+
 JapSeva counted audio deployed (2026-11-12 IST): source 6633b9c, Worker
 efd52cb9-685c-4660-bcae-8e00a7d38921, at
 https://apps.sushantsynapse.com/japseva. Isolated committed-source deployment with
