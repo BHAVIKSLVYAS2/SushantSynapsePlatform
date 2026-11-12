@@ -1,5 +1,13 @@
 # Code ownership and adding apps
 
+JapSeva (2026-11-12): user-authorised browser-only personal mantra practice.
+apps/japseva owns the IndexedDB model, validated backup import/export, sankalp
+workflow, learning library and canvas certificate. No login or business API.
+Atomic local revision checks prevent stale tab overwrites. The shared A4 PDF
+encoder lives in packages/ui/canvas-pdf.mjs and also serves Moment Studio.
+Other apps retain SQLite/D1 ownership. Scope: docs/JAPSEVA.md; audio provenance:
+docs/JAPSEVA_AUDIO.md.
+
 Role simplification (2026-11-09, deployed source `bbfce70`): `packages/auth/app-roles.mjs` owns the
 ordinary administration app/role vocabulary, staff/client compatibility and
 plain-language role descriptions. Native/D1 administration and account projection

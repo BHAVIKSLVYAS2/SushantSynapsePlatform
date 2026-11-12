@@ -88,6 +88,7 @@ async function dispatch(req,res) {
       if(name.endsWith('.json'))res.setHeader('Content-Type','application/json; charset=utf-8');
       if(name.endsWith('.mp3'))res.setHeader('Content-Type','audio/mpeg');
       if(name.endsWith('.wav'))res.setHeader('Content-Type','audio/wav');
+      if(name.endsWith('.ogg'))res.setHeader('Content-Type','audio/ogg');
       let contents=req.method==='HEAD'?undefined:fs.readFileSync(path.join(ROOT,name));
       const vedic=require('../apps/rashifal-kundli/privacy.cjs');
       if(vedic.isVedic(url.pathname))for(const [key,value]of Object.entries(vedic.headers))res.setHeader(key,value);

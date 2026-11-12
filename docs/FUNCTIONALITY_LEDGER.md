@@ -1,3 +1,29 @@
+JapSeva browser-only release preparation (2026-11-12 IST): user authorised
+browser storage, commit and deployment. /japseva now works without login. IndexedDB
+owns clients, fixed-target sankalps, counts and IST daily history; atomic version
+checks reject stale tab saves. Export/import backups validate schema, IDs, limits,
+references, history totals and completion before a confirmed local replacement.
+Clearing browser data erases records; no automatic account/device sync.
+
+Four mantra entries retain English/Hindi meanings, introductory pronunciation
+aids and one verified CC0 Gayatri recording with repeat/slow playback. Completed
+targets unlock the ivory/gold A4 certificate with PDF/print. Counts remain
+practitioner-entered. No JapSeva business API or server persistence; other apps'
+SQLite/D1 ownership is preserved. The initial account-based implementation was
+never deployed and is superseded. No production migration or business-data write.
+
+Verification: two model/backup checks and four Chrome workflows pass: no-login
+creation/reload, real PDF, backup transfer into a fresh browser, stale tab conflict,
+malformed import preservation, denied storage, audio and twelve theme/viewport
+combinations. Isolated verification: 567/567 API/unit checks pass across the main run
+(566/567; initial stale generated catalogue) and focused catalogue/model rerun
+(6/6). Seven Chrome workflows pass, covering JapSeva, Moment Studio export and
+catalogue sign-in/access. Exact production-config dry build passes. Evidence:
+.publish/japseva-release-{full-tests,focused,browser,dryrun}.log.
+Committed-source deployment and live verification follow.
+The release excludes the pre-existing route cleanup and unrelated reports.
+Scope: docs/JAPSEVA.md. Audio provenance: docs/JAPSEVA_AUDIO.md.
+
 Role simplification deployed (2026-11-09 IST): source `bbfce70`, Worker
 `b7e0ddcb-f544-41c9-97fc-dde7ea1ebb3e`, at apps.sushantsynapse.com. Exact committed
 archive production-config dry build and deployment with --keep-vars pass;

@@ -1,6 +1,7 @@
 (function(root){
 // App definitions are code-reviewed. Do not accept launch URLs from user input.
 const apps = [
+  {id:'japseva',public:true,name:'JapSeva',subtitle:'Every repetition, a dedication.',category:'Community',status:'Available',path:'/japseva',icon:'book',accent:'amber',description:'Perform mantra practice for your clients. Save sankalps and counts in this browser, learn meanings and pronunciation, and create completion certificates. No login needed.',features:['Browser-saved sankalps','Mantra learning','Completion certificates']},
   {id:'rozhisab',public:true,name:'Hisabio',subtitle:'Roz ka tick, mahine ka hisab.',category:'Productivity',status:'Available',path:'/rozhisab',icon:'receipt',accent:'green',description:'Track household services, missed deliveries, monthly bills and payments. Offline-first, on this device, with no sign-in.',features:['Automatic daily tracking','Exact bills & balances','Offline backups']},
   {id:'pandit-booking',name:'Pandit Booking',subtitle:'Prepare together. Book with care.',category:'Community',status:'Available',path:'/pandit-booking',icon:'book',accent:'amber',description:'Managed pilot for puja details, approved Pandits, service areas and private ceremony bookings. Requires an explicit booking workspace assignment. No payments.',features:['Puja & preparation','Pandit service areas','Private bookings']},
   {id:'rashifal-kundli',public:true,name:'Ritvayam',subtitle:'Open for verification.',category:'Community',status:'Available',path:'/rashifal-kundli',icon:'star',accent:'amber',description:'Experimental on-device Kundli, Rashifal, Time Machine and matching. Source and traditional-rule reviews are unfinished.',features:['Verification preview','On-device calculations','No birth account'],homeDescription:'Try the experimental Kundli and Rashifal verification preview.',label:'TRADITIONS / VERIFICATION PREVIEW'},
@@ -22,6 +23,7 @@ const apps = [
 ];
 // Brand spellings in local scripts, never semantic translations of product names.
 const brandScripts={
+ 'japseva':['जपसेवा','જપસેવા'],
  'rozhisab':['हिसाबियो','હિસાબિયો'],
  'rashifal-kundli':['ऋत्वयम्','ઋત્વયમ્'],
  'qr-maker':['क्यूआर मेकर','ક્યુઆર મેકર'],'photo-resize':['फोटो रीसाइज़','ફોટો રિસાઇઝ'],

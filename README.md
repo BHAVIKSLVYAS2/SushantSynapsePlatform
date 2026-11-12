@@ -1,5 +1,11 @@
 # Curio · Sushant Synapse
 
+JapSeva at /japseva tracks mantra practice for named clients without login:
+browser-saved sankalps/counts, backup export/import, English/Hindi meanings,
+verified CC0 Gayatri audio and printable completion certificates/PDFs. Records
+stay in this browser profile. See [scope and verification](docs/JAPSEVA.md) and
+the functionality ledger for release status.
+
 The [roles and database review](docs/ROLES_DATABASE_SIMPLIFICATION_2026-11-09.md)
 maps all 88 production tables and proposes simpler app setup. Its first released
 increment shares app-role definitions and filters/explains role choices; existing
