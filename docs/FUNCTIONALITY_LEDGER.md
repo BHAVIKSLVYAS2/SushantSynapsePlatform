@@ -1,3 +1,26 @@
+JapSeva counted audio deployed (2026-11-12 IST): source 6633b9c, Worker
+efd52cb9-685c-4660-bcae-8e00a7d38921, at
+https://apps.sushantsynapse.com/japseva. Isolated committed-source deployment with
+the unchanged production configuration and --keep-vars preserves D1 binding,
+authentication, organisation mode and rate limits. No production business-data
+write or server schema migration; browser-local records remain local.
+
+Gayatri now offers a saved audio target/count with automatic repetition, target
+stop, pause and reset. User seeks stop counting, distinguished from the player's
+own restart. Counts represent completed recordings and remain separate from
+client chanting/certificate counts. Each sankalp links to meaning/pronunciation/
+audio. Existing browser workspaces upgrade in place to IndexedDB version 2;
+older backups remain accepted, and exports include audio counts/targets.
+
+Verification: 10/10 focused model/delivery checks, 6/6 isolated Chrome workflows,
+production dry build and 6/6 live Chrome workflows pass. Includes actual repeat
+completion/stop, reload, pause/seek/reset, no chanting/certificate changes,
+version-1 data preservation, backups, storage denial, audio and twelve layouts.
+Read-only live checks match exact released audio-controller/storage module bytes,
+verify unchanged CC0 recording bytes, D1 health 200 and unscoped records denial 409.
+Evidence: .publish/japseva-audio-{unit,browser,dryrun,deploy,live-browser}.log and
+.publish/japseva-audio-live.json. Unrelated pending work excluded; no push.
+
 JapSeva counted-audio implementation (2026-11-12 IST): added a dedicated
 Gayatri audio-play target/counter with Start auto play, Pause and Reset. Natural
 completed recordings save one audio play and repeat until the target is reached;
