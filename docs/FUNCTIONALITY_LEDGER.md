@@ -1,3 +1,26 @@
+JapSeva shared-theme/layout correction deployed (2026-11-12 IST): source
+ef3db2a, Worker cef0d8dd-aa04-49f2-a37d-bafc8806efe7, at
+https://apps.sushantsynapse.com/japseva. Committed isolated source, exact production
+configuration and --keep-vars retain authentication, organisation mode, D1 and
+rate limits. No data-model, persistence or server-schema changes.
+
+The app now uses shared premium themes/--ui-* tokens and scoped interface styles.
+Independent palettes and serif interface overrides are removed. Shared header
+controls match Hisabio in Light, Dark and Deep Black. Compact heading, consistent
+controls, responsive practice/library cards and a side-by-side desktop learning/
+audio panel replace the prior presentation. Backup disclosure follows the workspace;
+certificate artwork/print colors retain their independent design.
+
+Verified 7/7 local and 7/7 live Chrome workflows, 21 theme/viewport reference
+comparisons at 320/360/390/430/768/1024/1440px, long-name/large-count stress layouts,
+touch targets, header clearance and no horizontal overflow. Phone/desktop previews
+reviewed; audio counting, backup transfer, browser upgrades and PDF export pass.
+Production dry build passes. Read-only live verification matches the exact
+stylesheet and shared premium bundle delivery, health 200 and unscoped records 409.
+Evidence: .publish/japseva-layout-{browser,stress,dryrun,deploy,live-browser}.log,
+.publish/japseva-layout-live.json and .publish/japseva-layout-*.png. No wider
+API suite repeated for this screen-only correction. Unrelated edits excluded; no push.
+
 JapSeva platform-theme/layout alignment (2026-11-12 IST): replaced the
 independent cream/brown palettes and serif interface overrides with shared UI
 tokens. Added the existing premium stylesheet used by other apps. All screen
