@@ -1,5 +1,24 @@
 # Organisation licensing production cutover
 
+JapSeva browser-only release deployed (2026-11-12 IST): source d9d4139,
+Worker 66192142-81b6-4c60-9e73-df77891d9d04, live at
+https://apps.sushantsynapse.com/japseva. Deployed from the isolated committed
+worktree with the exact production configuration and --keep-vars. Authentication,
+organisation mode, production D1 binding and rate limits are retained. No migration,
+account creation or production client/practice-data write; JapSeva records are
+browser-local IndexedDB, explicitly authorised by the user, with no login needed.
+
+All four live Chrome workflows pass: no-login creation/reload, real certificate
+PDF, backup export and transfer into a fresh browser, stale-tab protection,
+malformed import preservation, unavailable storage, audio and twelve viewport/theme
+combinations. Read-only checks verify exact released storage module and CC0 audio
+bytes, home discovery/account pages, D1 health 200 and unscoped records denial 409.
+567 API/unit checks pass across main/focused runs, seven isolated Chrome workflows
+pass and the production dry build passes. Source release excludes the unrelated
+pending route cleanup and reports. No repository push requested or performed.
+Evidence: .publish/japseva-release-{full-tests,focused,browser,dryrun,deploy,
+live-browser}.log and .publish/japseva-release-live.json.
+
 Role simplification deployed (2026-11-09 IST): source `bbfce70`, Worker
 `b7e0ddcb-f544-41c9-97fc-dde7ea1ebb3e`, from an isolated committed archive using
 the exact production configuration and --keep-vars. Shared role vocabulary and
