@@ -1,3 +1,22 @@
+JapSeva counted-audio implementation (2026-11-12 IST): added a dedicated
+Gayatri audio-play target/counter with Start auto play, Pause and Reset. Natural
+completed recordings save one audio play and repeat until the target is reached;
+seeking, media/playback failure, leaving the page/section and failed saves stop
+or withhold counting. Audio counts stay separate from practitioner chanting and
+certificate eligibility. Sankalps now link directly to meaning/pronunciation/audio.
+
+The existing browser workspace gains validated optional audioPlays data in
+backups; old backups remain accepted. IndexedDB version 2 preserves the workspace
+while preventing an old controller from dropping the new field. No login,
+new provider, production business-data write or D1/SQLite migration.
+
+Verification: 10/10 focused model and Cloudflare delivery checks, 6/6 Chrome
+workflows and production-config dry build pass. Includes real completed audio
+loops, target stop, reload, pause/seek/reset, no chanting/certificate count changes,
+legacy IndexedDB upgrade, backup transfer, storage denial and twelve layouts.
+Logs: .publish/japseva-audio-{unit,browser,dryrun}.log. Committed deployment
+and live verification follow. Unrelated pending cleanup edits remain excluded.
+
 JapSeva browser-only release deployed (2026-11-12 IST): source d9d4139,
 Worker 66192142-81b6-4c60-9e73-df77891d9d04, live at
 https://apps.sushantsynapse.com/japseva. Deployed from the isolated committed

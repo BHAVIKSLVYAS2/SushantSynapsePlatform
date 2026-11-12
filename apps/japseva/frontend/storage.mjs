@@ -1,4 +1,4 @@
-export const empty=()=>({format:'japseva-backup',schemaVersion:1,version:0,clients:[],sankalps:[]});
+export const empty=()=>({format:'japseva-backup',schemaVersion:1,version:0,clients:[],sankalps:[],audioPlays:{}});
 const fail=message=>{throw Error(message);};
 const text=(v,label,max=120)=>{if(typeof v!=='string'||!v.trim()||v.length>max)fail(`${label} is required (maximum ${max} characters).`);return v.trim();};
 const int=(v,max,label,min=1)=>{if(!Number.isSafeInteger(v)||v<min||v>max)fail(`${label} must be a whole number from ${min} to ${max}.`);return v;};
@@ -8,6 +8,7 @@ export function validate(input){
  if(!input||input.format!=='japseva-backup'||input.schemaVersion!==1)fail('Choose a JapSeva version 1 backup.');
  if(new TextEncoder().encode(JSON.stringify(input)).length>1000000)fail('This workspace exceeds the 1 MB limit.');
  const s=empty();s.version=int(input.version,Number.MAX_SAFE_INTEGER,'Version',0);
+ if(input.audioPlays!==undefined){if(!input.audioPlays||typeof input.audioPlays!=='object'||Array.isArray(input.audioPlays)||Object.keys(input.audioPlays).some(k=>k!=='gayatri'))fail('Invalid audio practice.');for(const [key,r]of Object.entries(input.audioPlays)){const target=int(r.target,1000000,'Audio target');s.audioPlays[key]={target,count:int(r.count,target,'Audio plays',0)};}}
  if(!Array.isArray(input.clients)||input.clients.length>200||!Array.isArray(input.sankalps)||input.sankalps.length>200)fail('Invalid workspace record limits.');
  s.clients=input.clients.map(c=>({id:id(c.id),name:text(c.name,'Client name'),createdAt:date(c.createdAt)}));
  const ids=new Set(s.clients.map(c=>c.id));if(ids.size!==s.clients.length)fail('Duplicate client IDs.');
@@ -23,7 +24,12 @@ export function validate(input){
 }
 export function command(state,path,b,now=new Date().toISOString()){
  const s=structuredClone(state);
- if(path==='/clients'){if(s.clients.length>=200)fail('Maximum 200 clients.');s.clients.push({id:crypto.randomUUID(),name:text(b.name,'Client name'),createdAt:now});}
+ if(path==='/audio/gayatri'){
+  s.audioPlays||={};const r=s.audioPlays.gayatri||{count:0,target:108};
+  if(b.action==='target'){const target=int(b.target,1000000,'Audio target');if(target<r.count)fail('Target cannot be lower than completed audio plays. Reset the audio count first.');r.target=target;}
+  else if(b.action==='increment'){if(r.count>=r.target)fail('Audio target is already complete.');r.count++;}
+  else if(b.action==='reset')r.count=0;else fail('Unknown audio action.');s.audioPlays.gayatri=r;
+ }else if(path==='/clients'){if(s.clients.length>=200)fail('Maximum 200 clients.');s.clients.push({id:crypto.randomUUID(),name:text(b.name,'Client name'),createdAt:now});}
  else if(path==='/sankalps'){
   if(s.sankalps.length>=200)fail('Maximum 200 sankalps.');if(!s.clients.some(c=>c.id===b.clientId))fail('Choose one of your clients.');
   s.sankalps.push({id:crypto.randomUUID(),clientId:b.clientId,mantra:text(b.mantra,'Mantra',1000),mantraId:b.mantraId||'',practitioner:text(b.practitioner,'Practitioner name'),target:int(b.target,100000000,'Target'),count:0,createdAt:now,completedAt:null,history:[]});
@@ -37,7 +43,7 @@ export function certificate(state,recordId){const r=state.sankalps.find(r=>r.id=
 let database;
 export async function open(){
  if(database)return database;if(!globalThis.indexedDB)fail('Browser storage is unavailable. Enable storage to save your practice.');
- return new Promise((resolve,reject)=>{const req=indexedDB.open('synapse-japseva',1);req.onupgradeneeded=()=>req.result.createObjectStore('workspace');req.onerror=()=>reject(req.error||Error('Could not open browser storage.'));req.onblocked=()=>reject(Error('Close other JapSeva tabs and retry.'));req.onsuccess=()=>{database=req.result;database.onversionchange=()=>{database.close();database=null;};resolve(database);};});
+ return new Promise((resolve,reject)=>{const req=indexedDB.open('synapse-japseva',2);req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains('workspace'))req.result.createObjectStore('workspace');};req.onerror=()=>reject(req.error||Error('Could not open browser storage.'));req.onblocked=()=>reject(Error('Close other JapSeva tabs and retry.'));req.onsuccess=()=>{database=req.result;database.onversionchange=()=>{database.close();database=null;};resolve(database);};});
 }
 export async function read(){const db=await open();return new Promise((resolve,reject)=>{const tx=db.transaction('workspace'),req=tx.objectStore('workspace').get('state');tx.oncomplete=()=>{try{resolve(req.result?validate(req.result):empty());}catch(e){reject(e);}};tx.onerror=()=>reject(tx.error);});}
 export async function write(next,expected){

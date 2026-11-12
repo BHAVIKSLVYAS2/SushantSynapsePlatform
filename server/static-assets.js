@@ -3,7 +3,7 @@ const staticAssets={
  '/shared/canvas-pdf.mjs':'packages/ui/canvas-pdf.mjs',
  '/japseva':'apps/japseva/frontend/index.html',
  '/japseva/':'apps/japseva/frontend/index.html',
- ...Object.fromEntries(['app.mjs','storage.mjs','library.mjs','certificate.mjs','style.css','audio/gayatri-mantra.ogg'].map(file=>['/japseva/'+file,'apps/japseva/frontend/'+file])),
+ ...Object.fromEntries(['app.mjs','audio-practice.mjs','storage.mjs','library.mjs','certificate.mjs','style.css','audio/gayatri-mantra.ogg'].map(file=>['/japseva/'+file,'apps/japseva/frontend/'+file])),
  '/rozhisab':'apps/rozhisab/frontend/index.html',
  '/rozhisab/':'apps/rozhisab/frontend/index.html',
  '/rozhisab-sw.js':'apps/rozhisab/frontend/sw.js',

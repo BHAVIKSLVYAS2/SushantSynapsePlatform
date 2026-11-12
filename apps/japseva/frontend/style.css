@@ -4,3 +4,4 @@ body[data-ui-app="japseva"].has-platform-shell{background:var(--jp-bg);color:var
 body[data-ui-app="japseva"].has-platform-shell main{color:var(--jp-text)}
 body[data-ui-app="japseva"].has-platform-shell main .intro h1{font:400 clamp(46px,8vw,72px)/1.3 Georgia,serif;letter-spacing:normal}
 body[data-ui-app="japseva"].has-platform-shell main .intro{padding:32px 0 24px}
+.audio-practice{border-top:1px solid var(--jp-line);margin-top:20px;padding-top:12px}.audio-practice output{display:block;font:28px/1.4 Georgia,serif;color:var(--jp-accent);margin:12px 0}.audio-practice label{max-width:260px}.audio-practice button{margin:4px 8px 4px 0}.audio-practice [role=status]{min-height:28px}.audio-practice h4{margin-bottom:8px}

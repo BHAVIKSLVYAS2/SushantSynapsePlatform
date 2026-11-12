@@ -1,6 +1,6 @@
 # JapSeva audio provenance
 
-Verified on 12 November 2026 against the Wikimedia Commons file description page. Recordings are learning references; playback never records repetitions.
+Verified on 12 November 2026 against the Wikimedia Commons file description page. Recordings are learning references; completed audio plays are counted separately from client chanting records.
 
 ## Gayatri Mantra
 

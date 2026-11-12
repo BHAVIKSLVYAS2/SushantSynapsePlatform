@@ -1,4 +1,9 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
+test('audio plays persist separately, stop at target and accept older backups',async()=>{
+ const {empty,command,validate}=await import('../apps/japseva/frontend/storage.mjs');const legacy=empty();delete legacy.audioPlays;assert.deepEqual(validate(legacy).audioPlays,{});
+ let s=command(empty(),'/audio/gayatri',{action:'target',target:2});s=command(s,'/audio/gayatri',{action:'increment'});s=command(s,'/audio/gayatri',{action:'increment'});assert.deepEqual(s.audioPlays.gayatri,{target:2,count:2});assert.equal(s.sankalps.length,0);assert.throws(()=>command(s,'/audio/gayatri',{action:'increment'}));assert.throws(()=>command(s,'/audio/gayatri',{action:'target',target:1}));assert.deepEqual(validate(JSON.parse(JSON.stringify(s))),s);
+ for(const target of [0,-1,1.1,'3',1000001])assert.throws(()=>command(s,'/audio/gayatri',{action:'target',target}));assert.throws(()=>validate({...s,audioPlays:{unknown:{count:1,target:2}}}));s=command(s,'/audio/gayatri',{action:'reset'});assert.equal(s.audioPlays.gayatri.count,0);
+});
 test('local practice enforces target, daily history, completion and backup integrity',async()=>{
  const {empty,command,validate,certificate}=await import('../apps/japseva/frontend/storage.mjs');let s=command(empty(),'/clients',{name:'Meera'});const clientId=s.clients[0].id;
  for(const target of [0,-1,1.2,100000001,'108'])assert.throws(()=>command(s,'/sankalps',{clientId,mantra:'Om',target,practitioner:'Practitioner'}));
