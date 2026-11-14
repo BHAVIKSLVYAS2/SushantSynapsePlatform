@@ -94,3 +94,23 @@ and reopening an actual persistent Chrome profile. Chrome emulation does not pro
 testing on physical Android/iOS devices; manual device acceptance remains separate.
 
 Release/build/deployment evidence is recorded in `FUNCTIONALITY_LEDGER.md`.
+
+## Optional household care (14 November 2026)
+
+Home care is an optional fifth destination; Today remains the default. Items own
+purchase receipts (PDF/JPEG/PNG/WebP, up to 1 MB each), warranty dates, contacts
+and notes. Service/renewal schedules support one-time or monthly repetition,
+completion history, exact recorded costs and calendar exports. A linked existing
+service opens its bill rather than creating another charge. Care costs never
+change delivery bills or payments automatically. Archived items retain receipts
+and history and can be restored. New care forms initially use English; existing
+Hisabio language flows remain intact and the navigation label is translated.
+
+The shared packages/care engine and packages/ui/care-workspace own reusable rules
+and views only. Hisabio records remain inside its own revision-checked state and
+backup. IndexedDB upgrades in place to version 2, preventing older version-1 app
+tabs from dropping care data. Backup version 2 accepts old version-1 backups with
+empty care records. No service, payment, closed bill or attendance migration resets
+are performed. Care limits: 300 items, 600 schedules, 5,000 visits and 15 MB.
+Calendar alarms depend on the calendar application after explicit import; there
+is no new background notification or delivery service.

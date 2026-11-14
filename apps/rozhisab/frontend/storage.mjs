@@ -1,5 +1,5 @@
 import {emptyState,validateBackup} from './engine.mjs';
-const NAME='synapse-rozhisab',VERSION=1;
+const NAME='synapse-rozhisab',VERSION=2;
 let database;
 export async function openStore(){
  if(database)return database;if(!globalThis.indexedDB)throw Error('Local storage is unavailable');
@@ -7,6 +7,6 @@ export async function openStore(){
 }
 export async function read(){const db=await openStore();return new Promise((resolve,reject)=>{const tx=db.transaction('workspace','readonly'),r=tx.objectStore('workspace').get('state');tx.oncomplete=()=>{try{resolve(r.result?validateBackup(r.result):emptyState());}catch(error){reject(error);}};tx.onerror=()=>reject(tx.error);});}
 export async function write(next,expected){
- const db=await openStore();return new Promise((resolve,reject)=>{let conflict=false;const tx=db.transaction('workspace','readwrite'),store=tx.objectStore('workspace'),r=store.get('state');r.onsuccess=()=>{if((r.result?.revision||0)!==expected){conflict=true;tx.abort();return;}store.put(next,'state');};tx.oncomplete=()=>resolve(next);tx.onabort=()=>reject(conflict?Error('Data changed in another tab. Reload and try again.'):tx.error||Error('Could not save locally'));tx.onerror=()=>{};});
+ next=validateBackup(next);const db=await openStore();return new Promise((resolve,reject)=>{let conflict=false;const tx=db.transaction('workspace','readwrite'),store=tx.objectStore('workspace'),r=store.get('state');r.onsuccess=()=>{if((r.result?.revision||0)!==expected){conflict=true;tx.abort();return;}store.put(next,'state');};tx.oncomplete=()=>resolve(next);tx.onabort=()=>reject(conflict?Error('Data changed in another tab. Reload and try again.'):tx.error||Error('Could not save locally'));tx.onerror=()=>{};});
 }
 export async function replace(input,expected){const next=validateBackup(input);next.revision=expected+1;return write(next,expected);}

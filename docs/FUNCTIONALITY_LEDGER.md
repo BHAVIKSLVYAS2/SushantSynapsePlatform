@@ -1,3 +1,14 @@
+Collection consolidation stage 2 (2026-11-14, local): optional Hisabio Home care
+adds item receipts/warranties, service and renewal schedules, completion/cost
+history, archive/restore, due summaries and calendar exports. Existing bill links
+avoid duplicate charges. IndexedDB 2 / backup 2 accept old backups and preserve
+existing delivery/billing records. Fifteen model checks and seven Chrome cases
+pass, plus a targeted populated version-1 upgrade check. Existing offline restart,
+undo, languages and billing tests pass. Shared care rules/views do not share data
+with other apps. Evidence: .publish/consolidate-stage2{,-model}.log,
+consolidate-upgrade.log and hisabio-care-{light,dark}.png. Stage 3 follows;
+publication remains pending until the staged changes are verified together.
+
 Collection consolidation stage 1 (2026-11-14, local): task-based home filters
 (Home & property, Everyday tools, Planning, Cards & certificates, Traditions,
 Play, Workspaces) and browser-local public-tool pins/recent shortcuts implemented.

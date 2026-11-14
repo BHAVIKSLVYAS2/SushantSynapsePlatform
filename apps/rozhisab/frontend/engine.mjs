@@ -1,5 +1,6 @@
+import {empty as emptyCare,validate as validateCare,command as careCommand} from './care-engine.mjs';
 // Integer paise and thousandths of a unit; round half up once per bill component.
-export const VERSION=1;
+export const VERSION=2;
 export const icons=['milk','flower','news','home','water','laundry','car','tiffin','service'];
 export const today=(now=new Date())=>`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
 const fail=message=>{throw new Error(message);};
@@ -17,7 +18,7 @@ export const units=q=>String(q/1000);
 const round=(n,d)=>{const value=(BigInt(n)+BigInt(d)/2n)/BigInt(d);if(value>BigInt(Number.MAX_SAFE_INTEGER))fail('Amount exceeds safe billing limits');return Number(value);};
 const id=value=>typeof value==='string'&&/^[a-zA-Z0-9-]{1,80}$/.test(value)?value:fail('Invalid record identifier');
 const label=(v,max=80)=>typeof v==='string'&&v.trim().length<=max?v.trim():fail('Invalid text');
-export function emptyState(){return {version:VERSION,revision:0,services:[],entries:{},pauses:[],payments:[],closed:{},settings:{cycleDay:1,language:'en',reminder:false}};}
+export function emptyState(){return {version:VERSION,revision:0,care:emptyCare(),services:[],entries:{},pauses:[],payments:[],closed:{},settings:{cycleDay:1,language:'en',reminder:false}};}
 export function config(raw){
  const name=label(raw.name);if(!name)fail('Service name is required');const start=date(raw.start),end=raw.end?date(raw.end):'';if(end&&end<start)fail('End date must follow start date');
  const schedule=raw.schedule;if(!['daily','weekly','weekdays','monthly'].includes(schedule))fail('Choose a schedule');
@@ -63,7 +64,8 @@ export function locked(state,day){return Object.values(state.closed).some(x=>x.p
 function writable(state,from,to=from){if(Object.values(state.closed).some(x=>from<=x.period.end&&to>=x.period.start))fail('Reopen the closed bill before changing these dates');}
 export function command(original,type,data,asOf=today()){
  const state=structuredClone(original),find=serviceId=>state.services.find(s=>s.id===serviceId)||fail('Service not found');date(asOf);
- if(type==='service'){
+ if(type.startsWith('care.')){state.care=careCommand(state.care,type,data,{services:state.services.map(s=>s.id)});}
+ else if(type==='service'){
   const c=config(data.config),from=date(data.from);if(from>c.start&&!data.id)fail('A new service must be effective by its start date');if(Object.values(state.closed).some(x=>x.period.end>=from))fail('Changes must start after the last closed bill, or reopen it first');
   if(data.id){const s=find(data.id);if(from<s.revisions[0].from)fail('Changes cannot precede the service history');s.revisions=s.revisions.filter(r=>r.from!==from);s.revisions.push({...c,from});s.revisions.sort((a,b)=>a.from.localeCompare(b.from));}
   else{const key=id(data.newId);if(state.services.some(s=>s.id===key))fail('Duplicate service');state.services.push({id:key,opening:decimal(data.opening||0),revisions:[{...c,from}]});}
@@ -87,12 +89,12 @@ export function command(original,type,data,asOf=today()){
  }else fail('Unknown change');state.revision=original.revision+1;return state;
 }
 export function validateBackup(input){
- if(!input||input.version!==VERSION||!Array.isArray(input.services)||!Array.isArray(input.payments)||!Array.isArray(input.pauses)||!input.entries||!input.closed)fail('Unsupported or invalid Hisabio backup');const state=emptyState(),seen=new Set();
+ if(!input||![1,VERSION].includes(input.version)||!Array.isArray(input.services)||!Array.isArray(input.payments)||!Array.isArray(input.pauses)||!input.entries||!input.closed)fail('Unsupported or invalid Hisabio backup');const state=emptyState(),seen=new Set();
  for(const raw of input.services){const key=id(raw.id);if(seen.has(key)||!Array.isArray(raw.revisions)||!raw.revisions.length)fail('Invalid or duplicate service');seen.add(key);const revisions=raw.revisions.map(r=>({...config({...r,quantity:units(r.quantity),rate:r.rate/100,deduction:r.deduction/100}),from:date(r.from)}));for(let i=1;i<revisions.length;i++)if(revisions[i].from<=revisions[i-1].from)fail('Invalid service history');if(revisions[0].from>revisions[0].start)fail('Invalid service start');if(!Number.isSafeInteger(raw.opening)||raw.opening<0)fail('Invalid opening balance');state.services.push({id:key,opening:decimal(raw.opening/100),revisions});}
  const unique=new Set();for(const raw of input.payments){if(unique.has(raw.id))fail('Duplicate payment');unique.add(raw.id);const s=state.services.find(s=>s.id===raw.serviceId);if(!s||!Number.isSafeInteger(raw.amount)||raw.amount<=0||!['cash','upi','other'].includes(raw.method))fail('Invalid payment');const d=date(raw.date);if(d<s.revisions[0].from||d>today())fail('Invalid payment date');state.payments.push({id:id(raw.id),serviceId:s.id,date:d,amount:decimal(raw.amount/100),method:raw.method,note:label(raw.note||'',240)});}
  for(const [key,q]of Object.entries(input.entries)){const [serviceId,d,...rest]=key.split('@');if(rest.length||!seen.has(serviceId)||!Number.isSafeInteger(q)||q<0)fail('Invalid attendance');date(d);if(d>today())fail('Future attendance is not allowed');state.entries[entryKey(serviceId,d)]=quantity(units(q));}
  const pauseIds=new Set();for(const raw of input.pauses){if(!seen.has(raw.serviceId)||date(raw.to)<date(raw.from)||pauseIds.has(raw.id))fail('Invalid pause');pauseIds.add(raw.id);state.pauses.push({id:id(raw.id),serviceId:raw.serviceId,from:raw.from,to:raw.to});}
  state.settings=command(state,'settings',input.settings||{cycleDay:1},today()).settings;
  for(const [key,value]of Object.entries(input.closed).sort(([a],[b])=>a.localeCompare(b))){const p=period(value.period?.month,state.settings.cycleDay);if(p.key!==key||p.end>=today())fail('Invalid closed period');const bills=state.services.filter(s=>s.revisions[0].from<=p.end).map(s=>bill(state,s,p,p.end));if(JSON.stringify(bills)!==JSON.stringify(value.bills))fail('Closed bill does not match its history');state.closed[key]={period:p,bills,closedAt:date(value.closedAt)};}
- if(!Number.isSafeInteger(input.revision)||input.revision<0)fail('Invalid backup revision');state.revision=input.revision;return state;
+ if(!Number.isSafeInteger(input.revision)||input.revision<0)fail('Invalid backup revision');state.revision=input.revision;state.care=validateCare(input.care,{services:state.services.map(s=>s.id)});return state;
 }
