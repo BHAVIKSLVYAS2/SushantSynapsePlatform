@@ -1,3 +1,22 @@
+Kundali menu/division fix deployed (2026-11-15 IST): source 4f7d7cb5,
+Worker e35e7b58-e064-4779-adce-e16abc5b8e4c, at
+https://apps.sushantsynapse.com/rashifal-kundli. D1/D9 select a single chart and
+matching graha table; explicit desktop comparison remains independent. More is
+grouped, viewport-bounded and dismissible; birth-linked transits and standalone
+tools have distinct labels. D9 degrees/nakshatra remain explicitly D1 source data.
+Verification: 18 numeric/display checks and all 6 local chart/practitioner browser
+scenarios pass. All 3 production browser journeys pass, including actual D9 row
+placements, repeated D1/D9 clicks, native languages, themes, retained selection,
+320px menu bounds, Escape/focus return, outside dismissal and unknown-time gating.
+All 15 live read-only checks pass, including 11 exact assets and unchanged JapSeva/
+care modules; health 200, unscoped records 409, private docs 404. Production dry
+run/build exports 699 assets. Existing org/auth vars and D1 binding preserved
+with --keep-vars. No database/schema changes, data reset or saved birth records.
+Evidence: .publish/kundali-menu-{release,model,verify,dryrun,build,deploy,live,
+live-browser}.log and kundali-menu-live.json; local screenshots under
+output/playwright/kundali-menu-fixed-*.png. Earlier local checkpoints below are
+historical. The user's menu and switching report is addressed and live-verified.
+
 Kundali menu/division fix (2026-11-15 IST, local): reproduced the user's
 reported confusion on production. D1/D9 diagrams switched, but the table stayed
 D1 and desktop comparison continued displaying both charts. Division buttons now

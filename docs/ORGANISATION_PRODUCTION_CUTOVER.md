@@ -1,3 +1,22 @@
+Kundali menu/division fix deployed (2026-11-15 IST): source 4f7d7cb5,
+Worker e35e7b58-e064-4779-adce-e16abc5b8e4c, at
+https://apps.sushantsynapse.com/rashifal-kundli. D1/D9 select a single chart and
+matching graha table; explicit desktop comparison remains independent. More is
+grouped, viewport-bounded and dismissible; birth-linked transits and standalone
+tools have distinct labels. D9 degrees/nakshatra remain explicitly D1 source data.
+Verification: 18 numeric/display checks and all 6 local chart/practitioner browser
+scenarios pass. All 3 production browser journeys pass, including actual D9 row
+placements, repeated D1/D9 clicks, native languages, themes, retained selection,
+320px menu bounds, Escape/focus return, outside dismissal and unknown-time gating.
+All 15 live read-only checks pass, including 11 exact assets and unchanged JapSeva/
+care modules; health 200, unscoped records 409, private docs 404. Production dry
+run/build exports 699 assets. Existing org/auth vars and D1 binding preserved
+with --keep-vars. No database/schema changes, data reset or saved birth records.
+Evidence: .publish/kundali-menu-{release,model,verify,dryrun,build,deploy,live,
+live-browser}.log and kundali-menu-live.json; local screenshots under
+output/playwright/kundali-menu-fixed-*.png. Earlier local checkpoints below are
+historical. The user's menu and switching report is addressed and live-verified.
+
 Collection follow-ups deployed (2026-11-14 IST): source 26a0dc0, Worker
 89c18d9e-5a1c-4909-ae48-d39dc220df23, at https://apps.sushantsynapse.com/.
 Completed sequentially: 0c8ca9d Hindi/Gujarati care/rental UI; 85c86a7 primary
