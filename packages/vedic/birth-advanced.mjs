@@ -1,7 +1,7 @@
 import {normalizeInput} from './normalize.mjs';
 import {siderealSnapshot} from './sidereal.mjs';
 import {birthChartForBirth} from './birth-chart.mjs';
-import {advancedChartFromD1,advancedVargaModels,advancedDivisionForLongitude} from './advanced-vargas.mjs';
+import {screenedAdvancedChart,advancedVargaModels} from './advanced-vargas.mjs';
 import {rawAshtakavarga,ashtakavargaModel} from './ashtakavarga.mjs';
 import {ucchaBala,ucchaBalaModel} from './strength.mjs';
 import {fields,fail,freeze,VedicInputError} from './diagnostics.mjs';
@@ -15,10 +15,8 @@ export function advancedForBirth(input,context){
  function feature(run){try{return {status:'available',value:run()};}catch(error){if(!(error instanceof VedicInputError))throw error;return {status:'unavailable',diagnostic:error.toJSON()};}}
  const base=feature(()=>birthChartForBirth(input,context)),charts={};
  for(const chartType of Object.keys(advancedVargaModels))charts[chartType]=feature(()=>{
-  if(base.status!=='available')fail(base.diagnostic.code);const {chart,minuteResolutionScreen:screen}=base.value;
-  const part=longitude=>advancedDivisionForLongitude({chartType,siderealLongitude:longitude});
-  if(part(chart.ascendant.siderealLongitude).boundaryDistanceArcsec<=screen.lagnaGuardArcsec||chart.planets.some(p=>part(p.siderealLongitude).boundaryDistanceArcsec<=screen.planetGuardArcsec))fail('UNSTABLE_BIRTH_TIME');
-  return advancedChartFromD1({chartType,d1:chart});
+  if(base.status!=='available')fail(base.diagnostic.code);
+  return screenedAdvancedChart(base.value,chartType);
  });
  const uccha=snapshot.positions.filter(p=>Object.hasOwn(ucchaBalaModel.exaltationDegrees,p.body)).map(p=>{
   const nominal=ucchaBala({body:p.body,siderealLongitude:p.siderealLongitude,modelId:ucchaBalaModel.id});

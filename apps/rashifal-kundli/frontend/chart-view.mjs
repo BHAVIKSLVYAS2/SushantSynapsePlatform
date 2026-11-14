@@ -2,14 +2,14 @@ import {resultSections} from './kundli-journey-copy.mjs';
 import {chartViewModel,northCells,southCells} from './chart-model.mjs';
 import {locale,signName,bodyName} from './locale.mjs';
 import {nakshatraName} from './display-text.mjs';
-import {practitionerCopy,readingWorkspaceCopy,grahaCode,signDms} from './practitioner-copy.mjs';
+import {chartExtras,practitionerCopy,readingWorkspaceCopy,grahaCode,signDms} from './practitioner-copy.mjs';
 const ns='http://www.w3.org/2000/svg';
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
 const svgEl=(tag,attrs,text)=>{const n=document.createElementNS(ns,tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,String(v));if(text!==undefined)n.textContent=text;return n;};
 export function mountCharts(container,charts,options={}){
  if(!(container instanceof Element)||!charts||Object.keys(options).some(k=>!['initialChart','initialStyle','initialHouse','initialBody','initialCompare','initialContext','language','paired','positions','onStateChange'].includes(k)))throw new TypeError('Check chart view options.');
- const language=options.language??'en',t=locale(language),c=practitionerCopy[language],r=readingWorkspaceCopy[language];
- const models={D1:chartViewModel(charts.d1)};for(const key of ['d9','d7','d10','d12'])if(charts[key])models[key.toUpperCase()]=chartViewModel(charts[key]);
+ const language=options.language??'en',t=locale(language),c=practitionerCopy[language],r=readingWorkspaceCopy[language],extra=chartExtras[language];
+ const models={D1:chartViewModel(charts.d1)};for(const key of ['d9','d2','d7','d10','d12','d16','chandra'])if(charts[key])models[key==='chandra'?'Chandra':key.toUpperCase()]=chartViewModel(charts[key]);
  let selectedBody=options.initialBody??null,compare=Boolean(options.initialCompare),contextOpen=Boolean(options.initialContext||selectedBody);
  let type=options.initialChart??'D1',style=options.initialStyle??'north',selected=options.initialHouse??1;
  if(!models[type])type='D1';
@@ -21,9 +21,11 @@ export function mountCharts(container,charts,options={}){
  const controls=el('div',undefined,'vedic-chart-controls'),divisionButtons=[],styleButtons=[];
  function buttons(label,items,list,choose){const group=el('div');group.setAttribute('role','group');group.setAttribute('aria-label',label);
   for(const [value,text]of items){const b=el('button',text);b.type='button';b.dataset.value=value;b.setAttribute('aria-label',text);b.addEventListener('click',()=>{choose(value);render();});group.append(b);list.push(b);}controls.append(group);}
- const advanced=['D7','D10','D12'].filter(key=>models[key]);
- buttons(t.division,advanced.length?advanced.map(key=>[key,key]):[['D1',t.d1],['D9',t.d9]],divisionButtons,v=>{type=v;compare=false;if(selectedBody)selected=models[type].planets.find(p=>p.body===selectedBody).houseNumber;});
+ const advanced=options.paired?[]:['D2','D7','D10','D12','D16'].filter(key=>models[key]);
+ buttons(t.division,advanced.length?advanced.map(key=>[key,extra[key]??key]):[['D1',t.d1],['D9',t.d9]],divisionButtons,v=>{type=v;compare=false;if(selectedBody)selected=models[type].planets.find(p=>p.body===selectedBody).houseNumber;});
  const d9Button=divisionButtons.find(b=>b.dataset.value==='D9');if(d9Button)d9Button.disabled=!models.D9;
+ const chartSelect=el('select');chartSelect.className='vedic-chart-division-select';chartSelect.setAttribute('aria-label',t.division);const chartLabel=el('label',extra.choose,'vedic-chart-division-label');chartLabel.append(chartSelect);
+ if(options.paired){for(const [key,label]of [['D1',t.d1],['D9',t.d9],['Chandra',extra.Chandra],['D2',extra.D2],['D16',extra.D16]]){const option=new Option(label+(models[key]?'':' / '+extra.unavailable),key);option.disabled=!models[key];chartSelect.append(option);}chartSelect.onchange=()=>{type=chartSelect.value;compare=false;if(selectedBody)selected=models[type].planets.find(p=>p.body===selectedBody).houseNumber;render();};controls.append(chartLabel);}
  buttons(t.style,[['north',t.north],['south',t.south]],styleButtons,v=>{style=v;});
  styleButtons[0].parentElement.classList.add('vedic-chart-style-buttons');
  const styleSelect=el('select');styleSelect.className='vedic-chart-style-select';styleSelect.setAttribute('aria-label',t.style);for(const [value,label]of [['north',t.north],['south',t.south]])styleSelect.append(new Option(label,value));styleSelect.addEventListener('change',()=>{style=styleSelect.value;render();});controls.append(styleSelect);
@@ -33,9 +35,9 @@ export function mountCharts(container,charts,options={}){
  details.setAttribute('aria-label',t.details);details.setAttribute('aria-live','polite');
  const tableRegion=el('div',undefined,'vedic-chart-table');tableRegion.tabIndex=0;tableRegion.setAttribute('role','region');tableRegion.setAttribute('aria-label',t.tableHint);
  const legend=el('p',c.precision+' '+' '+models.D1.planets.map(p=>`${grahaCode(p.body,p.code,language)} ${bodyName(p.body,language)}`).join(' · '),'vedic-chart-legend');
- const explorer=el('div',undefined,'vedic-chart-explorer');explorer.append(stage,tableRegion);
+ const explorer=el('div',undefined,'vedic-chart-explorer');const method=el('p',undefined,'vedic-chart-method');method.setAttribute('role','status');explorer.append(stage,tableRegion);
  const selection=el('p',r.inspect,'vedic-graha-context');selection.setAttribute('aria-live','polite');
- const compareButton=el('button',r.compare);compareButton.type='button';compareButton.className='vedic-chart-compare';compareButton.hidden=!paired;compareButton.onclick=()=>{compare=!compare;render();};controls.append(compareButton);
+ const compareButton=el('button',r.compare);compareButton.type='button';compareButton.className='vedic-chart-compare';compareButton.hidden=!paired;compareButton.onclick=()=>{compare=!compare;if(compare)type='D1';render();};controls.append(compareButton);
  const sheet=el('dialog',undefined,'vedic-graha-sheet');sheet.setAttribute('aria-label',t.details);let sheetInvoker=null;sheet.addEventListener('close',()=>{details.hidden=!contextOpen;root.insertBefore(details,houseLabel);if(sheetInvoker?.isConnected)sheetInvoker.focus({preventScroll:true});});
  const houseLabel=el('label',t.house,'vedic-house-picker'),houseSelect=el('select');houseSelect.setAttribute('aria-label',t.details);for(let i=1;i<=12;i++)houseSelect.append(new Option(t.house+' '+i,i));houseSelect.addEventListener('change',()=>select(Number(houseSelect.value)));houseLabel.append(houseSelect);
  const notes=el('details',undefined,'vedic-chart-notes');notes.append(el('summary',c.notes),notice,description,summary,legend);
@@ -43,7 +45,7 @@ export function mountCharts(container,charts,options={}){
  function expanded(value){root.classList.toggle('is-expanded',value);if(value){root.setAttribute('role','dialog');root.setAttribute('aria-modal','true');}else{root.removeAttribute('role');root.removeAttribute('aria-modal');}expand.textContent=value?c.collapse:c.expand;expand.setAttribute('aria-expanded',String(value));expand.focus();}
  expand.addEventListener('click',()=>expanded(!root.classList.contains('is-expanded')));controls.append(expand);
  root.addEventListener('keydown',e=>{if(!root.classList.contains('is-expanded')||sheet.open)return;if(e.key==='Escape'){e.preventDefault();expanded(false);}if(e.key==='Tab'){const nodes=[...root.querySelectorAll('button:not(:disabled),select,summary,a[href],input,[tabindex="0"]')].filter(n=>n.getClientRects().length),first=nodes[0],last=nodes.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
- if(!options.paired)root.append(heading);root.append(controls,explorer,selection,details,houseLabel,notes,sheet);container.replaceChildren(root);
+ if(!options.paired)root.append(heading);root.append(controls,method,explorer,selection,details,houseLabel,notes,sheet);container.replaceChildren(root);
  function inspect(){if(!matchMedia('(max-width:799px)').matches)return;if(!sheet.open){sheetInvoker=document.activeElement;const close=el('button',r.close);close.type='button';close.onclick=()=>sheet.close();sheet.replaceChildren(close,details);sheet.showModal();close.focus();}}
  function select(house,chartType=type){selectedBody=null;contextOpen=true;selected=house;type=chartType;update();inspect();}
  function selectGraha(body,chartType=type){selectedBody=body;contextOpen=true;type=chartType;selected=models[type].planets.find(p=>p.body===body).houseNumber;update();if(sheet.open)sheet.querySelector('button')?.focus();else inspect();}
@@ -53,19 +55,19 @@ export function mountCharts(container,charts,options={}){
   for(const label of stage.querySelectorAll('[data-graha]'))label.setAttribute('aria-pressed',String(label.dataset.graha===selectedBody));
   for(const row of tableRegion.querySelectorAll('[data-body]')){row.dataset.selected=String(row.dataset.body===selectedBody);row.querySelector('button')?.setAttribute('aria-pressed',row.dataset.selected);}
   root.dataset.chart=type;root.dataset.style=style;root.dataset.selectedBody=selectedBody||'';root.dataset.compare=String(compare);options.onStateChange?.({type,style,selected,body:selectedBody,compare,context:contextOpen});houseSelect.value=String(selected);details.hidden=!contextOpen;
-  if(selectedBody){const p=models.D1.planets.find(p=>p.body===selectedBody),d9=models.D9?.planets.find(p=>p.body===selectedBody),pos=options.positions?.find(p=>p.body===selectedBody),placement=(p,type)=>`${type} · ${signName(p.rashi,language)} · ${t.house} ${p.houseNumber}`;
-   selection.textContent=r.selected+': '+bodyName(selectedBody,language)+' · '+placement(p,'D1')+(d9?' / '+placement(d9,'D9'):'');details.replaceChildren(el('h3',bodyName(selectedBody,language)),el('p',placement(p,'D1')),el('p',c.degrees+': '+signDms(p.sourceLongitude)));if(d9)details.append(el('p',placement(d9,'D9')));if(pos)details.append(el('p',`${t.nakshatra}: ${nakshatraName(pos.nakshatra,language)} · ${t.pada} ${pos.pada}`));
+  if(selectedBody){const p=models.D1.planets.find(p=>p.body===selectedBody),active=models[type].planets.find(p=>p.body===selectedBody),d9=models.D9?.planets.find(p=>p.body===selectedBody),pos=options.positions?.find(p=>p.body===selectedBody),placement=(p,type)=>`${type} · ${signName(p.rashi,language)} · ${t.house} ${p.houseNumber}`;
+   selection.textContent=r.selected+': '+bodyName(selectedBody,language)+' · '+placement(p,'D1')+(d9?' / '+placement(d9,'D9'):'');details.replaceChildren(el('h3',bodyName(selectedBody,language)),el('p',placement(p,'D1')),el('p',c.degrees+': '+signDms(p.sourceLongitude)));if(d9)details.append(el('p',placement(d9,'D9')));if(!['D1','D9'].includes(type)){selection.textContent=r.selected+': '+bodyName(selectedBody,language)+' / '+placement(active,type);details.append(el('p',placement(active,type)));}if(pos)details.append(el('p',`${t.nakshatra}: ${nakshatraName(pos.nakshatra,language)} · ${t.pada} ${pos.pada}`));
   }else{selection.textContent=r.inspect;details.replaceChildren(el('h3',`${r.house} · ${type} · ${t.house} ${selected} · ${signName(h.rashi,language)} (${h.rashi})`));if(!h.planets.length)details.append(el('p',t.empty));const list=el('div',undefined,'vedic-house-grahas');for(const p of h.planets){const b=el('button',bodyName(p.body,language));b.type='button';b.onclick=()=>selectGraha(p.body);list.append(b);}details.append(list);}
  }
- function render(){const model=models[type];
+ function render(){const model=models[type];method.textContent=type==='Chandra'?extra.moonHint:['D2','D16'].includes(type)?extra[type+'Hint']+' '+extra.candidate:'';method.hidden=!method.textContent;
   root.classList.toggle('vedic-charts-paired',paired&&compare);compareButton.textContent=compare?r.stopCompare:r.compare;compareButton.setAttribute('aria-pressed',String(compare));
-  styleSelect.value=style;
+  styleSelect.value=style;chartSelect.value=type;
   for(const b of divisionButtons)b.setAttribute('aria-pressed',String(b.dataset.value===type));
   for(const b of styleButtons)b.setAttribute('aria-pressed',String(b.dataset.value===style));
   const divisionalHint=advanced.length?({en:'Mapped divisional signs, not physical sky longitudes.',hi:'मानचित्रित वर्ग राशियाँ, आकाश के वास्तविक देशांतर नहीं।',gu:'નકશાંકિત વર્ગ રાશિઓ, આકાશના વાસ્તવિક રેખાંશ નથી.'})[language]??'Mapped divisional signs.':t.d9Hint;
-  description.textContent=`${type} · ${style==='north'?t.northHint:t.southHint} ${t.selectHouse} ${divisionalHint}`;
-  summary.textContent=`${type} ${t.ascendant}: ${signName(model.ascendantRashi,language)} (${model.ascendantRashi}) · ${type!=='D1'?t.source:t.longitude} ${model.ascendantSourceLongitude.toFixed(4)}°. ${t.rounding}`;
-  stage.replaceChildren();for(const chartType of (paired?['D1','D9']:[type])){const model=models[chartType],figure=el('figure',undefined,'vedic-chart-figure');figure.dataset.chart=chartType;figure.dataset.active=String(chartType===type);figure.append(el('figcaption',(chartType==='D1'?t.d1:chartType==='D9'?t.d9:chartType)+' · '+c.lagna+': '+signName(model.ascendantRashi,language)));
+  description.textContent=`${type} · ${style==='north'?t.northHint:t.southHint} ${t.selectHouse} ${type==='Chandra'?extra.moonHint:divisionalHint}`;
+  summary.textContent=`${type} ${type==='Chandra'?extra.moon:t.ascendant}: ${signName(model.ascendantRashi,language)} (${model.ascendantRashi}) · ${type!=='D1'?t.source:t.longitude} ${model.ascendantSourceLongitude.toFixed(4)}°. ${t.rounding}`;
+  stage.replaceChildren();for(const chartType of (paired&&['D1','D9'].includes(type)?['D1','D9']:[type])){const model=models[chartType],figure=el('figure',undefined,'vedic-chart-figure');figure.dataset.chart=chartType;figure.dataset.active=String(chartType===type);figure.append(el('figcaption',(chartType==='D1'?t.d1:chartType==='D9'?t.d9:extra[chartType]??chartType)+' · '+(chartType==='Chandra'?extra.moon:c.lagna)+': '+signName(model.ascendantRashi,language)));
   const grahaLabels=[];const svg=svgEl('svg',{viewBox:'0 0 400 400',role:'group','aria-label':`${chartType} ${style==='north'?t.north:t.south} chart`});
   if(style==='south')svg.append(svgEl('text',{x:200,y:190,'text-anchor':'middle',class:'vedic-chart-centre'},chartType),svgEl('text',{x:200,y:214,'text-anchor':'middle',class:'vedic-chart-centre-note'},t.whole));
   for(const h of model.houses){const g=svgEl('g',{'data-house':h.houseNumber,'data-rashi':h.rashi,class:'vedic-chart-cell',
@@ -78,7 +80,7 @@ export function mountCharts(container,charts,options={}){
    const left=style==='north'&&[3,5].includes(h.houseNumber),right=style==='north'&&[9,11].includes(h.houseNumber);if(left)x=12;if(right)x=388;const anchor=left?'start':right?'end':'middle';
    if(style==='north'){if([2,12].includes(h.houseNumber))y=12;if([3,11].includes(h.houseNumber))y=62;if([5,9].includes(h.houseNumber))y=270;if([6,8].includes(h.houseNumber))y=326;}
    g.append(svgEl('title',{},t.house+' '+h.houseNumber+' · '+signName(h.rashi,language)+': '+h.planets.map(p=>bodyName(p.body,language)).join(', ')));
-   g.append(svgEl('text',{x,y,'text-anchor':anchor,class:'vedic-cell-label'},String(h.rashi)+(h.isAscendant?' · '+c.lagna:'')));
+   g.append(svgEl('text',{x,y,'text-anchor':anchor,class:'vedic-cell-label'},String(h.rashi)+(h.isAscendant?' · '+(chartType==='Chandra'?extra.moon:c.lagna):'')));
    if(!lines.length)g.append(svgEl('text',{x,y:y+20,'text-anchor':anchor,class:'vedic-cell-bodies'},'—'));
    for(const [i,line]of lines.entries()){const label=svgEl('text',{x,y:y+20+i*20,'text-anchor':anchor,'data-occupants-house':h.houseNumber,class:'vedic-cell-bodies'});for(const [j,p]of line.entries()){if(j)label.append(document.createTextNode(' '));const span=svgEl('tspan',{'data-graha':p.body,role:'button',tabindex:0,'aria-label':chartType+' / '+bodyName(p.body,language)},grahaCode(p.body,p.code,language));span.onclick=e=>{e.stopPropagation();selectGraha(p.body,chartType);};span.onkeydown=e=>{if(['Enter',' '].includes(e.key)){e.preventDefault();e.stopPropagation();selectGraha(p.body,chartType);}};label.append(span);}grahaLabels.push(label);}
    g.addEventListener('click',()=>select(h.houseNumber,chartType));g.addEventListener('keydown',e=>{if(['Enter',' '].includes(e.key)){e.preventDefault();select(h.houseNumber,chartType);}});svg.append(g);

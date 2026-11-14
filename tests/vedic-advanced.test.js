@@ -29,9 +29,9 @@ test('P16 Uccha Bala has source-defined extrema, half-strength quadratures and e
  assert.throws(()=>strength({body:'Rahu',siderealLongitude:10,modelId:m.id}),e=>e.code==='MODEL_UNAVAILABLE');
 });
 test('P16 exact birth bridge produces independent candidate divisions and conditional Uccha ranges',async()=>{
- const {advancedForBirth}=await import('../packages/vedic/birth-advanced.mjs');const r=advancedForBirth(birth,context);assert.ok(Object.values(r.charts).every(c=>c.status==='available'));assert.equal(r.ashtakavarga.value.total,337);assert.equal(r.uccha.values.length,7);assert.equal(r.shadbala.status,'unavailable');
+ const {advancedForBirth}=await import('../packages/vedic/birth-advanced.mjs');const r=advancedForBirth(birth,context);assert.ok(['D7','D10','D12'].every(k=>r.charts[k].status==='available'));assert.equal(r.ashtakavarga.value.total,337);assert.equal(r.uccha.values.length,7);assert.equal(r.shadbala.status,'unavailable');
  for(const value of r.uccha.values){assert.ok(value.virupaRange[0]<=value.virupas&&value.virupaRange[1]>=value.virupas);assert.ok(value.virupaRange[0]>=0&&value.virupaRange[1]<=60);}
- for(const c of Object.values(r.charts)){assert.equal(c.value.planets.length,9);assert.equal(c.value.houses.flatMap(h=>h.bodies).length,9);}
+ for(const c of Object.values(r.charts).filter(c=>c.status==='available')){assert.equal(c.value.planets.length,9);assert.equal(c.value.houses.flatMap(h=>h.bodies).length,9);}
 });
 test('P16 one unstable division does not discard other divisions, raw AV or continuous strength',async()=>{
  const {advancedForBirth}=await import('../packages/vedic/birth-advanced.mjs');const r=advancedForBirth({...birth,localTime:'12:00'},context);assert.equal(r.charts.D7.status,'unavailable');assert.equal(r.charts.D10.status,'available');assert.equal(r.charts.D12.status,'available');assert.equal(r.ashtakavarga.status,'available');assert.equal(r.uccha.status,'available');

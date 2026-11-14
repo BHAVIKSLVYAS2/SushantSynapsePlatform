@@ -2,9 +2,11 @@ import {classifySidereal} from './angles.mjs';
 import {fields,fail,freeze,plainObject} from './diagnostics.mjs';
 const dataObject=value=>plainObject(value)&&Reflect.ownKeys(value).every(key=>Object.hasOwn(Object.getOwnPropertyDescriptor(value,key),'value'));
 export const advancedVargaModels=freeze(Object.fromEntries([
+ ['D2',2,'parasari-sun-moon-hora','6.2.2'],
  ['D7',7,'odd-self-even-seventh','6.2.7 / example 14'],
  ['D10',10,'odd-self-even-ninth','6.2.10 / example 17'],
- ['D12',12,'all-self','6.2.12 / example 19']
+ ['D12',12,'all-self','6.2.12 / example 19'],
+ ['D16',16,'movable-aries-fixed-leo-dual-sagittarius','6.2.13 / example 20']
 ].map(([chartType,divisions,method,locator])=>[chartType,{id:`parasari-${chartType.toLowerCase()}-half-open-v1`,chartType,divisions,method,
  source:{title:'P.V.R. Narasimha Rao: Vedic Astrology, An Integrated Approach',url:'https://vedicastrologer.org/articles/vedic_astro_textbook.pdf',locator},
  boundaries:'canonical sign*30 + division*30/N; start inclusive, end exclusive',
@@ -19,7 +21,13 @@ export function advancedDivisionForLongitude(input){
  const even=source.rashi%2===0,offset=even?(n===7?6:n===10?8:0):0;
  const distance=Math.max(0,Math.min(source.longitude-boundaries[index],boundaries[index+1]-source.longitude))*3600;
  return freeze({sourceSiderealLongitude:source.longitude,sourceRashi:source.rashi,divisionWithinRashi:index+1,
-  rashi:(s+offset+index)%12+1,boundaryDistanceArcsec:distance,nearBoundary:distance<=61,coordinateKind:model.coordinateKind});
+  rashi:n===2?((!even&&index===0)||(even&&index===1)?5:4):((n===16?(s%3)*4:s+offset)+index)%12+1,boundaryDistanceArcsec:distance,nearBoundary:distance<=61,coordinateKind:model.coordinateKind});
+}
+export function screenedAdvancedChart(base,chartType){
+ const {chart,minuteResolutionScreen:screen}=base;
+ const part=longitude=>advancedDivisionForLongitude({chartType,siderealLongitude:longitude});
+ if(part(chart.ascendant.siderealLongitude).boundaryDistanceArcsec<=screen.lagnaGuardArcsec||chart.planets.some(p=>part(p.siderealLongitude).boundaryDistanceArcsec<=screen.planetGuardArcsec))fail('UNSTABLE_BIRTH_TIME');
+ return advancedChartFromD1({chartType,d1:chart});
 }
 export function advancedChartFromD1(input){
  fields(input,['chartType','d1']);const {d1,chartType}=input;if(!Object.hasOwn(advancedVargaModels,chartType))fail('MODEL_UNAVAILABLE');

@@ -3,7 +3,7 @@ export const signNames=Object.freeze(['Aries','Taurus','Gemini','Cancer','Leo','
 const valid=n=>Number.isInteger(n)&&n>=1&&n<=12;
 const invalid=()=>{throw new TypeError('A consistent supported numeric chart is required.');};
 export function chartViewModel(chart){
- if(!chart||!['D1','D7','D9','D10','D12'].includes(chart.chartType)||chart.houseSystem!=='whole-sign'||!valid(chart.ascendant?.rashi)
+ if(!chart||!['D1','D2','D7','D9','D10','D12','D16','Chandra'].includes(chart.chartType)||chart.houseSystem!=='whole-sign'||!valid(chart.ascendant?.rashi)
   ||!Array.isArray(chart.houses)||chart.houses.length!==12||!Array.isArray(chart.planets)||chart.planets.length!==9)invalid();
  const seen=new Set();
  const ascendantSourceLongitude=chart.chartType==='D1'?chart.ascendant.siderealLongitude:chart.ascendant.sourceSiderealLongitude;

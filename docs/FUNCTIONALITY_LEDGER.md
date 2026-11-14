@@ -1,3 +1,19 @@
+Kundali additional charts (2026-11-15 IST, local): graha DMS degrees and D9
+already existed; added Parashari Hora/D2, Shodashamsha/D16 and Moon-referenced
+Chandra Kundali to the birth workspace's labelled chart selector. Diagrams,
+tables and graha context follow selection; D1/D9 quick buttons remain. All three
+languages included. D2/D16 retain independent-review-pending status and exact-
+minute per-chart cusp gating; Chandra preserves D1 signs/degrees and counts
+houses from Moon. Unknown/approximate-time charts remain withheld. Existing
+D1/D9 exports are unchanged; these new previews are not added to exports.
+13 numeric/Worker/display checks and 3 practitioner browser scenarios pass.
+CLI checks cover all 5 chart views in 3 languages at 320/390/1280px (45 cases),
+matching table/diagram houses, Moon house 1, Hora signs and no page overflow.
+Build exports 699 assets. Source/method scope: docs/KUNDALI_EXTRA_CHARTS.md.
+Evidence: .publish/kundali-extra-{model,build,browser,review}.log and
+output/playwright/kundali-extra-*.png. No persistence/schema/profile changes.
+Publication verification follows.
+
 Kundali menu naming deployed (2026-11-15 IST): source 8d921fcc, Worker
 364e7343-c2dd-42b2-8796-d4c5e16b43ea, at
 https://apps.sushantsynapse.com/rashifal-kundli. Straightforward task names now

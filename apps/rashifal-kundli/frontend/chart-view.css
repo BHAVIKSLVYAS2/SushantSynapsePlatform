@@ -14,6 +14,10 @@
 @media print{.vedic-charts-paired .vedic-chart-stage{display:grid;grid-template-columns:1fr 1fr}.vedic-charts-paired .vedic-chart-figure[data-active=false]{display:block}.vedic-chart-expand{display:none}}
 
 .vedic-chart-style-select{display:none}.vedic-charts :is(button,select,[tabindex]){scroll-margin-top:10rem}
+.vedic-chart-division-label{display:grid;gap:.25rem;min-width:0;max-width:100%;font-size:.85rem}
+.vedic-chart-division-select{width:100%;max-width:22rem;min-height:44px;padding:.5rem;border:1px solid var(--ui-edge);border-radius:.6rem;background:var(--ui-solid);color:var(--ui-ink);font:inherit}
+.vedic-chart-method{font-size:.9rem;color:var(--ui-muted);line-height:1.5;margin-block:.5rem}
+@media(max-width:799px){.vedic-reading-workspace .vedic-chart-controls>.vedic-chart-division-label{grid-column:1/-1;grid-row:3}.vedic-chart-division-select{max-width:none}}
 @media(max-width:799px){.vedic-charts .vedic-chart-style-buttons{display:none!important}.vedic-charts .vedic-chart-style-select{display:block;flex:1 1 9rem;width:auto;min-height:44px;max-width:15rem}.vedic-charts .vedic-chart-controls>button{flex:0 1 auto}.vedic-charts .vedic-chart-controls>[role=group]:first-child{flex-basis:100%}}
 
 /* One reading surface. A second chart appears only on explicit comparison. */
