@@ -33,7 +33,7 @@ Full mantra text, custom count entry and per-request logs expand on demand.
 Mobile navigation fits four destinations without horizontal scrolling. Section
 entry and button feedback use short animations disabled for reduced motion.
 Existing IndexedDB records, audio counters and backup format are unchanged.
-This UI revision is local; deployment status is in the functionality ledger.
+This UI revision is deployed; exact release and verification are in the functionality ledger.
 
 - Add named clients, including yourself for personal practice.
 - Create a library/custom mantra sankalp with a target and practitioner name.

@@ -1,3 +1,15 @@
+JapSeva separated workspace deployed (2026-11-14 IST): source f149102,
+Worker e76dc011-9f82-47e2-81e8-fa3468c5887e, at
+https://apps.sushantsynapse.com/japseva. Ongoing practice, new requests, completed
+history and learning now have separate destinations; details expand on demand.
+Shared themes, mobile navigation and reduced-motion animations are retained.
+Isolated committed production build and deployment used --keep-vars. All eight
+live Chrome scenarios pass, including PDF/backup transfer and audio counting;
+21 theme/viewport checks pass. Exact minified built JS/CSS match live responses,
+health is 200/D1 and unscoped records remain 409. No schema or production data
+changes. Unrelated pending edits excluded; no push. Evidence in release checkout:
+.publish/japseva-separated-{dryrun,deploy,live-browser}.log and live.json.
+
 JapSeva separated workspace (2026-11-14 IST, local implementation): Ongoing,
 New request, History and Mantra library are distinct destinations. Active and
 completed requests no longer share a list. Completion opens History and names
