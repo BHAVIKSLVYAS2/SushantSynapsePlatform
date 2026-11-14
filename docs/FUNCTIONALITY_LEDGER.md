@@ -1,3 +1,20 @@
+JapSeva icon and further Kundali reading proposal (2026-11-14 IST): implemented
+an original SVG japa mala for the home sculpture, catalogue icon metadata, app
+heading and favicon. Reuses the existing amber artwork gradient; the small
+badge has a self-contained contrast background. No third-party image/font asset
+or new dependency. Added the exact public SVG allowlist entry and regenerated
+home/catalogue/shell output. Existing four catalogue checks and production asset
+build pass; local mobile light/dark inspection confirms the image loads and no
+horizontal overflow at 390px. Local preview policy/API stubs do not represent
+production connectivity or audio verification. No practice/storage/audio changes.
+
+Kundali remains unchanged in this increment. The user's further request is a
+proposal/review: docs/RITVAYAM_READING_LAYOUT_PROPOSAL_2026-11-14.md and its
+synthetic non-production SVG sketch propose one primary chart beside the graha
+table, connected graha selection, deliberate D9 comparison and retained timing
+context. It refines the earlier equal-chart emphasis; no competing app was used
+as its layout template. JapSeva icon release status is recorded subsequently.
+
 Ritvayam practitioner workspace deployed (2026-11-14 IST): source 8d9f1c0,
 Worker 8fef4080-710a-4b77-ab91-218b5a8237fe, live at
 https://apps.sushantsynapse.com/rashifal-kundli. Published with the existing

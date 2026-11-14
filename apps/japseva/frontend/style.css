@@ -55,3 +55,5 @@ body[data-ui-app=japseva]>.skip{position:absolute;top:-80px}body[data-ui-app=jap
 @keyframes japseva-enter{from{opacity:.35;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:480px){#main{padding-inline:12px}#main .intro{margin-bottom:12px}#main .intro>.muted{display:none}#main .tabs{gap:2px;padding:4px;margin:14px 0 18px}#main .tabs button{font-size:12px;padding:8px 4px;min-height:48px}#main .stats{gap:6px}#main .stats span{padding:8px;font-size:12px}#main .section-heading{margin-bottom:12px}#main .practice-card .count{font-size:34px}}
 @media(prefers-reduced-motion:reduce){#main .view-enter{animation:none}#main button:active:not(:disabled){transform:none}}
+
+#main .japseva-mark{display:inline-block;vertical-align:middle;margin-inline-end:10px;flex-shrink:0}
