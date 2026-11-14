@@ -1,3 +1,23 @@
+Ritvayam/home UI improvements deployed (2026-11-15 IST): source c7e8b8b8,
+Worker 7e314351-92a5-41bb-9a5b-01badfb1a125, at
+https://apps.sushantsynapse.com/ and /rashifal-kundli. Phone menus no longer
+run labels together; headings match destinations; date-tool help is expandable;
+birth Edit/Save/Download actions are visible. Saved Kundalis use one compact
+list with optional search and per-row actions. Home Pinned/Recent duplication
+and browser recent-tool tracking are removed; stored preferences and account
+favourites remain intact. No saved records, database/schema or calculations changed.
+Verification: 4 model checks, 4 local production-bundle practitioner/saved browser
+scenarios, 3 source saved-record scenarios and 1 home catalogue regression pass.
+CLI checks cover 45 route/language/width combinations, 60 secondary-section cases,
+9 cases at 200% text/landscape/reduced motion and 6 home theme/width cases.
+All 3 live practitioner scenarios pass. All 19 live read-only checks pass,
+including 14 exact assets and retained JapSeva/care modules. Live home passes
+6 phone/desktop/theme cases. Dry run/build exports 699 assets; deployed using
+--keep-vars, preserving org/auth vars and D1. Audit and remaining scope limits:
+docs/RITVAYAM_UI_AUDIT_2026-11-15.md. Evidence: .publish/ritvayam-{layout-*,
+sections-review,large-type,home-*,saved-source}.log and layout-live.json;
+output/playwright/ritvayam-*.png. Older local checkpoints follow.
+
 Additional Kundali charts deployed (2026-11-15 IST): source 71d88ac, Worker
 060a1021-b95c-49b3-b2bd-fde339a51ba4, at
 https://apps.sushantsynapse.com/rashifal-kundli. Graha DMS degrees and Navamsha
