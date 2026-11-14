@@ -1,5 +1,10 @@
 # Curio · Sushant Synapse
 
+The collection now groups tools by task and supports browser-local shortcuts.
+Hisabio includes optional household items, warranties, servicing and renewals;
+Kiraya Saathi includes property equipment and maintenance. These apps keep
+separate browser records. [Consolidation scope](docs/COLLECTION_CONSOLIDATION.md).
+
 Kiraya Saathi at `/kiraya-saathi` manages flat/shop rent, partial payments,
 deposits, payment receipts and successive tenancies. The user authorised
 browser-only storage with no login; export backups regularly. See

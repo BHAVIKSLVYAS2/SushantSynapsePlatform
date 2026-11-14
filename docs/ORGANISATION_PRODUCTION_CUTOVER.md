@@ -1,3 +1,19 @@
+Collection consolidation deployed (2026-11-14 IST): source 258259c, Worker
+5b09feff-ee25-4dae-9c93-2e4f540845fa, at https://apps.sushantsynapse.com/.
+Completed in order: 1e1571f task groups/device shortcuts; 77fbdbd optional Hisabio
+household care; 5e98298 property maintenance/atomic owner expense links; 258259c
+contextual reminders and existing-bill links. No new standalone utility app.
+Hisabio Today remains the default; household/rental records and private workspaces
+stay separate. Both browser stores upgrade in place and accept legacy backups.
+Verification: 25 model/catalogue checks, 27 combined Chrome scenarios, 2 targeted
+care backup recovery runs and 31 live checks pass, including 25 exact asset
+comparisons and retained JapSeva/Kundali bundles. Production build exports 691
+public assets. Live care page modules load; only the existing Cloudflare analytics
+injection is blocked by self-only CSP. No production DB migration or business
+record writes; org/auth vars and D1 binding retained with --keep-vars. Evidence:
+.publish/consolidate-{final-model,release,care-recovery,dryrun,deploy,live}.log,
+consolidate-live.json and mobile captures. Scope: docs/COLLECTION_CONSOLIDATION.md.
+
 Kiraya Saathi deployed (2026-11-14 IST): source 6fd53bb4, Worker
 6c634c65-b724-4633-809e-c97a705b02e3, live at
 https://apps.sushantsynapse.com/kiraya-saathi and listed beside Hisabio. User

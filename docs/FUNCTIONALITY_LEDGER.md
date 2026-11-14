@@ -1,3 +1,19 @@
+Collection consolidation deployed (2026-11-14 IST): source 258259c, Worker
+5b09feff-ee25-4dae-9c93-2e4f540845fa, at https://apps.sushantsynapse.com/.
+Completed in order: 1e1571f task groups/device shortcuts; 77fbdbd optional Hisabio
+household care; 5e98298 property maintenance/atomic owner expense links; 258259c
+contextual reminders and existing-bill links. No new standalone utility app.
+Hisabio Today remains the default; household/rental records and private workspaces
+stay separate. Both browser stores upgrade in place and accept legacy backups.
+Verification: 25 model/catalogue checks, 27 combined Chrome scenarios, 2 targeted
+care backup recovery runs and 31 live checks pass, including 25 exact asset
+comparisons and retained JapSeva/Kundali bundles. Production build exports 691
+public assets. Live care page modules load; only the existing Cloudflare analytics
+injection is blocked by self-only CSP. No production DB migration or business
+record writes; org/auth vars and D1 binding retained with --keep-vars. Evidence:
+.publish/consolidate-{final-model,release,care-recovery,dryrun,deploy,live}.log,
+consolidate-live.json and mobile captures. Scope: docs/COLLECTION_CONSOLIDATION.md.
+
 Collection consolidation stage 4 (2026-11-14, local, all stages complete):
 contextual household reminders link Today to Home care / Due soon; rental month
 summaries link to property-owned maintenance. Existing household service links
@@ -9,7 +25,7 @@ Populated legacy stores upgrade safely; incomplete version-2 care backups reject
 Calendar exports escape/fold records and older history cannot move a recurring due
 date backwards. Production dry run passes. Evidence: .publish/consolidate-final-
 model.log, consolidate-release.log, consolidate-care-recovery.log and consolidate-
-dryrun.log. Publication/live verification follows; no deployment claimed here.
+dryrun.log. Publication/live verification passes; exact release is recorded above.
 
 Collection consolidation stage 3 (2026-11-14, local): property equipment,
 warranties, maintenance/renewals, service history and calendar exports added to

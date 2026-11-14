@@ -12,8 +12,8 @@ allowlist and sitemap. Its route is excluded from the advertising allowlist, and
 the shared shell uses local-only mode rather than querying account status.
 
 `engine.mjs` owns dates, schedules, temporal configurations, attendance, amounts,
-payments, closing and backup validation. `storage.mjs` owns version-1 IndexedDB
-schema upgrades and revision-checked transactions. `copy.mjs` owns paired English,
+payments, closing and backup validation. `storage.mjs` owns version-2 IndexedDB
+schema upgrades (preserving version-1 records) and revision-checked transactions. `copy.mjs` owns paired English,
 Hindi and Gujarati interface text and follows the shared language preference.
 Personal service/vendor names and notes remain literal. There is no automatic
 translation or upload of these fields.
