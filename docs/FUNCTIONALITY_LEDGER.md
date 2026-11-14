@@ -1,3 +1,23 @@
+Ritvayam/home UI audit (2026-11-15 IST, local): fixed overlapping mobile tool
+labels with a wrapping two-column menu; entry/secondary headings match their
+destinations. Date-based graha instructions are collapsible. Birth Edit/Save/
+Download actions are visible outside collapsed details. Saved Kundalis now use
+one compact searchable list with inline date/place and expandable Edit/Delete;
+the duplicate quick-access row is removed. Home Pinned/Recent block and browser
+recent-tool tracking are removed; catalogue filters/layouts, stored preferences,
+account favourites and saved birth inputs are preserved.
+Verification: 4 storage/CSS model checks; 4 production-bundle practitioner/saved
+browser scenarios; 3 source saved-record browser scenarios; 1 home catalogue
+regression pass. CLI review covers 45 route/language/width combinations, all 10
+Kundali destinations in 3 languages and 2 themes (60 cases), 9 cases at 200% text
+including landscape/reduced motion, and 6 home theme/width combinations.
+Saved-input equality, history filtering/editing, heading agreement, D1/D9 and
+the extra chart selector are verified. Build exports 699 assets; no database,
+schema, calculation, account or licence changes. Scope and findings:
+docs/RITVAYAM_UI_AUDIT_2026-11-15.md. Evidence: .publish/ritvayam-{layout-*,
+sections-review,large-type,home-*,saved-source}.log and output/playwright/
+ritvayam-*.png. Release verification follows.
+
 Additional Kundali charts deployed (2026-11-15 IST): source 71d88ac, Worker
 060a1021-b95c-49b3-b2bd-fde339a51ba4, at
 https://apps.sushantsynapse.com/rashifal-kundli. Graha DMS degrees and Navamsha

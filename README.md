@@ -1,6 +1,6 @@
 # Curio · Sushant Synapse
 
-The collection now groups tools by task and supports browser-local shortcuts.
+The collection groups tools by task in one searchable app catalogue.
 Hisabio includes optional household items, warranties, servicing and renewals;
 Kiraya Saathi includes property equipment and maintenance. These apps keep
 separate browser records. [Consolidation scope](docs/COLLECTION_CONSOLIDATION.md).

@@ -1,3 +1,4 @@
+import {pageLabels} from './language-shell.mjs';
 import {term} from './display-text.mjs';
 import {diagnosticText} from './diagnostic-text.mjs';
 import {createRashifalClient} from './rashifal-client.mjs';
@@ -93,7 +94,7 @@ export function mountRashifal(container,{now=()=>Date.now()}={}){
  function translate(){almanac.translate(language);const t=rashifalLabels[language],value=rashi.input.value;root.lang=language;title.textContent=t.title;intro.textContent=t.intro;draft.textContent=t.draft;notice.textContent=t.notice;basis.textContent=t.basis;lang.label.textContent=t.language;rashi.label.textContent=t.rashi;remember.label.textContent=t.remember;clear.textContent=t.clear;tabs.setAttribute('aria-label',t.date);
   rashi.input.replaceChildren(el('option',t.choose));rashi.input.options[0].value='';for(let n=1;n<=12;n++){const o=el('option',`${symbols[n-1]} ${rashiLabel(n,language)} (${n})`);o.value=String(n);rashi.input.append(o);}rashi.input.value=value;
   noteSummary.textContent=({en:'About these reflections',hi:'इन संकेतों के बारे में',gu:'આ સંકેતો વિશે'})[language];signGrid.setAttribute('aria-label',t.rashi);for(let n=1;n<=12;n++){signButtons[n-1].lastChild.textContent=language==='en'?romanRashis[n-1]:signName(n,language);signButtons[n-1].setAttribute('aria-label',rashiLabel(n,language));}
-  const x=experienceLabels[language];title.textContent=x.hero;eyebrow.textContent=x.tag;intro.textContent=x.private;notes.append(draft);pickerSummary.textContent=x.picker;helpSummary.textContent=x.help;helpText.textContent=x.helpText;kundli.textContent=x.kundli;memoryHint.textContent=x.memory;
+  const x=experienceLabels[language];title.textContent=pageLabels[language].rashifal;eyebrow.textContent=x.tag;intro.textContent=x.private;notes.append(draft);pickerSummary.textContent=x.picker;helpSummary.textContent=x.help;helpText.textContent=x.helpText;kundli.textContent=x.kundli;memoryHint.textContent=x.memory;
   for(const [key,b]of Object.entries(buttons)){b.textContent=t[key];b.setAttribute('aria-pressed',String(key===view));}render();
  }
  rashi.input.addEventListener('change',()=>{render();save();});remember.input.addEventListener('change',save);lang.input.addEventListener('change',()=>{language=lang.input.value;translate();});

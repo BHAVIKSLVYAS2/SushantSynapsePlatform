@@ -20,6 +20,24 @@ fieldset.civil-input,.vedic-matching fieldset.civil-input{min-width:0;margin:0;p
 .saved-kundlis>h2{margin-top:0}.saved-kundlis>p{color:var(--ui-muted);line-height:1.5}
 .saved-kundli-card{padding:.9rem;margin-top:.75rem;background:var(--ui-solid);border:1px solid var(--ui-edge);border-radius:.8rem;overflow-wrap:anywhere}
 .saved-kundli-card h3{margin:0 0 .4rem}.saved-kundli-card p{margin:.35rem 0}
+/* Saved charts are a scan-friendly list; secondary actions expand in place. */
+.vedic-birth-app .saved-kundli-list{list-style:none;margin:.5rem 0;padding:0}
+.vedic-birth-app .saved-kundli-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.25rem .5rem;padding:.5rem 0;margin:0;border:0;border-bottom:1px solid var(--ui-edge);border-radius:0;background:transparent;align-items:start}
+.vedic-birth-app .saved-kundli-card h3{font-size:1rem;margin:0;line-height:1.4}
+.vedic-birth-app .saved-kundli-card .saved-kundli-open{display:block;text-align:start;width:100%;min-height:44px;padding:.25rem 0;margin:0;font-size:1rem;font-weight:650;color:var(--ui-ink);background:transparent;border:0;overflow-wrap:anywhere}
+.vedic-birth-app .saved-kundli-meta{display:flex;flex-wrap:wrap;gap:.15rem .75rem;font-size:.8rem;color:var(--ui-muted);line-height:1.5;margin:0}
+.vedic-birth-app .saved-kundli-actions{display:contents}
+.vedic-birth-app .saved-kundli-actions>summary{display:flex;align-items:center;min-height:44px;font-size:.8rem;padding:.25rem .5rem;color:var(--ui-accent);cursor:pointer;border-radius:.5rem}
+.vedic-birth-app .saved-kundli-actions[open]>summary{background:var(--ui-soft)}
+.vedic-birth-app .saved-kundli-actions>summary::after{content:'⌄';margin-inline-start:.3rem}
+.vedic-birth-app .saved-kundli-actions>div{grid-column:1/-1;display:flex;justify-content:flex-end;gap:.5rem;padding-bottom:.25rem}
+.vedic-birth-app .saved-kundli-actions button{margin:0;min-height:44px;background:var(--ui-solid);color:var(--ui-ink)}
+.vedic-birth-app .saved-kundli-search{font-size:.85rem;margin-top:.75rem}
+.vedic-birth-app .saved-kundli-privacy{font-size:.8rem;margin:.5rem 0 0;padding:0;border:0}
+.vedic-birth-app .saved-kundli-privacy>summary{min-height:44px;display:flex;align-items:center;cursor:pointer;color:var(--ui-muted)}
+.vedic-birth-app.has-results #birth-results>.kundli-expert-group[open]>summary{display:none}
+.vedic-birth-app.has-results #birth-review .kundli-result-actions{display:flex;flex-wrap:wrap;gap:.4rem}
+.vedic-birth-app.has-results>p[role=status]:not(:empty){display:block;font-size:.85rem;color:var(--ui-muted);margin:.4rem 0}
 
 /* Everyday Kundli: reading first, with expert information progressively disclosed. */
 .kundli-reading{margin-block:1.5rem;overflow-wrap:anywhere}

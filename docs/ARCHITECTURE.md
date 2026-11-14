@@ -1,3 +1,11 @@
+Ritvayam layout review (2026-11-15): birth-app owns the compact saved-details
+list and its local filtering/actions; shared language-shell copy names app entry
+headings. The existing saved-input store and calculation kernels are unchanged.
+Home-discovery renders one catalogue; device Pinned/Recent duplication and
+platform-shell's browser recent-tool tracking are removed. Existing preference
+values and authenticated account favourites remain intact. Review scope:
+docs/RITVAYAM_UI_AUDIT_2026-11-15.md.
+
 Collection follow-ups (2026-11-14): shared care-copy.mjs owns English/Hindi/
 Gujarati care UI strings; Kiraya owns its rental/PDF copy and uses the shared
 language preference without translating stored user content or ledger enums.
