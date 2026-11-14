@@ -1,3 +1,15 @@
+Kundali naming improvement (2026-11-15 IST, locally verified): navigation now
+uses Kundali, Graha Sthiti, Kundali Saar, Bhavishyafal, Varga Kundali & Graha Bal,
+Yog & Mangal, Janma Samay Jaanch, Gochar and Kundali Report. More becomes Menu;
+other tools use Daily Rashifal, Graha Sthiti by Date and Kundali Milan. Hindi and
+Gujarati labels match these destinations; reading headings follow the selected
+summary or Bhavishyafal section. Existing calculation limits remain visible.
+All 3 practitioner browser scenarios pass; additional 390px checks verify all
+three language menus, matching Bhavishyafal headings and no horizontal overflow.
+Production build exports 699 assets. No calculations, persistence or schema change.
+Evidence: .publish/kundali-names-{build,tests,review}.log and
+output/playwright/kundali-names-{en,hi,gu}.png. Deployment verification follows.
+
 Kundali menu/division fix deployed (2026-11-15 IST): source 4f7d7cb5,
 Worker e35e7b58-e064-4779-adce-e16abc5b8e4c, at
 https://apps.sushantsynapse.com/rashifal-kundli. D1/D9 select a single chart and

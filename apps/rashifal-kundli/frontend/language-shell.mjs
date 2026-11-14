@@ -5,6 +5,9 @@ export const pageLabels={
 };
 for(const [language,text]of Object.entries({en:'About this preview',hi:'इस पूर्वावलोकन के बारे में',gu:'આ પૂર્વાવલોકન વિશે'}))pageLabels[language].previewDetails=text;
 for(const [language,label]of Object.entries({en:'Astrology',hi:'ज्योतिष',gu:'જ્યોતિષ'}))pageLabels[language].title=`Ritvayam · ${label}`;
+Object.assign(pageLabels.en,{birth:'Kundali',rashifal:'Daily Rashifal',timeMachine:'Graha Sthiti by Date',matching:'Kundali Milan'});
+Object.assign(pageLabels.hi,{birth:'कुंडली',rashifal:'आज का राशिफल',timeMachine:'तारीख से ग्रह स्थिति',matching:'कुंडली मिलान'});
+Object.assign(pageLabels.gu,{birth:'કુંડળી',rashifal:'આજનું રાશિફળ',timeMachine:'તારીખથી ગ્રહ સ્થિતિ',matching:'કુંડળી મિલાન'});
 export function initLanguageShell(){
  if(!window.SynapseLanguage)throw new Error('Shared language service unavailable.');
  document.body.dataset.sharedLanguage='true';let language='en';

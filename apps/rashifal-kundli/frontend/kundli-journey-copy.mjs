@@ -9,3 +9,6 @@ export const resultSections={
  hi:{label:'अपनी कुंडली देखें',overview:'एक नज़र में',calculations:'चार्ट',planets:'ग्रह',timing:'दशा और कैलेंडर',topics:'जीवन के क्षेत्र',advanced:'उन्नत',current:'वर्तमान दशा पर लौटें',house:'सभी ग्रह और उनकी स्थिति देखने के लिए भाव चुनें।',empty:'इस भाव में कोई ग्रह नहीं है।'},
  gu:{label:'તમારી કુંડળી જુઓ',overview:'એક નજરમાં',calculations:'ચાર્ટ',planets:'ગ્રહો',timing:'દશા અને કેલેન્ડર',topics:'જીવનનાં ક્ષેત્રો',advanced:'ઉન્નત',current:'વર્તમાન દશા પર પાછા જાઓ',house:'બધા ગ્રહો અને તેમની સ્થિતિ જોવા માટે ભાવ પસંદ કરો.',empty:'આ ભાવમાં કોઈ ગ્રહ નથી.'}
 };
+Object.assign(resultSections.en,{overview:'Kundali Saar',calculations:'Kundali',planets:'Graha Sthiti',topics:'Bhavishyafal'});
+Object.assign(resultSections.hi,{overview:'कुंडली सार',calculations:'कुंडली',planets:'ग्रह स्थिति',topics:'भविष्यफल'});
+Object.assign(resultSections.gu,{overview:'કુંડળી સાર',calculations:'કુંડળી',planets:'ગ્રહ સ્થિતિ',topics:'ભવિષ્યફળ'});
