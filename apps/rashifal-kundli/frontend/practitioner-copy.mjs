@@ -16,6 +16,11 @@ export const readingWorkspaceCopy={
  hi:{chart:'चार्ट',timing:'दशा',compare:'D9 तुलना',stopCompare:'तुलना बंद करें',inspect:'D1 और D9 स्थिति देखने के लिए ग्रह चुनें।',selected:'चुना ग्रह',close:'विवरण बंद करें',house:'भाव का विवरण',star:'D1 नक्षत्र / पाद',position:'D1 राशि / अंश',d1House:'D1 भाव',noSelection:'कोई ग्रह नहीं चुना',same:'वापसी पर चार्ट और चुना ग्रह बने रहते हैं।',d9:'D9 राशि / भाव'},
  gu:{chart:'ચાર્ટ',timing:'દશા',compare:'D9 સરખામણી',stopCompare:'સરખામણી બંધ કરો',inspect:'D1 અને D9 સ્થિતિ જોવા ગ્રહ પસંદ કરો.',selected:'પસંદ કરેલો ગ્રહ',close:'વિગત બંધ કરો',house:'ભાવની વિગત',star:'D1 નક્ષત્ર / પદ',position:'D1 રાશિ / અંશ',d1House:'D1 ભાવ',noSelection:'ગ્રહ પસંદ કરેલો નથી',same:'પાછા આવતાં ચાર્ટ અને પસંદ કરેલો ગ્રહ જળવાય છે.',d9:'D9 રાશિ / ભાવ'}
 };
+for(const [language,copy]of Object.entries({
+ en:{sections:'This Kundali',transits:'Transits for this Kundali'},
+ hi:{sections:'इस कुंडली के भाग',transits:'इस कुंडली के गोचर'},
+ gu:{sections:'આ કુંડળીના વિભાગો',transits:'આ કુંડળીના ગોચર'}
+}))Object.assign(readingWorkspaceCopy[language],copy);
 // Truncate display only, so a value just below a boundary never appears in the
 // next sign. Neither chart membership nor calculation values are modified.
 export function signDms(longitude){

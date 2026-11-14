@@ -1,3 +1,25 @@
+Kundali menu/division fix (2026-11-15 IST, local): reproduced the user's
+reported confusion on production. D1/D9 diagrams switched, but the table stayed
+D1 and desktop comparison continued displaying both charts. Division buttons now
+leave comparison and select exactly one diagram plus its matching sign/house
+rows. D9 rows explicitly label degrees and nakshatra as D1 source information;
+no mapped D9 longitude is invented. Comparison remains a separate desktop action;
+phones use the direct D1/D9 selector and cross-placement details.
+More separates this Kundali's sections from other Ritvayam tools, distinguishes
+birth-linked transits from the standalone Time Machine, preserves the selected
+section indication, and has Escape/outside-pointer dismissal. Panel placement and
+scroll height use actual viewport room; resize is handled and listeners cleaned
+up. Native-language menu groups are included. Existing calculations, profiles,
+exports, saved records and private access remain unchanged.
+Verification: 18 numeric/display checks, all 3 practitioner scenarios and the 3
+shared-chart scenarios pass across the recorded runs. Regression coverage now
+checks visible D1/D9 diagrams and actual D9 row placements, not only pressed
+labels. 320x650 menu bounds, grouped links, keyboard focus and outside dismissal
+are verified. A source metadata alignment is included in final bundle verification.
+CLI checks pass at 320/390/1280px with retained graha selection; captures under
+output/playwright/kundali-menu-fixed-*.png. Evidence: .publish/kundali-menu-
+{reproduce,model,final,verify,build}.log. Publication follows verification.
+
 Collection follow-ups deployed (2026-11-14 IST): source 26a0dc0, Worker
 89c18d9e-5a1c-4909-ae48-d39dc220df23, at https://apps.sushantsynapse.com/.
 Completed sequentially: 0c8ca9d Hindi/Gujarati care/rental UI; 85c86a7 primary

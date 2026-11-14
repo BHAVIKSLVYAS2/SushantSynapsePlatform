@@ -22,7 +22,7 @@ export function mountCharts(container,charts,options={}){
  function buttons(label,items,list,choose){const group=el('div');group.setAttribute('role','group');group.setAttribute('aria-label',label);
   for(const [value,text]of items){const b=el('button',text);b.type='button';b.dataset.value=value;b.setAttribute('aria-label',text);b.addEventListener('click',()=>{choose(value);render();});group.append(b);list.push(b);}controls.append(group);}
  const advanced=['D7','D10','D12'].filter(key=>models[key]);
- buttons(t.division,advanced.length?advanced.map(key=>[key,key]):[['D1',t.d1],['D9',t.d9]],divisionButtons,v=>{type=v;if(selectedBody)selected=models[type].planets.find(p=>p.body===selectedBody).houseNumber;});
+ buttons(t.division,advanced.length?advanced.map(key=>[key,key]):[['D1',t.d1],['D9',t.d9]],divisionButtons,v=>{type=v;compare=false;if(selectedBody)selected=models[type].planets.find(p=>p.body===selectedBody).houseNumber;});
  const d9Button=divisionButtons.find(b=>b.dataset.value==='D9');if(d9Button)d9Button.disabled=!models.D9;
  buttons(t.style,[['north',t.north],['south',t.south]],styleButtons,v=>{style=v;});
  styleButtons[0].parentElement.classList.add('vedic-chart-style-buttons');
@@ -84,10 +84,11 @@ export function mountCharts(container,charts,options={}){
    g.addEventListener('click',()=>select(h.houseNumber,chartType));g.addEventListener('keydown',e=>{if(['Enter',' '].includes(e.key)){e.preventDefault();select(h.houseNumber,chartType);}});svg.append(g);
   }
   svg.append(...grahaLabels);figure.append(svg);stage.append(figure); }
-  const table=el('table'),caption=el('caption',c.grahas+' · '+(paired?'D1 / D9':type)),head=el('thead'),tr=el('tr');
-  for(const name of [t.body,paired?r.position:(type==='D1'?r.position:c.source),paired?r.d1House:type+' / '+t.house,...(options.positions?[r.star]:[]),...(paired?[r.d9]:[])]){const th=el('th',name);th.scope='col';tr.append(th);}head.append(tr);
-  const body=el('tbody');for(const p of (paired?models.D1:model).planets){const row=el('tr');row.dataset.body=p.body;const target=models[type].planets.find(v=>v.body===p.body);row.dataset.house=String(target.houseNumber);row.dataset.rashi=String(p.rashi);
-   const th=el('th'),pick=el('button',bodyName(p.body,language));pick.type='button';pick.addEventListener('click',()=>selectGraha(p.body));th.append(pick);th.scope='row';const sign=el('td');sign.append(el('span',`${signName(p.rashi,language)} (${p.rashi})`),el('small',signDms(p.sourceLongitude)));row.append(th,sign,el('td',String(p.houseNumber)));const pos=options.positions?.find(v=>v.body===p.body);if(options.positions){const star=el('td');star.append(el('span',pos?nakshatraName(pos.nakshatra,language):'—'),el('small',pos?t.pada+' '+pos.pada:'—'));row.append(star);}if(paired){const d9=models.D9.planets.find(v=>v.body===p.body),cell=el('td');cell.append(el('span',signName(d9.rashi,language)),el('small',t.house+' '+d9.houseNumber));row.append(cell);}body.append(row);}
+  const tableType=paired&&compare?'D1':type,tableModel=models[tableType],otherType=tableType==='D1'?'D9':'D1';
+  const table=el('table'),caption=el('caption',c.grahas+' · '+(paired&&compare?'D1 / D9':tableType)),head=el('thead'),tr=el('tr');
+  for(const name of [t.body,tableType+' / '+t.sign+' / '+(tableType==='D1'?c.degrees:c.source),tableType+' / '+t.house,...(options.positions?[r.star]:[]),...(paired?[otherType+' / '+t.sign+' / '+t.house]:[])]){const th=el('th',name);th.scope='col';tr.append(th);}head.append(tr);
+  const body=el('tbody');for(const p of tableModel.planets){const row=el('tr');row.dataset.body=p.body;row.dataset.house=String(p.houseNumber);row.dataset.rashi=String(p.rashi);
+   const th=el('th'),pick=el('button',bodyName(p.body,language));pick.type='button';pick.addEventListener('click',()=>selectGraha(p.body));th.append(pick);th.scope='row';const sign=el('td');sign.append(el('span',`${signName(p.rashi,language)} (${p.rashi})`),el('small',(tableType==='D1'?'':'D1 / ')+signDms(p.sourceLongitude)));row.append(th,sign,el('td',String(p.houseNumber)));const pos=options.positions?.find(v=>v.body===p.body);if(options.positions){const star=el('td');star.append(el('span',pos?nakshatraName(pos.nakshatra,language):'—'),el('small',pos?t.pada+' '+pos.pada:'—'));row.append(star);}if(paired){const other=models[otherType].planets.find(v=>v.body===p.body),cell=el('td');cell.append(el('span',signName(other.rashi,language)),el('small',t.house+' '+other.houseNumber));row.append(cell);}body.append(row);}
   const labels=[...head.querySelectorAll('th')].map(th=>th.textContent);for(const row of body.rows)for(let i=1;i<row.cells.length;i++)row.cells[i].dataset.label=labels[i];
   table.append(caption,head,body);tableRegion.replaceChildren(table);update();
  }
