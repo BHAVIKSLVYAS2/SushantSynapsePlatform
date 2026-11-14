@@ -51,6 +51,8 @@ discovery['/kiraya-saathi']={art:'rent',purpose:'Organize',groups:['planning'],h
 discovery['/rashifal-kundli']={homeFeatureOnly:true,art:'vedic',purpose:'Learn',groups:['planning'],homeOrder:14,keywords:'ritvayam rashi rashifal kundli horoscope birth chart kundali jyotish astrology matching panchang time machine preview verification vikram samvat lunar calendar'};
 discovery['/rashifal-kundli'].keywords+=' રિત્વયમ';
 for(const app of apps)Object.assign(app,{art:app.icon==='scales'?'chambers':'documents',purpose:'Work',groups:[],homeOrder:200},discovery[app.path]||{});
+const collectionGroups={home:['rozhisab','kiraya-saathi'],utility:['qr-maker','photo-resize','bill-splitter','decision-wheel','team-mixer'],planning:['focus','timetable-lite'],traditions:['ritual-assist','japseva','rashifal-kundli'],create:['moment-studio'],games:['daily-spark','satire-arena'],work:['advocate','batchfee-lite','digital-samaj','tournament-lite','pandit-booking']};
+for(const app of apps)app.groups=Object.entries(collectionGroups).filter(([,ids])=>ids.includes(app.id)).map(([key])=>key);
 const featuredOrder=['ritual-assist','moment-studio','daily-spark','satire-arena'];
 for(const app of apps){const rank=featuredOrder.indexOf(app.id);app.featured=rank>=0;if(app.featured)app.homeOrder=rank-featuredOrder.length;}
 const featuredApps=()=>featuredOrder.map(id=>apps.find(a=>a.id===id)).filter(Boolean);
@@ -106,6 +108,8 @@ else root.SynapseCatalogue=catalogue;
  const path=location.pathname.replace(/\/$/,'')||'/';
  const localOnly=document.body.dataset.platformPrivacy==='local-only';
  const current=entries.find(([,route])=>(aliases[path]||path)===route||path.startsWith(route+'/'));
+ // Device-local public-tool navigation only; never store account or business data.
+ try{const app=window.SynapseCatalogue?.apps.find(a=>a.public&&a.path===current?.[1]);if(app){const key='synapse-tool-shortcuts-v1',raw=JSON.parse(localStorage.getItem(key)||'{}'),known=id=>window.SynapseCatalogue.apps.some(a=>a.id===id&&a.public&&a.status==='Available'),clean=xs=>Array.isArray(xs)?[...new Set(xs.filter(known))].slice(0,12):[];localStorage.setItem(key,JSON.stringify({pins:clean(raw.pins),recent:[app.id,...clean(raw.recent).filter(id=>id!==app.id)].slice(0,6)}));}}catch{}
  const names={'/':'Curio','/signin':'Sign in','/support':'Support','/showcase':'Demos','/contact':'Contact','/privacy':'Privacy','/terms':'Usage terms','/legal':'Legal information','/legal/third-party-notices':'Third-party notices'};
  names['/feedback']='Feedback';
  const header=document.createElement('header');header.className='platform-shell';header.setAttribute('aria-label','Sushant Synapse platform');

@@ -7,6 +7,8 @@
  const path=location.pathname.replace(/\/$/,'')||'/';
  const localOnly=document.body.dataset.platformPrivacy==='local-only';
  const current=entries.find(([,route])=>(aliases[path]||path)===route||path.startsWith(route+'/'));
+ // Device-local public-tool navigation only; never store account or business data.
+ try{const app=window.SynapseCatalogue?.apps.find(a=>a.public&&a.path===current?.[1]);if(app){const key='synapse-tool-shortcuts-v1',raw=JSON.parse(localStorage.getItem(key)||'{}'),known=id=>window.SynapseCatalogue.apps.some(a=>a.id===id&&a.public&&a.status==='Available'),clean=xs=>Array.isArray(xs)?[...new Set(xs.filter(known))].slice(0,12):[];localStorage.setItem(key,JSON.stringify({pins:clean(raw.pins),recent:[app.id,...clean(raw.recent).filter(id=>id!==app.id)].slice(0,6)}));}}catch{}
  const names={'/':'Curio','/signin':'Sign in','/support':'Support','/showcase':'Demos','/contact':'Contact','/privacy':'Privacy','/terms':'Usage terms','/legal':'Legal information','/legal/third-party-notices':'Third-party notices'};
  names['/feedback']='Feedback';
  const header=document.createElement('header');header.className='platform-shell';header.setAttribute('aria-label','Sushant Synapse platform');

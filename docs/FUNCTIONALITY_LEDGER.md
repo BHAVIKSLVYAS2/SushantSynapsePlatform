@@ -1,3 +1,13 @@
+Collection consolidation stage 1 (2026-11-14, local): task-based home filters
+(Home & property, Everyday tools, Planning, Cards & certificates, Traditions,
+Play, Workspaces) and browser-local public-tool pins/recent shortcuts implemented.
+Existing account favourites and private access stay separate. URLs and records
+unchanged. Four catalogue checks and twelve Chrome catalogue scenarios pass,
+including signed-in/out access, responsive layouts and shortcut persistence.
+Evidence: .publish/consolidate-stage1-{model,final,build}.log. Stages 2?4 continue
+in order; docs/COLLECTION_CONSOLIDATION.md records the authorised scope. Not yet
+published in this checkpoint.
+
 Kiraya Saathi deployed (2026-11-14 IST): source 6fd53bb4, Worker
 6c634c65-b724-4633-809e-c97a705b02e3, live at
 https://apps.sushantsynapse.com/kiraya-saathi and listed beside Hisabio. User
