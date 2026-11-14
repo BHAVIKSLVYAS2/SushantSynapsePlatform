@@ -1,3 +1,19 @@
+JapSeva compact lists deployed (2026-11-15 IST): source b7c0b7f, Worker
+9283d3d4-63d7-4752-8593-4e7073ce3f8e, at
+https://apps.sushantsynapse.com/japseva. History/Ongoing use compact rows;
+client-name buttons open details and completed rows offer Certificate. History
+sorts by completion time, search resets across sections and Clear search handles
+empty matches. First-client setup opens automatically; stats are inline. Back
+closes the certificate. Stored counts, audit history, audio, backups, certificate
+content and database/schema remain unchanged.
+All 9 local browser workflows and 4 model checks pass. All 12 local and 12 live
+list/theme/width checks pass, including deliberately out-of-creation-order
+completion dates, search reset, certificate access and saved-state equality.
+All 11 live read-only checks pass, including 8 exact assets and retained Kundali/
+home code. Dry run/build exports 699 assets; --keep-vars preserves org/auth/D1.
+Evidence: .publish/japseva-ui-{model,tests,review,dryrun,deploy,live,
+live-review}.log, japseva-ui-live.json and output/playwright/japseva-history-*.png.
+
 JapSeva history/mobile improvement (2026-11-15 IST, local): replaced History
 and Ongoing overview cards with compact rows; tap the client name for the full
 request/counter, with one Certificate action in completed rows. History displays
