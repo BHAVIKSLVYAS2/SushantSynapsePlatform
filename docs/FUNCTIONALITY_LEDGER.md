@@ -1,3 +1,16 @@
+Collection consolidation stage 4 (2026-11-14, local, all stages complete):
+contextual household reminders link Today to Home care / Due soon; rental month
+summaries link to property-owned maintenance. Existing household service links
+open the relevant bill without another charge. New capabilities are searchable
+in the shared catalogue. No private care/financial data is aggregated on home.
+Final verification: 25 model/catalogue checks, all 27 Chrome scenarios across home,
+Hisabio and Kiraya Saathi, plus 2 targeted care backup export/restore checks pass.
+Populated legacy stores upgrade safely; incomplete version-2 care backups reject.
+Calendar exports escape/fold records and older history cannot move a recurring due
+date backwards. Production dry run passes. Evidence: .publish/consolidate-final-
+model.log, consolidate-release.log, consolidate-care-recovery.log and consolidate-
+dryrun.log. Publication/live verification follows; no deployment claimed here.
+
 Collection consolidation stage 3 (2026-11-14, local): property equipment,
 warranties, maintenance/renewals, service history and calendar exports added to
 Kiraya Saathi. Paid repair costs link to one owner expense only when explicitly

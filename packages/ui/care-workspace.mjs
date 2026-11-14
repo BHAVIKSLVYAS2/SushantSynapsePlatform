@@ -5,7 +5,7 @@ const download=(blob,name)=>{const url=URL.createObjectURL(blob),a=el('a');a.hre
 const input=(name,label,value='',type='text',options={})=>({name,label,value,type,...options});
 const costField=()=>input('cost','Cost recorded (₹)','0.00','number',{min:0,max:100000000,step:'.01'});
 export function mountCare(root,options){
- const data=options.state.care,scope=options.scopeId||'',local=uiStates.get(options.key)||{tab:'items',query:''};uiStates.set(options.key,local);const snapshot=options.state.revision;
+ const data=options.state.care,scope=options.scopeId||'',local=uiStates.get(options.key)||{tab:['items','due','renewals','history'].includes(options.initialTab)?options.initialTab:'items',query:''};uiStates.set(options.key,local);const snapshot=options.state.revision;
  const items=data.items.filter(i=>!i.archived&&(!scope||i.scopeId===scope)),lookup=id=>data.items.find(i=>i.id===id),tasks=data.tasks.filter(t=>!t.archived&&(!t.itemId||!lookup(t.itemId)?.archived)&&(!scope||lookup(t.itemId)?.scopeId===scope));
  let modal=document.querySelector('#care-dialog');modal?.remove();modal=el('dialog',undefined,'care-dialog');modal.id='care-dialog';modal.setAttribute('aria-labelledby','care-title');document.querySelector('#main').append(modal);
  function button(text,fn,primary=false){const b=el('button',text,primary?'primary':'');b.type='button';b.onclick=fn;return b;}

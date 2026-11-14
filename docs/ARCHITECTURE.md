@@ -8,6 +8,16 @@ are historical and superseded for this exact approved live-data scope.
 
 # Code ownership and adding apps
 
+Collection consolidation (2026-11-14): packages/care owns reusable pure item,
+warranty, recurrence, receipt-validation and calendar rules. packages/ui/care-
+workspace.mjs and care.css own shared views. Hisabio and Kiraya Saathi keep care
+inside their independent validated browser states/backups, each upgraded in place
+to IndexedDB version 2. App-owned Node shims resolve care-engine imports; explicit
+public aliases map directly to shared code. Paid rental maintenance can create
+one matching owner expense atomically; household care never creates bill charges.
+Home task groups and public-tool navigation shortcuts contain no business data.
+Scope: docs/COLLECTION_CONSOLIDATION.md.
+
 Kiraya Saathi (2026-11-14): user explicitly authorised browser-only rental records,
 no login and backups. `apps/kiraya-saathi` owns validated integer-paise rental
 commands, an independent revision-checked IndexedDB store, flat/shop tenancy

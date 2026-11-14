@@ -19,3 +19,10 @@ business storage. No new Ghar Saathi, vehicle, lending or renewal app. Timetable
 and Focus remain separate; task grouping does not merge their workflows.
 
 Completion, checks and release evidence are recorded in the functionality ledger.
+
+All four stages are implemented. Contextual summaries appear only when there are
+due/expired records: Hisabio Today links to Home care / Due soon; Kiraya Saathi's
+monthly page links to the property's maintenance. Existing household bill links
+open the selected service bill without another charge. No personal maintenance
+or financial data is read by the public collection home. Final regression and
+production release evidence is recorded in the functionality ledger.
