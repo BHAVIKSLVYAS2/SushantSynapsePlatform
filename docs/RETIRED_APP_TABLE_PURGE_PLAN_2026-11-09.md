@@ -27,7 +27,8 @@ Production dry build passed. Additional free-D1 workflow checks passed 11/11,
 including mobile email-code account screens, documents and capacity guards.
 Evidence: .publish/approved-purge-{production-before,production-after,
 local-verification}.json; approved-purge-{production-apply,final-unit,
-api-retry,free-final,dryrun,full-tests}.log. Live source release pending below.
+api-retry,free-final,dryrun,full-tests}.log. Source e672871 deployed as Worker b62e5d08-61d4-4449-bd1e-6f1097e2cd71;
+41 live route/asset/mobile checks passed.
 The older cleanup-only checkpoint below is historical, superseded by this approval.
 
 ## Historical pre-approval plan

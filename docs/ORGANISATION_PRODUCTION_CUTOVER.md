@@ -1,3 +1,19 @@
+Remaining cleanup and approved purge released (2026-11-14 IST): source e672871
+(includes route cleanup 00b389b), Worker b62e5d08-61d4-4449-bd1e-6f1097e2cd71,
+live at https://apps.sushantsynapse.com. Deployed with --keep-vars using the
+existing production config; organisation/authentication settings and D1 binding
+preserved. Migration 0010 is applied; eight retired tables are absent in the
+approved production/local databases. No other environment was purged.
+
+Live verification passed 41 checks: healthz 200, unscoped records API 409,
+current and retired route status checks, internal SQLite URL 404, 17
+exact deployed asset comparisons and eight 390px light/dark layout checks
+across Picksy, Make 24, JapSeva and Ritvayam, with no page errors or overflow.
+Browser business writes and ad requests were blocked during verification.
+Production active schema/count preservation and local active-data checksums
+passed separately. Existing backup/history copies remain outside the purge.
+Evidence: .publish/approved-purge-{deploy,live}.log and approved-purge-live.json.
+
 Ritvayam Kundli experience deployed (2026-11-14 IST): source 9f2744b,
 Worker 7beb0128-3e66-4a11-a4c8-8dc9b8613d04, at
 https://apps.sushantsynapse.com/rashifal-kundli. Six result destinations,
