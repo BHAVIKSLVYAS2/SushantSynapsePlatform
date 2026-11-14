@@ -1,3 +1,17 @@
+Translation follow-up (2026-11-14, local): shared Home care forms and Kiraya
+rent/property/deposit/history/backup/maintenance screens now have English, Hindi
+and Gujarati UI. Kiraya remembers the shared language preference and defers
+language changes until open forms close; saved names/notes and ledger enum values
+are preserved. Receipt PDF/print labels and reminder drafts follow the language.
+Hisabio offline cache advances to v4 for the new copy module. Validation failures
+include native-language guidance; unmapped technical details remain in English.
+Verification: all 15 existing household/rental Chrome checks and 25 model/catalogue
+checks pass. CLI checks confirm literal saved names, reload language persistence,
+open-form draft preservation, 320px fit and both care workspaces. Evidence:
+.publish/translation-browser.log, followup-model.log and output/playwright/*-gu.png.
+No schema/data/provider changes. Kundali and additional audio follow in order;
+this checkpoint has not been deployed.
+
 Collection consolidation deployed (2026-11-14 IST): source 258259c, Worker
 5b09feff-ee25-4dae-9c93-2e4f540845fa, at https://apps.sushantsynapse.com/.
 Completed in order: 1e1571f task groups/device shortcuts; 77fbdbd optional Hisabio

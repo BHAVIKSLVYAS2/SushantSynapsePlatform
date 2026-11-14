@@ -1,13 +1,14 @@
 // Explicit URL allowlist. Filesystem paths are never accepted from requests.
 const staticAssets={
  '/shared/care-engine.mjs':'packages/care/engine.mjs',
+ '/shared/care-copy.mjs':'packages/ui/care-copy.mjs',
  '/shared/care-workspace.mjs':'packages/ui/care-workspace.mjs',
  '/shared/care.css':'packages/ui/care.css',
  '/rozhisab/care-engine.mjs':'packages/care/engine.mjs',
  '/kiraya-saathi/care-engine.mjs':'packages/care/engine.mjs',
  '/kiraya-saathi':'apps/kiraya-saathi/frontend/index.html',
  '/kiraya-saathi/':'apps/kiraya-saathi/frontend/index.html',
- ...Object.fromEntries(['app.mjs','engine.mjs','storage.mjs','receipt.mjs','style.css','icon.svg'].map(file=>['/kiraya-saathi/'+file,'apps/kiraya-saathi/frontend/'+file])),
+ ...Object.fromEntries(['app.mjs','copy.mjs','engine.mjs','storage.mjs','receipt.mjs','style.css','icon.svg'].map(file=>['/kiraya-saathi/'+file,'apps/kiraya-saathi/frontend/'+file])),
  '/shared/canvas-pdf.mjs':'packages/ui/canvas-pdf.mjs',
  '/japseva':'apps/japseva/frontend/index.html',
  '/japseva/':'apps/japseva/frontend/index.html',

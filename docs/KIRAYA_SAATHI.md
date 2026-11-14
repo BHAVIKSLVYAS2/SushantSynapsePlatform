@@ -1,3 +1,8 @@
+Language follow-up (2026-11-14): care forms now support English/Hindi/Gujarati.
+Kiraya also translates its rental workspace, receipt labels and reminder drafts.
+Saved user content remains verbatim; unmapped validation details retain English
+with localized guidance. See the functionality ledger for verification/release.
+
 # Kiraya Saathi
 
 A personal rent ledger for owners of flats and shops. The user explicitly chose
