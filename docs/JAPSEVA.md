@@ -1,5 +1,13 @@
 # JapSeva
 
+Icon update (2026-11-14, source 66884f8): original japa-mala SVG artwork is used
+for the platform home card, app heading and favicon. The home sculpture reuses
+the shared amber gradient; the small badge is self-contained. No third-party
+icon licence or image dependency. Icon routing is explicitly allowlisted.
+Practice records, counters, storage, audio and certificate behavior are unchanged.
+Deployment and verification are recorded in the functionality ledger.
+
+
 Personal mantra practice on behalf of named clients, without login. The user
 explicitly authorised browser-only storage on 12 November 2026, superseding the
 initial undeployed account/SQLite/D1 implementation.

@@ -1,3 +1,21 @@
+JapSeva mala icon deployed (2026-11-14 IST): source 66884f8, Worker
+450c5ba7-7028-4125-af6b-d659c0b20136. Home card, catalogue metadata, app heading
+and favicon use original SVG mala artwork. Four existing catalogue consistency
+checks, production dry build and local mobile light/dark image/fit checks pass.
+15 live checks pass: heading/home-art presence, health/protected API boundaries,
+non-public proposal route, correct SVG MIME and ten exact asset comparisons,
+including the eight retained Kundali JS/CSS/chunks. Production config, org/auth
+vars and D1 binding preserved with --keep-vars. No schema, records, browser
+practice model, audio or Kundali runtime changes. No third-party icon asset.
+Evidence: .publish/japseva-icon-{catalogue,build,dryrun,deploy,live}.log and
+japseva-icon-live.json; local captures under output/playwright/.
+
+Further Kundali design remains review-only: a synthetic SVG reading sketch is
+linked from docs/RITVAYAM_READING_LAYOUT_PROPOSAL_2026-11-14.md. It proposes one
+primary chart adjacent to the graha table, deliberate D9 comparison and retained
+selection/timing context. Visual sketch reviewed locally; it is not deployed and
+is not practitioner-validated. The two task statuses are intentionally distinct.
+
 Ritvayam practitioner workspace deployed (2026-11-14 IST): source 8d9f1c0,
 Worker 8fef4080-710a-4b77-ab91-218b5a8237fe, live at
 https://apps.sushantsynapse.com/rashifal-kundli. Published with the existing
