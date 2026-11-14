@@ -1,3 +1,15 @@
+JapSeva daily-practice improvements deployed (2026-11-14 IST): source cbca52b,
+Worker fb93f88c-0be0-4404-a6ea-bddb6883fbd3, at https://apps.sushantsynapse.com/japseva.
+Compact requests, focused counters, search, mala targets and audited corrections
+are live. Four model checks and nine Chrome scenarios pass; targeted legacy-v2
+upgrade and open-certificate invalidation checks also pass. Mobile light/dark
+captures reviewed. Production dry run and 18 live read-only checks pass, including
+14 exact assets (six JapSeva and eight unchanged Kundali assets), health and
+protected API boundaries. Evidence: .publish/japseva-improve-{deploy,live}.log,
+japseva-improve-live.json; other test logs listed below. Production configuration,
+org/auth variables and D1 binding preserved with --keep-vars. No DB migration or
+business data writes. Browser records upgrade in place; version-1 backups import.
+
 JapSeva daily-practice improvements (2026-11-14 IST): implemented compact ongoing
 cards, focused counting with larger tap control and IST daily additions/corrections,
 client/mantra search in Ongoing and History, mala/repetition target units, disclosed
@@ -12,7 +24,7 @@ storage denial and responsive/shared-theme checks. Production build exports 666
 public assets. Evidence: .publish/japseva-improve-final.log, japseva-improve-build.log;
 mobile focus captures .publish/japseva-focus-{light,dark}.png. Additional targeted
 legacy version-2 upgrade and certificate-preview invalidation checks pass (2 + 1
-scenarios); production dry run passes. Release pending.
+scenarios); production dry run passes. Deployed; exact release is recorded above.
 
 JapSeva mala icon deployed (2026-11-14 IST): source 66884f8, Worker
 450c5ba7-7028-4125-af6b-d659c0b20136. Home card, catalogue metadata, app heading
