@@ -25,13 +25,13 @@ test('D1/D9 North/South graphics agree with numeric tables across mobile and sha
  }
  await page.locator('#theme').selectOption('deep');await expect(page.locator('html')).toHaveAttribute('data-theme-style','deep');await page.emulateMedia({colorScheme:'light'});await expect(page.locator('html')).toHaveAttribute('data-theme-style','deep');
  await page.getByRole('button',{name:'North Indian',exact:true}).click();await page.setViewportSize({width:390,height:1100});await page.screenshot({path:'.publish/vedic-p07-north-390-light.png',fullPage:true});
- await page.getByRole('button',{name:'South Indian',exact:true}).click();await page.locator('#theme').selectOption('dark');await page.setViewportSize({width:320,height:1100});await page.screenshot({path:'.publish/vedic-p07-south-320-dark.png',fullPage:true});
+ await page.locator('.vedic-chart-style-select').selectOption('south');await page.locator('#theme').selectOption('dark');await page.setViewportSize({width:320,height:1100});await page.screenshot({path:'.publish/vedic-p07-south-320-dark.png',fullPage:true});
  expect(errors).toEqual([]);expect(external).toEqual([]);
 });
 test('keyboard house selection, full names, exclusive toggles and source-longitude labels remain accessible',async({page})=>{
  await page.goto(server.origin);const house=page.locator('svg [data-house="6"]');await house.focus();await page.keyboard.press('Enter');
  await expect(house).toHaveAttribute('aria-pressed','true');await expect(page.getByRole('region',{name:'Selected house details'})).toContainText('House 6');
- await page.getByRole('button',{name:'D9 · Navamsa',exact:true}).click();await expect(page.getByRole('columnheader',{name:'Source longitude'})).toBeVisible();
+ await page.getByRole('button',{name:'D9 · Navamsa',exact:true}).click();await expect(page.getByRole('columnheader',{name:'D1 source position'})).toBeVisible();
  await expect(page.getByRole('button',{name:'D1 · Rashi',exact:true})).toHaveAttribute('aria-pressed','false');
  await expect(page.getByRole('button',{name:'D9 · Navamsa',exact:true})).toBeFocused();
  await page.getByRole('button',{name:'South Indian',exact:true}).click();
@@ -54,7 +54,7 @@ test('all twelve ascendants and crowded houses preserve every occupant in table 
    await page.getByRole('button',{name:style+' Indian',exact:true}).click();
    await expect(page.locator('svg [data-house="1"]')).toHaveAttribute('data-rashi',String(ascendant));
    await expect(page.locator('svg [data-house="2"]')).toHaveAccessibleName(/Sun, Moon, Mercury, Venus, Mars, Jupiter, Saturn, Rahu, Ketu/);
-   await expect(page.locator('svg [data-house="2"]')).toContainText('+6');await expect(page.locator('tbody tr')).toHaveCount(9);
+   await expect(page.locator('svg [data-house="2"] .vedic-cell-bodies')).toHaveCount(3);await expect(page.locator('svg [data-house="2"]')).toContainText('Sa Ra Ke');await expect(page.locator('tbody tr')).toHaveCount(9);
   }
  }
 });

@@ -5,12 +5,13 @@ let server;
 test.beforeAll(async()=>{server=await require('../production-server.cjs').start();});
 test.afterAll(async()=>server.close());
 async function enter(page){await editBirth(page,'#birth-date');await fillDate(page,'#birth-date','2000-01-01');await editBirth(page,'#birth-time');await fillTime(page,'#birth-time','12:15');await editBirth(page,'#birth-query');await page.locator('#birth-query').fill('New Delhi');await page.locator('[data-place-id="geonames:1261481"]').click();}
-async function generate(page){await page.locator('form button[type=submit]').click();await expect(page.locator('#kundli-reading-title')).toBeVisible();await expect(page.locator('.kundli-input-panel')).not.toHaveAttribute('open','');}
+async function generate(page){await page.locator('form button[type=submit]').click();await expect(page.locator('.kundli-section-nav')).toBeVisible();await expect(page.locator('.kundli-input-panel')).not.toHaveAttribute('open','');}
 async function edit(page){await page.locator('.kundli-result-actions button').first().click();await expect(page.locator('.kundli-input-panel')).toHaveAttribute('open','');}
 for(const language of ['en','hi','gu'])test(`one Generate action, direct insights and editable details in ${language}`,async({page})=>{
  const errors=[];page.on('pageerror',error=>errors.push(error.message));await page.addInitScript(language=>localStorage.setItem('synapse-language',language),language);await page.setViewportSize({width:390,height:900});await page.goto(server.origin+'/rashifal-kundli');
  await expect(page.locator('#birth-name')).toHaveValue('');const generateBox=await page.locator('#birth-calculate').boundingBox();expect(generateBox.y+generateBox.height).toBeLessThanOrEqual(900);await page.screenshot({path:test.info().outputPath('entry-'+language+'.png')});await enter(page);await generate(page);await page.screenshot({path:test.info().outputPath('results-'+language+'.png')});
- await expect(page.locator('#kundli-reading-title')).toBeFocused();expect(await page.locator('.kundli-section-nav').evaluate(nav=>nav.getBoundingClientRect().top>=document.querySelector('.platform-shell').getBoundingClientRect().bottom)).toBe(true);await expect(page.locator('.kundli-topic[data-status=available]')).toHaveCount(7);
+ await expect(page.locator('[data-kundli-section=calculations]')).toBeFocused();expect(await page.locator('.kundli-section-nav').evaluate(nav=>nav.getBoundingClientRect().top>=document.querySelector('.platform-shell').getBoundingClientRect().bottom)).toBe(true);await expect(page.locator('.kundli-topic[data-status=available]')).toHaveCount(7);
+ await page.locator('.kundli-more-nav>summary').click();await page.locator('[data-kundli-section=overview]').click();
  await page.locator('.kundli-quick-topics a[href="#kundli-career"]').click();await expect(page.locator('#kundli-career')).toBeFocused();
  await page.locator('[data-kundli-section=calculations]').click();await expect(page.locator('.vedic-charts')).toBeVisible();
  const numbers=await page.locator('[data-feature=positions] tr[data-body]').evaluateAll(rows=>rows.map(row=>[row.dataset.body,row.dataset.rashi]));

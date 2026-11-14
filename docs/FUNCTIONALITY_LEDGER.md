@@ -1,3 +1,35 @@
+Ritvayam practitioner workspace (2026-11-14 IST, implemented; release pending):
+user approved fixing/deploying the review below. Kundali now defaults to charts:
+paired D1/D9 on desktop; one readable diagram with D1/D9 and native style selector
+on mobile; expanded keyboard-contained chart; complete localised graha labels;
+linked Graha Spashta with D1 sign/house/arcseconds, nakshatra/pada and D9 sign.
+Current Dasha stays with the workspace. Chart division/style/house and Dasha
+selection survive language changes. More has distinct Vargas/strength, checks,
+birth-time sensitivity, Time Machine, readings and report destinations. Detailed
+notes and exact boundary timestamps remain accessible. Reuses shared theme tokens.
+No kernel, data format, DB, authentication or availability-rule changes.
+
+Verified: 20/20 targeted Node checks; 11/11 unique affected browser scenarios
+across the final broad run and focused correction (six final chart/practitioner
+checks pass together). Includes all twelve ascendants/crowded charts, keyboard
+selection and modal focus, 24 en/hi/gu x light/dark x 320/390/768/1280 layout
+combinations, generation/editing, saved input reuse, consent, unknown times and
+private report downloads. The one broad-run failure used the retired desktop
+style button on mobile; corrected to the new native selector and passed. Evidence:
+.publish/jyotish-{release-api,release-browser,corrected-browser}.log; implementation
+details in docs/RITVAYAM_JYOTISH_UX_REVIEW_2026-11-14.md. Practitioner task-study
+validation is still distinct from these automated checks.
+
+Ritvayam jyotish UX review (2026-11-14 IST, historical review checkpoint): used UI/UX Pro Max
+and Playwright CLI against live synthetic Kundali, desktop 1280x720 and mobile
+390x844; checked English/light, Dasha and Hindi/dark transition. Found chart
+below initial viewport, fourth graha hidden behind +1, fragmented chart/graha/
+Dasha views, inconsistent degree presentation and language-change chart reset.
+Findings, proposed practitioner workspace and acceptance criteria are recorded in
+docs/RITVAYAM_JYOTISH_UX_REVIEW_2026-11-14.md. Screenshots under ignored
+output/playwright/ritvayam-review/. No app changes, calculation changes or deploy;
+practising-jyotish task validation remains outstanding.
+
 Remaining cleanup and approved purge released (2026-11-14 IST): source e672871
 (includes route cleanup 00b389b), Worker b62e5d08-61d4-4449-bd1e-6f1097e2cd71,
 live at https://apps.sushantsynapse.com. Deployed with --keep-vars using the
