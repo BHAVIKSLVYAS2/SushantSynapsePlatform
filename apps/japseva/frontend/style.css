@@ -60,3 +60,20 @@ body[data-ui-app=japseva]>.skip{position:absolute;top:-80px}body[data-ui-app=jap
 #main .sound-guide{margin-block:18px;padding:14px;border:1px solid var(--ui-edge);border-radius:14px;background:var(--ui-solid);overflow-wrap:anywhere}#main .sound-guide summary{min-height:44px;cursor:pointer;font-weight:700}#main .sound-guide dl{margin:12px 0}#main .sound-guide dt{font-size:18px;font-weight:700;margin-top:14px}#main .sound-guide dd{margin:6px 0 14px;line-height:1.65}#main .sound-guide dd span[lang]{display:block;margin-top:6px}#main .sound-guide a{color:var(--ui-accent);text-underline-offset:3px}
 
 #main #sankalps.focused{grid-template-columns:minmax(0,1fr);max-width:720px;margin-inline:auto}#main .focused .counter-actions .tap{min-height:112px;font-size:32px}#main #request-search{max-width:560px;margin-bottom:20px}#main #practice-back{margin-bottom:16px}#main #client-create{margin-bottom:12px}#main .setup-grid>form{border:0!important;padding:0!important}#main .practice-card>.tap{width:100%;margin-top:16px}#main .focused .practice-card{padding:clamp(16px,4vw,32px)}
+
+/* Overview lists stay compact; the selected request owns the large counter. */
+#main #sankalps.request-list{display:block;border-top:1px solid var(--ui-edge)}
+#main .request-list .request-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px 16px;padding:12px 0;border:0;border-bottom:1px solid var(--ui-edge);border-radius:0;background:transparent}
+#main .request-row h3{font-size:16px;margin:0;font-weight:650}
+#main .request-row .request-open{display:block;width:100%;text-align:start;min-height:44px;padding:0;border:0;border-radius:4px;background:transparent;color:var(--ui-ink);font-size:16px;font-weight:650;line-height:1.4;overflow-wrap:anywhere}
+#main .request-open::after{content:' ›';color:var(--ui-accent)}
+#main .request-row .practice-mantra-name{margin:2px 0;font-size:13px;color:var(--ui-muted)}
+#main .request-meta{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;font-size:12px;color:var(--ui-muted)}
+#main .request-row .count{font-size:14px;margin:0;font-weight:600;line-height:1.5}
+#main .request-row .count small{font-size:12px}
+#main .request-meta progress{width:80px;height:6px}
+#main .request-actions{display:flex;flex-wrap:wrap;gap:8px}
+#main .request-actions button{font-size:13px;padding:8px 12px}
+#main .stats{display:flex;flex-wrap:wrap;gap:6px 16px;margin-bottom:12px}
+#main .stats span{border:0;border-radius:0;background:transparent;padding:0;font-size:13px;color:var(--ui-muted)}
+@media(max-width:600px){#main .request-list .request-row{gap:8px;padding:8px 0}#main .request-actions button{font-size:12px;padding:8px}#main .request-meta{gap:2px 8px}}

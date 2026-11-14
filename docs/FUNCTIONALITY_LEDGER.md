@@ -1,3 +1,17 @@
+JapSeva history/mobile improvement (2026-11-15 IST, local): replaced History
+and Ongoing overview cards with compact rows; tap the client name for the full
+request/counter, with one Certificate action in completed rows. History displays
+count and IST date and sorts by completion time. Search clears across sections
+and has a Clear search recovery action. First-client setup opens automatically;
+stats use inline totals. Back closes the certificate as well as request details.
+No stored data, schema, count rules, audio or certificate content changes.
+Verification: 4 model checks and all 9 existing browser workflows pass, covering
+PDF/backup transfer, stale tabs, upgrade, audio, corrections and themes. CLI
+checks 12 list/theme/width combinations, completion ordering, search reset,
+certificate access and exact saved-state preservation; sample mobile rows are
+107px. Evidence: .publish/japseva-ui-{model,tests,review,capture}.log and
+output/playwright/japseva-history-*.png. Production verification follows.
+
 Ritvayam/home UI improvements deployed (2026-11-15 IST): source c7e8b8b8,
 Worker 7e314351-92a5-41bb-9a5b-01badfb1a125, at
 https://apps.sushantsynapse.com/ and /rashifal-kundli. Phone menus no longer

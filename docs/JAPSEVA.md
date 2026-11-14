@@ -41,6 +41,17 @@ migration or D1/SQLite business writes. Other apps retain their existing storage
 Shared platform chrome can independently read account metadata but receives no
 practice data. Browser persistence does not guarantee offline asset loading.
 
+## Compact request lists (15 November 2026)
+
+History and Ongoing use compact rows showing client, mantra and saved count.
+History also shows the IST completion date, sorts by completion time, and offers
+one Certificate action. Tap the client name to open the request, large practice
+counter, corrections and logs. Back to requests closes the certificate too.
+Changing sections clears the search; no-match results include Clear search.
+The first New request opens Add client automatically. Statistics are compact
+inline totals. Counts, IndexedDB schema, backups, audio and certificate content
+are unchanged. Release evidence is recorded in the functionality ledger.
+
 ## Available flow
 
 The workspace now separates Ongoing, New request, History and Mantra library.
