@@ -1,3 +1,32 @@
+Collection follow-ups deployed (2026-11-14 IST): source 26a0dc0, Worker
+89c18d9e-5a1c-4909-ae48-d39dc220df23, at https://apps.sushantsynapse.com/.
+Completed sequentially: 0c8ca9d Hindi/Gujarati care/rental UI; 85c86a7 primary
+Kundali chart and linked graha selection; a5bbb3e attributed Shiva/Vasudeva audio
+with independent counters; 26a0dc0 sourced sound guide and teacher review packet.
+The user approved implementing the remaining backlog one by one. Qualified-teacher
+pronunciation sign-off remains external/pending for all four mantras; a suitable
+verified Ganesha recording remains unavailable. Neither gap is represented as done.
+
+Verification: 47 model checks, 24 household/rental/JapSeva browser workflows and
+6 shared/production Kundali scenarios pass locally. The final production bundle
+also passes all 3 live practitioner journeys. All 42 live read-only checks pass,
+including 33 exact asset comparisons, both new recording MIME/bytes, creator/
+licence notices, public routes, health, unscoped API 409 and private-doc 404.
+Live Chrome actually plays Gayatri/Shiva/Vasudeva and confirms Gujarati forms,
+language persistence and mobile care fit, without saving business records.
+Initial verification-script assumptions about a JapSeva static privacy attribute
+and a test relative URL were corrected; no application changes were needed for
+those test issues. Existing Cloudflare-injected analytics remains blocked by CSP.
+
+The full production build exports 699 assets. Published with the existing config
+and --keep-vars: org/auth variables and D1 binding retained. No migration,
+bootstrap, production database changes, data reset or new provider integration.
+Browser backups and populated legacy stores remain supported. Evidence:
+.publish/followup-{final.log,final-model.log,build.log,dryrun.log,deploy.log,
+live.log,live.json,live-browser.log,live-kundali.log}, reading-{final,release,
+interactions}.log, pronunciation-guide.log and output/playwright/followup-live-*.png.
+Older local/not-yet-deployed checkpoints below are historical.
+
 Collection consolidation deployed (2026-11-14 IST): source 258259c, Worker
 5b09feff-ee25-4dae-9c93-2e4f540845fa, at https://apps.sushantsynapse.com/.
 Completed in order: 1e1571f task groups/device shortcuts; 77fbdbd optional Hisabio
