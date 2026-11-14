@@ -39,3 +39,19 @@ body[data-ui-app=japseva]>.skip{position:absolute;top:-80px}body[data-ui-app=jap
 @media print{@page{size:A4 landscape;margin:0}body *{visibility:hidden}#main #certificate,#main #certificate *{visibility:visible}#main #certificate{position:absolute;inset:0;margin:0;padding:0}#main #certificate .section-heading{display:none}#main #certificate-canvas{border:0;border-radius:0;width:297mm;height:210mm;object-fit:contain}}
 
 #main .count{overflow-wrap:anywhere}
+/* Separate destinations keep the daily counter free of setup and completed work. */
+#main .tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:100%}
+#main .tabs button{white-space:normal;line-height:1.4;padding:10px 8px}
+#main #setup{max-width:860px;margin-inline:auto}
+#main #setup>summary{display:none}
+#main #setup .setup-grid{grid-template-columns:minmax(0,1fr)}
+#main #setup .setup-grid form+form{border-inline-start:0;padding-inline-start:0;border-top:1px solid var(--ui-edge);padding-top:20px}
+#main .practice-card .mantra{font-size:20px;line-height:1.7;margin:10px 0}
+#main .practice-card h3{margin-bottom:6px}
+#main .practice-card>.muted{font-size:12px}
+#main .practice-card>[data-learn-mantra]{margin:4px 0;font-size:12px;background:transparent;color:var(--ui-accent)}
+#main .view-enter{animation:japseva-enter .22s ease-out}
+#main button:active:not(:disabled){transform:scale(.98)}
+@keyframes japseva-enter{from{opacity:.35;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:480px){#main{padding-inline:12px}#main .intro{margin-bottom:12px}#main .intro>.muted{display:none}#main .tabs{gap:2px;padding:4px;margin:14px 0 18px}#main .tabs button{font-size:12px;padding:8px 4px;min-height:48px}#main .stats{gap:6px}#main .stats span{padding:8px;font-size:12px}#main .section-heading{margin-bottom:12px}#main .practice-card .count{font-size:34px}}
+@media(prefers-reduced-motion:reduce){#main .view-enter{animation:none}#main button:active:not(:disabled){transform:none}}

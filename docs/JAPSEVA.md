@@ -26,6 +26,15 @@ practice data. Browser persistence does not guarantee offline asset loading.
 
 ## Available flow
 
+The workspace now separates Ongoing, New request, History and Mantra library.
+Only active counters appear in Ongoing; completion moves a request to History
+with its completion date and certificate action. Creation has its own screen.
+Full mantra text, custom count entry and per-request logs expand on demand.
+Mobile navigation fits four destinations without horizontal scrolling. Section
+entry and button feedback use short animations disabled for reduced motion.
+Existing IndexedDB records, audio counters and backup format are unchanged.
+This UI revision is local; deployment status is in the functionality ledger.
+
 - Add named clients, including yourself for personal practice.
 - Create a library/custom mantra sankalp with a target and practitioner name.
 - Add one, 108-mala or manual positive repetitions. Overcounts fail; completion

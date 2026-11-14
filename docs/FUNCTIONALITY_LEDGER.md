@@ -1,3 +1,32 @@
+JapSeva separated workspace (2026-11-14 IST, local implementation): Ongoing,
+New request, History and Mantra library are distinct destinations. Active and
+completed requests no longer share a list. Completion opens History and names
+the destination in feedback; dated completed cards retain certificates. Mantra
+text, manual count entry and logs use progressive disclosure. Four mobile
+navigation buttons, responsive shared themes, short section entry/button motion
+and reduced-motion overrides are implemented. No persistence/API/schema changes.
+Ritvayam improvements remain queued behind this request. No commit/deployment
+performed in this checkpoint. All eight browser scenarios pass: seven final
+regressions plus the corrected layout check rerun. The touch-target check now
+excludes controls inside closed details via checkVisibility, rather than treating
+their retained layout rectangles as visible controls. Layout checks cover 21
+theme/viewport combinations (320–1440px), shared header/theme parity, no overflow
+and 44px visible buttons. Phone screenshots reviewed; reduced motion, distinct
+lists, completion handoff, PDF/backup transfer, counted audio, stale-tab rejection,
+storage denial and version-1 record preservation pass. Syntax and diff checks
+pass. Tests use isolated temporary DATA_DIR; no production data changed.
+
+Ritvayam/AstroSage comparison discussion (2026-11-12 IST): reviewed existing
+Kundli journey/chart/advanced source and official AstroSage public feature pages
+(https://www.astrosage.com/freechart/ and https://www.astrosage.com/free/).
+Proposal only, awaiting the requested discussion before implementation. Existing
+D1/D9, North/South charts, saved inputs, matching, Dasha and report exports are
+not new gaps. Additional divisions/Ashtakavarga/Uccha Bala remain partial previews;
+full strength, additional Dasha systems, annual charts and KP/Lal Kitab require
+separate calculation/source verification. Proposed first scope: clearer result
+navigation, more readable interactive charts, period presentation and reports.
+No application changes, new calculations, tests or deployment in this checkpoint.
+
 JapSeva shared-theme/layout correction deployed (2026-11-12 IST): source
 ef3db2a, Worker cef0d8dd-aa04-49f2-a37d-bafc8806efe7, at
 https://apps.sushantsynapse.com/japseva. Committed isolated source, exact production
