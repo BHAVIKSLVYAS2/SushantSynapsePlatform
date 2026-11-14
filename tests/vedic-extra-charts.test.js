@@ -29,3 +29,11 @@ test('extra charts admit independently and never manufacture unknown-time charts
  for(const time of ['10:15','10:30','10:45','11:00','11:15','12:15']){const result=advancedForBirth({...birth,localTime:time},context);for(const key of ['D2','D16']){const f=result.charts[key];if(f.status==='available'){stable++;assert.equal(f.value.planets.length,9);}else{withheld++;assert.equal(f.diagnostic.code,'UNSTABLE_BIRTH_TIME');}}}
  assert.ok(stable>0&&withheld>0,'boundary screening remains per chart');
 });
+test('exact-time D9 boundary preview stays separate from screened export results',async()=>{
+ const {calculateBirthReport}=await import('../apps/rashifal-kundli/frontend/birth-report.mjs');
+ const input={...birth,localDate:'2000-01-01',localTime:'12:00'},r=calculateBirthReport(input,context);
+ assert.equal(r.features.d1.status,'available');assert.equal(r.features.d9.status,'unavailable');assert.equal(r.d9Preview.status,'available');assert.equal(r.d9Preview.value.planets.length,9);
+ for(const patch of [{timeAccuracy:'approximate',precisionOfBirthTimeMinutes:10},{timeAccuracy:'unknown',localTime:undefined}])assert.equal(calculateBirthReport({...input,...patch},context).d9Preview.status,'unavailable');
+ assert.equal(calculateBirthReport({...input,localTime:'12:15'},context).d9Preview.status,'unavailable');
+ const lagna=calculateBirthReport({...input,localTime:'12:47'},context);assert.equal(lagna.features.d1.status,'unavailable');assert.equal(lagna.d1Preview.status,'available');assert.equal(lagna.d9Preview.status,'available');
+});

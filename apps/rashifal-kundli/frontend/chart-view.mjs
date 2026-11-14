@@ -2,12 +2,12 @@ import {resultSections} from './kundli-journey-copy.mjs';
 import {chartViewModel,northCells,southCells} from './chart-model.mjs';
 import {locale,signName,bodyName} from './locale.mjs';
 import {nakshatraName} from './display-text.mjs';
-import {chartExtras,practitionerCopy,readingWorkspaceCopy,grahaCode,signDms} from './practitioner-copy.mjs';
+import {timeAvailabilityCopy,chartExtras,practitionerCopy,readingWorkspaceCopy,grahaCode,signDms} from './practitioner-copy.mjs';
 const ns='http://www.w3.org/2000/svg';
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
 const svgEl=(tag,attrs,text)=>{const n=document.createElementNS(ns,tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,String(v));if(text!==undefined)n.textContent=text;return n;};
 export function mountCharts(container,charts,options={}){
- if(!(container instanceof Element)||!charts||Object.keys(options).some(k=>!['initialChart','initialStyle','initialHouse','initialBody','initialCompare','initialContext','language','paired','positions','onStateChange'].includes(k)))throw new TypeError('Check chart view options.');
+ if(!(container instanceof Element)||!charts||Object.keys(options).some(k=>!['d1Sensitive','d9Sensitive','initialChart','initialStyle','initialHouse','initialBody','initialCompare','initialContext','language','paired','positions','onStateChange'].includes(k)))throw new TypeError('Check chart view options.');
  const language=options.language??'en',t=locale(language),c=practitionerCopy[language],r=readingWorkspaceCopy[language],extra=chartExtras[language];
  const models={D1:chartViewModel(charts.d1)};for(const key of ['d9','d2','d7','d10','d12','d16','chandra'])if(charts[key])models[key==='chandra'?'Chandra':key.toUpperCase()]=chartViewModel(charts[key]);
  let selectedBody=options.initialBody??null,compare=Boolean(options.initialCompare),contextOpen=Boolean(options.initialContext||selectedBody);
@@ -23,6 +23,7 @@ export function mountCharts(container,charts,options={}){
   for(const [value,text]of items){const b=el('button',text);b.type='button';b.dataset.value=value;b.setAttribute('aria-label',text);b.addEventListener('click',()=>{choose(value);render();});group.append(b);list.push(b);}controls.append(group);}
  const advanced=options.paired?[]:['D2','D7','D10','D12','D16'].filter(key=>models[key]);
  buttons(t.division,advanced.length?advanced.map(key=>[key,extra[key]??key]):[['D1',t.d1],['D9',t.d9]],divisionButtons,v=>{type=v;compare=false;if(selectedBody)selected=models[type].planets.find(p=>p.body===selectedBody).houseNumber;});
+ if(options.paired)divisionButtons[0].parentElement.hidden=true;
  const d9Button=divisionButtons.find(b=>b.dataset.value==='D9');if(d9Button)d9Button.disabled=!models.D9;
  const chartSelect=el('select');chartSelect.className='vedic-chart-division-select';chartSelect.setAttribute('aria-label',t.division);const chartLabel=el('label',extra.choose,'vedic-chart-division-label');chartLabel.append(chartSelect);
  if(options.paired){for(const [key,label]of [['D1',t.d1],['D9',t.d9],['Chandra',extra.Chandra],['D2',extra.D2],['D16',extra.D16]]){const option=new Option(label+(models[key]?'':' / '+extra.unavailable),key);option.disabled=!models[key];chartSelect.append(option);}chartSelect.onchange=()=>{type=chartSelect.value;compare=false;if(selectedBody)selected=models[type].planets.find(p=>p.body===selectedBody).houseNumber;render();};controls.append(chartLabel);}
@@ -59,7 +60,7 @@ export function mountCharts(container,charts,options={}){
    selection.textContent=r.selected+': '+bodyName(selectedBody,language)+' · '+placement(p,'D1')+(d9?' / '+placement(d9,'D9'):'');details.replaceChildren(el('h3',bodyName(selectedBody,language)),el('p',placement(p,'D1')),el('p',c.degrees+': '+signDms(p.sourceLongitude)));if(d9)details.append(el('p',placement(d9,'D9')));if(!['D1','D9'].includes(type)){selection.textContent=r.selected+': '+bodyName(selectedBody,language)+' / '+placement(active,type);details.append(el('p',placement(active,type)));}if(pos)details.append(el('p',`${t.nakshatra}: ${nakshatraName(pos.nakshatra,language)} · ${t.pada} ${pos.pada}`));
   }else{selection.textContent=r.inspect;details.replaceChildren(el('h3',`${r.house} · ${type} · ${t.house} ${selected} · ${signName(h.rashi,language)} (${h.rashi})`));if(!h.planets.length)details.append(el('p',t.empty));const list=el('div',undefined,'vedic-house-grahas');for(const p of h.planets){const b=el('button',bodyName(p.body,language));b.type='button';b.onclick=()=>selectGraha(p.body);list.append(b);}details.append(list);}
  }
- function render(){const model=models[type];method.textContent=type==='Chandra'?extra.moonHint:['D2','D16'].includes(type)?extra[type+'Hint']+' '+extra.candidate:'';method.hidden=!method.textContent;
+ function render(){const model=models[type];method.textContent=type==='Chandra'?extra.moonHint:['D2','D16'].includes(type)?extra[type+'Hint']+' '+extra.candidate:'';if(options.d1Sensitive)method.textContent=timeAvailabilityCopy[language].boundary;if(options.d9Sensitive&&(type==='D9'||compare))method.textContent=timeAvailabilityCopy[language].preview;method.hidden=!method.textContent;
   root.classList.toggle('vedic-charts-paired',paired&&compare);compareButton.textContent=compare?r.stopCompare:r.compare;compareButton.setAttribute('aria-pressed',String(compare));
   styleSelect.value=style;chartSelect.value=type;
   for(const b of divisionButtons)b.setAttribute('aria-pressed',String(b.dataset.value===type));

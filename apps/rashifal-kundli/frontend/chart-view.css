@@ -91,6 +91,9 @@
 .vedic-birth-app .kundli-more-nav .kundli-tool-link:hover{background:var(--ui-soft)}
 .vedic-birth-app .kundli-more-nav>summary{padding:.4rem;overflow-wrap:anywhere;line-height:1.35}
 .vedic-birth-app .kundli-more-nav>summary::after{content:'⌄';margin-inline-start:.35rem}
+/* Results own one navigation bar and one chart selector at every width. */
+body:has(.vedic-birth-app.has-results) .vedic-app-header{display:none!important}
+@media(max-width:799px){.vedic-reading-workspace .vedic-chart-controls>.vedic-chart-division-label{grid-column:1/-1;grid-row:1}}
 @media(max-width:799px){
  .vedic-birth-app .kundli-section-nav>.kundli-more-nav{position:static}
  .vedic-birth-app .kundli-more-nav>div{inset-inline:.3rem;max-width:none;min-width:0;max-height:calc(100dvh - var(--shell-height,72px) - 6rem)}

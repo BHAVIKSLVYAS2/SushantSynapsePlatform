@@ -1,3 +1,20 @@
+Kundali Exact-time D9 repair (2026-11-15 IST, local): reproduced a recorded
+Exact input (2000-01-01 12:00 IST, New Delhi) where conservative D9 boundary
+screening returned the same diagnostic as unknown/approximate birth time. UI now
+explains the actual reason separately. For valid Exact input only, interactive
+D1/D9 recorded-instant previews remain available at screened boundaries, with
+visible time-sensitivity notices. Strict feature availability/export results and
+shared numerical kernels are unchanged; unknown/approximate inputs never gain
+assumed-time previews. A 12:47 example covers both D1 and D9 screening.
+Results hide the duplicate top tool navigation at every width and use one chart
+selector instead of repeated D1/D9 buttons plus a dropdown. Saved Kundalis use
+bounded, subtly rounded rows, stacked metadata and a labelled ellipsis action.
+12 numeric/storage checks and 4 production-bundle browser scenarios pass.
+CLI verifies Exact-boundary D9/table agreement and single navigation across
+3 languages at 320/390/1280px. Screenshots: output/playwright/kundali-d9-*.png;
+logs: .publish/kundali-d9-repair-{model,build,browser,review}.log. Build exports
+699 assets; no saved data/schema changes. Production verification follows.
+
 JapSeva compact lists deployed (2026-11-15 IST): source b7c0b7f, Worker
 9283d3d4-63d7-4752-8593-4e7073ce3f8e, at
 https://apps.sushantsynapse.com/japseva. History/Ongoing use compact rows;

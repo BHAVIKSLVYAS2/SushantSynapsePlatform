@@ -37,6 +37,10 @@ fieldset.civil-input,.vedic-matching fieldset.civil-input{min-width:0;margin:0;p
 .vedic-birth-app .saved-kundli-privacy>summary{min-height:44px;display:flex;align-items:center;cursor:pointer;color:var(--ui-muted)}
 .vedic-birth-app.has-results #birth-results>.kundli-expert-group[open]>summary{display:none}
 .vedic-birth-app.has-results #birth-review .kundli-result-actions{display:flex;flex-wrap:wrap;gap:.4rem}
+.vedic-birth-app .saved-kundli-card{padding:.5rem .75rem;margin:.4rem 0;border:1px solid var(--ui-edge);border-radius:.75rem;background:var(--ui-solid)}
+.vedic-birth-app .saved-kundli-meta{display:grid;gap:.1rem;font-variant-numeric:tabular-nums}
+.vedic-birth-app .saved-kundli-actions>summary{font-size:0;width:44px;justify-content:center}
+.vedic-birth-app .saved-kundli-actions>summary::after{content:'⋯';font-size:1.4rem;margin:0}
 .vedic-birth-app.has-results>p[role=status]:not(:empty){display:block;font-size:.85rem;color:var(--ui-muted);margin:.4rem 0}
 
 /* Everyday Kundli: reading first, with expert information progressively disclosed. */

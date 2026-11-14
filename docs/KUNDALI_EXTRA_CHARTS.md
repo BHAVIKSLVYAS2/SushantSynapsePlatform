@@ -1,5 +1,11 @@
 # Kundali chart additions — 15 November 2026
 
+Exact-time boundary follow-up (15 November): the interactive explorer can show
+recorded-instant D1/D9 previews when conservative boundary screening withholds a
+strict result. These are visibly time-sensitive; strict report/export availability
+is unchanged. No nominal preview is created for unknown/approximate time. The
+results workspace has one chart selector and one section navigation bar.
+
 Graha sign degrees (DMS) and Navamsha/D9 were already implemented. Added
 Chandra Kundali, Parashari Hora/D2 and Shodashamsha/D16 to the birth workspace.
 “Shodshi” is interpreted as D16; this does not implement all sixteen Shodashvarga.
