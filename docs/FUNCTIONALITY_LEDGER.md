@@ -1,3 +1,22 @@
+Pronunciation learning follow-up (2026-11-14, local): JapSeva now includes a
+collapsed bilingual sound key for vowel length, aspiration, retroflex/dental n,
+sibilants, visarga and anusvara, with original educational-source links. Existing
+syllable aids are explicitly approximate; no Vedic accent teaching or teacher
+certification is implied. docs/JAPSEVA_PRONUNCIATION_REVIEW.md provides the four
+texts/transliterations, recording references and a concrete teacher review checklist.
+Actual qualified-teacher sign-off remains pending for all four entries; it cannot
+be completed by asserting editorial or playback verification. Ganesha audio also
+remains unavailable pending a suitable verified licence and matching recording.
+Final verification: 47 model checks and all 24 affected household/rental/JapSeva
+Chrome workflows pass, in addition to the 6 shared/production Kundali scenarios
+recorded above. CLI verifies the open sound guide at 320px in light/dark themes
+and keyboard closing. Current production dry run succeeds. A final CSS selector
+fix hides secondary Ritvayam navigation during mobile reading while More retains
+its links. Native chart toggle colours were checked against actual aria states.
+Evidence: .publish/followup-{final.log,final-model.log,build.log,dryrun.log},
+pronunciation-guide.log, reading-colours.cjs, and output/playwright/pronunciation-
+guide-{light,dark}.png. Publication/live verification follows separately.
+
 JapSeva additional licensed audio (2026-11-14, local): verified byte-identical
 Shiva (163970-byte WAV, creator शिव साहिल, CC BY-SA 4.0) and Vasudeva
 (61874-byte Ogg, Tito Dutta, CC BY-SA 3.0) originals added with individual source,

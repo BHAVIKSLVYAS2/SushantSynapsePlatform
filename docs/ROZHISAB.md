@@ -108,7 +108,7 @@ and notes. Service/renewal schedules support one-time or monthly repetition,
 completion history, exact recorded costs and calendar exports. A linked existing
 service opens its bill rather than creating another charge. Care costs never
 change delivery bills or payments automatically. Archived items retain receipts
-and history and can be restored. New care forms initially use English; existing
+and history and can be restored. Care forms now use the selected English/Hindi/Gujarati language; existing
 Hisabio language flows remain intact and the navigation label is translated.
 
 The shared packages/care engine and packages/ui/care-workspace own reusable rules

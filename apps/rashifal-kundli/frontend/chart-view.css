@@ -73,7 +73,7 @@
  .vedic-reading-workspace .vedic-chart-compare{grid-column:2;grid-row:1}
  .vedic-reading-workspace .vedic-chart-style-select{grid-column:1;grid-row:2;width:100%;max-width:none}
  .vedic-reading-workspace .vedic-chart-expand{grid-column:2;grid-row:2}
- body:has(.vedic-birth-app.has-results)>.vedic-app-header{display:none}
+ body:has(.vedic-birth-app.has-results) .vedic-app-header{display:none}
 }
 .kundli-more-nav .kundli-tool-link{display:flex;align-items:center;min-height:44px;padding:.5rem;color:var(--ui-ink);border-top:1px solid var(--ui-edge)}
 .vedic-reading-workspace .vedic-chart-controls button[aria-pressed=true]{font-weight:750;text-decoration:underline;text-underline-offset:5px}

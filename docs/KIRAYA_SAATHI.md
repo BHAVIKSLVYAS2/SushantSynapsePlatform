@@ -90,4 +90,4 @@ store. Backup schema 2 accepts schema 1 with empty maintenance records. Older
 version-1 app tabs cannot reopen the upgraded store and drop care records. Total
 backup allowance is now 20 MB; care has its own 15 MB limit and 1 MB per receipt.
 Receipts accept PDF, PNG, JPEG and WebP only; files are downloaded explicitly, not
-uploaded or embedded as active content. New maintenance forms initially use English.
+uploaded or embedded as active content. Maintenance forms follow the selected English/Hindi/Gujarati language.

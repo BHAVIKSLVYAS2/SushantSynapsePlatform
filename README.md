@@ -13,7 +13,9 @@ for verified release status.
 
 JapSeva at /japseva tracks mantra practice for named clients without login:
 browser-saved sankalps/counts, backup export/import, English/Hindi meanings,
-verified CC0 Gayatri audio and printable completion certificates/PDFs. Records
+verified freely licensed Gayatri/Shiva/Vasudeva audio and printable completion
+certificates/PDFs. An optional sound guide explains the transliteration; teacher
+pronunciation review is pending. Records
 stay in this browser profile. See [scope and verification](docs/JAPSEVA.md) and
 the functionality ledger for release status.
 

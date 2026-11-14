@@ -1,3 +1,7 @@
+Pronunciation follow-up (2026-11-14): the learning library has an optional
+English/Hindi sound guide with source links. Syllable aids remain approximate;
+teacher sign-off is pending. Review packet: JAPSEVA_PRONUNCIATION_REVIEW.md.
+
 Audio follow-up (2026-11-14): Gayatri, Shiva and Vasudeva now have locally
 served freely licensed recordings with individual credits and independent saved
 audio counts. Ganesha audio remains unavailable. Chanting/certificates stay
@@ -57,7 +61,9 @@ This UI revision is deployed; exact release and verification are in the function
 - Export/import backup files for retention or transfer between browsers.
 - Learn four traditional mantras with Sanskrit, transliteration, original
   English/Hindi meanings and introductory pronunciation aids.
-- Gayatri has locally served verified CC0 audio with repeat and 0.75x playback;
+- Gayatri (CC0), Shiva (CC BY-SA 4.0) and Vasudeva (CC BY-SA 3.0) have
+  locally served verified audio with individual source/creator/licence credits,
+  repeat and 0.75x playback;
   other recordings remain unavailable. See JAPSEVA_AUDIO.md for provenance.
 
 Audio listening never increments client chanting counts. No expert pronunciation review or teaching
@@ -78,7 +84,7 @@ and twelve viewport/theme combinations. Release evidence is in the ledger.
 
 ## Counted audio playback (12 November 2026)
 
-The Gayatri learning card has Start auto play, Pause, Reset audio count and a
+Each of the three audio learning cards has Start auto play, Pause, Reset audio count and a
 playback target. Each naturally completed recording adds one audio play and
 restarts until that target is reached. Seeking within a recording invalidates
 that play. Pausing or leaving the page/section stops automation; starting again

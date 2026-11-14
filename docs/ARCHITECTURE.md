@@ -1,3 +1,11 @@
+Collection follow-ups (2026-11-14): shared care-copy.mjs owns English/Hindi/
+Gujarati care UI strings; Kiraya owns its rental/PDF copy and uses the shared
+language preference without translating stored user content or ledger enums.
+Kundali chart-view owns distinct graha/house selection, comparison and native
+mobile details; birth-app preserves that state across destinations/languages.
+JapSeva library owns the verified recording map; storage accepts only its audio
+IDs and retains independent audio/chanting counters. See the ledger for evidence.
+
 Approved retired News/Fund Lens purge (2026-11-14): eight live tables and exact
 retired access references removed from production D1 and local SQLite. Current
 D1 schema excludes their seeds; historical SQL/catalogue metadata remains only
