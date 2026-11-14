@@ -1,3 +1,20 @@
+Additional Kundali charts deployed (2026-11-15 IST): source 71d88ac, Worker
+060a1021-b95c-49b3-b2bd-fde339a51ba4, at
+https://apps.sushantsynapse.com/rashifal-kundli. Graha DMS degrees and Navamsha
+were already present. Added Parashari Hora/D2, Shodashamsha/D16 and Chandra
+Kundali to Choose Kundali, with synchronized diagrams, tables and graha context.
+English/Hindi/Gujarati and 320/390/1280px views pass all 45 live CLI combinations.
+Chandra preserves D1 signs/degrees and counts houses from Moon. D2/D16 retain
+independent algorithm review pending, conservative per-chart cusp screens and
+unknown/approximate-time withholding. Existing D1/D9 exports remain unchanged.
+13 numeric/Worker/display checks, 3 local and 3 live practitioner scenarios pass.
+All 15 live read-only checks pass, including 11 exact assets. Dry run and build
+export 699 assets; deployment used --keep-vars, preserving org/auth and D1.
+No database, schema, persistence or astronomy profile changes. Method/source
+scope: docs/KUNDALI_EXTRA_CHARTS.md. Evidence: .publish/kundali-extra-{model,
+final-model,build,browser,review,dryrun,deploy,live,live-browser,live-review}.log
+and kundali-extra-live.json; output/playwright/kundali-extra-*.png.
+
 Kundali menu naming deployed (2026-11-15 IST): source 8d921fcc, Worker
 364e7343-c2dd-42b2-8796-d4c5e16b43ea, at
 https://apps.sushantsynapse.com/rashifal-kundli. Straightforward task names now
