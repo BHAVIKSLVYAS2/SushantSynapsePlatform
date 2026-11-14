@@ -1,3 +1,16 @@
+Kundali menu naming deployed (2026-11-15 IST): source 8d921fcc, Worker
+364e7343-c2dd-42b2-8796-d4c5e16b43ea, at
+https://apps.sushantsynapse.com/rashifal-kundli. Straightforward task names now
+include Kundali Saar, Bhavishyafal, Graha Sthiti, Gochar, Kundali Milan and
+Kundali Report, with matching Hindi/Gujarati menus and reading headings.
+All 3 local and 3 live practitioner browser scenarios pass; local 390px review
+checks all three language menus and Bhavishyafal headings without overflow.
+All 15 live read-only checks pass, including 11 exact assets. Production build
+exports 699 assets; dry run and deployment pass with --keep-vars. Existing
+organisation/auth vars and D1 binding preserved; no schema or data changes.
+Evidence: .publish/kundali-names-{build,tests,review,dryrun,deploy,live,
+live-browser}.log and kundali-names-live.json. Previous checkpoints follow.
+
 Kundali naming improvement (2026-11-15 IST, locally verified): navigation now
 uses Kundali, Graha Sthiti, Kundali Saar, Bhavishyafal, Varga Kundali & Graha Bal,
 Yog & Mangal, Janma Samay Jaanch, Gochar and Kundali Report. More becomes Menu;
