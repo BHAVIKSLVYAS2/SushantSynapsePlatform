@@ -3,6 +3,7 @@ const $=s=>document.querySelector(s);
 const catalogue=window.SynapseCatalogue,homeMarkup=document.querySelector('#platform>.public-home').outerHTML;
 const escapeHtml=catalogue.escapeHtml;
 const paths={
+ house:'<path d="m3 11 9-8 9 8M5 10v11h14V10M9 21v-8h6v8"/>',
  mala:'<path d="M12 3a6.3 6.3 0 1 0 0 12.6A6.3 6.3 0 0 0 12 3Zm0 14v4m-2 2 2-2 2 2"/><circle cx="12" cy="2.5" r="1.6"/><circle cx="8" cy="3.8" r="1.6"/><circle cx="5.6" cy="7.1" r="1.6"/><circle cx="5.6" cy="11.2" r="1.6"/><circle cx="8" cy="14.5" r="1.6"/><circle cx="16" cy="14.5" r="1.6"/><circle cx="18.4" cy="11.2" r="1.6"/><circle cx="18.4" cy="7.1" r="1.6"/><circle cx="16" cy="3.8" r="1.6"/><circle cx="12" cy="16.5" r="1.8"/>',
  chat:'<path d="M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-8l-5 4v-4H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/><path d="m12 15-4-4c-3-3 1-6 4-3 3-3 7 0 4 3Z"/>',
  qr:'<path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h3v3h-3zM20 14v7h-6v-2M6 6h1m10 0h1M6 17h1"/>',

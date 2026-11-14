@@ -8,6 +8,13 @@ are historical and superseded for this exact approved live-data scope.
 
 # Code ownership and adding apps
 
+Kiraya Saathi (2026-11-14): user explicitly authorised browser-only rental records,
+no login and backups. `apps/kiraya-saathi` owns validated integer-paise rental
+commands, an independent revision-checked IndexedDB store, flat/shop tenancy
+history, billing, deposits, receipts and backups. Static assets and catalogue
+integration use the shared explicit registries. No rental business API, SQLite/D1
+schema or provider integration. See `docs/KIRAYA_SAATHI.md` for billing boundaries.
+
 JapSeva (2026-11-12): user-authorised browser-only personal mantra practice.
 apps/japseva owns the IndexedDB model, validated backup import/export, sankalp
 workflow, learning library and canvas certificate. No login or business API.

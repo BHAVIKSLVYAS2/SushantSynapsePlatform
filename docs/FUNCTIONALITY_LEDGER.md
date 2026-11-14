@@ -1,3 +1,20 @@
+Kiraya Saathi (2026-11-14 IST, implemented; release pending): new flat/shop rent
+ledger at /kiraya-saathi. User explicitly chose browser-only storage, no login and
+backups for this app. Independent revision-checked IndexedDB, integer-paise rent
+and maintenance, monthly arrears, partial payments, explained bill adjustments,
+future rent changes, separate deposit receipts/refunds/deductions, owner expenses,
+move-out/history, real payment PDF/print receipts, WhatsApp drafts, JSON recovery
+and CSV exports. Full calendar months; agreed part-month reductions are manual.
+No payment/messaging provider, rental API or server DB changes. Existing apps
+and records remain separate. Limits and ownership: docs/KIRAYA_SAATHI.md.
+Verified: 5 model + 4 catalogue tests; 6 rental Chrome workflows + all 5 Hisabio
+regressions pass. Twelve viewport/theme combinations across four rental screens,
+keyboard modal use, denied storage, real PDF, reload, backup transfer, stale writes,
+void payment/adjustment trails and tenant replacement covered. Mobile light/dark
+captures reviewed. Evidence: .publish/kiraya-model.log, kiraya-release-tests.log,
+kiraya-layout-checks.json and kiraya-month-{light,dark}.png. Production dry run passes (681 public frontend assets). Release verification
+is pending; no deployment is claimed in this entry.
+
 JapSeva daily-practice improvements deployed (2026-11-14 IST): source cbca52b,
 Worker fb93f88c-0be0-4404-a6ea-bddb6883fbd3, at https://apps.sushantsynapse.com/japseva.
 Compact requests, focused counters, search, mala targets and audited corrections

@@ -1,5 +1,11 @@
 # Curio · Sushant Synapse
 
+Kiraya Saathi at `/kiraya-saathi` manages flat/shop rent, partial payments,
+deposits, payment receipts and successive tenancies. The user authorised
+browser-only storage with no login; export backups regularly. See
+[scope and billing rules](docs/KIRAYA_SAATHI.md) and the functionality ledger
+for verified release status.
+
 JapSeva at /japseva tracks mantra practice for named clients without login:
 browser-saved sankalps/counts, backup export/import, English/Hindi meanings,
 verified CC0 Gayatri audio and printable completion certificates/PDFs. Records
