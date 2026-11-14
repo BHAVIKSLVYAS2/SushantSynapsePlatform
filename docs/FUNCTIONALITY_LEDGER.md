@@ -1,3 +1,21 @@
+Kundali reading layout follow-up (2026-11-14, local): primary D1/D9 chart
+beside compact Graha Spashta on wide screens; explicit D9 comparison rather than
+two equally prominent charts by default. One graha links the diagram and its row
+across D1/D9; house selection remains distinct and shows selectable occupants.
+Mobile has Chart/Grahas/Dasha destinations, labelled graha cards and a native
+closeable detail sheet. Selection, active division, style and comparison survive
+language/destination changes. Birth actions collapse into birth context; other
+Ritvayam tools stay available under More during reading. Dasha retains selection
+context and its own selected period. Unknown-time withholding/calculations remain
+unchanged. This implements the previously review-only layout direction, following
+the user's subsequent approval; no practitioner usability certification claimed.
+Verification: 18 numeric/display checks and all 6 production/shared-chart Chrome
+scenarios pass, including twelve crowded ascendants, native languages, themes,
+320-1280px, expanded-chart keyboard controls and unknown time. Additional CLI
+journey verifies one-planet selection, mobile sheet, Dasha return and no overflow.
+Evidence: .publish/reading-{model,final,interactions,build}.log and
+output/playwright/reading-*.png. Not yet deployed at this checkpoint.
+
 Translation follow-up (2026-11-14, local): shared Home care forms and Kiraya
 rent/property/deposit/history/backup/maintenance screens now have English, Hindi
 and Gujarati UI. Kiraya remembers the shared language preference and defers

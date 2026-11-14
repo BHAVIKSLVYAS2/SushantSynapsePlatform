@@ -15,3 +15,65 @@
 
 .vedic-chart-style-select{display:none}.vedic-charts :is(button,select,[tabindex]){scroll-margin-top:10rem}
 @media(max-width:799px){.vedic-charts .vedic-chart-style-buttons{display:none!important}.vedic-charts .vedic-chart-style-select{display:block;flex:1 1 9rem;width:auto;min-height:44px;max-width:15rem}.vedic-charts .vedic-chart-controls>button{flex:0 1 auto}.vedic-charts .vedic-chart-controls>[role=group]:first-child{flex-basis:100%}}
+
+/* One reading surface. A second chart appears only on explicit comparison. */
+.vedic-charts:not(.vedic-charts-paired) .vedic-chart-figure[data-active=false]{display:none}
+.vedic-reading-workspace .vedic-chart-explorer{display:grid;grid-template-columns:minmax(0,1fr);gap:1rem;align-items:start}
+.vedic-reading-workspace .vedic-chart-stage{max-width:32rem}
+.vedic-reading-workspace .vedic-chart-table{min-width:0;margin:0;max-width:100%;overflow:auto}
+.vedic-reading-workspace .vedic-chart-table table{min-width:32rem;font-size:.875rem}
+.vedic-reading-workspace .vedic-chart-table td{white-space:normal;vertical-align:top}
+.vedic-chart-table td small{display:block;color:var(--ui-muted);font-size:.82rem;font-variant-numeric:tabular-nums;white-space:nowrap;margin-top:.2rem}
+.vedic-reading-workspace .vedic-chart-table thead th{position:sticky;top:0;background:var(--ui-solid);z-index:2}
+.vedic-graha-context{font-size:.9rem;padding-block:.5rem;margin:.5rem 0;border-block:1px solid var(--ui-edge);overflow-wrap:anywhere}
+.vedic-house-grahas{display:flex;flex-wrap:wrap;gap:.5rem}
+.vedic-chart-cell[data-selected=true] polygon,.vedic-chart-cell[data-selected=true] rect{fill:var(--ui-soft);stroke:var(--ui-accent);stroke-width:2.5}
+.vedic-chart-cell [role=button]:focus-visible{stroke:var(--ui-accent);stroke-width:4}
+.vedic-cell-bodies [data-graha]{pointer-events:auto;cursor:pointer;fill:var(--ui-ink)}
+.vedic-cell-bodies [data-graha][aria-pressed=true]{fill:var(--ui-accent);text-decoration:underline;font-weight:800}
+.vedic-cell-bodies [data-graha]:focus-visible{outline:2px solid var(--ui-accent);outline-offset:3px}
+.vedic-reading-workspace[data-pane=grahas] .vedic-chart-stage,.vedic-reading-workspace[data-pane=grahas] .vedic-house-picker{display:none}
+.vedic-reading-workspace[data-pane=grahas] .vedic-chart-explorer{display:block}
+.vedic-graha-sheet{color:var(--ui-ink);background:var(--ui-solid);border:1px solid var(--ui-edge);border-radius:1rem 1rem 0 0;width:min(100%,36rem);max-width:100%;max-height:85dvh;overflow:auto;padding:1rem;margin:auto auto 0;box-sizing:border-box}
+.vedic-graha-sheet::backdrop{background:color-mix(in srgb,var(--ui-bg) 65%,transparent)}
+.vedic-graha-sheet>button{display:block;margin-inline-start:auto}
+.vedic-graha-sheet .vedic-house-details{border:0;padding:.5rem 0}
+.kundli-timing-context{font-size:.9rem;color:var(--ui-muted)}
+@media(min-width:1100px){
+ .vedic-reading-workspace:not(.vedic-charts-paired) .vedic-chart-explorer{grid-template-columns:minmax(0,4fr) minmax(0,5fr)}
+ .vedic-reading-workspace .vedic-chart-table{max-height:37rem;padding:.2rem}
+ .vedic-reading-workspace .vedic-chart-table table{min-width:0}
+ .vedic-reading-workspace.vedic-charts-paired .vedic-chart-stage{max-width:none;width:100%}
+}
+@media(max-width:799px){
+ .vedic-reading-workspace[data-pane=chart] .vedic-chart-table{display:none}
+ .vedic-reading-workspace .vedic-house-details:not(dialog *){display:none}
+ .vedic-reading-workspace .vedic-chart-stage{max-width:32rem}
+ .vedic-reading-workspace .vedic-chart-controls [role=group]:first-child{flex-basis:auto}
+ .vedic-reading-workspace .vedic-graha-context{font-size:.85rem}
+ .vedic-reading-workspace .vedic-chart-controls .vedic-chart-compare{flex-basis:auto}
+}
+@media print{.vedic-graha-sheet{display:none}.vedic-reading-workspace .vedic-chart-table{display:block!important;max-height:none;overflow:visible}}
+.vedic-birth-app.has-results #kundli-calculations>summary,.vedic-birth-app.has-results #kundli-planets:has(.vedic-reading-workspace)>summary{display:none}
+.vedic-birth-app .vedic-reading-workspace .vedic-chart-controls button[aria-pressed=true]{background:var(--ui-accent);color:var(--ui-on-accent)}
+.vedic-birth-app .vedic-reading-workspace .vedic-chart-controls button[aria-pressed=false]{background:var(--ui-solid);color:var(--ui-ink)}
+@media(max-width:799px){
+ .vedic-reading-workspace .vedic-chart-table table{min-width:0}
+ .vedic-reading-workspace .vedic-chart-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+ .vedic-reading-workspace .vedic-chart-table tbody{display:grid;gap:.75rem}
+ .vedic-reading-workspace .vedic-chart-table tbody tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border:1px solid var(--ui-edge);border-radius:.6rem;padding:.5rem}
+ .vedic-reading-workspace .vedic-chart-table tbody th{grid-column:1/-1;position:static;background:transparent;padding:0;border:0}
+ .vedic-reading-workspace .vedic-chart-table tbody th button{width:100%;font-size:1rem}
+ .vedic-reading-workspace .vedic-chart-table tbody td{min-width:0;border:0;padding:.5rem;overflow-wrap:anywhere}
+ .vedic-reading-workspace .vedic-chart-table td::before{content:attr(data-label);display:block;font-size:.75rem;color:var(--ui-muted);margin-bottom:.25rem}
+ .vedic-reading-workspace .vedic-chart-controls{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.5rem}
+ .vedic-reading-workspace .vedic-chart-controls>[role=group]:first-child{grid-column:1;grid-row:1}
+ .vedic-reading-workspace .vedic-chart-controls>[role=group]:first-child button{font-size:0;min-width:50px}
+ .vedic-reading-workspace .vedic-chart-controls>[role=group]:first-child button::before{content:attr(data-value);font-size:1rem}
+ .vedic-reading-workspace .vedic-chart-compare{grid-column:2;grid-row:1}
+ .vedic-reading-workspace .vedic-chart-style-select{grid-column:1;grid-row:2;width:100%;max-width:none}
+ .vedic-reading-workspace .vedic-chart-expand{grid-column:2;grid-row:2}
+ body:has(.vedic-birth-app.has-results)>.vedic-app-header{display:none}
+}
+.kundli-more-nav .kundli-tool-link{display:flex;align-items:center;min-height:44px;padding:.5rem;color:var(--ui-ink);border-top:1px solid var(--ui-edge)}
+.vedic-reading-workspace .vedic-chart-controls button[aria-pressed=true]{font-weight:750;text-decoration:underline;text-underline-offset:5px}

@@ -11,6 +11,11 @@ export const workspaceSections={
  hi:{advanced:'वर्ग और बल',checks:'पारंपरिक जाँच',sensitivity:'जन्म-समय संवेदनशीलता',transits:'टाइम मशीन'},
  gu:{advanced:'વર્ગ અને બળ',checks:'પરંપરાગત તપાસ',sensitivity:'જન્મ-સમય સંવેદનશીલતા',transits:'ટાઇમ મશીન'}
 };
+export const readingWorkspaceCopy={
+ en:{chart:'Chart',timing:'Dasha',compare:'Compare D9',stopCompare:'Close comparison',inspect:'Select a graha to inspect its D1 and D9 placements.',selected:'Selected graha',close:'Close details',house:'House context',star:'D1 Nakshatra / Pada',position:'D1 sign / degree',d1House:'D1 house',noSelection:'No graha selected',same:'Chart and graha selection stay available when you return.',d9:'D9 sign / house'},
+ hi:{chart:'चार्ट',timing:'दशा',compare:'D9 तुलना',stopCompare:'तुलना बंद करें',inspect:'D1 और D9 स्थिति देखने के लिए ग्रह चुनें।',selected:'चुना ग्रह',close:'विवरण बंद करें',house:'भाव का विवरण',star:'D1 नक्षत्र / पाद',position:'D1 राशि / अंश',d1House:'D1 भाव',noSelection:'कोई ग्रह नहीं चुना',same:'वापसी पर चार्ट और चुना ग्रह बने रहते हैं।',d9:'D9 राशि / भाव'},
+ gu:{chart:'ચાર્ટ',timing:'દશા',compare:'D9 સરખામણી',stopCompare:'સરખામણી બંધ કરો',inspect:'D1 અને D9 સ્થિતિ જોવા ગ્રહ પસંદ કરો.',selected:'પસંદ કરેલો ગ્રહ',close:'વિગત બંધ કરો',house:'ભાવની વિગત',star:'D1 નક્ષત્ર / પદ',position:'D1 રાશિ / અંશ',d1House:'D1 ભાવ',noSelection:'ગ્રહ પસંદ કરેલો નથી',same:'પાછા આવતાં ચાર્ટ અને પસંદ કરેલો ગ્રહ જળવાય છે.',d9:'D9 રાશિ / ભાવ'}
+};
 // Truncate display only, so a value just below a boundary never appears in the
 // next sign. Neither chart membership nor calculation values are modified.
 export function signDms(longitude){

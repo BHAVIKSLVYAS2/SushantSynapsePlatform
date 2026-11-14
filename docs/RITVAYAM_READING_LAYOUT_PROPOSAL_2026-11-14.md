@@ -1,3 +1,9 @@
+Implementation update (14 November 2026): the user subsequently approved
+implementation. The chart/table direction, explicit comparison, linked graha
+selection and mobile sheet are now implemented and browser-verified locally.
+The proposal below is historical; practitioner task-study remains external.
+See the functionality ledger for actual release status.
+
 # Kundali: make reading easier
 
 Proposal only, 14 November 2026. The user asked for further thought and review,
