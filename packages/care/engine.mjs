@@ -19,7 +19,7 @@ export function validate(input,options={}){
  s.tasks=rows(raw.tasks,600).map(t=>({id:id(t.id),itemId:t.itemId?id(t.itemId):'',title:text(t.title,'a service or renewal name'),kind:t.kind,due:date(t.due),repeatMonths:integer(t.repeatMonths,120,'repeat months'),serviceId:text(t.serviceId||'','a bill link',80,true),done:!!t.done,archived:!!t.archived}));
  for(const t of s.tasks){if(!['service','renewal'].includes(t.kind)||t.itemId&&!s.items.some(i=>i.id===t.itemId)||options.requireScope&&!t.itemId||t.serviceId&&!services.includes(t.serviceId))fail('Invalid service, item or existing bill link.');}
  s.visits=rows(raw.visits,5000).map(v=>({id:id(v.id),taskId:id(v.taskId),date:date(v.date),cost:integer(v.cost,10000000000,'service cost'),note:text(v.note||'','service notes',500,true),expenseId:text(v.expenseId||'','an expense link',80,true)}));
- for(const v of s.visits)if(!s.tasks.some(t=>t.id===v.taskId))fail('Service history references an unknown task.');
+ for(const v of s.visits){if(!s.tasks.some(t=>t.id===v.taskId))fail('Service history references an unknown task.');if(v.expenseId&&!options.requireScope)fail('Owner expense links belong only to property maintenance.');}
  for(const key of ['items','tasks','visits'])if(new Set(s[key].map(x=>x.id)).size!==s[key].length)fail('Duplicate care record IDs.');
  if(new TextEncoder().encode(JSON.stringify(s)).length>15000000)fail('Care records exceed 15 MB. Export receipts and reduce attachments.');return s;
 }

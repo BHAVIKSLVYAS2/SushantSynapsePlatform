@@ -1,3 +1,15 @@
+Collection consolidation stage 3 (2026-11-14, local): property equipment,
+warranties, maintenance/renewals, service history and calendar exports added to
+Kiraya Saathi. Paid repair costs link to one owner expense only when explicitly
+selected, atomically; no rent/payment/tenant-charge writes are inferred. Property
+and household records stay isolated. Backup schema / IndexedDB upgrade to 2;
+old rental records and schema-1 imports are preserved. Twelve care/rental model
+checks, seven rental Chrome workflows and a targeted populated version-1 upgrade
+check pass. The upgrade test caught an attempted duplicate object-store creation;
+the guarded in-place upgrade is verified. Evidence: .publish/consolidate-stage3{,
+-model}.log, consolidate-rental-upgrade-fixed.log and rental-care-{light,dark}.png.
+Stage 4 contextual summaries follows. Publication remains pending.
+
 Collection consolidation stage 2 (2026-11-14, local): optional Hisabio Home care
 adds item receipts/warranties, service and renewal schedules, completion/cost
 history, archive/restore, due summaries and calendar exports. Existing bill links

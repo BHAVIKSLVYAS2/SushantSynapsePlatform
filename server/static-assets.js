@@ -4,6 +4,7 @@ const staticAssets={
  '/shared/care-workspace.mjs':'packages/ui/care-workspace.mjs',
  '/shared/care.css':'packages/ui/care.css',
  '/rozhisab/care-engine.mjs':'packages/care/engine.mjs',
+ '/kiraya-saathi/care-engine.mjs':'packages/care/engine.mjs',
  '/kiraya-saathi':'apps/kiraya-saathi/frontend/index.html',
  '/kiraya-saathi/':'apps/kiraya-saathi/frontend/index.html',
  ...Object.fromEntries(['app.mjs','engine.mjs','storage.mjs','receipt.mjs','style.css','icon.svg'].map(file=>['/kiraya-saathi/'+file,'apps/kiraya-saathi/frontend/'+file])),

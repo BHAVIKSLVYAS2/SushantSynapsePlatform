@@ -1,3 +1,4 @@
+import {empty as emptyCare,validate as validateCare,command as careCommand} from './care-engine.mjs';
 // Persistence-independent rental ledger. All stored money is integer paise.
 const LIMIT=10000000000;
 const fail=message=>{throw Error(message);};
@@ -10,7 +11,7 @@ export function day(value){if(typeof value!=='string'||!/^20\d{2}-\d{2}-\d{2}$/.
 export function month(value){if(typeof value!=='string'||!/^20\d{2}-(0[1-9]|1[0-2])$/.test(value))fail('Enter a valid month between 2000 and 2099.');return value;}
 export function paise(value){if(typeof value!=='string'||!/^\d{1,9}(\.\d{1,2})?$/.test(value.trim()))fail('Enter an amount with no more than two decimal places.');const [whole,fraction='']=value.trim().split('.');return integer(Number(whole)*100+Number(fraction.padEnd(2,'0')),'Amount');}
 export const money=value=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:2}).format(value/100);
-export const empty=()=>({format:'kiraya-saathi',schemaVersion:1,revision:0,owner:'',properties:[],tenancies:[],bills:[],payments:[],deposits:[],expenses:[]});
+export const empty=()=>({format:'kiraya-saathi',schemaVersion:2,revision:0,owner:'',properties:[],tenancies:[],bills:[],payments:[],deposits:[],expenses:[],care:emptyCare()});
 export const billTotal=b=>b.rent+b.maintenance+b.adjustments.reduce((sum,a)=>sum+a.amount,0);
 export const paid=(s,billId)=>s.payments.filter(p=>p.billId===billId&&!p.voidReason).reduce((sum,p)=>sum+p.amount,0);
 export const balance=(s,b)=>billTotal(b)-paid(s,b.id);
@@ -20,8 +21,8 @@ export const active=(s,propertyId)=>s.tenancies.find(t=>t.propertyId===propertyI
 const array=(value,max,label)=>{if(!Array.isArray(value)||value.length>max)fail(`Invalid ${label} or record limit exceeded.`);return value;};
 const unique=(rows,key,label)=>{if(new Set(rows.map(key)).size!==rows.length)fail(`Duplicate ${label}.`);};
 export function validate(input){
- if(!input||input.format!=='kiraya-saathi'||input.schemaVersion!==1)fail('Choose a Kiraya Saathi version 1 backup.');
- if(new TextEncoder().encode(JSON.stringify(input)).length>5000000)fail('Backup exceeds the 5 MB limit.');
+ if(!input||input.format!=='kiraya-saathi'||![1,2].includes(input.schemaVersion))fail('Choose a Kiraya Saathi supported backup.');
+ if(new TextEncoder().encode(JSON.stringify(input)).length>20000000)fail('Backup exceeds the 20 MB limit.');
  const s=empty();s.revision=integer(input.revision,'Revision',0,Number.MAX_SAFE_INTEGER);s.owner=text(input.owner,'Owner name',120,true);
  s.properties=array(input.properties,100,'properties').map(p=>({id:id(p.id),name:text(p.name,'Property name'),type:choice(p.type,['flat','shop'],'property type'),address:text(p.address,'Address',400,true)}));
  s.tenancies=array(input.tenancies,500,'tenancies').map(t=>({id:id(t.id),propertyId:id(t.propertyId),name:text(t.name,'Tenant name'),phone:text(t.phone,'Phone',30,true),start:day(t.start),end:t.end?day(t.end):null,dueDay:integer(t.dueDay,'Due day',1,31),depositExpected:integer(t.depositExpected,'Agreed deposit'),rates:array(t.rates,200,'rent changes').map(r=>({from:month(r.from),rent:integer(r.rent,'Rent',1),maintenance:integer(r.maintenance,'Maintenance')}))}));
@@ -41,13 +42,14 @@ export function validate(input){
  s.expenses=array(input.expenses,10000,'expenses').map(e=>({id:id(e.id),propertyId:id(e.propertyId),amount:integer(e.amount,'Expense',1),date:day(e.date),note:text(e.note,'Expense description',240)}));
  if(s.expenses.some(e=>!s.properties.some(p=>p.id===e.propertyId)))fail('Unknown expense property.');
  for(const key of ['properties','tenancies','bills','payments','deposits','expenses'])unique(s[key],r=>r.id,key+' IDs');
- unique(s.bills,b=>b.tenancyId+':'+b.month,'monthly bills');return s;
+ unique(s.bills,b=>b.tenancyId+':'+b.month,'monthly bills');s.care=validateCare(input.care,{scopes:s.properties.map(p=>p.id),requireScope:true});for(const v of s.care.visits.filter(v=>v.expenseId)){const expense=s.expenses.find(e=>e.id===v.expenseId),task=s.care.tasks.find(t=>t.id===v.taskId),item=s.care.items.find(i=>i.id===task.itemId);if(!expense||expense.id!==v.id||expense.amount!==v.cost||expense.date!==v.date||expense.propertyId!==item.scopeId)fail('Maintenance expense link does not match its recorded cost.');}return s;
 }
 const nextMonth=m=>{const n=new Date(m+'-01T00:00:00Z');n.setUTCMonth(n.getUTCMonth()+1);return n.toISOString().slice(0,7);};
 function issue(s,through){month(through);if(through>today().slice(0,7))fail('Choose the current month or an earlier month.');for(const t of s.tenancies){const last=t.end&&t.end.slice(0,7)<through?t.end.slice(0,7):through;for(let m=t.start.slice(0,7);m<=last;m=nextMonth(m))if(!s.bills.some(b=>b.tenancyId===t.id&&b.month===m)){const rate=t.rates.filter(r=>r.from<=m).at(-1);s.bills.push({id:crypto.randomUUID(),tenancyId:t.id,month:m,rent:rate.rent,maintenance:rate.maintenance,adjustments:[]});}}}
 export function command(input,action,b={}){
  const s=validate(input),newId=()=>crypto.randomUUID(),record=(key,value)=>s[key].find(r=>r.id===value)||fail('Record not found.');
- if(action==='owner')s.owner=text(b.owner,'Owner name');
+ if(action.startsWith('care.')){s.care=careCommand(s.care,action,b,{scopes:s.properties.map(p=>p.id),requireScope:true});if(action==='care.complete'&&b.recordExpense){const visit=s.care.visits.find(v=>v.id===b.visitId),task=s.care.tasks.find(t=>t.id===visit.taskId),item=s.care.items.find(i=>i.id===task.itemId);if(!visit.cost)fail('Enter a paid cost above zero before recording an owner expense.');s.expenses.push({id:visit.id,propertyId:item.scopeId,amount:visit.cost,date:visit.date,note:'Maintenance: '+task.title});visit.expenseId=visit.id;}}
+ else if(action==='owner')s.owner=text(b.owner,'Owner name');
  else if(action==='property.add')s.properties.push({id:newId(),name:text(b.name,'Property name'),type:b.type,address:b.address||''});
  else if(action==='tenancy.add'){
   record('properties',b.propertyId);if(active(s,b.propertyId))fail('Close the current tenancy before adding a new tenant.');

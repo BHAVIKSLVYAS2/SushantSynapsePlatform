@@ -8,7 +8,7 @@ applies only to Kiraya Saathi; existing SQLite/D1 applications remain unchanged.
 
 `apps/kiraya-saathi/frontend/engine.mjs` owns validated rental commands and exact
 integer-paise calculations. `storage.mjs` owns IndexedDB `synapse-kiraya-saathi`,
-version 1, and revision-checked atomic writes/import. `app.mjs` owns the interface;
+version 2, and revision-checked atomic writes/import. `app.mjs` owns the interface;
 `receipt.mjs` renders payment PDFs through the shared landscape A4 encoder.
 Server static routes use an explicit asset allowlist. The shared app registry owns
 home discovery and navigation. There is no rental business API or database schema.
@@ -58,7 +58,7 @@ navigation, with mobile layouts, labelled native forms, modal keyboard controls
 and reduced-motion support. Artwork is original SVG; there are no new dependencies.
 
 Limits: 100 properties, 500 tenancies, 12,000 bills, 20,000 payments, 10,000 deposit
-entries, 10,000 owner expenses, 200 adjustments/rate changes per record, 5 MB backup
+entries, 10,000 owner expenses, 200 adjustments/rate changes per record, 20 MB backup
 and ₹100,000,000 per stored amount/bill. No general record deletion, payment gateway,
 automatic messaging, tenant portal, agreement drafting, tax calculation or PG beds.
 Receipts record owner-entered payments; they have no digital signature or public
@@ -67,3 +67,22 @@ verification. Kiraya Saathi is a working product name, not trademark clearance.
 Model and Chrome workflow tests are in `tests/kiraya-saathi.test.js` and
 `apps/kiraya-saathi/tests/browser.spec.js`. Actual verification/release status is
 recorded in the functionality ledger.
+
+## Property maintenance (14 November 2026)
+
+Each property now has Equipment & maintenance: purchase receipts, warranties,
+contacts, servicing and renewal schedules, history, costs and calendar exports.
+Records are property-owned and continue across tenant changes. The shared care
+engine/view is reused from Hisabio; household and rental stores remain separate.
+A completed service may explicitly record a paid cost as an owner expense in the
+same validated write. The visit and expense share an ID; imports verify matching
+property, date and amount, and duplicate visit IDs fail. No tenant charge, rent
+payment or deduction is inferred. Care costs without the checkbox remain history
+only. Existing bill/tenant ledgers and deposit accounting are unchanged.
+
+IndexedDB upgrades in place from 1 to 2 without recreating the existing object
+store. Backup schema 2 accepts schema 1 with empty maintenance records. Older
+version-1 app tabs cannot reopen the upgraded store and drop care records. Total
+backup allowance is now 20 MB; care has its own 15 MB limit and 1 MB per receipt.
+Receipts accept PDF, PNG, JPEG and WebP only; files are downloaded explicitly, not
+uploaded or embedded as active content. New maintenance forms initially use English.
