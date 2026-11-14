@@ -1,3 +1,19 @@
+JapSeva daily-practice improvements (2026-11-14 IST): implemented compact ongoing
+cards, focused counting with larger tap control and IST daily additions/corrections,
+client/mantra search in Ongoing and History, mala/repetition target units, disclosed
+client creation and direct history certificate access. Corrections require a reason
+and confirmation, preserve additions in an audit trail and reopen completed requests.
+Backup schema 2 accepts version 1; IndexedDB upgrades in place to version 3 to stop
+older app tabs dropping corrections. Counts remain browser-only; audio remains
+separate. No production business DB or authentication changes.
+Verification: 4/4 model tests and 9/9 Chrome scenarios pass, including new mobile
+search/correction/reload/mala flow, PDF, backup transfer, audio isolation, stale tabs,
+storage denial and responsive/shared-theme checks. Production build exports 666
+public assets. Evidence: .publish/japseva-improve-final.log, japseva-improve-build.log;
+mobile focus captures .publish/japseva-focus-{light,dark}.png. Additional targeted
+legacy version-2 upgrade and certificate-preview invalidation checks pass (2 + 1
+scenarios); production dry run passes. Release pending.
+
 JapSeva mala icon deployed (2026-11-14 IST): source 66884f8, Worker
 450c5ba7-7028-4125-af6b-d659c0b20136. Home card, catalogue metadata, app heading
 and favicon use original SVG mala artwork. Four existing catalogue consistency

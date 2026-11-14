@@ -57,3 +57,5 @@ body[data-ui-app=japseva]>.skip{position:absolute;top:-80px}body[data-ui-app=jap
 @media(prefers-reduced-motion:reduce){#main .view-enter{animation:none}#main button:active:not(:disabled){transform:none}}
 
 #main .japseva-mark{display:inline-block;vertical-align:middle;margin-inline-end:10px;flex-shrink:0}
+
+#main #sankalps.focused{grid-template-columns:minmax(0,1fr);max-width:720px;margin-inline:auto}#main .focused .counter-actions .tap{min-height:112px;font-size:32px}#main #request-search{max-width:560px;margin-bottom:20px}#main #practice-back{margin-bottom:16px}#main #client-create{margin-bottom:12px}#main .setup-grid>form{border:0!important;padding:0!important}#main .practice-card>.tap{width:100%;margin-top:16px}#main .focused .practice-card{padding:clamp(16px,4vw,32px)}

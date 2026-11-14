@@ -16,5 +16,13 @@ test('local practice enforces target, daily history, completion and backup integ
 test('IST day boundaries and backup schema/duplicate validation preserve practice records',async()=>{
  const {empty,command,validate}=await import('../apps/japseva/frontend/storage.mjs');let s=command(empty(),'/clients',{name:'Client'});s=command(s,'/sankalps',{clientId:s.clients[0].id,mantra:'Om',target:3,practitioner:'A'});const id=s.sankalps[0].id;
  s=command(s,'/'+id+'/count',{amount:1},'2026-11-12T18:29:00Z');s=command(s,'/'+id+'/count',{amount:1},'2026-11-12T18:31:00Z');assert.deepEqual(s.sankalps[0].history.map(h=>h.day),['2026-11-12','2026-11-13']);
- for(const bad of [{}, {...s,schemaVersion:2},{...s,clients:[s.clients[0],s.clients[0]]},{...s,sankalps:[s.sankalps[0],s.sankalps[0]]}])assert.throws(()=>validate(bad));
+ for(const bad of [{}, {...s,schemaVersion:99},{...s,clients:[s.clients[0],s.clients[0]]},{...s,sankalps:[s.sankalps[0],s.sankalps[0]]}])assert.throws(()=>validate(bad));
+});
+
+test('corrections preserve original history, reopen certificates and survive legacy backup upgrades',async()=>{
+ const {empty,command,validate,certificate}=await import('../apps/japseva/frontend/storage.mjs');let s=command(empty(),'/clients',{name:'Client'});s=command(s,'/sankalps',{clientId:s.clients[0].id,mantra:'Om',target:108,practitioner:'A'});const id=s.sankalps[0].id;
+ s=command(s,'/'+id+'/count',{amount:108});const legacy=structuredClone(s);legacy.schemaVersion=1;delete legacy.sankalps[0].corrections;assert.equal(validate(legacy).sankalps[0].count,108);
+ for(const body of [{amount:109,reason:'Mistake'},{amount:1,reason:''},{amount:-1,reason:'Mistake'}])assert.throws(()=>command(s,'/'+id+'/correct',body));
+ s=command(s,'/'+id+'/correct',{amount:8,reason:'Accidental taps'});assert.equal(s.sankalps[0].count,100);assert.equal(s.sankalps[0].history[0].amount,108);assert.equal(s.sankalps[0].completedAt,null);assert.throws(()=>certificate(s,id));assert.deepEqual(validate(JSON.parse(JSON.stringify(s))),s);
+ s=command(s,'/'+id+'/count',{amount:8});assert.equal(certificate(s,id).count,108);const bad=structuredClone(s);bad.sankalps[0].corrections[0].amount=1;assert.throws(()=>validate(bad));
 });

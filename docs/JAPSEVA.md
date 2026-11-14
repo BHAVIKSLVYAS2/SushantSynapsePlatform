@@ -15,7 +15,7 @@ initial undeployed account/SQLite/D1 implementation.
 ## Ownership and persistence
 
 apps/japseva/frontend/storage.mjs owns the validated local model, IndexedDB
-(synapse-japseva, version 2), atomic version checks and validated backup import.
+(synapse-japseva, version 3), atomic version checks and validated backup import.
 app.mjs owns the workflow; library.mjs owns learning content; certificate.mjs
 owns the print renderer. packages/ui/canvas-pdf.mjs is shared with Moment Studio.
 
@@ -60,7 +60,7 @@ of Vedic intonation is claimed. Certificates acknowledge practitioner-entered
 practice, with no digital signature, public verification or promised outcome.
 
 Limits: 200 clients, 200 sankalps, 100 million repetitions per target, one million
-per increment, 5,000 daily entries per sankalp and 1 MB backup input. No edit/delete,
+per increment, 5,000 daily entries per sankalp and 1 MB backup input. No general edit/delete,
 payments, client contact collection or automatic delivery. Product name is a
 suggestion, not trademark clearance.
 
@@ -96,3 +96,27 @@ Screen UI uses the shared premium stylesheet and --ui-* theme tokens. App CSS
 is scoped to #main; it does not restyle shared navigation or theme controls.
 Learning/player content is side by side on desktop and stacked on phones.
 The fixed print certificate palette is independent of screen theme.
+
+## Focused daily practice and corrections (14 November 2026)
+
+Ongoing cards now show a compact progress summary and Continue practice. A single
+focused request contains the larger tap counter, +108, custom additions, today's
+IST additions/corrections, learning link and expandable history. Back to requests
+returns to the list. Ongoing and History support client/mantra search; completed
+cards have the completion date and direct certificate access. Creation immediately
+opens the new practice. New clients can be added in a disclosure beside the setup
+flow; targets accept repetitions or whole malas of 108.
+
+Corrections remove a positive bounded amount, require a reason and confirmation,
+and retain the original daily additions plus a separate dated correction trail.
+The validated total is additions minus corrections. Removing from a completed
+request reopens it and prevents new certificate generation until completed again.
+Previously downloaded/printed certificates cannot be recalled. Today's additions
+and corrections are displayed separately, including corrections to earlier work.
+
+Backup schema 2 retains corrections and accepts schema 1 imports with empty
+correction trails. IndexedDB upgrades in place to version 3; old version-2 app tabs
+cannot reopen the upgraded store and silently discard corrections. Existing client,
+practice and audio records remain. Stale-revision checks still apply. Audio plays
+remain separate from chanting and certificate eligibility. Release evidence is in
+the functionality ledger.
