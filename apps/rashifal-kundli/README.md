@@ -1,12 +1,11 @@
 # Rashifal and Kundli: internal birth, export and P11 traditions UI
 
-Local UI revision (2026-11-14): Kundli results now separate Overview, Charts,
+Deployed UI revision (2026-11-14, source 9f2744b): Kundli results now separate Overview, Charts,
 Planets, Dasha & calendar, Life areas and Advanced. Charts gain a mobile house
 selector and complete selected-house positions, beside the chart on desktop.
 Periods have readable dates and a current-period return action; reports gain
 a restrained header and better section/print spacing. Calculations, privacy,
-saved-input format and uncertainty gates are unchanged. This revision is not
-deployed. Scope and the remaining feature queue:
+saved-input format and uncertainty gates are unchanged. Live verification passes. Scope and the remaining feature queue:
 docs/vedic/RITVAYAM_UI_PLAN_2026-11-14.md. Verification is in the ledger.
 
 Deployed city-search improvement (2026-10-31): Kundali, Matching, Time Machine and annual tithi

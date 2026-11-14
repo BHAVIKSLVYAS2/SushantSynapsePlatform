@@ -1,8 +1,9 @@
 # Ritvayam Kundli layout and feature queue
 
 The user approved the first experience phase after the AstroSage comparison,
-then prioritised JapSeva. JapSeva was committed and deployed first. This phase
-is implemented locally; it has not been committed or deployed.
+then prioritised JapSeva. JapSeva was committed and deployed first. The experience
+phase is committed as 9f2744b and deployed. Exact release and live verification
+are recorded in FUNCTIONALITY_LEDGER.md.
 
 ## Implemented experience phase
 

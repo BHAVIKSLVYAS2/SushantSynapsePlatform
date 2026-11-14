@@ -1,3 +1,19 @@
+Ritvayam Kundli experience deployed (2026-11-14 IST): source 9f2744b,
+Worker 7beb0128-3e66-4a11-a4c8-8dc9b8613d04, at
+https://apps.sushantsynapse.com/rashifal-kundli. Six result destinations,
+responsive chart/selected-house inspection, readable Dasha dates/current-period
+return and report presentation improvements are live in English/Hindi/Gujarati.
+All 9 live Chrome journeys pass, including generation/editing, saved-input reuse,
+matching consent, unknown times, cancellation, private downloads and print.
+Entry JS, application CSS and all 6 shared astrology chunks exactly match the
+committed production build; JapSeva JS/CSS are retained. Health is 200/D1;
+unscoped records remain 409. Existing production config and --keep-vars preserve
+organisation/authentication settings and bindings. No schema or production data
+writes; birth inputs stay browser-local. Unrelated pending files excluded; no
+push. Evidence: .publish/ritvayam-layout-review/.publish/ritvayam-layout-{deploy,
+live-browser}.log, ritvayam-layout-live.json and ritvayam-live-results/.
+The queued additional calculation systems are separate from this UI release.
+
 JapSeva separated workspace deployed (2026-11-14 IST): source f149102,
 Worker e76dc011-9f82-47e2-81e8-fa3468c5887e, at
 https://apps.sushantsynapse.com/japseva. Ongoing practice, new requests, completed
