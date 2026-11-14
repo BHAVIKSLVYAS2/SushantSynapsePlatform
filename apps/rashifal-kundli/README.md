@@ -1,5 +1,17 @@
 # Rashifal and Kundli: internal birth, export and P11 traditions UI
 
+Practitioner workspace deployed (2026-11-14, source 8d9f1c0): chart-first
+results, paired desktop D1/D9, compact mobile switching/expanded chart, full
+localised graha labels and linked Graha Spashta with completed-arcsecond sign
+degrees, nakshatra/pada and D9 signs. Current Dasha is alongside the workspace;
+chart and Dasha selections survive language changes. More separates existing
+Vargas/strength, traditional checks, birth-time sensitivity, Time Machine,
+readings and report controls. Exact timing/provenance stays available in details.
+Existing calculation admission and private saved-input formats are unchanged.
+Scope and verification: docs/RITVAYAM_JYOTISH_UX_REVIEW_2026-11-14.md and ledger.
+Earlier result-layout checkpoint below is superseded by this release.
+
+
 Deployed UI revision (2026-11-14, source 9f2744b): Kundli results now separate Overview, Charts,
 Planets, Dasha & calendar, Life areas and Advanced. Charts gain a mobile house
 selector and complete selected-house positions, beside the chart on desktop.

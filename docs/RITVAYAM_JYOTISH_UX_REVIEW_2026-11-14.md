@@ -2,6 +2,9 @@
 
 ## Implementation following user approval
 
+Deployed source `8d9f1c0`, Worker `8fef4080-710a-4b77-ab91-218b5a8237fe`.
+All three live practitioner journeys and 13 live asset/route checks passed.
+
 The user approved fixing and deploying this review on 14 November 2026. The
 implemented increment defaults to the Jyotish workspace, with D1/D9 side by side
 on desktop, one selectable diagram on mobile, full graha labels, a linked

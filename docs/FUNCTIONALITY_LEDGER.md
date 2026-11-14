@@ -1,4 +1,23 @@
-Ritvayam practitioner workspace (2026-11-14 IST, implemented; release pending):
+Ritvayam practitioner workspace deployed (2026-11-14 IST): source 8d9f1c0,
+Worker 8fef4080-710a-4b77-ab91-218b5a8237fe, live at
+https://apps.sushantsynapse.com/rashifal-kundli. Published with the existing
+production config and --keep-vars; organisation/authentication vars and D1
+binding preserved. No migrations, bootstrap, provider or production business-data
+changes. Live browser tests block non-GET business API requests and use synthetic
+birth details without saving profiles.
+
+Live verification passed three practitioner journeys, including D1/D9 comparison,
+all grahas, linked selection, English/Hindi/Gujarati light/dark layouts at
+320/390/768/1280px, retained chart/Dasha state, keyboard modal focus, unknown-time
+withholding, separate analysis destinations, exact boundary disclosure and private
+report download. Eight exact JS/CSS/chunk comparisons plus five route/health/API
+status checks passed (healthz 200, unscoped records 409). Evidence:
+.publish/jyotish-{deploy,live-browser,live-assets}.log and jyotish-live-assets.json.
+20 targeted Node checks and all 11 affected browser scenarios have passing
+results locally. Practitioner task-study/astronomical certification remains
+outside these implementation checks.
+
+Ritvayam practitioner workspace implementation (2026-11-14 IST; deployed above):
 user approved fixing/deploying the review below. Kundali now defaults to charts:
 paired D1/D9 on desktop; one readable diagram with D1/D9 and native style selector
 on mobile; expanded keyboard-contained chart; complete localised graha labels;

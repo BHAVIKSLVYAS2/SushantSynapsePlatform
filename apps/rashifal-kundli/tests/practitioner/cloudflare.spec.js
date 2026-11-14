@@ -2,6 +2,7 @@ const {test,expect}=require('../../../../tests/browser-fixture');
 const {start}=require('../production-server.cjs');
 const {fillDate,fillTime}=require('../../../../tests/vedic-civil-input.cjs');
 let server;test.beforeAll(async()=>{server=await start();});test.afterAll(async()=>{await server.close();});
+test.beforeEach(async({page})=>{if(process.env.VEDIC_LIVE_ORIGIN)await page.route('**/api/**',route=>route.request().method()==='GET'?route.continue():route.abort());});
 async function generate(page){await page.goto(server.origin+'/rashifal-kundli');await fillDate(page,'#birth-date','1990-08-15');await fillTime(page,'#birth-time','10:30');await page.locator('#birth-query').fill('New Delhi');await page.locator('[data-place-id="geonames:1261481"]').click();await page.locator('#birth-calculate').click();await expect(page.locator('.vedic-charts')).toBeVisible();}
 test('practitioner workspace compares charts, shows every graha, links table selection and preserves native-language state',async({page})=>{
  test.setTimeout(120000);const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.setViewportSize({width:1280,height:900});await generate(page);
