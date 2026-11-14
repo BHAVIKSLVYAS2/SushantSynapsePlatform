@@ -1,3 +1,11 @@
+Approved retired News/Fund Lens purge (2026-11-14): eight live tables and exact
+retired access references removed from production D1 and local SQLite. Current
+D1 schema excludes their seeds; historical SQL/catalogue metadata remains only
+for archival tooling. Absent-table recovery is supported; normal Node startup
+already excludes retired schemas. Scope/evidence: functionality ledger and
+RETIRED_APP_TABLE_PURGE_PLAN_2026-11-09.md. Older preservation checkpoints below
+are historical and superseded for this exact approved live-data scope.
+
 # Code ownership and adding apps
 
 JapSeva (2026-11-12): user-authorised browser-only personal mantra practice.

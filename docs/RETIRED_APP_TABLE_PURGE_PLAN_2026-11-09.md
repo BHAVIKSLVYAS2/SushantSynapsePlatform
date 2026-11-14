@@ -1,3 +1,37 @@
+# Approved purge completed on 14 November 2026
+
+Approved retired-table purge completed (2026-11-14 IST): the user approved
+completion after the explicit eight-table deletion caveat. Fresh counts matched
+the plan: 216 production rows and 72 local rows, plus two obsolete fund-overlap
+app_access entries in each database. Applied 0010-retired-app-purge.sql only to
+synapse-platform-free-production and the existing local data/chambers.sqlite.
+All eight tables are absent. Production's other 79 table schemas/counts remain
+unchanged except the expected migration-history entry; foreign_key_check is
+empty. Local checksums for all 45 remaining tables are unchanged, excluding only
+the approved access rows. Retired licences/assignments were absent. No full data
+export, bootstrap, legacy remapping, backup deletion or SQL Server operation.
+
+Fresh D1 schema generation now excludes retired tables/seeds, and the baseline
+generator preserves existing historical migration files. Current D1 recovery
+accepts absent retired tables. Explicit offline archival verifiers retain older
+backup compatibility; Node full exports still preserve archival tables if an
+older database contains them. Recovery metadata/history remains for that purpose.
+The alternative D1 migration chain was not changed: automatic approval review
+rejected extending deletion beyond the named production/local scope.
+
+Verification: 20/20 focused purge, SQLite transfer, organisation cutover and Pandit
+recovery tests; 20/20 affected Cloudflare/API and Samaj rechecks. Full Node run:
+562/570 passed, with seven sandbox build-write failures and one stale absent-table
+export fixture; all eight affected scenarios passed in the focused rechecks.
+Production dry build passed. Additional free-D1 workflow checks passed 11/11,
+including mobile email-code account screens, documents and capacity guards.
+Evidence: .publish/approved-purge-{production-before,production-after,
+local-verification}.json; approved-purge-{production-apply,final-unit,
+api-retry,free-final,dryrun,full-tests}.log. Live source release pending below.
+The older cleanup-only checkpoint below is historical, superseded by this approval.
+
+## Historical pre-approval plan
+
 # Retired-app table deletion awaiting approval
 
 Date: 9 November 2026 IST. The user explicitly requested being asked before

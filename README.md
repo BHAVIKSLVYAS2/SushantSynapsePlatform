@@ -19,8 +19,9 @@ the Gita and Bhagavata four-verse groups are complete. Two unverified entries ar
 excluded. [Source review](docs/SHLOKI_SOURCE_REVIEW_2026-11-09.md).
 
 Sushant Synapse Times and Fund Lens are retired. Their old pages and APIs return
-404; existing stored records remain preserved for recovery. See the functionality
-ledger for the deployed releases and verification.
+404. The approved eight-table live-data purge completed on 14 November 2026;
+older backups/history remain preserved. See the functionality ledger for scope
+and verification.
 
 Home offers a larger Comfort view by default (two apps per row) and the existing
 Compact view. The switch remembers the choice on this device. Comfort keeps app

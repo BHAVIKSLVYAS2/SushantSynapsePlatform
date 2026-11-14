@@ -1,6 +1,26 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 const {DatabaseSync}=require('node:sqlite');
 const {Store}=require('../apps/advocate/backend/store');
+const purge=fs.readFileSync(path.join(__dirname,'../infrastructure/cloudflare/d1-free-migrations/0010-retired-app-purge.sql'),'utf8');
+test('approved purge preserves active data, is repeatable and does not recreate retired tables',()=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'retired-purge-'));let store;
+ try{
+  store=new Store(dir);
+  for(const [folder,files]of [['news',['001-editions.sql','002-fetch-budget.sql']],['fund-lens',['001-portfolio.sql']]])for(const file of files)store.sql.exec(fs.readFileSync(path.join(__dirname,'../packages/database/retired',folder,file),'utf8'));
+  store.sql.prepare('INSERT INTO users VALUES(?,?,?,?,?,1)').run('kept','Kept','kept@example.test','Owner','hash');
+  for(const app of ['advocate','fund-overlap','news'])store.sql.prepare('INSERT INTO app_access VALUES(?,?)').run('kept',app);
+  store.addFile('kept-file','kept.txt','text/plain',Buffer.from('preserved'));
+  store.sql.exec('BEGIN');store.sql.exec(purge);store.sql.exec('COMMIT');store.sql.exec(purge);
+  assert.deepEqual(store.sql.prepare('SELECT appId FROM app_access').all().map(r=>r.appId),['advocate']);
+  assert.equal(Buffer.from(store.file('kept-file').content).toString(),'preserved');
+  assert.equal(store.sql.prepare('SELECT password FROM users WHERE id=?').get('kept').password,'hash');
+  assert.equal(store.sql.prepare('PRAGMA foreign_key_check').all().length,0);
+  store.sql.close();store=new Store(dir);
+  assert.equal(store.sql.prepare("SELECT COUNT(*) n FROM sqlite_master WHERE name LIKE 'news_%' OR name LIKE 'fund_lens_%'").get().n,0);
+  assert.doesNotMatch(store.exportSql(),/CREATE TABLE[^;]*(?:fund_lens_|news_)/);
+ }finally{store?.sql.close();fs.rmSync(dir,{recursive:true,force:true});}
+ const db=new DatabaseSync(':memory:');try{db.exec(require('../infrastructure/cloudflare/build-d1.cjs').schema());assert.equal(db.prepare("SELECT COUNT(*) n FROM sqlite_master WHERE name LIKE 'news_%' OR name LIKE 'fund_lens_%'").get().n,0);}finally{db.close();}
+});
 test('retired financial records survive a full SQLite recovery export without active app code',()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'retired-recovery-'));let store,restored;
  try{

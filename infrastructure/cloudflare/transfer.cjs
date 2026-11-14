@@ -14,7 +14,7 @@ const literal=v=>v===null?'NULL':typeof v==='number'?(Number.isFinite(v)?String(
 function createBundle(reader,output,source,{readObject}={}){
  const target=path.resolve(output);if(fs.existsSync(target))throw Error('Choose a new output directory; existing files were not replaced');
  fs.mkdirSync(path.join(target,'blobs'),{recursive:true,mode:0o700});
- const defaults=new DatabaseSync(':memory:');defaults.exec(schema());
+ const defaults=new DatabaseSync(':memory:');defaults.exec(schema({includeRetired:true}));
  try{
   const exported={},objects=[],manifest={format:'synapse-d1-r2',version:1,source,createdAt:new Date().toISOString(),sessionsMigrated:false,initializedTables:[],tables:exported,objects};
   for(const meta of Object.values(tables)){
@@ -50,7 +50,7 @@ function loadBundle(directory){
 }
 function importSql(manifest,manifestHash){
  const lines=['-- Private full platform import; use only a NEW, unbound D1 target.','PRAGMA defer_foreign_keys=ON;','CREATE TABLE edge_import_values(id TEXT PRIMARY KEY,data TEXT NOT NULL);'];
- for(const name of [...seeded].reverse())lines.push('DELETE FROM '+name+';');
+ for(const name of [...seeded].reverse())if(manifest.tables[name])lines.push('DELETE FROM '+name+';');
  let temporary=0;
  for(const [name,t]of Object.entries(manifest.tables))for(const row of t.rows){const columns=Object.keys(row),names=columns.map(c=>c==='__rowid'?'rowid':c);let values=columns.map(c=>literal(row[c])),sql='INSERT INTO '+name+'('+names.join(',')+') VALUES('+values.join(',')+');';if(Buffer.byteLength(sql)>95000){values=columns.map(c=>{if(typeof row[c]!=='string'||Buffer.byteLength(literal(row[c]))<20000)return literal(row[c]);const id='value-'+temporary++,points=Array.from(row[c]);lines.push(`INSERT INTO edge_import_values VALUES(${literal(id)},'');`);for(let i=0;i<points.length;i+=10000)lines.push(`UPDATE edge_import_values SET data=data||${literal(points.slice(i,i+10000).join(''))} WHERE id=${literal(id)};`);return `(SELECT data FROM edge_import_values WHERE id=${literal(id)})`;});sql='INSERT INTO '+name+'('+names.join(',')+') VALUES('+values.join(',')+');';}if(Buffer.byteLength(sql)>95000)throw Error('Row metadata exceeds D1 SQL import limits: '+name);lines.push(sql);}
  for(const o of manifest.objects){const columns=['scope','id','object_key','name','mime','size','sha256','created_at'];lines.push('INSERT INTO edge_objects('+columns.join(',')+') VALUES('+columns.map(k=>literal(o[k])).join(',')+');');}
@@ -58,7 +58,7 @@ function importSql(manifest,manifestHash){
 }
 function validateBundle(directory){
  const {manifest,manifestHash}=loadBundle(directory),db=new DatabaseSync(':memory:');
- try{db.exec(schema());db.exec('BEGIN');db.exec(importSql(manifest,manifestHash));db.exec('COMMIT');if(db.prepare('PRAGMA foreign_key_check').all().length||db.prepare('PRAGMA integrity_check').get().integrity_check!=='ok')throw Error('Imported database integrity failed');for(const [name,t]of Object.entries(manifest.tables)){const rows=db.prepare('SELECT '+tables[name].columns.map(c=>c.name).join(',')+(name==='records'?',rowid AS __rowid':'')+' FROM '+name).all();if(rows.length!==t.rows.length||digest(rows)!==t.sha256)throw Error('Imported content mismatch: '+name);}return {manifestHash,rows:Object.values(manifest.tables).reduce((n,t)=>n+t.rows.length,0),objects:manifest.objects.length};}finally{db.close();}
+ try{db.exec(schema({includeRetired:true}));db.exec('BEGIN');db.exec(importSql(manifest,manifestHash));db.exec('COMMIT');if(db.prepare('PRAGMA foreign_key_check').all().length||db.prepare('PRAGMA integrity_check').get().integrity_check!=='ok')throw Error('Imported database integrity failed');for(const [name,t]of Object.entries(manifest.tables)){const rows=db.prepare('SELECT '+tables[name].columns.map(c=>c.name).join(',')+(name==='records'?',rowid AS __rowid':'')+' FROM '+name).all();if(rows.length!==t.rows.length||digest(rows)!==t.sha256)throw Error('Imported content mismatch: '+name);}return {manifestHash,rows:Object.values(manifest.tables).reduce((n,t)=>n+t.rows.length,0),objects:manifest.objects.length};}finally{db.close();}
 }
 function exportSqlite(source,output){
  const input=path.resolve(source);if(!fs.existsSync(input))throw Error('SQLite source does not exist');const db=new DatabaseSync(input,{readOnly:true});
@@ -82,7 +82,7 @@ function readTables(target,mode){
  for(const {name,n}of counts)if(result[name].length!==n)throw Error('Target changed during verification: '+name);return result;
 }
 function assertEmpty(target,mode){
- const seed=new DatabaseSync(':memory:');seed.exec(schema());try{const controls=query(target,'SELECT revision,(SELECT COUNT(*) FROM edge_objects) objects,(SELECT COUNT(*) FROM edge_imports) imports FROM edge_revision WHERE id=1',mode)[0];if(controls?.revision!==0||controls.objects!==0||controls.imports!==0)throw Error('Import requires a new target without application writes');const actual=readTables(target,mode);for(const meta of Object.values(tables)){if(digest(actual[meta.name])!==digest(seed.prepare('SELECT *'+(meta.name==='records'?',rowid AS __rowid':'')+' FROM '+meta.name).all()))throw Error('Import requires an empty schema-initialized target: '+meta.name);}}finally{seed.close();}
+ const seed=new DatabaseSync(':memory:');seed.exec(schema({includeRetired:true}));try{const controls=query(target,'SELECT revision,(SELECT COUNT(*) FROM edge_objects) objects,(SELECT COUNT(*) FROM edge_imports) imports FROM edge_revision WHERE id=1',mode)[0];if(controls?.revision!==0||controls.objects!==0||controls.imports!==0)throw Error('Import requires a new target without application writes');const actual=readTables(target,mode);for(const meta of Object.values(tables)){if(digest(actual[meta.name])!==digest(seed.prepare('SELECT *'+(meta.name==='records'?',rowid AS __rowid':'')+' FROM '+meta.name).all()))throw Error('Import requires an empty schema-initialized target: '+meta.name);}}finally{seed.close();}
 }
 function verifyTarget(bundle,target,bucket,mode){
  const {manifest,manifestHash,root}=loadBundle(bundle);const scratch=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-r2-check-'));
