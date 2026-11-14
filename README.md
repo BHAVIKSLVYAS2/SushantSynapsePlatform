@@ -246,8 +246,8 @@ refresh and the Lights Out replacement are deployed and live-verified on 2026-10
 verification and final release status are recorded in the functionality ledger.
 
 Satire Arena 2 adds compact labelled reaction cards, shareable character pages,
-an owner editorial desk at `/satire-arena/editor`, scheduled Daily Satire at
-`/satire-arena/daily`, and genuine retained-ballot history at
+an owner editorial desk at `/satire-arena/editor`, category-based Daily Satire at
+`/satire-arena/categories/office`, and genuine retained-ballot history at
 `/satire-arena/results`. Editorial data stays in the existing SQL settings store;
 no schema migration is required. Aggregate action analytics is optional and off
 by default; Arena has no app-specific ad placements. Any site-level Auto Ads
@@ -279,7 +279,7 @@ Public [privacy/data-use information](/privacy), [usage responsibilities](/terms
 
 
 
-**Take a Break** at `/take-a-break` brings seven activities into one mobile-friendly hub: One-Minute Chaos, Make 24 (Daily Spark), Crack the Code, Memory Minute, Lights Out, Face-Off and Decision Wheel. The Crack the Code redesign replaces the five-digit guessing game with three distinct digits and five visible clues leading to one solution, plus a scratchpad, optional starting hint and unlimited checks. Daily challenges use IST dates, with practice rounds and explicit sharing. Free, no login, no backend dependency; progress stays in the current tab. Existing `/daily-spark` and `/decision-wheel` links continue to work. The clue-led redesign was deployed and live-verified on 2026-10-16. The Lights Out replacement for Clue Club adds three solvable boards, undo and optional hints; it was deployed and live-verified on 2026-10-16.
+**Take a Break** at `/take-a-break` brings seven activities into one mobile-friendly hub: One-Minute Chaos, Make 24 (Daily Spark), Crack the Code, Memory Minute, Lights Out, Face-Off and Decision Wheel. The Crack the Code redesign replaces the five-digit guessing game with three distinct digits and five visible clues leading to one solution, plus a scratchpad, optional starting hint and unlimited checks. Daily challenges use IST dates, with practice rounds and explicit sharing. Free, no login, no backend dependency; progress stays in the current tab. Current source uses `/take-a-break?game=24` and `/picksy`; the old standalone routes return 404. The clue-led redesign was deployed and live-verified on 2026-10-16. The Lights Out replacement for Clue Club adds three solvable boards, undo and optional hints; it was deployed and live-verified on 2026-10-16.
 
 ## Repository structure
 
@@ -447,11 +447,11 @@ Lossless PNG offers 7016 × 4961 pixels (600 DPI) or 3508 × 2480 (300 DPI), wit
 
 ## Daily Spark
 
-Public /daily-spark is a free daily make-24 puzzle: a deterministic IST challenge, practice puzzles, undo, hints, solution reveal and spoiler-free sharing. Shared date links reopen the same puzzle. Progress is transient tab memory; there are no accounts, stored scores or leaderboard. It makes no API requests and is configured for the existing Cloudflare frontend while the laptop is off; the frontend release is live at https://apps.sushantsynapse.com/daily-spark. See apps/daily-spark/README.md.
+Make 24 at /take-a-break?game=24 is a free daily make-24 puzzle: a deterministic IST challenge, practice puzzles, undo, hints, solution reveal and spoiler-free sharing. Shared date links reopen the same puzzle. Progress is transient tab memory; there are no accounts, stored scores or leaderboard. It makes no API requests and is configured for the existing Cloudflare frontend while the laptop is off; the frontend release is live at https://apps.sushantsynapse.com/take-a-break?game=24. See apps/daily-spark/README.md.
 
 ## Decision Wheel
 
-/decision-wheel is a free, public animated picker for lunch, tasks or names. Enter 2-30 unique options, spin, remove winners for picks without repeats and explicitly share a result. Equal-choice sampling, reduced motion and up to 20 tab-only recent picks are included. No account, API or saved lists; refresh clears your choices/history. Live at https://apps.sushantsynapse.com/decision-wheel through Cloudflare; the wheel works independently of the laptop backend. See apps/decision-wheel/README.md.
+/picksy is a free, public animated picker for lunch, tasks or names. Enter 2-30 unique options, spin, remove winners for picks without repeats and explicitly share a result. Equal-choice sampling, reduced motion and up to 20 tab-only recent picks are included. No account, API or saved lists; refresh clears your choices/history. Live at https://apps.sushantsynapse.com/decision-wheel through Cloudflare; the wheel works independently of the laptop backend. See apps/decision-wheel/README.md.
 
 ## Cards in Moment Studio
 

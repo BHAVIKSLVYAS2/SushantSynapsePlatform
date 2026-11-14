@@ -34,7 +34,7 @@ test('offline home keeps public tools usable and every dependent app shows a res
   await page.goto(base);
   await expect(page.locator('#free-apps .public-app')).toHaveCount(13);
   await expect(page.locator('#backend-notice')).toHaveCount(0);
-  await expect(page.locator('.offline-ribbon')).toHaveCount(4);
+  await expect(page.locator('.workspace-grid .offline-ribbon')).toHaveCount(5);
   await expect(page.locator('#free-apps .offline-ribbon')).toHaveCount(0);
   await expect(page.locator('#workspace-connection')).toContainText('Some workspace services');
   await expect(page.locator('#workspace-connection')).toContainText('saved records remain on the server');
@@ -45,7 +45,7 @@ test('offline home keeps public tools usable and every dependent app shows a res
   await page.screenshot({path:'test-results/home-offline-mobile.png'});
   online = true;
   await page.locator('#workspace-connection button').click();
-  await expect(page.locator('.offline-ribbon')).toHaveCount(0);
+  await expect(page.locator('.workspace-grid .offline-ribbon')).toHaveCount(0);
   await expect(page.locator('#connection-title')).toContainText('responding again');
   online = false;
   const showcaseResponse=await page.goto(base+'/showcase?screen=1');expect(showcaseResponse.status()).toBe(200);await expect(page.locator('#scene-nav button')).toHaveCount(13);await expect(page.locator('#backend-notice')).toHaveCount(0);await expect(page.locator('#play')).toBeVisible();
@@ -55,8 +55,8 @@ test('offline home keeps public tools usable and every dependent app shows a res
   await expect(page.locator('canvas').first()).toBeVisible();
   await page.goto(base + '/team-mixer'); await page.locator('#mix').click(); await expect(page.locator('#exports')).toBeVisible(); await expect(page.locator('#backend-notice')).toHaveCount(0);
   await page.goto(base + '/moment-studio/cards'); await expect(page.locator('#card')).toBeVisible(); await expect(page.locator('#download')).toBeEnabled(); await expect(page.locator('#backend-notice')).toHaveCount(0);
-  await page.goto(base + '/decision-wheel'); await expect(page.locator('#spin')).toBeVisible(); await page.locator('#spin').click(); await expect(page.locator('#winner')).toBeVisible({timeout:10000}); await expect(page.locator('#backend-notice')).toHaveCount(0);
-  await page.goto(base + '/daily-spark'); await expect(page.locator('#numbers button')).toHaveCount(4); await expect(page.locator('#backend-notice')).toHaveCount(0);
+  await page.goto(base + '/picksy'); await expect(page.locator('#spin')).toBeVisible(); await page.locator('#spin').click(); await expect(page.locator('#winner')).toBeVisible({timeout:10000}); await expect(page.locator('#backend-notice')).toHaveCount(0);
+  await page.goto(base + '/take-a-break?game=24'); await expect(page.locator('#numbers button')).toHaveCount(4); await expect(page.locator('#backend-notice')).toHaveCount(0);
   await page.goto(base + '/timetable-lite'); await expect(page.locator('#backend-notice')).toHaveCount(0);
   for (const route of ['/signin?next=advocate', '/advocate', '/digital-samaj', '/batchfee-lite', '/tournament-lite?share=abc']) {
     const response = await page.goto(base + route); expect(response.status()).toBe(503);

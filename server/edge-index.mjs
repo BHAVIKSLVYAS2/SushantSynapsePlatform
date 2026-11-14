@@ -30,7 +30,7 @@ export async function edgeApi(request,env){
   const url=new URL(request.url),configured=env.PUBLIC_ORIGIN;if(!configured)fail(503,'PUBLIC_ORIGIN is not configured');if(url.origin!==configured)fail(403,'Host rejected');
   if(request.headers.get('Origin')&&request.headers.get('Origin')!==configured)fail(403,'Origin rejected');if(request.headers.get('Sec-Fetch-Site')==='cross-site')fail(403,'Cross-site request rejected');
   if(env.MAINTENANCE_MODE==='true')fail(503,'The workspace is undergoing maintenance. Please try again shortly.');
-  if(/^\/api\/(?:fund-overlap|news)(?:\/|$)/.test(url.pathname))fail(404,'Not found');
+  if(/^\/api\/(?:fund-overlap|news|daily-spark|decision-wheel)(?:\/|$)/.test(url.pathname))fail(404,'Not found');
   if(url.pathname==='/api/places'){
    if(!(await env.CITY_LIMITER?.limit({key:'places:'+request.headers.get('CF-Connecting-IP')}))?.success)fail(429,'Please wait before searching again.');
    return placeResponse(request);

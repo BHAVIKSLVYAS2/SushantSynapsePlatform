@@ -30,7 +30,7 @@ test('official profiles are document-scoped with source dates and conservative l
 test('root sitemap discovers useful public tools and excludes private/noindex/alias routes',async()=>{
  const {publicPage}=await import('../apps/satire-arena/backend/public-pages.mjs'),{publicUtilityPaths}=await import('../packages/app-registry/public-seo.mjs');
  const xml=await publicPage(new Request('https://example.test/sitemap.xml'),{posts:[]}).text();for(const route of publicUtilityPaths())assert.ok(xml.includes('<loc>https://example.test'+route+'</loc>'));
- for(const route of ['/admin','/account','/super-admin','/advocate','/pandit-booking','/digital-samaj','/batchfee-lite','/tournament-lite','/rashifal-kundli','/moment-studio/certificates','/daily-spark'])assert.ok(!xml.includes('<loc>https://example.test'+route+'</loc>'));
+ for(const route of ['/admin','/account','/super-admin','/advocate','/pandit-booking','/digital-samaj','/batchfee-lite','/tournament-lite','/rashifal-kundli','/moment-studio/certificates','/take-a-break?game=24'])assert.ok(!xml.includes('<loc>https://example.test'+route+'</loc>'));
  const urls=[...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match=>match[1]);assert.equal(new Set(urls).size,urls.length);const scoped=await publicPage(new Request('https://example.test/satire-arena/sitemap.xml'),{posts:[]}).text();assert.doesNotMatch(scoped,/photo-resize/);assert.match(scoped,/characters/);
 });
 

@@ -37,7 +37,7 @@
    const feature=home.querySelector('[data-home-vedic]'),featuredApp=catalogue.apps.find(app=>app.homeFeatureOnly);
    if(feature&&featuredApp){hidden(feature,(selected!=='all'&&!featuredApp.groups.includes(selected))||!terms.every(term=>catalogue.appSearchText(featuredApp).includes(term)));if(!feature.hidden)count++;}
    text(status,count+' apps');hidden(empty,count!==0||!home.querySelector('.catalogue-item'));hidden(grid,publicCount===0);hidden(home.querySelector('#workspace-apps'),workspaceCount===0);hidden(search.querySelector('button'),!terms.length);
-   filters.dataset.active=String(selected!=='all');text(filterLabel,selected==='all'?'Filters':'Filters · 1');hidden(chip,selected==='all');text(chip,categoryName()+' ×');attribute(chip,'aria-label','Remove category filter: '+categoryName());hidden(active,selected==='all'&&!terms.length);
+   attribute(filters,'data-active',String(selected!=='all'));text(filterLabel,selected==='all'?'Filters':'Filters · 1');hidden(chip,selected==='all');text(chip,categoryName()+' ×');attribute(chip,'aria-label','Remove category filter: '+categoryName());hidden(active,selected==='all'&&!terms.length);
    const footer=home.querySelector('.home-mobile-dock');if(footer){const current=footer.querySelector('[aria-current]'),target=selected==='games'?footer.querySelector('[data-home-games]'):current?.getAttribute('href')==='#workspace-apps'?current:footer.querySelector('a');for(const link of footer.querySelectorAll('a')){if(link===target)attribute(link,'aria-current','location');else link.removeAttribute('aria-current');}}
   }
   search.querySelector('input').oninput=filter;search.querySelector('button').onclick=()=>{search.querySelector('input').value='';filter();search.querySelector('input').focus();};

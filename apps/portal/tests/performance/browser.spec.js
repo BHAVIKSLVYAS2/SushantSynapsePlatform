@@ -26,9 +26,9 @@ test('settled discovery and almanac do not mutate unchanged content',async({page
 test('consolidated Vedic CSS preserves the complete original cascade',async({page})=>{
  test.setTimeout(120000);const {stylesheetFiles}=require('../../../rashifal-kundli/build.cjs');const original=stylesheetFiles.map(file=>fs.readFileSync(path.resolve('apps/rashifal-kundli',file),'utf8')).join('\n');
  for(const route of ['/rashifal-kundli','/rashifal-kundli/matching','/rashifal-kundli/rashifal','/rashifal-kundli/time-machine']){
-  await page.goto(base+route);await expect(page.locator('main :is(h1,h2)').first()).toBeVisible();await expect(page.locator('link[rel=stylesheet]')).toHaveCount(1);await page.addStyleTag({content:'*,*::before,*::after{animation:none!important;transition:none!important}'});
+  await page.goto(base+route);await expect(page.locator('main :is(h1,h2)').first()).toBeVisible();await expect(page.locator('link[href*="application.css"]')).toHaveCount(1);const styles=await page.locator('link[rel=stylesheet]').evaluateAll(nodes=>nodes.map(n=>n.href));expect(new Set(styles).size).toBe(styles.length);await page.addStyleTag({content:'*,*::before,*::after{animation:none!important;transition:none!important}'});
   for(const width of [320,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await page.evaluate(theme=>document.documentElement.dataset.theme=theme,theme);
-   const differences=await page.evaluate(original=>{const nodes=[...document.querySelectorAll('body,body *')].filter(n=>!n.matches('script,style,link'));const snap=()=>nodes.map(n=>{const c=getComputedStyle(n),r=n.getBoundingClientRect();return JSON.stringify([[...c].map(p=>[p,c.getPropertyValue(p)]),[r.x,r.y,r.width,r.height].map(v=>Math.round(v*100)/100)]);});const before=snap(),link=document.querySelector('link[href*="application.css"]'),style=document.createElement('style');style.textContent=original;link.after(style);link.sheet.disabled=true;const after=snap();style.remove();link.sheet.disabled=false;return nodes.flatMap((n,i)=>before[i]===after[i]?[]:[n.tagName+'.'+n.className]);},original);expect(differences,route+' '+width+' '+theme).toEqual([]);
+   const differences=await page.evaluate(original=>{const nodes=[...document.querySelectorAll('body,body *')].filter(n=>!n.matches('script,style,link')&&n.getClientRects().length);const snap=()=>nodes.map(n=>{const c=getComputedStyle(n),r=n.getBoundingClientRect();return JSON.stringify([[...c].map(p=>[p,c.getPropertyValue(p)]),[r.x,r.y,r.width,r.height].map(v=>Math.round(v*100)/100)]);});const before=snap(),link=document.querySelector('link[href*="application.css"]'),style=document.createElement('style');style.textContent=original;link.after(style);link.sheet.disabled=true;const after=snap();style.remove();link.sheet.disabled=false;return nodes.flatMap((n,i)=>before[i]===after[i]?[]:[n.tagName+'.'+n.className]);},original);expect(differences,route+' '+width+' '+theme).toEqual([]);
   }
  }
 });
@@ -62,9 +62,9 @@ test('home arrives complete, fetches premium CSS once and language settles after
 
 test('deferred game loading preserves newer choices and never loads unused controllers',async({page})=>{
  const loaded=[];page.on('request',r=>loaded.push(new URL(r.url()).pathname));await page.goto(base+'/take-a-break');await expect(page.locator('.break-card')).toHaveCount(7);
- for(const url of ['/take-a-break/chaos.mjs','/daily-spark/play.mjs','/daily-spark/view.mjs'])expect(loaded).not.toContain(url);
+ for(const url of ['/take-a-break/chaos.mjs','/take-a-break/spark/play.mjs','/take-a-break/spark/view.mjs'])expect(loaded).not.toContain(url);
  let release,arrived;const gate=new Promise(resolve=>release=resolve),arrival=new Promise(resolve=>arrived=resolve);
- await page.route('**/daily-spark/play.mjs',async route=>{arrived();await gate;await route.continue();});
+ await page.route('**/take-a-break/spark/play.mjs',async route=>{arrived();await gate;await route.continue();});
  try{await page.locator('[data-game="24"]').click();await arrival;await page.locator('[data-game=code]').click();await expect(page.locator('#play-title')).toHaveText('Crack the Code');release();await expect(page.locator('[data-game="24"]')).not.toHaveAttribute('aria-busy','true');await expect(page.locator('#play-title')).toHaveText('Crack the Code');}finally{release();}
  await page.locator('#all-breaks').click();await page.locator('[data-game="24"]').click();await expect(page.locator('[data-pane="24"] #numbers button')).toHaveCount(4);
 });

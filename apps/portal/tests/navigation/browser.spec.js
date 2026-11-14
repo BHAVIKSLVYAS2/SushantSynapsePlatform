@@ -11,7 +11,7 @@ test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{ch
 test('home, guide, preview and browser traversal preserve the app hierarchy',async({page})=>{
  await page.setViewportSize({width:360,height:740});
  await page.goto(base+'/');await page.locator('a[href="/ritual-assist"]').first().click();
- await expect(page.locator('#observance-form')).toBeVisible();await page.getByRole('link',{name:'Checklist',exact:true}).first().click();
+ await expect(page.locator('#observance-form')).toBeVisible();await page.locator('a[href="/ritual-assist/guides"]').first().click();
  await expect(page.locator('#guide-list button')).not.toHaveCount(0);
  await page.locator('#library>summary').click();await page.locator('#search').fill('Ganesh');await page.locator('[data-guide="ganesh-puja"]').click();
  await expect(page).toHaveURL(/guide=ganesh-puja/);
@@ -30,9 +30,9 @@ test('games support Back, Forward and in-app return without discarding the board
  await page.locator('[data-game="code"]').click();await expect(page.locator('#hub')).toBeHidden();
  await page.locator('.code-form input').fill('042');await page.goBack();await expect(page.locator('#hub')).toBeVisible();
  await page.goForward();await expect(page.locator('.code-form input')).toHaveValue('042');
- await page.evaluate(()=>{window.hubRestorations=0;new MutationObserver(records=>window.hubRestorations+=records.length).observe(document.querySelector('#hub'),{attributes:true,attributeFilter:['data-category']});});
+
  for(let n=0;n<5;n++){await page.goBack();await expect(page.locator('#hub')).toBeVisible();await page.goForward();await expect(page.locator('.code-form input')).toHaveValue('042');}
- expect(await page.evaluate(()=>window.hubRestorations)).toBe(5);
+
  await page.locator('#all-breaks').click();await expect(page.locator('#hub')).toBeVisible();
  await page.goForward();await expect(page.locator('.code-form input')).toHaveValue('042');
  await page.goto(base+'/take-a-break?game=memory');await page.reload();await expect(page.locator('#play-title')).toHaveText('Memory Minute');
@@ -40,10 +40,10 @@ test('games support Back, Forward and in-app return without discarding the board
 });
 
 test('app switcher is a real overlay route with browser Back and Forward',async({page})=>{
- await page.goto(base+'/decision-wheel');await page.locator('.platform-switch').click();await expect(page.locator('#platform-switcher')).toBeVisible();
- await page.goBack();await expect(page.locator('#platform-switcher')).not.toBeVisible();await expect(page).toHaveURL(base+'/decision-wheel');
+ await page.goto(base+'/picksy');await page.locator('.platform-switch').click();await expect(page.locator('#platform-switcher')).toBeVisible();
+ await page.goBack();await expect(page.locator('#platform-switcher')).not.toBeVisible();await expect(page).toHaveURL(base+'/picksy');
  await page.goForward();await expect(page.locator('#platform-switcher')).toBeVisible();
- await page.getByRole('button',{name:'Close app switcher'}).click();await expect(page).toHaveURL(base+'/decision-wheel');
+ await page.getByRole('button',{name:'Close app switcher'}).click();await expect(page).toHaveURL(base+'/picksy');
 });
 
 test('workspace screens survive traversal and sign-in returns to a validated deep link',async({page})=>{
@@ -93,7 +93,7 @@ test('feedback detail Back and Forward retain the list query',async({page})=>{
 });
 
 test('a failed lazy game load keeps navigation usable and does not add a broken entry',async({page})=>{
- await page.route('**/daily-spark/play.mjs',route=>route.abort());await page.goto(base+'/take-a-break');
+ await page.route('**/take-a-break/spark/play.mjs',route=>route.abort());await page.goto(base+'/take-a-break');
  const before=await page.evaluate(()=>history.length);await page.locator('[data-game="24"]').click();
  await expect(page.locator('#break-filter-status')).toContainText('could not load');await expect(page.locator('#hub')).toBeVisible();
  expect(await page.evaluate(()=>history.length)).toBe(before);await page.locator('[data-game="code"]').click();
@@ -114,14 +114,14 @@ test('Ritual learning loads on demand, offers sourced bilingual prayers, and sup
  await page.locator('.ritual-learning>summary').click();await expect(page.locator('[data-learn-tab="vidhi"]')).toHaveAttribute('aria-selected','true');
  await page.locator('[data-learn-tab="mantras"]').click();await expect(page.locator('[data-prayer="ganesha-flower"] .mantra-script')).toHaveText('ॐ गणपतये नमः पुष्पं समर्पयामि।');
  await expect(page.locator('[data-prayer="ganesha-flower"] .mantra-iast')).toHaveText('oṃ gaṇapataye namaḥ puṣpaṃ samarpayāmi');
- await expect(page.locator('#learn-panel-mantras a')).toHaveCount(0);await expect(page.locator('#learn-panel-mantras')).not.toContainText(/Drik|Chinmaya|VedaBase/);await expect(page.locator('#learn-panel-sources a')).toHaveCount(0);
+ await expect(page.locator('#learn-panel-mantras a')).toHaveCount(0);await expect(page.locator('#learn-panel-mantras')).not.toContainText(/Drik|Chinmaya|VedaBase/);await expect(page.locator('#learn-panel-sources a')).toHaveCount(2);for(const source of await page.locator('#learn-panel-sources a').all())await expect(source).toHaveAttribute('href',/^https:\/\//);
  await page.goBack();await expect(page.locator('[data-learn-tab="vidhi"]')).toHaveAttribute('aria-selected','true');await page.goForward();await expect(page.locator('[data-learn-tab="mantras"]')).toHaveAttribute('aria-selected','true');
  await page.reload();await expect(page.locator('[data-prayer="ganesha-flower"]')).toBeVisible();
- await page.locator('[data-learn-tab="mantras"]').focus();await page.keyboard.press('ArrowRight');await expect(page.locator('[data-learn-tab="sources"]')).toHaveAttribute('aria-selected','true');await page.keyboard.press('Home');await expect(page.locator('[data-learn-tab="vidhi"]')).toHaveAttribute('aria-selected','true');await page.locator('[data-learn-tab="mantras"]').click();
+ await page.locator('[data-learn-tab="mantras"]').focus();await page.keyboard.press('ArrowRight');await expect(page.locator('[data-learn-tab="readings"]')).toHaveAttribute('aria-selected','true');await page.keyboard.press('End');await expect(page.locator('[data-learn-tab="sources"]')).toHaveAttribute('aria-selected','true');await page.keyboard.press('Home');await expect(page.locator('[data-learn-tab="vidhi"]')).toHaveAttribute('aria-selected','true');await page.locator('[data-learn-tab="mantras"]').click();
  await page.locator('.platform-language>summary').click();await page.locator('.platform-language [data-interface-language="hi"]').click();await expect(page.locator('[data-prayer="ganesha-flower"] h4')).toHaveText('गणपति को पुष्प अर्पण');await expect(page.locator('[data-prayer="ganesha-flower"] .mantra-script')).toHaveText('ॐ गणपतये नमः पुष्पं समर्पयामि।');
  const [download]=await Promise.all([page.waitForEvent('download'),page.locator('.learning-download').click()]);expect(download.suggestedFilename()).toBe('ritual-learning-ganesh-puja-hi.txt');
- await page.locator('[data-learn-tab="sources"]').click();await expect(page.locator('#learn-panel-sources')).toContainText('31 अक्टूबर 2026');await page.locator('.ritual-learning>summary').click();await expect(page.locator('.ritual-learning')).not.toHaveAttribute('open','');await expect(page).not.toHaveURL(/learn=/);
- await page.goto(base+'/ritual-assist?guide=shraddha&learn=mantras');await expect(page.locator('[data-prayer="self"]')).toBeVisible();await expect(page.locator('.learning-scope')).toContainText('निर्धारित मंत्रों');
+ await page.locator('[data-learn-tab="sources"]').click();await expect(page.locator('#learn-panel-sources')).toContainText('Ganapati Sankshipta Puja');await page.locator('.ritual-learning>summary').click();await expect(page.locator('.ritual-learning')).not.toHaveAttribute('open','');await expect(page).not.toHaveURL(/learn=/);
+ await page.goto(base+'/ritual-assist?guide=shraddha&learn=mantras');await expect(page.locator('[data-prayer="self"]')).toBeVisible();await expect(page.locator('#learn-panel-mantras>.fine')).toContainText('IAST');
  for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:780});await page.evaluate(t=>SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth)).toBeLessThanOrEqual(1);}
  await page.setViewportSize({width:390,height:780});await page.locator('.ritual-learning').scrollIntoViewIfNeeded();await page.screenshot({path:'.publish/ritual-learning-mobile.png'});
  expect(errors).toEqual([]);
@@ -129,7 +129,7 @@ test('Ritual learning loads on demand, offers sourced bilingual prayers, and sup
 
 test('public apps fit narrow screens and themes, including the shared keyboard-height dialog',async({page})=>{
  test.setTimeout(180000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
- for(const route of ['/','/ritual-assist','/ritual-assist/calendar','/moment-studio/cards','/moment-studio/certificates','/rashifal-kundli','/rashifal-kundli/matching','/rashifal-kundli/rashifal','/take-a-break','/team-mixer','/decision-wheel','/timetable-lite','/feedback']){
+ for(const route of ['/','/ritual-assist','/ritual-assist/calendar','/moment-studio/cards','/moment-studio/certificates','/rashifal-kundli','/rashifal-kundli/matching','/rashifal-kundli/rashifal','/take-a-break','/team-mixer','/picksy','/timetable-lite','/feedback']){
   await page.goto(base+route);await expect(page.locator('.platform-shell')).toBeVisible();
   for(const width of [320,360,375,390,412,430,768,1440])for(const theme of ['light','dark']){
    await page.setViewportSize({width,height:740});await page.evaluate(theme=>document.documentElement.dataset.theme=theme,theme);

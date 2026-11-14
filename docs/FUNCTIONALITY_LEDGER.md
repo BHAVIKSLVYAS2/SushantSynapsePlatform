@@ -1,3 +1,34 @@
+Remaining workspace cleanup (2026-11-14 IST, local; no deployment): completed
+the previously uncommitted public-route cleanup and retained the three dated
+review documents. Picksy pages/assets use /picksy; Make 24 lives in Take a Break
+with assets under /take-a-break/spark/. Old /daily-spark, /decision-wheel and
+/satire-arena/daily entries are removed/denied without redirects. Shared shell,
+catalogue, footer, fallback and optional aggregate-event links use current URLs.
+Historical app directory/IDs, preferences and all existing records are retained.
+
+Review found and corrected remaining old footer/fallback links, a missing
+Gujarati Ritvayam search spelling and redundant unchanged discovery-attribute
+writes. Regenerated catalogue/shell output and corrected outdated browser
+fixtures for current controls, counts, shuffled choices, exports and theme
+tokens. API regression expectations now reflect removed redirects and Ritvayam's
+complete report CSS. Source href/src scan finds no retired links. Production
+Workers dry build passes. Verified 157/157 unique affected browser scenarios
+across bounded runs and focused corrections; coverage inventory has no missing
+cases. The full Node run passed 567/569 checks; its two obsolete redirect/CSS
+assertions were corrected and both files rechecked successfully (4/4). Source
+syntax, whitespace, canonical catalogue and retired href/src scans pass. Browser
+coverage includes games, shared themes/navigation, privacy, local exports,
+offline fallbacks, private access boundaries and native-language controls.
+Evidence: .publish/remaining-cleanup-{api,api-retry,browser-final,tail,repaired,
+games,last,final-retry,coverage-run,home-final}.log and
+.publish/remaining-cleanup-coverage.json. Exact-snapshot production dry build:
+.publish/remaining-cleanup-release/.publish/remaining-cleanup-dryrun.log.
+
+No database/schema deletion or deployment is included. The retired-table purge
+still awaits separate explicit approval; counts in its plan are dated snapshots.
+Security/performance review documents are historical findings/measurements, not
+claims that their separate recommendations have been implemented or resolved.
+
 Ritvayam Kundli experience deployed (2026-11-14 IST): source 9f2744b,
 Worker 7beb0128-3e66-4a11-a4c8-8dc9b8613d04, at
 https://apps.sushantsynapse.com/rashifal-kundli. Six result destinations,
@@ -213,6 +244,37 @@ catalogue sign-in/access. Exact production-config dry build passes. Evidence:
 Committed-source deployment and live verification follow.
 The release excludes the pre-existing route cleanup and unrelated reports.
 Scope: docs/JAPSEVA.md. Audio provenance: docs/JAPSEVA_AUDIO.md.
+
+Expanded retired-route/code audit (2026-11-09 IST, local only): user added old
+routes and their code to the pending cleanup scope. News/Fund Lens business
+handlers/assets/providers are already absent; minimal 404 guards remain to deny
+old URLs before authentication or private fallthrough. Removed obsolete Satire
+daily-entry route predicate, direct/cloud redirect handlers and ad eligibility;
+`/satire-arena/daily` and its trailing slash now use 404 fallback locally. Updated
+route/browser expectations to the current category entry. Ten focused editorial
+checks pass, including actual temporary-runtime GET/HEAD/POST 404 without
+redirects, no editorial fetch or ad eligibility and current Arena/Daily Spark/
+Picksy/Moment Studio availability. Browser workflow files updated but not rerun
+in this source-only pass. Syntax/whitespace checks pass. No deployment, commit or
+database write. Current app routes and stored-ID compatibility aliases retained.
+Reviewed source cleanup and eight-table database deletion are documented in
+`docs/RETIRED_APP_TABLE_PURGE_PLAN_2026-11-09.md`; data deletion still requires
+the user's explicit approval as requested. Evidence:
+`.publish/retired-route-cleanup-final.log` (10/10).
+
+Retired-app table purge preflight (2026-11-09 IST, awaiting explicit approval):
+user requested deletion only after being asked. Read-only production/local
+inspection identifies eight Times/Fund Lens tables containing 216 production
+rows and 72 local rows, plus two obsolete Fund Lens `app_access` entries in each
+database. No active-table inbound declared foreign keys; only the internal
+news_stories-to-editions dependency. Production has no retired-app licences or
+assignments. Exact names/counts, proposed ordered SQL and preserved-data/history
+scope are in `docs/RETIRED_APP_TABLE_PURGE_PLAN_2026-11-09.md`. No deletion, schema
+change, data export, new backup, account change, deployment or commit. Existing
+backups/recovery/Git history are outside the proposed live/local table cleanup.
+Preflight evidence is under `.publish/retired-*-preflight*.json` and
+`.publish/retired-table-purge-approval-summary.json`. Initial unsupported D1
+introspection queries failed without writes; supported read-only queries passed.
 
 Role simplification deployed (2026-11-09 IST): source `bbfce70`, Worker
 `b7e0ddcb-f544-41c9-97fc-dde7ea1ebb3e`, at apps.sushantsynapse.com. Exact committed

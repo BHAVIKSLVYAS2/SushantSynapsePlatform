@@ -51,7 +51,7 @@ async function dispatch(req,res) {
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('X-Frame-Options','DENY');res.setHeader('Referrer-Policy','same-origin');
   res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'");
     const url = new URL(req.url,'http://localhost');
-    if(/^\/(?:api\/)?(?:fund-overlap|news)(?:\/|$)/.test(url.pathname))return json(404,{error:'Not found'});
+    if(/^\/(?:api\/)?(?:fund-overlap|news|daily-spark|decision-wheel)(?:\/|$)/.test(url.pathname))return json(404,{error:'Not found'});
     if(url.pathname.startsWith('/api/arena-editorial')||url.pathname.startsWith('/api/arena-metrics')||url.pathname.startsWith('/satire-arena/')||url.pathname==='/sitemap.xml'||url.pathname==='/robots.txt'){
       const {editorial,editorialKey,published,empty}=await import('../apps/satire-arena/backend/editorial.mjs');
       const {publicEditorialPath,publicPage}=await import('../apps/satire-arena/backend/public-pages.mjs');

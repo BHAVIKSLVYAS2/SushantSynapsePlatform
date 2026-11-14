@@ -13,6 +13,6 @@ test('home removes editorial teaser fetching and legacy landing redirects withou
  assert.doesNotMatch(fs.readFileSync('apps/portal/frontend/platform.js','utf8'),/refreshSatireDiscovery|arena-editorial\/today/);
  const html=fs.readFileSync('apps/portal/frontend/index.html','utf8');assert.match(html,/data-home-vedic/);assert.doesNotMatch(html,/arena-discovery|data-home-satire/);
  for(const path of ['/satire-arena/daily','/satire-arena/daily/'])for(const method of ['GET','HEAD']){
-  const r=await cloudPages(new Request('https://example.test'+path,{method}),()=>{throw Error('Unexpected data read');});assert.equal(r.status,308);assert.equal(r.headers.get('Location'),'/satire-arena');assert.equal(await r.text(),'');
+  const r=await cloudPages(new Request('https://example.test'+path,{method}),()=>{throw Error('Unexpected data read');});assert.equal(r,null);
  }
 });

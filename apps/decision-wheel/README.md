@@ -1,5 +1,10 @@
 # Picksy
 
+Current source routing (2026-11-14): Picksy uses `/picksy`, including its
+assets. The former `/decision-wheel` URLs return 404. The implementation stays
+in this app directory and retains its existing stored identifier. Current
+verification and deployment status are in the platform functionality ledger.
+
 The spinner refresh adds the existing Sushant Synapse logo in an upright
 centre hub, an animated rim, settling preview and a longer 6.8-second cubic
 deceleration with a slow final revolution and pointer ticks. Tick sound is opt-in
@@ -9,7 +14,7 @@ landing angle, editor locking, history and private sharing are unchanged. This
 refresh puts the wheel before the editor on phones. Deployed and live-verified
 on 2026-10-16: source `067cbee`, Worker `20ed9f05-ea7f-4846-a6ca-62694cd729cd`.
 
-A public free tool at `/decision-wheel`: enter 2�30 unique choices, an optional title, and spin. Starter lists cover lunch, household tasks and team selection. Each label allows up to 60 Unicode characters. Duplicate labels are rejected after case folding and Unicode normalization so each option has one equal slice.
+A public free tool at `/picksy`: enter 2�30 unique choices, an optional title, and spin. Starter lists cover lunch, household tasks and team selection. Each label allows up to 60 Unicode characters. Duplicate labels are rejected after case folding and Unicode normalization so each option has one equal slice.
 
 The app uses browser cryptographic randomness with rejection sampling to avoid modulo bias. The SVG animation lands on the selected slice. Input, presets and repeated spins are locked while spinning; reduced-motion users receive the result immediately. Long labels are shortened on the wheel; full labels remain in the editor and result. Remove a winner to pick without repeats; when only one option remains, it is shown directly rather than drawn randomly.
 

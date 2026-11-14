@@ -23,11 +23,11 @@ test('first visit requires an unchecked acknowledgement and remembers it across 
  await page.getByRole('button',{name:'Review beta notice',exact:true}).click();await dialog(page).getByRole('button',{name:'Forget this acknowledgement'}).click();await expect(dialog(page)).toBeVisible();await expect(dialog(page).getByRole('checkbox')).not.toBeChecked();expect(await page.evaluate(key=>localStorage.getItem(key),key)).toBeNull();
 });
 test('declining opens readable information without remembering acceptance',async({page})=>{
- await page.goto(base+'/daily-spark');await dialog(page).getByRole('button',{name:'Not now — read information'}).click();await expect(page).toHaveURL(base+'/terms#beta-notice');await expect(dialog(page)).not.toBeVisible();expect(await page.evaluate(key=>localStorage.getItem(key),key)).toBeNull();await page.goto(base+'/daily-spark');await expect(dialog(page)).toBeVisible();
+ await page.goto(base+'/take-a-break?game=24');await dialog(page).getByRole('button',{name:'Not now — read information'}).click();await expect(page).toHaveURL(base+'/terms#beta-notice');await expect(dialog(page)).not.toBeVisible();expect(await page.evaluate(key=>localStorage.getItem(key),key)).toBeNull();await page.goto(base+'/take-a-break?game=24');await expect(dialog(page)).toBeVisible();
 });
 test('legal pages and no-JavaScript notice stay readable before acknowledgement',async({page,browser})=>{
  for(const route of ['/terms#beta-notice','/privacy','/legal/third-party-notices','/contact']){await page.goto(base+route);await expect(dialog(page)).not.toBeVisible();await expect(page.locator('[data-synapse-beta]')).toBeVisible();}
- const context=await browser.newContext({javaScriptEnabled:false});try{const plain=await context.newPage();await plain.goto(base+'/');await expect(plain.locator('[data-synapse-beta]')).toContainText('platform is in beta');await expect(plain.getByRole('link',{name:'Beta & third-party information',exact:true})).toHaveAttribute('href','/terms#beta-notice');await expect(plain.locator('[data-beta-review]')).toBeHidden();}finally{await context.close();}
+ const context=await browser.newContext({javaScriptEnabled:false});try{const plain=await context.newPage();await plain.goto(base+'/');await expect(plain.locator('[data-synapse-beta]')).toContainText('Beta tools may contain errors');await expect(plain.getByRole('link',{name:'Beta & third-party information',exact:true})).toHaveAttribute('href','/terms#beta-notice');await expect(plain.locator('[data-beta-review]')).toBeHidden();}finally{await context.close();}
 });
 test('one shared English/Hindi/Gujarati menu, keyboard focus and responsive themes fit',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/take-a-break');await expect(dialog(page).locator('h2')).toBeFocused();
@@ -46,5 +46,5 @@ test('obsolete versions and local storage denial do not silently acknowledge',as
 });
 test('fully blocked storage uses tab memory and asks again after navigation',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.addInitScript(()=>{for(const name of ['localStorage','sessionStorage'])Object.defineProperty(window,name,{get(){throw new Error('Storage blocked');}});});
- await page.goto(base+'/daily-spark');await expect(dialog(page)).toBeVisible();await accept(page);await expect(dialog(page)).not.toBeVisible();await page.reload();await expect(dialog(page)).toBeVisible();expect(errors).toEqual([]);
+ await page.goto(base+'/take-a-break?game=24');await expect(dialog(page)).toBeVisible();await accept(page);await expect(dialog(page)).not.toBeVisible();await page.reload();await expect(dialog(page)).toBeVisible();expect(errors).toEqual([]);
 });

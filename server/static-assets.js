@@ -209,10 +209,10 @@ const staticAssets={
  '/shared/theme.js':'packages/ui/theme.js',
  '/take-a-break':'apps/take-a-break/frontend/index.html',
  '/take-a-break/':'apps/take-a-break/frontend/index.html',
- '/daily-spark/celebration.mjs':'apps/daily-spark/frontend/celebration.mjs',
- '/daily-spark/celebration.css':'apps/daily-spark/frontend/celebration.css',
- '/daily-spark/play.mjs':'apps/daily-spark/frontend/play.mjs',
- '/daily-spark/view.mjs':'apps/daily-spark/frontend/view.mjs',
+ '/take-a-break/spark/celebration.mjs':'apps/daily-spark/frontend/celebration.mjs',
+ '/take-a-break/spark/celebration.css':'apps/daily-spark/frontend/celebration.css',
+ '/take-a-break/spark/play.mjs':'apps/daily-spark/frontend/play.mjs',
+ '/take-a-break/spark/view.mjs':'apps/daily-spark/frontend/view.mjs',
  '/shared/platform-header.css':'packages/ui/platform-header.css',
 };
 for(const route of ['/privacy','/terms','/contact','/legal','/legal/third-party-notices'])staticAssets[route+'/']=staticAssets[route];
@@ -246,13 +246,11 @@ for(const file of ['app.js','export.js','style.css','scheduling.js'])staticAsset
 for(const file of ['app.js','style.css'])staticAssets['/batchfee-lite/'+file]='apps/batchfee-lite/frontend/'+file;
 for(const file of ['app.js','engine.js','worker.js','export.js','style.css','mobile.css'])staticAssets['/timetable-lite/'+file]='apps/timetable-lite/frontend/'+file;
 
-staticAssets['/daily-spark']='apps/daily-spark/frontend/index.html';
-staticAssets['/daily-spark/']='apps/daily-spark/frontend/index.html';
-for(const file of ['app.js','engine.mjs','style.css'])staticAssets['/daily-spark/'+file]='apps/daily-spark/frontend/'+file;
+for(const file of ['engine.mjs','style.css'])staticAssets['/take-a-break/spark/'+file]='apps/daily-spark/frontend/'+file;
 
-staticAssets['/decision-wheel']='apps/decision-wheel/frontend/index.html';
-staticAssets['/decision-wheel/']='apps/decision-wheel/frontend/index.html';
-for(const file of ['app.js','engine.mjs','style.css'])staticAssets['/decision-wheel/'+file]='apps/decision-wheel/frontend/'+file;
+staticAssets['/picksy']='apps/decision-wheel/frontend/index.html';
+staticAssets['/picksy/']='apps/decision-wheel/frontend/index.html';
+for(const file of ['app.js','engine.mjs','style.css'])staticAssets['/picksy/'+file]='apps/decision-wheel/frontend/'+file;
 
 
 staticAssets['/team-mixer']='apps/team-mixer/frontend/index.html';

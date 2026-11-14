@@ -1,4 +1,4 @@
-import {createSparkCelebration} from '/daily-spark/celebration.mjs';
+import {createSparkCelebration} from '/take-a-break/spark/celebration.mjs';
 
 export function createBreakCelebration(root) {
  const effects=createSparkCelebration(root,{resultSelector:'.result-card',titleSelector:'.break-win-title'});

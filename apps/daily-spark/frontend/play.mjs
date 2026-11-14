@@ -1,7 +1,7 @@
 const confirmLocalized=message=>window.confirm(window.SynapseLanguage?.text(message)||message);
 import {istDate,puzzle,levelPuzzle,tokens,calculate,solve,display,solutionSteps} from './engine.mjs';
 import {createSparkCelebration} from './celebration.mjs';
-export function mountSpark(root,{day=null,challengeUrl=date=>`${location.origin}/daily-spark?day=${date}`,onComplete,simple=false}={}){
+export function mountSpark(root,{day=null,challengeUrl=date=>`${location.origin}/take-a-break?game=24&day=${date}`,onComplete,simple=false}={}){
 const $=selector=>root.querySelector(selector);
 const celebration=createSparkCelebration(root);
 let date,mode='daily',original,items,selected=[],op=null,history=[],assisted=false,finished=false,revealed=false,hintStep=0;

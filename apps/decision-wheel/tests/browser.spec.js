@@ -7,18 +7,18 @@ test.beforeEach(async({page})=>{await page.addInitScript(()=>{crypto.getRandomVa
 test('wheel starts while the optional fullscreen module is stalled',async({page})=>{
  let release;const gate=new Promise(resolve=>release=resolve);
  await page.route('**/shared/presentation.mjs*',async route=>{await gate;await route.abort();});
- try{await page.goto(base+'/decision-wheel',{waitUntil:'domcontentloaded'});await expect(page.locator('#wheel path')).toHaveCount(6);await expect(page.locator('#spin')).toBeEnabled();await page.emulateMedia({reducedMotion:'reduce'});await page.locator('#spin').click();await expect(page.locator('#winner')).not.toBeEmpty();}finally{release();}
+ try{await page.goto(base+'/picksy',{waitUntil:'domcontentloaded'});await expect(page.locator('#wheel path')).toHaveCount(6);await expect(page.locator('#spin')).toBeEnabled();await page.emulateMedia({reducedMotion:'reduce'});await page.locator('#spin').click();await expect(page.locator('#winner')).not.toBeEmpty();}finally{release();}
 });
 
 test('reported list explains the duplicate beside the editor and recovers without altering data',async({page})=>{await page.emulateMedia({reducedMotion:'reduce'});
- const list=require('./option-list.cjs');await page.setViewportSize({width:390,height:844});await page.goto(base+'/decision-wheel');await page.locator('#options').fill(list.join('\n'));await page.locator('#spin').click();await expect(page.locator('#spin')).toBeEnabled();
+ const list=require('./option-list.cjs');await page.setViewportSize({width:390,height:844});await page.goto(base+'/picksy');await page.locator('#options').fill(list.join('\n'));await page.locator('#spin').click();await expect(page.locator('#spin')).toBeEnabled();
  await expect(page.locator('#options-error')).toContainText('"battle axe" on lines 3, 10');await expect(page.locator('#options-error')).toContainText('Check the options');await expect(page.locator('#options')).toHaveAttribute('aria-invalid','true');await expect(page.locator('#options')).toBeFocused();await expect(page.locator('#options')).toHaveValue(list.join('\n'));await expect(page.locator('#wheel path')).toHaveCount(6);
  await page.locator('#spin').click();await expect(page.locator('#options-error')).toBeVisible();await expect(page.locator('#history li')).toHaveCount(0);await expect(page.locator('#result')).toBeHidden();
  const corrected=list.filter((_,index)=>index!==9);await page.locator('#options').fill(corrected.join('\n'));await expect(page.locator('#options-error')).toBeHidden();await page.locator('#spin').click();await expect(page.locator('#spin')).toBeEnabled();await expect(page.locator('#wheel path')).toHaveCount(20);await expect(page.locator('#count')).toHaveText('20 EQUAL CHOICES');await expect(page.locator('#options')).not.toHaveAttribute('aria-invalid','true');await expect(page.locator('#options')).toHaveValue(corrected.join('\n'));
  await page.emulateMedia({reducedMotion:'reduce'});await page.locator('#spin').click();await expect(page.locator('#winner')).toHaveText('energy pistol');
 });
 test('spin locks edits, lands on winner, shares privately and removes without repeats',async({page})=>{
- const api=[],errors=[];page.on('request',r=>{if(r.url().includes('/api/')&&new URL(r.url()).pathname!=='/api/platform/visitors'&&!(r.method()==='GET'&&new URL(r.url()).pathname==='/api/auth/status'))api.push(r.url());});page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/decision-wheel');await expect(page.locator('#wheel path')).toHaveCount(6);
+ const api=[],errors=[];page.on('request',r=>{if(r.url().includes('/api/')&&new URL(r.url()).pathname!=='/api/platform/visitors'&&!(r.method()==='GET'&&new URL(r.url()).pathname==='/api/auth/status'))api.push(r.url());});page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/picksy');await expect(page.locator('#wheel path')).toHaveCount(6);
  await page.locator('#spin').click();await expect(page.locator('#spin')).toBeDisabled();await expect(page.locator('#options')).toBeDisabled();await expect(page.getByRole('button',{name:'Lunch ideas'})).toBeDisabled();await expect(page.locator('#winner')).toHaveText('Poha',{timeout:10000});await expect(page.locator('#spin')).toBeEnabled();expect(await page.locator('#wheel').evaluate(el=>el.style.transform)).toBe('rotate(2070deg)');
  await page.locator('#share').click();await expect(page.locator('#share-text')).toHaveValue(/Selected: Poha/);await expect(page.locator('#share-text')).not.toHaveValue(/Dosa/);await page.locator('#remove').click();await expect(page.locator('#options')).not.toHaveValue(/Poha/);await expect(page.locator('#wheel path')).toHaveCount(5);
  await page.emulateMedia({reducedMotion:'reduce'});await page.locator('#options').fill('A\nB');await page.locator('#spin').focus();await page.keyboard.press('Space');await expect(page.locator('#winner')).toHaveText('B');await page.locator('#remove').click();await expect(page.locator('#winner')).toHaveText('A');await expect(page.locator('#spin')).toBeDisabled();await expect(page.locator('#remove')).toBeDisabled();await page.locator('#share').click();await expect(page.locator('#share-text')).toHaveValue(/Remaining option: A/);
@@ -27,7 +27,7 @@ test('spin locks edits, lands on winner, shares privately and removes without re
 test('branded hub, optional sound, slow final ticks and motion cancellation keep the selected winner',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(()=>{const Original=window.AudioContext;if(Original)window.AudioContext=class extends Original{constructor(...args){super(...args);window.audioCreated=(window.audioCreated||0)+1;}};});
- await page.goto(base+'/decision-wheel');
+ await page.goto(base+'/picksy');
  await expect(page.locator('.hub img')).toHaveAttribute('src','/logo-adaptive-192.png');
  expect(await page.locator('.hub img').evaluate(img=>img.complete&&img.naturalWidth>0)).toBe(true);
  expect(await page.evaluate(()=>window.audioCreated||0)).toBe(0);
@@ -49,12 +49,12 @@ test('branded hub, optional sound, slow final ticks and motion cancellation keep
 });
 
 test('validation, safe labels, theme, reduced motion, history bound and phone layouts',async({page})=>{
- await page.addInitScript(()=>{if(!localStorage.getItem('synapse-theme'))localStorage.setItem('synapse-theme','dark');});await page.emulateMedia({reducedMotion:'reduce',colorScheme:'light'});await page.goto(base+'/decision-wheel/');await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+ await page.addInitScript(()=>{if(!localStorage.getItem('synapse-theme'))localStorage.setItem('synapse-theme','dark');});await page.emulateMedia({reducedMotion:'reduce',colorScheme:'light'});await page.goto(base+'/picksy/');await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
  for(const [value,error]of [['One','between 2 and 30'],['Dosa\ndosa','unique'],['x'.repeat(61)+'\nOK','60 characters']]){await page.locator('#options').fill(value);await page.locator('#spin').click();await expect(page.locator('#spin')).toBeEnabled();await expect(page.locator('#status')).toContainText(error);await expect(page.locator('#result')).toBeHidden();}
  await page.locator('#options').fill('<img src=x onerror=alert(1)>\nNormal');await page.locator('#spin').click();await expect(page.locator('#spin')).toBeEnabled();await expect(page.locator('#wheel path')).toHaveCount(2);await expect(page.locator('#wheel img')).toHaveCount(0);
  await page.getByRole('button',{name:'Pick a team'}).click();for(let i=0;i<22;i++){await page.locator('#spin').click();await expect(page.locator('#spin')).toBeEnabled();}await expect(page.locator('#history li')).toHaveCount(20);
  await require('../../../tests/browser-theme.js').toggleTheme(page);await expect(page.locator('html')).toHaveAttribute('data-theme','light');
  await page.locator('#options').fill(Array.from({length:30},(_,i)=>'Long choice '+i+' '+ 'x'.repeat(35)).join('\n'));await page.locator('#spin').click();await expect(page.locator('#spin')).toBeEnabled();await expect(page.locator('#wheel path')).toHaveCount(30);
  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:900});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
- await page.getByRole('button',{name:'Lunch ideas'}).click();await page.screenshot({path:'test-results/decision-wheel-desktop.png',fullPage:true});await page.setViewportSize({width:390,height:844});await require('../../../tests/browser-theme.js').toggleTheme(page);await page.screenshot({path:'test-results/decision-wheel-mobile.png',fullPage:true});
+ await page.getByRole('button',{name:'Lunch ideas'}).click();await page.screenshot({path:'test-results/picksy-desktop.png',fullPage:true});await page.setViewportSize({width:390,height:844});await require('../../../tests/browser-theme.js').toggleTheme(page);await page.screenshot({path:'test-results/picksy-mobile.png',fullPage:true});
 });

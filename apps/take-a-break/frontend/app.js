@@ -1,7 +1,7 @@
 const confirmLocalized=message=>window.confirm(window.SynapseLanguage?.text(message)||message);
 import {createNavigation} from '/shared/navigation.mjs';
 import {createBreakCelebration} from './celebration.mjs';
-import {istDate} from '/daily-spark/engine.mjs';
+import {istDate} from '/take-a-break/spark/engine.mjs';
 import {version,validDay,codePuzzle,codeVersion,scoreCode,memoryGame,memorySymbols,turnMemory,closeMemoryPair,lightsLevel,toggleLights,solveLights,parseChoices,faceOff,chooseFace} from './engine.mjs';
 const $=s=>document.querySelector(s);
 $('#theme').outerHTML=SynapseTheme.control('id="theme"');function theme(){document.documentElement.dataset.theme=SynapseTheme.read();}$('#theme').addEventListener('change',theme);theme();
@@ -99,7 +99,7 @@ async function openGame(id,update=true){if(!Object.hasOwn(games,id))return;
  if((id==='24'&&!mountSpark)||(id==='chaos'&&!mountChaos)){
   trigger?.setAttribute('aria-busy','true');
   try{
-   if(id==='24'){const [play,view]=await Promise.all([import('/daily-spark/play.mjs'),import('/daily-spark/view.mjs')]);mountSpark=play.mountSpark;sparkMarkup=view.sparkMarkup;}
+   if(id==='24'){const [play,view]=await Promise.all([import('/take-a-break/spark/play.mjs'),import('/take-a-break/spark/view.mjs')]);mountSpark=play.mountSpark;sparkMarkup=view.sparkMarkup;}
    else ({mountChaos}=await import('./chaos.mjs'));
   }catch{if(revision===launchRevision){const message=$('#hub').hidden?$('#link-note'):$('#break-filter-status');message.textContent='This game could not load. Reload the page to try again.';}return;}
   finally{trigger?.removeAttribute('aria-busy');}

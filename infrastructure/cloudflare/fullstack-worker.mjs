@@ -6,7 +6,7 @@ import {accountIntentPath} from '../../packages/ui/task-intent.mjs';
 import {secureResponse} from './response-security.mjs';
 async function handleRequest(request,env){
   const url=new URL(request.url);
-  if(/^\/(?:api\/)?(?:fund-overlap|news)(?:\/|$)/.test(url.pathname))return new Response('Not found',{status:404,headers:{'Cache-Control':'no-store'}});
+  if(/^\/(?:api\/)?(?:fund-overlap|news|daily-spark|decision-wheel)(?:\/|$)/.test(url.pathname))return new Response('Not found',{status:404,headers:{'Cache-Control':'no-store'}});
   let decoded;try{decoded=decodeURIComponent(url.pathname);}catch{return new Response('Not found',{status:404});}
   if(/^\/_(?:pages|edge|organisations)(?:\/|$)/.test(decoded))return new Response('Not found',{status:404});
   if(url.pathname.startsWith('/_static/')){

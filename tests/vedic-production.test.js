@@ -28,6 +28,6 @@ test('Vedic production preview exposes only bundled public assets and privacy he
  for(const url of Object.keys(assets))assert.equal(eligiblePage(url),false);
  const m=await import('../apps/rashifal-kundli/frontend/export-report.mjs');
  const previewCss=fs.readFileSync('apps/rashifal-kundli/frontend/export-report.css','utf8');
- const exportedCss=m.reportCss.replace(':root{','.vedic-export-preview{').replace('body{','.vedic-export-preview{')+m.reportLayoutCss+m.reportTableCss;
+ const exportedCss=m.reportCss.replace(':root{','.vedic-export-preview{').replace('body{','.vedic-export-preview{')+m.reportLayoutCss+m.reportTableCss+m.reportPresentationCss;
  assert.equal(previewCss.replace(/\r?\n/g,''),exportedCss.replace(/\r?\n/g,''));
 });

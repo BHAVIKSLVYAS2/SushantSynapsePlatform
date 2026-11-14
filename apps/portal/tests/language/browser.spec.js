@@ -8,7 +8,7 @@ const toggle=(page,lang)=>page.locator('[data-interface-language='+lang+']');
 test('Gujarati is globally available and retained on direct pages, stale links, reload and back navigation',async({page})=>{
  test.setTimeout(180000);
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/');await choose(page,'gu');
- for(const route of ['/qr-maker?lang=en','/photo-resize','/bill-splitter','/team-mixer','/decision-wheel','/focus','/take-a-break','/moment-studio','/moment-studio/cards','/timetable-lite','/feedback','/contact','/support','/privacy','/terms','/legal/third-party-notices','/ritual-assist','/ritual-assist/calendar','/digital-samaj','/tournament-lite','/batchfee-lite','/rashifal-kundli','/rashifal-kundli/rashifal','/rashifal-kundli/matching','/rashifal-kundli/time-machine']){
+ for(const route of ['/qr-maker?lang=en','/photo-resize','/bill-splitter','/team-mixer','/picksy','/focus','/take-a-break','/moment-studio','/moment-studio/cards','/timetable-lite','/feedback','/contact','/support','/privacy','/terms','/legal/third-party-notices','/ritual-assist','/ritual-assist/calendar','/digital-samaj','/tournament-lite','/batchfee-lite','/rashifal-kundli','/rashifal-kundli/rashifal','/rashifal-kundli/matching','/rashifal-kundli/time-machine']){
   await page.goto(base+route);await expect(page.locator('[data-language-control]')).toHaveCount(1);await expect(toggle(page,'gu')).toHaveAttribute('aria-pressed','true');await expect(page.locator('html')).toHaveAttribute('lang','gu');await expect(toggle(page,'hi')).toHaveCount(1);await expect(toggle(page,'en')).toHaveCount(1);
  }
  await page.goto(base+'/advocate');await expect(toggle(page,'gu')).toHaveAttribute('aria-pressed','true');await expect(page.locator('html')).toHaveAttribute('lang','gu');await expect(page.locator('.organisation-gate h1,#workspace-title,#auth-form h2')).toHaveText(/^(તમારું Chambers કાર્યક્ષેત્ર પસંદ કરો|કામ માટે સાઇન ઇન કરો\.|તમારું પ્લેટફૉર્મ તૈયાર કરો|ફરી સ્વાગત છે)$/);
@@ -29,7 +29,7 @@ test('shared settings carry across home and Vedic apps, preserve inputs and sync
 });
 
 test('interface changes preserve wheel choices and saved task titles that match translated labels',async({page})=>{
- await page.goto(base+'/decision-wheel');await page.locator('#question').fill('Contact');await page.locator('#options').fill('Home\nPrivacy');await page.emulateMedia({reducedMotion:'reduce'});await page.locator('#spin').click();
+ await page.goto(base+'/picksy');await page.locator('#question').fill('Contact');await page.locator('#options').fill('Home\nPrivacy');await page.emulateMedia({reducedMotion:'reduce'});await page.locator('#spin').click();
  for(const language of ['gu','hi','en']){await choose(page,language);await expect(page.locator('#wheel-title')).toHaveText('Contact');await expect(page.locator('#options')).toHaveValue('Home\nPrivacy');}
  await page.goto(base+'/focus');await page.locator('#new-task-title').fill('Contact');await page.locator('#task-form button[type=submit]').click();await expect(page.locator('.task-title')).toHaveText('Contact');
  for(const language of ['gu','hi','en']){await choose(page,language);await expect(page.locator('.task-title')).toHaveText('Contact');}

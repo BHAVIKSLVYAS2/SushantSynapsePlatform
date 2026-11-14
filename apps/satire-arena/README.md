@@ -1,3 +1,8 @@
+Source routing update (2026-11-14): the obsolete `/satire-arena/daily`
+entry is removed without a redirect. Sample category pages remain available;
+Make 24 and Picksy links use their current canonical routes. This source
+cleanup is not yet deployed; release status is in the functionality ledger.
+
 # Satire Arena
 
 Loading/reuse cleanup (2026-10-24): `cast.mjs` owns lightweight identities and
@@ -110,7 +115,7 @@ respect reduced motion. Implementation/release evidence is in the ledger.
 
 To visualise Daily Satire, a labelled sample edition contains seven original
 English/Hindi posts across five categories, with articles, related posts and
-sharing. It appears on `/satire-arena/daily` while the saved public library is
+sharing. It appears on `/satire-arena/categories/office` while the saved public library is
 empty, and can be opened explicitly with `?sample=1`. Samples are noindex and
 remain separate from editorial storage, analytics, character captions and ballots.
 The existing 13-character Arena remains unchanged. See the functionality ledger

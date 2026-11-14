@@ -1,11 +1,23 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const base='https://apps.sushantsynapse.com';
 
+test('retired public entries have no route, redirect, ad eligibility or editorial fetch while current games remain',async t=>{
+ const {publicEditorialPath}=await import('../apps/satire-arena/backend/public-pages.mjs'),{cloudPages}=await import('../apps/satire-arena/backend/cloud-pages.mjs');
+ const {eligiblePage}=require('../packages/ui/adsense.cjs');
+ const runtime=await require('./organisation-preview-fixture.cjs').startPreview({enabled:false});t.after(runtime.stop);
+ for(const route of ['/satire-arena/daily','/satire-arena/daily/','/daily-spark','/daily-spark/','/daily-spark/engine.mjs','/api/daily-spark','/decision-wheel','/decision-wheel/','/decision-wheel/app.js','/api/decision-wheel']){
+  assert.equal(publicEditorialPath(route),false);assert.equal(eligiblePage(route),false);
+  assert.equal(await cloudPages(new Request(base+route),()=>{throw Error('Removed route must not fetch editorial data');}),null);
+  for(const method of ['GET','HEAD','POST']){const response=await fetch(runtime.base+route,{method});assert.equal(response.status,404);assert.equal(response.headers.get('location'),null);await response.body?.cancel();}
+ }
+ for(const route of ['/satire-arena','/take-a-break?game=24','/picksy','/moment-studio']){const response=await fetch(runtime.base+route);assert.equal(response.status,200);await response.body.cancel();}
+});
+
 test('sample edition is valid original preview content without publications or character overrides',async()=>{
  const {sampleEdition}=await import('../apps/satire-arena/backend/sample-edition.mjs'),{validate,empty,published}=await import('../apps/satire-arena/backend/editorial.mjs'),{publicPage}=await import('../apps/satire-arena/backend/public-pages.mjs');
  const samples=sampleEdition();assert.equal(validate({...samples,version:0}).posts.length,7);assert.equal(new Set(samples.posts.map(p=>p.category)).size,5);assert.deepEqual(new Set(samples.posts.map(p=>p.language)),new Set(['en','hi']));assert.deepEqual(samples.characters,[]);assert.ok(samples.posts.every(p=>p.status==='draft'));
  const library=empty(),before=JSON.stringify(library),data=published(library);assert.equal(data.posts.length,0);assert.equal(data.featured,null);
- const retired=publicPage(new Request(base+'/satire-arena/daily'),data);assert.equal(retired.status,308);assert.equal(retired.headers.get('Location'),'/satire-arena');
+ const retired=publicPage(new Request(base+'/satire-arena/daily'),data);assert.equal(retired.status,404);assert.equal(retired.headers.get('Location'),null);
  const html=await publicPage(new Request(base+'/satire-arena/categories/office'),data).text();assert.match(html,/PREVIEW EDITION/);assert.match(html,/noindex,follow/);assert.match(html,/sample-meeting-to-end-meetings\?sample=1/);assert.doesNotMatch(html,/Published satire/);assert.equal(JSON.stringify(library),before);
  assert.equal(publicPage(new Request(base+'/satire-arena/posts/sample-meeting-to-end-meetings'),data).status,404);
  const article=await publicPage(new Request(base+'/satire-arena/posts/sample-meeting-to-end-meetings?sample=1'),data).text();assert.match(article,/The meeting to shorten meetings/);assert.match(article,/\/categories\/office\?sample=1/);assert.match(article,/canonical.*sample=1/);assert.doesNotMatch(article,/<time datetime/);
@@ -60,6 +72,6 @@ test('D1 editorial adapter publishes server-rendered pages and guards stale owne
  const {DatabaseSync,localD1}=require('./helpers/local-d1.cjs'),{schema}=require('../infrastructure/cloudflare/build-d1.cjs'),{D1Repository}=await import('../packages/database/d1.mjs'),{editorial,editorialKey,empty}=await import('../apps/satire-arena/backend/editorial.mjs'),{cloudPages}=await import('../apps/satire-arena/backend/cloud-pages.mjs');const db=new DatabaseSync(':memory:');db.exec(schema());const binding=localD1(db);
  try{const repo=await new D1Repository(binding).begin(),context={user:{role:'Owner'},read:()=>repo.setting(editorialKey),write:next=>repo.commit([repo.settingWrite(editorialKey,next)])};const save=await editorial(new Request(base+'/api/arena-editorial',{method:'PUT',headers:{Origin:base,'Content-Type':'application/json'},body:JSON.stringify({...empty(),posts:[post({status:'published',publishAt:'2026-01-01T09:00:00+05:30'})]})}),context);assert.equal(save.status,200);
  const api=request=>editorial(request,context),page=await cloudPages(new Request(base+'/satire-arena/posts/office-overtime'),api);assert.equal(page.status,200);assert.match(await page.text(),/The agenda requested/);const other=await new D1Repository(binding).begin(),stale=await new D1Repository(binding).begin();await other.commit([other.settingWrite('unrelated',true)]);await assert.rejects(()=>stale.commit([stale.settingWrite(editorialKey,empty())]),e=>e.status===409);assert.equal((await repo.setting(editorialKey)).posts.length,1);
- const retired=await cloudPages(new Request(base+'/satire-arena/daily'),async()=>{throw Error('Redirect must not load editorial data');});assert.equal(retired.status,308);assert.equal(retired.headers.get('Location'),'/satire-arena');
+ const retired=await cloudPages(new Request(base+'/satire-arena/daily'),async()=>{throw Error('Removed route must not load editorial data');});assert.equal(retired,null);
  }finally{db.close();}
 });

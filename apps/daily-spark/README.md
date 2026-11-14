@@ -1,5 +1,12 @@
 # Daily Spark
 
+Current source routing (2026-11-14): Make 24 runs inside
+`/take-a-break?game=24`. Shared engine/controller assets are served under
+`/take-a-break/spark/`. The standalone `/daily-spark` page and its old assets
+are removed; dated puzzle links now use the hub route. Historical deployment
+checkpoints below describe earlier entry points. Current verification and
+deployment status are in the platform functionality ledger.
+
 Make 24 wins now show a trophy, completion badge and “You made 24!” message on both entry points, with bounded confetti, party poppers and fireworks. Hint-assisted results are labelled honestly; revealing an answer earns no celebration. Reduced motion keeps the achievement card still. Effects stop after the burst, on reset, when switching games or hiding the page. No sound, score persistence or backend writes were added. Verification: 13 combined Daily Spark/Take a Break browser workflows and 205 isolated platform regressions pass (2026-10-12).
 
 The refreshed UI shares one markup/controller between the standalone page and Take a Break. New daily and practice puzzles offer Warm-up (no division needed), Challenge (division required, integer steps possible) and Expert (a fractional step required). Version-2 curated banks are verified against those properties. The Expert bank currently contains seven distinct number combinations; shuffled tile order is not a new mathematical puzzle. Daily links include `level`; original dated links without it retain the unchanged version-1 puzzle. Challenge is the default for new visitors.

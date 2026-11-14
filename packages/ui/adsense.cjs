@@ -2,14 +2,14 @@ const publisher='ca-pub-1894051755496526';
 const publicPages=new Set([
  '/', '/qr-maker', '/photo-resize', '/bill-splitter', '/moment-studio',
  '/moment-studio/cards', '/moment-studio/certificates', '/take-a-break',
- '/daily-spark', '/decision-wheel', '/focus', '/ritual-assist',
+ '/picksy', '/focus', '/ritual-assist',
  '/ritual-assist/calendar', '/team-mixer', '/timetable-lite', '/satire-arena', '/satire-arena/politicians', '/satire-arena/news-anchors',
  '/satire-arena/actors', '/satire-arena/corporates', '/privacy', '/terms',
  '/contact', '/legal', '/legal/third-party-notices', '/showcase', '/support',
 ]);
 const eligiblePage=(pathname,cookie='')=>{
  const route=pathname.length>1?pathname.replace(/\/+$/,''):pathname;
- const publicEditorial=route==='/satire-arena/daily'||route==='/satire-arena/results'||/^\/satire-arena\/(?:posts|categories|characters)\/[a-z0-9-]+$/.test(route);
+ const publicEditorial=route==='/satire-arena/results'||/^\/satire-arena\/(?:posts|categories|characters)\/[a-z0-9-]+$/.test(route);
  return !/(?:^|;\s*)chambers_session=[^;]+/.test(cookie)&&(publicPages.has(route)||publicEditorial);
 };
 function renderPage(html,nonce){

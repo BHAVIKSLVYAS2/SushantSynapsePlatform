@@ -18,7 +18,7 @@ test.beforeEach(async()=>{
 test.afterEach(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
 test('theme icons stay within their control and apart from account at every width',async({page})=>{
  const {setTheme}=require('../../../../tests/browser-theme');
- for(const route of ['/','/take-a-break','/decision-wheel','/satire-arena']){
+ for(const route of ['/','/take-a-break','/picksy','/satire-arena']){
   await page.goto(base+route);
   for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:900});for(const theme of ['light','dark']){
    await setTheme(page,theme);
@@ -35,7 +35,7 @@ test('theme icons stay within their control and apart from account at every widt
 test('branded transition follows native navigation and clears on return',async({page})=>{
  await page.setViewportSize({width:390,height:900});
  await page.goto(base+'/');const loader=page.locator('.platform-transition');await expect(loader).toBeHidden();
- await page.locator('.home-mobile-dock a[href="#free-apps"]').first().click();await expect(loader).toBeHidden();
+ await page.locator('.home-mobile-dock a[href="#main"]').first().click();await expect(loader).toBeHidden();
  // App handlers can cancel after the document handler; this must not show a cue.
  await page.evaluate(()=>{window.holdTransition=event=>event.preventDefault();window.addEventListener('click',window.holdTransition);});
  await page.locator('a.public-app[href="/qr-maker"]').click();
@@ -87,7 +87,7 @@ test('account initials handle Unicode and auth outages without breaking public t
 
 test('platform frame persists across public apps with usable mobile switching',async({page})=>{
  test.setTimeout(300000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
- const routes=['/','/signin','/moment-studio','/moment-studio/cards','/ritual-assist','/ritual-assist/calendar','/timetable-lite','/satire-arena','/take-a-break','/daily-spark','/decision-wheel','/team-mixer','/support','/contact','/privacy','/terms','/legal/third-party-notices'];
+ const routes=['/','/signin','/moment-studio','/moment-studio/cards','/ritual-assist','/ritual-assist/calendar','/timetable-lite','/satire-arena','/take-a-break','/take-a-break?game=24','/picksy','/team-mixer','/support','/contact','/privacy','/terms','/legal/third-party-notices'];
  for(const route of routes){
   await page.goto(base+route,{waitUntil:'domcontentloaded'});await expect(page.locator('.platform-shell')).toHaveCount(1);
   for(const width of [320,390,768,1440]){
@@ -96,7 +96,7 @@ test('platform frame persists across public apps with usable mobile switching',a
     await page.evaluate(t=>window.SynapseTheme.write(t),theme);
     const shell=await page.locator('.platform-shell').boundingBox();expect(shell.y).toBe(0);expect(shell.height).toBe(72);await expect(page.locator('.platform-shell-brand>span')).toHaveText('Curioby Sushant Synapse');if(route==='/'||width>=760)await expect(page.locator('.platform-shell-brand>span')).toBeVisible();else await expect(page.locator('.platform-shell-brand>span')).toBeHidden();
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${route} ${width} ${theme}`).toBe(true);
-    for(const control of ['.platform-switch','.platform-account','.platform-shell .theme-toggle']){
+    for(const control of ['.platform-switch','.platform-account','.platform-shell [data-theme-toggle]:visible']){
      const r=await page.locator(control).boundingBox();expect(r.height).toBeGreaterThanOrEqual(44);expect(r.x).toBeGreaterThanOrEqual(0);expect(r.x+r.width).toBeLessThanOrEqual(width);
     }
    }
