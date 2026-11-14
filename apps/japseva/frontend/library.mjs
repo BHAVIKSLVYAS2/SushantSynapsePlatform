@@ -6,4 +6,10 @@ export const mantras=[
  {id:'vasudeva',name:'Vasudeva Mantra',text:'ॐ नमो भगवते वासुदेवाय',transliteration:'Om namo bhagavate vāsudevāya',meaning:'I bow to the divine Vasudeva, traditionally identified with Vishnu or Krishna.',pronunciation:'Om · na-mo · bha-ga-va-te · vaa-su-de-vaa-ya',source:'Traditional Vaishnava twelve-syllable mantra.'}
 ];
 const hindi={gayatri:'हम दिव्य सविता के वरणीय प्रकाश का ध्यान करते हैं। वह प्रकाश हमारी बुद्धि को प्रेरित और प्रकाशित करे।',shiva:'कल्याणस्वरूप भगवान शिव को नमस्कार।',ganesha:'भगवान गणपति को नमस्कार। परंपरा में गणेश जी का स्मरण किसी शुभ कार्य या साधना के आरंभ में किया जाता है।',vasudeva:'भगवान वासुदेव को नमस्कार। वैष्णव परंपरा में वासुदेव नाम विष्णु या कृष्ण के लिए प्रयुक्त होता है।'};
-for(const m of mantras)m.meaningHi=hindi[m.id];
+export const recordings=Object.freeze({
+ gayatri:{asset:'/japseva/audio/gayatri-mantra.ogg',creator:'Wilfredor',source:'https://commons.wikimedia.org/wiki/File:Gayatri_mantra.ogg',licence:'CC0 1.0',licenceUrl:'https://creativecommons.org/publicdomain/zero/1.0/',changes:'Unmodified original recording.'},
+ shiva:{asset:'/japseva/audio/shiva-mantra.wav',creator:'शिव साहिल',source:'https://commons.wikimedia.org/wiki/File:Om_Namah_Shivaya_audio.wav',licence:'CC BY-SA 4.0',licenceUrl:'https://creativecommons.org/licenses/by-sa/4.0/',changes:'Unmodified original recording.'},
+ vasudeva:{asset:'/japseva/audio/vasudeva-mantra.ogg',creator:'Tito Dutta',source:'https://commons.wikimedia.org/wiki/File:Om_Namo_Bhagavate_Vasudevaya_Pronunciation.oga',licence:'CC BY-SA 3.0',licenceUrl:'https://creativecommons.org/licenses/by-sa/3.0/',changes:'Unmodified original recording; local filename changed from .oga to .ogg.'}
+});
+export const audioMantraIds=Object.freeze(Object.keys(recordings));
+for(const m of mantras){m.meaningHi=hindi[m.id];if(recordings[m.id]){m.audio=recordings[m.id].asset;m.recording=recordings[m.id];}}

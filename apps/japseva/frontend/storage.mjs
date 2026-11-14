@@ -1,3 +1,4 @@
+import {audioMantraIds} from './library.mjs';
 export const empty=()=>({format:'japseva-backup',schemaVersion:2,version:0,clients:[],sankalps:[],audioPlays:{}});
 const fail=message=>{throw Error(message);};
 const text=(v,label,max=120)=>{if(typeof v!=='string'||!v.trim()||v.length>max)fail(`${label} is required (maximum ${max} characters).`);return v.trim();};
@@ -8,7 +9,7 @@ export function validate(input){
  if(!input||input.format!=='japseva-backup'||![1,2].includes(input.schemaVersion))fail('Choose a supported JapSeva backup.');
  if(new TextEncoder().encode(JSON.stringify(input)).length>1000000)fail('This workspace exceeds the 1 MB limit.');
  const s=empty();s.version=int(input.version,Number.MAX_SAFE_INTEGER,'Version',0);
- if(input.audioPlays!==undefined){if(!input.audioPlays||typeof input.audioPlays!=='object'||Array.isArray(input.audioPlays)||Object.keys(input.audioPlays).some(k=>k!=='gayatri'))fail('Invalid audio practice.');for(const [key,r]of Object.entries(input.audioPlays)){const target=int(r.target,1000000,'Audio target');s.audioPlays[key]={target,count:int(r.count,target,'Audio plays',0)};}}
+ if(input.audioPlays!==undefined){if(!input.audioPlays||typeof input.audioPlays!=='object'||Array.isArray(input.audioPlays)||Object.keys(input.audioPlays).some(k=>!audioMantraIds.includes(k)))fail('Invalid audio practice.');for(const [key,r]of Object.entries(input.audioPlays)){const target=int(r.target,1000000,'Audio target');s.audioPlays[key]={target,count:int(r.count,target,'Audio plays',0)};}}
  if(!Array.isArray(input.clients)||input.clients.length>200||!Array.isArray(input.sankalps)||input.sankalps.length>200)fail('Invalid workspace record limits.');
  s.clients=input.clients.map(c=>({id:id(c.id),name:text(c.name,'Client name'),createdAt:date(c.createdAt)}));
  const ids=new Set(s.clients.map(c=>c.id));if(ids.size!==s.clients.length)fail('Duplicate client IDs.');
@@ -25,11 +26,11 @@ export function validate(input){
 }
 export function command(state,path,b,now=new Date().toISOString()){
  const s=structuredClone(state);
- if(path==='/audio/gayatri'){
-  s.audioPlays||={};const r=s.audioPlays.gayatri||{count:0,target:108};
+ if(audioMantraIds.some(key=>path==='/audio/'+key)){
+  const key=path.slice('/audio/'.length);s.audioPlays||={};const r=s.audioPlays[key]||{count:0,target:108};
   if(b.action==='target'){const target=int(b.target,1000000,'Audio target');if(target<r.count)fail('Target cannot be lower than completed audio plays. Reset the audio count first.');r.target=target;}
   else if(b.action==='increment'){if(r.count>=r.target)fail('Audio target is already complete.');r.count++;}
-  else if(b.action==='reset')r.count=0;else fail('Unknown audio action.');s.audioPlays.gayatri=r;
+  else if(b.action==='reset')r.count=0;else fail('Unknown audio action.');s.audioPlays[key]=r;
  }else if(path==='/clients'){if(s.clients.length>=200)fail('Maximum 200 clients.');s.clients.push({id:crypto.randomUUID(),name:text(b.name,'Client name'),createdAt:now});}
  else if(path==='/sankalps'){
   if(s.sankalps.length>=200)fail('Maximum 200 sankalps.');if(!s.clients.some(c=>c.id===b.clientId))fail('Choose one of your clients.');

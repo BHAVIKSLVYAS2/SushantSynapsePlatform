@@ -1,3 +1,18 @@
+JapSeva additional licensed audio (2026-11-14, local): verified byte-identical
+Shiva (163970-byte WAV, creator शिव साहिल, CC BY-SA 4.0) and Vasudeva
+(61874-byte Ogg, Tito Dutta, CC BY-SA 3.0) originals added with individual source,
+creator, licence and change statements beside players and in third-party notices.
+Gayatri is retained unchanged. All three have independent validated saved audio
+targets/counts; no chant/certificate increments. Legacy backups remain supported;
+unknown/unlicensed audio IDs reject. Ganesha remains audio-unavailable because no
+suitable verified recording was found. No expert pronunciation review claimed.
+Verification: all 4 model checks pass with multi-mantra isolation/backup coverage;
+8 Chrome workflows pass and the remaining licence/MIME/layout workflow passes on
+targeted rerun after correcting the test's relative request URL. Actual playback
+reaches targets for both new assets, persists on reload and leaves chanting and
+certificates unchanged. Evidence: .publish/japseva-audio-{source-review.json,
+model.log,browser.log,licence.log}. Not yet deployed at this checkpoint.
+
 Kundali reading layout follow-up (2026-11-14, local): primary D1/D9 chart
 beside compact Graha Spashta on wide screens; explicit D9 comparison rather than
 two equally prominent charts by default. One graha links the diagram and its row

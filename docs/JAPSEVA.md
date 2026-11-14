@@ -1,3 +1,8 @@
+Audio follow-up (2026-11-14): Gayatri, Shiva and Vasudeva now have locally
+served freely licensed recordings with individual credits and independent saved
+audio counts. Ganesha audio remains unavailable. Chanting/certificates stay
+separate. Source evidence: JAPSEVA_AUDIO.md; release status: functionality ledger.
+
 # JapSeva
 
 Icon update (2026-11-14, source 66884f8): original japa-mala SVG artwork is used
