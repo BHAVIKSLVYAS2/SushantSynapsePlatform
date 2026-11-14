@@ -1,3 +1,31 @@
+Ritvayam Kundli experience phase (2026-11-14 IST, local; not committed/deployed):
+after the requested comparison/discussion and JapSeva release, implemented six
+result destinations (Overview, Charts, Planets, Dasha & calendar, Life areas,
+Advanced), topic-to-section focus, selected-section preservation on language
+changes and generation scroll positioning below the shared header. Charts gain
+a mobile house selector and complete selected-house source positions beside the
+desktop chart; numeric tables scroll without breaking names on phones. Dasha
+dates are localized with exact datetime/title values and a current-period return
+action. Private reports gain a restrained header and section/page-break styling.
+Shared tokens and en/hi/gu remain. No numerical kernel, saved-input format,
+uncertainty admission, API, database or production changes for Ritvayam.
+
+Verified 16 model/export checks; 3 chart/browser scenarios including all twelve
+ascendants and crowded houses; 20 component scenarios (19 plus corrected stale
+matching-copy assertion rerun); and 9 isolated production-bundle journeys. Two
+production scenarios initially collided on shared trace artifacts; both pass
+with separate output folders. Final production journey rerun passes 5/5,
+including all three languages, visible section navigator, saved-input/matching
+consent reuse, unknown times and Generate/Clear cancellation. Isolated production
+dry build passes. Phone/desktop previews reviewed. Final focused reading/navigation
+rerun passes 4/4. Focused navigation covers
+320/390/768/1440px in Light/Dark/Deep Black, chart inspection, period return and
+language selection. Existing component-test setup explicitly exposes panels;
+dedicated journey/navigation tests verify real one-section-at-a-time behavior.
+No claim of independent astronomical/traditional validation is added. Remaining
+calculations are queued in docs/vedic/RITVAYAM_UI_PLAN_2026-11-14.md. Evidence:
+.publish/ritvayam-*.log and .publish/ritvayam-layout-review/.publish/ritvayam-*.
+
 JapSeva separated workspace deployed (2026-11-14 IST): source f149102,
 Worker e76dc011-9f82-47e2-81e8-fa3468c5887e, at
 https://apps.sushantsynapse.com/japseva. Ongoing practice, new requests, completed

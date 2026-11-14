@@ -1,3 +1,4 @@
+import {resultSections} from './kundli-journey-copy.mjs';
 import {chartViewModel,northCells,southCells} from './chart-model.mjs';
 import {locale,signName,bodyName} from './locale.mjs';
 const ns='http://www.w3.org/2000/svg';
@@ -24,12 +25,12 @@ export function mountCharts(container,charts,options={}){
  details.setAttribute('aria-label',t.details);details.setAttribute('aria-live','polite');
  const tableRegion=el('div',undefined,'vedic-chart-table');tableRegion.tabIndex=0;tableRegion.setAttribute('role','region');tableRegion.setAttribute('aria-label',t.tableHint);
  const legend=el('p',t.legend+' '+models.D1.planets.map(p=>`${p.code} ${bodyName(p.body,language)}`).join(' · '),'vedic-chart-legend');
- root.append(heading,notice,controls,description,summary,stage,legend,details,tableRegion);container.replaceChildren(root);
+ const explorer=el('div',undefined,'vedic-chart-explorer');explorer.append(stage,details);const houseLabel=el('label',t.house,'vedic-house-picker'),houseSelect=el('select');houseSelect.setAttribute('aria-label',t.details);for(let i=1;i<=12;i++)houseSelect.append(new Option(t.house+' '+i,i));houseSelect.addEventListener('change',()=>select(Number(houseSelect.value)));houseLabel.append(houseSelect);root.append(heading,notice,controls,description,summary,houseLabel,explorer,legend,tableRegion);container.replaceChildren(root);
  function select(house){selected=house;update();}
  function update(){const h=models[type].houses[selected-1];
   for(const g of stage.querySelectorAll('[data-house]'))g.setAttribute('aria-pressed',String(Number(g.dataset.house)===selected));
   for(const row of tableRegion.querySelectorAll('[data-house]'))row.dataset.selected=String(Number(row.dataset.house)===selected);
-  details.replaceChildren(el('h3',`${type} · ${t.house} ${selected} · ${signName(h.rashi,language)} (${h.rashi})`),el('p',h.planets.map(p=>bodyName(p.body,language)).join(', ')||t.empty));
+  houseSelect.value=String(selected);details.replaceChildren(el('h3',`${type} · ${t.house} ${selected} · ${signName(h.rashi,language)} (${h.rashi})`),el('p',h.planets.map(p=>bodyName(p.body,language)).join(', ')||t.empty));const list=el('dl',undefined,'vedic-house-planets');for(const p of h.planets)list.append(el('dt',bodyName(p.body,language)),el('dd',`${signName(p.rashi,language)} · ${p.sourceLongitude.toFixed(4)}° · ${type==='D1'?t.longitude:t.source}`));details.append(list,el('p',resultSections[language].house,'vedic-chart-description'));
  }
  function render(){const model=models[type];
   for(const b of divisionButtons)b.setAttribute('aria-pressed',String(b.dataset.value===type));
@@ -44,7 +45,7 @@ export function mountCharts(container,charts,options={}){
    let x,y;
    if(style==='north'){const cell=northCells[h.houseNumber-1];x=cell[1];y=cell[2];g.append(svgEl('polygon',{points:cell[0]}));}
    else{const [col,row]=southCells[h.rashi-1];x=col*100+50;y=row*100+25;g.append(svgEl('rect',{x:col*100,y:row*100,width:100,height:100}));}
-   g.append(svgEl('text',{x,y,'text-anchor':'middle',class:'vedic-cell-label'},`H${h.houseNumber} S${h.rashi}${h.isAscendant?' Lg':''}`),
+   g.append(svgEl('title',{},`${t.house} ${h.houseNumber} · ${signName(h.rashi,language)}: ${h.planets.map(p=>bodyName(p.body,language)).join(', ')||t.empty}`));g.append(svgEl('text',{x,y,'text-anchor':'middle',class:'vedic-cell-label'},`H${h.houseNumber} S${h.rashi}${h.isAscendant?' Lg':''}`),
     svgEl('text',{x,y:y+22,'text-anchor':'middle',class:'vedic-cell-bodies'},h.planets.slice(0,3).map(p=>p.code).join(' ')||'—'));
    if(h.planets.length>3)g.append(svgEl('text',{x,y:y+39,'text-anchor':'middle',class:'vedic-cell-bodies'},`+${h.planets.length-3}`));
    g.addEventListener('click',()=>select(h.houseNumber));g.addEventListener('keydown',e=>{if(['Enter',' '].includes(e.key)){e.preventDefault();select(h.houseNumber);}});svg.append(g);

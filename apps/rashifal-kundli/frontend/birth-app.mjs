@@ -1,4 +1,4 @@
-import {journeyCopy} from './kundli-journey-copy.mjs';
+import {journeyCopy,resultSections} from './kundli-journey-copy.mjs';
 import {mountKundliReading} from './kundli-reading-view.mjs';
 import {readingText} from './kundli-reading-copy.mjs';
 import {mountBirthplace} from './birthplace-input.mjs';
@@ -23,6 +23,7 @@ const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefine
 
 export function mountBirthApp(container,{now=()=>Date.now()}={}){
  if(!(container instanceof Element)||typeof now!=='function')throw new TypeError('Check birth interface options.');
+ let selectedSection='overview';
  let language='en',reviewed=null,report=null,displayName='',revision=0,pending=null,chartHandle=null,dashaHandle=null,exportHandle=null,traditionHandle=null,timeMachineHandle=null,sensitivityHandle=null,rulesHandle=null,advancedHandle=null,readingHandle=null;
  const root=el('section',undefined,'vedic-birth-app'),heading=el('h1'),intro=el('p'),gate=el('p',undefined,'vedic-gate');
  const languageLabel=el('label'),languageSelect=el('select');languageSelect.id='birth-language';
@@ -44,7 +45,7 @@ export function mountBirthApp(container,{now=()=>Date.now()}={}){
  const library=el('details',undefined,'saved-kundlis');library.id='saved-kundlis';library.setAttribute('aria-labelledby','saved-kundlis-title');const recentRoot=el('div',undefined,'kundli-recent');root.insertBefore(recentRoot,formPanel);root.insertBefore(library,formPanel);
  const birthplace=mountBirthplace(controls.query,controls.place,hint);
  function stopResults(){chartHandle?.destroy();dashaHandle?.destroy();exportHandle?.destroy();traditionHandle?.destroy();timeMachineHandle?.destroy();sensitivityHandle?.destroy();rulesHandle?.destroy();advancedHandle?.destroy();readingHandle?.destroy();readingHandle=null;chartHandle=dashaHandle=exportHandle=traditionHandle=timeMachineHandle=sensitivityHandle=rulesHandle=advancedHandle=null;results.replaceChildren();}
- function invalidate(){reviewButton.disabled=false;root.removeAttribute('aria-busy');revision++;clearTimeout(pending);pending=null;reviewed=report=null;reviewRegion.replaceChildren();stopResults();status.textContent='';}
+ function invalidate(){selectedSection='overview';reviewButton.disabled=false;root.removeAttribute('aria-busy');revision++;clearTimeout(pending);pending=null;reviewed=report=null;reviewRegion.replaceChildren();stopResults();status.textContent='';}
  function errorText(code){const t=locale(language);return code==='OUT_OF_RANGE'?t.outOfRange:code==='UNSTABLE_BIRTH_TIME'?t.unstable:t.error;}
  function placeholder(){controls.place.replaceChildren(el('option',locale(language).choose));controls.place.options[0].value='';}
  function updateAccuracy(){const unknown=accuracy.value==='unknown',approximate=accuracy.value==='approximate';
@@ -72,8 +73,7 @@ export function mountBirthApp(container,{now=()=>Date.now()}={}){
  function renderResults(){const openGroups=new Set([...results.querySelectorAll('details[data-kundli-group][open]')].map(node=>node.dataset.kundliGroup));stopResults();if(!report)return;const t=locale(language),f=report.features;
   const readingRoot=el('div');results.append(readingRoot);readingHandle=mountKundliReading(readingRoot,report,language,displayName);
   function group(id,key){const node=el('details',undefined,'kundli-expert-group');node.dataset.kundliGroup=id;node.id='kundli-'+id;node.open=openGroups.has(id);node.append(el('summary',readingText[language][key]));results.append(node);return node;}
-  const calculations=group('calculations','charts'),timing=group('timing','timing'),advanced=group('advanced','advanced');
-  const jumpPicker=el('div',undefined,'kundli-expert-picker');const jump=el('nav',undefined,'kundli-report-nav');jump.setAttribute('aria-label',readingText[language].jump);for(const [id,key]of [['kundli-calculations','charts'],['kundli-timing','timing'],['kundli-advanced','advanced']]){const link=el('a',readingText[language][key]);link.href='#'+id;link.addEventListener('click',event=>{if(event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;event.preventDefault();const target=results.querySelector('#'+id);if(target?.tagName==='DETAILS')target.open=true;(target?.tagName==='DETAILS'?target.querySelector('summary'):target)?.focus({preventScroll:true});target?.scrollIntoView({block:'start'});});jump.append(link);}jumpPicker.append(jump);readingRoot.querySelector('.kundli-reading-navigation').append(jumpPicker);
+  const calculations=group('calculations','charts'),planets=group('planets','charts'),timing=group('timing','timing'),advanced=group('advanced','advanced');planets.querySelector('summary').textContent=t.positions;calculations.querySelector('summary').textContent=resultSections[language].calculations;
   calculations.append(el('h2',displayName?`${t.results} · ${displayName}`:t.results),el('p',t.profile),el('p',t.nodes));
   if(report.birth.timeAccuracy!=='exact')calculations.append(el('p',t.unknownFeature));
   if(f.positions.status==='available'){
@@ -81,11 +81,19 @@ export function mountBirthApp(container,{now=()=>Date.now()}={}){
    for(const text of [t.body,t.sign,t.degree,t.nakshatra,t.pada]){const th=el('th',text);th.scope='col';row.append(th);}head.append(row);const body=el('tbody');
    for(const p of f.positions.value.positions){const tr=el('tr');tr.dataset.body=p.body;tr.dataset.rashi=String(p.rashi);tr.dataset.nakshatra=String(p.nakshatra);
     for(const value of [bodyName(p.body,language),`${signName(p.rashi,language)} (${p.rashi})`,p.degreeWithinRashi.toFixed(4),nakshatraName(p.nakshatra,language),p.pada])tr.append(el('td',String(value)));body.append(tr);}
-   table.append(head,body);const wrap=el('div',undefined,'vedic-period-table');wrap.tabIndex=0;wrap.setAttribute('role','region');wrap.setAttribute('aria-label',t.positions);wrap.append(table);region.append(el('p',t.scrollHint),wrap);calculations.append(region);
-  }else calculations.append(featureMessage('positions',f.positions));
+   table.append(head,body);const wrap=el('div',undefined,'vedic-period-table');wrap.tabIndex=0;wrap.setAttribute('role','region');wrap.setAttribute('aria-label',t.positions);wrap.append(table);region.append(el('p',t.scrollHint),wrap);planets.append(region);
+  }else planets.append(featureMessage('positions',f.positions));
   for(const key of ['d1','d9','dasha'])(key==='dasha'?timing:calculations).append(featureMessage(key,f[key]));
   if(f.d1.status==='available'){const chartRoot=el('div');calculations.append(chartRoot);chartHandle=mountCharts(chartRoot,{d1:f.d1.value,d9:f.d9.status==='available'?f.d9.value:null},{language});}
   if(f.dasha.status==='available'){const dashaRoot=el('div');timing.append(dashaRoot);dashaHandle=mountDasha(dashaRoot,f.dasha.value,language);}
+  const sectionCopy=resultSections[language],sectionNav=el('nav',undefined,'kundli-section-nav');sectionNav.setAttribute('aria-label',sectionCopy.label);
+  const sectionButtons=[];for(const id of ['overview','calculations','planets','timing','topics','advanced']){const button=el('button',sectionCopy[id]);button.type='button';button.dataset.kundliSection=id;button.setAttribute('aria-controls',id==='overview'||id==='topics'?'kundli-reading-content':'kundli-'+id);button.addEventListener('click',()=>chooseSection(id));sectionNav.append(button);sectionButtons.push(button);}results.prepend(sectionNav);readingRoot.id='kundli-reading-content';
+  function chooseSection(id){selectedSection=id;for(const button of sectionButtons)button.setAttribute('aria-pressed',String(button.dataset.kundliSection===id));
+   readingRoot.hidden=!['overview','topics'].includes(id);for(const node of [calculations,planets,timing,advanced]){node.hidden=node.dataset.kundliGroup!==id;if(!node.hidden)node.open=true;}
+   for(const node of readingRoot.querySelectorAll('.kundli-reading-grid,.kundli-reading-methods,.kundli-topic-picker,.kundli-reading-navigation'))node.hidden=id!=='topics';
+   for(const node of readingRoot.querySelectorAll('.kundli-identity,.kundli-future,.kundli-reading-intro,.kundli-reading-notice,.kundli-quick-topics,.kundli-expert-picker'))node.hidden=id!=='overview';
+  }
+  readingRoot.addEventListener('kundli-topic-jump',event=>chooseSection(event.detail==='future'?'overview':'topics'));chooseSection(selectedSection);
   const provenance=el('details');provenance.id='kundli-provenance';provenance.append(el('summary',t.provenance),el('p',t.fallback));
   const data=el('dl');const birth=report.birth;
   for(const [key,value]of Object.entries({profile:birth.calculationProfileId,timezone:birth.timeZoneId,tzdb:birth.tzdbVersion,placeSource:birth.place.sourceVersion,precision:birth.precisionClass,calculatedAt:report.calculatedAtUtc}))data.append(el('dt',term(key,language)),el('dd',term(value,language)));
@@ -107,7 +115,7 @@ export function mountBirthApp(container,{now=()=>Date.now()}={}){
  form.addEventListener('input',()=>invalidate());
  form.addEventListener('change',event=>{invalidate();if(event.target===accuracy)updateAccuracy();if(event.target===controls.place&&controls.place.value){try{getPlace(controls.place.value);}catch{placeholder();}}});
  form.addEventListener('submit',event=>{event.preventDefault();if(pending!==null)return;if(!civil.valid()||!form.reportValidity())return;invalidate();try{const input=inputValue();displayName=safeName();const birth=normalizeInput(input,{now:now()});reviewed={input,birth};renderReview();const ticket=revision;reviewButton.disabled=true;root.setAttribute('aria-busy','true');status.textContent=locale(language).busy;
- pending=setTimeout(()=>{pending=null;if(ticket!==revision||!reviewed)return;try{report=calculateBirthReport({...reviewed.input,language},{now:now()});renderResults();renderReview();formPanel.open=false;const target=results.querySelector('#kundli-reading-title');target?.focus({preventScroll:true});target?.scrollIntoView({block:'start'});status.textContent=locale(language).ready;}catch(error){status.textContent=errorText(error.code);formPanel.open=true;}finally{if(ticket===revision){reviewButton.disabled=false;root.removeAttribute('aria-busy');}}},32);}
+ pending=setTimeout(()=>{pending=null;if(ticket!==revision||!reviewed)return;try{report=calculateBirthReport({...reviewed.input,language},{now:now()});renderResults();renderReview();formPanel.open=false;const target=results.querySelector('#kundli-reading-title');target?.focus({preventScroll:true});results.scrollIntoView({block:'start'});status.textContent=locale(language).ready;}catch(error){status.textContent=errorText(error.code);formPanel.open=true;}finally{if(ticket===revision){reviewButton.disabled=false;root.removeAttribute('aria-busy');}}},32);}
   catch(error){status.textContent=error.code==='SELECT_PLACE'?locale(language).selectPlace:error.code==='INVALID_NAME'?locale(language).requiredName:errorText(error.code);}});
  function clear(){formPanel.open=true;invalidate();form.reset();displayName='';activeSavedId=null;birthplace.clear();updateAccuracy();translate();}
  clearButton.addEventListener('click',clear);languageSelect.addEventListener('change',()=>{revision++;clearTimeout(pending);pending=null;reviewButton.disabled=false;root.removeAttribute('aria-busy');language=languageSelect.value;translate();});

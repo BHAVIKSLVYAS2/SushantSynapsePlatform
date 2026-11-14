@@ -69,12 +69,14 @@ export const reportLayoutCss=[[12,1,1],[1,2,1],[2,3,1],[3,4,1],[11,1,2],[4,4,2],
 
 export const reportTableCss='.vedic-export-document{font:14px/1.5 system-ui,sans-serif}.vedic-report-table{max-width:100%;overflow:auto}.vedic-report-table table{min-width:32rem}.vedic-report-table:focus-visible{outline:2px solid var(--report-ink);outline-offset:-2px}@media print{.vedic-export-document{font-size:10pt}.vedic-report-table{overflow:visible}.vedic-report-table table{min-width:0}}'+'.report-everyday{font-family:system-ui,"Noto Sans Devanagari","Noto Sans Gujarati",sans-serif}.report-everyday>section{padding:.8rem 0;border-bottom:1px solid var(--report-edge);break-inside:avoid}.report-everyday p{line-height:1.8;max-width:72ch}.report-everyday h3{margin-bottom:.6rem}';
 
+export const reportPresentationCss='.report-cover{border-bottom:2px solid var(--report-ink);padding:1.5rem 0;margin-bottom:1.5rem;break-inside:avoid}.report-brand{font-size:.8rem;font-weight:700;letter-spacing:.15em}.report-cover h1{font-size:2rem;line-height:1.3;margin:.5rem 0}.vedic-export-document>section{margin-block:2rem}.vedic-export-document caption{padding-block:.6rem}.vedic-export-document h2{padding-top:.6rem;border-top:1px solid var(--report-edge)}@media print{.report-cover{padding:1rem 0}.vedic-export-document>section{margin-block:1rem}.report-everyday>section{break-inside:auto}.report-everyday>section h3{break-after:avoid}}';
+
 export function reportMarkup(model){
  const language=model.language,t=locale(language),x=exportLabels[language];
  const p=text=>`<p>${esc(text)}</p>`;
  const table=(caption,headers,rows)=>`<div class="vedic-report-table" tabindex="0" role="region" aria-label="${esc(caption)}"><table><caption>${esc(caption)}</caption><thead><tr>${headers.map(h=>`<th scope="col">${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((v,i)=>i===0?`<th scope="row">${esc(v)}</th>`:`<td>${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
  const date=b=>`${b.local??t.localUnavailable} · UTC ${b.utc}`;
- let html=`<article class="vedic-export-document" lang="${language}"><h1>${esc(x.title)}</h1>${p(model.redacted?x.redacted:x.identified)}${p(x.notice)}<p class="report-note">${esc(x.nominal)}</p>`;
+ let html=`<article class="vedic-export-document" lang="${language}"><header class="report-cover"><p class="report-brand">RITVAYAM</p><h1>${esc(x.title)}</h1>${p(model.redacted?x.redacted:x.identified)}</header>${p(x.notice)}<p class="report-note">${esc(x.nominal)}</p>`;
  if(model.identity)html+=`<h2>${esc(x.identity)}</h2><dl>${Object.entries(model.identity).map(([k,v])=>`<dt>${esc(term(k,language))}</dt><dd>${esc(v&&typeof v==='object'?`${v.start} → ${v.end}`:v??t.noTime)}</dd>`).join('')}</dl>`;
  if(model.everyday){html+=`<section class="report-everyday"><h2>${esc(model.everyday.title)}</h2>${p(model.everyday.intro)}`;for(const topic of model.everyday.topics)html+=`<section data-reading-topic="${esc(topic.id)}"><h3>${esc(topic.title)}</h3>${topic.paragraphs.map(p).join('')}${topic.action?p(topic.action):''}</section>`;html+=p(model.everyday.method)+'</section>';}
  const pos=model.features.positions;
@@ -101,7 +103,7 @@ export function reportMarkup(model){
  html+=`<h2>${esc(x.provenance)}</h2>${p(t.fallback)}<dl>${Object.entries(model.provenance).map(([k,v])=>`<dt>${esc(term(k,language))}</dt><dd>${esc(term(v,language))}</dd>`).join('')}</dl><h2>${esc(x.warnings)}</h2><ul>${model.warnings.map(w=>`<li>${esc(diagnosticText(w,language))}</li>`).join('')}</ul></article>`;
  return html;
 }
-export function standaloneReport(model){return `<!doctype html><html lang="${model.language}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"><title>${esc(exportLabels[model.language].title)}</title><style>${reportCss+reportLayoutCss+reportTableCss}</style></head><body>${reportMarkup(model)}</body></html>`;}
+export function standaloneReport(model){return `<!doctype html><html lang="${model.language}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"><title>${esc(exportLabels[model.language].title)}</title><style>${reportCss+reportLayoutCss+reportTableCss+reportPresentationCss}</style></head><body>${reportMarkup(model)}</body></html>`;}
 
 export function mountExport(container,report,{name='',language='en'}={}){
  const x=exportLabels[language],root=document.createElement('section');root.className='vedic-export';

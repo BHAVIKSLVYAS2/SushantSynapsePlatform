@@ -11,5 +11,6 @@ async function fillTime(page,selector,value){
  await page.locator(selector+'-minute').fill(minute);
  await page.locator(selector+'-period').selectOption(hour===''?'':Number(hour)<12?'AM':'PM');
 }
-async function openKundliCalculations(page){await page.locator('#kundli-reading-title').waitFor();await page.locator('details[data-kundli-group]').evaluateAll(nodes=>nodes.forEach(node=>node.open=true));}
+// Component regressions expose every technical panel; dedicated journey tests verify real section navigation.
+async function openKundliCalculations(page){await page.locator('#kundli-reading-title').waitFor();await page.locator('details[data-kundli-group]').evaluateAll(nodes=>nodes.forEach(node=>{node.hidden=false;node.open=true;}));}
 module.exports={fillDate,fillTime,openKundliCalculations};

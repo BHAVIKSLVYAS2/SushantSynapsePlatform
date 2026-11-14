@@ -70,6 +70,16 @@ fieldset.civil-input,.vedic-matching fieldset.civil-input{min-width:0;margin:0;p
 .kundli-identity dd{line-height:1.5}.kundli-topic details summary{line-height:1.6}
 .vedic-matching .birthplace-options,.vedic-time-machine .birthplace-options{max-height:min(16rem,45dvh)}
 /* Journey enhancements reuse the existing form, reading and calculation views. */
+.vedic-birth-app [hidden]{display:none!important}
+.kundli-section-nav{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:.5rem;margin:1rem 0 1.5rem;padding:.5rem;border:1px solid var(--ui-edge);border-radius:1rem;background:var(--ui-solid)}
+.kundli-section-nav button{min-height:48px;padding:.6rem .5rem;border:1px solid transparent;border-radius:.65rem;background:transparent;color:var(--ui-muted);font:inherit;font-size:.9rem;line-height:1.5;cursor:pointer;overflow-wrap:anywhere}
+.kundli-section-nav button[aria-pressed=true]{background:var(--ui-soft);border-color:var(--ui-edge);color:var(--ui-accent);font-weight:650}
+.kundli-section-nav button:focus-visible{outline:3px solid var(--ui-accent);outline-offset:2px}
+.kundli-expert-group{scroll-margin-top:6rem}.kundli-expert-group[open]>summary{font-size:1.1rem}
+.vedic-dasha>p{max-width:70ch;line-height:1.75}.vedic-dasha>p:nth-of-type(2){padding:1rem;border:1px solid var(--ui-edge);border-radius:.8rem;background:var(--ui-soft);font-weight:600}
+.vedic-current-period{min-height:44px;margin-block:.5rem}
+@media(max-width:699px){.kundli-section-nav{grid-template-columns:repeat(3,minmax(0,1fr));gap:.35rem;padding:.35rem}.kundli-section-nav button{font-size:.85rem;min-height:48px}.vedic-birth-app .kundli-result-actions{display:flex;gap:.5rem;flex-wrap:wrap}.kundli-result-actions button{flex:1}}
+@media print{.kundli-section-nav{display:none}}
 .vedic-birth-app>h1{margin:.25rem 0 .5rem}.vedic-birth-app>h1+p{max-width:65ch;margin:.25rem 0 1rem;color:var(--ui-muted);font-size:.9rem}
 .vedic-birth-app .kundli-input-panel{margin:.75rem 0;padding:.8rem;border-radius:1rem;background:var(--ui-solid)}
 .kundli-input-panel>summary{display:flex;align-items:center;font-size:1rem}.kundli-input-panel>summary:after{content:'⌄';margin-inline-start:auto;color:var(--ui-muted)}
