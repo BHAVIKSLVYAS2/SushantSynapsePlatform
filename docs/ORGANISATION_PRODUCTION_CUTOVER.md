@@ -1,3 +1,20 @@
+Kiraya Saathi deployed (2026-11-14 IST): source 6fd53bb4, Worker
+6c634c65-b724-4633-809e-c97a705b02e3, live at
+https://apps.sushantsynapse.com/kiraya-saathi and listed beside Hisabio. User
+explicitly authorised browser-only storage, no login and backups. Flat/shop rent,
+partial payments, adjustments, future rent changes, separate deposits, owner
+expenses, tenant replacement/history, PDF/print receipts and reminder drafts are
+implemented. No rental API, production DB/schema change or payment/message service.
+Verification: 9 model/catalogue checks and 11 Chrome scenarios (6 rental + 5
+Hisabio) pass; production dry run exports 681 public assets. All 27 live read-only
+checks pass, including 21 exact assets across the new app, shared shell, Hisabio,
+JapSeva and Kundali. Live browser page opens; 390px width has zero overflow. One
+Cloudflare-injected analytics script is blocked by the existing self-only CSP;
+the app runs without it. Existing org/auth variables and D1 binding preserved
+with --keep-vars. Evidence: .publish/kiraya-{model,release-tests,dryrun,deploy,live}.log,
+kiraya-live.json, kiraya-layout-checks.json and mobile screenshots. Scope and
+billing/backup boundaries: docs/KIRAYA_SAATHI.md.
+
 JapSeva daily-practice improvements deployed (2026-11-14 IST): source cbca52b,
 Worker fb93f88c-0be0-4404-a6ea-bddb6883fbd3, at https://apps.sushantsynapse.com/japseva.
 Compact requests, focused counters, search, mala targets and audited corrections
