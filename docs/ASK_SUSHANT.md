@@ -1,5 +1,13 @@
 # Ask Nishi
 
+Conversation presentation update (15 November 2026, local): added Nishi's
+decorative SVG avatar, greeting, suggested prompts, current question/reply
+bubbles and a bottom composer with labelled send icon. Local answering is
+unchanged; a quiet AI connection coming soon label makes the integration status
+explicit. Messages still clear on close; there is no stored chat history or
+network/model connection. Controls and greeting support English/Hindi/Gujarati.
+Existing home trigger stays in the normal layout. Not committed or deployed.
+
 Local implementation, 15 November 2026. Portal-owned entry point for future
 agent integration; currently a deterministic app guide, not connected AI chat.
 

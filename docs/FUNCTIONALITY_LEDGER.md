@@ -1,3 +1,15 @@
+Nishi conversation presentation (2026-11-15 IST, local): decorative native SVG
+avatar, personal greeting, task/storage prompts, current question/reply area and
+bottom message composer/send icon replace the search-form presentation. Quiet
+AI connection coming soon label remains explicit; local catalogue/storage help,
+close-clearing, sign-in boundary and unobtrusive home trigger are unchanged.
+Three-language copy and existing theme tokens; no model/provider/history store.
+Four catalogue tests pass. Three browser workflows pass across the run and
+targeted rerun: Nishi's 27 language/theme/width cases, unchanged pin/drag flow
+and Comfort/Compact matrix. Fixed test Unicode greeting encoding; inspected
+390px screenshot. build:ui, syntax/diff checks pass. Evidence:
+.publish/nishi-conversation-{review,final}/. Not committed or deployed.
+
 Ask Nishi/Chambers follow-ups deployed (2026-11-15 IST): source ab8c99a,
 Worker 8d61fc1c-c7fa-4ba5-94d5-401975050291 at apps.sushantsynapse.com.
 Includes Ask Nishi's opt-in local home guide (AI still not connected), all
