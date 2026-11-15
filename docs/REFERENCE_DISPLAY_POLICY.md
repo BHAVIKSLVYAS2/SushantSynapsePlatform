@@ -13,12 +13,13 @@ The approved release removes the library text-reference list, audio players,
 audio badges/filter and unavailable messages. Practice playback keeps its
 recording credits in Audio settings. Mantra texts and source metadata remain.
 
-## Collection audit and next proposal
+## Collection audit and approved cleanup
 
 Reviewed app frontend code, the previous source-display audit and public notices.
-No further app-code changes have been made for the following proposal. Discussion
-was requested through the user question tool; an unanswered question is not
-approval for the wider cleanup.
+The user explicitly approved the collection-wide cleanup after discussion on
+15 November 2026. The changes below are implemented; release evidence is in the
+functionality ledger. This approval covers these presentation changes without
+requiring removal of functional data or retained credits.
 
 - Ritual Assist: remove the separate Sources tab in Steps & prayers and its
   publisher-link list. Remove prayer-type captions repeated below the text;
@@ -39,3 +40,11 @@ approval for the wider cleanup.
 Do not introduce a new Credits or Sources card on every screen. Retain existing
 central legal notices and contextual recording credits. Never remove source
 metadata, change calculation results or erase user records as presentation cleanup.
+
+Verification: 17 focused ritual/learning/export tests pass, including export
+values and labels in all three languages. Two existing browser workflows cover
+all 15 guides in English/Hindi, downloads/printing and preparation scope. An
+isolated browser review also verifies old `learn=sources` URLs open Preparation,
+retained verse labels, six bilingual viewport combinations, recording/software
+credits and all 104 JapSeva entries, with no page errors. Frontend build exports
+729 assets. No migration, provider activation or saved-record change.

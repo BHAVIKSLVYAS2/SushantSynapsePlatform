@@ -62,7 +62,7 @@ export function projectExport(report,{includeIdentity=false,name='',language='en
    timeConversionModel:time?.timeConversionModel??'not-calculated',ut1Model:time?.ut1Model??'not-calculated',
    leapSecondSourceSha256:time?.leapSecondSourceSha256??'not-calculated',leapSecondTableExpiresUtc:time?.leapSecondTableExpiresUtc??'not-calculated',
    configuredModels:'Model identities describe configuration; unavailable features were not calculated.',
-   attribution:'Place data: GeoNames (https://www.geonames.org/), CC BY 4.0; engine: Astronomy Engine 2.1.19 by Don Cross, MIT. Model source/acceptance evidence retained in repository docs/vedic.',
+   attribution:'Place data: GeoNames (https://www.geonames.org/), CC BY 4.0; engine: Astronomy Engine 2.1.19 by Don Cross, MIT.',
    timeScales:'TT astronomy; modelled UT1; pinned UTC leap data; Dasha uniform Unix days',
    year:'365.25 uniform days',calculatedAt:report.calculatedAtUtc,exportVersion:'vedic-export-1'}};
  if(includeIdentity)result.identity={name,localDate:b.localDate,localTime:b.localTime??null,place:placeLabel(b.place,language),

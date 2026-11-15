@@ -66,7 +66,7 @@ test('partial and unknown reports preserve safe withholding and optional identit
 });
 test('all report languages preserve numbers and complete labels',async()=>{
  const {projectExport,standaloneReport,exportLabels}=await import('../apps/rashifal-kundli/frontend/export-report.mjs');const r=await setup(),expected=projectExport(r);
- for(const language of ['en','hi','gu']){const m=projectExport(r,{language});assert.deepEqual(m.features,expected.features);assert.deepEqual(Object.keys(exportLabels[language]),Object.keys(exportLabels.en));assert.ok(!standaloneReport(m).includes('undefined'));}
+ for(const language of ['en','hi','gu']){const m=projectExport(r,{language});assert.deepEqual(m.features,expected.features);assert.deepEqual(Object.keys(exportLabels[language]),Object.keys(exportLabels.en));assert.ok(!standaloneReport(m).includes('undefined'));assert.doesNotMatch(standaloneReport(m),/docs\/vedic|acceptance evidence|repository/i);assert.match(standaloneReport(m),/GeoNames/);}
 });
 
 test('report charts reuse selected layout and include new calculated sections in all languages',async()=>{

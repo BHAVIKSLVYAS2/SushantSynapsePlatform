@@ -1,5 +1,16 @@
 # Public reference cleanup
 
+Collection-wide follow-up (15 November 2026, approved after discussion): removed
+Ritual Assist's Sources learning tab and external bibliography, duplicate prayer-
+type footers and editorial text-check date in learning downloads. Useful Gita
+chapter/verse labels remain. Old Sources URLs open Preparation & steps instead.
+Removed repository/acceptance-evidence commentary from Ritvayam export copy in
+English/Hindi/Gujarati and the internal audio-document breadcrumb from public
+notices. Retained source metadata, chart methods/accuracy, official photo-form
+guidance, recording/data/software credits and business reference fields.
+Policy and verification: docs/REFERENCE_DISPLAY_POLICY.md. Earlier checkpoints
+below describe historical presentation and are superseded for this scope.
+
 Later JapSeva cleanup (15 November, local): removed the consolidated public
 text-source list as requested; provenance remains in catalogue data and source
 review documents. The library no longer displays audio players, badges, filters

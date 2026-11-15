@@ -1,7 +1,7 @@
 // Keep the source/verse collection out of the initial checklist download.
 let viewModule;
 export function mountLearning(parent,{guide,language,onNavigate}){
- const tabs=['vidhi','mantras','sources',...(['daily-puja','ganesh-puja','lakshmi-puja','satyanarayan'].includes(guide.id)?['readings']:[])];
+ const tabs=['vidhi','mantras',...(['daily-puja','ganesh-puja','lakshmi-puja','satyanarayan'].includes(guide.id)?['readings']:[])];
  const hi=language==='hi',root=document.createElement('details');root.className='ritual-learning';root.dataset.ritualLearning=guide.id;root.translate=false;
  const summary=document.createElement('summary');summary.textContent=hi?'चरण और प्रार्थनाएँ':'Steps & prayers';
  const body=document.createElement('div');body.className='learning-body';root.append(summary,body);parent.append(root);
@@ -14,5 +14,5 @@ export function mountLearning(parent,{guide,language,onNavigate}){
   finally{loading=false;}
  }
  root.addEventListener('toggle',()=>{if(root.open){const tab=new URL(location.href).searchParams.get('learn');choose(tabs.includes(tab)?tab:'vidhi',!tabs.includes(tab));}else if(tabs.includes(new URL(location.href).searchParams.get('learn')))onNavigate(null);});
- return {root,restore(tab){if(tabs.includes(tab))choose(tab,false);else root.open=false;}};
+ return {root,restore(tab){if(tab==='sources')choose('vidhi');else if(tabs.includes(tab))choose(tab,false);else root.open=false;}};
 }

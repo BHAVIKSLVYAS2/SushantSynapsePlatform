@@ -1,3 +1,20 @@
+Collection reference cleanup (2026-11-15 IST, local): user approved the proposed
+wider cleanup after discussion. Ritual Assist drops its separate Sources tab,
+publisher list, duplicate prayer-type footer and editorial checked-on date from
+learning downloads; Gita verse identities remain. Old learn=sources URLs open
+Preparation & steps and normalise the URL. Ritvayam exports remove internal
+repository/acceptance notes in all three languages; public notices remove the
+internal audio-doc path. Source metadata, numerical models, chart methods/time
+accuracy, official photo requirements, software/data/recording credits and
+business references remain. No provider, paid service, schema or record changes.
+17 focused tests and two existing ritual browser workflows pass (15 guides in
+English/Hindi, learning, materials, exports and printing). Isolated browser review
+passes six bilingual layouts, legacy URLs, retained verse/licence labels and
+104 JapSeva entries with no page errors. Build: 729 assets; diff check passes.
+Scope/policy: docs/REFERENCE_DISPLAY_POLICY.md. Evidence:
+.publish/reference-cleanup-ritual/ and .publish/reference-cleanup-local.png.
+Commit/deployment verification follows below when complete.
+
 JapSeva clean library deployed (2026-11-15 IST): source 29acc75, Worker
 9d7ab57e-47dd-4e40-82c8-334f532c5c9f at apps.sushantsynapse.com. Includes
 compact mobile filters, native filter sheet, removed library audio/source list
