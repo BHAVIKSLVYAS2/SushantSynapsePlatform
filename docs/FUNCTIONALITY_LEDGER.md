@@ -1,3 +1,11 @@
+Unused CSS cleanup deployed (2026-11-16 IST): source 88ae6c0, production Worker
+cc8aad60-669d-4423-a4be-c16effd606a1 at apps.sushantsynapse.com. Build exports
+729 assets; deployed JapSeva HTML and stylesheet match the build exactly, both
+return 200, and /healthz returns 200. Existing live Library/phone-theme browser
+workflow passes, including retained practice audio. Used --keep-vars and explicit
+NISHI_AI_ENABLED:false; no AI binding, migration or production business writes.
+Live browser artifacts: .publish/unused-css-live/. Supersedes local status below.
+
 Unused JS/CSS cleanup (2026-11-16 IST, local): rechecked tracked app/shared
 duplicates and earlier retired-component candidates. Removed obsolete JapSeva
 Library-only audio/badge/settings/reference CSS; retained current practice audio
