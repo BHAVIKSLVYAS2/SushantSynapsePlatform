@@ -1,3 +1,23 @@
+JapSeva focused practice redesign (2026-11-15 IST, local): replaced the plain
+counter panel with a theme-aware tappable progress ring, larger count, compact
+client/mantra header and grouped Undo / +1 / mala controls. Removed duplicate
+headings from selected requests. Mantra text, meaning/pronunciation/audio,
+custom counts and audit history remain available. Undo removes one repetition
+through the existing validated correction command and retains its reason/audit.
+Keyboard focus survives counter updates; large counts shrink within the ring.
+Overview/history lists, storage schema, backups and certificates are unchanged.
+Verification: all 4 model checks and 9 existing browser workflows pass; CLI
+checks 12 theme/width cases (320/390/768/1280px), ring counting and audited Undo.
+Build and deployment dry run export 699 assets. Production verification follows.
+Evidence: .publish/japseva-focus-*.log; output/playwright/japseva-focus-*.png.
+
+Kundali Exact-time D9 repair deployed (2026-11-15 IST): source 153e8c0,
+Worker 9755e0fa-f74b-4246-a06c-7697e5fbce7e. All 12 numeric/storage checks,
+4 local and 3 live practitioner workflows, 9 local and 9 live Exact boundary
+cases pass. All 15 live read-only checks pass, including 11 exact assets.
+Deployment preserved org/auth/D1 with --keep-vars. The detailed local scope
+below remains applicable; no saved records or numerical kernels changed.
+
 Kundali Exact-time D9 repair (2026-11-15 IST, local): reproduced a recorded
 Exact input (2000-01-01 12:00 IST, New Delhi) where conservative D9 boundary
 screening returned the same diagnostic as unknown/approximate birth time. UI now
