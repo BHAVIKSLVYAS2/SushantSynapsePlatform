@@ -1,3 +1,20 @@
+JapSeva focused counter deployed (2026-11-15 IST): source e1f9f5f, Worker
+3b00b78f-d1a5-40d4-a2b5-fd810b7e8728, at
+https://apps.sushantsynapse.com/japseva. Theme-aware tappable ring, larger count,
+compact client/mantra context, grouped Undo/+1/mala controls and expandable
+custom counts/corrections/history. Undo retains the existing correction audit.
+All 4 model checks, 9 browser workflows, final focused regression and 12 local
+plus 12 live theme/width cases pass. All 11 live read-only checks pass, including
+8 exact assets and retained Kundali/home code. Build exports 699 assets;
+--keep-vars preserves org/auth/D1. No database/schema changes. Evidence:
+.publish/japseva-focus-*.log and output/playwright/japseva-focus-*.png.
+
+Kundali Exact-time D9 repair was deployed before this release: source 153e8c0,
+Worker 9755e0fa-f74b-4246-a06c-7697e5fbce7e. All 12 numeric/storage checks,
+4 local/3 live practitioner workflows, 9 local/9 live Exact boundary cases and
+15 live read-only checks (11 exact assets) passed. Strict exports and kernels
+remain unchanged; Exact previews retain time-sensitivity notices.
+
 JapSeva compact lists deployed (2026-11-15 IST): source b7c0b7f, Worker
 9283d3d4-63d7-4752-8593-4e7073ce3f8e, at
 https://apps.sushantsynapse.com/japseva. History/Ongoing use compact rows;

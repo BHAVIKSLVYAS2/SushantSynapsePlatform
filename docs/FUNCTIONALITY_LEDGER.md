@@ -1,4 +1,4 @@
-JapSeva focused practice redesign (2026-11-15 IST, local): replaced the plain
+JapSeva focused practice redesign deployed (2026-11-15 IST): replaced the plain
 counter panel with a theme-aware tappable progress ring, larger count, compact
 client/mantra header and grouped Undo / +1 / mala controls. Removed duplicate
 headings from selected requests. Mantra text, meaning/pronunciation/audio,
@@ -8,7 +8,12 @@ Keyboard focus survives counter updates; large counts shrink within the ring.
 Overview/history lists, storage schema, backups and certificates are unchanged.
 Verification: all 4 model checks and 9 existing browser workflows pass; CLI
 checks 12 theme/width cases (320/390/768/1280px), ring counting and audited Undo.
-Build and deployment dry run export 699 assets. Production verification follows.
+Build and deployment dry run export 699 assets. Source e1f9f5f is live at
+https://apps.sushantsynapse.com/japseva, Worker
+3b00b78f-d1a5-40d4-a2b5-fd810b7e8728, deployed with --keep-vars.
+All 11 live read-only checks pass, including 8 exact assets and retained Kundali/
+home assets. All 12 live theme/width cases, ring tap and audited Undo pass.
+The final focused-workflow regression also passes after keyboard/spacing polish.
 Evidence: .publish/japseva-focus-*.log; output/playwright/japseva-focus-*.png.
 
 Kundali Exact-time D9 repair deployed (2026-11-15 IST): source 153e8c0,
