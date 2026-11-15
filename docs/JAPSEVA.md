@@ -1,4 +1,4 @@
-Five puja collections (2026-11-16, local): Shiva Rudrabhishek, Laghurudra,
+Five puja collections (2026-11-16, deployed source b50dfe2): Shiva Rudrabhishek, Laghurudra,
 Navchandi, Ganapati pujan and Satyanarayan pujan join the Library (109 entries).
 Full named Sanskrit texts use the existing grouped reader with Sanskrit/Roman/
 Gujarati script choices and original English/Hindi/Gujarati summary meanings.

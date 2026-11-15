@@ -1,3 +1,15 @@
+Five puja collections deployed (2026-11-16 IST): source b50dfe2, production
+Worker f80fffef-23fc-4898-b0c7-b5aacb6d6d5e at apps.sushantsynapse.com/japseva.
+All 180 live width/language/theme cases and all 101 reader sections pass, along
+with same-tab reload and five browser-local practice flows retaining the original
+fixture record. Zero page errors/failed JapSeva assets. Ten live assets match
+the production build byte-for-byte; /healthz 200 and Nishi AI capability false.
+Build exports 735 assets; deploy used --keep-vars and explicit AI false, with no
+AI binding, migration, subscription or production business-data writes. Required
+text licence/attribution remains in closed Reading help. Evidence:
+.publish/puja-browser-verification.json, .publish/puja-live-assets.json and
+.publish/puja-*-mobile.png. This supersedes the local checkpoint below.
+
 Five puja collections (2026-11-16 IST, local): added Shiva Rudrabhishek,
 Laghurudra, Navchandi, Ganapati pujan and Satyanarayan pujan; Library now has
 109 entries. Includes all 22 existing Rudram anuvakas without duplicated text,
