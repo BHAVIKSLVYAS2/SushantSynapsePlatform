@@ -1,3 +1,26 @@
+Five puja collections (2026-11-16 IST, local): added Shiva Rudrabhishek,
+Laghurudra, Navchandi, Ganapati pujan and Satyanarayan pujan; Library now has
+109 entries. Includes all 22 existing Rudram anuvakas without duplicated text,
+full Devi Kavacha/Argala/Kilaka/Ratri Sukta, all 13 Devi Mahatmya chapters,
+all 14 Atharvashirsha sections including phalashruti, all five Sanskrit
+Satyanarayan katha chapters, and selected short customary puja prayers.
+Regional homa/karmakanda manuals are not claimed. English/Hindi/Gujarati
+summaries and Sanskrit/Roman/Gujarati reading scripts; Puja collections filter,
+named grouped sections and same-tab reload position/script restoration.
+Practice defaults 1/121/9/1/1; each +1 unit is explained. No schema change,
+new recording, AI processing or paid service. Required source attribution/
+CC BY-SA licence is in closed Reading help, with exact revision metadata.
+Seven Node checks pass, including verse-marker completeness, all 16 offerings,
+compact saved records, backups and certificates. Three existing browser
+workflows pass (audio, Library and complete Rudram). New isolated Chrome
+verification passes all 101 sections and 180 width/language/theme cases,
+same-tab reload and five practice flows, preserving the original fixture record;
+no page errors or failed JapSeva assets. Evidence: .publish/puja-browser-
+verification.json, .publish/puja-regression/, .publish/puja-rudram-regression/.
+Final content/storage/delivery run: 8/8 pass. Production-config dry run succeeds,
+exporting 735 assets with organisation scoping and AI disabled. Source scope:
+docs/JAPSEVA_PUJA_SOURCE_REVIEW_2026-11-16.md. Deployment pending.
+
 Unused CSS cleanup deployed (2026-11-16 IST): source 88ae6c0, production Worker
 cc8aad60-669d-4423-a4be-c16effd606a1 at apps.sushantsynapse.com. Build exports
 729 assets; deployed JapSeva HTML and stylesheet match the build exactly, both

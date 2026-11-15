@@ -1,3 +1,11 @@
+JapSeva puja readings (2026-11-16): app-owned puja-collections.mjs composes
+shared traditional formulas (puja-common.mjs), attributed chapter transcription
+(puja-text.mjs) and existing Rudram chapter objects. chapter-reader.mjs supports
+named/grouped sections and same-tab sessionStorage reading preferences. Saved
+practice records retain only stable IDs and short titles; no scripture or
+reading-position state enters the business record schema. Required CC BY-SA
+attribution is under closed Reading help. Full scope: source-review document.
+
 Public reference presentation (user direction, 2026-11-15): add references only
 when they serve a concrete user need or retained attribution. Keep research
 provenance in app-owned metadata/review docs; avoid default per-screen source

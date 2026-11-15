@@ -1,13 +1,46 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 test('collection entries have three-language meanings and reading aids without invented recordings',async()=>{
  const {mantras,recordings,audioMantraIds}=await import('../apps/japseva/frontend/library.mjs');
- assert.equal(mantras.length,104);assert.equal(new Set(mantras.map(m=>m.id)).size,104);
+ assert.equal(mantras.length,109);assert.equal(new Set(mantras.map(m=>m.id)).size,109);
  assert.deepEqual(audioMantraIds,['gayatri','shiva','vasudeva']);
  for(const m of mantras){assert.match(m.text,/[\u0900-\u097f]/);for(const lang of ['en','hi','gu'])for(const field of ['names','meanings','aids'])assert.ok(m[field][lang]?.trim(),m.id+' '+field+' '+lang);
   assert.match(m.aids.hi,/[\u0900-\u097f]/);assert.match(m.aids.gu,/[\u0a80-\u0aff]/);
   if(m.audio)assert.equal(m.audio,recordings[m.id].asset);else assert.equal(recordings[m.id],undefined);
  }
  for(const m of mantras.slice(4)){assert.ok(m.sourceUrl.startsWith('https://'));assert.equal(m.audio,undefined);}
+});
+test('five puja collections retain full chapter sequences, compact saved records and distinct recitation targets',async()=>{
+ const {pujaCollections}=await import('../apps/japseva/frontend/puja-collections.mjs');
+ const {pujaText,pujaSources}=await import('../apps/japseva/frontend/puja-text.mjs');
+ const {atharvashirsha,offerings}=await import('../apps/japseva/frontend/puja-common.mjs');
+ const number=s=>Number(s.replace(/[०-९]/g,c=>'०१२३४५६७८९'.indexOf(c)));
+ assert.deepEqual(pujaCollections.map(m=>m.practiceTarget),[1,121,9,1,1]);
+ assert.equal(pujaCollections.length,5);
+ assert.equal(pujaSources.length,12);for(const s of pujaSources){assert.match(s.url,/oldid=\d+$/);assert.match(s.sha256,/^[a-f0-9]{64}$/);}
+ const devi=pujaText.filter(c=>c.book==='saptashati');assert.deepEqual(devi.map(c=>c.number),Array.from({length:13},(_,i)=>i+1));
+ const endings=[78,70,44,38,79,20,26,61,39,27,51,38,17];
+ for(const [index,c]of devi.entries()){
+  const verses=[...c.text.matchAll(/॥([०-९]+)॥/g)].map(m=>number(m[1]));
+  assert.deepEqual(verses,Array.from({length:endings[index]},(_,i)=>i+1),'Saptashati chapter '+c.number);
+ }
+ const kathas=pujaText.filter(c=>c.book==='katha');assert.deepEqual(kathas.map(c=>c.number),[1,2,3,4,5]);
+ for(const [i,c]of kathas.entries()){
+  const verses=[...c.text.matchAll(/[॥।]\s*([०-९]+)\s*[॥।]/g)].map(m=>number(m[1]));
+  // The source's chapter-four colophon is numbered 4 after its 44 verses.
+  assert.deepEqual(verses.slice(0,[24,27,51,44,24][i]),Array.from({length:[24,27,51,44,24][i]},(_,j)=>j+1));
+ }
+ assert.deepEqual([...atharvashirsha.matchAll(/॥([०-९]+)॥/g)].map(m=>number(m[1])),Array.from({length:14},(_,i)=>i+1));
+ assert.equal(offerings('श्रीगणपतये नमः').split('\n\n').length,16);
+ const {empty,command,validate,certificate}=await import('../apps/japseva/frontend/storage.mjs');
+ let state=command(empty(),'/clients',{name:'Puja reader'});
+ for(const m of pujaCollections){
+  for(const c of m.chapters){assert.ok(c.text.length>30);assert.doesNotMatch(c.text,/https?:|<[^>]+>|\{\{|\[\[|अनुवाद|शब्दार्थ/);for(const lang of ['en','hi','gu'])assert.ok(c.meanings[lang]?.trim());}
+  if(m.topic==='shiva')for(const book of ['namakam','chamakam'])assert.equal(m.chapters.filter(c=>c.book===book).length,11);
+  assert.ok(m.practiceText.length<1000);state=command(state,'/sankalps',{clientId:state.clients[0].id,mantra:m.practiceText,mantraId:m.id,practitioner:'A',target:m.practiceTarget});
+  const s=state.sankalps.at(-1);assert.throws(()=>certificate(state,s.id));state=command(state,'/'+s.id+'/count',{amount:m.practiceTarget});assert.equal(certificate(state,s.id).count,m.practiceTarget);
+ }
+ assert.deepEqual(validate(JSON.parse(JSON.stringify(state))),state);
+ assert.ok(new TextEncoder().encode(JSON.stringify(state)).length<10000);
 });
 test('audio plays persist separately, stop at target and accept older backups',async()=>{
  const {empty,command,validate}=await import('../apps/japseva/frontend/storage.mjs');const legacy=empty();delete legacy.audioPlays;assert.deepEqual(validate(legacy).audioPlays,{});

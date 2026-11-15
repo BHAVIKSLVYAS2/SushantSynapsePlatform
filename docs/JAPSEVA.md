@@ -1,3 +1,16 @@
+Five puja collections (2026-11-16, local): Shiva Rudrabhishek, Laghurudra,
+Navchandi, Ganapati pujan and Satyanarayan pujan join the Library (109 entries).
+Full named Sanskrit texts use the existing grouped reader with Sanskrit/Roman/
+Gujarati script choices and original English/Hindi/Gujarati summary meanings.
+Puja collections filter; compact rows show section counts. The five collections
+contain 101 sections, reusing the canonical 22 Rudram anuvakas. Selected short
+customary puja forms are explicit; regional homa/karmakanda manuals are not claimed.
+Targets default to 1/121/9/1/1, with +1 meaning explained in each overview.
+Same-tab reload restores chapter/script, never a count. Existing backup storage
+and licensed audio remain unchanged. Required text attribution stays inside
+closed Reading help. Scope, editions and licence:
+docs/JAPSEVA_PUJA_SOURCE_REVIEW_2026-11-16.md. See ledger for release status.
+
 Reference cleanup (2026-11-15, local): removed per-card Sources & notes,
 comparison links and per-anuvaka source links from reading/practice screens.
 Unique text references remain under the existing closed Reading help section;

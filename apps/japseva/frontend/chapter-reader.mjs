@@ -1,5 +1,7 @@
 import {romanize,gujaratiScript} from './script-aids.mjs';
-const positions=new Map(); // In-tab reading position only; never a saved japa count.
+const positions=new Map(); // Reading preferences only; never a japa count.
+function saved(id){try{return JSON.parse(sessionStorage.getItem('japseva-reader:'+id))||{};}catch{return {};}}
+const groupNames={preparation:{en:'Preparation & puja',hi:'तैयारी और पूजा',gu:'તૈયારી અને પૂજા'},closing:{en:'Closing prayers',hi:'समापन',gu:'સમાપન'},saptashati:{en:'Durga Saptashati · 13 chapters',hi:'दुर्गासप्तशती · १३ अध्याय',gu:'દુર્ગાસપ્તશતી · ૧૩ અધ્યાય'},katha:{en:'Vrata katha · 5 chapters',hi:'व्रत-कथा · ५ अध्याय',gu:'વ્રતકથા · ૫ અધ્યાય'},path:{en:'Main text',hi:'मुख्य पाठ',gu:'મુખ્ય પાઠ'}};
 const copy={
  en:{chapter:'Anuvaka',previous:'Previous',next:'Next',script:'Reading script',hi:'Sanskrit',en:'Roman',gu:'Gujarati',meaning:'Meaning · summary',namakam:'Namakam',chamakam:'Chamakam',source:'Anuvaka source',note:'Unaccented reading aid. Learn Vedic pitch accents from a trained teacher. Reading a chapter does not increase your practice count.'},
  hi:{chapter:'अनुवाक',previous:'पिछला',next:'अगला',script:'पठन लिपि',hi:'संस्कृत',en:'रोमन',gu:'गुजराती',meaning:'अर्थ · सारांश',namakam:'नमकम्',chamakam:'चमकम्',source:'अनुवाक का स्रोत',note:'स्वरचिह्नों के बिना पठन सहायता। वैदिक स्वर प्रशिक्षित शिक्षक से सीखें। अनुवाक पढ़ने से जप गणना नहीं बढ़ती।'},
@@ -7,25 +9,27 @@ const copy={
 };
 const el=(tag,cls)=>{const n=document.createElement(tag);if(cls)n.className=cls;return n;};
 export function mountChapterReader(host,mantra,language='en'){
- let lang=copy[language]?language:'en',position=positions.get(mantra.id)||0;
+ const restored=saved(mantra.id);let lang=copy[language]?language:'en',position=positions.get(mantra.id)??restored.position??0;
+ if(!Number.isInteger(position)||position<0||position>=mantra.chapters.length)position=0;
  const section=el('section','chapter-reader'),nav=el('div','chapter-navigation'),label=el('label'),caption=el('span'),select=el('select'),previous=el('button'),next=el('button'),status=el('p','muted'),heading=el('h4'),scriptLabel=el('label'),scriptCaption=el('span'),script=el('select'),text=el('p','mantra chapter-text'),meaningHeading=el('h4'),meaning=el('p','chapter-meaning'),note=el('p','muted');
  section.setAttribute('data-language-preserve','');status.role='status';text.lang='sa';previous.type=next.type='button';
- for(const key of ['hi','en','gu'])script.append(new Option('',key));script.value=positions.get(mantra.id+'-script')||(lang==='gu'?'gu':'hi');
+ for(const key of ['hi','en','gu'])script.append(new Option('',key));const selected=positions.get(mantra.id+'-script')||restored.script;script.value=['hi','en','gu'].includes(selected)?selected:(lang==='gu'?'gu':'hi');
  label.append(caption,select);scriptLabel.append(scriptCaption,script);nav.append(previous,status,next);section.append(label,heading,scriptLabel,text,meaningHeading,meaning,note,nav);heading.tabIndex=-1;host.append(section);
  function paint(){
   const t=copy[lang],chapter=mantra.chapters[position];
   select.value=String(position);previous.disabled=position===0;next.disabled=position===mantra.chapters.length-1;
-  status.textContent=`${position+1} / ${mantra.chapters.length}`;heading.textContent=`${t[chapter.book]} · ${t.chapter} ${chapter.number}`;
+  status.textContent=`${position+1} / ${mantra.chapters.length}`;heading.textContent=chapter.titles?.[lang]||`${t[chapter.book]} · ${t.chapter} ${chapter.number}`;
   const key=script.value;text.textContent=key==='en'?romanize(chapter.text):key==='gu'?gujaratiScript(chapter.text):chapter.text;text.lang=key==='en'?'sa-Latn':key==='gu'?'sa-Gujr':'sa-Deva';
   meaning.textContent=chapter.meanings[lang];meaning.lang=lang;
   positions.set(mantra.id,position);positions.set(mantra.id+'-script',script.value);
+  try{sessionStorage.setItem('japseva-reader:'+mantra.id,JSON.stringify({position,script:script.value}));}catch{}
  }
- function move(value){position=value;paint();heading.focus({preventScroll:true});heading.scrollIntoView({block:'start',behavior:'auto'});}
+ function move(value){if(!Number.isInteger(value)||value<0||value>=mantra.chapters.length)return;position=value;paint();heading.focus({preventScroll:true});heading.scrollIntoView({block:'start',behavior:'auto'});}
  previous.onclick=()=>move(position-1);next.onclick=()=>move(position+1);select.onchange=()=>move(Number(select.value));script.onchange=paint;
  function translate(language){
-  lang=copy[language]?language:'en';const t=copy[lang];caption.textContent=t.chapter;select.setAttribute('aria-label',t.chapter);scriptCaption.textContent=t.script;script.setAttribute('aria-label',t.script);previous.textContent=t.previous;next.textContent=t.next;meaningHeading.textContent=t.meaning;note.textContent=t.note;
+  lang=copy[language]?language:'en';const t=copy[lang],chapterLabel=mantra.chapterLabel?.[lang]||t.chapter;caption.textContent=chapterLabel;select.setAttribute('aria-label',chapterLabel);scriptCaption.textContent=t.script;script.setAttribute('aria-label',t.script);previous.textContent=t.previous;next.textContent=t.next;meaningHeading.textContent=t.meaning;note.textContent=mantra.readerNote?.[lang]||t.note;
   for(const option of script.options)option.textContent=t[option.value];
-  select.replaceChildren();for(const book of ['namakam','chamakam']){const group=el('optgroup');group.label=t[book];mantra.chapters.forEach((chapter,index)=>{if(chapter.book===book)group.append(new Option(`${t[book]} · ${t.chapter} ${chapter.number}`,String(index)));});select.append(group);}paint();
+  select.replaceChildren();let group,book;mantra.chapters.forEach((chapter,index)=>{if(chapter.book!==book){book=chapter.book;group=el('optgroup');group.label=groupNames[book]?.[lang]||t[book]||chapterLabel;select.append(group);}group.append(new Option(chapter.titles?.[lang]||`${t[book]} · ${t.chapter} ${chapter.number}`,String(index)));});paint();
  }
  translate(lang);return {element:section,translate};
 }
