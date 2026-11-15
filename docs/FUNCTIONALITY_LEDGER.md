@@ -10907,3 +10907,16 @@ a model without its binding; regression test covers this boundary. All three
 draft workflows use deterministic extraction. Migration 0011 is not needed or
 applied for this release. No paid plan or service is enabled. Existing hosting
 account billing is outside this implementation's verification scope.
+Nishi three-app production release (2026-11-15 IST): source 893d46a, Worker
+9e9d672c-17d8-4762-b692-10fe8948359e at apps.sushantsynapse.com. Deployed
+with --keep-vars and explicit NISHI_AI_ENABLED:false, with no AI binding.
+Live capability returns ai:false; POST useAI:true still returns source:local.
+Home Nishi browser regression passes its 27 language/theme/viewport cases;
+health and three destination routes return 200. No migration, model call,
+paid service activation or production business-record write. 21 focused
+tests and the 729-asset build pass. Initial live handoff check hit the cold
+guide's five-second wait; direct inspection confirms rendering without page
+errors. Live three-app recheck passes in 37 seconds with a 30-second assertion
+allowance; all reviewed fields, no-auto-write and no-auto-calculation checks
+pass with no page errors. Evidence:
+.publish/nishi-three-apps-live/ and .publish/nishi-three-apps-live-recheck/.

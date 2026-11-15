@@ -1,6 +1,7 @@
 # Nishi: three-app draft workflows
 
-Local implementation, 15 November 2026. Not committed or deployed.
+Deployed 15 November 2026 from source 893d46a; Worker
+9e9d672c-17d8-4762-b692-10fe8948359e. Production runs local extraction only.
 
 The user approved processing explicitly submitted text, including names or birth
 details they type. Saved records must never be sent automatically. Nishi does
@@ -39,7 +40,9 @@ conversation. Each destination app owns review and its existing save controls.
 For the cost-guarded release, production omits the AI and Nishi rate-limit
 bindings and keeps `NISHI_AI_ENABLED` false. No live inference has been verified. Migration
 `0011-nishi-usage.sql` is prepared and has not been applied. No production data
-or deployment was changed during this implementation.
+was changed. The release deployed the existing Worker without applying migration
+0011 or enabling a paid service. Live GET reports ai:false and even POST with
+useAI:true returns source:local.
 
 Before activation, apply only the pending migration through the normal release
 process, explicitly add the AI and Nishi rate-limit bindings, enable the flag, and test synthetic submissions
@@ -71,3 +74,9 @@ and [Cloudflare data usage](https://developers.cloudflare.com/workers-ai/platfor
 
 Evidence: `.publish/nishi-three-apps-final/` and
 `.publish/nishi-three-apps-dryrun/` (local ignored artifacts).
+
+Production verification: the Nishi regression and full three-app handoff both
+pass. The cold guide module graph exceeded the original five-second assertion;
+the live recheck allows 30 seconds and passes with no page errors. Capability
+and forced-AI checks verify local processing. Evidence:
+`.publish/nishi-three-apps-live/` and `.publish/nishi-three-apps-live-recheck/`.

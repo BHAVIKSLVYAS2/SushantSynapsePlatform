@@ -1,5 +1,11 @@
 # Ask Nishi
 
+Production release (15 November 2026): three-app local draft workflows deployed
+from source 893d46a, Worker 9e9d672c-17d8-4762-b692-10fe8948359e. AI binding
+is absent and the enable flag is false. Live capability and forced-AI request
+checks confirm local extraction only. No migration or paid AI activation.
+This supersedes the local-only release status below; live AI remains pending.
+
 Current local extension (15 November 2026): Nishi prepares reviewed Ritual
 Assist, JapSeva and Ritvayam drafts through `/api/nishi/plan`. Submitted text
 goes to our service; optional Workers AI processing requires explicit submission
