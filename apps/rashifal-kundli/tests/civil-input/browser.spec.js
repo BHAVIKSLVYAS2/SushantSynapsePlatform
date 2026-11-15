@@ -23,7 +23,7 @@ test('paste and language changes preserve partial entries; clear removes all bir
  await editBirth(page,'#birth-date-year');await page.locator('#birth-date-year').fill('198');
  for(const language of ['hi','gu']){await page.locator('#birth-language').selectOption(language);await expect(page.locator('#birth-date-year')).toHaveValue('198');expect(await page.locator('#birth-date-month option').nth(8).innerText()).toMatch(language==='hi'?/[\u0900-\u097f]/:/[\u0a80-\u0aff]/);}
  await paste(page,'#birth-date-day','૨૦૦૦-૦૨-૨૯');await expect(page.locator('#birth-date')).toHaveValue('2000-02-29');
- await editBirth(page);await page.locator('form button[type=button]').click();for(const id of ['date','time','date-day','date-year','date-month','time-hour','time-minute','time-period'])await expect(page.locator('#birth-'+id)).toHaveValue('');
+ await editBirth(page);await page.locator('#birth-clear').click();for(const id of ['date','time','date-day','date-year','date-month','time-hour','time-minute','time-period'])await expect(page.locator('#birth-'+id)).toHaveValue('');
 });
 test('unknown birth time disables segmented time and editing invalidates the review',async({page})=>{
  await page.goto(server.origin);await editBirth(page,'#birth-date');await fillDate(page,'#birth-date','2000-01-01');await editBirth(page,'#birth-time');await fillTime(page,'#birth-time','12:15');await editBirth(page,'#birth-query');await page.locator('#birth-query').fill('New Delhi');await page.locator('[data-place-id="geonames:1261481"]').click();await page.locator('form button[type=submit]').click();await expect(page.locator('#birth-review')).toContainText('2000-01-01');

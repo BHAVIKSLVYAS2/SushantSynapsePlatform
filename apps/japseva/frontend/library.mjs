@@ -1,3 +1,4 @@
+import {additions,learning} from './collection-data.mjs';
 // Traditional devotional texts; meanings and syllable aids are original editorial summaries.
 export const mantras=[
  {id:'gayatri',name:'Gayatri Mantra',text:'ॐ भूर्भुवः स्वः । तत्सवितुर्वरेण्यं भर्गो देवस्य धीमहि । धियो यो नः प्रचोदयात् ॥',transliteration:'Om bhūr bhuvaḥ svaḥ · tat savitur vareṇyaṁ · bhargo devasya dhīmahi · dhiyo yo naḥ pracodayāt',meaning:'We meditate upon the radiant light of the divine Savitṛ. May that light inspire and guide our understanding.',pronunciation:'Om | bhoor | bhu-vah | svah · tat | sa-vi-tur | va-ren-yam · bhar-go | de-va-sya | dhee-ma-hi · dhi-yo | yo | nah | pra-cho-da-yaat',source:'Ṛgveda 3.62.10; Om and the three vyāhṛtis are the customary recitation preface.',audio:'/japseva/audio/gayatri-mantra.ogg'},
@@ -5,6 +6,7 @@ export const mantras=[
  {id:'ganesha',name:'Ganesha Mantra',text:'ॐ गं गणपतये नमः',transliteration:'Om gaṁ gaṇapataye namaḥ',meaning:'Salutations to Ganapati. This invocation traditionally begins a practice with reverence to Ganesha.',pronunciation:'Om · gam (nasal) · ga-na-pa-ta-ye · na-mah',source:'Traditional Ganapati invocation.'},
  {id:'vasudeva',name:'Vasudeva Mantra',text:'ॐ नमो भगवते वासुदेवाय',transliteration:'Om namo bhagavate vāsudevāya',meaning:'I bow to the divine Vasudeva, traditionally identified with Vishnu or Krishna.',pronunciation:'Om · na-mo · bha-ga-va-te · vaa-su-de-vaa-ya',source:'Traditional Vaishnava twelve-syllable mantra.'}
 ];
+mantras.push(...additions);
 const hindi={gayatri:'हम दिव्य सविता के वरणीय प्रकाश का ध्यान करते हैं। वह प्रकाश हमारी बुद्धि को प्रेरित और प्रकाशित करे।',shiva:'कल्याणस्वरूप भगवान शिव को नमस्कार।',ganesha:'भगवान गणपति को नमस्कार। परंपरा में गणेश जी का स्मरण किसी शुभ कार्य या साधना के आरंभ में किया जाता है।',vasudeva:'भगवान वासुदेव को नमस्कार। वैष्णव परंपरा में वासुदेव नाम विष्णु या कृष्ण के लिए प्रयुक्त होता है।'};
 export const recordings=Object.freeze({
  gayatri:{asset:'/japseva/audio/gayatri-mantra.ogg',creator:'Wilfredor',source:'https://commons.wikimedia.org/wiki/File:Gayatri_mantra.ogg',licence:'CC0 1.0',licenceUrl:'https://creativecommons.org/publicdomain/zero/1.0/',changes:'Unmodified original recording.'},
@@ -12,4 +14,4 @@ export const recordings=Object.freeze({
  vasudeva:{asset:'/japseva/audio/vasudeva-mantra.ogg',creator:'Tito Dutta',source:'https://commons.wikimedia.org/wiki/File:Om_Namo_Bhagavate_Vasudevaya_Pronunciation.oga',licence:'CC BY-SA 3.0',licenceUrl:'https://creativecommons.org/licenses/by-sa/3.0/',changes:'Unmodified original recording; local filename changed from .oga to .ogg.'}
 });
 export const audioMantraIds=Object.freeze(Object.keys(recordings));
-for(const m of mantras){m.meaningHi=hindi[m.id];if(recordings[m.id]){m.audio=recordings[m.id].asset;m.recording=recordings[m.id];}}
+for(const m of mantras){m.meaningHi=hindi[m.id]??learning[m.id].meaningHi;m.meaningGu=learning[m.id].meaningGu;m.names={en:m.name,hi:learning[m.id].hi,gu:learning[m.id].gu};m.meanings={en:m.meaning,hi:m.meaningHi,gu:m.meaningGu};m.aids={en:m.pronunciation,hi:learning[m.id].aidHi,gu:learning[m.id].aidGu};if(recordings[m.id]){m.audio=recordings[m.id].asset;m.recording=recordings[m.id];}}

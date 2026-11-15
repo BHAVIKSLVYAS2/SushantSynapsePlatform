@@ -1,3 +1,9 @@
+Collection update (2026-11-15): the earlier four-entry packet below is
+historical. The collection now has eight entries and three-language reading aids;
+teacher sign-off remains pending for every entry and recording. Source/form and
+implementation checks: JAPSEVA_COLLECTION_REVIEW_2026-11-15.md. No teacher review
+or outreach has been performed.
+
 # JapSeva pronunciation review packet
 
 14 November 2026. This packet separates editorial/source checks from teacher

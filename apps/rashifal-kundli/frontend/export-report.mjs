@@ -1,3 +1,6 @@
+import {chartMarkup,chartTitle,chartNote,chartReportCss,projectChart} from './export-charts.mjs';
+import {reportOptions,projectExtras,extrasMarkup} from './export-extras.mjs';
+import {signDms,chartExtras} from './practitioner-copy.mjs';
 import {placeLabel} from './place-text.mjs';
 import {term,nakshatraName} from './display-text.mjs';
 import {diagnosticText} from './diagnostic-text.mjs';
@@ -15,11 +18,14 @@ export const exportLabels=Object.freeze({
 });
 
 // Explicit projection: never serialize a birth report or its hidden time/model objects.
-export function projectExport(report,{includeIdentity=false,name='',language='en'}={}){
+export function projectExport(report,{includeIdentity=false,name='',language='en',chartStyle='north',selectedChart='D1',includeAdvanced=false,advanced=null,includePreviews=false}={}){
  locale(language);
+ if(!['D1','D9','D2','D16','Chandra','D7','D10','D12'].includes(selectedChart)||!['north','south'].includes(chartStyle)||typeof includeAdvanced!=='boolean'||typeof includePreviews!=='boolean')throw new TypeError('Check report chart options.');
  if(typeof includeIdentity!=='boolean'||typeof name!=='string'||name.length>80||/[\u0000-\u001f\u007f]/.test(name))throw new TypeError('Check report options.');
  const f=report.features,b=report.birth;
  const warnings=new Set(b.warnings);
+ for(const feature of Object.values(report.chartViews??{}))if(feature.status==='available')for(const w of feature.value.warnings??[])warnings.add(w);
+ if(includeAdvanced&&advanced)for(const w of advanced.warnings)warnings.add(w);
  const features={};
  for(const key of ['positions','d1','d9','dasha']){
   const feature=f[key];
@@ -40,7 +46,9 @@ export function projectExport(report,{includeIdentity=false,name='',language='en
  const time=f.positions.status==='available'?f.positions.value.time:null;
  const reading=buildKundliReading(report),copy=readingText[language];
  const everyday={version:kundliProseVersion,title:copy.title,intro:copy.intro,method:copy.methodNote,topics:Object.entries(reading.topics).map(([id,data])=>({id,title:copy[id],status:data?'available':'unavailable',...composeKundliTopic(id,data,language)}))};
- const result={version:'vedic-export-1',language,redacted:!includeIdentity,features,warnings:[...warnings],everyday,
+ const extras=projectExtras(report,includeAdvanced?advanced:null,reading,language);
+ if(includePreviews)for(const key of ['d1','d9'])if(report[key+'Preview']?.status==='available')extras.charts[key]={...projectChart(report[key+'Preview'].value),sensitive:true};
+ const result={chartStyle,selectedChart,includeAdvanced,extras,labelsUnavailable:exportLabels[language].unavailable,version:'vedic-export-1',language,redacted:!includeIdentity,features,warnings:[...warnings],everyday,
   provenance:{profile:b.calculationProfileId,precision:b.precisionClass,timeAccuracy:b.timeAccuracy,
    inputResolutionSeconds:b.inputResolutionSeconds,coordinatePrecision:b.place.coordinatePrecision,elevationBasis:b.place.elevationBasis,
    timezone:b.timeZoneId,tzdb:b.tzdbVersion,timeRuleVersion:b.timeRuleVersion,timeSourceSha256:b.timeSourceSha256,
@@ -69,7 +77,7 @@ export const reportLayoutCss=[[12,1,1],[1,2,1],[2,3,1],[3,4,1],[11,1,2],[4,4,2],
 
 export const reportTableCss='.vedic-export-document{font:14px/1.5 system-ui,sans-serif}.vedic-report-table{max-width:100%;overflow:auto}.vedic-report-table table{min-width:32rem}.vedic-report-table:focus-visible{outline:2px solid var(--report-ink);outline-offset:-2px}@media print{.vedic-export-document{font-size:10pt}.vedic-report-table{overflow:visible}.vedic-report-table table{min-width:0}}'+'.report-everyday{font-family:system-ui,"Noto Sans Devanagari","Noto Sans Gujarati",sans-serif}.report-everyday>section{padding:.8rem 0;border-bottom:1px solid var(--report-edge);break-inside:avoid}.report-everyday p{line-height:1.8;max-width:72ch}.report-everyday h3{margin-bottom:.6rem}';
 
-export const reportPresentationCss='.report-cover{border-bottom:2px solid var(--report-ink);padding:1.5rem 0;margin-bottom:1.5rem;break-inside:avoid}.report-brand{font-size:.8rem;font-weight:700;letter-spacing:.15em}.report-cover h1{font-size:2rem;line-height:1.3;margin:.5rem 0}.vedic-export-document>section{margin-block:2rem}.vedic-export-document caption{padding-block:.6rem}.vedic-export-document h2{padding-top:.6rem;border-top:1px solid var(--report-edge)}@media print{.report-cover{padding:1rem 0}.vedic-export-document>section{margin-block:1rem}.report-everyday>section{break-inside:auto}.report-everyday>section h3{break-after:avoid}}';
+export const reportPresentationCss=chartReportCss+'.report-cover{border-bottom:2px solid var(--report-ink);padding:1.5rem 0;margin-bottom:1.5rem;break-inside:avoid}.report-brand{font-size:.8rem;font-weight:700;letter-spacing:.15em}.report-cover h1{font-size:2rem;line-height:1.3;margin:.5rem 0}.vedic-export-document>section{margin-block:2rem}.vedic-export-document caption{padding-block:.6rem}.vedic-export-document h2{padding-top:.6rem;border-top:1px solid var(--report-edge)}@media print{.report-cover{padding:1rem 0}.vedic-export-document>section{margin-block:1rem}.report-everyday>section{break-inside:auto}.report-everyday>section h3{break-after:avoid}}';
 
 export function reportMarkup(model){
  const language=model.language,t=locale(language),x=exportLabels[language];
@@ -78,19 +86,19 @@ export function reportMarkup(model){
  const date=b=>`${b.local??t.localUnavailable} · UTC ${b.utc}`;
  let html=`<article class="vedic-export-document" lang="${language}"><header class="report-cover"><p class="report-brand">RITVAYAM</p><h1>${esc(x.title)}</h1>${p(model.redacted?x.redacted:x.identified)}</header>${p(x.notice)}<p class="report-note">${esc(x.nominal)}</p>`;
  if(model.identity)html+=`<h2>${esc(x.identity)}</h2><dl>${Object.entries(model.identity).map(([k,v])=>`<dt>${esc(term(k,language))}</dt><dd>${esc(v&&typeof v==='object'?`${v.start} → ${v.end}`:v??t.noTime)}</dd>`).join('')}</dl>`;
- if(model.everyday){html+=`<section class="report-everyday"><h2>${esc(model.everyday.title)}</h2>${p(model.everyday.intro)}`;for(const topic of model.everyday.topics)html+=`<section data-reading-topic="${esc(topic.id)}"><h3>${esc(topic.title)}</h3>${topic.paragraphs.map(p).join('')}${topic.action?p(topic.action):''}</section>`;html+=p(model.everyday.method)+'</section>';}
- const pos=model.features.positions;
- for(const key of ['positions','d1','d9','dasha']){
-  const f=model.features[key];html+=`<section><h2>${esc(t[key])}</h2>`;
+
+ const pos=model.features.positions,charts={d1:model.features.d1,d9:model.features.d9,...model.extras.charts},selected=String(model.selectedChart).toLowerCase();
+ const chartKeys=Object.keys(charts);if(chartKeys.includes(selected))chartKeys.splice(0,0,...chartKeys.splice(chartKeys.indexOf(selected),1));
+ for(const key of ['positions',...chartKeys,'dasha']){
+  const f=charts[key]??model.features[key];html+=`<section data-report-section="${esc(key)}"><h2>${esc(chartTitle(key,language))}</h2>`;
   if(f.status!=='available'){html+=p(`${x.unavailable}: ${diagnosticText(f.code,language)}`)+'</section>';continue;}
-  if(key==='positions')html+=table(t.positions,[t.body,t.sign,term('Longitude °',language),t.nakshatra,t.pada],pos.positions.map(p=>[bodyName(p.body,language),`${signName(p.rashi,language)} (${p.rashi})`,number(p.longitude),nakshatraName(p.nakshatra,language),p.pada]));
-  else if(key==='d1'||key==='d9'){
-   html+=p(`${t.ascendant}: ${signName(f.ascendantRashi,language)} (${f.ascendantRashi}) · ${key==='d9'?t.source:term('Longitude °',language)}: ${number(f.ascendantLongitude)}. ${t.rounding} ${key==='d9'?t.d9Hint:''}`);
-   const cells=[[12,1,1],[1,2,1],[2,3,1],[3,4,1],[11,1,2],[4,4,2],[10,1,3],[5,4,3],[9,1,4],[8,2,4],[7,3,4],[6,4,4]];
-   html+=`<div class="vedic-report-chart" role="img" aria-label="${esc(t[key]+' · '+t.south+' · '+x.houses)}"><div class="vedic-report-center">${esc(t[key])}<br>${esc(t.south)}</div>`;
-   for(const [sign]of cells){const h=f.houses.find(h=>h.rashi===sign);html+=`<div class="vedic-report-cell" data-sign="${sign}">${esc(signName(sign,language))} (${sign})<br>H${h.house}${sign===f.ascendantRashi?' · Lg':''}<br>${esc(h.bodies.map(b=>bodyName(b,language)).join(', ')||'—')}</div>`;}
-   html+='</div>'+table(x.houses,[t.house,t.sign,t.body],f.houses.map(h=>[h.house,`${signName(h.rashi,language)} (${h.rashi})`,h.bodies.map(b=>bodyName(b,language)).join(', ')||'—']));
-   html+=table(t.tableHint,[t.body,t.sign,t.house,key==='d9'?t.source:term('Longitude °',language)],f.planets.map(p=>[bodyName(p.body,language),p.rashi,p.house,number(p.longitude)]));
+  if(key==='positions')html+=table(t.positions,[t.body,t.sign,reportOptions[language].degrees,term('Longitude °',language),t.nakshatra,t.pada],pos.positions.map(p=>[bodyName(p.body,language),`${signName(p.rashi,language)} (${p.rashi})`,signDms(p.longitude%30),number(p.longitude),nakshatraName(p.nakshatra,language),p.pada]));
+  else if(charts[key]){
+   html+=p(`${key==='chandra'?chartExtras[language].moon:t.ascendant}: ${signName(f.ascendantRashi,language)} (${f.ascendantRashi}) · ${key!=='d1'?t.source:term('Longitude °',language)}: ${number(f.ascendantLongitude)}. ${t.rounding} ${key==='d9'?t.d9Hint:''}`);
+   const note=chartNote(key,language);if(note)html+=p(note);
+   if(f.sensitive)html+=`<p class="report-note">${esc(reportOptions[language].previewNote)}</p>`;
+   html+=chartMarkup(f,key,model.chartStyle,language)+table(x.houses,[t.house,t.sign,t.body],f.houses.map(h=>[h.house,`${signName(h.rashi,language)} (${h.rashi})`,h.bodies.map(b=>bodyName(b,language)).join(', ')||'\u2014']));
+   html+=table(t.tableHint,[t.body,t.sign,t.house,key!=='d1'?t.source:term('Longitude °',language)],f.planets.map(p=>[bodyName(p.body,language),signName(p.rashi,language),p.house,signDms(p.longitude%30)+' / '+number(p.longitude)]));
   }else if(key==='dasha'){
    html+=p(t.year)+p(`${t.balance}: ${bodyName(f.balance.lord,language)} · ${number(f.balance.remainingYears)} ${t.years}. ${t.origin}`);
    html+=p(`${t.current}: ${bodyName(f.active.major,language)} / ${bodyName(f.active.minor,language)} · ${t.asOf}: ${f.active.at}`);
@@ -100,12 +108,14 @@ export function reportMarkup(model){
   }
   html+='</section>';
  }
+ if(model.everyday){html+=`<section class="report-everyday"><h2>${esc(model.everyday.title)}</h2>${p(model.everyday.intro)}`;for(const topic of model.everyday.topics)html+=`<section data-reading-topic="${esc(topic.id)}"><h3>${esc(topic.title)}</h3>${topic.paragraphs.map(p).join('')}${topic.action?p(topic.action):''}</section>`;html+=p(model.everyday.method)+'</section>';}
+ html+=extrasMarkup(model,{esc,p,table,diagnostic:diagnosticText});
  html+=`<h2>${esc(x.provenance)}</h2>${p(t.fallback)}<dl>${Object.entries(model.provenance).map(([k,v])=>`<dt>${esc(term(k,language))}</dt><dd>${esc(term(v,language))}</dd>`).join('')}</dl><h2>${esc(x.warnings)}</h2><ul>${model.warnings.map(w=>`<li>${esc(diagnosticText(w,language))}</li>`).join('')}</ul></article>`;
  return html;
 }
 export function standaloneReport(model){return `<!doctype html><html lang="${model.language}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"><title>${esc(exportLabels[model.language].title)}</title><style>${reportCss+reportLayoutCss+reportTableCss+reportPresentationCss}</style></head><body>${reportMarkup(model)}</body></html>`;}
 
-export function mountExport(container,report,{name='',language='en'}={}){
+export function mountExport(container,report,{name='',language='en',getChartState=()=>({style:'north',type:'D1'}),getAdvanced=()=>null}={}){
  const x=exportLabels[language],root=document.createElement('section');root.className='vedic-export';
  const heading=document.createElement('h2');heading.textContent=x.controls;
  const label=document.createElement('label'),check=document.createElement('input');check.type='checkbox';check.id='export-identity';label.append(check,document.createTextNode(x.include));
@@ -113,8 +123,14 @@ export function mountExport(container,report,{name='',language='en'}={}){
  const preview=document.createElement('details'),summary=document.createElement('summary');summary.textContent=x.preview;const content=document.createElement('div');content.className='vedic-export-preview';preview.append(summary,content);
  const download=document.createElement('button');download.type='button';download.id='export-download';download.textContent=x.download;
  const print=document.createElement('button');print.type='button';print.id='export-print';print.textContent=x.print;
- const model=()=>projectExport(report,{includeIdentity:check.checked,name,language});
- const render=()=>{content.innerHTML=reportMarkup(model());};check.addEventListener('change',()=>{content.replaceChildren();if(preview.open)render();});preview.addEventListener('toggle',()=>{if(preview.open&&!content.childElementCount)render();});
+ const layoutLabel=document.createElement('label'),layout=document.createElement('select');layout.id='export-chart-style';layoutLabel.append(document.createTextNode(reportOptions[language].style),layout);layout.append(new Option(locale(language).north,'north'),new Option(locale(language).south,'south'));layout.value=getChartState().style;
+ const advancedLabel=document.createElement('label'),advancedCheck=document.createElement('input');advancedCheck.type='checkbox';advancedCheck.id='export-advanced';advancedLabel.append(advancedCheck,document.createTextNode(reportOptions[language].advanced));
+ const previewLabel=document.createElement('label'),previewCheck=document.createElement('input');previewCheck.type='checkbox';previewCheck.id='export-sensitive';previewLabel.append(previewCheck,document.createTextNode(reportOptions[language].previews));previewLabel.hidden=!['d1','d9'].some(k=>report[k+'Preview']?.status==='available');
+ const scope=document.createElement('p');scope.textContent=reportOptions[language].scope;
+ let layoutOverride=false;
+ const model=()=>projectExport(report,{includeIdentity:check.checked,name,language,chartStyle:layoutOverride?layout.value:getChartState().style,selectedChart:getChartState().type,includeAdvanced:advancedCheck.checked,advanced:getAdvanced(),includePreviews:previewCheck.checked});
+ const render=()=>{if(!layoutOverride)layout.value=getChartState().style;content.innerHTML=reportMarkup(model());};
+ layout.addEventListener('change',()=>{layoutOverride=true;render();});for(const input of [advancedCheck,previewCheck])input.addEventListener('change',()=>{content.replaceChildren();if(preview.open)render();});check.addEventListener('change',()=>{content.replaceChildren();if(preview.open)render();});preview.addEventListener('toggle',()=>{if(preview.open&&!content.childElementCount)render();});
  let urls=new Set(),timers=new Set();
  download.addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([standaloneReport(model())],{type:'text/html;charset=utf-8'}));urls.add(url);
   const link=document.createElement('a');link.href=url;link.download='kundli-report.html';link.click();
@@ -125,6 +141,6 @@ export function mountExport(container,report,{name='',language='en'}={}){
  const afterPrint=()=>{if(!printing)return;preview.open=wasOpen;printing=false;};
  window.addEventListener('beforeprint',beforePrint);window.addEventListener('afterprint',afterPrint);
  print.addEventListener('click',()=>{render();window.print();});
- root.append(heading,label,notice,help,download,print,preview);container.replaceChildren(root);
- return {destroy(){window.removeEventListener('beforeprint',beforePrint);window.removeEventListener('afterprint',afterPrint);for(const timer of timers)clearTimeout(timer);for(const url of urls)URL.revokeObjectURL(url);timers.clear();urls.clear();content.replaceChildren();root.remove();}};
+ root.append(heading,layoutLabel,label,advancedLabel,previewLabel,notice,scope,help,download,print,preview);container.replaceChildren(root);
+ return {refresh(){if(preview.open)render();else content.replaceChildren();if(!layoutOverride)layout.value=getChartState().style;},destroy(){window.removeEventListener('beforeprint',beforePrint);window.removeEventListener('afterprint',afterPrint);for(const timer of timers)clearTimeout(timer);for(const url of urls)URL.revokeObjectURL(url);timers.clear();urls.clear();content.replaceChildren();root.remove();}};
 }

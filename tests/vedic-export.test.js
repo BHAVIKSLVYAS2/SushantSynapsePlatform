@@ -68,3 +68,33 @@ test('all report languages preserve numbers and complete labels',async()=>{
  const {projectExport,standaloneReport,exportLabels}=await import('../apps/rashifal-kundli/frontend/export-report.mjs');const r=await setup(),expected=projectExport(r);
  for(const language of ['en','hi','gu']){const m=projectExport(r,{language});assert.deepEqual(m.features,expected.features);assert.deepEqual(Object.keys(exportLabels[language]),Object.keys(exportLabels.en));assert.ok(!standaloneReport(m).includes('undefined'));}
 });
+
+test('report charts reuse selected layout and include new calculated sections in all languages',async()=>{
+ const {projectExport,standaloneReport}=await import('../apps/rashifal-kundli/frontend/export-report.mjs');
+ const {advancedForBirth}=await import('../packages/vedic/birth-advanced.mjs');
+ const report=await setup(),before=JSON.stringify(report),advanced=advancedForBirth(input,context);
+ for(const language of ['en','hi','gu'])for(const chartStyle of ['north','south']){
+  const model=projectExport(report,{language,chartStyle,selectedChart:'Chandra',includeAdvanced:true,advanced}),html=standaloneReport(model);
+  assert.equal(model.chartStyle,chartStyle);assert.equal(model.extras.calendar.status,'available');assert.equal(model.extras.future.length,3);
+  assert.ok(model.extras.strength.uccha.length);assert.equal(model.extras.strength.av.bav.length,7);
+  for(const key of ['chandra','d2','d16','d7','d10','d12'])assert.ok(model.extras.charts[key]);
+  assert.ok(html.includes('data-chart="chandra" data-style="'+chartStyle+'"'));
+  assert.ok(html.includes(chartStyle==='north'?'<polygon points=':'<rect x='));
+  assert.ok(!html.includes(chartStyle==='north'?'<rect x=':'<polygon points='));
+  assert.ok(html.indexOf('data-report-section="chandra"')<html.indexOf('data-report-section="d1"'));
+  for(const key of ['panchang','future','advanced'])assert.ok(html.includes('data-report-section="'+key+'"'));
+  assert.doesNotMatch(html,/undefined|NaN|\[object Object\]/);assert.ok(!JSON.stringify(model).includes(input.placeId));
+ }
+ assert.equal(JSON.stringify(report),before);assert.equal(projectExport(report,{advanced}).extras.strength,null);
+ assert.throws(()=>projectExport(report,{chartStyle:'unsupported'}));
+});
+
+test('time-sensitive export previews require explicit inclusion and keep strict feature withholding',async()=>{
+ const {projectExport,standaloneReport}=await import('../apps/rashifal-kundli/frontend/export-report.mjs');
+ const report=await setup({...input,localTime:'12:00'}),strict=projectExport(report),preview=projectExport(report,{includePreviews:true});
+ assert.equal(strict.features.d9.status,'unavailable');assert.equal(strict.extras.charts.d9,undefined);
+ assert.equal(preview.features.d9.status,'unavailable');assert.equal(preview.extras.charts.d9.sensitive,true);
+ assert.match(standaloneReport(preview),/Recorded-instant preview only/);
+ const unknown=await setup({...input,timeAccuracy:'unknown',localTime:undefined});
+ assert.equal(projectExport(unknown,{includePreviews:true}).extras.charts.d9,undefined);
+});

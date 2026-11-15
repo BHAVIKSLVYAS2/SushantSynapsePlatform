@@ -1,3 +1,9 @@
+Export follow-up (15 November, local): the report now supports selected North/
+South layout, screened Chandra/D2/D16 and optional calculated advanced divisions.
+Exact D1/D9 boundary previews require explicit inclusion and carry a sensitivity
+notice; strict results remain unchanged. This supersedes the older export scope
+below. See KUNDALI_EXPORT_REVIEW_2026-11-15.md for full scope and verification.
+
 # Kundali chart additions — 15 November 2026
 
 Exact-time boundary follow-up (15 November): the interactive explorer can show

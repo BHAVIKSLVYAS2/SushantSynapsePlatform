@@ -12,7 +12,7 @@ browser-only storage with no login; export backups regularly. See
 for verified release status.
 
 JapSeva at /japseva tracks mantra practice for named clients without login:
-browser-saved sankalps/counts, backup export/import, English/Hindi meanings,
+browser-saved sankalps/counts, backup export/import, English/Hindi/Gujarati meanings and script reading aids,
 verified freely licensed Gayatri/Shiva/Vasudeva audio and printable completion
 certificates/PDFs. An optional sound guide explains the transliteration; teacher
 pronunciation review is pending. Records

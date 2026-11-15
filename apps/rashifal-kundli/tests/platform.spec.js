@@ -6,9 +6,9 @@ const fs=require('node:fs/promises');
 let server;
 
 test('P17 private preview headers and Ritual guide navigation carry no birth details in every language',async({page})=>{
- const requests=[];page.on('request',r=>requests.push({url:r.url(),method:r.method()}));const response=await page.goto(server.origin);expect(response.headers()['referrer-policy']).toBe('no-referrer');expect(response.headers()['permissions-policy']).toContain('geolocation=()');await fill(page);await calculate(page);
+ const requests=[];page.on('request',r=>requests.push({url:r.url(),method:r.method()}));const response=await page.goto(server.origin);expect(response.headers()['referrer-policy']).toBe('no-referrer');expect(response.headers()['permissions-policy']).toContain('geolocation=(self)');await fill(page);await calculate(page);
  for(const language of ['en','hi','gu']){await page.locator('#birth-language').selectOption(language);await openKundliCalculations(page);const link=page.locator('#vedic-ritual-guides');await expect(link).toHaveAttribute('href','https://apps.sushantsynapse.com/ritual-assist');await expect(link).toHaveAttribute('rel','noopener noreferrer');await expect(link).toHaveAttribute('referrerpolicy','no-referrer');await expect(link).toHaveAttribute('target','_blank');}
- expect(requests.every(r=>r.url.startsWith(server.origin)&&r.method==='GET')).toBe(true);expect(requests.some(r=>/2000|geonames/.test(r.url))).toBe(false);await editBirth(page);await editBirth(page);await editBirth(page);await page.locator('form button[type=button]').click();await expect(page.locator('#vedic-ritual-guides')).toHaveCount(0);
+ expect(requests.every(r=>r.url.startsWith(server.origin)&&r.method==='GET')).toBe(true);expect(requests.some(r=>/2000|geonames/.test(r.url))).toBe(false);await editBirth(page);await editBirth(page);await editBirth(page);await page.locator('#birth-clear').click();await expect(page.locator('#vedic-ritual-guides')).toHaveCount(0);
 });
 
 test.describe('P16 advanced candidates',()=>{
@@ -30,7 +30,7 @@ test.describe('P16 advanced candidates',()=>{
   await page.goto(server.origin);await fill(page);await editBirth(page,'#birth-time');await fillTime(page,'#birth-time','12:00');await calculate(page);await analyze(page);await expect(page.locator('[data-chart=D7]')).toHaveAttribute('data-status','unavailable');await expect(page.locator('[data-chart=D10]')).toHaveAttribute('data-status','available');await expect(page.locator('table[data-kind=ashtakavarga]')).toBeVisible();
   await page.evaluate(()=>{document.querySelector('#advanced-analyze').click();document.querySelector('#advanced-clear').click();});await expect(page.locator('#advanced-results')).toBeEmpty();await expect(page.locator('#advanced-analyze')).toBeEnabled();
   await editBirth(page,'#birth-accuracy');await page.locator('#birth-accuracy').selectOption('unknown');await calculate(page);await page.locator('#advanced-analyze').click();await expect(page.locator('.vedic-advanced [role=status]')).toContainText('Unavailable');await expect(page.locator('#advanced-results')).toBeEmpty();
-  await editBirth(page,'#birth-date');await fillDate(page,'#birth-date','2001-01-01');await expect(page.locator('.vedic-advanced')).toHaveCount(0);await editBirth(page);await page.locator('form button[type=button]').click();await expect(page.locator('#birth-date')).toHaveValue('');expect(await page.evaluate(()=>sessionStorage.length)).toBe(0);
+  await editBirth(page,'#birth-date');await fillDate(page,'#birth-date','2001-01-01');await expect(page.locator('.vedic-advanced')).toHaveCount(0);await editBirth(page);await page.locator('#birth-clear').click();await expect(page.locator('#birth-date')).toHaveValue('');expect(await page.evaluate(()=>sessionStorage.length)).toBe(0);
  });
 });
 
@@ -65,7 +65,7 @@ test.describe('P15 private rulebook previews',()=>{
   for(const language of ['hi','gu']){await page.locator('#birth-language').selectOption(language);await openKundliCalculations(page);await page.locator('#rules-evaluate').click();expect(await values()).toEqual(original);}
   await page.locator('#rules-variant').selectOption('mangal-six');await expect(page.locator('#rules-results')).toBeEmpty();await page.locator('#rules-evaluate').click();
   await page.evaluate(()=>window.dispatchEvent(new Event('beforeprint')));await page.emulateMedia({media:'print'});await expect(page.locator('.vedic-rulebook')).toBeHidden();await page.emulateMedia({media:'screen'});await page.evaluate(()=>window.dispatchEvent(new Event('afterprint')));
-  await editBirth(page,'#birth-accuracy');await page.locator('#birth-accuracy').selectOption('unknown');await calculate(page);await page.locator('#rules-evaluate').click();await expect(page.locator('#rules-results [data-rule]')).toHaveCount(0);await expect(page.locator('#rules-results')).not.toBeEmpty();await editBirth(page);await page.locator('form button[type=button]').click();await expect(page.locator('.vedic-rulebook')).toHaveCount(0);
+  await editBirth(page,'#birth-accuracy');await page.locator('#birth-accuracy').selectOption('unknown');await calculate(page);await page.locator('#rules-evaluate').click();await expect(page.locator('#rules-results [data-rule]')).toHaveCount(0);await expect(page.locator('#rules-results')).not.toBeEmpty();await editBirth(page);await page.locator('#birth-clear').click();await expect(page.locator('.vedic-rulebook')).toHaveCount(0);
  });
 });
 
@@ -85,7 +85,7 @@ test.describe('P14 interval sensitivity',()=>{
   await page.goto(server.origin);await fill(page);await editBirth(page,'#birth-accuracy');await page.locator('#birth-accuracy').selectOption('unknown');await calculate(page);await analyze(page);
   await expect(page.locator('[data-component=lagnaRashi]')).toHaveAttribute('data-status','changes-within-interval');await expect(page.locator('#sensitivity-results')).toContainText('No single birth epoch');await expect(page.locator('svg')).toHaveCount(0);await expect(page.locator('.vedic-dasha')).toHaveCount(0);
   await page.locator('#sensitivity-analyze').click();await page.locator('#sensitivity-clear').click();await expect(page.locator('#sensitivity-results')).toBeEmpty();await expect(page.locator('#sensitivity-analyze')).toBeEnabled();
-  await page.locator('#sensitivity-analyze').click();await editBirth(page);await page.locator('form button[type=button]').click();await expect(page.locator('.vedic-sensitivity')).toHaveCount(0);await expect(page.locator('#birth-date')).toHaveValue('');
+  await page.locator('#sensitivity-analyze').click();await editBirth(page);await page.locator('#birth-clear').click();await expect(page.locator('.vedic-sensitivity')).toHaveCount(0);await expect(page.locator('#birth-date')).toHaveValue('');
   expect(await page.evaluate(()=>Object.keys(localStorage).every(k=>['synapse-theme','chambers-theme'].includes(k)))).toBe(true);expect(await page.evaluate(()=>sessionStorage.length)).toBe(0);
  });
 });
@@ -114,7 +114,7 @@ test.describe('P13 Time Machine',()=>{
   await page.evaluate(()=>window.dispatchEvent(new Event('beforeprint')));await page.emulateMedia({media:'print'});await expect(page.locator('.vedic-time-machine')).toBeHidden();await expect(page.locator('.vedic-export article')).toBeVisible();await page.emulateMedia({media:'screen'});await page.evaluate(()=>window.dispatchEvent(new Event('afterprint')));
   await editBirth(page,'#birth-accuracy');await page.locator('#birth-accuracy').selectOption('unknown');await calculate(page);await fillExploration(page);await page.locator('#tm-reference').selectOption('birth-lagna');await page.locator('#tm-review-button').click();await page.locator('#tm-calculate').click();
   await expect(page.locator('#tm-results')).toContainText('UNSTABLE_BIRTH_TIME');await expect(page.locator('#tm-results .tm-table')).toHaveCount(1);
-  await editBirth(page);await page.locator('form button[type=button]').click();await expect(page.locator('.vedic-time-machine')).toHaveCount(0);
+  await editBirth(page);await page.locator('#birth-clear').click();await expect(page.locator('.vedic-time-machine')).toHaveCount(0);
  });
  test('clear cancels pending exploration and history navigation restores no input',async({page})=>{
   await page.goto(tmServer.origin);await fillExploration(page);await page.locator('#tm-review-button').click();await page.evaluate(()=>{document.querySelector('#tm-calculate').click();document.querySelector('#tm-clear').click();});await expect(page.locator('#tm-results')).toBeEmpty();
@@ -139,7 +139,7 @@ test('P11 birth Panchang, sourced names, explicit yearly candidates and private 
  for(const language of ['hi','gu']){await page.locator('#birth-language').selectOption(language);await openKundliCalculations(page);await expect(page.locator('#observance-rule')).toHaveValue('');await page.setViewportSize({width:320,height:900});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await page.locator('#theme').selectOption('dark');await panel.screenshot({path:'.publish/vedic-p11-traditions-320-gu.png'});
  expect(requests.every(url=>url.startsWith(server.origin))).toBe(true);expect(errors).toEqual([]);
- await editBirth(page);await page.locator('form button[type=button]').click();await expect(panel).toHaveCount(0);await expect(page.locator('#birth-date')).toHaveValue('');
+ await editBirth(page);await page.locator('#birth-clear').click();await expect(panel).toHaveCount(0);await expect(page.locator('#birth-date')).toHaveValue('');
 });
 
 test('P11 unknown time withholds exact Panchang/calendar while allowing curated-name browsing',async({page})=>{
@@ -148,7 +148,7 @@ test('P11 unknown time withholds exact Panchang/calendar while allowing curated-
  await expect(page.locator('#name-match')).toBeDisabled();await expect(panel).toContainText('Ravi');await expect(panel).toContainText('Tara');
  await editBirth(page,'#birth-accuracy');await page.locator('#birth-accuracy').selectOption('exact');await editBirth(page,'#birth-time');await fillTime(page,'#birth-time','12:15');await calculate(page);
  await page.locator('#observance-rule').selectOption('AMANTA_FIRST_SUNRISE_SKIP_MISSING_V1');await page.locator('#observance-year').fill('2027');
- await page.evaluate(()=>{document.querySelector('#observance-calculate').click();document.querySelector('form button[type=button]').click();});
+ await page.evaluate(()=>{document.querySelector('#observance-calculate').click();document.querySelector('#birth-clear').click();});
  await expect(page.locator('#birth-results')).toBeEmpty();
 });
 
@@ -247,11 +247,11 @@ test('Hindi/Gujarati rerender without changing numbers, then clear removes all b
  }
  await page.setViewportSize({width:320,height:1000});await page.locator('#theme').selectOption('dark');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.screenshot({path:'.publish/vedic-p09-gujarati-320-dark.png',fullPage:true});
- await editBirth(page);await page.locator('form button[type=button]').click();await expect(page.locator('#birth-date')).toHaveValue('');await expect(page.locator('#birth-place')).toHaveValue('');await expect(page.locator('#birth-results')).toBeEmpty();
+ await editBirth(page);await page.locator('#birth-clear').click();await expect(page.locator('#birth-date')).toHaveValue('');await expect(page.locator('#birth-place')).toHaveValue('');await expect(page.locator('#birth-results')).toBeEmpty();
 });
 test('clearing cancels pending calculation and history navigation restores no birth data',async({page})=>{
  await page.goto(server.origin);await fill(page);await page.locator('form button[type=submit]').click();
- await page.evaluate(()=>{document.querySelector('#birth-calculate').click();document.querySelector('form button[type=button]').click();});
+ await page.evaluate(()=>{document.querySelector('#birth-calculate').click();document.querySelector('#birth-clear').click();});
  await expect(page.locator('#birth-results')).toBeEmpty();await expect(page.locator('#birth-review')).toBeEmpty();
  await fill(page);await calculate(page);await page.goto('about:blank');await page.goBack();
  await expect(page.locator('#birth-date')).toHaveValue('');await expect(page.locator('#birth-results')).toBeEmpty();

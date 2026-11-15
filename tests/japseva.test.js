@@ -1,4 +1,14 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
+test('collection entries have three-language meanings and reading aids without invented recordings',async()=>{
+ const {mantras,recordings,audioMantraIds}=await import('../apps/japseva/frontend/library.mjs');
+ assert.equal(mantras.length,8);assert.equal(new Set(mantras.map(m=>m.id)).size,8);
+ assert.deepEqual(audioMantraIds,['gayatri','shiva','vasudeva']);
+ for(const m of mantras){assert.match(m.text,/[\u0900-\u097f]/);for(const lang of ['en','hi','gu'])for(const field of ['names','meanings','aids'])assert.ok(m[field][lang]?.trim(),m.id+' '+field+' '+lang);
+  assert.match(m.aids.hi,/[\u0900-\u097f]/);assert.match(m.aids.gu,/[\u0a80-\u0aff]/);
+  if(m.audio)assert.equal(m.audio,recordings[m.id].asset);else assert.equal(recordings[m.id],undefined);
+ }
+ for(const m of mantras.slice(4)){assert.ok(m.sourceUrl.startsWith('https://'));assert.equal(m.audio,undefined);}
+});
 test('audio plays persist separately, stop at target and accept older backups',async()=>{
  const {empty,command,validate}=await import('../apps/japseva/frontend/storage.mjs');const legacy=empty();delete legacy.audioPlays;assert.deepEqual(validate(legacy).audioPlays,{});
  let s=command(empty(),'/audio/gayatri',{action:'target',target:2});s=command(s,'/audio/gayatri',{action:'increment'});s=command(s,'/audio/gayatri',{action:'increment'});assert.deepEqual(s.audioPlays.gayatri,{target:2,count:2});assert.equal(s.sankalps.length,0);assert.throws(()=>command(s,'/audio/gayatri',{action:'increment'}));assert.throws(()=>command(s,'/audio/gayatri',{action:'target',target:1}));assert.deepEqual(validate(JSON.parse(JSON.stringify(s))),s);

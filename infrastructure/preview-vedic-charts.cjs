@@ -31,7 +31,7 @@ async function createPreviewServer(port=0,{birth=false,rashifal=false,timeMachin
   const asset=request.method==='GET'?assets.get(new URL(request.url,'http://127.0.0.1').pathname):null;
   response.setHeader('Cache-Control','no-store');response.setHeader('X-Content-Type-Options','nosniff');
   response.setHeader('Referrer-Policy','no-referrer');response.setHeader('Cross-Origin-Opener-Policy','same-origin');
-  response.setHeader('Permissions-Policy','geolocation=(), camera=(), microphone=(), payment=()');
+  response.setHeader('Permissions-Policy','geolocation='+(birth?'(self)':'()')+', camera=(), microphone=(), payment=()');
   response.setHeader('Content-Security-Policy',"default-src 'none'; script-src 'self'; worker-src 'self'; style-src 'self'; img-src 'self'; connect-src "+(rashifal?"'self'":"'none'")+"; frame-ancestors 'none'");
   if(!asset){response.writeHead(404);response.end('Not found');return;}
   response.writeHead(200,{'Content-Type':asset[0]});response.end(asset[1]);

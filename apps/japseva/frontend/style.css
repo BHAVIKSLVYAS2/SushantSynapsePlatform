@@ -113,3 +113,10 @@ body[data-ui-app=japseva]>.skip{position:absolute;top:-80px}body[data-ui-app=jap
 #main .practice-session summary{min-height:48px}
 @media(min-width:640px){#main .practice-session>.practice-dial{width:320px}#main .practice-session .counter-actions{max-width:540px;margin-inline:auto}}
 @media(prefers-reduced-motion:no-preference){#main .practice-dial{animation:japseva-enter .25s ease-out}}
+
+#main .collection-controls{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:8px 20px;align-items:end;margin:16px 0}
+#main .collection-controls label{margin:0}
+#main .collection-controls>[role=status]{grid-column:1/-1;margin:0}
+#main .reading-aid{line-height:1.9;overflow-wrap:anywhere;padding:12px;background:var(--ui-soft);border-radius:10px}
+#main .collection-controls+.empty{margin-bottom:20px}
+@media(max-width:600px){#main .collection-controls{grid-template-columns:minmax(0,1fr);gap:12px}}

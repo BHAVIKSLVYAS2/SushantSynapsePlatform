@@ -1,0 +1,23 @@
+const copy={
+ 'Counted audio practice':['गिनती सहित ऑडियो अभ्यास','ગણતરી સાથે ઑડિયો અભ્યાસ'],
+ 'Auto play & audio count':['स्वतः सुनें और ऑडियो गिनती','આપમેળે સાંભળો અને ઑડિયો ગણતરી'],
+ 'Audio playback target':['ऑडियो सुनने का लक्ष्य','ઑડિયો સાંભળવાનો લક્ષ્યાંક'],
+ 'Start auto play':['स्वतः सुनना शुरू करें','આપમેળે સાંભળવાનું શરૂ કરો'],
+ 'Pause auto play':['स्वतः सुनना रोकें','આપમેળે સાંભળવાનું થોભાવો'],
+ 'Reset audio count':['ऑडियो गिनती रीसेट करें','ઑડિયો ગણતરી ફરી શૂન્ય કરો'],
+ 'audio plays':['बार सुना','વખત સાંભળ્યું'],
+ 'One completed recording = one audio play.':['पूरी रिकॉर्डिंग सुनने पर एक बार गिना जाता है।','પૂર્ણ રેકોર્ડિંગ સાંભળતાં એક વખત ગણાય છે.'],
+ 'Audio plays are saved separately from your chanting count and do not complete client certificates. Playback pauses when you leave this page or switch sections.':['ऑडियो गिनती जप से अलग सहेजी जाती है और इससे ग्राहक का प्रमाणपत्र पूरा नहीं होता। पृष्ठ या अनुभाग बदलने पर सुनना रुक जाता है।','ઑડિયો ગણતરી જપથી અલગ સાચવાય છે અને તેનાથી ગ્રાહકનું પ્રમાણપત્ર પૂર્ણ થતું નથી. પાનું કે વિભાગ બદલતાં સાંભળવાનું અટકે છે.'],
+ 'Playback could not start. Tap Start auto play to retry.':['ऑडियो शुरू नहीं हुआ। फिर शुरू करने का बटन दबाएँ।','ઑડિયો શરૂ થયો નથી. ફરી શરૂ કરવાનું બટન દબાવો.'],
+ 'Audio target complete. Set a higher target or reset the audio count.':['ऑडियो लक्ष्य पूरा है। बड़ा लक्ष्य रखें या गिनती रीसेट करें।','ઑડિયો લક્ષ્યાંક પૂર્ણ છે. મોટો લક્ષ્યાંક રાખો કે ગણતરી ફરી શૂન્ય કરો.'],
+ 'Playing. Counting each completed recording.':['ऑडियो चल रहा है। हर पूरी रिकॉर्डिंग गिनी जाएगी।','ઑડિયો ચાલી રહ્યો છે. દરેક પૂર્ણ રેકોર્ડિંગ ગણાશે.'],
+ 'Paused. Start auto play restarts the unfinished recording.':['रुका हुआ है। फिर शुरू करने पर अधूरी रिकॉर्डिंग शुरुआत से चलेगी।','થોભાવેલું છે. ફરી શરૂ કરતાં અધૂરું રેકોર્ડિંગ શરૂઆતથી ચાલશે.'],
+ 'Reset only this mantra’s audio-play count? Your chanting records are kept.':['केवल इस मंत्र की ऑडियो गिनती रीसेट करें? जप के रिकॉर्ड सुरक्षित रहेंगे।','માત્ર આ મંત્રની ઑડિયો ગણતરી ફરી શૂન્ય કરવી છે? જપના રેકોર્ડ જળવાશે.'],
+ 'Audio count reset.':['ऑडियो गिनती रीसेट हुई।','ઑડિયો ગણતરી ફરી શૂન્ય થઈ.'],
+ 'Skipped audio was not counted. Start again from the beginning.':['छोड़ा गया ऑडियो नहीं गिना गया। शुरुआत से फिर सुनें।','છોડેલો ઑડિયો ગણાયો નથી. શરૂઆતથી ફરી સાંભળો.'],
+ 'Audio could not load. No play was counted.':['ऑडियो लोड नहीं हुआ। कोई गिनती नहीं बढ़ी।','ઑડિયો લોડ થયો નથી. કોઈ ગણતરી વધી નથી.'],
+ 'Recording was not fully played. No play was counted.':['रिकॉर्डिंग पूरी नहीं सुनी गई। कोई गिनती नहीं बढ़ी।','રેકોર્ડિંગ પૂર્ણ સાંભળ્યું નથી. કોઈ ગણતરી વધી નથી.'],
+ 'Audio target complete.':['ऑडियो लक्ष्य पूरा हुआ।','ઑડિયો લક્ષ્યાંક પૂર્ણ થયો.'],
+ 'Saved. Playing the next repetition.':['सहेजा गया। अगली बार सुनना शुरू है।','સાચવ્યું. ફરી સાંભળવાનું શરૂ છે.']
+};
+export const audioText=(text,language)=>language==='en'?text:copy[text]?.[language==='hi'?0:1]??text;

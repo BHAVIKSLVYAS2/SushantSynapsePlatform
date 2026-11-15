@@ -12,7 +12,7 @@ const staticAssets={
  '/shared/canvas-pdf.mjs':'packages/ui/canvas-pdf.mjs',
  '/japseva':'apps/japseva/frontend/index.html',
  '/japseva/':'apps/japseva/frontend/index.html',
- ...Object.fromEntries(['icon.svg','app.mjs','audio-practice.mjs','storage.mjs','library.mjs','certificate.mjs','style.css','audio/gayatri-mantra.ogg','audio/shiva-mantra.wav','audio/vasudeva-mantra.ogg'].map(file=>['/japseva/'+file,'apps/japseva/frontend/'+file])),
+ ...Object.fromEntries(['icon.svg','app.mjs','audio-practice.mjs','audio-copy.mjs','collection-data.mjs','collection-view.mjs','learning-copy.mjs','storage.mjs','library.mjs','certificate.mjs','style.css','audio/gayatri-mantra.ogg','audio/shiva-mantra.wav','audio/vasudeva-mantra.ogg'].map(file=>['/japseva/'+file,'apps/japseva/frontend/'+file])),
  '/rozhisab':'apps/rozhisab/frontend/index.html',
  '/rozhisab/':'apps/rozhisab/frontend/index.html',
  '/rozhisab-sw.js':'apps/rozhisab/frontend/sw.js',

@@ -1,3 +1,55 @@
+JapSeva collection and languages (2026-11-15 IST, local): expanded four entries
+to eight with Mahamrityunjaya, Narayana Ashtakshara, Saha Navavatu and Purnamadah.
+All have English/Hindi/Gujarati names and original meanings, Roman transliteration
+and independently selectable Roman/Devanagari/Gujarati reading aids. Sanskrit
+text stays separate; aids are approximate and teacher review remains pending.
+Search covers all scripts/meanings, with empty recovery and request-to-library
+filter reset. Sound-guide and audio controls/status are localized. Player nodes
+are retained across language changes; typed audio targets survive. No changes
+to stored client/japa records, schema, backups, certificates or three-recording
+allowlist; the five entries without verified audio say unavailable.
+Five model checks, all 9 browser workflows, 27 language/theme/width CLI cases and
+Gujarati counted-audio/target-draft checks pass. Search/script changes preserve
+exact saved state. Build exports 707 assets; no deployment or commit performed.
+Source/form/review scope: docs/JAPSEVA_COLLECTION_REVIEW_2026-11-15.md. Evidence:
+.publish/japseva-collection-{model-final,browser,review,audio-review,build}.log.
+Earlier Kundali export and birthplace work remains uncommitted in this tree.
+
+Kundali export improvement (2026-11-15 IST, local): fixed hardcoded South-only
+reports. Export uses the current North/South style and selected chart first,
+with a report-specific layout override. Shared geometry now drives static SVGs;
+charts/tables precede prose. Added Chandra, Hora/D2, D16, graha DMS, Bhavishyafal
+period themes and birth Panchang. Explicit opt-ins include already calculated
+advanced divisions/Uccha/BAV/SAV and labelled Exact-time D1/D9 boundary previews.
+Strict availability and unknown/approximate withholding remain unchanged.
+Redaction stays default; no raw birth/observer object is serialized. English,
+Hindi and Gujarati headings/prose/charts are checked; technical IDs stay precise.
+All 11 export/production checks and 4 final-bundle practitioner/saved workflows
+pass. Final CLI passes 18 language/style/width cases, 6 HTML downloads, 6 PDFs,
+advanced inclusion and explicit layout override. App print also passes with all
+7 available North charts. Build exports 699 assets; diff whitespace check passes.
+Scope and evidence: docs/KUNDALI_EXPORT_REVIEW_2026-11-15.md. No calculation,
+storage or schema changes. Not committed/deployed. Earlier birthplace edits
+remain in this working tree. Next requested: Mantra collection and pronunciation
+translation/aids in other languages; no mantra changes made yet.
+
+Kundali birthplace location control (2026-11-15 IST, local): added the existing
+search-plus-detect pattern beside Birthplace. Detection runs only after a click;
+it transiently finds the nearest supported Indian city within 75 km, updates the
+validated place ID and asks the user to verify the birthplace. No GPS values are
+saved or sent to an app API. Manual input, saved selection, clear and destroy
+cancel late callbacks. Permission denial and unsupported locations retain manual
+search. English/Hindi/Gujarati labels, busy status and a 48px SVG button are
+included. Node privacy and birth preview allow same-origin geolocation, matching
+production; other denied capabilities and private request policy are retained.
+Six saved-record/date-entry browser regressions pass. CLI success, denial,
+unsupported-location and stale-response checks pass, plus 9 language/width cases.
+One older P17 private-navigation scenario fails at its existing helper waiting for
+a hidden reading heading; header assertion passes before that timeout. It is not
+claimed passing. Existing generic Clear-button test selectors now target birth-clear.
+Evidence: .publish/kundali-location-{regression-final,review,privacy,build}.log;
+output/playwright/kundali-birthplace-location.png. This change is not deployed.
+
 JapSeva focused practice redesign deployed (2026-11-15 IST): replaced the plain
 counter panel with a theme-aware tappable progress ring, larger count, compact
 client/mantra header and grouped Undo / +1 / mala controls. Removed duplicate
