@@ -1,3 +1,9 @@
+Public reference presentation (user direction, 2026-11-15): add references only
+when they serve a concrete user need or retained attribution. Keep research
+provenance in app-owned metadata/review docs; avoid default per-screen source
+cards or bibliographies. Wider removals require discussion first. Scope and
+pending audit decisions: docs/REFERENCE_DISPLAY_POLICY.md.
+
 Ask Nishi (2026-11-15, local): portal owns ask-sushant.js and its home-mounted
 native dialog. Uses catalogue metadata for local app finding; no AI provider,
 application commands or persistent conversation. Home discovery mounts after

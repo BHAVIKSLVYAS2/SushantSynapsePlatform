@@ -283,6 +283,12 @@ the result total as a quiet action. No new package, service or model call.
 Local review evidence: .publish/japseva-library-{before,after}.png,
 .publish/japseva-filters-{en,hi,gu}.png and existing browser regressions under
 .publish/japseva-library-mobile-final/. Not committed or deployed.
+Production release (2026-11-15 IST): source 29acc75, Worker
+9d7ab57e-47dd-4e40-82c8-334f532c5c9f. Mobile library filters and content cleanup
+are live. Three live browser workflows and six route/asset checks pass, with
+internal files blocked and AI disabled. No database migration or paid service
+activation. This supersedes the local-only status in checkpoints below.
+
 Library content cleanup (2026-11-15, local): removed the text-reference list
 from Reading help, library audio players/badges/filter, and repeated audio-
 unavailable notices. Texts, meanings, pronunciation aids and all 104 entries

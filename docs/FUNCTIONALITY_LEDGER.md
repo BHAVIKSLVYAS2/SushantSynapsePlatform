@@ -1,3 +1,18 @@
+JapSeva clean library deployed (2026-11-15 IST): source 29acc75, Worker
+9d7ab57e-47dd-4e40-82c8-334f532c5c9f at apps.sushantsynapse.com. Includes
+compact mobile filters, native filter sheet, removed library audio/source list
+and preserved current-practice playback/credits. Live Chrome: all three selected
+workflows pass (continuous playback/counting/language, clean reading/licences/
+phone themes, translated category filtering and persistent browser practice).
+Six live routes/assets return 200; two internal paths remain 404; Nishi ai:false.
+729-asset build passed. Deployment used --keep-vars and explicit AI false;
+no migration, paid service activation or production database business writes.
+Evidence: .publish/japseva-clean-release-live/. Earlier local status below is
+superseded for this release. Wider reference audit is documented in
+docs/REFERENCE_DISPLAY_POLICY.md; proposed removals were submitted for user
+discussion and have not been implemented. Future references require a clear
+user purpose or retained attribution; no default bibliography/source card.
+
 JapSeva clean library (2026-11-15 IST, local): removed the public text-reference
 list, library audio players/badges/filter and repeated audio-unavailable notices.
 Source provenance remains in catalogue data and review documents; all 104 texts,
