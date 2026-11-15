@@ -1,5 +1,11 @@
 # Public reference cleanup
 
+Production follow-up verified (15 November 2026 IST): source 5a007e8, Worker
+2e4bc326-8bda-4f3c-9dc6-3e718c644ae0. Live bilingual mobile learning, legacy
+Sources URLs, retained verse/licence labels and clean JapSeva all pass with no
+page errors; five exact assets and four healthy routes pass. AI stays disabled.
+This supersedes earlier local/pending statements below for the approved scope.
+
 Collection-wide follow-up (15 November 2026, approved after discussion): removed
 Ritual Assist's Sources learning tab and external bibliography, duplicate prayer-
 type footers and editorial text-check date in learning downloads. Useful Gita

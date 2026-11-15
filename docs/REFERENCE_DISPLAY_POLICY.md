@@ -48,3 +48,12 @@ isolated browser review also verifies old `learn=sources` URLs open Preparation,
 retained verse labels, six bilingual viewport combinations, recording/software
 credits and all 104 JapSeva entries, with no page errors. Frontend build exports
 729 assets. No migration, provider activation or saved-record change.
+
+Released from source `5a007e8`, Worker
+`2e4bc326-8bda-4f3c-9dc6-3e718c644ae0`, 15 November 2026 IST.
+Final source scan covered 25 frontend directories and 230 non-generated source
+files; no internal documentation breadcrumbs or standalone HTML bibliography
+headings remain in that scan. Five live JS modules match the tested build
+byte-for-byte; home, health, Ritvayam and Photo Resize return 200. Nishi remains
+AI-disabled, with no AI binding or new paid service. See the ledger for the
+live browser result and retained-credit checks.

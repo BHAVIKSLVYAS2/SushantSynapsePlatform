@@ -1,3 +1,19 @@
+Collection reference cleanup deployed (2026-11-15 IST): source 5a007e8, Worker
+2e4bc326-8bda-4f3c-9dc6-3e718c644ae0 at apps.sushantsynapse.com. Live browser
+passes legacy Sources URL normalisation, six bilingual phone/tablet layouts,
+retained Gita verse identities, public recording/software notices and the clean
+104-entry JapSeva library, with no page errors. Five deployed modules match the
+tested build exactly; home, health, Ritvayam and Photo Resize return 200. Final
+scan covers 25 frontend directories/230 non-generated source files and finds no
+internal documentation breadcrumbs or standalone HTML bibliography headings.
+17 focused tests, two all-guide browser workflows and 729-asset build passed.
+Deployment used --keep-vars and explicit AI false; no migration, AI binding,
+new paid service or production business-data write. Evidence:
+.publish/reference-cleanup-ritual/, .publish/reference-cleanup-local.png and
+.publish/reference-cleanup-live.png. Earlier local status below is superseded.
+Retained necessary attribution and functional references; policy is recorded in
+docs/REFERENCE_DISPLAY_POLICY.md for future app changes.
+
 Collection reference cleanup (2026-11-15 IST, local): user approved the proposed
 wider cleanup after discussion. Ritual Assist drops its separate Sources tab,
 publisher list, duplicate prayer-type footer and editorial checked-on date from
