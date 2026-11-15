@@ -1,3 +1,56 @@
+JapSeva simplified library (2026-11-15 IST, local): implemented compact native
+disclosure rows with one guide open at a time, audio availability indicators and
+Use for practice prefilling the existing validated request form. Full text and
+meaning remain visible in the guide; pronunciation/script choice, references,
+repeat targets/speed/credits are secondary. Reading help follows the list and
+the mobile header is shorter. At 390px, the first row begins at y=423px instead
+of 848px; closed rows are about 84px, total list 1,971px instead of 15,722px.
+Persistent practice audio/three recording sessions remain unchanged. Five model
+checks pass. Ten browser workflows passed together; the updated shared-theme
+workflow passes separately (eleven verified). CLI passes 27 language/theme/width
+cases, one-open-guide behavior, request prefill and Enter/Space keyboard controls.
+Mobile browse/guide screenshots reviewed. Build exports 709 assets; whitespace
+check passes. No schema/production-data changes. Not committed/deployed. Evidence:
+.publish/japseva-simple-library-{browser,themes,model,build}.log,
+.publish/simple-library-{matrix,keyboard}.log and
+output/playwright/japseva-library-simple-{mobile,guide}.png.
+
+JapSeva library UI review (2026-11-15 IST, discussion only): reviewed actual
+local 23-entry library at 390px mobile and 1280px desktop. On mobile the first
+card begins at y=848px; Gayatri is 1,371px tall and the list is 15,722px tall.
+Every card expands text, transliteration, meaning, reading aid and sources;
+recorded entries additionally expose native playback and repeat-count settings.
+Recommendation: compact browse rows opening one focused guide, with primary
+practice/listen actions and secondary pronunciation/settings/source disclosures.
+No UI implementation/deployment in this review. Evidence:
+.publish/library-review.log, output/playwright/library-review-{mobile,desktop,card}.png.
+
+JapSeva guide expansion (2026-11-15 IST, local): added nine Navagraha nama
+invocations and six devotional nama mantras (Saraswati, Lakshmi, Durga, Hanuman,
+Rama, Krishna), taking the collection from 8 to 23. Sanskrit/IAST, three-language
+names, meanings and script reading aids follow the existing guide format.
+Source review and scope are recorded in docs/JAPSEVA.md. New entries work with
+the existing client-practice selector; Navagraha spelling aliases are searchable.
+No new audio/licensing claims; the three verified recordings are unchanged.
+Five model checks and the licensed-audio/mobile-layout browser workflow pass.
+The focused Navagraha workflow verifies nine search results, three-language
+reading aids, 320px layout and saved client practice/count continuity. No schema
+or production data changes. Not committed/deployed. Evidence:
+.publish/japseva-expanded-{model,browser,navagraha,build}.log.
+
+Kundali direct PDF download (2026-11-15 IST, local): report download now produces
+a genuine multipage A4 PDF instead of HTML. Browser-shaped canvas text preserves
+English/Hindi/Gujarati and embedded SVG charts preserve the selected North/South
+layout. Uses the existing explicit redacted/identified report projection and all
+selected advanced sections; processing stays on device. House columns are narrow
+in chart-house and planet report tables, preview and print. Download disables
+while generating and recovers on error. Eleven export/production checks pass;
+six real PDF downloads (three languages x two layouts), each 17 pages, pass
+browser checks. Gujarati PDF page visually reviewed. PDF text is rasterized,
+so it is not searchable/selectable; native print remains available. No database
+changes. Not committed/deployed. Evidence: .publish/kundali-pdf-{tests,review}.log
+and output/playwright/kundali-{en,hi,gu}-{north,south}.pdf.
+
 JapSeva current-practice audio (2026-11-15 IST, deployed source a7d45fb): added Play mantra on
 repeat / Pause directly to the active request, with repeat target, reset, speed
 and credits in one Audio settings disclosure. Meanings/pronunciation now expand

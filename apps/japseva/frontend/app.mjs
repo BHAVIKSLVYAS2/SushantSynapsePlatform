@@ -10,6 +10,7 @@ const $=s=>document.querySelector(s),el=(tag,text,cls)=>{const e=document.create
 let state,selectedCertificate,busy=false,epoch=0,view='practice',selectedId=null,query='';
 const practiceHeader=el('header',undefined,'practice-context'),practiceAudio=el('section');practiceAudio.id='practice-audio';practiceAudio.setAttribute('data-language-preserve','');practiceHeader.setAttribute('data-language-preserve','');practiceAudio.hidden=practiceHeader.hidden=true;$('#practice-back').after(practiceHeader,practiceAudio);
 function showView(next){
+ $('#main').classList.toggle('library-mode',next==='learn');
  if(next!==view){query='';$('#request-search input').value='';}selectedCertificate=null;selectedId=null;view=next;for(const tab of document.querySelectorAll('[data-tab]'))tab.setAttribute('aria-pressed',String(tab.dataset.tab===view));
  $('#practice').hidden=view==='learn';$('#learn').hidden=view!=='learn';$('#setup').hidden=view!=='new';$('#setup').open=view==='new';
  $('#sankalps').hidden=view==='new';$('#request-search').hidden=!['practice','history'].includes(view);$('#practice-back').hidden=true;$('#stats').hidden=view==='new';$('#new-sankalp').hidden=view==='new';$('#certificate').hidden=true;
@@ -60,7 +61,7 @@ $('#client-form').onsubmit=async e=>{e.preventDefault();if(await mutate('/client
 $('#sankalp-form').onsubmit=async e=>{e.preventDefault();const b=Object.fromEntries(new FormData(e.target));b.target=Number(b.target)*($('#target-unit').value==='malas'?108:1);delete b.targetUnit;if(await mutate('/sankalps',b)){showView('practice');query='';$('#request-search input').value='';selectedId=state.sankalps.at(-1).id;render();notice('Request created. Your practice is ready.');}};
 $('#new-sankalp').onclick=()=>{showView('new');(state.clients.length?$('#sankalp-form [name=clientId]'):$('#client-form [name=name]')).focus();};
 for(const b of document.querySelectorAll('[data-tab]'))b.onclick=()=>showView(b.dataset.tab);
-const collection=mountCollection($('#learn'),next=>{if(!document.hidden)state=next;});audioSessions.push(...collection.sessions);
+const collection=mountCollection($('#learn'),next=>{if(!document.hidden)state=next;},m=>{showView('new');mantraSelect.value=m.id;fillMantra();$('#sankalp-form').scrollIntoView({block:'start',behavior:'auto'});(state.clients.length?$('#sankalp-form [name=clientId]'):$('#client-form [name=name]')).focus();});audioSessions.push(...collection.sessions);
 $('#sankalps').setAttribute('data-language-preserve','');
 document.addEventListener('visibilitychange',()=>{if(document.hidden)audioSessions.forEach(s=>s.stop());});window.addEventListener('pagehide',()=>audioSessions.forEach(s=>s.stop()));
 document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>audioSessions.forEach(s=>s.stop())));

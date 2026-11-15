@@ -66,7 +66,7 @@ body[data-ui-app=japseva]>.skip{position:absolute;top:-80px}body[data-ui-app=jap
 #main .request-list .request-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px 16px;padding:12px 0;border:0;border-bottom:1px solid var(--ui-edge);border-radius:0;background:transparent}
 #main .request-row h3{font-size:16px;margin:0;font-weight:650}
 #main .request-row .request-open{display:block;width:100%;text-align:start;min-height:44px;padding:0;border:0;border-radius:4px;background:transparent;color:var(--ui-ink);font-size:16px;font-weight:650;line-height:1.4;overflow-wrap:anywhere}
-#main .request-open::after{content:' ›';color:var(--ui-accent)}
+#main .request-open::after{content:' Ã¢â‚¬Âº';color:var(--ui-accent)}
 #main .request-row .practice-mantra-name{margin:2px 0;font-size:13px;color:var(--ui-muted)}
 #main .request-meta{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;font-size:12px;color:var(--ui-muted)}
 #main .request-row .count{font-size:14px;margin:0;font-weight:600;line-height:1.5}
@@ -141,3 +141,44 @@ body[data-ui-app=japseva]>.skip{position:absolute;top:-80px}body[data-ui-app=jap
 #main #practice-audio .audio-tools>label:first-child{display:none}
 #main #practice-audio .practice-audio-settings label{max-width:240px}
 #main .practice-dial{animation:none}
+
+/* Library: a compact browse list, one readable guide at a time. */
+#main.library-mode .intro{margin-bottom:10px}
+#main.library-mode .intro>p,#main.library-mode .intro .eyebrow,#main.library-mode #notice:not([data-error=true]),#main.library-mode #learn .section-heading .eyebrow{display:none}
+#main.library-mode .tabs{margin:12px 0 20px}
+#main.library-mode #learn .section-heading{margin-bottom:4px}
+#main.library-mode #learn>.section-heading+p{margin:4px 0 12px;font-size:14px;color:var(--ui-muted)}
+#main #learn .collection-controls{display:block;margin:12px 0}
+#main #learn .collection-controls>[role=status]{font-size:12px;margin:6px 0;color:var(--ui-muted)}
+#main #library{display:block;border:1px solid var(--ui-edge);border-radius:16px;background:var(--ui-solid);overflow:hidden}
+#main #library>article,#main #library>article.with-audio{display:block;padding:0;margin:0;border:0;border-radius:0;box-shadow:none;background:transparent}
+#main #library>article:not(:first-child){border-top:1px solid var(--ui-edge)}
+#main #library .library-guide{margin:0;padding:0;border:0;border-radius:0;background:transparent}
+#main #library .library-guide>summary{display:flex;align-items:center;gap:12px;min-height:88px;padding:16px 20px;margin:0;border:0;list-style:none;transition:background .16s}
+#main #library .library-guide>summary::-webkit-details-marker{display:none}
+#main #library .library-guide>summary:hover{background:var(--ui-soft)}
+#main #library .library-guide[open]>summary{background:var(--ui-soft);border-bottom:1px solid var(--ui-edge)}
+#main .library-row-copy{display:block;flex:1;min-width:0}
+#main #library .library-row-copy h3{font-size:16px;line-height:1.5;margin:0 0 3px;font-weight:650}
+#main .library-snippet{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--ui-muted);font-size:14px;font-weight:400}
+#main .library-audio-badge{font-size:12px;color:var(--ui-accent);font-weight:500}
+#main .library-chevron{font-size:22px;color:var(--ui-muted);flex-shrink:0}
+#main .library-guide[open] .library-chevron{transform:rotate(180deg)}
+#main #library .library-guide-body{padding:20px;max-width:760px;margin:auto}
+#main #library .library-use{background:var(--ui-accent);color:var(--ui-on-accent);border-color:var(--ui-accent);margin-bottom:12px;min-height:48px}
+#main #library .learning-copy>.mantra{font-size:23px;line-height:1.9;margin:12px 0 20px}
+#main #library .learning-copy>h4{font-size:14px;margin:16px 0 6px}
+#main #library .learning-copy>p:not(.mantra){line-height:1.8;margin-bottom:20px}
+#main #library .library-guide-body details{margin:12px 0 0;padding:0;border:0;border-radius:0;border-top:1px solid var(--ui-edge);background:transparent}
+#main #library .library-guide-body summary{min-height:48px;margin:0;padding:12px 0;font-size:14px}
+#main #library .library-guide-body details[open]>summary{border:0;margin-bottom:4px}
+#main #library .learning-audio{border:0;padding:0;margin:4px 0 20px}
+#main #library audio{width:100%;height:48px}
+#main #library .audio-practice{border:0;padding:0;margin:0}
+#main .library-help{margin-top:16px;padding:0;border:0;background:transparent}
+#main .library-help>summary{color:var(--ui-muted);font-weight:500}
+#main .library-help .sound-guide{border:0;padding:0;background:transparent}
+@media(max-width:600px){#main.library-mode{padding-top:12px}#main.library-mode .intro h1{font-size:24px}#main #library .library-guide>summary{padding:14px;gap:8px;min-height:84px}#main #library .library-guide-body{padding:16px}#main .library-use{width:100%}#main .library-audio-badge{font-size:11px}}
+@media(prefers-reduced-motion:reduce){#main #library .library-guide>summary{transition:none}}
+
+#main #library .library-guide>summary:focus-visible{outline-offset:-3px}

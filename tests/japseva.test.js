@@ -1,7 +1,7 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 test('collection entries have three-language meanings and reading aids without invented recordings',async()=>{
  const {mantras,recordings,audioMantraIds}=await import('../apps/japseva/frontend/library.mjs');
- assert.equal(mantras.length,8);assert.equal(new Set(mantras.map(m=>m.id)).size,8);
+ assert.equal(mantras.length,23);assert.equal(new Set(mantras.map(m=>m.id)).size,23);
  assert.deepEqual(audioMantraIds,['gayatri','shiva','vasudeva']);
  for(const m of mantras){assert.match(m.text,/[\u0900-\u097f]/);for(const lang of ['en','hi','gu'])for(const field of ['names','meanings','aids'])assert.ok(m[field][lang]?.trim(),m.id+' '+field+' '+lang);
   assert.match(m.aids.hi,/[\u0900-\u097f]/);assert.match(m.aids.gu,/[\u0a80-\u0aff]/);

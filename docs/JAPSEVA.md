@@ -1,3 +1,28 @@
+Library simplification (2026-11-15, local): compact, full-width native disclosure
+rows replace always-expanded cards. One guide opens at a time. Browsing shows
+name, one-line Sanskrit preview and an audio indicator where available. The
+opened guide has a Use for practice action that prefills the existing request
+form; creating a request still requires the normal client/target submission.
+Full text/meaning remain readable, with pronunciation, sources and repeat/audio
+settings in secondary disclosures. Script choice lives inside pronunciation;
+reading help follows the list. The library header is shorter on phones. Existing
+audio nodes/sessions still move into active practice and restore into their
+guide without duplicates. Closing a guide stops its library audio. Themes,
+keyboard controls and reduced motion use shared conventions. Not deployed yet.
+
+Mantra guide expansion (2026-11-15, local): 23 entries now include nine Navagraha
+nama invocations (Surya, Chandra, Mangala, Budha, Brihaspati, Shukra, Shani, Rahu,
+Ketu) and Saraswati, Lakshmi, Durga, Hanuman, Rama and Krishna nama mantras.
+Each follows the existing Sanskrit, IAST, English/Hindi/Gujarati meaning and
+reading-aid format and can be selected for client practice. Search accepts
+Navagraha, navgrah and nav grah. These are short nama invocations, not a complete
+Navagraha stotra or bija series. Source reference: Pandit Sri Rama Ramanuja
+Achari's [Namavali Sangraha](https://www.australiancouncilofhinduclergy.com/uploads/5/5/4/9/5549439/asthottara_sangraha.pdf),
+individual deity sections and Navagraha section (PDF pages 29–37). Traditional
+names are transcribed independently; meanings and reading aids are editorial.
+No new recordings: audio remains available only for the existing three entries.
+Teacher pronunciation review remains pending. Not deployed yet.
+
 Practice audio follow-up (2026-11-15, deployed source a7d45fb): repeat/pause now belongs to the
 active request alongside its counter. Meanings and pronunciation expand inline.
 One persistent player survives counter redraws and language changes; leaving
