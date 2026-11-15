@@ -1,3 +1,20 @@
+Chambers simplicity deployed (2026-11-15 IST): source ce7d27c, Worker
+7bc31e27-7ba1-4af3-869d-57fb4c93c6f7 at https://apps.sushantsynapse.com/advocate.
+Includes five-field initial case form with optional details, compact case facts,
+one selected working panel, expenses within fees and a focused daily overview.
+All seven organisation API tests and ten local browser workflows pass. Build
+exports 723 assets. All 34 live route/asset checks pass, including 24 exact
+matches and private API/docs boundaries. Live frontend passes 18 combinations
+of English/Hindi/Gujarati, light/dark/deep and 320/390px, with sample-data GET
+responses supplied from an isolated local organisation. Verifies five initial
+form fields/facts, exclusive panels, tasks/expenses access and no overflow/page
+errors. Live writes were intercepted locally (a platform visitor-tracking
+request); no production business data/account used or changed. This is live
+asset/UI verification, not a new authenticated production D1 business test.
+Deployment used --keep-vars; no migrations/bootstrap. Evidence:
+.publish/chambers-simple-release-live.json and chambers-simple-live.json.
+The local implementation/audit checkpoints below are superseded for this scope.
+
 Chambers simplicity implementation (2026-11-15 IST, local): Add case shows five
 essentials; twelve optional fields remain under More details (expanded on Edit).
 Invalid optional inputs reopen their disclosure. Case details retain five key

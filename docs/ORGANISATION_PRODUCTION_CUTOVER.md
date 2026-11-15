@@ -1,3 +1,11 @@
+Chambers simplicity deployed (2026-11-15 IST): source ce7d27c, Worker
+7bc31e27-7ba1-4af3-869d-57fb4c93c6f7. Essential-first case creation, compact
+case facts with one selected work panel, expenses within fees and a focused
+overview. Seven organisation API checks and ten local browser workflows pass.
+Build exports 723 assets; 34 live checks include 24 exact assets. Deployment
+used --keep-vars with no migrations or production business writes. Live UI
+checks use isolated fixture API responses; see ledger for evidence and limits.
+
 Home app layout deployed (2026-11-15 IST): source 00f5f8a5, Worker
 63626919-1f21-40b4-959b-5fa35f84bd4a. Pinning and rearrangement use device-only
 preferences in the existing separate public/workspace grids. JapSeva defaults
