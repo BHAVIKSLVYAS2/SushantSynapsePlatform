@@ -14,6 +14,29 @@ all 5 JapSeva model tests and all 11 JapSeva browser workflows pass; diff check
 passes. Deployed at commit 35265f7; production Worker version
 c588b507-c2b1-4047-9f38-b6a343644b06.
 
+Mantra consolidation release deployed (2026-11-15 IST): source fc0f0a7,
+Worker 8ad99e07-5674-4706-bb4a-b33a6dd7c50d. Releases the 40-entry unified library,
+combined category/topic/audio filters, removed Shloki reader, one-toggle guides,
+JapSeva/Kundali disclosure alignment and WhatsApp request draft form. The local
+checkpoints below are superseded by this release. Build/dry run pass (713 assets);
+--keep-vars preserves organisation/auth/D1 settings; no migration/business writes.
+Live: 31 route/asset checks pass (22 exact assets, retired Shloki assets 404,
+preserved private API boundary). Library, Kundali menu and WhatsApp modal each
+pass 27 language/theme/width cases. Combined filters, four-verse groups, legacy
+links, saved-state preservation, menu placement/Escape and WhatsApp validation/
+Unicode/recipient/stale-draft checks pass. WhatsApp navigation was intercepted;
+zero messages sent. Audio remains limited to three verified recordings.
+Evidence: .publish/mantra-consolidation-release-{dryrun,deploy}.log, -live.json,
+.publish/mantra-consolidation-live-{library,kundali,request}.log.
+
+Launch/storage and reuse analysis (2026-11-15): discussion only; no auth/storage
+or component implementation authorized in this pass. Initial registered-asset
+scan covers 273 unique HTML/JS/CSS files with no byte-identical duplicates;
+repeated dialog/form/PDF logic and large Kundali bundles are review candidates.
+Personal account sync and licensed business workspaces should have distinct user
+journeys; Google identity alone does not supply record storage/synchronization.
+Scope, findings and proposal: docs/PLATFORM_LAUNCH_DATA_DISCUSSION.md.
+
 Shloki/JapSeva consolidation (2026-11-15 IST, local): removed Ritual Prep's
 separate Shloki reader, its mount and three public reader asset aliases. JapSeva
 owns the reviewed content; the old content path is a Node-only compatibility

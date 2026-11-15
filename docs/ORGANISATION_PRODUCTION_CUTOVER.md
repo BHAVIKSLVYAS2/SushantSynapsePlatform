@@ -1,3 +1,11 @@
+Mantra consolidation deployed (2026-11-15 IST): source fc0f0a7, Worker
+8ad99e07-5674-4706-bb4a-b33a6dd7c50d. Unified 40-entry library/filtering, WhatsApp
+request drafts and JapSeva/Kundali disclosure fixes are live. Old Shloki reader
+assets return 404. Deployment used --keep-vars without migrations or business
+writes. All 31 live route/asset checks and 27 cases each for library, menu and
+request form pass; WhatsApp test messages were intercepted, none delivered.
+See the functionality ledger for complete scope/evidence.
+
 JapSeva library/Kundali PDF release deployed (2026-11-15 IST): source 67dfb82,
 Worker 4b7659a0-ca0b-44c2-9560-6531562b0507. Includes compact 23-entry mantra
 library and direct Kundali PDFs with compact House columns. Deployment used

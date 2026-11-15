@@ -1,3 +1,9 @@
+Released 2026-11-15: source fc0f0a7, Worker
+8ad99e07-5674-4706-bb4a-b33a6dd7c50d. Consolidation, filters, one-toggle guides
+and WhatsApp request drafts below are deployed. Earlier local status notes are
+superseded. Live 27-case library/request matrices pass; WhatsApp is a user-sent
+draft, with no automatic delivery or new audio recordings.
+
 Collection consolidation (2026-11-15, local): JapSeva now owns the 19 reviewed
 Shloki readings in shloki-content.mjs. Seventeen become new entries; existing
 Mahamrityunjaya/Purnamadah IDs remain canonical, with the additional references
