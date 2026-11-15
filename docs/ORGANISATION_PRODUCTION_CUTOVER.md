@@ -1,3 +1,11 @@
+Home app layout deployed (2026-11-15 IST): source 00f5f8a5, Worker
+63626919-1f21-40b4-959b-5fa35f84bd4a. Pinning and rearrangement use device-only
+preferences in the existing separate public/workspace grids. JapSeva defaults
+to fourth; Satire Arena follows Kiraya Saathi. Build exports 723 assets;
+35 live checks pass, including 25 exact assets. Deployment used --keep-vars;
+no migrations, bootstrap or production business-data writes. See the ledger
+for live browser verification and scope.
+
 JapSeva library expansion/reference cleanup deployed (2026-11-15 IST): source
 5b4e62f, Worker a9ed0bb7-8af6-474c-a043-88963451e4f9. Library now has 104 entries,
 including 60 added Gayatris and complete 22-anuvaka Shri Rudram with translated

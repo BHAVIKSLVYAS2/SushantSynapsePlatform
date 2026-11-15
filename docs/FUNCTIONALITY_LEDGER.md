@@ -1,3 +1,17 @@
+Home pin/rearrange deployed (2026-11-15 IST): source 00f5f8a5, Worker
+63626919-1f21-40b4-959b-5fa35f84bd4a at https://apps.sushantsynapse.com/.
+Includes device-only pinning, drag/button rearrangement, reset, translated
+controls and the requested default order (JapSeva fourth; Satire Arena after
+Kiraya Saathi). Four catalogue checks and all four live browser workflows pass,
+including pointer dragging, reload/reset/filter preservation, blocked storage,
+English/Hindi/Gujarati, 36 language/theme/width combinations and Compact
+persistence. All 35 live route/asset checks pass, including 25 exact matches and
+the private API/docs boundaries. Build exports 723 assets. Evidence:
+.publish/home-layout-live/ and .publish/home-layout-release-live.json.
+Deployment used --keep-vars; existing organisation/auth/D1 settings remain.
+No migration, bootstrap or production business-data write. Earlier local-only
+checkpoint below is superseded for this release.
+
 Home pin/rearrange (2026-11-15 IST, local, uncommitted): added Edit layout/Done,
 pin/unpin, pointer drag handles with edge scrolling, earlier/later button
 alternatives, Escape exit and Reset layout. One card per app; pins sort first
