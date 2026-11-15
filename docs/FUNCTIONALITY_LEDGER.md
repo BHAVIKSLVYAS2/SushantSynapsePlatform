@@ -1,3 +1,15 @@
+Nishi conversation design deployed (2026-11-15 IST): source 105cc68, Worker
+ecd76a38-2270-413c-a3e2-90c96a654f55 at https://apps.sushantsynapse.com/.
+Avatar, greeting, prompts, current message/reply area and send-icon composer
+are live; AI connection remains explicitly pending. Build exports 725 assets.
+Live Nishi browser workflow passes all 27 language/theme/width combinations,
+question clearing, focus/Escape, local results and preserved catalogue controls.
+All 38 live route/asset checks pass, including 27 exact assets and private API/
+docs boundaries. Evidence: .publish/nishi-conversation-live/ and
+nishi-conversation-release-live.json. Deployment used --keep-vars; no migration,
+bootstrap or production business-data writes. Earlier local-only checkpoint
+below is superseded for this scope.
+
 Nishi conversation presentation (2026-11-15 IST, local): decorative native SVG
 avatar, personal greeting, task/storage prompts, current question/reply area and
 bottom message composer/send icon replace the search-form presentation. Quiet

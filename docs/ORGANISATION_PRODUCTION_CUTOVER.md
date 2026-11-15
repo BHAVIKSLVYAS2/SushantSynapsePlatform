@@ -1,3 +1,9 @@
+Nishi conversation design deployed (2026-11-15 IST): source 105cc68, Worker
+ecd76a38-2270-413c-a3e2-90c96a654f55. Live panel workflow passes 27 language/
+theme/width cases; all 38 route/asset checks pass, including 27 exact assets.
+Build exports 725 assets. --keep-vars preserves organisation/auth/D1 settings;
+no migrations or business-data writes. AI integration remains pending.
+
 Ask Nishi/Chambers follow-ups deployed (2026-11-15 IST): source ab8c99a,
 Worker 8d61fc1c-c7fa-4ba5-94d5-401975050291. Home guide is opt-in/local;
 AI connection remains pending. Chambers adds quick tasks, My work, reference
