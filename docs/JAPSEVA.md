@@ -1,3 +1,9 @@
+Released 2026-11-15: source 67dfb82, Worker
+4b7659a0-ca0b-44c2-9560-6531562b0507. The library simplification and guide expansion
+below are live at https://apps.sushantsynapse.com/japseva. All 27 live library
+language/theme/width checks and practice-prefill checks pass. Earlier local-only
+status notes below are superseded by this release; recording scope is unchanged.
+
 Library simplification (2026-11-15, local): compact, full-width native disclosure
 rows replace always-expanded cards. One guide opens at a time. Browsing shows
 name, one-line Sanskrit preview and an audio indicator where available. The

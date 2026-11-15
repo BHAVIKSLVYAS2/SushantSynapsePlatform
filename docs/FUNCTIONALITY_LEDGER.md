@@ -1,3 +1,19 @@
+JapSeva library/Kundali PDF release deployed (2026-11-15 IST): source 67dfb82,
+Worker 4b7659a0-ca0b-44c2-9560-6531562b0507. Live at /japseva and /rashifal-kundli
+on https://apps.sushantsynapse.com. Releases the compact mobile library, 23 mantra
+guides (nine Navagraha plus six other additions), practice-prefill action, direct
+multipage PDF download and compact House columns. The local checkpoints below
+are superseded by this release. Build/dry run pass (709 assets); --keep-vars
+preserves organisation/auth settings and D1. No migrations or production business
+writes. Live checks: 20 route/asset checks pass (15 exact assets); all 27 library
+language/theme/width cases, one-open-guide behavior and practice prefill pass.
+Six real Kundali PDFs download in English/Hindi/Gujarati x North/South; all have
+valid PDF headers/trailers and 17 pages. House widths remain compact. PDFs use
+raster text; native print remains available. Only the existing three verified
+audio recordings are provided, and teacher pronunciation review remains pending.
+Evidence: .publish/library-pdf-release-{dryrun,deploy,library,kundali}.log,
+.publish/library-pdf-release-live.json and -pdf-validation.json.
+
 JapSeva simplified library (2026-11-15 IST, local): implemented compact native
 disclosure rows with one guide open at a time, audio availability indicators and
 Use for practice prefilling the existing validated request form. Full text and

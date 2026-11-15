@@ -1,3 +1,11 @@
+JapSeva library/Kundali PDF release deployed (2026-11-15 IST): source 67dfb82,
+Worker 4b7659a0-ca0b-44c2-9560-6531562b0507. Includes compact 23-entry mantra
+library and direct Kundali PDFs with compact House columns. Deployment used
+--keep-vars; no migrations, bootstrap or business-data writes. Build/dry run pass
+(709 assets). Live: 20 route/asset checks, 27 library language/theme/width cases,
+practice prefill and six multilingual North/South PDF downloads pass. Full
+scope, evidence and limits are recorded at the top of FUNCTIONALITY_LEDGER.md.
+
 Kundali/JapSeva combined release deployed (2026-11-15 IST): source 1b80b63,
 Worker 3c8ab073-c8e4-45b7-afec-0de58b9df4b4, at
 https://apps.sushantsynapse.com/rashifal-kundli and /japseva. Includes the
