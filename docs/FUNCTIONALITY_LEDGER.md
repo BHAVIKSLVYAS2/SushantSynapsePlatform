@@ -1,3 +1,73 @@
+Reference display cleanup (2026-11-15 IST, local): removed repeated JapSeva
+per-card Sources & notes, comparison links and per-chapter source links.
+Unique text references are grouped in the existing closed Reading help section;
+recording creator credits, source links, licences and modification notices remain
+beside audio controls. Shortened English/Hindi/Gujarati help and status copy;
+Sanskrit, source metadata, chapter navigation and practice counts are unchanged.
+Reviewed other site reference uses: retained optional Ritual Assist/Ritvayam
+sources, official form requirements, legal/software attribution and functional
+business/reference fields. Scope: docs/REFERENCE_CLEANUP_2026-11-15.md.
+Verification: six model tests and three targeted browser workflows pass,
+covering licensed playback, mobile/theme layouts, unique optional references,
+practice repeat audio and the complete Rudram reading/count/certificate flow.
+Syntax and diff checks pass. Not committed or deployed.
+
+JapSeva complete Shri Rudram (2026-11-15 IST, local): added all eleven Namakam
+and eleven Chamakam anuvakas, accounting for 47 source units from Taittiriya
+Samhita 4.5/4.7. Library now has 104 entries. One chapter at a time, grouped
+chapter/script selectors, previous/next at passage end with heading focus,
+original English/Hindi/Gujarati summaries and in-practice reading. All Sanskrit
+core text is bundled locally; study aids are unaccented, Vedic nasal conversion
+is documented and teacher recitation review remains pending. Full-reading
+practice defaults to one complete recitation, omits mala shortcuts and stores
+a stable full-text title/ID for backups and certificates within existing limits.
+No schema migration, existing-record rewrite, new audio or puja procedure.
+Verification: all six model tests pass; all twelve browser workflows have passed
+across the suite and targeted reruns, including the 21-case layout matrix and
+all 22 chapters/scripts, unchanged counts while reading, chapter retention on
+counter updates, reload and full-recitation completion certificate. Fixed the
+new selector's explicit accessible label; native option disabling is checked
+via its DOM property. The matrix's capture budget is now 90 seconds. Inspected
+the mobile reader screenshot; source, scope and normalization notes are in
+docs/JAPSEVA_RUDRAM_FULL_SOURCE_REVIEW.md. Asset allowlist and diff checks pass.
+Not committed or deployed.
+
+JapSeva Rudrabhishek chants (2026-11-15 IST, local): existing library had Shiva,
+Mahamrityunjaya and Rudra Gayatri but lacked dedicated Rudrabhishek entries.
+Added Rudra Invocation, Namaste Astu Bhagavan (customary accompanying praise)
+and a clearly labelled Namakam opening excerpt (Anuvaka 1, riks 1–2). Library
+now has 103 entries. Includes English/Hindi/Gujarati meanings, unaccented
+Roman/Gujarati aids, source links and search aliases; no full-Rudram claim,
+aarti/ritual procedure, recording, schema or saved-data change. Five model tests
+and both targeted browser workflows pass, covering library/audio layouts across
+themes, Gayatri/Navagraha filtering, Rudra translations/search and new practice
+counts surviving reload. Unique-text, asset allowlist, practice-length and diff
+checks pass. Source/scope notes: docs/JAPSEVA.md. Not committed or deployed.
+
+JapSeva Gayatri expansion (2026-11-15 IST, local): added 60 source-linked
+traditional deity Gayatri entries, bringing the library to 100 entries and the
+new translated Gayatri category to 62 including existing Savitri/Surya. Covers
+all nine Navagraha deities and broader deity forms; distinct recensions keep
+distinct names, with no duplicate full texts. Original English/Hindi/Gujarati
+meaning summaries and shared unaccented Roman/Gujarati reading aids; no new
+audio or storage/schema changes. Sources/admission limits are recorded in
+docs/JAPSEVA_GAYATRI_SOURCE_REVIEW_2026-11-15.md; this is not an exhaustive claim
+about every regional recension. Five model tests pass; ten browser workflows
+pass in the suite and the expanded filter/language/new-Gayatri practice/reload
+workflow passes in an isolated rerun. The initial overlapping runs collided in
+Playwright's shared trace output directory; isolated rerun resolves that test
+infrastructure error. Asset allowlist, unique texts, practice limits and diff
+checks pass. No commit or deployment performed for this request.
+
+App sign-in and data audit (2026-11-15 IST): completed source-level inventory of
+all 20 active catalogue apps and auxiliary surfaces. Documented recommended
+account boundaries for eight personal saved-record/features apps, six guest
+utilities, Satire Arena browser-identity limitations, and five existing restricted
+business apps. Includes Google/Android WebView, Hisabio offline retirement,
+server ownership/recovery and launch-copy requirements. Analysis only: no auth,
+storage, schema, production configuration or user data changed; no deployment.
+Report: docs/APP_SIGN_IN_AND_DATA_AUDIT_2026-11-15.md.
+
 DIGITAL SAMAJ dashboard aggregation cleanup (2026-11-15 IST): Node and Edge now
 parse each authorized person/family record once per dashboard response
 and reuse the decoded data while building existing counts and suppressed

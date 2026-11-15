@@ -5,7 +5,14 @@ const words={
 };
 const categories={nama:['Name mantras','नाम मंत्र','નામ મંત્ર'],vedic:['Vedic mantras','वैदिक मंत्र','વૈદિક મંત્ર'],prayer:['Prayers & salutations','प्रार्थना और वंदना','પ્રાર્થના અને વંદના'],scripture:['Scripture readings','शास्त्र पाठ','શાસ્ત્ર પાઠ'],peace:['Peace invocations','शांति पाठ','શાંતિ પાઠ'],navagraha:['Navagraha','नवग्रह','નવગ્રહ']};
 const topics={ganesha:['Ganesha','गणेश','ગણેશ'],shiva:['Shiva','शिव','શિવ'],vishnu:['Vishnu / Narayana','विष्णु / नारायण','વિષ્ણુ / નારાયણ'],rama:['Rama','राम','રામ'],krishna:['Krishna','कृष्ण','કૃષ્ણ'],hanuman:['Hanuman','हनुमान','હનુમાન'],durga:['Durga','दुर्गा','દુર્ગા'],lakshmi:['Lakshmi','लक्ष्मी','લક્ષ્મી'],saraswati:['Saraswati','सरस्वती','સરસ્વતી'],navagraha:['Navagraha','नवग्रह','નવગ્રહ'],gayatri:['Gayatri','गायत्री','ગાયત્રી'],guru:['Guru','गुरु','ગુરુ'],peace:['Peace','शांति','શાંતિ']};
+Object.assign(categories,{gayatri:['Gayatri mantras','गायत्री मंत्र','ગાયત્રી મંત્રો']});
+Object.assign(topics,{
+ brahma:['Brahma','ब्रह्मा','બ્રહ્મા'],devi:['Other Devi forms','देवी के अन्य स्वरूप','દેવીનાં અન્ય સ્વરૂપો'],
+ skanda:['Skanda / Murugan','स्कन्द / मुरुगन','સ્કંદ / મુરુગન'],nature:['Nature deities','प्रकृति के देवता','પ્રકૃતિનાં દેવતાઓ']
+});
 export function mantraMetadata(m){
+ if(m.id==='gayatri')return {categories:['vedic','gayatri'],topic:'gayatri'};
+ if(m.id==='reading-surya-gayatri')return {categories:['gayatri','prayer','navagraha'],topic:'navagraha'};
  if(m.categories)return {categories:m.categories,topic:m.topic};
  if(m.id.startsWith('navagraha-'))return {categories:['nama','navagraha'],topic:'navagraha'};
  if(m.id.startsWith('nama-'))return {categories:['nama'],topic:m.id.slice(5)};

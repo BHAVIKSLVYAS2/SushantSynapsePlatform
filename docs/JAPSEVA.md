@@ -1,3 +1,47 @@
+Reference cleanup (2026-11-15, local): removed per-card Sources & notes,
+comparison links and per-anuvaka source links from reading/practice screens.
+Unique text references remain under the existing closed Reading help section;
+recording credits/licences remain beside audio controls. Shorter three-language
+help/status copy; Sanskrit, source metadata, all 22 chapters and counts unchanged.
+Scope: docs/REFERENCE_CLEANUP_2026-11-15.md. Not deployed.
+
+Complete Shri Rudram (2026-11-15, local): added all eleven Namakam and eleven
+Chamakam anuvakas as one full reading, with chapter selection, previous/next,
+three-language summary meanings and Sanskrit/Roman/Gujarati script choices.
+The same reader works in practice. One count means one complete 22-anuvaka
+recitation; setup defaults to one, with mala shortcuts omitted for this entry.
+Records/certificates use the complete text's title and stable ID, preserving the
+existing storage limits/schema. The library now has 104 entries. Unaccented
+study edition; teacher recitation review pending. Source scope and verification:
+docs/JAPSEVA_RUDRAM_FULL_SOURCE_REVIEW.md. Not deployed.
+
+Rudrabhishek mantra additions (2026-11-15, local): added three chant entries,
+bringing the library to 103: Rudra Invocation (Om Namo Bhagavate Rudraya),
+Rudra Namaskara (Namaste Astu Bhagavan), and the first two riks of Namakam
+Anuvaka 1. Existing Shiva Panchakshara, Mahamrityunjaya and Rudra Gayatri stay
+canonical. Search accepts Rudrabhishek/Rudrabhishekam, Hindi and Gujarati;
+entries use the existing cards, Shiva topic, meanings, reading aids and practice
+action. No aarti or puja procedure is added. Deployment pending.
+
+The Namakam entry is explicitly an opening excerpt, not the entire first
+anuvaka or full Namakam–Chamakam. It follows Krishna Yajurveda, Taittiriya
+Samhita 4.5.1, riks 1–2, as numbered in the linked Advaita Vedanta study. The
+short invocation is a customary preface; Namaste Astu Bhagavan is accompanying
+praise printed after Anuvaka 1, not attributed to the numbered Samhita mantras.
+Traditional Sanskrit and original English/Hindi/Gujarati summaries are supplied;
+shared Roman/Gujarati conversions are unaccented aids, not Vedic pitch notation.
+Teacher recitation/pronunciation review remains pending. No new audio or schema.
+Sources: https://www.advaita-vedanta.org/series/shri_rudram/verses_from_the_shri_rudram-1.htm
+and https://ganeshatemple.org/wp-content/uploads/2020/02/Sri_Rudram_Namakam_Devanagari_Large.pdf.
+
+Gayatri expansion (2026-11-15, local): 60 new source-linked deity Gayatris;
+100 library entries in total, including 62 under the new Gayatri category.
+Existing Savitri/Surya IDs, practice records and three licensed recordings remain
+unchanged. New entries have original English/Hindi/Gujarati summaries and shared
+unaccented Roman/Gujarati script aids; no new recordings. See
+docs/JAPSEVA_GAYATRI_SOURCE_REVIEW_2026-11-15.md for scope, sources and admission
+limits. Deployment pending.
+
 Released 2026-11-15: source fc0f0a7, Worker
 8ad99e07-5674-4706-bb4a-b33a6dd7c50d. Consolidation, filters, one-toggle guides
 and WhatsApp request drafts below are deployed. Earlier local status notes are

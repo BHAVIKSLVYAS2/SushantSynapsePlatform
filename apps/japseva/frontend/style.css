@@ -226,4 +226,15 @@ body[data-ui-app=japseva]>.skip{position:absolute;top:-80px}body[data-ui-app=jap
 #main .library-filters select{font-size:14px}
 #main .library-filter-reset{grid-column:1/-1;justify-self:start;font-size:12px}
 #main #library .learning-copy>.mantra,#main #library .learning-copy>p,#main #library .reading-aid{white-space:pre-line}
+#main .chapter-reader{text-align:start;min-width:0;margin-block:16px}
+#main .chapter-reader label{display:grid;gap:6px;min-width:0;margin-block:12px}
+#main .chapter-reader select{width:100%;min-width:0;max-width:100%;min-height:44px}
+#main .chapter-navigation{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:12px;align-items:center;margin-block:12px}
+#main .chapter-navigation button{min-height:44px;min-width:0;padding:10px 12px;white-space:normal}
+#main .chapter-navigation p{margin:0;text-align:center;font-variant-numeric:tabular-nums}
+#main .chapter-reader .chapter-text{white-space:pre-line;overflow-wrap:anywhere;font-size:clamp(20px,4.8vw,24px);line-height:1.95;text-align:start;margin-block:20px}
+#main .chapter-reader .chapter-meaning,#main .reading-overview{line-height:1.8;text-align:start;overflow-wrap:anywhere}
+#main .chapter-reader h4{margin-block:16px 6px;scroll-margin-block-start:96px}
+#main .practice-session .counter-actions.recitation-actions{grid-template-columns:minmax(64px,1fr) minmax(100px,2fr)}
+#main .library-text-references a{display:block;min-height:44px;padding-block:10px;overflow-wrap:anywhere}
 @media(max-width:600px){#main #learn .library-filters{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#main .library-filters label:last-of-type{grid-column:1/-1}}
