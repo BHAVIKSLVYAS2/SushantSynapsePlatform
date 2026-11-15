@@ -10,7 +10,7 @@
  "routes":[{"pattern":"apps.sushantsynapse.com/*","zone_name":"sushantsynapse.com"}],
  "build":{"command":"node build.cjs --fullstack --organisations","cwd":"infrastructure/cloudflare"},
  "assets":{"directory":"./dist","binding":"ASSETS","html_handling":"none","not_found_handling":"none","run_worker_first":true},
- "vars":{"PUBLIC_ORIGIN":"https://apps.sushantsynapse.com","MAINTENANCE_MODE":"false","FREE_MODE":"true","AUTH_METHOD":"password","FULL_APPS":"true","ORGANISATIONS_ENABLED":"true"},
+ "vars":{"PUBLIC_ORIGIN":"https://apps.sushantsynapse.com","MAINTENANCE_MODE":"false","FREE_MODE":"true","AUTH_METHOD":"password","FULL_APPS":"true","ORGANISATIONS_ENABLED":"true","NISHI_AI_ENABLED":"false"},
  "d1_databases":[{"binding":"PLATFORM_DB","database_name":"synapse-platform-free-production","database_id":"4fd0fa38-63c1-46e0-8628-0841d8074dcf","migrations_dir":"d1-free-migrations"}],
  "ratelimits":[
   {"name":"CITY_LIMITER","namespace_id":"2026110701","simple":{"limit":120,"period":60}},

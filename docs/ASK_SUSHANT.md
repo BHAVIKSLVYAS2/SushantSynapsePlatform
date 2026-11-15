@@ -1,5 +1,16 @@
 # Ask Nishi
 
+Current local extension (15 November 2026): Nishi prepares reviewed Ritual
+Assist, JapSeva and Ritvayam drafts through `/api/nishi/plan`. Submitted text
+goes to our service; optional Workers AI processing requires explicit submission
+opt-in and server enablement. The user approved submitted text only, never
+automatic saved-record transfer. Cloudflare AI remains disabled in production
+configuration; no live inference, migration or deployment was performed.
+One-time app handoffs expire after five minutes and never automatically save
+requests or calculate charts. See [three-app workflows](NISHI_THREE_APP_WORKFLOWS.md)
+for verification, limits and activation steps. Earlier no-network statements
+below describe the previous implementation, not this local extension.
+
 Conversation presentation update (15 November 2026, local): added Nishi's
 decorative SVG avatar, greeting, suggested prompts, current question/reply
 bubbles and a bottom composer with labelled send icon. Local answering is

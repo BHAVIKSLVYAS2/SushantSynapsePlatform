@@ -28,7 +28,7 @@ test('reviewed collection is owned by JapSeva and no longer mounted in Ritual Pr
  for(const file of ['shloki.mjs','shloki-view.mjs','shloki-content.mjs'])assert.equal(staticAssets['/ritual-assist/'+file],undefined);
  assert.doesNotMatch(fs.readFileSync('apps/ritual-assist/frontend/app.js','utf8'),/mountShloki|shloki\.restore/);
  const {mantras}=await import('../apps/japseva/frontend/library.mjs'),{shlokas}=await import('../apps/japseva/frontend/shloki-content.mjs'),{migratedReadingId}=await import('../apps/japseva/frontend/reading-mantras.mjs');
- assert.equal(mantras.length,40);
+ assert.ok(mantras.length>=40,'Reviewed readings remain included as the mantra library expands');
  for(const s of shlokas){const m=mantras.find(m=>m.id===migratedReadingId(s.id));assert.ok(m,s.id);if(!['mahamrityunjaya','purnamadah'].includes(s.id)){assert.equal(m.text,s.verses.map(v=>v.sanskrit).join('\n\n'));assert.equal(m.sourceUrl,s.source.url);assert.equal(m.verseCount,s.verses.length);}}
  assert.equal(mantras.filter(m=>m.id==='mahamrityunjaya').length,1);assert.equal(mantras.filter(m=>m.id==='purnamadah').length,1);
 });

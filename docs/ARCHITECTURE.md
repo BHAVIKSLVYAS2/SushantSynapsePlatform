@@ -1503,3 +1503,11 @@ Shared footer language: `packages/ui/language.js` remembers English/Hindi in dev
 Satire Arena at `/satire-arena` (alias `/arena`) is a public app owned by `apps/satire-arena`. Cloudflare serves its static page and proxies the API to app-owned Node routes, which reuse the ballot validation/identity contract in `backend/edge.mjs`. Its `satire` SQL schema stores all three historical ballot generations and a latest-ballot scoreboard view in the same platform database. Voting remains browser-based and informal, independent of account/person verification. A dedicated empty-target importer preserves D1 history and identities without replacing other apps; the existing signing secret must be transferred privately. Current live D1/deployment remains unchanged until verified cutover. Preview cannot proxy production votes; explicit legacy D1 mode remains for controlled migration. See `apps/satire-arena/README.md` and `docs/SQLSERVER_MIGRATION.md`.
 
 Arena expansion (2026-10-10): six characters and six reactions share `frontend/catalogue.mjs`. Garland/Applause count as Fans, Shoe/Middle finger/Tomato as Critics, and Just laughing as Amused. New characters use original code-authored SVG artwork, with no added external assets/services. Additive `002-expanded-arena.sql` preserves the original vote table and introduces expanded ballots plus a latest-ballot view. Atomic batches replace legacy votes on changes and remove both storage generations on deletion. The view deduplicates deployment-overlap ballots by timestamp and prioritizes expanded storage on ties. Apply both schema files to fresh development databases. Existing browser identities, signing secret, rate limits and IST rounds are unchanged.
+Nishi three-app drafts (2026-11-15, local): packages/nishi owns canonical intent
+validation and the expiring one-time handoff. apps/portal/backend/nishi.mjs owns
+the public, bounded draft endpoint composed by Node and Workers. Destination
+apps retain review, persistence and calculation ownership. Only explicitly
+submitted text may reach optional Workers AI; saved records are never read for
+this purpose. D1 migration 0011 adds aggregate call accounting only. Production
+AI flag remains false; implementation and verification boundaries are recorded
+in docs/NISHI_THREE_APP_WORKFLOWS.md.

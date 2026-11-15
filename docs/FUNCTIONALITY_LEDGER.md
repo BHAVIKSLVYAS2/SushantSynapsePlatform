@@ -10882,3 +10882,28 @@ has UTF-8 BOM and all four verses. Local organisation-mode frontend export passe
 (650 assets), including all three new reader modules; syntax/diff checks pass.
 Source comparison does not claim independent Sanskrit-scholar or accent/recitation
 certification. No production access, deployment, database or schema changes.
+Nishi three-app drafts (2026-11-15 IST, local; not committed/deployed): Ritual
+Assist offers canonical guide/materials and explicitly applied draft date;
+JapSeva prefills a reviewed client/mantra/target request without creating any
+record; Ritvayam prefills supplied birth details without calculating a chart.
+Only user-submitted text is processed, as explicitly approved; saved records
+are never automatically uploaded. Session handoff is one-time and expires in
+five minutes. Optional Workers AI adapter is implemented and mocked tests pass,
+but production flag remains false and no live model inference was performed.
+Migration 0011 is prepared, not applied. Pilot limits: 6 AI requests/minute/IP,
+50 attempted model calls/day/service, 350 output tokens; local fallback on
+provider/quota failures. No production changes or business-data writes.
+Verification: 6 Nishi, 6 JapSeva, 4 reading-catalogue and 5 birth UI tests pass;
+2 browser workflows pass including all three handoffs and 27 Nishi language/
+theme/viewport cases. Library-size test now allows catalogue growth without
+dropping preserved-reading checks. Frontend build: 729 assets; production
+Wrangler dry run and diff check pass. Live model quality/activation remain
+pending. Details: docs/NISHI_THREE_APP_WORKFLOWS.md; local evidence:
+.publish/nishi-three-apps-final/ and .publish/nishi-three-apps-dryrun/.
+Nishi cost-guarded release preparation (2026-11-15 IST): user authorised commit
+and deployment with no AI cost. Production omits AI and Nishi limiter bindings
+and explicitly disables NISHI_AI_ENABLED. Even submitted useAI:true cannot call
+a model without its binding; regression test covers this boundary. All three
+draft workflows use deterministic extraction. Migration 0011 is not needed or
+applied for this release. No paid plan or service is enabled. Existing hosting
+account billing is outside this implementation's verification scope.
