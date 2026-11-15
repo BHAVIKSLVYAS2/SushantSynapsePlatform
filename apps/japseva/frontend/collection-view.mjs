@@ -1,5 +1,6 @@
 import {mantras} from './library.mjs';
 import {audioPractice} from './audio-practice.mjs';
+import {audioText} from './audio-copy.mjs';
 import {learningCopy,soundRows} from './learning-copy.mjs';
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
 export function mountCollection(learn,onSaved){
@@ -17,7 +18,7 @@ export function mountCollection(learn,onSaved){
    const tools=el('div',undefined,'audio-tools'),repeat=el('label'),check=el('input');check.type='checkbox';repeatLabel=el('span');repeat.append(check,repeatLabel);check.onchange=()=>audio.loop=check.checked;
    const speedWrap=el('label'),speed=el('select');speedLabel=el('span');speedWrap.append(speedLabel,speed);for(const v of [.75,1])speed.append(new Option(v+'×',v,v===1,v===1));speed.onchange=()=>audio.playbackRate=Number(speed.value);tools.append(repeat,speedWrap);
    const credit=el('p',undefined,'muted'),reference=el('a',m.recording.creator+' · Wikimedia Commons'),licence=el('a',m.recording.licence);reference.href=m.recording.source;licence.href=m.recording.licenceUrl;credit.append(reference,' · ',licence,' · '+m.recording.changes);audioNote=el('p',undefined,'muted');player.append(audio,tools,credit,audioNote);card.append(player);const session=audioPractice(audio,m.id,onSaved);player.append(session.element);sessions.push(session);
-   cards.push({m,card,heading,meaningTitle,meaning,romanTitle,aidTitle,aid,source,audio,repeatLabel,speedLabel,speed,audioNote,session});
+   cards.push({m,card,player,tools,credit,heading,meaningTitle,meaning,romanTitle,aidTitle,aid,source,audio,repeatLabel,speedLabel,speed,audioNote,session});
   }else{unavailable=el('p',undefined,'muted');copy.append(unavailable);cards.push({m,card,heading,meaningTitle,meaning,romanTitle,aidTitle,aid,source,unavailable});}
  }
  function filter(){const query=search.value.trim().toLocaleLowerCase();let count=0;for(const row of cards){const m=row.m,match=!query||[...Object.values(m.names),...Object.values(m.meanings),m.text,m.transliteration,...Object.values(m.aids)].join(' ').toLocaleLowerCase().includes(query);if(!match&&!row.card.hidden){row.audio?.pause();row.session?.stop();}row.card.hidden=!match;if(match)count++;}status.textContent=`${count} / ${mantras.length} ${learningCopy[language].count}`;empty.hidden=count>0;}
@@ -27,5 +28,7 @@ export function mountCollection(learn,onSaved){
  }
  search.oninput=filter;clear.onclick=()=>{search.value='';filter();search.focus();};script.onchange=translate;
  window.addEventListener('synapse-language-change',event=>{const next=event.detail?.language;if(learningCopy[next]){language=next;script.value=next;translate();}});translate();
- return {sessions,reveal(id){const row=cards.find(c=>c.m.id===id);if(!row)return false;search.value='';filter();row.card.scrollIntoView({block:'start'});return true;}};
+ let docked=null;
+ for(const row of cards)row.audio?.addEventListener('play',()=>{for(const other of cards)if(other!==row&&other.audio&&!other.audio.paused){other.audio.pause();other.session.stop();}});
+ return {sessions,setPractice(host,request){const row=request&&cards.find(c=>c.m.id===request.mantraId&&c.audio&&c.m.text.normalize().replace(/\s+/g,' ').trim()===request.mantra.normalize().replace(/\s+/g,' ').trim());const key=row?request.id:null;if(docked?.key===key)return;if(docked){const old=docked.row;old.session.stop();old.audio.controls=true;old.session.setContext(false);for(const node of [old.tools,old.credit,old.audioNote])old.player.insertBefore(node,old.session.element);old.card.append(old.player);docked=null;}host.replaceChildren();host.hidden=!request;if(!request)return;if(!row){host.append(el('p',audioText('No matching recording for this text. You can still count.',language),'muted'));return;}row.session.stop();row.audio.controls=false;row.session.setContext(true);row.session.settings.append(row.tools,row.credit,row.audioNote);host.append(row.player);docked={key,row};},reveal(id){const row=cards.find(c=>c.m.id===id);if(!row)return false;search.value='';filter();row.card.scrollIntoView({block:'start'});return true;}};
 }

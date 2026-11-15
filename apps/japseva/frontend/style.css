@@ -120,3 +120,24 @@ body[data-ui-app=japseva]>.skip{position:absolute;top:-80px}body[data-ui-app=jap
 #main .reading-aid{line-height:1.9;overflow-wrap:anywhere;padding:12px;background:var(--ui-soft);border-radius:10px}
 #main .collection-controls+.empty{margin-bottom:20px}
 @media(max-width:600px){#main .collection-controls{grid-template-columns:minmax(0,1fr);gap:12px}}
+
+/* Audio belongs to the active practice, outside the counter's redraw region. */
+#main .practice-context{max-width:720px;margin:0 auto 12px}
+#main .practice-context .tag{text-transform:none;font-size:13px;letter-spacing:0}
+#main .practice-context h2{font-family:Georgia,'Nirmala UI',serif;font-size:32px;margin:2px 0;line-height:1.25}
+#main .practice-context .practice-mantra-name{margin:4px 0;color:var(--ui-muted)}
+#main #practice-audio{max-width:720px;margin:0 auto 12px;border-block:1px solid var(--ui-edge);padding:10px 0}
+#main #practice-audio .learning-audio{border:0;padding:0}
+#main #practice-audio audio{display:none}
+#main #practice-audio .audio-practice{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 10px;padding:0;margin:0;border:0}
+#main #practice-audio .audio-practice h4{font-size:14px;grid-column:1;margin:0}
+#main #practice-audio .audio-practice output{font-size:12px;grid-column:2;text-align:end;margin:0;color:var(--ui-muted)}
+#main #practice-audio .audio-practice>button{margin:0;min-height:48px}
+#main #practice-audio .audio-practice>button:first-of-type{background:var(--ui-accent);color:var(--ui-on-accent);border-color:var(--ui-accent)}
+#main #practice-audio .audio-practice>p{grid-column:1/-1;margin:0;font-size:12px;min-height:0}
+#main #practice-audio .audio-practice>p:last-of-type{color:var(--ui-muted)}
+#main #practice-audio :is(.practice-audio-settings,.practice-recording-details){grid-column:1/-1;padding:0;border:0;background:transparent;margin:0}
+#main #practice-audio summary{min-height:44px;padding:8px 0;font-size:12px;color:var(--ui-muted)}
+#main #practice-audio .audio-tools>label:first-child{display:none}
+#main #practice-audio .practice-audio-settings label{max-width:240px}
+#main .practice-dial{animation:none}

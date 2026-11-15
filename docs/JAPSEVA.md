@@ -1,3 +1,10 @@
+Practice audio follow-up (2026-11-15, local): repeat/pause now belongs to the
+active request alongside its counter. Meanings and pronunciation expand inline.
+One persistent player survives counter redraws and language changes; leaving
+practice stops it. Audio remains separate from japa/certificates. Exact text must
+match the verified recording. See JAPSEVA_PRACTICE_AUDIO_2026-11-15.md for design,
+verification and the installed external frontend-design skill. Not deployed yet.
+
 Collection follow-up (2026-11-15, deployed source 1b80b63): eight searchable entries, English/
 Hindi/Gujarati meanings and independently selected Roman/Devanagari/Gujarati
 reading aids. Audio controls and sound guide follow app language. Three verified

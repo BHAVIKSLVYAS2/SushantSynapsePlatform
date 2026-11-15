@@ -1,3 +1,19 @@
+JapSeva current-practice audio (2026-11-15 IST, local): added Play mantra on
+repeat / Pause directly to the active request, with repeat target, reset, speed
+and credits in one Audio settings disclosure. Meanings/pronunciation now expand
+inline below counting controls. The existing player/session lives outside the
+counter redraw subtree: counting and language changes retain playback; leaving
+practice stops and restores it to the library. Audio still does not increment
+client japa or certificate eligibility. Exact normalized text must match the
+licensed recording; edited/custom/unrecorded texts retain a usable manual counter.
+Five model checks, all 9 prior browser workflows and 1 new permanent continuity
+regression pass. CLI passes 27 language/theme/width cases plus repeat completion,
+manual counting during playback, language switching during playback, pause/exit,
+recording selection and unavailable/edited safeguards. Build exports 707 assets.
+No schema/data changes; not committed/deployed. Review and evidence:
+docs/JAPSEVA_PRACTICE_AUDIO_2026-11-15.md. Installed Anthropic frontend-design via
+system skill-installer after online/source review; available on the next turn.
+
 Kundali/JapSeva combined release deployed (2026-11-15 IST): source 1b80b63,
 Worker 3c8ab073-c8e4-45b7-afec-0de58b9df4b4, at
 https://apps.sushantsynapse.com/rashifal-kundli and /japseva. Includes the
