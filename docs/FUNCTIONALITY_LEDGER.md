@@ -1,3 +1,22 @@
+Home pin/rearrange (2026-11-15 IST, local, uncommitted): added Edit layout/Done,
+pin/unpin, pointer drag handles with edge scrolling, earlier/later button
+alternatives, Escape exit and Reset layout. One card per app; pins sort first
+within their existing public/workspace grid. Validated device-only preference
+stores known unique IDs, appends new cards and tolerates unavailable storage.
+Registry/static and hydrated defaults place JapSeva fourth and Satire Arena
+immediately after Kiraya Saathi. Search/categories and Comfort/Compact views
+retain the arrangement. English/Hindi/Gujarati controls use shared language;
+themes use existing tokens. No permissions, account favourites or business-data
+changes. Verification: four catalogue tests pass; four distinct browser workflows
+pass across initial/final runs, including real pointer drag, pin/button reorder,
+reload/reset/filtering, storage denial, translated controls and the existing
+36-case language/theme/width Comfort matrix plus Compact persistence. Fixed a
+redundant language-mutation repaint found during the initial matrix run; rerun
+passes. Inspected the 390px editor screenshot; no horizontal overflow in tested
+320/390/768 widths. Build:ui, syntax and diff checks pass. Evidence:
+.publish/home-layout-final/ and .publish/home-layout-final-interaction/.
+Not committed or deployed, as requested.
+
 JapSeva expanded library/reference cleanup deployed (2026-11-15 IST): source
 5b4e62f, Worker a9ed0bb7-8af6-474c-a043-88963451e4f9 at
 https://apps.sushantsynapse.com/japseva. Includes 104 library entries, 60 added

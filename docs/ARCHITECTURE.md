@@ -1,3 +1,11 @@
+Home layout preferences (2026-11-15, local): portal home-discovery owns device-only
+pin/order preferences under synapse-home-layout-v1, validated against current
+visible cards. Public and restricted workspace grids remain separate; no access,
+account favourites or business records change. Registry owns the default order:
+JapSeva fourth and Satire Arena immediately after Kiraya Saathi. Edit layout
+provides pointer dragging and accessible earlier/later buttons, pin/unpin, reset,
+translated controls and an in-memory fallback when storage is unavailable.
+
 Shloki consolidation (2026-11-15, local): apps/japseva/frontend now owns the
 source-reviewed shloki-content.mjs, reading adapters, script conversion and
 library filter metadata/UI. Ritual Prep no longer mounts a reader or exposes

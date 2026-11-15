@@ -1,6 +1,9 @@
 # Curio · Sushant Synapse
 
 The collection groups tools by task in one searchable app catalogue.
+Home's Edit layout lets visitors pin and rearrange cards in each grid, with
+drag handles or earlier/later buttons. The arrangement stays on this device;
+Reset layout restores the default. See the ledger for release status.
 Hisabio includes optional household items, warranties, servicing and renewals;
 Kiraya Saathi includes property equipment and maintenance. These apps keep
 separate browser records. [Consolidation scope](docs/COLLECTION_CONSOLIDATION.md).

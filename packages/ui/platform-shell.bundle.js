@@ -56,6 +56,9 @@ for(const app of apps)app.groups=Object.entries(collectionGroups).filter(([,ids]
 const featuredOrder=['ritual-assist','moment-studio','daily-spark','satire-arena'];
 for(const app of apps){const rank=featuredOrder.indexOf(app.id);app.featured=rank>=0;if(app.featured)app.homeOrder=rank-featuredOrder.length;}
 const featuredApps=()=>featuredOrder.map(id=>apps.find(a=>a.id===id)).filter(Boolean);
+// Default launcher order; personal arrangements are presentation preferences only.
+const homeOrder=['ritual-assist','moment-studio','daily-spark','japseva','rozhisab','kiraya-saathi','satire-arena'];
+for(const app of apps){const rank=homeOrder.indexOf(app.id);if(rank>=0)app.homeOrder=rank-20;}
 for(const app of apps.filter(a=>a.catalogueParent)){const parent=apps.find(a=>a.id===app.catalogueParent);if(parent)Object.assign(app,{art:parent.art,purpose:parent.purpose,groups:parent.groups});}
 const visibleApps=()=>apps.filter(a=>!a.catalogueParent&&!a.catalogueHidden).slice().sort((a,b)=>a.homeOrder-b.homeOrder);
 // One search vocabulary for the launcher and the shared app switcher.
