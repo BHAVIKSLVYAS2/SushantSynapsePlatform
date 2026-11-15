@@ -1,6 +1,8 @@
 # JapSeva practice audio — 15 November 2026
 
-Implemented locally; not committed or deployed.
+Deployed source `a7d45fb` to https://apps.sushantsynapse.com/japseva.
+Worker version: `dbb9da7f-c455-4059-a12a-5a9b3f454117`.
+Deployment preserved existing environment variables with `--keep-vars`.
 
 The previous flow exposed counted playback only in the learning library. The
 practice action left the request to reach meaning/audio, so people could not
@@ -58,7 +60,16 @@ Verification:
   missing recordings and edited-text rejection.
 - Production build exports 707 assets; whitespace check passes. Verification
   uses Chrome, isolated test storage and synthetic local records; no production
-  business writes or deployment were performed.
+  business writes were performed.
+
+Production verification: all 19 route/asset checks pass, including 14 exact asset
+comparisons and preserved private API boundaries. The live browser passes all
+27 language/theme/width cases and the playback/counting/language/navigation
+checks above. Synthetic records exist only in the isolated browser profile;
+non-GET API requests were blocked. Console messages include the existing CSP
+block on Cloudflare analytics and the intentionally blocked visitor write.
+Release evidence: `.publish/practice-audio-release-{deploy.log,live.json}` and
+`.publish/japseva-current-audio-live-review.log`.
 
 Evidence: `.publish/japseva-practice-audio-{model,browser-final,regression,build}.log`,
 `.publish/japseva-current-audio-final-review.log`, and

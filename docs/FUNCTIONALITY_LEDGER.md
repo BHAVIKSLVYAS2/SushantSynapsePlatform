@@ -1,4 +1,4 @@
-JapSeva current-practice audio (2026-11-15 IST, local): added Play mantra on
+JapSeva current-practice audio (2026-11-15 IST, deployed source a7d45fb): added Play mantra on
 repeat / Pause directly to the active request, with repeat target, reset, speed
 and credits in one Audio settings disclosure. Meanings/pronunciation now expand
 inline below counting controls. The existing player/session lives outside the
@@ -10,7 +10,10 @@ Five model checks, all 9 prior browser workflows and 1 new permanent continuity
 regression pass. CLI passes 27 language/theme/width cases plus repeat completion,
 manual counting during playback, language switching during playback, pause/exit,
 recording selection and unavailable/edited safeguards. Build exports 707 assets.
-No schema/data changes; not committed/deployed. Review and evidence:
+No schema/data changes. Deployed with --keep-vars; Worker
+dbb9da7f-c455-4059-a12a-5a9b3f454117. Live verification passes 19 route/asset checks
+and all 27 browser layout cases plus playback/counting/language/navigation checks.
+No production business writes. Review and evidence:
 docs/JAPSEVA_PRACTICE_AUDIO_2026-11-15.md. Installed Anthropic frontend-design via
 system skill-installer after online/source review; available on the next turn.
 
