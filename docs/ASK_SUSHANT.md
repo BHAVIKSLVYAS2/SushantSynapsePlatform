@@ -1,5 +1,13 @@
 # Ask Nishi
 
+Home trigger polish (16 November 2026, local): the existing entry now uses a
+primary pill, Nishi's shared SVG avatar and a small sparkle. Shared theme tokens
+control its surface, ink and glow; a 700ms entrance respects reduced motion.
+The button remains beside Edit layout with no added floating control or popup.
+Its accessible name stays translated Ask Nishi; AI availability and processing
+are unchanged. Two browser regressions and 27 trigger layout checks pass;
+build:ui and syntax/diff checks pass. Not committed or deployed.
+
 Production release (15 November 2026): three-app local draft workflows deployed
 from source 893d46a, Worker 9e9d672c-17d8-4762-b692-10fe8948359e. AI binding
 is absent and the enable flag is false. Live capability and forced-AI request

@@ -1,3 +1,38 @@
+Ask Nishi home button polish (2026-11-16 IST, local): replaced the quiet outlined
+chat entry with a primary pill, the existing Nishi SVG avatar, a decorative
+sparkle and theme-token lighting. One brief entrance animation, hover/press
+feedback and a reduced-motion override. Preserves the translated accessible
+name, native dialog, explicit AI-connection status, catalogue remount lifecycle
+and existing local/optional-provider processing boundary. No provider activation
+or costs. UI/UX Pro Max and frontend-design skills applied; inspected 390px
+light/dark/deep screenshots. Two existing browser regressions pass (Nishi modal,
+focus/languages/themes and pin/order/edit flow). Separate review passes all 27
+English/Hindi/Gujarati x theme x 320/390/768 layouts: no overflow or clipped
+label, 52px toolbar stays on one row, reduced motion disables sparkle animation.
+build:ui, syntax and diff checks pass. Evidence: .publish/nishi-trigger-polish/
+and .publish/nishi-button-{light,dark,deep}.png. Not committed or deployed.
+Earlier uncommitted audio-demo ledger entries remain preserved.
+
+Free Gayatri AI attempt (2026-11-15 IST): user requested the same free demo.
+Submitted the existing JapSeva Gayatri text in plain-recitation gadya mode;
+the initial endpoint returned a generic error. One standard queue retry exposed
+the cause: ZeroGPU requires 180 seconds, but only 163 seconds of free allocation
+remain, with reset reported in about 24 hours. No Gayatri WAV was generated;
+no paid compute, credentials, quota bypass or production integration used.
+Error evidence: .publish/mantra-ai-demo/gayatri-queue-result.json. The earlier
+Shiva sample remains intact. No automatic future retry has been scheduled.
+
+Free AI mantra test (2026-11-15 IST, local artifact only): user explicitly
+requested a free demo. Submitted only the public text Om Namah Shivaya to
+prathoshap/vagdhenu-demo through its public unauthenticated Gradio endpoint,
+meter gadya, seed 60. The free demo completed successfully and returned a WAV;
+downloaded to .publish/mantra-ai-demo/om-namah-shivaya-ai-test.wav (64,268 bytes,
+24 kHz mono PCM16, 1.338 seconds). RIFF/format/data structure and non-silence
+verified; pronunciation and musical quality have not been reviewed. Original
+response/provenance retained beside the sample in ignored .publish/. No billing
+credentials, paid compute, subscription or production app integration used.
+No production change, database write, commit or deployment for this test.
+
 Collection reference cleanup deployed (2026-11-15 IST): source 5a007e8, Worker
 2e4bc326-8bda-4f3c-9dc6-3e718c644ae0 at apps.sushantsynapse.com. Live browser
 passes legacy Sources URL normalisation, six bilingual phone/tablet layouts,
