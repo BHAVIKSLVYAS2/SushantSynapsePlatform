@@ -1,3 +1,14 @@
+Unused JS/CSS cleanup (2026-11-16 IST, local): rechecked tracked app/shared
+duplicates and earlier retired-component candidates. Removed obsolete JapSeva
+Library-only audio/badge/settings/reference CSS; retained current practice audio
+and pronunciation styling. Source CSS saves 1,379 bytes; Lightning CSS minified
+output saves 1,351 bytes. No whole JS module proved safely deletable; tiny care
+engine compatibility wrappers and generated bundles/route aliases remain.
+Three existing isolated browser regressions pass: responsive themes, practice
+repeat audio/counting/language changes, and uncluttered Library/phone themes.
+CSS parsing/minification passes. No commit, deployment or user-data changes.
+Details: docs/UNUSED_JS_CSS_CLEANUP_2026-11-16.md.
+
 Ask Nishi button deployed (2026-11-16 IST): source 03c40bb, Worker
 d5be7bad-b67b-4996-9866-c09a5d4b0154 at apps.sushantsynapse.com. Avatar,
 primary pill, decorative sparkle and reduced-motion support are live. Live

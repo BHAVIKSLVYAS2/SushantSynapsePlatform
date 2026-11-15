@@ -161,7 +161,7 @@ body[data-ui-app=japseva]>.skip{position:absolute;top:-80px}body[data-ui-app=jap
 #main .library-row-copy{display:block;flex:1;min-width:0}
 #main #library .library-row-copy h3{font-size:16px;line-height:1.5;margin:0 0 3px;font-weight:650}
 #main .library-snippet{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--ui-muted);font-size:14px;font-weight:400}
-#main .library-audio-badge{font-size:12px;color:var(--ui-accent);font-weight:500}
+
 #main #library .library-guide-body{padding:20px;max-width:760px;margin:auto}
 #main #library .library-use{background:var(--ui-accent);color:var(--ui-on-accent);border-color:var(--ui-accent);margin-bottom:12px;min-height:48px}
 #main #library .learning-copy>.mantra{font-size:23px;line-height:1.9;margin:12px 0 20px}
@@ -170,13 +170,10 @@ body[data-ui-app=japseva]>.skip{position:absolute;top:-80px}body[data-ui-app=jap
 #main #library .library-guide-body details{margin:12px 0 0;padding:0;border:0;border-radius:0;border-top:1px solid var(--ui-edge);background:transparent}
 #main #library .library-guide-body summary{min-height:48px;margin:0;padding:12px 0;font-size:14px}
 #main #library .library-guide-body details[open]>summary{border:0;margin-bottom:4px}
-#main #library .learning-audio{border:0;padding:0;margin:4px 0 20px}
-#main #library audio{width:100%;height:48px}
-#main #library .audio-practice{border:0;padding:0;margin:0}
 #main .library-help{margin-top:16px;padding:0;border:0;background:transparent}
 #main .library-help>summary{color:var(--ui-muted);font-weight:500}
 #main .library-help .sound-guide{border:0;padding:0;background:transparent}
-@media(max-width:600px){#main.library-mode{padding-top:12px}#main.library-mode .intro h1{font-size:24px}#main #library .library-guide>summary{padding:14px;gap:8px;min-height:84px}#main #library .library-guide-body{padding:16px}#main .library-use{width:100%}#main .library-audio-badge{font-size:11px}}
+@media(max-width:600px){#main.library-mode{padding-top:12px}#main.library-mode .intro h1{font-size:24px}#main #library .library-guide>summary{padding:14px;gap:8px;min-height:84px}#main #library .library-guide-body{padding:16px}#main .library-use{width:100%}}
 @media(prefers-reduced-motion:reduce){#main #library .library-guide>summary{transition:none}}
 
 #main #library .library-guide>summary:focus-visible{outline-offset:-3px}
@@ -189,21 +186,8 @@ body[data-ui-app=japseva]>.skip{position:absolute;top:-80px}body[data-ui-app=jap
 #main details[open]>summary::after{transform:rotate(225deg)}
 #main #library .library-guide>summary::after{margin-inline-start:4px}
 #main #library .library-guide-body>section,#main #library .learning-copy>section{margin:16px 0 0;border-top:1px solid var(--ui-edge);padding-top:12px}
-#main #library .library-pronunciation>h4:first-child,#main #library .library-reference>h4:first-child,#main #library .library-audio-settings>h4:first-child{font-size:15px;margin:0 0 12px}
-#main #library .library-audio-settings{padding-top:12px;margin-top:12px;border-top:1px solid var(--ui-edge)}
+#main #library .library-pronunciation>h4:first-child{font-size:15px;margin:0 0 12px}
 #main #library .library-pronunciation>label{max-width:22rem}
-#main #library .library-reference p{font-size:12px}
-#main #library .audio-practice>h4{display:none}
-#main #library .audio-practice{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-#main #library .audio-practice>label{flex:1 1 100%;margin:4px 0}
-#main #library .audio-practice>output{flex:1 1 100%}
-#main #library .audio-practice>p{flex:1 1 100%;margin:4px 0}
-#main #library .audio-tools{gap:12px;align-items:center}
-
-#main #library .audio-practice>output{font-size:15px;line-height:1.5;margin:0;font-weight:600}
-#main #library .audio-practice>label{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:13px}
-#main #library .audio-practice>label input{width:7rem;flex:0 0 7rem}
-#main #library .audio-practice>p.muted{display:none}
 
 #main .collection-controls{position:relative}
 #main #learn .mantra-request-trigger{margin:4px 0 8px;min-height:44px;font-size:13px;color:var(--ui-accent)}
@@ -253,5 +237,5 @@ body[data-ui-app=japseva]>.skip{position:absolute;top:-80px}body[data-ui-app=jap
 #main .chapter-reader .chapter-meaning,#main .reading-overview{line-height:1.8;text-align:start;overflow-wrap:anywhere}
 #main .chapter-reader h4{margin-block:16px 6px;scroll-margin-block-start:96px}
 #main .practice-session .counter-actions.recitation-actions{grid-template-columns:minmax(64px,1fr) minmax(100px,2fr)}
-#main .library-text-references a{display:block;min-height:44px;padding-block:10px;overflow-wrap:anywhere}
+
 @media(max-width:600px){#main .library-filter-dialog{width:100%;max-width:100%;max-height:calc(100dvh - 24px);margin:auto 0 0;border-radius:22px 22px 0 0;padding:20px 16px max(20px,env(safe-area-inset-bottom))}#main .library-filter-footer{bottom:calc(-1 * max(20px,env(safe-area-inset-bottom)));padding-bottom:max(16px,env(safe-area-inset-bottom))}#main .library-search-row input{padding-inline:10px}#main .library-search-row .library-filter-trigger{padding-inline:10px}}
