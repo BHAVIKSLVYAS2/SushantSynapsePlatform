@@ -1,5 +1,14 @@
 # Ritual Prep Shloki collection
 
+Ownership update, 2026-11-15 (local, not deployed): the reviewed collection now
+lives under apps/japseva/frontend/shloki-content.mjs. Ritual Prep's separate
+reader is removed. JapSeva includes 17 new guide entries; Mahamrityunjaya and
+Purnamadah reuse existing canonical entries with additional source references.
+All 19 reviewed readings remain represented; four-verse groups are intact and
+the two withheld texts remain excluded. Gujarati summaries/script aids are new
+editorial additions, not part of the original source review. Historical reader
+and deployment descriptions below refer to the earlier implementation.
+
 Reviewed 2026-11-09 (Asia/Kolkata). Deployed from source `c236e68` as Worker
 `dc1fb966-74e8-4017-a1e5-5f042af381da`; production evidence is in the ledger.
 

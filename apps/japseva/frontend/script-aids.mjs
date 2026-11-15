@@ -1,0 +1,5 @@
+// Unaccented script conversion, not a pronunciation certification.
+const consonants=Object.fromEntries([...'कखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसहळ'].map((c,i)=>[c,['k','kh','g','gh','ṅ','c','ch','j','jh','ñ','ṭ','ṭh','ḍ','ḍh','ṇ','t','th','d','dh','n','p','ph','b','bh','m','y','r','l','v','ś','ṣ','s','h','ḷ'][i]]));
+const vowels={'अ':'a','आ':'ā','इ':'i','ई':'ī','उ':'u','ऊ':'ū','ऋ':'ṛ','ॠ':'ṝ','ऌ':'ḷ','ए':'e','ऐ':'ai','ओ':'o','औ':'au'},marks={'ा':'ā','ि':'i','ी':'ī','ु':'u','ू':'ū','ृ':'ṛ','ॄ':'ṝ','े':'e','ै':'ai','ो':'o','ौ':'au'},other={'ॐ':'Om','ं':'ṃ','ँ':'m̐','ः':'ḥ','ऽ':'’','।':'·','॥':'॥'};
+export function romanize(text){return [...text].map((c,i,chars)=>consonants[c]!==undefined?consonants[c]+(chars[i+1]==='्'||marks[chars[i+1]]!==undefined?'':'a'):c==='्'?'':marks[c]??vowels[c]??other[c]??(/[०-९]/.test(c)?String(c.codePointAt(0)-0x966):c)).join('');}
+export function gujaratiScript(text){return [...text].map(c=>{const n=c.codePointAt(0);return n>=0x904&&n<=0x94d||n===0x950||n===0x902||n===0x903||n===0x901||n>=0x966&&n<=0x96f?String.fromCodePoint(n+0x180):c;}).join('');}

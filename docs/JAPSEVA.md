@@ -1,3 +1,35 @@
+Collection consolidation (2026-11-15, local): JapSeva now owns the 19 reviewed
+Shloki readings in shloki-content.mjs. Seventeen become new entries; existing
+Mahamrityunjaya/Purnamadah IDs remain canonical, with the additional references
+retained. The library has 40 unique entries. Complete four-verse Gita/Bhagavata
+groups, Sanskrit, English/Hindi meanings and source locators are preserved.
+Gujarati editorial summaries and unaccented Roman/Gujarati script conversions
+complete the existing guide format; teacher pronunciation review remains pending.
+The two previously unverified readings remain excluded. No new audio.
+
+Category, deity/topic and audio filters combine with search. Category options:
+name mantras, Vedic mantras, prayers/salutations, scripture readings, peace
+invocations and Navagraha. Reset/empty states clear filters. Guide entries retain
+one disclosure and the existing client-practice action. Old Shloki query links
+are forwarded by the Ritual Prep library link to the matching JapSeva reading;
+duplicate aliases open their existing entry. Ritual Prep's separate reader and
+public reader assets are removed. Records/storage schemas are unchanged.
+Not deployed yet.
+
+Mantra requests (2026-11-15, local): Request a mantra opens a short modal with
+name and optional text/reference. Continue to WhatsApp prepares a message to the
+platform's existing +91 78741 66009 contact; the user must press Send in WhatsApp.
+There is no automatic delivery, request database or automatic library publication.
+Drafts contain only entered suggestion content and the public JapSeva URL, never
+client practice data. English/Hindi/Gujarati supported. Not deployed yet.
+
+Disclosure follow-up (2026-11-15, local): one toggle per mantra. The opened guide
+shows text, meaning, pronunciation, audio controls and references as plain
+sections. Reading help also has one level. Consistent right-aligned CSS chevrons
+replace mixed native/glyph arrows throughout JapSeva; keyboard semantics remain
+native. Practice audio docking/restoration and client counts are unchanged.
+Verification is recorded at the top of the functionality ledger. Not deployed.
+
 Released 2026-11-15: source 67dfb82, Worker
 4b7659a0-ca0b-44c2-9560-6531562b0507. The library simplification and guide expansion
 below are live at https://apps.sushantsynapse.com/japseva. All 27 live library

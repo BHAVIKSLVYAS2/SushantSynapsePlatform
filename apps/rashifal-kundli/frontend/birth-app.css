@@ -131,3 +131,22 @@ fieldset.civil-input,.vedic-matching fieldset.civil-input{min-width:0;margin:0;p
 
 .vedic-birth-app :is(button,select,input,[tabindex]){scroll-margin-top:10rem}.vedic-birth-app .kundli-section-nav button{scroll-margin-top:5rem}
 @media(max-width:699px){.kundli-current-dasha h3{width:auto}.vedic-birth-app .kundli-current-dasha{padding:.5rem}.vedic-birth-app .kundli-current-dasha span{font-size:.75rem}}
+
+/* Consistent, right-aligned disclosure indicators and touch-sized headers. */
+.vedic-birth-page .vedic-birth-app details>summary{display:flex;align-items:center;gap:.75rem;min-height:48px;padding:.65rem .25rem;list-style:none;line-height:1.5;text-align:start;overflow-wrap:anywhere}
+.vedic-birth-page .vedic-birth-app details>summary::-webkit-details-marker{display:none}
+.vedic-birth-page .vedic-birth-app details>summary::marker{content:''}
+.vedic-birth-page .vedic-birth-app details>summary::after{content:'';display:block;box-sizing:border-box;width:8px;height:8px;border:solid currentColor;border-width:0 1.8px 1.8px 0;transform:rotate(45deg);margin-inline-start:auto;margin-inline-end:4px;flex:0 0 8px;align-self:center}
+.vedic-birth-page .vedic-birth-app details[open]>summary::after{transform:rotate(225deg)}
+.vedic-birth-page .vedic-birth-app .kundli-more-nav>summary{justify-content:center;gap:.5rem;padding:.6rem .75rem;border:1px solid transparent;font-size:inherit}
+.vedic-birth-page .vedic-birth-app .kundli-more-nav>summary::after{margin-inline-start:0}
+.vedic-birth-page .vedic-birth-app .kundli-more-nav[open]>summary{background:var(--ui-soft);color:var(--ui-accent);border-color:var(--ui-edge)}
+.vedic-birth-page .vedic-birth-app .kundli-more-nav>div{padding:.65rem;min-width:min(19rem,calc(100vw - 2rem));max-width:calc(100vw - 2rem)}
+.vedic-birth-page .vedic-birth-app .kundli-more-nav>div button{display:block;width:100%;min-height:48px;padding:.65rem .75rem;text-align:start;line-height:1.5}
+.vedic-birth-page .vedic-birth-app .kundli-more-nav>div h3{padding:.4rem .75rem;margin:0;font-size:.75rem;color:var(--ui-muted);font-weight:600}
+.vedic-birth-page .vedic-birth-app .saved-kundli-actions>summary{justify-content:center;width:48px;padding:.65rem;font-size:0}
+.vedic-birth-page .vedic-birth-app .saved-kundli-actions>summary::after{margin:0}
+.vedic-birth-page .vedic-birth-app .kundli-section-nav{align-items:stretch}
+.vedic-birth-page .vedic-birth-app .kundli-section-nav>button{min-height:48px}
+
+.vedic-birth-page .vedic-birth-app .kundli-more-nav>summary{white-space:nowrap;overflow-wrap:normal;gap:.35rem;padding:.5rem;font-size:.85rem}

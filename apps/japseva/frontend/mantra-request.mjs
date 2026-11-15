@@ -1,0 +1,18 @@
+import {whatsappLink} from '/shared/whatsapp-engine.mjs';
+const copy={
+ en:{request:'Request a mantra',title:'Suggest a mantra for the library',name:'Mantra name',notes:'Mantra text or reference link (optional)',send:'Continue to WhatsApp',close:'Close',help:'Your request opens in WhatsApp. Review the message and press Send to share it with our team.',ready:'Message prepared. Press Send in WhatsApp to deliver your request.',again:'Open WhatsApp again'},
+ hi:{request:'मंत्र जोड़ने का अनुरोध',title:'लाइब्रेरी के लिए मंत्र सुझाएँ',name:'मंत्र का नाम',notes:'मंत्र पाठ या संदर्भ लिंक (वैकल्पिक)',send:'WhatsApp पर आगे बढ़ें',close:'बंद करें',help:'अनुरोध WhatsApp में खुलेगा। संदेश देखें और हमारी टीम को भेजने के लिए Send दबाएँ।',ready:'संदेश तैयार है। अनुरोध भेजने के लिए WhatsApp में Send दबाएँ।',again:'WhatsApp फिर खोलें'},
+ gu:{request:'મંત્ર ઉમેરવાની વિનંતી',title:'લાઇબ્રેરી માટે મંત્ર સૂચવો',name:'મંત્રનું નામ',notes:'મંત્રનો પાઠ કે સંદર્ભ લિંક (વૈકલ્પિક)',send:'WhatsApp પર આગળ વધો',close:'બંધ કરો',help:'વિનંતી WhatsAppમાં ખુલશે. સંદેશ તપાસો અને અમારી ટીમને મોકલવા Send દબાવો.',ready:'સંદેશ તૈયાર છે. વિનંતી મોકલવા WhatsAppમાં Send દબાવો.',again:'WhatsApp ફરી ખોલો'}
+};
+const el=(tag,cls)=>{const n=document.createElement(tag);if(cls)n.className=cls;return n;};
+export function mountMantraRequest(host){
+ let language='en';const trigger=el('button','mantra-request-trigger'),dialog=el('dialog','mantra-request-dialog'),form=el('form'),header=el('div','mantra-request-heading'),title=el('h2'),close=el('button'),help=el('p','muted'),nameLabel=el('label'),nameText=el('span'),name=el('input'),notesLabel=el('label'),notesText=el('span'),notes=el('textarea'),send=el('button','mantra-request-send'),status=el('p','muted'),again=el('a');
+ trigger.type=close.type='button';send.type='submit';name.required=true;name.maxLength=120;name.autocomplete='off';notes.maxLength=800;notes.rows=4;title.id='mantra-request-title';dialog.setAttribute('aria-labelledby',title.id);dialog.setAttribute('data-language-preserve','');status.role='status';again.target='_blank';again.rel='noopener noreferrer';again.hidden=true;
+ header.append(title,close);nameLabel.append(nameText,name);notesLabel.append(notesText,notes);form.append(header,help,nameLabel,notesLabel,send,status,again);dialog.append(form);host.append(trigger);document.querySelector('#main').append(dialog);
+ function translate(){const t=copy[language];trigger.textContent=t.request;title.textContent=t.title;close.textContent=t.close;help.textContent=t.help;nameText.textContent=t.name;notesText.textContent=t.notes;send.textContent=t.send;again.textContent=t.again;if(!again.hidden)status.textContent=t.ready;}
+ trigger.onclick=()=>{dialog.showModal();name.focus();};close.onclick=()=>dialog.close();
+ form.onsubmit=event=>{event.preventDefault();if(!form.reportValidity())return;const value=name.value.trim();if(!value){name.setCustomValidity(copy[language].name);name.reportValidity();return;}const message=['JapSeva — Mantra library request','Mantra: '+value,notes.value.trim()?'Text / reference: '+notes.value.trim():'','From: https://apps.sushantsynapse.com/japseva'].filter(Boolean).join('\n\n');again.href=whatsappLink(message);again.hidden=false;status.textContent=copy[language].ready;again.click();};
+ const clearPrepared=()=>{again.hidden=true;again.removeAttribute('href');status.textContent='';};
+ name.oninput=()=>{name.setCustomValidity('');clearPrepared();};notes.oninput=clearPrepared;
+ const update=()=>{const next=window.SynapseLanguage?.get()||'en';language=copy[next]?next:'en';translate();};window.addEventListener('synapse-language-change',update);update();return {trigger,dialog};
+}

@@ -25,11 +25,12 @@ increment shares app-role definitions and filters/explains role choices; existin
 permissions and data remain intact. See the ledger for verification and release
 status.
 
-Ritual Prep's Shloki collection (deployed, 2026-11-09; source `c236e68`) adds 19 source-reviewed
-Sanskrit readings with optional English/Hindi meanings, larger text and separate
-text downloads. The supplied collection's incomplete verses/titles were reviewed;
-the Gita and Bhagavata four-verse groups are complete. Two unverified entries are
-excluded. [Source review](docs/SHLOKI_SOURCE_REVIEW_2026-11-09.md).
+The local Shloki consolidation moves the 19 source-reviewed Sanskrit readings
+into JapSeva's Mantra Library, with two existing entries merged for 40 unique
+guides. Category, deity/topic and audio filters combine with search. Gita and
+Bhagavata four-verse groups remain complete; two unverified texts stay excluded.
+Ritual Prep links to the unified library. See the ledger for release status and
+the [source review](docs/SHLOKI_SOURCE_REVIEW_2026-11-09.md).
 
 Sushant Synapse Times and Fund Lens are retired. Their old pages and APIs return
 404. The approved eight-table live-data purge completed on 14 November 2026;

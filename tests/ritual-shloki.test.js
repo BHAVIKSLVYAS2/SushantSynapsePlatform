@@ -22,9 +22,13 @@ test('each shloka exports Sanskrit, meaning and a recoverable source without mix
  const {shlokas,shlokaText}=await import('../apps/ritual-assist/frontend/shloki-content.mjs');
  for(const item of shlokas)for(const lang of ['en','hi']){const output=shlokaText(item,lang);for(const verse of item.verses){assert.ok(output.includes(verse.sanskrit));assert.ok(output.includes(verse.meaning[lang]));assert.ok(output.includes(verse.locator));}assert.ok(output.includes(item.source.url));assert.doesNotMatch(output,/arranged|arranger|checkmarks/i);}
 });
-test('Shloki assets are explicitly registered and the collection remains lazy and local',()=>{
+test('reviewed collection is owned by JapSeva and no longer mounted in Ritual Prep',async()=>{
  const fs=require('node:fs'),{staticAssets}=require('../server/static-assets');
- for(const file of ['shloki.mjs','shloki-view.mjs','shloki-content.mjs'])assert.equal(staticAssets['/ritual-assist/'+file],'apps/ritual-assist/frontend/'+file);
- const loader=fs.readFileSync('apps/ritual-assist/frontend/shloki.mjs','utf8');assert.match(loader,/import\('\.\/shloki-view\.mjs'\)/);
- for(const file of ['shloki.mjs','shloki-view.mjs','shloki-content.mjs'])assert.doesNotMatch(fs.readFileSync('apps/ritual-assist/frontend/'+file,'utf8'),/\b(fetch|localStorage|sessionStorage|speechSynthesis)\b/);
+ assert.equal(staticAssets['/japseva/shloki-content.mjs'],'apps/japseva/frontend/shloki-content.mjs');
+ for(const file of ['shloki.mjs','shloki-view.mjs','shloki-content.mjs'])assert.equal(staticAssets['/ritual-assist/'+file],undefined);
+ assert.doesNotMatch(fs.readFileSync('apps/ritual-assist/frontend/app.js','utf8'),/mountShloki|shloki\.restore/);
+ const {mantras}=await import('../apps/japseva/frontend/library.mjs'),{shlokas}=await import('../apps/japseva/frontend/shloki-content.mjs'),{migratedReadingId}=await import('../apps/japseva/frontend/reading-mantras.mjs');
+ assert.equal(mantras.length,40);
+ for(const s of shlokas){const m=mantras.find(m=>m.id===migratedReadingId(s.id));assert.ok(m,s.id);if(!['mahamrityunjaya','purnamadah'].includes(s.id)){assert.equal(m.text,s.verses.map(v=>v.sanskrit).join('\n\n'));assert.equal(m.sourceUrl,s.source.url);assert.equal(m.verseCount,s.verses.length);}}
+ assert.equal(mantras.filter(m=>m.id==='mahamrityunjaya').length,1);assert.equal(mantras.filter(m=>m.id==='purnamadah').length,1);
 });

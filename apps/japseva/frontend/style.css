@@ -66,7 +66,7 @@ body[data-ui-app=japseva]>.skip{position:absolute;top:-80px}body[data-ui-app=jap
 #main .request-list .request-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px 16px;padding:12px 0;border:0;border-bottom:1px solid var(--ui-edge);border-radius:0;background:transparent}
 #main .request-row h3{font-size:16px;margin:0;font-weight:650}
 #main .request-row .request-open{display:block;width:100%;text-align:start;min-height:44px;padding:0;border:0;border-radius:4px;background:transparent;color:var(--ui-ink);font-size:16px;font-weight:650;line-height:1.4;overflow-wrap:anywhere}
-#main .request-open::after{content:' Ã¢â‚¬Âº';color:var(--ui-accent)}
+#main .request-open::after{content:'';display:inline-block;width:7px;height:7px;margin-inline-start:10px;border:solid var(--ui-accent);border-width:0 1.8px 1.8px 0;transform:rotate(-45deg)}
 #main .request-row .practice-mantra-name{margin:2px 0;font-size:13px;color:var(--ui-muted)}
 #main .request-meta{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;font-size:12px;color:var(--ui-muted)}
 #main .request-row .count{font-size:14px;margin:0;font-weight:600;line-height:1.5}
@@ -162,8 +162,6 @@ body[data-ui-app=japseva]>.skip{position:absolute;top:-80px}body[data-ui-app=jap
 #main #library .library-row-copy h3{font-size:16px;line-height:1.5;margin:0 0 3px;font-weight:650}
 #main .library-snippet{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--ui-muted);font-size:14px;font-weight:400}
 #main .library-audio-badge{font-size:12px;color:var(--ui-accent);font-weight:500}
-#main .library-chevron{font-size:22px;color:var(--ui-muted);flex-shrink:0}
-#main .library-guide[open] .library-chevron{transform:rotate(180deg)}
 #main #library .library-guide-body{padding:20px;max-width:760px;margin:auto}
 #main #library .library-use{background:var(--ui-accent);color:var(--ui-on-accent);border-color:var(--ui-accent);margin-bottom:12px;min-height:48px}
 #main #library .learning-copy>.mantra{font-size:23px;line-height:1.9;margin:12px 0 20px}
@@ -182,3 +180,50 @@ body[data-ui-app=japseva]>.skip{position:absolute;top:-80px}body[data-ui-app=jap
 @media(prefers-reduced-motion:reduce){#main #library .library-guide>summary{transition:none}}
 
 #main #library .library-guide>summary:focus-visible{outline-offset:-3px}
+
+/* One disclosure per mantra. Secondary information is plain content. */
+#main details>summary{display:flex;align-items:center;gap:12px;min-height:48px;list-style:none;line-height:1.5;text-align:start}
+#main details>summary::-webkit-details-marker{display:none}
+#main details>summary::marker{content:''}
+#main details>summary::after{content:'';display:block;width:8px;height:8px;border:solid currentColor;border-width:0 1.8px 1.8px 0;transform:rotate(45deg);margin-inline-start:auto;margin-inline-end:4px;flex:0 0 8px;align-self:center}
+#main details[open]>summary::after{transform:rotate(225deg)}
+#main #library .library-guide>summary::after{margin-inline-start:4px}
+#main #library .library-guide-body>section,#main #library .learning-copy>section{margin:16px 0 0;border-top:1px solid var(--ui-edge);padding-top:12px}
+#main #library .library-pronunciation>h4:first-child,#main #library .library-reference>h4:first-child,#main #library .library-audio-settings>h4:first-child{font-size:15px;margin:0 0 12px}
+#main #library .library-audio-settings{padding-top:12px;margin-top:12px;border-top:1px solid var(--ui-edge)}
+#main #library .library-pronunciation>label{max-width:22rem}
+#main #library .library-reference p{font-size:12px}
+#main #library .audio-practice>h4{display:none}
+#main #library .audio-practice{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+#main #library .audio-practice>label{flex:1 1 100%;margin:4px 0}
+#main #library .audio-practice>output{flex:1 1 100%}
+#main #library .audio-practice>p{flex:1 1 100%;margin:4px 0}
+#main #library .audio-tools{gap:12px;align-items:center}
+
+#main #library .audio-practice>output{font-size:15px;line-height:1.5;margin:0;font-weight:600}
+#main #library .audio-practice>label{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:13px}
+#main #library .audio-practice>label input{width:7rem;flex:0 0 7rem}
+#main #library .audio-practice>p.muted{display:none}
+
+#main .collection-controls{position:relative}
+#main #learn .mantra-request-trigger{margin:4px 0 8px;min-height:44px;font-size:13px;color:var(--ui-accent)}
+#main .mantra-request-dialog{width:min(32rem,calc(100vw - 24px));max-height:calc(100dvh - 32px);padding:20px;border:1px solid var(--ui-edge);border-radius:16px;background:var(--ui-solid);color:var(--ui-ink);overflow:auto}
+#main .mantra-request-dialog::backdrop{background:color-mix(in srgb,var(--ui-ink) 45%,transparent)}
+#main .mantra-request-heading{display:flex;align-items:start;justify-content:space-between;gap:12px}
+#main .mantra-request-heading h2{font-size:20px;margin:0;line-height:1.5}
+#main .mantra-request-heading button{flex-shrink:0;font-size:13px}
+#main .mantra-request-dialog label{font-size:14px}
+#main .mantra-request-send{width:100%;background:var(--ui-accent);color:var(--ui-on-accent);border-color:var(--ui-accent)}
+#main .mantra-request-dialog a{display:inline-flex;align-items:center;min-height:44px}
+
+#main #learn .collection-controls{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px 12px}
+#main #learn .collection-controls>label{grid-column:1/-1}
+#main #learn .collection-controls>[role=status]{grid-column:auto;margin:0}
+#main #learn .collection-controls>.mantra-request-trigger{margin:0;font-weight:500}
+
+#main #learn .library-filters{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:4px 0}
+#main .library-filters label{margin:0;font-size:12px}
+#main .library-filters select{font-size:14px}
+#main .library-filter-reset{grid-column:1/-1;justify-self:start;font-size:12px}
+#main #library .learning-copy>.mantra,#main #library .learning-copy>p,#main #library .reading-aid{white-space:pre-line}
+@media(max-width:600px){#main #learn .library-filters{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#main .library-filters label:last-of-type{grid-column:1/-1}}

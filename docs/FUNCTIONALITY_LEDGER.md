@@ -1,3 +1,59 @@
+Shloki/JapSeva consolidation (2026-11-15 IST, local): removed Ritual Prep's
+separate Shloki reader, its mount and three public reader asset aliases. JapSeva
+owns the reviewed content; the old content path is a Node-only compatibility
+re-export. Seventeen readings join the original 23 entries for 40 unique guides;
+Mahamrityunjaya/Purnamadah retain existing IDs plus the additional references.
+All 19 reviewed texts remain represented, including complete four-verse groups;
+the two withheld texts remain excluded. Sanskrit and English/Hindi meanings are
+preserved; Gujarati editorial summaries and unaccented Roman/Gujarati script
+aids are added. Category, deity/topic and audio selectors combine with search,
+result counts, reset and empty states. Each guide still has one disclosure.
+Ritual Prep's link carries legacy shloka queries to JapSeva reading aliases.
+No schema/record changes or new recordings; teacher pronunciation review remains
+pending. Verification: 17 model/source/ritual checks and all 11 JapSeva browser
+workflows pass. Ritual Prep's section/checklist continuity workflow passes.
+CLI passes 27 language/theme/width cases, combined filters, empty/reset behavior,
+exact three-recording filter, complete groups, old deep links and unchanged saved
+workspace state. Mobile filter screenshot reviewed. Not committed/deployed.
+Evidence: .publish/mantra-merge-{final-model,browser,ritual-browser,review,build}.log
+and output/playwright/mantra-merged-filters.png.
+
+JapSeva mantra request (2026-11-15 IST, local): added Request a mantra beside
+library search/count. A native modal accepts a required mantra name (120 chars)
+and optional text/reference (800 chars). Continue to WhatsApp uses the existing
+shared contact helper/number +91 78741 66009 with an encoded JapSeva request;
+the user reviews and presses Send in WhatsApp. This is a prepared draft, not
+automatic delivery or a received-request confirmation. No client/practice data
+is included, no request is stored server-side and no library entry is published
+automatically. A retry link remains available; editing clears the stale draft.
+English/Hindi/Gujarati, shared themes, modal focus/Escape and mobile widths are
+supported. CLI passes all 27 language/theme/width cases, required/whitespace
+validation, Unicode/URL encoding, recipient and stale-draft checks with the
+WhatsApp navigation intercepted (zero messages sent). Five model checks pass.
+Mobile screenshot reviewed; build/whitespace checks pass. Not committed/deployed.
+Evidence: .publish/mantra-request-{review,model,build}.log and
+output/playwright/japseva-mantra-request.png.
+
+JapSeva/Kundali disclosure cleanup (2026-11-15 IST, local): each mantra now has
+only its outer disclosure. Pronunciation, recording settings and references are
+plain sections; reading help has one disclosure with plain guide content. Full
+mantra/meaning precede audio controls. Compact audio counts/settings retain the
+existing persistent player and independent audio/japa bookkeeping. Both apps use
+one CSS chevron aligned at the trailing edge, hidden native markers, keyboard
+semantics and consistent touch-sized headers. Kundali Menu remains one line at
+320px, matches the main tabs, and its panel/items use consistent padding; saved
+chart action disclosures use the same indicator. Corrected a garbled request-row
+arrow in JapSeva. No schema or production data changes; not committed/deployed.
+Verification: all 11 JapSeva workflows pass before the final refinements; all 3
+audio workflows pass again afterward. All 16 model/export/production checks pass.
+CLI passes 27 cases per app (en/hi/gu x light/dark/deep x 320/390/1280), including
+no nested mantra disclosures, visible guide sections, no overflow, one indicator,
+48px Kundali Menu and Escape dismissal. Final mobile screenshots reviewed.
+Evidence: .publish/japseva-one-toggle-{browser,audio-final}.log,
+.publish/one-toggle-{review,model-production,build}.log,
+.publish/kundali-toggle-review.log and output/playwright/{japseva-one-toggle,
+kundali-toggle-menu}.png.
+
 JapSeva library/Kundali PDF release deployed (2026-11-15 IST): source 67dfb82,
 Worker 4b7659a0-ca0b-44c2-9560-6531562b0507. Live at /japseva and /rashifal-kundli
 on https://apps.sushantsynapse.com. Releases the compact mobile library, 23 mantra

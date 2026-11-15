@@ -46,18 +46,5 @@ body[data-ui-app=ritual-assist] .priest-control input[type=checkbox],body[data-u
 @media(min-width:1051px){#guide .guide-content{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}}
 @media(max-width:600px){.puja-checklist{padding:14px}.compact-item .item-name strong{font-size:13px}.checklist-heading h3{font-size:18px}.checklist-header{gap:10px}.checklist-header .ritual-art{flex-basis:54px;width:54px;height:66px}.ritual-dialog{padding:18px}}
 @media print{.checklist-controls,.priest-control,.item-menu,.add-checklist-item,.restore-items,.remember-checks,.item-note{display:none!important}.puja-checklist .compact-item{display:block;padding:0;border:0}.checklist-header input[type=date]{border:0}.checklist-header .ritual-art{display:none}.ritual-dialog{display:none!important}.compact-item .arrangement-print:not([hidden]){display:block!important}.quantity-badge{background:none;color:inherit}}
-.shloki-collection{margin:0 0 16px;min-width:0}
-.shloki-collection>summary{min-height:44px;cursor:pointer;font-weight:700;display:list-item;align-content:center}
-.shloki-body{padding-top:16px}
-.shloki-reader{min-width:0}
-.shloki-reader>label{display:grid;gap:8px}
-.shloki-reader select{width:100%;min-width:0;max-width:100%;min-height:44px;white-space:normal}
-.shloki-tools{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:16px 0}
-.shloki-tools button{min-height:44px}
-.shloki-reader h2{font-size:clamp(1.2rem,4vw,1.6rem);margin:24px 0 16px}
-.shloki-script{font-family:"Noto Sans Devanagari","Nirmala UI",Mangal,sans-serif;font-size:1.3rem;line-height:2;white-space:pre-line;overflow-wrap:anywhere;color:var(--ink);margin:12px 0 24px}
-.shloki-reader[data-large=true] .shloki-script{font-size:1.65rem}
-.shloki-meaning,.shloki-sources{border-top:1px solid var(--line);padding:12px 0}
-.shloki-meaning>summary,.shloki-sources>summary{min-height:44px;align-content:center;cursor:pointer}
-.shloki-sources a{overflow-wrap:anywhere;display:inline-block;padding:8px 0}
-@media print{.shloki-collection{display:none!important}}
+
+.mantra-library-link{display:inline-flex;align-items:center;min-height:44px;padding:8px 0;margin-bottom:12px;color:var(--primary);font-weight:600}

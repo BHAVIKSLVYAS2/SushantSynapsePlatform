@@ -1,5 +1,6 @@
 import {additions,learning as existingLearning} from './collection-data.mjs';
 import {expandedMantras,expandedLearning} from './expanded-mantras.mjs';
+import {readingMantras,duplicateReferences} from './reading-mantras.mjs';
 const learning={...existingLearning,...expandedLearning};
 // Traditional devotional texts; meanings and syllable aids are original editorial summaries.
 export const mantras=[
@@ -17,3 +18,6 @@ export const recordings=Object.freeze({
 });
 export const audioMantraIds=Object.freeze(Object.keys(recordings));
 for(const m of mantras){m.meaningHi=hindi[m.id]??learning[m.id].meaningHi;m.meaningGu=learning[m.id].meaningGu;m.names={en:m.name,hi:learning[m.id].hi,gu:learning[m.id].gu};m.meanings={en:m.meaning,hi:m.meaningHi,gu:m.meaningGu};m.aids={en:m.pronunciation,hi:learning[m.id].aidHi,gu:learning[m.id].aidGu};if(recordings[m.id]){m.audio=recordings[m.id].asset;m.recording=recordings[m.id];}}
+
+mantras.push(...readingMantras);
+for(const ref of duplicateReferences)mantras.find(m=>m.id===ref.id).sourceReferences=[ref.source];

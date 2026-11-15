@@ -1,3 +1,11 @@
+Shloki consolidation (2026-11-15, local): apps/japseva/frontend now owns the
+source-reviewed shloki-content.mjs, reading adapters, script conversion and
+library filter metadata/UI. Ritual Prep no longer mounts a reader or exposes
+its former public reader assets; its library link preserves legacy shloka
+queries through JapSeva's reading aliases. The old content module is a Node-only
+compatibility re-export for historical source checks. The source-review document
+remains authoritative for admitted texts; no database/schema changes.
+
 Ritvayam layout review (2026-11-15): birth-app owns the compact saved-details
 list and its local filtering/actions; shared language-shell copy names app entry
 headings. The existing saved-input store and calculation kernels are unchanged.
