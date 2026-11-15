@@ -1,3 +1,17 @@
+DIGITAL SAMAJ dashboard aggregation cleanup (2026-11-15 IST, local): Node and
+Edge now parse each authorized person/family record once per dashboard response
+and reuse the decoded data while building existing counts and suppressed
+statistics. Added a Node/Edge regression covering exact counts, the five-record
+suppression threshold and tenant isolation. All 28 Digital Samaj Node/Edge tests
+pass. No schema or business-data changes. Not committed/deployed.
+
+JapSeva sound-guide source cleanup (2026-11-15 IST, local): removed the duplicate
+static HTML guide; the existing runtime-generated English/Hindi/Gujarati guide
+remains sourced from learning-copy.mjs. Kept its insertion point and existing
+display, references and reading content. No data or workflow changes. Verification:
+all 5 JapSeva model tests and all 11 JapSeva browser workflows pass; diff check
+passes. Not committed/deployed.
+
 Shloki/JapSeva consolidation (2026-11-15 IST, local): removed Ritual Prep's
 separate Shloki reader, its mount and three public reader asset aliases. JapSeva
 owns the reviewed content; the old content path is a Node-only compatibility

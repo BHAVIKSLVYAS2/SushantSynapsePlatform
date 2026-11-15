@@ -198,3 +198,16 @@ test('Registration reuses a verified head by member code and independently appro
  const f=pending.find(r=>r.kind==='verify.family');await call('reviewer',base+'/reviews/'+f.id,'POST',{decision:'APPROVE',reason:'Family verified'});
  assert.equal((await call('owner',base+'/families/'+result.familyId)).headId,p.id);assert.equal((await call('owner',base+'/persons/'+p.id)).memberships.length,1);
 });
+
+test('Dashboard aggregates visible records and suppresses categories with fewer than five members',async t=>{
+ const {call}=setup(t),c=await call('owner','','POST',{name:'Dashboard'}),base='/'+c.id;
+ const dateAtAge=years=>{const date=new Date();date.setUTCFullYear(date.getUTCFullYear()-years);return date.toISOString().slice(0,10);};
+ for(let i=0;i<6;i++){
+  const common=i<5;
+  await call('owner',base+'/persons','POST',{data:{englishName:'Member '+i,gender:common?'Female':'Other',state:common?'Gujarat':'Rajasthan',district:common?'Surat':'Jaipur',nativeVillage:common?'Example':'Elsewhere',education:common?'Graduate':'Other',occupation:common?'Teacher':'Other',dob:dateAtAge(common?30:70)}});
+  await call('owner',base+'/families','POST',{data:{name:'Family '+i,gotra:common?'Bharadwaj':'Other'}});
+ }
+ const other=await call('owner','','POST',{name:'Other dashboard'});await call('owner','/'+other.id+'/persons','POST',{data:{englishName:'Other Samaj member'}});
+ const dashboard=await call('owner',base+'/dashboard');
+ assert.deepEqual(dashboard,{families:6,members:6,verified:0,pending:0,corrections:0,statistics:{gender:{Female:5},state:{Gujarat:5},district:{Surat:5},nativeVillage:{Example:5},education:{Graduate:5},occupation:{Teacher:5},age:{'18–34':5},gotra:{Bharadwaj:5}},suppressionMinimum:5});
+});
