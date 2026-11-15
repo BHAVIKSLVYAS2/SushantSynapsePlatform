@@ -1,5 +1,12 @@
 # Ask Nishi
 
+Button release verified (16 November 2026 IST): source 03c40bb, Worker
+d5be7bad-b67b-4996-9866-c09a5d4b0154. The new home trigger is live. All 27
+language/theme/viewport layouts, reduced-motion behavior and the existing Nishi
+browser workflow pass. Three live assets match the build; health is good and
+AI remains disabled. No migration or paid service activation. This supersedes
+the local-only status of the trigger checkpoint below.
+
 Home trigger polish (16 November 2026, local): the existing entry now uses a
 primary pill, Nishi's shared SVG avatar and a small sparkle. Shared theme tokens
 control its surface, ink and glow; a 700ms entrance respects reduced motion.

@@ -1,3 +1,16 @@
+Ask Nishi button deployed (2026-11-16 IST): source 03c40bb, Worker
+d5be7bad-b67b-4996-9866-c09a5d4b0154 at apps.sushantsynapse.com. Avatar,
+primary pill, decorative sparkle and reduced-motion support are live. Live
+review passes all 27 language/theme/viewport cases: no overflow, clipped labels
+or extra toolbar row; toolbar stays 52px. Existing Nishi browser regression
+passes modal/focus/local answers, language/theme changes and catalogue controls.
+Three deployed JS/CSS assets match the tested build exactly; health 200 and
+AI capability false. Build exports 729 assets. Deployment used --keep-vars and
+explicit AI false, with no AI binding, migration, paid service activation or
+production business-data writes. Evidence: .publish/nishi-button-release-live/
+and .publish/nishi-button-live-{light,dark,deep}.png. Earlier local-only status
+below is superseded for this release; audio test assets remain local/ignored.
+
 Ask Nishi home button polish (2026-11-16 IST, local): replaced the quiet outlined
 chat entry with a primary pill, the existing Nishi SVG avatar, a decorative
 sparkle and theme-token lighting. One brief entrance animation, hover/press
