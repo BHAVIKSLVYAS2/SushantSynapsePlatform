@@ -1,6 +1,7 @@
 # JapSeva collection — 15 November 2026
 
-Implemented locally; not committed or deployed. The collection contains eight
+Deployed from source `1b80b63`, Worker `3c8ab073-c8e4-45b7-afec-0de58b9df4b4`.
+Live verification and release evidence are recorded in the functionality ledger. The collection contains eight
 entries, retaining the original four IDs/texts and their recording associations.
 
 | Added entry | Text reference checked | Form displayed |

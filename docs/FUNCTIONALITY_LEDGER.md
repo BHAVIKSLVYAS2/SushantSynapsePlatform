@@ -1,3 +1,27 @@
+Kundali/JapSeva combined release deployed (2026-11-15 IST): source 1b80b63,
+Worker 3c8ab073-c8e4-45b7-afec-0de58b9df4b4, at
+https://apps.sushantsynapse.com/rashifal-kundli and /japseva. Includes the
+birthplace search/detect control, selected North/South multilingual report
+exports and newer report sections, plus eight searchable mantras with three-
+language meanings/reading aids and localized audio controls. Teacher review is
+still pending; only the existing three verified recordings are available.
+Local verification: 5 JapSeva model checks, 9 JapSeva browser workflows,
+11 export/production checks, 4 practitioner/saved workflows and 6 birthplace/
+date-entry regressions pass. The older P17 navigation-helper limitation remains
+recorded in the earlier checkpoint; it is not claimed passing.
+Live verification: 19 read-only checks pass (14 exact assets, private API boundary,
+health, private-doc exclusion and geolocation header). All 27 collection language/
+theme/width cases pass with exact saved-state preservation. All 18 export cases,
+6 HTML downloads, 6 PDFs, redaction/advanced/layout-override checks pass. App print
+preserves all 7 available North charts. Birthplace success, denial, stale response,
+unsupported area and 9 language/width cases pass with mocked device locations.
+Build and dry run export 707 assets. Deployment used --keep-vars, retaining
+organisation/auth variables and D1; no migrations or production business writes.
+Evidence: .publish/collection-export-release-{dryrun,deploy,live}.log and
+-live.json; .publish/japseva-collection-live-review.log,
+kundali-export-live-{review,print}.log and kundali-location-live-review.log.
+The earlier local-only entries below are historical and superseded by this release.
+
 JapSeva collection and languages (2026-11-15 IST, local): expanded four entries
 to eight with Mahamrityunjaya, Narayana Ashtakshara, Saha Navavatu and Purnamadah.
 All have English/Hindi/Gujarati names and original meanings, Roman transliteration

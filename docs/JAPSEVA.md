@@ -1,9 +1,9 @@
-Collection follow-up (2026-11-15, local): eight searchable entries, English/
+Collection follow-up (2026-11-15, deployed source 1b80b63): eight searchable entries, English/
 Hindi/Gujarati meanings and independently selected Roman/Devanagari/Gujarati
 reading aids. Audio controls and sound guide follow app language. Three verified
 recordings are unchanged; five entries have no verified audio. Teacher review
 is pending for all entries. See JAPSEVA_COLLECTION_REVIEW_2026-11-15.md and the
-functionality ledger for scope and verification. Not deployed yet.
+functionality ledger for scope and verified production release evidence.
 
 Pronunciation follow-up (2026-11-14): the learning library has an optional
 English/Hindi sound guide with source links. Syllable aids remain approximate;

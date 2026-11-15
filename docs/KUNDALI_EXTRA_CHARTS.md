@@ -1,4 +1,4 @@
-Export follow-up (15 November, local): the report now supports selected North/
+Export follow-up (15 November, deployed source 1b80b63): the report now supports selected North/
 South layout, screened Chandra/D2/D16 and optional calculated advanced divisions.
 Exact D1/D9 boundary previews require explicit inclusion and carry a sensitivity
 notice; strict results remain unchanged. This supersedes the older export scope
