@@ -450,6 +450,20 @@ Import up to 20 recipients. CSV headings: recipient,description. The current des
 ♧ Certificate details stay in this tab. Organisation names and logos are stored in this browser only when you choose Save organisation.|♧ प्रमाणपत्र विवरण इसी टैब में रहता है। संस्था का नाम और लोगो केवल संस्था सहेजें चुनने पर इस ब्राउज़र में रहता है।|♧ પ્રમાણપત્રની વિગતો આ ટેબમાં રહે છે. સંસ્થાનું નામ અને લોગો માત્ર સંસ્થા સાચવો પસંદ કરતાં આ બ્રાઉઝરમાં રહે છે.
 `,R=Object.freeze({...Object.fromEntries(j.trim().split(`
 `).map(l=>{let r=l.split("|");if(r.length!==3||r.some(p=>!p))throw Error("Incomplete public interface translation");return[r[0],r.slice(1)]})),...B,...M});var V=`
+All work|सभी कार्य|બધાં કામ
+My work|मेरे कार्य|મારાં કામ
+Find client|क्लाइंट खोजें|ક્લાયન્ટ શોધો
+Find case|मामला खोजें|કેસ શોધો
+Client update|क्लाइंट अपडेट|ક્લાયન્ટ અપડેટ
+Review client update|क्लाइंट अपडेट की समीक्षा करें|ક્લાયન્ટ અપડેટ તપાસો
+Copy update|अपडेट कॉपी करें|અપડેટ કૉપી કરો
+Review and edit this draft before sharing. Outcome notes may contain internal information.|साझा करने से पहले ड्राफ्ट जाँचें और संपादित करें। परिणाम के नोट्स में आंतरिक जानकारी हो सकती है।|શેર કરતાં પહેલાં ડ્રાફ્ટ તપાસો અને સુધારો. પરિણામની નોંધોમાં આંતરિક માહિતી હોઈ શકે છે.
+Update copied. Share it with the intended client.|अपडेट कॉपी हुआ। इसे संबंधित क्लाइंट से साझा करें।|અપડેટ કૉપી થયો. યોગ્ય ક્લાયન્ટ સાથે શેર કરો.
+Copy is unavailable. Select and copy the draft manually.|कॉपी उपलब्ध नहीं है। ड्राफ्ट चुनकर स्वयं कॉपी करें।|કૉપી ઉપલબ્ધ નથી. ડ્રાફ્ટ પસંદ કરીને જાતે કૉપી કરો.
+No upcoming hearings assigned to you.|आपको कोई आगामी सुनवाई नहीं सौंपी गई है।|તમને કોઈ આગામી સુનાવણી સોંપેલી નથી.
+No pending tasks assigned to you.|आपको कोई लंबित कार्य नहीं सौंपा गया है।|તમને કોઈ બાકી કામ સોંપેલું નથી.
+No matches. Clear the search to see all options.|कोई मिलान नहीं। सभी विकल्प देखने के लिए खोज हटाएँ।|કોઈ મેળ નથી. બધા વિકલ્પો માટે શોધ સાફ કરો.
+Matching options available.|मिलते-जुलते विकल्प उपलब्ध हैं।|મેળ ખાતા વિકલ્પો ઉપલબ્ધ છે.
 Start focusing|ध्यान से काम शुरू करें|ધ્યાનથી કામ શરૂ કરો
 Check QR code|QR कोड जाँचें|QR કોડ તપાસો
 Complete the fields to preview your QR code.|QR पूर्वावलोकन के लिए विवरण भरें।|QR પૂર્વદર્શન માટે વિગતો ભરો.

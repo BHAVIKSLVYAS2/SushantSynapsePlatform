@@ -1,3 +1,15 @@
+Ask Nishi (2026-11-15, local): portal owns ask-sushant.js and its home-mounted
+native dialog. Uses catalogue metadata for local app finding; no AI provider,
+application commands or persistent conversation. Home discovery mounts after
+layout controls; public assets explicitly allowlist the script. docs/ASK_SUSHANT.md
+records lifecycle, verification and future integration boundary.
+
+Chambers daily-work follow-ups (2026-11-15, local): app.js owns the transient
+overview-assignee filter, progressive case-task form, native-select search and
+reviewed clipboard draft. Existing task/outcome APIs and persisted record shapes
+are unchanged; no client message delivery integration or saved draft store.
+New interface labels use shared interface-copy.mjs and its generated bundle.
+
 Chambers simplicity (2026-11-15): app-owned frontend groups optional case fields
 without schema changes, renders one selected case panel (expenses within fees)
 and retains section selection in a page-session Map. Overview keeps daily work

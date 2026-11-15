@@ -1,3 +1,44 @@
+Agent rename (2026-11-15 IST, local): visible name is now Ask Nishi, including
+English/Hindi/Gujarati titles and close labels. Existing browser expectations
+and documentation updated. Syntax/diff checks pass. No commit or deployment.
+
+Ask Nishi home guide (2026-11-15 IST, local): added opt-in button beside Edit
+layout and a native closable/Escape dialog. No floating bubble or automatic
+popup. Current local app finder/storage explanation is explicitly labelled as
+an app guide with AI chat to be connected later. Questions stay in page memory
+and clear on close; no answering service, saved chat or app action execution.
+Restricted results retain sign-in destinations. Three-language controls, shared
+themes, focus restoration, one-instance lifecycle and text-only rendering.
+Four catalogue tests and three browser workflows pass, including 27 agent
+language/theme/width combinations, preserved pin/drag/search/view behaviour,
+focus/clearing/no-match/injection checks and the existing Comfort layout matrix.
+Build exports 725 assets; syntax/diff checks pass. Inspected mobile screenshot.
+Scope/evidence: docs/ASK_SUSHANT.md and .publish/ask-sushant-review/.
+No production changes, commit or deployment. Earlier Chambers follow-ups remain
+local and uncommitted as recorded below.
+
+Chambers daily-work improvements (2026-11-15 IST, local): implemented all four
+approved follow-ups in existing screens. Case toolbar Add task opens a linked
+two-field task/due form with optional details and returns to that case's Tasks
+panel after saving through the existing validated API. Overview All work/My work
+filters pending tasks and scheduled hearings by actual assignee, with whole-
+practice case/fee totals explicitly labelled. Client/case selectors gain labelled
+search when lists exceed eight records; native selects remain, searches include
+record identifiers/contact data and respect disabled invoice/client constraints.
+No-match searches retain the selected value; Escape clears search and Down
+focuses selection. Saved hearing outcomes offer an editable client-update draft
+with explicit current-diary next-date wording, review instruction, clipboard
+copy and manual-copy fallback. No messages are sent; drafts are not persisted.
+New controls have English/Hindi/Gujarati interface copy. No backend/schema or
+permission changes. Verification: all ten existing browser workflows plus two
+new workflows pass across regression/daily/scoped runs (12 distinct workflows);
+seven organisation API checks pass. Covers assignee filtering, search/selection
+preservation, direct quick-task save/return, cross-organisation exclusion,
+translated controls, edited clipboard text/denial and phone/theme fit. Build
+exports 723 assets; syntax/diff checks pass. Inspected draft screenshot.
+Evidence: .publish/chambers-followups-{regression,daily,scoped}/ and
+chambers-followups-client-update.png. Not committed or deployed.
+
 Chambers simplicity deployed (2026-11-15 IST): source ce7d27c, Worker
 7bc31e27-7ba1-4af3-869d-57fb4c93c6f7 at https://apps.sushantsynapse.com/advocate.
 Includes five-field initial case form with optional details, compact case facts,

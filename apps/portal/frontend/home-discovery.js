@@ -48,7 +48,7 @@
   search.querySelector('input').onkeydown=event=>{if(event.key==='Escape'){event.preventDefault();search.querySelector('input').value='';filter();}else if(event.key==='ArrowDown'){const first=home.querySelector('.catalogue-item:not([hidden]) .public-app:not([hidden]),[data-home-vedic]:not([hidden]) .home-vedic-primary,.workspace-card:not([hidden]) .workspace-launch:not([aria-disabled=true])');if(first){event.preventDefault();first.focus();first.scrollIntoView({block:'nearest'});}}};
   const dock=home.querySelector('.home-mobile-dock');dock.onclick=event=>{const link=event.target.closest('a');if(!link)return;dock.querySelectorAll('a').forEach(a=>a.removeAttribute('aria-current'));link.setAttribute('aria-current','location');if(link.hasAttribute('data-home-games'))selected='games';else selected='all';search.querySelector('input').value='';filter();};
   bar.onclick=event=>{const button=event.target.closest('[data-tool-filter]');if(button){selected=button.dataset.toolFilter;filter();filters.open=false;toggle.focus();}};
-  filter();window.SynapseHomeView?.mount();layoutRefresh=mountLayout(home);
+  filter();window.SynapseHomeView?.mount();layoutRefresh=mountLayout(home);window.SynapseHomeAgent?.mount(home);
  }
  mount();window.addEventListener('synapse-catalogue-change',mount);if(window.SynapseUI)window.SynapseUI.observe(records=>{if(records.some(r=>[...r.addedNodes].some(n=>n.nodeType===1&&(n.matches('#free-apps')||n.querySelector('#free-apps')))))mount();});else new MutationObserver(mount).observe(document.querySelector('#platform'),{childList:true,subtree:true});
  function mountLayout(home){
