@@ -270,3 +270,27 @@ cannot reopen the upgraded store and silently discard corrections. Existing clie
 practice and audio records remain. Stale-revision checks still apply. Audio plays
 remain separate from chanting and certificate eligibility. Release evidence is in
 the functionality ledger.
+Mobile library filters (2026-11-15, local): search and one labelled Filters
+button share a row. All/Gayatri/Navagraha quick chips keep the initial browse
+view short; every category remains available as full-label chips in a native
+filter dialog (bottom sheet on phones, centred on desktop). Deity/topic uses
+a native select; audio uses exclusive chips. Active extra filters have individual
+remove actions, the trigger shows the active count, and Show mantras displays
+the matching result count. Selection and search combine without changing the
+catalogue or practice records. English/Hindi/Gujarati, shared themes, 44px touch
+targets, Escape and focus return are preserved. Request a mantra remains beside
+the result total as a quiet action. No new package, service or model call.
+Local review evidence: .publish/japseva-library-{before,after}.png,
+.publish/japseva-filters-{en,hi,gu}.png and existing browser regressions under
+.publish/japseva-library-mobile-final/. Not committed or deployed.
+Library content cleanup (2026-11-15, local): removed the text-reference list
+from Reading help, library audio players/badges/filter, and repeated audio-
+unavailable notices. Texts, meanings, pronunciation aids and all 104 entries
+remain intact, with source provenance retained in catalogue metadata and review
+documents. Audio cleanup is scoped to the library; existing current-practice
+playback and separate audio-play records remain. Players stay detached until
+needed by the selected practice instead of returning to library cards.
+Recording creators, source links, licences and modification notices remain
+accessible inside current-practice Audio settings. No server, schema, migration,
+provider or paid service change. This supersedes the audio-filter part of the
+mobile-library checkpoint below. Not committed or deployed.

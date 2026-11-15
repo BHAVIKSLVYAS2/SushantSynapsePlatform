@@ -1,5 +1,14 @@
 # Public reference cleanup
 
+Later JapSeva cleanup (15 November, local): removed the consolidated public
+text-source list as requested; provenance remains in catalogue data and source
+review documents. The library no longer displays audio players, badges, filters
+or unavailable messages. Current-practice playback remains, with original
+recording credits/licences/modification notices in its Audio settings. The
+library now focuses on text, meanings and pronunciation. No sacred text, source
+metadata, saved counter or audio-play history was deleted. Earlier statements
+below about references under Reading help describe the previous presentation.
+
 User request: remove unnecessary references from the site. Presentation cleanup only; sacred texts, calculation rules, business records and provenance metadata are preserved.
 
 ## Changes

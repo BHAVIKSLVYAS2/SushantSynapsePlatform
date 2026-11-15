@@ -1,3 +1,22 @@
+JapSeva clean library (2026-11-15 IST, local): removed the public text-reference
+list, library audio players/badges/filter and repeated audio-unavailable notices.
+Source provenance remains in catalogue data and review documents; all 104 texts,
+meanings and pronunciation aids remain. Library-only audio cleanup preserves
+current-practice playback and audio history. Players detach outside selected
+practice; recording source/creator/licence/change notices stay in its optional
+Audio settings. No saved records, schema, provider, paid service or production
+configuration changed. Not committed or deployed; previous mobile filter work
+remains included. Verification: 6 model tests pass; 4 browser workflows pass
+across the initial run and targeted rerun (continuous practice playback/counting/
+language changes, separate audio targets/reload/reset/skip handling, clean library
+and licensed practice audio, translated category filters and client practice).
+One obsolete library-player-count assertion failed initially and was corrected
+to expect zero; its rerun passes. Isolated visual review passes 36 language/theme/
+viewport combinations, filter removal and focus checks, with no page errors.
+Inspected 390px clean-library screenshot. Frontend build exports 729 assets;
+diff check passes. Evidence: .publish/japseva-clean-library/,
+.publish/japseva-clean-practice-final/, .publish/japseva-library-clean.png.
+
 Nishi conversation design deployed (2026-11-15 IST): source 105cc68, Worker
 ecd76a38-2270-413c-a3e2-90c96a654f55 at https://apps.sushantsynapse.com/.
 Avatar, greeting, prompts, current message/reply area and send-icon composer
@@ -10920,3 +10939,21 @@ errors. Live three-app recheck passes in 37 seconds with a 30-second assertion
 allowance; all reviewed fields, no-auto-write and no-auto-calculation checks
 pass with no page errors. Evidence:
 .publish/nishi-three-apps-live/ and .publish/nishi-three-apps-live-recheck/.
+JapSeva mobile library filters (2026-11-15 IST, local): replaced the three-field
+filter block with search plus one Filters trigger, three quick category chips,
+and a native modal bottom sheet containing every category, deity/topic and audio
+options. Extra selections have removable chips; trigger count and matching
+results on Show mantras clarify the current state. Full labels wrap, 44px touch
+targets and keyboard focus survive chip repaint; Escape/close return to Filters.
+Request a mantra is a quiet action beside the results total. Existing catalogue,
+audio/practice, persistence and all three themes remain unchanged. No provider,
+paid service, migration, commit or deployment. UI/UX skills used; inspected the
+390px before/after and Hindi/Gujarati sheet captures. The new initial phone
+view shows four mantra rows where the old filter block left room for two.
+Verification: six JapSeva unit tests and three existing browser regressions pass
+(shared themes/layout, licensed audio/learning, translated Navagraha filters and
+persistent practice). Separate isolated review passes 36 language/theme/width
+combinations plus audio/category removal, keyboard focus, Escape and root-font
+reflow checks with no page errors. Frontend build exports 729 assets; diff check
+passes. Evidence: .publish/japseva-library-mobile-final/,
+.publish/japseva-library-{before,after}.png and .publish/japseva-filters-{en,hi,gu}.png.
