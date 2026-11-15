@@ -1,3 +1,9 @@
+Chambers simplicity (2026-11-15): app-owned frontend groups optional case fields
+without schema changes, renders one selected case panel (expenses within fees)
+and retains section selection in a page-session Map. Overview keeps daily work
+and compact practice totals. Business persistence and scoped enforcement remain
+unchanged. Audit: docs/CHAMBERS_SIMPLICITY_AUDIT_2026-11-15.md.
+
 Home layout preferences (2026-11-15, local): portal home-discovery owns device-only
 pin/order preferences under synapse-home-layout-v1, validated against current
 visible cards. Public and restricted workspace grids remain separate; no access,

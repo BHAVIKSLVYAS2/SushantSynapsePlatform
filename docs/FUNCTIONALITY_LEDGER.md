@@ -1,3 +1,32 @@
+Chambers simplicity implementation (2026-11-15 IST, local): Add case shows five
+essentials; twelve optional fields remain under More details (expanded on Edit).
+Invalid optional inputs reopen their disclosure. Case details retain five key
+facts, optional filled facts/summary, five counted section selectors and one
+visible working panel. Expenses remain reachable within Professional fees;
+section selection survives case refresh/reopening during this page session.
+Overview replaces four KPI cards with compact totals and removes the repeated
+casebook and promotional banner; missed outcomes/hearings/tasks remain primary.
+No API/schema/record/permission changes. Seven organisation API checks and all
+ten Chambers browser workflows pass, including field preservation, hidden-field
+validity, task creation, documents/payments/backup, scoped privacy/revocation,
+read-only controls and mobile/theme layouts. Old tests now open optional CNR
+and visit Casebook explicitly. Build exports 723 assets; syntax/diff checks pass.
+Inspected isolated organisation-scoped 390px form/case/overview screenshots.
+Evidence: .publish/chambers-simple-final/ and chambers-simple-{add,case,overview}.png.
+Deployment pending; original audit: docs/CHAMBERS_SIMPLICITY_AUDIT_2026-11-15.md.
+
+Chambers simplicity audit (2026-11-15 IST, documentation only): reviewed current
+screens, schema, preparation handlers, organisation scope and client portal.
+Inspected 390px overview/case/form screenshots in an isolated scoped fixture.
+Existing daily desk, preparation tasks, fee filters/receipts and case sections
+make several proposed additions redundant. Recommend only grouping optional
+case fields (17 displayed, 3 required), simplifying case detail (12 facts/six
+sections) and trimming repeated overview content. Missing documents can use
+existing assigned tasks; defer separate trackers/timelines and automation.
+Existing daily-work browser regression passes 1/1, including 12 theme/width
+cases. Scope/evidence/limitations: docs/CHAMBERS_SIMPLICITY_AUDIT_2026-11-15.md.
+No app changes, production access, business writes, commit or deployment.
+
 Home pin/rearrange deployed (2026-11-15 IST): source 00f5f8a5, Worker
 63626919-1f21-40b4-959b-5fa35f84bd4a at https://apps.sushantsynapse.com/.
 Includes device-only pinning, drag/button rearrangement, reset, translated
