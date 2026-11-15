@@ -1,3 +1,21 @@
+JapSeva expanded library/reference cleanup deployed (2026-11-15 IST): source
+5b4e62f, Worker a9ed0bb7-8af6-474c-a043-88963451e4f9 at
+https://apps.sushantsynapse.com/japseva. Includes 104 library entries, 60 added
+Gayatris, Rudra chants and all 22 Namakam/Chamakam chapters, translated summaries,
+in-practice reading and complete-recitation counting/certificates. Repeated
+text-source UI is consolidated under optional Reading help; audio licensing
+credits remain beside controls. Saved sign-in/data audit is documentation only.
+Build and production dry run pass (723 assets). Six model tests and all three
+targeted live browser workflows pass: repeat audio/count independence, licensed
+playback/mobile/themes and full Rudram chapter/script/count/certificate journey.
+All 36 live read-only route/asset checks pass, including 27 exact asset matches,
+private API boundary and private-doc exclusion. Evidence:
+.publish/japseva-library-release-live.json and japseva-library-release-browser/.
+Deployment used --keep-vars, preserving organisation/auth/D1; no migrations,
+bootstrap or production business writes. Existing teacher pronunciation review
+remains pending; no new recordings. Earlier local-only checkpoints below are
+superseded for this scope.
+
 Reference display cleanup (2026-11-15 IST, local): removed repeated JapSeva
 per-card Sources & notes, comparison links and per-chapter source links.
 Unique text references are grouped in the existing closed Reading help section;

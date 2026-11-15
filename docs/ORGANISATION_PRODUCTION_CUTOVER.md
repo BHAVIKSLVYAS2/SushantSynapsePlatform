@@ -1,3 +1,12 @@
+JapSeva library expansion/reference cleanup deployed (2026-11-15 IST): source
+5b4e62f, Worker a9ed0bb7-8af6-474c-a043-88963451e4f9. Library now has 104 entries,
+including 60 added Gayatris and complete 22-anuvaka Shri Rudram with translated
+chapter summaries and full-recitation practice. Optional text references are
+consolidated under Reading help; licensed audio attribution remains intact.
+Build/dry run pass (723 assets); 36 live checks, including 27 exact assets, pass.
+Deployment used --keep-vars; no migrations, bootstrap or business-data writes.
+See the functionality ledger for browser verification and scope limits.
+
 Mantra consolidation deployed (2026-11-15 IST): source fc0f0a7, Worker
 8ad99e07-5674-4706-bb4a-b33a6dd7c50d. Unified 40-entry library/filtering, WhatsApp
 request drafts and JapSeva/Kundali disclosure fixes are live. Old Shloki reader
