@@ -1,3 +1,21 @@
+Ask Nishi/Chambers follow-ups deployed (2026-11-15 IST): source ab8c99a,
+Worker 8d61fc1c-c7fa-4ba5-94d5-401975050291 at apps.sushantsynapse.com.
+Includes Ask Nishi's opt-in local home guide (AI still not connected), all
+three-language labels and the four Chambers follow-ups: quick linked tasks,
+My work, large client/case selector search and reviewed hearing-update copy.
+Build exports 725 assets. Renamed agent passes local and live browser workflow,
+including 27 language/theme/width cases, keyboard clearing/focus and unchanged
+catalogue behaviour. Chambers live UI passes 18 language/theme/phone cases
+plus My work/direct quick-task form checks using isolated fixture GET responses;
+production writes intercepted locally, no production business records touched.
+This is not a new authenticated production D1 business workflow test. Earlier
+12 local Chambers workflows and seven organisation API checks remain passing.
+All 38 live route/asset checks pass, including 27 exact assets and private API/
+docs boundaries. Evidence: .publish/ask-nishi-{release,live}/,
+chambers-followups-live.json and nishi-chambers-release-live.json.
+Deployment used --keep-vars, retaining organisation/auth/D1. No migrations or
+bootstrap. Earlier local-only checkpoints below are superseded for this scope.
+
 Agent rename (2026-11-15 IST, local): visible name is now Ask Nishi, including
 English/Hindi/Gujarati titles and close labels. Existing browser expectations
 and documentation updated. Syntax/diff checks pass. No commit or deployment.

@@ -1,3 +1,11 @@
+Ask Nishi/Chambers follow-ups deployed (2026-11-15 IST): source ab8c99a,
+Worker 8d61fc1c-c7fa-4ba5-94d5-401975050291. Home guide is opt-in/local;
+AI connection remains pending. Chambers adds quick tasks, My work, reference
+search and reviewed update copying. Build exports 725 assets; 38 live checks
+include 27 exact assets. Agent live workflow and 18 fixture-backed Chambers
+layout cases pass; no production business writes. --keep-vars preserves the
+organisation/auth/D1 boundary; no migrations or bootstrap. Ledger has full scope.
+
 Chambers simplicity deployed (2026-11-15 IST): source ce7d27c, Worker
 7bc31e27-7ba1-4af3-869d-57fb4c93c6f7. Essential-first case creation, compact
 case facts with one selected work panel, expenses within fees and a focused
