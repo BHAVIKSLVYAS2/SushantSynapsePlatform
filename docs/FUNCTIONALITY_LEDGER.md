@@ -1,3 +1,10 @@
+Header company icon correction (2026-11-19 IST): removed the mobile rule hiding
+the platform brand when Back is present. The existing Home-linked company icon
+now stays beside Back with a 44px target. At widths up to 380px, tighter header
+spacing and an accessible truncated account label keep controls inside the viewport.
+Rebuilt Home and Kundali shared CSS; mobile screenshot reviewed. Release and
+verification details follow after deployment.
+
 Production release (2026-11-19 IST): committed book reader and contextual header
 Back navigation as b674986 and deployed Worker version
 ec9e7b75-5c57-41c2-9abf-9402679d1fe5 to apps.sushantsynapse.com.
