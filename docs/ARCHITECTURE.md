@@ -1,3 +1,16 @@
+Shared header Back (2026-11-19, local): platform-shell.js dispatches cancelable
+synapse-navigate-back before same-origin history/app-root/Home fallback. JapSeva
+owns contextual reading/certificate/request/form/tab returns and a bounded
+in-memory view stack. Mobile arrow replaces the logo's space. Rebuild catalogue,
+Home CSS and Kundali's embedded shared CSS together. No business-schema change.
+Details: docs/HEADER_BACK_NAVIGATION_2026-11-19.md.
+
+JapSeva book UI (2026-11-19, local): collection-view.mjs owns numbered index,
+filtered reading navigation and same-tab resume ID. chapter-reader.mjs supplies
+the cancellable reduced-motion-aware page-turn helper. Layout stays app-owned
+in style.css and uses platform theme tokens. No new route, dependency or practice
+record schema. Details: docs/JAPSEVA_BOOK_UI_2026-11-19.md.
+
 JapSeva puja readings (2026-11-16): app-owned puja-collections.mjs composes
 shared traditional formulas (puja-common.mjs), attributed chapter transcription
 (puja-text.mjs) and existing Rudram chapter objects. chapter-reader.mjs supports

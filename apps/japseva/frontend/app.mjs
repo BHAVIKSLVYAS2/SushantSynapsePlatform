@@ -12,8 +12,10 @@ const $=s=>document.querySelector(s),el=(tag,text,cls)=>{const e=document.create
 let pendingReading=new URL(location.href).searchParams.get('reading');
 let nishiDraft=takeDraft('japseva');
 let state,selectedCertificate,busy=false,epoch=0,view='practice',selectedId=null,query='';
+const previousViews=[];let restoringView=false;
 const practiceHeader=el('header',undefined,'practice-context'),practiceAudio=el('section');practiceAudio.id='practice-audio';practiceAudio.setAttribute('data-language-preserve','');practiceHeader.setAttribute('data-language-preserve','');practiceAudio.hidden=practiceHeader.hidden=true;$('#practice-back').after(practiceHeader,practiceAudio);
 function showView(next){
+ if(state&&next!==view&&!restoringView){previousViews.push({view,selectedId,query});if(previousViews.length>30)previousViews.shift();}
  $('#main').classList.toggle('library-mode',next==='learn');
  if(next!==view){query='';$('#request-search input').value='';}selectedCertificate=null;selectedId=null;view=next;for(const tab of document.querySelectorAll('[data-tab]'))tab.setAttribute('aria-pressed',String(tab.dataset.tab===view));
  $('#practice').hidden=view==='learn';$('#learn').hidden=view!=='learn';$('#setup').hidden=view!=='new';$('#setup').open=view==='new';
@@ -37,7 +39,7 @@ function render(){
   if(!selectedId){
    const row=el('article',undefined,'practice-card request-row');row.setAttribute('role','listitem');row.dataset.requestId=s.id;
    const identity=el('div',undefined,'request-identity'),client=state.clients.find(c=>c.id===s.clientId)?.name,mantra=mantras.find(m=>m.id===s.mantraId)?.name||'Custom mantra';
-   const heading=el('h3'),open=el('button',client,'request-open');open.setAttribute('aria-label',(s.completedAt?'View request: ':'Continue practice: ')+client);open.onclick=()=>{selectedId=s.id;render();$('#practice-back').focus();};heading.append(open);identity.append(heading,el('p',mantra,'practice-mantra-name'));
+   const heading=el('h3'),open=el('button',client,'request-open');open.setAttribute('aria-label',(s.completedAt?'View request: ':'Continue practice: ')+client);open.onclick=()=>{selectedId=s.id;render();(document.querySelector('.platform-back')||$('#practice-back')).focus();};heading.append(open);identity.append(heading,el('p',mantra,'practice-mantra-name'));
    const metadata=el('div',undefined,'request-meta'),count=el('span',s.count.toLocaleString('en-IN'),'count');count.append(el('small',' / '+s.target.toLocaleString('en-IN')));metadata.append(count);
    if(s.completedAt){const date=el('time',new Intl.DateTimeFormat('en-IN',{dateStyle:'medium',timeZone:'Asia/Kolkata'}).format(new Date(s.completedAt)));date.dateTime=s.completedAt;metadata.append(date);}else{const progress=el('progress');progress.max=s.target;progress.value=s.count;progress.setAttribute('aria-label','Repetition progress');metadata.append(progress);}
    identity.append(metadata);const actions=el('div',undefined,'request-actions');
@@ -62,6 +64,15 @@ function render(){
 }
 async function openCertificate(id){const revision=epoch;try{const data=await api('/'+id+'/certificate');if(revision!==epoch||document.hidden||view!=='history'||selectedId!==id)return;selectedCertificate=data;await document.fonts.ready;if(revision!==epoch||view!=='history'||selectedId!==id)return;renderCertificate($('#certificate-canvas'),data);$('#certificate').hidden=false;$('#certificate').scrollIntoView({block:'start'});}catch(e){notice(e.message,true);}}
 $('#request-search input').oninput=e=>{query=e.target.value.trim().toLocaleLowerCase();render();};$('#practice-back').onclick=()=>{selectedId=null;selectedCertificate=null;$('#certificate').hidden=true;render();$('#workspace h2').focus();};
+window.addEventListener('synapse-navigate-back',event=>{
+ if(busy){event.preventDefault();return;}
+ if(view==='learn'&&collection.back()){event.preventDefault();return;}
+ if(!$('#certificate').hidden){event.preventDefault();selectedCertificate=null;$('#certificate').hidden=true;document.querySelector('.platform-back')?.focus();return;}
+ if(selectedId){event.preventDefault();$('#practice-back').click();document.querySelector('.platform-back')?.focus();return;}
+ let previous;while(previousViews.length){const candidate=previousViews.pop();if(candidate.view!==view||candidate.selectedId!==selectedId||candidate.query!==query){previous=candidate;break;}}
+ if(previous){event.preventDefault();restoringView=true;try{showView(previous.view);query=previous.query;$('#request-search input').value=query;const request=state?.sankalps.find(s=>s.id===previous.selectedId);selectedId=request&&(previous.view==='history'?!!request.completedAt:!request.completedAt)?request.id:null;render();}finally{restoringView=false;}document.querySelector('.platform-back')?.focus();return;}
+ if(view!=='practice'){event.preventDefault();restoringView=true;try{showView('practice');}finally{restoringView=false;}}
+});
 const mantraSelect=$('#sankalp-form [name=mantraId]');mantraSelect.replaceChildren(...mantras.map(m=>new Option(m.name,m.id)),new Option('Custom mantra','custom'));
 const readingNote=el('p',undefined,'muted reading-overview'),practiceHint=$('#sankalp-form>p.muted');readingNote.id='reading-practice-note';readingNote.hidden=true;$('#sankalp-form [name=mantra]').parentElement.after(readingNote);
 function translateReadingNote(){const m=mantras.find(m=>m.id===mantraSelect.value),language=window.SynapseLanguage?.get()||'en';readingNote.textContent=m?.chapters?m.meanings[language]:'';$('#target-unit').options[0].textContent=m?.chapters?({en:'Complete recitations',hi:'पूर्ण पाठ',gu:'સંપૂર્ણ પાઠ'}[language]):({en:'Repetitions',hi:'दोहराव',gu:'પુનરાવર્તનો'}[language]);}

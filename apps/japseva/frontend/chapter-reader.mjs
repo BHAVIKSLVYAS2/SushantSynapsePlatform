@@ -1,5 +1,12 @@
 import {romanize,gujaratiScript} from './script-aids.mjs';
 const positions=new Map(); // Reading preferences only; never a japa count.
+const pageTurns=new WeakMap();
+export function turnPage(element,direction=1){
+ pageTurns.get(element)?.cancel();const preference=matchMedia('(prefers-reduced-motion: reduce)');
+ if(preference.matches||!element.animate)return;
+ const animation=element.animate([{opacity:.5,transform:`perspective(1400px) rotateY(${direction*-7}deg) translateX(${direction*12}px)`},{opacity:1,transform:'perspective(1400px) rotateY(0deg) translateX(0)'}],{duration:300,easing:'cubic-bezier(.2,.7,.2,1)'});
+ pageTurns.set(element,animation);const cancel=()=>animation.cancel();preference.addEventListener('change',cancel,{once:true});animation.finished.catch(()=>{}).finally(()=>preference.removeEventListener('change',cancel));
+}
 function saved(id){try{return JSON.parse(sessionStorage.getItem('japseva-reader:'+id))||{};}catch{return {};}}
 const groupNames={preparation:{en:'Preparation & puja',hi:'तैयारी और पूजा',gu:'તૈયારી અને પૂજા'},closing:{en:'Closing prayers',hi:'समापन',gu:'સમાપન'},saptashati:{en:'Durga Saptashati · 13 chapters',hi:'दुर्गासप्तशती · १३ अध्याय',gu:'દુર્ગાસપ્તશતી · ૧૩ અધ્યાય'},katha:{en:'Vrata katha · 5 chapters',hi:'व्रत-कथा · ५ अध्याय',gu:'વ્રતકથા · ૫ અધ્યાય'},path:{en:'Main text',hi:'मुख्य पाठ',gu:'મુખ્ય પાઠ'}};
 const copy={
@@ -24,7 +31,7 @@ export function mountChapterReader(host,mantra,language='en'){
   positions.set(mantra.id,position);positions.set(mantra.id+'-script',script.value);
   try{sessionStorage.setItem('japseva-reader:'+mantra.id,JSON.stringify({position,script:script.value}));}catch{}
  }
- function move(value){if(!Number.isInteger(value)||value<0||value>=mantra.chapters.length)return;position=value;paint();heading.focus({preventScroll:true});heading.scrollIntoView({block:'start',behavior:'auto'});}
+ function move(value){if(!Number.isInteger(value)||value<0||value>=mantra.chapters.length)return;const direction=value>=position?1:-1;position=value;paint();turnPage(text,direction);heading.focus({preventScroll:true});heading.scrollIntoView({block:'start',behavior:'auto'});}
  previous.onclick=()=>move(position-1);next.onclick=()=>move(position+1);select.onchange=()=>move(Number(select.value));script.onchange=paint;
  function translate(language){
   lang=copy[language]?language:'en';const t=copy[lang],chapterLabel=mantra.chapterLabel?.[lang]||t.chapter;caption.textContent=chapterLabel;select.setAttribute('aria-label',chapterLabel);scriptCaption.textContent=t.script;script.setAttribute('aria-label',t.script);previous.textContent=t.previous;next.textContent=t.next;meaningHeading.textContent=t.meaning;note.textContent=mantra.readerNote?.[lang]||t.note;

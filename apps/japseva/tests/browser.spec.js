@@ -77,7 +77,7 @@ test('library reading stays uncluttered and practice retains licensed audio acro
 
 test('focused practice, search, mala setup and audited correction work on mobile',async({page})=>{
  await page.setViewportSize({width:390,height:844});await create(page,2);
- await page.getByRole('button',{name:'Back to requests'}).click();await expect(page.locator('.request-open')).toBeVisible();await expect(page.locator('.counter-actions')).toHaveCount(0);
+ await page.locator('.platform-back').click();await expect(page.locator('.request-open')).toBeVisible();await expect(page.locator('.counter-actions')).toHaveCount(0);
  await page.getByRole('searchbox').fill('missing client');await expect(page.getByText('No matching requests.',{exact:true})).toBeVisible();await page.getByRole('searchbox').fill('Meera');await page.locator('.request-open').click();
  await page.getByRole('button',{name:'\uff0b 1',exact:true}).click();await page.getByRole('button',{name:'\uff0b 1',exact:true}).click();await expect(page.locator('[data-tab=history]')).toHaveAttribute('aria-pressed','true');
  await page.getByRole('button',{name:'View completion certificate',exact:true}).click();await expect(page.locator('#certificate')).toBeVisible();await page.getByText('Correct an accidental count',{exact:true}).click();await page.getByLabel('Repetitions to remove').fill('1');await page.getByLabel('Reason for correction').fill('Accidental tap');page.once('dialog',d=>d.accept());await page.getByRole('button',{name:'Confirm correction'}).click();await expect(page.locator('.count')).toContainText('1 / 2');await expect(page.locator('#certificate')).toBeHidden();await expect(page.getByRole('button',{name:'View completion certificate'})).toHaveCount(0);
@@ -98,7 +98,7 @@ test('Navagraha guides translate, filter and create a persistent client practice
  await expect(page.locator('#library article:visible')).toHaveCount(1);await openGuide(page,'gayatri-dhanvantari');
  const gayatri=page.locator('[data-mantra-id=gayatri-dhanvantari]');await expect(gayatri.locator('audio')).toHaveCount(0);
  for(const language of ['en','hi','gu']){await page.evaluate(l=>SynapseLanguage.set(l),language);await expect(gayatri.locator('.reading-aid')).not.toBeEmpty();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
- await page.evaluate(()=>SynapseLanguage.set('en'));await page.locator('.library-category-chips [data-value=""]').click();
+ await page.evaluate(()=>SynapseLanguage.set('en'));await page.locator('.platform-back').click();await page.locator('.library-category-chips [data-value=""]').click();
  for(const query of ['navgrah','nav grah','Navagraha']){await page.locator('#mantra-search').fill(query);await expect(page.locator('#library article:visible')).toHaveCount(20);}
  await openGuide(page,'navagraha-surya');const card=page.locator('[data-mantra-id=navagraha-surya]');
  for(const language of ['en','hi','gu']){await page.evaluate(l=>SynapseLanguage.set(l),language);await page.locator('#pronunciation-script').selectOption(language);await expect(card.locator('.reading-aid')).not.toBeEmpty();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
@@ -108,7 +108,7 @@ test('Navagraha guides translate, filter and create a persistent client practice
  await page.locator('[data-mantra-id=gayatri-dhanvantari] .library-use').click();await expect(page.locator('[name=mantraId]')).toHaveValue('gayatri-dhanvantari');
  await page.locator('#sankalp-form button').click();await page.getByRole('button',{name:'\uff0b 1',exact:true}).click();await page.reload();
  const expanded=await page.evaluate(async()=>await(await import('/japseva/storage.mjs')).read());const newPractice=expanded.sankalps.find(s=>s.mantraId==='gayatri-dhanvantari');expect(newPractice.count).toBe(1);expect(newPractice.mantra).toContain('अमृतकलशहस्ताय');expect(expanded.sankalps).toHaveLength(3);
- await page.locator('[data-tab=learn]').click();await page.locator('#mantra-search').fill('Rudrabhishek');await expect(page.locator('#library article:visible')).toHaveCount(4);
+ await page.locator('[data-tab=learn]').click();await page.locator('#mantra-search').fill('Rudrabhishek');await expect(page.locator('#library article:visible')).toHaveCount(5);
  await openGuide(page,'rudram-namakam-opening');await expect(page.locator('[data-mantra-id=rudram-namakam-opening]')).toContainText('not the complete Shri Rudram');
  await openGuide(page,'rudra-invocation');const rudra=page.locator('[data-mantra-id=rudra-invocation]');
  for(const language of ['en','hi','gu']){await page.evaluate(l=>SynapseLanguage.set(l),language);await expect(rudra.locator('.reading-aid')).not.toBeEmpty();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
@@ -135,4 +135,4 @@ test('complete Rudram reader covers both books, preserves chapter selection and 
  const cert=await page.evaluate(async()=>{const {read,certificate}=await import('/japseva/storage.mjs');const state=await read();return certificate(state,state.sankalps.find(s=>s.mantraId==='rudram-complete').id);});expect(cert.count).toBe(2);expect(cert.mantra).toContain('नमकम्');
 });
 
-async function openGuide(page,id,audio=false){const row=page.locator('[data-mantra-id='+id+']');if(await row.locator('.library-guide').getAttribute('open')===null)await row.locator('.library-guide>summary').click();}
+async function openGuide(page,id,audio=false){const row=page.locator('[data-mantra-id='+id+']');if(await page.locator('.book-reading').count()&&await row.locator('.library-guide').getAttribute('open')===null)await page.locator('.platform-back').click();if(await row.locator('.library-guide').getAttribute('open')===null)await row.locator('.library-guide>summary').click();}

@@ -1,3 +1,17 @@
+Header Back (2026-11-19, local): the shared arrow returns reading → contents,
+certificate → request, request → list, and form/tab → previous app view, with
+safe app/Home fallback. Duplicate in-content arrows are hidden with the shared
+header. Counts/records stay unchanged. docs/HEADER_BACK_NAVIGATION_2026-11-19.md.
+Not committed/deployed.
+
+Book Library (2026-11-19, local): numbered searchable contents with category/
+deity filters and same-tab continue-reading. Opening a reading hides index
+controls; previous/next follow filtered results. Existing long-text chapter
+selection, script aids, practice action and required licences remain. Subtle
+cancellable page-turn respects reduced motion. Theme-token paper layout uses
+one mobile column/two desktop columns, selectable text and normal long-chapter
+scrolling. Details: docs/JAPSEVA_BOOK_UI_2026-11-19.md. Not committed/deployed.
+
 Five puja collections (2026-11-16, deployed source b50dfe2): Shiva Rudrabhishek, Laghurudra,
 Navchandi, Ganapati pujan and Satyanarayan pujan join the Library (109 entries).
 Full named Sanskrit texts use the existing grouped reader with Sanskrit/Roman/

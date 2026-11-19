@@ -1,3 +1,46 @@
+Shared header Back (2026-11-19 IST, local): added a single 44px left arrow
+with English/Hindi/Gujarati accessible label. Mobile arrow uses the logo's space;
+Home hides it. Shared navigation first dispatches cancelable synapse-navigate-back,
+then uses same-origin referrer history or a nested-app-root/Home fallback.
+JapSeva owns contextual reading → filtered contents, certificate → request,
+focused request → list, and previous form/tab returns through a bounded transient
+view stack; busy saves consume Back without interruption. Duplicate in-content
+book/practice arrows are hidden when the shared header exists. Existing controls
+remain fallback without it. Other apps currently use generic navigation fallback,
+not invented internal-view handlers. No record/count/schema changes.
+Rebuilt the catalogue header bundle, Home CSS and Kundali embedded shared CSS.
+Final verification: all 12 JapSeva browser workflows pass; 84 header layout cases
+(seven apps/four widths/three themes) pass with 44px target and no overflow;
+36 book language/theme/width cases pass. Deep reading/form/detail/certificate
+returns, reload/resume, external-entry and nested-route fallback, Hindi label
+and retained fixture count pass with no page errors. Eight content/storage/
+delivery plus four catalogue Node checks pass. Production asset build succeeds
+(735 assets); diff check passes. Source/limits:
+docs/HEADER_BACK_NAVIGATION_2026-11-19.md. Evidence: .publish/header-back-checks.json,
+.publish/header-back-japseva-regression/, .publish/japseva-book-checks.json and
+.publish/japseva-header-back-mobile.png. Not committed/deployed; prior book work
+remains included and uncommitted.
+
+Mantra Library book UI (2026-11-19 IST, local): numbered contents now holds
+search/category/deity filters, request/help/licences and same-tab continue-reading.
+One selected reading opens on a theme-token paper surface with return-to-index,
+filtered previous/next readings, keyboard movement and existing chapter/script
+controls. Contents retain search/filter/scroll/focus on return; Library tab
+returns to contents. A cancellable 300ms page-turn runs on reading/chapter
+changes; reduced motion skips it. Desktop index has two columns, mobile one.
+Selectable text and normal long-chapter scrolling remain; no canvas, dependency,
+new backend or practice-count/schema changes. Removed duplicate Puja active chip.
+Seven Node checks and all twelve existing JapSeva browser workflows pass,
+including retained records, PDFs/backups, licensed audio and complete Rudram.
+Final standalone Chrome verification passes 36 language/theme/width cases,
+filtered/empty/reset navigation, reload/resume, chapter retention, rapid turns,
+keyboard and reduced motion, with zero page errors and no reading-generated
+practice records. Final mobile/desktop screenshots reviewed. Production asset
+build succeeds (735 assets); diff check passes. Evidence:
+.publish/japseva-book-checks.json, .publish/book-full-regression/ and
+.publish/japseva-book-{index-mobile,reading-mobile,index-desktop}.png.
+Scope: docs/JAPSEVA_BOOK_UI_2026-11-19.md. Not committed or deployed.
+
 Five puja collections deployed (2026-11-16 IST): source b50dfe2, production
 Worker f80fffef-23fc-4898-b0c7-b5aacb6d6d5e at apps.sushantsynapse.com/japseva.
 All 180 live width/language/theme cases and all 101 reader sections pass, along

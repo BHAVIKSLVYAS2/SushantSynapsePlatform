@@ -11,6 +11,15 @@
  names['/feedback']='Feedback';
  const header=document.createElement('header');header.className='platform-shell';header.setAttribute('aria-label','Sushant Synapse platform');
  header.innerHTML=`<a class="platform-shell-brand" href="/" aria-label="Sushant Synapse home"><img src="/logo-adaptive-192.png" width="32" height="32" alt=""><span translate="no">Curio<small>by Sushant Synapse</small></span></a><span class="platform-shell-divider" aria-hidden="true"></span><button class="platform-switch" type="button" aria-haspopup="dialog" aria-controls="platform-switcher"><span>${current?.[0]||names[path]||'All apps'}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></button><div class="platform-shell-actions">${window.SynapseTheme?.control()||''}<a class="platform-account" href="/signin?section=profile" aria-label="Sign in">Sign in</a></div>`;
+ const back=document.createElement('button');back.type='button';back.className='platform-back';back.hidden=path==='/';back.setAttribute('data-language-preserve','');back.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6M8 12h12"/></svg>';header.prepend(back);
+ const translateBack=()=>{const language=window.SynapseLanguage?.get()||'en',label=({en:'Back',hi:'वापस',gu:'પાછા'})[language]||'Back';back.setAttribute('aria-label',label);back.title=label;};translateBack();window.addEventListener('synapse-language-change',translateBack);
+ back.onclick=()=>{
+  // An app may handle its own transient views without changing business state.
+  const event=new CustomEvent('synapse-navigate-back',{cancelable:true});if(!window.dispatchEvent(event))return;
+  let previous;try{previous=new URL(document.referrer);}catch{}
+  if(previous?.origin===location.origin&&previous.href!==location.href&&history.length>1){history.back();return;}
+  location.assign(current&&path!==current[1]?current[1]:'/');
+ };
  const skip=document.querySelector('body>.skip-link,body>.skip');
  if(skip)skip.after(header);else document.body.prepend(header);
  document.body.classList.add('has-platform-shell');
