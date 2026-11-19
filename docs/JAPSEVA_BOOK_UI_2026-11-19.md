@@ -50,4 +50,6 @@ result and release state are recorded in the functionality ledger.
 
 Evidence: `.publish/japseva-book-checks.json`, `.publish/book-full-regression/`,
 `.publish/japseva-book-{index-mobile,reading-mobile,index-desktop}.png`.
-Local work only; no commit or deployment requested for this UI iteration.
+Released on 2026-11-19 from source commit `b674986`, Worker version
+`ec9e7b75-5c57-41c2-9abf-9402679d1fe5`. Live reading Back navigation and
+84 shared-header layout cases pass. Release verification is recorded in the ledger.

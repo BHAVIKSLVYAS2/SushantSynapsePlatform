@@ -1,3 +1,14 @@
+Production release (2026-11-19 IST): committed book reader and contextual header
+Back navigation as b674986 and deployed Worker version
+ec9e7b75-5c57-41c2-9abf-9402679d1fe5 to apps.sushantsynapse.com.
+Live Chrome verification passed 84 header layout cases across seven routes,
+four widths and three themes, reading-to-index-to-practice Back navigation,
+and hidden Back on Home, with no page errors. Evidence:
+.publish/header-back-live-checks.json. Seven deployed JS/CSS assets match the
+production build byte-for-byte; /healthz returns 200 and /api/nishi/plan
+confirms ai:false. No migrations, production business writes or AI activation.
+This release supersedes the local-only checkpoints immediately below.
+
 Shared header Back (2026-11-19 IST, local): added a single 44px left arrow
 with English/Hindi/Gujarati accessible label. Mobile arrow uses the logo's space;
 Home hides it. Shared navigation first dispatches cancelable synapse-navigate-back,

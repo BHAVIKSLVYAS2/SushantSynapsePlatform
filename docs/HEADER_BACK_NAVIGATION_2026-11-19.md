@@ -50,4 +50,6 @@ Verification:
 
 Evidence: `.publish/header-back-checks.json`, `.publish/japseva-header-back-mobile.png`,
 `.publish/japseva-book-checks.json`, `.publish/header-back-japseva-regression/`.
-Local only; this request does not include a commit/deployment instruction.
+Released on 2026-11-19 from source commit `b674986`, Worker version
+`ec9e7b75-5c57-41c2-9abf-9402679d1fe5`. Live verification passed 84 layout
+cases and reading Back navigation with no page errors. See the ledger for release checks.
