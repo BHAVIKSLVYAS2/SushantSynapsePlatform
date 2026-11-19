@@ -2,7 +2,10 @@ Shared header Back (2026-11-19, local): platform-shell.js dispatches cancelable
 synapse-navigate-back before same-origin history/app-root/Home fallback. JapSeva
 owns contextual reading/certificate/request/form/tab returns and a bounded
 in-memory view stack. Mobile arrow replaces the logo's space. Rebuild catalogue,
-Home CSS and Kundali's embedded shared CSS together. No business-schema change.
+Home CSS and Kundali's embedded shared CSS together. The subsequent company-icon
+fix keeps the Home-linked logo beside Back on mobile, with compact spacing at
+380px and below; the earlier logo-replacement behaviour is superseded.
+No business-schema change.
 Details: docs/HEADER_BACK_NAVIGATION_2026-11-19.md.
 
 JapSeva book UI (2026-11-19, local): collection-view.mjs owns numbered index,

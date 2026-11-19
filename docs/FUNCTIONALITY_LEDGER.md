@@ -2,8 +2,15 @@ Header company icon correction (2026-11-19 IST): removed the mobile rule hiding
 the platform brand when Back is present. The existing Home-linked company icon
 now stays beside Back with a 44px target. At widths up to 380px, tighter header
 spacing and an accessible truncated account label keep controls inside the viewport.
-Rebuilt Home and Kundali shared CSS; mobile screenshot reviewed. Release and
-verification details follow after deployment.
+Rebuilt Home and Kundali shared CSS; 320px mobile screenshot reviewed. Committed
+as 1361012 and deployed Worker 820e71d8-c6a1-451e-9074-5037b325e175.
+Local and live Chrome checks each pass 84 route/width/theme cases with visible
+logo, 44px brand/Back targets and all header controls inside the viewport.
+Contextual Back and preserved fixture counts pass locally; live reading Back
+also passes with no page errors. Five catalogue/delivery checks pass. Three live
+CSS assets match the build; health is 200 and AI remains false. No migrations
+or production business writes. Evidence: .publish/header-logo-checks.json and
+.publish/header-logo-live-checks.json. This supersedes the prior logo-hiding design.
 
 Production release (2026-11-19 IST): committed book reader and contextual header
 Back navigation as b674986 and deployed Worker version
