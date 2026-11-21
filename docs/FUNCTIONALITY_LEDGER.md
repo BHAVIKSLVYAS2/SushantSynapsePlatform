@@ -1,3 +1,14 @@
+Kundali reference-led UI release (2026-11-21 IST): source ee69593 deployed as
+Worker 40a6fe9c-23a4-417f-bf5c-dd54ed593339. Build exports 743 assets;
+10 changed assets uploaded with --keep-vars. Organisation/auth/D1 settings
+preserved; no migrations or production business writes. Focused live Chrome
+inspection confirms EN/HI/GU at 360/390/1280px, one-row chart controls, North/South,
+D9 selection, expand/Escape, Report options, nine graha rows, Dasha, Edit and
+unknown-time withholding. Fixture saved records unchanged; no page errors.
+Live screenshots: .publish/kundali-refined-live-mobile.png,
+.publish/kundali-refined-live-dark.png and .publish/kundali-refined-live-menu.png.
+Automated test suites remain skipped per the standing user instruction.
+
 Kundali reference-led UI refinement (2026-11-21 IST): updated the existing
 /rashifal-kundli workspace using the user's ritva_vedic_astrology_ui_redesign.html
 as a visual reference. Kept Ritvayam/shared authentication header and platform
