@@ -1,3 +1,12 @@
+Mantra Library Reading settings fix release (2026-11-21 IST): source f12fff7
+deployed as Worker ab5739d0-d53c-4413-bbbc-b0bd1cc51d5d. Build passes with
+743 public assets; four changed assets uploaded using --keep-vars. Production
+organisation/auth/D1 settings preserved; no migrations or business writes.
+Focused live Chrome inspection confirms settings open, size and spacing apply
+to rendered text, reset works, saved 30px/2.3 settings survive reload and apply
+to Rudram, and the document fits at 360px. Evidence:
+.publish/reading-settings-live.png. Automated test suites remain skipped.
+
 Mantra Library Reading settings correction (2026-11-21 IST): browser inspection
 reproduced size/spacing controls saving their values while actual short-reading
 text remained 22px/44px. A more specific legacy book typography rule in
