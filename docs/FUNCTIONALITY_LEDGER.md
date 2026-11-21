@@ -1,3 +1,14 @@
+Mantra Library integrated release (2026-11-21 IST): implementation df51df7,
+Worker f83f94b4-0fd0-4e29-b8af-9131371fad26. The existing /japseva Mantra
+Library now serves the reference-based reader; /japseva/book-preview returns 404.
+Build exported 741 assets; 11 changed assets uploaded with --keep-vars. Shared
+organisation/auth/D1 settings and disabled Nishi AI remain configured. No
+migrations or production business writes. Live Chrome confirms 109 entries,
+animated corner advancing the actual Rudram chapter, completed leaf turn,
+shared Back/filter restoration, unchanged browser business records, old preview
+404 and no page errors. Evidence: .publish/real-library-live.png. Live animation
+verification waits for completion rather than assuming a fixed frame deadline.
+
 Mantra Library integration correction (2026-11-21 IST): the reference-based
 reader now belongs to the existing /japseva Mantra Library, across all 109
 entries. Removed the standalone preview route, generated assets and build hook.
