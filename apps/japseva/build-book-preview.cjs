@@ -8,7 +8,7 @@ function buildBookPreview(){
  for(const entry of payload)if(entry.recording)entry.recording.asset=entry.recording.asset.replace('../../apps/japseva/frontend','/japseva');
  const code=runtime[1].replace("JSON.parse(document.querySelector('#library-data').textContent)",JSON.stringify(payload));
  if(code===runtime[1])throw Error('Book preview data insertion failed');
- const html=source.replace(style[0],'<link rel="stylesheet" href="/japseva/book-preview.css">').replace(data[0],'').replace(runtime[0],'<script src="/japseva/book-preview.js" defer></script>');
+ const html=source.replace(style[0],'<link rel="stylesheet" href="/japseva/book-preview.css">').replace(data[0],'').replace(runtime[0],'<script src="/japseva/book-preview.js" defer></script>').replaceAll('../../apps/japseva/frontend/','/japseva/');
  const output=path.join(__dirname,'frontend');
  for(const [name,content]of [['book-preview.html',html],['book-preview.css',style[1]],['book-preview.js',code]])fs.writeFileSync(path.join(output,name),content);
 }

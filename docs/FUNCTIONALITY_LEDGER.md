@@ -1,3 +1,24 @@
+Mantra book reference revision (2026-11-21 IST): rebuilt the standalone book
+preview around the user's supplied japseva_book_page_reader.html layout reference.
+Uses a phone-sized, viewport-height reading stage with inner scrolling, compact
+header, fixed footer and native Contents/anuvaka jump sheets. Starts at the real
+Shri Rudram first anuvaka. Existing sourced texts, summaries, licensed audio and
+palette tokens are retained; no reference sample's synthetic 30-page cycling,
+sync claims, sign-in form, remote Tailwind dependency or zoom restrictions copied.
+A real 72x54px folded-corner button lifts gently three times to suggest turning;
+visible hint stops after first turn. A separate lower page band keeps the corner
+clear of scrolling verse text. Corner/footer/swipe turn anuvakas within Rudram
+and readings for short entries, with explicit boundary disabling. A 520ms leaf
+overlay now turns around the binding; rapid input cancels old overlays, and
+reduced motion disables both leaf turns and the corner hint. Contents keep active
+entry/filter state; text remains selectable and zoom remains available.
+Focused Chrome checks pass at 360/390px light/dark: viewport/footer fit, corner
+hint/action, leaf cancellation, chapter boundaries/jump, filtered contents,
+Recite/Learn and real audio playback/pause on Contents. Reduced-motion behavior
+passes. Mobile screenshots reviewed. Evidence: .publish/book-reference-checks.json
+and .publish/book-reference-*.png. Only the preview is revised; primary JapSeva
+practice/library UI and business data remain unchanged.
+
 Mantra book preview released (2026-11-21 IST): implementation commit e6788f6
 deployed to /japseva/book-preview, Worker version
 e4f6424b-00d3-4f8d-9d64-3a645085dcb8. Build exported 740 assets; five changed
