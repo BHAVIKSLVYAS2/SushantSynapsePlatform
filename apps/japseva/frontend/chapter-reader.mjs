@@ -37,5 +37,5 @@ export function mountChapterReader(host,mantra,language='en'){
   for(const option of script.options)option.textContent=t[option.value];
   select.replaceChildren();let group,book;mantra.chapters.forEach((chapter,index)=>{if(chapter.book!==book){book=chapter.book;group=el('optgroup');group.label=groupNames[book]?.[lang]||t[book]||chapterLabel;select.append(group);}group.append(new Option(chapter.titles?.[lang]||`${t[book]} · ${t.chapter} ${chapter.number}`,String(index)));});paint();
  }
- translate(lang);return {element:section,translate,move,scriptControl(){return scriptLabel;},navigation(){return {position,total:mantra.chapters.length};},setLearning(value){if(learning===value)return;learning=value;paint();}};
+ translate(lang);return {element:section,translate,move,setScript(value){if(['hi','en','gu'].includes(value)){script.value=value;paint();}},scriptControl(){return scriptLabel;},navigation(){return {position,total:mantra.chapters.length};},setLearning(value){if(learning===value)return;learning=value;paint();}};
 }

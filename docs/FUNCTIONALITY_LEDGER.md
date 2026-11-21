@@ -1,3 +1,27 @@
+Mantra Library index/Sanskrit-first follow-up (2026-11-21 IST): improved the
+existing index with Devanagari primary names, localized secondary names, a short
+Sanskrit opening line, derived chapter counts and verified positive audio cues.
+Compact non-wrapping category controls retain the existing category/deity filters;
+added Audio All/With audio/Without audio to the same filter dialog. Continue
+reading now shows the Devanagari title and actual saved chapter position; the
+last reading remains highlighted on return. Header/search spacing is reduced.
+Sanskrit/Devanagari is now the initial primary script for short and chapter
+readings regardless of interface language or an old saved Roman preference.
+Explicit script changes still work; interface language no longer changes the
+selected script. Existing chapter position is preserved. No business data,
+schema, audio recording or translation content changes.
+Focused Chrome verification passes 18 language/theme/360-390px index cases,
+Devanagari primary names/opening lines, one-row categories, truthful metadata,
+three-result recorded-audio filter/reset, fresh Sanskrit defaults, independent
+explicit Roman choice, saved chapter 5/22 resume and unchanged business records.
+Evidence: .publish/library-index-checks.json and
+.publish/library-index-sanskrit-mobile.png. Mobile screenshot visually reviewed;
+frontend build exports 741 assets and syntax/whitespace checks pass.
+Pending priorities remain reviewed
+verse-aligned translations for long readings, teacher pronunciation review,
+broader licensed recordings, exact-position bookmarks across visits and in-reader
+text sizing. These are recommendations, not implemented/connected capabilities.
+
 Mantra Library integrated release (2026-11-21 IST): implementation df51df7,
 Worker f83f94b4-0fd0-4e29-b8af-9131371fad26. The existing /japseva Mantra
 Library now serves the reference-based reader; /japseva/book-preview returns 404.

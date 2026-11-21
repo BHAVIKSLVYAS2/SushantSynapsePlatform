@@ -59,3 +59,25 @@ body.japseva-book-open #main>.intro,body.japseva-book-open #main>.tabs,body.japs
 #main #learn .mantra-book:not(.book-reading) .library-category-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin}
 #main #learn .mantra-book:not(.book-reading) .library-category-chips button{flex:none;white-space:nowrap;font-size:12px;padding:8px 10px}
 @media(prefers-reduced-motion:reduce){#main .book-page-corner::before{animation:none!important}#main .book-reader-scroll{scroll-behavior:auto!important}}
+
+/* Sanskrit-first contents, with compact discovery and honest availability. */
+#main #learn .mantra-book:not(.book-reading){padding:20px 20px 24px;max-width:960px}
+#main #learn .mantra-book:not(.book-reading) .book-cover{text-align:start;padding-bottom:14px;margin-bottom:12px}
+#main #learn .mantra-book:not(.book-reading) .book-eyebrow{display:block;font-size:11px;letter-spacing:0;margin:0 0 4px}
+#main #learn .mantra-book:not(.book-reading) .book-cover h2{font:500 28px/1.5 'Nirmala UI',Georgia,serif!important;margin:0}
+#main #learn .mantra-book:not(.book-reading) .book-resume{display:grid;gap:3px;width:100%;text-align:start;padding:10px 14px;margin-top:12px;border-inline-start:3px solid var(--ui-accent);background:var(--ui-soft)}
+#main .book-resume strong{font:500 17px/1.6 'Nirmala UI',serif}
+#main .book-resume span{font-size:12px;color:var(--ui-muted)}
+#main #learn .mantra-book:not(.book-reading) .library-search-row>label>span{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+#main #learn .mantra-book:not(.book-reading) .collection-controls{gap:8px;margin:0}
+#main #learn .mantra-book:not(.book-reading) .library-category-chips{display:grid;grid-template-columns:.6fr .8fr 1fr 1.25fr;gap:6px;overflow:visible}
+#main #learn .mantra-book:not(.book-reading) .library-category-chips button{font-size:12px;padding:8px 4px;min-height:44px;border-radius:8px;white-space:nowrap;text-align:center}
+#main #learn .mantra-book:not(.book-reading) #library{margin-top:8px;column-gap:28px}
+#main #learn .mantra-book:not(.book-reading) #library .library-guide>summary{padding:14px 8px;align-items:start;min-height:96px;gap:10px}
+#main #learn .mantra-book:not(.book-reading) .book-index-number{align-self:start;padding-top:5px;flex-basis:22px;font-size:11px}
+#main #learn .mantra-book:not(.book-reading) .library-row-copy h3{font:550 18px/1.6 'Nirmala UI',serif;margin:0;color:var(--ui-ink)}
+#main .library-entry-name{display:block;font-size:12px;line-height:1.6;color:var(--ui-muted);margin:1px 0 4px}
+#main #learn .mantra-book:not(.book-reading) .library-snippet{display:block;font:400 15px/1.9 'Nirmala UI',serif;white-space:normal;overflow:visible;text-overflow:clip;color:var(--ui-muted);margin-top:4px;overflow-wrap:break-word}
+#main .library-entry-meta{display:block;font-size:11px;line-height:1.6;color:var(--ui-accent);margin-top:6px}
+#main #learn .mantra-book:not(.book-reading) #library .library-last-read>details>summary{background:var(--ui-soft);box-shadow:inset 2px 0 var(--ui-accent)}
+@media(max-width:600px){#main #learn .mantra-book:not(.book-reading){padding:16px 14px 20px;margin-top:12px}#main #learn .mantra-book:not(.book-reading) .book-cover h2{font-size:26px!important}#main #learn .mantra-book:not(.book-reading) .library-row-copy h3{font-size:17px}}
