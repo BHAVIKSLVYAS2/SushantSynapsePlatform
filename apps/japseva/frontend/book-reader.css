@@ -30,6 +30,11 @@ body.japseva-book-open #main>.intro,body.japseva-book-open #main>.tabs,body.japs
 #main .book-sound-help p,#main .book-sound-help dl{font-size:13px;line-height:1.8;overflow-wrap:anywhere}
 #main .book-sound-help dt{font-weight:600;margin-top:8px}
 #main .book-sound-help dd{margin:0}
+#main .book-reading-settings>.book-sound-help{border-top:1px solid var(--ui-edge);padding-top:4px}
+#main #learn .book-reading .reading-context,#main #learn .book-reading .chapter-roman,#main #learn .book-reading .library-pronunciation{border:0;border-top:1px solid var(--ui-edge);border-radius:0;background:transparent;margin:12px 0 0;padding:0}
+#main #learn .book-reading .reading-context>summary,#main #learn .book-reading .chapter-roman>summary,#main #learn .book-reading .library-pronunciation>summary{min-height:44px;align-content:center;font-size:13px;line-height:1.6;color:var(--ui-accent);cursor:pointer;padding:8px 0}
+#main #learn .book-reading .reading-context p{font-size:13px;line-height:1.8}
+#main #learn .book-reading .reading-context .chapter-reference{display:inline-flex;align-items:center;min-height:44px;font-size:13px}
 #main #learn .book-reading .chapter-reader{display:flex;flex-direction:column;margin:0}
 #main #learn .book-reading .chapter-reader>label{order:4;font-size:12px;margin:16px 0 0}
 #main #learn .book-reading .chapter-reader>h4:first-of-type{order:0;font:400 12px/1.6 system-ui,sans-serif;color:var(--ui-muted);margin:0 0 8px}

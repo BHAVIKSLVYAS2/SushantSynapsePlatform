@@ -13,7 +13,7 @@ export function mountReadingSettings(book,toolbar,soundRows,onResize){
  for(const value of [22,26,30,34])size.append(new Option(String(value)+' px',String(value)));
  for(const value of [1.9,2.05,2.3,2.5])spacing.append(new Option(String(value)+'×',String(value)));
  const stored=readPreference('type',{});size.value=[22,26,30,34].includes(stored?.size)?stored.size:26;spacing.value=[1.9,2.05,2.3,2.5].includes(stored?.spacing)?stored.spacing:2.05;
- reset.type='button';sizeLabel.append(sizeCaption,size);spacingLabel.append(spacingCaption,spacing);panel.append(sizeLabel,spacingLabel,reset,notice);settings.append(summary,panel);guide.append(guideTitle,intro,sounds);toolbar.append(settings,guide);
+ reset.type='button';sizeLabel.append(sizeCaption,size);spacingLabel.append(spacingCaption,spacing);panel.append(sizeLabel,spacingLabel,reset,notice);guide.append(guideTitle,intro,sounds);settings.append(summary,panel,guide);toolbar.append(settings);
  let language='en',canSave=true;
  function apply(){book.style.setProperty('--reading-size',size.value+'px');book.style.setProperty('--reading-spacing',spacing.value);}
  function change(){const restore=onResize?.();apply();writePreference('type',{size:Number(size.value),spacing:Number(spacing.value)});restore?.();}

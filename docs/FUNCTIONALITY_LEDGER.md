@@ -1,3 +1,23 @@
+Mantra Library information cleanup (2026-11-21 IST): applied the frontend-design
+and UI/UX skills' general reading-first guidance to the existing library.
+Removed the redundant Contents eyebrow from the index cover; the unfiltered
+result count reads 109 mantras rather than 109 / 109. Repeated localized names
+are suppressed when identical to the Sanskrit name. Short-reading pronunciation
+is a closed disclosure, with Roman and script aids omitted when they duplicate
+the selected primary text (ignoring whitespace and separator punctuation).
+Distinct phonetic spelling/syllable hints remain available. Long readers use a
+closed Roman-aid disclosure; their overview, scope/practice notes and source link
+are grouped under About this reading below the text. Chapter summary/full-
+translation-pending labelling remains visible in Learn mode. Pronunciation help
+is nested inside Reading settings rather than adding another toolbar row.
+The index Reading help retains sound guidance and full licence/source credits,
+without its repeated heading and script-help paragraph. Sanskrit defaults,
+book/chapter navigation, reading preferences, practice action/data and all audio
+behaviour/assets are preserved. Practice chapter readers retain their original
+expanded layout; compact disclosure layout is enabled only by the library.
+No tests or browser checks run, per the user's standing instruction. Syntax and
+whitespace checks pass; build/release outcome is recorded separately.
+
 Mantra Library reading preferences release (2026-11-21 IST): source 7a13c6c
 deployed as Worker 04f80ef5-0ce8-44d4-a3e8-abe1a181854a. Frontend build
 passes and exports 743 assets; 11 changed assets uploaded. --keep-vars preserves
