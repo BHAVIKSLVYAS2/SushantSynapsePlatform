@@ -1,3 +1,12 @@
+Mantra Library index release (2026-11-21 IST): source 77e6c6b deployed as Worker
+ce24ed3e-2129-4cbf-8e57-f89971f07579. Build exports 741 assets; nine changed
+assets uploaded with --keep-vars. Organisation/auth/D1 settings and disabled
+Nishi AI preserved; no migrations or production business writes. Live Chrome
+confirms Sanskrit-first names, Sanskrit initial script, independent UI language
+and explicit Roman selection, audio filter returning three recordings, mobile
+viewport fit, unchanged browser business records and no page errors. Evidence:
+.publish/library-index-live.png.
+
 Mantra Library index/Sanskrit-first follow-up (2026-11-21 IST): improved the
 existing index with Devanagari primary names, localized secondary names, a short
 Sanskrit opening line, derived chapter counts and verified positive audio cues.
