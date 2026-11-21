@@ -3,3 +3,6 @@ export const kundliInterfaceCopy={
  hi:{edit:'बदलें',save:'सहेजें',update:'अपडेट',report:'रिपोर्ट',north:'उत्तर',south:'दक्षिण',sections:'पाठ और गणनाएँ',tools:'अन्य साधन',inspect:'जानने के लिए भाव या ग्रह चुनें',checks:'पारंपरिक योग और मंगल जाँच',advanced:'वर्ग कुंडलियाँ और उपलब्ध बल गणनाएँ',sensitivity:'अनिश्चित जन्म समय का चार्ट पर प्रभाव देखें',transits:'दूसरी तारीख के ग्रह गोचर देखें',overview:'जन्म कुंडली का सार',topics:'जीवन के क्षेत्रों के अनुसार पाठ देखें',reportHint:'डाउनलोड, प्रिंट और गोपनीयता विकल्प'},
  gu:{edit:'બદલો',save:'સાચવો',update:'અપડેટ',report:'અહેવાલ',north:'ઉત્તર',south:'દક્ષિણ',sections:'વાંચન અને ગણતરીઓ',tools:'અન્ય સાધનો',inspect:'જાણવા માટે ભાવ કે ગ્રહ પસંદ કરો',checks:'પરંપરાગત યોગ અને મંગળ તપાસ',advanced:'વર્ગ કુંડળીઓ અને ઉપલબ્ધ બળ ગણતરીઓ',sensitivity:'અનિશ્ચિત જન્મ સમયની ચાર્ટ પર અસર જુઓ',transits:'બીજી તારીખના ગ્રહ ગોચર જુઓ',overview:'જન્મ કુંડળીનો સાર',topics:'જીવનનાં ક્ષેત્રો મુજબ વાંચન જુઓ',reportHint:'ડાઉનલોડ, પ્રિન્ટ અને ગોપનીયતા વિકલ્પો'}
 };
+Object.assign(kundliInterfaceCopy.en,{details:'View details',houseHint:'Select a house. Numbers in the chart indicate zodiac signs.'});
+Object.assign(kundliInterfaceCopy.hi,{details:'विवरण देखें',houseHint:'भाव चुनें। चार्ट के अंक राशियों के हैं।'});
+Object.assign(kundliInterfaceCopy.gu,{details:'વિગતો જુઓ',houseHint:'ભાવ પસંદ કરો. ચાર્ટના અંકો રાશિના છે.'});

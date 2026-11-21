@@ -1,3 +1,47 @@
+Ritual Prep cleanup and Ritvayam house-selection fixes (2026-11-21 IST):
+Ritual Prep now has a compact task header, one All/To arrange/Arranged/Unassigned
+filter row, direct pencil editing and Remove inside the item editor. Specific
+material guidance remains in the editor and print output; confirm-first markers
+stay visible. The cross-app mantra link and family guidance move below the list
+into Guidance & prayers; deep-linked Steps & prayers remains accessible. Saving
+preferences/data deletion move below the list; saving state/failures remain visible.
+Add item, Clear checks and Reset items share one bottom action row. Clear keeps
+all item edits; Reset items confirms before restoring this ritual's original
+items and clearing additions, renamed/removed items, quantities, arrangers and
+checks. Reset preserves ritual date, remember preference, other rituals and
+calendar data. Both resets offer one-step Undo; subsequent edits invalidate the
+snapshot to prevent replacing newer changes. Undo state is transient, not saved.
+Ritvayam chart selection now resolves clicks against actual polygon/rectangle
+fills using SVG coordinates; loose text no longer intercepts house taps. Selected
+house, highlight, dropdown and chart selection stay synchronized. A house/sign
+label distinguishes houses from the zodiac numbers drawn on a North chart.
+House and graha selection update in place; only View details opens the mobile
+sheet. Keyboard selection remains available; chart geometry/calculations unchanged.
+Focused Chrome inspection on isolated DATA_DIR/browser fixtures confirms clear,
+reset-confirm/cancel, both undo paths, direct edit/add, other-ritual/date retention,
+section return and learning access. EN/HI at 360/390/1280px fit. Actual pointer
+clicks in all 12 North and South regions select the correct house with no popup;
+dropdown, explicit details, keyboard and D9 selection work without page errors.
+Screenshots: .publish/ritual-clean-top.png, .publish/ritual-clean-actions.png and
+.publish/kundali-house-selection.png. Existing Ritual browser selectors were
+updated for direct edit, consolidated filters and editor guidance; suites were
+not run, per standing request. Syntax/whitespace checks pass. Build/release
+outcome is recorded separately when complete. No schema or private API changes.
+
+Ritual Assist navigation review (2026-11-21 IST, discussion only): inspected
+the live mobile Ritual Prep screen and app-owned navigation/checklist code.
+The first material is pushed low by header, cross-app library link, ritual
+chooser, export actions, saving/settings and overlapping filter controls.
+Clear checkmarks is inside Checklist settings while Add item is at list end;
+row menus contain Edit/Delete, and guidance has separate disclosures. Proposed
+compact task navigation, one filter row, Add item + Clear checks at list end
+with existing Undo, direct item editing, and secondary guidance/data actions
+grouped separately. Clearing checks must remain distinct from deleting saved
+items/quantities/arrangers/date. These are recommendations, not implemented.
+No UI code, saved records, calculations or deployment changed. Read-only live
+browser inspection only; no test suites run. Evidence:
+.publish/ritual-review-top.png and .publish/ritual-review-add.png.
+
 Kundali reference-led UI release (2026-11-21 IST): source ee69593 deployed as
 Worker 40a6fe9c-23a4-417f-bf5c-dd54ed593339. Build exports 743 assets;
 10 changed assets uploaded with --keep-vars. Organisation/auth/D1 settings

@@ -48,3 +48,32 @@ body[data-ui-app=ritual-assist] .priest-control input[type=checkbox],body[data-u
 @media print{.checklist-controls,.priest-control,.item-menu,.add-checklist-item,.restore-items,.remember-checks,.item-note{display:none!important}.puja-checklist .compact-item{display:block;padding:0;border:0}.checklist-header input[type=date]{border:0}.checklist-header .ritual-art{display:none}.ritual-dialog{display:none!important}.compact-item .arrangement-print:not([hidden]){display:block!important}.quantity-badge{background:none;color:inherit}}
 
 .mantra-library-link{display:inline-flex;align-items:center;min-height:44px;padding:8px 0;margin-bottom:12px;color:var(--primary);font-weight:600}
+
+/* Checklist first; secondary guidance and saving controls follow the items. */
+body.ritual-landing .ritual-task-header{gap:10px;padding:8px 0}
+body.ritual-landing .ritual-task-header .ritual-calendar-icon{width:42px;height:42px}
+body.ritual-landing .ritual-task-header h1{font-size:20px;margin:0}
+body.ritual-landing .ritual-task-header p{display:none}
+body.ritual-landing .ritual-task-tabs{margin-bottom:10px}
+body.ritual-landing .ritual-task-tabs :is(a,button){min-height:44px;font-size:12px;padding:6px}
+body.ritual-landing #library>summary{min-height:52px;padding-block:8px}
+body.ritual-landing #guide .guide-top{margin:0 0 8px}
+body.ritual-landing .puja-checklist .checklist-header{padding-bottom:10px}
+body.ritual-landing .puja-checklist #checklist-save-status{font-size:11px;margin:6px 0;line-height:1.6}
+body.ritual-landing .puja-checklist .checklist-quick-filters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin:10px 0}
+body.ritual-landing .puja-checklist .checklist-quick-filters button{min-height:44px;padding:6px 3px;font-size:11px;line-height:1.4}
+body.ritual-landing .puja-checklist .compact-item{grid-template-columns:minmax(0,1fr) 40px 44px}
+body.ritual-landing .puja-checklist .item-edit{display:grid;place-items:center;width:44px;min-width:44px;min-height:44px;padding:0;border:0;background:transparent;color:var(--muted);box-shadow:none}
+body.ritual-landing .puja-checklist .item-edit:hover{background:var(--soft);color:var(--accent)}
+body.ritual-landing .puja-checklist .checklist-action-row{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:6px;margin:16px 0 8px}
+body.ritual-landing .puja-checklist .checklist-action-row button{width:auto;min-height:48px;margin:0;padding:8px 4px;font-size:12px;border-radius:10px;line-height:1.4}
+body.ritual-landing .puja-checklist .checklist-action-hint{font-size:11px;line-height:1.6;margin:6px 0 12px}
+body.ritual-landing .puja-checklist .checklist-saving{display:flex;gap:8px 16px;flex-wrap:wrap;align-items:center;margin:12px 0 0;padding:12px 0 0;border:0;border-top:1px solid var(--line);border-radius:0;background:transparent}
+body.ritual-landing .puja-checklist .checklist-settings{flex:1 1 100%;margin:0}
+body.ritual-landing #guide .checklist-guidance{margin:12px 0;padding:0 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+body.ritual-landing .checklist-guidance>summary{min-height:48px;align-content:center;font-size:14px}
+body.ritual-landing .checklist-guidance .ritual-learning{box-shadow:none;margin:0 0 12px}
+body.ritual-landing .checklist-guidance h3{font-size:15px}
+.item-editor .item-editor-actions{flex-wrap:wrap}
+.item-editor .item-remove{background:var(--surface);color:var(--text);border:1px solid var(--line)}
+@media print{.checklist-action-row,#undo-clear-checks,.checklist-action-hint,.item-edit,.checklist-guidance{display:none!important}}

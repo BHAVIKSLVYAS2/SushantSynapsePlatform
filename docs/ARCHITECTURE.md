@@ -69,6 +69,14 @@ queries through JapSeva's reading aliases. The old content module is a Node-only
 compatibility re-export for historical source checks. The source-review document
 remains authoritative for admitted texts; no database/schema changes.
 
+Ritual Prep reset/selection follow-up (2026-11-21): app.js owns the scoped
+Clear checks/Reset items actions and transient undo snapshot. Existing checklist
+schema/remember policy remain authoritative; Reset items preserves ritual date
+and other guide entries. arrangements.css owns compact checklist controls.
+Ritvayam chart-view owns SVG fill hit-testing and in-place selected-house state;
+mobile details are explicitly requested. Chart-model geometry and kernels stay
+unchanged. Both changes use existing browser-owned records and UI tokens.
+
 Ritvayam reference-led refinement (2026-11-21): birth-app owns the compact birth
 profile, short result actions and described section menu. kundli-interface-copy.mjs
 owns EN/HI/GU interface labels. chart-view retains a single division selector,
