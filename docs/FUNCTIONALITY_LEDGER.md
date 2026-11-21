@@ -1,3 +1,11 @@
+Mantra book preview released (2026-11-21 IST): implementation commit e6788f6
+deployed to /japseva/book-preview, Worker version
+e4f6424b-00d3-4f8d-9d64-3a645085dcb8. Build exported 740 assets; five changed
+assets uploaded. Used --keep-vars, preserving organisation/auth/D1 settings and
+disabled Nishi AI. No migrations, production business writes or replacement of
+the primary JapSeva UI. Only syntax/whitespace checks and read-only delivery
+confirmation were performed in this release; earlier prototype checks are below.
+
 Mantra book preview publishing (2026-11-21 IST): user requested commit/deploy of
 the refined proposal. Added standalone /japseva/book-preview with app-owned
 generated HTML/CSS/JS from docs/design/mantra-book-proposal.html. The export build
