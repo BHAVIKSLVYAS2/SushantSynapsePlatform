@@ -1,3 +1,13 @@
+Mantra book reference revision released (2026-11-21 IST): source 4bd4cb3,
+Worker 9b3177b9-3096-42de-b181-069474796260, same /japseva/book-preview URL.
+Build exported 740 assets; five changed assets uploaded with --keep-vars.
+Organisation/auth/D1 settings and disabled Nishi AI preserved. No migrations or
+business writes; primary JapSeva interface unchanged.
+Live read-only Chrome confirmation passes for Rudram, animated corner, tap to
+next anuvaka, completed leaf turn, viewport fit and no page errors. First Chrome
+launch exited before opening a page; retry passed. Screenshot:
+.publish/book-reference-live.png.
+
 Mantra book reference revision (2026-11-21 IST): rebuilt the standalone book
 preview around the user's supplied japseva_book_page_reader.html layout reference.
 Uses a phone-sized, viewport-height reading stage with inner scrolling, compact
