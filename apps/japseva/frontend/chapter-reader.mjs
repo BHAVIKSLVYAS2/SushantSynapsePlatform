@@ -1,8 +1,9 @@
+import {readPreference,writePreference} from './reader-preferences.mjs';
 import {romanize,gujaratiScript} from './script-aids.mjs';
 import {capturePage,turnPage} from './book-motion.mjs';
 export {turnPage} from './book-motion.mjs';
 const positions=new Map(); // Reading preferences only; never a japa count.
-function saved(id){try{return JSON.parse(sessionStorage.getItem('japseva-reader:'+id))||{};}catch{return {};}}
+function saved(id){try{return JSON.parse(sessionStorage.getItem('japseva-reader:'+id))||readPreference('chapter:'+id,{});}catch{return readPreference('chapter:'+id,{});}}
 const groupNames={preparation:{en:'Preparation & puja',hi:'तैयारी और पूजा',gu:'તૈયારી અને પૂજા'},closing:{en:'Closing prayers',hi:'समापन',gu:'સમાપન'},saptashati:{en:'Durga Saptashati · 13 chapters',hi:'दुर्गासप्तशती · १३ अध्याय',gu:'દુર્ગાસપ્તશતી · ૧૩ અધ્યાય'},katha:{en:'Vrata katha · 5 chapters',hi:'व्रत-कथा · ५ अध्याय',gu:'વ્રતકથા · ૫ અધ્યાય'},path:{en:'Main text',hi:'मुख्य पाठ',gu:'મુખ્ય પાઠ'}};
 const copy={
  en:{chapter:'Anuvaka',previous:'Previous',next:'Next',script:'Reading script',hi:'Sanskrit',en:'Roman',gu:'Gujarati',meaning:'Meaning · summary',namakam:'Namakam',chamakam:'Chamakam',source:'Anuvaka source',note:'Unaccented reading aid. Learn Vedic pitch accents from a trained teacher. Reading a chapter does not increase your practice count.'},
@@ -16,10 +17,10 @@ export function mountChapterReader(host,mantra,language='en'){
  const restored=saved(mantra.id);let lang=copy[language]?language:'en',position=positions.get(mantra.id)??restored.position??0;
  if(!Number.isInteger(position)||position<0||position>=mantra.chapters.length)position=0;
  const section=el('section','chapter-reader'),nav=el('div','chapter-navigation'),label=el('label'),caption=el('span'),select=el('select'),previous=el('button'),next=el('button'),status=el('p','muted'),heading=el('h4'),scriptLabel=el('label'),scriptCaption=el('span'),script=el('select'),text=el('p','mantra chapter-text'),meaningHeading=el('h4'),meaning=el('p','chapter-meaning'),note=el('p','muted');
- let learning=false;const aidHeading=el('h4','learn-only'),aid=el('p','reading-aid learn-only');aid.lang='sa-Latn';
+ let learning=false;const aidHeading=el('h4','learn-only'),aid=el('p','reading-aid learn-only'),reference=el('a','learn-only chapter-reference');aid.lang='sa-Latn';
  section.setAttribute('data-language-preserve','');status.role='status';text.lang='sa';previous.type=next.type='button';
  for(const key of ['hi','en','gu'])script.append(new Option('',key));const selected=positions.get(mantra.id+'-script')||restored.script;script.value=['hi','en','gu'].includes(selected)?selected:(lang==='gu'?'gu':'hi');
- label.append(caption,select);scriptLabel.append(scriptCaption,script);nav.append(previous,status,next);meaningHeading.classList.add('learn-only');meaning.classList.add('learn-only');note.classList.add('learn-only');section.append(label,heading,scriptLabel,text,aidHeading,aid,meaningHeading,meaning,note,nav);heading.tabIndex=-1;host.append(section);
+ label.append(caption,select);scriptLabel.append(scriptCaption,script);nav.append(previous,status,next);meaningHeading.classList.add('learn-only');meaning.classList.add('learn-only');note.classList.add('learn-only');section.append(label,heading,scriptLabel,text,aidHeading,aid,meaningHeading,meaning,note,reference,nav);heading.tabIndex=-1;host.append(section);
  function paint(){
   const t=copy[lang],chapter=mantra.chapters[position];
   select.value=String(position);previous.disabled=position===0;next.disabled=position===mantra.chapters.length-1;
@@ -27,10 +28,12 @@ export function mountChapterReader(host,mantra,language='en'){
   const key=script.value;text.textContent=key==='en'?romanize(chapter.text):key==='gu'?gujaratiScript(chapter.text):chapter.text;text.lang=key==='en'?'sa-Latn':key==='gu'?'sa-Gujr':'sa-Deva';
   aidHeading.textContent=aidCopy[lang];aid.textContent=learning&&key!=='en'?romanize(chapter.text):'';aidHeading.hidden=aid.hidden=!learning||key==='en';
   meaningHeading.textContent=summaryCopy[lang];meaning.textContent=chapter.meanings[lang];meaning.lang=lang;
+  const source=chapter.sourceUrl||mantra.sourceUrl;reference.hidden=!source;reference.textContent={en:'Read the source edition',hi:'स्रोत संस्करण पढ़ें',gu:'સ્રોત આવૃત્તિ વાંચો'}[lang];if(source&&/^https:\/\//.test(source))reference.href=source;else reference.removeAttribute('href');
   positions.set(mantra.id,position);positions.set(mantra.id+'-script',script.value);
+  writePreference('chapter:'+mantra.id,{position,script:script.value});
   try{sessionStorage.setItem('japseva-reader:'+mantra.id,JSON.stringify({position,script:script.value}));}catch{}
  }
- function move(value){if(!Number.isInteger(value)||value<0||value>=mantra.chapters.length)return;const snapshot=capturePage(text),direction=value>=position?1:-1;position=value;paint();turnPage(text,direction,snapshot);heading.focus({preventScroll:true});const scroll=section.closest('.book-reader-scroll');if(scroll)scroll.scrollTop=0;else heading.scrollIntoView({block:'start',behavior:'auto'});section.dispatchEvent(new CustomEvent('japseva-chapter-change',{bubbles:true}));}
+ function move(value){if(!Number.isInteger(value)||value<0||value>=mantra.chapters.length)return;section.dispatchEvent(new CustomEvent('japseva-chapter-will-change',{bubbles:true}));const snapshot=capturePage(text),direction=value>=position?1:-1;position=value;paint();turnPage(text,direction,snapshot);heading.focus({preventScroll:true});const scroll=section.closest('.book-reader-scroll');if(scroll)scroll.scrollTop=0;else heading.scrollIntoView({block:'start',behavior:'auto'});section.dispatchEvent(new CustomEvent('japseva-chapter-change',{bubbles:true}));}
  previous.onclick=()=>move(position-1);next.onclick=()=>move(position+1);select.onchange=()=>move(Number(select.value));script.onchange=paint;
  function translate(language){
   lang=copy[language]?language:'en';const t=copy[lang],chapterLabel=mantra.chapterLabel?.[lang]||t.chapter;caption.textContent=chapterLabel;select.setAttribute('aria-label',chapterLabel);scriptCaption.textContent=t.script;script.setAttribute('aria-label',t.script);previous.textContent=t.previous;next.textContent=t.next;meaningHeading.textContent=t.meaning;note.textContent=mantra.readerNote?.[lang]||t.note;

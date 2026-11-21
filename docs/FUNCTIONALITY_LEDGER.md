@@ -1,3 +1,23 @@
+Mantra Library reading preferences (2026-11-21 IST): the existing reader now
+stores the last reading, chapter and per-chapter scroll position in separate
+japseva-reading:* localStorage keys. Positions are saved on navigation,
+visibility change and page exit; text-relative offsets compensate for reading
+control height and changed viewport/text size. Continue reading survives a new
+browser visit on the same device. Existing session positions are retained as a
+migration fallback. Storage failure is handled with an explicit local notice.
+Collapsible Reading settings adds 22/26/30/34px text and 1.9/2.05/2.3/2.5 line
+spacing, reset and persistent preferences. Learn mode includes the existing
+three-language sound guide inside the reader; chapter source-edition links are
+available with the chapter summary. Sanskrit remains the initial script.
+Audio code/assets, practice records, counts, backups and server data are unchanged.
+No tests or browser verification run, as requested; syntax/whitespace checks pass.
+Build and production release status are recorded separately below when complete.
+Full verse-by-verse EN/HI/GU translations and qualified teacher pronunciation
+review remain incomplete: existing long-reading meanings are summaries, and
+Roman/script conversion is approximate and unaccented. No claim of full
+translation, qualified review or additional licensed audio is made. The linked
+source editions do not constitute in-app translations or teacher certification.
+
 Mantra Library index release (2026-11-21 IST): source 77e6c6b deployed as Worker
 ce24ed3e-2129-4cbf-8e57-f89971f07579. Build exports 741 assets; nine changed
 assets uploaded with --keep-vars. Organisation/auth/D1 settings and disabled

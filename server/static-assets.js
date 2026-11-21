@@ -14,6 +14,7 @@ const staticAssets={
  '/japseva/':'apps/japseva/frontend/index.html',
  '/japseva/book-motion.mjs':'apps/japseva/frontend/book-motion.mjs',
  '/japseva/book-reader-shell.mjs':'apps/japseva/frontend/book-reader-shell.mjs',
+ '/japseva/reader-preferences.mjs':'apps/japseva/frontend/reader-preferences.mjs',
  '/japseva/book-reader.css':'apps/japseva/frontend/book-reader.css',
  '/japseva/gayatri-mantras.mjs':'apps/japseva/frontend/gayatri-mantras.mjs',
  '/japseva/rudra-mantras.mjs':'apps/japseva/frontend/rudra-mantras.mjs',
