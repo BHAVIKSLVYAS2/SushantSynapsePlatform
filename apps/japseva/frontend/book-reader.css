@@ -1,0 +1,61 @@
+/* The existing library becomes the reader; platform tokens and records remain shared. */
+body.japseva-book-open{overflow:hidden}
+body.japseva-book-open #main>.intro,body.japseva-book-open #main>.tabs,body.japseva-book-open #main>.backup-tools,body.japseva-book-open #main>footer{display:none}
+#main #learn .mantra-book.book-reading{position:fixed;z-index:30;inset-block:calc(var(--shell-height,72px) + 8px) 8px;left:50%;transform:translateX(-50%);width:min(700px,calc(100vw - 24px));max-width:none;margin:0;padding:0;display:flex;flex-direction:column;border:0;background:transparent;box-shadow:none;overflow:visible}
+#main .book-reader-stage{position:relative;flex:1;min-height:0;perspective:1800px;border:1px solid var(--ui-edge);border-radius:15px;background:var(--ui-solid);box-shadow:2px 0 0 var(--ui-soft),4px 0 0 var(--ui-edge);overflow:hidden}
+#main .book-reader-stage::before{content:'';position:absolute;inset:0 auto 0 0;width:20px;background:linear-gradient(90deg,var(--ui-soft),transparent);pointer-events:none;z-index:1}
+#main .book-reader-scroll{height:calc(100% - 54px);overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:12px 18px 24px;scroll-padding-top:14px}
+#main #learn .book-reading .book-toolbar{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;align-items:center;padding:0 0 8px;margin:0 0 12px;border-bottom:1px solid var(--ui-edge)}
+#main #learn .book-reading .book-toolbar h2{font:500 16px/1.5 Georgia,'Nirmala UI',serif!important;margin:0;text-align:end;overflow-wrap:break-word}
+#main .book-toolbar h2:focus{outline:none}
+#main .book-contents{font-size:12px;padding:8px 0;border:0;background:transparent;color:var(--ui-accent);min-height:44px}
+#main .book-control-row{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:8px}
+#main .book-control-row .reading-mode{gap:6px;margin:0;min-height:44px;font-size:12px}
+#main .book-control-row .reading-mode input{width:44px;height:24px;min-height:24px}
+#main .book-control-row>label{display:flex;align-items:center;gap:6px;min-height:44px;margin:0;font-size:11px}
+#main .book-control-row>label>span{max-width:75px;line-height:1.3}
+#main .book-control-row select{width:105px;max-width:105px;min-height:44px;font-size:12px;padding:8px}
+#main .book-audio-unavailable{font-size:11px;color:var(--ui-muted);margin:0 0 12px}
+#main #learn .book-reading #library{margin:0}
+#main #learn .book-reading #library .library-guide-body{padding:0;max-width:none;margin:0}
+#main #learn .book-reading .learning-copy>.mantra,#main #learn .book-reading .chapter-text{font:500 clamp(22px,5.6vw,27px)/2.05 'Nirmala UI','Kohinoor Devanagari',serif;letter-spacing:0;white-space:pre-line;overflow-wrap:break-word;padding-block:4px;margin:18px 0 24px}
+#main #learn .book-reading .chapter-reader{display:flex;flex-direction:column;margin:0}
+#main #learn .book-reading .chapter-reader>label{order:4;font-size:12px;margin:16px 0 0}
+#main #learn .book-reading .chapter-reader>h4:first-of-type{order:0;font:400 12px/1.6 system-ui,sans-serif;color:var(--ui-muted);margin:0 0 8px}
+#main #learn .book-reading .chapter-reader>.chapter-text{order:1}
+#main #learn .book-reading .chapter-reader>.learn-only{order:2}
+#main #learn .book-reading .chapter-reader>.chapter-navigation{display:none}
+#main #learn .book-reading .library-use{margin:22px 0 8px;width:auto;min-height:44px;position:static;font-size:12px}
+#main .book-page-navigation{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:12px;flex:none;padding:12px 2px max(4px,env(safe-area-inset-bottom));background:var(--ui-bg)}
+#main .book-page-navigation button{min-height:44px;font-size:13px;padding:8px 12px}
+#main .book-page-navigation>span{display:grid;min-width:68px;text-align:center;color:var(--ui-muted);font-size:12px;font-variant-numeric:tabular-nums}
+#main .book-page-navigation small{font-size:10px}
+#main .book-page-navigation button:disabled{opacity:1;color:var(--ui-muted);background:var(--ui-bg);border-style:dashed;cursor:default}
+#main .book-page-corner{position:absolute;bottom:0;right:0;width:72px;height:54px;min-height:54px;border:0;border-radius:0 0 14px 0;background:transparent!important;padding:0;z-index:3;touch-action:manipulation}
+#main .book-page-corner::before{content:'';position:absolute;right:0;bottom:0;width:54px;height:54px;clip-path:polygon(100% 0,100% 100%,0 100%);background:linear-gradient(135deg,transparent 45%,var(--ui-accent) 48%,var(--ui-edge) 51%,var(--ui-soft) 78%);transform-origin:100% 100%;animation:library-corner-peek 4.8s ease-in-out 3}
+#main .book-page-corner span{position:absolute;bottom:8px;right:10px;font-size:16px;color:var(--ui-accent);transform:rotate(-35deg)}
+#main .book-page-corner:hover::before,#main .book-page-corner:focus-visible::before{animation:none;transform:scale(1.15)}
+#main .book-page-corner:disabled{display:none}
+#main .book-corner-hint{position:absolute;right:68px;bottom:12px;z-index:2;max-width:calc(100% - 90px);border:1px solid var(--ui-edge);border-radius:20px;padding:3px 8px;font-size:10px;line-height:1.5;color:var(--ui-muted);background:var(--ui-solid);pointer-events:none}
+#main .book-has-turned .book-corner-hint{display:none}
+#main .book-has-turned .book-page-corner::before{animation:none}
+@keyframes library-corner-peek{0%,62%,100%{transform:scale(1)}72%{transform:scale(1.22) skew(-4deg,-4deg)}82%{transform:scale(1)}90%{transform:scale(1.12)}}
+#main .book-turn-leaf{position:absolute;inset:0;z-index:5;pointer-events:none;transform-origin:left center;transform-style:preserve-3d;border-radius:15px;border:1px solid var(--ui-edge);background:var(--ui-solid);overflow:hidden;box-shadow:12px 0 28px var(--ui-soft);backface-visibility:hidden}
+#main .book-turn-leaf .book-reader-scroll{overflow:hidden}
+#main .book-snapshot-control{display:inline-flex;align-items:center;min-height:44px;padding:8px;font-size:12px}
+#main .book-turn-leaf::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 55%,var(--ui-soft));pointer-events:none}
+#main #learn .book-reading .book-navigation{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;margin-top:24px;padding-top:16px}
+#main #learn .book-reading:not(.book-has-chapters) .book-navigation{display:none}
+#main #learn .book-reading .book-navigation button{font-size:11px;min-height:44px;width:auto;padding:8px}
+#main #learn .book-reading .book-navigation button:last-child{grid-column:auto}
+#main #learn .book-reading .book-navigation>span{grid-column:auto;grid-row:auto;font-size:10px}
+#main #learn .book-reading .learning-audio{margin:14px 0;padding:12px 0;border-inline-start:0;border-block-start:1px solid var(--ui-edge)}
+#main #learn .book-reading .audio-practice{margin:0}
+#main #learn .book-reading .library-audio{margin:0 0 12px;border:0}
+#main #learn .book-reading .library-audio>summary{font-size:12px;color:var(--ui-accent);padding:8px 0}
+#main #learn .mantra-book:not(.book-reading) .book-cover{padding-block:0 14px;margin-bottom:12px}
+#main #learn .mantra-book:not(.book-reading) .book-cover h2{font-size:28px;margin:4px 0}
+#main #learn .mantra-book:not(.book-reading) .book-intro,#main #learn .mantra-book:not(.book-reading) .book-eyebrow{display:none}
+#main #learn .mantra-book:not(.book-reading) .library-category-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin}
+#main #learn .mantra-book:not(.book-reading) .library-category-chips button{flex:none;white-space:nowrap;font-size:12px;padding:8px 10px}
+@media(prefers-reduced-motion:reduce){#main .book-page-corner::before{animation:none!important}#main .book-reader-scroll{scroll-behavior:auto!important}}

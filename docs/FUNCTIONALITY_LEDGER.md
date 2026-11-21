@@ -1,3 +1,32 @@
+Mantra Library integration correction (2026-11-21 IST): the reference-based
+reader now belongs to the existing /japseva Mantra Library, across all 109
+entries. Removed the standalone preview route, generated assets and build hook.
+App-owned book-reader-shell.mjs/book-reader.css provide viewport reading beneath
+the shared header, inner text scrolling, fixed Previous/Next, Contents return,
+and the animated folded corner in a band clear of verse text. Footer/corner
+step chapters within multi-chapter readings and filtered readings otherwise;
+outer reading navigation remains separately available below long readings.
+Recite/Learn, primary script control, compact Rudram title, English/Hindi/Gujarati,
+themes, filters/resume and real practice selection are integrated. Licensed
+recordings use the existing audio-practice controls under a Listen disclosure;
+unavailable entries have an honest non-interactive status. No schema, business
+record, count, certificate, backup or licensing changes. Use for practice returns
+to the existing form and closes the reader. Shared Back returns to the index.
+book-motion.mjs renders cancellable, inert leaf snapshots; clones strip IDs,
+entry identity and interactive controls, and remove named-details grouping so
+animation cannot interfere with live library disclosure state. Reduced motion
+disables turns/corner hints. Initial targeted regressions exposed duplicate
+snapshot selectors; fixed by sanitising the inert snapshots before rerunning.
+Seven content/storage checks pass. Focused actual-library Chrome verification
+passes 18 language/theme/width combinations, 109 entries, corner/chapter bounds,
+mode/scripts, filtered return, practice creation/count/reload retention and old
+preview 404. Fixtures use isolated temporary DATA_DIR; no production writes.
+Evidence: .publish/real-library-checks.json and .publish/real-library-mobile.png.
+All three targeted Chrome regressions pass: licensed audio/practice, Navagraha
+filtering/multilingual persistent practice, and all 22 Rudram chapters with
+complete-recitation practice/certificates. Frontend build exports 741 assets;
+syntax and whitespace checks pass. Deployment recorded after completion.
+
 Mantra book reference revision released (2026-11-21 IST): source 4bd4cb3,
 Worker 9b3177b9-3096-42de-b181-069474796260, same /japseva/book-preview URL.
 Build exported 740 assets; five changed assets uploaded with --keep-vars.

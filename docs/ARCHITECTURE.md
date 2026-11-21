@@ -8,6 +8,13 @@ fix keeps the Home-linked logo beside Back on mobile, with compact spacing at
 No business-schema change.
 Details: docs/HEADER_BACK_NAVIGATION_2026-11-19.md.
 
+JapSeva integrated reader (2026-11-21): the existing /japseva library owns the
+reference-based viewport reader. book-reader-shell.mjs/book-reader.css compose
+the existing catalogue, chapter reader and practice actions; book-motion.mjs
+owns cancellable inert leaf snapshots. Chapter reader exposes navigation/script
+controls without changing practice records. The standalone book-preview route
+and generator are removed. All 109 library entries remain in collection-view.
+
 JapSeva book UI (2026-11-19, local): collection-view.mjs owns numbered index,
 filtered reading navigation and same-tab resume ID. chapter-reader.mjs supplies
 the cancellable reduced-motion-aware page-turn helper. Layout stays app-owned
