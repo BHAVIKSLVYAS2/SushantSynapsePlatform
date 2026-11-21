@@ -1,3 +1,10 @@
+Mantra Library information cleanup release (2026-11-21 IST): source 378458a
+deployed as Worker f5ba9859-22be-4a05-978b-3f7bd395e8e1. Frontend build
+passes with 743 assets; 10 changed assets uploaded using --keep-vars. Production
+organisation/auth/D1 settings are preserved; no migrations or business writes.
+Read-only HTTP availability confirmed for /japseva and its updated collection
+module. Tests and browser/mobile verification remain skipped at the user's request.
+
 Mantra Library information cleanup (2026-11-21 IST): applied the frontend-design
 and UI/UX skills' general reading-first guidance to the existing library.
 Removed the redundant Contents eyebrow from the index cover; the unfiltered
