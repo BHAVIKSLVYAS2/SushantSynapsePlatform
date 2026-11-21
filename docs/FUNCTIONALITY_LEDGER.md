@@ -1,3 +1,10 @@
+Mantra Library reading preferences release (2026-11-21 IST): source 7a13c6c
+deployed as Worker 04f80ef5-0ce8-44d4-a3e8-abe1a181854a. Frontend build
+passes and exports 743 assets; 11 changed assets uploaded. --keep-vars preserves
+organisation/auth/D1 settings and disabled Nishi AI. No migrations, production
+business writes, tests or browser verification. Only read-only HTTP availability
+is checked after release; interaction/mobile verification remains unperformed.
+
 Mantra Library reading preferences (2026-11-21 IST): the existing reader now
 stores the last reading, chapter and per-chapter scroll position in separate
 japseva-reading:* localStorage keys. Positions are saved on navigation,
@@ -11,7 +18,7 @@ three-language sound guide inside the reader; chapter source-edition links are
 available with the chapter summary. Sanskrit remains the initial script.
 Audio code/assets, practice records, counts, backups and server data are unchanged.
 No tests or browser verification run, as requested; syntax/whitespace checks pass.
-Build and production release status are recorded separately below when complete.
+Build and production release status are recorded in the release entry above.
 Full verse-by-verse EN/HI/GU translations and qualified teacher pronunciation
 review remain incomplete: existing long-reading meanings are summaries, and
 Roman/script conversion is approximate and unaccented. No claim of full
