@@ -1,3 +1,34 @@
+Mantra Library reading controls (2026-11-21 IST, local): one translated
+Recite/Learn switch now reveals meanings and pronunciation/script aids on the
+same reading surface. Recite is the default; Learn preference lasts in the same
+tab across reloads. Chapter/script selection is retained; long readings add an
+approximate Roman aid when another script is selected. Chapter summaries explicitly
+state that full translation is pending. Existing content has not been upgraded
+to verse-aligned translations or teacher-reviewed pronunciation. Use for practice
+now follows the reading in normal document flow, preserving its existing action.
+No practice/storage schema change, new audio, production writes or deployment.
+Verification: seven content/storage checks pass; 11/12 existing Chrome workflows
+passed initially, and the remaining Navagraha workflow passes after updating it
+to enable Learn before using its now-hidden pronunciation controls. Focused Chrome
+checks pass 36 language/theme/width combinations plus chapter retention, toggle,
+reload preference, short-reading visibility and practice-form selection. Final
+mobile screenshot visually reviewed; syntax and diff checks pass. Frontend build
+passes, exporting 735 assets (retried with permitted generated-asset write access).
+Evidence:
+.publish/mantra-mode-checks.json and .publish/mantra-mode-mobile.png.
+
+Mantra Library UI review (2026-11-21 IST): source/data inspection only; no UI
+implementation or deployment. Node import audit finds 109 entries, six chapter
+readings comprising 123 chapter occurrences, and three licensed audio entries.
+All entries have nonempty English/Hindi/Gujarati meaning and aid fields; all
+chapter occurrences have nonempty summaries. Presence does not verify translation
+accuracy or completeness. Chapter reader replaces short-entry pronunciation UI
+with script conversion and chapter summaries, not verse-aligned translations or
+reviewed pronunciation instruction. Proposed discussion option: one compact
+Recite/Learn toggle, retaining script selection, with verse-aligned meanings and
+optional reading help in Learn. Full translations/content review remain pending;
+generated script aids must not be presented as teacher-verified pronunciation.
+
 Header company icon correction (2026-11-19 IST): removed the mobile rule hiding
 the platform brand when Back is present. The existing Home-linked company icon
 now stays beside Back with a 44px target. At widths up to 380px, tighter header

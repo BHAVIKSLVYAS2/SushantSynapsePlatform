@@ -97,6 +97,7 @@ test('Navagraha guides translate, filter and create a persistent client practice
  await expect(page.locator('.library-filter-trigger')).toBeFocused();await page.getByRole('button',{name:'Remove Deity / topic: Navagraha',exact:true}).click();await expect(page.locator('#library article:visible')).toHaveCount(62);await page.locator('#mantra-search').fill('Dhanvantari');
  await expect(page.locator('#library article:visible')).toHaveCount(1);await openGuide(page,'gayatri-dhanvantari');
  const gayatri=page.locator('[data-mantra-id=gayatri-dhanvantari]');await expect(gayatri.locator('audio')).toHaveCount(0);
+ await expect(gayatri.locator('.library-pronunciation')).toBeHidden();await page.locator('.reading-mode input').check();await expect(gayatri.locator('.library-pronunciation')).toBeVisible();
  for(const language of ['en','hi','gu']){await page.evaluate(l=>SynapseLanguage.set(l),language);await expect(gayatri.locator('.reading-aid')).not.toBeEmpty();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await page.evaluate(()=>SynapseLanguage.set('en'));await page.locator('.platform-back').click();await page.locator('.library-category-chips [data-value=""]').click();
  for(const query of ['navgrah','nav grah','Navagraha']){await page.locator('#mantra-search').fill(query);await expect(page.locator('#library article:visible')).toHaveCount(20);}

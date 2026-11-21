@@ -227,6 +227,14 @@ body[data-ui-app=japseva]>.skip{position:absolute;top:-80px}body[data-ui-app=jap
 #main .library-filter-done{background:var(--ui-accent);border-color:var(--ui-accent);color:var(--ui-on-accent)}
 #main .library-filter-reset{font-size:13px}
 #main #library .learning-copy>.mantra,#main #library .learning-copy>p,#main #library .reading-aid{white-space:pre-line}
+#main .mantra-book:not(.reading-learn) .learn-only{display:none}
+#main .reading-mode{display:flex;align-items:center;gap:10px;justify-self:start;grid-column:1/-1;min-height:44px;margin:0;font-size:14px;cursor:pointer}
+#main .reading-mode input{appearance:none;position:relative;width:44px;min-width:44px;height:24px;min-height:24px;margin:0;padding:2px;border-radius:24px;background:var(--ui-soft);border:1px solid var(--ui-edge);cursor:pointer}
+#main .reading-mode input::before{content:'';display:block;width:18px;height:18px;border-radius:50%;background:var(--ui-accent)}
+#main .reading-mode input:checked{background:var(--ui-accent);border-color:var(--ui-accent)}
+#main .reading-mode input:checked::before{transform:translateX(20px);background:var(--ui-on-accent)}
+#main #learn .mantra-book.book-reading .library-use{position:static;width:auto;max-width:100%;margin:24px 0 0}
+#main .chapter-reader .reading-aid{white-space:pre-line;overflow-wrap:anywhere;line-height:1.9}
 #main .chapter-reader{text-align:start;min-width:0;margin-block:16px}
 #main .chapter-reader label{display:grid;gap:6px;min-width:0;margin-block:12px}
 #main .chapter-reader select{width:100%;min-width:0;max-width:100%;min-height:44px}
