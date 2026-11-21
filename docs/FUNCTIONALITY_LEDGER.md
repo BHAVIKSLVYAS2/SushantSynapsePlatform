@@ -1,3 +1,11 @@
+Mantra Library production release (2026-11-21 IST): source commit 9d897ca
+deployed successfully to apps.sushantsynapse.com, Worker version
+3203681c-a83a-4d75-9e9d-354327759e71. Deployment build exported 735 assets;
+eight changed assets uploaded. Used --keep-vars; organisation mode, D1 binding,
+authentication and disabled Nishi AI remain configured. No migrations or
+production business writes. Tests and live verification were not run during
+this release, as explicitly requested; earlier local verification is below.
+
 Mantra Library reading controls (2026-11-21 IST, local): one translated
 Recite/Learn switch now reveals meanings and pronunciation/script aids on the
 same reading surface. Recite is the default; Learn preference lasts in the same
