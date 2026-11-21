@@ -138,6 +138,35 @@ fieldset.civil-input,.vedic-matching fieldset.civil-input{min-width:0;margin:0;p
 .vedic-birth-page .vedic-birth-app details>summary::marker{content:''}
 .vedic-birth-page .vedic-birth-app details>summary::after{content:'';display:block;box-sizing:border-box;width:8px;height:8px;border:solid currentColor;border-width:0 1.8px 1.8px 0;transform:rotate(45deg);margin-inline-start:auto;margin-inline-end:4px;flex:0 0 8px;align-self:center}
 .vedic-birth-page .vedic-birth-app details[open]>summary::after{transform:rotate(225deg)}
+
+/* A compact birth profile and one section rail, inspired by the supplied Ritva reference. */
+.vedic-birth-page .vedic-birth-app{scroll-margin-top:calc(var(--shell-height,72px) + 12px)}
+.vedic-birth-page .vedic-birth-app #birth-review{scroll-margin-top:calc(var(--shell-height,72px) + 12px)}
+.vedic-birth-page .vedic-birth-app.has-results #birth-review{padding:12px 14px;border-radius:16px;background:var(--ui-solid);gap:8px 16px}
+.vedic-birth-page .vedic-birth-app.has-results .kundli-birth-summary{flex:1 1 24rem}
+.vedic-birth-page .vedic-birth-app .kundli-person-summary{gap:10px;padding:0;min-height:52px;align-items:center}
+.kundli-person-avatar{display:grid;place-items:center;flex:0 0 36px;width:36px;height:36px;border:1px solid var(--ui-edge);border-radius:11px;background:var(--ui-soft);color:var(--ui-accent);font-size:13px;font-weight:700}
+.kundli-person-identity{display:grid;gap:2px;min-width:0;line-height:1.45}
+.kundli-person-identity strong{font-size:15px;color:var(--ui-ink);overflow-wrap:anywhere}
+.kundli-person-identity>span{font-size:12px;color:var(--ui-muted)}
+.vedic-birth-page .vedic-birth-app.has-results #birth-review .kundli-result-actions{gap:8px}
+.vedic-birth-page .vedic-birth-app.has-results #birth-review .kundli-result-actions button{min-height:44px;padding:8px 14px;font-size:13px;white-space:nowrap}
+.vedic-birth-page .vedic-birth-app.has-results #birth-review .kundli-result-actions button:not(:last-child){background:var(--ui-soft);color:var(--ui-ink)}
+.vedic-birth-page .vedic-birth-app .kundli-section-nav{border-radius:14px;padding:4px;gap:4px;background:var(--ui-solid);top:var(--shell-height,72px)}
+.vedic-birth-page .vedic-birth-app .kundli-section-nav>button{border:0;border-radius:10px;min-height:46px;font-size:13px;padding:8px 4px}
+.vedic-birth-page .vedic-birth-app .kundli-section-nav>button[aria-pressed=true]{background:var(--ui-accent);color:var(--ui-on-accent)}
+.vedic-birth-page .vedic-birth-app .kundli-more-nav>summary{min-height:46px;font-size:13px;padding:8px}
+.vedic-birth-page .vedic-birth-app .kundli-more-nav>div{padding:8px;border-radius:14px;overflow-y:auto;overscroll-behavior:contain}
+.vedic-birth-page .vedic-birth-app .kundli-more-nav button{display:grid;gap:3px;padding:10px 12px;min-height:48px;font-size:14px;line-height:1.45}
+.kundli-more-nav button small{font-size:12px;line-height:1.5;color:var(--ui-muted);font-weight:400}
+.vedic-birth-page .vedic-birth-app .kundli-more-nav button>span,.vedic-birth-page .vedic-birth-app .kundli-more-nav button>small{display:block;text-align:start}
+.vedic-birth-page .vedic-birth-app .kundli-expert-group{border-radius:16px;background:var(--ui-solid);padding:12px;margin:10px 0}
+.vedic-birth-page .vedic-birth-app #kundli-calculations>summary,.vedic-birth-page .vedic-birth-app #kundli-planets>summary{position:absolute;width:1px;height:1px;min-height:0;padding:0;overflow:hidden;clip-path:inset(50%)}
+.vedic-birth-page .vedic-birth-app .kundli-expert-group>summary:focus-visible{position:static;width:auto;height:auto;min-height:44px;clip-path:none}
+.vedic-birth-page .vedic-birth-app .saved-kundlis{border-radius:14px;padding:0 12px;margin:8px 0}
+.vedic-birth-page .vedic-birth-app .kundli-input-panel form>label:has(#birth-name){grid-column:1/-1}
+@media(min-width:800px){.vedic-birth-page .vedic-birth-app.has-results .kundli-result-actions{width:auto;flex-wrap:nowrap}.vedic-birth-page .vedic-birth-app.has-results .kundli-result-actions button{flex:none}}
+@media(max-width:799px){.vedic-birth-page .vedic-birth-app{padding:10px 12px}.vedic-birth-page .vedic-birth-app.has-results .kundli-result-actions{width:100%}.vedic-birth-page .vedic-birth-app.has-results #birth-review .kundli-result-actions button{flex:1;padding-inline:8px}.vedic-birth-page .vedic-birth-app.has-results .kundli-birth-summary{flex-basis:100%}.vedic-birth-page .vedic-birth-app .kundli-expert-group{padding:10px}}
 .vedic-birth-page .vedic-birth-app .kundli-more-nav>summary{justify-content:center;gap:.5rem;padding:.6rem .75rem;border:1px solid transparent;font-size:inherit}
 .vedic-birth-page .vedic-birth-app .kundli-more-nav>summary::after{margin-inline-start:0}
 .vedic-birth-page .vedic-birth-app .kundli-more-nav[open]>summary{background:var(--ui-soft);color:var(--ui-accent);border-color:var(--ui-edge)}

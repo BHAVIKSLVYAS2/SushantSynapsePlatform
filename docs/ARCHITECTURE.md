@@ -69,6 +69,14 @@ queries through JapSeva's reading aliases. The old content module is a Node-only
 compatibility re-export for historical source checks. The source-review document
 remains authoritative for admitted texts; no database/schema changes.
 
+Ritvayam reference-led refinement (2026-11-21): birth-app owns the compact birth
+profile, short result actions and described section menu. kundli-interface-copy.mjs
+owns EN/HI/GU interface labels. chart-view retains a single division selector,
+segmented North/South controls and labelled SVG expand action. birth-app.css and
+chart-view.css scope the reference-inspired layout to the existing birth workspace;
+shared shell/theme ownership, calculation kernels, availability and saved records
+are unchanged. Report action selects the existing export section.
+
 Ritvayam layout review (2026-11-15): birth-app owns the compact saved-details
 list and its local filtering/actions; shared language-shell copy names app entry
 headings. The existing saved-input store and calculation kernels are unchanged.

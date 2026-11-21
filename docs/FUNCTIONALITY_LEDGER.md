@@ -1,3 +1,31 @@
+Kundali reference-led UI refinement (2026-11-21 IST): updated the existing
+/rashifal-kundli workspace using the user's ritva_vedic_astrology_ui_redesign.html
+as a visual reference. Kept Ritvayam/shared authentication header and platform
+theme tokens; did not copy sample profiles/results, fake sync, toast-only actions
+or unsupported module claims from the reference. Birth review is a compact
+avatar/name/date/place card with Edit, Save/Update and Report actions. Report
+opens the existing export/privacy options rather than silently downloading HTML.
+The optional name field is directly visible in the birth form. Calculation
+completion scrolls to the birth profile so it is not hidden above the section bar.
+One section rail retains Kundali, Graha Sthiti, Dasha and Menu. Menu entries add
+three-language descriptions of actual readings/calculations and retain tools.
+One compact chart-control row contains division selector, North/South segments
+and an accessible expand icon. Primary chart surface has token-based accent
+lines, a selected-house state and a short interaction hint. Calculation boundary
+and time-sensitivity notices remain visible; detailed notation stays disclosed.
+Expanded mode remains opaque, keyboard Escape closes it; reduced motion disables
+the short chart reveal. Numerical kernels, admitted chart availability, saved
+record schema, source precision, redacted export default and other apps unchanged.
+Focused local Chrome inspection uses isolated DATA_DIR/browser fixture records.
+EN/HI/GU at 360/390/1280px fit without document overflow. D1/D9, North/South,
+expand/Escape, Report options, nine graha rows and Dasha work; saved records remain
+identical and no page errors occur. Edit exposes the optional name field; changing
+time accuracy to Unknown recalculates without inventing a nominal chart and
+preserves saved input records. Mobile light/dark and menu screenshots reviewed:
+.publish/kundali-refined-mobile.png, .publish/kundali-refined-dark.png,
+.publish/kundali-refined-menu.png. No automated test suites run per standing request.
+Build/deployment outcome is recorded separately when complete.
+
 Mantra Library Reading settings fix release (2026-11-21 IST): source f12fff7
 deployed as Worker ab5739d0-d53c-4413-bbbc-b0bd1cc51d5d. Build passes with
 743 public assets; four changed assets uploaded using --keep-vars. Production
