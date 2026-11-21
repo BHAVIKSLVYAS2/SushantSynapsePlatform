@@ -1,3 +1,17 @@
+Mantra Library Reading settings correction (2026-11-21 IST): browser inspection
+reproduced size/spacing controls saving their values while actual short-reading
+text remained 22px/44px. A more specific legacy book typography rule in
+style.css overrode book-reader.css. Removed that obsolete rule so the reader
+stylesheet owns primary-text typography; use explicit font-size/line-height
+properties driven by the saved preferences. Removed inherited details padding
+from the settings/help disclosures to keep the collapsed row compact.
+Focused Chrome debugging with the patched CSS confirms 34px/85px after selecting
+34px and 2.5 spacing, reset to 26px/53.3px, 30px/69px retained after reload and
+applied to Rudram chapter text, and no document overflow at 360px. Disclosure
+opens and controls are visible at 390px. No automated test suites run. Evidence:
+.publish/reading-settings-debug.png. Audio and business records are untouched.
+Build/deployment status is recorded separately when complete.
+
 Mantra Library information cleanup release (2026-11-21 IST): source 378458a
 deployed as Worker f5ba9859-22be-4a05-978b-3f7bd395e8e1. Frontend build
 passes with 743 assets; 10 changed assets uploaded using --keep-vars. Production

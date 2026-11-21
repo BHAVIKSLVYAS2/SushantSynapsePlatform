@@ -18,8 +18,8 @@ body.japseva-book-open #main>.intro,body.japseva-book-open #main>.tabs,body.japs
 #main .book-audio-unavailable{font-size:11px;color:var(--ui-muted);margin:0 0 12px}
 #main #learn .book-reading #library{margin:0}
 #main #learn .book-reading #library .library-guide-body{padding:0;max-width:none;margin:0}
-#main #learn .book-reading .learning-copy>.mantra,#main #learn .book-reading .chapter-text{font:500 var(--reading-size,26px)/var(--reading-spacing,2.05) 'Nirmala UI','Kohinoor Devanagari',serif;letter-spacing:0;white-space:pre-line;overflow-wrap:break-word;padding-block:4px;margin:18px 0 24px}
-#main .book-reading-settings,#main .book-sound-help{grid-column:1/-1;min-width:0;margin:0;border:0;background:transparent}
+#main #learn .book-reading .learning-copy>.mantra,#main #learn .book-reading .chapter-text{font-family:'Nirmala UI','Kohinoor Devanagari',serif;font-weight:500;font-size:var(--reading-size,26px);line-height:var(--reading-spacing,2.05);letter-spacing:0;white-space:pre-line;overflow-wrap:break-word;padding-block:4px;margin:18px 0 24px}
+#main .book-reading-settings,#main .book-sound-help{grid-column:1/-1;min-width:0;margin:0;padding:0;border:0;background:transparent}
 #main .book-reading-settings>summary,#main .book-sound-help>summary{min-height:44px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ui-accent);cursor:pointer}
 #main .book-reading-settings>summary::before,#main .book-sound-help>summary::before{content:'+';font-size:18px}
 #main .book-reading-settings[open]>summary::before,#main .book-sound-help[open]>summary::before{content:'−'}
