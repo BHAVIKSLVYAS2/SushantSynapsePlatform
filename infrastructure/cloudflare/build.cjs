@@ -5,6 +5,7 @@ const root = path.resolve(__dirname, '../..');
 const output = path.join(__dirname, 'dist');
 // Export only the public allowlist, never data, credentials or backend source.
 function build({fullstack=false,organisations=false}={}) {
+  require('../../apps/japseva/build-book-preview.cjs').buildBookPreview();
   require('../build-home.cjs').buildHome();
   // Refresh after the build: the registry may have loaded an older chunk manifest.
   for(const url of Object.keys(staticAssets))if(url.startsWith('/rashifal-kundli/chunks/'))delete staticAssets[url];

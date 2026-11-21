@@ -1,3 +1,45 @@
+Mantra book preview publishing (2026-11-21 IST): user requested commit/deploy of
+the refined proposal. Added standalone /japseva/book-preview with app-owned
+generated HTML/CSS/JS from docs/design/mantra-book-proposal.html. The export build
+regenerates these assets; external scripts/styles retain existing CSP protections
+and recordings use existing public /japseva/audio assets. No catalogue link or
+replacement of the live JapSeva practice/library interface; preview action remains
+non-persistent. Deployment result is recorded after publishing.
+
+Mantra book prototype refinement (2026-11-21 IST): updated only the standalone
+docs/design/mantra-book-proposal.html design artifact. Existing light/dark palette
+tokens are preserved. Mobile contents now use compact search + secondary Filters
+disclosure and a non-wrapping All/Short/Long row. Active entry, filters and scroll
+survive Contents/Reading returns; browser Back returns to Contents. Reading uses
+compact title/mode/script controls, Recite/Learn separation, sourced inner chapter
+navigation, practice below it and a separate outer reading footer. Disabled
+boundaries retain legible text and dashed borders. Directional 260ms turns cancel
+rapid predecessors and stop/skip under reduced motion; no reading auto-advance.
+Six selections reuse existing library text, all 22 actual Rudram anuvakas and
+chapter summaries; no invented chapter counts/translations. Three existing
+licensed recordings provide real play/pause, time/progress, 0.8/1.0 speed and
+1/11/108 repeat controls with credits. Other entries show non-interactive audio
+unavailable. Leaving a reading/Contents or hiding the document pauses playback.
+Chrome prototype checks pass at 360/390px in light/dark for no horizontal
+overflow, compact contents, Recite/Learn, sourced chapters, navigation boundaries,
+filtered return, actual audio playback/pause/completion, speed, repeat states and
+reduced-motion/rapid-turn behavior. Repeat-cycle advancement uses one synthetic
+ended event; single-play completion uses actual media. Mobile screenshots visually
+reviewed; no clipped Devanagari marks observed. This is prototype verification,
+not a production regression run. Evidence: .publish/mantra-proposal-verification.json
+and .publish/mantra-proposal-*.png. No app implementation or deployment.
+
+Mantra Library design discussion (2026-11-21 IST): reviewed app-owned book,
+filter and reader source plus existing screenshots. Standalone interactive
+proposal: docs/design/mantra-book-proposal.html, with six clearly labelled sample
+entries, desktop filtered contents rail, mobile Contents/reading views,
+Recite/Learn, a 260ms cancellable reduced-motion-aware turn and quiet practice
+placement. Includes review findings and a prepared Gemini review brief. Gemini
+was not invoked: plugin search returned no matches and local CLI lookup found
+none. These are Codex findings, not external review. No app implementation,
+deployment or tests in this design session; preview is not production-ready
+multilingual UI and does not add full translations or scripture content.
+
 Mantra Library production release (2026-11-21 IST): source commit 9d897ca
 deployed successfully to apps.sushantsynapse.com, Worker version
 3203681c-a83a-4d75-9e9d-354327759e71. Deployment build exported 735 assets;
