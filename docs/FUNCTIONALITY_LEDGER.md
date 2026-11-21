@@ -1,3 +1,16 @@
+Ritual Prep/Kundali release (2026-11-21 IST): source 3a153a9 deployed as
+Worker 541a727f-d75b-4b88-b556-94593308431c. Build passes with 743 public
+assets; 14 changed assets uploaded with --keep-vars. Organisation/auth/D1
+configuration preserved; no migrations or private business writes. Live checks
+use temporary browser fixture records and block API writes. Clear checks,
+reset confirmation/cancel, both Undo paths, editing/adding items, date/other-guide
+retention, section return and learning access pass. EN/HI at 360/390/1280px fit.
+All 12 North and South region clicks match selected house; no automatic sheet;
+dropdown, explicit details, keyboard and D9 selection pass with no page errors.
+Evidence: .publish/ritual-clean-live-top.png,
+.publish/ritual-clean-live-actions.png, .publish/kundali-house-selection-live.png.
+Automated suites remain skipped; existing browser selectors updated but not run.
+
 Ritual Prep cleanup and Ritvayam house-selection fixes (2026-11-21 IST):
 Ritual Prep now has a compact task header, one All/To arrange/Arranged/Unassigned
 filter row, direct pencil editing and Remove inside the item editor. Specific
