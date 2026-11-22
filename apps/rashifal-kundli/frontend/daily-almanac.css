@@ -23,6 +23,12 @@
 .home-vedic .almanac-compact .almanac-events .almanac-solar-item dt{min-height:28px;padding:6px 26px 3px 0;box-sizing:border-box}
 .home-vedic .daily-almanac .almanac-solar-info{position:absolute;inset:0;width:100%;height:100%;min-height:44px;border-radius:0;display:block}
 .home-vedic .daily-almanac .almanac-solar-info>span{position:absolute;inset:6px 4px auto auto}
+@media(min-width:700px){
+ .home-vedic .almanac-compact .almanac-solar-item{display:flex;flex-wrap:wrap;align-items:baseline;align-content:center;gap:4px 8px;min-height:44px;padding-inline-end:30px}
+ .home-vedic .almanac-compact .almanac-events .almanac-solar-item dt{padding:4px 0;min-height:0}
+ .home-vedic .almanac-compact .almanac-events .almanac-solar-item dd{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+ .home-vedic .daily-almanac .almanac-solar-info>span{top:50%;transform:translateY(-50%)}
+}
 .daily-almanac .almanac-solar-state{display:block;font-size:11px;line-height:1.35;font-weight:400;color:var(--ss-text-secondary)}
 .daily-almanac .almanac-solar-item[aria-current=time] dd{color:var(--ss-primary)}
 .daily-almanac .almanac-solar-explanation[hidden]{display:none!important}

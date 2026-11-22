@@ -1,3 +1,17 @@
+Ritvayam reference-informed compact card (2026-11-22 IST, local): calendar
+Samvat/month/tithi facts now form one wrapping strip with inline labels/values.
+Full Paksha and Adhika month values remain visible; redundant month/tithi labels
+stay accessible to screen readers. Four-column solar/lunar events and existing
+compact Choghadiya remain. Gulika/Mandi labels/times are inline above 700px and
+retain readable two-line mobile cells. Existing full-cell help targets, shared
+dividers, city control and app destinations remain. No new decorative progress
+bar or Preview badge. Fresh 390px screenshot visually inspected: calendar strip
+36.5px and complete card approximately 403px high. Desktop timings measure 45px.
+36 focused browser width/language/theme cases pass at 360/390/768/1280px,
+both help states/Escape and no overflow; no page errors. 745-asset build and
+diff check pass. Isolated temporary database/browser; API writes blocked.
+No calculation, saved record, palette or theme-token changes. Deployment pending.
+
 Ritvayam compact home card production release (2026-11-22 IST): source eb27a8c,
 Worker 90fdd657-6263-4a5e-840f-d00e38f22a1e. Build exports 745 assets;
 eight changed assets uploaded with --keep-vars. Live browser verifies no Preview
