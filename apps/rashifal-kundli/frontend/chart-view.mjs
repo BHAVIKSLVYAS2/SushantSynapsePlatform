@@ -6,7 +6,6 @@ import {nakshatraName} from './display-text.mjs';
 import {timeAvailabilityCopy,chartExtras,practitionerCopy,readingWorkspaceCopy,grahaCode,signDms} from './practitioner-copy.mjs';
 const ns='http://www.w3.org/2000/svg';
 const d16PreviewLabel={en:'Time-sensitive preview',hi:'समय-संवेदनशील पूर्वावलोकन',gu:'સમય-સંવેદનશીલ પૂર્વાવલોકન'};
-const houseReturnCopy={en:'Back to house',hi:'भाव पर लौटें',gu:'ભાવ પર પાછા'};
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
 const svgEl=(tag,attrs,text)=>{const n=document.createElementNS(ns,tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,String(v));if(text!==undefined)n.textContent=text;return n;};
 export function mountCharts(container,charts,options={}){
@@ -50,18 +49,26 @@ export function mountCharts(container,charts,options={}){
  root.addEventListener('keydown',e=>{if(!root.classList.contains('is-expanded'))return;if(e.key==='Escape'){e.preventDefault();expanded(false);}if(e.key==='Tab'){const nodes=[...root.querySelectorAll('button:not(:disabled),select,summary,a[href],input,[tabindex="0"]')].filter(n=>n.getClientRects().length),first=nodes[0],last=nodes.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
  if(!options.paired)root.append(heading);root.append(controls,method,explorer,selection,details,notes);container.replaceChildren(root);
  function select(house,chartType=type){selectedBody=null;contextOpen=true;selected=house;type=chartType;update();}
- function selectGraha(body,chartType=type){selectedBody=body;contextOpen=true;type=chartType;selected=models[type].planets.find(p=>p.body===body).houseNumber;update();details.querySelector('.vedic-house-return')?.focus({preventScroll:true});}
- function returnToHouse(){const body=selectedBody;select(selected);details.querySelector('[data-house-body="'+body+'"]')?.focus({preventScroll:true});}
- details.addEventListener('keydown',event=>{if(event.key==='Escape'&&selectedBody){event.preventDefault();event.stopPropagation();returnToHouse();}});
+ function selectGraha(body,chartType=type){selectedBody=body;contextOpen=true;type=chartType;selected=models[type].planets.find(p=>p.body===body).houseNumber;update();}
  function update(){const h=models[type].houses[selected-1];
   for(const figure of stage.querySelectorAll('[data-chart]'))figure.dataset.active=String(figure.dataset.chart===type);for(const b of divisionButtons)b.setAttribute('aria-pressed',String(b.dataset.value===type));
   for(const g of stage.querySelectorAll('[data-house]')){const chartType=g.closest('[data-chart]').dataset.chart,house=selectedBody?models[chartType].planets.find(p=>p.body===selectedBody).houseNumber:selected;g.dataset.selected=String(contextOpen&&Number(g.dataset.house)===house&&(!!selectedBody||chartType===type));g.setAttribute('aria-pressed',g.dataset.selected);g.querySelector('[role=button]')?.setAttribute('aria-pressed',g.dataset.selected);}
   for(const label of stage.querySelectorAll('[data-graha]'))label.setAttribute('aria-pressed',String(label.dataset.graha===selectedBody));
   for(const row of tableRegion.querySelectorAll('[data-body]')){row.dataset.selected=String(row.dataset.body===selectedBody);row.querySelector('button')?.setAttribute('aria-pressed',row.dataset.selected);}
   root.dataset.chart=type;root.dataset.style=style;root.dataset.selectedBody=selectedBody||'';root.dataset.selectedHouse=String(selected);chartSelect.value=type;root.dataset.compare=String(compare);options.onStateChange?.({type,style,selected,body:selectedBody,compare,context:contextOpen});details.hidden=!contextOpen;selection.hidden=contextOpen;
-  if(selectedBody){const p=models.D1.planets.find(p=>p.body===selectedBody),active=models[type].planets.find(p=>p.body===selectedBody),d9=models.D9?.planets.find(p=>p.body===selectedBody),pos=options.positions?.find(p=>p.body===selectedBody),placement=(p,type)=>`${type} · ${signName(p.rashi,language)} · ${t.house} ${p.houseNumber}`;
-   selection.textContent=r.selected+': '+bodyName(selectedBody,language)+' · '+placement(p,'D1')+(d9?' / '+placement(d9,'D9'):'');const back=el('button','\u2190 '+t.house+' '+selected,'vedic-house-return');back.type='button';back.setAttribute('aria-label',houseReturnCopy[language]+' '+selected);back.onclick=returnToHouse;details.replaceChildren(back,el('h3',bodyName(selectedBody,language)),el('p',placement(p,'D1')),el('p',c.degrees+': '+signDms(p.sourceLongitude)));if(d9)details.append(el('p',placement(d9,'D9')));if(!['D1','D9'].includes(type)){selection.textContent=r.selected+': '+bodyName(selectedBody,language)+' / '+placement(active,type);details.append(el('p',placement(active,type)));}if(pos)details.append(el('p',`${t.nakshatra}: ${nakshatraName(pos.nakshatra,language)} · ${t.pada} ${pos.pada}`));
-  }else{selection.textContent=contextOpen?`${t.house} ${selected} / ${signName(h.rashi,language)} (${h.rashi})`:kundliInterfaceCopy[language].houseHint;details.replaceChildren(el('h3',`${r.house} · ${type} · ${t.house} ${selected} · ${signName(h.rashi,language)} (${h.rashi})`));if(!h.planets.length)details.append(el('p',t.empty));const list=el('div',undefined,'vedic-house-grahas');for(const p of h.planets){const b=el('button',bodyName(p.body,language));b.type='button';b.dataset.houseBody=p.body;b.onclick=()=>selectGraha(p.body);list.append(b);}details.append(list);}
+  selection.textContent=contextOpen?`${t.house} ${selected} / ${signName(h.rashi,language)} (${h.rashi})`:kundliInterfaceCopy[language].houseHint;
+  details.replaceChildren(el('h3',`${type} \u00b7 ${t.house} ${selected} \u00b7 ${signName(h.rashi,language)} (${h.rashi})`));
+  if(!h.planets.length)details.append(el('p',t.empty));
+  const list=el('div',undefined,'vedic-house-grahas');
+  for(const p of h.planets){
+   const item=el('section',undefined,'vedic-house-graha'),base=models.D1.planets.find(v=>v.body===p.body),d9=models.D9?.planets.find(v=>v.body===p.body),pos=options.positions?.find(v=>v.body===p.body);
+   item.dataset.houseBody=p.body;item.dataset.selected=String(p.body===selectedBody);item.append(el('h4',bodyName(p.body,language)));
+   item.append(el('p',type==='D1'?`${c.degrees}: ${signDms(base.sourceLongitude)}`:`D1 \u00b7 ${signName(base.rashi,language)} \u00b7 ${signDms(base.sourceLongitude)} \u00b7 ${t.house} ${base.houseNumber}`));
+   if(pos)item.append(el('p',`${type==='D1'?'':'D1 \u00b7 '}${t.nakshatra}: ${nakshatraName(pos.nakshatra,language)} \u00b7 ${t.pada} ${pos.pada}`));
+   if(d9&&type!=='D9')item.append(el('p',`D9 \u00b7 ${signName(d9.rashi,language)} \u00b7 ${t.house} ${d9.houseNumber}`));
+   list.append(item);
+  }details.append(list);
+
  }
  function render(){const model=models[type];method.textContent=type==='Chandra'?extra.moonHint:['D2','D16'].includes(type)?extra[type+'Hint']+' '+extra.candidate:'';if(options.d1Sensitive)method.textContent=timeAvailabilityCopy[language].boundary;if(options.d9Sensitive&&(type==='D9'||compare))method.textContent=timeAvailabilityCopy[language].preview;if(options.d16Sensitive&&type==='D16')method.textContent=timeAvailabilityCopy[language].preview.replace('D9','D16')+' '+extra.candidate;method.hidden=!method.textContent;
   root.classList.toggle('vedic-charts-paired',paired&&compare);compareButton.textContent=compare?r.stopCompare:r.compare;compareButton.setAttribute('aria-pressed',String(compare));

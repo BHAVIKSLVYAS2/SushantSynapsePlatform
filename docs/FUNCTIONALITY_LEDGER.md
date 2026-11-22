@@ -1,3 +1,17 @@
+Kundali all-occupant house reading (2026-11-22 IST, local): selecting a house
+now shows every occupant directly in one compact reading flow. Each has name,
+D1 degree, available D1 nakshatra/pada and relevant D9 placement; non-D1 charts
+label D1 source positions explicitly. Thin dividers replace per-graha buttons
+and drill-down/Back/Escape flow. Empty houses remain explicit. Graha Sthiti
+table selection still links/highlights its planet while keeping other occupants
+visible. No house dropdown, popup, calculation or saved-record format changes.
+Focused browser checks pass crowded D1/D9/D16 houses in North/South, matching
+all occupant identities/counts to table placements, visible desktop table clicks,
+empty houses and 18 mobile language/theme combinations. Saved record unchanged;
+no page errors. Screenshot visually inspected: .publish/kundali-house-all-grahas.png.
+Build exports 745 assets; automated suites skipped. Temporary database/browser
+profile with API writes blocked. Production verification follows.
+
 Kundali house/planet return production release (2026-11-22 IST): source
 0d99ed8 deployed as Worker 6cc2211d-84f3-436a-bb76-85eb35a80279. Build
 passes with 745 public assets; nine changed assets uploaded with --keep-vars.
