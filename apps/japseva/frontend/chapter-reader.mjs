@@ -1,6 +1,7 @@
 import {readPreference,writePreference} from './reader-preferences.mjs';
 import {romanize,gujaratiScript} from './script-aids.mjs';
 import {capturePage,turnPage} from './book-motion.mjs';
+import {chapterMeaningPairs,cleanReadingText} from './chapter-meanings.mjs';
 export {turnPage} from './book-motion.mjs';
 const positions=new Map(); // Reading preferences only; never a japa count.
 function saved(id){try{return JSON.parse(sessionStorage.getItem('japseva-reader:'+id))||readPreference('chapter:'+id,{});}catch{return readPreference('chapter:'+id,{});}}
@@ -18,20 +19,24 @@ export function mountChapterReader(host,mantra,language='en',{compact=false}={})
  if(!Number.isInteger(position)||position<0||position>=mantra.chapters.length)position=0;
  const section=el('section','chapter-reader'),nav=el('div','chapter-navigation'),label=el('label'),caption=el('span'),select=el('select'),previous=el('button'),next=el('button'),status=el('p','muted'),heading=el('h4'),scriptLabel=el('label'),scriptCaption=el('span'),script=el('select'),text=el('p','mantra chapter-text'),meaningHeading=el('h4'),meaning=el('p','chapter-meaning'),note=el('p','muted');
  const instructions=el('p','chapter-instructions');
- let learning=false;const aidHeading=el(compact?'summary':'h4','learn-only'),aid=el('p','reading-aid learn-only'),reference=el('a','learn-only chapter-reference'),context=el('details','reading-context learn-only'),contextTitle=el('summary'),romanDetails=el('details','chapter-roman learn-only');aid.lang='sa-Latn';
+ let learning=false;const pairs=el('div','chapter-verse-pairs verse-pairs learn-only'),review=el('p','chapter-meaning-review'),aidHeading=el(compact?'summary':'h4','learn-only'),aid=el('p','reading-aid learn-only'),reference=el('a','learn-only chapter-reference'),context=el('details','reading-context learn-only'),contextTitle=el('summary'),romanDetails=el('details','chapter-roman learn-only');aid.lang='sa-Latn';
  section.setAttribute('data-language-preserve','');status.role='status';text.lang='sa';previous.type=next.type='button';
  for(const key of ['hi','en','gu'])script.append(new Option('',key));const selected=positions.get(mantra.id+'-script')||restored.script;script.value=['hi','en','gu'].includes(selected)?selected:(lang==='gu'?'gu':'hi');
  label.append(caption,select);scriptLabel.append(scriptCaption,script);nav.append(previous,status,next);meaningHeading.classList.add('learn-only');meaning.classList.add('learn-only');note.classList.add('learn-only');section.append(label,heading,scriptLabel,text,aidHeading,aid,meaningHeading,meaning,note,reference,nav);heading.tabIndex=-1;host.append(section);
- if(compact){romanDetails.append(aidHeading,aid);meaning.after(romanDetails);context.append(contextTitle,note,reference);nav.before(context);}
+ text.before(pairs);pairs.hidden=true;context.append(review);
+ if(compact){romanDetails.append(aidHeading,aid);meaning.after(romanDetails);context.prepend(contextTitle);context.append(note,reference);nav.before(context);}
  function paint(){
   const t=copy[lang],chapter=mantra.chapters[position];
   if(!instructions.isConnected)text.before(instructions);instructions.textContent=chapter.instructions?.[lang]||'';instructions.lang=lang;instructions.hidden=!instructions.textContent;text.hidden=!chapter.text;
   select.value=String(position);previous.disabled=position===0;next.disabled=position===mantra.chapters.length-1;
   status.textContent=`${position+1} / ${mantra.chapters.length}`;heading.textContent=chapter.titles?.[lang]||`${t[chapter.book]} · ${t.chapter} ${chapter.number}`;
-  const key=script.value;text.textContent=key==='en'?romanize(chapter.text):key==='gu'?gujaratiScript(chapter.text):chapter.text;text.lang=key==='en'?'sa-Latn':key==='gu'?'sa-Gujr':'sa-Deva';
+  const key=script.value,convert=value=>key==='en'?romanize(cleanReadingText(value)):key==='gu'?gujaratiScript(cleanReadingText(value)):cleanReadingText(value),mapped=learning?chapterMeaningPairs(chapter):null;
+  text.textContent=convert(chapter.text);text.lang=key==='en'?'sa-Latn':key==='gu'?'sa-Gujr':'sa-Deva';text.hidden=!chapter.text||!!mapped;pairs.hidden=!mapped;pairs.replaceChildren();
+  if(mapped)for(const verse of mapped){const block=el('section','verse-pair'),sanskrit=el('p','mantra verse-text'),arth=el('p','verse-meaning');sanskrit.textContent=convert(verse.sanskrit).trim().replace(/\n[ \t]*\n+/g,'\n');sanskrit.lang=text.lang;arth.textContent=verse.meaning.hi;arth.lang='hi';block.append(sanskrit,arth);pairs.append(block);}
   aidHeading.textContent=aidCopy[lang];aid.textContent=learning&&key!=='en'?romanize(chapter.text):'';aidHeading.hidden=aid.hidden=!learning||key==='en';
   romanDetails.hidden=!learning||key==='en';
-  meaningHeading.textContent=summaryCopy[lang];meaning.textContent=chapter.meanings[lang];meaning.lang=lang;
+  meaningHeading.textContent=chapter.text?summaryCopy[lang]:{en:'About this step',hi:'इस चरण के बारे में',gu:'આ પગલાં વિશે'}[lang];meaning.textContent=chapter.meanings[lang];meaning.lang=lang;meaningHeading.hidden=meaning.hidden=!!mapped;
+  review.textContent={en:'Simple Hindi meanings · AI-assisted editorial draft; independent Sanskrit/Hindi review pending. These are not a Gita Press translation. Traditional benefits are statements within the text, not guarantees.',hi:'सरल हिन्दी अर्थ · AI-सहायित संपादकीय प्रारूप; स्वतंत्र संस्कृत/हिन्दी समीक्षा लंबित। ये गीता प्रेस का अनुवाद नहीं हैं। फलश्रुतियाँ ग्रन्थ के कथन हैं, परिणाम की गारंटी नहीं।',gu:'સરળ હિન્દી અર્થ · AI-સહાયિત સંપાદકીય પ્રારૂપ; સ્વતંત્ર સંસ્કૃત/હિન્દી સમીક્ષા બાકી. આ ગીતા પ્રેસનો અનુવાદ નથી. ફલશ્રુતિ ગ્રંથનાં કથન છે, પરિણામની ખાતરી નહીં.'}[lang];review.hidden=!chapterMeaningPairs(chapter);
   const source=chapter.sourceUrl||mantra.sourceUrl;reference.hidden=!source;reference.textContent={en:'Read the source edition',hi:'स्रोत संस्करण पढ़ें',gu:'સ્રોત આવૃત્તિ વાંચો'}[lang];if(source&&/^https:\/\//.test(source))reference.href=source;else reference.removeAttribute('href');
   positions.set(mantra.id,position);positions.set(mantra.id+'-script',script.value);
   writePreference('chapter:'+mantra.id,{position,script:script.value});

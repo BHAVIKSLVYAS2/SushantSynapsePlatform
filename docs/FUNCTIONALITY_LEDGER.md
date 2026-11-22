@@ -1,3 +1,17 @@
+JapSeva all-reading Hindi meanings (2026-11-23 IST, local): all seven long
+collections now use exact-source Sanskrit → simple Hindi meaning passages.
+All 128 sections checked: 126 with Sanskrit mapped, two instruction-only Ratna
+steps; 66 deduplicated sources, 1,188 unique passages/1,605 rendered occurrences.
+No fabricated per-verse reuse of summaries. Source equality/span validation
+rejects stale or incomplete mappings; original text and prior languages retained.
+New meanings are original AI-assisted editorial drafts, not Gita Press text;
+independent Sanskrit/Hindi review remains pending and is labelled in closed help.
+Recite remains uninterrupted; Learn interleaves Hindi even with EN/GU interface.
+Short two-verse Rudram now also pairs individual meanings. Display-only cleanup
+removes inherited image captions. Fifteen Node checks and baseline preservation
+audit pass; all-entry/section Chrome review passes. Full verification/release
+status below when completed. Details: JAPSEVA_ALL_READING_MEANINGS.md.
+
 JapSeva simple verse/meaning flow (2026-11-23 IST, released): user supersedes optional
 study UI with plain Sanskrit followed immediately by its meaning. Removed study
 mounting/buttons/disclosures from the library. Existing Shloki verse arrays now

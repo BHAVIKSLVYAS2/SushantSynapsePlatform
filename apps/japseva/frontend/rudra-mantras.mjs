@@ -39,7 +39,8 @@ const entries=[
 
 export const rudraMantras=entries.map(entry=>{
  const roman=romanize(entry.text);
- return {...entry,name:entry.names.en,meaning:entry.meanings.en,meaningHi:entry.meanings.hi,meaningGu:entry.meanings.gu,
+ const verses=entry.id==='rudram-namakam-opening'?entry.text.split('\n\n').map((sanskrit,i)=>({sanskrit,meaning:i===0?{hi:'हे रुद्र, आपके क्रोध, बाण, धनुष और भुजाओं को नमस्कार।',en:'Rudra, salutations to your wrath, arrow, bow and arms.',gu:'હે રુદ્ર, તમારા ક્રોધ, બાણ, ધનુષ અને ભુજાઓને નમસ્કાર.'}:{hi:'आपके बाण, धनुष और तरकश कल्याणकारी हों; उस शुभ शक्ति से हमें सुख दें।',en:'May your arrow, bow and quiver be auspicious; through their gracious power, bring us well-being.',gu:'તમારા બાણ, ધનુષ અને ભાથું કલ્યાણકારી બને; તે શુભ શક્તિથી અમને સુખ આપો.'}})):undefined;
+ return {...entry,...(verses?{verses}:{}),name:entry.names.en,meaning:entry.meanings.en,meaningHi:entry.meanings.hi,meaningGu:entry.meanings.gu,
   transliteration:roman,pronunciation:roman,aids:{en:roman,hi:entry.text,gu:gujaratiScript(entry.text)},topic:'shiva',
   searchTerms:'rudrabhishek rudrabhisheka rudra abhishek rudra abhishekam rudrabhishekam rudram rudrapath rudri रुद्राभिषेक रुद्र अभिषेक રુદ્રાભિષેક રુદ્ર અભિષેક',
   source:entry.source+' Unaccented reading aid; Vedic pitch accents are not represented. Learn Vedic recitation with a trained teacher. Meanings are editorial summaries; pronunciation review pending.'

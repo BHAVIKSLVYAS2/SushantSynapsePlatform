@@ -138,6 +138,11 @@ licence evidence. Automated checks cannot establish spiritual or linguistic trut
 
 ## Verification and remaining limits
 
+Superseding all-reading delivery: see `JAPSEVA_ALL_READING_MEANINGS.md`. Every
+non-empty long-reading section now has exact-source simple Hindi passage meanings
+in the existing reader. The earlier long-chapter translation gap below describes
+the historical checkpoint. Independent linguistic acceptance is still pending.
+
 Latest user direction (2026-11-23): supersedes the optional-study correction below.
 Library no longer mounts Connected Reader at all. Plain verse/meaning pairs use
 the existing Shloki source arrays for English/Hindi; no word buttons, numbered
