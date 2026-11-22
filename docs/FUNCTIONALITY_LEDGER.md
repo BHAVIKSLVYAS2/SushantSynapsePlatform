@@ -4,7 +4,9 @@ aligned while one-line labels no longer reserve empty space; wrapped Hindi and
 Gujarati labels remain clear. Full-cell help targets stay at least 44px. Built
 747 assets; focused Chrome review passes 45 width/language/theme cases, help,
 city dialog, timing bounds and no overflow. Final 390px screenshot inspected.
-No calculation or data changes. Production deployment pending.
+No calculation or data changes. Source ca54cf7 deployed as Worker
+f8b572d4-fe63-43b4-82b6-8743b8846f60 with --keep-vars; exact live stylesheet
+returns HTTP 200 with the adaptive rows. Organisation/auth/D1 settings preserved.
 
 Ritvayam header shortcuts production release (2026-11-22 IST): source be2ad52,
 Worker ec3048a2-a3b2-412f-84ae-bcfadc1b784e. 747-asset build passes;
