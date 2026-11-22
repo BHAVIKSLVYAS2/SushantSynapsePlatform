@@ -1,3 +1,15 @@
+Ritvayam unified calendar panel (2026-11-22 IST, local): date/location now
+share a divided header inside one bordered panel with calendar facts, rise/set
+times, Choghadiya and daytime references. Choghadiya follows the rise/set row
+directly and retains its expandable schedule; its separate floating-looking
+box is removed. Compact renderer keeps solar references in a separate semantic
+description list below the schedule; standalone Panchang structure is preserved.
+747-asset build, syntax/diff checks and five almanac tests pass. Focused Chrome
+review passes 45 width/language/theme cases, shared-panel containment, adjoining
+row boundaries, timing/text bounds, 44px targets, help/Escape, city picker and
+Choghadiya open/close. Final mobile and desktop screenshots visually inspected.
+No calculation, database or production business writes. Deployment pending.
+
 Ritvayam timing-row spacing (2026-11-22 IST): replaced the fixed 42px mobile
 label track with shared content-sized grid rows. Rahu/Gulika/Mandi timings stay
 aligned while one-line labels no longer reserve empty space; wrapped Hindi and
