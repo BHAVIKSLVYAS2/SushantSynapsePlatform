@@ -138,3 +138,12 @@ body:has(.vedic-birth-app.has-results) .vedic-app-header{display:none!important}
 .vedic-birth-page .vedic-birth-app .vedic-reading-workspace .vedic-house-controls .vedic-house-picker{flex:1;margin:0}
 .vedic-birth-page .vedic-birth-app .vedic-reading-workspace .vedic-inspect-selection{min-height:44px;padding:8px 12px;background:var(--ui-soft);color:var(--ui-accent);font-size:13px}
 @media print{.vedic-house-controls{display:none}}
+
+/* Selection is one house-sized target, with its context in the reading flow. */
+.vedic-charts .vedic-chart-stage text,.vedic-charts .vedic-chart-stage tspan{pointer-events:none}
+.vedic-charts .vedic-house-details[hidden],.vedic-charts .vedic-graha-context[hidden]{display:none!important}
+.vedic-birth-page .vedic-birth-app .vedic-reading-workspace .vedic-house-details:not([hidden]),.vedic-reading-workspace .vedic-house-details:not([hidden]){display:block;margin:8px 0;padding:10px 12px;border:0;border-inline-start:3px solid var(--ui-accent);border-radius:0;background:var(--ui-soft)}
+.vedic-charts .vedic-house-details h3{font-size:14px;line-height:1.6;margin:0 0 4px}
+.vedic-charts .vedic-house-grahas:empty{display:none}
+.vedic-charts .vedic-house-grahas button{min-height:44px}
+.vedic-charts .vedic-chart-cell[data-selected=true]>polygon,.vedic-charts .vedic-chart-cell[data-selected=true]>rect,.vedic-birth-page .vedic-birth-app .vedic-reading-workspace .vedic-chart-cell[data-selected=true]>polygon,.vedic-birth-page .vedic-birth-app .vedic-reading-workspace .vedic-chart-cell[data-selected=true]>rect{fill:color-mix(in srgb,var(--ui-accent) 25%,var(--ui-solid));stroke:var(--ui-accent);stroke-width:3.5}

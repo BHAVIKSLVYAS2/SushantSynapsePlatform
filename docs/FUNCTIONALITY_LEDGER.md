@@ -1,3 +1,17 @@
+Kundali house selection follow-up (2026-11-22 IST, local): prior checks covered
+polygon centres but missed planet-label taps and subtle selection styling. Chart
+planet text now passes clicks through to its geometric house, rather than changing
+to a planet selection. Stronger token-based selected fill/stroke distinguishes the
+whole cell. House/sign context and planet actions remain inline on mobile and
+desktop; removed details dialog, its opener and native SVG title tooltips. Rashi
+numbers retain their existing meaning; house selector and accessible house labels
+remain authoritative. No calculation, chart geometry or saved-record changes.
+Focused browser inspection of rebuilt assets passes 336 real region clicks across
+all 12 houses in both styles at 360/390/1280px, occupant-label taps, keyboard,
+selector, D9 and EN/HI/GU theme retention. Temporary browser profile/database, API
+writes blocked; saved Kundali unchanged. Automated suites skipped as requested.
+Final touch/build/deployment results follow in the release record.
+
 Mantra Library grouped-index production release (2026-11-22 IST): source
 c7fe15b deployed as Worker 131b2e10-18b3-417d-8670-6d7575c8e0d5. Build
 passes with 745 public assets; eight changed assets uploaded using --keep-vars.
