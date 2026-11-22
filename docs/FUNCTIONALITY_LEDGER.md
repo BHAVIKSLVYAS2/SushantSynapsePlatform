@@ -1,3 +1,29 @@
+Ritvayam Hindi content intelligence (2026-11-23 IST, local): audited the local
+calculation-to-template flow and added an admitted-output adapter, editable JSON
+knowledge, structured findings/schema validation, shared/mixed-factor analysis,
+topic priorities, deterministic Hindi composition, quality gates and bounded
+versioned in-memory cache. No kernel, saved-input or database changes. Fourteen
+evidence-linked Hindi chapters cover the requested life topics, computed-period
+life stages and current/upcoming dashas, with numeric/rule basis afterward.
+Appearance remains symbolic; no measurements, diagnoses, lifespan or promised
+events inferred. Original interpretive text is editorial/expert-review-pending;
+source-check scope is house associations/seventh-sign aspect only. Same-sign
+co-location is not promoted to a qualified Yoga. Unknown times withhold houses.
+Hindi reading is a compact primary action; chart selection and other languages
+remain. Hindi report export is narrative-first with finding evidence and existing
+redaction. General daily/weekly Rashifal uses actual transit findings/relative
+house themes; no personal dasha or unsupported monthly/yearly coverage is invented.
+Ten focused tests pass (distinct charts, all rising signs/Rashis, dates, missing
+inputs, transition boundaries, cache/rule invalidation, adversarial validation,
+AI-absent composition and export). Nine mobile/tablet theme cases and reader,
+evidence, saved-chart/north-house, language fallback, export and Rashifal browser
+flows pass; screenshots inspected. 755-asset build and diff checks pass. Isolated
+browser/database, API writes blocked. Detailed audit/contracts/editing/review
+requirements: RITVAYAM_CONTENT_INTELLIGENCE.md. Independent Jyotish/Hindi review,
+monthly/yearly contracts, full strengths/aspects/Yoga and qualified natal transit
+synthesis remain pending. No paid provider, tokens or birth-data logs added.
+Deployment pending.
+
 JapSeva connected study production release (2026-11-23 IST): source 6347aba9,
 Worker a935c8af-a82b-4195-8794-d21409d86c01. 753-asset build; 14 assets
 uploaded with --keep-vars. Live Chrome passes 18 mobile language/theme cases,

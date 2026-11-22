@@ -179,3 +179,18 @@ fieldset.civil-input,.vedic-matching fieldset.civil-input{min-width:0;margin:0;p
 .vedic-birth-page .vedic-birth-app .kundli-section-nav>button{min-height:48px}
 
 .vedic-birth-page .vedic-birth-app .kundli-more-nav>summary{white-space:nowrap;overflow-wrap:normal;gap:.35rem;padding:.5rem;font-size:.85rem}
+.jyotish-granth{max-width:780px;margin-inline:auto}
+.kundli-section-nav:has(>[data-kundli-section=overview]){grid-template-columns:repeat(5,minmax(0,1fr))}
+.jyotish-granth .jyotish-chapters{display:block}
+.jyotish-granth .jyotish-chapter{padding:24px 0;border:0;border-bottom:1px solid var(--ui-edge);border-radius:0;background:transparent;box-shadow:none;scroll-margin-top:calc(var(--shell-height,72px) + 160px)}
+.jyotish-granth .jyotish-chapter h3{font-size:21px;line-height:1.65;margin:0 0 14px}
+.jyotish-granth .jyotish-chapter p{font-family:var(--ss-font);font-size:17px;line-height:1.95;margin:0 0 16px;max-width:70ch}
+.jyotish-granth :is(.jyotish-contents,.jyotish-appendix)>summary{min-height:44px;align-content:center;font-size:15px;line-height:1.7;cursor:pointer;color:var(--ui-accent)}
+.jyotish-granth .jyotish-contents nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 12px;padding:8px 0}
+.jyotish-granth a{display:inline-block;min-height:44px;align-content:center;color:var(--ui-accent);font-size:14px;line-height:1.7;overflow-wrap:anywhere}
+.jyotish-granth .jyotish-basis-link{font-size:12px}
+.jyotish-granth .jyotish-chapter .jyotish-related{font-size:13px;line-height:1.7;color:var(--ui-muted)}
+.jyotish-granth .jyotish-appendix{border-top:1px solid var(--ui-edge);padding-top:16px}
+.jyotish-granth .jyotish-appendix p{font-size:14px;line-height:1.85;overflow-wrap:anywhere}
+.jyotish-granth .jyotish-appendix>section{scroll-margin-top:calc(var(--shell-height,72px) + 160px)}
+@media(max-width:600px){.jyotish-granth .jyotish-contents nav{grid-template-columns:minmax(0,1fr)}.jyotish-granth .jyotish-chapter{padding:20px 0}.jyotish-granth .jyotish-chapter p{font-size:16px}}

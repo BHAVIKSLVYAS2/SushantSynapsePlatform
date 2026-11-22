@@ -1,3 +1,4 @@
+import {buildJyotishIntelligence,jyotishBasisText,jyotishKnowledge} from './jyotish-intelligence.mjs';
 import {reportPdf} from './report-pdf.mjs';
 import {chartMarkup,chartTitle,chartNote,chartReportCss,projectChart} from './export-charts.mjs';
 import {reportOptions,projectExtras,extrasMarkup} from './export-extras.mjs';
@@ -46,7 +47,8 @@ export function projectExport(report,{includeIdentity=false,name='',language='en
  }
  const time=f.positions.status==='available'?f.positions.value.time:null;
  const reading=buildKundliReading(report),copy=readingText[language];
- const everyday={version:kundliProseVersion,title:copy.title,intro:copy.intro,method:copy.methodNote,topics:Object.entries(reading.topics).map(([id,data])=>({id,title:copy[id],status:data?'available':'unavailable',...composeKundliTopic(id,data,language)}))};
+ let everyday={version:kundliProseVersion,title:copy.title,intro:copy.intro,method:copy.methodNote,topics:Object.entries(reading.topics).map(([id,data])=>({id,title:copy[id],status:data?'available':'unavailable',...composeKundliTopic(id,data,language)}))};
+ if(language==='hi'){const rich=buildJyotishIntelligence(report);everyday={...everyday,version:rich.version,topics:rich.sections.map(section=>({id:section.id,title:section.title,status:section.status,paragraphs:section.paragraphs.map(p=>p.text),action:null})),findingReferences:rich.sections.map(s=>({id:s.id,findingIds:s.findingIds})),quality:rich.quality,basis:rich.findings.filter(f=>f.evidence.house).map(f=>({id:f.id,text:jyotishBasisText(f)})),basisSource:jyotishKnowledge.source.url};}
  const extras=projectExtras(report,includeAdvanced?advanced:null,reading,language);
  if(includePreviews)for(const key of ['d1','d9'])if(report[key+'Preview']?.status==='available')extras.charts[key]={...projectChart(report[key+'Preview'].value),sensitive:true};
  const result={chartStyle,selectedChart,includeAdvanced,extras,labelsUnavailable:exportLabels[language].unavailable,version:'vedic-export-1',language,redacted:!includeIdentity,features,warnings:[...warnings],everyday,
@@ -88,6 +90,7 @@ export function reportMarkup(model){
  let html=`<article class="vedic-export-document" lang="${language}"><header class="report-cover"><p class="report-brand">RITVAYAM</p><h1>${esc(x.title)}</h1>${p(model.redacted?x.redacted:x.identified)}</header>${p(x.notice)}<p class="report-note">${esc(x.nominal)}</p>`;
  if(model.identity)html+=`<h2>${esc(x.identity)}</h2><dl>${Object.entries(model.identity).map(([k,v])=>`<dt>${esc(term(k,language))}</dt><dd>${esc(v&&typeof v==='object'?`${v.start} → ${v.end}`:v??t.noTime)}</dd>`).join('')}</dl>`;
 
+ const narrativeStart=html.length;
  const pos=model.features.positions,charts={d1:model.features.d1,d9:model.features.d9,...model.extras.charts},selected=String(model.selectedChart).toLowerCase();
  const chartKeys=Object.keys(charts);if(chartKeys.includes(selected))chartKeys.splice(0,0,...chartKeys.splice(chartKeys.indexOf(selected),1));
  for(const key of ['positions',...chartKeys,'dasha']){
@@ -109,7 +112,9 @@ export function reportMarkup(model){
   }
   html+='</section>';
  }
+ const technicalHtml=language==='hi'?html.slice(narrativeStart):'';if(language==='hi')html=html.slice(0,narrativeStart);
  if(model.everyday){html+=`<section class="report-everyday"><h2>${esc(model.everyday.title)}</h2>${p(model.everyday.intro)}`;for(const topic of model.everyday.topics)html+=`<section data-reading-topic="${esc(topic.id)}"><h3>${esc(topic.title)}</h3>${topic.paragraphs.map(p).join('')}${topic.action?p(topic.action):''}</section>`;html+=p(model.everyday.method)+'</section>';}
+ if(language==='hi'){html+=technicalHtml;if(model.everyday.basis)html+='<section class="report-reading-basis"><h2>'+esc("\u0935\u094d\u092f\u093e\u0916\u094d\u092f\u093e \u0915\u0947 \u0917\u0923\u093f\u0924\u0940\u092f \u0938\u0942\u0924\u094d\u0930")+'</h2>'+model.everyday.basis.map(f=>'<p data-finding-id="'+esc(f.id)+'">'+esc(f.id)+': '+esc(f.text)+'</p>').join('')+p(model.everyday.basisSource)+'</section>';}
  html+=extrasMarkup(model,{esc,p,table,diagnostic:diagnosticText});
  html+=`<h2>${esc(x.provenance)}</h2>${p(t.fallback)}<dl>${Object.entries(model.provenance).map(([k,v])=>`<dt>${esc(term(k,language))}</dt><dd>${esc(term(v,language))}</dd>`).join('')}</dl><h2>${esc(x.warnings)}</h2><ul>${model.warnings.map(w=>`<li>${esc(diagnosticText(w,language))}</li>`).join('')}</ul></article>`;
  return html;

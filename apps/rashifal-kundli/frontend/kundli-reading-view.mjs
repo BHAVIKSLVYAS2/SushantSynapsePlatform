@@ -1,4 +1,5 @@
 import {journeyCopy} from './kundli-journey-copy.mjs';
+import {mountJyotishGranth} from './jyotish-granth-view.mjs';
 import {buildKundliReading} from './kundli-reading.mjs';
 import {houseContext,readingText,pick} from './kundli-reading-copy.mjs';
 import {signName,bodyName} from './locale.mjs';
@@ -6,6 +7,7 @@ import {nakshatraName} from './display-text.mjs';
 import {composeKundliTopic,composeKundliPeriod,kundliProseVersion} from './kundli-reading-prose.mjs';
 const el=(tag,text,cls)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(cls)node.className=cls;return node;};
 export function mountKundliReading(container,report,language='en',name=''){
+ if(language==='hi')return mountJyotishGranth(container,report,name);
  const model=buildKundliReading(report),t=readingText[language],root=el('section',undefined,'kundli-reading');root.dataset.readingModel=model.modelId;root.dataset.readingProse=kundliProseVersion;
  const title=el('h2',t.title);if(name){title.append(document.createTextNode(' / '));const personal=el('span',name);personal.setAttribute('translate','no');title.append(personal);}title.id='kundli-reading-title';title.tabIndex=-1;root.append(title,el('p',t.intro,'kundli-reading-intro'));
  const identity=el('dl',undefined,'kundli-identity');for(const [key,label]of [['rising',t.rising],['moon',t.moon],['nakshatra',t.star]])if(model.identity[key]){const item=el('div');item.append(el('dt',label),el('dd',key==='nakshatra'?nakshatraName(model.identity[key],language):signName(model.identity[key],language)));identity.append(item);}root.append(identity);

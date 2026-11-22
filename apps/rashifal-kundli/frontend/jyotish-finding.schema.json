@@ -1,0 +1,21 @@
+{
+ "$schema":"https://json-schema.org/draft/2020-12/schema",
+ "title":"Ritvayam structured finding v1",
+ "type":"object",
+ "required":["id","topic","ruleId","source","evidence","interpretation","modifiers","supporting","conflicting","importance","period","verification","limits"],
+ "properties":{
+  "id":{"type":"string","minLength":1},
+  "topic":{"type":"string","minLength":1},
+  "ruleId":{"type":"string","enum":["house-lord-context","period-lord-context"]},
+  "source":{"type":["object","null"]},
+  "evidence":{"type":"object"},
+  "interpretation":{"type":"object","required":["language","text"],"properties":{"language":{"type":"string","enum":["hi"]},"text":{"type":"string","minLength":1}}},
+  "modifiers":{"type":"array","items":{"type":"string"}},
+  "supporting":{"type":"array","items":{"type":"string"}},
+  "conflicting":{"type":"array","items":{"type":"string"}},
+  "importance":{"type":"number","minimum":0,"maximum":100},
+  "period":{"type":["object","null"]},
+  "verification":{"type":"string","minLength":1},
+  "limits":{"type":"array","items":{"type":"string"}}
+ }
+}
