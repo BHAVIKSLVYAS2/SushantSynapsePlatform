@@ -1,3 +1,22 @@
+Home discovery consolidation (2026-11-22 IST, local): Comfort now supplies the
+missing short JapSeva/Kiraya Saathi purposes in all three languages. One visible
+Edit menu combines Comfort/Compact with Edit layout and Reset; the separate
+layout toolbar is hidden outside arranging mode. Existing pin, drag/arrow, reset
+and device-only order storage remain. Ritvayam hero is a full-width continuation
+inside the public app grid immediately after Kiraya Saathi; remaining apps follow.
+Filtering keeps a hero-only result visible even with no public tile matches.
+Saved arrangements are preserved; the hero follows the visible rent tile or
+precedes remaining matches when rent is filtered out. Ask Nishi moves from the
+layout row into the fourth mobile dock action; desktop retains a bottom floating
+button. Existing robot/spark SVG animates subtly with reduced-motion opt-out.
+Nishi remains local/AI-disabled; no provider, permission or backend changes.
+Focused browser checks pass both views, merged Edit menu, move/reload persistence,
+pin/reset, hero adjacency/continuation, hero-only search, 36 width/language/theme
+cases, dock bounds/non-overlap, dialog/Escape/focus return and reduced motion.
+Fresh 390px and hero-flow screenshots visually inspected. No page errors.
+745-asset build, JS syntax and diff checks pass. Isolated database/browser and
+blocked API writes; no production records changed. Deployment pending.
+
 Ritvayam compact strip production release (2026-11-22 IST): source 24f55c1,
 Worker 3ffe896b-351b-4e09-8789-edce6b460a00. 745-asset build passes;
 12 changed assets uploaded with --keep-vars. Live browser repeats 36 mobile/
