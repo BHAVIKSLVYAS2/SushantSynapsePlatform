@@ -327,3 +327,18 @@ Recording creators, source links, licences and modification notices remain
 accessible inside current-practice Audio settings. No server, schema, migration,
 provider or paid service change. This supersedes the audio-filter part of the
 mobile-library checkpoint below. Not committed or deployed.
+Ratna Abhimantran (2026-11-22): library entry `puja-ratna-abhimantran` adds
+five guided steps: preparation, Ganesha smaran, a personal sankalp, one chosen
+graha name invocation and closing. Catalogue now contains 110 entries. Instructions
+are original EN/HI/GU prose and remain visible in both Recite and Learn; the
+existing nine Navagraha invocations are alternatives, not one combined mantra.
+108 repetitions are an optional personal target, not a universal ritual rule;
+this guide's practice target 1 means a complete guided session. No new audio.
+This is a simple devotional guide, not a claimed complete prana-pratishtha paddhati.
+Traditional name-mantra reference is reused from `expanded-mantras.mjs`;
+gem-care wording follows https://www.gia.edu/gia-news-research-tips-caring-jewelry.
+Independent priest/language review of the new instructional sequence remains pending.
+
+Future work, explicitly deferred: discuss linking or merging ritual processes
+between Ritual Assist and Mantra Library. Do not duplicate this guide in Ritual
+Assist or start an integration/merge until the user requests that work.

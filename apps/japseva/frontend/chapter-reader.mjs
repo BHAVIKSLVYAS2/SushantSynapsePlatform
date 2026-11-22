@@ -17,6 +17,7 @@ export function mountChapterReader(host,mantra,language='en',{compact=false}={})
  const restored=saved(mantra.id);let lang=copy[language]?language:'en',position=positions.get(mantra.id)??restored.position??0;
  if(!Number.isInteger(position)||position<0||position>=mantra.chapters.length)position=0;
  const section=el('section','chapter-reader'),nav=el('div','chapter-navigation'),label=el('label'),caption=el('span'),select=el('select'),previous=el('button'),next=el('button'),status=el('p','muted'),heading=el('h4'),scriptLabel=el('label'),scriptCaption=el('span'),script=el('select'),text=el('p','mantra chapter-text'),meaningHeading=el('h4'),meaning=el('p','chapter-meaning'),note=el('p','muted');
+ const instructions=el('p','chapter-instructions');
  let learning=false;const aidHeading=el(compact?'summary':'h4','learn-only'),aid=el('p','reading-aid learn-only'),reference=el('a','learn-only chapter-reference'),context=el('details','reading-context learn-only'),contextTitle=el('summary'),romanDetails=el('details','chapter-roman learn-only');aid.lang='sa-Latn';
  section.setAttribute('data-language-preserve','');status.role='status';text.lang='sa';previous.type=next.type='button';
  for(const key of ['hi','en','gu'])script.append(new Option('',key));const selected=positions.get(mantra.id+'-script')||restored.script;script.value=['hi','en','gu'].includes(selected)?selected:(lang==='gu'?'gu':'hi');
@@ -24,6 +25,7 @@ export function mountChapterReader(host,mantra,language='en',{compact=false}={})
  if(compact){romanDetails.append(aidHeading,aid);meaningHeading.before(romanDetails);context.append(contextTitle,note,reference);nav.before(context);}
  function paint(){
   const t=copy[lang],chapter=mantra.chapters[position];
+  if(!instructions.isConnected)text.before(instructions);instructions.textContent=chapter.instructions?.[lang]||'';instructions.lang=lang;instructions.hidden=!instructions.textContent;text.hidden=!chapter.text;
   select.value=String(position);previous.disabled=position===0;next.disabled=position===mantra.chapters.length-1;
   status.textContent=`${position+1} / ${mantra.chapters.length}`;heading.textContent=chapter.titles?.[lang]||`${t[chapter.book]} · ${t.chapter} ${chapter.number}`;
   const key=script.value;text.textContent=key==='en'?romanize(chapter.text):key==='gu'?gujaratiScript(chapter.text):chapter.text;text.lang=key==='en'?'sa-Latn':key==='gu'?'sa-Gujr':'sa-Deva';

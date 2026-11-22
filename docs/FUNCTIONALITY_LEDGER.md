@@ -1,3 +1,21 @@
+Ratna Abhimantran library addition (2026-11-22 IST, local): added one Puja
+readings entry, taking the preserved catalogue from 109 to 110. Five guided steps
+cover materials/preparation, Ganesha, a personal-language sankalp, one of the nine
+existing Navagraha name mantras, and closing. Original EN/HI/GU instructions are
+visible in Recite/Learn, separate from Sanskrit and approximate Roman/Gujarati
+aids. Empty Sanskrit steps hide the empty verse block. Name invocations reuse
+existing sources; guide does not claim a full consecration paddhati. Optional
+108-count instruction is distinct from guide practice target 1 (one session).
+No recordings added; existing audio unchanged. New module is registered in the
+shared static map for Node and Workers. Source/limitations in docs/JAPSEVA.md.
+Eight existing/new JapSeva tests pass; focused browser passes search/open, all
+five steps, 18 mobile language/theme cases, Recite/Learn instructions, nine
+alternatives, practice prefill target 1/read-only text, existing Rudram regression,
+no overflow or page errors. Fresh screenshots visually inspected. Frontend build
+exports 747 assets; syntax/diff checks pass. Isolated database/browser with API
+writes blocked. Ritual Assist linking/merge explicitly deferred. Independent
+priest/language review pending; no business/schema changes. Deployment pending.
+
 Ritvayam one-row timings production release (2026-11-22 IST): source 55cec97,
 Worker 7b04f01d-714e-4fe1-b136-7db641df95da. 745-asset build passes;
 12 changed assets uploaded with --keep-vars. Live browser passes 45 responsive/

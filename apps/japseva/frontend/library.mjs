@@ -5,6 +5,7 @@ import {gayatriMantras} from './gayatri-mantras.mjs';
 import {rudraMantras} from './rudra-mantras.mjs';
 import {fullRudram} from './rudram-full.mjs';
 import {pujaCollections} from './puja-collections.mjs';
+import {ratnaAbhimantran} from './ratna-abhimantran.mjs';
 const learning={...existingLearning,...expandedLearning};
 // Traditional devotional texts; meanings and syllable aids are original editorial summaries.
 export const mantras=[
@@ -28,4 +29,5 @@ mantras.push(...gayatriMantras);
 mantras.push(...rudraMantras);
 mantras.push(fullRudram);
 mantras.push(...pujaCollections);
+mantras.push(ratnaAbhimantran);
 for(const ref of duplicateReferences)mantras.find(m=>m.id===ref.id).sourceReferences=[ref.source];

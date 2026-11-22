@@ -1,7 +1,17 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
+test('Ratna guide keeps instructions multilingual and reuses existing alternatives without counting a whole list as japa',async()=>{
+ const {ratnaAbhimantran:m}=await import('../apps/japseva/frontend/ratna-abhimantran.mjs');
+ const {expandedMantras}=await import('../apps/japseva/frontend/expanded-mantras.mjs');
+ assert.deepEqual(m.chapters.map(c=>c.id),['prepare','ganesha','sankalpa','japa','closing']);
+ for(const c of m.chapters)for(const lang of ['en','hi','gu'])assert.ok(c.instructions[lang]&&c.titles[lang]&&c.meanings[lang]);
+ const alternatives=m.chapters.find(c=>c.id==='japa').text.split('\n\n');
+ assert.deepEqual(alternatives,expandedMantras.filter(m=>m.id.startsWith('navagraha-')).map(m=>m.text+'।'));
+ assert.equal(m.practiceTarget,1);assert.equal(m.audio,undefined);
+ assert.match(m.chapters.at(-1).instructions.en,/not 108 mantra repetitions/);
+});
 test('collection entries have three-language meanings and reading aids without invented recordings',async()=>{
  const {mantras,recordings,audioMantraIds}=await import('../apps/japseva/frontend/library.mjs');
- assert.equal(mantras.length,109);assert.equal(new Set(mantras.map(m=>m.id)).size,109);
+ assert.equal(mantras.length,110);assert.equal(new Set(mantras.map(m=>m.id)).size,110);
  assert.deepEqual(audioMantraIds,['gayatri','shiva','vasudeva']);
  for(const m of mantras){assert.match(m.text,/[\u0900-\u097f]/);for(const lang of ['en','hi','gu'])for(const field of ['names','meanings','aids'])assert.ok(m[field][lang]?.trim(),m.id+' '+field+' '+lang);
   assert.match(m.aids.hi,/[\u0900-\u097f]/);assert.match(m.aids.gu,/[\u0a80-\u0aff]/);
