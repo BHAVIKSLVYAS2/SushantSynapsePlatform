@@ -1,3 +1,11 @@
+Ritvayam shortcut icon contrast (2026-11-22 IST, local): sun/chart SVGs now
+inherit the button's on-accent foreground instead of the decorative gold/accent
+token, which matched the button background in normal dark mode. Light/dark/deep
+black now retain visible icons. Nine Chrome theme/width cases pass at 360/390/
+1280px, checking both computed icon colours and minimum 3:1 background contrast.
+All three theme screenshots inspected; 747-asset build passes. No data changes.
+Deployment pending.
+
 Home search Edit icon (2026-11-22 IST): restored the icon-only 44px Edit
 control, reclaiming search input width. Localised accessible label and tooltip
 remain; appearance/arrangement menu and Escape still work. 747-asset build and
