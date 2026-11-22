@@ -1,3 +1,11 @@
+Ritvayam readable hero production release (2026-11-22 IST): source f168578,
+Worker 9850ccbc-176c-428a-a174-7834a470f2fa. Build exports 745 assets;
+six updated assets uploaded with --keep-vars. Live browser passes all 45
+width/language/theme combinations, continuous calendar/event joins, date/city
+non-overlap, timing bounds, both help/Escape states and city dialog open/close.
+No page errors. No production business writes, migrations or calculation changes;
+organisation/auth/D1 settings and disabled AI preserved.
+
 Ritvayam hero readability refinement (2026-11-22 IST, local): identity uses a
 balanced 64px desktop/44px mobile logo and 36px/28px title. Mobile date and city
 now share their own full-width wrapping row with a 44px city target rather than
