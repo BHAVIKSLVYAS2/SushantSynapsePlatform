@@ -484,7 +484,7 @@ html[data-theme=dark] .home-vedic .home-vedic-preview{background:transparent;col
  .home-vedic .almanac-current-identity{flex-basis:auto;padding-inline-end:10px}
  .home-vedic .almanac-current-timing strong{font-size:16px;white-space:nowrap}
 }
-@media(max-width:370px){.home-vedic .home-vedic-facts>div:last-child dd{font-size:13px}.home-vedic .almanac-current-timing strong{font-size:14px}.home-vedic .almanac-current-label{font-size:11px}}
+@media(max-width:370px){.home-vedic .home-vedic-facts>div:last-child dd{font-size:14px}.home-vedic .almanac-current-timing strong{font-size:14px}.home-vedic .almanac-current-label{font-size:11px}}
 @media(max-width:370px){.home-vedic h2{font-size:22px}.home-vedic .home-vedic-content{grid-template-columns:36px minmax(0,1fr) minmax(94px,.85fr);column-gap:6px}.home-vedic .home-vedic-om{width:36px;height:36px}.home-vedic .almanac-current-identity{flex-basis:64px}.home-vedic .almanac-current-timing strong{font-size:14px}.home-vedic .almanac-compact>details>summary{padding:10px}.home-vedic .almanac-compact .almanac-current{gap:8px}}
 /* Compact Choghadiya: one tappable row, with date beside the interval. */
 .home-vedic .almanac-compact>details>summary{min-height:44px;padding:8px 14px;gap:10px;border-radius:12px}
@@ -583,8 +583,46 @@ body[data-ui-app=portal] .public-home .home-filter-menu>summary:focus-visible{ou
 .home-vedic .home-vedic-facts>div:last-child{margin-inline-start:auto}
 .home-vedic .home-vedic-facts .vedic-value-full{position:static;width:auto;height:auto;overflow:visible;clip-path:none;white-space:normal}
 .home-vedic .home-vedic-facts .vedic-value-short{display:none}
+/* Readable hero rhythm: identity, location, calendar, timings, then actions. */
+.public-home .public-apps>.home-vedic{margin:0 auto;max-width:960px;padding:18px;border-radius:22px}
+.home-vedic .home-vedic-content{grid-template-columns:64px minmax(0,1fr) minmax(180px,230px);gap:0 12px}
+.home-vedic .home-vedic-om{width:64px;height:64px;border-radius:16px}
+.home-vedic h2{font-size:36px;line-height:1.2;letter-spacing:-1px}
+.home-vedic h2:after{width:25px;height:20px;top:-12px}
+.home-vedic .home-vedic-intro{font-size:13px;line-height:1.5}
+.home-vedic .home-vedic-calendar-line{padding:6px 10px;border-radius:12px;box-shadow:none}
+.home-vedic .home-vedic-date{font-size:13px;line-height:1.5}
+.home-vedic .almanac-heading summary{font-size:16px;min-height:44px;line-height:1.4}
+.home-vedic .home-vedic-facts{margin-top:8px;gap:5px 14px;padding:9px 12px}
+.home-vedic .home-vedic-facts dt,.home-vedic .home-vedic-facts dd,.home-vedic .home-vedic-facts>div:last-child dd{font-size:14px;line-height:1.5}
+.home-vedic .almanac-compact .almanac-events{padding:12px;gap:12px;margin-bottom:10px}
+.home-vedic .almanac-compact .almanac-events dt{font-size:12px;line-height:1.5}
+.home-vedic .almanac-compact .almanac-events dd{font-size:22px;line-height:1.4}
+.home-vedic .almanac-compact .almanac-events .almanac-solar-item dd{font-size:15px;line-height:1.5}
+.home-vedic .home-vedic-actions{gap:10px;margin-top:4px}
+.home-vedic .home-vedic-actions a{min-height:48px;padding:12px 14px;font-size:16px;border-radius:12px}
+@media(max-width:699px){
+ .public-home .public-apps>.home-vedic{padding:14px;border-radius:18px}
+ .home-vedic .home-vedic-content{grid-template-columns:44px minmax(0,1fr);gap:0 10px}
+ .home-vedic .home-vedic-om{width:44px;height:44px;grid-column:1;grid-row:1/3;border-radius:12px}
+ .home-vedic .home-vedic-heading{grid-column:2;grid-row:1;align-self:end}
+ .home-vedic h2{font-size:28px;letter-spacing:-.6px}
+ .home-vedic .home-vedic-intro{grid-column:2;grid-row:2;font-size:12px}
+ .home-vedic .home-vedic-calendar-line{grid-column:1/-1;grid-row:3;display:flex;flex-direction:row;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:0 8px;margin-top:6px;padding:0 8px;min-height:44px;text-align:start}
+ .home-vedic .home-vedic-date{font-size:12px;width:auto;flex:1 1 140px}
+ .home-vedic .almanac-heading{min-width:0;max-width:100%}
+ .home-vedic .almanac-heading summary{font-size:14px;gap:5px;padding:4px 0;justify-content:flex-end}
+ .home-vedic .home-vedic-facts{grid-row:4;margin-top:6px;padding:8px 10px;gap:3px 12px}
+ .home-vedic .home-vedic-facts dt,.home-vedic .home-vedic-facts dd,.home-vedic .home-vedic-facts>div:last-child dd{font-size:14px}
+ .home-vedic [data-home-almanac]{grid-row:5}
+ .home-vedic .almanac-compact .almanac-events{padding:10px;gap:10px 8px}
+ .home-vedic .almanac-compact .almanac-events dd{font-size:19px}
+ .home-vedic .almanac-compact .almanac-events .almanac-solar-item dd{font-size:15px}
+ .home-vedic .home-vedic-actions{grid-row:6;gap:8px}
+ .home-vedic .home-vedic-actions a{font-size:15px;padding:10px;min-height:48px}
+}
 /* One Edit menu owns appearance and arrangement; the hero stays in app flow. */
-.public-home .public-apps>.home-vedic{grid-column:1/-1;width:100%;box-sizing:border-box;margin:8px 0 16px}
+.public-home .public-apps>.home-vedic{grid-column:1/-1;width:100%;box-sizing:border-box;margin:0 auto}
 .public-home .home-layout-toolbar[hidden]{display:none}
 body[data-ui-app=portal] .public-home .home-view-switch>summary{width:auto;gap:6px;padding:0 10px}
 .home-view-switch .home-view-label{position:static;width:auto;height:auto;overflow:visible;clip-path:none;white-space:normal;margin:0;font-size:14px}
@@ -610,5 +648,5 @@ body[data-ui-app=portal] .public-home .home-view-switch>summary{width:auto;gap:6
 }
 @media(max-width:699px){
  .home-vedic .home-vedic-facts{gap:3px 12px;padding:8px 10px}
- .home-vedic .home-vedic-facts dt,.home-vedic .home-vedic-facts dd,.home-vedic .home-vedic-facts>div:last-child dd{font-size:13px}
+ .home-vedic .home-vedic-facts dt,.home-vedic .home-vedic-facts dd,.home-vedic .home-vedic-facts>div:last-child dd{font-size:14px}
 }

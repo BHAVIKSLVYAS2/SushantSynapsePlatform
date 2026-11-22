@@ -1,3 +1,17 @@
+Ritvayam hero readability refinement (2026-11-22 IST, local): identity uses a
+balanced 64px desktop/44px mobile logo and 36px/28px title. Mobile date and city
+now share their own full-width wrapping row with a 44px city target rather than
+a narrow corner. Calendar facts use 14px text with full Paksha/month, event times
+19px mobile/22px desktop and solar-reference times 15px. Consistent padding,
+continuous calendar/event borders, 48px destination actions and zero extra grid
+margin improve hierarchy; desktop card is capped at 960px. Existing palette,
+calculations, data and help remain. Final screenshots visually inspected.
+45 browser width/language/theme cases pass (320/360/390/768/1280), including
+continuous panel geometry, date/city non-overlap, timing bounds, calculation
+help/Escape and city dialog. No page errors; build exports 745 assets and diff
+check passes. Temporary isolated database/browser with API writes blocked.
+Deployment pending.
+
 Home consolidated controls production release (2026-11-22 IST): source 4319acd,
 Worker da6d47de-7bb0-463f-83fe-fc1971b6c4f0. Build passes with 745 assets;
 ten updated assets uploaded with --keep-vars. Live browser passes merged Edit
