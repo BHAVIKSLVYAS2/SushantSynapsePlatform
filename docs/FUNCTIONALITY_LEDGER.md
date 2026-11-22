@@ -1,3 +1,19 @@
+Kundali expanded chart layout (2026-11-22 IST, local): expanded reading removes
+its desktop chart/table column split and the inner diagram card border/padding.
+Chart uses viewport width capped by measured available height after controls,
+method notice and caption. Facts precede the table below the chart. Mobile
+controls remain compact; expanded action becomes a Close cross. Escape restores
+focus; background scrolling is locked while expanded. Existing calculation,
+saved data and theme tokens unchanged. Focused browser checks pass 360/390px,
+844x390 landscape and 1280px desktop, plus 18 language/theme/North-South cases,
+D16 notice, paired D1/D9, house selection, close/focus and overflow checks.
+Measured 390px diagram 326 -> 382px; desktop 461 -> 727px at 844px height;
+landscape fits the complete square within height rather than clipping it.
+Mobile/desktop screenshots visually inspected. Four existing reading-model tests,
+module syntax, diff check and 745-asset frontend build pass. Browser uses isolated
+fixture records/database with API writes blocked; saved fixture unchanged.
+Production deployment pending.
+
 Kundali all-occupant reading production release (2026-11-22 IST): source
 a44d530 deployed as Worker 3f9401aa-44c8-4d54-9342-d07634a8469f. Build
 passes with 745 public assets; 11 changed assets uploaded with --keep-vars.

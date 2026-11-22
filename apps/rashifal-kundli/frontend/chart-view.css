@@ -160,3 +160,35 @@ body:has(.vedic-birth-app.has-results) .vedic-app-header{display:none!important}
 .vedic-charts .vedic-house-graha h4{font-size:14px;line-height:1.6;margin:0 0 2px;font-weight:650;color:var(--ui-ink)}
 .vedic-charts .vedic-house-graha p{font-size:13px;line-height:1.65;margin:0;overflow-wrap:anywhere}
 .vedic-charts .vedic-house-graha[data-selected=true] h4{color:var(--ui-accent);font-weight:750}
+
+/* Expanded reading gives the diagram the viewport, with facts below it. */
+body:has(.vedic-charts.is-expanded){overflow:hidden}
+.vedic-birth-page .vedic-birth-app .vedic-reading-workspace.is-expanded{
+ display:flex;flex-direction:column;gap:0;border:0;border-radius:0;
+ padding:8px!important;overscroll-behavior:contain;scrollbar-gutter:stable;
+}
+.vedic-birth-page .vedic-birth-app .vedic-reading-workspace.is-expanded .vedic-chart-controls{
+ flex-shrink:0;order:0;margin:0 0 8px;padding:0;top:-8px;
+}
+.vedic-reading-workspace.is-expanded .vedic-chart-method{order:1}
+.vedic-reading-workspace.is-expanded .vedic-chart-explorer{display:contents}
+.vedic-birth-page .vedic-birth-app .vedic-reading-workspace.is-expanded .vedic-chart-stage{
+ order:2;flex-shrink:0;width:100%;max-width:var(--expanded-chart-size,calc(100dvh - 150px));
+ padding:0;border:0;border-radius:0;margin:0 auto;
+}
+.vedic-birth-page .vedic-birth-app .vedic-reading-workspace.is-expanded.vedic-charts-paired .vedic-chart-stage{
+ max-width:calc(var(--expanded-chart-size,calc(100dvh - 150px)) * 2 + 20px);
+}
+.vedic-reading-workspace.is-expanded .vedic-graha-context{order:3}
+.vedic-reading-workspace.is-expanded .vedic-house-details{order:4;flex-shrink:0}
+.vedic-reading-workspace.is-expanded .vedic-chart-table{order:5;max-height:none;flex-shrink:0}
+.vedic-reading-workspace.is-expanded .vedic-chart-notes{order:6;flex-shrink:0}
+.vedic-birth-page .vedic-birth-app .vedic-reading-workspace.is-expanded .vedic-house-details,
+.vedic-birth-page .vedic-birth-app .vedic-reading-workspace.is-expanded .vedic-chart-table,
+.vedic-birth-page .vedic-birth-app .vedic-reading-workspace.is-expanded .vedic-chart-notes{
+ width:100%;max-width:70rem;margin-inline:auto;
+}
+@media(max-width:799px){
+ .vedic-birth-page .vedic-birth-app .vedic-reading-workspace.is-expanded{padding:4px!important;scrollbar-gutter:auto}
+ .vedic-birth-page .vedic-birth-app .vedic-reading-workspace.is-expanded .vedic-chart-controls{top:-4px}
+}
