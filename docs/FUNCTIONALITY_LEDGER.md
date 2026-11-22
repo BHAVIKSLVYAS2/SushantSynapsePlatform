@@ -1,3 +1,15 @@
+Panchang help/spacing production release (2026-11-22 IST): source e10c93b
+deployed as Worker 3c224d79-740d-40f2-9f5c-392b009cc411. Build passes
+with 745 public assets; 12 changed assets uploaded using --keep-vars. Live
+browser inspection without overrides passes 27 language/theme/width combinations,
+measured value-baseline alignment, label/button non-overlap, 44px help targets,
+full-width shared explanation, item switching and Escape. Closed/open production
+screenshots visually inspected. Exact Gulika Upcoming/Now/Ended states and
+Home/Rashifal both pass; no page errors. No calculation or data changes.
+Automated suites skipped; temporary database/browser profile and blocked API writes.
+Organisation/auth/D1 configuration preserved. Evidence:
+.publish/panchang-spacing-fixed.png and .publish/panchang-help-fixed.png.
+
 Panchang help/spacing correction (2026-11-22 IST, local): production visual
 review found question marks separated from labels and help constrained to a
 half-width column, producing excessive card height/empty space. Help is now one
