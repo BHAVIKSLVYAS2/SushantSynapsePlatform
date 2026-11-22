@@ -1,3 +1,18 @@
+Ritvayam header destination shortcuts (2026-11-22 IST, local): moved Rashifal
+and Kundli links into the top-right header as labelled sun/chart SVG shortcuts,
+matching the supplied reference's hierarchy with existing theme tokens. Removed
+the bottom destination row; calendar/date/city remains full-width below identity.
+HTML document order now follows the visual header and includes icons before JS
+loads; runtime translations preserve icon/label structure. Targets are at least
+44x44px, with narrow-phone title/shortcut sizing and no clipped legacy large text.
+390px screenshot card is approximately 402px high (about 40px saved). Mobile and
+desktop screenshots visually inspected. Focused browser passes 45 width/language/
+theme cases at 320/360/390/768/1280px, shortcut/header placement, icon count, text
+bounds, route destinations, timing row, calculation help and city dialog. No page
+errors. 747-asset build, JS syntax and diff checks pass. No calculation, database
+or business data changes; isolated browser/database with API writes blocked.
+Deployment pending.
+
 Ratna Abhimantran production release (2026-11-22 IST): source f3a3fd6,
 Worker c40c35f7-0217-4508-aac1-6e13281c2662. Build exports 747 assets;
 13 changed assets uploaded with --keep-vars. Live browser verifies the searchable

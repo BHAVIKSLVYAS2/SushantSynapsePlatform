@@ -621,6 +621,36 @@ body[data-ui-app=portal] .public-home .home-filter-menu>summary:focus-visible{ou
  .home-vedic .home-vedic-actions{grid-row:6;gap:8px}
  .home-vedic .home-vedic-actions a{font-size:15px;padding:10px;min-height:48px}
 }
+/* Header shortcuts replace the separate destination row. */
+.home-vedic .home-vedic-content{grid-template-columns:64px minmax(0,1fr) auto}
+.home-vedic .home-vedic-actions{grid-column:3;grid-row:1/3;display:flex;gap:8px;align-self:center;margin:0}
+.home-vedic .home-vedic-actions a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;width:72px;min-height:72px;padding:8px 4px;border-radius:14px;background:var(--rv-indigo);color:var(--rv-on-indigo,var(--ui-on-accent));border:1px solid var(--rv-edge);box-shadow:none;white-space:normal;text-align:center;text-decoration:none;font-size:12px;line-height:1.3}
+.home-vedic .home-vedic-actions a:before,.home-vedic .home-vedic-actions a:after{display:none}
+.home-vedic .home-vedic-actions a>.vedic-shortcut-icon{display:block;flex:none;margin:0}
+.home-vedic .vedic-shortcut-icon svg{display:block;width:30px;height:30px;color:var(--rv-gold)}
+.home-vedic .home-vedic-actions a>span.vedic-shortcut-label{font-size:12px;margin:0;flex:none}
+.home-vedic .home-vedic-calendar-line{grid-column:1/-1;grid-row:3;flex-direction:row;flex-wrap:wrap;justify-content:space-between;gap:0 12px;margin-top:10px;padding:0 10px;min-height:44px;text-align:start}
+.home-vedic .home-vedic-facts{grid-row:4}
+.home-vedic [data-home-almanac]{grid-row:5}
+@media(max-width:699px){
+ .home-vedic .home-vedic-content{grid-template-columns:40px minmax(0,1fr) auto;column-gap:8px}
+ .home-vedic .home-vedic-om{width:40px;height:40px}
+ .home-vedic h2{font-size:26px}
+ .home-vedic .home-vedic-intro{font-size:10px;white-space:normal}
+ .home-vedic .home-vedic-actions{grid-column:3;grid-row:1/3;gap:6px}
+ .home-vedic .home-vedic-actions a{width:52px;min-width:44px;min-height:60px;padding:6px 2px;border-radius:11px}
+ .home-vedic .home-vedic-actions a>span.vedic-shortcut-label{font-size:10px}
+ .home-vedic .vedic-shortcut-icon svg{width:26px;height:26px}
+ .home-vedic .home-vedic-calendar-line{margin-top:8px}
+}
+@media(max-width:350px){
+ .home-vedic .home-vedic-content{grid-template-columns:32px minmax(0,1fr) auto;column-gap:6px}
+ .home-vedic .home-vedic-om{width:32px;height:32px}
+ .home-vedic h2{font-size:23px}
+ .home-vedic .home-vedic-actions{gap:4px}
+ .home-vedic .home-vedic-actions a{width:44px}
+ .home-vedic .home-vedic-intro{font-size:9px}
+}
 /* One Edit menu owns appearance and arrangement; the hero stays in app flow. */
 .public-home .public-apps>.home-vedic{grid-column:1/-1;width:100%;box-sizing:border-box;margin:0 auto}
 .public-home .home-layout-toolbar[hidden]{display:none}
