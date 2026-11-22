@@ -1,3 +1,15 @@
+Ritvayam three timings in one row (2026-11-22 IST, local): user requested
+Rahu Kaal, Gulika and Mandi in a single mobile row. Home now uses three equal
+columns, aligned label/value rows, thin dividers and compact unspaced time-range
+dash notation. Whole-cell calculation-help targets remain at least 44px high;
+320px padding avoids timing overflow. Standalone Panchang layout unchanged.
+45 responsive/language/theme cases pass for one-row geometry, timing widths,
+help/Escape and city controls, plus Rahu phase boundaries/city recalculation.
+Additional nine mobile language/width checks verify labels do not overlap values.
+Fresh 390px screenshot visually inspected. Build exports 745 assets; syntax/diff
+checks pass. No calculation or saved data changes; isolated browser/database
+and blocked API writes. Deployment pending.
+
 Ritvayam Rahu Kaal production release (2026-11-22 IST): source f665a8a,
 Worker 855f01d3-0785-425f-8248-791b9e6a32b5. 745-asset build passes;
 12 changed assets uploaded with --keep-vars. Live browser passes 45 responsive/
