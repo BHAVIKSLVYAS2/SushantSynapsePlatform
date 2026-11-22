@@ -1,3 +1,9 @@
+Ritvayam future methods deferred (2026-11-22 IST): user chose to leave Lal
+Kitab, KP astrology, Varshik bhavishya phal and 36-saala chakra for future work.
+Scope, source/calculation prerequisites and provisional effort recorded in
+docs/vedic/PROGRESS.md. Backlog only; no feature implementation or activation.
+Documentation change only; no tests, build, deployment or data changes required.
+
 Ritvayam readable hero production release (2026-11-22 IST): source f168578,
 Worker 9850ccbc-176c-428a-a174-7834a470f2fa. Build exports 745 assets;
 six updated assets uploaded with --keep-vars. Live browser passes all 45

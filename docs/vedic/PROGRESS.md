@@ -714,3 +714,20 @@ not endpoint-only or sparse-sample inference. Retain typed unavailable states
 when stability cannot be proved. Separate numerical/model screening targets from
 certified physical error bounds, and preserve all source, privacy, public-release,
 Ritual Assist and native-language editorial review gates.
+## Deferred future work — 2026-11-22
+
+User explicitly deferred these additions. Backlog only: no implementation,
+activation, deployment or delivery-date commitment is authorised by this note.
+
+| Feature | Initial scope and prerequisite | Rough focused development effort |
+| --- | --- | --- |
+| Lal Kitab | Separate method presentation and selected source-backed reading rules; agree edition/conventions before coding. | 1–2 weeks for a limited first version |
+| KP astrology | Separate calculation profile, agreed KP ayanamsha, cusps, star/sub-lords and significators; audit precision and compare independent reference charts. Current Lahiri/whole-sign engine is insufficient as-is. | 3–5 weeks for a limited first version |
+| Varshik bhavishya phal | Distinguish an existing dasha/gochar annual summary from a proper Varshkundali. For the latter, agree annual-return convention, location, calculation and interpretation rules. | 3–5 days for summary; 2–3 weeks for limited Varshkundali |
+| 36-saala chakra | Confirm exact book/table, cycle definition and age/year boundaries. Keep separate from other cycles and annual methods; do not infer a rule from the name. | 2–4 days after verified rules/table are available |
+
+Estimates are provisional engineering effort, not elapsed-time promises; comprehensive
+readings, source resolution and independent expert review add work. Suggested order:
+Lal Kitab foundation → confirmed 36-saala chakra → Varshkundali → KP. Reuse existing
+birth forms, saved charts and reader UI; consider one method selector rather than
+adding default-screen cards. Resume only on a new user request.
