@@ -45,8 +45,9 @@
 .daily-almanac .almanac-solar-explanation a{font-size:12px;padding-block:6px}
 .home-vedic .almanac-solar-pair>dd>dl{grid-template-columns:repeat(3,minmax(0,1fr))}
 @media(max-width:699px){
+ .home-vedic .almanac-solar-pair>dd>dl{grid-template-rows:auto auto}
  .home-vedic .almanac-compact .almanac-events .almanac-solar-item,
- .home-vedic .almanac-compact .almanac-events .almanac-solar-item[data-solar-timing=mandi]{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:42px 1fr;grid-column:auto;gap:0;min-height:0;padding:0 2px;border-top:0;border-inline-start:1px solid var(--ss-border);align-content:start;align-items:start}
+ .home-vedic .almanac-compact .almanac-events .almanac-solar-item[data-solar-timing=mandi]{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:subgrid;grid-row:span 2;grid-column:auto;gap:0;min-height:44px;padding:0 2px;border-top:0;border-inline-start:1px solid var(--ss-border);align-content:start;align-items:start}
  .home-vedic .almanac-compact .almanac-events .almanac-solar-item:first-child{border-inline-start:0;padding-inline-start:0}
  .home-vedic .almanac-compact .almanac-events .almanac-solar-item dt,
  .home-vedic .almanac-compact .almanac-events .almanac-solar-item[data-solar-timing=mandi] dt{padding:6px 19px 0 0;min-height:0;font-size:11px;line-height:1.4;align-self:start}

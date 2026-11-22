@@ -1,3 +1,11 @@
+Ritvayam timing-row spacing (2026-11-22 IST): replaced the fixed 42px mobile
+label track with shared content-sized grid rows. Rahu/Gulika/Mandi timings stay
+aligned while one-line labels no longer reserve empty space; wrapped Hindi and
+Gujarati labels remain clear. Full-cell help targets stay at least 44px. Built
+747 assets; focused Chrome review passes 45 width/language/theme cases, help,
+city dialog, timing bounds and no overflow. Final 390px screenshot inspected.
+No calculation or data changes. Production deployment pending.
+
 Ritvayam header shortcuts production release (2026-11-22 IST): source be2ad52,
 Worker ec3048a2-a3b2-412f-84ae-bcfadc1b784e. 747-asset build passes;
 eight changed assets uploaded with --keep-vars. Live browser passes 45 width/
