@@ -142,6 +142,27 @@ to a general Rashi report. Existing English/Gujarati prose remains available.
 
 ## Verification and remaining acceptance
 
+### Authorised continuation: phased delivery (2026-11-23)
+
+1. Reading consistency and evidence integrity: implemented. Injected editorial
+   rules now reach house themes, chronological stages, period interpretations and
+   review status consistently; narrative version is bumped to invalidate caches.
+   Validation also rejects forged co-location, modifier/support links and missing
+   period placements/ownership. Eleven focused regression tests pass, including
+   edited-knowledge propagation and five additional adversarial mutations.
+2. Monthly/yearly general Rashifal: pending. First extend the period contract and
+   bounded transit sampling with explicit coverage tests, then add summaries and
+   controls. Do not stretch seven-day samples into a year or label this Varshaphal.
+3. Richer natal synthesis: pending. Admit separately verified aspect/strength/Yoga
+   capabilities before interpreting them; personalised transits require their own
+   natal-to-transit evidence contract and birth-time uncertainty handling.
+4. Editorial acceptance and language expansion: pending independent Jyotish/Hindi
+   review, then reviewed English/Gujarati parity. Software tests cannot grant
+   traditional or linguistic expert acceptance.
+
+Lal Kitab, KP, annual Varshaphal and the 36-year cycle remain the separately
+deferred backlog. This continuation does not reopen those systems implicitly.
+
 Ten focused tests pass: six distinct birth-time charts (at least four ascendants),
 all twelve rising-sign house traces, actual dasha transition boundary, unknown/
 approximate/missing inputs, immutable engine output, modified-rule/date cache

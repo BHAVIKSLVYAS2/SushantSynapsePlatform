@@ -1,3 +1,11 @@
+Ritvayam phased continuation (2026-11-23 IST): first phase fixes editable-rule
+propagation throughout period/stage prose, house themes and review metadata;
+narrative version bumped. Evidence validation now checks co-location, modifiers,
+support links and complete period placements/ownership. Eleven focused tests pass.
+Monthly/yearly contracts, qualified natal synthesis and independent editorial
+acceptance remain subsequent phases in RITVAYAM_CONTENT_INTELLIGENCE.md.
+No calculation kernel, saved inputs, database or API access changes.
+
 Ritvayam content intelligence production release (2026-11-23 IST): source
 d2d2f25b, Worker 5ccd9728-7983-4e38-b371-ee6b2d5eaa80. Build exports 755
 assets; 17 changed assets uploaded with --keep-vars. Live Chrome passes nine
