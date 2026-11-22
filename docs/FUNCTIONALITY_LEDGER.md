@@ -1,3 +1,13 @@
+JapSeva reading-first correction (2026-11-23 IST, local): reviewed live mobile
+Contents/Recite/Learn and restored complete Sanskrit plus simple meaning in Learn.
+Annotated pilot study is optional/closed after meaning; unannotated entries no
+longer mount numbered duplicate text and pending-mapping notices. Full-width
+study text removes the number gutter; Contents metadata moves beside titles and
+group spacing is tightened. Existing palette, text, canonical records, audio and
+practice storage retained. Twelve Node and eighteen mobile language/theme browser
+checks pass, including optional study, existing playback and Rudram. Details:
+JAPSEVA_CONNECTED_CONTENT.md. Linguistic review remains pending.
+
 Ritvayam phased continuation (2026-11-23 IST): first phase fixes editable-rule
 propagation throughout period/stage prose, house themes and review metadata;
 narrative version bumped. Evidence validation now checks co-location, modifiers,

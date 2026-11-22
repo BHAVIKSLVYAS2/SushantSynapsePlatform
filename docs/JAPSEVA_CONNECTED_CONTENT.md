@@ -138,6 +138,21 @@ licence evidence. Automated checks cannot establish spiritual or linguistic trut
 
 ## Verification and remaining limits
 
+Reading-first correction (2026-11-23): the default Learn view again retains the
+complete primary mantra, existing whole-mantra meaning and pronunciation aid.
+Only the annotated Mahamrityunjaya pilot offers a closed-by-default “Study line
+by line” disclosure after the meaning. Unannotated short readings no longer
+mount numbered duplicate text or mapping-pending notices. Pilot draft status,
+word glosses, source details and saved line selection remain inside study.
+Study text uses the full available width instead of a permanent 50px number
+gutter. Contents availability sits beside entry titles rather than adding an
+extra row; redundant group-summary margins are removed. No content, recording,
+canonical identity or practice storage changes. This supersedes the earlier
+default replacement of primary Sanskrit and mapping notice on every short entry.
+Twelve Node checks and eighteen mobile language/theme browser cases pass,
+including whole-text visibility, closed study default, optional glosses, scripts,
+audio continuation, repeat/speed, practice prefill, saved line and Rudram.
+
 `node tools/audit-japseva-content.mjs --baseline=3ffb75f --write` compares the
 previous library exports and SHA-256 inventory: 110 entries, 231 units, 4,065
 structural lines; zero structural/Unicode errors or warnings. Exact original

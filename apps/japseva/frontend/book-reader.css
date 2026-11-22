@@ -109,20 +109,27 @@ body.japseva-book-open #main>.intro,body.japseva-book-open #main>.tabs,body.japs
 #main #learn .mantra-book:not(.book-reading) .library-snippet,#main #learn .mantra-book:not(.book-reading) .book-index-number{display:none}
 #main #learn .mantra-book:not(.book-reading) .library-entry-name{margin:0;font-size:12px}
 #main #learn .mantra-book:not(.book-reading) .library-entry-meta{margin-top:2px;font-size:12px}
+#main #learn .mantra-book:not(.book-reading) .library-row-copy{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:8px;align-items:center}
+#main #learn .mantra-book:not(.book-reading) .library-row-copy h3,#main #learn .mantra-book:not(.book-reading) .library-entry-name{grid-column:1}
+#main #learn .mantra-book:not(.book-reading) .library-entry-meta{grid-column:2;grid-row:1 / span 2;max-width:76px;font-size:11px;line-height:1.5;text-align:end;margin:0}
+#main #learn .mantra-book:not(.book-reading) .library-results-row{margin:0}
+#main #learn .mantra-book:not(.book-reading) #library .library-index-group>summary{margin:0}
 @media(max-width:600px){#main .library-index-entries{grid-template-columns:minmax(0,1fr)}}
-#main #learn .book-reading.reading-learn [data-connected] .learning-copy>.mantra{display:none}
+#main .connected-reader{border:0;border-top:1px solid var(--ui-edge);margin:14px 0 0;padding:0;background:transparent}
+#main .connected-reader>summary{min-height:44px;display:flex;align-items:center;justify-content:space-between;font-size:13px;line-height:1.7;color:var(--ui-accent);cursor:pointer}
+#main .connected-reader>summary{overflow-wrap:anywhere}
 #main .connected-reader[hidden]{display:none!important}
 #main .connected-note{font-size:12px;line-height:1.7;color:var(--ui-muted);margin:8px 0 14px}
 #main .connected-line{padding:12px 0;border-bottom:1px solid var(--ui-edge);min-width:0}
-#main .connected-line-head{display:flex;align-items:baseline;gap:6px;min-width:0}
-#main .connected-line-select{flex:0 0 44px;min-width:44px;min-height:44px;padding:6px;border:0;background:transparent;color:var(--ui-muted);font-size:12px}
+#main .connected-line-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px;min-width:0}
+#main .connected-line-select{min-width:44px;min-height:44px;padding:6px;border:0;background:transparent;color:var(--ui-muted);font-size:12px}
 #main .connected-line.is-selected .connected-line-select{color:var(--ui-accent);background:var(--ui-soft);border-radius:8px}
-#main .connected-sanskrit{margin:0;font-family:'Nirmala UI','Kohinoor Devanagari',serif;font-size:var(--reading-size,26px);line-height:var(--reading-spacing,2.05);overflow-wrap:anywhere;min-width:0}
+#main .connected-sanskrit{flex-basis:100%;margin:0;font-family:'Nirmala UI','Kohinoor Devanagari',serif;font-size:var(--reading-size,26px);line-height:var(--reading-spacing,2.05);overflow-wrap:break-word;min-width:0}
 #main .connected-word{display:inline;min-height:44px;min-width:44px;padding:4px 0;border:0;border-radius:3px;background:transparent;color:var(--ui-ink);font:inherit;line-height:inherit;text-align:start;white-space:normal;overflow-wrap:anywhere}
 #main .connected-word[aria-pressed=true]{color:var(--ui-accent);text-decoration:underline;text-underline-offset:6px}
-#main .connected-meaning{margin:4px 0 8px 50px;font-size:16px;line-height:1.9;color:var(--ui-ink)}
-#main .connected-gloss{margin:8px 0 8px 50px;padding:8px;border-inline-start:2px solid var(--ui-accent);font-size:15px;line-height:1.9;background:var(--ui-soft)}
-#main .connected-explanation{margin-inline-start:50px}
+#main .connected-meaning{margin:4px 0 8px;font-size:16px;line-height:1.9;color:var(--ui-ink)}
+#main .connected-gloss{margin:8px 0;padding:8px;border-inline-start:2px solid var(--ui-accent);font-size:15px;line-height:1.9;background:var(--ui-soft)}
+#main .connected-explanation{margin-inline-start:0}
 #main .connected-explanation>summary,#main .connected-source>summary{min-height:44px;align-content:center;color:var(--ui-accent);font-size:13px;line-height:1.7;cursor:pointer}
 #main .connected-explanation p,#main .connected-source p{font-size:15px;line-height:1.9;overflow-wrap:anywhere}
 #main .connected-source a{display:inline-block;min-height:44px;align-content:center;font-size:13px;overflow-wrap:anywhere}

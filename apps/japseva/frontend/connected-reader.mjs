@@ -7,14 +7,14 @@ const copy={
 };
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
 export function mountConnectedReader(host,record){
- const root=el('section',undefined,'connected-reader learn-only'),intro=el('p',undefined,'connected-note'),lines=el('div',undefined,'connected-lines'),source=el('details',undefined,'connected-source'),sourceTitle=el('summary'),sourceText=el('p'),sourceLink=el('a');
- root.setAttribute('aria-label','Connected mantra study');source.append(sourceTitle,sourceText,sourceLink);root.append(intro,lines,source);host.append(root);
+ const root=el('details',undefined,'connected-reader learn-only'),toggle=el('summary'),intro=el('p',undefined,'connected-note'),lines=el('div',undefined,'connected-lines'),source=el('details',undefined,'connected-source'),sourceTitle=el('summary'),sourceText=el('p'),sourceLink=el('a');
+ root.setAttribute('aria-label','Connected mantra study');source.append(sourceTitle,sourceText,sourceLink);root.append(toggle,intro,lines,source);host.append(root);
  let lang='en',script='hi',learning=false,rows=[],selected=readPreference('line:'+record.id+':'+record.version);
  const unit=record.units[0];
  const convert=text=>script==='en'?romanize(text):script==='gu'?gujaratiScript(text):text;
  function select(id,persist=true){selected=id;if(persist)writePreference('line:'+record.id+':'+record.version,id);for(const row of rows){const active=row.line.id===id;row.node.classList.toggle('is-selected',active);row.select.setAttribute('aria-pressed',String(active));}}
  function paint(){
-  const t=copy[lang]||copy.en;intro.textContent=record.pilot?t.draft:t.manual+' '+t.pending;rows=[];lines.replaceChildren();
+  const t=copy[lang]||copy.en;toggle.textContent={en:'Study line by line',hi:'पंक्ति के अनुसार समझें',gu:'પંક્તિ પ્રમાણે સમજો'}[lang]||'Study line by line';intro.textContent=record.pilot?t.draft:t.pending;rows=[];lines.replaceChildren();
   for(const line of unit.lines){if(!line.text.trim())continue;const node=el('section',undefined,'connected-line'),head=el('div',undefined,'connected-line-head'),choose=el('button',String(line.order+1),'connected-line-select'),text=el('p',undefined,'connected-sanskrit'),meaning=el('p',undefined,'connected-meaning');
    node.dataset.lineId=line.id;choose.type='button';choose.setAttribute('aria-label',t.select+' '+(line.order+1));choose.onclick=()=>select(line.id);text.lang=script==='en'?'sa-Latn':script==='gu'?'sa-Gujr':'sa-Deva';
    const gloss=el('p',undefined,'connected-gloss');gloss.hidden=true;gloss.lang='hi';gloss.role='status';gloss.id=line.id+'-gloss';
