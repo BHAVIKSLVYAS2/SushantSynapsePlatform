@@ -1,3 +1,15 @@
+Kundali house-selection production release (2026-11-22 IST): source 441a7a0
+deployed as Worker f4395e5e-09e2-4dd4-845f-05e88edfcddd. Build passes with
+745 public assets; nine changed assets uploaded with --keep-vars. Live browser
+verification passes 336 mouse-region clicks plus 12 North-house touchscreen taps,
+planet-label taps, keyboard/dropdown selection, D9, and EN/HI/GU light/dark/deep
+retention. Computed selected fill differs from unselected fill; all selected
+houses agree with the inline context and selector. No details dialog/opener or
+SVG tooltip remains. No horizontal overflow at 360/390/1280px. API writes blocked,
+saved Kundali unchanged and no browser errors. Evidence:
+.publish/kundali-house-fixed-mobile.png. Automated suites skipped as requested.
+Organisation/auth/D1 configuration preserved; no migrations or business writes.
+
 Kundali house selection follow-up (2026-11-22 IST, local): prior checks covered
 polygon centres but missed planet-label taps and subtle selection styling. Chart
 planet text now passes clicks through to its geometric house, rather than changing
