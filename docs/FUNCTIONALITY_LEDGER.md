@@ -1,3 +1,13 @@
+Home consolidated controls production release (2026-11-22 IST): source 4319acd,
+Worker da6d47de-7bb0-463f-83fe-fc1971b6c4f0. Build passes with 745 assets;
+ten updated assets uploaded with --keep-vars. Live browser passes merged Edit
+views/arrange controls, Comfort descriptions, reorder/reload, pin/reset, Ritvayam
+continuation after rent, hero-only search, 36 language/theme/width combinations,
+mobile dock bounds/non-overlap, Nishi dialog/focus return and reduced motion.
+No page errors; isolated fixture preferences/database with API writes blocked.
+No production business data or migrations; organisation/auth/D1 settings and
+NISHI_AI_ENABLED:false preserved. Source screenshot review recorded above.
+
 Home discovery consolidation (2026-11-22 IST, local): Comfort now supplies the
 missing short JapSeva/Kiraya Saathi purposes in all three languages. One visible
 Edit menu combines Comfort/Compact with Edit layout and Reset; the separate
