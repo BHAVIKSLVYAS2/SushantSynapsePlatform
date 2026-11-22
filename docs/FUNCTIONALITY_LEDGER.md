@@ -1,3 +1,12 @@
+Ritvayam Rahu Kaal production release (2026-11-22 IST): source f665a8a,
+Worker 855f01d3-0785-425f-8248-791b9e6a32b5. 745-asset build passes;
+12 changed assets uploaded with --keep-vars. Live browser passes 45 responsive/
+language/theme cases, all timing-help states, city dialog, exact Rahu start/end
+phase boundaries and city recalculation; no page errors. Five almanac calculation
+tests passed before release. Existing Gulika/Mandi and Choghadiya preserved.
+No production business writes or migrations; organisation/auth/D1 settings and
+disabled AI remain. Temporary isolated browser/database; API writes blocked.
+
 Ritvayam Rahu Kaal (2026-11-22 IST, local): added a separate daylight interval
 using local sunrise/sunset and published Sunday-Saturday eighths 8/2/7/5/6/4/3.
 Rahu appears beside Gulika; mobile Mandi occupies a compact full-width row and
