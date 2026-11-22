@@ -1,3 +1,15 @@
+Mantra Library contents cleanup (2026-11-22 IST, local): 109 existing readings
+are organised into six single-open browsing sections, with live counts. Sanskrit
+titles remain first; opening-verse previews and decorative row numbers are hidden
+on Contents. Search/filter results bypass sections and retain catalogue order.
+Returning from Reading reopens its section and preserves search/bookmarks. Reading
+help remains below the index. Reader text, audio coverage and business data unchanged.
+Focused browser inspection passes 18 EN/HI/GU, light/dark/deep, 360/390px layouts;
+109 unique entries, group counts, disclosure, search/empty/return and chapter
+navigation pass. Isolated temporary database; business storage unchanged. Automated
+suites skipped as requested; browser helper adapted for grouped entries. Build and
+production release verification recorded below when complete.
+
 Ritual Prep/Kundali release (2026-11-21 IST): source 3a153a9 deployed as
 Worker 541a727f-d75b-4b88-b556-94593308431c. Build passes with 743 public
 assets; 14 changed assets uploaded with --keep-vars. Organisation/auth/D1

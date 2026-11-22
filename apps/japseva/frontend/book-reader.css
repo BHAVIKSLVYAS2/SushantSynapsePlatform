@@ -97,3 +97,16 @@ body.japseva-book-open #main>.intro,body.japseva-book-open #main>.tabs,body.japs
 #main .library-entry-meta{display:block;font-size:11px;line-height:1.6;color:var(--ui-accent);margin-top:6px}
 #main #learn .mantra-book:not(.book-reading) #library .library-last-read>details>summary{background:var(--ui-soft);box-shadow:inset 2px 0 var(--ui-accent)}
 @media(max-width:600px){#main #learn .mantra-book:not(.book-reading){padding:16px 14px 20px;margin-top:12px}#main #learn .mantra-book:not(.book-reading) .book-cover h2{font-size:26px!important}#main #learn .mantra-book:not(.book-reading) .library-row-copy h3{font-size:17px}}
+
+
+#main #learn .mantra-book:not(.book-reading) #library{display:block}
+#main #learn .mantra-book:not(.book-reading) #library .library-index-group{padding:0;margin:0;border:0;border-bottom:1px solid var(--ui-edge);border-radius:0;background:transparent;box-shadow:none}
+#main #learn .mantra-book:not(.book-reading) #library .library-index-group>summary{min-height:52px;padding:10px 8px;gap:12px;font-size:15px;line-height:1.6;color:var(--ui-ink)}
+#main .library-group-count{margin-left:auto;font-size:12px;color:var(--ui-muted);font-variant-numeric:tabular-nums}
+#main .library-index-entries{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px;padding-bottom:12px}
+#main #learn .mantra-book #library .library-index-entries>article{padding:0;margin:0;border:0;border-radius:0;background:transparent;box-shadow:none;min-width:0}
+#main #learn .mantra-book:not(.book-reading) #library .library-guide>summary{min-height:64px;padding:10px 8px}
+#main #learn .mantra-book:not(.book-reading) .library-snippet,#main #learn .mantra-book:not(.book-reading) .book-index-number{display:none}
+#main #learn .mantra-book:not(.book-reading) .library-entry-name{margin:0;font-size:12px}
+#main #learn .mantra-book:not(.book-reading) .library-entry-meta{margin-top:2px;font-size:12px}
+@media(max-width:600px){#main .library-index-entries{grid-template-columns:minmax(0,1fr)}}
