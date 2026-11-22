@@ -1,3 +1,16 @@
+Kundali SVG focus-border production release (2026-11-22 IST): source
+1fdd93a deployed as Worker 8d48d5bb-4816-43e7-80b6-760cea843eca. Build
+passes with 745 public assets; seven changed assets uploaded with --keep-vars.
+Live mobile Chromium checks without stylesheet overrides pass 12 combinations
+of North/South, light/dark/deep and 360/390px. Focused SVG buttons compute
+outline-style:none; keyboard focus uses a 5px dashed shape stroke. Settled touch
+selection has transparent background/tap highlight, no box shadow and no rectangle.
+House 7 selection and inline context remain correct, with no details popup.
+Evidence: .publish/kundali-focus-keyboard-fixed.png and
+.publish/kundali-focus-touch-fixed.png. Temporary browser records, blocked API
+writes; no data/calculation changes. Automated suites skipped as requested.
+Organisation/auth/D1 settings preserved; no migrations.
+
 Kundali SVG focus-border correction (2026-11-22 IST, local): reproduced the
 remaining rectangular focus outline around North house 7. Prior selection checks
 missed this focused-SVG state. Scoped CSS disables bounding-box outline and
