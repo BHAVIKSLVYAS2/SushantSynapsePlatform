@@ -5,6 +5,11 @@ support links and complete period placements/ownership. Eleven focused tests pas
 Monthly/yearly contracts, qualified natal synthesis and independent editorial
 acceptance remain subsequent phases in RITVAYAM_CONTENT_INTELLIGENCE.md.
 No calculation kernel, saved inputs, database or API access changes.
+Released source b62e178a, Worker ce9c2fa1-5235-4c91-ac5b-e7834fe0a51f;
+755-asset build, 13 uploaded changes, --keep-vars. Live Chrome passes nine
+width/theme cases, fourteen chapters, evidence navigation, north-house selection,
+unchanged saved data, three languages, report export and distinct Rashi prose.
+Mobile screenshot inspected; no page errors or production business writes.
 
 Ritvayam content intelligence production release (2026-11-23 IST): source
 d2d2f25b, Worker 5ccd9728-7983-4e38-b371-ee6b2d5eaa80. Build exports 755
