@@ -1,3 +1,15 @@
+Ritvayam content intelligence production release (2026-11-23 IST): source
+d2d2f25b, Worker 5ccd9728-7983-4e38-b371-ee6b2d5eaa80. Build exports 755
+assets; 17 changed assets uploaded with --keep-vars. Live Chrome passes nine
+Hindi width/theme cases, fourteen chapters, readable chapter navigation below
+the compact single-row controls, evidence disclosure/focus, north-house selection,
+unchanged saved data, three-language fallback, rich narrative-first export and
+actual Rashi-specific rendering. Final live mobile screenshot inspected. No page
+errors or production business writes; organisation/auth/D1 and disabled AI preserved.
+Expert Jyotish/Hindi acceptance and unsupported long-range/strength/Yoga/natal
+transit capabilities remain pending as detailed in the audit; no calculation
+kernel, saved-record or database schema changes.
+
 Ritvayam Hindi content intelligence (2026-11-23 IST, local): audited the local
 calculation-to-template flow and added an admitted-output adapter, editable JSON
 knowledge, structured findings/schema validation, shared/mixed-factor analysis,

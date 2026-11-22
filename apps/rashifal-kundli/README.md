@@ -1,5 +1,16 @@
 # Rashifal and Kundli: internal birth, export and P11 traditions UI
 
+Hindi content intelligence (2026-11-23, source d2d2f25b): an app-owned admitted
+calculation adapter, editable JSON knowledge, traceable findings, combination/
+deduplication logic, local narrative composition, quality gates and versioned
+cache feed the existing reader/export. Fourteen Hindi life-reading chapters and
+daily/weekly general Moon-sign narratives retain actual chart/transit evidence.
+No engine, saved-input or database change; no external AI cost. Interpretations
+remain independent Jyotish/Hindi-review-pending, with narrowly source-checked
+rule scope. Monthly/yearly and complete strength/Yoga/natal-transit synthesis
+remain unavailable. Audit/schema/editing/verification/limits:
+`docs/RITVAYAM_CONTENT_INTELLIGENCE.md`; release evidence in the ledger.
+
 Practitioner workspace deployed (2026-11-14, source 8d9f1c0): chart-first
 results, paired desktop D1/D9, compact mobile switching/expanded chart, full
 localised graha labels and linked Graha Spashta with completed-arcsecond sign
