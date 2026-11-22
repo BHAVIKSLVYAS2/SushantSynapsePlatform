@@ -1,3 +1,10 @@
+Ritvayam unified panel production release (2026-11-22 IST): source 0061f33,
+Worker cb0d1ada-6057-4eff-b6e6-86928246b8ca. 747-asset build; 12 changed
+assets uploaded with --keep-vars. Live Chrome passes six 360/390px language
+cases, unified containment and adjoining rows, timing bounds, help, location
+dialog and Choghadiya disclosure. No page errors or production business writes;
+organisation/auth/D1 settings and disabled AI preserved.
+
 Ritvayam unified calendar panel (2026-11-22 IST, local): date/location now
 share a divided header inside one bordered panel with calendar facts, rise/set
 times, Choghadiya and daytime references. Choghadiya follows the rise/set row
