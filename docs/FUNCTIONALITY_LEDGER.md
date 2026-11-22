@@ -1,3 +1,11 @@
+Ritvayam compact strip production release (2026-11-22 IST): source 24f55c1,
+Worker 3ffe896b-351b-4e09-8789-edce6b460a00. 745-asset build passes;
+12 changed assets uploaded with --keep-vars. Live browser repeats 36 mobile/
+tablet/desktop language/theme cases, both timing-help targets, Escape and overflow
+checks successfully, with no page errors. Calendar strip 36.5px at 390px;
+desktop timing pair 45px. Paksha and full month retained. No calculation, database
+migration or business write; organisation/auth/D1 and disabled AI preserved.
+
 Ritvayam reference-informed compact card (2026-11-22 IST, local): calendar
 Samvat/month/tithi facts now form one wrapping strip with inline labels/values.
 Full Paksha and Adhika month values remain visible; redundant month/tithi labels
