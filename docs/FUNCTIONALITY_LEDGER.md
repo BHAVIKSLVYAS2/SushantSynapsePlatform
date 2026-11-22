@@ -1,3 +1,15 @@
+Ritvayam home card spacing (2026-11-22 IST, local): removed the decorative
+Preview badge from the home feature heading. Compact Gulika/Mandi timing cells
+retain visible question marks but each complete cell is now the calculation-help
+button target, so a 44px icon row no longer pushes values down. Targets remain
+at least 44px; shared horizontal/vertical rules and full-width explanation remain.
+Home-only CSS preserves standalone Panchang layout and all calculations. Focused
+browser review passes 18 language/theme/mobile-width cases (360/390), both help
+states, Escape and no horizontal overflow; compact timing pair measures 63px
+(previously about 79px). Fresh home-card screenshot visually inspected. Frontend
+build exports 745 assets; diff check passes. Temporary browser/database, API writes
+blocked. No production data changes. Deployment pending.
+
 Kundali expanded chart production release (2026-11-22 IST): source c8e2775,
 Worker 6f60024c-61ce-44f3-ae89-83118bc02b6d. Build exports 745 assets;
 nine updated assets uploaded with --keep-vars. Live focused browser repeats
