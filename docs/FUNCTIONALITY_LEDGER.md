@@ -1,3 +1,11 @@
+Ritvayam compact home card production release (2026-11-22 IST): source eb27a8c,
+Worker 90fdd657-6263-4a5e-840f-d00e38f22a1e. Build exports 745 assets;
+eight changed assets uploaded with --keep-vars. Live browser verifies no Preview
+badge, 18 mobile language/theme combinations, both full-cell timing-help targets,
+explanation/Escape states and no horizontal overflow. Timing pair is 62.7px tall.
+No page errors or production business writes. Existing data/calculations and
+organisation/auth/D1 settings preserved; no migrations or AI activation.
+
 Ritvayam home card spacing (2026-11-22 IST, local): removed the decorative
 Preview badge from the home feature heading. Compact Gulika/Mandi timing cells
 retain visible question marks but each complete cell is now the calculation-help
