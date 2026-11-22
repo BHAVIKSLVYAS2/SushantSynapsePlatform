@@ -1,4 +1,4 @@
-import entries from './chapter-meanings-hi.json' with {type:'json'};
+import entries from './chapter-meanings-data.mjs';
 import {fingerprint} from './canonical-content.mjs';
 
 // Exact source spans, never positional guesses or recycled chapter summaries.

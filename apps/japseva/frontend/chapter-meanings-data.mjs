@@ -1,4 +1,5 @@
-{
+// Original AI-assisted simple Hindi meanings; independent review pending.
+export default {
   "758a85ab": {
     "sourceLength": 7063,
     "pairs": [
@@ -6732,3 +6733,4 @@
     }
   }
 }
+;

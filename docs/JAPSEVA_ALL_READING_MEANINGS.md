@@ -22,7 +22,7 @@ the inherited edition is complete or textually correct.
 
 ## Content and layout
 
-`chapter-meanings-hi.json` contains exact source text, contiguous start/end spans,
+`chapter-meanings-data.mjs` contains exact source text, contiguous start/end spans,
 concise original Hindi meanings and explicit AI-assisted editorial status. The
 runtime rejects changed sources, gaps, overlap, invalid offsets or empty meanings.
 It does not attach a chapter summary to each verse. All Sanskrit remains exactly

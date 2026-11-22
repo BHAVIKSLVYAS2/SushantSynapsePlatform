@@ -5,7 +5,7 @@ test('all 128 library sections have exact complete Hindi mappings or no Sanskrit
  assert.equal(mantras.length,110);assert.equal(sections,128);assert.equal(empty,2);assert.equal(unique.size,66);
 });
 test('source revisions, gaps, overlap, missing Hindi and invalid offsets cannot acquire translations',async()=>{
- const {readFileSync}=require('node:fs'),data=JSON.parse(readFileSync('apps/japseva/frontend/chapter-meanings-hi.json','utf8')),{validateChapterMapping}=await import('../apps/japseva/frontend/chapter-meanings.mjs'),entry=Object.values(data)[0],chapter={text:entry.sourceText};assert(validateChapterMapping(chapter,entry));
+ const {default:data}=await import('../apps/japseva/frontend/chapter-meanings-data.mjs'),{validateChapterMapping}=await import('../apps/japseva/frontend/chapter-meanings.mjs'),entry=Object.values(data)[0],chapter={text:entry.sourceText};assert(validateChapterMapping(chapter,entry));
  for(const mutate of [e=>e.sourceText+='x',e=>e.pairs[0].start=1,e=>e.pairs[0].end=0,e=>e.pairs[0].end=1.5,e=>e.pairs[0].hi='',e=>e.pairs.pop(),e=>e.pairs[0].end=999999]){const edited=structuredClone(entry);mutate(edited);assert.equal(validateChapterMapping(chapter,edited),false);}
 });
 test('display cleanup removes imported image markup without changing Sanskrit records',async()=>{
