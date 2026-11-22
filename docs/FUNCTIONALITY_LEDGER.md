@@ -1,3 +1,16 @@
+Kundali house/planet return production release (2026-11-22 IST): source
+0d99ed8 deployed as Worker 6cc2211d-84f3-436a-bb76-85eb35a80279. Build
+passes with 745 public assets; nine changed assets uploaded with --keep-vars.
+Live browser verification passes dropdown removal and Rahu-to-house Back/Escape
+with focus restoration in D1/D9/D16 and North/South. All 18 mobile language/theme
+cases fit; saved record unchanged, no popup or page errors. In expanded mode,
+first Escape returns from planet to house without collapsing the chart; the next
+Escape collapses it. Production screenshots reviewed. Existing browser selector
+scoped to active chart; automated suites skipped. Temporary database/profile and
+blocked API writes used. Organisation/auth/D1 preserved; no migrations/calculation
+changes. Evidence: .publish/kundali-planet-back.png and
+.publish/kundali-house-no-dropdown.png.
+
 Kundali house/planet return flow (2026-11-22 IST, local): removed the redundant
 house dropdown/control row from chart explorers, leaving more reading space.
 Planet details now include a localised Back-to-house button naming the active
