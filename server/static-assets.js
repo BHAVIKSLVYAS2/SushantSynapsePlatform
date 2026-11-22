@@ -13,6 +13,7 @@ const staticAssets={
  '/japseva':'apps/japseva/frontend/index.html',
  '/japseva/':'apps/japseva/frontend/index.html',
  '/japseva/book-motion.mjs':'apps/japseva/frontend/book-motion.mjs',
+ ...Object.fromEntries(['canonical-content.mjs','mahamrityunjaya-connected.mjs','connected-reader.mjs'].map(file=>['/japseva/'+file,'apps/japseva/frontend/'+file])),
  '/japseva/book-reader-shell.mjs':'apps/japseva/frontend/book-reader-shell.mjs',
  '/japseva/reader-preferences.mjs':'apps/japseva/frontend/reader-preferences.mjs',
  '/japseva/book-reader.css':'apps/japseva/frontend/book-reader.css',

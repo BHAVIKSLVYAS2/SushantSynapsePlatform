@@ -1,0 +1,1798 @@
+{
+  "schemaVersion": 1,
+  "baseline": "3ffb75f",
+  "entries": 110,
+  "units": 231,
+  "lines": 4065,
+  "validation": {
+    "errors": [],
+    "warnings": []
+  },
+  "exactTextGroups": [
+    [
+      "puja-rudrabhishek",
+      "puja-laghurudra",
+      "puja-navchandi",
+      "puja-ganapati",
+      "puja-satyanarayan"
+    ]
+  ],
+  "repeatedEnglishMeaningGroups": [],
+  "inventory": [
+    {
+      "id": "gayatri",
+      "version": "text-be91786a",
+      "legacySha256": "1da49b985e6e39e8f1c43c9f104710ac834678344eeb47d076f1b975e0bd4f48",
+      "units": 1,
+      "lines": 3,
+      "audio": {
+        "asset": "/japseva/audio/gayatri-mantra.ogg",
+        "sha256": "5ee305bed7630cc4a98803f3d00ecb3b913d643dde929209e4bc1af2efa258c3",
+        "alignment": false
+      },
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "shiva",
+      "version": "text-c9a16362",
+      "legacySha256": "4e62efee0f5a50e60168f7078f03388ddf406b7c516e31933f8c17890c366bec",
+      "units": 1,
+      "lines": 1,
+      "audio": {
+        "asset": "/japseva/audio/shiva-mantra.wav",
+        "sha256": "4d7873aa9083f4a3cdef08267a4af88895870e04e95e848aa4c93e035d3076c1",
+        "alignment": false
+      },
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "ganesha",
+      "version": "text-5462d984",
+      "legacySha256": "06084e4bdeb0afa9f64e6b176d6cc3cadaa1396e021e64b7b3a4b58d4eff18bf",
+      "units": 1,
+      "lines": 1,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "vasudeva",
+      "version": "text-0b58ee7a",
+      "legacySha256": "b19f090bf8d4ea130f5b676f0abbeb0ce4d28fb45062993ff6a3196a5b3da34f",
+      "units": 1,
+      "lines": 1,
+      "audio": {
+        "asset": "/japseva/audio/vasudeva-mantra.ogg",
+        "sha256": "804223b5f9f47c8770840e9e6f23cbc9b94cf8ccfa3ac22c7cb57ca07ed385b3",
+        "alignment": false
+      },
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "mahamrityunjaya",
+      "version": "text-383e4548",
+      "legacySha256": "016eb6bab921616e9ca16f6bd413c2bd2a4ed5e6357afb5f6ef673969f5d55e8",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": true,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review",
+        "pilot-Hindi-and-lexical-drafts",
+        "pilot-study-boundaries",
+        "Vedic-teacher-review"
+      ]
+    },
+    {
+      "id": "narayana",
+      "version": "text-bea6e9e6",
+      "legacySha256": "c8e3a7a7ba53138bb7988a6b46fb94035ea8a5c95634c48ce34688d3d8fe7b83",
+      "units": 1,
+      "lines": 1,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "saha-navavatu",
+      "version": "text-501f5e87",
+      "legacySha256": "845096c237ed9e97615120c475dc53f749d894b7eb9d7c954e2e94faec077f5a",
+      "units": 1,
+      "lines": 5,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "purnamadah",
+      "version": "text-a6e54f64",
+      "legacySha256": "277407c075752b731704db95bce43492e599818a5624ba8d4f41113c2ec18322",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "navagraha-surya",
+      "version": "text-43eaa75b",
+      "legacySha256": "e23085c485ec9a88865cd8f9c1466c8c70c910e368cce142250d1e8ea13a728d",
+      "units": 1,
+      "lines": 1,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "navagraha-chandra",
+      "version": "text-af1b7a58",
+      "legacySha256": "41421a9d4becbbd720137dded904e097eb5435ec232a8547848f056ffd9ac917",
+      "units": 1,
+      "lines": 1,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "navagraha-mangala",
+      "version": "text-64ae9161",
+      "legacySha256": "843e774e8b199fbd10b8148595de208cfb2a7436ed8b548658c609dff0656e57",
+      "units": 1,
+      "lines": 1,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "navagraha-budha",
+      "version": "text-5f77e5b1",
+      "legacySha256": "3f725fef1afa2818af9ab304b5290571c2a2da25ce5d35d50283401770b345e4",
+      "units": 1,
+      "lines": 1,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "navagraha-brihaspati",
+      "version": "text-34f11b4e",
+      "legacySha256": "6977e799cf1124b3f66a9b6e3009b4455c55e325c8f136b45eb202c4389282d0",
+      "units": 1,
+      "lines": 1,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "navagraha-shukra",
+      "version": "text-69fac04a",
+      "legacySha256": "428ae6be74fc40198735a551cb09fdcc6618741d8a4b28bf94e428872e1c773e",
+      "units": 1,
+      "lines": 1,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "navagraha-shani",
+      "version": "text-9a33b87d",
+      "legacySha256": "24f0460ae299505b4c4e51b958d40c6e10b7322cc349ae065dfcb6bd12e8627b",
+      "units": 1,
+      "lines": 1,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "navagraha-rahu",
+      "version": "text-07f7c897",
+      "legacySha256": "e028f0a2049a89cb3478419cd3590533ac3cac95a55d7e321ee31fcc7f9045f1",
+      "units": 1,
+      "lines": 1,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "navagraha-ketu",
+      "version": "text-0d8fb6a9",
+      "legacySha256": "db0b812e0368879ea7912495392d044cdd15af73bab8e94499a9b179ce6a9678",
+      "units": 1,
+      "lines": 1,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "nama-saraswati",
+      "version": "text-6bb54c99",
+      "legacySha256": "1bed50357d4722299f8f4a680b3c86d29f723334441a8d2bf8663dbc3e6cbb3a",
+      "units": 1,
+      "lines": 1,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "nama-lakshmi",
+      "version": "text-60d6a7c9",
+      "legacySha256": "0dcd0b8ee994b5bea29c6c848c2c109a0e693333a5e04be005b7619ef9321349",
+      "units": 1,
+      "lines": 1,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "nama-durga",
+      "version": "text-4499ad8d",
+      "legacySha256": "f8a48c7a52516eb251277808aa2c8390a6ceddd6086031860258f730c764aa20",
+      "units": 1,
+      "lines": 1,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "nama-hanuman",
+      "version": "text-4d799bb7",
+      "legacySha256": "13dc6e3a53dd029af388598977f48c7fbbe6c4afff5317eef4dcbf401496d512",
+      "units": 1,
+      "lines": 1,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "nama-rama",
+      "version": "text-af9fc6de",
+      "legacySha256": "3383b51600e0257d577620240640c92e40d55d60958d0b8d36d8ad6fecc306b3",
+      "units": 1,
+      "lines": 1,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "nama-krishna",
+      "version": "text-9cc06dce",
+      "legacySha256": "7d06b9f16edb5a9aafdd7df1043f954853d0767aa71045423abc94e7a61ac7c2",
+      "units": 1,
+      "lines": 1,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "reading-ganesh-dhyana",
+      "version": "text-c611169e",
+      "legacySha256": "09d33e0395f310fa426a614fdddc7c4844783c97164352c11d5ebf3e7d8c7be9",
+      "units": 1,
+      "lines": 4,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "reading-durga",
+      "version": "text-b03da824",
+      "legacySha256": "5010ae30888fdc3f0845aa33ba237f1fec8484b58658b00995bf6d9ade3a667a",
+      "units": 1,
+      "lines": 2,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "reading-mahalakshmi",
+      "version": "text-b5aa5725",
+      "legacySha256": "c61b91e797b37bbc235cb561da2465d36fc76ac682d1d4af92f558b57bee276b",
+      "units": 1,
+      "lines": 2,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "reading-ramayana",
+      "version": "text-e82ef4a0",
+      "legacySha256": "5cc54fa45a4b84c488e420fbbc6028895b3b91fb08877a0f685b1d44652e544e",
+      "units": 1,
+      "lines": 4,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "reading-hanuman-kirtan",
+      "version": "text-14bc827c",
+      "legacySha256": "190226278fb56b8d7049faf5310d94fc086cf186981e2a131e9bc22dc0a84a6c",
+      "units": 1,
+      "lines": 2,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "reading-hanuman-manojavam",
+      "version": "text-b8a30c72",
+      "legacySha256": "73a2178d4df3e4450a17710be90128dbae54a741b12d15ca6d0c3e2f6f98d62f",
+      "units": 1,
+      "lines": 2,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "reading-rama-raksha",
+      "version": "text-48097986",
+      "legacySha256": "2c4e7b08f60af9df7f9da5583eac612823ccd8003cfded47fdd1482bcbbd8a2a",
+      "units": 1,
+      "lines": 2,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "reading-bhagavata",
+      "version": "text-bd2aeac9",
+      "legacySha256": "6a15fcaf0fc5fd09a0904777f52b52d085cb7977a3f40c6c4de565bb2a39c9ec",
+      "units": 1,
+      "lines": 4,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "reading-gita-four",
+      "version": "text-b0d18585",
+      "legacySha256": "260a814c847d1e51b1bc39c2d3087731a5f4153cd3ba16cc7990b41273bbc2d0",
+      "units": 1,
+      "lines": 12,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "reading-rama-name",
+      "version": "text-0ecf9b9d",
+      "legacySha256": "4d57e7772f32a903dccc6780969969e7f2d947879605d30937e5d6019b918b2d",
+      "units": 1,
+      "lines": 2,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "reading-mahabharata",
+      "version": "text-4650cf47",
+      "legacySha256": "ca3b5592057331f3bf6cc8ce77a4c9d89fec9cd6a42c6d3c7f7a9e0fed04803d",
+      "units": 1,
+      "lines": 4,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "reading-navagraha",
+      "version": "text-1c759831",
+      "legacySha256": "f7fa01aad4f5dd6617980301462d5f971454a94ecdcdd658376f3a846c693815",
+      "units": 1,
+      "lines": 2,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "reading-bhagavata-four",
+      "version": "text-7d558e42",
+      "legacySha256": "b8e7e0010b03390795f9640df02bd7380c8aa03f92de5d9aa41231e589016eb0",
+      "units": 1,
+      "lines": 12,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "reading-surya-gayatri",
+      "version": "text-dbd1768a",
+      "legacySha256": "4107127642af9b251e486248f410e12e78f712e0a6c0ca03cbe95afea2cd8108",
+      "units": 1,
+      "lines": 2,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "reading-guru",
+      "version": "text-755be7de",
+      "legacySha256": "5cce2bd0cc7056ef7a1dd2ead459bec2ffd916818a13bab48ffcc24f9297e622",
+      "units": 1,
+      "lines": 2,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "reading-ganapati-atharvashirsha",
+      "version": "text-b6c4adbd",
+      "legacySha256": "5d69f4034999f6a50020f103f59b3e43eaa360745dade6210e686a6051f2f8b9",
+      "units": 1,
+      "lines": 4,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "reading-narasimha",
+      "version": "text-a6b379ce",
+      "legacySha256": "f4d9407bc7876588c34be44b0533622aa361b6dedd4b80d0c58a87215d924d0e",
+      "units": 1,
+      "lines": 2,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-surya-aditya",
+      "version": "text-511d2a96",
+      "legacySha256": "b44505e9722de9d9c3fdcf46a4b72cc681b78fd4d0d02088bb2af721938b329e",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-chandra",
+      "version": "text-902a87fc",
+      "legacySha256": "4364654693c8770a8d37ed17e04bff9aecb1a2d2d912d2e0707eaccac4203cf2",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-mangala",
+      "version": "text-21894aff",
+      "legacySha256": "a77fa600723643bfa3966d5148102b628a51a38f411fb161163daf0ca00737ba",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-budha",
+      "version": "text-86f86042",
+      "legacySha256": "88cab9cd15bfd3068ac1923796029eec995f461767d80bad79cfab72c34397f8",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-brihaspati",
+      "version": "text-1333ffc9",
+      "legacySha256": "bf38fd58067f9a7f30f51a89fe920e631ad4e6e9ce1d7e8f87f738e74299725d",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-shukra",
+      "version": "text-6dcfcea9",
+      "legacySha256": "6b19c4c27379ff3277c0a5c2b72aa0a87f66f65b792aea00e6d57e4bb28c8c78",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-shani",
+      "version": "text-2d0e582a",
+      "legacySha256": "67c91257611e08e7c186a8894a5cefc7b9ba9e52cffb5e5989c06030e66543ea",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-rahu",
+      "version": "text-b3e1f876",
+      "legacySha256": "362102be7902e6371cc1b2fdfdbd800e4e23f5059dcff179d6382f9c58b729cc",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-ketu",
+      "version": "text-eaa83505",
+      "legacySha256": "59461f0f2bec3a731aa8313af6d85acd329881f92893fcb4be82291499726645",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-ganesha",
+      "version": "text-8f166648",
+      "legacySha256": "af4571ae966bedd21ffcbe586c58450b5a1146be76732eb313f02017566e34b6",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-ganapati",
+      "version": "text-8b09df1d",
+      "legacySha256": "074b8a566dbe379f037bdadb17daa8b82c442047948232d12da7436903733657",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-rudra",
+      "version": "text-d4bb3338",
+      "legacySha256": "346085441c00f4330781bb3f1e3931056079f9a54d0320bedb16161625cec16f",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-shiva",
+      "version": "text-a37014f7",
+      "legacySha256": "bce47dad5b159776bde55753be376947a77ea1e6c5fcbbdd22d6c7fdf97464c5",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-vishnu",
+      "version": "text-c9926434",
+      "legacySha256": "b6f2690a072d87b79a0da2d207713c8e06ec1ca8fda10beb55b3281c40acd14b",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-brahma",
+      "version": "text-0ebee11e",
+      "legacySha256": "6b2ccc905763405bc872111792b5eaed701271fd6f05cd2557db47f30353ba41",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-rama",
+      "version": "text-d1241e3c",
+      "legacySha256": "8d221a48955f1779d2b83a8ef4315e98aa9a3349bcc9bd5250801123239acdfb",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-krishna",
+      "version": "text-e8f8ad24",
+      "legacySha256": "282553bf3b0b376aa23099a61260cdccb26bd2bda270467d556e5931a5cac3a0",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-gopala",
+      "version": "text-ec989f30",
+      "legacySha256": "1e84b9a361d0a8d7ec89d5a9d8c7ce0451220af2f060207e473956b90ec71fa1",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-narasimha",
+      "version": "text-26611df8",
+      "legacySha256": "0d4716f45403f80d64733bf7d29e0731ff1bf4df7639dfc39003844df5b91dde",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-parashurama",
+      "version": "text-038651ab",
+      "legacySha256": "f187d649f0c27ffbd64473cd5d39867eb3aafa702cf707e6c9cd6f2089b1276d",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-hanuman",
+      "version": "text-ea63fef1",
+      "legacySha256": "2f546bba97fe39e3d2ed27b3a563995ab0d297506ce963c1e16f9bfbd281ff28",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-durga",
+      "version": "text-335ec267",
+      "legacySha256": "e9dc4740147f9a994e6bebb0f9c014d2a3f574dc0945ced112336c7898d4d32c",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-lakshmi",
+      "version": "text-c002ebb8",
+      "legacySha256": "f9a7980a716b464fa63edaa9bf03ccb5fba3c233121608174f1824f40fdfcd9c",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-saraswati",
+      "version": "text-3130cf3b",
+      "legacySha256": "c7a9fbf74761064109af1deff646955a96480c2706f30b3667e7e07d6775b539",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-kali",
+      "version": "text-69f61640",
+      "legacySha256": "62a3a2fbf185c2cf7b4a3396fe91c336dd1541f3607fed7d9f5dcf837955e3ad",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-gauri",
+      "version": "text-c87dec2c",
+      "legacySha256": "f974262212296de33beb886a77e03eead3b154b6452db7c7f56f6b9f2b80f73b",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-sita",
+      "version": "text-ee2b4fd9",
+      "legacySha256": "f2be6bdd32bc9fdd7ed5ec313d778ae9c31b0559cc66da54fda2f49ff6bc7879",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-radha",
+      "version": "text-7648e186",
+      "legacySha256": "67ec6f423064a37e57baea3867150aa05f575e0d43cd1e0a53f60c39c5b1c119",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-annapurna",
+      "version": "text-1bffa5a7",
+      "legacySha256": "d4532f45f4fd2fae715df0e2cba127d6d9b338d8b76bb8103474da53032b62fe",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-tulsi",
+      "version": "text-f7ba8ad8",
+      "legacySha256": "83c285723bfe6e854098c28d968dabad6c28f009762f52726abf84963cacf9ac",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-shakti",
+      "version": "text-ba793e2b",
+      "legacySha256": "61bdc7791b4e98ad673f261a49f669b6ed9a13248f1bc91db8553390e0d82dd1",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-skanda",
+      "version": "text-34b72a03",
+      "legacySha256": "4453f86c40ee90d12977d6efea4ed0cc22f183fe9b6e5a3383e9996d180db3d2",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-guru",
+      "version": "text-4f2f992a",
+      "legacySha256": "e9d54a810d6deaaca7a79d6704e7efdb92e950c6f48274628595601bca426ea1",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-dakshinamurti",
+      "version": "text-f16b7d8a",
+      "legacySha256": "012e3e2933f3cd1a554c1561d49a6d0f3f1a68be7799874b944aacca13d9692d",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-dattatreya",
+      "version": "text-d2fac640",
+      "legacySha256": "c0beeeee61643c363ccacceebb1ee9b848a2a821c3a2844eb23e43beb7aa69f3",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-hayagriva",
+      "version": "text-a243a367",
+      "legacySha256": "b6caf4cc08759911aa0e1d65f6eaa24ff69af8b67ec80c3a9b79e7973cc5c516",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-garuda",
+      "version": "text-11da126d",
+      "legacySha256": "73b75cf11fc3cd2751babbe97a0a3c31021a02cd48cfd4f6c2dda76a1970c78a",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-nandi",
+      "version": "text-678bce25",
+      "legacySha256": "52f8c7ec5d8cbc033037fcd803e5f0d583508dff14c1c80ff7830673d344f840",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-sudarshana",
+      "version": "text-27ec0344",
+      "legacySha256": "a9059577fe26605f49b42e3ef05c6dd1a9fb89ad62246d9fd0384cbb25499d38",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-agni",
+      "version": "text-aac4c42d",
+      "legacySha256": "2aba156df3c352ed2f135e5514d16f82f20b210d0ea073eb93db208644a940c8",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-indra",
+      "version": "text-765a378f",
+      "legacySha256": "9e0047fb9795c76be3d6669e3d6bb8bd5d203325ab6c5859c24304ab8bb3da3e",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-varuna",
+      "version": "text-a029a28e",
+      "legacySha256": "a17250b12a0b7ee4eba8faf0168eef3273713e58df50614c887c10ed06b754ef",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-vayu",
+      "version": "text-e6078c88",
+      "legacySha256": "adcc762885aee3d7103e42babac12fc8cb0783030cf52ccf298697ad6c31dede",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-yama",
+      "version": "text-02e916cb",
+      "legacySha256": "fe959dd259072e1332dc6f7611283e55983dd190b522f5bf19f5807bdd5999e1",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-prithvi",
+      "version": "text-70e95480",
+      "legacySha256": "3073776d83bd65d4b598a76903c37c7efca184dca413fc61bf9bf915fd2e2495",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-akasha",
+      "version": "text-6a5d7850",
+      "legacySha256": "20cae55132aa46e82ee0315fb9d5c0903feb689bd94fe16cb5b795fcaf635d07",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-hamsa",
+      "version": "text-52e30bf6",
+      "legacySha256": "b0935bf1b0762646cb9fea3c2c77050e507d9f8bb2361e9a5fc2e51a788cc055",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-bagalamukhi",
+      "version": "text-779407a4",
+      "legacySha256": "926307b65c27445d340492e4d9ad47f25d091547fdb7209698eda7c67bd2952a",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-bhairavi",
+      "version": "text-905e642e",
+      "legacySha256": "f6170148a85228f635ebfe005dc083ccc510c72b72c947fd917818f5ea2a7311",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-bhuvaneshwari",
+      "version": "text-692e2467",
+      "legacySha256": "8db7afe44c04f1a8d0a453bed6666046844c0fa1f6f8e04684ec85cbae690282",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-chhinnamasta",
+      "version": "text-2938a44c",
+      "legacySha256": "7ca59b893eaa20cf1752203635cb25dbb6db1381f76cd27994ea2f4b03539c27",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-dhumavati",
+      "version": "text-7226fef9",
+      "legacySha256": "70dc3c2ba0ec580021991cf4f5007d485aca9eab7e13614f0d0ad7c2ec9429a9",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-tara",
+      "version": "text-8af6a332",
+      "legacySha256": "dd4854381d427d9e08b246d8c6a7d637001250e81e127a20bfe999d93e10c17c",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-tvarita",
+      "version": "text-f2dd8b5f",
+      "legacySha256": "ef872ba415970cb44f354121fe8457ab7da6c23369c71b187ad582045be0a823",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-matangi",
+      "version": "text-4ace8f74",
+      "legacySha256": "70e669cb9ac5537a7a6abe43f4be45b904a9f7e68c8969fc6dfe6cdefb0eafdd",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-batuka-bhairava",
+      "version": "text-bcf4e803",
+      "legacySha256": "2f96786489f34824af004f9a5fc344d5a9a05230259dac024c387a233051e0bd",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-mahishamardini",
+      "version": "text-632a8b58",
+      "legacySha256": "f73bd18c41d692ccdd9310e65909eea2486242e1cd9f133fd88ef91c7828263f",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-jayadurga",
+      "version": "text-84957df9",
+      "legacySha256": "11343415de71b857b949508aad719702ec32b6a99d142e0437b46cf47d5458ac",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-panduranga",
+      "version": "text-40611b6e",
+      "legacySha256": "ea7585e003c72390f438ff06d8d4a34ef793bea4ea11961d9a6efcf57d5a2333",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "gayatri-dhanvantari",
+      "version": "text-801f4940",
+      "legacySha256": "900df5852837536b7addf7c915d6ac5d0a3bcca95ac5609bb16a4a7bebcf7f8e",
+      "units": 1,
+      "lines": 3,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "rudra-invocation",
+      "version": "text-05241c33",
+      "legacySha256": "de12e30d0c4b6300078472bb4cfd2c4668e6f152d7a0162ecf95e4fa39c24c76",
+      "units": 1,
+      "lines": 1,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "rudra-namaskara",
+      "version": "text-1de50675",
+      "legacySha256": "031e569a143f265f73a71ccc9a67b9d26eb2f2990271f72842eef4cf36fd2121",
+      "units": 1,
+      "lines": 1,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "rudram-namakam-opening",
+      "version": "text-814ee052",
+      "legacySha256": "275222fe83a326120539243df77b707189d280b4953834eb119689eef0c8872e",
+      "units": 1,
+      "lines": 4,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "rudram-complete",
+      "version": "text-891b05db",
+      "legacySha256": "2d203b51d7756e9fae90997af2b0a6270e55ba3753e7880f718c8cde70eb6ca6",
+      "units": 22,
+      "lines": 89,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "puja-rudrabhishek",
+      "version": "text-30b48098",
+      "legacySha256": "65657a742c02e59316e8cdb26770a52293ef00332313553317c279e968acd2e0",
+      "units": 30,
+      "lines": 266,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "puja-laghurudra",
+      "version": "text-11d74434",
+      "legacySha256": "1815c64a0f4171b79e611a1b62b9165d6d3361d242d2c06da44eb958111ec998",
+      "units": 30,
+      "lines": 266,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "puja-navchandi",
+      "version": "text-a15a363b",
+      "legacySha256": "3ec1d1a8279101daa54272ea85ff181c2694be81058b3ffd802d559575266d14",
+      "units": 23,
+      "lines": 2342,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "puja-ganapati",
+      "version": "text-d8d3e051",
+      "legacySha256": "57b1e175c5a382ef1077a6d41033f3b1526abbfd98c1ddef03ad57fd6f6cc71e",
+      "units": 7,
+      "lines": 195,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "puja-satyanarayan",
+      "version": "text-9a18f5cb",
+      "legacySha256": "461b50080a552c147f00b3766d007b0483253fa07c8bb1f8c105a97d2c2929b6",
+      "units": 11,
+      "lines": 613,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    },
+    {
+      "id": "puja-ratna-abhimantran",
+      "version": "text-d53a443e",
+      "legacySha256": "d300409e51bb893c7fedfca491b24d6cd9c990ead4ad22bb77fb2edec960272b",
+      "units": 5,
+      "lines": 11,
+      "audio": null,
+      "pilot": false,
+      "reviewQueue": [
+        "source-and-recension",
+        "pronunciation",
+        "line-translation",
+        "word-segmentation",
+        "expert-review"
+      ]
+    }
+  ]
+}

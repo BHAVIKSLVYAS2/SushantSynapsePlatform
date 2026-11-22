@@ -1,3 +1,26 @@
+JapSeva connected canonical study (2026-11-23 IST, local): audited the existing
+static content/IndexedDB/book/audio architecture and added lossless canonical
+adapters for 110 entries, 231 sections and 4,065 structural lines. Stable section/
+line/surface identities, separate interpretation kinds, review evidence and
+version-bound licensed audio metadata; validation rejects stale spans/versions,
+duplicate identities and unsupported expert claims. Recording SHA-256 hashes
+bind the three existing files. No new recording/TTS or simulated synchronization.
+Existing Learn now offers manual line selection on short readings. Mahamrityunjaya
+pilot connects canonical Sanskrit to Hindi draft meanings, word/sandhi-group
+glosses, literal/contextual explanations and approximate Roman aids. New content
+is explicitly AI-assisted/review-pending; only pilot source text comparison is
+source-checked. No verified grammar, padaccheda or commentary is claimed.
+Long-reading chapter UI/summaries and all practice IDs/storage stay intact.
+Actual baseline exports match byte-for-byte for original text, chapters, meanings,
+aids and audio references. Twelve Node checks pass; 18 mobile language/theme
+browser cases plus real-recording playback across mode switches, speed/repeat,
+saved selection/deep-link reload, practice prefill and Rudram pass. Final screenshot
+inspected; 753-asset build, syntax/diff checks pass. API writes blocked in isolated
+browser/database. Full audit/schema/risks/review queue: JAPSEVA_CONNECTED_CONTENT.md;
+per-entry hashes: JAPSEVA_CONTENT_INVENTORY.json. Expert/phonetic acceptance and
+pilot audio/timestamps remain pending. No schema/migrations or business data changes.
+Deployment pending.
+
 Ritvayam shortcut icon contrast (2026-11-22 IST, local): sun/chart SVGs now
 inherit the button's on-accent foreground instead of the decorative gold/accent
 token, which matched the button background in normal dark mode. Light/dark/deep

@@ -110,3 +110,20 @@ body.japseva-book-open #main>.intro,body.japseva-book-open #main>.tabs,body.japs
 #main #learn .mantra-book:not(.book-reading) .library-entry-name{margin:0;font-size:12px}
 #main #learn .mantra-book:not(.book-reading) .library-entry-meta{margin-top:2px;font-size:12px}
 @media(max-width:600px){#main .library-index-entries{grid-template-columns:minmax(0,1fr)}}
+#main #learn .book-reading.reading-learn [data-connected] .learning-copy>.mantra{display:none}
+#main .connected-reader[hidden]{display:none!important}
+#main .connected-note{font-size:12px;line-height:1.7;color:var(--ui-muted);margin:8px 0 14px}
+#main .connected-line{padding:12px 0;border-bottom:1px solid var(--ui-edge);min-width:0}
+#main .connected-line-head{display:flex;align-items:baseline;gap:6px;min-width:0}
+#main .connected-line-select{flex:0 0 44px;min-width:44px;min-height:44px;padding:6px;border:0;background:transparent;color:var(--ui-muted);font-size:12px}
+#main .connected-line.is-selected .connected-line-select{color:var(--ui-accent);background:var(--ui-soft);border-radius:8px}
+#main .connected-sanskrit{margin:0;font-family:'Nirmala UI','Kohinoor Devanagari',serif;font-size:var(--reading-size,26px);line-height:var(--reading-spacing,2.05);overflow-wrap:anywhere;min-width:0}
+#main .connected-word{display:inline;min-height:44px;min-width:44px;padding:4px 0;border:0;border-radius:3px;background:transparent;color:var(--ui-ink);font:inherit;line-height:inherit;text-align:start;white-space:normal;overflow-wrap:anywhere}
+#main .connected-word[aria-pressed=true]{color:var(--ui-accent);text-decoration:underline;text-underline-offset:6px}
+#main .connected-meaning{margin:4px 0 8px 50px;font-size:16px;line-height:1.9;color:var(--ui-ink)}
+#main .connected-gloss{margin:8px 0 8px 50px;padding:8px;border-inline-start:2px solid var(--ui-accent);font-size:15px;line-height:1.9;background:var(--ui-soft)}
+#main .connected-explanation{margin-inline-start:50px}
+#main .connected-explanation>summary,#main .connected-source>summary{min-height:44px;align-content:center;color:var(--ui-accent);font-size:13px;line-height:1.7;cursor:pointer}
+#main .connected-explanation p,#main .connected-source p{font-size:15px;line-height:1.9;overflow-wrap:anywhere}
+#main .connected-source a{display:inline-block;min-height:44px;align-content:center;font-size:13px;overflow-wrap:anywhere}
+#main .connected-reader button:focus-visible{outline:2px solid var(--ui-accent);outline-offset:2px}

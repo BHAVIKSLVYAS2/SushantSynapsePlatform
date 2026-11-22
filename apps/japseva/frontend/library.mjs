@@ -6,6 +6,8 @@ import {rudraMantras} from './rudra-mantras.mjs';
 import {fullRudram} from './rudram-full.mjs';
 import {pujaCollections} from './puja-collections.mjs';
 import {ratnaAbhimantran} from './ratna-abhimantran.mjs';
+import {createCanonical} from './canonical-content.mjs';
+import {enrichMahamrityunjaya} from './mahamrityunjaya-connected.mjs';
 const learning={...existingLearning,...expandedLearning};
 // Traditional devotional texts; meanings and syllable aids are original editorial summaries.
 export const mantras=[
@@ -31,3 +33,4 @@ mantras.push(fullRudram);
 mantras.push(...pujaCollections);
 mantras.push(ratnaAbhimantran);
 for(const ref of duplicateReferences)mantras.find(m=>m.id===ref.id).sourceReferences=[ref.source];
+export const canonicalMantras=mantras.map(m=>{const record=createCanonical(m);if(m.id==='mahamrityunjaya')enrichMahamrityunjaya(record);Object.defineProperty(m,'canonical',{value:record});return record;});

@@ -1,3 +1,13 @@
+Connected study (2026-11-23): existing Learn mode now supports manual line
+selection on short readings and the Mahamrityunjaya pilot's linked Hindi drafts,
+surface-word/sandhi-group glosses, separate literal/contextual explanations and
+Roman aids. Canonical adapters cover all 110 entries without changing original
+text, meanings, IDs, chapters, bookmarks or practice storage. No new audio/TTS;
+all recordings lack reviewed timestamps, so segment replay/sync stays unavailable.
+Pilot interpretation is AI-assisted and explicitly needs expert review. Audit,
+schema, migration/rollback and review queue: docs/JAPSEVA_CONNECTED_CONTENT.md.
+Machine preservation inventory: docs/JAPSEVA_CONTENT_INVENTORY.json.
+
 Header Back (2026-11-19, local): the shared arrow returns reading → contents,
 certificate → request, request → list, and form/tab → previous app view, with
 safe app/Home fallback. Duplicate in-content arrows are hidden with the shared
