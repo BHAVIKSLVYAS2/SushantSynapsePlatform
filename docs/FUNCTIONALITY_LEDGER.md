@@ -1,3 +1,14 @@
+Kundali expanded chart production release (2026-11-22 IST): source c8e2775,
+Worker 6f60024c-61ce-44f3-ae89-83118bc02b6d. Build exports 745 assets;
+nine updated assets uploaded with --keep-vars. Live focused browser repeats
+all four viewport sizes, 18 language/theme/style combinations, D16 notice,
+D1/D9 compare, house selection, close/focus and overflow checks successfully.
+390px diagram measures 382px; 1280x844 desktop diagram measures 727px.
+Live screenshots visually reviewed, including landscape height-fit layout.
+Saved fixture unchanged and no browser errors. Existing four reading-model
+tests passed before release. No database migration, calculation change or
+production business write; organisation/auth/D1 and disabled AI preserved.
+
 Kundali expanded chart layout (2026-11-22 IST, local): expanded reading removes
 its desktop chart/table column split and the inner diagram card border/padding.
 Chart uses viewport width capped by measured available height after controls,
