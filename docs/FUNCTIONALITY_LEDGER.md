@@ -4,7 +4,9 @@ token, which matched the button background in normal dark mode. Light/dark/deep
 black now retain visible icons. Nine Chrome theme/width cases pass at 360/390/
 1280px, checking both computed icon colours and minimum 3:1 background contrast.
 All three theme screenshots inspected; 747-asset build passes. No data changes.
-Deployment pending.
+Source 3ffb75f deployed as Worker 2ff94cd9-add1-465a-a008-69c251c21b67 with
+--keep-vars; all nine live theme/width contrast checks pass. Organisation/auth/D1
+and disabled AI preserved.
 
 Home search Edit icon (2026-11-22 IST): restored the icon-only 44px Edit
 control, reclaiming search input width. Localised accessible label and tooltip
