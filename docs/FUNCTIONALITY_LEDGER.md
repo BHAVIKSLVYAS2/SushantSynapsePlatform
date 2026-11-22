@@ -1,3 +1,15 @@
+Panchang inline timing production release (2026-11-22 IST): source e733700
+deployed as Worker 01183a9f-1079-4035-9aec-c3f70e8330d9. Build passes
+with 745 public assets; 12 changed assets uploaded with --keep-vars. Live
+Home/Rashifal browser inspection passes always-visible Gulika/Mandi within the
+events box above Choghadiya, horizontal/vertical dividers, item-specific help,
+single-open/Escape handling and 44px question controls. All 27 EN/HI/GU theme/
+width combinations (360/390/1280px) fit without horizontal overflow or page errors.
+Calculation code unchanged. Temporary browser profile/database; API writes blocked.
+Automated suites skipped. Organisation/auth/D1 settings preserved; no migrations.
+Evidence: .publish/panchang-inline-mobile.png and
+.publish/panchang-inline-help-mobile.png.
+
 Panchang inline timing layout (2026-11-22 IST, local): Gulika and Mandi are
 always visible as the second row within the existing sunrise/sunset/moon events
 box, above Choghadiya. Horizontal and vertical token-based dividers separate the
