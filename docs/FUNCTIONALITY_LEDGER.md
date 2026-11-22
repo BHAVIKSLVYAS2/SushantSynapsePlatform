@@ -1,3 +1,12 @@
+Ritvayam header shortcuts production release (2026-11-22 IST): source be2ad52,
+Worker ec3048a2-a3b2-412f-84ae-bcfadc1b784e. 747-asset build passes;
+eight changed assets uploaded with --keep-vars. Live browser passes 45 width/
+language/theme cases, top-right shortcut positioning, readable label bounds,
+minimum targets, icons/destinations, no bottom action row, continuous calendar
+panel, timing row, help and city dialog. No page errors or production business
+writes. No migrations/calculation changes; organisation/auth/D1 and disabled AI
+preserved. Source mobile/desktop screenshot review recorded above.
+
 Ritvayam header destination shortcuts (2026-11-22 IST, local): moved Rashifal
 and Kundli links into the top-right header as labelled sun/chart SVG shortcuts,
 matching the supplied reference's hierarchy with existing theme tokens. Removed
