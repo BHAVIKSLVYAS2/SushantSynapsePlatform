@@ -1,3 +1,11 @@
+Ritvayam one-row timings production release (2026-11-22 IST): source 55cec97,
+Worker 7b04f01d-714e-4fe1-b136-7db641df95da. 745-asset build passes;
+12 changed assets uploaded with --keep-vars. Live browser passes 45 responsive/
+language/theme cases including one-row geometry, label/value non-overlap,
+timing widths, help/Escape and city controls, plus exact Rahu phase boundaries
+and city recalculation. No page errors, migrations or production business writes;
+organisation/auth/D1 settings and disabled AI preserved. Calculations unchanged.
+
 Ritvayam three timings in one row (2026-11-22 IST, local): user requested
 Rahu Kaal, Gulika and Mandi in a single mobile row. Home now uses three equal
 columns, aligned label/value rows, thin dividers and compact unspaced time-range
