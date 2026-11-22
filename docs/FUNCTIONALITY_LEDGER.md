@@ -1,3 +1,18 @@
+Panchang help/spacing correction (2026-11-22 IST, local): production visual
+review found question marks separated from labels and help constrained to a
+half-width column, producing excessive card height/empty space. Help is now one
+full-width region beneath both timing values inside the existing events box.
+Circled question glyphs sit beside shorter labels with unchanged 44px tap targets,
+visible expanded state, shared aria-controls and Escape focus return. Both value
+baselines align; vertical divider stretches across the timing row. No calculation
+changes. Focused browser inspection measures label/button non-overlap, equal value
+baselines and full-width help; 27 EN/HI/GU light/dark/deep 360/390/1280px cases
+pass. Closed/open screenshots visually reviewed. Home/Rashifal and exact Gulika
+Upcoming/Now/Ended states pass with Mandi still visible and no page errors.
+Build exports 745 assets. Automated suites skipped; temporary browser/database,
+API writes blocked. Evidence: .publish/panchang-spacing-fixed.png and
+.publish/panchang-help-fixed.png. Production release verification follows.
+
 Panchang inline timing production release (2026-11-22 IST): source e733700
 deployed as Worker 01183a9f-1079-4035-9aec-c3f70e8330d9. Build passes
 with 745 public assets; 12 changed assets uploaded with --keep-vars. Live
