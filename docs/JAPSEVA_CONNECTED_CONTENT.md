@@ -138,6 +138,14 @@ licence evidence. Automated checks cannot establish spiritual or linguistic trut
 
 ## Verification and remaining limits
 
+Latest user direction (2026-11-23): supersedes the optional-study correction below.
+Library no longer mounts Connected Reader at all. Plain verse/meaning pairs use
+the existing Shloki source arrays for English/Hindi; no word buttons, numbered
+study rows or study disclosure. Other single mantras keep one Sanskrit/meaning
+pair. Gujarati's existing combined summaries and long chapter summaries are not
+misrepresented as per-verse translations. Canonical annotations remain intact as
+data, but their experimental UI is no longer part of the library reading flow.
+
 Reading-first correction (2026-11-23): the default Learn view again retains the
 complete primary mantra, existing whole-mantra meaning and pronunciation aid.
 Only the annotated Mahamrityunjaya pilot offers a closed-by-default “Study line

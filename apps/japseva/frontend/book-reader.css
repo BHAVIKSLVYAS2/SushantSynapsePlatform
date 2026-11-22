@@ -1,4 +1,9 @@
 /* The existing library becomes the reader; platform tokens and records remain shared. */
+#main .verse-pairs[hidden]{display:none!important}
+#main .reading-learn .has-verse-pairs .learning-copy>.mantra,#main .reading-learn .has-verse-pairs .learning-copy>h4.learn-only,#main .reading-learn .has-verse-pairs .learning-copy>p.learn-only{display:none}
+#main .verse-pair{margin:18px 0 28px;padding:0;border:0;background:transparent}
+#main .verse-pair .verse-text{font-family:'Nirmala UI','Kohinoor Devanagari',serif;font-size:var(--reading-size,26px);line-height:var(--reading-spacing,2.05);white-space:pre-line;overflow-wrap:break-word;margin:0 0 12px}
+#main .verse-pair .verse-meaning{font-size:16px;line-height:1.9;white-space:pre-line;margin:0;color:var(--ui-ink)}
 body.japseva-book-open{overflow:hidden}
 body.japseva-book-open #main>.intro,body.japseva-book-open #main>.tabs,body.japseva-book-open #main>.backup-tools,body.japseva-book-open #main>footer{display:none}
 #main #learn .mantra-book.book-reading{position:fixed;z-index:30;inset-block:calc(var(--shell-height,72px) + 8px) 8px;left:50%;transform:translateX(-50%);width:min(700px,calc(100vw - 24px));max-width:none;margin:0;padding:0;display:flex;flex-direction:column;border:0;background:transparent;box-shadow:none;overflow:visible}

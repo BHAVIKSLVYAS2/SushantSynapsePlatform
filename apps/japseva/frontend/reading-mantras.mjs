@@ -26,7 +26,7 @@ export const readingAliases={mahamrityunjaya:'mahamrityunjaya',purnamadah:'purna
 export const duplicateReferences=shlokas.filter(s=>readingAliases[s.id]).map(s=>({id:readingAliases[s.id],source:s.source}));
 export const readingMantras=shlokas.filter(s=>!readingAliases[s.id]).map(s=>{
  const text=s.verses.map(v=>v.sanskrit).join('\n\n'),roman=romanize(text);
- return {id:'reading-'+s.id,name:s.title.en,text,transliteration:roman,pronunciation:roman,
+ return {id:'reading-'+s.id,name:s.title.en,text,transliteration:roman,pronunciation:roman,verses:s.verses,
  names:{en:s.title.en,hi:s.title.hi,gu:gu[s.id][0]},
  meanings:{en:s.verses.map(v=>v.meaning.en).join('\n\n'),hi:s.verses.map(v=>v.meaning.hi).join('\n\n'),gu:gu[s.id][1]},
  aids:{en:roman,hi:text,gu:gujaratiScript(text)},meaning:s.verses.map(v=>v.meaning.en).join('\n\n'),

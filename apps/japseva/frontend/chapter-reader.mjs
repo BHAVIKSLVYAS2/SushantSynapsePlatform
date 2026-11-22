@@ -22,7 +22,7 @@ export function mountChapterReader(host,mantra,language='en',{compact=false}={})
  section.setAttribute('data-language-preserve','');status.role='status';text.lang='sa';previous.type=next.type='button';
  for(const key of ['hi','en','gu'])script.append(new Option('',key));const selected=positions.get(mantra.id+'-script')||restored.script;script.value=['hi','en','gu'].includes(selected)?selected:(lang==='gu'?'gu':'hi');
  label.append(caption,select);scriptLabel.append(scriptCaption,script);nav.append(previous,status,next);meaningHeading.classList.add('learn-only');meaning.classList.add('learn-only');note.classList.add('learn-only');section.append(label,heading,scriptLabel,text,aidHeading,aid,meaningHeading,meaning,note,reference,nav);heading.tabIndex=-1;host.append(section);
- if(compact){romanDetails.append(aidHeading,aid);meaningHeading.before(romanDetails);context.append(contextTitle,note,reference);nav.before(context);}
+ if(compact){romanDetails.append(aidHeading,aid);meaning.after(romanDetails);context.append(contextTitle,note,reference);nav.before(context);}
  function paint(){
   const t=copy[lang],chapter=mantra.chapters[position];
   if(!instructions.isConnected)text.before(instructions);instructions.textContent=chapter.instructions?.[lang]||'';instructions.lang=lang;instructions.hidden=!instructions.textContent;text.hidden=!chapter.text;

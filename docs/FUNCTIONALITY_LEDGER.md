@@ -1,3 +1,14 @@
+JapSeva simple verse/meaning flow (2026-11-23 IST, local): user supersedes optional
+study UI with plain Sanskrit followed immediately by its meaning. Removed study
+mounting/buttons/disclosures from the library. Existing Shloki verse arrays now
+reach the reader, interleaving each exact Sanskrit verse with its existing Hindi
+or English meaning (including four-verse Gita/Bhagavata), instead of concatenating
+all verses then all meanings. Gujarati keeps its honest whole-reading summary
+where individual meanings are absent. Single mantras retain one text/meaning;
+Recite hides meanings. Chapter pronunciation disclosure follows the summary.
+No new translations, content loss or practice-storage changes. Twelve Node
+regressions pass; browser verification recorded below after completion.
+
 JapSeva reading-first correction (2026-11-23 IST, released): reviewed live mobile
 Contents/Recite/Learn and restored complete Sanskrit plus simple meaning in Learn.
 Annotated pilot study is optional/closed after meaning; unannotated entries no
