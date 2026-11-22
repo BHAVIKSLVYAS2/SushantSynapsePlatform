@@ -1,3 +1,13 @@
+Ratna Abhimantran production release (2026-11-22 IST): source f3a3fd6,
+Worker c40c35f7-0217-4508-aac1-6e13281c2662. Build exports 747 assets;
+13 changed assets uploaded with --keep-vars. Live browser verifies the searchable
+new guide, all five steps, Recite/Learn instructions, Sanskrit alternatives,
+18 mobile language/theme cases, target-1/read-only practice prefill and existing
+Rudram reading. No audio added, overflow or page errors. Eight JapSeva tests
+passed before release. No production records created, migrations or schema
+changes; organisation/auth/D1 settings and disabled AI preserved. Ritual Assist
+link/merge remains deferred. Guide's independent priest/language review pending.
+
 Ratna Abhimantran library addition (2026-11-22 IST, local): added one Puja
 readings entry, taking the preserved catalogue from 109 to 110. Five guided steps
 cover materials/preparation, Ganesha, a personal-language sankalp, one of the nine
