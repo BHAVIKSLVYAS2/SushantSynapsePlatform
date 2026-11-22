@@ -1,3 +1,17 @@
+Panchang continuous divider and density correction (2026-11-22 IST, local):
+two independent column borders are replaced with a shared full-width timing group
+and a zero-gap inner grid, so the horizontal rule meets the vertical divider.
+Removed extra top padding, tightened value/status line spacing and compacted
+expanded help. Help targets remain 44px and calculations unchanged. The semantic
+nested definition list keeps both timings inside the existing events box.
+Focused browser inspection passes continuous border coverage, zero-gap junction,
+aligned values, item help/Escape, 27 language/theme/width cases and Gulika
+Upcoming/Now/Ended. At 390px EN, timing group height is about 79px. Closed/open
+screenshots visually inspected: .publish/panchang-divider-fixed.png and
+.publish/panchang-divider-help-fixed.png. Build exports 745 assets. Automated
+suites skipped; temporary browser/database with API writes blocked.
+Production release results follow.
+
 Panchang help/spacing production release (2026-11-22 IST): source e10c93b
 deployed as Worker 3c224d79-740d-40f2-9f5c-392b009cc411. Build passes
 with 745 public assets; 12 changed assets uploaded using --keep-vars. Live

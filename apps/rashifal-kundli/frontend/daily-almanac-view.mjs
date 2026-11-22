@@ -85,6 +85,7 @@ export function mountDailyAlmanac(container,{now=()=>Date.now(),compact=false}={
    if(!cached||cached.localDate!==date)cached=dailyAlmanac({localDate:date,placeId});
    for(const field of ['sunrise','sunset','moonrise','moonset']){const item=el('div');item.dataset.almanacEvent=field;item.append(el('dt',t[field]),el('dd',time(cached[field])));if(compact){const icon=el('span',({sunrise:'\u2600\u2191',sunset:'\u2600\u2193',moonrise:'\u263d\u2191',moonset:'\u263d\u2193'})[field]);icon.className='almanac-event-icon';icon.setAttribute('aria-hidden','true');item.prepend(icon);}facts.append(item);}
    const refs=cached.daytimeReferences,st=solarCopy[language];
+   const pair=el('div'),pairTitle=el('dt',st.title),pairBody=el('dd'),pairList=el('dl');pair.className='almanac-solar-pair';pairTitle.className='almanac-solar-pair-title';pairBody.append(pairList);pair.append(pairTitle,pairBody);facts.append(pair);
    const phase=refs?(instant<refs.gulika.start?'upcoming':instant<refs.gulika.end?'now':'ended'):null;
    const explanation=el('div'),explanationTitle=el('dt'),explanationBody=el('dd'),explanationText=el('p'),source=el('a','Uttarakalamrita 1.7\u20138');
    explanation.className='almanac-solar-explanation';explanation.id=pickerTitle.id+'-solar-method';explanationTitle.id=explanation.id+'-title';explanation.setAttribute('role','region');explanation.setAttribute('aria-labelledby',explanationTitle.id);explanationText.className='almanac-note';explanationBody.append(explanationText);if(refs){source.href=refs.method.source;explanationBody.append(source);}explanation.append(explanationTitle,explanationBody);
@@ -94,7 +95,7 @@ export function mountDailyAlmanac(container,{now=()=>Date.now(),compact=false}={
    for(const [id,label,value]of [['gulika',st.gulika,refs?range(refs.gulika):st.unavailable],['mandi',st.mandi,refs?time(refs.mandi.instant):st.unavailable]]){
     const row=el('div'),term=el('dt'),name=el('span',label),info=el('button'),glyph=el('span','?'),valueNode=el('dd',value);
     row.dataset.solarTiming=id;row.className='almanac-solar-item';glyph.setAttribute('aria-hidden','true');info.append(glyph);term.append(name,info);info.type='button';info.className='almanac-solar-info';info.setAttribute('aria-label',st.method+': '+label);info.setAttribute('aria-controls',explanation.id);info.addEventListener('keydown',closeSolarHelp);info.onclick=()=>{openSolarHelp=openSolarHelp===id?null:id;paintSolarHelp();};
-    if(id==='gulika'&&phase){const state=el('span',st[phase]);state.className='almanac-solar-state';valueNode.append(state);row.dataset.phase=phase;if(phase==='now')row.setAttribute('aria-current','time');}row.append(term,valueNode);facts.append(row);
+    if(id==='gulika'&&phase){const state=el('span',st[phase]);state.className='almanac-solar-state';valueNode.append(state);row.dataset.phase=phase;if(phase==='now')row.setAttribute('aria-current','time');}row.append(term,valueNode);pairList.append(row);
    }facts.append(explanation);paintSolarHelp();
    const before=instant<cached.sunrise,night=before?cached.previousNight:cached.night,active=currentChoghadiya([...cached.day,...night],instant);
    current.setAttribute('aria-label',t.now);current.title=t.now;
