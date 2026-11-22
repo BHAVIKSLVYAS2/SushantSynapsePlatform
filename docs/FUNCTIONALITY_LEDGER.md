@@ -1,4 +1,4 @@
-JapSeva simple verse/meaning flow (2026-11-23 IST, local): user supersedes optional
+JapSeva simple verse/meaning flow (2026-11-23 IST, released): user supersedes optional
 study UI with plain Sanskrit followed immediately by its meaning. Removed study
 mounting/buttons/disclosures from the library. Existing Shloki verse arrays now
 reach the reader, interleaving each exact Sanskrit verse with its existing Hindi
@@ -7,7 +7,13 @@ all verses then all meanings. Gujarati keeps its honest whole-reading summary
 where individual meanings are absent. Single mantras retain one text/meaning;
 Recite hides meanings. Chapter pronunciation disclosure follows the summary.
 No new translations, content loss or practice-storage changes. Twelve Node
-regressions pass; browser verification recorded below after completion.
+regressions pass. Source fde8f396, Worker 846e9fed-45c1-42be-bc89-bcb0944f69d4;
+755-asset build, thirteen changed uploads with --keep-vars. Local and live Chrome
+pass eighteen mobile language/theme cases for sequential exact verse/meaning,
+Recite, honest Gujarati fallback, single-mantra simplicity and no study controls
+or horizontal overflow. Mobile screenshots inspected; no page errors or
+production business writes. Long chapters retain honestly labelled summaries;
+missing per-verse translations are still content work, not fabricated by layout.
 
 JapSeva reading-first correction (2026-11-23 IST, released): reviewed live mobile
 Contents/Recite/Learn and restored complete Sanskrit plus simple meaning in Learn.
