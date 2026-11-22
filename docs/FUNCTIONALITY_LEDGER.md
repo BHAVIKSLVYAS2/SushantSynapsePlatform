@@ -1,3 +1,14 @@
+Panchang Gulika/Mandi production release (2026-11-22 IST): source 5f7d42f
+deployed as Worker d4b77387-61b7-4ae0-8fa3-7f85ec3c7009. Build passes
+with 745 public assets; 28 changed assets uploaded with --keep-vars. Live browser
+verification passes Home and Rashifal disclosures, two timing rows, single-instant
+Mandi versus Gulika range, calculation/source disclosure, 27 EN/HI/GU theme/width
+layouts (360/390/1280px), exact Gulika start/end state changes, IST midnight and
+city changes. No page errors, horizontal overflow, API writes or data migrations.
+Organisation/auth/D1 settings preserved. Automated suites remain skipped.
+Evidence: .publish/panchang-solar-mobile.png. Daytime-only scope and source
+convention remain explicit; this is not a complete muhurta assessment.
+
 Panchang Gulika/Mandi implementation (2026-11-22 IST, local): existing Home
 and Rashifal daily almanacs gain one closed-by-default disclosure with two compact
 rows: daytime Gulika interval and a clearly labelled Mandi reference instant.
