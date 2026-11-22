@@ -1,3 +1,20 @@
+Saved Kundali D16 explorer fix (2026-11-22 IST, local): D16 existed in the
+selector but minute/boundary screening left it disabled for exact-time saved
+profiles, while D9 already offered a nominal preview. Added a separate d16Preview
+using the existing D16 mapping and recorded exact-time D1 (admitted or labelled
+D1 preview). It is available only for UNSTABLE_BIRTH_TIME on exact recorded times.
+Screened chartViews.d16 and default report/export eligibility remain unchanged;
+approximate/unknown times still have no preview. Selector and chart notice
+explicitly label D16 time sensitivity, report exclusion and pending independent
+algorithm review. Saved-input format/math unchanged. Direct checks pass exact
+boundary cases, approximate/unknown denial, and authoritative screened D16 on
+1992-08-15. Browser checks pass saved-record reload/reopen, 12 houses/9 grahas,
+North/South, 18 mobile language/theme combinations and unchanged saved records.
+A second fixture with both D1 and D16 boundary failures also renders/reopens.
+Build exports 745 assets; automated suites skipped. Temporary database/profile
+and blocked API writes used. Evidence: .publish/saved-kundali-d16.png and
+.publish/saved-kundali-d16-d1-boundary.png. Release verification follows.
+
 Panchang divider/density production release (2026-11-22 IST): source 6a67205
 deployed as Worker d0704250-98f3-42b0-9217-461da69b610f. Build passes
 with 745 public assets; 12 changed assets uploaded with --keep-vars. Live browser
