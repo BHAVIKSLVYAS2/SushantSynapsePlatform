@@ -1,3 +1,15 @@
+Panchang divider/density production release (2026-11-22 IST): source 6a67205
+deployed as Worker d0704250-98f3-42b0-9217-461da69b610f. Build passes
+with 745 public assets; 12 changed assets uploaded with --keep-vars. Live browser
+verification passes full-width shared border coverage, zero gap at the vertical
+junction, aligned values, 44px help controls, 27 language/theme/width combinations,
+help/Escape and Gulika Upcoming/Now/Ended. Timing group is about 79px high at
+390px EN. Production screenshot visually inspected; no page errors.
+Evidence: .publish/panchang-divider-fixed.png and
+.publish/panchang-divider-help-fixed.png. No calculation/data changes; temporary
+browser/database with API writes blocked. Automated suites skipped.
+Organisation/auth/D1 preserved; no migrations.
+
 Panchang continuous divider and density correction (2026-11-22 IST, local):
 two independent column borders are replaced with a shared full-width timing group
 and a zero-gap inner grid, so the horizontal rule meets the vertical divider.
