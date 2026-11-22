@@ -1,3 +1,18 @@
+Panchang inline timing layout (2026-11-22 IST, local): Gulika and Mandi are
+always visible as the second row within the existing sunrise/sunset/moon events
+box, above Choghadiya. Horizontal and vertical token-based dividers separate the
+two references; the standalone Gulika/Mandi disclosure is removed. Each timing
+has a 44px question-mark button with item-specific calculation/source help,
+aria-expanded/controls, single-open help and Escape dismissal. Mandi remains
+explicitly a daytime instant; Gulika retains its interval and current/upcoming/
+ended state. Calculation code unchanged. Home compact layout and Rashifal
+noncompact layout both pass focused browser inspection, including 27 EN/HI/GU
+light/dark/deep 360/390/1280px combinations, always-visible values, dividers,
+help controls and no horizontal overflow or page errors. Build exports 745 public
+assets. Automated suites skipped; isolated temporary database/browser profile
+and blocked API writes used. Evidence: .publish/panchang-inline-mobile.png and
+.publish/panchang-inline-help-mobile.png. Release verification follows.
+
 Kundali SVG focus-border production release (2026-11-22 IST): source
 1fdd93a deployed as Worker 8d48d5bb-4816-43e7-80b6-760cea843eca. Build
 passes with 745 public assets; seven changed assets uploaded with --keep-vars.

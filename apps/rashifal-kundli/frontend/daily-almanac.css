@@ -6,15 +6,16 @@
 .daily-almanac ol{list-style:none;margin:0;padding:0;display:grid;gap:4px}.daily-almanac li{display:grid;grid-template-columns:65px minmax(0,1fr);gap:4px 8px;padding:8px;border:1px solid var(--ss-border);border-radius:7px;font-size:12px;font-variant-numeric:tabular-nums}.daily-almanac li[aria-current=time]{border:2px solid var(--ss-primary);background:color-mix(in srgb,var(--ss-primary) 12%,var(--ss-bg));padding:7px}.daily-almanac li b{grid-column:2;color:var(--ss-primary)}.daily-almanac a{display:inline-block;min-height:44px;padding:10px 0;box-sizing:border-box;color:var(--ss-primary)}
 @media(min-width:600px){.daily-almanac .almanac-events{grid-template-columns:repeat(4,minmax(0,1fr))}.daily-almanac .almanac-periods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}}
 .almanac-city-results [aria-selected=true]{background:var(--ui-soft);outline:2px solid var(--ui-accent);outline-offset:-2px}
-.daily-almanac .almanac-solar{border-top:1px solid var(--ss-border);margin-top:8px}
-.daily-almanac .almanac-solar>summary{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;list-style:revert}
-.daily-almanac .almanac-solar>summary>span{font-size:12px;color:var(--ss-primary)}
-.daily-almanac .almanac-solar>summary::after{content:'⌄';margin-inline-start:auto;font-size:18px}
-.daily-almanac .almanac-solar[open]>summary::after{content:'⌃'}
-.daily-almanac .almanac-solar-rows{margin:0;display:grid;gap:0}
-.daily-almanac .almanac-solar-rows>div{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:8px;padding:8px 0;border-top:1px solid var(--ss-border)}
-.daily-almanac .almanac-solar-rows dt{font-size:13px;line-height:1.6}
-.daily-almanac .almanac-solar-rows dd{margin:0;text-align:end;font-size:13px;line-height:1.6}
-.daily-almanac .almanac-solar-state{display:block;font-size:12px;font-weight:400;color:var(--ss-text-secondary)}
-.daily-almanac [data-solar-timing][aria-current=time]{border-inline-start:2px solid var(--ss-primary);padding-inline-start:8px;background:var(--ss-bg)}
-.daily-almanac .almanac-solar-method>summary{font-size:12px;color:var(--ss-text-secondary)}
+/* Two always-visible references share the events box above Choghadiya. */
+.daily-almanac .almanac-events>.almanac-solar-item,.home-vedic .almanac-compact .almanac-events>.almanac-solar-item{grid-column:span 1;display:block;min-width:0;padding:8px 0 0;border-top:1px solid var(--ss-border);align-self:start}
+.daily-almanac .almanac-solar-item dt,.home-vedic .almanac-compact .almanac-events>.almanac-solar-item dt{display:flex;align-items:center;justify-content:space-between;gap:4px;margin:0;font-size:12px;line-height:1.5;min-height:44px}
+.daily-almanac .almanac-solar-item dd,.home-vedic .almanac-compact .almanac-events>.almanac-solar-item dd{font-size:14px;line-height:1.6;margin:0;white-space:normal}
+.daily-almanac .almanac-solar-info,.home-vedic .daily-almanac .almanac-solar-info{display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;min-height:44px;padding:0;border:0;background:transparent;color:var(--ss-primary);font-size:15px;font-weight:600;border-radius:50%}
+.daily-almanac .almanac-solar-info:focus-visible{outline:2px solid var(--ss-primary);outline-offset:-5px}
+.daily-almanac .almanac-solar-state{display:block;font-size:11px;font-weight:400;color:var(--ss-text-secondary)}
+.daily-almanac .almanac-events>.almanac-solar-item+.almanac-solar-item,.home-vedic .almanac-compact .almanac-events>.almanac-solar-item+.almanac-solar-item{border-inline-start:1px solid var(--ss-border);padding-inline-start:10px}
+.daily-almanac .almanac-solar-explanation[hidden]{display:none!important}
+.daily-almanac .almanac-solar-explanation a{font-size:12px}
+.daily-almanac .almanac-solar-item[aria-current=time] dd:not(.almanac-solar-explanation){color:var(--ss-primary)}
+@media(min-width:600px){.daily-almanac .almanac-events>.almanac-solar-item{grid-column:span 2}}
+.home-vedic .almanac-compact .almanac-events>.almanac-solar-item{grid-column:span 2}
