@@ -1,3 +1,18 @@
+Kundali house/planet return flow (2026-11-22 IST, local): removed the redundant
+house dropdown/control row from chart explorers, leaving more reading space.
+Planet details now include a localised Back-to-house button naming the active
+house. It clears planet selection while preserving chart/style/house; Escape in
+the detail region does the same, and focus returns to that planet in the house
+list. Opening a planet focuses Back without an automatic scroll or popup.
+Chart shapes remain keyboard-selectable; calculation and saved inputs unchanged.
+Focused browser checks pass Rahu-to-house click/Back/Escape and focus restoration
+in D1/D9/D16 and North/South, 18 mobile language/theme cases, unchanged saved
+record and no page errors/popups. Closed/planet-detail screenshots reviewed.
+Build exports 745 assets. Existing reading browser selector updated for keyboard
+house selection; automated suites skipped. Temporary database/browser profile,
+API writes blocked. Evidence: .publish/kundali-planet-back.png and
+.publish/kundali-house-no-dropdown.png. Release verification follows.
+
 Saved Kundali D16 production release (2026-11-22 IST): source 2b5ab69
 deployed as Worker f74ebfb8-03bb-4327-b8cb-53475045c94c. Build passes
 with 745 public assets; four changed assets uploaded using --keep-vars. Live

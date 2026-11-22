@@ -151,3 +151,4 @@ body:has(.vedic-birth-app.has-results) .vedic-app-header{display:none!important}
    keyboard focus on the actual house geometry instead of drawing that box. */
 .vedic-charts .vedic-chart-cell>[role=button]{outline:none!important;-webkit-tap-highlight-color:transparent}
 .vedic-charts .vedic-chart-cell>[role=button]:focus-visible{stroke:var(--ui-accent);stroke-width:5!important;stroke-dasharray:5 3}
+.vedic-charts .vedic-house-return{display:inline-flex;align-items:center;min-height:44px;margin:0 0 6px;padding:8px 10px;border:1px solid var(--ui-edge);border-radius:8px;background:var(--ui-solid);color:var(--ui-accent);font:inherit;font-size:13px;cursor:pointer}
