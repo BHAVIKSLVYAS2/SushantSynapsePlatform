@@ -1,3 +1,14 @@
+JapSeva connected study production release (2026-11-23 IST): source 6347aba9,
+Worker a935c8af-a82b-4195-8794-d21409d86c01. 753-asset build; 14 assets
+uploaded with --keep-vars. Live Chrome passes 18 mobile language/theme cases,
+connected pilot gloss/explanation/scripts, Recite/Learn, real existing recording
+playback continuing across modes, speed/repeat, saved selection/deep-link reload,
+practice prefill and Rudram. No page errors or production business writes.
+Original 110-entry content and practice schema preserved. Sanskrit/Hindi expert
+review, pilot audio and verified timestamps remain pending; software publication
+does not promote any draft interpretation. Organisation/auth/D1 and disabled AI
+preserved. Full audit and review queue in JAPSEVA_CONNECTED_CONTENT.md.
+
 JapSeva connected canonical study (2026-11-23 IST, local): audited the existing
 static content/IndexedDB/book/audio architecture and added lossless canonical
 adapters for 110 entries, 231 sections and 4,065 structural lines. Stable section/
