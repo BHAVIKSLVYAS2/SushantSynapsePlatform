@@ -53,3 +53,16 @@ dates, input rejection and existing sunrise parity. Dedicated browser tests chec
 boundary highlighting, civil midnight/pre-sunrise handling, saved city reuse on
 Rashifal, language changes, mobile themes and absence of page errors. The
 functionality ledger records final local/export/live results.
+## Daytime Rahu Kaal addition — 2026-11-22
+
+Rahu Kaal is shown alongside Gulika and Mandi as a separate daylight reference.
+Divide the selected city's local sunrise–sunset into eight equal intervals;
+Sunday–Saturday select parts 8, 2, 7, 5, 6, 4, 3 respectively. This does not
+alter Choghadiya or combine the references into a muhurta verdict. No nighttime
+Rahu Kaal is calculated. Missing/invalid daylight yields unavailable references.
+
+Source: [Drik Panchang's weekday calculation explanation](https://www.drikpanchang.com/panchang/rahu-kaal.html).
+The 22 November 2026 New Delhi page gives 16:06–17:25 IST; calculated endpoints
+agree within two minutes. This is a limited reference comparison. Tests include
+all seven conventional 06:00–18:00 examples and invalid daylight. Browser checks
+cover exact start/end states, city recalculation, help and responsive layouts.

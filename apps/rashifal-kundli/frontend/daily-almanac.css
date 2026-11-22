@@ -36,4 +36,10 @@
 .daily-almanac .almanac-events>.almanac-solar-explanation dt,.home-vedic .almanac-compact .almanac-events>.almanac-solar-explanation dt{font-size:12px;line-height:1.4;margin:0;font-weight:600}
 .daily-almanac .almanac-events>.almanac-solar-explanation dd,.home-vedic .almanac-compact .almanac-events>.almanac-solar-explanation dd{font-size:12px;line-height:1.5;margin:0;white-space:normal}
 .daily-almanac .almanac-solar-explanation .almanac-note{font-size:12px;line-height:1.5;margin:4px 0 0}
+.daily-almanac .almanac-solar-item[data-solar-timing=mandi]{grid-column:1/-1;border-inline-start:0;border-top:1px solid var(--ss-border);padding:6px 30px 0 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;min-height:44px}
+.home-vedic .almanac-compact .almanac-events .almanac-solar-item[data-solar-timing=mandi] dt{min-height:0;padding:4px 0}
+@media(min-width:700px){
+ .daily-almanac .almanac-solar-pair>dd>dl{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .daily-almanac .almanac-solar-item[data-solar-timing=mandi]{grid-column:auto;border-top:0;border-inline-start:1px solid var(--ss-border);padding:0 30px 0 10px}
+}
 .daily-almanac .almanac-solar-explanation a{font-size:12px;padding-block:6px}

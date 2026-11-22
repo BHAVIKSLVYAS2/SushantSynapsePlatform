@@ -14,16 +14,21 @@ const dayStart=[0,3,6,2,5,1,4],nightStart=[0,2,4,6,1,3,5];
 export const solarTimingMethod={id:'uttarakalamrita-1-7-8-daytime',
  source:'https://indian-vedic-astrology.com/classic/uttara%20kalamritam.pdf#page=6',
  mandiNumerators:[26,22,18,14,10,6,2],denominator:30};
+export const rahuTimingMethod={id:'weekday-daylight-eighth-rahu-1',
+ source:'https://www.drikpanchang.com/panchang/rahu-kaal.html',
+ // Zero-based eighths, Sunday through Saturday.
+ weekdaySegments:[7,1,6,4,5,3,2]};
 export function daytimeReferences(sunrise,sunset,weekday){
  if(!Number.isFinite(sunrise)||!Number.isFinite(sunset)||sunset<=sunrise||!Number.isInteger(weekday)||weekday<0||weekday>6)return null;
- const duration=sunset-sunrise,index=6-weekday;
- return {gulika:{start:Math.round(sunrise+duration*index/8),end:Math.round(sunrise+duration*(index+1)/8)},
+ const duration=sunset-sunrise,index=6-weekday,rahuIndex=rahuTimingMethod.weekdaySegments[weekday];
+ return {rahu:{start:Math.round(sunrise+duration*rahuIndex/8),end:Math.round(sunrise+duration*(rahuIndex+1)/8)},
+  gulika:{start:Math.round(sunrise+duration*index/8),end:Math.round(sunrise+duration*(index+1)/8)},
   mandi:{instant:Math.round(sunrise+duration*solarTimingMethod.mandiNumerators[weekday]/solarTimingMethod.denominator)},method:solarTimingMethod};
 }
 export const almanacModel={id:'ritvayam-daily-almanac-1',engine:'Astronomy Engine 2.1.19',
  horizon:'Upper limb, standard atmosphere, unobstructed horizon, sea level',
  source:'https://www.drikpanchang.com/tutorials/muhurat/daily/choghadiya-muhurat.html?lang=en',
- limits:'Basic Choghadiya with separate daytime Gulika/Mandi references; Vaar Vela, Kaal Vela, Kaal Ratri and Rahu Kaal overlays are not assessed.'};
+ limits:'Basic Choghadiya with separate daytime Rahu Kaal/Gulika/Mandi references; no combined auspiciousness verdict. Vaar Vela, Kaal Vela and Kaal Ratri are not assessed.'};
 export const istDate=now=>new Date(now+offset).toISOString().slice(0,10);
 const shift=(date,n)=>new Date(civilDateMilliseconds(date)+n*day).toISOString().slice(0,10);
 function eventOnDay(body,direction,localDate,place){

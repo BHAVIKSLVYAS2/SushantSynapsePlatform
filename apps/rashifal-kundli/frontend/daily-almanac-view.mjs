@@ -1,5 +1,5 @@
 import {searchPlaces} from '../../../packages/ui/place-search.mjs';
-import {dailyAlmanac,currentChoghadiya,istDate} from '../../../packages/vedic/daily-almanac.mjs';
+import {dailyAlmanac,currentChoghadiya,istDate,rahuTimingMethod} from '../../../packages/vedic/daily-almanac.mjs';
 import {getPlace,nearestPlace} from '../../../packages/vedic/places.mjs';
 import {placeLabel} from './place-text.mjs';
 
@@ -8,12 +8,18 @@ const solarCopy={
  hi:{title:'गुलिक और मांदी',gulika:'गुलिक काल',mandi:'मांदी · समय-बिंदु',now:'अभी',upcoming:'आगामी',ended:'समाप्त',unavailable:'दिन के संदर्भ समय उपलब्ध नहीं',method:'गणना का विवरण',note:'अनुमानित IST समय। राहु काल और अन्य समय नियमों का आकलन नहीं किया गया है।'},
  gu:{title:'ગુલિક અને માંદી',gulika:'ગુલિક કાળ',mandi:'માંદી · સમયબિંદુ',now:'અત્યારે',upcoming:'આગામી',ended:'પૂર્ણ',unavailable:'દિવસના સંદર્ભ સમય ઉપલબ્ધ નથી',method:'ગણતરીની વિગતો',note:'અંદાજિત IST સમય. રાહુ કાળ અને અન્ય સમયના નિયમોનું મૂલ્યાંકન કરેલ નથી.'}
 };
+Object.assign(solarCopy.en,{title:'Rahu Kaal, Gulika & Mandi',rahu:'Rahu Kaal',note:'Approximate IST timings. Daytime Rahu Kaal, Gulika and Mandi are separate references; no combined muhurta assessment.'});
+Object.assign(solarCopy.hi,{title:'राहु काल, गुलिक और मांदी',rahu:'राहु काल',note:'अनुमानित IST समय। दिन के राहु काल, गुलिक और मांदी अलग संदर्भ हैं; संयुक्त मुहूर्त आकलन नहीं किया गया है।'});
+Object.assign(solarCopy.gu,{title:'રાહુ કાળ, ગુલિક અને માંદી',rahu:'રાહુ કાળ',note:'અંદાજિત IST સમય. દિવસના રાહુ કાળ, ગુલિક અને માંદી અલગ સંદર્ભ છે; સંયુક્ત મુહૂર્તનું મૂલ્યાંકન કરેલ નથી.'});
 const solarInfo={
  en:{gulika:'Daytime only. Local sunrise–sunset is divided into eight equal parts. Gulika uses part 7 on Sunday, then parts 6 to 1 from Monday to Saturday.',mandi:'One daytime instant: sunrise + daylight × weekday factor ÷ 30. Sunday–Saturday factors: 26, 22, 18, 14, 10, 6, 2. This is the Uttarakalamrita convention; others may differ.'},
  hi:{gulika:'केवल दिन के लिए। स्थानीय सूर्योदय–सूर्यास्त के आठ समान भाग हैं। रविवार को सातवाँ भाग, फिर सोमवार से शनिवार तक क्रमशः छठा से पहला भाग गुलिक है।',mandi:'दिन का एक समय-बिंदु: सूर्योदय + दिन की अवधि × वार का गुणक ÷ 30। रविवार–शनिवार के गुणक: 26, 22, 18, 14, 10, 6, 2। यह उत्तरकालामृत की पद्धति है; अन्य परंपराएँ भिन्न हो सकती हैं।'},
  gu:{gulika:'માત્ર દિવસ માટે. સ્થાનિક સૂર્યોદય–સૂર્યાસ્તના આઠ સમાન ભાગ છે. રવિવારે સાતમો ભાગ અને સોમવારથી શનિવાર સુધી અનુક્રમે છઠ્ઠાથી પહેલો ભાગ ગુલિક છે.',mandi:'દિવસનું એક સમયબિંદુ: સૂર્યોદય + દિવસની અવધિ × વારનો ગુણક ÷ 30. રવિવાર–શનિવારના ગુણક: 26, 22, 18, 14, 10, 6, 2. આ ઉત્તરકાલામૃતની પદ્ધતિ છે; અન્ય પરંપરાઓ ભિન્ન હોઈ શકે.'}
 };
 
+solarInfo.en.rahu='Daytime only. Local sunrise–sunset is divided into eight equal parts. Sunday–Saturday use parts 8, 2, 7, 5, 6, 4, 3. Timings change with your city and date.';
+solarInfo.hi.rahu='केवल दिन के लिए। स्थानीय सूर्योदय–सूर्यास्त के आठ समान भाग हैं। रविवार–शनिवार के भाग क्रमशः 8, 2, 7, 5, 6, 4, 3 हैं। समय शहर और तारीख के साथ बदलता है।';
+solarInfo.gu.rahu='માત્ર દિવસ માટે. સ્થાનિક સૂર્યોદય–સૂર્યાસ્તના આઠ સમાન ભાગ છે. રવિવાર–શનિવાર માટે અનુક્રમે 8, 2, 7, 5, 6, 4, 3 ભાગ છે. સમય શહેર અને તારીખ મુજબ બદલાય છે.';
 const labels={
  en:{title:'Today’s local timings',city:'Change city',search:'Search an Indian city',none:'No matching city. Try another spelling.',reference:'Reference city · choose your city for local timings',sunrise:'Sunrise',sunset:'Sunset',moonrise:'Moonrise',moonset:'Moonset',noEvent:'No event today',now:'Current Choghadiya',day:'Day Choghadiya',night:'Night Choghadiya',previous:'Previous night',all:'View day & night timings',current:'Now',unavailable:'Timings unavailable. Try another city or return later.',note:'Approximate IST timings. Basic Choghadiya only; Rahu Kaal and other timing rules are not included.',names:['Udveg','Char','Labh','Amrit','Kaal','Shubh','Rog']},
  hi:{title:'आज के स्थानीय समय',city:'शहर बदलें',search:'भारतीय शहर खोजें',none:'शहर नहीं मिला। दूसरी वर्तनी आज़माएँ।',reference:'संदर्भ शहर · स्थानीय समय के लिए अपना शहर चुनें',sunrise:'सूर्योदय',sunset:'सूर्यास्त',moonrise:'चंद्रोदय',moonset:'चंद्रास्त',noEvent:'आज यह घटना नहीं',now:'अभी का चौघड़िया',day:'दिन का चौघड़िया',night:'रात का चौघड़िया',previous:'पिछली रात',all:'दिन और रात के समय देखें',current:'अभी',unavailable:'समय उपलब्ध नहीं हैं। दूसरा शहर चुनें या बाद में देखें।',note:'अनुमानित IST समय। केवल सामान्य चौघड़िया; राहु काल और अन्य समय नियम शामिल नहीं हैं।',names:['उद्वेग','चर','लाभ','अमृत','काल','शुभ','रोग']},
@@ -86,16 +92,15 @@ export function mountDailyAlmanac(container,{now=()=>Date.now(),compact=false}={
    for(const field of ['sunrise','sunset','moonrise','moonset']){const item=el('div');item.dataset.almanacEvent=field;item.append(el('dt',t[field]),el('dd',time(cached[field])));if(compact){const icon=el('span',({sunrise:'\u2600\u2191',sunset:'\u2600\u2193',moonrise:'\u263d\u2191',moonset:'\u263d\u2193'})[field]);icon.className='almanac-event-icon';icon.setAttribute('aria-hidden','true');item.prepend(icon);}facts.append(item);}
    const refs=cached.daytimeReferences,st=solarCopy[language];
    const pair=el('div'),pairTitle=el('dt',st.title),pairBody=el('dd'),pairList=el('dl');pair.className='almanac-solar-pair';pairTitle.className='almanac-solar-pair-title';pairBody.append(pairList);pair.append(pairTitle,pairBody);facts.append(pair);
-   const phase=refs?(instant<refs.gulika.start?'upcoming':instant<refs.gulika.end?'now':'ended'):null;
    const explanation=el('div'),explanationTitle=el('dt'),explanationBody=el('dd'),explanationText=el('p'),source=el('a','Uttarakalamrita 1.7\u20138');
    explanation.className='almanac-solar-explanation';explanation.id=pickerTitle.id+'-solar-method';explanationTitle.id=explanation.id+'-title';explanation.setAttribute('role','region');explanation.setAttribute('aria-labelledby',explanationTitle.id);explanationText.className='almanac-note';explanationBody.append(explanationText);if(refs){source.href=refs.method.source;explanationBody.append(source);}explanation.append(explanationTitle,explanationBody);
-   function paintSolarHelp(){explanation.hidden=!openSolarHelp;explanation.dataset.helpFor=openSolarHelp||'';if(openSolarHelp){explanationTitle.textContent=st.method+': '+st[openSolarHelp];explanationText.textContent=solarInfo[language][openSolarHelp];}for(const item of facts.querySelectorAll('[data-solar-timing]'))item.querySelector('button').setAttribute('aria-expanded',String(item.dataset.solarTiming===openSolarHelp));}
+   function paintSolarHelp(){explanation.hidden=!openSolarHelp;explanation.dataset.helpFor=openSolarHelp||'';if(openSolarHelp){explanationTitle.textContent=st.method+': '+st[openSolarHelp];explanationText.textContent=solarInfo[language][openSolarHelp];source.href=openSolarHelp==='rahu'?rahuTimingMethod.source:refs?.method.source||'';}for(const item of facts.querySelectorAll('[data-solar-timing]'))item.querySelector('button').setAttribute('aria-expanded',String(item.dataset.solarTiming===openSolarHelp));}
    function closeSolarHelp(event){if(event.key!=='Escape')return;event.preventDefault();const id=openSolarHelp;openSolarHelp=null;paintSolarHelp();if(id)facts.querySelector('[data-solar-timing="'+id+'"] button')?.focus({preventScroll:true});}
    explanation.addEventListener('keydown',closeSolarHelp);
-   for(const [id,label,value]of [['gulika',st.gulika,refs?range(refs.gulika):st.unavailable],['mandi',st.mandi,refs?time(refs.mandi.instant):st.unavailable]]){
+   for(const [id,label,value]of [['rahu',st.rahu,refs?range(refs.rahu):st.unavailable],['gulika',st.gulika,refs?range(refs.gulika):st.unavailable],['mandi',st.mandi,refs?time(refs.mandi.instant):st.unavailable]]){
     const row=el('div'),term=el('dt'),name=el('span',label),info=el('button'),glyph=el('span','?'),valueNode=el('dd',value);
     row.dataset.solarTiming=id;row.className='almanac-solar-item';glyph.setAttribute('aria-hidden','true');info.append(glyph);term.append(name,info);info.type='button';info.className='almanac-solar-info';info.setAttribute('aria-label',st.method+': '+label);info.setAttribute('aria-controls',explanation.id);info.addEventListener('keydown',closeSolarHelp);info.onclick=()=>{openSolarHelp=openSolarHelp===id?null:id;paintSolarHelp();};
-    if(id==='gulika'&&phase){const state=el('span',st[phase]);state.className='almanac-solar-state';valueNode.append(state);row.dataset.phase=phase;if(phase==='now')row.setAttribute('aria-current','time');}row.append(term,valueNode);pairList.append(row);
+    if(id!=='mandi'&&refs){const phase=instant<refs[id].start?'upcoming':instant<refs[id].end?'now':'ended';const state=el('span',st[phase]);state.className='almanac-solar-state';valueNode.append(state);row.dataset.phase=phase;if(phase==='now')row.setAttribute('aria-current','time');}row.append(term,valueNode);pairList.append(row);
    }facts.append(explanation);paintSolarHelp();
    const before=instant<cached.sunrise,night=before?cached.previousNight:cached.night,active=currentChoghadiya([...cached.day,...night],instant);
    current.setAttribute('aria-label',t.now);current.title=t.now;

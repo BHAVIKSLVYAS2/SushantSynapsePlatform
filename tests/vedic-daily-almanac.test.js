@@ -1,5 +1,25 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const load=()=>import('../packages/vedic/daily-almanac.mjs');
+test('Rahu Kaal follows all seven daylight eighths and rejects unavailable daylight',async()=>{
+ const {daytimeReferences}=await load(),rise=Date.parse('2026-11-22T06:00:00+05:30'),hour=3600000;
+ // Independent conventional 06:00–18:00 clock examples, Sunday–Saturday.
+ const starts=[16.5,7.5,15,12,13.5,10.5,9];
+ for(let weekday=0;weekday<7;weekday++){
+  const refs=daytimeReferences(rise,rise+12*hour,weekday);
+  assert.equal(refs.rahu.start,rise+(starts[weekday]-6)*hour);
+  assert.equal(refs.rahu.end-refs.rahu.start,1.5*hour);
+  assert.ok(refs.rahu.start>=rise&&refs.rahu.end<=rise+12*hour);
+ }
+ for(const args of [[NaN,rise,0],[rise,rise,0],[rise,rise+hour,7]])assert.equal(daytimeReferences(...args),null);
+});
+test('Rahu Kaal matches the published Delhi 22 November 2026 window within two minutes',async()=>{
+ const {dailyAlmanac}=await load(),d=dailyAlmanac({localDate:'2026-11-22',placeId:'geonames:1261481'});
+ // https://www.drikpanchang.com/panchang/rahu-kaal.html: 16:06–17:25 IST.
+ assert.ok(Math.abs(d.daytimeReferences.rahu.start-Date.parse('2026-11-22T16:06:00+05:30'))<120000);
+ assert.ok(Math.abs(d.daytimeReferences.rahu.end-Date.parse('2026-11-22T17:25:00+05:30'))<120000);
+ assert.equal(d.daytimeReferences.rahu.end,d.sunset);
+ assert.notDeepEqual(d.daytimeReferences.rahu,d.daytimeReferences.gulika);
+});
 test('local solar events agree with existing sunrise primitive and published Delhi reference',async()=>{
  const {dailyAlmanac}=await load(),{sunriseOnCivilDay}=await import('../packages/vedic/panchang-observer.mjs');
  const d=dailyAlmanac({localDate:'2026-10-25',placeId:'geonames:1261481'});

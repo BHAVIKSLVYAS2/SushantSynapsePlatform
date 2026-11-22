@@ -1,3 +1,17 @@
+Ritvayam Rahu Kaal (2026-11-22 IST, local): added a separate daylight interval
+using local sunrise/sunset and published Sunday-Saturday eighths 8/2/7/5/6/4/3.
+Rahu appears beside Gulika; mobile Mandi occupies a compact full-width row and
+desktop shows all three columns. English/Hindi/Gujarati labels and calculation
+help link to the Rahu source, with independent Upcoming/Now/Ended states. Existing
+Gulika/Mandi and Choghadiya calculations unchanged; no nighttime Rahu or combined
+muhurta verdict. Shared Panchang renderer also exposes the reference on Rashifal.
+Five almanac tests pass, including seven weekday examples, invalid inputs and
+published Delhi 22 Nov 2026 agreement within two minutes. Focused browser passes
+45 width/language/theme cases, all three help/Escape controls, city dialog,
+continuous panel/overflow bounds, exact Rahu start/end phases and city recalculation.
+Screenshots visually inspected. 745-asset build, module syntax and diff checks
+pass. Temporary browser/database; API writes blocked. Deployment pending.
+
 Ritvayam future methods deferred (2026-11-22 IST): user chose to leave Lal
 Kitab, KP astrology, Varshik bhavishya phal and 36-saala chakra for future work.
 Scope, source/calculation prerequisites and provisional effort recorded in
