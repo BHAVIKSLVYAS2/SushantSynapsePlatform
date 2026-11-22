@@ -1,3 +1,17 @@
+Saved Kundali D16 production release (2026-11-22 IST): source 2b5ab69
+deployed as Worker f74ebfb8-03bb-4327-b8cb-53475045c94c. Build passes
+with 745 public assets; four changed assets uploaded using --keep-vars. Live
+browser checks pass D16 availability/rendering on two exact-time saved boundary
+fixtures, including a D1-preview case: 12 houses/9 grahas, North/South, saved
+record unchanged after reload/reopen and no page errors. Main fixture passes
+18 mobile language/theme combinations; the D1-preview fixture also passes its
+focused 390px EN check. Preview labelling is explicit; screened report/export
+status and approximate/unknown-time restrictions remain unchanged. No calculation
+kernel or saved-data format changes. Automated suites skipped. Temporary browser
+records/database; API writes blocked. Organisation/auth/D1 bindings preserved.
+Evidence: .publish/saved-kundali-d16.png and
+.publish/saved-kundali-d16-d1-boundary.png.
+
 Saved Kundali D16 explorer fix (2026-11-22 IST, local): D16 existed in the
 selector but minute/boundary screening left it disabled for exact-time saved
 profiles, while D9 already offered a nominal preview. Added a separate d16Preview
