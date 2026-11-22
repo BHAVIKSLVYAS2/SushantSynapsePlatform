@@ -1,3 +1,20 @@
+Panchang Gulika/Mandi implementation (2026-11-22 IST, local): existing Home
+and Rashifal daily almanacs gain one closed-by-default disclosure with two compact
+rows: daytime Gulika interval and a clearly labelled Mandi reference instant.
+No Kundali changes. Selected-city sunrise/sunset drive both; Gulika uses daytime
+eighths 7/6/5/4/3/2/1 Sunday?Saturday, and Mandi uses daylight fractions
+26/22/18/14/10/6/2 divided by 30 after sunrise (Uttarakalamrita I.7?8).
+Expandable calculation details name/link the convention, distinguish instant from
+interval, acknowledge other traditions and exclude nighttime Mandi. No invented
+nighttime formula, muhurta verdict or Rahu Kaal coverage. Choghadiya unchanged.
+Direct calculation checks pass all weekdays at three daylight lengths, invalid
+inputs, classical Saturday 48-minute example and 14 real city/date calculations.
+Focused browser inspection passes Home/Rashifal, source disclosure, range/instant
+labels and 27 EN/HI/GU light/dark/deep 360/390/1280px layouts. Build exports 745
+assets. Automated suites skipped as requested; temporary profile/database and
+blocked API writes used for browser checks. Release verification follows.
+Source: https://indian-vedic-astrology.com/classic/uttara%20kalamritam.pdf#page=6
+
 Kundali house-selection production release (2026-11-22 IST): source 441a7a0
 deployed as Worker f4395e5e-09e2-4dd4-845f-05e88edfcddd. Build passes with
 745 public assets; nine changed assets uploaded with --keep-vars. Live browser

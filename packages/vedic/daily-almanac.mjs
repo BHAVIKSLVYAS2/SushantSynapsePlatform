@@ -9,10 +9,21 @@ const day=86400000,offset=19800000;
 const dayOrder=['Udveg','Char','Labh','Amrit','Kaal','Shubh','Rog'];
 const nightOrder=['Shubh','Amrit','Char','Rog','Kaal','Labh','Udveg'];
 const dayStart=[0,3,6,2,5,1,4],nightStart=[0,2,4,6,1,3,5];
+// Uttarakalamrita I.7–8: Mandi is an instant at the weekday fraction
+// of actual daylight, not Gulika's one-eighth interval. Daytime only.
+export const solarTimingMethod={id:'uttarakalamrita-1-7-8-daytime',
+ source:'https://indian-vedic-astrology.com/classic/uttara%20kalamritam.pdf#page=6',
+ mandiNumerators:[26,22,18,14,10,6,2],denominator:30};
+export function daytimeReferences(sunrise,sunset,weekday){
+ if(!Number.isFinite(sunrise)||!Number.isFinite(sunset)||sunset<=sunrise||!Number.isInteger(weekday)||weekday<0||weekday>6)return null;
+ const duration=sunset-sunrise,index=6-weekday;
+ return {gulika:{start:Math.round(sunrise+duration*index/8),end:Math.round(sunrise+duration*(index+1)/8)},
+  mandi:{instant:Math.round(sunrise+duration*solarTimingMethod.mandiNumerators[weekday]/solarTimingMethod.denominator)},method:solarTimingMethod};
+}
 export const almanacModel={id:'ritvayam-daily-almanac-1',engine:'Astronomy Engine 2.1.19',
  horizon:'Upper limb, standard atmosphere, unobstructed horizon, sea level',
  source:'https://www.drikpanchang.com/tutorials/muhurat/daily/choghadiya-muhurat.html?lang=en',
- limits:'Basic Choghadiya only; Vaar Vela, Kaal Vela, Kaal Ratri and Rahu Kaal overlays are not assessed.'};
+ limits:'Basic Choghadiya with separate daytime Gulika/Mandi references; Vaar Vela, Kaal Vela, Kaal Ratri and Rahu Kaal overlays are not assessed.'};
 export const istDate=now=>new Date(now+offset).toISOString().slice(0,10);
 const shift=(date,n)=>new Date(civilDateMilliseconds(date)+n*day).toISOString().slice(0,10);
 function eventOnDay(body,direction,localDate,place){
@@ -40,7 +51,7 @@ export function dailyAlmanac({localDate,placeId}){
  const sunset=eventOnDay(Body.Sun,-1,localDate,place);
  const nextSunrise=Date.parse(sunriseOnCivilDay({...site,localDate:shift(localDate,1)}).utcInstant);
  const previousDate=shift(localDate,-1),previousSunset=eventOnDay(Body.Sun,-1,previousDate,place);
- return {localDate,placeId,model:almanacModel,sunrise,sunset,
+ return {localDate,placeId,model:almanacModel,sunrise,sunset,daytimeReferences:daytimeReferences(sunrise,sunset,weekday),
   moonrise:eventOnDay(Body.Moon,1,localDate,place),moonset:eventOnDay(Body.Moon,-1,localDate,place),
   day:slots(sunrise,sunset,weekday),night:slots(sunset,nextSunrise,weekday,true),
   previousNight:slots(previousSunset,sunrise,(weekday+6)%7,true),previousDate};
