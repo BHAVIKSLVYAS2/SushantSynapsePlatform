@@ -2,7 +2,9 @@ Home search Edit icon (2026-11-22 IST): restored the icon-only 44px Edit
 control, reclaiming search input width. Localised accessible label and tooltip
 remain; appearance/arrangement menu and Escape still work. 747-asset build and
 12 Chrome width/language cases pass, including search width and no overflow;
-390px toolbar screenshot inspected. No data changes. Deployment pending.
+390px toolbar screenshot inspected. Source 1492577 deployed as Worker
+f223f85d-b7fc-4dda-a766-8a2e6cb13879 with --keep-vars; the same 12 live browser
+cases pass. No data changes; organisation/auth/D1 and disabled AI preserved.
 
 Ritvayam unified panel production release (2026-11-22 IST): source 0061f33,
 Worker cb0d1ada-6057-4eff-b6e6-86928246b8ca. 747-asset build; 12 changed
