@@ -65,7 +65,13 @@ Chrome checks every entry and all 128 sections, comparing each displayed Hindi
 meaning with its mapped source, no study controls, Recite/Learn and no horizontal
 overflow. Additional mobile/theme/script/audio checks and release results are
 recorded in the functionality ledger. These checks establish software coverage,
-not expert acceptance of every interpretation.
+not expert acceptance of every interpretation. Final live verification passes
+all 110 entries/128 sections, eighteen 360/390px language/theme cases, scripts and
+real existing audio. Production Worker 76d2c78e-1c06-486a-ae5a-ceb5e7966b55
+uses source 3ff6d2ce plus a71e7276. The latter fixes a delivery transform that
+stripped JSON import attributes: the content is an ordinary JavaScript data
+module so the exact production reader initializes correctly. 759 public assets;
+no migrations or production business writes.
 
 Repeat coverage audit: `node tools/audit-japseva-chapter-meanings.mjs`. It emits
 per-book counts, missing mappings and SHA-256 digests of each source/meaning set.

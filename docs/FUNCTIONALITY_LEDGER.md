@@ -1,4 +1,4 @@
-JapSeva all-reading Hindi meanings (2026-11-23 IST, local): all seven long
+JapSeva all-reading Hindi meanings (2026-11-23 IST, released): all seven long
 collections now use exact-source Sanskrit → simple Hindi meaning passages.
 All 128 sections checked: 126 with Sanskrit mapped, two instruction-only Ratna
 steps; 66 deduplicated sources, 1,188 unique passages/1,605 rendered occurrences.
@@ -9,8 +9,16 @@ independent Sanskrit/Hindi review remains pending and is labelled in closed help
 Recite remains uninterrupted; Learn interleaves Hindi even with EN/GU interface.
 Short two-verse Rudram now also pairs individual meanings. Display-only cleanup
 removes inherited image captions. Fifteen Node checks and baseline preservation
-audit pass; all-entry/section Chrome review passes. Full verification/release
-status below when completed. Details: JAPSEVA_ALL_READING_MEANINGS.md.
+audit pass. Source 3ff6d2ce plus module-loading fix a71e7276 deployed as Worker
+76d2c78e-1c06-486a-ae5a-ceb5e7966b55, 759 assets, --keep-vars. An initial live
+check caught JSON import attributes stripped by the delivery transform; data now
+ships as an ordinary app-owned JavaScript module. Final LIVE Chrome passes all
+110 entries/128 sections/1,605 mapped occurrences, eighteen width/theme/language
+cases at 360/390px, scripts, Recite/Learn, existing recording playback across
+mode changes, no horizontal overflow and no page errors. Final live screenshots
+inspected. Isolated browser/database; non-GET APIs blocked. No migrations,
+production business writes or organisation/auth/disabled-AI changes. Independent
+Sanskrit/Hindi acceptance remains pending. Details: JAPSEVA_ALL_READING_MEANINGS.md.
 
 JapSeva simple verse/meaning flow (2026-11-23 IST, released): user supersedes optional
 study UI with plain Sanskrit followed immediately by its meaning. Removed study
