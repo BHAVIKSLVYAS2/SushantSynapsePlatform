@@ -1,3 +1,13 @@
+Mantra Library grouped-index production release (2026-11-22 IST): source
+c7fe15b deployed as Worker 131b2e10-18b3-417d-8670-6d7575c8e0d5. Build
+passes with 745 public assets; eight changed assets uploaded using --keep-vars.
+Live browser inspection passes 18 mobile language/theme/width combinations, all
+109 entries across six groups, single-open sections, search/empty states, reader
+return and chapter navigation. Gayatri filter returns 62 existing entries; recorded
+audio filter returns the same three recordings. API writes blocked; temporary
+browser business storage unchanged. Evidence: .publish/library-index-grouped-mobile.png.
+Automated suites remain skipped. Organisation/auth/D1 bindings preserved; no migrations.
+
 Mantra Library contents cleanup (2026-11-22 IST, local): 109 existing readings
 are organised into six single-open browsing sections, with live counts. Sanskrit
 titles remain first; opening-verse previews and decorative row numbers are hidden
