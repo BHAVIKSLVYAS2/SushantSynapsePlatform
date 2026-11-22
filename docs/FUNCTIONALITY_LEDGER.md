@@ -1,3 +1,13 @@
+Kundali SVG focus-border correction (2026-11-22 IST, local): reproduced the
+remaining rectangular focus outline around North house 7. Prior selection checks
+missed this focused-SVG state. Scoped CSS disables bounding-box outline and
+WebKit tap highlight only on house SVG buttons; keyboard focus remains visible
+as a thicker dashed stroke following the actual polygon/rectangle. Existing
+selection fill, pointer geometry and inline context remain intact. No focus
+blurring, global outline removal, calculation or data changes. Focused browser
+inspection uses mobile Chromium with temporary browser records and blocked API
+writes. Automated suites skipped as requested. Release results follow.
+
 Panchang Gulika/Mandi production release (2026-11-22 IST): source 5f7d42f
 deployed as Worker d4b77387-61b7-4ae0-8fa3-7f85ec3c7009. Build passes
 with 745 public assets; 28 changed assets uploaded with --keep-vars. Live browser

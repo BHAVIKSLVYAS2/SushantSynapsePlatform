@@ -147,3 +147,7 @@ body:has(.vedic-birth-app.has-results) .vedic-app-header{display:none!important}
 .vedic-charts .vedic-house-grahas:empty{display:none}
 .vedic-charts .vedic-house-grahas button{min-height:44px}
 .vedic-charts .vedic-chart-cell[data-selected=true]>polygon,.vedic-charts .vedic-chart-cell[data-selected=true]>rect,.vedic-birth-page .vedic-birth-app .vedic-reading-workspace .vedic-chart-cell[data-selected=true]>polygon,.vedic-birth-page .vedic-birth-app .vedic-reading-workspace .vedic-chart-cell[data-selected=true]>rect{fill:color-mix(in srgb,var(--ui-accent) 25%,var(--ui-solid));stroke:var(--ui-accent);stroke-width:3.5}
+/* SVG outlines use a rectangular bounding box on mobile Chromium. Keep
+   keyboard focus on the actual house geometry instead of drawing that box. */
+.vedic-charts .vedic-chart-cell>[role=button]{outline:none!important;-webkit-tap-highlight-color:transparent}
+.vedic-charts .vedic-chart-cell>[role=button]:focus-visible{stroke:var(--ui-accent);stroke-width:5!important;stroke-dasharray:5 3}
