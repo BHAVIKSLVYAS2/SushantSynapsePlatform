@@ -12213,3 +12213,21 @@ combinations plus audio/category removal, keyboard focus, Escape and root-font
 reflow checks with no page errors. Frontend build exports 729 assets; diff check
 passes. Evidence: .publish/japseva-library-mobile-final/,
 .publish/japseva-library-{before,after}.png and .publish/japseva-filters-{en,hi,gu}.png.
+Ritvayam Hindi report correction (2026-11-23): replaced repeated single-graha
+Rashifal templates with independent work/resources/relationships/routine evidence
+and contextual suggestions. Every area's evidence survives reuse across topics;
+supportive, vedha, outside-favourable, uncertain and unresolved states remain
+distinct. Sample counts and timestamps are validated; samples are not durations
+or probabilities. Removed competing legacy Hindi headlines/themes/timing/actions
+when validated intelligence is available. Paragraphs remain separate for reading.
+Natal prose now states actual house/lord placement, occupancy versus seventh
+aspect, ownership and current/upcoming dasha labels. Combination prose requires
+the ruler and companion to share a house; period validation failures also withhold
+the actual stages/future sections. Practical prompts are editorial suggestions,
+not source-verified predictions. No astronomy/kernel or AI-provider changes.
+Verification: 12 targeted tests pass (12 signs, two dates, weekly samples,
+multiple birth times, uncertain-time gating, exports and forged evidence).
+Rebuilt mobile Chrome review passes nine width/theme cases and saved-data,
+navigation, three-language fallback, export and sign-change checks. Existing
+Phaladeepika chapter 26 source rechecked; independent editorial/Jyotish review
+and predictive accuracy are not established. Deployment recorded below.

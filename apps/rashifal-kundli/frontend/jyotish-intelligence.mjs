@@ -3,7 +3,7 @@ import findingSchema from './jyotish-finding.schema.json' with {type:'json'};
 import {adaptJyotishCalculation} from './jyotish-adapter.mjs';
 import {bodyName,signName} from './locale.mjs';
 import {temperament,manner} from './kundli-consultation-copy.mjs';
-export const intelligenceVersion='jyotish-narrative-hi-2';
+export const intelligenceVersion='jyotish-narrative-hi-3';
 export const generationPolicy=Object.freeze({provider:'local-deterministic',promptVersion:null,remoteRequests:0,tokenBudget:0,retries:0,logsBirthData:false,cacheLimit:24});
 const cache=new Map();
 const immutable=value=>{if(value&&typeof value==='object'&&!Object.isFrozen(value)){Object.values(value).forEach(immutable);Object.freeze(value);}return value;};
@@ -22,7 +22,7 @@ export function evaluateJyotishRules(snapshot,kb=knowledge){
  return findings;
 }
 export function combineJyotishFindings(findings,kb=knowledge){
- return findings.map(f=>{const same=findings.filter(g=>g.topic===f.topic&&g.id!==f.id),bodies=[...new Set([f.evidence.ruler.body,...f.evidence.house.occupants,...f.evidence.aspects])];
+ return findings.map(f=>{const same=findings.filter(g=>g.topic===f.topic&&g.id!==f.id),bodies=[f.evidence.ruler.body,...f.evidence.colocated];
   return {...f,supporting:same.filter(g=>g.evidence.ruler.body===f.evidence.ruler.body).map(g=>g.id),conflicting:kb.combinations.filter(c=>c.bodies.every(b=>bodies.includes(b))).map(c=>c.id)};
  });
 }
@@ -37,14 +37,16 @@ function composeTopic(topic,findings,snapshot,kb){
  }else if(topic.id==='overview'){
   paragraphs.push(paragraph(`यहाँ पहल का सूत्र ${named(lord.body)} से जुड़ता है। उसका ${theme(lord.house,kb)} से संबंध बताता है कि आत्मप्रस्तुति को अकेले पढ़ने के बजाय जीवन की इस भूमिका के साथ देखना चाहिए। काम और साझेदारी के नीचे दिए गए अध्याय इसी आधार को अलग संदर्भों में खोलते हैं।`,[primary.id]));
  }else{
-  paragraphs.push(paragraph(`${named(lord.body)} से जुड़ी ${role.theme} की पारंपरिक भाषा इस विषय को पढ़ने का एक सूत्र है। इस ग्रह की गणितीय स्थिति ${theme(lord.house,kb)} से संबंध जोड़ती है। इसे किसी निश्चित घटना का संकेत बनाने के बजाय अपने अनुभव में इन दोनों क्षेत्रों के बीच समय, अपेक्षा और जिम्मेदारी का संबंध देखें।`,[primary.id]));
+  paragraphs.push(paragraph(`इस विषय का मुख्य आधार भाव ${primary.evidence.house.number} है। इसके स्वामी ${named(lord.body)} जन्मपत्री के भाव ${lord.house} में हैं। इस तरह ${theme(primary.evidence.house.number,kb)} का संबंध ${theme(lord.house,kb)} से बनता है। ${named(lord.body)} का पारंपरिक विषय है: ${role.theme}।`,[primary.id]));
+  const prompts=['अपनी पहल और दूसरों की अपेक्षाओं के बीच अपनी प्राथमिकता स्पष्ट रखें।','वाणी, बचत और परिवार की जिम्मेदारियों को साथ देखकर योजना बनाएँ।','छोटे नियमित प्रयास, लिखित संवाद और अभ्यास से अपनी बात को आकार दें।','घर का वातावरण और निजी सुविधा इस विषय में कितनी मदद करते हैं, यह देखें।','सीखने या रचनात्मक प्रयोग के लिए नियमित समय और वास्तविक प्रतिक्रिया रखें।','बड़े लक्ष्य को रोज के काम में बाँटें और लंबित जिम्मेदारियों की समीक्षा करें।','दूसरे पक्ष की भूमिका, सहमति और अपेक्षाएँ शुरुआत में स्पष्ट करें।','साझा जिम्मेदारियों, दस्तावेजों और अनिश्चित शर्तों की पूरी जाँच करें।','अनुभवी मार्गदर्शन और व्यवस्थित अध्ययन से अपने निर्णय का आधार मजबूत करें।','भूमिका, काम की गुणवत्ता और जवाबदेही को स्पष्ट मानदंड दें।','सहयोगियों के साथ लक्ष्य और योगदान की अपेक्षाएँ साफ रखें।','खर्च, निजी तैयारी और विश्राम के लिए योजना में पर्याप्त जगह रखें।'];
+  paragraphs.push(paragraph(`इस भाव-संबंध पर विचार का व्यावहारिक तरीका: ${prompts[lord.house-1]}`,[primary.id]));
  }
  if(topic.id==='personality'){
   const moon=snapshot.planets.find(p=>p.body==='Moon'&&p.stableSign);if(moon){paragraphs.push(paragraph(`चंद्रमा की ${signName(moon.sign,'hi')} राशि के संदर्भ में: ${temperament[moon.sign-1][1]} लग्न के संकेत बाहर की प्रतिक्रिया का और चंद्रमा का संकेत भीतर की जरूरत का अलग दृष्टिकोण देता है; दोनों को एक स्थायी व्यक्तित्व-लेबल में सीमित न करें।`,ids));if(snapshot.rising&&((snapshot.rising-1)%4)!==((moon.sign-1)%4))paragraphs.push(paragraph('लग्न और चंद्र राशि के तत्व अलग हैं। इस ढाँचे में बाहर अपनाई गई रणनीति और भीतर सहज लगने वाली प्रतिक्रिया में अंतर की गुंजाइश रखें। आत्मविश्वास और संवेदनशीलता साथ हों तो निर्णय से पहले अनुभव को शब्द देने का समय उपयोगी हो सकता है; यह आपके वास्तविक व्यवहार का मनोवैज्ञानिक परीक्षण नहीं है।',ids));}
  }
- if(selected.length>1){const related=selected.slice(1).map(f=>`${theme(f.evidence.house.number,kb)} का सूत्र ${named(f.evidence.ruler.body)} के माध्यम से ${theme(f.evidence.ruler.house,kb)} से जुड़ता है`);paragraphs.push(paragraph('इसी विषय का दूसरा पक्ष देखें: '+related.join('; ')+'। इन संबंधों से प्राथमिकताओं के बीच संवाद का विषय बनता है, किसी एक पक्ष की निश्चित जीत या हार का नहीं।',selected.slice(1).map(f=>f.id)));}
+ if(selected.length>1){const related=selected.slice(1).map(f=>`भाव ${f.evidence.house.number} का विषय है: ${theme(f.evidence.house.number,kb)}। इसके स्वामी ${named(f.evidence.ruler.body)} भाव ${f.evidence.ruler.house} में हैं, जिसका विषय है: ${theme(f.evidence.ruler.house,kb)}`);paragraphs.push(paragraph('साथ में यह संबंध भी देखें: '+related.join('। ')+'। इन क्षेत्रों की जिम्मेदारियाँ मुख्य विषय को प्रभावित कर सकती हैं; इन्हें किसी निश्चित परिणाम की घोषणा न मानें।',selected.slice(1).map(f=>f.id)));}
  const modifiers=[...new Set([...primary.evidence.house.occupants,...primary.evidence.aspects])].filter(b=>b!==lord.body);
- if(modifiers.length)paragraphs.push(paragraph(`इस पठन में ${modifiers.map(named).join(' और ')} का संदर्भ भी है। ${modifiers.slice(0,2).map(b=>`${named(b)} के लिए ${kb.planetThemes[b].theme}`).join(' तथा ')} की भाषा मुख्य सूत्र को अलग जोर देती है। पूरी बल-गणना और योग्यताएँ उपलब्ध न होने से किसी ग्रह को निर्णायक या दूसरे संकेत को निष्प्रभावी नहीं माना गया है।`,[primary.id]));
+ if(modifiers.length){const occupants=primary.evidence.house.occupants.filter(b=>b!==lord.body),aspects=primary.evidence.aspects.filter(b=>b!==lord.body);paragraphs.push(paragraph((occupants.length?`इस भाव में ${occupants.map(named).join(' और ')} उपस्थित हैं। `:'')+(aspects.length?`${aspects.map(named).join(' और ')} की सातवीं पूर्ण-राशि दृष्टि भी इस भाव पर है। `:'')+modifiers.slice(0,2).map(b=>`${named(b)} का विषय है: ${kb.planetThemes[b].theme}।`).join(' '),[primary.id]));}
  const conflicts=[...new Set(selected.flatMap(f=>f.conflicting))];for(const id of conflicts.slice(0,1))paragraphs.push(paragraph(kb.combinations.find(c=>c.id===id).text,selected.filter(f=>f.conflicting.includes(id)).map(f=>f.id)));
  if(primary.evidence.colocated.length&&!conflicts.length)paragraphs.push(paragraph(`${named(lord.body)} और ${primary.evidence.colocated.map(named).join(', ')} एक पूर्ण-राशि भाव में साथ हैं। इससे संदर्भ साझा होता है, लेकिन केवल इस साथ होने को कोई अंतिम योग या निश्चित फल नहीं कहा गया है; अंशगत दूरी और अन्य योग्यताओं की जाँच अलग है।`,[primary.id]));
  if(topic.practice)paragraphs.push(paragraph(topic.practice,ids));
@@ -56,7 +58,8 @@ function addPeriodFinding(findings,snapshot,period,id,kb){
 }
 function periodProse(period,snapshot,kb=knowledge){
  const major=snapshot.planets.find(p=>p.body===period.major),minor=snapshot.planets.find(p=>p.body===period.minor);
- return `${named(period.major)} की महादशा${period.minor?' और '+named(period.minor)+' की अंतर्दशा':''} में ${kb.planetThemes[period.major].theme} का दीर्घ सूत्र${period.minor?' तथा '+kb.planetThemes[period.minor].theme+' का उपकालीन संदर्भ':''} साथ पढ़ा गया है। `+(major?.house?`${named(major.body)} की जन्मस्थिति ${theme(major.house,kb)} से जुड़ती है। `:'जन्म-भाव स्थिर न होने से भावाधारित विस्तार रोका गया है। ')+(minor?.house&&minor.body!==major?.body?`${named(minor.body)} का ${theme(minor.house,kb)} से संबंध प्राथमिकताओं के दूसरे पक्ष को सामने लाता है। `:'')+'यह गणना में उपलब्ध अवधि का विषय है; नौकरी, विवाह या किसी अन्य घटना की निश्चित तारीख नहीं।';
+ const context=p=>{if(!p?.house)return '';const owned=snapshot.houses.filter(h=>h.ruler===p.body).map(h=>h.number);return `${named(p.body)} भाव ${p.house} में हैं; यहाँ मुख्य विषय है: ${theme(p.house,kb)}। `+(owned.length?`वे भाव ${owned.join(' और ')} के स्वामी भी हैं। `:'');};
+ return `${named(period.major)} की महादशा${period.minor?' में '+named(period.minor)+' की अंतर्दशा':''}। मुख्य ग्रह का पारंपरिक विषय है: ${kb.planetThemes[period.major].theme}। `+(period.minor&&period.minor!==period.major?`अंतर्दशा का अतिरिक्त विषय है: ${kb.planetThemes[period.minor].theme}। `:'')+(major?.house?context(major):'जन्म-समय से भाव की स्थिति निश्चित नहीं है, इसलिए भावाधारित विस्तार उपलब्ध नहीं है। ')+(minor?.body!==major?.body?context(minor):'')+'इन क्षेत्रों की जिम्मेदारियों और निर्णयों की समीक्षा इस अवधि का व्यावहारिक उपयोग है; इससे किसी घटना या उसकी तारीख की पुष्टि नहीं होती।';
 }
 function chronologicalSections(snapshot,findings,kb){
  const stages={id:'stages',title:'जीवन के विभिन्न चरण',status:snapshot.periods.length?'available':'unavailable',paragraphs:[],findingIds:[]};
@@ -64,7 +67,7 @@ function chronologicalSections(snapshot,findings,kb){
  if(Number.isFinite(birth))for(const [id,label,from,to]of kb.stages){const start=birth+from*year,end=to===null?last:birth+to*year;const periods=snapshot.periods.filter(p=>Date.parse(p.end)>start&&Date.parse(p.start)<end);if(!periods.length)continue;const ids=periods.map((p,i)=>addPeriodFinding(findings,snapshot,{major:p.lord,start:p.start,end:p.end},'stage:'+id+':'+i,kb).id);stages.findingIds.push(...ids);stages.paragraphs.push(paragraph(`${label} (${from}${to===null?'+':'–'+to} वर्ष; केवल गणना में उपलब्ध समय-खिड़की): ${periods.map(p=>named(p.lord)).join(' → ')} की महादशाओं का क्रम इस खिड़की से मिलता है। ${periods.slice(0,2).map(p=>`${named(p.lord)} के लिए ${kb.planetThemes[p.lord].theme}`).join('; ')} यहाँ अध्ययन के विषय हैं। यह बीती घटनाओं का दावा या भावी जीवन-सीमा नहीं है।`,ids));}
  const periods={id:'future',title:'वर्तमान एवं आगामी दशा का भविष्यफल',status:snapshot.active?'available':'unavailable',paragraphs:[],findingIds:[]};
  const next=snapshot.periods.flatMap(m=>m.subperiods.map(a=>({major:m.lord,minor:a.lord,start:a.start,end:a.end}))).filter(p=>Date.parse(p.end)>Date.parse(snapshot.at)).slice(0,3);
- for(const [i,p]of next.entries()){const f=addPeriodFinding(findings,snapshot,p,'period:'+i,kb);periods.findingIds.push(f.id);const dates=[p.start,p.end].map(v=>new Intl.DateTimeFormat('hi',{dateStyle:'medium',timeZone:'Asia/Kolkata'}).format(new Date(v)));periods.paragraphs.push(paragraph(dates.join(' से ')+' तक: '+periodProse(p,snapshot,kb),[f.id]));}
+ for(const [i,p]of next.entries()){const f=addPeriodFinding(findings,snapshot,p,'period:'+i,kb);periods.findingIds.push(f.id);const dates=[p.start,p.end].map(v=>new Intl.DateTimeFormat('hi',{dateStyle:'medium',timeZone:'Asia/Kolkata'}).format(new Date(v)));periods.paragraphs.push(paragraph((Date.parse(p.start)<=Date.parse(snapshot.at)?'वर्तमान अवधि — ':'आगामी अवधि — ')+dates.join(' से ')+' तक: '+periodProse(p,snapshot,kb),[f.id]));}
  return [stages,periods];
 }
 export function validateJyotishNarrative(result){
@@ -88,7 +91,7 @@ export function buildJyotishIntelligence(report,{rules=knowledge}={}){
 
  for(const f of findings)f.interpretation={language:'hi',text:f.evidence.house?`${theme(f.evidence.house.number,rules)} का सूत्र ${named(f.evidence.ruler.body)} की ${theme(f.evidence.ruler.house,rules)} से जुड़ी स्थिति के साथ पढ़ा गया है।`:periodProse({major:f.evidence.bodies[0],minor:f.evidence.bodies[1],...f.period},snapshot,rules)};
  const result={schemaVersion:1,version:intelligenceVersion,rulesVersion:rules.version,kind:'traditional-editorial-natal',reviewStatus:rules.reviewStatus,snapshot,findings,sections,generation:generationPolicy};result.quality=validateJyotishNarrative(result);
- if(!result.quality.valid){const bad=new Set(result.quality.errors.map(e=>e.section));result.sections=result.sections.map(s=>bad.has('all')||bad.has(s.id)?{...s,status:'withheld-validation',paragraphs:[]}:s);}
+ if(!result.quality.valid){const bad=new Set(result.quality.errors.map(e=>e.section));result.sections=result.sections.map(s=>bad.has('all')||bad.has(s.id)||(bad.has('periods')&&['stages','future'].includes(s.id))?{...s,status:'withheld-validation',paragraphs:[]}:s);}
  immutable(result);cache.set(key,{serialized,result});while(cache.size>generationPolicy.cacheLimit)cache.delete(cache.keys().next().value);return {...result,cache:{hit:false,key}};
 }
 export function clearJyotishCache(){cache.clear();}

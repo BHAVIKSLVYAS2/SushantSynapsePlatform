@@ -32,3 +32,11 @@ test('all twelve Moon signs and multiple dates retain real transit evidence and 
 test('Hindi report exports share the same validated narrative while preserving redaction',async()=>{
  const {calculateBirthReport}=await import('../apps/rashifal-kundli/frontend/birth-report.mjs'),{projectExport,reportMarkup}=await import('../apps/rashifal-kundli/frontend/export-report.mjs');const report=calculateBirthReport(base,{now}),model=projectExport(report,{language:'hi'});assert.equal(model.redacted,true);assert.equal(model.everyday.topics.length,14);assert(model.everyday.quality.valid);const html=reportMarkup(model);assert(html.includes('समग्र जीवन परिचय'));assert(html.indexOf('report-everyday')<html.indexOf('data-report-section'));assert(html.includes('data-finding-id'));assert.equal(model.identity,undefined);
 });
+test('Rashifal rejects inconsistent samples and retains evidence in every life area',async()=>{
+ const {createRashifalService}=await import('../apps/rashifal-kundli/frontend/rashifal-service.mjs'),{rashifalLibrary}=await import('../apps/rashifal-kundli/frontend/rashifal-library.mjs'),{composeIntelligentRashifal}=await import('../apps/rashifal-kundli/frontend/jyotish-rashifal.mjs');
+ const reading=createRashifalService().getReading({rashi:1,view:'weekly',language:'hi',ruleVersion:rashifalLibrary.version,calculationProfileId:base.calculationProfileId},{now}).reading;
+ for(const section of reading.intelligence.sections.slice(1)){assert(section.paragraphs.length>=3);assert(section.paragraphs.slice(0,-1).every(p=>p.findingIds.length===1&&p.text.includes('गोचर')));}
+ const forged=structuredClone(reading.grahas);forged[0].counts.supportive++;assert.equal(composeIntelligentRashifal({...reading,grahas:forged}).quality.valid,false);
+ const forgedDate=structuredClone(reading.grahas);forgedDate[0].observations[0].utcInstant=reading.period.endUtc;assert.equal(composeIntelligentRashifal({...reading,grahas:forgedDate}).quality.valid,false);
+ assert(!JSON.stringify(reading.intelligence.sections).includes('????'));
+});
