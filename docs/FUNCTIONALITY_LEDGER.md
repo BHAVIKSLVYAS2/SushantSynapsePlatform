@@ -12213,7 +12213,13 @@ combinations plus audio/category removal, keyboard focus, Escape and root-font
 reflow checks with no page errors. Frontend build exports 729 assets; diff check
 passes. Evidence: .publish/japseva-library-mobile-final/,
 .publish/japseva-library-{before,after}.png and .publish/japseva-filters-{en,hi,gu}.png.
-Ritvayam Hindi report correction (2026-11-23): replaced repeated single-graha
+Ritvayam Hindi report correction (2026-11-23): source e29e5898 deployed as Worker
+74639e8b-b68d-4578-8220-dc697f0e8d57 with --keep-vars (759 public assets).
+Live Chrome review passes nine width/theme cases, all 14 chapters, evidence and
+navigation, North house selection, saved-data preservation, language fallback,
+Hindi exports and actual sign-specific Rashifal, with no page errors. No
+production business writes or migrations; organisation/auth/D1 and disabled
+Nishi AI settings preserved. Replaced repeated single-graha
 Rashifal templates with independent work/resources/relationships/routine evidence
 and contextual suggestions. Every area's evidence survives reuse across topics;
 supportive, vedha, outside-favourable, uncertain and unresolved states remain
