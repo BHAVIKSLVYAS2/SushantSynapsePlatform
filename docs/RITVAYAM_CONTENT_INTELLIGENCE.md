@@ -5,6 +5,54 @@ supersedes the earlier audit's narrower D1/seventh-aspect-only boundary.
 
 ## Combined natal and period reading (2026-11-23)
 
+### Authorised staged continuation: phase 1 — natal motion and combustion
+
+Implemented `packages/vedic/planet-condition.mjs` as an additive feature, without
+rewriting existing longitude/chart/dasha kernels. Seven physical bodies are
+sampled at -60/-30 minutes, -30 seconds, the recorded instant, +30 seconds and
++30/+60 minutes. The five applicable planets use apparent geocentric tropical
+longitude rates: backward/forward one-hour and symmetric half-hour differences.
+Wraparound is handled. Disagreeing signs or a rate interval including zero are
+near-station/unresolved, not an asserted exact station or full Chesta Bala.
+The rate interval is a sampled screen, not a certified derivative error bound.
+
+Combustion uses shortest longitudinal Sun separation. The declared Phaladeepika
+2.36 commentary convention uses Moon 12°, Mars 17°, Jupiter 11°, Saturn 15°;
+Mercury direct/retrograde 14°/12° and Venus direct/retrograde 10°/8°. An unresolved
+direction retains both applicable thresholds. Recorded-minute samples and the
+existing proposed positional guard produce an interval: a boundary overlap stays
+uncertain. This does not calculate physical visibility, rise/set or eclipses.
+Sun receives no combustion class; nodes receive neither of these physical-body
+judgements. The convention is explicit, not an assertion that every school agrees.
+
+Only admitted exact-time D1 inputs receive these birth conditions. Unknown or
+approximate inputs and unavailable coverage remain withheld. A bounded 24-entry
+memory cache uses birth instant/profile, never identity. Validation recomputes
+all rows from the retained samples and compares center positions and timestamp
+against natal data; forged direction, status, threshold or date is rejected.
+
+Main topic and period prose now explains relevant natal motion/solar distance.
+Confirmed combustion adds a review factor; competing sign/D9 support stays mixed.
+Uncertain or absent qualifiers cannot establish the current-support category.
+Retrograde status alone is neither a weakness nor a success/Chesta-Bala score.
+Health remains non-diagnostic. Main reader, technical appendix and Hindi export
+share the qualified context. Detailed seven-body values stay in the closed basis.
+
+Twenty targeted tests pass: all six threshold boundaries, both Mercury/Venus
+motion conventions, wraparound, stations, malformed observations, the NASA
+2019-11-11 Mercury transit conjunction anchor, real station-neighbour samples,
+coverage failure, forged evidence, unknown-time gating and existing reports.
+The Swiss Ephemeris indexed station listing was consulted, but its full PDF was
+blocked by the source's browser check; this is not full external ephemeris
+acceptance. Astronomical/traditional expert review remains pending.
+
+Next stages remain separate: (2) named Yoga/Dosha predicates, qualifications and
+cancellations with explicit rule variants; (3) a complete selected Shadbala
+method and independent numeric references; (4) continuous personal transit
+windows with period relevance, without invented event promises; (5) independent
+traditional/Hindi acceptance and translated parity. Phase 1 does not complete
+those stages. Earlier phase boundaries below are historical where superseded.
+
 Hindi chapters now lead with an original topic-specific conclusion instead of
 concatenated placements. A pure app-owned synthesis module combines admitted D1
 ownership/occupancy, classical full whole-sign aspects (including Mars/Jupiter/

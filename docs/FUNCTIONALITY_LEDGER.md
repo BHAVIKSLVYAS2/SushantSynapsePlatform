@@ -12261,3 +12261,24 @@ Sixteen targeted tests pass. Full Shadbala, qualified Yoga/Dosha, motion/combust
 qualifications and continuous event timing remain unavailable. Independent
 traditional/Hindi review is pending; no predictive-accuracy percentage is claimed.
 Details: docs/RITVAYAM_CONTENT_INTELLIGENCE.md. Deployment status recorded below.
+Ritvayam staged prediction work, phase 1 (2026-11-23, verified locally): added
+natal motion/solar-distance conditions without rewriting existing positions,
+charts or dashas. Seven physical bodies retain timestamped samples; five planets
+receive direct/retrograde/near-station classifications. Declared Phaladeepika
+combustion limits distinguish direct/retrograde Mercury and Venus; boundary or
+direction ambiguity stays uncertain. This is sampled motion and a proposed
+positional screen, not complete Chesta Bala, full Shadbala, physical visibility
+or eclipse detection. Nodes receive no invented physical-body classification.
+Only admitted exact-time D1 is used; uncertain inputs/coverage remain unavailable.
+Main Hindi chapters and dashas apply natal qualifications, preserve conflicting
+support and review factors, and never treat retrograde alone as weak/inauspicious.
+Uncertain/missing qualifiers cannot establish current support. The closed
+technical basis and Hindi export retain motion and solar-distance details;
+source samples/flags/dates are recomputed and checked against natal positions.
+Twenty tests pass, including thresholds, wraparound, station neighbours, a NASA
+solar-transit anchor, tampered evidence and existing readings. Local Chrome
+passes nine width/theme cases, 14 chapters, seven-body basis, exports, saved-data
+preservation and sign-specific Rashifal without page errors. Independent
+astronomical/traditional acceptance remains pending. Next: qualified Yoga/Dosha
+rules/cancellations, complete Shadbala and continuous personal event windows.
+Details: docs/RITVAYAM_CONTENT_INTELLIGENCE.md. Deployment recorded separately.

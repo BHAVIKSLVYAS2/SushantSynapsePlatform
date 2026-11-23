@@ -4,7 +4,7 @@ import {temperament,manner} from './kundli-consultation-copy.mjs';
 
 // Factual whole-sign predicates and original editorial interpretation. None of
 // these predicates is a probability, a full strength judgement or a diagnosis.
-export const synthesisVersion='natal-period-transit-hi-2';
+export const synthesisVersion='natal-period-transit-hi-3';
 export const synthesisSource={title:'Phaladeepika',url:'https://www.panchanga.lv/wp-content/uploads/2020/06/Phaladipika_Shri-Mantreswara.pdf',scope:'ch.1 sign dignity and full aspects; editorial synthesis is separately authored'};
 const exalted={Sun:1,Moon:2,Mars:10,Mercury:6,Jupiter:4,Venus:12,Saturn:7};
 const named=b=>bodyName(b,'hi');
@@ -38,15 +38,31 @@ export function topicFactors(snapshot,topic,period=periodAt(snapshot)){
  const connections=periodConnections(snapshot,topic.houses,period);
  const relatedBodies=[...new Set([lord.body,...connections.map(p=>p.body)])];
  const transits=snapshot.currentTransit?.status==='available'?snapshot.currentTransit.rows.filter(p=>relatedBodies.includes(p.body)):[];
+ const relevantBodies=[...new Set([lord.body,...(house.occupants||[]),...aspects.map(p=>p.body),...connections.map(p=>p.body)])],planetConditions=snapshot.birthConditions?.status==='available'?snapshot.birthConditions.value.rows.filter(p=>relevantBodies.includes(p.body)):[],lordCondition=planetConditions.find(p=>p.body===lord.body);
+ const qualificationUncertain=!lordCondition||planetConditions.some(p=>p.motion.status==='near-station'||p.combustion.status==='uncertain');
  const supportive=[],attention=[];
  if(condition==='own'||condition==='exalted')supportive.push('natal-'+condition);
  if(condition==='debilitated')attention.push('natal-debilitated');
  if([6,8,12].includes(lord.house))attention.push('lord-in-demanding-house');
  if(division?.condition==='own'||division?.condition==='exalted')supportive.push('d9-'+division.condition);
  if(division?.condition==='debilitated')attention.push('d9-debilitated');
+ if(lordCondition?.combustion.status==='combust')attention.push('natal-combust');
+ if(planetConditions.some(p=>p.body!==lord.body&&p.combustion.status==='combust'))attention.push('related-planet-combust');
  const balance=supportive.length&&attention.length?'mixed':attention.length?'attention':supportive.length?'supported':'ungraded',current=transits.find(p=>p.body===lord.body),currentSupport=current?.status==='supportive',currentObstruction=current?.status==='obstructed';
- const assessment=!connections.length?'natal-only':(attention.length&&currentSupport)||(supportive.length&&currentObstruction)||balance==='mixed'?'mixed-current-signals':attention.length||currentObstruction?'current-review':currentSupport?'current-support':'active-ungraded';
- return {house:house.number,lord:lord.body,lordHouse:lord.house,condition,division,occupants:snapshot.planets.filter(p=>p.house===house.number).map(p=>p.body),colocated:snapshot.planets.filter(p=>p.house===lord.house&&p.body!==lord.body).map(p=>p.body),aspects,exchange:dispositor&&dispositor.body!==lord.body&&signRulers[dispositor.sign-1]===lord.body?{body:dispositor.body,house:dispositor.house}:null,period,connections,transits,supportive,attention,balance,assessment};
+ const assessment=!connections.length?'natal-only':(attention.length&&currentSupport)||(supportive.length&&currentObstruction)||balance==='mixed'?'mixed-current-signals':attention.length||currentObstruction?'current-review':currentSupport&&!qualificationUncertain?'current-support':'active-ungraded';
+ return {house:house.number,lord:lord.body,lordHouse:lord.house,condition,division,occupants:snapshot.planets.filter(p=>p.house===house.number).map(p=>p.body),colocated:snapshot.planets.filter(p=>p.house===lord.house&&p.body!==lord.body).map(p=>p.body),aspects,exchange:dispositor&&dispositor.body!==lord.body&&signRulers[dispositor.sign-1]===lord.body?{body:dispositor.body,house:dispositor.house}:null,period,connections,transits,planetConditions,qualificationUncertain,supportive,attention,balance,assessment};
+}
+export function birthConditionProse(snapshot,bodies,{includeOrdinary=false}={}){
+ if(snapshot.birthConditions?.status!=='available')return [];
+ const rows=snapshot.birthConditions.value.rows.filter(p=>bodies.includes(p.body)),parts=[];
+ for(const p of rows){const n=named(p.body),motion=p.motion.status,solar=p.combustion;
+  if(motion==='retrograde')parts.push(`${n} जन्म के समय वक्री थे। वक्री होना अपने आप में अशुभ या कमजोर होने का निर्णय नहीं है; उसका संदर्भ राशि, भाव और सूर्य से दूरी के साथ लिया गया है।`);
+  if(motion==='near-station')parts.push(`${n} की जन्मगत गति की दिशा सीमा के पास अनिश्चित है। यहाँ मार्गी या वक्री का पक्का निर्णय और स्टेशन की सटीक तारीख नहीं दी गई है।`);
+  if(solar.status==='combust')parts.push(`${n} जन्म के समय सूर्य से ${solar.separationDegrees.toFixed(2)}° दूर थे, जो चुनी ${solar.thresholds.join('/')}° पारंपरिक अस्त-सीमा के भीतर है। इसलिए केवल स्वराशि या उच्च राशि देखकर इस ग्रह का पूरा सहयोग मानना पर्याप्त नहीं है।`);
+  else if(solar.status==='uncertain')parts.push(`${n} की सूर्य से दूरी ${solar.separationDegrees.toFixed(2)}° है; चुनी अस्त-सीमा या गति की दिशा के पास अनिश्चितता होने से अस्त/अनस्त का निर्णय रोका गया है।`);
+  else if(includeOrdinary&&motion==='direct'&&solar.status==='clear')parts.push(`${n} जन्म के समय मार्गी थे और सूर्य से ${solar.separationDegrees.toFixed(2)}° की दूरी चुनी अस्त-सीमा से बाहर है। यह पूर्ण ग्रहबल का निर्णय नहीं है।`);
+ }
+ return parts;
 }
 
 // Destination groups describe the connection, not whether an event will happen.
@@ -72,6 +88,8 @@ export function synthesisParagraphs(snapshot,topic,factors){
   const parts=[];if(f.condition!=='ordinary'&&f.condition!=='unclassified')parts.push(`${named(f.lord)} ${conditionText[f.condition]} में हैं`);
   if(f.division)parts.push(`स्वीकृत नवांश में वे ${signName(f.division.sign,'hi')} राशि में हैं${f.division.sameSign?' और जन्म राशि के साथ वर्गोत्तम स्थिति बनती है':''}${['own','exalted','debilitated'].includes(f.division.condition)?' ('+conditionText[f.division.condition]+')':''}`);
   if(parts.length)result.push({role:'qualification',text:parts.join('। ')+ '। '+(f.balance==='mixed'?'राशि-स्थिति के सहयोगी और सावधानी वाले पक्ष साथ हैं; इसलिए केवल एक संकेत से अनुकूलता तय नहीं की गई है।':f.balance==='attention'?'इस संबंध में तैयारी, समय और जिम्मेदारियों की समीक्षा को अधिक जगह दें। नीच राशि या कठिन भाव अपने आप में असफलता नहीं है।':f.balance==='supported'?'यह राशि-स्थिति का सहयोगी पक्ष है, पूर्ण ग्रहबल या सुनिश्चित फल का निर्णय नहीं।':'नवांश यहाँ अतिरिक्त संदर्भ है; उससे अलग से घटना नहीं निकाली गई है।')});
+  for(const text of birthConditionProse(snapshot,[f.lord],{includeOrdinary:true}))result.push({role:'planet-condition',text});
+  for(const text of birthConditionProse(snapshot,f.planetConditions.filter(p=>p.body!==f.lord).map(p=>p.body)))result.push({role:'planet-condition',text:'अन्य संबंधित ग्रह का जन्मगत संदर्भ: '+text});
  }
  if(f.aspects.length)result.push({role:'interaction',text:`मुख्य भाव पर ${f.aspects.map(p=>`${named(p.body)} की ${aspectName[p.offset]} दृष्टि`).join(' और ')} भी है। इसलिए भावेश के साथ इन ग्रहों का संदर्भ भी लिया गया है; केवल दृष्टि की संख्या को शुभता का अंक नहीं माना गया।`});
  if(f.exchange)result.push({role:'interaction',text:`${named(f.lord)} और ${named(f.exchange.body)} एक-दूसरे की राशि में हैं। इस राशि-परिवर्तन से दोनों भावों का संबंध जुड़ता है; इसे सभी योग्यताएँ जाँचे बिना राजयोग या निश्चित लाभ नहीं कहा गया है।`});

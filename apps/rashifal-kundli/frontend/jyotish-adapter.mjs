@@ -2,8 +2,16 @@ import {signRulers} from './kundli-reading.mjs';
 import {siderealSnapshot} from '../../../packages/vedic/sidereal.mjs';
 import {evaluateTransitSample} from '../../../packages/vedic/rashifal-transits.mjs';
 import {VedicInputError} from '../../../packages/vedic/diagnostics.mjs';
+import {planetConditionsAtInstant} from '../../../packages/vedic/planet-condition.mjs';
 const available=f=>f?.status==='available'?f.value:null;
 const skyCache=new Map();
+const conditionCache=new Map();
+function birthConditions(report,chart){
+ const at=report?.birth?.utcInstant,profile=report?.birth?.calculationProfileId;
+ if(!chart||report.birth.timeAccuracy!=='exact'||!at||!profile)return {status:'unavailable',reason:'admitted-exact-birth-required'};
+ try{const key=profile+'|'+at;let value=conditionCache.get(key);if(!value){value=planetConditionsAtInstant({utcInstant:at,calculationProfileId:profile});conditionCache.set(key,value);while(conditionCache.size>24)conditionCache.delete(conditionCache.keys().next().value);}return {status:'available',value};}
+ catch(error){if(!(error instanceof VedicInputError))throw error;return {status:'unavailable',reason:error.code};}
+}
 function currentTransits(report,chart,planets){
  const moon=planets.find(p=>p.body==='Moon'&&p.stableSign),at=report?.calculatedAtUtc,profile=report?.birth?.calculationProfileId;
  if(!chart||!moon||!Number.isFinite(Date.parse(at))||!profile)return {status:'unavailable',reason:'stable-D1-Moon-and-report-instant-required'};
@@ -17,6 +25,6 @@ export function adaptJyotishCalculation(report){
  const houses=(chart?.houses||[]).map(h=>({number:h.houseNumber,sign:h.rashi,ruler:signRulers[h.rashi-1],occupants:[...h.bodies]}));
  const periods=(timeline?.mahadashas||[]).map(m=>({lord:m.lord,start:m.start.utcInstant,end:m.end.utcInstant,subperiods:m.antardashas.map(a=>({lord:a.lord,start:a.start.utcInstant,end:a.end.utcInstant}))}));
  const d9=chart&&available(report?.features?.d9),divisions={d9:d9?d9.planets.map(p=>({body:p.body,sign:p.rashi})):null};
- return {contractVersion:'jyotish-input-2',kind:'natal',at:report?.calculatedAtUtc||null,birthInstant:report?.birth?.utcInstant||null,timeAccuracy:report?.birth?.timeAccuracy||'unknown',rising:chart?.ascendant.rashi||null,planets,houses,periods,divisions,currentTransit:currentTransits(report,chart,planets),active:timeline?{major:timeline.active.mahadashaLord,minor:timeline.active.antardashaLord,at:timeline.active.atUtcInstant}:null,
-  unavailable:['full-shadbala','qualified-yogas-doshas','degree-orb-conjunctions','retrograde-combustion-qualification','continuous-personal-event-timing'],scope:'admitted-D1/D9-only; no nominal previews; current Moon-relative transit snapshot'};
+ return {contractVersion:'jyotish-input-3',kind:'natal',at:report?.calculatedAtUtc||null,birthInstant:report?.birth?.utcInstant||null,calculationProfileId:report?.birth?.calculationProfileId||null,timeAccuracy:report?.birth?.timeAccuracy||'unknown',rising:chart?.ascendant.rashi||null,planets,houses,periods,divisions,birthConditions:birthConditions(report,chart),currentTransit:currentTransits(report,chart,planets),active:timeline?{major:timeline.active.mahadashaLord,minor:timeline.active.antardashaLord,at:timeline.active.atUtcInstant}:null,
+  unavailable:['full-shadbala','qualified-yogas-doshas','degree-orb-conjunctions','full-cheshta-bala','continuous-personal-event-timing'],scope:'admitted-D1/D9-only; no nominal previews; sampled natal motion/solar distance; current Moon-relative transit snapshot'};
 }
