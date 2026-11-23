@@ -5,7 +5,9 @@ invalidates old caches. Twenty-four targeted checks pass, plus the new mixed
 known/unresolved regression (four public-reading tests). Chrome public/Pandit,
 mobile themes, export, saved charts and sign-change checks pass. Independent
 Jyotish editorial review and richer individual interpretations remain pending;
-these checks do not certify prediction accuracy. Deployment recorded below.
+these checks do not certify prediction accuracy. Source e9bf9ce7 deployed with
+--keep-vars as Worker cc972130-a616-4e76-94da-3ecf6b538931 (759 assets).
+Organisation/auth/D1 and disabled Nishi settings preserved; no migrations.
 
 JapSeva all-reading Hindi meanings (2026-11-23 IST, released): all seven long
 collections now use exact-source Sanskrit → simple Hindi meaning passages.
