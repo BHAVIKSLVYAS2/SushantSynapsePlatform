@@ -138,43 +138,17 @@ test('production D1 organisations enforce provisioning, atomic capacity, tenant 
   assert.equal((await change(first,'assignment',{appId:'digital-samaj',userId:'master',role:'Owner',status:'Active'})).status,200);
   assert.equal((await db.prepare('PRAGMA foreign_key_check').all()).results.length,0);
  });
- await t.test('Tournament organisation workspaces isolate records, sharing and expired/revoked access',async()=>{
-  const tournamentLicence={...licence,appId:'tournament-lite',staffLimit:1};
-  for(const [org,actor]of [[first,'master'],[second,'other']]){
-   assert.equal((await change(org,'licence',{...tournamentLicence,licenceVersion:0})).status,200);
-   const assignment=await change(org,'assignment',{appId:'tournament-lite',userId:actor,role:'Owner',status:'Active'});assert.equal(assignment.status,200,JSON.stringify(assignment.data));
+ await t.test('Tournament is public, rejects workspace setup and retires all old cloud APIs',async()=>{
+  assert.equal((await change(first,'licence',{...licence,appId:'tournament-lite',licenceVersion:0})).status,400);
+  assert.equal((await change(first,'assignment',{appId:'tournament-lite',userId:'master',role:'Owner',status:'Active'})).status,400);
+  for(const route of ['tournament-lite','tournament-lite/organisations/'+first,'tournament-lite/public/old']){
+   for(const actor of ['master','super','other'])assert.equal((await api(route,{actor})).status,410);
+   assert.equal((await api(route,{cookie:''})).status,410);
+   assert.equal((await api(route,{actor:'master',method:'POST',body:{}})).status,410);
   }
-  const path=org=>'tournament-lite/organisations/'+org;
-  const create=await api(path(first),{actor:'master',method:'POST',body:{name:'Private organisation Cup',sport:'Chess',mode:'Singles',format:'Knockout',contact:'Private phone'}});assert.equal(create.status,200,JSON.stringify(create.data));
-  const event=create.data;
-  assert.equal((await api(path(second),{actor:'other'})).data.tournaments.length,0);
-  for(const actor of ['super','other','client','member'])assert.equal((await api(path(first),{actor})).status,403);
-  assert.equal((await api(path(second)+'/'+event.id,{actor:'other',method:'POST',body:{revision:1,type:'publish',input:{published:true}}})).status,404);
-  assert.equal((await api(path(first),{actor:'master',method:'POST',body:{organisationId:second}})).status,400);
-  assert.equal((await api('tournament-lite/'+event.id,{actor:'master',method:'POST',body:{}})).status,409);
-  assert.equal((await api('tournament-lite',{actor:'master'})).data.organisations.length,1);
-  const app=(await api('platform',{actor:'master'})).data.apps.find(a=>a.id==='tournament-lite');assert.equal(app.accessible,true);
-  const account=(await api('organisation-admin/account',{actor:'master'})).data;assert.equal(account.memberships[0].apps.find(a=>a.id==='tournament-lite').available,true);
-  assert.equal((await api('tournament-lite/public/'+event.publicToken,{cookie:''})).status,404);
-  const published=await api(path(first)+'/'+event.id,{actor:'master',method:'POST',body:{revision:1,type:'publish',input:{published:true}}});assert.equal(published.status,200);
-  const shared=await api('tournament-lite/public/'+event.publicToken,{cookie:''});assert.equal(shared.status,200);assert.equal('contact' in shared.data,false);assert.equal('publicToken' in shared.data,false);
-  assert.equal((await api(path(first)+'/'+event.id,{actor:'master',method:'POST',body:{revision:1,type:'publish',input:{published:false}}})).status,409);
-  let saved=(await view(first)).organisation.licences.find(l=>l.appId==='tournament-lite');
-  assert.equal((await change(first,'licence',{...tournamentLicence,endsAt:'2021-01-01T00:00:00.000Z',readOnlyUntil:'2099-01-01T00:00:00.000Z',licenceVersion:saved.version})).status,200);
-  assert.equal((await api(path(first),{actor:'master'})).data.readOnly,true);
-  assert.equal((await api(path(first)+'/'+event.id,{actor:'master',method:'POST',body:{revision:2,type:'publish',input:{published:false}}})).status,403);
-  assert.equal((await api('tournament-lite/public/'+event.publicToken,{cookie:''})).status,404);
-  saved=(await view(first)).organisation.licences.find(l=>l.appId==='tournament-lite');
-  assert.equal((await change(first,'licence',{...tournamentLicence,licenceVersion:saved.version})).status,200);
-  await change(first,'member',{userId:'member',role:'Staff',status:'Active'}).then(r=>assert.equal(r.status,409));
-  assert.equal((await change(first,'assignment',{appId:'tournament-lite',userId:'client',role:'Owner',status:'Active'})).status,400);
-  assert.equal((await change(first,'assignment',{appId:'tournament-lite',userId:'master',role:'Clerk',status:'Active'})).status,400);
-  const staffInvite=await change(first,'invite',{email:'member@example.test',role:'Staff'});assert.equal(staffInvite.status,201);assert.equal((await api('organisation-admin/accept',{actor:'member',method:'POST',body:{primary:false,token:staffInvite.data.invitation.token}})).status,200);
-  assert.equal((await change(first,'assignment',{appId:'tournament-lite',userId:'member',role:'Advocate',status:'Active'})).status,409);
-  await change(first,'member',{userId:'member',role:'Staff',status:'Inactive'});
-  assert.equal((await change(first,'assignment',{appId:'tournament-lite',userId:'master',role:'Owner',status:'Inactive'})).status,200);
-  assert.equal((await api(path(first),{actor:'master'})).status,403);
-  assert.equal((await change(first,'assignment',{appId:'tournament-lite',userId:'master',role:'Owner',status:'Active'})).status,200);
+  const app=(await api('platform',{actor:'master'})).data.apps.find(a=>a.id==='tournament-lite');assert.equal(app.public,true);assert.equal(app.accessible,true);
+  const account=(await api('organisation-admin/account',{actor:'master'})).data;assert.equal(account.memberships[0].apps.some(a=>a.id==='tournament-lite'),false);
+  assert.equal((await db.prepare('PRAGMA foreign_key_check').all()).results.length,0);
  });
  const current=(await view(first)).organisation.licences.find(l=>l.appId==='advocate');assert.equal((await change(first,'licence',{...licence,status:'Suspended',licenceVersion:current.version})).status,200);
  assert.equal((await api(`chambers/${first}/state`,{actor:'master'})).status,403);
@@ -207,18 +181,19 @@ test('production D1 organisations enforce provisioning, atomic capacity, tenant 
    await page.getByRole('link',{name:'Open Chambers',exact:true}).click();await expect(page.getByRole('heading',{name:'Chambers overview',exact:true})).toBeVisible();
    await page.goto('https://organisation-ui.test/advocate?organisation='+second+'#clients');await expect(page.getByRole('button',{name:'Other D1 private client',exact:true})).toBeVisible();await expect(page.locator('#app')).not.toContainText('First D1 private client');
    await page.goto('https://organisation-ui.test/advocate?organisation='+second+'#settings');await expect(page.getByRole('link',{name:'Download organisation backup',exact:true})).toHaveCount(0);
-   await page.goto('https://organisation-ui.test/account');await page.getByRole('link',{name:'Open Tournament Lite',exact:true}).click();
-   await expect(page.locator('#tournament-organisation')).toContainText('Other D1 Chambers');
+   await page.goto('https://organisation-ui.test/account');await expect(page.getByRole('link',{name:'Open Tournament Lite',exact:true})).toHaveCount(0);
+   await page.goto('https://organisation-ui.test/tournament-lite');
+   await expect(page.locator('#tournament-organisation')).toHaveCount(0);
    await page.getByRole('button',{name:'+ Create Tournament',exact:true}).click();
    await page.getByLabel('Tournament name',{exact:true}).fill('Browser organisation Cup');await page.getByLabel('Sport',{exact:true}).selectOption('Chess');await page.getByRole('button',{name:'Save',exact:true}).click();
    await expect(page.getByRole('heading',{name:'Browser organisation Cup',exact:true})).toBeVisible();
    await page.getByRole('button',{name:'Add / edit participants',exact:true}).click();await page.getByLabel('Participant entries').fill('First player\nSecond player');await page.getByRole('button',{name:'Save',exact:true}).click();
    await page.getByRole('button',{name:'Fixtures',exact:true}).click();await page.getByRole('button',{name:'Generate Fixtures',exact:true}).click();
    await expect(page.getByRole('button',{name:'Enter result',exact:true})).toBeVisible();
-   await page.getByRole('button',{name:'Share tournament',exact:true}).click();await expect(page.getByLabel('Public link', {exact:false})).toHaveValue(/share=/);
+   await expect(page.getByRole('button',{name:'Share tournament',exact:true})).toHaveCount(0);await page.reload();await expect(page.getByRole('heading',{name:'Browser organisation Cup',exact:true})).toBeVisible();
    for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await page.evaluate(theme=>SynapseTheme.write(theme),theme);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);}
    await page.screenshot({path:'.publish/tournament-organisation-mobile.png',fullPage:true});
-   await page.goto('https://organisation-ui.test/tournament-lite?organisation='+first);await expect(page.locator('#app')).toContainText('Choose your Tournament workspace');await expect(page.locator('#app')).not.toContainText('Private organisation Cup');
+   await page.goto('https://organisation-ui.test/tournament-lite?organisation='+first);await expect(page.locator('#tournament-organisation')).toHaveCount(0);await expect(page.getByRole('button',{name:/Open tournament/})).toHaveCount(1);
    await page.goto('https://organisation-ui.test/account');await page.getByRole('link',{name:'Open BatchFee Lite',exact:true}).click();
    await expect(page.locator('#main')).toContainText('Welcome to BatchFee Lite');
    await page.getByRole('button',{name:'Set up my academy'}).click();

@@ -2,7 +2,7 @@ const {test}=require('node:test'),assert=require('node:assert/strict');
 
 test('shared assignment vocabulary preserves every app role and rejects cross-app or unknown values',async()=>{
  const {assignmentAppIds,assignmentRoles,isAssignmentRole,isMembershipAppRole}=await import('../packages/auth/app-roles.mjs');
- const expected={advocate:['Clerk','Advocate','Owner'],'tournament-lite':['Advocate','Owner'],'batchfee-lite':['Viewer','Collector','Manager','Owner'],'digital-samaj':['Member','Owner'],'pandit-booking':['Customer','Pandit','Dispatcher','Reviewer','Owner']};
+ const expected={advocate:['Clerk','Advocate','Owner'],'batchfee-lite':['Viewer','Collector','Manager','Owner'],'digital-samaj':['Member','Owner'],'pandit-booking':['Customer','Pandit','Dispatcher','Reviewer','Owner']};
  assert.deepEqual(assignmentAppIds,Object.keys(expected));
  for(const [appId,roles] of Object.entries(expected)){
   assert.deepEqual(assignmentRoles(appId).map(role=>role.id),roles);

@@ -8,10 +8,6 @@ const catalogue=Object.freeze({
   role('Advocate','Work with cases and hearings using the existing Advocate permissions.'),
   role('Owner','Manage Chambers, including its owner-only settings and recovery controls.')
  ]),
- 'tournament-lite':Object.freeze([
-  role('Advocate','Organise tournaments using the existing organiser permissions.'),
-  role('Owner','Manage tournaments, including owner-only recovery controls.')
- ]),
  'batchfee-lite':Object.freeze([
   role('Viewer','View academy records and reports without making changes.'),
   role('Collector','View academy records and record fee payments.'),

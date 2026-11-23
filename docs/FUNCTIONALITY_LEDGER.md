@@ -1,3 +1,23 @@
+Tournament Lite free browser mode (2026-11-23, local verified; deployment pending):
+user explicitly authorised removal of login/workspace/licensing and deletion of
+only Tournament Lite's old data. Public catalogue placement and browser-local
+fixture/scoring storage are implemented; no cloud saving or live viewer links.
+Old Node/Workers APIs return 410, Workers before opening D1. Tournament is removed
+from organisation assignment/account lists; other app access is retained.
+Fourteen focused Node checks and five Chrome workflows pass (save/reload,
+scores/BYEs/corrections, PNG/JSON downloads, scheduling/standings, invalid dates,
+separate browsers, stale tabs, quota failure and corrupt data preservation).
+Mobile screenshot inspected; frontend export passes with 769 assets.
+Production inspection found six events/six ownership rows and one Tournament
+licence/assignment. One-time deletion is prepared, not yet executed. Historical
+schemas/audits/backups remain; no whole-platform DB deletion is authorised.
+See docs/TOURNAMENT_FREE_MODE.md for scope and limitations.
+Updated Workers/D1 and catalogue integration passes 11 checks, including the
+real account browser workflow and other-app boundaries. Initial full-suite run
+was 627/634: old Tournament expectations/public-asset/count tests have been
+updated; two unrelated Vedic checks still fail (geolocation header expectation
+and Rashifal bundle size). These are recorded limitations, not passing checks.
+
 JapSeva Reading settings repair (2026-11-23): the Ratna reader's nested mantra
 paragraphs were missing the book typography selector and stayed at 21px despite
 choosing 22–34px. They now share the same saved size and spacing as short/chapter

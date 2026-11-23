@@ -1,3 +1,9 @@
+Tournament Lite is now a free, no-login public app at `/tournament-lite`.
+Tournaments save in this browser only; cloud saving/live viewer links are retired.
+Download JSON copies and print results; unified account saving is future work.
+See [current Tournament mode](docs/TOURNAMENT_FREE_MODE.md) and the ledger for
+release/deletion evidence. Earlier organisation-mode descriptions are historical.
+
 # Curio · Sushant Synapse
 
 The collection groups tools by task in one searchable app catalogue.

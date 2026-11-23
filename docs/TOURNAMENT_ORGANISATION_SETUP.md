@@ -1,4 +1,9 @@
-# Tournament organisation setup
+# Historical Tournament organisation setup
+
+Superseded on 23 November 2026 by free, no-login browser mode. Tournament is no
+longer a Workspace app; old server APIs and viewer links are retired. Do not
+follow the setup/cutover instructions below. See [current mode](TOURNAMENT_FREE_MODE.md).
+
 
 Tournament uses the platform account and organisation in the cloud workspace.
 Default Node mode keeps its existing account-owned tournaments.

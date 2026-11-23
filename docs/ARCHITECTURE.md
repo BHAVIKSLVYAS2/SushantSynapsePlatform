@@ -1,3 +1,12 @@
+Tournament Lite free browser mode (2026-11-23): apps/tournament-lite/build.cjs
+bundles the existing sport/fixture rules for browser use with Web Crypto.
+frontend/storage.js owns versioned browser-only records, revision checks and
+save errors. The app is public; Node/Workers retire all Tournament APIs with 410.
+No Tournament DB adapter is mounted; no login, licence or organisation assignment
+is needed. The previous Tournament organisation notes below are historical.
+Only Tournament data retirement is authorised; shared D1 and other apps remain.
+Details: docs/TOURNAMENT_FREE_MODE.md.
+
 Shared header Back (2026-11-19, local): platform-shell.js dispatches cancelable
 synapse-navigate-back before same-origin history/app-root/Home fallback. JapSeva
 owns contextual reading/certificate/request/form/tab returns and a bounded

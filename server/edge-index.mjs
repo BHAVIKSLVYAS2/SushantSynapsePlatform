@@ -12,7 +12,6 @@ import {portal} from '../apps/portal/backend/edge.mjs';
 import {focus} from '../apps/focus/backend/edge.mjs';
 import {chambers} from '../apps/advocate/backend/edge.mjs';
 import {batchfee} from '../apps/batchfee-lite/backend/edge.mjs';
-import {tournament} from '../apps/tournament-lite/backend/edge.mjs';
 import {ritual} from '../apps/ritual-assist/backend/edge.mjs';
 import {samaj} from '../apps/digital-samaj/backend/edge.mjs';
 import {arena} from '../apps/satire-arena/backend/edge.mjs';
@@ -20,7 +19,6 @@ import {editorial,editorialKey} from '../apps/satire-arena/backend/editorial.mjs
 import {metrics,metricsKey} from '../apps/satire-arena/backend/metrics.mjs';
 import {fail,json} from './edge-http.mjs';
 import {organisationAdmin} from '../apps/admin/backend/edge.mjs';
-import {organisationTournament} from '../apps/tournament-lite/backend/organisation-edge.mjs';
 import {organisationBatchfee} from '../apps/batchfee-lite/backend/organisation-edge.mjs';
 import {organisationSamaj} from '../apps/digital-samaj/backend/organisation-edge.mjs';
 import {organisationChambers} from '../apps/advocate/backend/organisation-edge.mjs';
@@ -37,6 +35,7 @@ export async function edgeApi(request,env){
    if(!(await env.CITY_LIMITER?.limit({key:'places:'+request.headers.get('CF-Connecting-IP')}))?.success)fail(429,'Please wait before searching again.');
    return placeResponse(request);
   }
+  if(/^\/api\/tournament-lite(?:\/|$)/.test(url.pathname))fail(410,'Tournament Lite is now free and saves in your browser. Old server tournaments and live links are retired.');
   const free=env.FREE_MODE==='true';
   if(!env.PLATFORM_DB||(!free&&!env.PRIVATE_FILES))fail(503,'Cloudflare backend storage is not configured');
   // Public editorial snapshots need one atomic setting read, not a workspace revision.
@@ -56,7 +55,6 @@ export async function edgeApi(request,env){
    if(useAccess)fail(503,'Organisation accounts require password authentication');
    if(route==='organisation-admin'||route.startsWith('organisation-admin/'))result=await organisationAdmin(context);
    else if(route==='pandit-booking'||route.startsWith('pandit-booking/'))result=await edgeBooking(context);
-   else if(route==='tournament-lite'||route.startsWith('tournament-lite/'))result=await organisationTournament(context);
    else if(route==='batchfee-lite'||route.startsWith('batchfee-lite/'))result=await organisationBatchfee(context);
    else if(route==='digital-samaj'||route.startsWith('digital-samaj/'))result=await organisationSamaj(context);
    else if(route==='chambers'||route.startsWith('chambers/')||route.startsWith('client-portal/'))result=await organisationChambers(context);
@@ -66,14 +64,12 @@ export async function edgeApi(request,env){
     // Keep shared preferences while deriving private app access from live org policy.
     const response=await organisationChambers({...context,route:'chambers',request:new Request(request.url,{headers:request.headers})});
     const {organisations}=await response.json();
-    const tournamentResponse=await organisationTournament({...context,route:'tournament-lite',request:new Request(request.url,{headers:request.headers})});
-    const tournamentAccess=await tournamentResponse.json();
     const batchfeeResponse=await organisationBatchfee({...context,route:'batchfee-lite',request:new Request(request.url,{headers:request.headers})});
     const batchfeeAccess=await batchfeeResponse.json();
     const samajResponse=await organisationSamaj({...context,route:'digital-samaj',request:new Request(request.url,{headers:request.headers})});
     const samajAccess=await samajResponse.json();
     const bookingAccess=await bookingOrganisations(repo,user);
-    result=await portal({...context,user:{...user,role:'Clerk',appIds:[...(organisations.length?['advocate']:[]),...(tournamentAccess.organisations.length?['tournament-lite']:[]),...(batchfeeAccess.organisations.length?['batchfee-lite']:[]),...(samajAccess.communities.length||samajAccess.canSetup?['digital-samaj']:[]),...(bookingAccess.length?['pandit-booking']:[])]}});
+    result=await portal({...context,user:{...user,role:'Clerk',appIds:[...(organisations.length?['advocate']:[]),...(batchfeeAccess.organisations.length?['batchfee-lite']:[]),...(samajAccess.communities.length||samajAccess.canSetup?['digital-samaj']:[]),...(bookingAccess.length?['pandit-booking']:[])]}});
     if(route==='platform'&&result.ok){const data=await result.json();data.apps=data.apps.map(app=>!app.public&&!['advocate','tournament-lite','batchfee-lite','digital-samaj','pandit-booking'].includes(app.id)?{...app,status:'Unavailable',accessible:false,description:'Organisation integration is not available for this app yet.'}:app);result=json(data);}
    }else if(!(/^(platform\/visitors|feedback|arena-metrics|arena-editorial|satire-arena)(\/|$)/.test(route)||route==='support'||route==='ritual-assist/calendar'||route==='ritual-assist/observances'))fail(409,'Use organisation-scoped APIs. Other private applications are unavailable.');
    if(result){if(request.method==='GET'&&!await repo.unchanged())throw new Conflict();return result;}
@@ -95,7 +91,6 @@ export async function edgeApi(request,env){
   else if(route==='focus'||route.startsWith('focus/'))result=await focus(context);
   else if(route==='ritual-assist/calendar'||route==='ritual-assist/observances')result=await ritual(context);
   else if(route==='batchfee-lite'||route.startsWith('batchfee-lite/'))result=await batchfee(context);
-  else if(route==='tournament-lite'||route.startsWith('tournament-lite/'))result=await tournament(context);
   else if(route==='digital-samaj'||route.startsWith('digital-samaj/'))result=await samaj(context);
   else if(route==='ledger'){if(!user)fail(401,'Please sign in');if(request.method!=='GET')fail(405,'Method not allowed');const asset=await env.ASSETS.fetch(new Request(new URL('/_edge/functionality-ledger.md',url)));if(!asset.ok)fail(503,'Ledger unavailable');result=json({markdown:await asset.text()});}
   else result=await chambers(context);

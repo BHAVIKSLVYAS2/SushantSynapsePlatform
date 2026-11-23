@@ -51,6 +51,7 @@ test('Cloudflare export contains only allowlisted frontend files and shared outa
   for (const [url,source] of exported.files) {
     if(source==='packages/vedic/vendor/astronomy-engine-2.1.19.mjs')assert.match(url,/^(?:\/_static\/[a-f0-9]{32})?\/ritual-assist\/astronomy-engine\.mjs$/);
     else if(['packages/vedic/places.mjs','packages/vedic/place-directory.mjs','packages/vedic/diagnostics.mjs','packages/vedic/data/india-places.json'].includes(source))assert.ok(Object.entries(require('../server/static-assets').staticAssets).some(([allowed,file])=>file===source&&(url===allowed||url.endsWith(allowed)&&/^\/_static\/[a-f0-9]{32}\//.test(url))),'Only explicitly registered public Vedic aliases may be exported');
+    else if(['packages/care/engine.mjs','packages/nishi/handoff.mjs'].includes(source))assert.ok(Object.entries(require('../server/static-assets').staticAssets).some(([allowed,file])=>file===source&&(url===allowed||url.endsWith(allowed)&&/^\/_static\/[a-f0-9]{32}\//.test(url))),'Only explicitly registered public shared module aliases may be exported');
     else assert.match(source, /^(apps\/[^/]+\/frontend\/|packages\/(?:ui|http)\/)/);
   }
   for (const [route,name] of Object.entries(exported.pages)) {
@@ -62,12 +63,12 @@ test('Cloudflare export contains only allowlisted frontend files and shared outa
 test('independent tools load without origin calls; unavailable app routes return uncached useful HTML', async () => {
   let calls = 0;
   const down = async () => { calls++; throw Error('Disconnected'); };
-  for (const route of ['/qr-maker','/qr-maker/','/photo-resize','/photo-resize/','/bill-splitter','/bill-splitter/','/privacy', '/privacy/', '/terms', '/terms/', '/contact', '/contact/', '/legal', '/legal/', '/legal/third-party-notices', '/legal/third-party-notices/', '/showcase', '/showcase/', '/support', '/support/', '/ritual-assist', '/ritual-assist/', '/ritual-assist/calendar', '/ritual-assist/calendar/', '/take-a-break', '/take-a-break/', '/moment-studio', '/moment-studio/', '/moment-studio/cards', '/moment-studio/certificates', '/moment-studio/certificates/', '/team-mixer', '/team-mixer/', '/picksy', '/picksy/', '/', '/timetable-lite']) {
+  for (const route of ['/qr-maker','/qr-maker/','/photo-resize','/photo-resize/','/bill-splitter','/bill-splitter/','/privacy', '/privacy/', '/terms', '/terms/', '/contact', '/contact/', '/legal', '/legal/', '/legal/third-party-notices', '/legal/third-party-notices/', '/showcase', '/showcase/', '/support', '/support/', '/ritual-assist', '/ritual-assist/', '/ritual-assist/calendar', '/ritual-assist/calendar/', '/take-a-break', '/take-a-break/', '/moment-studio', '/moment-studio/', '/moment-studio/cards', '/moment-studio/certificates', '/moment-studio/certificates/', '/team-mixer', '/team-mixer/', '/picksy', '/picksy/', '/', '/timetable-lite','/tournament-lite','/tournament-lite/']) {
     const response = await handle(new Request(base + route), assets, down);
     assert.equal(response.status, 200); assert.notEqual(await response.text(), '/_pages/unavailable.html');
   }
   assert.equal(calls, 0);
-  for (const route of ['/signin?next=advocate', '/advocate', '/advocate/', '/tournament-lite?share=example', '/batchfee-lite']) {
+  for (const route of ['/signin?next=advocate', '/advocate', '/advocate/', '/batchfee-lite']) {
     const response = await handle(new Request(base + route), assets, down);
     assert.equal(response.status, 503); assert.equal(response.headers.get('Cache-Control'), 'no-store');
     assert.equal(await response.text(), '/_pages/unavailable.html');

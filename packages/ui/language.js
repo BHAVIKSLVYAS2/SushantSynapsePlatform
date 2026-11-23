@@ -450,6 +450,10 @@ Import up to 20 recipients. CSV headings: recipient,description. The current des
 ♧ Certificate details stay in this tab. Organisation names and logos are stored in this browser only when you choose Save organisation.|♧ प्रमाणपत्र विवरण इसी टैब में रहता है। संस्था का नाम और लोगो केवल संस्था सहेजें चुनने पर इस ब्राउज़र में रहता है।|♧ પ્રમાણપત્રની વિગતો આ ટેબમાં રહે છે. સંસ્થાનું નામ અને લોગો માત્ર સંસ્થા સાચવો પસંદ કરતાં આ બ્રાઉઝરમાં રહે છે.
 `,R=Object.freeze({...Object.fromEntries(j.trim().split(`
 `).map(l=>{let r=l.split("|");if(r.length!==3||r.some(p=>!p))throw Error("Incomplete public interface translation");return[r[0],r.slice(1)]})),...B,...M});var V=`
+Free for now · No login needed|फिलहाल मुफ़्त · लॉगिन की ज़रूरत नहीं|હાલ મફત · લૉગિનની જરૂર નથી
+Tournaments save in this browser only. Clearing browser data removes them. Download a backup to keep a copy. Live viewer links are unavailable in this version.|टूर्नामेंट केवल इसी ब्राउज़र में सहेजे जाते हैं। ब्राउज़र डेटा मिटाने पर ये भी मिट जाएँगे। एक कॉपी रखने के लिए बैकअप डाउनलोड करें। इस संस्करण में लाइव व्यूअर लिंक उपलब्ध नहीं हैं।|ટુર્નામેન્ટ ફક્ત આ બ્રાઉઝરમાં સાચવાય છે. બ્રાઉઝર ડેટા સાફ કરવાથી તે પણ દૂર થશે. નકલ રાખવા બેકઅપ ડાઉનલોડ કરો. આ સંસ્કરણમાં લાઇવ દર્શક લિંક ઉપલબ્ધ નથી.
+Print results|परिणाम प्रिंट करें|પરિણામો પ્રિન્ટ કરો
+Tournaments could not be loaded|टूर्नामेंट लोड नहीं हो पाए|ટુર્નામેન્ટ લોડ થઈ શક્યાં નથી
 All work|सभी कार्य|બધાં કામ
 My work|मेरे कार्य|મારાં કામ
 Find client|क्लाइंट खोजें|ક્લાયન્ટ શોધો
