@@ -12289,7 +12289,15 @@ preservation and sign-specific Rashifal without page errors. Independent
 astronomical/traditional acceptance remains pending. Next: qualified Yoga/Dosha
 rules/cancellations, complete Shadbala and continuous personal event windows.
 Details: docs/RITVAYAM_CONTENT_INTELLIGENCE.md. Deployment recorded separately.
-Ritvayam public/Pandit reading correction (2026-11-23, local verification):
+Ritvayam public/Pandit reading correction (2026-11-23, deployed): source
+a6272920, Worker 2c70f906-d487-4447-b30f-cae095edf893, 759 public assets,
+--keep-vars. Live Chrome verifies public default, public/Pandit switching at
+360/390px across light/dark/deep themes, 44px controls, shared preference,
+12 public/14 detailed chapters, both export previews and keyboard activation,
+selected charts, basis focus, saved data, North selection, language fallback and
+Rashifal sign changes. No page errors or overflow; no production business writes
+or migrations. Organisation/auth/D1 and disabled Nishi AI settings preserved.
+Evidence: .publish/jyotish-audience-review.cjs and public-{kundali,rashifal}-mobile.png.
 separately authored Hindi public narratives replace placement lists in main
 Kundali/Bhavishyafal and Rashifal reading. A shared सरल / पंडित control uses
 44px buttons, pressed states and a device-local display preference. Public
