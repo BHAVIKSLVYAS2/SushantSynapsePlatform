@@ -5,27 +5,80 @@ test('reading size and spacing apply to short, chapter and Ratna text, persist a
   await page.locator('#mantra-search').fill(query);await openGuide(page,id);if(id==='puja-ratna-abhimantran'){await page.locator('#library .ratna-grid button').first().click();for(let i=0;i<2;i++)await page.locator('.book-page-navigation button').last().click();}
   const text=page.locator('#library .mantra:visible').first(),settings=page.locator('.book-reading-settings'),size=page.locator('.book-settings-panel select').first(),spacing=page.locator('.book-settings-panel select').last();await settings.locator(':scope>summary').click();await size.selectOption('34');await spacing.selectOption('2.5');
   for(const learn of [false,true]){await page.locator('.reading-mode input').setChecked(learn);await expect(text).toHaveCSS('font-size','34px');await expect(text).toHaveCSS('line-height','85px');await expect(settings).toHaveAttribute('open','');}
+  const verse=page.locator('#library .verse-pair:visible').first();
+  await expect(verse.locator(':scope > :nth-child(1)')).toHaveAttribute('lang','sa-Deva');
+  await expect(verse.locator(':scope > :nth-child(2) p')).toHaveAttribute('lang','sa-Deva');
+  await expect(verse.locator(':scope > :nth-child(2)')).toContainText(id==='rudram-complete'?'words as printed':'Pronunciation help');
+  await expect(verse.locator(':scope > :nth-child(3) .verse-meaning')).not.toBeEmpty();
+  await expect(verse.locator('.verse-pronunciation')).toBeHidden();
+  await verse.locator('.verse-reading-help>summary').click();
+  await expect(verse.locator('.verse-pronunciation [lang=sa-Latn]')).toBeVisible();
+  await expect(verse.locator('.verse-pronunciation [lang=sa-Gujr]')).toBeVisible();
+  if(id==='rudram-complete'){
+   const context=page.locator('#library [data-mantra-id=rudram-complete] .reading-context');
+   await context.locator(':scope > summary').click();
+   await expect(context.locator('.chapter-meaning')).toBeVisible();
+   await expect(context.locator('.chapter-meaning')).not.toBeEmpty();
+  }
+  if(id==='gayatri'){
+   const source=page.locator('#library .reading-context:visible');await source.locator('summary').click();
+   await expect(source.locator('p')).toBeVisible();await expect(source).toContainText('Ṛgveda');
+   await expect(page.locator('#library .library-audio>summary:visible')).toBeVisible();
+  }
   await page.locator('.book-settings-panel button').click();await expect(size).toHaveValue('26');await expect(spacing).toHaveValue('2.05');await expect(text).toHaveCSS('font-size','26px');
   await size.selectOption('22');await spacing.selectOption('1.9');await settings.locator(':scope>summary').click();await page.locator('.platform-back').click();
  }
+ await page.locator('#mantra-search').fill('Mahamrityunjaya');await openGuide(page,'mahamrityunjaya');
+ const analysis=page.locator('#library .connected-reader');
+ await analysis.locator(':scope > summary').click();
+ await expect(analysis.locator('.connected-sanskrit').first()).toHaveAttribute('lang','sa-Deva');
+ await analysis.locator('.connected-word').first().click();
+ await expect(analysis.locator('.connected-gloss:visible')).not.toBeEmpty();
+ await expect(analysis).toContainText('review pending');
  await page.reload();await page.locator('[data-tab=learn]').click();await openGuide(page,'puja-ratna-abhimantran');await page.locator('.book-reading-settings>summary').click();await expect(page.locator('.book-settings-panel select').first()).toHaveValue('22');await expect(page.locator('.book-settings-panel select').last()).toHaveValue('1.9');await expect(page.locator('#library .ratna-step .mantra')).toHaveCSS('font-size','22px');await expect(page.locator('#library .ratna-step .mantra')).toHaveCSS('line-height','41.8px');
- await page.emulateMedia({reducedMotion:'no-preference'});await page.locator('.book-page-navigation button').last().click();await page.locator('.book-turn-leaf').evaluate(n=>{for(const a of n.getAnimations())a.pause();});await page.locator('.book-settings-panel select').first().selectOption('30');await expect(page.locator('.book-turn-leaf,.book-turn-fold')).toHaveCount(0);await expect(page.locator('#library .ratna-step .mantra')).toHaveCSS('font-size','30px');
+ await page.emulateMedia({reducedMotion:'no-preference'});
+ const nextPage=page.locator('.book-page-navigation button').last();
+ await nextPage.evaluate(node=>node.addEventListener('click',()=>{for(const animation of document.querySelector('.book-turn-leaf')?.getAnimations()||[])animation.pause();},{once:true}));
+ await nextPage.click();await expect(page.locator('.book-turn-leaf')).toHaveCount(1);
+ await page.locator('.book-settings-panel select').first().selectOption('30');await expect(page.locator('.book-turn-leaf,.book-turn-fold')).toHaveCount(0);await expect(page.locator('#library .ratna-step .mantra')).toHaveCSS('font-size','30px');
  await page.screenshot({path:'.publish/japseva-reading-settings-mobile.png'});expect(await page.locator('.book-reader-scroll').evaluate(n=>n.scrollWidth<=n.clientWidth+1)).toBe(true);expect(errors).toEqual([]);
 });
 test('book has one navigation pair and corner-driven page turns for chapters and Ratna',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.setViewportSize({width:390,height:844});await page.goto(base+'/japseva');await page.locator('[data-tab=learn]').click();await page.locator('#mantra-search').fill('Complete Namakam');await openGuide(page,'rudram-complete');
  const nav=page.locator('.book-page-navigation'),corner=page.locator('.book-page-corner'),chapter=page.locator('#library .chapter-reader>label select').first();
  await expect(nav.locator('button:visible')).toHaveCount(2);await expect(page.locator('.book-navigation:visible,.chapter-navigation:visible,.ratna-navigation:visible')).toHaveCount(0);
- await expect.poll(()=>page.locator('.book-turn-leaf').count()).toBe(0);await corner.click();await expect(chapter).toHaveValue('1');
- await page.locator('.book-turn-leaf').evaluate(n=>{for(const a of n.getAnimations()){a.pause();a.currentTime=220;}const fold=n.parentElement.querySelector('.book-turn-fold');for(const a of fold.getAnimations()){a.pause();a.currentTime=220;}});
+ const pauseTurnOnClick=locator=>locator.evaluate(button=>button.addEventListener('click',()=>{
+  for(const overlay of document.querySelectorAll('.book-turn-leaf,.book-turn-fold')){
+   for(const animation of overlay.getAnimations()){animation.pause();animation.currentTime=220;}
+  }
+ },{once:true}));
+ await expect.poll(()=>page.locator('.book-turn-leaf').count()).toBe(0);
+ await pauseTurnOnClick(corner);
+ await corner.click();await expect(chapter).toHaveValue('1');
  const effect=await page.locator('.book-turn-leaf').evaluate(n=>({clip:getComputedStyle(n).clipPath,frames:n.getAnimations()[0].effect.getKeyframes(),inert:n.inert,hidden:n.getAttribute('aria-hidden')}));expect(effect.clip).toContain('polygon');expect(effect.frames[1].clipPath).toContain('82%');expect(effect.inert).toBe(true);expect(effect.hidden).toBe('true');
  await page.screenshot({path:'.publish/japseva-corner-turn-mobile.png'});await page.locator('.book-turn-leaf').evaluate(n=>{for(const a of n.parentElement.getAnimations({subtree:true}))a.finish();});await expect(page.locator('.book-turn-leaf,.book-turn-fold')).toHaveCount(0);
  await nav.locator('button').first().click();await expect(chapter).toHaveValue('0');await expect(page.locator('.book-turn-back.book-turn-leaf')).toHaveCount(1);await expect.poll(()=>page.locator('.book-turn-leaf').count()).toBe(0);
  await nav.locator('button').last().click();await nav.locator('button').last().click();await expect(chapter).toHaveValue('2');await expect.poll(()=>page.locator('.book-turn-leaf,.book-turn-fold').count()).toBe(0);
  await page.emulateMedia({reducedMotion:'reduce'});await corner.click();await expect(chapter).toHaveValue('3');await expect(page.locator('.book-turn-leaf,.book-turn-fold')).toHaveCount(0);
  await page.locator('.platform-back').click();await page.locator('#mantra-search').fill('Ratna');await openGuide(page,'puja-ratna-abhimantran');await page.locator('#library .ratna-grid button').first().click();await expect(nav.locator('button:visible')).toHaveCount(2);await expect(page.locator('.ratna-navigation:visible,.book-navigation:visible')).toHaveCount(0);
- await page.emulateMedia({reducedMotion:'no-preference'});await corner.click();await expect(page.locator('#library .ratna-step')).toContainText('2 / 5');await expect(page.locator('.book-turn-leaf')).toHaveCount(1);await page.locator('.platform-back').click();await expect(page.locator('.book-turn-leaf,.book-turn-fold')).toHaveCount(0);
+ await page.emulateMedia({reducedMotion:'no-preference'});await pauseTurnOnClick(corner);await corner.click();await expect(page.locator('#library .ratna-step')).toContainText('2 / 5');await expect(page.locator('.book-turn-leaf')).toHaveCount(1);await page.locator('.platform-back').click();await expect(page.locator('.book-turn-leaf,.book-turn-fold')).toHaveCount(0);
  expect(errors).toEqual([]);
+});
+test('Contents and the reader share a bound book at mobile and desktop sizes',async({page})=>{
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto(base+'/japseva');await page.locator('[data-tab=learn]').click();
+ const book=page.locator('.mantra-book'),search=page.locator('#mantra-search'),nav=book.locator('.book-page-navigation');
+ for(const [width,height] of [[320,640],[1280,900]]){
+  await page.setViewportSize({width,height});await search.fill('Gayatri');
+  const cover=await book.boundingBox(),paper=await book.evaluate(n=>getComputedStyle(n).backgroundImage);
+  expect(paper).toContain('linear-gradient');await expect(book.locator('.book-index-number:visible').first()).toBeVisible();
+  await openGuide(page,'gayatri');const reading=await book.boundingBox(),footer=await nav.boundingBox();
+  expect(reading.width).toBeCloseTo(cover.width);await expect(book).toHaveCSS('background-image',paper);
+  expect(footer.y+footer.height).toBeLessThanOrEqual(reading.y+reading.height);
+  expect(await book.locator('.book-reader-scroll').evaluate(n=>n.scrollWidth<=n.clientWidth+1)).toBe(true);
+  await book.locator('.book-contents').click();
+  await expect(book.locator('[data-mantra-id=gayatri] .library-guide>summary')).toBeFocused();
+  await expect(search).toHaveValue('Gayatri');
+ }
 });
 test('Devanagari leads every library reading and practice selector; alternate scripts remain optional',async({page})=>{
  test.setTimeout(480000);const errors=[];page.on('pageerror',e=>errors.push(e.message));

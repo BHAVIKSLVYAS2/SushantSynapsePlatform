@@ -1,3 +1,28 @@
+JapSeva Mantra Library Learn mode (2026-11-24 IST, local): each passage leads with
+the original Sanskrit in Devanagari, then existing Devanagari pronunciation
+guidance where available, then a separately labelled meaning. Where only the
+source is available, reading help widens existing word spaces with sandhi and
+accents intact and labels the display as words as printed. Roman/Gujarati aids
+are collapsed. Short readings expose their existing references, chapter context
+retains the separate summary, and Ratna follows the same passage layout while
+keeping ritual steps and sources. The existing Mahamrityunjaya pilot is back as
+optional Devanagari line and word study with its editorial review labels.
+Eighteen focused Node checks pass. Chrome verifies the passage order, default
+closed script aids, Gayatri source and audio controls, Rudram summary, Ratna
+guidance, Mahamrityunjaya word interaction and text-size persistence/reset.
+The bound book, all nine Ratna guides and complete Rudram workflows pass.
+Production deployment is pending.
+
+JapSeva Mantra Library book layout (2026-11-24 IST, local): Contents and reading
+now use the same bound-paper frame, numbered index entries and matching text
+margins. The single Previous/Next pair and page position sit inside the book,
+and backward turns mirror the corner fold. Reading size, spacing and saved
+preferences still apply to short readings, chapters and Ratna in both modes.
+Eighteen focused Node checks pass. Chrome verifies the shared frame and focus
+return at 320px and 1280px, the 21 shared-theme layouts, typography persistence
+and reset, forward/reverse corner turns and reduced motion, and the full
+nine-gem Ratna workflow. Production deployment is pending.
+
 Tournament Lite free browser mode (2026-11-23, deployed and scoped cleanup verified):
 user explicitly authorised removal of login/workspace/licensing and deletion of
 only Tournament Lite's old data. Public catalogue placement and browser-local

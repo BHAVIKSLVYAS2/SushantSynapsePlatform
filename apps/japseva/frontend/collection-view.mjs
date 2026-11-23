@@ -12,6 +12,7 @@ import {mountBookReader} from './book-reader-shell.mjs';
 import {pujaSources} from './puja-text.mjs';
 import {romanize,gujaratiScript} from './script-aids.mjs';
 import {renderStudyPassage,studyNote} from './study-passage.mjs';
+import {mountConnectedReader} from './connected-reader.mjs';
 const sameText=(a,b)=>String(a||'').normalize('NFC').replace(/[\s|\u00b7\u0964\u0965.,]+/gu,'')===String(b||'').normalize('NFC').replace(/[\s|\u00b7\u0964\u0965.,]+/gu,'');
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
 const rudramTitle={en:'Shri Rudram',hi:'श्री रुद्रम्',gu:'શ્રી રુદ્રમ્'};
@@ -52,7 +53,18 @@ export function mountCollection(learn,onSaved,onUse=()=>{}){
    cards.push({m,card,disclosure,body,use,pronunciationTitle,player,audioDisclosure,tools,credit,heading,meaningTitle,meaning,romanTitle,aidTitle,aid,audio,repeatLabel,speedLabel,speed,audioNote,session});
   }else{cards.push({m,card,disclosure,body,use,pronunciationTitle,heading,meaningTitle,meaning,romanTitle,aidTitle,aid,reader});}
  cards.at(-1).roman=roman;cards.at(-1).pronunciation=pronunciation;cards.at(-1).indexName=indexName;cards.at(-1).entryMeta=entryMeta;cards.at(-1).snippet=snippet;cards.at(-1).primaryText=text;
- if(!m.chapters){const pairs=el('div',undefined,'verse-pairs learn-only'),note=el('p',undefined,'study-note learn-only');text.before(pairs);copy.append(note);cards.at(-1).versePairs=pairs;cards.at(-1).studyNote=note;}
+ if(!m.chapters){
+  const pairs=el('div',undefined,'verse-pairs learn-only'),note=el('p',undefined,'study-note learn-only'),row=cards.at(-1);
+  text.before(pairs);copy.append(note);row.versePairs=pairs;row.studyNote=note;
+  if(m.source||/^https:\/\//.test(m.sourceUrl||'')){
+   const source=el('details',undefined,'reading-context learn-only'),caption=el('summary');
+   source.append(caption);
+   if(m.source)source.append(el('p',m.source));
+   if(/^https:\/\//.test(m.sourceUrl||'')){const link=el('a',undefined,'chapter-reference');link.href=m.sourceUrl;source.append(link);row.sourceLink=link;}
+   copy.append(source);row.sourceCaption=caption;
+  }
+  if(m.canonical?.pilot)row.connected=mountConnectedReader(copy,m.canonical);
+ }
  }
  const contents=mountLibraryIndex(library,cards);
  const book=el('section',undefined,'mantra-book'),cover=el('header',undefined,'book-cover'),bookTitle=el('h2'),resume=el('button',undefined,'book-resume'),toolbar=el('nav',undefined,'book-toolbar'),back=el('button',undefined,'book-back'),readerTitle=el('h2'),footer=el('nav',undefined,'book-navigation'),previous=el('button'),next=el('button'),folio=el('span');
@@ -61,9 +73,17 @@ export function mountCollection(learn,onSaved,onUse=()=>{}){
  function paintMode(){
   book.classList.toggle('reading-learn',mode.checked);const t=modeCopy[language];modeRecite.textContent=t.recite;modeLearn.textContent=t.learn;mode.setAttribute('aria-label',t.label);
   for(const row of cards){row.reader?.setLearning(mode.checked);if(!row.versePairs)continue;
+   row.connected?.paint({language,learn:mode.checked&&row===activeReading});
    row.card.classList.toggle('has-verse-pairs',mode.checked);row.versePairs.hidden=!mode.checked;
    row.pronunciation.hidden=true;row.studyNote.textContent=studyNote(language);
-   if(mode.checked&&row===activeReading&&row.studyLanguage!==language){row.studyLanguage=language;const verses=row.m.verses?.length>1?row.m.verses:[{sanskrit:row.m.text,meaning:row.m.meanings}];row.versePairs.replaceChildren(...verses.map(v=>renderStudyPassage(v.sanskrit,v.meaning,language)));}
+   if(row.sourceCaption)row.sourceCaption.textContent=learningCopy[language].source;
+   if(row.sourceLink)row.sourceLink.textContent={en:'Read source',hi:'स्रोत पढ़ें',gu:'સ્રોત વાંચો'}[language];
+   if(mode.checked&&row===activeReading&&row.studyLanguage!==language){
+    row.studyLanguage=language;
+    const m=row.m;
+    if(m.verses?.length>1)row.versePairs.replaceChildren(...m.verses.map(v=>renderStudyPassage(v.sanskrit,v.meaning,language)));
+    else row.versePairs.replaceChildren(renderStudyPassage(m.text,m.meanings,language,{devanagari:m.aids.hi,roman:m.transliteration,gujarati:m.aids.gu,romanGuide:m.aids.en}));
+   }
   }
  }
  mode.onchange=()=>{paintMode();writePreference('learn',mode.checked);try{sessionStorage.setItem('japseva-reading-learn',String(mode.checked));}catch{}};

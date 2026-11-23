@@ -22,7 +22,8 @@ export function turnPage(element,direction=1,snapshot=null){
   ];
   if(direction<0){leaf.classList.add('book-turn-back');frames=forward.map(frame=>({...frame,clipPath:frame.clipPath.replace(/(\d+)% (\d+)%/g,(_,x,y)=>`${100-Number(x)}% ${y}%`),transform:frame.transform.replaceAll('-', '+')}));}else frames=forward;
   fold=document.createElement('div');fold.className='book-turn-fold'+(direction<0?' book-turn-back':'');fold.inert=true;fold.setAttribute('aria-hidden','true');stage.append(fold);
-  foldAnimation=fold.animate([{transform:'scale(.025)',opacity:0},{transform:'translate(-4%,-3%) scale(.2)',opacity:.85,offset:.2},{transform:'translate(-35%,-28%) scale(.6)',opacity:.7,offset:.65},{transform:'translate(-100%,-85%) scale(.9)',opacity:0}],{duration:620,easing:'cubic-bezier(.32,.08,.24,1)',fill:'forwards'});
+  const foldDirection=direction<0?1:-1;
+  foldAnimation=fold.animate([{transform:'scale(.025)',opacity:0},{transform:`translate(${foldDirection*4}%,-3%) scale(.2)`,opacity:.85,offset:.2},{transform:`translate(${foldDirection*35}%,-28%) scale(.6)`,opacity:.7,offset:.65},{transform:`translate(${foldDirection*100}%,-85%) scale(.9)`,opacity:0}],{duration:620,easing:'cubic-bezier(.32,.08,.24,1)',fill:'forwards'});
  }
  const animation=target.animate(frames,{duration:leaf?620:260,easing:'cubic-bezier(.32,.08,.24,1)',fill:leaf?'forwards':'none'});turns.set(stage,{animation,leaf,fold,foldAnimation});
  const cancel=()=>cancelPageTurn(stage);preference.addEventListener('change',cancel,{once:true});animation.finished.catch(()=>{}).finally(()=>{leaf?.remove();fold?.remove();preference.removeEventListener('change',cancel);if(turns.get(stage)?.animation===animation)turns.delete(stage);});

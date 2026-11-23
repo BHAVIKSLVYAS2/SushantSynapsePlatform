@@ -37,7 +37,12 @@ export function mountChapterReader(host,mantra,language='en',{compact=false}={})
   // Reading aids are aligned to each source passage above, not repeated as a hidden chapter appendix.
   aidHeading.hidden=aid.hidden=romanDetails.hidden=true;
 
-  meaningHeading.textContent=chapter.text?summaryCopy[lang]:{en:'About this step',hi:'इस चरण के बारे में',gu:'આ પગલાં વિશે'}[lang];meaning.textContent=chapter.meanings[lang];meaning.lang=lang;meaningHeading.hidden=meaning.hidden=!!mapped;
+  meaningHeading.textContent=mapped?t.meaning:chapter.text?summaryCopy[lang]:{en:'About this step',hi:'इस चरण के बारे में',gu:'આ પગલાં વિશે'}[lang];meaning.textContent=chapter.meanings[lang];meaning.lang=lang;
+  if(compact){
+   const anchor=mapped?review:romanDetails;
+   if(meaning.nextElementSibling!==anchor)anchor.before(meaningHeading,meaning);
+  }
+  meaningHeading.hidden=meaning.hidden=!!mapped&&!compact;
   review.textContent={en:'Simple Hindi meanings · AI-assisted editorial draft; independent Sanskrit/Hindi review pending. These are not a Gita Press translation. Traditional benefits are statements within the text, not guarantees.',hi:'सरल हिन्दी अर्थ · AI-सहायित संपादकीय प्रारूप; स्वतंत्र संस्कृत/हिन्दी समीक्षा लंबित। ये गीता प्रेस का अनुवाद नहीं हैं। फलश्रुतियाँ ग्रन्थ के कथन हैं, परिणाम की गारंटी नहीं।',gu:'સરળ હિન્દી અર્થ · AI-સહાયિત સંપાદકીય પ્રારૂપ; સ્વતંત્ર સંસ્કૃત/હિન્દી સમીક્ષા બાકી. આ ગીતા પ્રેસનો અનુવાદ નથી. ફલશ્રુતિ ગ્રંથનાં કથન છે, પરિણામની ખાતરી નહીં.'}[lang];review.hidden=!chapterMeaningPairs(chapter);
   const source=chapter.sourceUrl||mantra.sourceUrl;reference.hidden=!source;reference.textContent={en:'Read the source edition',hi:'स्रोत संस्करण पढ़ें',gu:'સ્રોત આવૃત્તિ વાંચો'}[lang];if(source&&/^https:\/\//.test(source))reference.href=source;else reference.removeAttribute('href');
   positions.set(mantra.id,position);positions.set(mantra.id+'-script',script.value);

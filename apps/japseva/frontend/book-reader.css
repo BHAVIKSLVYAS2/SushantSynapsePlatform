@@ -10,6 +10,9 @@
 #main .verse-pronunciation dd{margin:0;white-space:pre-line;color:var(--ui-ink)}
 #main .verse-meaning-block{border-inline-start:2px solid var(--ui-edge);padding-inline-start:12px}
 #main .verse-meaning-label{display:block;font-size:11px;color:var(--ui-muted);margin:0 0 2px}
+#main .verse-devanagari-help{margin:0 0 12px;padding-inline-start:12px;border-inline-start:2px solid var(--ui-edge)}
+#main .verse-devanagari-help>p{font-family:'Nirmala UI','Kohinoor Devanagari',serif;font-size:max(16px,calc(var(--reading-size,26px) * .75));line-height:var(--reading-spacing,2.05);white-space:pre-wrap;overflow-wrap:anywhere;margin:0}
+#main .verse-reading-help>summary{min-height:44px;align-content:center;color:var(--ui-accent);cursor:pointer}
 #main .study-note{font-size:12px;line-height:1.8;color:var(--ui-muted);margin:20px 0 0}
 #main .reading-learn .book-control-row>label:not(.reading-mode){display:none!important}
 #main .reading-learn .has-verse-pairs .library-pronunciation{display:none!important}
@@ -17,6 +20,7 @@
 #main .chapter-meaning-review{font-size:12px;line-height:1.8;color:var(--ui-muted)}
 body.japseva-book-open{overflow:hidden}
 body.japseva-book-open #main>.intro,body.japseva-book-open #main>.tabs,body.japseva-book-open #main>.backup-tools,body.japseva-book-open #main>footer{display:none}
+body.japseva-book-open #learn>:not(.mantra-book){display:none}
 #main #learn .mantra-book.book-reading{position:fixed;z-index:30;inset-block:calc(var(--shell-height,72px) + 8px) 8px;left:50%;transform:translateX(-50%);width:min(700px,calc(100vw - 24px));max-width:none;margin:0;padding:0;display:flex;flex-direction:column;border:0;background:transparent;box-shadow:none;overflow:visible}
 #main .book-reader-stage{position:relative;flex:1;min-height:0;perspective:1800px;border:1px solid var(--ui-edge);border-radius:15px;background:var(--ui-solid);box-shadow:2px 0 0 var(--ui-soft),4px 0 0 var(--ui-edge);overflow:hidden}
 #main .book-reader-stage::before{content:'';position:absolute;inset:0 auto 0 0;width:20px;background:linear-gradient(90deg,var(--ui-soft),transparent);pointer-events:none;z-index:1}
@@ -157,3 +161,33 @@ body.japseva-book-open #main>.intro,body.japseva-book-open #main>.tabs,body.japs
 #main .connected-explanation p,#main .connected-source p{font-size:15px;line-height:1.9;overflow-wrap:anywhere}
 #main .connected-source a{display:inline-block;min-height:44px;align-content:center;font-size:13px;overflow-wrap:anywhere}
 #main .connected-reader button:focus-visible{outline:2px solid var(--ui-accent);outline-offset:2px}
+
+/* Contents and reading share the same bound paper and text margins. */
+#main #learn .mantra-book{
+ --book-width:min(760px,calc(100vw - 32px));
+ --book-gutter:clamp(16px,4vw,36px);
+ --book-binding:linear-gradient(90deg,var(--ui-edge),var(--ui-soft) 6px,transparent 24px);
+ width:var(--book-width);
+ border-radius:5px 13px 13px 5px;
+ background:var(--book-binding),var(--book-paper);
+}
+#main #learn .mantra-book:not(.book-reading){padding-inline:calc(var(--book-gutter) + 8px) var(--book-gutter)}
+#main #learn .mantra-book:not(.book-reading) .book-cover{text-align:center}
+#main #learn .mantra-book:not(.book-reading) .book-index-number{display:block}
+#main #learn .mantra-book.book-reading{
+ inset-inline:0;
+ inset-block-end:max(12px,env(safe-area-inset-bottom));
+ transform:none;
+ width:var(--book-width);
+ margin-inline:auto;
+ border:1px solid var(--ui-edge);
+ background:var(--book-binding),var(--book-paper);
+ box-shadow:4px 4px 0 var(--ui-soft),5px 5px 0 var(--ui-edge),8px 8px 0 var(--ui-soft);
+ overflow:hidden;
+}
+#main .book-reader-stage{border:0;border-radius:0;background:transparent;box-shadow:none}
+#main .book-reader-stage::before{content:none}
+#main .book-reader-scroll{height:100%;padding:16px var(--book-gutter) 60px calc(var(--book-gutter) + 8px)}
+#main .book-page-navigation{padding:8px var(--book-gutter) 8px calc(var(--book-gutter) + 8px);border-top:1px solid var(--ui-edge);background:transparent}
+#main .book-turn-leaf{border:0;border-radius:0;background:var(--book-binding),var(--book-paper)}
+#main .book-toolbar h2:focus-visible{outline:2px solid var(--ui-accent);outline-offset:3px}

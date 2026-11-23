@@ -1,6 +1,7 @@
 import {gemstones,grahaMantra,ritualSteps,ratnaSources,ritualTypes,timingNote,extendedNote} from './ratna-content.mjs';
 import {readPreference,writePreference} from './reader-preferences.mjs';
 import {gujaratiScript} from './script-aids.mjs';
+import {renderStudyPassage} from './study-passage.mjs';
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text)n.textContent=text;if(cls)n.className=cls;return n;};
 const words={en:['Choose a gemstone','All gemstones','Introduction','Preparation','Guided ritual','Mantra and meaning','Extended ritual','Wearing','Sources and traditions','Previous','Next','Optional personal counter','Add 1','Reset counter','Customary household step','Name','Gotra (optional)','Place','Date','Purpose','Pronunciation aid · teacher review pending','Counter and place are saved on this device; practice totals are separate.','Saved place is unavailable in this browser.'],hi:['रत्न चुनें','सभी रत्न','परिचय','तैयारी','मार्गदर्शित विधि','मंत्र और अर्थ','विस्तृत अनुष्ठान','धारण विधि','स्रोत और परंपरा','पिछला','अगला','वैकल्पिक निजी जप-गिनती','१ जोड़ें','गिनती रीसेट','प्रचलित घरेलू चरण','नाम','गोत्र (वैकल्पिक)','स्थान','दिनांक','उद्देश्य','उच्चारण सहायता · शिक्षक समीक्षा लंबित','गिनती और स्थान इस डिवाइस पर सहेजे जाते हैं; अभ्यास-गणना अलग है।','इस ब्राउज़र में पढ़ने का स्थान सहेजना उपलब्ध नहीं है।']};
 export function mountRatnaReader(host,language='en'){
@@ -13,7 +14,15 @@ export function mountRatnaReader(host,language='en'){
  function changed(){section.dispatchEvent(new CustomEvent('japseva-chapter-change',{bubbles:true}));}
  function button(text,action){const b=el('button',text);b.type='button';b.onclick=action;return b;}
  function block(title,value,parent=content){parent.append(el('h4',title),el('p',value));}
- function mantra(parent){const m=grahaMantra(gem),text=el('p',learning?m.text:script==='en'?m.transliteration:script==='gu'?gujaratiScript(m.text):m.text,'mantra');text.lang=learning||script==='hi'?'sa-Deva':script==='en'?'sa-Latn':'sa-Gujr';parent.append(text);if(learning){const help=el('details',null,'ratna-pronunciation'),roman=el('p',m.transliteration);roman.lang='sa-Latn';help.append(el('summary',t()[20]),roman,el('p',m.pronunciation,'muted'));parent.append(el('p',pick(m.meanings)),help);}}
+ function mantra(parent){
+  const m=grahaMantra(gem);
+  if(learning){
+   parent.append(renderStudyPassage(m.text,{[lang==='en'?'en':'hi']:pick(m.meanings)},lang,{devanagari:m.aidHi,roman:m.transliteration,gujarati:m.aidGu,romanGuide:m.pronunciation}));
+   return;
+  }
+  const text=el('p',script==='en'?m.transliteration:script==='gu'?gujaratiScript(m.text):m.text,'mantra');
+  text.lang=script==='hi'?'sa-Deva':script==='en'?'sa-Latn':'sa-Gujr';parent.append(text);
+ }
  function panel(title,text){const d=el('details'),s=el('summary',title);d.append(s,el('p',text));content.append(d);return d;}
  function paint(){
   content.replaceChildren();section.lang=lang==='en'?'en':'hi';const w=t();
