@@ -4,7 +4,7 @@ import {temperament,manner} from './kundli-consultation-copy.mjs';
 
 // Factual whole-sign predicates and original editorial interpretation. None of
 // these predicates is a probability, a full strength judgement or a diagnosis.
-export const synthesisVersion='natal-period-transit-hi-1';
+export const synthesisVersion='natal-period-transit-hi-2';
 export const synthesisSource={title:'Phaladeepika',url:'https://www.panchanga.lv/wp-content/uploads/2020/06/Phaladipika_Shri-Mantreswara.pdf',scope:'ch.1 sign dignity and full aspects; editorial synthesis is separately authored'};
 const exalted={Sun:1,Moon:2,Mars:10,Mercury:6,Jupiter:4,Venus:12,Saturn:7};
 const named=b=>bodyName(b,'hi');
@@ -46,7 +46,7 @@ export function topicFactors(snapshot,topic,period=periodAt(snapshot)){
  if(division?.condition==='debilitated')attention.push('d9-debilitated');
  const balance=supportive.length&&attention.length?'mixed':attention.length?'attention':supportive.length?'supported':'ungraded',current=transits.find(p=>p.body===lord.body),currentSupport=current?.status==='supportive',currentObstruction=current?.status==='obstructed';
  const assessment=!connections.length?'natal-only':(attention.length&&currentSupport)||(supportive.length&&currentObstruction)||balance==='mixed'?'mixed-current-signals':attention.length||currentObstruction?'current-review':currentSupport?'current-support':'active-ungraded';
- return {house:house.number,lord:lord.body,lordHouse:lord.house,condition,division,aspects,exchange:dispositor&&dispositor.body!==lord.body&&signRulers[dispositor.sign-1]===lord.body?{body:dispositor.body,house:dispositor.house}:null,period,connections,transits,supportive,attention,balance,assessment};
+ return {house:house.number,lord:lord.body,lordHouse:lord.house,condition,division,occupants:snapshot.planets.filter(p=>p.house===house.number).map(p=>p.body),colocated:snapshot.planets.filter(p=>p.house===lord.house&&p.body!==lord.body).map(p=>p.body),aspects,exchange:dispositor&&dispositor.body!==lord.body&&signRulers[dispositor.sign-1]===lord.body?{body:dispositor.body,house:dispositor.house}:null,period,connections,transits,supportive,attention,balance,assessment};
 }
 
 // Destination groups describe the connection, not whether an event will happen.
@@ -101,6 +101,8 @@ export function composeSynthesizedTopic(topic,findings,snapshot,kb){
   if(f.period)add(`वर्तमान अवधि ${named(f.period.major)} की महादशा में ${named(f.period.minor)} की अंतर्दशा है। नीचे हर विषय में इसी अवधि के सीधे संबंध, अतिरिक्त राशि/नवांश संदर्भ और उपलब्ध वर्तमान गोचर को अलग पहचाना गया है।`,'timing');
  }else{
   for(const p of synthesisParagraphs(snapshot,topic,f))add(p.text,p.role,[primary.id]);
+  if(topic.id!=='wellbeing'&&f.occupants.length)add(`इस विषय के मुख्य भाव में ${f.occupants.map(named).join(' और ')} उपस्थित हैं। इनके पारंपरिक विषय भी साथ पढ़ें: ${f.occupants.map(b=>`${named(b)} — ${kb.planetThemes[b].theme}`).join('; ')}।`,'occupants',[primary.id]);
+  if(topic.id!=='wellbeing'&&f.colocated.length)add(`भावेश ${named(f.lord)} के साथ भाव ${f.lordHouse} में ${f.colocated.map(named).join(' और ')} भी हैं। यह एक ही पूर्ण-राशि भाव में साथ होना है; अंशगत दूरी जाँचे बिना इसे निकट युति या पूरा योग नहीं कहा गया है।`,'colocation',[primary.id]);
   if(topic.id==='personality'){const moon=snapshot.planets.find(p=>p.body==='Moon'&&p.stableSign);if(moon)add(`आपकी ${signName(moon.sign,'hi')} चंद्र राशि का पारंपरिक भावनात्मक संदर्भ: ${temperament[moon.sign-1][1]} इसे वास्तविक व्यक्तित्व-परीक्षण का परिणाम न मानें।`);}
   const secondary=selected.slice(1).filter(g=>g.evidence.ruler.body!==f.lord||g.evidence.ruler.house!==f.lordHouse);
   if(secondary.length)add('इस विषय का अतिरिक्त पक्ष: '+secondary.map(g=>`भाव ${g.evidence.house.number} (${kb.houseThemes[g.evidence.house.number-1]}) के स्वामी ${named(g.evidence.ruler.body)} भाव ${g.evidence.ruler.house} में हैं`).join('। ')+'। मुख्य निष्कर्ष के साथ इन जिम्मेदारियों का संतुलन भी देखें।','secondary',secondary.map(g=>g.id));
