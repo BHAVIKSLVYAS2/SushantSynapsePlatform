@@ -12,6 +12,7 @@ import {siderealProfile} from '../../../packages/vedic/sidereal.mjs';
 import {buildKundliReading} from './kundli-reading.mjs';
 import {composeKundliTopic,kundliProseVersion} from './kundli-reading-prose.mjs';
 import {readingText} from './kundli-reading-copy.mjs';
+import {mountReadingAudience,readReadingAudience} from './reading-audience.mjs';
 
 export const exportLabels=Object.freeze({
  en:{title:'Kundli report',controls:'Private report export',include:'Include name, birth date/time and place',redacted:'Birth details redacted',identified:'Includes birth details',notice:'Redaction removes direct birth details, not chart values. Charts and Dasha dates may reveal birth information. Share carefully.',preview:'Report preview',download:'Download report (PDF)',print:'Print / Save as PDF',help:'Review the report below. In the print dialog, choose Save as PDF and turn off browser headers and footers. Downloads stay on your device.',identity:'Birth details',unavailable:'Unavailable / withheld',warnings:'Warnings',houses:'Whole-sign houses',provenance:'Calculation provenance',nominal:'Internal candidate. Independent astronomical acceptance is pending. Nominal results; birth-time stability is not certified. No deterministic prediction is implied.'},
@@ -20,8 +21,9 @@ export const exportLabels=Object.freeze({
 });
 
 // Explicit projection: never serialize a birth report or its hidden time/model objects.
-export function projectExport(report,{includeIdentity=false,name='',language='en',chartStyle='north',selectedChart='D1',includeAdvanced=false,advanced=null,includePreviews=false}={}){
+export function projectExport(report,{includeIdentity=false,name='',language='en',chartStyle='north',selectedChart='D1',includeAdvanced=false,advanced=null,includePreviews=false,readingAudience='public'}={}){
  locale(language);
+ if(!['public','pandit'].includes(readingAudience))throw new TypeError('Check reading audience.');
  if(!['D1','D9','D2','D16','Chandra','D7','D10','D12'].includes(selectedChart)||!['north','south'].includes(chartStyle)||typeof includeAdvanced!=='boolean'||typeof includePreviews!=='boolean')throw new TypeError('Check report chart options.');
  if(typeof includeIdentity!=='boolean'||typeof name!=='string'||name.length>80||/[\u0000-\u001f\u007f]/.test(name))throw new TypeError('Check report options.');
  const f=report.features,b=report.birth;
@@ -48,10 +50,11 @@ export function projectExport(report,{includeIdentity=false,name='',language='en
  const time=f.positions.status==='available'?f.positions.value.time:null;
  const reading=buildKundliReading(report),copy=readingText[language];
  let everyday={version:kundliProseVersion,title:copy.title,intro:copy.intro,method:copy.methodNote,topics:Object.entries(reading.topics).map(([id,data])=>({id,title:copy[id],status:data?'available':'unavailable',...composeKundliTopic(id,data,language)}))};
- if(language==='hi'){const rich=buildJyotishIntelligence(report);everyday={...everyday,version:rich.version,topics:rich.sections.map(section=>({id:section.id,title:section.title,status:section.status,paragraphs:section.paragraphs.map(p=>p.text),action:null})),findingReferences:rich.sections.map(s=>({id:s.id,findingIds:s.findingIds})),quality:rich.quality,basis:rich.findings.filter(f=>f.evidence.house).map(f=>({id:f.id,text:jyotishBasisText(f)})),basisSource:jyotishKnowledge.source.url};}
+ if(language==='hi'){const rich=buildJyotishIntelligence(report);everyday={...everyday,version:rich.version,title:'आपका व्यक्तिगत फलादेश',intro:'जीवन के विषयों का सरल अर्थ और वर्तमान प्राथमिकताएँ।',method:'पारंपरिक पठन; स्वतंत्र ज्योतिष एवं हिंदी समीक्षा लंबित। निर्णय में अपनी वास्तविक परिस्थिति साथ रखें।',topics:rich.sections.filter(s=>readingAudience==='pandit'||s.publicParagraphs?.length).map(section=>({id:section.id,title:readingAudience==='public'?section.publicTitle:section.title,status:section.status,paragraphs:(readingAudience==='public'?section.publicParagraphs:section.paragraphs).map(p=>p.text),action:null})),findingReferences:rich.sections.map(s=>({id:s.id,findingIds:s.findingIds})),quality:rich.quality,basis:rich.findings.filter(f=>f.evidence.house).map(f=>({id:f.id,text:jyotishBasisText(f)})),basisSource:jyotishKnowledge.source.url};}
+ if(language==='hi'&&!everyday.topics.length)everyday.topics=[{id:'availability',title:'व्यक्तिगत पठन उपलब्ध नहीं',status:'unavailable',paragraphs:['इस जन्म विवरण से पर्याप्त स्थिर व्यक्तिगत आधार उपलब्ध नहीं है। अनुमान से फलादेश नहीं जोड़ा गया है।'],action:null}];
  const extras=projectExtras(report,includeAdvanced?advanced:null,reading,language);
  if(includePreviews)for(const key of ['d1','d9'])if(report[key+'Preview']?.status==='available')extras.charts[key]={...projectChart(report[key+'Preview'].value),sensitive:true};
- const result={chartStyle,selectedChart,includeAdvanced,extras,labelsUnavailable:exportLabels[language].unavailable,version:'vedic-export-1',language,redacted:!includeIdentity,features,warnings:[...warnings],everyday,
+ const result={chartStyle,selectedChart,includeAdvanced,includePreviews,readingAudience,extras,labelsUnavailable:exportLabels[language].unavailable,version:'vedic-export-1',language,redacted:!includeIdentity,features,warnings:[...warnings],everyday,
   provenance:{profile:b.calculationProfileId,precision:b.precisionClass,timeAccuracy:b.timeAccuracy,
    inputResolutionSeconds:b.inputResolutionSeconds,coordinatePrecision:b.place.coordinatePrecision,elevationBasis:b.place.elevationBasis,
    timezone:b.timeZoneId,tzdb:b.tzdbVersion,timeRuleVersion:b.timeRuleVersion,timeSourceSha256:b.timeSourceSha256,
@@ -114,6 +117,7 @@ export function reportMarkup(model){
  }
  const technicalHtml=language==='hi'?html.slice(narrativeStart):'';if(language==='hi')html=html.slice(0,narrativeStart);
  if(model.everyday){html+=`<section class="report-everyday"><h2>${esc(model.everyday.title)}</h2>${p(model.everyday.intro)}`;for(const topic of model.everyday.topics)html+=`<section data-reading-topic="${esc(topic.id)}"><h3>${esc(topic.title)}</h3>${topic.paragraphs.map(p).join('')}${topic.action?p(topic.action):''}</section>`;html+=p(model.everyday.method)+'</section>';}
+ if(language==='hi'&&model.readingAudience==='public'&&!model.includeAdvanced&&!model.includePreviews){const chart=charts[selected];if(chart?.status==='available')html+='<section class="report-simple-chart"><h2>'+esc(chartTitle(selected,language))+'</h2>'+(chart.sensitive?p(reportOptions[language].previewNote):'')+chartMarkup(chart,selected,model.chartStyle,language)+'</section>';return html+'<footer class="report-source"><a href="https://www.geonames.org/">GeoNames</a></footer></article>';}
  if(language==='hi'){html+=technicalHtml;if(model.everyday.basis)html+='<section class="report-reading-basis"><h2>'+esc("\u0935\u094d\u092f\u093e\u0916\u094d\u092f\u093e \u0915\u0947 \u0917\u0923\u093f\u0924\u0940\u092f \u0938\u0942\u0924\u094d\u0930")+'</h2>'+model.everyday.basis.map(f=>'<p data-finding-id="'+esc(f.id)+'">'+esc(f.id)+': '+esc(f.text)+'</p>').join('')+p(model.everyday.basisSource)+'</section>';}
  html+=extrasMarkup(model,{esc,p,table,diagnostic:diagnosticText});
  html+=`<h2>${esc(x.provenance)}</h2>${p(t.fallback)}<dl>${Object.entries(model.provenance).map(([k,v])=>`<dt>${esc(term(k,language))}</dt><dd>${esc(term(v,language))}</dd>`).join('')}</dl><h2>${esc(x.warnings)}</h2><ul>${model.warnings.map(w=>`<li>${esc(diagnosticText(w,language))}</li>`).join('')}</ul></article>`;
@@ -135,8 +139,9 @@ export function mountExport(container,report,{name='',language='en',getChartStat
  const previewLabel=document.createElement('label'),previewCheck=document.createElement('input');previewCheck.type='checkbox';previewCheck.id='export-sensitive';previewLabel.append(previewCheck,document.createTextNode(reportOptions[language].previews));previewLabel.hidden=!['d1','d9'].some(k=>report[k+'Preview']?.status==='available');
  const scope=document.createElement('p');scope.textContent=reportOptions[language].scope;
  let layoutOverride=false;
- const model=()=>projectExport(report,{includeIdentity:check.checked,name,language,chartStyle:layoutOverride?layout.value:getChartState().style,selectedChart:getChartState().type,includeAdvanced:advancedCheck.checked,advanced:getAdvanced(),includePreviews:previewCheck.checked});
+ const model=()=>projectExport(report,{includeIdentity:check.checked,name,language,chartStyle:layoutOverride?layout.value:getChartState().style,selectedChart:getChartState().type,includeAdvanced:advancedCheck.checked,advanced:getAdvanced(),includePreviews:previewCheck.checked,readingAudience:readReadingAudience()});
  const render=()=>{if(!layoutOverride)layout.value=getChartState().style;content.innerHTML=reportMarkup(model());};
+ const audience=language==='hi'?mountReadingAudience({language,onChange:()=>{content.replaceChildren();if(preview.open)render();}}):null;
  layout.addEventListener('change',()=>{layoutOverride=true;render();});for(const input of [advancedCheck,previewCheck])input.addEventListener('change',()=>{content.replaceChildren();if(preview.open)render();});check.addEventListener('change',()=>{content.replaceChildren();if(preview.open)render();});preview.addEventListener('toggle',()=>{if(preview.open&&!content.childElementCount)render();});
  let urls=new Set(),timers=new Set();
  download.addEventListener('click',async()=>{download.disabled=true;download.setAttribute('aria-busy','true');try{const snapshot=model();const url=URL.createObjectURL(await reportPdf(reportMarkup(snapshot)));urls.add(url);
@@ -150,5 +155,6 @@ export function mountExport(container,report,{name='',language='en',getChartStat
  window.addEventListener('beforeprint',beforePrint);window.addEventListener('afterprint',afterPrint);
  print.addEventListener('click',()=>{render();window.print();});
  root.append(heading,layoutLabel,label,advancedLabel,previewLabel,notice,scope,help,download,print,preview);container.replaceChildren(root);
- return {refresh(){if(preview.open)render();else content.replaceChildren();if(!layoutOverride)layout.value=getChartState().style;},destroy(){window.removeEventListener('beforeprint',beforePrint);window.removeEventListener('afterprint',afterPrint);for(const timer of timers)clearTimeout(timer);for(const url of urls)URL.revokeObjectURL(url);timers.clear();urls.clear();content.replaceChildren();root.remove();}};
+ if(audience)heading.after(audience.element);
+ return {refresh(){if(preview.open)render();else content.replaceChildren();if(!layoutOverride)layout.value=getChartState().style;},destroy(){audience?.destroy();window.removeEventListener('beforeprint',beforePrint);window.removeEventListener('afterprint',afterPrint);for(const timer of timers)clearTimeout(timer);for(const url of urls)URL.revokeObjectURL(url);timers.clear();urls.clear();content.replaceChildren();root.remove();}};
 }

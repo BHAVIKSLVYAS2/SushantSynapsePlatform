@@ -5,6 +5,43 @@ supersedes the earlier audit's narrower D1/seventh-aspect-only boundary.
 
 ## Combined natal and period reading (2026-11-23)
 
+### Reading correction: Simple and Pandit audiences
+
+The user rejected the placement-heavy main narrative. Hindi Kundali and Rashifal
+now default to a separately authored public interpretation, not filtered copies
+of the numerical paragraphs. Public Kundali explains topic-specific implications,
+work style and practical priorities using the existing admitted findings. Current
+and future periods describe their relevant life topics and actual date windows;
+no event date is invented. Speculative age-stage biographies and the repeated
+final recap are omitted from the public view. Twelve public chapters remain;
+the fourteen-chapter technical model is retained for practitioner review.
+
+A shared Simple/Pandit control (Hindi labels सरल / पंडित) exposes selected state,
+44px targets and a device-local preference. Switching does not recalculate,
+change saved birth inputs or grant any role/access privilege. Public paragraphs
+retain finding IDs and validation; Pandit shows the same meaning plus placements,
+conditions, aspects, periods and the existing technical appendix. Chapter basis
+links explicitly enter Pandit view and focus the requested evidence. Missing or
+uncertain inputs remain withheld in both audiences.
+
+General Rashifal gets distinct public work/money/relationship/routine prose from
+actual supportive, mixed, review, neutral or uncertain observations. Its overview
+combines the real topic states. Neutral is not relabelled adverse and mixed is not
+relabeled entirely favourable. Technical samples/counts/vedha remain available in
+Pandit view. Stale seven-noon-sample help and contradictory unpublished labels
+were corrected; detailed review metadata lives in the existing closed help.
+
+Hindi exports explicitly select an audience. Simple output shares the public
+chapters and selected chart, keeps identity redaction and GeoNames attribution,
+and omits large technical tables by default. Pandit output retains detailed
+chapters, tables and evidence. Explicit advanced inclusion and sensitive-chart
+notices remain honoured. English/Gujarati narrative fallback is retained; Hindi
+public interpretation is not claimed to be translated/reviewed parity.
+
+This is an authored interpretation/usability correction, not independent
+validation of predictive accuracy or an accuracy percentage. Full Shadbala,
+qualified Yoga/Dosha work and independent Jyotish/Hindi acceptance remain pending.
+
 ### Authorised staged continuation: phase 1 — natal motion and combustion
 
 Implemented `packages/vedic/planet-condition.mjs` as an additive feature, without

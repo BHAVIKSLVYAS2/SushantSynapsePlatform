@@ -5,7 +5,8 @@ import {bodyName,signName} from './locale.mjs';
 import {aspectsHouse,topicFactors,synthesisParagraphs,rankedPeriodTopics,focusPeriodTopics,periodAt,synthesisVersion,synthesisSource,birthConditionProse,composeSynthesizedTopic as composeTopic} from './jyotish-synthesis.mjs';
 import {evaluateTransitSample} from '../../../packages/vedic/rashifal-transits.mjs';
 import {evaluatePlanetConditions} from '../../../packages/vedic/planet-condition.mjs';
-export const intelligenceVersion='jyotish-narrative-hi-4-'+synthesisVersion;
+import {publicNatalSections,publicReadingVersion} from './jyotish-public-reading.mjs';
+export const intelligenceVersion='jyotish-narrative-hi-5-'+synthesisVersion+'-'+publicReadingVersion;
 export const generationPolicy=Object.freeze({provider:'local-deterministic',promptVersion:null,remoteRequests:0,tokenBudget:0,retries:0,logsBirthData:false,cacheLimit:24});
 const cache=new Map();
 const immutable=value=>{if(value&&typeof value==='object'&&!Object.isFrozen(value)){Object.values(value).forEach(immutable);Object.freeze(value);}return value;};
@@ -64,6 +65,7 @@ export function validateJyotishNarrative(result){
  for(const f of result.findings.filter(f=>f.period)){const expected=result.snapshot.periods.flatMap(m=>[{start:m.start,end:m.end,bodies:[m.lord]},...m.subperiods.map(a=>({start:a.start,end:a.end,bodies:[...new Set([m.lord,a.lord])]}))]);if(!expected.some(p=>p.start===f.period.start&&p.end===f.period.end&&JSON.stringify(p.bodies)===JSON.stringify(f.evidence.bodies)))errors.push({section:f.topic,reason:'period-lord-mismatch'});}
  for(const f of result.findings){const topic=result.topicDefinitions?.find(t=>t.id===f.topic);if(f.evidence.synthesis&&(!topic||JSON.stringify(f.evidence.synthesis)!==JSON.stringify(topicFactors(result.snapshot,topic))))errors.push({section:f.topic,reason:'synthesis-mismatch'});if(f.period&&JSON.stringify(f.evidence.topicLinks)!==JSON.stringify(rankedPeriodTopics(result.snapshot,result.topicDefinitions||[],{major:f.evidence.bodies[0],minor:f.evidence.bodies[1]})))errors.push({section:'periods',reason:'period-topics-mismatch'});}
  for(const section of result.sections)for(const p of section.paragraphs){if(!p.text||!p.findingIds.length||p.findingIds.some(id=>!ids.has(id)))errors.push({section:section.id,reason:'untraceable-paragraph'});if(seen.has(p.text))errors.push({section:section.id,reason:'duplicate-paragraph'});seen.add(p.text);if(/निश्चित रूप से होगा|गारंटी है|कैंसर|मधुमेह|हृदयरोग|मृत्यु होगी|वैज्ञानिक रूप से सिद्ध|निश्चित विवाह तिथि|रोग (?:का जोखिम|की संभावना) \d/u.test(p.text))errors.push({section:section.id,reason:'unsupported-outcome'});}
+ const publicSeen=new Set();for(const section of result.sections)for(const p of section.publicParagraphs||[]){if(!p.text||!p.findingIds.length||p.findingIds.some(id=>!ids.has(id)))errors.push({section:section.id,reason:'untraceable-public-paragraph'});if(publicSeen.has(p.text))errors.push({section:section.id,reason:'duplicate-public-paragraph'});publicSeen.add(p.text);if(/निश्चित रूप से होगा|गारंटी है|कैंसर|मधुमेह|हृदयरोग|मृत्यु होगी|वैज्ञानिक रूप से सिद्ध/u.test(p.text))errors.push({section:section.id,reason:'unsupported-public-outcome'});}
  return {valid:!errors.length,errors};
 }
 export function buildJyotishIntelligence(report,{rules=knowledge}={}){
@@ -73,8 +75,9 @@ export function buildJyotishIntelligence(report,{rules=knowledge}={}){
  const explained=new Map();for(const section of sections){const shared=new Set();section.paragraphs=section.paragraphs.filter(p=>{const previous=explained.get(p.text);if(previous){shared.add(previous);return false;}explained.set(p.text,section.title);return true;});if(shared.size)section.relatedSections=[...shared];}
 
  for(const f of findings)f.interpretation={language:'hi',text:f.evidence.house?`${theme(f.evidence.house.number,rules)} का सूत्र ${named(f.evidence.ruler.body)} की ${theme(f.evidence.ruler.house,rules)} से जुड़ी स्थिति के साथ पढ़ा गया है।`:periodProse({major:f.evidence.bodies[0],minor:f.evidence.bodies[1],...f.period},snapshot,rules)};
+ sections.splice(0,sections.length,...publicNatalSections(snapshot,sections,rules.topics,findings));
  const result={schemaVersion:1,version:intelligenceVersion,rulesVersion:rules.version,kind:'traditional-editorial-natal',reviewStatus:rules.reviewStatus,topicDefinitions:rules.topics.map(({id,title,houses,priority})=>({id,title,houses:[...houses],priority})),snapshot,findings,sections,generation:generationPolicy};result.quality=validateJyotishNarrative(result);
- if(!result.quality.valid){const bad=new Set(result.quality.errors.map(e=>e.section)),badIds=new Set(findings.filter(f=>bad.has(f.topic)).map(f=>f.id));result.sections=result.sections.map(s=>bad.has('all')||bad.has('periods')||bad.has(s.id)||s.paragraphs.some(p=>p.findingIds.some(id=>badIds.has(id)))?{...s,status:'withheld-validation',paragraphs:[]}:s);}
+ if(!result.quality.valid){const bad=new Set(result.quality.errors.map(e=>e.section)),badIds=new Set(findings.filter(f=>bad.has(f.topic)).map(f=>f.id));result.sections=result.sections.map(s=>bad.has('all')||bad.has('periods')||bad.has(s.id)||s.paragraphs.concat(s.publicParagraphs||[]).some(p=>p.findingIds.some(id=>badIds.has(id)))?{...s,status:'withheld-validation',paragraphs:[],publicParagraphs:[]}:s);}
  immutable(result);cache.set(key,{serialized,result});while(cache.size>generationPolicy.cacheLimit)cache.delete(cache.keys().next().value);return {...result,cache:{hit:false,key}};
 }
 export function clearJyotishCache(){cache.clear();}

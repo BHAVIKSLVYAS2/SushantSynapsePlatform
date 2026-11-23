@@ -31,5 +31,5 @@ test('real reports combine admitted inputs, withhold previews and reject forged 
 test('health stays non-diagnostic and the same synthesized chapters reach Hindi export',async()=>{
  const {calculateBirthReport}=await import('../apps/rashifal-kundli/frontend/birth-report.mjs'),{buildJyotishIntelligence}=await import('../apps/rashifal-kundli/frontend/jyotish-intelligence.mjs'),{projectExport}=await import('../apps/rashifal-kundli/frontend/export-report.mjs');
  const report=calculateBirthReport(base,{now}),m=buildJyotishIntelligence(report),health=m.sections.find(s=>s.id==='wellbeing');assert(health.paragraphs.some(p=>p.role==='health-boundary'));assert(!health.paragraphs.some(p=>p.role==='transit'||p.role==='qualification'||p.role==='planet-condition'));
- const output=projectExport(report,{language:'hi'});for(const section of m.sections)assert.deepEqual(output.everyday.topics.find(t=>t.id===section.id).paragraphs,section.paragraphs.map(p=>p.text));
+ const output=projectExport(report,{language:'hi',readingAudience:'pandit'});for(const section of m.sections)assert.deepEqual(output.everyday.topics.find(t=>t.id===section.id).paragraphs,section.paragraphs.map(p=>p.text));
 });

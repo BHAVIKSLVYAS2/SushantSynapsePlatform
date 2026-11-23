@@ -1,4 +1,9 @@
 .vedic-rashifal-page{margin:0;background:var(--ui-bg);color:var(--ui-ink);font:1rem/1.55 system-ui,sans-serif}
+.vedic-rashifal .reading-audience{display:flex;gap:4px;align-items:center;width:fit-content;padding:4px;border:1px solid var(--ui-edge);border-radius:12px;margin:0 0 16px}
+.vedic-rashifal .reading-audience button{min-height:44px;min-width:88px;padding:8px 16px;border:0;border-radius:8px;background:transparent;color:var(--ui-ink)}
+.vedic-rashifal .reading-audience button[aria-pressed=true]{background:var(--ui-accent);color:var(--ui-on-accent)}
+.vedic-rashifal [hidden]{display:none!important}
+.vedic-rashifal .reading-technical{border-block-start:1px solid var(--ui-edge);padding-block-start:12px;margin-block-start:12px}
 .vedic-rashifal-page>.vedic-app-header,.vedic-rashifal{max-width:62rem;margin:auto;padding:1rem}
 .vedic-rashifal *{box-sizing:border-box;min-width:0}.vedic-rashifal{overflow-wrap:anywhere}
 .vedic-rashifal h1{font-size:clamp(1.6rem,4vw,2.4rem);line-height:1.2}

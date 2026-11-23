@@ -12289,3 +12289,23 @@ preservation and sign-specific Rashifal without page errors. Independent
 astronomical/traditional acceptance remains pending. Next: qualified Yoga/Dosha
 rules/cancellations, complete Shadbala and continuous personal event windows.
 Details: docs/RITVAYAM_CONTENT_INTELLIGENCE.md. Deployment recorded separately.
+Ritvayam public/Pandit reading correction (2026-11-23, local verification):
+separately authored Hindi public narratives replace placement lists in main
+Kundali/Bhavishyafal and Rashifal reading. A shared सरल / पंडित control uses
+44px buttons, pressed states and a device-local display preference. Public
+Kundali shows twelve meaningful chapters; technical fourteen-chapter context,
+conditions and all evidence remain in Pandit view. Public general Rashifal
+distinguishes real support/mixed/review/neutral/uncertain states and combines
+these in its overview. No neutral-to-adverse or uncertain-to-certain conversion.
+Hindi export follows the chosen audience: public meaning plus selected chart,
+or full detailed report. Redaction, explicit advanced inclusion, sensitive-preview
+notices and GeoNames attribution survive. Old Hindi-export tests now target the
+actual public contract; practitioner parity is explicit. Source calculations,
+saved birth inputs, APIs/auth and pending external review remain unchanged.
+Thirty-seven targeted reading, export, condition, fallback and matching checks
+pass; the final export boundary subset also passes after adding an honest
+unavailable public report for unknown times. No improvement percentage is claimed.
+Local Chrome verifies public/Pandit switching at 360/390 across three themes,
+preference continuity, fourteen technical chapters, basis navigation, exports,
+saved data, North selection, language fallback and sign changes without errors.
+Details: docs/RITVAYAM_CONTENT_INTELLIGENCE.md. Release evidence follows.

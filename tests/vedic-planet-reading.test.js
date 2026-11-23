@@ -15,7 +15,7 @@ test('Kundli prose changes with actual ruler placement and occupants, in all lan
    assert.notDeepEqual(prose.paragraphs,changed.paragraphs,'placement must affect '+id);
    assert.ok(text.includes(bodyName(data.ruler,lang)));assert.ok(text.includes(signName(data.rulerSign,lang)));
    for(const occupant of data.occupants)assert.ok(text.includes(bodyName(occupant,lang)));
-   const exported=projectExport(report,{language:lang}).everyday.topics.find(t=>t.id===id);assert.deepEqual(exported.paragraphs,prose.paragraphs);
+   const exported=projectExport(report,{language:lang}).everyday.topics.find(t=>t.id===id);if(lang==='hi'){const {buildJyotishIntelligence}=await import('../apps/rashifal-kundli/frontend/jyotish-intelligence.mjs');assert.deepEqual(exported.paragraphs,buildJyotishIntelligence(report).sections.find(t=>t.id===id).publicParagraphs.map(p=>p.text));}else assert.deepEqual(exported.paragraphs,prose.paragraphs);
   }
   for(const period of reading.periods){
    const text=composeKundliPeriod(period,lang);
