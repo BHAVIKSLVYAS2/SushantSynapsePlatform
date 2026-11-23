@@ -91,14 +91,15 @@ Forged context and clinical prediction phrases fail validation. The same validat
 chapters reach the on-screen reading and Hindi export. No remote AI calls, birth
 data transfer, schema migration or saved-record mutation.
 
-Verification: 16 targeted tests pass, covering hand-checked full-aspect/dignity
+Combined-reading release verification before phase 1: 16 targeted tests pass,
+covering hand-checked full-aspect/dignity
 reference cases, competing D9 evidence, supportive versus obstructed current
 signals, exact dasha boundaries, all 12 general Rashis, multiple birth charts,
 unknown/approximate time, withheld previews, forged evidence and export parity.
 These are software checks, not external acceptance of predictive accuracy.
 
 Still not implemented in this reading: complete Shadbala, qualified Yoga/Dosha
-and cancellation judgements, retrograde/combustion qualifications, D10/D16-based
+and cancellation judgements, full motion-strength qualifications, D10/D16-based
 life-outcome synthesis, continuous personal event windows, monthly/yearly general
 Rashifal, independent traditional/Hindi review and English/Gujarati synthesis
 parity. The earlier Lal Kitab/KP/Varshaphal/36-year backlog remains deferred.
@@ -110,7 +111,7 @@ https://www.panchanga.lv/wp-content/uploads/2020/06/Phaladipika_Shri-Mantreswara
 Modern topic prose and combined editorial categories are authored here; they are
 not claimed to be translations, externally reviewed rules or medical evidence.
 
-## Current flow and root cause
+## Original audit (historical): flow and root cause
 
 Birth form -> reviewed civil/place input -> browser `calculateBirthReport` ->
 independently admitted positions/D1/D9/dasha -> `buildKundliReading` -> local

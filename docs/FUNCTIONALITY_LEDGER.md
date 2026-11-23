@@ -12261,7 +12261,14 @@ Sixteen targeted tests pass. Full Shadbala, qualified Yoga/Dosha, motion/combust
 qualifications and continuous event timing remain unavailable. Independent
 traditional/Hindi review is pending; no predictive-accuracy percentage is claimed.
 Details: docs/RITVAYAM_CONTENT_INTELLIGENCE.md. Deployment status recorded below.
-Ritvayam staged prediction work, phase 1 (2026-11-23, verified locally): added
+Ritvayam staged prediction work, phase 1 (2026-11-23, deployed): source ece0867e,
+Worker 373e6269-26a0-4da1-8cc6-b2ef10bd944a, 759 assets with --keep-vars.
+Live Chrome verifies synthesis hi-3, actual condition text, all seven technical
+rows, Hindi export basis, nine width/theme cases, 14 chapters, North selection,
+saved-data preservation, language fallback and general Rashifal sign changes.
+No page errors, production business writes or migrations; organisation/auth/D1
+and disabled Nishi AI settings preserved. Evidence:
+.publish/jyotish-condition-review.cjs and mobile reading captures. Added
 natal motion/solar-distance conditions without rewriting existing positions,
 charts or dashas. Seven physical bodies retain timestamped samples; five planets
 receive direct/retrograde/near-station classifications. Declared Phaladeepika
