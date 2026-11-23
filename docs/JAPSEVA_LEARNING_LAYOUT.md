@@ -37,3 +37,7 @@ Verification: `tests/japseva-study-passage.test.js` audits every passage in all 
 interface languages, script coverage, conjuncts/vowels and unchanged source records.
 Existing chapter mappings, canonical bindings, practice/backup and audio model tests
 also pass (17 targeted tests). Browser evidence: `.publish/mantra-study-review.cjs`.
+The complete browser review passes locally and on production: all 110 entries,
+128 sections, 3,137 inspected renderings and 72 width/theme/language combinations,
+plus Recite scripts, font settings and existing playback. Source `b1eeea23` is
+deployed as Worker `9dc1ca91-c0b5-4235-a66f-ea031ee9d814` (761 public assets).

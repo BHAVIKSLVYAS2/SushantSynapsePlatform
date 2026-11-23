@@ -8,7 +8,13 @@ honestly labelled Hindi; no certified pronunciation or new audio coverage claime
 Seventeen targeted tests pass. Chrome inspected all 110 entries and 128 sections,
 3,137 passage renderings, 72 mobile/theme/language cases, Recite scripts, reader
 settings and existing playback, with no page errors or horizontal overflow.
-Screenshots visually inspected. Deployment recorded after release verification.
+Screenshots visually inspected. Source b1eeea23 deployed as Worker
+9dc1ca91-c0b5-4235-a66f-ea031ee9d814 with 761 public assets and --keep-vars.
+The full browser audit also passes against the live production site: all 110
+entries, 128 sections and 72 width/theme/language cases, settings and existing
+playback. No production business writes or migrations; organisation/auth/D1 and
+disabled Nishi settings preserved. Evidence: .publish/mantra-study-review.cjs
+and .publish/study-{gayatri,reading-gita-four,reading-bhagavata-four,puja-navchandi}.png.
 Details: docs/JAPSEVA_LEARNING_LAYOUT.md.
 
 Ritvayam reading double-check (2026-11-23): supportive general Rashifal evidence
