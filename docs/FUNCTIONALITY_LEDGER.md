@@ -12237,7 +12237,16 @@ Rebuilt mobile Chrome review passes nine width/theme cases and saved-data,
 navigation, three-language fallback, export and sign-change checks. Existing
 Phaladeepika chapter 26 source rechecked; independent editorial/Jyotish review
 and predictive accuracy are not established. Deployment recorded below.
-Ritvayam combined Hindi reading (2026-11-23, local verification): main chapters
+Ritvayam combined Hindi reading (2026-11-23, deployed): source ffcda1f7 plus
+c5562b8b, final Worker 8b03edd2-758a-43a8-844f-664b14ead0c7, 759 public
+assets with --keep-vars. Live Chrome review verifies synthesis version hi-2,
+main-house occupants, topic conclusions/current transits and non-diagnostic
+health text. Nine width/theme cases, all 14 chapters, evidence/navigation,
+North house selection, saved data, language fallback, Hindi export and actual
+sign-specific Rashifal pass with no page errors. No production business writes
+or migrations; organisation/auth/D1 and disabled Nishi AI settings preserved.
+Evidence: .publish/jyotish-synthesis-review.cjs and career/health mobile captures.
+Main chapters
 now lead with topic-specific conclusions combining admitted D1 ownership,
 occupancy and classical full aspects, sign dignity, admitted D9 context,
 current dasha links and a real current natal-Moon-relative transit snapshot.
