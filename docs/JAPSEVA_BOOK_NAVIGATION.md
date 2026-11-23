@@ -5,7 +5,12 @@ now use the existing book size/spacing variables; previously both selections lef
 them at 21px. Controls retain their options/defaults and stored preferences.
 Changing typography cancels active page-turn overlays. Browser verification covers
 short readings, chapters, Ratna, Recite/Learn, Reset, reload and resize mid-turn.
-No navigation or stored-record changes. Release evidence is in the ledger.
+No navigation or stored-record changes. Fix 69363a11 deployed as Worker
+24c0ee95-3b8c-45ce-a621-860e5c9e80f1 with --keep-vars. Fourteen live Chrome
+checks pass, including both reading modes, Reset, saved choices, resize during
+motion and the sole navigation pair. No page errors; live screenshot inspected.
+Release evidence is in the ledger. This verification note is a source-only
+documentation follow-up; the deployed implementation remains 69363a11.
 
 23 November 2026. User requested one Previous/Next pair, keeping the corner
 arrow and adding a page-turn effect that lifts from the corner.

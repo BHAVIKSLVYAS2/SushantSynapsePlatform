@@ -6,7 +6,13 @@ applying typography. Existing options/defaults, meanings and stored preferences
 are preserved. Eighteen Node checks, typography/settings Chrome (short/chapter/
 Ratna, Reset, reload persistence, resize during motion) and the single-navigation
 Chrome regression pass. Mobile screenshot inspected; frontend build passes with
-765 assets. Release evidence: .publish/reading-settings-production-deploy.log.
+765 assets. Fix 69363a11 deployed with --keep-vars as Worker
+24c0ee95-3b8c-45ce-a621-860e5c9e80f1. Live Chrome passes fourteen checks:
+two exact assets, short/chapter/Ratna Recite/Learn typography and Reset,
+reload persistence, resize mid-turn and the single navigation pair. No page
+errors; live mobile settings screenshot inspected. Production organisation,
+auth/D1 and disabled Nishi settings preserved. Evidence:
+.publish/reading-settings-production-deploy.log and reading-settings-live.json.
 No migrations or production business writes; navigation/corner behavior retained.
 
 JapSeva book navigation (2026-11-23, deployed): one shared bottom
