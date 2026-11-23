@@ -280,3 +280,15 @@ body.has-platform-shell[data-ui-app=japseva] #practice-back,body.has-platform-sh
 @media(max-width:600px){#main .library-filter-dialog{width:100%;max-width:100%;max-height:calc(100dvh - 24px);margin:auto 0 0;border-radius:22px 22px 0 0;padding:20px 16px max(20px,env(safe-area-inset-bottom))}#main .library-filter-footer{bottom:calc(-1 * max(20px,env(safe-area-inset-bottom)));padding-bottom:max(16px,env(safe-area-inset-bottom))}#main .library-search-row input{padding-inline:10px}#main .library-search-row .library-filter-trigger{padding-inline:10px}}
 #main .chapter-reader .chapter-instructions{font-size:16px;line-height:1.8;text-align:start;overflow-wrap:anywhere;margin:12px 0 18px;color:var(--text)}
 #main .chapter-reader .chapter-instructions[hidden],#main .chapter-reader .chapter-text[hidden]{display:none!important}
+#main .ratna-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+#main .ratna-grid button{text-align:start;white-space:normal;min-height:44px;padding:16px}
+#main .ratna-grid span{display:block;font-weight:400;margin-top:8px}
+#main .ratna-reader p{white-space:pre-line;overflow-wrap:anywhere}
+#main .ratna-reader details{margin-block:12px}
+#main .ratna-step{padding-block:16px}
+#main .ratna-navigation,#main .ratna-counter{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+#main .ratna-navigation button,#main .ratna-counter button{min-height:44px}
+#main .ratna-counter p{flex-basis:100%}
+#main .ratna-counter output{font-size:1.5em;min-width:3ch}
+#main .ratna-fields{display:grid;gap:12px}
+#main .ratna-fields input{max-width:100%;min-width:0}

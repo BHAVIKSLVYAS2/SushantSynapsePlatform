@@ -1,6 +1,14 @@
 const {test,expect,acknowledgeBeta,interceptAds}=require('../../../tests/browser-fixture');
 const {spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');let child,origin,dir;
 test.use({timezoneId:'Asia/Kolkata'});
+test('service delete confirms by name, cancellation preserves data and Undo restores it',async({page})=>{
+ await page.setViewportSize({width:390,height:844});await page.goto(origin+'/rozhisab');await add(page);const before=await snapshot(page);await page.locator('[data-view=settings]').click();
+ page.once('dialog',async d=>{expect(d.message()).toContain('Milk');expect(d.message()).toContain('payments');await d.dismiss();});await page.locator('[data-action=deleteService]').click();expect(await snapshot(page)).toEqual(before);
+ page.once('dialog',d=>d.accept());await page.locator('[data-action=deleteService]').click();await expect(page.locator('[data-action=deleteService]')).toHaveCount(0);expect((await snapshot(page)).services).toHaveLength(0);
+ await page.locator('#undo').click();await expect(page.locator('[data-action=deleteService]')).toHaveCount(1);expect((await snapshot(page)).services).toEqual(before.services);await page.reload();await expect(page.locator('[data-action=deleteService]')).toHaveCount(1);
+ for(const lang of ['hi','gu']){await page.evaluate(v=>SynapseLanguage.set(v),lang);page.once('dialog',async d=>{expect(d.message()).toContain('Milk');expect(d.message()).toMatch(/[\u0900-\u097f\u0a80-\u0aff]/);await d.dismiss();});await page.locator('[data-action=deleteService]').click();}
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});
 test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'rozhisab-api-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,DATABASE_PROVIDER:'sqlite',NODE_ENV:'test',PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe'],windowsHide:true});await new Promise((resolve,reject)=>{let out='';const timer=setTimeout(()=>reject(Error('Startup timed out: '+out)),20000);child.stdout.on('data',d=>{out+=d;const m=out.match(/localhost:(\d+)/);if(m){origin='http://127.0.0.1:'+m[1];clearTimeout(timer);resolve();}});child.stderr.on('data',d=>out+=d);child.once('error',reject);});});
 test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
 async function add(page,name='Milk',rate='60'){await page.locator('#add-service').click();await page.locator('#service-form [name=name]').fill(name);await page.locator('#service-form [name=rate]').fill(rate);await page.locator('#service-form button[type=submit]').click();await expect(page.locator('#editor')).not.toBeVisible();await expect(page.locator('.service-row')).toHaveCount(1);}

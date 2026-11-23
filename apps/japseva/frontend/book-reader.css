@@ -72,8 +72,15 @@ body.japseva-book-open #main>.intro,body.japseva-book-open #main>.tabs,body.japs
 #main .book-has-turned .book-corner-hint{display:none}
 #main .book-has-turned .book-page-corner::before{animation:none}
 @keyframes library-corner-peek{0%,62%,100%{transform:scale(1)}72%{transform:scale(1.22) skew(-4deg,-4deg)}82%{transform:scale(1)}90%{transform:scale(1.12)}}
-#main .book-turn-leaf{position:absolute;inset:0;z-index:5;pointer-events:none;transform-origin:left center;transform-style:preserve-3d;border-radius:15px;border:1px solid var(--ui-edge);background:var(--ui-solid);overflow:hidden;box-shadow:12px 0 28px var(--ui-soft);backface-visibility:hidden}
+#main .book-turn-leaf{position:absolute;inset:0;z-index:5;pointer-events:none;transform-origin:left top;transform-style:preserve-3d;border-radius:15px;border:1px solid var(--ui-edge);background:var(--ui-solid);overflow:hidden;box-shadow:12px 0 28px var(--ui-soft);backface-visibility:hidden;will-change:transform,clip-path}
+#main .book-turn-fold{position:absolute;inset:0;z-index:6;pointer-events:none;clip-path:polygon(100% 0,0 100%,0 0);background:linear-gradient(135deg,var(--ui-solid) 45%,var(--ui-soft) 75%,var(--ui-edge));transform-origin:right bottom;filter:drop-shadow(-4px -4px 8px var(--ui-soft));will-change:transform}
+#main .book-turn-leaf.book-turn-back{transform-origin:right top}
+#main .book-turn-fold.book-turn-back{transform-origin:left bottom;clip-path:polygon(0 0,100% 0,100% 100%)}
 #main .book-turn-leaf .book-reader-scroll{overflow:hidden}
+#main .book-turn-leaf .book-snapshot-library{display:block;margin:0}
+#main .book-turn-leaf .book-snapshot-library .library-guide{border:0}
+#main .book-turn-leaf .book-snapshot-library .library-guide>summary{display:none}
+#main .book-turn-leaf .book-snapshot-library .library-guide-body{padding:0;max-width:none;margin:0}
 #main .book-snapshot-control{display:inline-flex;align-items:center;min-height:44px;padding:8px;font-size:12px}
 #main .book-turn-leaf::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 55%,var(--ui-soft));pointer-events:none}
 #main #learn .book-reading .book-navigation{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;margin-top:24px;padding-top:16px}

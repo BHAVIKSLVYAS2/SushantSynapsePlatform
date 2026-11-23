@@ -1,0 +1,34 @@
+# Mantra Library book navigation
+
+23 November 2026. User requested one Previous/Next pair, keeping the corner
+arrow and adding a page-turn effect that lifts from the corner.
+
+The book footer is now the sole visible Previous/Next pair. The old cross-reading
+footer is detached from the book, compact chapter readers omit their own buttons,
+and Ratna steps use the shared footer. Chapter selectors, reading modes, settings,
+contents and the corner remain available. Standalone practice chapter readers keep
+their controls because they do not have the library book footer.
+
+The book shell captures the outgoing page before a chapter/ritual-step change,
+then runs one shared corner-peel animation after the destination is rendered.
+Single-reading transitions use the same animation. Forward turns peel from the
+lower right and reverse turns mirror the page geometry. Snapshot controls are
+inert and hidden from assistive technology; hidden library headings retain their
+snapshot styling and native details summaries do not acquire fallback labels.
+Rapid taps replace unfinished animation; returning to Contents clears overlays.
+Reduced-motion preference bypasses snapshots/animation and cancels active motion.
+No practice records, source text, audio, calculation or storage schemas change.
+
+Verification: 42 focused Node checks pass across JapSeva, Hisabio, Kiraya Saathi
+and shared care. Chrome checks one visible pair, corner forward/reverse turns,
+intermediate polygon geometry, inert overlays, rapid taps, cleanup on Contents,
+Ratna movement and reduced motion. Ratna's nine-guide workflow passes; the
+no-login backup/PDF/certificate and complete Rudram reader/practice workflows
+pass. Build results are recorded in the functionality ledger. A paused mobile
+turn screenshot was visually inspected. Earlier all-entry Devanagari, eight
+Hisabio and nine Kiraya workflows remain covered by this session's evidence.
+
+Release scope includes this session's already-tested Devanagari preference,
+Hisabio delete-service confirmation, Kiraya Home option, and the previously
+deployed Ratna source that had not yet been committed. Production deploy keeps
+organisation/auth/D1 and disabled Nishi settings; no migrations or business writes.

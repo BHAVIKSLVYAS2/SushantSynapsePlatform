@@ -9,3 +9,5 @@ body[data-ui-app=rozhisab] main{max-width:960px;padding:24px 18px 110px;margin:a
 @media(prefers-reduced-motion:reduce){#main *{scroll-behavior:auto!important;transition:none!important}}
 
 #main #app-nav{grid-template-columns:repeat(5,minmax(0,1fr))}#main [data-service-bill]:focus{outline:3px solid var(--ui-accent);outline-offset:3px}
+#main .settings-row:has(.service-actions){flex-wrap:wrap}
+#main .service-actions{flex-wrap:wrap;margin-inline-start:auto}

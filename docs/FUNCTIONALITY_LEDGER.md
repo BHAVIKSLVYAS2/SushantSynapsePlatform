@@ -1,3 +1,84 @@
+JapSeva book navigation (2026-11-23, release preparation): one shared bottom
+Previous/Next pair replaces duplicate library/ritual controls. Corner arrow stays
+and shares a diagonal corner-peel animation with button navigation. Reverse turns,
+rapid taps, Contents cleanup and reduced motion are supported. Snapshot style
+fixes prevent hidden headings and native Details fallback from appearing during
+motion. Forty-two focused Node checks pass; Chrome verifies the pair, animation,
+Ratna and backup/certificate behavior. Paused mobile turn visually inspected.
+Rudram's complete reader/practice regression also passes; its progress check now
+uses the sole shared footer. Final build and production evidence follow below.
+Release also includes the session's Devanagari, Hisabio deletion and Kiraya Home
+updates below. No migrations or production business-data changes.
+Details: docs/JAPSEVA_BOOK_NAVIGATION.md.
+
+Kiraya Saathi Home option (2026-11-23, local): Flat and Shop now include Home
+as a third validated property type (`home`), displayed as Home / घर / ઘર.
+Creation, cards, property details, tenant ledger and PDF receipts share the
+correct type label; relevant instructions include homes. Existing records,
+billing rules and backup version are retained. Thirteen Node checks and all
+nine Kiraya Chrome workflows pass, including Home save/reload/translations,
+existing Flat/Shop PDF/payment/deposit workflows, backup, layouts, care and
+legacy upgrades. Frontend build passes (765 assets). No deployment, migration
+or production business writes. Details: docs/KIRAYA_SAATHI.md.
+
+Hisabio service deletion (2026-11-23, local): Settings now provides Delete service
+beside Edit, with an English/Hindi/Gujarati confirmation naming the service and
+explaining removal of its deliveries, pauses, payments and opening balance.
+Cancel writes nothing; the existing revision-checked Undo restores the immediate
+previous state. Engine deletion protects frozen bills and linked Home care
+schedules, preserves unrelated records and validates backup integrity. Offline
+cache version advances to v5. Eighteen Node checks and all eight Hisabio Chrome
+workflows pass, including confirm/cancel/delete/Undo/reload, translations/mobile,
+billing/closing, stale tabs, backup, offline restart, Home care and legacy upgrade.
+Frontend build passes (765 assets). No deployment, schema migration or actual
+user/production-data deletion. Ownership and behavior: docs/ROZHISAB.md.
+
+JapSeva Devanagari preference (2026-11-23, local): existing Devanagari names
+now lead book titles, chapter labels, practice selectors/request headings and
+recording labels. Learn displays Devanagari then meaning; Roman/Gujarati aids
+are optional under closed reading help. Ratna follows the same hierarchy and
+uses Devanagari graha names. Chapter readers open in Devanagari; explicit Recite
+script choices remain available. Meanings/interface languages and saved records
+are preserved. Reduced-motion readers skip unused page-snapshot creation.
+All 110 entry names and 128 section labels audited; eighteen focused Node checks
+and the 765-asset frontend build pass. Four Chrome workflows pass: all-entry
+Devanagari/optional-help audit, Ratna, backup/PDF/certificate and complete Rudram.
+All-entry sweep checks chapter headings/text and three interface languages;
+mobile screenshot inspected, no page errors or overflow. The Rudram test now
+locates its request by the new Devanagari name. Full verification is recorded in
+JAPSEVA_DEVANAGARI_PREFERENCE.md.
+No deployment in this follow-up, database/schema or production business writes.
+
+JapSeva Ratna Siddhi (2026-11-23, deployed): the existing Ratna entry
+now opens nine gemstone cards and individual five-step household guides. Each
+profile has distinct care, offerings, devotional action and wearing guidance;
+graha mantras reuse existing records with inline IAST, approximate pronunciation
+and meaning in Learn. Personal vernacular sankalpa fields, optional counters,
+previous/next and per-gem device resume work without login. Counter preferences
+remain separate from practice totals/certificates; records and schemas retained.
+English/Hindi supplied; Gujarati explicitly falls back to Hindi. Source metadata
+distinguishes checked gem care, existing mantra references, unverified customs
+and editorial ritual adaptations. No invented Sanskrit, muhurta, extended japa
+counts or deity-idol consecration. Full authenticated paddhati and independent
+Sanskrit/ritual review remain outstanding; this is not certified traditional
+content completion. Eighteen focused Node checks pass; Chrome covers all nine
+guides, inline meanings, sankalpa, counters/resume, eight width/theme layouts and
+Hindi/Gujarati fallback without page errors. Mobile screenshot inspected.
+Existing no-login backup/certificate, complete Rudram and Navagraha Chrome
+workflows pass. The Navagraha test now checks the already-released inline Learn
+reading aids instead of retired pronunciation/picker interactions.
+Frontend build passes, exporting 765 assets; initial sandbox write denial resolved
+by the approved workspace build. Deployed with --keep-vars as Worker
+137cf940-57c6-444e-8f11-1575b7c84a27; live Chrome passes 26 checks covering
+four exact asset matches, home/health/protected API boundary, all nine full
+guides, counters/resume, eight width/theme layouts and Hindi/Gujarati fallback.
+No page errors; live mobile screenshot inspected. Organisation/auth/D1 and
+disabled Nishi settings preserved; no migrations or production business writes.
+Evidence: .publish/ratna-live-check.cjs and ratna-live-verification.json.
+Release documentation is included in a follow-up publish of the same runtime;
+the final Worker identifier is recorded in .publish/ratna-documentation-deploy.log.
+Research matrix, module ownership and remaining gaps: JAPSEVA_RATNA_SIDDHI.md.
+
 JapSeva Sanskrit-first Learn layout (2026-11-23, implementation): all 110 entries
 and 128 sections use one original / Roman+Gujarati aid / meaning hierarchy in Learn.
 The 1,715 displayed passages are audited in HI/EN/GU; source records remain intact.

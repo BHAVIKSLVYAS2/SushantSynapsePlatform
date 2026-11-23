@@ -1,6 +1,10 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const engine=()=>import('../apps/kiraya-saathi/frontend/engine.mjs');
 async function setup(type='flat'){const e=await engine();let s=e.command(e.empty(),'property.add',{name:'Unit 202',type,address:'Test address'});s=e.command(s,'tenancy.add',{propertyId:s.properties[0].id,name:'Meera',phone:'',start:'2026-01-15',rent:1000000,maintenance:50000,depositExpected:2000000,dueDay:31});return {e,s,t:s.tenancies[0]};}
+test('home properties support billing and backup round trips with translated type labels',async()=>{
+ let {e,s}=await setup('home');s=e.command(s,'bills.ensure',{through:'2026-02'});assert.equal(s.properties[0].type,'home');assert.equal(e.billTotal(s.bills[0]),1050000);assert.deepEqual(e.validate(JSON.parse(JSON.stringify(s))),s);
+ const {rentalText,propertyTypeKey}=await import('../apps/kiraya-saathi/frontend/copy.mjs');assert.equal(propertyTypeKey('home'),'Home');assert.equal(rentalText('hi',propertyTypeKey('home')),'घर');assert.equal(rentalText('gu',propertyTypeKey('home')),'ઘર');assert.equal(propertyTypeKey('flat'),'Flat');assert.equal(propertyTypeKey('shop'),'Shop');
+});
 test('money uses exact paise; dates, kinds and overlapping tenancies reject malformed data',async()=>{
  const {e,s,t}=await setup();assert.equal(e.paise('0.29'),29);assert.equal(e.paise('1234.5'),123450);for(const n of ['1.001','1e3','-1','NaN','1000000000'])assert.throws(()=>e.paise(n));for(const d of ['2026-02-30','2026-13-01','1999-12-31'])assert.throws(()=>e.day(d));assert.throws(()=>e.command(s,'property.add',{name:'Bad',type:'bed'}));assert.throws(()=>e.command(s,'tenancy.add',{...t,name:'Other',rent:100,maintenance:0,start:'2026-02-01'}));
 });

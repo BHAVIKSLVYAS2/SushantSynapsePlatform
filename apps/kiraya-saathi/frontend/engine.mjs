@@ -25,7 +25,7 @@ export function validate(input){
  if(new TextEncoder().encode(JSON.stringify(input)).length>20000000)fail('Backup exceeds the 20 MB limit.');
  if(input.schemaVersion===2&&!input.care)fail('Maintenance records are missing from this version-2 backup.');
  const s=empty();s.revision=integer(input.revision,'Revision',0,Number.MAX_SAFE_INTEGER);s.owner=text(input.owner,'Owner name',120,true);
- s.properties=array(input.properties,100,'properties').map(p=>({id:id(p.id),name:text(p.name,'Property name'),type:choice(p.type,['flat','shop'],'property type'),address:text(p.address,'Address',400,true)}));
+ s.properties=array(input.properties,100,'properties').map(p=>({id:id(p.id),name:text(p.name,'Property name'),type:choice(p.type,['flat','shop','home'],'property type'),address:text(p.address,'Address',400,true)}));
  s.tenancies=array(input.tenancies,500,'tenancies').map(t=>({id:id(t.id),propertyId:id(t.propertyId),name:text(t.name,'Tenant name'),phone:text(t.phone,'Phone',30,true),start:day(t.start),end:t.end?day(t.end):null,dueDay:integer(t.dueDay,'Due day',1,31),depositExpected:integer(t.depositExpected,'Agreed deposit'),rates:array(t.rates,200,'rent changes').map(r=>({from:month(r.from),rent:integer(r.rent,'Rent',1),maintenance:integer(r.maintenance,'Maintenance')}))}));
  for(const t of s.tenancies){
   if(!s.properties.some(p=>p.id===t.propertyId)||t.end&&t.end<t.start||!t.rates.length||t.rates[0].from!==t.start.slice(0,7))fail('Invalid property, tenancy dates or initial rent.');

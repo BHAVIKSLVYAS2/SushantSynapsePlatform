@@ -69,6 +69,14 @@ export function command(original,type,data,asOf=today()){
   const c=config(data.config),from=date(data.from);if(from>c.start&&!data.id)fail('A new service must be effective by its start date');if(Object.values(state.closed).some(x=>x.period.end>=from))fail('Changes must start after the last closed bill, or reopen it first');
   if(data.id){const s=find(data.id);if(from<s.revisions[0].from)fail('Changes cannot precede the service history');s.revisions=s.revisions.filter(r=>r.from!==from);s.revisions.push({...c,from});s.revisions.sort((a,b)=>a.from.localeCompare(b.from));}
   else{const key=id(data.newId);if(state.services.some(s=>s.id===key))fail('Duplicate service');state.services.push({id:key,opening:decimal(data.opening||0),revisions:[{...c,from}]});}
+ }else if(type==='removeService'){
+  const s=find(data.id);
+  if(Object.values(state.closed).some(x=>x.bills.some(b=>b.serviceId===s.id)))fail('Reopen closed bills containing this service before deleting it');
+  if(state.care.tasks.some(t=>t.serviceId===s.id))fail('Unlink Home care schedules from this service before deleting it');
+  state.services=state.services.filter(item=>item.id!==s.id);
+  state.entries=Object.fromEntries(Object.entries(state.entries).filter(([key])=>!key.startsWith(s.id+'@')));
+  state.pauses=state.pauses.filter(p=>p.serviceId!==s.id);
+  state.payments=state.payments.filter(p=>p.serviceId!==s.id);
  }else if(type==='attendance'){
   const s=find(data.serviceId),from=date(data.from),to=date(data.to||from);if(to<from||dates(from,to).length>366)fail('Choose up to 366 dates');writable(state,from,to);if(to>asOf)fail('Future deliveries cannot be billed');const q=quantity(data.quantity);
   for(const d of dates(from,to)){const item=delivery(state,s,d,asOf);if(!item.config||!item.config.active||d<item.config.start||(item.config.end&&d>item.config.end)||item.paused)continue;if(data.scheduledOnly&&!item.scheduled)continue;if(data.reset)delete state.entries[entryKey(s.id,d)];else state.entries[entryKey(s.id,d)]=q;}

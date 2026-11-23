@@ -10,7 +10,12 @@ const copy={
 'Rental workspace':['किराया कार्यक्षेत्र','ભાડાનું કાર્યક્ષેત્ર'],'Cancel':['रद्द करें','રદ કરો'],'Save':['सहेजें','સાચવો'],'Saving…':['सहेज रहे हैं…','સાચવી રહ્યા છીએ…'],
 'Saved in this browser.':['इस ब्राउज़र में सहेजा गया।','આ બ્રાઉઝરમાં સચવાયું.'],
 'Add a flat or shop':['फ़्लैट या दुकान जोड़ें','ફ્લૅટ કે દુકાન ઉમેરો'],'Property name':['संपत्ति का नाम','મિલકતનું નામ'],'Property type':['संपत्ति का प्रकार','મિલકતનો પ્રકાર'],
-'Flat':['फ़्लैट','ફ્લૅટ'],'Shop':['दुकान','દુકાન'],'Address (optional)':['पता (वैकल्पिक)','સરનામું (વૈકલ્પિક)'],
+'Flat':['फ़्लैट','ફ્લૅટ'],'Shop':['दुकान','દુકાન'],'Home':['घर','ઘર'],'Address (optional)':['पता (वैकल्पिक)','સરનામું (વૈકલ્પિક)'],
+'Add a flat, shop or home':['फ़्लैट, दुकान या घर जोड़ें','ફ્લૅટ, દુકાન કે ઘર ઉમેરો'],
+'Your flats, shops & homes':['आपके फ़्लैट, दुकानें और घर','તમારા ફ્લૅટ, દુકાનો અને ઘર'],
+'Flat, shop, home or tenant':['फ़्लैट, दुकान, घर या किरायेदार','ફ્લૅટ, દુકાન, ઘર કે ભાડૂત'],
+'Add your first flat, shop or home, then its tenant.':['पहला फ़्लैट, दुकान या घर जोड़ें, फिर किरायेदार।','પહેલો ફ્લૅટ, દુકાન કે ઘર ઉમેરો, પછી ભાડૂત.'],
+'Supports flats, shops and homes. No PG beds, online collections, automatic messages or tax calculations.':['फ़्लैट, दुकान और घरों के लिए। PG बेड, ऑनलाइन वसूली, अपने-आप संदेश या कर गणना नहीं।','ફ્લૅટ, દુકાન અને ઘર માટે. PG બેડ, ઑનલાઇન વસૂલાત, આપમેળે સંદેશ કે કરની ગણતરી નથી.'],
 'e.g. Shanti Heights · Flat 202':['जैसे शांति हाइट्स · फ़्लैट 202','દા.ત. શાંતિ હાઇટ્સ · ફ્લૅટ 202'],
 'Add tenant':['किरायेदार जोड़ें','ભાડૂત ઉમેરો'],'Tenant name':['किरायेदार का नाम','ભાડૂતનું નામ'],'Phone for WhatsApp (optional)':['WhatsApp फ़ोन (वैकल्पिक)','WhatsApp ફોન (વૈકલ્પિક)'],
 'Tenancy starts':['किरायेदारी शुरू','ભાડાની શરૂઆત'],'Monthly rent (₹)':['मासिक किराया (₹)','માસિક ભાડું (₹)'],
@@ -95,3 +100,4 @@ const copy={
 'Hello {0}, the rent balance for {1} for {2} is {3}, due {4}. Please share the payment reference once paid. Thank you.':['नमस्ते {0}, {1} का {2} का बकाया किराया {3} है, नियत तारीख {4}। भुगतान के बाद संदर्भ साझा करें। धन्यवाद।','નમસ્તે {0}, {1}નું {2}નું બાકી ભાડું {3} છે, નિયત તારીખ {4}. ચુકવણી પછી સંદર્ભ મોકલશો. આભાર.']
 };
 export function rentalText(language,key,...values){return (copy[key]?.[{hi:0,gu:1}[language]]??key).replace(/\{(\d+)\}/g,(_,i)=>String(values[i]??''));}
+export const propertyTypeKey=type=>({flat:'Flat',shop:'Shop',home:'Home'}[type]||type);

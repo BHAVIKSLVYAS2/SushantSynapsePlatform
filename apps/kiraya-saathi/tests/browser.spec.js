@@ -1,6 +1,11 @@
 const {test,expect,acknowledgedContext}=require('../../../tests/browser-fixture');
 const {spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');let child,origin,dir;
 test.use({timezoneId:'Asia/Kolkata'});
+test('home property type persists and displays correctly in all languages',async({page})=>{
+ await open(page);await addProperty(page,'My Home','home');expect((await state(page)).properties[0].type).toBe('home');await page.reload();await page.locator('[data-view=properties]').click();
+ for(const [lang,label]of [['en','Home'],['hi','घर'],['gu','ઘર']]){await page.evaluate(v=>SynapseLanguage.set(v),lang);await expect(page.locator('#results article .tag')).toHaveText(label);}
+ await page.evaluate(()=>SynapseLanguage.set('en'));await page.getByRole('button',{name:'Property details',exact:true}).click();await expect(page.locator('#workspace')).toContainText('Home');
+});
 test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'kiraya-browser-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,DATABASE_PROVIDER:'sqlite',NODE_ENV:'test',PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe'],windowsHide:true});await new Promise((resolve,reject)=>{let out='';const timer=setTimeout(()=>reject(Error('Startup timeout: '+out)),20000);child.stdout.on('data',d=>{out+=d;const m=out.match(/localhost:(\d+)/);if(m){origin='http://127.0.0.1:'+m[1];clearTimeout(timer);resolve();}});child.stderr.on('data',d=>out+=d);child.once('error',reject);});});
 test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(r=>{child.once('exit',r);child.kill();});if(dir){const resolved=fs.realpathSync(dir),temp=fs.realpathSync(os.tmpdir());if(!resolved.startsWith(temp+path.sep))throw Error('Unsafe fixture cleanup');fs.rmSync(resolved,{recursive:true,force:true});}});
 async function open(page){await page.clock.install({time:new Date('2026-11-14T06:00:00Z')});await page.goto(origin+'/kiraya-saathi');await expect(page.locator('#workspace')).toHaveAttribute('aria-busy','false');}

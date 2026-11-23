@@ -13,7 +13,7 @@ export function studyPassage(sanskrit,meanings,language='hi'){
 }
 export const studyNote=language=>(copy[language]||copy.en).note;
 const make=(tag,text,cls,language)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(cls)node.className=cls;if(language)node.lang=language;return node;};
-// One predictable learning unit: original, reading aids, meaning. No nested disclosure.
+// Devanagari and meaning lead; alternate scripts are optional reading help.
 export function renderStudyPassage(sanskrit,meanings,language){
  const unit=studyPassage(sanskrit,meanings,language),t=copy[language]||copy.en,block=make('section',undefined,'verse-pair');
  block.append(make('p',unit.source,'mantra verse-text','sa-Deva'));
@@ -23,5 +23,7 @@ export function renderStudyPassage(sanskrit,meanings,language){
  }
  const meaning=make('div',undefined,'verse-meaning-block');
  meaning.append(make('span',unit.meaningLanguage==='hi'&&language!=='hi'?t.hindi:t.meaning,'verse-meaning-label'),make('p',unit.meaning,'verse-meaning',unit.meaningLanguage));
- block.append(aids,meaning);return block;
+ const help=make('details',undefined,'verse-reading-help');
+ help.append(make('summary',{en:'Roman / Gujarati reading help',hi:'रोमन / गुजराती पठन सहायता',gu:'રોમન / ગુજરાતી વાંચન સહાય'}[language]||'Roman / Gujarati reading help'),aids);
+ block.append(meaning,help);return block;
 }

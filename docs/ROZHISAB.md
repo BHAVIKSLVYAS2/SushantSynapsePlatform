@@ -5,6 +5,15 @@ with localized guidance. See the functionality ledger for verification/release.
 
 # RozHisab
 
+Service deletion (23 November 2026, local): Settings lists a Delete service action
+beside Edit. A localized confirmation names the service and explains removal of
+its deliveries, pauses, payments and opening balance. Cancel preserves all data;
+the existing revision-checked Undo can restore the immediate previous state.
+The engine refuses deletion while a frozen bill contains the service or a Home
+care schedule links to it. Reopen affected bills or remove the schedule's bill
+link first. Other services and Home care records are preserved. No migration,
+production-data operation or deployment is included in this follow-up.
+
 Route: `/rozhisab`. Tagline: Roz ka tick, mahine ka hisab.
 
 ## Ownership and privacy

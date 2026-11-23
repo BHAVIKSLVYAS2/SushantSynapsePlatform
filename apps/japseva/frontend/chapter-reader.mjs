@@ -22,15 +22,15 @@ export function mountChapterReader(host,mantra,language='en',{compact=false}={})
  const instructions=el('p','chapter-instructions');
  let learning=false;const pairs=el('div','chapter-verse-pairs verse-pairs learn-only'),review=el('p','chapter-meaning-review'),aidHeading=el(compact?'summary':'h4','learn-only'),aid=el('p','reading-aid learn-only'),reference=el('a','learn-only chapter-reference'),context=el('details','reading-context learn-only'),contextTitle=el('summary'),romanDetails=el('details','chapter-roman learn-only');aid.lang='sa-Latn';
  section.setAttribute('data-language-preserve','');status.role='status';text.lang='sa';previous.type=next.type='button';
- for(const key of ['hi','en','gu'])script.append(new Option('',key));const selected=positions.get(mantra.id+'-script')||restored.script;script.value=['hi','en','gu'].includes(selected)?selected:(lang==='gu'?'gu':'hi');
+ for(const key of ['hi','en','gu'])script.append(new Option('',key));script.value='hi';
  label.append(caption,select);scriptLabel.append(scriptCaption,script);nav.append(previous,status,next);meaningHeading.classList.add('learn-only');meaning.classList.add('learn-only');note.classList.add('learn-only');section.append(label,heading,scriptLabel,text,aidHeading,aid,meaningHeading,meaning,note,reference,nav);heading.tabIndex=-1;host.append(section);
  text.before(pairs);pairs.hidden=true;context.append(review);
- if(compact){romanDetails.append(aidHeading,aid);meaning.after(romanDetails);context.prepend(contextTitle);context.append(note,reference);nav.before(context);}
+ if(compact){romanDetails.append(aidHeading,aid);meaning.after(romanDetails);context.prepend(contextTitle);context.append(note,reference);nav.before(context);nav.remove();}
  function paint(){
   const t=copy[lang],chapter=mantra.chapters[position];
   if(!instructions.isConnected)text.before(instructions);instructions.textContent=chapter.instructions?.[lang]||'';instructions.lang=lang;instructions.hidden=!instructions.textContent;text.hidden=!chapter.text;
   select.value=String(position);previous.disabled=position===0;next.disabled=position===mantra.chapters.length-1;
-  status.textContent=`${position+1} / ${mantra.chapters.length}`;heading.textContent=chapter.titles?.[lang]||`${t[chapter.book]} · ${t.chapter} ${chapter.number}`;
+  status.textContent=`${position+1} / ${mantra.chapters.length}`;heading.textContent=chapter.titles?.hi||`${copy.hi[chapter.book]||t[chapter.book]} · ${copy.hi.chapter} ${chapter.number}`;heading.lang='hi';
   const key=script.value,convert=value=>key==='en'?romanize(cleanReadingText(value)):key==='gu'?gujaratiScript(cleanReadingText(value)):cleanReadingText(value),mapped=learning?chapterMeaningPairs(chapter):null;
   text.textContent=convert(chapter.text);text.lang=key==='en'?'sa-Latn':key==='gu'?'sa-Gujr':'sa-Deva';text.hidden=!chapter.text||!!mapped;pairs.hidden=!mapped;pairs.replaceChildren();
   if(mapped)pairs.replaceChildren(...mapped.map(verse=>renderStudyPassage(verse.sanskrit,verse.meaning,lang)));
@@ -44,12 +44,12 @@ export function mountChapterReader(host,mantra,language='en',{compact=false}={})
   writePreference('chapter:'+mantra.id,{position,script:script.value});
   try{sessionStorage.setItem('japseva-reader:'+mantra.id,JSON.stringify({position,script:script.value}));}catch{}
  }
- function move(value){if(!Number.isInteger(value)||value<0||value>=mantra.chapters.length)return;section.dispatchEvent(new CustomEvent('japseva-chapter-will-change',{bubbles:true}));const snapshot=capturePage(text),direction=value>=position?1:-1;position=value;paint();turnPage(text,direction,snapshot);heading.focus({preventScroll:true});const scroll=section.closest('.book-reader-scroll');if(scroll)scroll.scrollTop=0;else heading.scrollIntoView({block:'start',behavior:'auto'});section.dispatchEvent(new CustomEvent('japseva-chapter-change',{bubbles:true}));}
+ function move(value){if(!Number.isInteger(value)||value<0||value>=mantra.chapters.length)return;section.dispatchEvent(new CustomEvent('japseva-chapter-will-change',{bubbles:true,detail:{direction:value>=position?1:-1}}));const snapshot=compact?null:capturePage(text),direction=value>=position?1:-1;position=value;paint();if(!compact)turnPage(text,direction,snapshot);heading.focus({preventScroll:true});const scroll=section.closest('.book-reader-scroll');if(scroll)scroll.scrollTop=0;else heading.scrollIntoView({block:'start',behavior:'auto'});section.dispatchEvent(new CustomEvent('japseva-chapter-change',{bubbles:true}));}
  previous.onclick=()=>move(position-1);next.onclick=()=>move(position+1);select.onchange=()=>move(Number(select.value));script.onchange=paint;
  function translate(language){
   lang=copy[language]?language:'en';const t=copy[lang],chapterLabel=mantra.chapterLabel?.[lang]||t.chapter;caption.textContent=chapterLabel;select.setAttribute('aria-label',chapterLabel);scriptCaption.textContent=t.script;script.setAttribute('aria-label',t.script);previous.textContent=t.previous;next.textContent=t.next;meaningHeading.textContent=t.meaning;note.textContent=studyNote(lang)+' '+(mantra.readerNote?.[lang]||t.note);contextTitle.textContent={en:'About this reading',hi:'इस पाठ के बारे में',gu:'આ પાઠ વિશે'}[lang];
   for(const option of script.options)option.textContent=t[option.value];
-  select.replaceChildren();let group,book;mantra.chapters.forEach((chapter,index)=>{if(chapter.book!==book){book=chapter.book;group=el('optgroup');group.label=groupNames[book]?.[lang]||t[book]||chapterLabel;select.append(group);}group.append(new Option(chapter.titles?.[lang]||`${t[book]} · ${t.chapter} ${chapter.number}`,String(index)));});paint();
+  select.lang='hi';select.replaceChildren();let group,book;mantra.chapters.forEach((chapter,index)=>{if(chapter.book!==book){book=chapter.book;group=el('optgroup');group.label=groupNames[book]?.hi||copy.hi[book]||t[book]||chapterLabel;select.append(group);}group.append(new Option(chapter.titles?.hi||`${copy.hi[book]||t[book]} · ${copy.hi.chapter} ${chapter.number}`,String(index)));});paint();
  }
  translate(lang);return {element:section,translate,move,addContext(node){contextTitle.after(node);},setScript(value){if(['hi','en','gu'].includes(value)){script.value=value;paint();}},scriptControl(){return scriptLabel;},navigation(){return {position,total:mantra.chapters.length};},setLearning(value){if(learning===value)return;learning=value;paint();}};
 }
