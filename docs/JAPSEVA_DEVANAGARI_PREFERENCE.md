@@ -1,6 +1,6 @@
 # JapSeva Devanagari preference
 
-23 November 2026; local changes, not deployed in this follow-up.
+23 November 2026; included in deployed book-navigation release aa0261be.
 
 The user requested Devanagari in preference to Roman text. The audit found
 English-interface book titles, practice selectors and request headings using
@@ -36,5 +36,5 @@ labels/text, optional reading help, practice selector names and three interface
 languages. Mobile screenshot visually inspected; no page errors or mobile
 overflow. Ratna, no-login backup/PDF/certificate and complete Rudram browser
 regressions pass. Rudram's request-row assertion now uses its Devanagari name.
-Tests use isolated temporary DATA_DIR values and browser storage. No deployment
-or production business writes. See the functionality ledger for final results.
+Tests use isolated temporary DATA_DIR values and browser storage. Deployed with
+the book navigation release; no production business writes. See the ledger.

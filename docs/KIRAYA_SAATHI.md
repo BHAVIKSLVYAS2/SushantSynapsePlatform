@@ -9,11 +9,12 @@ A personal rent ledger for owners of flats, shops and homes. The user explicitly
 browser-only storage, no login and backups on 14 November 2026. This exception
 applies only to Kiraya Saathi; existing SQLite/D1 applications remain unchanged.
 
-Home property option (23 November 2026, local): property creation accepts `home`
+Home property option (23 November 2026, released with aa0261be): creation accepts `home`
 alongside existing `flat` and `shop` values. Cards, property details, tenancy
 ledgers and PDF receipts share the Home / घर / ઘર label. Validation and backup
 round trips support all three types without rewriting existing properties or
-changing rent, deposit or payment calculations. No migration or deployment.
+changing rent, deposit or payment calculations. No migration. Included in the
+verified book-navigation release; runtime and live evidence are in the ledger.
 
 ## Ownership and storage
 

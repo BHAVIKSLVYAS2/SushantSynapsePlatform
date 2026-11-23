@@ -1,4 +1,4 @@
-JapSeva book navigation (2026-11-23, release preparation): one shared bottom
+JapSeva book navigation (2026-11-23, deployed): one shared bottom
 Previous/Next pair replaces duplicate library/ritual controls. Corner arrow stays
 and shares a diagonal corner-peel animation with button navigation. Reverse turns,
 rapid taps, Contents cleanup and reduced motion are supported. Snapshot style
@@ -6,22 +6,31 @@ fixes prevent hidden headings and native Details fallback from appearing during
 motion. Forty-two focused Node checks pass; Chrome verifies the pair, animation,
 Ratna and backup/certificate behavior. Paused mobile turn visually inspected.
 Rudram's complete reader/practice regression also passes; its progress check now
-uses the sole shared footer. Final build and production evidence follow below.
+uses the sole shared footer. Build exports 765 assets. Implementation aa0261be
+deployed with --keep-vars as Worker f27115f6-578e-4438-8fde-7bbd534b9749.
+Live Chrome passes 34 checks: fifteen exact asset matches, home/health/protected
+API boundary, one pair, corner/reverse/reduced-motion behavior, Ratna, eight
+width/theme layouts, three interface languages, Hisabio loading and Kiraya Home
+option without saving. No page errors; mobile and paused-turn screenshots inspected.
+Organisation/auth/D1 and disabled Nishi settings preserved. Evidence:
+.publish/book-navigation-production-deploy.log, book-navigation-live.cjs and
+book-navigation-live.json. The release ledger is included in a documentation
+follow-up; its final Worker identifier is in book-navigation-documentation-deploy.log.
 Release also includes the session's Devanagari, Hisabio deletion and Kiraya Home
 updates below. No migrations or production business-data changes.
 Details: docs/JAPSEVA_BOOK_NAVIGATION.md.
 
-Kiraya Saathi Home option (2026-11-23, local): Flat and Shop now include Home
+Kiraya Saathi Home option (2026-11-23, released above): Flat and Shop now include Home
 as a third validated property type (`home`), displayed as Home / घर / ઘર.
 Creation, cards, property details, tenant ledger and PDF receipts share the
 correct type label; relevant instructions include homes. Existing records,
 billing rules and backup version are retained. Thirteen Node checks and all
 nine Kiraya Chrome workflows pass, including Home save/reload/translations,
 existing Flat/Shop PDF/payment/deposit workflows, backup, layouts, care and
-legacy upgrades. Frontend build passes (765 assets). No deployment, migration
-or production business writes. Details: docs/KIRAYA_SAATHI.md.
+legacy upgrades. Frontend build passes (765 assets). Included in the book release
+above; no migration or production business writes. Details: docs/KIRAYA_SAATHI.md.
 
-Hisabio service deletion (2026-11-23, local): Settings now provides Delete service
+Hisabio service deletion (2026-11-23, released above): Settings provides Delete service
 beside Edit, with an English/Hindi/Gujarati confirmation naming the service and
 explaining removal of its deliveries, pauses, payments and opening balance.
 Cancel writes nothing; the existing revision-checked Undo restores the immediate
@@ -30,10 +39,10 @@ schedules, preserves unrelated records and validates backup integrity. Offline
 cache version advances to v5. Eighteen Node checks and all eight Hisabio Chrome
 workflows pass, including confirm/cancel/delete/Undo/reload, translations/mobile,
 billing/closing, stale tabs, backup, offline restart, Home care and legacy upgrade.
-Frontend build passes (765 assets). No deployment, schema migration or actual
-user/production-data deletion. Ownership and behavior: docs/ROZHISAB.md.
+Frontend build passes (765 assets). Included in the book release above; no schema
+migration or actual user/production-data deletion. Ownership: docs/ROZHISAB.md.
 
-JapSeva Devanagari preference (2026-11-23, local): existing Devanagari names
+JapSeva Devanagari preference (2026-11-23, released above): Devanagari names
 now lead book titles, chapter labels, practice selectors/request headings and
 recording labels. Learn displays Devanagari then meaning; Roman/Gujarati aids
 are optional under closed reading help. Ratna follows the same hierarchy and
@@ -47,7 +56,7 @@ All-entry sweep checks chapter headings/text and three interface languages;
 mobile screenshot inspected, no page errors or overflow. The Rudram test now
 locates its request by the new Devanagari name. Full verification is recorded in
 JAPSEVA_DEVANAGARI_PREFERENCE.md.
-No deployment in this follow-up, database/schema or production business writes.
+Included in the book release above; no database/schema or production business writes.
 
 JapSeva Ratna Siddhi (2026-11-23, deployed): the existing Ratna entry
 now opens nine gemstone cards and individual five-step household guides. Each

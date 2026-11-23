@@ -32,3 +32,13 @@ Release scope includes this session's already-tested Devanagari preference,
 Hisabio delete-service confirmation, Kiraya Home option, and the previously
 deployed Ratna source that had not yet been committed. Production deploy keeps
 organisation/auth/D1 and disabled Nishi settings; no migrations or business writes.
+
+Implementation committed as aa0261be and deployed with --keep-vars as Worker
+f27115f6-578e-4438-8fde-7bbd534b9749. The final build exports 765 assets. Live
+Chrome passes 34 checks covering fifteen exact assets, health/home/protected API,
+navigation and animation, Ratna, eight responsive theme layouts, three languages,
+Hisabio loading and Kiraya's Home option. No page errors or business writes.
+Live mobile and paused-turn screenshots inspected. Evidence is under .publish:
+book-navigation-production-deploy.log, book-navigation-live.cjs and
+book-navigation-live.json. Release documentation is republished separately;
+the final runtime identifier is in book-navigation-documentation-deploy.log.
