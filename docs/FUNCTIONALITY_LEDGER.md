@@ -1,4 +1,4 @@
-Tournament Lite free browser mode (2026-11-23, local verified; deployment pending):
+Tournament Lite free browser mode (2026-11-23, deployed and scoped cleanup verified):
 user explicitly authorised removal of login/workspace/licensing and deletion of
 only Tournament Lite's old data. Public catalogue placement and browser-local
 fixture/scoring storage are implemented; no cloud saving or live viewer links.
@@ -9,7 +9,11 @@ scores/BYEs/corrections, PNG/JSON downloads, scheduling/standings, invalid dates
 separate browsers, stale tabs, quota failure and corrupt data preservation).
 Mobile screenshot inspected; frontend export passes with 769 assets.
 Production inspection found six events/six ownership rows and one Tournament
-licence/assignment. One-time deletion is prepared, not yet executed. Historical
+licence/assignment. The authorised one-time cleanup removed those events,
+ownership and Tournament-only licence/assignment/legacy access rows; all five
+post-cleanup counts are zero. A 79-table before/after count comparison found no
+unrelated count changes, including preserved 12 users, 23 records and three
+organisations. Historical
 schemas/audits/backups remain; no whole-platform DB deletion is authorised.
 See docs/TOURNAMENT_FREE_MODE.md for scope and limitations.
 Updated Workers/D1 and catalogue integration passes 11 checks, including the
@@ -17,6 +21,18 @@ real account browser workflow and other-app boundaries. Initial full-suite run
 was 627/634: old Tournament expectations/public-asset/count tests have been
 updated; two unrelated Vedic checks still fail (geolocation header expectation
 and Rashifal bundle size). These are recorded limitations, not passing checks.
+Updated Cloudflare delivery suite passes 7/7, including public Tournament without
+the old origin; free-mode/role checks pass 5/5 and Chrome workflows pass 5/5.
+Source e7bf03b6 plus reproducible-build fix 4845f8a6 deployed with --keep-vars as
+Worker 99562174-749a-4eb2-af24-792c07e0797e after a transient API timeout retry.
+Live Chrome passes 25 checks: four exact assets, public home placement, no-login
+create/score/champion/reload, no Tournament API traffic, old links/APIs retired,
+four widths, three themes, browser isolation, health and protected API boundary.
+No page errors; live mobile screenshot inspected. Evidence is under .publish/:
+tournament-free-deploy-retry.log, tournament-free-live.json,
+tournament-free-purge-result.json and tournament-free-counts-before/after.json.
+No migrations or bootstrap; organisation/auth/D1 and disabled Nishi settings
+preserved. This release evidence is a source-only documentation follow-up.
 
 JapSeva Reading settings repair (2026-11-23): the Ratna reader's nested mantra
 paragraphs were missing the book typography selector and stayed at 21px despite

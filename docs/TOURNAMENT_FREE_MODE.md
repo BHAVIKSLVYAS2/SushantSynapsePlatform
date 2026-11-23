@@ -40,3 +40,11 @@ BYEs, corrections, winner PNG and JSON downloads, reload/theme persistence,
 separate browser isolation, scheduling/standings, invalid dates, stale tabs,
 storage failures and corrupt data preservation. Mobile screenshot inspected.
 Release/deletion evidence is recorded in the functionality ledger.
+
+Production: deployed source e7bf03b6 + 4845f8a6 as Worker
+99562174-749a-4eb2-af24-792c07e0797e. Twenty-five live browser checks pass.
+The approved cleanup deleted six old events and six ownership rows; all
+Tournament event/ownership/licence/assignment/legacy-access counts are zero.
+Seventy-nine application tables were counted before/after, with no unrelated
+count changes. Twelve users, 23 records and three organisations remain. Shared
+audit history, empty historical tables and older backups are retained.
