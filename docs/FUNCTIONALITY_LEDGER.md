@@ -1,3 +1,14 @@
+JapSeva Reading settings repair (2026-11-23): the Ratna reader's nested mantra
+paragraphs were missing the book typography selector and stayed at 21px despite
+choosing 22–34px. They now share the same saved size and spacing as short/chapter
+readings, in Recite and Learn. Resizing cancels an active page-turn overlay before
+applying typography. Existing options/defaults, meanings and stored preferences
+are preserved. Eighteen Node checks, typography/settings Chrome (short/chapter/
+Ratna, Reset, reload persistence, resize during motion) and the single-navigation
+Chrome regression pass. Mobile screenshot inspected; frontend build passes with
+765 assets. Release evidence: .publish/reading-settings-production-deploy.log.
+No migrations or production business writes; navigation/corner behavior retained.
+
 JapSeva book navigation (2026-11-23, deployed): one shared bottom
 Previous/Next pair replaces duplicate library/ritual controls. Corner arrow stays
 and shares a diagonal corner-peel animation with button navigation. Reverse turns,

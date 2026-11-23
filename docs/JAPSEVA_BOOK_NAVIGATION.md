@@ -1,5 +1,12 @@
 # Mantra Library book navigation
 
+Reading settings correction (23 November 2026): the nested Ratna mantra paragraphs
+now use the existing book size/spacing variables; previously both selections left
+them at 21px. Controls retain their options/defaults and stored preferences.
+Changing typography cancels active page-turn overlays. Browser verification covers
+short readings, chapters, Ratna, Recite/Learn, Reset, reload and resize mid-turn.
+No navigation or stored-record changes. Release evidence is in the ledger.
+
 23 November 2026. User requested one Previous/Next pair, keeping the corner
 arrow and adding a page-turn effect that lifts from the corner.
 
