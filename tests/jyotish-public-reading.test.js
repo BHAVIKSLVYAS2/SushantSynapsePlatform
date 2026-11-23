@@ -1,6 +1,16 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const input={localDate:'2000-01-01',localTime:'12:15',placeId:'geonames:1261481',timeZoneId:'Asia/Kolkata',timeAccuracy:'exact',calculationProfileId:'IN_LAHIRI_DEFAULT_V1'},now=Date.parse('2026-11-23T06:00Z');
 const jargon=/चंद्र राशि से भाव|भाव \d|भावेश|गणना-बिंदु|पूर्ण-राशि|अस्त-सीमा|गोचर-संदर्भ|\dवें भाव/;
+test('unresolved evidence stays visible beside supportive outcomes and in the overview',async()=>{
+ const {publicRashiSections}=await import('../apps/rashifal-kundli/frontend/jyotish-public-reading.mjs');
+ const sections=['overall','work','money','relationships','wellbeing'].map(id=>({id,title:id,paragraphs:[{findingIds:['known','pending']}]}));
+ const counts=(supportive,uncertain)=>({supportive,uncertain,obstructed:0,'rule-unresolved':0});
+ const result=publicRashiSections(sections,[{id:'known',counts:counts(8,0)},{id:'pending',counts:counts(0,8)}]);
+ assert.equal(result[1].publicState,'support');assert.equal(result[1].publicUncertain,true);
+ assert.match(result[1].publicParagraphs[0].text,/अनिश्चित/);
+ assert.match(result[0].publicParagraphs[0].text,/अनिश्चित/);
+ assert.doesNotMatch(result[0].publicParagraphs[0].text,/तैयार बात को आगे/);
+});
 test('public natal interpretation is substantive, traceable and different from the technical placement list',async()=>{
  const {calculateBirthReport}=await import('../apps/rashifal-kundli/frontend/birth-report.mjs'),{buildJyotishIntelligence}=await import('../apps/rashifal-kundli/frontend/jyotish-intelligence.mjs');
  const careers=new Set();for(const hour of [0,4,8,12,16,20]){const model=buildJyotishIntelligence(calculateBirthReport({...input,localTime:String(hour).padStart(2,'0')+':15'},{now}));assert(model.quality.valid);const sections=model.sections.filter(s=>s.publicParagraphs.length);assert.equal(sections.length,12);for(const s of sections)for(const p of s.publicParagraphs){assert.doesNotMatch(p.text,jargon);assert(p.findingIds.length);assert(p.findingIds.every(id=>model.findings.some(f=>f.id===id)));}const career=sections.find(s=>s.id==='career');assert(career.publicParagraphs[0].text.length>120);assert.notEqual(career.publicParagraphs[0].text,career.paragraphs[0].text);careers.add(career.publicParagraphs.map(p=>p.text).join(' '));assert.equal(model.sections.find(s=>s.id==='stages').publicParagraphs.length,0);assert.equal(model.sections.find(s=>s.id==='conclusion').publicParagraphs.length,0);}

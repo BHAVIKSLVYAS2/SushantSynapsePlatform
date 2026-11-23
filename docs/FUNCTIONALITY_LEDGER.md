@@ -1,3 +1,12 @@
+Ritvayam reading double-check (2026-11-23): supportive general Rashifal evidence
+could mask other unresolved evidence. Public domain text now discloses uncertainty
+and the overview avoids calling those domains clearly supportive. Copy version
+invalidates old caches. Twenty-four targeted checks pass, plus the new mixed
+known/unresolved regression (four public-reading tests). Chrome public/Pandit,
+mobile themes, export, saved charts and sign-change checks pass. Independent
+Jyotish editorial review and richer individual interpretations remain pending;
+these checks do not certify prediction accuracy. Deployment recorded below.
+
 JapSeva all-reading Hindi meanings (2026-11-23 IST, released): all seven long
 collections now use exact-source Sanskrit → simple Hindi meaning passages.
 All 128 sections checked: 126 with Sanskrit mapped, two instruction-only Ratna
