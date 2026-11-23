@@ -1,4 +1,4 @@
-JapSeva Mantra Library Learn mode (2026-11-24 IST, local): each passage leads with
+JapSeva Mantra Library Learn mode (2026-11-24 IST, deployed): each passage leads with
 the original Sanskrit in Devanagari, then existing Devanagari pronunciation
 guidance where available, then a separately labelled meaning. Where only the
 source is available, reading help widens existing word spaces with sandhi and
@@ -11,9 +11,13 @@ Eighteen focused Node checks pass. Chrome verifies the passage order, default
 closed script aids, Gayatri source and audio controls, Rudram summary, Ratna
 guidance, Mahamrityunjaya word interaction and text-size persistence/reset.
 The bound book, all nine Ratna guides and complete Rudram workflows pass.
-Production deployment is pending.
+Source 7b75906f deployed with --keep-vars as Worker
+b1d60f4b-b35d-4b33-91a6-3a8a44c1aa94. All seven changed live assets match the
+production build. Three live Chrome workflows pass for Learn content and
+settings, page turns, and the shared book frame at 320px and 1280px.
+Live checks used public reads and browser-local preferences.
 
-JapSeva Mantra Library book layout (2026-11-24 IST, local): Contents and reading
+JapSeva Mantra Library book layout (2026-11-24 IST, deployed with Learn mode): Contents and reading
 now use the same bound-paper frame, numbered index entries and matching text
 margins. The single Previous/Next pair and page position sit inside the book,
 and backward turns mirror the corner fold. Reading size, spacing and saved
@@ -21,7 +25,7 @@ preferences still apply to short readings, chapters and Ratna in both modes.
 Eighteen focused Node checks pass. Chrome verifies the shared frame and focus
 return at 320px and 1280px, the 21 shared-theme layouts, typography persistence
 and reset, forward/reverse corner turns and reduced motion, and the full
-nine-gem Ratna workflow. Production deployment is pending.
+nine-gem Ratna workflow.
 
 Tournament Lite free browser mode (2026-11-23, deployed and scoped cleanup verified):
 user explicitly authorised removal of login/workspace/licensing and deletion of
