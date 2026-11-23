@@ -10,6 +10,7 @@ import {mountChapterReader} from './chapter-reader.mjs';
 import {mountBookReader} from './book-reader-shell.mjs';
 import {pujaSources} from './puja-text.mjs';
 import {romanize,gujaratiScript} from './script-aids.mjs';
+import {renderStudyPassage,studyNote} from './study-passage.mjs';
 const sameText=(a,b)=>String(a||'').normalize('NFC').replace(/[\s|\u00b7\u0964\u0965.,]+/gu,'')===String(b||'').normalize('NFC').replace(/[\s|\u00b7\u0964\u0965.,]+/gu,'');
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
 const rudramTitle={en:'Shri Rudram',hi:'श्री रुद्रम्',gu:'શ્રી રુદ્રમ્'};
@@ -50,13 +51,20 @@ export function mountCollection(learn,onSaved,onUse=()=>{}){
    cards.push({m,card,disclosure,body,use,pronunciationTitle,player,audioDisclosure,tools,credit,heading,meaningTitle,meaning,romanTitle,aidTitle,aid,audio,repeatLabel,speedLabel,speed,audioNote,session});
   }else{cards.push({m,card,disclosure,body,use,pronunciationTitle,heading,meaningTitle,meaning,romanTitle,aidTitle,aid,reader});}
  cards.at(-1).roman=roman;cards.at(-1).pronunciation=pronunciation;cards.at(-1).indexName=indexName;cards.at(-1).entryMeta=entryMeta;cards.at(-1).snippet=snippet;cards.at(-1).primaryText=text;
- if(!m.chapters&&m.verses?.length>1){const pairs=el('div',undefined,'verse-pairs learn-only');text.before(pairs);cards.at(-1).versePairs=pairs;}
+ if(!m.chapters){const pairs=el('div',undefined,'verse-pairs learn-only'),note=el('p',undefined,'study-note learn-only');text.before(pairs);copy.append(note);cards.at(-1).versePairs=pairs;cards.at(-1).studyNote=note;}
  }
  const contents=mountLibraryIndex(library,cards);
  const book=el('section',undefined,'mantra-book'),cover=el('header',undefined,'book-cover'),bookTitle=el('h2'),resume=el('button',undefined,'book-resume'),toolbar=el('nav',undefined,'book-toolbar'),back=el('button',undefined,'book-back'),readerTitle=el('h2'),footer=el('nav',undefined,'book-navigation'),previous=el('button'),next=el('button'),folio=el('span');
  bookTitle.lang='sa';book.setAttribute('data-language-preserve','');resume.type=back.type=previous.type=next.type='button';readerTitle.tabIndex=-1;folio.role='status';cover.append(bookTitle,resume);toolbar.append(back,readerTitle);footer.append(previous,folio,next);controls.before(book);book.append(cover,controls,empty,toolbar,library,footer,help);toolbar.hidden=footer.hidden=true;
  const modeLabel=el('label',undefined,'reading-mode'),modeRecite=el('span'),modeLearn=el('span'),mode=el('input');mode.type='checkbox';mode.setAttribute('role','switch');mode.checked=readPreference('learn',false)===true;try{if(sessionStorage.getItem('japseva-reading-learn')!==null)mode.checked=sessionStorage.getItem('japseva-reading-learn')==='true';}catch{}modeLabel.append(modeRecite,mode,modeLearn);toolbar.append(modeLabel);
- function paintMode(){book.classList.toggle('reading-learn',mode.checked);const t=modeCopy[language];modeRecite.textContent=t.recite;modeLearn.textContent=t.learn;mode.setAttribute('aria-label',t.label);for(const row of cards){row.reader?.setLearning(mode.checked);if(row.versePairs){const paired=mode.checked&&row.m.verses.every(v=>v.meaning[language]);row.card.classList.toggle('has-verse-pairs',!!paired);row.versePairs.hidden=!paired;if(paired){row.versePairs.replaceChildren(...row.m.verses.map(v=>{const block=el('section',undefined,'verse-pair'),text=el('p',script.value==='en'?romanize(v.sanskrit):script.value==='gu'?gujaratiScript(v.sanskrit):v.sanskrit,'mantra verse-text'),meaning=el('p',v.meaning[language],'verse-meaning');text.lang=script.value==='en'?'sa-Latn':script.value==='gu'?'sa-Gujr':'sa-Deva';meaning.lang=language;block.append(text,meaning);return block;}));}}}}
+ function paintMode(){
+  book.classList.toggle('reading-learn',mode.checked);const t=modeCopy[language];modeRecite.textContent=t.recite;modeLearn.textContent=t.learn;mode.setAttribute('aria-label',t.label);
+  for(const row of cards){row.reader?.setLearning(mode.checked);if(!row.versePairs)continue;
+   row.card.classList.toggle('has-verse-pairs',mode.checked);row.versePairs.hidden=!mode.checked;
+   row.pronunciation.hidden=true;row.studyNote.textContent=studyNote(language);
+   if(mode.checked&&row===activeReading&&row.studyLanguage!==language){row.studyLanguage=language;const verses=row.m.verses?.length>1?row.m.verses:[{sanskrit:row.m.text,meaning:row.m.meanings}];row.versePairs.replaceChildren(...verses.map(v=>renderStudyPassage(v.sanskrit,v.meaning,language)));}
+  }
+ }
  mode.onchange=()=>{paintMode();writePreference('learn',mode.checked);try{sessionStorage.setItem('japseva-reading-learn',String(mode.checked));}catch{}};
  const readerShell=mountBookReader({book,toolbar,library,footer,modeLabel,scriptLabel,back,onBack:showIndex,onAdvance:advance});
  let activeReading=null,lastRead=readPreference('last'),indexScroll=0;try{lastRead=sessionStorage.getItem('japseva-book-last')||lastRead;}catch{}

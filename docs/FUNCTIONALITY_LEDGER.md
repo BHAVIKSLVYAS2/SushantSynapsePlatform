@@ -1,3 +1,16 @@
+JapSeva Sanskrit-first Learn layout (2026-11-23, implementation): all 110 entries
+and 128 sections use one original / Roman+Gujarati aid / meaning hierarchy in Learn.
+The 1,715 displayed passages are audited in HI/EN/GU; source records remain intact.
+Reading aids no longer require an extra disclosure. The redundant Learn script
+picker is hidden; Recite keeps its picker. Eight missing Gujarati Gita/Bhagavata
+verse meanings now align to source locators. Complete long-book meanings remain
+honestly labelled Hindi; no certified pronunciation or new audio coverage claimed.
+Seventeen targeted tests pass. Chrome inspected all 110 entries and 128 sections,
+3,137 passage renderings, 72 mobile/theme/language cases, Recite scripts, reader
+settings and existing playback, with no page errors or horizontal overflow.
+Screenshots visually inspected. Deployment recorded after release verification.
+Details: docs/JAPSEVA_LEARNING_LAYOUT.md.
+
 Ritvayam reading double-check (2026-11-23): supportive general Rashifal evidence
 could mask other unresolved evidence. Public domain text now discloses uncertainty
 and the overview avoids calling those domains clearly supportive. Copy version

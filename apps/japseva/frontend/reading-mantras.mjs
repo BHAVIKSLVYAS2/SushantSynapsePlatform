@@ -22,11 +22,27 @@ const gu={
  narasimha:['નૃસિંહ મંત્ર','ઉગ્ર, વીર, તેજસ્વી અને સર્વદિશામાં મુખ ધરાવતા મહાવિષ્ણુ નૃસિંહને નમસ્કાર; તેઓ ભયાનક હોવા છતાં કલ્યાણકારી અને મૃત્યુના પણ મૃત્યુ છે.']
 };
 const topics={'ganesh-dhyana':'ganesha',durga:'durga',mahalakshmi:'lakshmi',ramayana:'rama','hanuman-kirtan':'hanuman','hanuman-manojavam':'hanuman','rama-raksha':'rama',bhagavata:'krishna','gita-four':'krishna','rama-name':'rama',mahabharata:'krishna',navagraha:'navagraha','bhagavata-four':'vishnu','surya-gayatri':'navagraha',guru:'guru','ganapati-atharvashirsha':'ganesha',narasimha:'vishnu'};
+// Original Gujarati editorial meanings, aligned by source locator rather than paragraph position.
+const guVerses={
+ 'gita-four':{
+  '10.8':'કૃષ્ણ પોતાને સર્વની ઉત્પત્તિનું મૂળ કહે છે. આ જાણીને જ્ઞાનીઓ ભાવપૂર્વક તેમનું ભજન કરે છે.',
+  '10.9':'તેમનામાં મન અને પ્રાણ પરોવનારા ભક્તો એકબીજાને સમજાવે છે અને તેમની ચર્ચામાં સંતોષ તથા આનંદ પામે છે.',
+  '10.10':'સતત પ્રેમપૂર્વક ભજન કરનારાઓને કૃષ્ણ એવો બુદ્ધિયોગ આપે છે જેના દ્વારા તેઓ તેમને પ્રાપ્ત કરે છે.',
+  '10.11':'કરુણાથી તેમના અંતરમાં રહીને તેઓ જ્ઞાનના પ્રકાશમાન દીપથી અજ્ઞાનનો અંધકાર દૂર કરે છે.'
+ },
+ 'bhagavata-four':{
+  '2.9.33':'ભગવાન સૃષ્ટિ પહેલાં, વર્તમાન જગતમાં અને પ્રલય પછી શેષ રહેતા પોતાના સ્વરૂપનું વર્ણન કરે છે.',
+  '2.9.34':'જે પરમ સત્યથી અલગ દેખાય અથવા તેને ઢાંકે, તેને માયા સમજવાનું કહેવાયું છે—જેમ આભાસ કે અંધકાર.',
+  '2.9.35':'જેમ મહાભૂતો નાના-મોટા જીવોમાં રહીને પણ તેમનાથી અલગ છે, તેમ ભગવાન સર્વમાં વ્યાપ્ત હોવા છતાં માત્ર તેમના સુધી સીમિત નથી.',
+  '2.9.36':'તત્ત્વના જિજ્ઞાસુએ અન્વય અને વ્યતિરેકથી તે સત્યને જાણવું જોઈએ જે દરેક સ્થાને અને દરેક સમયે રહેલું છે.'
+ }
+};
 export const readingAliases={mahamrityunjaya:'mahamrityunjaya',purnamadah:'purnamadah'};
 export const duplicateReferences=shlokas.filter(s=>readingAliases[s.id]).map(s=>({id:readingAliases[s.id],source:s.source}));
 export const readingMantras=shlokas.filter(s=>!readingAliases[s.id]).map(s=>{
  const text=s.verses.map(v=>v.sanskrit).join('\n\n'),roman=romanize(text);
- return {id:'reading-'+s.id,name:s.title.en,text,transliteration:roman,pronunciation:roman,verses:s.verses,
+ const verses=s.verses.map(v=>({...v,meaning:{...v.meaning,gu:v.meaning.gu||guVerses[s.id]?.[v.locator]||(s.verses.length===1?gu[s.id][1]:undefined)}}));
+ return {id:'reading-'+s.id,name:s.title.en,text,transliteration:roman,pronunciation:roman,verses,
  names:{en:s.title.en,hi:s.title.hi,gu:gu[s.id][0]},
  meanings:{en:s.verses.map(v=>v.meaning.en).join('\n\n'),hi:s.verses.map(v=>v.meaning.hi).join('\n\n'),gu:gu[s.id][1]},
  aids:{en:roman,hi:text,gu:gujaratiScript(text)},meaning:s.verses.map(v=>v.meaning.en).join('\n\n'),

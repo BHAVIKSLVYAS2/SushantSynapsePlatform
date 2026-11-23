@@ -1,9 +1,18 @@
 /* The existing library becomes the reader; platform tokens and records remain shared. */
 #main .verse-pairs[hidden]{display:none!important}
-#main .reading-learn .has-verse-pairs .learning-copy>.mantra,#main .reading-learn .has-verse-pairs .learning-copy>h4.learn-only,#main .reading-learn .has-verse-pairs .learning-copy>p.learn-only{display:none}
+#main .reading-learn .has-verse-pairs .learning-copy>.mantra,#main .reading-learn .has-verse-pairs .learning-copy>h4.learn-only,#main .reading-learn .has-verse-pairs .learning-copy>p.learn-only:not(.study-note){display:none}
 #main .verse-pair{margin:18px 0 28px;padding:0;border:0;background:transparent}
 #main .verse-pair .verse-text{font-family:'Nirmala UI','Kohinoor Devanagari',serif;font-size:var(--reading-size,26px);line-height:var(--reading-spacing,2.05);white-space:pre-line;overflow-wrap:break-word;margin:0 0 12px}
 #main .verse-pair .verse-meaning{font-size:16px;line-height:1.9;white-space:pre-line;margin:0;color:var(--ui-ink)}
+#main .verse-pronunciation{margin:0 0 14px;display:grid;gap:8px;font-size:15px;line-height:1.85;overflow-wrap:anywhere}
+#main .verse-pronunciation>div{display:grid;grid-template-columns:62px minmax(0,1fr);gap:10px;align-items:baseline}
+#main .verse-pronunciation dt{font-size:11px;color:var(--ui-muted);font-weight:500}
+#main .verse-pronunciation dd{margin:0;white-space:pre-line;color:var(--ui-ink)}
+#main .verse-meaning-block{border-inline-start:2px solid var(--ui-edge);padding-inline-start:12px}
+#main .verse-meaning-label{display:block;font-size:11px;color:var(--ui-muted);margin:0 0 2px}
+#main .study-note{font-size:12px;line-height:1.8;color:var(--ui-muted);margin:20px 0 0}
+#main .reading-learn .book-control-row>label:not(.reading-mode){display:none!important}
+#main .reading-learn .has-verse-pairs .library-pronunciation{display:none!important}
 #main #learn .book-reading .chapter-reader>.chapter-verse-pairs{order:1}
 #main .chapter-meaning-review{font-size:12px;line-height:1.8;color:var(--ui-muted)}
 body.japseva-book-open{overflow:hidden}

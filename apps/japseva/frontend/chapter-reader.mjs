@@ -2,6 +2,7 @@ import {readPreference,writePreference} from './reader-preferences.mjs';
 import {romanize,gujaratiScript} from './script-aids.mjs';
 import {capturePage,turnPage} from './book-motion.mjs';
 import {chapterMeaningPairs,cleanReadingText} from './chapter-meanings.mjs';
+import {renderStudyPassage,studyNote} from './study-passage.mjs';
 export {turnPage} from './book-motion.mjs';
 const positions=new Map(); // Reading preferences only; never a japa count.
 function saved(id){try{return JSON.parse(sessionStorage.getItem('japseva-reader:'+id))||readPreference('chapter:'+id,{});}catch{return readPreference('chapter:'+id,{});}}
@@ -32,9 +33,10 @@ export function mountChapterReader(host,mantra,language='en',{compact=false}={})
   status.textContent=`${position+1} / ${mantra.chapters.length}`;heading.textContent=chapter.titles?.[lang]||`${t[chapter.book]} · ${t.chapter} ${chapter.number}`;
   const key=script.value,convert=value=>key==='en'?romanize(cleanReadingText(value)):key==='gu'?gujaratiScript(cleanReadingText(value)):cleanReadingText(value),mapped=learning?chapterMeaningPairs(chapter):null;
   text.textContent=convert(chapter.text);text.lang=key==='en'?'sa-Latn':key==='gu'?'sa-Gujr':'sa-Deva';text.hidden=!chapter.text||!!mapped;pairs.hidden=!mapped;pairs.replaceChildren();
-  if(mapped)for(const verse of mapped){const block=el('section','verse-pair'),sanskrit=el('p','mantra verse-text'),arth=el('p','verse-meaning');sanskrit.textContent=convert(verse.sanskrit).trim().replace(/\n[ \t]*\n+/g,'\n');sanskrit.lang=text.lang;arth.textContent=verse.meaning.hi;arth.lang='hi';block.append(sanskrit,arth);pairs.append(block);}
-  aidHeading.textContent=aidCopy[lang];aid.textContent=learning&&key!=='en'?romanize(chapter.text):'';aidHeading.hidden=aid.hidden=!learning||key==='en';
-  romanDetails.hidden=!learning||key==='en';
+  if(mapped)pairs.replaceChildren(...mapped.map(verse=>renderStudyPassage(verse.sanskrit,verse.meaning,lang)));
+  // Reading aids are aligned to each source passage above, not repeated as a hidden chapter appendix.
+  aidHeading.hidden=aid.hidden=romanDetails.hidden=true;
+
   meaningHeading.textContent=chapter.text?summaryCopy[lang]:{en:'About this step',hi:'इस चरण के बारे में',gu:'આ પગલાં વિશે'}[lang];meaning.textContent=chapter.meanings[lang];meaning.lang=lang;meaningHeading.hidden=meaning.hidden=!!mapped;
   review.textContent={en:'Simple Hindi meanings · AI-assisted editorial draft; independent Sanskrit/Hindi review pending. These are not a Gita Press translation. Traditional benefits are statements within the text, not guarantees.',hi:'सरल हिन्दी अर्थ · AI-सहायित संपादकीय प्रारूप; स्वतंत्र संस्कृत/हिन्दी समीक्षा लंबित। ये गीता प्रेस का अनुवाद नहीं हैं। फलश्रुतियाँ ग्रन्थ के कथन हैं, परिणाम की गारंटी नहीं।',gu:'સરળ હિન્દી અર્થ · AI-સહાયિત સંપાદકીય પ્રારૂપ; સ્વતંત્ર સંસ્કૃત/હિન્દી સમીક્ષા બાકી. આ ગીતા પ્રેસનો અનુવાદ નથી. ફલશ્રુતિ ગ્રંથનાં કથન છે, પરિણામની ખાતરી નહીં.'}[lang];review.hidden=!chapterMeaningPairs(chapter);
   const source=chapter.sourceUrl||mantra.sourceUrl;reference.hidden=!source;reference.textContent={en:'Read the source edition',hi:'स्रोत संस्करण पढ़ें',gu:'સ્રોત આવૃત્તિ વાંચો'}[lang];if(source&&/^https:\/\//.test(source))reference.href=source;else reference.removeAttribute('href');
@@ -45,7 +47,7 @@ export function mountChapterReader(host,mantra,language='en',{compact=false}={})
  function move(value){if(!Number.isInteger(value)||value<0||value>=mantra.chapters.length)return;section.dispatchEvent(new CustomEvent('japseva-chapter-will-change',{bubbles:true}));const snapshot=capturePage(text),direction=value>=position?1:-1;position=value;paint();turnPage(text,direction,snapshot);heading.focus({preventScroll:true});const scroll=section.closest('.book-reader-scroll');if(scroll)scroll.scrollTop=0;else heading.scrollIntoView({block:'start',behavior:'auto'});section.dispatchEvent(new CustomEvent('japseva-chapter-change',{bubbles:true}));}
  previous.onclick=()=>move(position-1);next.onclick=()=>move(position+1);select.onchange=()=>move(Number(select.value));script.onchange=paint;
  function translate(language){
-  lang=copy[language]?language:'en';const t=copy[lang],chapterLabel=mantra.chapterLabel?.[lang]||t.chapter;caption.textContent=chapterLabel;select.setAttribute('aria-label',chapterLabel);scriptCaption.textContent=t.script;script.setAttribute('aria-label',t.script);previous.textContent=t.previous;next.textContent=t.next;meaningHeading.textContent=t.meaning;note.textContent=mantra.readerNote?.[lang]||t.note;contextTitle.textContent={en:'About this reading',hi:'इस पाठ के बारे में',gu:'આ પાઠ વિશે'}[lang];
+  lang=copy[language]?language:'en';const t=copy[lang],chapterLabel=mantra.chapterLabel?.[lang]||t.chapter;caption.textContent=chapterLabel;select.setAttribute('aria-label',chapterLabel);scriptCaption.textContent=t.script;script.setAttribute('aria-label',t.script);previous.textContent=t.previous;next.textContent=t.next;meaningHeading.textContent=t.meaning;note.textContent=studyNote(lang)+' '+(mantra.readerNote?.[lang]||t.note);contextTitle.textContent={en:'About this reading',hi:'इस पाठ के बारे में',gu:'આ પાઠ વિશે'}[lang];
   for(const option of script.options)option.textContent=t[option.value];
   select.replaceChildren();let group,book;mantra.chapters.forEach((chapter,index)=>{if(chapter.book!==book){book=chapter.book;group=el('optgroup');group.label=groupNames[book]?.[lang]||t[book]||chapterLabel;select.append(group);}group.append(new Option(chapter.titles?.[lang]||`${t[book]} · ${t.chapter} ${chapter.number}`,String(index)));});paint();
  }

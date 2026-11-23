@@ -1,0 +1,27 @@
+import {romanize,gujaratiScript} from './script-aids.mjs';
+import {cleanReadingText} from './chapter-meanings.mjs';
+
+const copy={
+ en:{roman:'Roman',gujarati:'Gujarati',meaning:'Meaning',hindi:'Meaning · Hindi',note:'Roman and Gujarati are script-based reading aids, not translations or a recording. Vedic pitch accents and teacher pronunciation review are not included.'},
+ hi:{roman:'रोमन',gujarati:'गुजराती',meaning:'अर्थ',hindi:'अर्थ · हिंदी',note:'रोमन और गुजराती उसी पाठ की लिपि-सहायता हैं, अनुवाद या रिकॉर्डिंग नहीं। इनमें वैदिक स्वर और शिक्षक द्वारा उच्चारण की समीक्षा शामिल नहीं है।'},
+ gu:{roman:'રોમન',gujarati:'ગુજરાતી',meaning:'અર્થ',hindi:'અર્થ · હિન્દી',note:'રોમન અને ગુજરાતી એ જ પાઠની લિપિ-સહાય છે, અનુવાદ કે રેકોર્ડિંગ નથી. તેમાં વૈદિક સ્વર અને શિક્ષક દ્વારા ઉચ્ચારની સમીક્ષા સામેલ નથી.'}
+};
+export function studyPassage(sanskrit,meanings,language='hi'){
+ const source=cleanReadingText(sanskrit).trim().replace(/\n[ \t]*\n+/g,'\n');
+ const meaningLanguage=meanings[language]?.trim()?language:['hi','en','gu'].find(key=>meanings[key]?.trim());
+ return {source,roman:romanize(source),gujarati:gujaratiScript(source),meaning:meanings[meaningLanguage]||'',meaningLanguage};
+}
+export const studyNote=language=>(copy[language]||copy.en).note;
+const make=(tag,text,cls,language)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(cls)node.className=cls;if(language)node.lang=language;return node;};
+// One predictable learning unit: original, reading aids, meaning. No nested disclosure.
+export function renderStudyPassage(sanskrit,meanings,language){
+ const unit=studyPassage(sanskrit,meanings,language),t=copy[language]||copy.en,block=make('section',undefined,'verse-pair');
+ block.append(make('p',unit.source,'mantra verse-text','sa-Deva'));
+ const aids=make('dl',undefined,'verse-pronunciation');
+ for(const [label,value,lang]of [[t.roman,unit.roman,'sa-Latn'],[t.gujarati,unit.gujarati,'sa-Gujr']]){
+  const row=make('div');row.append(make('dt',label),make('dd',value,undefined,lang));aids.append(row);
+ }
+ const meaning=make('div',undefined,'verse-meaning-block');
+ meaning.append(make('span',unit.meaningLanguage==='hi'&&language!=='hi'?t.hindi:t.meaning,'verse-meaning-label'),make('p',unit.meaning,'verse-meaning',unit.meaningLanguage));
+ block.append(aids,meaning);return block;
+}
