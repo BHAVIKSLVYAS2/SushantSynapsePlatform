@@ -12237,3 +12237,18 @@ Rebuilt mobile Chrome review passes nine width/theme cases and saved-data,
 navigation, three-language fallback, export and sign-change checks. Existing
 Phaladeepika chapter 26 source rechecked; independent editorial/Jyotish review
 and predictive accuracy are not established. Deployment recorded below.
+Ritvayam combined Hindi reading (2026-11-23, local verification): main chapters
+now lead with topic-specific conclusions combining admitted D1 ownership,
+occupancy and classical full aspects, sign dignity, admitted D9 context,
+current dasha links and a real current natal-Moon-relative transit snapshot.
+Support, mixed evidence and review categories are editorial, never probabilities.
+Overview/conclusion avoid duplicating a primary house as independent evidence.
+Future periods retain their actual boundaries and do not reuse current transits
+as future event predictions. Health remains explicitly non-diagnostic; no disease
+likelihood, risk percentage or reassurance is invented. Current reference/time,
+period-topic links and combined factors are independently recomputed by validation.
+Unknown times/nominal previews remain withheld; Hindi exports share the chapters.
+Sixteen targeted tests pass. Full Shadbala, qualified Yoga/Dosha, motion/combustion
+qualifications and continuous event timing remain unavailable. Independent
+traditional/Hindi review is pending; no predictive-accuracy percentage is claimed.
+Details: docs/RITVAYAM_CONTENT_INTELLIGENCE.md. Deployment status recorded below.

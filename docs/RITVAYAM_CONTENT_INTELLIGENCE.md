@@ -1,6 +1,66 @@
 # Ritvayam content intelligence audit
 
-2026-11-23. Audit before implementation.
+2026-11-23. Audit and implementation history. The latest capability status below
+supersedes the earlier audit's narrower D1/seventh-aspect-only boundary.
+
+## Combined natal and period reading (2026-11-23)
+
+Hindi chapters now lead with an original topic-specific conclusion instead of
+concatenated placements. A pure app-owned synthesis module combines admitted D1
+ownership/occupancy, classical full whole-sign aspects (including Mars/Jupiter/
+Saturn), own/exalted/debilitated signs, admitted D9 dignity and same-sign D1/D9
+comparison, mutual sign exchange geometry, and actual major/sub-period links.
+Rahu/Ketu receive no invented special-aspect or dignity convention. Sign dignity
+is not full Shadbala; exchange geometry is not a qualified Yoga verdict.
+
+Current transits are calculated at the report's explicit timestamp with the
+existing sidereal engine, relative to the admitted stable natal Moon. Existing
+transit/vedha rules are reused without modification; no manually chosen general
+Rashi report is substituted. Each row also retains the natal-Lagna sign count in
+the technical appendix. Missing stable D1/Moon, unsupported dates or unavailable
+calculation withhold this input. A bounded 12-snapshot memory cache contains no
+identity. Preview D9/D1 never enter synthesis.
+
+The combined judgement separates natal-only, active-but-ungraded, current support,
+review and mixed evidence. Current support requires a direct period relationship
+and a supportive current transit of the topic's primary ruler; it never follows
+from a good transit alone. Conflicting dignity/D9/transit factors remain mixed.
+These are declared editorial categories, not probability or complete strength.
+Period topics are ordered by declared ownership/occupancy/aspect relevance, not
+predictive confidence. The overview and conclusion avoid repeating the same
+primary house as several independent headline factors. Future period summaries
+use their own lords and exact computed boundaries; the current transit snapshot
+is never extended across a future period or labelled continuous event timing.
+
+The health chapter explains habits/routine symbolism and explicitly states that
+specific disease likelihood, risk percentages and freedom from disease cannot
+be derived. It does not convert a sixth-house contact into a medical assessment.
+No clinical diagnosis or treatment recommendation is generated.
+
+Evidence validation recomputes full aspects, synthesis factors, period-topic
+connections and transit classification/reference/time from the supplied snapshot.
+Forged context and clinical prediction phrases fail validation. The same validated
+chapters reach the on-screen reading and Hindi export. No remote AI calls, birth
+data transfer, schema migration or saved-record mutation.
+
+Verification: 16 targeted tests pass, covering hand-checked full-aspect/dignity
+reference cases, competing D9 evidence, supportive versus obstructed current
+signals, exact dasha boundaries, all 12 general Rashis, multiple birth charts,
+unknown/approximate time, withheld previews, forged evidence and export parity.
+These are software checks, not external acceptance of predictive accuracy.
+
+Still not implemented in this reading: complete Shadbala, qualified Yoga/Dosha
+and cancellation judgements, retrograde/combustion qualifications, D10/D16-based
+life-outcome synthesis, continuous personal event windows, monthly/yearly general
+Rashifal, independent traditional/Hindi review and English/Gujarati synthesis
+parity. The earlier Lal Kitab/KP/Varshaphal/36-year backlog remains deferred.
+The original astronomy engine and existing English/Gujarati fallback are retained.
+
+Rule comparison: Phaladeepika chapter 1 sign dignity and full-aspect convention,
+chapter 3 divisional context, and the existing chapter 26 transit table. Source:
+https://www.panchanga.lv/wp-content/uploads/2020/06/Phaladipika_Shri-Mantreswara.pdf
+Modern topic prose and combined editorial categories are authored here; they are
+not claimed to be translations, externally reviewed rules or medical evidence.
 
 ## Current flow and root cause
 

@@ -190,6 +190,7 @@ fieldset.civil-input,.vedic-matching fieldset.civil-input{min-width:0;margin:0;p
 .jyotish-granth a{display:inline-block;min-height:44px;align-content:center;color:var(--ui-accent);font-size:14px;line-height:1.7;overflow-wrap:anywhere}
 .jyotish-granth .jyotish-basis-link{font-size:12px}
 .jyotish-granth .jyotish-chapter .jyotish-related{font-size:13px;line-height:1.7;color:var(--ui-muted)}
+.jyotish-granth .jyotish-chapter [data-reading-role=conclusion]{font-weight:600}
 .jyotish-granth .jyotish-appendix{border-top:1px solid var(--ui-edge);padding-top:16px}
 .jyotish-granth .jyotish-appendix p{font-size:14px;line-height:1.85;overflow-wrap:anywhere}
 .jyotish-granth .jyotish-appendix>section{scroll-margin-top:calc(var(--shell-height,72px) + 160px)}
