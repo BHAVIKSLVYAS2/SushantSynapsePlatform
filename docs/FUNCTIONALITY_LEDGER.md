@@ -1,3 +1,15 @@
+JapSeva Suno recording handoff (2026-11-24 IST, local): the UTF-8 master text
+maps all 110 library entries to 230 recording tracks or chapter parts in 33
+Suno batches, down from 54. Gayatri occupies three consecutive batches with
+62 tracks, and all 20 Naam Mantras share one batch. B001–B032 form the initial
+recording queue; B033 is optional and holds three Ek Shloki and two Chatushloki
+readings. Regrouping preserves all 230 track IDs and lyric texts. Ten Ratna duplicates reuse
+the matching Ganesha or Navagraha recordings. A local Python splitter passed
+synthetic three-, five- and 20-track WAV checks and refused to write outputs when an
+expected pause was missing. Suno-generated pronunciation,
+actual silence behavior and the FFmpeg MP3 path remain unverified. No generated
+audio has been published to JapSeva.
+
 JapSeva continuous Mantra Library book (2026-11-24 IST, deployed): Contents, short
 readings and chapter readings share a single-column typesetting grid, paper
 binding, text margins and title styling. Page controls follow visible Contents
