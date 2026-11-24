@@ -50,18 +50,10 @@ test('fullstack delivery injects global AdSense only on eligible anonymous publi
  }
 });
 
-test('homepage uses the shared Arena sculpture and retains favicon assets',async()=>{
- const {staticAssets}=require('../server/static-assets'),{apps,renderCard}=require('../packages/app-registry');
- const home=renderCard(apps.find(app=>app.id==='satire-arena'));
- assert.match(home,/<use href="#home-art-satire"><\/use>/);
- assert.doesNotMatch(home,/cartoon-cast|<img/);
+test('retired Arena assets are absent and favicon remains registered',()=>{
+ const {staticAssets}=require('../server/static-assets');
  assert.equal(staticAssets['/favicon.svg'],'apps/portal/frontend/favicon.svg');
- assert.equal(staticAssets['/satire-arena/cartoon-cast-384.webp'],'apps/satire-arena/frontend/cartoon-cast-384.webp');
- for(const name of ['anchors','actors','corporates'])assert.equal(staticAssets[`/satire-arena/${name}-expressions-fast.webp`],`apps/satire-arena/frontend/${name}-expressions-fast.webp`);
- const large=fs.statSync(path.join(__dirname,'../apps/satire-arena/frontend/cartoon-cast-768.webp')).size;
- const small=fs.statSync(path.join(__dirname,'../apps/satire-arena/frontend/cartoon-cast-384.webp')).size;
- assert.ok(large<40000,`Optimized desktop illustration is ${large} bytes`);
- assert.ok(small<15000,`Mobile illustration is ${small} bytes`);
+ assert.ok(!Object.keys(staticAssets).some(path=>path.startsWith('/satire-arena')));
 });
 
 test('versioned static responses preserve validators and never cache missing assets or writes',async()=>{

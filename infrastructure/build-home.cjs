@@ -6,7 +6,6 @@ function buildHome(){
  require('../apps/batchfee-lite/build.cjs').build();
  require('./build-language.cjs').buildLanguage();
  require('../apps/rashifal-kundli/build.cjs').build();
- require('../apps/satire-arena/build-entry.cjs').buildArenaEntry();
  require('./build-catalogue.cjs').buildCatalogue();
  const files=['apps/portal/frontend/platform.css','packages/ui/platform-header.css','packages/ui/legal-footer.css','packages/ui/whatsapp.css','packages/ui/premium.bundle.css','apps/portal/frontend/home.css','apps/rashifal-kundli/frontend/location-control.css','packages/ui/platform-shell.css'];
  const source=files.map(file=>fs.readFileSync(path.join(root,file),'utf8')).join('\n');

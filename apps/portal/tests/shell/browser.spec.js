@@ -18,7 +18,7 @@ test.beforeEach(async()=>{
 test.afterEach(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
 test('theme icons stay within their control and apart from account at every width',async({page})=>{
  const {setTheme}=require('../../../../tests/browser-theme');
- for(const route of ['/','/take-a-break','/picksy','/satire-arena']){
+ for(const route of ['/','/take-a-break','/picksy']){
   await page.goto(base+route);
   for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:900});for(const theme of ['light','dark']){
    await setTheme(page,theme);
@@ -87,7 +87,7 @@ test('account initials handle Unicode and auth outages without breaking public t
 
 test('platform frame persists across public apps with usable mobile switching',async({page})=>{
  test.setTimeout(300000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
- const routes=['/','/signin','/moment-studio','/moment-studio/cards','/ritual-assist','/ritual-assist/calendar','/timetable-lite','/satire-arena','/take-a-break','/take-a-break?game=24','/picksy','/team-mixer','/support','/contact','/privacy','/terms','/legal/third-party-notices'];
+ const routes=['/','/signin','/moment-studio','/moment-studio/cards','/ritual-assist','/ritual-assist/calendar','/timetable-lite','/take-a-break','/take-a-break?game=24','/picksy','/team-mixer','/support','/contact','/privacy','/terms','/legal/third-party-notices'];
  for(const route of routes){
   await page.goto(base+route,{waitUntil:'domcontentloaded'});await expect(page.locator('.platform-shell')).toHaveCount(1);
   for(const width of [320,390,768,1440]){

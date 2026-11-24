@@ -9,7 +9,7 @@ const owners=[
  ['tournament','apps/tournament-lite/database',['001-initial.sql']],
  ['news','packages/database/retired/news',['001-editions.sql','002-fetch-budget.sql']],
  ['fundlens','packages/database/retired/fund-lens',['001-portfolio.sql']],
- ['satire','apps/satire-arena/database',['001-arena.sql','002-expanded-arena.sql','003-nine-character-arena.sql','004-highway-budget.sql','005-speakers.sql','006-news-anchors.sql','007-spotlight-arenas.sql','008-workweek-corporates.sql']],
+ ['satire','packages/database/retired/satire-arena',['001-arena.sql','002-expanded-arena.sql','003-nine-character-arena.sql','004-highway-budget.sql','005-speakers.sql','006-news-anchors.sql','007-spotlight-arenas.sql','008-workweek-corporates.sql']],
  ['pandit','apps/pandit-booking/database',['001-initial.sql']],
 ];
 function splitSql(value){

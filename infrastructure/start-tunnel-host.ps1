@@ -10,7 +10,7 @@ Set-Location -LiteralPath $releasePath
 if (-not $RuntimeConfig) { $RuntimeConfig = Join-Path $platformRoot 'data/local-host.json' }
 if (Test-Path -LiteralPath $RuntimeConfig) {
     $hostSettings = Get-Content -LiteralPath $RuntimeConfig -Raw | ConvertFrom-Json
-    $allowedSettings = @('DATABASE_PROVIDER','SQLSERVER_SERVER','SQLSERVER_DATABASE','SQLSERVER_AUTH','SQLSERVER_LOCAL_INSTANCE','SQLSERVER_TRUST_CERTIFICATE','SQLSERVER_PORT','SQLSERVER_AUTO_MIGRATE','SQLSERVER_USER','SQLSERVER_PASSWORD','AZURE_CLIENT_ID','ARENA_COOKIE_SECRET','ARENA_PROXY_SECRET')
+    $allowedSettings = @('DATABASE_PROVIDER','SQLSERVER_SERVER','SQLSERVER_DATABASE','SQLSERVER_AUTH','SQLSERVER_LOCAL_INSTANCE','SQLSERVER_TRUST_CERTIFICATE','SQLSERVER_PORT','SQLSERVER_AUTO_MIGRATE','SQLSERVER_USER','SQLSERVER_PASSWORD','AZURE_CLIENT_ID')
     foreach ($setting in $hostSettings.PSObject.Properties) {
         if ($allowedSettings -notcontains $setting.Name -or $setting.Value -isnot [string]) { throw 'Invalid protected runtime configuration' }
         [Environment]::SetEnvironmentVariable($setting.Name,$setting.Value,'Process')

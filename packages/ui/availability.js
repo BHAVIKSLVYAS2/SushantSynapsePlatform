@@ -64,12 +64,11 @@
   window.fetch = async (input, options) => {
     const url = new URL(typeof input === 'string' || input instanceof URL ? input : input.url, location.href);
     const supportHandlesOutages = /^\/support\/?$/.test(location.pathname) && ['/api/support','/api/platform/support','/api/auth/status'].includes(url.pathname);
-    const arenaHandlesOutages = url.pathname === '/api/satire-arena' || url.pathname.startsWith('/api/satire-arena/');
     // Passive chrome is not evidence that the current public tool is offline.
     // Its counter has its own unavailable label; sign-in/private pages still warn.
-    const publicPage = /^\/(?:showcase|support|contact|privacy|terms|legal|qr-maker|photo-resize|bill-splitter|focus|timetable-lite|ritual-assist|moment-studio|take-a-break|picksy|team-mixer|satire-arena)(?:\/|$)/.test(location.pathname) && location.pathname !== '/satire-arena/editor';
+    const publicPage = /^\/(?:showcase|support|contact|privacy|terms|legal|qr-maker|photo-resize|bill-splitter|focus|timetable-lite|ritual-assist|moment-studio|take-a-break|picksy|team-mixer)(?:\/|$)/.test(location.pathname);
     const passiveChrome = url.pathname === '/api/platform/visitors' || (publicPage && url.pathname === '/api/auth/status');
-    const backend = !passiveChrome && !arenaHandlesOutages && !supportHandlesOutages && url.origin === location.origin && (url.pathname.startsWith('/api/') || url.pathname === '/healthz');
+    const backend = !passiveChrome && !supportHandlesOutages && url.origin === location.origin && (url.pathname.startsWith('/api/') || url.pathname === '/healthz');
     try { const response = await nativeFetch(input, options); if (backend && response.status >= 500) show(); return response; }
     catch (error) { if (backend && error.name !== 'AbortError') show(); throw error; }
   };

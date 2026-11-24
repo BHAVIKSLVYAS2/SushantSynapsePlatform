@@ -1,8 +1,8 @@
 import adsense from '../../packages/ui/adsense.cjs';
 import vedicPrivacy from '../../apps/rashifal-kundli/privacy.cjs';
 import pages from './pages.json' with {type: 'json'};
-import {cloudPages} from '../../apps/satire-arena/backend/cloud-pages.mjs';
-const independent = new Set(['/qr-maker','/qr-maker/','/photo-resize','/photo-resize/','/bill-splitter','/bill-splitter/','/satire-arena','/satire-arena/','/privacy', '/privacy/', '/terms', '/terms/', '/contact', '/contact/', '/legal', '/legal/', '/legal/third-party-notices', '/legal/third-party-notices/', '/showcase', '/showcase/', '/support', '/support/', '/ritual-assist', '/ritual-assist/', '/ritual-assist/guides', '/ritual-assist/guides/', '/ritual-assist/calendar', '/ritual-assist/calendar/', '/take-a-break', '/take-a-break/', '/moment-studio', '/moment-studio/', '/moment-studio/cards', '/moment-studio/cards/', '/moment-studio/certificates', '/moment-studio/certificates/', '/team-mixer', '/team-mixer/', '/picksy', '/picksy/', '/', '/timetable-lite', '/timetable-lite/']);
+import {publicSeoResponse} from '../../packages/app-registry/public-seo.mjs';
+const independent = new Set(['/qr-maker','/qr-maker/','/photo-resize','/photo-resize/','/bill-splitter','/bill-splitter/','/privacy', '/privacy/', '/terms', '/terms/', '/contact', '/contact/', '/legal', '/legal/', '/legal/third-party-notices', '/legal/third-party-notices/', '/showcase', '/showcase/', '/support', '/support/', '/ritual-assist', '/ritual-assist/', '/ritual-assist/guides', '/ritual-assist/guides/', '/ritual-assist/calendar', '/ritual-assist/calendar/', '/take-a-break', '/take-a-break/', '/moment-studio', '/moment-studio/', '/moment-studio/cards', '/moment-studio/cards/', '/moment-studio/certificates', '/moment-studio/certificates/', '/team-mixer', '/team-mixer/', '/picksy', '/picksy/', '/', '/timetable-lite', '/timetable-lite/']);
 independent.add('/tournament-lite');independent.add('/tournament-lite/');
 independent.add('/feedback');independent.add('/feedback/');
 const security = {
@@ -22,15 +22,9 @@ function unavailable(method) {
 export async function handle(request, env, originFetch = fetch, sourceOptions = {}) {
   const url = new URL(request.url), pathname = url.pathname;
   if(/^\/api\/tournament-lite(?:\/|$)/.test(pathname))return new Response(JSON.stringify({error:'Tournament Lite now saves in your browser. Old server tournaments and live links are retired.'}),{status:410,headers:{...security,'Content-Type':'application/json; charset=utf-8'}});
-  if(/^\/(?:api\/)?(?:fund-overlap|news|daily-spark|decision-wheel)(?:\/|$)/.test(url.pathname))return new Response('Not found',{status:404,headers:{'Cache-Control':'no-store'}});
-  const satirePage=await cloudPages(request,req=>url.hostname==='apps.sushantsynapse.com'?originFetch(req):Promise.resolve(new Response(null,{status:503})));if(satirePage)return adsense.responseWithAds(satirePage,pathname,request.headers.get('Cookie')||'',crypto.randomUUID(),request.method);
+  if(/^\/(?:api\/)?(?:fund-overlap|news|daily-spark|decision-wheel|satire-arena|arena|arena-editorial|arena-metrics)(?:\/|$)/.test(url.pathname))return new Response('Not found',{status:404,headers:{'Cache-Control':'no-store'}});
+  const seo=publicSeoResponse(request,env.PUBLIC_ORIGIN||'https://apps.sushantsynapse.com');if(seo)return seo;
   if(env.MAINTENANCE_MODE==='true'&&(pathname.startsWith('/api/')||pathname==='/healthz'))return new Response(JSON.stringify({error:'The workspace is undergoing maintenance. Please try again shortly.'}),{status:503,headers:{...security,'Content-Type':'application/json; charset=utf-8','Retry-After':'60'}});
-  const arenaRoute=pathname === '/api/satire-arena' || pathname.startsWith('/api/satire-arena/');
-  if(arenaRoute && url.hostname==='apps.sushantsynapse.com' && ['PUT','DELETE'].includes(request.method)){
-    if(!env.ARENA_LIMITER)return unavailable(request.method);
-    const limit=await env.ARENA_LIMITER.limit({key:request.headers.get('CF-Connecting-IP')||'unknown'});
-    if(!limit.success)return new Response(JSON.stringify({error:'Please wait a minute before trying again.'}),{status:429,headers:{...security,'Content-Type':'application/json; charset=utf-8'}});
-  }
   if (pathname.startsWith('/api/') || pathname === '/healthz') {
     // Never forward preview-host credentials/writes to the production database.
     if (url.hostname !== 'apps.sushantsynapse.com') return unavailable(request.method);

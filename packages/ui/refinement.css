@@ -166,12 +166,6 @@
   body[data-ui-app=take-a-break] .card-symbol {box-shadow:inset 0 1px 0 var(--ss-reflection);border-radius:14px}
   body[data-ui-app=daily-spark] .game {box-shadow:var(--ss-shadow);border-color:var(--ss-border)}
   body[data-ui-app=decision-wheel] .editor,body[data-ui-app=team-mixer] .workspace>form{box-shadow:var(--ss-shadow);border-color:var(--ss-border);border-radius:16px}
-  body[data-ui-app=satire-arena] .arena-card {box-shadow:var(--ss-shadow)}
-  body[data-ui-app=satire-arena] .reactions button[aria-pressed=true] {box-shadow:inset 0 1px 0 var(--ss-reflection)}
-  body[data-ui-app=satire-arena] .editorial-page :is(.notice,form) {border-color:var(--ss-border);box-shadow:var(--ss-shadow);border-radius:16px}
-  body[data-ui-app=satire-arena] .editorial-page footer {display:block;font-size:12px;line-height:1.6;padding:20px 0}
-  body[data-ui-app=satire-arena] .editorial-page footer p {margin:12px 0}
-  body[data-ui-app=satire-arena] .editorial-page footer a {display:inline-flex;align-items:center;min-height:44px;margin-right:12px}
   @media(max-width:760px) {
     body[data-ui-app]:not(:has(.public-home)) :is(.intro,.hero,.page-heading,.page-top) {margin-block:12px;padding:16px;border-radius:16px}
     body[data-ui-app]:not(:has(.public-home)) :is(.intro,.hero,.page-heading,.page-top) h1 {font-size:29px;line-height:1.17}

@@ -11,7 +11,6 @@ const {createFocus}=require('../apps/focus/backend/routes');
 const {createRitualCalendar}=require('../apps/ritual-assist/backend/routes');
 const {createAdvocate}=require('../apps/advocate/backend/routes');
 const {createDigitalSamaj}=require('../apps/digital-samaj/backend/routes');
-const {createArena}=require('../apps/satire-arena/backend/routes');
 const {staticAssets}=require('./static-assets');
 const adsense=require('../packages/ui/adsense.cjs');
 const {randomUUID}=require('node:crypto');
@@ -37,10 +36,8 @@ const support=createSupport({store,auth});
 const focus=createFocus({store});
 const ritualCalendar=createRitualCalendar();
 const digitalSamaj=createDigitalSamaj({auth,store});
-const satireArena=createArena({store});
 const feedbackApp=require('../apps/feedback/backend/routes.cjs').createFeedback({store,auth});
 const panditBooking=require('../apps/pandit-booking/backend/routes.cjs').createPanditBooking({store,auth});
-const metricsBuckets=new Map();
 const advocate=createAdvocate({store,auth});
 async function dispatch(req,res) {
   const json = (code,data) => { res.writeHead(code, {'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'}); res.end(JSON.stringify(data)); };
@@ -54,29 +51,13 @@ async function dispatch(req,res) {
       const response=await nishi(new Request(origin+url.pathname,{method:req.method,headers:req.headers,...(input?{body:JSON.stringify(input)}:{})}));
       for(const [key,value]of response.headers)res.setHeader(key,value);res.writeHead(response.status);return res.end(Buffer.from(await response.arrayBuffer()));
     }
-    if(/^\/(?:api\/)?(?:fund-overlap|news|daily-spark|decision-wheel)(?:\/|$)/.test(url.pathname))return json(404,{error:'Not found'});
-    if(url.pathname.startsWith('/api/arena-editorial')||url.pathname.startsWith('/api/arena-metrics')||url.pathname.startsWith('/satire-arena/')||url.pathname==='/sitemap.xml'||url.pathname==='/robots.txt'){
-      const {editorial,editorialKey,published,empty}=await import('../apps/satire-arena/backend/editorial.mjs');
-      const {publicEditorialPath,publicPage}=await import('../apps/satire-arena/backend/public-pages.mjs');
-      const origin=publicOrigin||`http://${req.headers.host}`;
-      let response;
-      if(url.pathname.startsWith('/api/arena-editorial')||url.pathname.startsWith('/api/arena-metrics')){
-        const host=req.headers.host||'';if(!/^(localhost|127\.0\.0\.1)(:\d+)?$/.test(host)&&(!publicOrigin||host!==new URL(publicOrigin).host))fail(403,'Host rejected');
-        if(req.headers['sec-fetch-site']==='cross-site')fail(403,'Cross-site request rejected');
-        const {Readable}=require('node:stream');
-        const request=new Request(new URL(req.url,origin),{method:req.method,headers:req.headers,...(!['GET','HEAD'].includes(req.method)?{body:Readable.toWeb(req),duplex:'half'}:{})});
-        if(url.pathname.startsWith('/api/arena-metrics')){
-          const {metrics,metricsKey}=await import('../apps/satire-arena/backend/metrics.mjs');let baseline;
-          response=await metrics(request,{enabled:process.env.ARENA_ANALYTICS_ENABLED==='true',user:auth.session(req),read:async()=>{baseline=store.setting(metricsKey);return baseline;},write:async next=>store.transaction(()=>{if(JSON.stringify(store.setting(metricsKey))!==JSON.stringify(baseline))fail(409,'Metrics changed');store.setSetting(metricsKey,next);}),limit:async()=>{const minute=Math.floor(Date.now()/60000),key=req.socket.remoteAddress;for(const [id,bucket]of metricsBuckets)if(bucket.minute!==minute)metricsBuckets.delete(id);let bucket=metricsBuckets.get(key);if(!bucket){if(metricsBuckets.size>=1000)return {success:false};bucket={minute,count:0};metricsBuckets.set(key,bucket);}return {success:++bucket.count<=60};}});
-        }else response=await editorial(request,{user:auth.session(req),read:async()=>store.setting(editorialKey),write:async(next,version)=>store.transaction(()=>{if((store.setting(editorialKey)||empty()).version!==version)fail(409,'Content changed. Reload before saving.');store.setSetting(editorialKey,next);store.audit(auth.session(req).name,'Updated satire editorial library','satire-arena',{version:next.version});})});
-      }else if(publicEditorialPath(url.pathname)){
-        let results=null;if(url.pathname==='/satire-arena/results'){
-          const {arena}=await import('../apps/satire-arena/backend/edge.mjs'),{arenaDatabase}=require('../apps/satire-arena/backend/routes');
-          const result=await arena(new Request(origin+'/api/satire-arena/results'),{ARENA_DB:arenaDatabase(store),ARENA_COOKIE_SECRET:process.env.ARENA_COOKIE_SECRET});if(!result.ok)fail(503,'Arena results are temporarily unavailable');results=await result.json();
-        }
-        response=publicPage(new Request(new URL(req.url,origin),{method:req.method}),published(store.setting(editorialKey)||empty()),results);
-      }
-      if(response){response=await adsense.responseWithAds(response,url.pathname,req.headers.cookie||'',randomUUID(),req.method);for(const [key,value]of response.headers)res.setHeader(key,value);res.writeHead(response.status);return res.end(Buffer.from(await response.arrayBuffer()));}
+    if(/^\/(?:api\/)?(?:fund-overlap|news|daily-spark|decision-wheel|satire-arena|arena|arena-editorial|arena-metrics)(?:\/|$)/.test(url.pathname))return json(404,{error:'Not found'});
+    if(url.pathname==='/robots.txt'||url.pathname==='/sitemap.xml'){
+      const {publicSeoResponse}=await import('../packages/app-registry/public-seo.mjs');
+      const origin=publicOrigin||'https://apps.sushantsynapse.com';
+      const response=publicSeoResponse(new Request(origin+url.pathname,{method:req.method}),origin);
+      for(const [key,value]of response.headers)res.setHeader(key,value);
+      res.writeHead(response.status);return res.end(Buffer.from(await response.arrayBuffer()));
     }
     if(url.pathname==='/healthz'&&req.method==='GET')return json(200,{status:'ok'});
     if(url.pathname==='/advocate/'){res.writeHead(308,{Location:'/advocate'+url.search});return res.end();}
@@ -110,7 +91,6 @@ async function dispatch(req,res) {
     if(url.pathname==='/api/platform/visitors')return await visitorCounter(req,res,allowedOrigin);
     if(url.pathname==='/api/feedback'||url.pathname.startsWith('/api/feedback/'))return await feedbackApp(req,res,allowedOrigin);
     if(url.pathname==='/api/pandit-booking'||url.pathname.startsWith('/api/pandit-booking/'))return await panditBooking(req,res,allowedOrigin);
-    if(url.pathname==='/api/satire-arena'||url.pathname.startsWith('/api/satire-arena/'))return await satireArena(req,res,allowedOrigin);
     if(route==='places'){
       const ip=req.socket.remoteAddress||'local',now=Date.now();
       for(const [key,value]of placeRequests)if(now-value.start>=60000)placeRequests.delete(key);

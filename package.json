@@ -10,7 +10,6 @@
     "db:cloudflare:free-recovery": "node infrastructure/cloudflare/free-recovery.cjs",
     "db:sqlserver:init": "node infrastructure/sqlserver.cjs init",
     "db:sqlserver:import": "node infrastructure/sqlserver.cjs import",
-    "db:sqlserver:import-arena": "node infrastructure/sqlserver.cjs import-arena",
     "dev:cloudflare": "wrangler dev --config infrastructure/cloudflare/wrangler.fullstack.jsonc --local --port 8787",
     "build:cloudflare": "wrangler deploy --dry-run --config infrastructure/cloudflare/wrangler.fullstack.jsonc --outdir .publish/fullstack-dryrun",
     "db:d1:local": "wrangler d1 migrations apply synapse-platform-staging --config infrastructure/cloudflare/wrangler.fullstack.jsonc --local",

@@ -1,7 +1,7 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const catalogue=require('../packages/app-registry');
 test('browser and server read the same registry, without private account state',()=>{
- const publicApps=catalogue.visibleApps().filter(a=>a.public&&!a.homeFeatureOnly);assert.equal(publicApps[3].id,'japseva');assert.equal(publicApps[4].id,'rozhisab');assert.equal(publicApps[publicApps.findIndex(a=>a.id==='kiraya-saathi')+1].id,'batchfee-lite');assert.ok(!publicApps.some(a=>a.id==='satire-arena'));assert.ok(catalogue.apps.some(a=>a.id==='satire-arena'&&a.path==='/satire-arena'));assert.ok(!publicApps.some(a=>a.id==='fund-overlap'));assert.ok(!catalogue.apps.some(a=>a.id==='fund-overlap'));
+ const publicApps=catalogue.visibleApps().filter(a=>a.public&&!a.homeFeatureOnly);assert.equal(publicApps[3].id,'japseva');assert.equal(publicApps[4].id,'rozhisab');assert.equal(publicApps[publicApps.findIndex(a=>a.id==='kiraya-saathi')+1].id,'batchfee-lite');assert.ok(!publicApps.some(a=>a.id==='satire-arena'));assert.ok(!catalogue.apps.some(a=>a.id==='satire-arena'));assert.ok(!publicApps.some(a=>a.id==='fund-overlap'));assert.ok(!catalogue.apps.some(a=>a.id==='fund-overlap'));
  const context=vm.createContext({});vm.runInContext(fs.readFileSync('packages/app-registry/index.js','utf8'),context);assert.equal(JSON.stringify(context.SynapseCatalogue.apps),JSON.stringify(catalogue.apps));assert.equal(new Set(catalogue.apps.map(a=>a.id)).size,catalogue.apps.length);assert.ok(catalogue.visibleApps().every(a=>!a.catalogueParent));assert.ok(!JSON.stringify(context.SynapseCatalogue).includes('preferences'));
 });
 test('shipped no-JavaScript cards and featured links match the shared renderer',()=>{

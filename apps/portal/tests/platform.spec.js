@@ -39,7 +39,7 @@ test('premium bento keeps all tools discoverable across touch layouts and both t
    await setTheme(page,theme);
    await expect(page.locator('.public-app').first()).toBeVisible();
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${width}px ${theme}`).toBe(true);
-   expect(await page.locator('.public-app').evaluateAll(links=>links.slice(0,4).map(a=>a.getAttribute('href')))).toEqual(['/ritual-assist','/moment-studio','/take-a-break','/satire-arena']);
+   expect(await page.locator('.public-app').evaluateAll(links=>links.slice(0,4).map(a=>a.getAttribute('href')))).toEqual(['/ritual-assist','/moment-studio','/take-a-break']);
    const columns=await page.locator('.public-apps').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length);
    expect(columns).toBe(width>=900?4:3);
    await expect(page.locator('.platform-shell')).toBeVisible();
@@ -56,7 +56,7 @@ test('premium bento keeps all tools discoverable across touch layouts and both t
  await page.setViewportSize({width:390,height:844});await setTheme(page,'dark');await page.screenshot({path:'test-results/premium-home-mobile-dark.png',fullPage:true});
  await page.emulateMedia({reducedMotion:'reduce'});
  await expect(page.locator('.home-welcome')).toHaveCount(0);
- for(const route of ['/timetable-lite','/ritual-assist','/ritual-assist/calendar','/team-mixer','/picksy','/moment-studio','/moment-studio/certificates','/take-a-break','/take-a-break?game=24','/advocate','/digital-samaj','/batchfee-lite','/tournament-lite','/satire-arena']){
+ for(const route of ['/timetable-lite','/ritual-assist','/ritual-assist/calendar','/team-mixer','/picksy','/moment-studio','/moment-studio/certificates','/take-a-break','/take-a-break?game=24','/advocate','/digital-samaj','/batchfee-lite','/tournament-lite']){
   await page.goto(base+route);await expect(page.locator('link[href*="/shared/premium.css"],link[href*="/home.bundle.css"]')).toHaveCount(1);
   await expect(page.getByRole('button',{name:'Theme',exact:true})).toBeVisible();
   await expect(page.locator('html'),route).toHaveAttribute('data-theme','dark');
@@ -152,11 +152,11 @@ test('public tools and private destinations stay distinct through sign-in',async
  if(status.setupRequired){const setup=await page.request.post(base+'/api/auth/setup',{data:{name:'Sushant Owner',firmName:'Synapse Chambers',email:'owner@synapse.example',password:'Platform browser password!'}});expect(setup.ok()).toBe(true);await page.request.post(base+'/api/auth/logout');}
  await page.goto(base);
  await expect(page.locator('#free-apps .public-app')).toHaveCount(13);
- expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.slice(0,4).map(a=>a.getAttribute('href')))).toEqual(['/ritual-assist','/moment-studio','/take-a-break','/satire-arena']);
+ expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.slice(0,4).map(a=>a.getAttribute('href')))).toEqual(['/ritual-assist','/moment-studio','/take-a-break']);
  expect(await page.locator('#platform-switcher nav a:not(.platform-switcher-home)').evaluateAll(links=>links.slice(0,4).map(a=>a.getAttribute('href')))).toEqual(['/take-a-break?game=24','/picksy','/ritual-assist','/moment-studio']);
  await expect(page.locator('#workspace-apps .workspace-card')).toHaveCount(5);
  await expect(page.locator('#free-apps a[href*="tournament"]')).toHaveCount(0);
- const {apps,visibleApps}=require('../../../packages/app-registry');expect(visibleApps().slice(0,4).map(a=>a.path)).toEqual(['/ritual-assist','/moment-studio','/take-a-break','/satire-arena']);
+ const {apps,visibleApps}=require('../../../packages/app-registry');expect(visibleApps().slice(0,4).map(a=>a.path)).toEqual(['/ritual-assist','/moment-studio','/take-a-break']);
  expect(await page.locator('#free-apps .public-app').evaluateAll(links=>links.map(a=>a.getAttribute('href')).sort())).toEqual(apps.filter(a=>a.public&&a.status==='Available'&&!a.catalogueParent&&!a.homeFeatureOnly).map(a=>a.path).sort());
  for(const [width,theme] of [[390,'dark'],[1440,'light']]){
   await page.setViewportSize({width,height:1000});

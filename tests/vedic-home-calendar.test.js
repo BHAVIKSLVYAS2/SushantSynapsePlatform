@@ -9,10 +9,10 @@ test('home calendar uses Chaitra-year Vikram, Amanta month and explicit IST date
  const gu=homeCalendar(now,'gu');assert.equal(gu.samvat,en.samvat);assert.match(gu.date,/[\u0a80-\u0aff]/);assert.match(gu.month,/[\u0a80-\u0aff]/);assert.match(gu.tithi,/[\u0a80-\u0aff]/);
 });
 test('home removes editorial teaser fetching and legacy landing redirects without an upstream read',async()=>{
- const fs=require('node:fs'),{cloudPages}=await import('../apps/satire-arena/backend/cloud-pages.mjs');
+ const fs=require('node:fs'),{default:worker}=await import('../infrastructure/cloudflare/fullstack-worker.mjs');
  assert.doesNotMatch(fs.readFileSync('apps/portal/frontend/platform.js','utf8'),/refreshSatireDiscovery|arena-editorial\/today/);
  const html=fs.readFileSync('apps/portal/frontend/index.html','utf8');assert.match(html,/data-home-vedic/);assert.doesNotMatch(html,/arena-discovery|data-home-satire/);
  for(const path of ['/satire-arena/daily','/satire-arena/daily/'])for(const method of ['GET','HEAD']){
-  const r=await cloudPages(new Request('https://example.test'+path,{method}),()=>{throw Error('Unexpected data read');});assert.equal(r,null);
+  const r=await worker.fetch(new Request('https://example.test'+path,{method}),{});assert.equal(r.status,404);
  }
 });

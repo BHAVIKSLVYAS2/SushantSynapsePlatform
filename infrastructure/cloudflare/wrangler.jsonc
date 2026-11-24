@@ -38,14 +38,6 @@
       "ratelimits": [
 
 
-        {
-          "name": "ARENA_LIMITER",
-          "namespace_id": "2026101001",
-          "simple": {
-            "limit": 30,
-            "period": 60
-          }
-        }
       ]
     }
   },

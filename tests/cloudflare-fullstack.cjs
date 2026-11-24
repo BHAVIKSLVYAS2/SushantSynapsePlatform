@@ -101,10 +101,10 @@ test('native Worker integration with '+(allAppsD1?'all apps on Free D1':'D1 and 
  await t.test('calendar runs without filesystem',async()=>{
   const r=await api('ritual-assist/calendar','POST',{date:'2025-10-01',time:'12:00',pincode:'110001'});assert.equal(r.status,200,JSON.stringify(r.data));assert.equal(r.data.result.calculation.stored,false);assert.equal(r.data.result.upcomingAnnual.length,10);
  });
- await t.test('public Arena keeps signed ballot cookies and updates one reaction atomically',async()=>{
-  const first=await api('satire-arena','GET',undefined,{Cookie:''});assert.equal(first.status,200,JSON.stringify(first.data));const arenaCookie=first.headers.get('Set-Cookie').split(';')[0],round=first.data.round,character=first.data.characters[0].id;
-  const r=await raw('/api/satire-arena/'+character+'/vote','PUT',{round,reaction:'garland'},{Cookie:arenaCookie,Origin:origin});assert.equal(r.status,204,await r.text());
-  const saved=await api('satire-arena','GET',undefined,{Cookie:arenaCookie});assert.equal(saved.data.characters.find(c=>c.id===character).selected,'garland');assert.equal(saved.data.characters.find(c=>c.id===character).garland,1);
+ await t.test('retired Arena page and API paths return 404',async()=>{
+  for(const path of ['/satire-arena','/satire-arena/app.js','/api/satire-arena','/api/arena-editorial/public']){
+   assert.equal((await raw(path,'GET')).status,404);
+  }
  });
  await t.test('Chrome mobile Chambers UI saves to D1 and preserves theme on reload',async()=>{
   const {createServer}=require('node:http'),{chromium,expect}=require('@playwright/test');

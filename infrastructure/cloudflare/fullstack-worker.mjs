@@ -1,12 +1,12 @@
 import {edgeApi} from '../../server/edge-index.mjs';
-import {cloudPages} from '../../apps/satire-arena/backend/cloud-pages.mjs';
+import {publicSeoResponse} from '../../packages/app-registry/public-seo.mjs';
 import adsense from '../../packages/ui/adsense.cjs';
 import vedicPrivacy from '../../apps/rashifal-kundli/privacy.cjs';
 import {accountIntentPath} from '../../packages/ui/task-intent.mjs';
 import {secureResponse} from './response-security.mjs';
 async function handleRequest(request,env){
   const url=new URL(request.url);
-  if(/^\/(?:api\/)?(?:fund-overlap|news|daily-spark|decision-wheel)(?:\/|$)/.test(url.pathname))return new Response('Not found',{status:404,headers:{'Cache-Control':'no-store'}});
+  if(/^\/(?:api\/)?(?:fund-overlap|news|daily-spark|decision-wheel|satire-arena|arena|arena-editorial|arena-metrics)(?:\/|$)/.test(url.pathname))return new Response('Not found',{status:404,headers:{'Cache-Control':'no-store'}});
   let decoded;try{decoded=decodeURIComponent(url.pathname);}catch{return new Response('Not found',{status:404});}
   if(/^\/_(?:pages|edge|organisations)(?:\/|$)/.test(decoded))return new Response('Not found',{status:404});
   if(url.pathname.startsWith('/_static/')){
@@ -26,7 +26,7 @@ async function handleRequest(request,env){
    return new Response(request.method==='HEAD'?null:asset.body,{status:asset.status,headers});
   }
   if(url.pathname.startsWith('/_organisations/'))return new Response('Not found',{status:404});
-  const satirePage=await cloudPages(request,req=>edgeApi(req,env));if(satirePage)return adsense.responseWithAds(satirePage,url.pathname,request.headers.get('Cookie')||'',crypto.randomUUID(),request.method);
+  const seo=publicSeoResponse(request,env.PUBLIC_ORIGIN||'https://apps.sushantsynapse.com');if(seo)return seo;
   if(env.AUTH_METHOD==='access'&&url.pathname==='/access-login'){
    if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405});
    if(!env.ACCESS_TEAM_DOMAIN||!env.ACCESS_AUD)return new Response('Email-code sign-in is awaiting Cloudflare Access setup.',{status:503,headers:{'Cache-Control':'no-store'}});

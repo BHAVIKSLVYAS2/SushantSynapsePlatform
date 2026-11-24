@@ -17,11 +17,12 @@ test('shared HTTP preserves caller cancellation and rejects malformed success bo
 test('shared Chambers summary matches legacy derivation without mutating transaction records',()=>{
  const {summarizeState}=require('../apps/advocate/backend/state-summary.cjs'),state={cases:[{id:'a'},{id:'b'}],hearings:[{caseId:'a',date:'2026-11-02',time:'09:00',status:'Scheduled'},{caseId:'a',date:'2026-11-01',time:'12:00',status:'Scheduled'},{caseId:'a',date:'2026-10-01',time:'09:00',status:'Scheduled'},{caseId:'b',date:'2026-11-01',time:'09:00',status:'Scheduled',archived:true}],invoices:[{id:'i',amount:10.1},{id:'j',amount:20}],payments:[{invoiceId:'i',amount:3.1},{invoiceId:'i',amount:7},{invoiceId:'j',amount:5,archived:true}]};const originals=JSON.stringify([state.hearings,state.payments]);summarizeState(state,'2026-10-24');assert.equal(state.cases[0].nextDate,'2026-11-01');assert.equal(state.cases[1].nextDate,'');assert.deepEqual(state.invoices.map(i=>[i.paid,i.balance,i.status]),[[10.1,0,'Paid'],[0,20,'Unpaid']]);assert.equal(JSON.stringify([state.hearings,state.payments]),originals);
 });
-test('public Arena and editorial reads avoid unrelated global revision and session reads',async()=>{
- const {edgeApi}=await import('../server/edge-index.mjs'),queries=[];const db={prepare(sql){queries.push(sql);return{bind(){return this;},async first(){return sql.includes('settings')?{data:JSON.stringify({version:0,posts:[],characters:[]})}:null;},async all(){return {results:[]};}};},async batch(statements){return Promise.all(statements.map(s=>s.all()));}};
- const env={PUBLIC_ORIGIN:'https://example.test',FREE_MODE:'true',FULL_APPS:'true',PLATFORM_DB:db,ARENA_COOKIE_SECRET:'isolated-fixture-secret'};
- assert.equal((await edgeApi(new Request('https://example.test/api/satire-arena'),env)).status,200);assert.equal(queries.length,2);assert(!queries.some(q=>/edge_revision|users|sessions/.test(q)));
- queries.length=0;assert.equal((await edgeApi(new Request('https://example.test/api/arena-editorial/today'),env)).status,200);assert.equal(queries.length,1);assert(queries[0].includes('settings'));
+test('retired Arena endpoints return 404 before storage opens',async()=>{
+ const {edgeApi}=await import('../server/edge-index.mjs');
+ for(const route of ['/api/satire-arena','/api/arena-editorial/today','/api/arena-metrics']){
+  const response=await edgeApi(new Request('https://example.test'+route),{});
+  assert.equal(response.status,404);
+ }
 });
 
 test('Worker bundle keeps public reference tables out of executable startup code',()=>{

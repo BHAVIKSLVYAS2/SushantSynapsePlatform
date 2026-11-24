@@ -20,7 +20,6 @@ services:
       SQLSERVER_USER: ${SQLSERVER_USER:-}
       SQLSERVER_PASSWORD: ${SQLSERVER_PASSWORD:-}
       SQLSERVER_AUTO_MIGRATE: "0"
-      ARENA_COOKIE_SECRET: ${ARENA_COOKIE_SECRET:-}
     volumes:
       - platform_data:/app/data
     expose:

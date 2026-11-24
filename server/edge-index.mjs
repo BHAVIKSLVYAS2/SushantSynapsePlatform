@@ -13,9 +13,6 @@ import {focus} from '../apps/focus/backend/edge.mjs';
 import {chambers} from '../apps/advocate/backend/edge.mjs';
 import {ritual} from '../apps/ritual-assist/backend/edge.mjs';
 import {samaj} from '../apps/digital-samaj/backend/edge.mjs';
-import {arena} from '../apps/satire-arena/backend/edge.mjs';
-import {editorial,editorialKey} from '../apps/satire-arena/backend/editorial.mjs';
-import {metrics,metricsKey} from '../apps/satire-arena/backend/metrics.mjs';
 import {fail,json} from './edge-http.mjs';
 import {organisationAdmin} from '../apps/admin/backend/edge.mjs';
 import {organisationSamaj} from '../apps/digital-samaj/backend/organisation-edge.mjs';
@@ -28,7 +25,7 @@ export async function edgeApi(request,env){
   if(request.headers.get('Origin')&&request.headers.get('Origin')!==configured)fail(403,'Origin rejected');if(request.headers.get('Sec-Fetch-Site')==='cross-site')fail(403,'Cross-site request rejected');
   if(env.MAINTENANCE_MODE==='true')fail(503,'The workspace is undergoing maintenance. Please try again shortly.');
   if(url.pathname==='/api/nishi/plan')return nishi(request,env);
-  if(/^\/api\/(?:fund-overlap|news|daily-spark|decision-wheel)(?:\/|$)/.test(url.pathname))fail(404,'Not found');
+  if(/^\/api\/(?:fund-overlap|news|daily-spark|decision-wheel|satire-arena|arena|arena-editorial|arena-metrics)(?:\/|$)/.test(url.pathname))fail(404,'Not found');
   if(url.pathname==='/api/places'){
    if(!(await env.CITY_LIMITER?.limit({key:'places:'+request.headers.get('CF-Connecting-IP')}))?.success)fail(429,'Please wait before searching again.');
    return placeResponse(request);
@@ -37,13 +34,6 @@ export async function edgeApi(request,env){
   if(/^\/api\/batchfee-lite(?:\/|$)/.test(url.pathname))fail(410,'BatchFee Lite is free and saves in your browser. Server storage is retired.');
   const free=env.FREE_MODE==='true';
   if(!env.PLATFORM_DB||(!free&&!env.PRIVATE_FILES))fail(503,'Cloudflare backend storage is not configured');
-  // Public editorial snapshots need one atomic setting read, not a workspace revision.
-  if(['/api/arena-editorial/public','/api/arena-editorial/today'].includes(url.pathname)){
-   const publicRepo=new (free?FreeD1Repository:D1Repository)(env.PLATFORM_DB);
-   return editorial(request,{read:()=>publicRepo.setting(editorialKey)});
-  }
-  // Arena owns its cookie identity, atomic ballots and public score queries.
-  if(url.pathname==='/api/satire-arena'||url.pathname.startsWith('/api/satire-arena/'))return arena(request,{...env,ARENA_DB:env.PLATFORM_DB});
   repo=await new (free?FreeD1Repository:D1Repository)(env.PLATFORM_DB,env.FULL_APPS==='true'?49:45).begin();
   if(url.pathname==='/healthz'&&request.method==='GET'){await repo.first('SELECT id FROM users LIMIT 1');return json({status:'ok',storage:free?'d1-free':'d1-r2',documents:true});}
   if(!url.pathname.startsWith('/api/'))fail(404,'Not found');const route=url.pathname.slice(5);
@@ -67,7 +57,7 @@ export async function edgeApi(request,env){
     const bookingAccess=await bookingOrganisations(repo,user);
     result=await portal({...context,user:{...user,role:'Clerk',appIds:[...(organisations.length?['advocate']:[]),...(samajAccess.communities.length||samajAccess.canSetup?['digital-samaj']:[]),...(bookingAccess.length?['pandit-booking']:[])]}});
     if(route==='platform'&&result.ok){const data=await result.json();data.apps=data.apps.map(app=>!app.public&&!['advocate','digital-samaj','pandit-booking'].includes(app.id)?{...app,status:'Unavailable',accessible:false,description:'Organisation integration is not available for this app yet.'}:app);result=json(data);}
-   }else if(!(/^(platform\/visitors|feedback|arena-metrics|arena-editorial|satire-arena)(\/|$)/.test(route)||route==='support'||route==='ritual-assist/calendar'||route==='ritual-assist/observances'))fail(409,'Use organisation-scoped APIs. Other private applications are unavailable.');
+   }else if(!(/^(platform\/visitors|feedback)(\/|$)/.test(route)||route==='support'||route==='ritual-assist/calendar'||route==='ritual-assist/observances'))fail(409,'Use organisation-scoped APIs. Other private applications are unavailable.');
    if(result){if(request.method==='GET'&&!await repo.unchanged())throw new Conflict();return result;}
   }
   if(route==='pandit-booking'||route.startsWith('pandit-booking/'))result=await edgeBooking(context);
@@ -79,9 +69,6 @@ export async function edgeApi(request,env){
  if(request.method==='POST'&&!(await env.PUBLIC_LIMITER?.limit({key:'platform-visitors:'+request.headers.get('CF-Connecting-IP')}))?.success)fail(429,'Please try again later.');
  result=await visitors(request,{readVisitors:()=>repo.setting(visitorKey),writeVisitors:next=>repo.commit([repo.settingWrite(visitorKey,next)])});
  }
-  else if(route==='arena-metrics'||route.startsWith('arena-metrics/'))result=await metrics(request,{enabled:env.ARENA_ANALYTICS_ENABLED==='true',user,read:()=>repo.setting(metricsKey),write:next=>repo.commit([repo.settingWrite(metricsKey,next)]),limit:()=>env.ARENA_LIMITER?.limit({key:'metrics:'+request.headers.get('CF-Connecting-IP')})||{success:false}});
-  else if(route==='arena-editorial'||route.startsWith('arena-editorial/'))result=await editorial(request,{user,read:()=>repo.setting(editorialKey),write:next=>repo.commit([repo.settingWrite(editorialKey,next),repo.audit(user.name,'Updated satire editorial library','satire-arena',{version:next.version})])});
-  else if(route==='satire-arena'||route.startsWith('satire-arena/'))result=await arena(request,{...env,ARENA_DB:env.PLATFORM_DB});
   else if(route.startsWith('auth/')||route==='users'||route.startsWith('users/'))result=await (useAccess?accessAuth:auth)(context);
   else if(route==='platform'||route.startsWith('platform/')||route==='support')result=await portal(context);
   else if(route==='focus'||route.startsWith('focus/'))result=await focus(context);

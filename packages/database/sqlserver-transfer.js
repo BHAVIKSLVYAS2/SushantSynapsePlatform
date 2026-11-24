@@ -53,32 +53,4 @@ function exportSqlServer(store){
   lines.push('COMMIT;');return lines.join('\n');
  });
 }
-function importArena(db,source){
- const resolved=path.resolve(source);if(!fs.existsSync(resolved))throw Error('Arena migration source does not exist');
- let input;
- if(path.extname(resolved).toLowerCase()==='.sql'){
-  if(fs.statSync(resolved).size>256*1024*1024)throw Error('Arena dump exceeds 256 MiB');
-  const dump=fs.readFileSync(resolved,'utf8');
-  if(/\b(ATTACH|DETACH|VACUUM|load_extension|writable_schema)\b/i.test(dump))throw Error('Unsupported command in Arena dump');
-  input=new DatabaseSync(':memory:');try{input.exec(dump);}catch(error){input.close();throw error;}
- }else input=new DatabaseSync(resolved,{readOnly:true});
- const names=['arena_votes','arena_expanded_votes','arena_cast_votes','arena_additions_votes','arena_speakers_votes','arena_anchors_votes','arena_spotlight_votes','arena_boardroom_votes'],checks=[];
- try{
-  input.exec('BEGIN');if(input.prepare('PRAGMA integrity_check').get().integrity_check!=='ok')throw Error('Arena source integrity failed');
-  const existing=input.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'").all().map(row=>row.name);
-  if(!names.some(name=>existing.includes(name))||existing.some(name=>!names.includes(name)&&!['_cf_KV','d1_migrations'].includes(name)))throw Error('Source must be an Arena-only D1 export/snapshot');
-  db.begin();try{
-   for(const name of names)if(db.native(`SELECT COUNT(*) AS n FROM ${tables[name].qualified}`)[0].n!==0)throw Error('Arena migration requires empty satire ballot tables; other app data is preserved');
-   for(const name of names){
-    const meta=tables[name];if(!existing.includes(name))continue;
-    const rows=input.prepare(`SELECT * FROM "${name}" ORDER BY voter,character,round`).all(),columns=meta.columns.map(column=>column.name);
-    if(rows.some(row=>Object.keys(row).length!==columns.length||columns.some(column=>!Object.hasOwn(row,column))))throw Error('Arena source schema mismatch: '+name);
-    for(const row of rows)db.native(`INSERT INTO ${meta.qualified} (${columns.map(column=>'['+column+']').join(',')}) VALUES (${columns.map((_,i)=>'@p'+i).join(',')})`,columns.map(column=>row[column]));
-    const target=readTarget(db,meta),hash=digest(rows);if(rows.length!==target.length||hash!==digest(target))throw Error('Arena content verification failed: '+name);
-    checks.push({table:meta.qualified,rows:rows.length,sha256:hash});
-   }
-   db.commit();input.exec('COMMIT');return {source:resolved,tables:checks};
-  }catch(error){db.rollback();throw error;}
- }finally{input.close();}
-}
-module.exports={importSqlite,importArena,exportSqlServer,digest,literal};
+module.exports={importSqlite,exportSqlServer,digest,literal};

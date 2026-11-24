@@ -7,7 +7,7 @@ const base = 'https://apps.sushantsynapse.com';
 before(async () => { exported = require('../infrastructure/cloudflare/build.cjs').build(); ({handle} = await import('../infrastructure/cloudflare/worker.mjs')); });
 const assets = {ASSETS: {fetch: async request => new Response(new URL(request.url).pathname,{headers:{'Content-Type':'text/html'}})}};
 test('retired page and asset URLs return 404 at the edge',async()=>{
- for(const route of ['/daily-spark','/daily-spark/','/daily-spark/app.js','/daily-spark/engine.mjs','/api/daily-spark','/decision-wheel','/decision-wheel/','/decision-wheel/app.js','/api/decision-wheel','/news','/news/','/news/app.js','/api/news/sources','/api/news/fetch','/api/news/editions/2026-01-01','/fund-overlap','/fund-overlap/','/fund-overlap/app.js','/api/fund-overlap/search','/api/fund-overlap/portfolio','/certificates','/certificates/','/certificates/app.js','/certificates/renderer.js','/certificates/export.js','/certificates/style.css','/certificates/branding.mjs','/sponsor','/sponsor/','/celebration-studio','/celebration-studio/','/celebration-studio/app.js','/celebration-studio/renderer.mjs','/celebration-studio/style.css','/celebration-studio/branding.mjs','/arena','/arena/']){
+ for(const route of ['/daily-spark','/daily-spark/','/daily-spark/app.js','/daily-spark/engine.mjs','/api/daily-spark','/decision-wheel','/decision-wheel/','/decision-wheel/app.js','/api/decision-wheel','/news','/news/','/news/app.js','/api/news/sources','/api/news/fetch','/api/news/editions/2026-01-01','/fund-overlap','/fund-overlap/','/fund-overlap/app.js','/api/fund-overlap/search','/api/fund-overlap/portfolio','/certificates','/certificates/','/certificates/app.js','/certificates/renderer.js','/certificates/export.js','/certificates/style.css','/certificates/branding.mjs','/sponsor','/sponsor/','/celebration-studio','/celebration-studio/','/celebration-studio/app.js','/celebration-studio/renderer.mjs','/celebration-studio/style.css','/celebration-studio/branding.mjs','/arena','/arena/','/satire-arena','/satire-arena/editor','/satire-arena/app.js','/api/satire-arena','/api/arena-editorial/public','/api/arena-metrics']){
   assert.equal(exported.pages[route],undefined);
   assert.equal((await handle(new Request(base+route),assets,async()=>{throw Error('Retired routes must not contact origin');})).status,404);
  }
@@ -23,7 +23,7 @@ test('Moment Studio uses explicit certificate and card routes at the edge',async
 test('AdSense Auto Ads is global on eligible anonymous public pages only',async()=>{
  const env={ASSETS:{fetch:async request=>new URL(request.url).pathname==='/ads.txt'?new Response('google.com, pub-1894051755496526, DIRECT, f08c47fec0942fa0',{headers:{'Content-Type':'text/plain'}}):new Response('<html><head><script src="/shared/theme.js"></script></head><body></body></html>',{headers:{'Content-Type':'text/html','Content-Length':'1',ETag:'old'}})}};
  let previous;
- const eligible=['/','/qr-maker','/photo-resize','/bill-splitter','/moment-studio/cards','/take-a-break','/picksy','/focus','/ritual-assist','/team-mixer','/timetable-lite','/satire-arena','/privacy','/terms','/contact','/legal','/legal/third-party-notices','/showcase','/support'];
+ const eligible=['/','/qr-maker','/photo-resize','/bill-splitter','/moment-studio/cards','/take-a-break','/picksy','/focus','/ritual-assist','/team-mixer','/timetable-lite','/privacy','/terms','/contact','/legal','/legal/third-party-notices','/showcase','/support'];
  for(const route of eligible){
   const response=await handle(new Request(base+route),env,async request=>request.url.endsWith('/healthz')?new Response('ok'):new Response(null,{status:404})),html=await response.text(),policy=response.headers.get('Content-Security-Policy');
   const nonce=/script-src 'nonce-([^']+)'/.exec(policy)?.[1];assert.ok(nonce,route);assert.notEqual(nonce,previous,route);previous=nonce;
@@ -32,7 +32,7 @@ test('AdSense Auto Ads is global on eligible anonymous public pages only',async(
   assert.equal([...html.matchAll(/<script\b[^>]*>/g)].every(([tag])=>tag.includes(`nonce="${nonce}"`)),true,route);
   assert.equal(response.headers.get('Content-Length'),null,route);assert.equal(response.headers.get('ETag'),null,route);assert.equal(response.headers.get('Cache-Control'),'no-store',route);
  }
- for(const [route,cookie]of [['/','other=1; chambers_session=private'],['/qr-maker','chambers_session=private'],['/feedback',''],['/signin',''],['/satire-arena/editor',''],['/advocate','']]){
+ for(const [route,cookie]of [['/','other=1; chambers_session=private'],['/qr-maker','chambers_session=private'],['/feedback',''],['/signin',''],['/advocate','']]){
   const response=await handle(new Request(base+route,{headers:{Cookie:cookie}}),env,async()=>new Response('ok'));
   assert.doesNotMatch(await response.text(),/google-adsense-account|pagead2\.googlesyndication\.com/,route);
   assert.match(response.headers.get('Content-Security-Policy'),/script-src 'self';/,route);

@@ -2,8 +2,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 const {Store}=require('../apps/advocate/backend/store');
 const {SqlServerDatabase}=require('../packages/database/sqlserver');
-const {importSqlite,importArena}=require('../packages/database/sqlserver-transfer');
-const {registerArena,arenaDatabase}=require('../apps/satire-arena/backend/routes');
+const {importSqlite}=require('../packages/database/sqlserver-transfer');
 const {tables}=require('../packages/database/catalog');
 const {createAuth}=require('../packages/auth');
 const {createDigitalSamaj}=require('../apps/digital-samaj/backend/routes');
@@ -20,7 +19,6 @@ async function main(){
  createDigitalSamaj({store:source,auth});createBatchFee({store:source,auth});createTournament({store:source,auth});
  source.sql.exec(fs.readFileSync(path.join(__dirname,'../packages/database/retired/fund-lens/001-portfolio.sql'),'utf8'));
  for(const file of ['001-editions.sql','002-fetch-budget.sql'])source.sql.exec(fs.readFileSync(path.join(__dirname,'../packages/database/retired/news',file),'utf8'));
- registerArena(source);
  source.sql.close();source=null;
  console.log('SQL integration: initializing eight schemas');target=new SqlServerDatabase({migrate:true});
  console.log('SQL integration: migrating isolated SQLite snapshot');const migrated=importSqlite(target,path.join(root,'source/chambers.sqlite'));
@@ -29,21 +27,6 @@ async function main(){
  console.log('SQL integration: verified migration; checking application repositories');store=new Store(path.join(root,'target'),{provider:'sqlserver',database:target,migrate:false});target=null;
  assert.equal(store.get('clients','retained-client').name,'हिन्दी client');assert.deepEqual(Buffer.from(store.file('retained-document').content),Buffer.from([0,1,255]));assert.equal(store.user('clerk').active,true);assert.deepEqual(store.access('clerk'),['advocate']);
  assert.equal(store.sql.native('SELECT COUNT(DISTINCT TABLE_SCHEMA) AS n FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA IN (\'platform\',\'chambers\',\'batchfee\',\'samaj\',\'tournament\',\'news\',\'fundlens\',\'satire\')')[0].n,8);
- const {fixture}=require('../apps/satire-arena/tests/fixture.cjs'),arenaFixture=fixture();
- const {arena,roundAt}=await import('../apps/satire-arena/backend/edge.mjs'),arenaNow=new Date(),arenaRound=roundAt(arenaNow);
- const initial=await arena(new Request('https://apps.sushantsynapse.com/api/satire-arena'),arenaFixture.env,{now:arenaNow}),arenaCookie=initial.headers.get('set-cookie').split(';')[0];
- assert.equal((await arena(new Request('https://apps.sushantsynapse.com/api/satire-arena/namo-nimbus/vote',{method:'PUT',headers:{Origin:'https://apps.sushantsynapse.com',Cookie:arenaCookie,'Content-Type':'application/json'},body:JSON.stringify({round:arenaRound,reaction:'applause'})}),arenaFixture.env,{now:arenaNow})).status,204);
- const voter=arenaFixture.sqlite.prepare('SELECT voter FROM arena_cast_votes').get().voter;
- arenaFixture.sqlite.prepare('INSERT INTO arena_votes VALUES(?,?,?,?,?)').run(voter,'namo-nimbus',arenaRound,'shoe',arenaNow.toISOString());
- arenaFixture.sqlite.prepare('INSERT INTO arena_expanded_votes VALUES(?,?,?,?,?)').run(voter,'namo-nimbus',arenaRound,'garland',arenaNow.toISOString());
- const arenaDump=path.join(root,'arena-export.sql'),dump=[];
- for(const name of ['arena_votes','arena_expanded_votes','arena_cast_votes']){dump.push(arenaFixture.sqlite.prepare("SELECT sql FROM sqlite_master WHERE name=? AND type='table'").get(name).sql+';');for(const row of arenaFixture.sqlite.prepare('SELECT * FROM '+name).all())dump.push('INSERT INTO '+name+' VALUES('+Object.values(row).map(value=>"'"+value.replaceAll("'","''")+"'").join(',')+');');}
- fs.writeFileSync(arenaDump,dump.join('\n'));arenaFixture.sqlite.close();
- assert.equal(importArena(store.sql,arenaDump).tables.reduce((sum,table)=>sum+table.rows,0),3);
- assert.throws(()=>importArena(store.sql,arenaDump),/empty satire/);
- assert.equal(store.get('clients','retained-client').id,'retained-client');
- const restored=await arena(new Request('https://apps.sushantsynapse.com/api/satire-arena',{headers:{Cookie:arenaCookie}}),{ARENA_DB:arenaDatabase(store),ARENA_COOKIE_SECRET:arenaFixture.env.ARENA_COOKIE_SECRET},{now:arenaNow});
- assert.equal((await restored.json()).characters[0].selected,'applause');
  assert.throws(()=>store.transaction(()=>{store.create('clients',{id:'rollback-client',name:'Rollback'});throw Error('rollback-check');}),/rollback-check/);assert.equal(store.get('clients','rollback-client'),null);
  const sqlAuth=createAuth({store,initializeWorkspace(){}}),samaj=createDigitalSamaj({store,auth:sqlAuth});createBatchFee({store,auth:sqlAuth});createTournament({store,auth:sqlAuth});
  const {Readable}=require('node:stream');
@@ -62,15 +45,11 @@ async function main(){
  store.sql.prepare('UPDATE [platform].[users] SET password=? WHERE id=?').run(hash,'owner');
  store.sql.close();store=null;
  console.log('SQL integration: checking HTTP auth and concurrent payments');const {spawn}=require('node:child_process');
- const child=spawn(process.execPath,['server/index.js'],{cwd:path.resolve(__dirname,'..'),env:{...process.env,PORT:'0',DATA_DIR:path.join(root,'http'),ARENA_COOKIE_SECRET:arenaFixture.env.ARENA_COOKIE_SECRET},stdio:['ignore','pipe','pipe']});
+ const child=spawn(process.execPath,['server/index.js'],{cwd:path.resolve(__dirname,'..'),env:{...process.env,PORT:'0',DATA_DIR:path.join(root,'http')},stdio:['ignore','pipe','pipe']});
  let output='';const port=await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(Error('Server startup timeout')),30000);child.stdout.on('data',chunk=>{output+=chunk;const match=/localhost:(\d+)/.exec(output);if(match){clearTimeout(timer);resolve(match[1]);}});child.on('exit',code=>{clearTimeout(timer);reject(Error('Server exited '+code));});child.stderr.on('data',chunk=>{output+=chunk;});});
  try{
   const url='http://localhost:'+port;let cookie='';
-  const arenaHttp=async(route='',method='GET',body)=>fetch(url+'/api/satire-arena'+route,{method,headers:{Cookie:arenaCookie,Origin:url,'Content-Type':'application/json','X-Arena-Confirm':'DELETE'},body:body?JSON.stringify(body):undefined});
-  assert.equal((await (await arenaHttp()).json()).characters[0].selected,'applause');
-  const arenaWrites=await Promise.all(Array.from({length:4},()=>arenaHttp('/namo-nimbus/vote','PUT',{round:arenaRound,reaction:'laugh'})));assert.ok(arenaWrites.every(response=>response.status===204));
-  const arenaCount=(await (await arenaHttp()).json()).characters[0];assert.equal(arenaCount.laugh,1);assert.equal(arenaCount.applause,0);
-  assert.equal((await (await arenaHttp('/mine')).json()).votes.length,1);assert.equal((await arenaHttp('/mine','DELETE')).status,204);assert.equal((await (await arenaHttp('/mine')).json()).votes.length,0);
+  assert.equal((await fetch(url+'/api/satire-arena')).status,404);
   const request=async(route,method='GET',body)=>{const r=await fetch(url+'/api/'+route,{method,headers:{cookie,'content-type':'application/json'},body:body===undefined?undefined:JSON.stringify(body)});if(r.headers.get('set-cookie'))cookie=r.headers.get('set-cookie').split(';')[0];return {status:r.status,data:await r.json()};};
   assert.equal((await request('state')).status,401);
   // Imported users with deliberately unused hashes cannot log in; set a test hash without touching live data.

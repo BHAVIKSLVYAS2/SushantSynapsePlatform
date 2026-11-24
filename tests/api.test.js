@@ -30,7 +30,7 @@ test('monorepo serves app assets and shared theme without exposing source or SQL
 });
 
 test('AdSense Auto Ads loads globally on eligible anonymous public pages only',async()=>{
- for(const path of ['/','/qr-maker','/moment-studio/cards','/ritual-assist/calendar','/support','/satire-arena']){
+ for(const path of ['/','/qr-maker','/moment-studio/cards','/ritual-assist/calendar','/support']){
   const response=await fetch(base+path),html=await response.text();
   assert.match(html,/google-adsense-account/,path);
   assert.match(html,/pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js\?client=ca-pub-1894051755496526/,path);
