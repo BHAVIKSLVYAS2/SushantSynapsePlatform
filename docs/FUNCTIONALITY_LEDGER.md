@@ -1,10 +1,14 @@
-Satire Arena residue cleanup (2026-11-24 IST, local): removed obsolete shared
+Satire Arena residue cleanup (2026-11-24 IST, deployed): removed obsolete shared
 translation keys, CSS selectors, privacy copy and QA paths. The production-mode
 export fell from 39,109,573 to 39,094,315 bytes on disk. Public JS/CSS delivery
 fell from 9,553,992 to 9,546,758 bytes. The shared language file fell by 6,562
 bytes raw and 1,944 bytes gzipped. Four Arena audio files totalling 92,716
 source bytes had already been removed in the retirement release. The nine
-focused catalogue and delivery checks passed.
+focused catalogue and delivery checks and two Chrome workflows passed.
+The unrelated search-mutation assertion failed identically before and after
+this cleanup. Source e1b5a76b deployed with --keep-vars as Worker
+896a3579-eea1-467f-99aa-c81282d4f614. Eleven live checks passed, including
+three exact assets, the privacy page, retired audio and API paths, and health.
 
 Satire Arena retirement (2026-11-24 IST, deployed): source 689cf118 removed the
 app, artwork, catalogue entry, routes, editorial and metrics handlers, and
