@@ -1,9 +1,13 @@
-Free Apps catalogue (2026-11-24 IST, local): BatchFee Lite takes Satire Arena's
+Free Apps catalogue (2026-11-24 IST, deployed): BatchFee Lite takes Satire Arena's
 featured position after Kiraya Saathi. Satire Arena is hidden from catalogue
 discovery; its registered direct URL remains available. Static cards and the
 shared launcher bundle were regenerated. Four catalogue unit checks and two
 Chrome workflows passed, including the BatchFee no-login launch from Home and
 device-specific layout editing.
+Source c468a0c5 deployed with --keep-vars as Worker
+116071f7-901d-471a-812d-a02f169f5b0b. Live checks verified the featured position,
+the guest BatchFee launch, the direct Satire Arena route, Worker health and the
+retired BatchFee API. The release performed no database migrations or writes.
 
 JapSeva Suno recording handoff (2026-11-24 IST, local): the UTF-8 master text
 maps all 110 library entries to 230 recording tracks or chapter parts in 33
