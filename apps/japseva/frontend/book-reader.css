@@ -215,3 +215,10 @@ body.japseva-book-open #learn>:not(.mantra-book){display:none}
 #main .book-page-navigation button{overflow-wrap:anywhere}
 #main .book-page-navigation button small{display:block;line-height:1.3}
 #main .book-page-navigation small:empty,#main .book-page-navigation>span span:empty{display:none}
+#main .book-reading-script{display:grid;gap:4px;max-width:100%;margin-block:8px}
+#main .book-reading-script select{min-height:44px}
+#main .reading-learn .book-reading-script{display:none}
+@media(max-width:600px){
+ #main #learn .mantra-book:not(.book-reading) .library-row-copy{grid-template-columns:minmax(0,1fr)}
+ #main #learn .mantra-book:not(.book-reading) .library-entry-meta{grid-column:1;grid-row:auto;max-width:none;text-align:start}
+}

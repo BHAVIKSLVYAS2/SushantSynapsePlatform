@@ -15,6 +15,7 @@ let state,selectedCertificate,busy=false,epoch=0,view='practice',selectedId=null
 const previousViews=[];let restoringView=false;
 const practiceHeader=el('header',undefined,'practice-context'),practiceAudio=el('section');practiceAudio.id='practice-audio';practiceAudio.setAttribute('data-language-preserve','');practiceHeader.setAttribute('data-language-preserve','');practiceAudio.hidden=practiceHeader.hidden=true;$('#practice-back').after(practiceHeader,practiceAudio);
 function showView(next){
+ if(next==='new'&&next!==view&&$('#notice').dataset.error==='false')notice('');
  if(state&&next!==view&&!restoringView){previousViews.push({view,selectedId,query});if(previousViews.length>30)previousViews.shift();}
  $('#main').classList.toggle('library-mode',next==='learn');
  if(next!==view){query='';$('#request-search input').value='';}selectedCertificate=null;selectedId=null;view=next;for(const tab of document.querySelectorAll('[data-tab]'))tab.setAttribute('aria-pressed',String(tab.dataset.tab===view));

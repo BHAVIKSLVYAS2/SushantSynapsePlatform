@@ -292,3 +292,11 @@ body.has-platform-shell[data-ui-app=japseva] #practice-back,body.has-platform-sh
 #main .ratna-counter output{font-size:1.5em;min-width:3ch}
 #main .ratna-fields{display:grid;gap:12px}
 #main .ratna-fields input{max-width:100%;min-width:0}
+#main #setup .setup-grid{grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:14px 10px}
+#main #sankalp-form{display:contents}
+#main #sankalp-form>*{grid-column:1/-1}
+#main #sankalp-form>label:first-of-type{grid-column:1;grid-row:1}
+#main #client-create{grid-column:2;grid-row:1;align-self:end;margin:0;padding:0;border:0}
+#main #client-create>summary{min-height:44px;align-content:center}
+#main #client-create[open]{grid-column:1/-1;grid-row:auto;order:-1}
+#main .setup-grid:has(#client-create[open]) #sankalp-form>label:first-of-type{grid-column:1/-1;grid-row:auto}

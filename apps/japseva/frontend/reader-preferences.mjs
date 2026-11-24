@@ -35,5 +35,5 @@ export function mountReadingSettings(book,toolbar,soundRows,onResize){
   sounds.replaceChildren();for(const row of soundRows){const term=make('dt'),definition=make('dd');term.textContent=row[0];definition.textContent=row[{en:1,hi:2,gu:3}[language]];sounds.append(term,definition);}
  }
  translate('en');
- return {translate,setSaved(ok){canSave=ok;notice.textContent=copy[language][ok?'saved':'unavailable'];},close(){settings.open=guide.open=false;}};
+ return {settings,translate,setSaved(ok){canSave=ok;notice.textContent=copy[language][ok?'saved':'unavailable'];},close(){settings.open=guide.open=false;}};
 }

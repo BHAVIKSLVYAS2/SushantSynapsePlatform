@@ -6,7 +6,7 @@ const make=(tag,cls)=>{const n=document.createElement(tag);if(cls)n.className=cl
 export function mountBookReader({book,toolbar,library,modeLabel,scriptLabel,ending,onBack,onAdvance}){
  const stage=make('div','book-reader-stage'),scroll=make('div','book-reader-scroll'),corner=make('button','book-page-corner'),hint=make('span','book-corner-hint'),nav=make('nav','book-page-navigation'),previous=make('button'),next=make('button'),status=make('span'),kind=make('small'),position=make('span'),contents=make('button','book-contents');
  let row=null,language='en',matches=[],swipe=null,scriptHome=null,boundaries;
- const controlRow=make('div','book-control-row'),availability=make('p','book-audio-unavailable'),chapterPosition=make('span'),previousTarget=make('small'),nextTarget=make('small');
+ const controlRow=make('div','book-control-row'),chapterPosition=make('span'),previousTarget=make('small'),nextTarget=make('small');
  controlRow.append(modeLabel);toolbar.append(controlRow);ending.hidden=true;scroll.append(ending);
  // Keep an independent position for each chapter, including across browser visits.
  let saveTimer,restoreFrame=0,restoring=false,positionKey=null,pendingTurn=null;
@@ -18,7 +18,7 @@ export function mountBookReader({book,toolbar,library,modeLabel,scriptLabel,endi
  scroll.addEventListener('scroll',()=>{if(restoring)return;clearTimeout(saveTimer);saveTimer=setTimeout(savePlace,180);},{passive:true});
  window.addEventListener('pagehide',savePlace);document.addEventListener('visibilitychange',()=>{if(document.hidden)savePlace();});
  stage.addEventListener('japseva-chapter-will-change',event=>{savePlace();cancelPageTurn(stage);pendingTurn={snapshot:capturePage(library),direction:event.detail?.direction||1};});
- function restoreScript(){if(scriptHome){const {label,parent,next}=scriptHome;if(parent)parent.insertBefore(label,next?.parentNode===parent?next:null);else label.remove();scriptHome=null;}}
+ function restoreScript(){if(scriptHome){const {label,parent,next}=scriptHome;label.classList.remove('book-reading-script');if(parent)parent.insertBefore(label,next?.parentNode===parent?next:null);else label.remove();scriptHome=null;}}
  corner.type=previous.type=next.type=contents.type='button';corner.append(make('span'));corner.firstChild.textContent='↗';corner.firstChild.setAttribute('aria-hidden','true');status.role='status';status.append(kind,position,chapterPosition);nav.append(previous,status,next);stage.append(scroll,hint,corner);book.append(stage,nav);stage.hidden=nav.hidden=true;toolbar.prepend(contents);contents.onclick=onBack;
  function hasChapter(direction){
   const chapter=row?.reader?.navigation(),target=chapter?.position+direction;
@@ -29,7 +29,6 @@ export function mountBookReader({book,toolbar,library,modeLabel,scriptLabel,endi
   const t=words[language]||words.en;
   const {atEnd,startLabel,endLabel}=boundaries;
   contents.textContent='← '+t.contents;hint.textContent=t.corner;
-  availability.hidden=atEnd||!!row?.audio;availability.textContent={en:'Audio unavailable',hi:'ऑडियो उपलब्ध नहीं',gu:'ઑડિયો ઉપલબ્ધ નથી'}[language];
   previous.replaceChildren(t.previous,previousTarget);next.replaceChildren(t.next,nextTarget);
   const readingIndex=matches.indexOf(row),chapter=row?.reader?.navigation();
   kind.textContent=atEnd?'':t.reading;position.textContent=atEnd?'':readingIndex<0?'—':(readingIndex+1)+' / '+matches.length;
@@ -60,9 +59,9 @@ export function mountBookReader({book,toolbar,library,modeLabel,scriptLabel,endi
  scroll.addEventListener('touchstart',e=>{if(e.touches.length!==1||e.target.closest('button,input,select,a,summary'))return;swipe={x:e.touches[0].clientX,y:e.touches[0].clientY};},{passive:true});
  scroll.addEventListener('touchend',e=>{if(!swipe)return;const dx=e.changedTouches[0].clientX-swipe.x,dy=e.changedTouches[0].clientY-swipe.y;swipe=null;if(Math.abs(dx)>80&&Math.abs(dx)>Math.abs(dy)*1.8&&!getSelection().toString())step(dx<0?1:-1);},{passive:true});
  function clearPlace(){cancelAnimationFrame(restoreFrame);clearTimeout(saveTimer);restoring=false;positionKey=null;pendingTurn=null;}
- function showEnding(show){ending.hidden=!show;toolbar.hidden=library.hidden=show;availability.hidden=show||!!row?.audio;}
+ function showEnding(show){ending.hidden=!show;toolbar.hidden=library.hidden=show;}
  return {paint,save:savePlace,capture(){return capturePage(library);},
-  open(active,direction,snapshot){settings.close();restoreScript();row=active;showEnding(false);const label=active.reader?.scriptControl()||scriptLabel;scriptHome={label,parent:label.parentNode,next:label.nextSibling};label.hidden=false;controlRow.append(label);scroll.append(toolbar,availability,library);stage.hidden=nav.hidden=false;restorePlace();document.body.classList.add('japseva-book-open');if(snapshot)turnPage(library,direction,snapshot);},
+  open(active,direction,snapshot){settings.close();restoreScript();row=active;showEnding(false);const label=active.reader?.scriptControl()||scriptLabel;scriptHome={label,parent:label.parentNode,next:label.nextSibling};label.hidden=false;label.classList.add('book-reading-script');settings.settings.append(label);scroll.append(toolbar,library);stage.hidden=nav.hidden=false;restorePlace();document.body.classList.add('japseva-book-open');if(snapshot)turnPage(library,direction,snapshot);},
   openEnd(){savePlace();clearPlace();const snapshot=capturePage(library);settings.close();showEnding(true);scroll.scrollTop=0;if(snapshot)turnPage(ending,1,snapshot);},
   close(){savePlace();clearPlace();settings.close();cancelPageTurn(stage);restoreScript();showEnding(false);stage.hidden=nav.hidden=true;book.insertBefore(library,stage);document.body.classList.remove('japseva-book-open');},
   step,scroll

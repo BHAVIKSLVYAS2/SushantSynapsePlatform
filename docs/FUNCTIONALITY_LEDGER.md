@@ -117,6 +117,15 @@ expected pause was missing. Suno-generated pronunciation,
 actual silence behavior and the FFmpeg MP3 path remain unverified. No generated
 audio has been published to JapSeva.
 
+JapSeva mobile layout review (2026-11-24 IST). Reading settings now contains
+the recitation script selector. Audio controls appear on recorded entries.
+On phones, Contents puts the chapter count below each title and translation.
+New request places Add a client beside the selector, clears previous success
+messages on entry, and opens client creation for a first-time practitioner.
+The request form uses a single section heading. Eighteen Node checks passed.
+Chrome verified mobile request creation, history navigation, reader preferences
+and the shared book frame. The 320px request screenshot was reviewed.
+
 JapSeva Mantra Library book endpoints (2026-11-24 IST, deployed): Start reading
 opens the first entry from Contents, and Previous on that entry returns to the
 index. The final Next opens a closing page in the same book frame. Previous
