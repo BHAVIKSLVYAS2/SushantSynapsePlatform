@@ -20,7 +20,7 @@ test('shared Chambers summary matches legacy derivation without mutating transac
 test('retired Arena endpoints return 404 before storage opens',async()=>{
  const {edgeApi}=await import('../server/edge-index.mjs');
  for(const route of ['/api/satire-arena','/api/arena-editorial/today','/api/arena-metrics']){
-  const response=await edgeApi(new Request('https://example.test'+route),{});
+  const response=await edgeApi(new Request('https://example.test'+route),{PUBLIC_ORIGIN:'https://example.test'});
   assert.equal(response.status,404);
  }
 });

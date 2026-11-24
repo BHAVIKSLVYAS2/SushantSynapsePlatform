@@ -1,3 +1,21 @@
+Satire Arena retirement (2026-11-24 IST, deployed): source 689cf118 removed the
+app, artwork, catalogue entry, routes, editorial and metrics handlers, and
+Arena-specific Worker binding. Node and Workers reject retired paths with 404;
+the shared robots and sitemap remain available. Archived historical migrations
+retain SQL recovery compatibility. Deployed with --keep-vars as Worker
+f97b3d84-f3c1-4dde-acf7-4eae6e714cb4, then removed the Arena-only signing secret
+and verified its absence and the live route statuses.
+
+Scoped cleanup deleted 106 votes from production D1. Arena votes, editorial and
+metrics settings, assignments, licences and legacy access now count zero. The
+shared totals remain 12 users, 23 records and three organisations. An isolated
+SQL check preserved unrelated settings and access rows. The deployment exported
+679 assets. Twenty-nine focused tests and twenty-seven public live HTTP checks
+passed. The initial full suite passed 594/610; all eight retirement/Cloudflare
+failures passed after correcting the test origin and allowing build writes.
+The full run also reported older organisation/BatchFee fixtures and Vedic
+checks; a clean full run is still unverified.
+
 Free Apps catalogue (2026-11-24 IST, deployed): BatchFee Lite takes Satire Arena's
 featured position after Kiraya Saathi. Satire Arena is hidden from catalogue
 discovery; its registered direct URL remains available. Static cards and the

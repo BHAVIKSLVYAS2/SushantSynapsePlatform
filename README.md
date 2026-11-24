@@ -1,3 +1,8 @@
+# Satire Arena retirement
+
+Satire Arena was retired on 24 November 2026. Its pages, assets and APIs
+return 404. Earlier Arena release notes in this README are historical.
+
 Tournament Lite is now a free, no-login public app at `/tournament-lite`.
 Tournaments save in this browser only; cloud saving/live viewer links are retired.
 Download JSON copies and print results; unified account saving is future work.
