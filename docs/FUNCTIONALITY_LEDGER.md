@@ -1,4 +1,4 @@
-JapSeva continuous Mantra Library book (2026-11-24 IST, local): Contents, short
+JapSeva continuous Mantra Library book (2026-11-24 IST, deployed): Contents, short
 readings and chapter readings share a single-column typesetting grid, paper
 binding, text margins and title styling. Page controls follow visible Contents
 order across reading boundaries. Forward turns enter a collection at its first
@@ -8,7 +8,10 @@ anchoring and uses the page-turn overlay only when there is an outgoing page.
 Eighteen focused Node checks pass. Chrome verifies mobile and desktop book
 alignment, forward and reverse turns across short/Rudram/Puja entries, keyboard
 turns, the first-page top position, the single navigation pair and full Rudram
-selection and recitation setup. Production deployment is pending.
+selection and recitation setup. Source 6255eaab deployed with --keep-vars as Worker
+dc2dee7d-3fce-42e2-b0ad-534880c4111f. Four live Chrome workflows and seven
+exact asset checks pass, along with Worker health and BatchFee public/retired API
+checks. Live JapSeva checks used public reads and browser-local preferences.
 
 BatchFee Lite free browser mode (2026-11-24 IST, deployed): the public catalogue
 opens BatchFee without a login or workspace assignment. IndexedDB transactions
@@ -28,7 +31,7 @@ and 2 licences. All nine BatchFee cleanup categories verified zero. Shared
 control totals stayed at 12 users, 23 records and 3 organisations. The cleanup
 SQL passed an isolated scope check that preserved unrelated app access rows.
 
-JapSeva shared pronunciation help (2026-11-24 IST, local): Learn presents one
+JapSeva shared pronunciation help (2026-11-24 IST, deployed with the continuous book): Learn presents one
 Pronunciation help panel in the book toolbar. Shared reading guidance lives
 there, and one Roman/Gujarati toggle controls the alternate-script text across
 passages. Each passage retains its Devanagari text, reading guidance and meaning.
