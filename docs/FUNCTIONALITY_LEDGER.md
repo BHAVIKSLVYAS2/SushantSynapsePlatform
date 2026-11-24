@@ -1,3 +1,40 @@
+JapSeva continuous Mantra Library book (2026-11-24 IST, local): Contents, short
+readings and chapter readings share a single-column typesetting grid, paper
+binding, text margins and title styling. Page controls follow visible Contents
+order across reading boundaries. Forward turns enter a collection at its first
+chapter and reverse turns enter at its last. Direct opens retain the existing
+saved chapter and position behavior. The reader disables browser scroll
+anchoring and uses the page-turn overlay only when there is an outgoing page.
+Eighteen focused Node checks pass. Chrome verifies mobile and desktop book
+alignment, forward and reverse turns across short/Rudram/Puja entries, keyboard
+turns, the first-page top position, the single navigation pair and full Rudram
+selection and recitation setup. Production deployment is pending.
+
+BatchFee Lite free browser mode (2026-11-24 IST, deployed): the public catalogue
+opens BatchFee without a login or workspace assignment. IndexedDB transactions
+preserve validated fee history and reject stale revisions. Existing standalone
+and organisation JSON backups can be restored into compatible browser history.
+The Node and Worker server routes are retired with HTTP 410.
+
+Source ea2ef031 deployed from an isolated checkout as Worker
+228e1b6a-2339-4f3e-8247-d9ae8739570c with --keep-vars. The production build
+exported 773 assets. Eight focused Node checks, three local Chrome workflows and
+the live public entry, save/reload, independent browser, retired API, health
+and exact asset checks passed.
+
+The authorised one-time D1 cleanup deleted 25 BatchFee-only rows: 13 scoped and
+3 legacy events, 2 scoped and 1 legacy workspace, 1 ownership row, 3 assignments
+and 2 licences. All nine BatchFee cleanup categories verified zero. Shared
+control totals stayed at 12 users, 23 records and 3 organisations. The cleanup
+SQL passed an isolated scope check that preserved unrelated app access rows.
+
+JapSeva shared pronunciation help (2026-11-24 IST, local): Learn presents one
+Pronunciation help panel in the book toolbar. Shared reading guidance lives
+there, and one Roman/Gujarati toggle controls the alternate-script text across
+passages. Each passage retains its Devanagari text, reading guidance and meaning.
+Eighteen focused Node checks and two Chrome workflows pass, including the
+shared toggle across multiple Rudram passages, short mantras, Ratna and page turns.
+
 JapSeva Mantra Library Learn mode (2026-11-24 IST, deployed): each passage leads with
 the original Sanskrit in Devanagari, then existing Devanagari pronunciation
 guidance where available, then a separately labelled meaning. Where only the

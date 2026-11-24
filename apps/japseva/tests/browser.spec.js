@@ -11,9 +11,15 @@ test('reading size and spacing apply to short, chapter and Ratna text, persist a
   await expect(verse.locator(':scope > :nth-child(2)')).toContainText(id==='rudram-complete'?'words as printed':'Pronunciation help');
   await expect(verse.locator(':scope > :nth-child(3) .verse-meaning')).not.toBeEmpty();
   await expect(verse.locator('.verse-pronunciation')).toBeHidden();
-  await verse.locator('.verse-reading-help>summary').click();
+  const help=page.locator('.book-sound-help:visible'),scriptAids=help.getByRole('checkbox');
+  await expect(help).toHaveCount(1);
+  await help.locator(':scope > summary').click();
+  await scriptAids.check();
   await expect(verse.locator('.verse-pronunciation [lang=sa-Latn]')).toBeVisible();
   await expect(verse.locator('.verse-pronunciation [lang=sa-Gujr]')).toBeVisible();
+  if(id==='rudram-complete')await expect(page.locator('#library .chapter-verse-pairs .verse-pronunciation:visible').nth(1)).toBeVisible();
+  await scriptAids.uncheck();
+  await expect(verse.locator('.verse-pronunciation')).toBeHidden();
   if(id==='rudram-complete'){
    const context=page.locator('#library [data-mantra-id=rudram-complete] .reading-context');
    await context.locator(':scope > summary').click();
@@ -80,6 +86,25 @@ test('Contents and the reader share a bound book at mobile and desktop sizes',as
   await expect(search).toHaveValue('Gayatri');
  }
 });
+test('the book turns continuously from a short mantra through Rudram into Puja',async({page})=>{
+ await page.setViewportSize({width:390,height:700});await page.goto(base+'/japseva');
+ await page.emulateMedia({reducedMotion:'reduce'});await page.locator('[data-tab=learn]').click();
+ await openGuide(page,'rudram-namakam-opening');
+ const nav=page.locator('.book-page-navigation'),scroll=page.locator('.book-reader-stage>.book-reader-scroll');
+ const visibleEntry=id=>page.locator('#library [data-mantra-id='+id+']:visible');
+ await nav.getByRole('button',{name:'Next reading',exact:true}).click();
+ const rudram=visibleEntry('rudram-complete').locator('.chapter-reader>label select');
+ await expect(rudram).toHaveValue('0');await expect.poll(()=>scroll.evaluate(n=>n.scrollTop)).toBe(0);
+ await rudram.selectOption('21');await page.locator('.book-page-corner').click();
+ const puja=visibleEntry('puja-rudrabhishek').locator('.chapter-reader>label select');
+ await expect(puja).toHaveValue('0');await expect.poll(()=>scroll.evaluate(n=>n.scrollTop)).toBe(0);
+ await nav.getByRole('button',{name:'Previous reading',exact:true}).click();await expect(rudram).toHaveValue('21');
+ await page.keyboard.press('ArrowLeft');await expect(rudram).toHaveValue('20');
+ await page.keyboard.press('ArrowLeft');await expect(rudram).toHaveValue('19');
+ await page.screenshot({path:'.publish/japseva-continuous-reading.png'});
+ await page.locator('.book-contents').click();await expect(page.locator('#library [data-mantra-id=rudram-complete] .library-guide>summary')).toBeFocused();
+ await page.screenshot({path:'.publish/japseva-continuous-contents.png'});
+});
 test('Devanagari leads every library reading and practice selector; alternate scripts remain optional',async({page})=>{
  test.setTimeout(480000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto(base+'/japseva');await page.emulateMedia({reducedMotion:'reduce'});await page.locator('[data-tab=new]').click();
@@ -87,7 +112,7 @@ test('Devanagari leads every library reading and practice selector; alternate sc
  const labels=await page.locator('#sankalp-form [name=mantraId] option').allTextContents();expect(labels.slice(0,-1)).toEqual(records.map(m=>m.hi));
  await page.locator('[data-tab=learn]').click();
  for(const m of records){await page.locator('#mantra-search').fill(m.en);await openGuide(page,m.id);await expect(page.locator('.book-toolbar>h2')).toHaveText(m.hi);await page.locator('.reading-mode input').check();const row=page.locator('#library [data-mantra-id="'+m.id+'"]');
-  if(!m.chapters){await expect(row.locator('.verse-text').first()).toHaveAttribute('lang','sa-Deva');await expect(row.locator('.verse-reading-help').first()).not.toHaveAttribute('open');await row.locator('.verse-reading-help summary').first().click();await expect(row.locator('.verse-pronunciation').first()).toBeVisible();}
+  if(!m.chapters){await expect(row.locator('.verse-text').first()).toHaveAttribute('lang','sa-Deva');await expect(row.locator('.verse-pronunciation').first()).toBeHidden();}
   else if(m.id!=='puja-ratna-abhimantran'){const select=row.locator('.chapter-reader>label select').first(),count=await select.locator('option').count();for(let i=0;i<count;i++){await select.selectOption(String(i));const text=row.locator('.verse-text:visible,.chapter-text:visible').first();if(await text.count())await expect(text).toHaveAttribute('lang','sa-Deva');await expect(row.locator('.chapter-reader>h4').first()).toContainText(/[\u0900-\u097f]/);}}
   await page.locator('.platform-back').click();
  }
@@ -238,11 +263,11 @@ test('Navagraha guides translate, filter and create a persistent client practice
 });
 
 test('complete Rudram reader covers both books, preserves chapter selection and saves complete-recitation practice',async({page})=>{
- await page.setViewportSize({width:320,height:800});await create(page);await page.locator('[data-tab=learn]').click();await page.locator('#mantra-search').fill('Complete Namakam');await expect(page.locator('[data-mantra-id=rudram-complete]')).toBeVisible();await openGuide(page,'rudram-complete');
- const card=page.locator('[data-mantra-id=rudram-complete]'),reader=card.locator('.chapter-reader'),chapter=reader.getByLabel('Anuvaka',{exact:true});await expect(chapter.locator('option')).toHaveCount(22);await expect(page.locator('.book-page-navigation').getByRole('button',{name:'Previous chapter',exact:true})).toBeDisabled();
+ await page.setViewportSize({width:320,height:800});await create(page);await page.locator('[data-tab=learn]').click();await page.locator('#mantra-search').fill('Complete Namakam & Chamakam');await expect(page.locator('[data-mantra-id=rudram-complete]')).toBeVisible();await openGuide(page,'rudram-complete');
+ const card=page.locator('[data-mantra-id=rudram-complete]'),reader=card.locator('.chapter-reader'),chapter=reader.getByLabel('Anuvaka',{exact:true});await expect(chapter.locator('option')).toHaveCount(22);await expect(page.locator('.book-page-navigation').getByRole('button',{name:'Previous reading',exact:true})).toBeDisabled();
  const expected=await page.evaluate(async()=>{const {fullRudram:m}=await import('/japseva/rudram-full.mjs');return m.chapters.map(c=>({start:c.text.slice(0,30),end:c.text.slice(-30)}));});
  for(let index=0;index<22;index++){await chapter.selectOption(String(index));await expect(reader.locator('.chapter-text')).toContainText(expected[index].start);await expect(reader.locator('.chapter-text')).toContainText(expected[index].end);await expect(page.locator('.book-page-navigation [role=status]>span')).toHaveText((index+1)+' / 22');}
- await expect(page.locator('.book-page-navigation').getByRole('button',{name:'Next chapter',exact:true})).toBeDisabled();await chapter.selectOption('7');await page.locator('.book-page-navigation').getByRole('button',{name:'Next chapter',exact:true}).click();await expect(chapter).toHaveValue('8');await page.locator('.book-page-navigation').getByRole('button',{name:'Previous chapter',exact:true}).click();
+ await expect(page.locator('.book-page-navigation').getByRole('button',{name:'Next reading',exact:true})).toBeDisabled();await chapter.selectOption('7');await page.locator('.book-page-navigation').getByRole('button',{name:'Next chapter',exact:true}).click();await expect(chapter).toHaveValue('8');await page.locator('.book-page-navigation').getByRole('button',{name:'Previous chapter',exact:true}).click();
  for(const language of ['en','hi','gu']){await page.evaluate(l=>SynapseLanguage.set(l),language);await expect(reader.locator('select').first()).toHaveValue('7');await expect(reader.locator('.chapter-meaning')).toHaveAttribute('lang',language);await page.locator('.book-control-row select').selectOption(language);await expect(reader.locator('.chapter-text')).toHaveAttribute('lang',language==='en'?'sa-Latn':language==='hi'?'sa-Deva':'sa-Gujr');}
  for(const theme of ['light','dark','deep']){await page.evaluate(t=>SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await page.evaluate(()=>{SynapseLanguage.set('en');SynapseTheme.write('light');});await chapter.selectOption('0');await page.locator('.book-control-row select').selectOption('hi');await page.screenshot({path:'.publish/japseva-full-rudram-mobile.png',fullPage:true});

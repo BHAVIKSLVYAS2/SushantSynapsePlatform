@@ -23,6 +23,7 @@ export function mountLibraryIndex(library,rows){
  groups[0].node.open=true;
  let returning=null;
  return {
+  orderedRows(filtered){return filtered?rows:groups.flatMap(group=>group.rows);},
   reveal(row){returning=row;},
   paint(language,active,filtered){
    library.classList.toggle('library-direct-results',filtered);

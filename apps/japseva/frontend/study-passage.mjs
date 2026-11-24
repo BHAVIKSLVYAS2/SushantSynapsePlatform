@@ -14,9 +14,9 @@ export function studyPassage(sanskrit,meanings,language='hi'){
 export const studyNote=language=>(copy[language]||copy.en).note;
 const make=(tag,text,cls,language)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(cls)node.className=cls;if(language)node.lang=language;return node;};
 const guideCopy={
- en:['Pronunciation help · Devanagari','Reading help · words as printed','Roman / Gujarati reading help'],
- hi:['उच्चारण सहायता · देवनागरी','पठन सहायता · मूल पाठ के शब्द','रोमन / गुजराती पठन सहायता'],
- gu:['ઉચ્ચાર સહાય · દેવનાગરી','વાંચન સહાય · મૂળ પાઠના શબ્દો','રોમન / ગુજરાતી વાંચન સહાય']
+ en:['Pronunciation help · Devanagari','Reading help · words as printed'],
+ hi:['उच्चारण सहायता · देवनागरी','पठन सहायता · मूल पाठ के शब्द'],
+ gu:['ઉચ્ચાર સહાય · દેવનાગરી','વાંચન સહાય · મૂળ પાઠના શબ્દો']
 };
 export function renderStudyPassage(sanskrit,meanings,language,{devanagari,roman,gujarati,romanGuide}={}){
  const unit=studyPassage(sanskrit,meanings,language),t=copy[language]||copy.en,block=make('section',undefined,'verse-pair');
@@ -36,8 +36,8 @@ export function renderStudyPassage(sanskrit,meanings,language,{devanagari,roman,
  }
  const meaning=make('div',undefined,'verse-meaning-block');
  meaning.append(make('span',unit.meaningLanguage==='hi'&&language!=='hi'?t.hindi:t.meaning,'verse-meaning-label'),make('p',unit.meaning,'verse-meaning',unit.meaningLanguage));
- const help=make('details',undefined,'verse-reading-help');
- help.append(make('summary',labels[2]),aids);
+ const help=make('div',undefined,'verse-reading-help');
+ help.append(aids);
  if(romanGuide&&romanGuide!==(roman||unit.roman))help.append(make('p',romanGuide,'muted','sa-Latn'));
  block.append(meaning,help);return block;
 }

@@ -18,11 +18,37 @@ export function mountBookReader({book,toolbar,library,footer,modeLabel,scriptLab
  stage.addEventListener('japseva-chapter-will-change',event=>{savePlace();cancelPageTurn(stage);pendingTurn={snapshot:capturePage(library),direction:event.detail?.direction||1};});
  function restoreScript(){if(scriptHome){const {label,parent,next}=scriptHome;if(parent)parent.insertBefore(label,next?.parentNode===parent?next:null);else label.remove();scriptHome=null;}}
  corner.type=previous.type=next.type=contents.type='button';corner.append(make('span'));corner.firstChild.textContent='↗';corner.firstChild.setAttribute('aria-hidden','true');status.role='status';status.append(kind,position);nav.append(previous,status,next);stage.append(scroll,hint,corner);book.append(stage,nav);stage.hidden=nav.hidden=true;toolbar.prepend(contents);contents.onclick=onBack;
- function paint(nextLanguage=language,active=row,filtered=matches){language=nextLanguage;row=active;matches=filtered;settings.translate(language);const t=words[language]||words.en;contents.textContent='← '+t.contents;hint.textContent=t.corner;availability.hidden=!!row?.audio;availability.textContent={en:'Audio unavailable',hi:'ऑडियो उपलब्ध नहीं',gu:'ઑડિયો ઉપલબ્ધ નથી'}[language];previous.textContent=t.previous;next.textContent=t.next;const chapter=row?.reader?.navigation(),index=chapter?chapter.position:matches.indexOf(row),total=chapter?chapter.total:matches.length;kind.textContent=chapter?t.chapter:t.reading;position.textContent=index<0?'—':(index+1)+' / '+total;previous.disabled=index<=0;next.disabled=index<0||index>=total-1;corner.disabled=next.disabled;hint.hidden=next.disabled;previous.setAttribute('aria-label',chapter?t.previousChapter:t.previousReading);next.setAttribute('aria-label',chapter?t.nextChapter:t.nextReading);corner.setAttribute('aria-label',chapter?t.nextChapter:t.nextReading);nav.setAttribute('aria-label',chapter?t.chapter:t.reading);book.classList.toggle('book-has-chapters',!!chapter);}
- function step(direction){if(!row||(direction>0?next.disabled:previous.disabled))return;book.classList.add('book-has-turned');if(row.reader){const p=row.reader.navigation().position;row.reader.move(p+direction);paint();}else onAdvance(direction);}
+ function hasChapter(direction){
+  const chapter=row?.reader?.navigation(),target=chapter?.position+direction;
+  return !!chapter&&target>=0&&target<chapter.total;
+ }
+ function paint(nextLanguage=language,active=row,filtered=matches){
+  language=nextLanguage;row=active;matches=filtered;settings.translate(language);
+  const t=words[language]||words.en;
+  contents.textContent='← '+t.contents;hint.textContent=t.corner;
+  availability.hidden=!!row?.audio;availability.textContent={en:'Audio unavailable',hi:'ऑडियो उपलब्ध नहीं',gu:'ઑડિયો ઉપલબ્ધ નથી'}[language];
+  previous.textContent=t.previous;next.textContent=t.next;
+  const readingIndex=matches.indexOf(row),chapter=row?.reader?.navigation();
+  const index=chapter?.position??readingIndex,total=chapter?.total??matches.length;
+  kind.textContent=chapter?t.chapter:t.reading;position.textContent=index<0?'—':(index+1)+' / '+total;
+  const previousChapter=hasChapter(-1),nextChapter=hasChapter(1);
+  previous.disabled=!previousChapter&&readingIndex<=0;
+  next.disabled=!nextChapter&&(readingIndex<0||readingIndex>=matches.length-1);
+  corner.disabled=next.disabled;hint.hidden=next.disabled;
+  previous.setAttribute('aria-label',previousChapter?t.previousChapter:t.previousReading);
+  next.setAttribute('aria-label',nextChapter?t.nextChapter:t.nextReading);
+  corner.setAttribute('aria-label',next.getAttribute('aria-label'));
+  nav.setAttribute('aria-label',t.reading);book.classList.toggle('book-has-chapters',!!chapter);
+ }
+ function step(direction){
+  if(!row||(direction>0?next.disabled:previous.disabled))return;
+  book.classList.add('book-has-turned');
+  if(hasChapter(direction))row.reader.move(row.reader.navigation().position+direction);
+  else onAdvance(direction);
+ }
  previous.onclick=()=>step(-1);next.onclick=corner.onclick=()=>step(1);
  stage.addEventListener('japseva-chapter-change',()=>{paint();restorePlace();if(pendingTurn){const turn=pendingTurn;pendingTurn=null;turnPage(library,turn.direction,turn.snapshot);}});
  scroll.addEventListener('touchstart',e=>{if(e.touches.length!==1||e.target.closest('button,input,select,a,summary'))return;swipe={x:e.touches[0].clientX,y:e.touches[0].clientY};},{passive:true});
  scroll.addEventListener('touchend',e=>{if(!swipe)return;const dx=e.changedTouches[0].clientX-swipe.x,dy=e.changedTouches[0].clientY-swipe.y;swipe=null;if(Math.abs(dx)>80&&Math.abs(dx)>Math.abs(dy)*1.8&&!getSelection().toString())step(dx<0?1:-1);},{passive:true});
- return {paint,save:savePlace,capture(){return capturePage(library);},open(active,direction,snapshot){settings.close();restoreScript();row=active;const label=active.reader?.scriptControl()||scriptLabel;scriptHome={label,parent:label.parentNode,next:label.nextSibling};label.hidden=false;controlRow.append(label);scroll.append(toolbar,availability,library);stage.hidden=nav.hidden=false;restorePlace();document.body.classList.add('japseva-book-open');turnPage(library,direction,snapshot);},close(){savePlace();cancelAnimationFrame(restoreFrame);restoring=false;positionKey=null;pendingTurn=null;settings.close();cancelPageTurn(stage);restoreScript();stage.hidden=nav.hidden=true;book.insertBefore(library,stage);document.body.classList.remove('japseva-book-open');},step,scroll};
+ return {paint,save:savePlace,capture(){return capturePage(library);},open(active,direction,snapshot){settings.close();restoreScript();row=active;const label=active.reader?.scriptControl()||scriptLabel;scriptHome={label,parent:label.parentNode,next:label.nextSibling};label.hidden=false;controlRow.append(label);scroll.append(toolbar,availability,library);stage.hidden=nav.hidden=false;restorePlace();document.body.classList.add('japseva-book-open');if(snapshot)turnPage(library,direction,snapshot);},close(){savePlace();cancelAnimationFrame(restoreFrame);restoring=false;positionKey=null;pendingTurn=null;settings.close();cancelPageTurn(stage);restoreScript();stage.hidden=nav.hidden=true;book.insertBefore(library,stage);document.body.classList.remove('japseva-book-open');},step,scroll};
 }
