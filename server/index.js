@@ -10,7 +10,6 @@ const {createSupport}=require('../apps/portal/backend/support');
 const {createFocus}=require('../apps/focus/backend/routes');
 const {createRitualCalendar}=require('../apps/ritual-assist/backend/routes');
 const {createAdvocate}=require('../apps/advocate/backend/routes');
-const {createBatchFee}=require('../apps/batchfee-lite/backend/routes');
 const {createDigitalSamaj}=require('../apps/digital-samaj/backend/routes');
 const {createArena}=require('../apps/satire-arena/backend/routes');
 const {staticAssets}=require('./static-assets');
@@ -37,7 +36,6 @@ const visitorCounter=require('../apps/portal/backend/visitors.cjs').createVisito
 const support=createSupport({store,auth});
 const focus=createFocus({store});
 const ritualCalendar=createRitualCalendar();
-const batchFee=createBatchFee({auth,store});
 const digitalSamaj=createDigitalSamaj({auth,store});
 const satireArena=createArena({store});
 const feedbackApp=require('../apps/feedback/backend/routes.cjs').createFeedback({store,auth});
@@ -123,6 +121,7 @@ async function dispatch(req,res) {
       const response=placeLookup(url,method);res.writeHead(response.status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':response.status===200?'public, max-age=86400':'no-store','X-Content-Type-Options':'nosniff',...(response.status===405?{Allow:'GET, HEAD'}:{})});
       res.end(method==='HEAD'?undefined:JSON.stringify(response.body));return;
     }
+    if(route==='batchfee-lite'||route.startsWith('batchfee-lite/'))return json(410,{error:'BatchFee Lite is free and saves in your browser. Server storage is retired.'});
     if(route==='tournament-lite'||route.startsWith('tournament-lite/'))return json(410,{error:'Tournament Lite is now free and saves in your browser. Old server tournaments and live links are retired.'});
     const user=auth.session(req);
     const context={route,method,req,res,json,user};
@@ -148,7 +147,6 @@ async function dispatch(req,res) {
     if(!user)fail(401,'Please sign in');
     if(route==='ledger'&&method==='GET')return json(200,{markdown:fs.readFileSync(path.join(ROOT,'docs/FUNCTIONALITY_LEDGER.md'),'utf8')});
     if(route==='platform'||route.startsWith('platform/'))return await portal(context);
-    if(route==='batchfee-lite'||route.startsWith('batchfee-lite/'))return await batchFee(context);
     return await advocate(context);
 }
 const server=http.createServer(async(req,res)=>{

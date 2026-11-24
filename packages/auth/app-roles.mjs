@@ -8,12 +8,6 @@ const catalogue=Object.freeze({
   role('Advocate','Work with cases and hearings using the existing Advocate permissions.'),
   role('Owner','Manage Chambers, including its owner-only settings and recovery controls.')
  ]),
- 'batchfee-lite':Object.freeze([
-  role('Viewer','View academy records and reports without making changes.'),
-  role('Collector','View academy records and record fee payments.'),
-  role('Manager','Manage students, batches, charges, payments, expenses and reminder templates.'),
-  role('Owner','Manage the academy, including settings, corrections and backup recovery.')
- ]),
  'digital-samaj':Object.freeze([
   role('Member','Enter the community subject to separate community grants and privacy rules.'),
   role('Owner','Set up community access; community grants and privacy rules still apply.')

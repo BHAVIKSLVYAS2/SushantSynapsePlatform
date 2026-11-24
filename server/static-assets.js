@@ -261,7 +261,7 @@ staticAssets['/ritual-assist/checklist-state.mjs']='apps/ritual-assist/frontend/
 for(const file of ['app.js','engine.mjs','style.css','chaos-engine.mjs','chaos.mjs','chaos.css','celebration.mjs'])staticAssets['/take-a-break/'+file]='apps/take-a-break/frontend/'+file;
 for(const file of ['app.js','i18n.js','style.css','print.css'])staticAssets['/digital-samaj/'+file]='apps/digital-samaj/frontend/'+file;
 for(const file of ['app.js','export.js','style.css','scheduling.js','engine.bundle.js','storage.js'])staticAssets['/tournament-lite/'+file]='apps/tournament-lite/frontend/'+file;
-for(const file of ['app.js','style.css'])staticAssets['/batchfee-lite/'+file]='apps/batchfee-lite/frontend/'+file;
+for(const file of ['app.js','style.css','engine.bundle.js','storage.js'])staticAssets['/batchfee-lite/'+file]='apps/batchfee-lite/frontend/'+file;
 for(const file of ['app.js','engine.js','worker.js','export.js','style.css','mobile.css'])staticAssets['/timetable-lite/'+file]='apps/timetable-lite/frontend/'+file;
 
 for(const file of ['engine.mjs','style.css'])staticAssets['/take-a-break/spark/'+file]='apps/daily-spark/frontend/'+file;
