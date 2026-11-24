@@ -88,17 +88,41 @@ export function mountCollection(learn,onSaved,onUse=()=>{}){
   }
  }
  mode.onchange=()=>{paintMode();writePreference('learn',mode.checked);try{sessionStorage.setItem('japseva-reading-learn',String(mode.checked));}catch{}};
- const readerShell=mountBookReader({book,toolbar,library,footer,modeLabel,scriptLabel,back,onBack:showIndex,onAdvance:advance});
- let activeReading=null,lastRead=readPreference('last'),indexScroll=0;try{lastRead=sessionStorage.getItem('japseva-book-last')||lastRead;}catch{}
+ const boundaryCopy={
+  en:{start:'Start reading',firstResult:'Read first result',end:'End of book',resultsEnd:'End of search results',contents:'Back to Contents',results:'Back to results'},
+  hi:{start:'पढ़ना शुरू करें',firstResult:'पहला परिणाम पढ़ें',end:'ग्रन्थ समाप्त',resultsEnd:'खोज परिणाम समाप्त',contents:'विषय-सूची पर लौटें',results:'परिणामों पर लौटें'},
+  gu:{start:'વાંચવાનું શરૂ કરો',firstResult:'પ્રથમ પરિણામ વાંચો',end:'ગ્રંથ સમાપ્ત',resultsEnd:'શોધ પરિણામો સમાપ્ત',contents:'વિષયસૂચિ પર પાછા ફરો',results:'પરિણામો પર પાછા ફરો'}
+ };
+ const start=el('button',undefined,'book-start'),ending=el('section',undefined,'book-ending'),endTitle=el('h2'),endBack=el('button');
+ start.type=endBack.type='button';endTitle.tabIndex=-1;ending.append(endTitle,endBack);cover.append(start);
+ const readerShell=mountBookReader({book,toolbar,library,modeLabel,scriptLabel,ending,onBack:showIndex,onAdvance:advance});
+ let activeReading=null,atEnd=false,lastRead=readPreference('last'),indexScroll=0;try{lastRead=sessionStorage.getItem('japseva-book-last')||lastRead;}catch{}
+ const isFiltered=()=>!!search.value.trim()||filters.hasActive();
+ function paintReader(){
+  const t=boundaryCopy[language],filtered=isFiltered(),matches=readingRows();
+  start.hidden=!matches.length;start.textContent=filtered?t.firstResult:t.start;
+  endTitle.textContent=filtered?t.resultsEnd:t.end;endBack.textContent=filtered?t.results:t.contents;
+  readerShell.paint(language,activeReading,matches,{atEnd,startLabel:endBack.textContent,endLabel:endTitle.textContent});
+ }
+ start.onclick=()=>{const row=readingRows()[0];if(row){row.reader?.enter?.(1);openReading(row);}};
+ endBack.onclick=showIndex;
  for(const [index,row]of cards.entries()){const number=el('span',String(index+1).padStart(2,'0'),'book-index-number');number.setAttribute('aria-hidden','true');row.disclosure.querySelector('summary').prepend(number);row.disclosure.querySelector('summary').addEventListener('click',event=>{event.preventDefault();openReading(row);});}
- function paintBook(){contents.paint(language,activeReading,!!search.value.trim()||filters.hasActive());paintMode();readerShell.paint(language,activeReading,readingRows());const t=bookCopy[language];bookTitle.textContent=indexCopy[language].title;back.textContent='← '+t.back;previous.textContent='← '+t.previous;next.textContent=t.next+' →';toolbar.setAttribute('aria-label',t.reading);footer.setAttribute('aria-label',t.reading);const last=cards.find(row=>row.m.id===lastRead);resume.hidden=!last;resume.replaceChildren();if(last){const title=el('strong',last.m.names.hi),progress=last.reader?.navigation(),note=el('span',t.resume+(progress?' · '+(progress.position+1)+' / '+progress.total:''));title.lang='hi';resume.append(title,note);}for(const row of cards)row.card.classList.toggle('library-last-read',row===last);
+ function paintBook(){contents.paint(language,activeReading,!!search.value.trim()||filters.hasActive());paintMode();paintReader();const t=bookCopy[language];bookTitle.textContent=indexCopy[language].title;back.textContent='← '+t.back;previous.textContent='← '+t.previous;next.textContent=t.next+' →';toolbar.setAttribute('aria-label',t.reading);footer.setAttribute('aria-label',t.reading);const last=cards.find(row=>row.m.id===lastRead);resume.hidden=!last;resume.replaceChildren();if(last){const title=el('strong',last.m.names.hi),progress=last.reader?.navigation(),note=el('span',t.resume+(progress?' · '+(progress.position+1)+' / '+progress.total:''));title.lang='hi';resume.append(title,note);}for(const row of cards)row.card.classList.toggle('library-last-read',row===last);
   if(activeReading){readerTitle.textContent=activeReading.m.names.hi;readerTitle.lang='hi';const matches=cards.filter(row=>row.matches),index=matches.indexOf(activeReading);previous.disabled=index<=0;next.disabled=index<0||index===matches.length-1;folio.textContent=`${t.reading} ${cards.indexOf(activeReading)+1} / ${cards.length}`;}
  }
- function openReading(row,direction=1){readerShell.save();const snapshot=readerShell.capture();if(activeReading&&activeReading!==row){activeReading.audio?.pause();activeReading.session?.stop();activeReading.player?.remove();activeReading.audioDisclosure?.remove();}if(!activeReading)indexScroll=window.scrollY;activeReading=row;lastRead=row.m.id;writePreference('last',lastRead);try{sessionStorage.setItem('japseva-book-last',lastRead);}catch{}book.classList.add('book-reading');cover.hidden=controls.hidden=help.hidden=true;toolbar.hidden=false;footer.hidden=true;for(const other of cards)other.disclosure.open=other===row;filter();paintBook();if(row.player){if(docked?.row===row)docked=null;row.audioDisclosure.append(row.player);row.body.prepend(row.audioDisclosure);}readerShell.open(row,direction,snapshot);readerShell.paint(language,row,readingRows());readerTitle.focus({preventScroll:true});}
- function showIndex(){const row=activeReading;row?.audio?.pause();row?.session?.stop();row?.player?.remove();row?.audioDisclosure?.remove();readerShell.close();library.after(help);contents.reveal(row);activeReading=null;book.classList.remove('book-reading');cover.hidden=controls.hidden=help.hidden=false;toolbar.hidden=footer.hidden=true;for(const other of cards)other.disclosure.open=false;filter();paintBook();row?.disclosure.querySelector('summary').focus({preventScroll:true});window.scrollTo({top:indexScroll,behavior:'auto'});}
+ function openReading(row,direction=1){readerShell.save();const snapshot=readerShell.capture();atEnd=false;if(activeReading&&activeReading!==row){activeReading.audio?.pause();activeReading.session?.stop();activeReading.player?.remove();activeReading.audioDisclosure?.remove();}if(!activeReading)indexScroll=window.scrollY;activeReading=row;lastRead=row.m.id;writePreference('last',lastRead);try{sessionStorage.setItem('japseva-book-last',lastRead);}catch{}book.classList.add('book-reading');cover.hidden=controls.hidden=help.hidden=true;toolbar.hidden=false;footer.hidden=true;for(const other of cards)other.disclosure.open=other===row;filter();paintBook();if(row.player){if(docked?.row===row)docked=null;row.audioDisclosure.append(row.player);row.body.prepend(row.audioDisclosure);}readerShell.open(row,direction,snapshot);paintReader();readerTitle.focus({preventScroll:true});}
+ function showIndex(){const row=activeReading;atEnd=false;row?.audio?.pause();row?.session?.stop();row?.player?.remove();row?.audioDisclosure?.remove();readerShell.close();library.after(help);contents.reveal(row);activeReading=null;book.classList.remove('book-reading');cover.hidden=controls.hidden=help.hidden=false;toolbar.hidden=footer.hidden=true;for(const other of cards)other.disclosure.open=false;filter();paintBook();row?.disclosure.querySelector('summary').focus({preventScroll:true});window.scrollTo({top:indexScroll,behavior:'auto'});}
  back.onclick=showIndex;resume.onclick=()=>{const row=cards.find(row=>row.m.id===lastRead);if(row)openReading(row);};
  document.querySelector('[data-tab=learn]')?.addEventListener('click',()=>{if(activeReading)showIndex();});
- function advance(direction){const matches=readingRows(),index=matches.indexOf(activeReading),row=matches[index+direction];if(row){row.reader?.enter?.(direction);openReading(row,direction);}}
+ function advance(direction){
+  if(atEnd){if(direction<0)openReading(activeReading,-1);return;}
+  const matches=readingRows(),index=matches.indexOf(activeReading),row=index>=0?matches[index+direction]:null;
+  if(row){row.reader?.enter?.(direction);openReading(row,direction);return;}
+  if(direction<0){showIndex();return;}
+  atEnd=true;
+  activeReading.audio?.pause();activeReading.session?.stop();
+  readerShell.openEnd();paintReader();endTitle.focus({preventScroll:true});
+ }
  previous.onclick=()=>advance(-1);next.onclick=()=>advance(1);
  new MutationObserver(()=>{if(learn.hidden&&activeReading)showIndex();}).observe(learn,{attributes:true,attributeFilter:['hidden']});
  book.addEventListener('keydown',event=>{if(!activeReading||event.altKey||event.ctrlKey||event.metaKey||event.shiftKey||event.target.closest('input,select,textarea,audio,[contenteditable],.connected-reader'))return;if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();readerShell.step(event.key==='ArrowRight'?1:-1);}});

@@ -105,6 +105,57 @@ test('the book turns continuously from a short mantra through Rudram into Puja',
  await page.locator('.book-contents').click();await expect(page.locator('#library [data-mantra-id=rudram-complete] .library-guide>summary')).toBeFocused();
  await page.screenshot({path:'.publish/japseva-continuous-contents.png'});
 });
+test('Contents and the closing page complete the full book and filtered results sequences',async({page})=>{
+ test.setTimeout(120000);
+ const errors=[];page.on('pageerror',error=>errors.push(error.message));
+ await page.setViewportSize({width:320,height:640});
+ await page.emulateMedia({reducedMotion:'reduce'});
+ await page.goto(base+'/japseva');await page.locator('[data-tab=learn]').click();
+ const library=page.locator('#library'),nav=page.locator('.book-page-navigation');
+ const ending=page.locator('.book-ending'),search=page.locator('#mantra-search');
+ const order=await library.locator('[data-mantra-id]').evaluateAll(entries=>entries.map(entry=>entry.dataset.mantraId));
+ await page.getByRole('button',{name:'Start reading',exact:true}).click();
+ const active=()=>library.locator('[data-mantra-id]:visible').getAttribute('data-mantra-id');
+ expect(await active()).toBe(order[0]);
+ const trace=await page.evaluate(max=>{
+  const nav=document.querySelector('.book-page-navigation');
+  const [previous,next]=nav.querySelectorAll('button');
+  const closing=document.querySelector('.book-ending'),library=document.querySelector('#library');
+  const current=()=>[library.querySelector('[data-mantra-id]:not([hidden])')?.dataset.mantraId,nav.querySelector('[role=status]').innerText];
+  const forward=[],reverse=[];
+  while(closing.hidden&&forward.length<max){forward.push(current());next.click();}
+  const reachedEnd=!closing.hidden;
+  if(reachedEnd)previous.click();
+  while(!nav.hidden&&reverse.length<max){reverse.push(current());previous.click();}
+  return {forward,reverse,reachedEnd,returned:nav.hidden};
+ },order.length*5);
+ expect(trace.reachedEnd).toBe(true);expect(trace.returned).toBe(true);
+ expect([...new Set(trace.forward.map(([id])=>id))]).toEqual(order);
+ expect(trace.reverse).toEqual(trace.forward.toReversed());
+ await expect(library.locator('[data-mantra-id="'+order[0]+'"] summary').first()).toBeFocused();
+ const query='Namakam & Chamakam';
+ await search.fill(query);
+ await page.getByRole('button',{name:'Read first result',exact:true}).click();
+ const chapter=library.locator('.chapter-reader>label select:visible');
+ await expect(nav.locator('[role=status]')).toContainText('Chapter 1 / 22');
+ await chapter.selectOption('21');
+ await nav.getByRole('button',{name:'End of search results',exact:true}).click();
+ await expect(ending.getByRole('heading')).toBeFocused();
+ await expect(ending).toHaveCSS('display','grid');
+ for(const [theme,width] of [['light',320],['dark',390],['deep',1280]]){
+  await page.setViewportSize({width,height:740});
+  await page.evaluate(value=>SynapseTheme.write(value),theme);
+  expect(await ending.evaluate(node=>node.scrollWidth<=node.clientWidth)).toBe(true);
+  expect((await ending.getByRole('button').boundingBox()).height).toBeGreaterThanOrEqual(44);
+ }
+ await page.keyboard.press('ArrowLeft');await expect(chapter).toHaveValue('21');
+ await nav.getByRole('button',{name:'End of search results',exact:true}).click();
+ await ending.getByRole('button',{name:'Back to results'}).click();
+ await expect(search).toHaveValue(query);
+ await expect(library.locator('[data-mantra-id=rudram-complete] .library-guide>summary')).toBeFocused();
+ await page.locator('.book-resume').click();await expect(chapter).toHaveValue('21');
+ expect(errors).toEqual([]);
+});
 test('Devanagari leads every library reading and practice selector; alternate scripts remain optional',async({page})=>{
  test.setTimeout(480000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto(base+'/japseva');await page.emulateMedia({reducedMotion:'reduce'});await page.locator('[data-tab=new]').click();
@@ -264,10 +315,10 @@ test('Navagraha guides translate, filter and create a persistent client practice
 
 test('complete Rudram reader covers both books, preserves chapter selection and saves complete-recitation practice',async({page})=>{
  await page.setViewportSize({width:320,height:800});await create(page);await page.locator('[data-tab=learn]').click();await page.locator('#mantra-search').fill('Complete Namakam & Chamakam');await expect(page.locator('[data-mantra-id=rudram-complete]')).toBeVisible();await openGuide(page,'rudram-complete');
- const card=page.locator('[data-mantra-id=rudram-complete]'),reader=card.locator('.chapter-reader'),chapter=reader.getByLabel('Anuvaka',{exact:true});await expect(chapter.locator('option')).toHaveCount(22);await expect(page.locator('.book-page-navigation').getByRole('button',{name:'Previous reading',exact:true})).toBeDisabled();
+ const card=page.locator('[data-mantra-id=rudram-complete]'),reader=card.locator('.chapter-reader'),chapter=reader.getByLabel('Anuvaka',{exact:true});await expect(chapter.locator('option')).toHaveCount(22);await expect(page.locator('.book-page-navigation').getByRole('button',{name:'Back to results',exact:true})).toBeEnabled();
  const expected=await page.evaluate(async()=>{const {fullRudram:m}=await import('/japseva/rudram-full.mjs');return m.chapters.map(c=>({start:c.text.slice(0,30),end:c.text.slice(-30)}));});
- for(let index=0;index<22;index++){await chapter.selectOption(String(index));await expect(reader.locator('.chapter-text')).toContainText(expected[index].start);await expect(reader.locator('.chapter-text')).toContainText(expected[index].end);await expect(page.locator('.book-page-navigation [role=status]>span')).toHaveText((index+1)+' / 22');}
- await expect(page.locator('.book-page-navigation').getByRole('button',{name:'Next reading',exact:true})).toBeDisabled();await chapter.selectOption('7');await page.locator('.book-page-navigation').getByRole('button',{name:'Next chapter',exact:true}).click();await expect(chapter).toHaveValue('8');await page.locator('.book-page-navigation').getByRole('button',{name:'Previous chapter',exact:true}).click();
+ for(let index=0;index<22;index++){await chapter.selectOption(String(index));await expect(reader.locator('.chapter-text')).toContainText(expected[index].start);await expect(reader.locator('.chapter-text')).toContainText(expected[index].end);await expect(page.locator('.book-page-navigation [role=status]')).toContainText('Chapter '+(index+1)+' / 22');}
+ await expect(page.locator('.book-page-navigation').getByRole('button',{name:'End of search results',exact:true})).toBeEnabled();await chapter.selectOption('7');await page.locator('.book-page-navigation').getByRole('button',{name:'Next chapter',exact:true}).click();await expect(chapter).toHaveValue('8');await page.locator('.book-page-navigation').getByRole('button',{name:'Previous chapter',exact:true}).click();
  for(const language of ['en','hi','gu']){await page.evaluate(l=>SynapseLanguage.set(l),language);await expect(reader.locator('select').first()).toHaveValue('7');await expect(reader.locator('.chapter-meaning')).toHaveAttribute('lang',language);await page.locator('.book-control-row select').selectOption(language);await expect(reader.locator('.chapter-text')).toHaveAttribute('lang',language==='en'?'sa-Latn':language==='hi'?'sa-Deva':'sa-Gujr');}
  for(const theme of ['light','dark','deep']){await page.evaluate(t=>SynapseTheme.write(t),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await page.evaluate(()=>{SynapseLanguage.set('en');SynapseTheme.write('light');});await chapter.selectOption('0');await page.locator('.book-control-row select').selectOption('hi');await page.screenshot({path:'.publish/japseva-full-rudram-mobile.png',fullPage:true});

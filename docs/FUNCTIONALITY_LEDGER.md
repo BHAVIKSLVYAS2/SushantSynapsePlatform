@@ -117,6 +117,21 @@ expected pause was missing. Suno-generated pronunciation,
 actual silence behavior and the FFmpeg MP3 path remain unverified. No generated
 audio has been published to JapSeva.
 
+JapSeva Mantra Library book endpoints (2026-11-24 IST, deployed): Start reading
+opens the first entry from Contents, and Previous on that entry returns to the
+index. The final Next opens a closing page in the same book frame. Previous
+returns to the final reading or chapter. Filtered results have their own
+closing page and return with the search and filters intact. The footer shows
+reading and chapter positions together, with destination names at reading
+boundaries. English, Hindi and Gujarati labels use the existing language setting.
+The full forward and reverse Chrome walk covers all 110 entries. Focused
+Chrome checks cover filtered return, focus, saved chapter, themes, typography,
+corner motion, Ratna and Rudram. Eighteen focused Node checks pass. Production
+build exported 679 assets and deployed with --keep-vars as Worker
+9e91b687-1d88-4394-9bc6-a0240b41a063. Three live Chrome workflows pass, including
+the full walk. The Worker health check and four exact built asset comparisons
+pass. No database migration or production business write was needed.
+
 JapSeva continuous Mantra Library book (2026-11-24 IST, deployed): Contents, short
 readings and chapter readings share a single-column typesetting grid, paper
 binding, text margins and title styling. Page controls follow visible Contents
