@@ -27,15 +27,17 @@ test('layout editor tolerates blocked storage and translates its controls',async
 test('personal layout supports pinning, buttons, dragging, reload and reset without duplicate apps',async({page})=>{
  await page.setViewportSize({width:390,height:850});await page.goto(base+'/');
  const ids=()=>page.locator('.public-apps>.catalogue-item').evaluateAll(rows=>rows.map(r=>r.dataset.appId));
- const original=await ids();expect(original[3]).toBe('japseva');expect(original[original.indexOf('kiraya-saathi')+1]).toBe('satire-arena');
- await page.getByRole('button',{name:'Edit layout',exact:true}).click();
+ const viewMenu=page.locator('.home-view-switch>summary');
+ const editLayout=async()=>{await viewMenu.click();await page.getByRole('button',{name:'Edit layout',exact:true}).click();};
+ const original=await ids();expect(original[3]).toBe('japseva');expect(original[original.indexOf('kiraya-saathi')+1]).toBe('batchfee-lite');
+ await editLayout();
  const qr=page.locator('.public-apps>.catalogue-item[data-app-id=qr-maker]');await qr.getByRole('button',{name:'Pin: QR Maker',exact:true}).click();expect((await ids())[0]).toBe('qr-maker');
  const jap=page.locator('.public-apps>.catalogue-item[data-app-id=japseva]');await jap.getByRole('button',{name:/Move earlier:/}).click();expect((await ids()).indexOf('japseva')).toBe(3);
  const handle=jap.locator('[data-layout-action=drag]');await handle.scrollIntoViewIfNeeded();const a=await handle.boundingBox();const target=page.locator('.public-apps>.catalogue-item[data-app-id=moment-studio]');const b=await target.boundingBox();await page.mouse.move(a.x+a.width/2,a.y+a.height/2);await page.mouse.down();await page.mouse.move(b.x+b.width/2,b.y+b.height/2,{steps:8});await page.mouse.up();
  expect((await ids()).indexOf('japseva')).toBe(2);const arranged=await ids();await page.getByRole('button',{name:'Done',exact:true}).click();await page.reload();expect(await ids()).toEqual(arranged);
  await page.locator('#home-search-input').fill('QR');await expect(page.locator('.public-apps>.catalogue-item:not([hidden])')).toHaveCount(1);await page.locator('#home-search-input').press('Escape');expect(await ids()).toEqual(arranged);
- for(const theme of ['light','dark','deep']){await page.evaluate(t=>SynapseTheme.write(t),theme);for(const width of [320,390,768]){await page.setViewportSize({width,height:850});await page.getByRole('button',{name:'Edit layout',exact:true}).click();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.getByRole('button',{name:'Done',exact:true}).click();}}
- await page.getByRole('button',{name:'Edit layout',exact:true}).click();await page.getByRole('button',{name:'Reset layout',exact:true}).click();expect(await ids()).toEqual(original);expect(new Set(await ids()).size).toBe(original.length);await page.setViewportSize({width:390,height:850});await page.screenshot({path:test.info().outputPath('layout-editor-mobile.png')});await page.keyboard.press('Escape');await expect(page.getByRole('button',{name:'Edit layout',exact:true})).toBeFocused();
+ for(const theme of ['light','dark','deep']){await page.evaluate(t=>SynapseTheme.write(t),theme);for(const width of [320,390,768]){await page.setViewportSize({width,height:850});await editLayout();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.getByRole('button',{name:'Done',exact:true}).click();}}
+ await editLayout();await viewMenu.click();await page.getByRole('button',{name:'Reset layout',exact:true}).click();await viewMenu.click();expect(await ids()).toEqual(original);expect(new Set(await ids()).size).toBe(original.length);await page.setViewportSize({width:390,height:850});await page.screenshot({path:test.info().outputPath('layout-editor-mobile.png')});await page.keyboard.press('Escape');await expect(viewMenu).toBeFocused();
 });
 test('Comfort is default, readable in three languages/themes and remembers Compact',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/');await expect(page.locator('html')).toHaveAttribute('data-home-view','comfort');

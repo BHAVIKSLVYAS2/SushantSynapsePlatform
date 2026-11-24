@@ -51,13 +51,14 @@ discovery['/kiraya-saathi']={art:'rent',purpose:'Organize',groups:['planning'],h
 discovery['/rashifal-kundli']={homeFeatureOnly:true,art:'vedic',purpose:'Learn',groups:['planning'],homeOrder:14,keywords:'ritvayam rashi rashifal kundli horoscope birth chart kundali jyotish astrology matching panchang time machine preview verification vikram samvat lunar calendar'};
 discovery['/rashifal-kundli'].keywords+=' રિત્વયમ';
 for(const app of apps)Object.assign(app,{art:app.icon==='scales'?'chambers':'documents',purpose:'Work',groups:[],homeOrder:200},discovery[app.path]||{});
+apps.find(app=>app.id==='satire-arena').catalogueHidden=true;
 const collectionGroups={home:['rozhisab','kiraya-saathi'],utility:['qr-maker','photo-resize','bill-splitter','decision-wheel','team-mixer'],planning:['focus','timetable-lite','tournament-lite','batchfee-lite'],traditions:['ritual-assist','japseva','rashifal-kundli'],create:['moment-studio'],games:['daily-spark','satire-arena','tournament-lite'],work:['advocate','digital-samaj','pandit-booking']};
 for(const app of apps)app.groups=Object.entries(collectionGroups).filter(([,ids])=>ids.includes(app.id)).map(([key])=>key);
-const featuredOrder=['ritual-assist','moment-studio','daily-spark','satire-arena'];
+const featuredOrder=['ritual-assist','moment-studio','daily-spark','batchfee-lite'];
 for(const app of apps){const rank=featuredOrder.indexOf(app.id);app.featured=rank>=0;if(app.featured)app.homeOrder=rank-featuredOrder.length;}
 const featuredApps=()=>featuredOrder.map(id=>apps.find(a=>a.id===id)).filter(Boolean);
 // Default launcher order; personal arrangements are presentation preferences only.
-const homeOrder=['ritual-assist','moment-studio','daily-spark','japseva','rozhisab','kiraya-saathi','satire-arena'];
+const homeOrder=['ritual-assist','moment-studio','daily-spark','japseva','rozhisab','kiraya-saathi','batchfee-lite'];
 for(const app of apps){const rank=homeOrder.indexOf(app.id);if(rank>=0)app.homeOrder=rank-20;}
 for(const app of apps.filter(a=>a.catalogueParent)){const parent=apps.find(a=>a.id===app.catalogueParent);if(parent)Object.assign(app,{art:parent.art,purpose:parent.purpose,groups:parent.groups});}
 const visibleApps=()=>apps.filter(a=>!a.catalogueParent&&!a.catalogueHidden).slice().sort((a,b)=>a.homeOrder-b.homeOrder);
