@@ -90,7 +90,7 @@
   .theme-toggle {border-radius:999px}
   .theme-toggle::before {transition:transform .4s var(--ui-ease)}/* Rapid game taps retain their original short feedback duration. */
   .synapse-help-nav a {min-height:44px;display:inline-flex;align-items:center}
-  :is(.support-card,.support-hero,.home-paths a[href="/support"]) {animation:ui-support-bloom 4s ease-in-out infinite}
+  :is(.support-card,.support-hero) {animation:ui-support-bloom 4s ease-in-out infinite}
   @keyframes ui-support-bloom {
     0%,100% {box-shadow:0 0 0 0 transparent}
     50% {box-shadow:0 0 28px color-mix(in srgb,var(--ui-gold) 16%,transparent)}
@@ -147,6 +147,6 @@
   }
   @media(prefers-reduced-motion:reduce) {
     :is(button,.button,.primary,.secondary,.launch,.public-launch,.nav-item,.bottom-item,.all-apps,.public-app,.break-card,.app-card,.guide-option,.design-choice,.template),.theme-toggle::before {transition:none;transform:none!important}
-    :is(.support-card,.support-hero,.home-paths a[href="/support"]) {animation:none}
+    :is(.support-card,.support-hero) {animation:none}
   }
 }

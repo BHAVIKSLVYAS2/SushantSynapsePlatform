@@ -12725,6 +12725,21 @@ limit.
 
 Verification: the complete Node/API suite passed 612/612 after this audit.
 
+# Runtime CSS coverage cleanup — 2026-11-24
+
+Used a representative cold-cache browser capture with CSS coverage across
+Home, Kiraya Saathi, Hisabio, Ritual Assist, Moment Studio and Take a Break.
+The capture is an initial-load baseline, not a proof that zero-used CSS is
+safe to delete: lazy panels, dialogs, print, themes and responsive states
+require separate interactions.
+
+Removed confirmed retired Home branches that have no current markup or
+controller producer: `.home-daily-play`, `.home-features` focus branches,
+`home-welcome-in` and `--home-welcome-surface`. Removed the obsolete
+`.home-paths a[href="/support"]` compatibility branch while preserving
+active support-card/support-hero animations. No visual branches or theme
+tokens needed by the current public Home were removed.
+
 # Dead-code cleanup — 2026-11-24
 
 Removed the certificate and Celebration Studio wrapper workspace directories:

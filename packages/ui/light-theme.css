@@ -101,7 +101,6 @@
     --home-top:var(--light-surface);--home-bottom:var(--light-surface);
     --home-shadow:var(--light-shadow);--home-panel-shadow:var(--light-shadow);
     --home-feature-shadow:var(--light-shadow-raised);--home-halo:transparent;
-    --home-welcome-surface:var(--light-surface);
   }
   html[data-theme=light] body[data-ui-app=portal]:has(.public-home) {
     --ss-primary:var(--light-accent);--ss-primary-hover:var(--light-accent-hover);
