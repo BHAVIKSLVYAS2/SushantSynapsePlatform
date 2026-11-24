@@ -12705,3 +12705,18 @@ Local Chrome verifies public/Pandit switching at 360/390 across three themes,
 preference continuity, fourteen technical chapters, basis navigation, exports,
 saved data, North selection, language fallback and sign changes without errors.
 Details: docs/RITVAYAM_CONTENT_INTELLIGENCE.md. Release evidence follows.
+
+# Dead-code cleanup — 2026-11-24
+
+Removed the certificate and Celebration Studio wrapper workspace directories:
+their active implementations, routes and assets are owned by Moment Studio, and
+the remaining package manifests and browser tests duplicated active coverage.
+Updated architecture documentation and BatchFee Lite documentation to remove
+obsolete server/staff/recovery claims and describe the actual browser-only mode.
+
+Explained and fixed the care-engine duplication: `packages/care/engine.mjs` is the
+single canonical implementation; the app-local Kiraya Saathi and Hisabio modules
+were only re-export wrappers. Both apps now import `/shared/care-engine.mjs`,
+which resolves to the canonical package module. Stable server aliases for app
+routes were not needed and were removed. The shared UI and browser tests continue
+to use the package/module contract.

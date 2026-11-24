@@ -1,12 +1,19 @@
-# BatchFee Lite implementation design
+# BatchFee Lite
 
-Default Node mode has one private academy in existing SQLite, with shared sign-in
-and owner-delegated staff roles. The cloud organisation adapter adds separate
-academy/event rows per licensed organisation, assigned Owner/Manager/Collector/Viewer
-roles and scoped backup/restore. This is live after verified production migrations
-and explicit legacy ownership cutover on 29 October 2026. Open the app from your
-organisation in `/account`. All financial mutations remain revision checked and
-atomic. Money is integer paise.
+Open `/batchfee-lite` from the public catalogue without signing in. A browser
+profile keeps its own academy and append-only event history in IndexedDB.
+The fee engine validates amounts in integer paise. Storage transactions check
+revisions and request IDs so outdated tabs cannot silently overwrite newer
+changes.
+
+Export a JSON backup from More. Restore accepts an exact-compatible backup or
+an older organisation backup into an empty workspace, validates every event,
+and prevents conflicting history from replacing newer records. Browser records
+have no cloud sync or account dependency.
+
+Node and Workers retire all old BatchFee server routes with HTTP 410. The SQL
+cleanup file is an explicitly authorised, one-time production data-retirement
+tool and is never run automatically.
 
 Entities: academy, batches, students, enrolments, immutable fee obligations, payments, allocation entries, reversals, expenses, editable reminder templates. Family membership is explicit, never inferred from names.
 
@@ -14,30 +21,43 @@ Monthly/quarterly fees catch up through the current month when opened. Due days 
 
 Payments allocate oldest dues first. Excess remains traceable credit and applies to future obligations. Request keys prevent duplicates. Reversals preserve payments/receipts and require reasons. Waivers affect only unpaid balances. No deletion of financial history.
 
-Screens: Home, Students/ledger/family, Batches, Fees, Notifications, More/history/expenses/reports/settings/import/recovery. Print supports Save as PDF; CSV is Excel-friendly. WhatsApp creates editable drafts, without claiming delivery. Backups are app-only; restore must preserve existing financial history. No offline editing, cloud synchronization or encrypted off-device storage is claimed.
+Screens include Home, Students, Batches, Fees, Notifications, and More for
+history, expenses, reports, settings, import, and recovery. Print supports
+Save as PDF and CSV exports are Excel-friendly. WhatsApp opens editable drafts
+for the user to send.
 
 ## Start using it
 
-Run `npm.cmd start` at the repository root and open `/batchfee-lite`. The owner sets the academy name and contact details, creates a batch, then adds students or imports the supplied CSV template. Authorized staff use their existing platform accounts. Starting the app does not add demonstration records.
-
-`seed-demo.mjs --apply` is an explicit operator tool that reads Super Admin
-credentials/session and optional `demoPassword` from stdin. It creates a separate
-labelled fictional organisation with a 30-day licence, Owner/Collector accounts,
-two batches, four students, two sample payments and one expense using validated
-APIs. It refuses to overwrite an existing demo. Access details are saved privately
-under ignored `.publish/`; passwords must never enter source or documentation.
+Run `npm.cmd start` at the repository root and open `/batchfee-lite`. Set the
+academy name and contact details, create a batch, then add students or import
+the supplied CSV template. The app has no sign-in requirement or staff accounts.
+Starting it does not add demonstration records.
 
 Payments accept full, partial or advance amounts. Open a student to see the ledger and family balance; use the same explicit family key for siblings. A payment's original receipt remains unchanged when its advance is subsequently allocated. Corrections reverse the original entry with a reason; create a separate replacement payment. Batch defaults affect new students only. New enrolments on an existing student and frequency changes begin next month. Per-class/custom charges use **Fees → Add a fee**. Course and one-time obligations generate once.
 
-The dashboard's collected figure is cash received during the selected month, including advances. Expected fees refer to obligations for that month. Pending and overdue are their current remaining balances, not a historic month-end snapshot. Batch collection uses allocations; unapplied advances remain separate. No attendance, automatic prorating, payment gateway, GST accounting or parent portal is included. Node mode remains a single workspace.
+The dashboard's collected figure is cash received during the selected month,
+including advances. Expected fees refer to obligations for that month. Pending
+and overdue are their current remaining balances, not historic month-end
+snapshots. Batch collection uses allocations; unapplied advances remain separate.
+No attendance, automatic prorating, payment gateway, GST accounting or parent
+portal is included.
 
-Use **More → Backup data** frequently and retain a private copy off this computer. Restore replays validated commands inside one transaction and accepts only an exact extension of existing history (or a backup into an empty BatchFee workspace). Older/conflicting backups cannot erase newer entries. Full platform SQL exports also include the app schema, workspace and history. Backups do not include platform accounts; those remain platform-owned. Uploaded logos are limited to 200 KB in the interface. Excel workbooks must be saved as UTF-8 CSV before import; no XLSX parser is included.
+Use **More → Backup data** frequently and retain a private copy off this device.
+Restore replays validated commands inside one transaction. Older or conflicting
+backups cannot erase newer entries. Uploaded logos are limited to 200 KB.
+Excel workbooks must be saved as UTF-8 CSV before import; no XLSX parser is included.
 
-Browser print provides PDF output; receipt sharing uses device sharing or clipboard text. WhatsApp links prepare individual drafts only; send them in WhatsApp yourself. Staff roles are described below. Confidential records are not stored in browser localStorage, cached for offline use or sent to third-party services automatically.
+Browser print provides PDF output; receipt sharing uses device sharing or
+clipboard text. WhatsApp links prepare individual drafts only; send them in
+WhatsApp yourself. No confidential records are sent to third-party services
+automatically.
 
 ## Verification
 
-`node --test tests/batchfee.test.js` covers recurring dates, historical snapshots, allocation conservation, reversals, waivers, pause/reactivation, multiple enrolments, prospective changes, deposits before joining, validation, atomic imports, idempotency, revision conflicts, access checks, recovery and persistence. `npx.cmd playwright test apps/batchfee-lite/tests` exercises mobile setup, payments, receipts, reminders, correction/waiver, imports, expenses, exports, themes and responsive layouts using isolated temporary databases.
-## Delegated staff access
-
-Owners can use More → Manage staff roles to grant Viewer, Collector or Manager access. Both the platform app grant and app-owned SQLite role are required. Viewer reads the workspace; Collector can record payments; Manager also maintains students, batches, ordinary fees, imports, expenses and reminder wording. Settings, full backup/restore, reversals and waivers remain owner-only. Revocation takes effect on subsequent API requests. These roles apply to the single shared academy workspace; they do not isolate individual students or batches.
+`node --test tests/batchfee.test.js` covers recurring dates, historical snapshots,
+allocation conservation, reversals, waivers, pause/reactivation, multiple
+enrolments, prospective changes, deposits before joining, validation, atomic
+imports, idempotency, revision conflicts and browser persistence.
+`npx.cmd playwright test apps/batchfee-lite/tests` exercises mobile setup,
+payments, receipts, reminders, correction/waiver, imports, expenses, exports,
+themes and responsive layouts.

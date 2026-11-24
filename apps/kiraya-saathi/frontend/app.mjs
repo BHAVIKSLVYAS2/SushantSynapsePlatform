@@ -1,6 +1,6 @@
 import {rentalText,propertyTypeKey} from './copy.mjs';
 import {mountCare} from '/shared/care-workspace.mjs';
-import {dueRows} from './care-engine.mjs';
+import {dueRows} from '/shared/care-engine.mjs';
 import {command,today,paise,money,billTotal,paid,balance,depositBalance,dueDate,active,receipt,validate} from './engine.mjs';
 import {read,write,restore} from './storage.mjs';
 import {paymentPdf} from './receipt.mjs';

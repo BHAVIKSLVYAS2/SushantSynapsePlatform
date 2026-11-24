@@ -1,4 +1,5 @@
-import {empty as emptyCare,validate as validateCare,command as careCommand} from './care-engine.mjs';
+const careModule=await import(typeof document==='undefined'?'../../../packages/care/engine.mjs':'/shared/care-engine.mjs');
+const {empty:emptyCare,validate:validateCare,command:careCommand}=careModule;
 // Integer paise and thousandths of a unit; round half up once per bill component.
 export const VERSION=2;
 export const icons=['milk','flower','news','home','water','laundry','car','tiffin','service'];

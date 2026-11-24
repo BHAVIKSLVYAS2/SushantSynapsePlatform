@@ -1,4 +1,5 @@
-import {empty as emptyCare,validate as validateCare,command as careCommand} from './care-engine.mjs';
+const careModule=await import(typeof document==='undefined'?'../../../packages/care/engine.mjs':'/shared/care-engine.mjs');
+const {empty:emptyCare,validate:validateCare,command:careCommand}=careModule;
 // Persistence-independent rental ledger. All stored money is integer paise.
 const LIMIT=10000000000;
 const fail=message=>{throw Error(message);};
