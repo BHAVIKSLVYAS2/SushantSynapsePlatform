@@ -1,3 +1,12 @@
+Ritvayam reading release (2026-11-24 IST, deployed). Source af4395b1
+is live on Worker 5a301e20-0104-449a-8b20-c6a5540c1aea. The organisation-mode
+production build exported 679 public assets and uploaded 29 changes with
+--keep-vars. Four live routes and four exact built assets passed. Mobile Chrome
+verified Hindi Tomorrow and Pandit Rashifal, English Kundali future periods,
+the shared report preference and PDF download using synthetic birth details.
+The legacy private state endpoint returned the expected organisation-scope
+denial. No migrations or production business writes were made.
+
 Ritvayam reading fixes (2026-11-24 IST, local). Hindi Rashifal uses the
 selected Today/Tomorrow/weekly wording, natural topic lists and the strongest
 available topic-level transit observations. English and Gujarati add localized
