@@ -15,8 +15,8 @@ test('organisation access requires matching user, organisation, app and permissi
   for(const [part,key,value] of [
     ['user','active',false],['user','active','false'],['organisation','status','Suspended'],['membership','organisationId','org2'],
     ['membership','userId','u2'],['membership','status','Invited'],['membership','role','Owner'],
-    ['licence','organisationId','org2'],['licence','appId','batchfee-lite'],['licence','status','Suspended'],
-    ['assignment','organisationId','org2'],['assignment','userId','u2'],['assignment','appId','batchfee-lite'],
+    ['licence','organisationId','org2'],['licence','appId','digital-samaj'],['licence','status','Suspended'],
+    ['assignment','organisationId','org2'],['assignment','userId','u2'],['assignment','appId','digital-samaj'],
     ['assignment','status','Revoked'],['app','status','Planned'],['app','public',true]
   ]){const c=context();c[part][key]=value;assert.equal(check(c).allowed,false,`${part}.${key}`);}
   for(const patch of [{permissions:[]},{action:'delete'},{now:NaN},{assignment:null},{licence:null},{membership:null}])assert.equal(check({...context(),...patch}).allowed,false);

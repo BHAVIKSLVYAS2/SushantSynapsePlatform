@@ -103,7 +103,6 @@ test('account presents each private product and organisation context separately'
  const apps=[
   {id:'advocate',name:'Chambers'},
   {id:'tournament-lite',name:'Tournament Lite'},
-  {id:'batchfee-lite',name:'BatchFee Lite'},
   {id:'digital-samaj',name:'DIGITAL SAMAJ'},
   {id:'pandit-booking',name:'Pandit Booking'},
   {id:'curio',name:'Curio',public:true}
@@ -112,7 +111,6 @@ test('account presents each private product and organisation context separately'
  const staff=[
   {id:'advocate',name:'Chambers',assigned:true,role:'Owner',available:true,mode:'full',reason:null},
   {id:'tournament-lite',name:'Tournament Lite',assigned:false,role:null,available:false,mode:null,reason:'missing-assignment'},
-  {id:'batchfee-lite',name:'BatchFee Lite',assigned:true,role:'Viewer',available:true,mode:'read-only',reason:null},
   {id:'digital-samaj',name:'DIGITAL SAMAJ',assigned:true,role:'Member',available:false,mode:null,reason:'community-grant-required'},
   {id:'pandit-booking',name:'Pandit Booking',assigned:false,role:null,available:false,mode:null,reason:'missing-assignment'}
  ];
@@ -128,7 +126,6 @@ test('account presents each private product and organisation context separately'
  const cards=page.locator('.account-app-card');await expect(cards).toHaveCount(7);
  await expect(cards.filter({has:page.getByRole('heading',{name:'Chambers',exact:true})})).toHaveCount(1);
  await expect(cards.filter({has:page.getByRole('heading',{name:'Chambers client portal',exact:true})})).toContainText('Organisation: Second Organisation');
- await expect(cards.filter({has:page.getByRole('heading',{name:'BatchFee Lite',exact:true})})).toContainText('Read-only access');
  await expect(cards.filter({has:page.getByRole('heading',{name:'DIGITAL SAMAJ',exact:true})})).toContainText('Community permission required');
  const tournament=cards.filter({has:page.getByRole('heading',{name:'Tournament Lite',exact:true})});
  await expect(tournament).toContainText('No app role assigned');await expect(tournament.getByRole('link',{name:/Open Tournament Lite/})).toHaveCount(0);
@@ -169,15 +166,15 @@ test('account refresh removes app links after assignment revocation',async({page
 test('app role choices come from the server and match the selected member without removing revocation',async({page})=>{
  const {assignmentRoles}=await import('../../../packages/auth/app-roles.mjs');
  await login(page,'master');
- const indexResponse=await page.request.get(fixture.base+'/api/organisation-admin');expect(indexResponse.status()).toBe(200);const index=await indexResponse.json();index.assignmentApps=['advocate','batchfee-lite','pandit-booking'];index.apps=index.assignmentApps.map(id=>({id,name:id,roles:assignmentRoles(id)}));
+ const indexResponse=await page.request.get(fixture.base+'/api/organisation-admin');expect(indexResponse.status()).toBe(200);const index=await indexResponse.json(); index.assignmentApps=['advocate','digital-samaj','pandit-booking'];index.apps=index.assignmentApps.map(id=>({id,name:id,roles:assignmentRoles(id)}));
  const viewResponse=await page.request.get(fixture.base+'/api/organisation-admin/organisations/'+fixture.organisationId);expect(viewResponse.status()).toBe(200);const view=await viewResponse.json();view.members.push({userId:'demo-client',name:'Demo Client',email:'demo-client@example.test',role:'Client',status:'Active',active:1});view.assignments.push({userId:'demo-client',appId:'pandit-booking',role:'Reviewer',status:'Active'});
  await page.route('**/api/organisation-admin',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(index)}));
  await page.route('**/api/organisation-admin/organisations/'+fixture.organisationId,route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(view)}));
  await page.goto(fixture.base+'/admin?organisation='+fixture.organisationId);await expect(page.getByRole('status')).toHaveText('Workspace ready.');
  await page.locator('.admin-sections [data-admin-nav="apps"]').click();
  const form=page.locator('form[data-command="assignment"]');await form.locator('..').locator('summary').click();
- await form.locator('[name=userId]').selectOption('master');await form.locator('[name=appId]').selectOption('batchfee-lite');
- await expect(form.locator('[name=role] option')).toHaveText(['Viewer','Collector','Manager','Owner']);
+ await form.locator('[name=userId]').selectOption('master'); await form.locator('[name=appId]').selectOption('digital-samaj');
+ await expect(form.locator('[name=role] option')).toHaveText(['Member','Owner']);
  await form.locator('[name=role]').selectOption('Collector');await expect(form.locator('#assignment-role-help')).toHaveText('View academy records and record fee payments.');
  await form.locator('[name=userId]').selectOption('demo-client');await expect(form.locator('[name=role]')).toHaveValue('');
  expect(await form.locator('[name=role]').evaluate(el=>el.checkValidity())).toBe(false);

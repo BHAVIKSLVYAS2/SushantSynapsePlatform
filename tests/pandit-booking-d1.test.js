@@ -52,11 +52,5 @@ test('real Workers/D1 booking roles, isolation, atomic confirmation, revocation,
  const demoRow=await db.prepare('SELECT data FROM pandit_booking_workspaces WHERE organisationId=?').bind(demo.organisationId).first();const demoState=JSON.parse(demoRow.data);assert.equal(demoState.services.length,3);assert.equal(demoState.profiles.length,1);assert.equal(demoState.bookings.length,3);assert.equal(demoState.bookings.filter(b=>b.status==='Confirmed').length,1);
  assert.equal((await db.prepare("SELECT data FROM pandit_booking_workspaces WHERE organisationId='first'").first()).data,beforeDemo);
  await assert.rejects(seedDemo({origin,adminCookie:'chambers_session='+tokens.super,request:(url,init)=>mf.dispatchFetch(url,init)}),/already exists/);
- const {seedDemo:seedBatchfee}=await import('../apps/batchfee-lite/seed-demo.mjs');
- const batchDemo=await seedBatchfee({origin,adminCookie:'chambers_session='+tokens.super,demoPassword,request:(url,init)=>mf.dispatchFetch(url,init)});
- assert.equal(batchDemo.accounts.length,2);assert(batchDemo.accounts.every(account=>account.password===demoPassword));
- const batchRow=await db.prepare('SELECT data FROM batchfee_organisation_workspaces WHERE organisationId=?').bind(batchDemo.organisationId).first();
- const batchState=JSON.parse(batchRow.data);assert.equal(batchState.batches.length,2);assert.equal(batchState.students.length,4);assert.equal(batchState.payments.length,2);assert.equal(batchState.expenses.length,1);
- await assert.rejects(seedBatchfee({origin,adminCookie:'chambers_session='+tokens.super,request:(url,init)=>mf.dispatchFetch(url,init)}),/already exists/);
  assert.equal((await db.prepare("SELECT data FROM pandit_booking_workspaces WHERE organisationId='first'").first()).data,beforeDemo);
 });

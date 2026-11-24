@@ -62,8 +62,7 @@ test('workspace screens survive traversal and sign-in returns to a validated dee
  await expect(page.locator('#modal')).toBeVisible();const detailUrl=page.url();await page.goBack();await expect(page.locator('#modal')).not.toBeVisible();
  await page.goForward();await expect(page.locator('#modal')).toBeVisible();await page.reload();await expect(page.locator('#modal')).toBeVisible();await expect(page).toHaveURL(detailUrl);
  await page.locator('#modal [data-action="close"]').click();await expect(page.locator('#modal')).not.toBeVisible();
- let state=await (await page.request.get(base+'/api/batchfee-lite')).json();
- const profile=await page.request.post(base+'/api/batchfee-lite/command',{data:{type:'profile',input:{name:'Navigation Academy',owner:'Test',mobile:'9876543210',dueDay:5,sessionMonth:4},revision:state.revision}});expect(profile.ok()).toBe(true);
+ await page.evaluate(async()=>{const state=await BatchFeeStorage.read();await BatchFeeStorage.command({revision:state.revision,type:'profile',input:{name:'Navigation Academy',owner:'Test',mobile:'9876543210',dueDay:5,sessionMonth:4},requestId:'navigation-profile'});});
  await page.goto(base+'/batchfee-lite');await page.locator('nav [data-id="Students"]').click();await page.locator('nav [data-id="Batches"]').click();
  await page.goBack();await expect(page.locator('nav [data-id="Students"]')).toHaveAttribute('aria-current','page');await page.goForward();await page.reload();await expect(page.locator('nav [data-id="Batches"]')).toHaveAttribute('aria-current','page');
  expect((await page.request.post(base+'/api/tournament-lite',{data:{name:'Navigation Cup',sport:'Chess',mode:'Singles',format:'Knockout'}})).ok()).toBe(true);

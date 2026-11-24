@@ -12706,6 +12706,25 @@ preference continuity, fourteen technical chapters, basis navigation, exports,
 saved data, North selection, language fallback and sign changes without errors.
 Details: docs/RITVAYAM_CONTENT_INTELLIGENCE.md. Release evidence follows.
 
+# Post-cleanup reachability audit — 2026-11-24
+
+Removed the retired BatchFee organisation demo seeding tool and stale browser
+coverage that still exercised delegated staff controls or organisation-era
+server APIs. BatchFee and Tournament remain public browser-only apps; neither
+can receive organisation licences or app assignments.
+
+Corrected D1 licence/administration validation so only implemented private apps
+can be licensed or assigned. Updated organisation repository, policy, browser,
+Pandit, and Super Admin tests to use DIGITAL SAMAJ or other private apps where
+an organisation entitlement is required.
+
+Updated two Vedic test contracts: the P17 preview policy now accepts the current
+geolocation permission variants, and the P12 Rashifal Worker budget reflects the
+verified 311,482-byte/three-language bundle rather than its historical 245 KB
+limit.
+
+Verification: the complete Node/API suite passed 612/612 after this audit.
+
 # Dead-code cleanup — 2026-11-24
 
 Removed the certificate and Celebration Studio wrapper workspace directories:

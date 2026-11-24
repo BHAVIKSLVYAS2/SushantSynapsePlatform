@@ -216,7 +216,7 @@ test('licence creation, renewal, suspension and revocation require Super Admin a
   f.admin.updateLicence(f.licence({status:'Revoked'}));
   assert.equal(f.admin.usage(f.orgId).apps.advocate.staff,1);
   f.admin.updateLicence(f.licence({status:'Active'}));
-  f.admin.updateLicence(f.licence({appId:'batchfee-lite',licenceVersion:0}));
+  f.admin.updateLicence(f.licence({appId:'digital-samaj',licenceVersion:0}));
   assert.equal(f.repo.organisation({actorUserId:'master',organisationId:f.orgId}).licences.length,2);
 });
 test('licence validation rejects planned/public apps, malformed dates and undersized capacity',async t=>{

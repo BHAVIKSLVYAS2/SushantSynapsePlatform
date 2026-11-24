@@ -98,7 +98,7 @@ export class OrganisationAdministration {
     return (await this.transaction(async ()=>{
       const org=(await this.context(input,{superOnly:true,active:false}));
       if(org.status==='Closed')fail('invalid-state','Closed organisation cannot change licences');
-      const app=registry.apps.find(a=>['advocate','tournament-lite','batchfee-lite','digital-samaj','pandit-booking'].includes(a.id)&&a.id===input.appId&&a.status==='Available'&&!a.public);
+      const app=registry.apps.find(a=>['advocate','digital-samaj','pandit-booking'].includes(a.id)&&a.id===input.appId&&a.status==='Available'&&!a.public);
       if(!app)fail('invalid-app','Select an implemented private app');
       const old=(await this.db.prepare('SELECT * FROM platform_app_licences WHERE organisationId=? AND appId=?').get(org.id,app.id));
       if(!Number.isSafeInteger(input.licenceVersion)||input.licenceVersion!==(old?.version??0))fail('conflict','Licence changed; reload before continuing');

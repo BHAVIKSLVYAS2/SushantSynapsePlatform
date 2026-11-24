@@ -88,11 +88,11 @@ test('provisioning and activation persist together without granting legacy app a
 });
 test('two organisations have scoped administration and distinct app entitlements',async t=>{
   const {repo}=await fixture(t);repo.bootstrapSuperAdmin({userId:'super'});
-  const a=repo.provision(request()),b=repo.provision(request({masterAdminUserId:'other',licences:[{...request().licences[0],appId:'batchfee-lite'}]}));
+  const a=repo.provision(request()),b=repo.provision(request({masterAdminUserId:'other',licences:[{...request().licences[0],appId:'digital-samaj'}]}));
   repo.acceptInvitation({actorUserId:'master',token:a.invitation.token});repo.acceptInvitation({actorUserId:'other',token:b.invitation.token});
   assert.throws(()=>repo.organisation({actorUserId:'master',organisationId:b.organisationId}),code('forbidden'));
   assert.throws(()=>repo.organisation({actorUserId:'other',organisationId:a.organisationId}),code('forbidden'));
-  assert.equal(repo.organisation({actorUserId:'super',organisationId:b.organisationId}).licences[0].appId,'batchfee-lite');
+  assert.equal(repo.organisation({actorUserId:'super',organisationId:b.organisationId}).licences[0].appId,'digital-samaj');
   assert.throws(()=>repo.provision(request({actorUserId:'master'})),code('forbidden'));
 });
 test('provisioning validates licences, dates, capacities and users without partial writes',async t=>{

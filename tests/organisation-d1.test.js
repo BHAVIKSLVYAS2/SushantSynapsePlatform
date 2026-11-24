@@ -68,38 +68,6 @@ test('production D1 organisations enforce provisioning, atomic capacity, tenant 
  const newOrg=await api('organisation-admin/provision',{method:'POST',body:{newAccount:true,name:'New identity D1',type:'Legal',timezone:'Asia/Kolkata',masterAdminEmail:'new-master@example.test',staffLimit:2,clientLimit:0,licences:[licence]}});assert.equal(newOrg.status,201,JSON.stringify(newOrg.data));
  const activated=await api('organisation-admin/activate-new-master',{cookie:'',method:'POST',body:{token:newOrg.data.invitation.token,email:'new-master@example.test',name:'New D1 Master',password}});assert.equal(activated.status,200,JSON.stringify(activated.data));
  const badLicence=await api('organisation-admin/provision',{method:'POST',body:{name:'Unsupported app',type:'Legal',masterAdminEmail:'client@example.test',staffLimit:2,clientLimit:0,licences:[{...licence,appId:'news'}]}});assert.equal(badLicence.status,400);
- await t.test('BatchFee organisation workspaces keep financial history isolated',async()=>{
-  const batchfeeLicence={...licence,appId:'batchfee-lite',staffLimit:1,clientLimit:0};
-  for(const [org,actor]of [[first,'master'],[second,'other']]){
-   assert.equal((await change(org,'licence',{...batchfeeLicence,licenceVersion:0})).status,200);
-   const assignment=await change(org,'assignment',{appId:'batchfee-lite',userId:actor,role:'Owner',status:'Active'});assert.equal(assignment.status,200,JSON.stringify(assignment.data));
-  }
-  const path=org=>'batchfee-lite/organisations/'+org;
-  const profile={name:'Private Academy A',owner:'Teacher A',mobile:'9876543210',address:'',whatsapp:'',dueDay:5,currency:'INR',sessionMonth:4,logo:''};
-  const created=await api(path(first)+'/command',{actor:'master',method:'POST',body:{revision:0,type:'profile',input:profile,requestId:'batchfee-profile-a'}});
-  assert.equal(created.status,200,JSON.stringify(created.data));
-  assert.equal(created.data.profile.name,'Private Academy A');
-  const batch=await api(path(first)+'/command',{actor:'master',method:'POST',body:{revision:1,type:'batch',input:{name:'Private class',fee:'1500',frequency:'Monthly',dueDay:5,active:true},requestId:'batchfee-batch-a'}});
-  assert.equal(batch.status,200,JSON.stringify(batch.data));
-  const student=await api(path(first)+'/command',{actor:'master',method:'POST',body:{revision:2,type:'student',input:{name:'Private student',mobile:'9876543210',joining:batch.data.today,status:'Active',enrolments:[{batchId:'batchfee-batch-a'}]},requestId:'batchfee-student-a'}});
-  assert.equal(student.status,200,JSON.stringify(student.data));
-  const payment=await api(path(first)+'/command',{actor:'master',method:'POST',body:{revision:3,type:'payment',input:{studentId:'batchfee-student-a',amount:'100',date:batch.data.today,mode:'UPI'},requestId:'batchfee-payment-a'}});
-  assert.equal(payment.status,200,JSON.stringify(payment.data));assert.equal(payment.data.payments[0].amount,10000);
-  assert.equal((await api(path(second),{actor:'other'})).data.profile,null);
-  for(const actor of ['super','other','client','member'])assert.equal((await api(path(first),{actor})).status,403);
-  assert.equal((await api('batchfee-lite',{actor:'master'})).data.organisations.length,1);
-  assert.equal((await api('batchfee-lite/backup',{actor:'master'})).status,409);
-  assert.equal((await api(path(first)+'/backup',{actor:'master'})).data.organisationId,first);
-  const backup=(await api(path(first)+'/backup',{actor:'master'})).data;
-  assert.equal((await api(path(second)+'/restore',{actor:'other',method:'POST',body:{revision:0,backup}})).status,400);
-  assert.equal((await api(path(first)+'/command',{actor:'master',method:'POST',body:{revision:0,type:'profile',input:profile,requestId:'batchfee-profile-a'}})).status,200);
-  assert.equal((await api(path(first)+'/command',{actor:'master',method:'POST',body:{revision:0,type:'profile',input:{...profile,name:'Conflict'},requestId:'batchfee-profile-a'}})).status,409);
-  const active=(await view(first)).organisation.licences.find(l=>l.appId==='batchfee-lite');
-  assert.equal((await change(first,'licence',{...batchfeeLicence,endsAt:'2021-01-01T00:00:00.000Z',readOnlyUntil:'2099-01-01T00:00:00.000Z',licenceVersion:active.version})).status,200);
-  assert.equal((await api(path(first),{actor:'master'})).data.readOnly,true);
-  assert.equal((await api(path(first)+'/command',{actor:'master',method:'POST',body:{revision:4,type:'sync',input:{}}})).status,403);
-  assert.equal((await db.prepare('PRAGMA foreign_key_check').all()).results.length,0);
- });
  await t.test('DIGITAL SAMAJ communities require explicit organisation ownership and grants',async()=>{
   const samajLicence={...licence,appId:'digital-samaj',staffLimit:1,clientLimit:0};
   for(const [org,actor]of [[first,'master'],[second,'other']]){
@@ -194,17 +162,6 @@ test('production D1 organisations enforce provisioning, atomic capacity, tenant 
    for(const width of [320,390,768,1440])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await page.evaluate(theme=>SynapseTheme.write(theme),theme);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);}
    await page.screenshot({path:'.publish/tournament-organisation-mobile.png',fullPage:true});
    await page.goto('https://organisation-ui.test/tournament-lite?organisation='+first);await expect(page.locator('#tournament-organisation')).toHaveCount(0);await expect(page.getByRole('button',{name:/Open tournament/})).toHaveCount(1);
-   await page.goto('https://organisation-ui.test/account');await page.getByRole('link',{name:'Open BatchFee Lite',exact:true}).click();
-   await expect(page.locator('#main')).toContainText('Welcome to BatchFee Lite');
-   await page.getByRole('button',{name:'Set up my academy'}).click();
-   await page.getByLabel('Class / academy name').fill('Other D1 Academy');
-   await page.getByLabel('Owner / teacher name').fill('Teacher Other');
-   await page.getByLabel('Mobile number',{exact:true}).fill('9876543210');
-   await page.getByRole('button',{name:'Save',exact:true}).click();
-   await expect(page.locator('#academy')).toHaveText('Other D1 Academy');
-   await page.goto('https://organisation-ui.test/batchfee-lite?organisation='+first);
-   await expect(page.locator('#main')).toContainText('Choose your academy');
-   assert.equal(await page.locator('#main').textContent().then(text=>text.includes('Private Academy A')),false);
    await page.goto('https://organisation-ui.test/account');await page.getByRole('link',{name:'Open DIGITAL SAMAJ',exact:true}).click();
    await expect(page.locator('#app')).toContainText('Other private Samaj');
    await page.locator('[data-community]').click();
