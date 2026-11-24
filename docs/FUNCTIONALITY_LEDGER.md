@@ -131,6 +131,9 @@ build exported 679 assets and deployed with --keep-vars as Worker
 9e91b687-1d88-4394-9bc6-a0240b41a063. Three live Chrome workflows pass, including
 the full walk. The Worker health check and four exact built asset comparisons
 pass. No database migration or production business write was needed.
+The isolated republish from commit `4d91fbe7` is live as Worker
+`91806155-4b14-4012-b719-6d86ed633aec`. Worker health and all four JapSeva asset
+comparisons against the committed build passed again.
 
 JapSeva continuous Mantra Library book (2026-11-24 IST, deployed): Contents, short
 readings and chapter readings share a single-column typesetting grid, paper
