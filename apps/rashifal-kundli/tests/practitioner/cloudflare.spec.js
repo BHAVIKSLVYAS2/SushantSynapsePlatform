@@ -25,6 +25,20 @@ test('practitioner workspace compares charts, shows every graha, links table sel
 test('unknown time keeps unavailable charts withheld and useful planetary data accessible',async({page})=>{
  await page.goto(server.origin+'/rashifal-kundli');await fillDate(page,'#birth-date','1990-08-15');await page.locator('#birth-accuracy').selectOption('unknown');await page.locator('#birth-query').fill('New Delhi');await page.locator('[data-place-id="geonames:1261481"]').click();await page.locator('#birth-calculate').click();await expect(page.locator('.vedic-charts')).toHaveCount(0);await expect(page.locator('[data-feature=d1][data-status=unavailable]')).toBeVisible();await page.locator('[data-kundli-section=planets]').click();await expect(page.locator('#kundli-planets')).toBeVisible();
 });
+test('mobile graha labels use the same theme ink as house labels',async({page})=>{
+ await page.setViewportSize({width:390,height:844});await generate(page);
+ const figure=page.locator('.vedic-chart-figure[data-chart=D1]');
+ for(const theme of ['dark','light']){
+  await page.evaluate(theme=>SynapseTheme.write(theme),theme);
+  for(const style of ['north','south']){
+   await page.locator(`[data-value=${style}]`).click();
+   const ink=await figure.locator('.vedic-cell-label').first().evaluate(label=>getComputedStyle(label).fill);
+   const grahas=await figure.locator('[data-occupants-house] tspan').evaluateAll(labels=>labels.map(label=>getComputedStyle(label).fill));
+   expect(grahas).toHaveLength(9);
+   expect([...new Set(grahas)]).toEqual([ink]);
+  }
+ }
+});
 test('Dasha selection survives language changes and exact boundaries and reports remain reachable',async({page})=>{
  await generate(page);await page.locator('[data-kundli-section=timing]').click();const major=page.locator('.vedic-dasha>label select');await major.selectOption('0');await page.evaluate(()=>SynapseLanguage.set('hi'));await expect(major).toHaveValue('0');await expect(page.locator('.vedic-dasha')).not.toContainText(/As of \d{4}-\d\d-\d\dT/);
  await page.locator('.vedic-dasha>details>summary').click();await expect(page.locator('.vedic-dasha>details')).toContainText('+05:30');

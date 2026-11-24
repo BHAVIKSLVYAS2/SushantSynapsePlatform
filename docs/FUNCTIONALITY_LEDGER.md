@@ -1,3 +1,60 @@
+Ritvayam reading fixes (2026-11-24 IST, local). Hindi Rashifal uses the
+selected Today/Tomorrow/weekly wording, natural topic lists and the strongest
+available topic-level transit observations. English and Gujarati add localized
+transit context to existing readings. Kundali future readings identify new and
+continuing topics across verified period boundaries. Simple/Pandit appears in
+all three languages on Rashifal, Kundali results and report. The preference
+is device-local. Simple reports show the selected chart and withholding reason
+where applicable. Pandit reports include the technical tables. The preview
+server allows the same local blob images as the Kundali production CSP for PDF.
+
+Four local birth examples kept their original chart and period calculations;
+birth inputs are omitted here. All 108 Rashifal sign/period/language combinations
+were generated. Hindi topics produced 8–12 unique paragraphs across 12 signs
+per period, up from 3–5 in the fixed-date audit. All 50 focused model tests
+passed. Focused Chrome checks passed
+for both audiences, language switching, saved reopening, responsive themes,
+report preview and PDF. The older browser selection suite was 5/10, with four
+English reading-first expectations and a broad chart SVG selector failing.
+The previously recorded workerd bundle-size assertion still fails. Production
+entry bundles compiled in memory; disk packaging hit Windows write restrictions.
+No deployment or production data changes were made.
+
+Ritvayam reading audit (2026-11-24 IST): local Hindi Rashifal service outputs
+for all 12 signs across Today, Tomorrow and This week reproduced repeated
+topic copy (3–5 distinct versions per topic and period). Tomorrow calculates
+25 November from the fixed 24 November fixture but still says “आज की दिशा”.
+Source review found Hindi-only Kundali reading and export audience controls,
+and a result-only control on Rashifal. Kundali future prose repeats the same
+topic advice when periods share a focus. Browser appearance and specific
+broken text examples remain unverified in this audit. No app code changed.
+
+Follow-up local generation reproduced the awkward Hindi overview conjunction
+for two different Moon signs on the same day. Three of four topic paragraphs
+matched word for word, and two successive Kundali periods had identical prose
+apart from their dates. Sample birth details were kept out of the ledger.
+An exact-time comparison 30 minutes apart changed the ascendant, period dates
+and selected topics while keeping the Moon sign and nakshatra. Repeated future
+paragraphs persisted in both runs. Findings come from local model execution.
+
+Ritvayam chart contrast repair (2026-11-24 IST, deployed): the mobile dark-mode
+screenshot showed a completed Kundali with unreadable graha labels. The labels
+sit above the SVG house shapes and now explicitly use the chart ink token.
+The production build exported 679 assets. Local and live mobile Chrome checks
+passed for all nine graha labels in North and South charts in both themes.
+Deployed with --keep-vars as Worker a5ee87c1-90c0-470b-a228-e4a05dd8ad65.
+
+Ritvayam generation triage (2026-11-24 IST): live mobile Chrome generated
+Kundalis with synthetic exact-time New Delhi input in English, Hindi and
+Gujarati. The live unknown-time, invalid-date and rapid Generate/Clear
+scenario passed. The older journey's first-screen assertion failed at 390 × 900
+because Generate required scrolling. Its saved-profile assertion used the
+obsolete `.kundli-recent` selector. The current saved-profile browser workflow
+passed, including Gujarati reopen. Live D1 and D9 comparison passed. The
+Dasha/report workflow downloaded a PDF, while its older assertion expected
+HTML. The reported symptom could not be reproduced. No production changes or
+business-data writes were made.
+
 Satire Arena residue cleanup (2026-11-24 IST, deployed): removed obsolete shared
 translation keys, CSS selectors, privacy copy and QA paths. The production-mode
 export fell from 39,109,573 to 39,094,315 bytes on disk. Public JS/CSS delivery

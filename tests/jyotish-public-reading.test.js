@@ -18,11 +18,38 @@ test('public natal interpretation is substantive, traceable and different from t
 });
 test('Rashifal public outcomes preserve supportive/mixed/neutral/uncertain distinctions without presenting neutral as bad',async()=>{
  const {createRashifalService}=await import('../apps/rashifal-kundli/frontend/rashifal-service.mjs'),{rashifalLibrary}=await import('../apps/rashifal-kundli/frontend/rashifal-library.mjs'),{publicRashiSections}=await import('../apps/rashifal-kundli/frontend/jyotish-public-reading.mjs');
- const service=createRashifalService();for(const view of ['today','weekly'])for(let rashi=1;rashi<=12;rashi++){const m=service.getReading({rashi,view,language:'hi',ruleVersion:rashifalLibrary.version,calculationProfileId:input.calculationProfileId},{now}).reading.intelligence;assert(m.quality.valid);assert.equal(m.sections.length,5);for(const s of m.sections){assert(s.publicParagraphs.length);assert.doesNotMatch(s.publicParagraphs.map(p=>p.text).join(' '),jargon);if(view==='weekly')assert.doesNotMatch(s.publicParagraphs[0].text,/आज/);}}
+ const service=createRashifalService();for(const view of ['today','tomorrow','weekly'])for(let rashi=1;rashi<=12;rashi++){const m=service.getReading({rashi,view,language:'hi',ruleVersion:rashifalLibrary.version,calculationProfileId:input.calculationProfileId},{now}).reading.intelligence;assert(m.quality.valid);assert.equal(m.sections.length,5);assert.equal(m.sections[0].publicTitle,{today:'आज की दिशा',tomorrow:'कल की दिशा',weekly:'सप्ताह की दिशा'}[view]);for(const s of m.sections){assert(s.publicParagraphs.length);assert.doesNotMatch(s.publicParagraphs.map(p=>p.text).join(' '),jargon);if(view==='weekly')assert.doesNotMatch(s.publicParagraphs[0].text,/आज/);}}
  const m=service.getReading({rashi:1,view:'today',language:'hi',ruleVersion:rashifalLibrary.version,calculationProfileId:input.calculationProfileId},{now}).reading.intelligence;let texts=new Set();for(const status of ['supportive','obstructed','outside-favorable','uncertain']){const findings=structuredClone(m.findings);for(const f of findings){for(const k of Object.keys(f.counts))f.counts[k]=0;f.counts[status]=8;}const sections=publicRashiSections(m.sections,findings),work=sections.find(s=>s.id==='work');texts.add(work.publicParagraphs[0].text);assert.equal(work.publicState,{supportive:'support',obstructed:'review','outside-favorable':'neutral',uncertain:'uncertain'}[status]);}assert.equal(texts.size,4);
 });
 test('public and practitioner exports explicitly select their reading and retain identical chart values',async()=>{
  const {calculateBirthReport}=await import('../apps/rashifal-kundli/frontend/birth-report.mjs'),{projectExport,reportMarkup}=await import('../apps/rashifal-kundli/frontend/export-report.mjs'),report=calculateBirthReport(input,{now}),before=JSON.stringify(report),simple=projectExport(report,{language:'hi'}),detailed=projectExport(report,{language:'hi',readingAudience:'pandit'});
  assert.equal(simple.everyday.topics.length,12);assert.equal(detailed.everyday.topics.length,14);assert.deepEqual(simple.features,detailed.features);assert.doesNotMatch(simple.everyday.topics.map(s=>s.paragraphs.join(' ')).join(' '),jargon);assert(!reportMarkup(simple).includes('report-reading-basis'));assert(reportMarkup(simple).includes('report-simple-chart'));assert(reportMarkup(detailed).includes('report-reading-basis'));assert.equal(JSON.stringify(report),before);assert.throws(()=>projectExport(report,{readingAudience:'wrong'}));
  const unknown=projectExport(calculateBirthReport({...input,timeAccuracy:'unknown',localTime:undefined},{now}),{language:'hi'});assert.equal(unknown.everyday.topics.length,1);assert.equal(unknown.everyday.topics[0].status,'unavailable');assert.equal(unknown.everyday.topics[0].id,'availability');
+});
+test('public future reports show which subjects carry over instead of repeating their advice',async()=>{
+ const {calculateBirthReport}=await import('../apps/rashifal-kundli/frontend/birth-report.mjs');
+ const {projectExport,reportMarkup}=await import('../apps/rashifal-kundli/frontend/export-report.mjs');
+ const report=calculateBirthReport(input,{now});
+ for(const language of ['hi','en','gu']){
+  const simple=projectExport(report,{language}),pandit=projectExport(report,{language,readingAudience:'pandit'});
+  const future=language==='hi'?simple.everyday.topics.find(t=>t.id==='future'):simple.everyday.future;
+  assert.equal(future.paragraphs.length,3);
+  assert.equal(new Set(future.paragraphs.map(text=>text.slice(text.indexOf('·')+1).replace(/\p{Number}+/gu,''))).size,3);
+  assert.match(reportMarkup(simple),/data-reading-topic="future"/);
+  assert.doesNotMatch(reportMarkup(simple),/data-report-section="dasha"/);
+  assert.match(reportMarkup(pandit),/data-report-section="dasha"/);
+ }
+});
+test('Hindi tomorrow and today on the same IST date share calculations and keep their own titles',async()=>{
+ const {createRashifalService}=await import('../apps/rashifal-kundli/frontend/rashifal-service.mjs');
+ const {rashifalLibrary}=await import('../apps/rashifal-kundli/frontend/rashifal-library.mjs');
+ const request={rashi:1,language:'hi',ruleVersion:rashifalLibrary.version,calculationProfileId:input.calculationProfileId};
+ const service=createRashifalService();
+ const tomorrow=service.getReading({...request,view:'tomorrow'},{now});
+ const today=service.getReading({...request,view:'today'},{now:now+86400000});
+ assert.equal(tomorrow.reading.period.editorialDate,today.reading.period.editorialDate);
+ assert.deepEqual(tomorrow.reading.samples,today.reading.samples);
+ assert.equal(today.cache.factorCount,tomorrow.cache.factorCount);
+ assert.equal(tomorrow.reading.intelligence.sections[0].publicTitle,'कल की दिशा');
+ assert.equal(today.reading.intelligence.sections[0].publicTitle,'आज की दिशा');
 });

@@ -1,6 +1,7 @@
 import {periodAt,focusPeriodTopics} from './jyotish-synthesis.mjs';
-import {manner,temperament} from './kundli-consultation-copy.mjs';
-export const publicReadingVersion='public-consultation-hi-2';
+import {manner,phase,temperament} from './kundli-consultation-copy.mjs';
+import {bodyName} from './locale.mjs';
+export const publicReadingVersion='public-consultation-hi-3';
 const workStyle={Sun:'काम की जिम्मेदारी लेना, निर्णय स्पष्ट करना और परिणाम की जवाबदेही निभाना',Moon:'लोगों की जरूरत समझना, बदलती परिस्थितियों के अनुसार काम ढालना और नियमित संपर्क बनाए रखना',Mars:'व्यावहारिक समस्या सुलझाना, काम को गति देना और किसी स्पष्ट लक्ष्य पर हाथ से काम करना',Mercury:'जानकारी समझना, लिखना-बोलना, हिसाब या विश्लेषण करना और अलग विकल्पों को जोड़ना',Jupiter:'किसी विषय को गहराई से सीखना, समझाकर बताना और अनुभव से मार्गदर्शन देना',Venus:'लोगों के साथ तालमेल, प्रस्तुति की गुणवत्ता और ग्राहक या सहयोगी के अनुभव पर ध्यान देना',Saturn:'प्रक्रिया बनाना, बारीकी से काम पूरा करना और लंबे समय तक गुणवत्ता बनाए रखना'};
 const contextFor=h=>[1,4,7,10].includes(h)?'people':[2,11].includes(h)?'resources':[3,6].includes(h)?'practice':[5,9].includes(h)?'learning':'preparation';
 const topicCopy={
@@ -13,23 +14,51 @@ const topicCopy={
  spirituality:{people:'अपने मूल्यों को रोज के व्यवहार में उतारना इस भाग की उपयोगी दिशा है। जिम्मेदारी निभाते समय यह देखें कि आपका निर्णय आपकी मान्यता से कितना मेल खाता है। किसी पहचान से अधिक अपने व्यवहार में उसका अर्थ समझें।',resources:'वाणी, परिवार से मिले मूल्य और दूसरों के साथ योगदान पर विचार करें। जिस मूल्य को महत्व देते हैं, उसे समय और व्यवहार में थोड़ी जगह दें। अभ्यास का रूप आपकी अपनी आस्था और सुविधा से तय होगा।',practice:'छोटा नियमित अभ्यास, चिंतन या सेवा निभाने योग्य शुरुआत हो सकती है। बड़े संकल्प के बजाय ऐसा क्रम चुनें जिसे व्यस्त दिन में भी जारी रख सकें।',learning:'अध्ययन और सवाल पूछकर समझ बनाने की दिशा को जगह दें। किसी मार्गदर्शक की बात सुनते समय अपने अनुभव और विवेक की जाँच भी बनाए रखें।',preparation:'शांत समय और निजी चिंतन के लिए थोड़ी जगह निकालना उपयोगी हो सकता है। इसका उद्देश्य काम या संबंधों से बचना नहीं, अपनी प्राथमिकता साफ समझना रखें।'}
 };
 const topicTitles={overview:'आपकी रीडिंग का सार',appearance:'पहली छाप और अभिव्यक्ति',personality:'स्वभाव और निर्णय लेने का ढंग',learning:'पढ़ाई और कौशल',career:'काम और करियर',money:'पैसे और जिम्मेदारियाँ',relationships:'प्रेम और साझेदारी',family:'परिवार और सहयोग',wellbeing:'दिनचर्या और सेहत',home:'घर और स्थान-परिवर्तन',spirituality:'चिंतन और जीवन-दृष्टि',future:'वर्तमान और आने वाली अवधि'};
-const focusNames={learning:'सीखने और कौशल',career:'काम और जिम्मेदारी',money:'पैसे की व्यवस्था',relationships:'साझेदारी',family:'परिवार और सहयोग',home:'घर और रहने की व्यवस्था',spirituality:'अध्ययन और चिंतन'};
+const focusNames={learning:'नए कौशल',career:'काम की ज़िम्मेदारियाँ',money:'पैसों की व्यवस्था',relationships:'साझेदारी',family:'पारिवारिक सहयोग',home:'रहने की व्यवस्था',spirituality:'अध्ययन और चिंतन'};
 const periodActions={learning:'सीखने का एक स्पष्ट लक्ष्य और नियमित अभ्यास तय करें।',career:'किस काम की जिम्मेदारी लेनी है और उसका परिणाम कैसे दिखेगा, यह स्पष्ट करें।',money:'देय रकम, साझा भुगतान और बचत की योजना की समीक्षा करें।',relationships:'समय, जिम्मेदारी और साथ की अपेक्षाओं पर स्पष्ट बातचीत करें।',family:'सहायता की जरूरत और अपनी निभाने योग्य सीमा तय करें।',home:'रहने की सुविधा, दस्तावेज और नियमित लागत को साथ जाँचें।',spirituality:'अध्ययन या चिंतन के लिए नियमित समय रखें।'};
 const timingText={PUBLIC_SUPPORT:'अभी इस दिशा में अपनी तैयारी को काम में बदलने पर ध्यान दे सकते हैं।',PUBLIC_MIXED:'अभी आगे बढ़ने की गुंजाइश और कुछ बातों की समीक्षा की जरूरत साथ है।',PUBLIC_REVIEW:'इस समय तैयारी और अधूरे दायित्व स्पष्ट करना पहले रखें।'};
-function rashiOverview(areas,weekly){const names={work:'काम',money:'पैसे की व्यवस्था',relationships:'बातचीत और संबंध'},relevant=areas.filter(a=>a.id!=='wellbeing'),support=relevant.filter(a=>a.publicState==='support'&&!a.publicUncertain),care=relevant.filter(a=>['mixed','review'].includes(a.publicState));let text=support.length?`${weekly?'इस सप्ताह':'आज'} ${support.map(a=>names[a.id]).join(' और ')} में अपनी तैयार बात को आगे रखने पर ध्यान दे सकते हैं।`:care.length?`${weekly?'इस सप्ताह':'आज'} ${care.map(a=>names[a.id]).join(' और ')} में पहले अधूरी बातें और अपेक्षाएँ स्पष्ट करना उपयोगी रहेगा।`:'उपलब्ध संकेत किसी एक विषय में खास लाभ या रुकावट का साफ आधार नहीं देते। रोज के जरूरी काम और अपनी वास्तविक परिस्थिति के आधार पर प्राथमिकता तय करें।';if(support.length&&care.length)text+=` ${care.map(a=>names[a.id]).join(' और ')} के विषय में शर्तें दोबारा जाँचें; हर क्षेत्र को एक जैसा अनुकूल न मानें।`;if(relevant.some(a=>a.publicUncertain))text+=' '+uncertaintyNote;return {text,findingIds:[...new Set(relevant.flatMap(a=>a.publicParagraphs.flatMap(p=>p.findingIds)))]};}
+const list=new Intl.ListFormat('hi');
+const dates=new Intl.DateTimeFormat('hi-IN',{dateStyle:'long',timeZone:'Asia/Kolkata'});
+const time={today:'आज',tomorrow:'कल',weekly:'इस सप्ताह'};
+function rashiOverview(areas,view){
+ const names={work:'कामकाज',money:'लेन-देन',relationships:'रिश्ते',wellbeing:'दिनचर्या'};
+ const mentions=states=>list.format(areas.filter(a=>states.includes(a.publicState)).map(a=>names[a.id]));
+ const support=list.format(areas.filter(a=>a.publicState==='support'&&!a.publicUncertain).map(a=>names[a.id])),care=mentions(['mixed','review']);
+ const parts=[];
+ if(support)parts.push(`${time[view]} ${support} से जुड़े तैयार काम आगे बढ़ाने की गुंजाइश है।`);
+ if(care)parts.push(`${support?'वहीं':time[view]} ${care} से जुड़े फैसलों में पहले शर्तें और अपेक्षाएँ साफ़ करें।`);
+ if(!parts.length)parts.push('किसी एक विषय को प्राथमिकता देने के लिए स्पष्ट गोचर संकेत उपलब्ध नहीं हैं।');
+ if(areas.some(a=>a.publicUncertain))parts.push(uncertaintyNote);
+ return {text:parts.join(' '),findingIds:[...new Set(areas.flatMap(a=>a.publicParagraphs[0].findingIds))]};
+}
 export function publicNatalSections(snapshot,sections,topics,findings){
  const current=periodAt(snapshot),focused=focusPeriodTopics(snapshot,topics,current),refsFor=id=>findings.filter(f=>f.topic===id).map(f=>f.id),p=(text,refs)=>({text,findingIds:refs});
  return sections.map(section=>{
   const refs=section.findingIds,paragraphs=[],f=section.synthesis;
   if(section.status!=='available')return {...section,publicTitle:topicTitles[section.id]||section.title,publicParagraphs:[]};
-  if(section.id==='overview'&&snapshot.houses.length){paragraphs.push(p(focused.length?`इस समय की आपकी रीडिंग में ${focused.map(t=>focusNames[t.topic]).join(', ')} को प्राथमिकता मिलती है। इन क्षेत्रों में अधूरी बातों को स्पष्ट करना और निभाने योग्य योजना बनाना सबसे उपयोगी शुरुआत रहेगी।`:'आपकी रीडिंग में काम करने के ढंग, सीखने और संबंध निभाने की दिशा को अलग-अलग समझा गया है। नीचे पहले वह विषय पढ़ें जो आपकी वर्तमान परिस्थिति से जुड़ता है।',focused.length?focused.flatMap(t=>refsFor(t.topic)):refs));paragraphs.push(p('आगे हर विषय में उसका सरल अर्थ और ध्यान देने योग्य बात है। वर्तमान और आने वाली अवधि के हिस्से में समय के साथ बदलती प्राथमिकताएँ पढ़ सकते हैं।',refs));}
+  if(section.id==='overview'&&snapshot.houses.length){paragraphs.push(p(focused.length?`इस समय की आपकी रीडिंग में ${list.format(focused.map(t=>focusNames[t.topic]))} को प्राथमिकता मिलती है। इनसे जुड़ी अधूरी बातों को स्पष्ट करना और निभाने योग्य योजना बनाना सबसे उपयोगी शुरुआत रहेगी।`:'आपकी रीडिंग में काम करने के ढंग, सीखने और संबंध निभाने की दिशा को अलग-अलग समझा गया है। नीचे पहले वह विषय पढ़ें जो आपकी वर्तमान परिस्थिति से जुड़ता है।',focused.length?focused.flatMap(t=>refsFor(t.topic)):refs));paragraphs.push(p('आगे हर विषय में उसका सरल अर्थ और ध्यान देने योग्य बात है। वर्तमान और आने वाली अवधि के हिस्से में समय के साथ बदलती प्राथमिकताएँ पढ़ सकते हैं।',refs));}
   else if(section.id==='appearance'&&snapshot.rising)paragraphs.push(p(manner[snapshot.rising-1][1],refs));
   else if(section.id==='personality'){const moon=snapshot.planets.find(p=>p.body==='Moon'&&p.stableSign);if(moon)paragraphs.push(p(temperament[moon.sign-1][1],refs));if(f)paragraphs.push(p(`अपनी क्षमता को काम में लाने का एक तरीका है: ${workStyle[f.lord]}। दबाव में अपनी पहली प्रतिक्रिया और थोड़ी देर बाद की राय अलग-अलग लिखकर देखें; इससे प्राथमिकता साफ करने में मदद मिल सकती है।`,refs));}
   else if(topicCopy[section.id]&&f){paragraphs.push(p(topicCopy[section.id][contextFor(f.lordHouse)],refs));if(section.id==='career')paragraphs.push(p(`इस पठन में काम करने का उपयोगी तरीका है: ${workStyle[f.lord]}। अपनी शिक्षा और अनुभव से तुलना करके ऐसे काम के उदाहरण खोजें जहाँ यह तरीका उपयोगी हो।`,refs));const timing=f.assessment==='current-support'?'PUBLIC_SUPPORT':f.assessment==='mixed-current-signals'?'PUBLIC_MIXED':f.assessment==='current-review'?'PUBLIC_REVIEW':null;if(timing)paragraphs.push(p(timingText[timing]+' '+periodActions[section.id],refs));}
   else if(section.id==='wellbeing')paragraphs.push(p('काम, आराम और रोज की जिम्मेदारियों के बीच अपनी वास्तविक जरूरतों को देखें। लगातार थकान महसूस हो तो कार्यक्रम में विराम और सहायता की जगह तलाशें। जन्मपत्री से किसी खास बीमारी की संभावना तय नहीं होती; स्वास्थ्य की चिंता का आधार वास्तविक लक्षण और चिकित्सकीय मूल्यांकन रहें।',refs));
   else if(section.id==='future'){
    const periods=snapshot.periods.flatMap(m=>m.subperiods.map(a=>({major:m.lord,minor:a.lord,start:a.start,end:a.end}))).filter(a=>Date.parse(a.end)>Date.parse(snapshot.at)).slice(0,3);
-   for(const [i,period]of periods.entries()){const focus=focusPeriodTopics(snapshot,topics,period),id='period:'+i;if(!focus.length||!findings.some(f=>f.id===id))continue;const format=d=>new Intl.DateTimeFormat('hi-IN',{day:'numeric',month:'long',year:'numeric',timeZone:'Asia/Kolkata'}).format(new Date(d)),active=Date.parse(period.start)<=Date.parse(snapshot.at);paragraphs.push(p(`${active?'वर्तमान अवधि':'अगली अवधि'} · ${format(period.start)} से ${format(period.end)}: ${focus.map(t=>focusNames[t.topic]).join(', ')} इस अवधि के प्रमुख विषय हैं। ${focus.slice(0,2).map(t=>periodActions[t.topic]).join(' ')} यह प्राथमिकताओं का समय-संदर्भ है, किसी घटना की निश्चित तारीख नहीं।`,[id]));}
+   let previous=[];
+   for(const [i,period]of periods.entries()){
+    const focus=focusPeriodTopics(snapshot,topics,period).map(t=>t.topic),id='period:'+i;
+    if(!findings.some(f=>f.id===id))continue;
+    const added=focus.filter(topic=>!previous.includes(topic));
+    const continuing=focus.filter(topic=>previous.includes(topic));
+    const title=Date.parse(period.start)<=Date.parse(snapshot.at)?'वर्तमान अवधि':'इसके बाद';
+    const lines=[`${title} · ${dates.format(new Date(period.start))} से ${dates.format(new Date(period.end))} तक।`];
+    if(added.length)lines.push(`${i?'इस अवधि में नया ज़ोर':'अभी मुख्य विषय'} — ${list.format(added.map(topic=>focusNames[topic]))}।`);
+    if(continuing.length)lines.push(`${list.format(continuing.map(topic=>focusNames[topic]))} पर ध्यान जारी रहता है।`);
+    if(!focus.length)lines.push('जन्म कुंडली से इस अवधि के लिए कोई स्पष्ट व्यक्तिगत विषय नहीं जुड़ पाया।');
+    if(added.length)lines.push(...added.slice(0,2).map(topic=>periodActions[topic]));
+    if(focus.length&&!added.length)lines.push(`${bodyName(period.minor,'hi')} की अंतर्दशा में इन विषयों को सँभालने का एक तरीका है — ${phase[period.minor][1]}।`);
+    paragraphs.push(p(lines.join(' '),[id]));
+    previous=focus;
+   }
   }
   return {...section,publicTitle:topicTitles[section.id]||section.title,publicParagraphs:paragraphs};
  });
@@ -43,7 +72,44 @@ const transitCopy={
  relationships:{support:'परिवार या साथी के साथ जरूरी बात साफ और शांत ढंग से रखने पर ध्यान दे सकते हैं। केवल अपनी बात कहने के साथ सामने वाले की जरूरत भी पूछें और कोई छोटा निभाने योग्य समझौता तय करें।',mixed:'बातचीत में जुड़ाव की इच्छा और अलग अपेक्षाएँ साथ आ सकती हैं। किसी एक जवाब का अर्थ खुद तय न करें; समय लेकर जरूरत और जिम्मेदारी स्पष्ट करें।',review:'अधूरी बात या अनुमान पर प्रतिक्रिया देने से पहले पूछकर समझना उपयोगी रहेगा। एक साथ पुराने सारे मुद्दे खोलने के बजाय एक बात पर शांत बातचीत करें।',neutral:'किसी अपने के व्यवहार या रिश्ते की दिशा का निश्चित संकेत नहीं है। वास्तविक बातचीत को आधार बनाएँ और जिस अपेक्षा पर बात नहीं हुई है, उसे स्पष्ट शब्दों में रखें।',uncertain:'संबंधों के बारे में अधिक विशिष्ट निष्कर्ष का आधार साफ नहीं है। किसी की मंशा तय करने से पहले उसका पक्ष सुनें और जल्दबाजी में निर्णय टालें।'},
  wellbeing:{support:'दिन के कार्यक्रम में जरूरी काम के साथ विराम की जगह रखें। अपनी ऊर्जा का अंदाजा वास्तविक अनुभव से लगाएँ और दिनचर्या को निभाने योग्य रखें।',mixed:'काम की जरूरत और आराम की जरूरत में संतुलन देखें। जो काम आज जरूरी है उसे चुनें और बाकी के लिए समय तय करें, ताकि कार्यक्रम अनावश्यक रूप से न भरे।',review:'रोज के कार्यक्रम को हल्का और स्पष्ट रखना उपयोगी रहेगा। काम बाँटने या सहायता लेने की जगह देखें; अपनी वास्तविक थकान को अनदेखा न करें।',neutral:'सेहत का आकलन इस राशि-पठन से नहीं होता। अपनी वास्तविक दिनचर्या, आराम और काम के दबाव को देखकर जरूरी बदलाव तय करें।',uncertain:'इन संकेतों से स्वास्थ्य की स्थिति का निष्कर्ष नहीं निकलता। अपनी वास्तविक जरूरत पर ध्यान दें; कोई स्वास्थ्य चिंता हो तो चिकित्सकीय सलाह को आधार बनाएँ।'}
 };
-export function publicRashiSections(sections,findings,weekly=false){
- const result=sections.map(s=>{if(s.id==='overall')return {...s,publicTitle:weekly?'सप्ताह की दिशा':'आज की दिशा',publicParagraphs:[{text:weekly?'इस सप्ताह एक साथ कई काम बढ़ाने के बजाय जरूरी प्राथमिकताएँ चुनें। नीचे काम, पैसे और संबंधों में उपलब्ध संकेतों का सरल अर्थ दिया है; पूरे सप्ताह को हर विषय में एक जैसा न मानें।':'नीचे काम, पैसे और संबंधों में आज के उपलब्ध संकेतों का सरल अर्थ है। जहाँ स्पष्ट संकेत नहीं हैं, वहाँ लाभ, नुकसान या किसी घटना का अनुमान नहीं जोड़ा गया है।',findingIds:s.paragraphs[0].findingIds}]};const refs=[...new Set(s.paragraphs.flatMap(p=>p.findingIds))],related=findings.filter(f=>refs.includes(f.id)),support=related.some(f=>f.counts.supportive>0),blocked=related.some(f=>f.counts.obstructed>0),uncertain=related.some(f=>f.counts.uncertain+f.counts['rule-unresolved']>0);const state=support&&blocked?'mixed':blocked?'review':support?'support':uncertain?'uncertain':'neutral';let text=transitCopy[s.id][state];if(uncertain&&state!=='uncertain')text+=' '+uncertaintyNote;if(weekly)text=text.replaceAll('आज','इस सप्ताह').replace('दिन के कार्यक्रम','सप्ताह के कार्यक्रम');return {...s,publicTitle:s.title,publicState:state,publicUncertain:uncertain,publicParagraphs:[{text,findingIds:refs}]};});
- result[0].publicParagraphs=[rashiOverview(result.slice(1),weekly)];return result;
+const houseThemes=['अपनी पहल','आय-व्यय','छोटे प्रयास और संपर्क','घर की ज़िम्मेदारियाँ','रचनात्मक काम','लंबित दायित्व','साझेदारी','साझा संसाधन','मार्गदर्शन','काम की भूमिका','सहयोग','आराम और तैयारी'];
+const localizedHouses={
+ en:['personal initiative','income and spending','communication','home responsibilities','creative work','outstanding obligations','partnerships','shared resources','learning and guidance','your role at work','collaboration','rest and preparation'],
+ gu:['પોતાની પહેલ','આવક અને ખર્ચ','વાતચીત','ઘરની જવાબદારીઓ','સર્જનાત્મક કામ','બાકી જવાબદારીઓ','ભાગીદારી','સહિયારા સંસાધનો','શીખવું અને માર્ગદર્શન','કામમાં પોતાની ભૂમિકા','સહકાર','વિશ્રામ અને તૈયારી']
+};
+const transitStates={supportive:'सहयोगी',obstructed:'सावधानी वाला','outside-favorable':'तटस्थ',uncertain:'अनिश्चित','rule-unresolved':'अनिर्णीत'};
+export function leadingTransit(related,state,view,language='hi'){
+ const review=state==='mixed'||state==='review';
+ const status=review?'obstructed':'supportive';
+ const strongest=related.filter(f=>f.counts[status]>0).sort((a,b)=>b.counts[status]-a.counts[status])[0];
+ if(!strongest?.observations?.length)return '';
+ const observations=strongest.observations.filter(o=>o.status===status&&!o.nearBoundary&&houseThemes[o.house-1]);
+ if(!observations.length)return '';
+ const vocabulary=localizedHouses[language]||houseThemes;
+ const themes=new Intl.ListFormat(language).format([...new Set(observations.map(o=>vocabulary[o.house-1]))]);
+ const planet=bodyName(strongest.body,language);
+ if(language==='en')return `The ${planet} transit highlights ${themes} as an area ${review?'to review before committing':'where a prepared next step may help'}.`;
+ if(language==='gu')return `${planet}ના ગોચરમાં ${themes} પર ધ્યાન જાય છે. ${review?'વચન આપતાં પહેલાં સંબંધિત શરતો તપાસો.':'તૈયારી હોય તો એક નાનું પગલું લો.'}`;
+ let text=`${time[view]} ${planet} का गोचर ${themes} से जुड़े ${review?'फैसलों की समीक्षा':'काम आगे बढ़ाने'} का संकेत देता है।`;
+ if(view==='weekly'){
+  const first=strongest.observations[0];
+  const change=strongest.observations.find(o=>o.status!==first.status);
+  if(change)text+=` ${dates.format(new Date(change.at))} की एक गणना में ${planet} का संकेत ${transitStates[change.status]} दिखा।`;
+ }
+ return text;
+}
+export function publicRashiSections(sections,findings,view='today'){
+ const areas=sections.filter(s=>s.id!=='overall').map(section=>{
+  const findingIds=[...new Set(section.paragraphs.flatMap(p=>p.findingIds))];
+  const related=findings.filter(f=>findingIds.includes(f.id));
+  const support=related.some(f=>f.counts.supportive>0);
+  const blocked=related.some(f=>f.counts.obstructed>0);
+  const uncertain=related.some(f=>f.counts.uncertain+f.counts['rule-unresolved']>0);
+  const state=support&&blocked?'mixed':blocked?'review':support?'support':uncertain?'uncertain':'neutral';
+  const advice=transitCopy[section.id][state].replaceAll('आज',time[view]).replace('दिन के कार्यक्रम',view==='weekly'?'सप्ताह के कार्यक्रम':'दिन के कार्यक्रम');
+  const text=[leadingTransit(related,state,view),advice,uncertain&&state!=='uncertain'?uncertaintyNote:''].filter(Boolean).join(' ');
+  return {...section,publicTitle:section.title,publicState:state,publicUncertain:uncertain,publicParagraphs:[{text,findingIds}]};
+ });
+ const title={today:'आज की दिशा',tomorrow:'कल की दिशा',weekly:'सप्ताह की दिशा'}[view];
+ return [{...sections[0],publicTitle:title,publicParagraphs:[rashiOverview(areas,view)]},...areas];
 }

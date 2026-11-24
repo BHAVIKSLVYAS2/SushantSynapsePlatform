@@ -1,10 +1,12 @@
+import {mountReadingAudience} from './reading-audience.mjs';
+import {periodPlacementText} from './planet-reading.mjs';
 import {journeyCopy} from './kundli-journey-copy.mjs';
 import {mountJyotishGranth} from './jyotish-granth-view.mjs';
 import {buildKundliReading} from './kundli-reading.mjs';
 import {houseContext,readingText,pick} from './kundli-reading-copy.mjs';
 import {signName,bodyName} from './locale.mjs';
 import {nakshatraName} from './display-text.mjs';
-import {composeKundliTopic,composeKundliPeriod,kundliProseVersion} from './kundli-reading-prose.mjs';
+import {composeKundliTopic,composeLocalizedFuture,kundliProseVersion} from './kundli-reading-prose.mjs';
 const el=(tag,text,cls)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(cls)node.className=cls;return node;};
 export function mountKundliReading(container,report,language='en',name=''){
  if(language==='hi')return mountJyotishGranth(container,report,name);
@@ -14,13 +16,14 @@ export function mountKundliReading(container,report,language='en',name=''){
  if(!model.limits.houseReading)root.append(el('p',t.partial,'kundli-reading-notice'));
  const quickNav=el('nav',undefined,'kundli-quick-topics');quickNav.setAttribute('aria-label',t.jump);const navigation=el('div',undefined,'kundli-reading-navigation'),topicPicker=el('details',undefined,'kundli-topic-picker');topicPicker.append(el('summary',t.jump));const nav=el('nav',undefined,'kundli-topic-nav');nav.setAttribute('aria-label',t.jump);for(const id of [...Object.keys(model.topics),'future']){const link=el('a',journeyCopy[language][id]||t[id]);link.href='#kundli-'+id;link.addEventListener('click',event=>{if(event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;event.preventDefault();root.dispatchEvent(new CustomEvent('kundli-topic-jump',{bubbles:true,detail:id}));topicPicker.open=false;const target=root.querySelector('#kundli-'+id);if(target){target.tabIndex=-1;target.focus({preventScroll:true});target.scrollIntoView({block:'start'});}});(['personality','career','relationships','future'].includes(id)?quickNav:nav).append(link);}topicPicker.append(nav);navigation.append(topicPicker);root.append(quickNav,navigation);
  const cards=el('div',undefined,'kundli-reading-grid');
+ const technical=[];
  const context=data=>`${t.connection} ${pick(houseContext[data.rulerHouse-1],language)}${language==='hi'?' से।':language==='gu'?' સાથે.':'.'}`;
  function evidence(card,id,data){const why=el('details'),summary=el('summary',t.basis);why.append(summary);if(data.house){why.append(el('p',`${t.house} ${data.house}: ${signName(data.sign,language)} · ${t.ruler}: ${bodyName(data.ruler,language)} · ${t.placed} ${t.house} ${data.rulerHouse} (${signName(data.rulerSign,language)})`));why.append(el('p',data.occupants.length?`${t.occupants}: ${data.occupants.map(body=>bodyName(body,language)).join(', ')}`:t.emptyHouse));}
   else why.append(el('p',`${t.moon}: ${signName(data.moon,language)}${data.rising?' · '+t.rising+': '+signName(data.rising,language):''}`));
   if(data.house)why.append(el('p',context(data)));
   if(id==='appearance')why.append(el('p',t.appearanceLimit));
   if(id==='career')why.append(el('p',t.careerEnd));
-  card.append(why);
+  technical.push(why);card.append(why);
  }
  for(const [id,data]of Object.entries(model.topics)){
   const card=el('article',undefined,'kundli-topic');card.id='kundli-'+id;card.dataset.topic=id;card.dataset.status=data?'available':'unavailable';card.append(el('h3',t[id]));
@@ -32,10 +35,13 @@ export function mountKundliReading(container,report,language='en',name=''){
  }
  root.append(cards);
  const future=el('section',undefined,'kundli-future');future.id='kundli-future';future.dataset.topic='future';future.dataset.status=model.periods.length?'available':'unavailable';future.append(el('h3',t.future));
+ const prosePeriods=composeLocalizedFuture(report,model.periods,language);
  const date=boundary=>{const local=boundary.local.status==='available';return new Intl.DateTimeFormat(language,{dateStyle:'medium',timeStyle:'short',timeZone:local?'Asia/Kolkata':'UTC'}).format(new Date(boundary.utcInstant))+' '+(local?'IST':'UTC');};
  if(!model.periods.length)future.append(el('p',t.periodUnavailable));
- else {future.append(el('p',`${t.asOf}: ${new Intl.DateTimeFormat(language,{dateStyle:'medium',timeZone:'Asia/Kolkata'}).format(new Date(model.calculatedAtUtc))}`));const list=el('ol',undefined,'kundli-periods');model.periods.forEach((period,index)=>{const item=el('li');item.dataset.major=period.major;item.dataset.minor=period.minor;item.dataset.start=period.start.utcInstant;item.dataset.end=period.end.utcInstant;item.append(el('span',index===0?t.current:t.upcoming,'kundli-period-label'),el('h4',`${bodyName(period.major,language)} / ${bodyName(period.minor,language)}`),el('p',`${date(period.start)} → ${date(period.end)}`),el('p',composeKundliPeriod(period,language)));list.append(item);});future.append(list,el('p',t.periodNote,'kundli-topic-note'));}
+ else {future.append(el('p',`${t.asOf}: ${new Intl.DateTimeFormat(language,{dateStyle:'medium',timeZone:'Asia/Kolkata'}).format(new Date(model.calculatedAtUtc))}`));const list=el('ol',undefined,'kundli-periods');model.periods.forEach((period,index)=>{const item=el('li');item.dataset.major=period.major;item.dataset.minor=period.minor;item.dataset.start=period.start.utcInstant;item.dataset.end=period.end.utcInstant;item.append(el('span',index===0?t.current:t.upcoming,'kundli-period-label'),el('h4',`${bodyName(period.major,language)} / ${bodyName(period.minor,language)}`),el('p',`${date(period.start)} → ${date(period.end)}`),el('p',prosePeriods[index].text));const basis=el('p',periodPlacementText(period.placements,language));if(basis.textContent){technical.push(basis);item.append(basis);}list.append(item);});future.append(list,el('p',t.periodNote,'kundli-topic-note'));}
  root.append(future);
  const methods=el('details',undefined,'kundli-reading-methods');methods.append(el('summary',t.methods),el('p',t.methodNote));root.append(methods);container.append(root);
- return {destroy(){root.remove();}};
+ const applyAudience=value=>{root.dataset.audience=value;for(const node of technical){node.hidden=value==='public';if(node.tagName==='DETAILS')node.open=value==='pandit';}};
+ const audience=mountReadingAudience({language,onChange:applyAudience});title.after(audience.element);applyAudience(audience.value);
+ return {audience:audience.element,destroy(){audience.destroy();root.remove();}};
 }

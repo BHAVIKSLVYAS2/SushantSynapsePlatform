@@ -1,3 +1,6 @@
+import {adaptJyotishCalculation} from './jyotish-adapter.mjs';
+import {jyotishKnowledge} from './jyotish-intelligence.mjs';
+import {focusPeriodTopics} from './jyotish-synthesis.mjs';
 import {readingText,pick} from './kundli-reading-copy.mjs';
 import {temperament,manner,work,resources,phase,everyday as topics} from './kundli-consultation-copy.mjs';
 import {signName,bodyName} from './locale.mjs';
@@ -5,11 +8,30 @@ import {kundliPlacementText,periodPlacementText} from './planet-reading.mjs';
 export const kundliProseVersion='kundli-prose-5';
 // Original complete sentences. These describe traditional sign-element themes,
 // not additional chart calculations or a full classical judgement.
-export function composeKundliPeriod(period,language){
+export function composeKundliPeriod(period,language,{includeBasis=true}={}){
  if(!readingText[language])throw new TypeError('Unsupported language.');
  const major=bodyName(period.major,language),minor=bodyName(period.minor,language),guidance=pick(phase[period.minor],language);
  const intro=({en:`This is a ${major} period, with ${minor} as its sub-period. Here’s a practical way to approach its traditional themes: ${guidance}.`,hi:`इस अवधि में आपकी ${major} की महादशा और ${minor} की अंतर्दशा है। इसके पारंपरिक संकेतों को रोजमर्रा में ऐसे अपनाकर देखें: ${guidance}।`,gu:`આ સમયગાળામાં તમારી ${major}ની મહાદશા અને ${minor}ની અંતર્દશા છે. તેના પરંપરાગત સંકેતોને રોજિંદા જીવનમાં આ રીતે અજમાવી જુઓ: ${guidance}.`})[language];
- return [intro,periodPlacementText(period.placements,language)].filter(Boolean).join(' ');
+ return [intro,includeBasis?periodPlacementText(period.placements,language):null].filter(Boolean).join(' ');
+}
+export function composeLocalizedFuture(report,periods,language){
+ const snapshot=adaptJyotishCalculation(report),labels=readingText[language];
+ const list=new Intl.ListFormat(language);
+ const format=new Intl.DateTimeFormat(language,{dateStyle:'medium',timeZone:'Asia/Kolkata'});
+ const label=topics=>list.format(topics.map(id=>labels[id]||({en:{family:'Family and support',spirituality:'Reflection'},gu:{family:'પરિવાર અને સહકાર',spirituality:'ચિંતન'}})[language][id]));
+ let previous=[];
+ return periods.map((period,index)=>{
+  const start=period.start.utcInstant,end=period.end.utcInstant;
+  const focus=focusPeriodTopics(snapshot,jyotishKnowledge.topics,{major:period.major,minor:period.minor,start,end}).map(t=>t.topic);
+  const added=label(focus.filter(id=>!previous.includes(id))),continuing=label(focus.filter(id=>previous.includes(id)));
+  previous=focus;
+  const copy=language==='gu'
+   ?{added:index?'આ સમયગાળામાં નવો વિષય':'મુખ્ય વિષય',continues:'પર ધ્યાન ચાલુ રહે છે'}
+   :{added:index?'New focus':'Main focus',continues:'remain in focus'};
+  const changes=[added&&`${copy.added} — ${added}.`,continuing&&`${continuing} ${copy.continues}.`].filter(Boolean).join(' ');
+  const range=format.formatRange(new Date(start),new Date(end));
+  return {range,text:[changes,composeKundliPeriod(period,language,{includeBasis:false})].filter(Boolean).join(' ')};
+ });
 }
 export function composeKundliTopic(id,data,language){
  const t=readingText[language];if(!t)throw new TypeError('Unsupported language.');

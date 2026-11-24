@@ -132,7 +132,7 @@ body:has(.vedic-birth-app.has-results) .vedic-app-header{display:none!important}
 @media print{.vedic-birth-page .vedic-birth-app .vedic-reading-workspace .vedic-chart-controls{display:none}}
 
 /* House selection stays on the chart; details are opened only on request. */
-.vedic-chart-stage .vedic-cell-bodies{pointer-events:none}
+.vedic-chart-stage .vedic-cell-bodies{pointer-events:none;fill:var(--ui-ink)}
 .vedic-chart-stage .vedic-cell-bodies [data-graha]{pointer-events:auto}
 .vedic-house-controls{display:flex;align-items:center;gap:10px;margin:8px 0}
 .vedic-birth-page .vedic-birth-app .vedic-reading-workspace .vedic-house-controls .vedic-house-picker{flex:1;margin:0}
