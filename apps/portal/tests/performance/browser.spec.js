@@ -3,16 +3,6 @@ let child,base,dir;
 // Style parity injects the original sheet in test contexts only; production CSP stays intact.
 test.use({bypassCSP:true});
 
-test('shared chrome does not rescan translations for arena score mutations',async({page})=>{
- await page.goto(base+'/satire-arena/news-anchors');await expect(page.locator('.arena-card')).toHaveCount(6);
- const walks=await page.evaluate(async()=>{
-  await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
-  const original=document.createTreeWalker;let count=0;document.createTreeWalker=function(...args){count++;return original.apply(this,args);};
-  try{document.querySelector('.card-total').textContent='Updated score';await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));return count;}
-  finally{document.createTreeWalker=original;}
- });
- expect(walks).toBe(0);
-});
 test.beforeAll(async()=>{dir=fs.mkdtempSync(path.join(os.tmpdir(),'synapse-performance-'));child=spawn(process.execPath,['server/index.js'],{env:{...process.env,PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe']});base=await new Promise((resolve,reject)=>{let out='';child.stdout.on('data',chunk=>{out+=chunk;const m=out.match(/localhost:(\d+)/);if(m)resolve('http://127.0.0.1:'+m[1]);});child.once('error',reject);});});
 test.afterAll(async()=>{if(child?.exitCode===null)await new Promise(resolve=>{child.once('exit',resolve);child.kill();});if(dir)fs.rmSync(dir,{recursive:true,force:true});});
 

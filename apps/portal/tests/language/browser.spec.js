@@ -35,7 +35,7 @@ test('interface changes preserve wheel choices and saved task titles that match 
  for(const language of ['gu','hi','en']){await choose(page,language);await expect(page.locator('.task-title')).toHaveText('Contact');}
 });
 test('one header menu replaces app duplicates and fits the mobile viewport',async({page})=>{
- for(const route of ['/satire-arena/news-anchors','/ritual-assist','/ritual-assist/calendar']){
+ for(const route of ['/ritual-assist','/ritual-assist/calendar']){
   await page.setViewportSize({width:320,height:800});await page.goto(base+route);
   await expect(page.locator('[data-language-control]')).toHaveCount(1);
   const summary=page.locator('.platform-language summary');await summary.click();

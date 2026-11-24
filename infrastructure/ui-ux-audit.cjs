@@ -44,7 +44,6 @@ async function main(){
  try{
   for(const route of routes.filter(r=>(!only||r===only)&&!['/admin','/super-admin','/account','/organisation-audit','/platform-audit','/client-access','/client-portal'].includes(r)))await scan(route);
   if(only)return;
-  for(const route of ['/satire-arena/results','/satire-arena/characters/namo-nimbus'])await scan(route);
   await page.request.post(fixture.base+'/api/auth/login',{data:{email:'super@example.com',password:fixture.password}});
   for(const route of ['/','/digital-samaj','/batchfee-lite','/tournament-lite',...['dashboard','cases','clients','hearings','tasks','documents','notes','billing','reports','activity','archive','settings','ledger'].map(r=>'/advocate#'+r)])await scan(route,{role:'legacy-owner'});
   governance=await startPreview({chambers:true,multi:true});const g=await context(),gp=await g.newPage();

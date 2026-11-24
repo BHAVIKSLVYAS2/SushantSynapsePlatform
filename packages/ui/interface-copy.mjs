@@ -80,7 +80,6 @@ Skip to calendar|कैलेंडर पर जाएँ|કૅલેન્ડ
 Skip to information|जानकारी पर जाएँ|માહિતી પર જાઓ
 Skip to focus|फ़ोकस पर जाएँ|ધ્યાનના સાધન પર જાઓ
 Skip to mixer|टीम बनाने पर जाएँ|ટીમ બનાવવા પર જાઓ
-Skip to arena|अरीना पर जाएँ|અરીના પર જાઓ
 Explore Apps|ऐप देखें|ઍપ જુઓ
 Open and use instantly|तुरंत खोलें और इस्तेमाल करें|તરત ખોલો અને વાપરો
 Browse Apps|ऐप चुनें|ઍપ પસંદ કરો
@@ -142,7 +141,6 @@ Explore Kundli|कुंडली देखें|કુંડળી જુઓ
 TRADITIONS / HINDU PREPARATION|परंपरा / अनुष्ठान तैयारी|પરંપરા / અનુષ્ઠાનની તૈયારી
 CREATE / CARDS & CERTIFICATES|बनाएँ / कार्ड और प्रमाणपत्र|બનાવો / કાર્ડ અને પ્રમાણપત્ર
 PLAY / YOUR BREAK COLLECTION|खेलें / विराम के लिए|રમો / વિરામ માટે
-PLAY / SATIRE & POP CULTURE|खेलें / व्यंग्य और पॉप संस्कृति|રમો / વ્યંગ અને પૉપ સંસ્કૃતિ
 CHOOSE / RANDOM PICKER|चुनें / यादृच्छिक चुनाव|પસંદ કરો / રૅન્ડમ પસંદગી
 PLAY / UNTOLD THOUGHTS|खेलें / अनकही बातें|રમો / ન કહેવાયેલી વાતો
 FREE / EVERYDAY TOOLS|मुफ़्त / रोज़मर्रा के टूल|મફત / રોજિંદા સાધનો
@@ -153,7 +151,6 @@ WORK / FOCUS|काम / एकाग्रता|કામ / એકાગ્ર
 Prepare ritual checklists in English or Hindi.|हिन्दी या अंग्रेज़ी में अनुष्ठान की सूची तैयार करें।|હિન્દી કે અંગ્રેજીમાં અનુષ્ઠાનની યાદી તૈયાર કરો.
 Make certificates, greetings, invitations and remembrance cards.|प्रमाणपत्र, शुभकामना, निमंत्रण और स्मृति कार्ड बनाएँ।|પ્રમાણપત્ર, શુભેચ્છા, આમંત્રણ અને સ્મૃતિ કાર્ડ બનાવો.
 Play puzzles, memory games and One-Minute Chaos.|पहेलियाँ, मेमोरी गेम और One-Minute Chaos खेलें।|કોયડા, યાદશક્તિની રમતો અને One-Minute Chaos રમો.
-Pick an arena, react to fictional personalities and see yearly scores.|अरीना चुनें, काल्पनिक पात्रों पर प्रतिक्रिया दें और साल के अंक देखें।|અરીના પસંદ કરો, કાલ્પનિક પાત્રો પર પ્રતિક્રિયા આપો અને વાર્ષિક ગુણ જુઓ.
 Compare the holdings shared by your mutual funds.|अपने म्यूचुअल फ़ंड की साझा होल्डिंग की तुलना करें।|તમારા મ્યુચ્યુઅલ ફંડની સહિયારી હોલ્ડિંગ સરખાવો.
 Add your options and spin to choose one.|विकल्प जोड़ें और एक चुनने के लिए पहिया घुमाएँ।|વિકલ્પો ઉમેરો અને એક પસંદ કરવા ચક્ર ફેરવો.
 Create QR codes for links, text or Wi-Fi.|लिंक, टेक्स्ट या वाई-फ़ाई के QR कोड बनाएँ।|લિંક, લખાણ કે વાઇ-ફાઇના QR કોડ બનાવો.
@@ -342,35 +339,7 @@ Let chance choose|किस्मत को चुनने दें|નસી�
 Spin the Picksy|चुनाव का पहिया घुमाएँ|પસંદગીનું ચક્ર ફેરવો
 MATH PUZZLE|अंकों की पहेली|અંકોનો કોયડો
 LOGIC|तर्क|તર્ક
-Public life. Pop culture. Plenty to laugh about.|सार्वजनिक जीवन। पॉप संस्कृति। हँसने की ढेरों बातें।|જાહેર જીવન. પૉપ સંસ્કૃતિ. હસવાની ઘણી વાતો.
-All arenas|सभी अरीना|બધાં અરીના
-Politicians|राजनेता|રાજકારણીઓ
-News Anchors|समाचार एंकर|સમાચાર ઍન્કર
-Actors|अभिनेता|અભિનેતા
-Corporates|कॉरपोरेट|કૉર્પોરેટ
-Garland|माला|હાર
 or|या|અથવા
-Roast|चुटकी|મજાક
-Applause|तालियाँ|તાળીઓ
-Shoe|जूता|જૂતું
-Throw ink|स्याही फेंकें|શાહી ફેંકો
-Tomato|टमाटर|ટામેટું
-Just laughing|बस हँस रहे हैं|ફક્ત હસી રહ્યા છીએ
-Scores unavailable|अंक उपलब्ध नहीं|ગુણ ઉપલબ્ધ નથી
-Confirm reaction|प्रतिक्रिया पक्की करें|પ્રતિક્રિયા નક્કી કરો
-Refresh arena|अरीना फिर लोड करें|અરીના ફરી લોડ કરો
-Fans|प्रशंसक|ચાહકો
-Critics|आलोचक|ટીકાકારો
-Amused|मनोरंजन हुआ|મજા આવી
-Results & history|परिणाम और इतिहास|પરિણામ અને ઇતિહાસ
-Appearance, sound & vibration|रंग रूप, ध्वनि और कंपन|દેખાવ, અવાજ અને કંપન
-Reaction sounds|प्रतिक्रिया की ध्वनि|પ્રતિક્રિયાનો અવાજ
-Vibration when supported|समर्थित उपकरण पर कंपन|સમર્થિત ઉપકરણ પર કંપન
-Report content / feedback|सामग्री की शिकायत / प्रतिक्रिया|સામગ્રીની ફરિયાદ / પ્રતિસાદ
-Editorial desk|संपादकीय कक्ष|સંપાદકીય કક્ષ
-Your reactions & privacy|आपकी प्रतिक्रियाएँ और गोपनीयता|તમારી પ્રતિક્રિયા અને ગોપનીયતા
-Export my reactions|मेरी प्रतिक्रियाएँ डाउनलोड करें|મારી પ્રતિક્રિયા ડાઉનલોડ કરો
-Remove my reactions|मेरी प्रतिक्रियाएँ हटाएँ|મારી પ્રતિક્રિયા દૂર કરો
 Read|पढ़ें|વાંચો
 Search editions|संस्करण खोजें|આવૃત્તિ શોધો
 Archives|पुराने अंक|જૂના અંક
@@ -714,7 +683,6 @@ Content or copyright concern|सामग्री या कॉपीराइ�
 Legal operator details and a dedicated email remain pending.|कानूनी संचालक की जानकारी और अलग ईमेल अभी लंबित हैं।|કાનૂની સંચાલકની માહિતી અને અલગ ઈમેલ હજી બાકી છે.
 Create your owner account. Existing Chambers records will stay right where they are.|मालिक का खाता बनाएँ। मौजूदा Chambers रिकॉर्ड सुरक्षित रहेंगे।|માલિકનું ખાતું બનાવો. હાલના Chambers રેકોર્ડ સુરક્ષિત રહેશે.
 Add team members and choose their app access after setup.|सेटअप के बाद सदस्य जोड़ें और ऐप की अनुमति चुनें।|સેટઅપ પછી સભ્યો ઉમેરો અને ઍપની મંજૂરી પસંદ કરો.
-Satire Arena browser voting|Satire Arena का ब्राउज़र मतदान|Satire Arenaનું બ્રાઉઝર મતદાન
 Beta notice and acknowledgement|बीटा सूचना और स्वीकृति|બીટા સૂચના અને સ્વીકૃતિ
 Use only what you are authorized to use|केवल अनुमत सुविधाएँ इस्तेमाल करें|ફક્ત મંજૂરીવાળી સુવિધા વાપરો
 Certificates and creative work|प्रमाणपत्र और रचनात्मक काम|પ્રમાણપત્ર અને સર્જનાત્મક કામ
@@ -953,25 +921,12 @@ Bring forward what still matters.|ज़रूरी बचे काम आग�
 Unfinished tasks from earlier days.|पिछले दिनों के अधूरे काम।|પહેલાના દિવસોનાં અધૂરાં કામ.
 MAKE THE PLAN YOURS|योजना अपने अनुसार रखें|આયોજન પોતાના પ્રમાણે રાખો
 Six sports. Fixtures, scores and winners, all in one place.|छह खेल। मैच, स्कोर और विजेता, सब एक जगह।|છ રમતો. મેચ, સ્કોર અને વિજેતા, બધું એક જગ્યાએ.
-Sign in with the an authorized platform account to open BatchFee Lite.|BatchFee Lite खोलने के लिए अधिकृत खाते से साइन इन करें।|BatchFee Lite ખોલવા મંજૂરીવાળા ખાતાથી સાઇન ઇન કરો.
 Amanta · Gujarat, Maharashtra, much of South India|अमान्त · गुजरात, महाराष्ट्र, अधिकांश दक्षिण भारत|અમાન્ત · ગુજરાત, મહારાષ્ટ્ર, મોટાભાગનું દક્ષિણ ભારત
 Purnimanta · much of North India|पूर्णिमान्त · अधिकांश उत्तर भारत|પૂર્ણિમાન્ત · મોટાભાગનું ઉત્તર ભારત
 Civil date · death date is day 1|नागरिक तारीख · मृत्यु की तारीख पहला दिन|નાગરિક તારીખ · અવસાનની તારીખ પહેલો દિવસ
 Sunrise day · before sunrise counts as previous day|सूर्योदय का दिन · सूर्योदय से पहले पिछला दिन|સૂર્યોદયનો દિવસ · સૂર્યોદય પહેલાં અગાઉનો દિવસ
 Priest-confirmed death tithi (optional)|पुरोहित से पुष्टि की गई मृत्यु तिथि (वैकल्पिक)|પુરોહિતથી ખાતરી કરેલી અવસાન તિથિ (વૈકલ્પિક)
 Enter the date, exact IST time and six-digit Indian PIN code.|तारीख, सही IST समय और छह अंकों का भारतीय PIN भरें।|તારીખ, ચોક્કસ IST સમય અને છ અંકનો ભારતીય PIN ભરો.
-News Anchors Arena|समाचार एंकर अरीना|સમાચાર ઍન્કર અરીના
-Main event unavailable|मुख्य आयोजन उपलब्ध नहीं|મુખ્ય કાર્યક્રમ ઉપલબ્ધ નથી
-The shared arena is unavailable. No reactions have been recorded.|अरीना उपलब्ध नहीं है। कोई प्रतिक्रिया दर्ज नहीं हुई।|અરીના ઉપલબ્ધ નથી. કોઈ પ્રતિક્રિયા નોંધાઈ નથી.
-▥ PICK YOUR REACTION|▥ अपनी प्रतिक्रिया चुनें|▥ તમારી પ્રતિક્રિયા પસંદ કરો
-Scores are temporarily offline. Refresh before reacting.|अंक अभी उपलब्ध नहीं हैं। प्रतिक्रिया से पहले फिर लोड करें।|ગુણ હાલ ઉપલબ્ધ નથી. પ્રતિક્રિયા પહેલાં ફરી લોડ કરો.
-Offline · Scores unavailable|ऑफ़लाइन · अंक उपलब्ध नहीं|ઑફલાઇન · ગુણ ઉપલબ્ધ નથી
-Shared scores unavailable|साझा अंक उपलब्ध नहीं|સહિયારા ગુણ ઉપલબ્ધ નથી
-Today in the Arena|आज अरीना में|આજે અરીનામાં
-Today’s results are loading…|आज के परिणाम लोड हो रहे हैं…|આજનાં પરિણામ લોડ થઈ રહ્યાં છે…
-Yesterday’s results are loading…|कल के परिणाम लोड हो रहे हैं…|ગઈકાલનાં પરિણામ લોડ થઈ રહ્યાં છે…
-Choose Light, Dark or Deep Black appearance in the platform header.|प्लेटफ़ॉर्म हेडर में हल्का, गहरा या डीप ब्लैक रूप चुनें।|પ્લેટફૉર્મ હેડરમાં લાઇટ, ડાર્ક કે ડીપ બ્લેક દેખાવ પસંદ કરો.
-More free fun:|और मुफ़्त मनोरंजन:|વધુ મફત મનોરંજન:
 Choose your Chambers workspace|अपना Chambers कार्यक्षेत्र चुनें|તમારું Chambers કાર્યક્ષેત્ર પસંદ કરો
 Sign in with your existing account to open Chambers.|Chambers खोलने के लिए अपने मौजूदा खाते से साइन इन करें।|Chambers ખોલવા તમારા હાલના ખાતાથી સાઇન ઇન કરો.
 Organisation|संगठन|સંસ્થા

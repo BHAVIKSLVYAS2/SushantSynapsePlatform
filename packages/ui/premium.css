@@ -52,7 +52,7 @@
     font-family: inherit; font-weight: 750; letter-spacing: -.045em; line-height: 1.08;
   }
   :is(.intro,.hero) h1 em {font-family:inherit;font-style:normal;font-weight:inherit;color:var(--ui-accent)}
-  :is(.panel,.card,.workspace-card,.app-card,.public-app,.client-card,.stat,.library,.game-card,.break-card,.arena-card,.score,.game,.empty,.support-card,.support-partner) {
+  :is(.panel,.card,.workspace-card,.app-card,.public-app,.client-card,.stat,.library,.game-card,.break-card,.score,.game,.empty,.support-card,.support-partner) {
     background: var(--ui-glass); border-color: var(--ui-edge); border-radius: 22px;
     box-shadow: var(--ui-shadow);
   }
