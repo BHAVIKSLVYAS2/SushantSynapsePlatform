@@ -1,3 +1,12 @@
+Frontend runtime audit release (2026-11-25 IST, deployed). Source `352e028f`
+is live on Worker `34eab492-ca11-4f5d-bfa8-693154c64ae0`. The isolated
+committed build and production dry run exported 675 public assets. Wrangler
+uploaded 15 changes with `--keep-vars`. Eight public routes, three exact
+built assets and four API checks passed, including D1 health, the legacy
+organisation-scope denial and both retired app APIs. Live mobile Chrome
+verified Deep Black and app-switcher empty search. No migrations or
+production business writes.
+
 Frontend runtime audit and maintenance (2026-11-25 IST, local). Added a Chrome
 audit of eight exported routes across three themes and three widths (72
 captures), including lab vitals, JS parse traces, images and link navigation. Removed
