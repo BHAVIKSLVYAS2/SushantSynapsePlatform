@@ -111,14 +111,13 @@ in-app coordination. Payments and external delivery are excluded. Licences and
 user assignments require explicit operator setup. Implementation progress and
 security release gates: [Pandit Booking progress](docs/PANDIT_BOOKING_PROGRESS.md).
 
-Chambers, Tournament Lite, BatchFee Lite and DIGITAL SAMAJ use licensed organisation
-workspaces in production. Super Admin manages licences and seats; Master Admin
+Chambers, DIGITAL SAMAJ and the Pandit Booking managed pilot use licensed organisation
+workspaces in production. Super Admin manages licences and seats. Master Admin
 assigns members to apps. Open each assigned workspace from `/account`. Samaj also
 requires its community permissions. Default Node mode remains separate.
 
-Frontend performance work and measured before/after results are documented
-in [the performance audit](docs/FRONTEND_PERFORMANCE_AUDIT_2026-10-28.md).
-The pass preserves the interface and business logic.
+The [November frontend runtime audit](docs/FRONTEND_RUNTIME_AUDIT_2026-11-25.md)
+records browser CSS coverage, performance, delivery hashes and recovery dependencies.
 
 Home search and Switch app share task keywords and native app names, including
 Kundli/Ritvayam. Matching explains all eight traditional factors, keeps technical
@@ -286,7 +285,7 @@ ledger for verification and release status.
 
 **Focus** at `/focus` combines an adjustable timer (15/25/50-minute presets or custom 5–120 minutes) with browser-saved task cards. Drag between High/Normal/Low priorities or reorder within a group; keyboard and touch controls are also available. Estimates, completion, editing and unfinished-task carry-forward remain included. No sign-in is needed. Tasks stay in this browser profile and do not sync across devices; clearing browser data removes them. The card/timer refinements are deployed and live-verified; evidence is recorded in the functionality ledger.
 
-The selected [free Cloudflare deployment profile](docs/CLOUDFLARE_FREE_DEPLOYMENT.md) is deployed at **https://apps.sushantsynapse.com** with existing email/password accounts, Chambers on D1, private documents up to 1 MB each / 100 MB total, and hard application limits. DIGITAL SAMAJ, BatchFee, Tournament, saved News, private Fund workflows and the ritual calendar are enabled on the same Free D1 backend. Workers Free is owner-confirmed. The cloud backend runs without the laptop. No OTP, verified email ownership or Access allow-list is required. Deployment and verification evidence are recorded in the functionality ledger.
+The [Cloudflare Workers Free profile](docs/CLOUDFLARE_FREE_DEPLOYMENT.md) serves production. Shared email/password accounts and D1 back licensed workspaces. Chambers stores private documents in D1 with per-file and aggregate limits. The [functionality ledger](docs/FUNCTIONALITY_LEDGER.md) records release verification.
 
 A Cloudflare-native backend is prepared for **Workers + D1 + private R2**, with local integration tests and verified migration/recovery tooling. It uses a separate staging Worker configuration; the current production Node/SQL Server backend remains in place. Start with [the Cloudflare migration guide](docs/CLOUDFLARE_FULLSTACK.md) and `npm.cmd run test:cloudflare`.
 
@@ -314,7 +313,7 @@ Public [privacy/data-use information](/privacy), [usage responsibilities](/terms
 
 **DIGITAL SAMAJ** is the integrated family registry at `/digital-samaj`: saved registration, verified directory, Vanshavali, private profiles/photos, bilingual print/PDF, CSV/XLSX import and member messaging. It uses the existing platform login and SQLite. The platform owner creates a Samaj and grants app roles; independent reviewers approve submissions and profile claims. See [DIGITAL SAMAJ setup and boundaries](apps/digital-samaj/README.md). Deployment verification is recorded in the functionality ledger.
 
-**Tournament Lite** is live at [apps.sushantsynapse.com/tournament-lite](https://apps.sushantsynapse.com/tournament-lite): six sports, four formats, bulk player/team entry, automatic fixtures and BYEs, scoring, standings, brackets, public sharing and downloadable winner cards. Organizers sign in with existing platform accounts; players and public viewers need no accounts. Tournament state persists in SQLite. See [Tournament Lite usage and rules](apps/tournament-lite/README.md).
+**Tournament Lite** runs fixtures, scoring, standings and brackets without sign-in. Tournaments are saved in the current browser profile. See [Tournament Lite usage and rules](apps/tournament-lite/README.md).
 
 ```text
 apps/
@@ -336,7 +335,7 @@ This is an npm workspace monorepo. See [code ownership and adding apps](docs/ARC
 
 A mobile-first home for connected apps at **apps.sushantsynapse.com**. Chambers is available; Projects, Finance and Knowledge are roadmap previews only.
 
-- `/`: public collections and tools (Take a Break, Team Mixer, Moment Studio, Timetable Lite), followed by a separate sign-in section for Chambers, Tournament Lite organizing and owner-only BatchFee Lite. Tournament results are public only through an organizer-shared link. Sign-in also opens the account catalogue, favourites, recent launches, profile and owner-managed app access.
+- `/` opens the public catalogue and links to signed-in workspaces. `/account` shows eligible workspace assignments.
 - `/advocate`: the complete Chambers workspace described below, using the same account and theme.
 - SQLite stores accounts, app grants, preferences and Chambers records. Existing accounts receive Chambers access during migration; existing records are preserved.
 - This release serves one organisation with one Chambers workspace. It does not yet provide separate customer tenants or isolated databases per app.
@@ -452,9 +451,9 @@ Research references used for the original workflow design:
 
 ## BatchFee Lite
 
-`/batchfee-lite` is a private, mobile-first tuition/coaching fee tracker for the platform owner. Set up an academy, create batches and students, track recurring fees, record partial/advance payments, print receipts, prepare WhatsApp drafts, review family dues, track expenses and export simple reports. Student CSV imports and validated, history-preserving backups are included. Shared authentication and SQLite persistence protect records; leaving students retain their financial history.
-
-Monthly/quarterly fees catch up on opening the app; per-class/custom fees are entered manually. Joining months are charged in full. New batch enrolments on an existing student and frequency changes take effect next month. WhatsApp opens drafts for manual sending, PDF output uses browser print, and Excel import uses UTF-8 CSV. Optional staff access, offline editing, online collections and automated delivery are not enabled. See [BatchFee Lite rules and usage](apps/batchfee-lite/README.md). [Open BatchFee Lite](https://apps.sushantsynapse.com/batchfee-lite); sign in with the platform owner account.
+Open `/batchfee-lite` without signing in. Academy records and fee history are saved
+in IndexedDB. CSV imports, JSON backups, printable receipts and editable WhatsApp
+drafts are available. See [BatchFee Lite rules and usage](apps/batchfee-lite/README.md).
 
 ## Timetable Lite
 

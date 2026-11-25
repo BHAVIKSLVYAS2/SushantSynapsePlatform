@@ -3,7 +3,8 @@ bundles the existing sport/fixture rules for browser use with Web Crypto.
 frontend/storage.js owns versioned browser-only records, revision checks and
 save errors. The app is public; Node/Workers retire all Tournament APIs with 410.
 No Tournament DB adapter is mounted; no login, licence or organisation assignment
-is needed. The previous Tournament organisation notes below are historical.
+is needed. The [historical server workspace notes](RETIRED_SERVER_WORKSPACE_NOTES.md)
+record the former licensing and storage contracts.
 Only Tournament data retirement is authorised; shared D1 and other apps remain.
 Details: docs/TOURNAMENT_FREE_MODE.md.
 
@@ -406,13 +407,12 @@ premium.bundle.css, the portal home bundle and Vedic application stylesheet;
 do not edit generated bundles directly. Theme layers must not change geometry,
 business logic, artwork or print output.
 
-Private organisation apps (2026-10-29): all four catalogue-private apps use the
-Workers/D1 organisation boundary. BatchFee's organisation-edge.mjs owns scoped
-academy/events, app roles and recovery. Samaj's organisation-edge.mjs maps each
+Private organisation apps use the Workers/D1 organisation boundary. Samaj's
+organisation-edge.mjs maps each
 community to an organisation and checks platform authority before delegating to
 its existing privacy/grant/file/messaging handlers. Its user choices are limited
-to active assigned members of that organisation. Additive app schemas feed D1
-migrations 0007/0008; organisation-recovery.cjs registers their recovery extensions.
+to active assigned members of that organisation. Historical app schemas feed D1
+migrations 0007/0008 and support offline recovery.
 private-apps-cutover.cjs is an offline, explicit one-time legacy mapping tool.
 Default Node mode retains its existing independent single-workspace behaviour.
 
@@ -833,13 +833,6 @@ the shared deduplicated view; keep each D1 compound SELECT below six terms.
 Production uses additive D1 migration 0007, applied before the updated Worker;
 all 82 existing ballots were preserved at that migration boundary.
 
-Tournament cloud organisations: `apps/tournament-lite/backend/organisation-edge.mjs`
-owns scoped APIs and policy checks; its `database/002-organisation.sql` owns the
-additive ownership boundary (D1 migration 0006). The frontend discovers organisation
-mode from the API, selects a workspace and honours read-only licences. Default Node
-remains account-owned. D1 account/admin adapters expose Tournament licences and
-assignments; other private app guards remain. See `docs/TOURNAMENT_ORGANISATION_SETUP.md`.
-
 Beta notice (2026-10-19, live verified): `packages/ui/beta-html.cjs` owns idempotent shared
 markup; `beta-notice.js`/`.css` own the English/Hindi first-visit acknowledgement,
 static footer note and explicit WhatsApp draft. Node HTML composition, Cloudflare
@@ -936,150 +929,8 @@ Admin assets have flag-gated public paths; internal storage paths return 404.
 Offline cutover/recovery utilities never run during request handling. See
 `docs/ORGANISATION_PRODUCTION_CUTOVER.md` for verified release and rollback boundaries.
 
-Organisation readiness (2026-10-17): `tests/organisation-readiness.test.js` exports
-from a prepared fixture and starts a second guarded runtime from a restored,
-new temporary SQLite database. The shared test fixture accepts recovery SQL only
-for this disposable test path; no application restore endpoint or production
-startup behaviour changes. `docs/ORGANISATION_READINESS.md` records verification
-boundaries and activation blockers. `npm run test:organisation-readiness` runs
-the organisation suites independently of production configuration.
-
-Organisation audit viewer (2026-10-17): admin owns `backend/audit.mjs` and guarded
-audit HTML/module. Repository governance authority is re-read before scoped,
-parameterised keyset queries. Details are projected through known fields/actions;
-private record/credential payloads are excluded and common credential-shaped reason
-text masked. UI is read-only with IST labels and lifecycle revalidation. Global
-null-org audit events now use a separate Super Admin-only platform query and
-guarded /platform-audit page. Shared bounded pagination, separate action allowlists
-and explicit recovery flag projection preserve scope boundaries. No public/cloud route/schema.
-
-Own-account security UI (2026-10-17): guarded My account uses the existing shared
-auth password endpoint and its session rotation semantics. Password fields reset
-on outcomes/visibility changes; account request revisions prevent obsolete results
-repopulating DOM. Expired account sessions return to inline sign-in; client pages
-link back to My account. No auth/schema/provider or public route change.
-
-Client portal screens (2026-10-17): Chambers owns guarded client-portal HTML/module.
-The client read service exposes a shared eligibility scope helper so account
-navigation uses the same live entitlement/link rules. Client-link UI manages
-separate Client-role assignments and displays seat impact and release fields.
-Client page is read-only, clears on visibility/pagehide and rejects stale responses.
-No new schema, public/cloud routes, document or financial endpoints.
-
-Client portal API (2026-10-17): Chambers owns `client-portal.mjs`, dispatched only
-in guarded preview under `/api/client-portal/:org`, separately from staff routes.
-It rechecks session identity, Client membership, Client-role app assignment,
-licence and explicit client links in a consistent read transaction, projecting an
-allowlist of client names/basic cases. The existing ClientAccessAdministration
-service owns audited Client entitlement admission to the licence's separate
-client-seat pool. No migration, client UI, documents or financial routes yet.
-
-Client-link management screen (2026-10-17): Chambers owns client-access HTML/module,
-served only through guarded preview assets. My account derives link-management
-eligibility from primary membership and Owner entitlement; the scoped service
-independently enforces it. Overview data is restricted to member/record choice
-labels and link metadata. Grace is read-only; visibility/BFCache revalidate. No
-client portal reads or default/cloud route are introduced.
-
-Client access foundation (2026-10-17): Chambers owns migration 005 and
-`client-access.mjs`, with guarded staff endpoints under `/api/chambers/:org`.
-Link management requires primary Master Admin plus Chambers Owner, without Super
-Admin record bypass. Composite foreign keys prevent cross-org record links.
-Scoped JSON restore removes link authority and audits the removal; full SQL
-recovery retains it. No client read endpoints/UI/entitlement activation exist yet;
-stored links alone must never become a read authorisation decision.
-
-Organisation lifecycle (2026-10-17): the shared administration service owns explicit
-Active/Suspended transitions with Super Admin, version, typed scope and audit
-enforcement. Guarded admin adapters render only the next allowed action. Scoped
-app/admin/invitation access re-read org status, so existing sessions are blocked on
-their next request. Transitions preserve data/configuration and do not extend
-licence/invitation validity. Draft/PendingActivation/Closed transitions remain separate.
-
-Organisation account navigation (2026-10-17): `/account` is preview-only and uses
-the shared admin shell. `apps/admin/backend/account.mjs` returns only the session
-identity's memberships and derives Chambers links using the shared entitlement
-policy plus staff-role enforcement. Membership is separate from app assignment;
-Super Admin grants no automatic app access. Management links preserve org scope;
-the initial admin load validates it. Visibility/BFCache revalidate account metadata.
-Clients have no portal destination until one is implemented. No public/cloud route.
-
-Super Admin full recovery export (2026-10-17): guarded admin route delegates to
-Store.exportSql with an internal beforeExport audit callback inside its existing
-transaction. Full backup authority is explicit and separate from business API
-access. Password re-entry, full-scope confirmation, reason and bounded attempts
-protect the local preview download. Sessions are excluded, and restoration stays
-offline into a new empty SQLite database. No cloud/default-runtime exposure.
-
-New-primary onboarding service foundation (2026-10-17): opt-in migration 004 tracks
-invitation-created identities separately from existing disabled accounts. The
-repository atomically provisions an inactive identity and primary invitation, then
-activates identity/member/org with recipient credentials. It creates no app grants
-or global Owner authority. Guarded preview now exposes one signed-out activation
-endpoint with bounded body/attempt limits, plus activation and sign-in forms on
-administration entry pages. Default/cloud runtime remains unavailable; see the
-organisation continuation plan for remaining work. Scoped staff/client onboarding
-now lives in `organisation-administration.mjs`: invitation-only inactive identities,
-separate seat pools and atomic credential/member activation. Multiple pending org
-invitations share one identity; only the first activation establishes credentials.
-Later invitations use signed-in acceptance. Both activation routes share one
-bounded attempt bucket and remain unavailable outside the guarded preview.
-
-Organisation/licensing programme (2026-10-17, local foundation only):
-`docs/ORGANISATION_LICENSING_PLAN.md` records approved requirements and continuation
-status. Runtime-neutral `packages/auth/organisation-policy.mjs` separates platform
-provisioning, primary Master Admin management, private app entitlement checks and
-staff/client seat admission. Opt-in SQLite persistence/provisioning lives in
-`packages/database/organisation-repository.mjs`, with ordered SQL under
-`packages/database/migrations`. The shared baseline schema links this extension
-without applying it on startup. Caller-owned native SQLite transactions enforce
-primary Master Admin membership, hashed activation invitations, audit and revision
-checks. Migration `002-legacy-chambers.sql` and `legacy-chambers-mapping.mjs`
-prepare explicit account selection and legacy record/file ownership without
-rewriting business rows. `organisation-schema.cjs` shares the immutable migration
-manifest with `organisation-recovery.cjs`; full SQLite export includes known
-organisation schema/state inside one consistent transaction. JSON restore remains
-single-workspace and is not organisation recovery. No provisioning/mapping routes,
-live schema/data migration or business-record tenant isolation are introduced.
-SQL Server/D1, scoped restore and ongoing ownership writes remain pending.
-Implementation is local only; deployment is explicitly prohibited by the user.
-
-Chambers frontend scope (2026-10-17, guarded preview): Node injects local-only
-`organisation-preview.js`/CSS before the existing controller. The controller
-validates organisation selection, prefixes business/download/recovery paths and
-uses trusted scoped/read-only/admin capabilities. Scoped settings excludes global
-team/SQL recovery. Existing-account sign-in is available on the Chambers entry.
-Switching reloads the document; visibility/BFCache revalidate, and request revisions
-prevent stale responses restoring content after denial. Normal runtime/cloud
-behaviour is unchanged; new-account onboarding remains pending.
-
-Chambers scoped API (2026-10-17, temporary preview only): app-owned
-`organisation-routes.mjs` injects `OrganisationChambersStore` into the existing
-validated business handler. Explicit `/api/chambers/<org-id>/...` paths scope every
-record/file/staff/settings/audit access and atomically persist ownership. App-owned
-`003-organisation-workspaces.sql` adds profile, activity and SQLite recovery
-snapshots; the shared ordered manifest/export supports all three schema versions.
-Scoped JSON restore cannot clear another org or overwrite its IDs; full SQL export
-is denied through Chambers. Preview serializes API requests on its shared SQLite
-connection and blocks legacy private API fallthrough. Default runtime/cloud and
-Chambers frontend routing remain unchanged. See the app's ORGANISATION_SCOPE.md.
-
-Administration UI/adapters (2026-10-17, temporary preview): `apps/admin` owns the
-shared browser/controller/CSS, local asset allowlist and session-authenticated Node
-adapter; `apps/super-admin` owns its primary entry page. Pages and API are disabled
-by default and absent from public/cloud exports. ORG_ADMIN_PREVIEW=1 requires
-NODE_ENV=test/development, loopback requests/binding, SQLite and an explicitly
-prepared DATA_DIR resolving under the OS temp directory. No automatic schema or
-account bootstrap. Server composition injects the retained native SQLite connection
-only behind this guard. Real workspace/app access is not migrated or tenant-isolated.
-
-Organisation administration services (2026-10-17, local):
-`packages/database/organisation-administration.mjs` owns primary Master Admin
-transfer, manual licence lifecycle/seat limits, existing-identity member invitations,
-scoped member deactivation, Chambers staff assignment and safe overview metadata.
-Services use immediate SQLite transactions, persisted authority, organisation/licence
-revisions and audit. No account-global role/session changes, new migration, UI or
-runtime route is introduced. Other app assignment roles remain app-owned/pending.
+The October guarded SQLite preview milestones are in the
+[historical server workspace notes](RETIRED_SERVER_WORKSPACE_NOTES.md).
 
 Homepage apps-first refinement (2026-10-17, local): portal static/dynamic public
 markup shares a compact welcome section; `home.css` restores document scrolling
@@ -1371,7 +1222,7 @@ Moment Studio simplified cards (2026-10-11): `index.html`, `cards.css` and `card
 
 Focus owns `/focus` under `apps/focus`. By the user's explicit browser-only preference, its timer and daily tasks need no account. Task state persists in localStorage (`synapse-focus-plan-v1`), with validation, capacity limits, cross-tab refresh and safe write-failure handling. `task-model.mjs` owns optional per-lane order metadata, backwards-compatible task commands and validated priority/reorder/edit changes. `app.js` owns the priority board, pointer dragging with cancellation/autoscroll, keyboard/touch alternatives, completed/carry lists and native task editor. `focus-timer.mjs` owns 15/25/50/custom 5–120-minute preferences (`synapse-focus-duration-v1`) and transient wall-clock sessions; duration controls stay locked until reset/completion. Presentation stays app-owned and uses shared theme tokens. This exception applies only to Focus; shared authentication, preferences and other app business records remain database-backed. Existing account-scoped cloud Focus plans and their authenticated legacy API are preserved. Task validation is an app-owned frontend module reused by that legacy API. Shared registry, home discovery and app switching expose Focus.
 
-Free cloud target (2026-10-11): `wrangler.free.jsonc` and `wrangler.free.production.jsonc` use D1 without R2, existing email/password authentication (`packages/auth/edge.mjs`), a 49-statement full-app request budget (45 in reduced mode) and atomic SQL capacity triggers. No OTP or email ownership verification is required. Optional Access authentication remains explicitly selected by `AUTH_METHOD=access`; it is not the chosen deployment mode. Chambers retains business validation, app roles and preferences. `packages/storage/d1.mjs` stores private document BLOBs with SHA-256 verification, limited to 1 MB each and 100 MB total; document bytes, metadata and audit commit atomically. `FULL_APPS=true` enables DIGITAL SAMAJ, BatchFee, Tournament, saved News, private Fund workflows and the ritual calendar. Samaj photos and message attachments share the D1 document byte cap; migration 0004 adds their private BLOB table. Staged Samaj operations use request-local projections and final atomic table batches to fit the Free query limit. Large interactive backup/restore stays disabled; verified offline D1 recovery remains available. Full recovery bundles and original runtimes remain preserved. Workers Free is owner-confirmed; deployment evidence lives in the functionality ledger. See [scope and deployment prerequisites](CLOUDFLARE_FREE_DEPLOYMENT.md).
+Production uses the Workers Free D1 profile and shared email/password authentication. Chambers documents use D1 BLOB storage with per-file and aggregate limits. Samaj staged requests commit through atomic D1 batches. Offline D1 recovery is documented in [the Cloudflare Free runbook](CLOUDFLARE_FREE_DEPLOYMENT.md).
 
 Cloudflare fullstack adaptation (2026-10-11): `server/edge-index.mjs` composes async app-owned edge handlers, shared `packages/database/d1.mjs` guarded D1 batches, and private `packages/storage/r2.mjs` objects. Samaj stages its complete request with read-your-writes before a single commit. Static frontend/API URLs remain; available apps retain their role checks and planned apps stay unavailable. `infrastructure/cloudflare/wrangler.fullstack.jsonc` targets separate staging resources; existing Node composition, SQLite/SQL Server schemas and recovery sources are preserved. This is locally verified code, not a production cutover. See [implementation, migration and recovery](CLOUDFLARE_FULLSTACK.md); this supersedes historical statements below that Calendar/private APIs can only run through Node.
 
@@ -1385,7 +1236,7 @@ Platform continuity is owned by `packages/ui/platform-shell.js` and `platform-sh
 
 The thirteen-character Arena catalogue, compact captions, mixed three-column/four-row and two-column/five-row portrait sheets, and right-hand reaction rails belong to app-owned screen CSS and card markup. Six small icon/count buttons retain 48px touch targets, full accessible reaction labels and hover titles. Two desktop columns give portraits more room; mobile keeps one column with the rail beside each image. New-character persistence belongs to additive app-owned SQLite/SQL Server migrations and arena_additions_votes/arena_speakers_votes; aggregate/private deletion includes all generations. The app-owned inkpot SVG lives in catalogue.mjs and is reused by controls and feedback. Voting, selected-choice badges, portrait effects, haptics and reduced-motion behavior retain their existing module owners. Shared light-mode muted-text contrast belongs to packages/ui/premium.css and its generated Tailwind bundle.
 
-Signed-out private workspace cards are shipped in both portal static HTML and `publicHome()` in `platform.js`. Their decorative sculptures reuse `home-art.svg` symbols (community, chambers, trophy and fees); layouts and theme tokens belong to `home.css`. Both versions keep identical sign-in destinations, access requirements and public tournament-viewing guidance. Pending Ritual Assist presentation refinements use shared language buttons bridged to the existing native selector, without changing checks, calendar calculations, API validation or persistence.
+Signed-out workspace cards in portal HTML and `publicHome()` share sign-in destinations and access labels. Their layouts and theme tokens belong to `home.css`.
 
 Moment Studio's certificate-first entry is `/moment-studio`; `/moment-studio/cards` owns the greeting workspace and its occasion query links. The five original certificate designs and bounded A4 text/image geometry belong to `certificate-renderer.mjs`; they require no remote template library. `certificate-app.js` owns automatic/manual template selection, expanded native-dialog preview and batch tools inside the editor form. The workspace must have exactly two grid children: form and preview. App-owned screen CSS sizes the artboard independently of export DPI; print keeps A4 geometry. Existing recipient/signature privacy, approved organisation storage, donation wording and export branding remain intact.
 
@@ -1409,7 +1260,7 @@ Ritual calendar reminder/pack exports belong to app-owned frontend modules: `cal
 
 Public information routes `/privacy`, `/terms`, `/contact`, `/legal` and `/legal/third-party-notices` belong to the portal frontend. Their static shared footer belongs to `packages/ui/legal-footer.css`; no browser tracking, legal-form submission or storage is introduced. All pages link to them without JavaScript; Cloudflare independently serves the routes and slash aliases. Information reflects current app storage/limitations, with operator/contact details explicitly pending until supplied. See `docs/LEGAL_SOURCE_REGISTER.md` for notices and unresolved rights decisions.
 
-This is an npm workspace monorepo. The retained local deployment shares one Node API and uses `(localdb)\MSSQLLocalDB / SushantSynapsePlatform`, with `platform`, `chambers`, `batchfee`, `samaj`, `tournament`, `news`, `fundlens` and `satire` schemas. Production uses `server/edge-index.mjs` on Cloudflare Workers and the `PLATFORM_DB` D1 binding, including Arena and private Chambers document BLOBs. Private APIs never fall through to the laptop. Cloud writes are authoritative after cutover and are not synchronized back to SQL Server. SQLite is retained for isolated compatibility tests and source recovery. See `docs/SQLSERVER_MIGRATION.md` for the preserved local runtime.
+Local Node uses SQLite by default. The SQL Server migration guide documents a historical deployment and the retained migration tooling. Production uses `server/edge-index.mjs` on Cloudflare Workers with the `PLATFORM_DB` binding.
 
 ```text
 apps/
@@ -1451,7 +1302,6 @@ DIGITAL SAMAJ is owned by `apps/digital-samaj`, served at `/digital-samaj` and `
 
 Cloudflare frontend deployment is owned by `infrastructure/cloudflare`. Its build exports only `server/static-assets.js`'s public allowlist plus the shared availability UI, never runtime data or backend source. A Worker route on the existing tunnel hostname serves these assets and proxies `/api/*` and `/healthz` to the unchanged Node origin. News, Certificates, Timetable Lite and the homepage can load independently; other page routes check backend health and serve `apps/portal/frontend/unavailable.html` during outages. `packages/ui/availability.js` shows mid-session connection failures without replaying writes or discarding form input. Cloudflare preview hosts intentionally have no backend connection. SQLite ownership and all API enforcement remain on the existing server.
 
-Tournament Lite is owned by `apps/tournament-lite`, served at `/tournament-lite` and `/api/tournament-lite`. Its format/progression engine is separate from sport scoring rules. Organizer routes enforce shared app access, Owner/Advocate roles, account ownership and optimistic revisions; explicit published-token GET routes are public. App-owned SQLite snapshots and an additive migration marker are registered for full SQL export. Public responses exclude organizer contact and team rosters. No browser business-state storage or external sport service is used.
 
 The server creates the database and app handlers. It injects the database and authentication helpers into each handler. App routes must enforce their own app access before reading or writing business data. Shared authentication receives an initialization callback from the server, so it does not import Chambers-specific settings.
 
@@ -1473,7 +1323,7 @@ The initial SQL backend retains synchronous repositories through a driver worker
 
 Quiet sponsorship display is shared UI in `packages/ui/sponsorship*`; the portal owns `/sponsor` and its public `sponsor-config.mjs` publishing configuration. Only six explicitly allowed public locations can display reviewed paid text/link creatives. The component reads no app inputs, makes no advertiser requests and adds no tracking or business persistence. Publishing configuration contains no bookings, leads or payment data; any future campaign-management business records must use validated role-enforced APIs and SQLite. The enquiry page prepares local drafts without submitting or storing leads. Cloudflare serves the sponsorship page/assets independently; no network advertising SDK or payment service is connected. See `docs/MONETIZATION.md`.
 
-The 2026-10-09 additions register `apps/batchfee-lite/database/002-staff.sql` and `apps/digital-samaj/database/003-events.sql` through their owning handlers. Schema text contains DDL; migration-marker inserts run separately, so full SQL exports do not insert the same marker twice. Hearing-preparation templates create ordinary case-linked Chambers tasks through validated, transactional APIs. Timetable absence plans are separate, temporary cover sheets and do not replace its explicitly device-owned weekly setup. See `docs/PLATFORM_AUDIT_IMPLEMENTATION.md` for complete scope and operational limits.
+Schema migrations and export registration belong to their app or shared database package. Hearing-preparation templates create case-linked Chambers tasks through validated transactional APIs. Timetable absence plans remain separate from weekly setup.
 
 News owns additive migrations under `apps/news/database`, registering editions, stories, run snapshots and budgets for SQL export. `repository.js` validates and atomically stores immutable daily editions. `fetch-service.js` persists source snapshots, leases and attempt budgets, supports historical IST cutoffs and rejects future dates. `archive-provider.js` reads bounded fixed-host Indian Express daily archives and article metadata, verifies publication dates and balances/deduplicates topics including entertainment. `publication.js` creates short credited excerpts and locally templated fictional comic dialogue. Legacy PIB editions/adapters remain preserved. Any visitor can generate a present or past edition through the validated fetch endpoint; any visitor can read saved editions. No arbitrary content publication endpoint or automatic scheduler exists.
 
@@ -1514,9 +1364,10 @@ National fund discovery uses MFapi; holdings use Tickertape with exact-family Gr
 
 ## BatchFee Lite ownership
 
-`apps/batchfee-lite` owns the private `/batchfee-lite` academy app and `/api/batchfee-lite` routes. `backend/engine.js` validates commands and deterministically generates fee obligations and payment allocations in integer paise. `backend/routes.js` persists the workspace snapshot and append-only command history in app-prefixed SQLite tables, with immediate transactions, optimistic revisions and idempotent request IDs. The additive version-1 schema is registered in full SQL exports. JSON app backups replay validated commands and cannot replace conflicting or newer history. Financial state stays in SQLite; browser storage holds theme preference only.
-
-V1 is owner-only, represented by `ownerOnly` catalogue metadata and enforced by shared app access plus the app handler. One academy shares the existing platform deployment; this is not multi-tenant SaaS. Optional staff assignment and offline synchronization are deferred. No changes to Chambers records, schemas, legacy migration source or persistence path are required. The app has no runtime npm dependencies.
+`apps/batchfee-lite` owns the public `/batchfee-lite` app. IndexedDB stores the
+academy and event history. The fee engine validates commands in integer paise.
+Legacy server routes return HTTP 410. Compatible JSON imports support older
+organisation backups. See [BatchFee Lite usage](../apps/batchfee-lite/README.md).
 
 ## Certificate app ownership
 

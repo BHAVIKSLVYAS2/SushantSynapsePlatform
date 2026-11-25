@@ -1,15 +1,14 @@
 import {DatabaseSync} from 'node:sqlite';
 import {createHash, randomBytes, randomUUID, scryptSync} from 'node:crypto';
 import registry from '../app-registry/index.js';
+import {OrganisationError} from './organisation-validation.mjs';
+export {OrganisationError} from './organisation-validation.mjs';
 import {canProvisionOrganisation, canManageOrganisation} from '../auth/organisation-policy.mjs';
 import organisationSchema from './organisation-schema.cjs';
 
 const hash = value => createHash('sha256').update(value).digest('hex');
 export const organisationMigrations = organisationSchema.migrations;
 export const organisationTables = organisationSchema.tables;
-export class OrganisationError extends Error {
-  constructor(code, message) { super(message); this.code = code; }
-}
 function reject(code, message) { throw new OrganisationError(code, message); }
 function transaction(db, fn) {
   if (db.isTransaction) reject('transaction-active', 'Use a connection outside an existing transaction');

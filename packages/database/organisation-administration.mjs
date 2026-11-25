@@ -1,14 +1,12 @@
 import {randomBytes,randomUUID,createHash,scryptSync} from 'node:crypto';
 import registry from '../app-registry/index.js';
 import {OrganisationRepository,OrganisationError} from './organisation-repository.mjs';
+import {text,limit,instant} from './organisation-validation.mjs';
 import {canManageOrganisation,evaluateAppAccess} from '../auth/organisation-policy.mjs';
 import {isAssignmentRole,isMembershipAppRole} from '../auth/app-roles.mjs';
 
 const fail=(code,message)=>{throw new OrganisationError(code,message);};
 const hash=value=>createHash('sha256').update(value).digest('hex');
-function text(value,label,max=500){if(typeof value!=='string'||!value.trim()||value.length>max)fail('invalid-input',`Invalid ${label}`);return value.trim();}
-function limit(value,min=0){if(value!==null&&(!Number.isSafeInteger(value)||value<min))fail('invalid-input','Invalid seat limit');return value;}
-function instant(value){const n=typeof value==='string'?Date.parse(value):NaN;if(!Number.isFinite(n)||new Date(n).toISOString()!==value)fail('invalid-input','Use canonical ISO UTC timestamps');return n;}
 const pool=role=>role==='Client'?'client':'staff';
 
 // Internal SQLite services only. actorUserId must come from trusted session context.

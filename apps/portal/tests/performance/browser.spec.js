@@ -23,7 +23,7 @@ test('consolidated Vedic CSS preserves the complete original cascade',async({pag
  }
 });
 test('home stylesheet cleanup preserves computed appearance across widths and themes',async({page})=>{
- const files=['apps/portal/frontend/platform.css','packages/ui/platform-header.css','packages/ui/legal-footer.css','packages/ui/whatsapp.css','packages/ui/premium.bundle.css','apps/portal/frontend/home.css','packages/ui/platform-shell.css'];
+ const files=['apps/portal/frontend/platform.css','packages/ui/platform-header.css','packages/ui/legal-footer.css','packages/ui/whatsapp.css','packages/ui/premium.bundle.css','apps/portal/frontend/home.css','apps/rashifal-kundli/frontend/location-control.css','packages/ui/platform-shell.css'];
  const original=require('esbuild').transformSync(files.map(file=>fs.readFileSync(file,'utf8')).join('\n'),{loader:'css',minify:true,target:'chrome114'}).code;
  await page.goto(base+'/');await expect(page.locator('.home-entry')).toHaveCount(0);
  await page.addStyleTag({content:'*,*::before,*::after{animation:none!important;transition:none!important}'});

@@ -18,7 +18,10 @@ function build(){
  }
  const signature=hash.digest('hex'),stamp=path.join(output,'.source-hash');
  const expected=[...Object.keys(entries).flatMap(entry=>[entry+'.html',entry+'.mjs']),'sensitivity-worker.mjs','rashifal-worker.mjs','home-calendar.mjs','application.css','chunks.json'];
- if(fs.existsSync(stamp)&&fs.readFileSync(stamp,'utf8')===signature&&expected.every(name=>fs.existsSync(path.join(output,name))))return;
+ if(fs.existsSync(stamp)&&fs.readFileSync(stamp,'utf8')===signature&&expected.every(name=>fs.existsSync(path.join(output,name)))){
+  const cachedChunks=JSON.parse(fs.readFileSync(path.join(output,'chunks.json'),'utf8'));
+  if(cachedChunks.every(name=>fs.existsSync(path.join(output,name))))return;
+ }
  fs.mkdirSync(output,{recursive:true});
  const cssSource=stylesheetFiles.map(file=>fs.readFileSync(path.resolve(__dirname,file),'utf8')).join('\n');
  const scopedCss=require('../../infrastructure/home-css.cjs').appCss(cssSource,'rashifal-kundli');
@@ -38,6 +41,11 @@ function build(){
  }
  buildSync({entryPoints:[path.join(__dirname,'dev/sensitivity-worker.mjs')],outfile:path.join(output,'sensitivity-worker.mjs'),bundle:true,format:'esm',platform:'browser',target:'es2022',minify:true,charset:'utf8'});
  buildSync({entryPoints:[path.join(__dirname,'frontend/rashifal-worker.mjs')],outfile:path.join(output,'rashifal-worker.mjs'),bundle:true,format:'esm',platform:'browser',target:'es2022',minify:true,charset:'utf8'});
+ const activeChunks=new Set(chunks);
+ const chunkDirectory=path.join(output,'chunks');
+ for(const entry of fs.readdirSync(chunkDirectory,{withFileTypes:true})){
+  if(entry.isFile()&&/^(?:chunk|report-pdf)-[A-Z0-9]{8}\.mjs$/.test(entry.name)&&!activeChunks.has('chunks/'+entry.name))fs.unlinkSync(path.join(chunkDirectory,entry.name));
+ }
  fs.writeFileSync(stamp,signature);
 }
 module.exports={build,stylesheetFiles};
