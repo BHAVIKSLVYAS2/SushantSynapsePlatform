@@ -44,6 +44,8 @@ async function dispatch(req,res) {
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('X-Frame-Options','DENY');res.setHeader('Referrer-Policy','same-origin');
   res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'");
     const url = new URL(req.url,'http://localhost');
+    const studio=require('../apps/audio-to-video/policy.cjs');
+    if(studio.studioPath.test(url.pathname))res.setHeader('Content-Security-Policy',studio.policy);
     if(url.pathname==='/api/nishi/plan'){
       const {nishi}=await import('../apps/portal/backend/nishi.mjs');
       const origin=publicOrigin||`http://${req.headers.host}`;
@@ -73,6 +75,12 @@ async function dispatch(req,res) {
       if(name.endsWith('.mp3'))res.setHeader('Content-Type','audio/mpeg');
       if(name.endsWith('.wav'))res.setHeader('Content-Type','audio/wav');
       if(name.endsWith('.ogg'))res.setHeader('Content-Type','audio/ogg');
+      if(name.endsWith('/ffmpeg-core.wasm')){
+        res.setHeader('Content-Type','application/octet-stream');
+        res.setHeader('Cache-Control','no-cache');
+        if(req.method==='HEAD')return res.end();
+        return require('node:stream/promises').pipeline(fs.createReadStream(path.join(ROOT,name)),require('node:zlib').createGzip(),res);
+      }
       let contents=req.method==='HEAD'?undefined:fs.readFileSync(path.join(ROOT,name));
       const vedic=require('../apps/rashifal-kundli/privacy.cjs');
       if(vedic.isVedic(url.pathname))for(const [key,value]of Object.entries(vedic.headers))res.setHeader(key,value);

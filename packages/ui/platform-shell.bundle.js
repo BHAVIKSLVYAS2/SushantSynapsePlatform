@@ -2,6 +2,8 @@
 (function(root){
 // App definitions are code-reviewed. Do not accept launch URLs from user input.
 const apps = [
+  {id:'audio-to-video',public:true,name:'Audio to Video Studio',subtitle:'Your Music. Your Cover. Your Video.',category:'Music',status:'Available',path:'/audio-to-video',icon:'photo',accent:'blue',description:'Combine music and cover art into an MP4, or replace the visuals of an existing video.',features:['Audio to MP4','Cover replacement','Visualizer']},
+  {id:'lyric-video',public:true,name:'Lyric Video',subtitle:'WAV to lyrical MP4',category:'Creative',status:'Available',path:'/lyric-video',icon:'photo',accent:'blue',description:'Turn a WAV recording and your lyrics into a downloadable MP4.',features:['Timed lyrics','Video preview','MP4 export']},
   {id:'kiraya-saathi',public:true,name:'Kiraya Saathi',subtitle:'Har mahine ka kiraya, saaf hisaab.',category:'Productivity',status:'Available',path:'/kiraya-saathi',icon:'house',accent:'green',description:'Manage rent for flats and shops. Track monthly dues, partial payments, security deposits and receipts in this browser. No login needed; export backups regularly.',features:['Rent & tenant ledgers','Deposits & receipts','Browser-only backups']},
   {id:'japseva',public:true,name:'JapSeva',subtitle:'Every repetition, a dedication.',category:'Community',status:'Available',path:'/japseva',icon:'mala',accent:'amber',description:'Perform mantra practice for your clients. Save sankalps and counts in this browser, learn meanings and pronunciation, and create completion certificates. No login needed.',features:['Browser-saved sankalps','Mantra learning','Completion certificates']},
   {id:'rozhisab',public:true,name:'Hisabio',subtitle:'Roz ka tick, mahine ka hisab.',category:'Productivity',status:'Available',path:'/rozhisab',icon:'receipt',accent:'green',description:'Track household services, bills and payments, with optional item receipts, warranties, servicing and renewals. On this device, with no sign-in.',features:['Automatic daily tracking','Exact bills & balances','Offline backups']},
@@ -45,12 +47,16 @@ const discovery = {"/picksy":{"label":"CHOOSE / RANDOM PICKER","art":"wheel","ho
 Object.assign(discovery['/photo-resize'],{homeDescription:'Resize photos or signatures and check form size limits.',keywords:'photo signature image resize compress KB pixels crop JPEG PNG WebP exam form'});
 discovery['/rozhisab']={art:'fees',purpose:'Organize',groups:['planning'],homeOrder:0,label:'HOME / DAILY HISAB',homeDescription:'Track household bills, warranties and servicing.',keywords:'warranty appliance servicing maintenance receipt renewal Hisabio RozHisab हिसाबियो હિસાબિયો household milk maid newspaper flowers water laundry tiffin daily attendance monthly expenses balance रोजहिसाब दूध हिसाब હિસાબિયો દૂધ હિસાબ'};
 discovery['/japseva']={art:'mala'};
+discovery['/audio-to-video']={art:'photo',purpose:'Create',groups:['utility'],homeOrder:8.4,keywords:'music studio free WAV MP3 to MP4 converter image audio cover Suno AI song YouTube visualizer'};
+discovery['/lyric-video']={art:'photo',purpose:'Create',groups:['utility'],homeOrder:8.5,keywords:'wav lyrics audio music mp4 video LRC'};
 discovery['/kiraya-saathi']={art:'rent',purpose:'Organize',groups:['planning'],homeOrder:.5,label:'PROPERTY / RENT LEDGER',homeDescription:'Track rent, deposits and property maintenance.',keywords:'rent rental landlord flat shop tenant deposit receipt kiraya saathi property monthly collection equipment repair warranty servicing'};
 
 discovery['/rashifal-kundli']={homeFeatureOnly:true,art:'vedic',purpose:'Learn',groups:['planning'],homeOrder:14,keywords:'ritvayam rashi rashifal kundli horoscope birth chart kundali jyotish astrology matching panchang time machine preview verification vikram samvat lunar calendar'};
 discovery['/rashifal-kundli'].keywords+=' રિત્વયમ';
 for(const app of apps)Object.assign(app,{art:app.icon==='scales'?'chambers':'documents',purpose:'Work',groups:[],homeOrder:200},discovery[app.path]||{});
 const collectionGroups={home:['rozhisab','kiraya-saathi'],utility:['qr-maker','photo-resize','bill-splitter','decision-wheel','team-mixer'],planning:['focus','timetable-lite','tournament-lite','batchfee-lite'],traditions:['ritual-assist','japseva','rashifal-kundli'],create:['moment-studio'],games:['daily-spark','tournament-lite'],work:['advocate','digital-samaj','pandit-booking']};
+collectionGroups.create.push('lyric-video');
+collectionGroups.create.push('audio-to-video');
 for(const app of apps)app.groups=Object.entries(collectionGroups).filter(([,ids])=>ids.includes(app.id)).map(([key])=>key);
 const featuredOrder=['ritual-assist','moment-studio','daily-spark','batchfee-lite'];
 for(const app of apps){const rank=featuredOrder.indexOf(app.id);app.featured=rank>=0;if(app.featured)app.homeOrder=rank-featuredOrder.length;}

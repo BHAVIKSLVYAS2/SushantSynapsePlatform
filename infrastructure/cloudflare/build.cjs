@@ -27,6 +27,7 @@ function build({fullstack=false,organisations=false}={}) {
     const target = path.join(output, url);
     fs.mkdirSync(path.dirname(target), {recursive: true});
     let contents = fs.readFileSync(path.join(root, source));
+    if(source.endsWith('/ffmpeg-core.wasm')) contents=require('node:zlib').gzipSync(contents);
     // Install fetch interception before app scripts; avoid waiting on its CSS.
     const vedic=source.startsWith('apps/rashifal-kundli/');
     if (source.endsWith('.html')&&!vedic) contents = Buffer.from(contents.toString().replace('<head>', '<head><script src="/shared/availability.js?v=20261019-delivery"></script><link rel="stylesheet" href="/shared/availability.css">'));

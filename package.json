@@ -33,15 +33,17 @@
   "devDependencies": {
     "@playwright/test": "^1.63.0",
     "@tailwindcss/cli": "^4.3.3",
+    "lightningcss": "^1.32.0",
     "tailwindcss": "^4.3.3",
-    "wrangler": "^4.145.0",
-    "lightningcss": "^1.32.0"
+    "wrangler": "^4.145.0"
   },
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "dependencies": {
+    "@ffmpeg/core": "0.12.10",
+    "@ffmpeg/core-mt": "0.12.10",
     "mssql": "^12.7.4"
   },
   "optionalDependencies": {

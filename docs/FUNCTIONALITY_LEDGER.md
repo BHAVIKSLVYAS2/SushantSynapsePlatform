@@ -1,3 +1,23 @@
+Audio to Video Studio (2026-11-26 IST). Public browser-local FFmpeg.wasm
+conversion, cover replacement, waveform, bars and circular spectrum.
+Chrome verified source audio packet preservation, three-minute conversion,
+cancellation, malformed media and a 320px layout. The default production
+configuration uses the single-thread encoder.
+
+Lyric Video automatic transcription (2026-11-25 IST, local). Generate lyrics
+uses an on-device speech pack and the selected WAV audio track. Users can
+review and edit approximate LRC timestamps before export. A simulated Chrome
+recognition result verified timed lyric insertion. Chrome reported English
+and Hindi packs downloadable and Gujarati unavailable on the test machine.
+The real Hindi sample run timed out waiting for pack installation. Singing
+accuracy and end-to-end recognition remain unverified.
+
+Lyric Video (2026-11-25 IST, local). Public catalogue entry at /lyric-video
+previews WAV audio with supplied timestamped or evenly spaced lyrics and
+records a 1280 × 720 MP4 locally in supporting browsers. Local Chrome
+exported a 66,676-byte MP4 from a one-second synthetic WAV and two lines.
+Production deployment and other browsers remain unverified.
+
 Frontend runtime audit release (2026-11-25 IST, deployed). Source `352e028f`
 is live on Worker `34eab492-ca11-4f5d-bfa8-693154c64ae0`. The isolated
 committed build and production dry run exported 675 public assets. Wrangler

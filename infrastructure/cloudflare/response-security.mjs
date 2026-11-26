@@ -1,7 +1,9 @@
 // Apply transport/browser protections to every edge response, including errors.
 // Keep page-specific CSP, privacy policies and immutable public asset caching.
+import studio from '../../apps/audio-to-video/policy.cjs';
 export function secureResponse(request,response){
  const headers=new Headers(response.headers),url=new URL(request.url);
+ if(studio.studioPath.test(url.pathname))headers.set('Content-Security-Policy',studio.policy);
  headers.set('X-Content-Type-Options','nosniff');
  headers.set('X-Frame-Options','DENY');
  if(!headers.has('Referrer-Policy'))headers.set('Referrer-Policy','same-origin');

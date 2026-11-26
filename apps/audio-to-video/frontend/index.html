@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Audio to Video Studio · Free WAV and MP3 to MP4 converter</title>
+<meta name="description" content="Make a music video from a song and cover image, add a waveform, or replace MP4 visuals. Export locally for YouTube, Shorts or Reels.">
+<link rel="canonical" href="https://apps.sushantsynapse.com/audio-to-video">
+<link rel="stylesheet" href="/shared/premium.css"><link rel="stylesheet" href="/shared/platform-shell.css"><link rel="stylesheet" href="/audio-to-video/style.css">
+<script src="/shared/theme.js"></script><script defer src="/shared/platform-shell.js"></script><script defer src="/audio-to-video/studio.js"></script></head>
+<body data-ui-app="audio-to-video"><main><header><h1>Audio to Video Studio</h1><p>Your Music. Your Cover. Your Video.</p></header>
+<div class="workspace"><form id="config"><fieldset id="settings"><legend>Source</legend>
+<label>Conversion mode<select id="mode"><option>Audio to video</option><option>Replace video cover</option></select></label>
+<div id="uploads"></div>
+<details open><summary>Output settings</summary><div class="controls">
+<label>Resolution<select id="resolution"><option>480</option><option>720</option><option selected>1080</option><option>1440</option><option>2160</option></select></label>
+<label>Aspect ratio<select id="ratio"><option>16:9</option><option>9:16</option><option>1:1</option><option>4:5</option><option>Original</option></select></label>
+<label>Frame rate<select id="fps"><option>24</option><option>25</option><option selected>30</option><option>60</option></select></label>
+<label>Audio bitrate (kbps)<select id="rate"><option>128</option><option>192</option><option>256</option><option selected>320</option></select></label>
+<label>Visualizer<select id="effect"><option value="static">Static cover</option><option value="waveform">Waveform</option><option value="bars">Spectrum bars</option><option value="circle">Circular spectrum</option></select></label></div>
+<label><input id="preserve" type="checkbox"> Preserve compatible original audio</label></details>
+<details><summary>Cover composition</summary><div class="controls">
+<label>Placement<select id="fit"><option>Fit</option><option>Fill</option><option>Crop</option></select></label>
+<label>Background<input type="color" id="bg" value="#181920"></label>
+<label>Horizontal position<input type="range" id="x" value="50"></label><label>Vertical position<input type="range" id="y" value="50"></label>
+<label>Zoom<input type="range" id="zoom" min="50" max="300" value="100"></label><label><input type="checkbox" id="blur"> Blurred background</label>
+<label>Song title<input id="titleText" maxlength="150"></label><label>Artist<input id="artist" maxlength="150"></label>
+<label>Text position<select id="position"><option>Bottom</option><option>Centre</option><option>Top</option></select></label>
+<label>Text size<input type="range" min="2" max="12" value="6" id="size"></label><label>Text color<input type="color" id="ink" value="#ffffff"></label></div><div id="logoSlot"></div></details>
+<label id="parallelOption" hidden><input id="parallel" type="checkbox"> Use multithreaded encoding (more memory)</label>
+<button id="generate" type="submit">Generate MP4</button></fieldset></form>
+<section id="preview"><h2>Preview</h2><canvas aria-label="Cover composition preview" width="640" height="360"></canvas><audio controls></audio>
+<p id="estimate"></p><p id="warning"></p><progress value="0" max="1" aria-label="Conversion progress"></progress><p id="status" role="status">Choose your recording and cover image.</p><p id="clock"></p>
+<button id="cancel" hidden>Cancel conversion</button><div id="result" hidden><video controls playsinline></video><p id="metadata"></p><label>Output filename<input id="filename" maxlength="100"></label><a id="download" download>Download MP4</a> <button id="reset">Create another video</button></div></section></div>
+<footer><h2>Make a music video from a recording</h2><p>Drop a song and cover into the studio. Choose a landscape frame for YouTube or a vertical frame for Shorts and Reels. To give an existing music video new artwork, choose Replace video cover. For a lyric video with timed words, open <a href="/lyric-video">Lyric Video</a>.</p><p>Your files stay on your device. All video processing happens locally in your browser.</p><small>Encoder: FFmpeg.wasm with x264. <a href="/audio-to-video/COPYING.txt">License</a> · <a href="https://github.com/ffmpegwasm/ffmpeg.wasm/tree/v12.15">Encoder source and build instructions</a></small></footer></main></body></html>

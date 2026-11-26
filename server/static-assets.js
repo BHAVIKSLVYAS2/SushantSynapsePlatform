@@ -1,5 +1,18 @@
 // Explicit URL allowlist. Filesystem paths are never accepted from requests.
 const staticAssets={
+ '/audio-to-video':'apps/audio-to-video/frontend/index.html',
+ '/audio-to-video/':'apps/audio-to-video/frontend/index.html',
+ '/audio-to-video/COPYING.txt':'apps/audio-to-video/COPYING.txt',
+ ...Object.fromEntries(['studio.js','style.css','worker.js'].map(name=>['/audio-to-video/'+name,'apps/audio-to-video/frontend/'+name])),
+ '/audio-to-video/core.js':'node_modules/@ffmpeg/core/dist/umd/ffmpeg-core.js',
+ '/audio-to-video/engine.bin':'node_modules/@ffmpeg/core/dist/umd/ffmpeg-core.wasm',
+ '/audio-to-video/core-mt.js':'node_modules/@ffmpeg/core-mt/dist/umd/ffmpeg-core.js',
+ '/audio-to-video/thread.js':'node_modules/@ffmpeg/core-mt/dist/umd/ffmpeg-core.worker.js',
+ '/audio-to-video/engine-mt.bin':'node_modules/@ffmpeg/core-mt/dist/umd/ffmpeg-core.wasm',
+ '/lyric-video':'apps/lyric-video/frontend/index.html',
+ '/lyric-video/':'apps/lyric-video/frontend/index.html',
+ '/lyric-video/app.js':'apps/lyric-video/frontend/app.js',
+ '/lyric-video/style.css':'apps/lyric-video/frontend/style.css',
  '/shared/care-engine.mjs':'packages/care/engine.mjs',
  '/shared/care-copy.mjs':'packages/ui/care-copy.mjs',
  '/shared/care-workspace.mjs':'packages/ui/care-workspace.mjs',
