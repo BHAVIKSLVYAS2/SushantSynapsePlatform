@@ -1,3 +1,9 @@
+Hindi Kundali future reading (2026-11-26 IST, local). Public readings now use
+distinct tense for current and upcoming antardashas and present continuing
+and new topics in context. Each newly ranked subject gets its own explanation
+and conditional example. Checked a three-period report with home and study,
+then work, then partnership. All 16 reading/export tests passed locally.
+
 Ask Nishi conversation refresh (2026-11-26 IST, deployed). Commit `137bfc1d`
 is live on Worker `f4688015-b135-4af4-94f2-98bd0ced3104`. Two local Chrome
 workflows and the live conversation workflow passed, including transcript,

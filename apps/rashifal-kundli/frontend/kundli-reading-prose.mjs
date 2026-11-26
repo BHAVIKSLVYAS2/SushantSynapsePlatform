@@ -1,11 +1,12 @@
 import {adaptJyotishCalculation} from './jyotish-adapter.mjs';
 import {jyotishKnowledge} from './jyotish-intelligence.mjs';
 import {focusPeriodTopics} from './jyotish-synthesis.mjs';
+import {periodNarrative,changedPeriodBasis} from './jyotish-public-reading.mjs';
 import {readingText,pick} from './kundli-reading-copy.mjs';
 import {temperament,manner,work,resources,phase,everyday as topics} from './kundli-consultation-copy.mjs';
 import {signName,bodyName} from './locale.mjs';
 import {kundliPlacementText,periodPlacementText} from './planet-reading.mjs';
-export const kundliProseVersion='kundli-prose-5';
+export const kundliProseVersion='kundli-prose-6';
 // Original complete sentences. These describe traditional sign-element themes,
 // not additional chart calculations or a full classical judgement.
 export function composeKundliPeriod(period,language,{includeBasis=true}={}){
@@ -19,18 +20,17 @@ export function composeLocalizedFuture(report,periods,language){
  const list=new Intl.ListFormat(language);
  const format=new Intl.DateTimeFormat(language,{dateStyle:'medium',timeZone:'Asia/Kolkata'});
  const label=topics=>list.format(topics.map(id=>labels[id]||({en:{family:'Family and support',spirituality:'Reflection'},gu:{family:'પરિવાર અને સહકાર',spirituality:'ચિંતન'}})[language][id]));
- let previous=[];
- return periods.map((period,index)=>{
+ let previous=null;
+ return periods.map(period=>{
   const start=period.start.utcInstant,end=period.end.utcInstant;
-  const focus=focusPeriodTopics(snapshot,jyotishKnowledge.topics,{major:period.major,minor:period.minor,start,end}).map(t=>t.topic);
-  const added=label(focus.filter(id=>!previous.includes(id))),continuing=label(focus.filter(id=>previous.includes(id)));
-  previous=focus;
-  const copy=language==='gu'
-   ?{added:index?'આ સમયગાળામાં નવો વિષય':'મુખ્ય વિષય',continues:'પર ધ્યાન ચાલુ રહે છે'}
-   :{added:index?'New focus':'Main focus',continues:'remain in focus'};
-  const changes=[added&&`${copy.added} — ${added}.`,continuing&&`${continuing} ${copy.continues}.`].filter(Boolean).join(' ');
+  const ranked=focusPeriodTopics(snapshot,jyotishKnowledge.topics,{major:period.major,minor:period.minor,start,end});
+  const narrative=periodNarrative(ranked.map(t=>t.topic),previous?.map(t=>t.topic),language,label);
+  const connection=changedPeriodBasis(ranked,previous,period.minor,language,label);
+  previous=ranked;
   const range=format.formatRange(new Date(start),new Date(end));
-  return {range,text:[changes,composeKundliPeriod(period,language,{includeBasis:false})].filter(Boolean).join(' ')};
+  const major=bodyName(period.major,language),minor=bodyName(period.minor,language);
+  const basis=language==='gu'?`આ ${major}ની મહાદશામાં ${minor}ની અંતર્દશા છે.`:`This is the ${minor} subperiod of the ${major} period.`;
+  return {range,text:[basis,narrative,connection].filter(Boolean).join(' ')};
  });
 }
 export function composeKundliTopic(id,data,language){

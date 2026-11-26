@@ -56,7 +56,7 @@ export function composeEveryday({moon,mood,language}){
  const mode=mood==='uncertain'||!houses.length?'uncertain':houses.length>2?'broad':houses.length===2?'mixed':'single';
  const rows=['single','mixed'].includes(mode)?houses.map(h=>themes[language][h-1]):[];
  return {modelId:'moon-house-editorial-themes-2',houses,mode,
-  headline:rows.length?rows[0][0]:t[mode],
+  headline:mode==='single'?rows[0][0]:t[mode],
   summary:rows.length?rows.map(row=>row[1]).join(' '):t[mode+'Text'],paragraphs:rows.length?rows.map(row=>row[1]):[t[mode+'Text']],rhythm:t.rhythm[mood],
   themes:[],
   areas:rows.length?t.areas.map((label,i)=>({label,text:rows.map(r=>r[i+2]).join(' ')})):[],notice:t.note};

@@ -8,7 +8,9 @@ export function localizedTransitAreas(grahas,view,language){
  return groups.map(([, , bodies])=>{
   const related=grahas.filter(g=>bodies.includes(g.body)).map(g=>({...g,observations:g.observations.map(o=>({...o,house:o.relativeHouse}))}));
   const review=related.some(g=>g.counts.obstructed>0);
-  return leadingTransit(related,review?'review':'support',view,language);
+  const support=related.some(g=>g.counts.supportive>0);
+  const state=review&&support?'mixed':review?'review':support?'support':'neutral';
+  return leadingTransit(related,state,view,language);
  });
 }
 export function composeIntelligentRashifal({period,rashi,grahas,timeline,view=period.kind==='weekly'?'weekly':'today'}){

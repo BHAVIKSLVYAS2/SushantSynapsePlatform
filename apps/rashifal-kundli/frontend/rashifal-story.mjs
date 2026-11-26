@@ -44,10 +44,10 @@ export function composeRashifalStory({base,grahas,mood,language,timing=null}){
  const cautious=['both','variable','resistance','uncertain'].includes(pattern)||mood!=='supportive';
  const name=g=>bodyName(g.body,language),bridge=pattern==='both'?t.both(name(support),name(block)):pattern==='variable'?t.variable(name(support)):pattern==='support'?t.support(name(support)):pattern==='resistance'?t.resistance(name(block)):t[pattern];
  const rows=base.paragraphs,summary=base.mode==='mixed'?t.mixed(rows[0],rows[1]):base.mode==='broad'?t.broad:base.summary;
- const precise=['single','mixed'].includes(base.mode),house=base.houses[0];
+ const precise=base.mode==='single',house=base.houses[0];
  const headline=precise?t.headlines[house-1][cautious?1:0]:base.headline;
  const takeaway=precise?t.actions[house-1]+(cautious?' '+t.cautious:''):base.rhythm;
  const planetaryBasis=transitReadingBasis(grahas,language,['Moon',...(pattern==='uncertain'?[]:[support?.body,block?.body])]);
- return {...base,modelId:'coherent-transit-reading-3',headline,summary,paragraphs:[summary,bridge],planetaryBasis,rhythm:takeaway,takeawayLabel:t.takeaway,timing:timing?{title:t.timing,text:timing}:null,
+ return {...base,modelId:'coherent-transit-reading-4',headline,summary,paragraphs:[summary,bridge],planetaryBasis,rhythm:takeaway,takeawayLabel:t.takeaway,timing:timing?{title:t.timing,text:timing}:null,
   narrative:{pattern,supportBody:pattern==='uncertain'?null:support?.body??null,obstructedBody:pattern==='uncertain'?null:block?.body??null}};
 }

@@ -1,6 +1,16 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const input={localDate:'2000-01-01',localTime:'12:15',placeId:'geonames:1261481',timeZoneId:'Asia/Kolkata',timeAccuracy:'exact',calculationProfileId:'IN_LAHIRI_DEFAULT_V1'},now=Date.parse('2026-11-23T06:00Z');
 const jargon=/चंद्र राशि से भाव|भाव \d|भावेश|गणना-बिंदु|पूर्ण-राशि|अस्त-सीमा|गोचर-संदर्भ|\dवें भाव/;
+test('mixed readings use both stable observations and only order distinct weekly samples',async()=>{
+ const {leadingTransit}=await import('../apps/rashifal-kundli/frontend/jyotish-public-reading.mjs');
+ const samples=[{house:3,status:'supportive',at:'2026-11-23T06:00Z'},{house:4,status:'obstructed',at:'2026-11-25T06:00Z'}];
+ const mixed=()=>leadingTransit([{body:'Mars',observations:samples}],'mixed','weekly','en');
+ assert.match(mixed(),/Earlier observations.*support.*communication.*Nov 25.*caution.*home responsibilities/);
+ samples.push({...samples[0],at:'2026-11-26T06:00Z'});
+ assert.doesNotMatch(mixed(),/Earlier observations/);
+ samples[1].nearBoundary=true;
+ assert.doesNotMatch(mixed(),/home responsibilities/);
+});
 test('unresolved evidence stays visible beside supportive outcomes and in the overview',async()=>{
  const {publicRashiSections}=await import('../apps/rashifal-kundli/frontend/jyotish-public-reading.mjs');
  const sections=['overall','work','money','relationships','wellbeing'].map(id=>({id,title:id,paragraphs:[{findingIds:['known','pending']}]}));
@@ -34,6 +44,10 @@ test('public future reports show which subjects carry over instead of repeating 
   const simple=projectExport(report,{language}),pandit=projectExport(report,{language,readingAudience:'pandit'});
   const future=language==='hi'?simple.everyday.topics.find(t=>t.id==='future'):simple.everyday.future;
   assert.equal(future.paragraphs.length,3);
+  if(language==='hi'){
+   assert.match(future.paragraphs[0],/^वर्तमान अवधि .*अंतर्दशा चल रही है।/u);
+   for(const paragraph of future.paragraphs.slice(1))assert.match(paragraph,/^आगामी अवधि .*अंतर्दशा रहेगी।/u);
+  }
   assert.equal(new Set(future.paragraphs.map(text=>text.slice(text.indexOf('·')+1).replace(/\p{Number}+/gu,''))).size,3);
   assert.match(reportMarkup(simple),/data-reading-topic="future"/);
   assert.doesNotMatch(reportMarkup(simple),/data-report-section="dasha"/);
