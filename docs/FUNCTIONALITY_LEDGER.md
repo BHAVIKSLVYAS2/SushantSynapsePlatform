@@ -12834,3 +12834,8 @@ Verified 30 model/export checks and four browser workflows on the release build,
 including tab height and width at 320, 390, 768 and 1280 CSS pixels.
 Commit 7e921556 deployed as Worker ad90909c-7705-4048-8022-1f06d4d6cdf1.
 The same Hindi chart, navigation, screen/preview and PDF workflow passed live.
+
+Hindi career, partnership, money and family readings now interpret all twelve
+ruler placements separately for each topic. A regression uses the Dungarpur
+example to verify both shared placements and four distinct exported meanings.
+31 reading, synthesis, display and export checks passed.

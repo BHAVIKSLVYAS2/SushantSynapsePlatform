@@ -80,3 +80,15 @@ test('a secondary house alone cannot trigger a home prediction',async()=>{
  snapshot.planets[0].house=9;
  assert.equal(calculate().some(t=>t.topic==='home'),false);
 });
+
+test('shared placements retain distinct meanings for career, partnership, money and family',async()=>{
+ const {calculateBirthReport}=await import('../apps/rashifal-kundli/frontend/birth-report.mjs');
+ const {projectExport}=await import('../apps/rashifal-kundli/frontend/export-report.mjs');
+ const report=calculateBirthReport({...input,localDate:'1989-03-11',localTime:'14:00',placeId:'geonames:1272201'},{now});
+ const topics=projectExport(report,{language:'hi'}).everyday.topics;
+ const paragraph=id=>topics.find(t=>t.id===id).paragraphs[0];
+ assert.match(paragraph('career'),/गुरु.*बारहवें भाव.*दूर बैठी टीम/);
+ assert.match(paragraph('relationships'),/गुरु.*बारहवें भाव.*निजी समय और दूरी/);
+ assert.match(paragraph('money'),/चंद्र.*ग्यारहवें भाव.*आय संचित धन/);
+ assert.match(paragraph('family'),/चंद्र.*ग्यारहवें भाव.*परिवार का सहारा/);
+});
