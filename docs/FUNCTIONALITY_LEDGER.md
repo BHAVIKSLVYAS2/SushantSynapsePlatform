@@ -12832,4 +12832,5 @@ connection to their primary house. Hindi public chapters describe the house
 ruler and its placement. Chart opens first with five short navigation labels.
 Verified 30 model/export checks and four browser workflows on the release build,
 including tab height and width at 320, 390, 768 and 1280 CSS pixels.
-
+Commit 7e921556 deployed as Worker ad90909c-7705-4048-8022-1f06d4d6cdf1.
+The same Hindi chart, navigation, screen/preview and PDF workflow passed live.
