@@ -1,4 +1,7 @@
-Ask Nishi conversation refresh (2026-11-26 IST). Home opens a desktop chat
+Ask Nishi conversation refresh (2026-11-26 IST, deployed). Commit `137bfc1d`
+is live on Worker `f4688015-b135-4af4-94f2-98bd0ced3104`. Two local Chrome
+workflows and the live conversation workflow passed, including transcript,
+focus, dismissal and 27 language/theme/viewport combinations. Home opens a desktop chat
 panel or mobile sheet with a persistent composer and a scrollable transcript.
 Earlier messages and actionable replies stay available until close. Suggested
 tasks collapse after the first turn. The composer discloses service processing
