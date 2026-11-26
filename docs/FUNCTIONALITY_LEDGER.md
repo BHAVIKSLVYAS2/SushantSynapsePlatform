@@ -1,8 +1,12 @@
-Hindi Kundali future reading (2026-11-26 IST, local). Public readings now use
+Hindi Kundali future reading (2026-11-26 IST, deployed). Public readings now use
 distinct tense for current and upcoming antardashas and present continuing
 and new topics in context. Each newly ranked subject gets its own explanation
 and conditional example. Checked a three-period report with home and study,
-then work, then partnership. All 16 reading/export tests passed locally.
+then work, then partnership. 29 model/export tests and four production-bundle
+browser workflows passed. Production Worker 2b0bc77d-a593-472f-a7a3-d68ca884096f
+serves the release. A live Chrome test verified Hindi screen/preview period
+paragraph parity, print rendering and PDF download. Release commits f8688bba
+and b697291d.
 
 Ask Nishi conversation refresh (2026-11-26 IST, deployed). Commit `137bfc1d`
 is live on Worker `f4688015-b135-4af4-94f2-98bd0ced3104`. Two local Chrome
