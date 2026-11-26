@@ -1,3 +1,10 @@
+Studio production release (2026-11-26 IST). Commit `687379f4` deployed as
+Worker `f6abf8c5-2735-4de8-8470-79abcc65a972`. Chrome on the live studio
+exported a one-second WAV and PNG to an 854 × 480 H.264/AAC MP4 with network
+writes blocked. The live engine matched the release SHA-256. Both app routes,
+D1 health and the organisation-scope denial passed. The optional multithread
+export passed locally with an isolated origin. No migrations or business writes.
+
 Audio to Video Studio (2026-11-26 IST). Public browser-local FFmpeg.wasm
 conversion, cover replacement, waveform, bars and circular spectrum.
 Chrome verified source audio packet preservation, three-minute conversion,
