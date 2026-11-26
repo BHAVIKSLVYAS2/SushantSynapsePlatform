@@ -33,7 +33,23 @@
   const aiLabel=document.createElement('label');aiLabel.className='nishi-ai-choice';const aiChoice=document.createElement('input');aiChoice.type='checkbox';aiChoice.disabled=true;aiLabel.append(aiChoice,document.createTextNode('Use Cloudflare AI for this submitted text (optional)'));dialog.querySelector('form').before(aiLabel);
   const japaPrompt=document.createElement('button'),birthPrompt=document.createElement('button');japaPrompt.type=birthPrompt.type='button';japaPrompt.textContent='Prepare mantra practice';birthPrompt.textContent='Prepare birth chart';prompts.prepend(japaPrompt,birthPrompt);japaPrompt.onclick=()=>{input.value='Prepare Gayatri mantra practice';dialog.querySelector('form').requestSubmit();};birthPrompt.onclick=()=>{input.value='Prepare a kundali birth chart';dialog.querySelector('form').requestSubmit();};
   const processing=document.createElement('p');processing.className='nishi-processing';processing.textContent='Submitted text is processed by our service; Cloudflare AI receives it only when you enable AI. Saved records are never read automatically.';dialog.querySelector('.ask-sushant-privacy').before(processing);
+  const options=document.createElement('details'),optionsTitle=document.createElement('summary');
+  options.className='nishi-options';options.append(optionsTitle,processing,aiLabel,dialog.querySelector('.ask-sushant-privacy'));
+  dialog.querySelector('form').before(options);
+  welcome.append(prompts);const shortcuts=document.createElement('details'),shortcutTitle=document.createElement('summary');
+  shortcuts.className='nishi-shortcuts';shortcuts.append(shortcutTitle);shortcuts.hidden=true;options.before(shortcuts);
+  const history=document.createElement('div');history.className='nishi-history';conversation.insertBefore(history,userMessage);
+  function beginTurn(){
+   if(!answer.hidden){
+    const sent=userMessage.cloneNode(true),reply=document.createElement('div'),heading=document.createElement('strong');
+    sent.className='nishi-past-user';reply.className='nishi-past-reply';heading.textContent=status.textContent;
+    reply.append(heading,...results.childNodes);history.append(sent,reply);
+   }
+   shortcuts.append(prompts);shortcuts.hidden=false;shortcuts.open=false;welcome.hidden=true;
+   requestAnimationFrame(()=>{conversation.scrollTop=conversation.scrollHeight;});
+  }
   async function prepare(){
+   beginTurn();
    draftVisible=false;const ticket=++revision,submitted=question;userMessage.hidden=false;userMessage.textContent=submitted;answer.hidden=false;results.replaceChildren();status.textContent=draftWords()[4];const send=dialog.querySelector('[type=submit]');send.disabled=true;
    try{const response=await fetch('/api/nishi/plan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:submitted,useAI:aiChoice.checked,language:window.SynapseLanguage?.get()||'en'}),signal:AbortSignal.timeout(20000)});const data=await response.json();if(ticket!==revision||!dialog.open)return;if(!response.ok)throw Error(data.error||'Could not prepare a draft');
     const p=data.plan;if(!p||p.kind==='unsupported'){respond();return;}
@@ -63,8 +79,18 @@
   dialog.addEventListener('close',()=>{draftVisible=false;revision++;dialog.querySelector('[type=submit]').disabled=false;aiChoice.checked=false;input.value='';question='';mode='';results.replaceChildren();status.textContent='';answer.hidden=true;userMessage.textContent='';userMessage.hidden=true;if(trigger.isConnected)trigger.focus();});
   dialog.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();event.stopPropagation();dialog.close();}});
   dialog.querySelector('form').onsubmit=event=>{event.preventDefault();question=input.value.trim();if(!question)return;mode='apps';prepare();input.value='';userMessage.scrollIntoView({block:'nearest'});};dialog.querySelector('.ask-sushant-data').onclick=()=>{draftVisible=false;revision++;dialog.querySelector('[type=submit]').disabled=false;mode='data';respond();userMessage.scrollIntoView({block:'nearest'});};rent.onclick=()=>{input.value='Prepare Ganesh puja';dialog.querySelector('form').requestSubmit();input.focus();};
-  (home.querySelector('.home-mobile-dock')||toolbar).append(trigger);document.body.append(dialog);paint();
+  const dataPrompt=dialog.querySelector('.ask-sushant-data'),showData=dataPrompt.onclick;
+  dataPrompt.onclick=()=>{beginTurn();showData();};
+  function localisePanel(){
+   dialog.querySelector('.ask-sushant-kicker').textContent=words()[1];
+   optionsTitle.textContent=({hi:'संदेश हमारी सेवा पर जाते हैं · विकल्प',gu:'સંદેશ અમારી સેવા પર જાય છે · વિકલ્પો'})[document.documentElement.lang]||'Messages go to our service · Options';
+   shortcutTitle.textContent=({hi:'सुझाव',gu:'સૂચનો'})[document.documentElement.lang]||'Suggestions';
+  }
+  trigger.addEventListener('click',localisePanel);
+  dialog.addEventListener('close',()=>{history.replaceChildren();welcome.append(prompts);shortcuts.hidden=true;shortcuts.open=false;welcome.hidden=false;options.open=false;conversation.scrollTop=0;});
+  (home.querySelector('.home-mobile-dock')||toolbar).append(trigger);document.body.append(dialog);paint();localisePanel();
   window.addEventListener('synapse-language-change',paint,{signal:mountedEvents.signal});
+  window.addEventListener('synapse-language-change',localisePanel,{signal:mountedEvents.signal});
  }
  window.SynapseHomeAgent={mount};
 })();

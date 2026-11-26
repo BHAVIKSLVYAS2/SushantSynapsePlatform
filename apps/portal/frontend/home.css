@@ -692,3 +692,28 @@ body[data-ui-app=portal] .public-home .home-filter-menu>summary:focus-visible{ou
  .home-vedic .home-vedic-facts{gap:3px 12px;padding:8px 10px}
  .home-vedic .home-vedic-facts dt,.home-vedic .home-vedic-facts dd,.home-vedic .home-vedic-facts>div:last-child dd{font-size:14px}
 }
+
+/* Home assistant: persistent composer and a separately scrolling transcript. */
+#ask-sushant-dialog[open]{position:fixed;inset:auto 18px 18px auto;margin:0;width:min(470px,calc(100vw - 32px));height:min(690px,calc(100dvh - 36px));max-height:none;padding:0;display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--ss-border);border-radius:24px;background:var(--ss-surface);color:var(--ss-text);box-shadow:0 18px 64px color-mix(in srgb,var(--ss-text) 18%,transparent)}
+#ask-sushant-dialog::backdrop{background:color-mix(in srgb,var(--ss-text) 18%,transparent)}
+#ask-sushant-dialog .ask-sushant-heading{flex:none;align-items:center;justify-content:flex-start;padding:15px 20px;border-bottom:1px solid var(--ss-border);gap:12px}
+#ask-sushant-dialog .ask-sushant-heading h2{font-size:18px;font-weight:650;line-height:1.25;margin:0}
+#ask-sushant-dialog .ask-sushant-close{margin-inline-start:auto;border:0;background:transparent;border-radius:50%}
+#ask-sushant-dialog .nishi-conversation{display:flex;flex:1 1 0;min-height:0;flex-direction:column;gap:14px;overflow:auto;padding:22px;overscroll-behavior:contain}
+#ask-sushant-dialog .nishi-welcome{margin:auto 0}
+#ask-sushant-dialog .nishi-welcome h3{font-family:Georgia,serif;font-size:clamp(28px,4vw,36px);font-weight:500;line-height:1.13;letter-spacing:-.03em;max-width:16ch}
+#ask-sushant-dialog .nishi-prompts{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 0}
+#ask-sushant-dialog .nishi-prompts button{flex:none;width:auto;background:transparent;border-radius:999px;font-size:12px;min-height:36px;margin:0;padding:6px 11px}
+#ask-sushant-dialog .nishi-history{display:contents}
+#ask-sushant-dialog :is(.nishi-user-message,.nishi-past-user){align-self:flex-end;max-width:84%;margin:0;padding:9px 14px;border:0;border-radius:17px 17px 4px 17px;background:var(--ss-primary);color:var(--ss-on-primary);overflow-wrap:anywhere}
+#ask-sushant-dialog :is(.ask-sushant-answer,.nishi-past-reply){padding:4px 0 10px;background:transparent;overflow-wrap:anywhere}
+#ask-sushant-dialog .nishi-past-reply a{display:grid;margin:7px 0;color:var(--ss-text)}
+#ask-sushant-dialog :is(.nishi-options,.nishi-shortcuts){flex:none;margin:0;padding:0 20px;font-size:12px;color:var(--ss-text-secondary)}
+#ask-sushant-dialog summary{cursor:pointer;padding:5px 0}
+#ask-sushant-dialog .ask-sushant-form{flex:none;padding:6px 14px max(14px,env(safe-area-inset-bottom));margin:0}
+#ask-sushant-dialog .ask-sushant-composer{display:flex;flex-wrap:nowrap;gap:4px;align-items:center;border:1px solid var(--ss-border);border-radius:22px;padding:4px;background:var(--ss-bg-secondary)}
+#ask-sushant-dialog .ask-sushant-composer input{flex:1 1 0;border:0;background:transparent;width:0;min-height:44px;box-shadow:none}
+#ask-sushant-dialog .ask-sushant-composer button{flex:0 0 42px;width:42px;height:42px;min-height:42px;padding:0;border-radius:50%;display:grid;place-items:center}
+#ask-sushant-dialog .ask-sushant-composer button svg{width:21px;height:21px}
+#ask-sushant-dialog [hidden]{display:none!important}
+@media(max-width:600px){#ask-sushant-dialog[open]{inset:auto 0 0;width:100%;max-width:100%;height:min(720px,94dvh);border-radius:22px 22px 0 0}#ask-sushant-dialog .nishi-conversation{padding:16px}}

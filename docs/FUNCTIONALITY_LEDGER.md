@@ -1,3 +1,10 @@
+Ask Nishi conversation refresh (2026-11-26 IST). Home opens a desktop chat
+panel or mobile sheet with a persistent composer and a scrollable transcript.
+Earlier messages and actionable replies stay available until close. Suggested
+tasks collapse after the first turn. The composer discloses service processing
+and offers expandable privacy and AI controls. The existing draft service
+and consent rules continue to govern submissions.
+
 Studio production release (2026-11-26 IST). Commit `687379f4` deployed as
 Worker `f6abf8c5-2735-4de8-8470-79abcc65a972`. Chrome on the live studio
 exported a one-second WAV and PNG to an 854 × 480 H.264/AAC MP4 with network
