@@ -98,7 +98,7 @@ export function synthesisParagraphs(snapshot,topic,factors){
  return result;
 }
 export function rankedPeriodTopics(snapshot,topics,period){
- return topics.filter(t=>!['overview','appearance','personality','wellbeing'].includes(t.id)).map(t=>({topic:t.id,title:t.title,connections:periodConnections(snapshot,t.houses,period),priority:t.priority})).filter(t=>t.connections.length).sort((a,b)=>{
+ return topics.filter(t=>!['overview','appearance','personality','wellbeing'].includes(t.id)).map(t=>({topic:t.id,title:t.title,connections:periodConnections(snapshot,[t.houses[0]],period),priority:t.priority})).filter(t=>t.connections.length).sort((a,b)=>{
   const rank=t=>t.connections.reduce((n,p)=>n+p.links.reduce((s,l)=>s+(l.kind==='ruler'?3:l.kind==='occupant'?2:1),0),0);
   return rank(b)-rank(a)||b.priority-a.priority||a.topic.localeCompare(b.topic);
  });

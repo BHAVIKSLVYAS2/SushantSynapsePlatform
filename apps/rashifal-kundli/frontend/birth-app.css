@@ -185,7 +185,8 @@ fieldset.civil-input,.vedic-matching fieldset.civil-input{min-width:0;margin:0;p
 .vedic-birth-app .reading-audience button[aria-pressed=true]{background:var(--ui-accent);color:var(--ui-on-accent)}
 .jyotish-granth [hidden]{display:none!important}
 .jyotish-granth .reading-technical{border-inline-start:2px solid var(--ui-edge);padding-inline-start:16px;margin-block:16px}
-.kundli-section-nav:has(>[data-kundli-section=overview]){grid-template-columns:repeat(5,minmax(0,1fr))}
+.vedic-birth-page .vedic-birth-app .kundli-section-nav{grid-template-columns:repeat(5,minmax(0,1fr))}
+.vedic-birth-page .vedic-birth-app .kundli-section-nav>button,.vedic-birth-page .vedic-birth-app .kundli-section-nav>details>summary{white-space:nowrap;overflow-wrap:normal;min-width:0;min-height:44px;line-height:1.35;padding:6px 2px}
 .jyotish-granth .jyotish-chapters{display:block}
 .jyotish-granth .jyotish-chapter{padding:24px 0;border:0;border-bottom:1px solid var(--ui-edge);border-radius:0;background:transparent;box-shadow:none;scroll-margin-top:calc(var(--shell-height,72px) + 160px)}
 .jyotish-granth .jyotish-chapter h3{font-size:21px;line-height:1.65;margin:0 0 14px}

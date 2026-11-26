@@ -4,6 +4,19 @@ const {test,expect}=require('@playwright/test');const {fillDate,fillTime}=requir
 for(const language of ['hi','gu'])test(`Kundali generates a complete ${language} reading and matching private printable download`,async({page})=>{
  const errors=[];page.on('pageerror',error=>errors.push(error.message));await page.addInitScript(language=>localStorage.setItem('synapse-language',language),language);await page.setViewportSize({width:390,height:900});await page.goto(server.origin+'/rashifal-kundli');
  await expect(page.locator('html')).toHaveAttribute('lang',language);await editBirth(page,'#birth-name');await page.locator('#birth-name').fill('Private Sample');await editBirth(page,'#birth-date');await fillDate(page,'#birth-date','2000-01-01');await editBirth(page,'#birth-time');await fillTime(page,'#birth-time','12:15');await editBirth(page,'#birth-query');await page.locator('#birth-query').fill('New Delhi');await page.locator('[data-place-id="geonames:1261481"]').click();await page.locator('form button[type=submit]').click();if(language==='hi')await expect(page.locator('.jyotish-granth')).toHaveAttribute('data-audience','public');else await expect(page.locator('.kundli-reading')).toHaveAttribute('data-reading-prose','kundli-prose-6');
+
+ await expect(page.locator('[data-kundli-section=calculations]')).toHaveAttribute('aria-pressed','true');
+ await expect(page.locator('.vedic-charts')).toBeVisible();
+ for(const width of [320,390,768,1280]){
+  await page.setViewportSize({width,height:900});
+  const tabs=await page.locator('.kundli-section-nav>button,.kundli-section-nav>details>summary').evaluateAll(nodes=>nodes.map(node=>{
+   const rect=node.getBoundingClientRect();
+   return {top:rect.top,height:rect.height,fits:node.scrollWidth<=node.clientWidth+1};
+  }));
+  expect(tabs).toHaveLength(5);
+  expect(tabs.every(tab=>Math.abs(tab.top-tabs[0].top)<2&&tab.height>=44&&tab.height<=50&&tab.fits)).toBe(true);
+ }
+ await page.setViewportSize({width:390,height:900});
  const script=language==='hi'?/[\u0900-\u097f]/:/[\u0a80-\u0aff]/;
  const prose=await page.locator(language==='hi'?'.reading-public p':'.kundli-topic>p:not(.kundli-topic-action)').allTextContents();
  for(const paragraph of prose){expect(paragraph).toMatch(/[.!।]$/);expect(paragraph).not.toMatch(/undefined|\[object Object\]/);}

@@ -12827,3 +12827,9 @@ were only re-export wrappers. Both apps now import `/shared/care-engine.mjs`,
 which resolves to the canonical package module. Stable server aliases for app
 routes were not needed and were removed. The shared UI and browser tests continue
 to use the package/module contract.
+Kundali reading and navigation revision. Period topics require a dasha-ruler
+connection to their primary house. Hindi public chapters describe the house
+ruler and its placement. Chart opens first with five short navigation labels.
+Verified 30 model/export checks and four browser workflows on the release build,
+including tab height and width at 320, 390, 768 and 1280 CSS pixels.
+

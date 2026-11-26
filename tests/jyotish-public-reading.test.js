@@ -23,7 +23,7 @@ test('unresolved evidence stays visible beside supportive outcomes and in the ov
 });
 test('public natal interpretation is substantive, traceable and different from the technical placement list',async()=>{
  const {calculateBirthReport}=await import('../apps/rashifal-kundli/frontend/birth-report.mjs'),{buildJyotishIntelligence}=await import('../apps/rashifal-kundli/frontend/jyotish-intelligence.mjs');
- const careers=new Set();for(const hour of [0,4,8,12,16,20]){const model=buildJyotishIntelligence(calculateBirthReport({...input,localTime:String(hour).padStart(2,'0')+':15'},{now}));assert(model.quality.valid);const sections=model.sections.filter(s=>s.publicParagraphs.length);assert.equal(sections.length,12);for(const s of sections)for(const p of s.publicParagraphs){assert.doesNotMatch(p.text,jargon);assert(p.findingIds.length);assert(p.findingIds.every(id=>model.findings.some(f=>f.id===id)));}const career=sections.find(s=>s.id==='career');assert(career.publicParagraphs[0].text.length>120);assert.notEqual(career.publicParagraphs[0].text,career.paragraphs[0].text);careers.add(career.publicParagraphs.map(p=>p.text).join(' '));assert.equal(model.sections.find(s=>s.id==='stages').publicParagraphs.length,0);assert.equal(model.sections.find(s=>s.id==='conclusion').publicParagraphs.length,0);}
+ const careers=new Set();for(const hour of [0,4,8,12,16,20]){const model=buildJyotishIntelligence(calculateBirthReport({...input,localTime:String(hour).padStart(2,'0')+':15'},{now}));assert(model.quality.valid);const sections=model.sections.filter(s=>s.publicParagraphs.length);assert.equal(sections.length,12);for(const s of sections)for(const p of s.publicParagraphs){assert.doesNotMatch(p.text,jargon);assert(p.findingIds.length);assert(p.findingIds.every(id=>model.findings.some(f=>f.id===id)));}const career=sections.find(s=>s.id==='career');assert.match(career.publicParagraphs[0].text,/दसवें भाव के स्वामी/);assert.notEqual(career.publicParagraphs[0].text,career.paragraphs[0].text);careers.add(career.publicParagraphs.map(p=>p.text).join(' '));assert.equal(model.sections.find(s=>s.id==='stages').publicParagraphs.length,0);assert.equal(model.sections.find(s=>s.id==='conclusion').publicParagraphs.length,0);}
  assert(careers.size>=3);
 });
 test('Rashifal public outcomes preserve supportive/mixed/neutral/uncertain distinctions without presenting neutral as bad',async()=>{
@@ -66,4 +66,17 @@ test('Hindi tomorrow and today on the same IST date share calculations and keep 
  assert.equal(today.cache.factorCount,tomorrow.cache.factorCount);
  assert.equal(tomorrow.reading.intelligence.sections[0].publicTitle,'कल की दिशा');
  assert.equal(today.reading.intelligence.sections[0].publicTitle,'आज की दिशा');
+});
+
+test('a secondary house alone cannot trigger a home prediction',async()=>{
+ const {rankedPeriodTopics}=await import('../apps/rashifal-kundli/frontend/jyotish-synthesis.mjs');
+ const topics=[{id:'home',houses:[4,9,12],priority:1},{id:'spirituality',houses:[9,12],priority:1}];
+ const snapshot={houses:[{number:4,ruler:'Mercury'},{number:9,ruler:'Saturn'}],planets:[{body:'Rahu',house:9}]};
+ const calculate=()=>rankedPeriodTopics(snapshot,topics,{major:'Rahu',minor:'Rahu'});
+ assert.deepEqual(calculate().map(t=>t.topic),['spirituality']);
+ snapshot.planets[0].house=4;
+ const home=calculate().find(t=>t.topic==='home');
+ assert.deepEqual(home.connections[0].links,[{kind:'occupant',house:4}]);
+ snapshot.planets[0].house=9;
+ assert.equal(calculate().some(t=>t.topic==='home'),false);
 });
