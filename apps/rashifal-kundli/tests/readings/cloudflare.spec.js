@@ -27,6 +27,7 @@ for(const language of ['hi','gu'])test(`Kundali generates a complete ${language}
  for(const width of [320,360,390,430,768,1024])for(const theme of ['light','dark']){await page.setViewportSize({width,height:900});await page.evaluate(theme=>SynapseTheme.write(theme),theme);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
  await page.setViewportSize({width:390,height:900});await page.locator('#kundli-relationships').screenshot({path:test.info().outputPath('relationships-'+language+'.png')});
  await openSection(page,'report');
+ await page.locator('#export-advanced').check();
  await page.locator('.vedic-export details>summary').click();
  const preview=page.locator('.vedic-export-preview');
  await expect(preview.locator('[data-reading-topic]')).toHaveCount(language==='hi'?12:8);
@@ -39,7 +40,10 @@ for(const language of ['hi','gu'])test(`Kundali generates a complete ${language}
  const pending=page.waitForEvent('download');await page.locator('#export-download').click();
  const download=await pending;expect(download.suggestedFilename()).toBe('kundli-report.pdf');
  const file=test.info().outputPath('kundali-'+language+'.pdf');await download.saveAs(file);
- expect(require('node:fs').readFileSync(file).subarray(0,5).toString()).toBe('%PDF-');
+ const pdf=require('node:fs').readFileSync(file).toString('latin1');
+ expect(pdf.startsWith('%PDF-')).toBe(true);
+ expect(pdf).toContain('/Lang ('+language+')');
+ for(const tag of ['/StructTreeRoot','/ParentTree','/S /H1','/S /Table','/Scope /Column','/Scope /Row','/S /Figure','/Alt <FEFF'])expect(pdf.includes(tag),tag).toBe(true);
  await page.emulateMedia({media:'print'});await expect(page.locator('.kundli-reading')).toBeHidden();await page.evaluate(()=>dispatchEvent(new Event('beforeprint')));await expect(page.locator('.report-everyday')).toBeVisible();await expect(page.locator('.report-everyday [data-reading-topic]')).toHaveCount(language==='hi'?12:8);await page.emulateMedia({media:'screen'});await page.evaluate(()=>dispatchEvent(new Event('afterprint')));expect(errors).toEqual([]);
 });
 async function openSection(page,id){

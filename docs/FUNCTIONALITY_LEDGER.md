@@ -12869,3 +12869,16 @@ Production Worker 4ab6d892-cdc6-45c0-947d-529564d12d03 serves commits
 77aec208 and f50cef7d. The live Dungarpur workflow matched seven chapters to
 their preview and downloaded 18 pages. Exact search rectangles yielded complete
 Hindi text, including all eight occurrences of महादशा and the full report title.
+
+Hindi Moon-sign interpretations now describe possible tendencies. A separate
+D1-based regression verifies house, sign ruler and placement in seven chapters
+at six birth times. This checks chart evidence; an independent practitioner
+has not reviewed the interpretations.
+
+The PDF writer now records the document language and a logical structure tree
+for headings, paragraphs, lists, table captions, rows, header scopes, data
+cells and chart descriptions. Repeated visual headers and the background
+bitmap are artifacts. An independent parser verified 891 content references
+in both directions across 18 pages, including 19 tables and four chart
+descriptions. Hindi and Gujarati download checks passed. Spoken assistive
+technology usability and PDF/UA conformance remain unverified.

@@ -95,3 +95,20 @@ test('shared placements retain distinct meanings for career, partnership, money 
  assert.match(paragraph('home'),/बुध.*नौवें भाव.*रहना सुविधाजनक/);
  assert.match(paragraph('spirituality'),/शनि.*सातवें भाव.*मान्यताओं/);
 });
+
+test('Hindi chapter evidence agrees with the D1 house, ruler and ruler placement',async()=>{
+ const {calculateBirthReport}=await import('../apps/rashifal-kundli/frontend/birth-report.mjs');
+ const {projectExport}=await import('../apps/rashifal-kundli/frontend/export-report.mjs');
+ const rulers=['Mars','Venus','Mercury','Moon','Sun','Mercury','Venus','Mars','Jupiter','Saturn','Saturn','Jupiter'];
+ const names={Mars:'मंगल',Venus:'शुक्र',Mercury:'बुध',Moon:'चंद्र',Sun:'सूर्य',Jupiter:'गुरु',Saturn:'शनि'};
+ const ordinals=['पहले','दूसरे','तीसरे','चौथे','पाँचवें','छठे','सातवें','आठवें','नौवें','दसवें','ग्यारहवें','बारहवें'];
+ for(const localTime of ['00:15','04:15','08:15','12:15','16:15','20:15']){
+  const report=calculateBirthReport({...input,localTime},{now}),chart=report.features.d1.value;
+  const topics=projectExport(report,{language:'hi'}).everyday.topics;
+  for(const [id,house] of Object.entries({career:10,learning:5,money:2,family:2,home:4,relationships:7,spirituality:9})){
+   const ruler=rulers[chart.houses[house-1].rashi-1],placed=chart.planets.find(p=>p.body===ruler).houseNumber;
+   const basis=`${ordinals[house-1]} भाव के स्वामी ${names[ruler]} आपकी कुंडली के ${ordinals[placed-1]} भाव में हैं।`;
+   assert(topics.find(topic=>topic.id===id).paragraphs[0].startsWith(basis),localTime+' '+id+' '+basis);
+  }
+ }
+});
