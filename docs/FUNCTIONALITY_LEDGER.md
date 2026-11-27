@@ -12865,3 +12865,7 @@ their explanation only for a newly evidenced subperiod connection. Downloaded
 reports retain browser-shaped graphics and carry a positioned Unicode text
 layer for narrative, captions and tables. Verified Hindi and Gujarati search
 and selection with an independent PDF reader; PDF/UA has not been audited.
+Production Worker 4ab6d892-cdc6-45c0-947d-529564d12d03 serves commits
+77aec208 and f50cef7d. The live Dungarpur workflow matched seven chapters to
+their preview and downloaded 18 pages. Exact search rectangles yielded complete
+Hindi text, including all eight occurrences of महादशा and the full report title.
