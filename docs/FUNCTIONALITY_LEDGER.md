@@ -12839,3 +12839,6 @@ Hindi career, partnership, money and family readings now interpret all twelve
 ruler placements separately for each topic. A regression uses the Dungarpur
 example to verify both shared placements and four distinct exported meanings.
 31 reading, synthesis, display and export checks passed.
+Production Worker db86a280-cc6c-424c-a41f-168e0ca1177a serves commit 7a209607.
+The live Dungarpur workflow matched all four screen paragraphs to the report
+preview and downloaded the Hindi PDF.
