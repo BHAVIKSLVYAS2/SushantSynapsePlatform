@@ -13,7 +13,23 @@ export async function reportPdf(markup){
   if(node.caption)text(node.caption.textContent,23,true);for(const r of rows){if(r.parentElement.tagName==='THEAD')header=r;const estimated=Math.max(...[...r.cells].map((c,i)=>lines(c.textContent,sizes[i]-20,19).length))*29+20;if(y+estimated>bottom){page();if(header&&r!==header)row(header);}row(r);}y+=20;
  }
  async function walk(node){if(node.nodeType!==1)return;const tag=node.tagName;if(tag==='TABLE'){table(node);return;}if(tag==='svg'||tag==='SVG'){const clone=node.cloneNode(true);clone.setAttribute('xmlns','http://www.w3.org/2000/svg');const style=document.createElementNS('http://www.w3.org/2000/svg','style');style.textContent='polygon,rect{fill:white;stroke:#17232d;stroke-width:1.2}text{fill:#17232d;font:13px system-ui,sans-serif;dominant-baseline:hanging}.report-grahas{font-size:15px;font-weight:650}';clone.prepend(style);const url=URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(clone)],{type:'image/svg+xml'}));try{const image=new Image();image.src=url;await image.decode();const w=730,h=w*(image.naturalHeight/image.naturalWidth||1);room(h+20);ctx.drawImage(image,(width-w)/2,y,w,h);y+=h+20;}finally{URL.revokeObjectURL(url);}return;}
-  if(['H1','H2','H3','P','DT','DD','LI','FIGCAPTION'].includes(tag)){text(node.textContent,tag==='H1'?34:tag==='H2'?28:tag==='H3'?24:21,/^H|DT|FIGCAPTION/.test(tag));return;}for(const child of node.children)await walk(child);
+  if(tag==='FIGURE'){
+   const chart=node.querySelector('svg'),caption=node.querySelector('figcaption');
+   if(chart&&caption){
+    const [, ,w,h]=chart.getAttribute('viewBox').split(/\s+/).map(Number);
+    room(lines(caption.textContent,width-2*margin,21).length*31.5+12+730*h/w+20);
+   }
+  }
+  if(['H1','H2','H3','P','DT','DD','LI','FIGCAPTION'].includes(tag)){
+   const size=tag==='H1'?34:tag==='H2'?28:tag==='H3'?24:21;
+   const next=node.nextElementSibling;
+   if(/^H[123]$/.test(tag)&&next?.tagName==='P'){
+    const headingHeight=lines(node.textContent,width-2*margin,size).length*size*1.5+12;
+    room(headingHeight+Math.min(2,lines(next.textContent,width-2*margin,21).length)*31.5);
+   }
+   text(node.textContent,size,/^H|DT|FIGCAPTION/.test(tag));return;
+  }
+  for(const child of node.children)await walk(child);
  }
  page();await walk(doc.body);return encodePages(pages);
 }

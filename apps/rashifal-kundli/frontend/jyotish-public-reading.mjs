@@ -76,8 +76,10 @@ export function publicNatalSections(snapshot,sections,topics,findings){
   const refs=section.findingIds,paragraphs=[],f=section.synthesis;
   if(section.status!=='available')return {...section,publicTitle:topicTitles[section.id]||section.title,publicParagraphs:[]};
   if(section.id==='overview'&&snapshot.houses.length){
-   const identity=`आपका लग्न ${signName(snapshot.rising,'hi')} है।`;
-   const summary=focused.length?` ${bodyName(current.major,'hi')} की महादशा और ${bodyName(current.minor,'hi')} की अंतर्दशा में प्रमुख विषय हैं — ${list.format(focused.map(t=>focusNames[t.topic]))}।`:'';
+   const moon=snapshot.planets.find(planet=>planet.body==='Moon'&&planet.stableSign);
+   const identity=moon?`आपका लग्न ${signName(snapshot.rising,'hi')} और चंद्र राशि ${signName(moon.sign,'hi')} है।`:`आपका लग्न ${signName(snapshot.rising,'hi')} है।`;
+   const emphasis=focused.length===1?'इस समय का प्रमुख विषय है':'इस समय के प्रमुख विषय हैं';
+   const summary=current?` अभी ${bodyName(current.major,'hi')} की महादशा में ${bodyName(current.minor,'hi')} की अंतर्दशा चल रही है।`+(focused.length?` ${emphasis} — ${list.format(focused.map(t=>focusNames[t.topic]))}।`:''):'';
    paragraphs.push(p(identity+summary,refs));
   }
   else if(section.id==='appearance'&&snapshot.rising)paragraphs.push(p(`आपका लग्न ${signName(snapshot.rising,'hi')} है। `+manner[snapshot.rising-1][1],refs));

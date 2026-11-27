@@ -12842,3 +12842,12 @@ example to verify both shared placements and four distinct exported meanings.
 Production Worker db86a280-cc6c-424c-a41f-168e0ca1177a serves commit 7a209607.
 The live Dungarpur workflow matched all four screen paragraphs to the report
 preview and downloaded the Hindi PDF.
+
+Kundali report review (2026-11-27). The public Prokerala Basic Horoscope
+sample for Chennai (2004-02-12 15:19 IST, Lahiri) agrees on all nine sign,
+nakshatra and pada labels. For that instant the geocentric apparent tropical
+Moon longitude from JPL Horizons quantity 31 was 217.9912776 degrees versus
+217.9910972 locally. This is a single reference instant. Hindi summary text now
+includes the stable Moon sign and uses singular/plural topic phrasing.
+PDF pagination reserves room for chart captions and the start of paragraphs;
+the planet table identifies the sidereal convention in its caption.

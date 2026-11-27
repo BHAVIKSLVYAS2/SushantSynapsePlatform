@@ -102,7 +102,7 @@ export function reportMarkup(model){
  for(const key of ['positions',...chartKeys,'dasha']){
   const f=charts[key]??model.features[key];html+=`<section data-report-section="${esc(key)}"><h2>${esc(chartTitle(key,language))}</h2>`;
   if(f.status!=='available'){html+=p(`${x.unavailable}: ${diagnosticText(f.code,language)}`)+'</section>';continue;}
-  if(key==='positions')html+=table(t.positions,[t.body,t.sign,reportOptions[language].degrees,term('Longitude °',language),t.nakshatra,t.pada],pos.positions.map(p=>[bodyName(p.body,language),`${signName(p.rashi,language)} (${p.rashi})`,signDms(p.longitude%30),number(p.longitude),nakshatraName(p.nakshatra,language),p.pada]));
+  if(key==='positions')html+=table({hi:'निरयण राशि और अंश · लाहिड़ी अयनांश',gu:'નિરયણ રાશિ અને અંશ · લાહિરી અયનાંશ',en:'Sidereal signs and degrees · Lahiri ayanamsha'}[language],[t.body,t.sign,reportOptions[language].degrees,term('Longitude °',language),t.nakshatra,t.pada],pos.positions.map(p=>[bodyName(p.body,language),`${signName(p.rashi,language)} (${p.rashi})`,signDms(p.longitude%30),number(p.longitude),nakshatraName(p.nakshatra,language),p.pada]));
   else if(charts[key]){
    html+=p(`${key==='chandra'?chartExtras[language].moon:t.ascendant}: ${signName(f.ascendantRashi,language)} (${f.ascendantRashi}) · ${key!=='d1'?t.source:term('Longitude °',language)}: ${number(f.ascendantLongitude)}. ${t.rounding} ${key==='d9'?t.d9Hint:''}`);
    const note=chartNote(key,language);if(note)html+=p(note);
