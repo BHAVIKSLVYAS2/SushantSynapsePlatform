@@ -63,24 +63,21 @@ function encodePages(pages){
   offsets[id]=length;add(`${id} 0 obj\n<< /Length ${data.length} ${attributes} >>\nstream\n`);
   add(data);add('\nendstream\nendobj\n');
  }
- const segmenter=typeof Intl.Segmenter==='function'?new Intl.Segmenter(undefined,{granularity:'grapheme'}):null;
- const words=new Map();
- function glyphs(value){
-  if(!words.has(value))words.set(value,segmenter?Array.from(segmenter.segment(value),item=>item.segment):value.match(/\P{M}\p{M}*|\p{M}+/gu));
-  return words.get(value);
- }
+ // Give each combining mark a narrow, selectable region in the invisible layer.
+ const advance=ch=>/\p{M}/u.test(ch)?100:1000;
  const characters=new Map();
- for(const page of pages)for(const run of page.runs)for(const ch of glyphs(run.value)){
+ for(const page of pages)for(const run of page.runs)for(const ch of run.value){
   if(!characters.has(ch))characters.set(ch,characters.size);
  }
  const alphabet=[...characters.keys()],fontCount=Math.ceil(alphabet.length/250);
- const glyphId=3+pages.length*3,firstFont=glyphId+1;
+ const glyphId=3+pages.length*3,firstFont=glyphId+2;
  const hex=(value,length)=>value.toString(16).padStart(length,'0');
  const fontRefs=Array.from({length:fontCount},(_,i)=>`/F${i} ${firstFont+2*i} 0 R`).join(' ');
  add('%PDF-1.4\n');
  object(1,'<< /Type /Catalog /Pages 2 0 R >>');
  object(2,`<< /Type /Pages /Kids [${pages.map((_,i)=>`${3+i*3} 0 R`).join(' ')}] /Count ${pages.length} >>`);
  stream(glyphId,'1000 0 d0');
+ stream(glyphId+1,'100 0 d0');
  for(let f=0;f<fontCount;f++){
   const set=alphabet.slice(f*250,(f+1)*250),id=firstFont+2*f;
   const mappings=set.map((ch,i)=>{
@@ -94,7 +91,7 @@ function encodePages(pages){
   }
   stream(id+1,cmap+'endcmap\nCMapName currentdict /CMap defineresource pop\nend\nend');
   const names=set.map((_,i)=>'/g'+(i+1));
-  object(id,`<< /Type /Font /Subtype /Type3 /FontBBox [0 -250 1000 1000] /FontMatrix [.001 0 0 .001 0 0] /CharProcs << ${names.map(n=>n+' '+glyphId+' 0 R').join(' ')} >> /Encoding << /Type /Encoding /Differences [1 ${names.join(' ')}] >> /FirstChar 1 /LastChar ${set.length} /Widths [${set.map(()=>1000).join(' ')}] /Resources << >> /ToUnicode ${id+1} 0 R >>`);
+  object(id,`<< /Type /Font /Subtype /Type3 /FontBBox [0 -250 1000 1000] /FontMatrix [.001 0 0 .001 0 0] /CharProcs << ${names.map((n,i)=>n+' '+(advance(set[i])===100?glyphId+1:glyphId)+' 0 R').join(' ')} >> /Encoding << /Type /Encoding /Differences [1 ${names.join(' ')}] >> /FirstChar 1 /LastChar ${set.length} /Widths [${set.map(advance).join(' ')}] /Resources << >> /ToUnicode ${id+1} 0 R >>`);
  }
  pages.forEach(({canvas,runs},i)=>{
   const id=3+i*3;
@@ -104,9 +101,9 @@ function encodePages(pages){
   const sx=595.28/canvas.width,sy=841.89/canvas.height;
   let commands='q\n595.28 0 0 841.89 0 0 cm\n/Im0 Do\nQ\nBT\n3 Tr\n';
   for(const run of runs){
-   const chars=glyphs(run.value);
+   const chars=Array.from(run.value);
    if(!chars.length||!run.width)continue;
-   commands+=`1 0 0 1 ${(run.x*sx).toFixed(3)} ${(841.89-run.baseline*sy).toFixed(3)} Tm\n${(100*run.width*sx/(chars.length*run.size*sy)).toFixed(4)} Tz\n`;
+   commands+=`1 0 0 1 ${(run.x*sx).toFixed(3)} ${(841.89-run.baseline*sy).toFixed(3)} Tm\n${(100000*run.width*sx/(chars.reduce((sum,ch)=>sum+advance(ch),0)*run.size*sy)).toFixed(4)} Tz\n`;
    let font=-1,encoded='';
    for(const ch of chars){
     const index=characters.get(ch),next=Math.floor(index/250);
