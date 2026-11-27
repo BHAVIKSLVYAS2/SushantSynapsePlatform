@@ -12854,3 +12854,7 @@ the planet table identifies the sidereal convention in its caption.
 Live PDF inspection on the Dungarpur report also exposed a table starting
 with only its column headers at the foot of page 3. The renderer now reserves
 space for a table caption, its header and its first data row together.
+Commits 638ef97a and 01bc8544 deployed, final Worker
+a5d9195d-b0a2-48bb-888e-85971ff03946. Verified 31 model checks, four browser
+workflows, a further Hindi PDF check after the table fix, and a live 18-page
+Dungarpur download with the previously split table starting together on page 4.
