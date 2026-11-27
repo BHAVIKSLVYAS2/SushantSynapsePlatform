@@ -12882,3 +12882,7 @@ bitmap are artifacts. An independent parser verified 891 content references
 in both directions across 18 pages, including 19 tables and four chart
 descriptions. Hindi and Gujarati download checks passed. Spoken assistive
 technology usability and PDF/UA conformance remain unverified.
+Production Worker 6a05d4d7-1679-4f30-961e-d90e7cb18e9d serves 6f21362b.
+The live Dungarpur download passed the same structure audit. Chrome's PDF
+reader accessibility tree exposed Hindi chapter and period text. This is
+a programmatic check, separate from listening with a screen reader.
