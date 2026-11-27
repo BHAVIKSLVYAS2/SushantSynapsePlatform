@@ -12851,3 +12851,6 @@ Moon longitude from JPL Horizons quantity 31 was 217.9912776 degrees versus
 includes the stable Moon sign and uses singular/plural topic phrasing.
 PDF pagination reserves room for chart captions and the start of paragraphs;
 the planet table identifies the sidereal convention in its caption.
+Live PDF inspection on the Dungarpur report also exposed a table starting
+with only its column headers at the foot of page 3. The renderer now reserves
+space for a table caption, its header and its first data row together.
