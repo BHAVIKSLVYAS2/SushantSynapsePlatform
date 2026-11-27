@@ -91,4 +91,7 @@ test('shared placements retain distinct meanings for career, partnership, money 
  assert.match(paragraph('relationships'),/गुरु.*बारहवें भाव.*निजी समय और दूरी/);
  assert.match(paragraph('money'),/चंद्र.*ग्यारहवें भाव.*आय संचित धन/);
  assert.match(paragraph('family'),/चंद्र.*ग्यारहवें भाव.*परिवार का सहारा/);
+ assert.match(paragraph('learning'),/शुक्र.*नौवें भाव.*शिक्षक/);
+ assert.match(paragraph('home'),/बुध.*नौवें भाव.*रहना सुविधाजनक/);
+ assert.match(paragraph('spirituality'),/शनि.*सातवें भाव.*मान्यताओं/);
 });

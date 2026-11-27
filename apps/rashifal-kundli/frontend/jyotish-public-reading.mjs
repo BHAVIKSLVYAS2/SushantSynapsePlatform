@@ -39,7 +39,6 @@ const workStyle={Sun:'काम की जिम्मेदारी लेन�
 const topicTitles={overview:'आपकी रीडिंग का सार',appearance:'पहली छाप और अभिव्यक्ति',personality:'स्वभाव और निर्णय लेने का ढंग',learning:'पढ़ाई और कौशल',career:'काम और करियर',money:'पैसे और जिम्मेदारियाँ',relationships:'प्रेम और साझेदारी',family:'परिवार और सहयोग',wellbeing:'दिनचर्या और सेहत',home:'घर और स्थान-परिवर्तन',spirituality:'चिंतन और जीवन-दृष्टि',future:'वर्तमान और आने वाली अवधि'};
 const focusNames={learning:'नए कौशल',career:'काम की ज़िम्मेदारियाँ',money:'पैसों की व्यवस्था',relationships:'साझेदारी',family:'पारिवारिक सहयोग',home:'रहने की व्यवस्था',spirituality:'गहन अध्ययन'};
 const houseNames=['पहले','दूसरे','तीसरे','चौथे','पाँचवें','छठे','सातवें','आठवें','नौवें','दसवें','ग्यारहवें','बारहवें'];
-const houseContexts=['अपनी पहल','पारिवारिक संसाधनों','संवाद और अभ्यास','घर के माहौल','रचनात्मकता और पढ़ाई','सेवा और रोज़ के काम','साझेदारी','शोध और साझा संसाधनों','उच्च शिक्षा और मार्गदर्शन','पेशेवर दायित्वों','संपर्कों और सामूहिक प्रयासों','निजी तैयारी और दूरस्थ काम'];
 const periodMeanings={home:'घर और घरेलू ज़िम्मेदारियाँ',spirituality:'उच्च अध्ययन और जीवन-दृष्टि',career:'पेशेवर दायित्व',relationships:'साझेदारी और आपसी समझौते',money:'बचत और पारिवारिक संसाधन',family:'परिवार की ज़िम्मेदारियाँ',learning:'पढ़ाई और रचनात्मक काम'};
 function explainPeriodTopic(topic,minor){
  const connection=topic.connections.find(item=>item.body===minor)||topic.connections[0];
@@ -86,7 +85,7 @@ export function publicNatalSections(snapshot,sections,topics,findings){
   else if(section.id==='personality'){const moon=snapshot.planets.find(p=>p.body==='Moon'&&p.stableSign);if(moon)paragraphs.push(p(`जन्म के समय चंद्रमा ${signName(moon.sign,'hi')} राशि में थे। `+temperament[moon.sign-1][1],refs));}
   else if(periodMeanings[section.id]&&f){
    const placement=`${houseNames[f.house-1]} भाव के स्वामी ${bodyName(f.lord,'hi')} आपकी कुंडली के ${houseNames[f.lordHouse-1]} भाव में हैं।`;
-   const meaning=natalInterpretations[section.id]?.[f.lordHouse-1]??(f.house===f.lordHouse?`स्वामी के अपने ही भाव में होने से इस विषय का अपना आधार मिलता है — ${periodMeanings[section.id]}।`:`इस योग में ${periodMeanings[section.id]} का संबंध ${houseContexts[f.lordHouse-1]} से बनता है।`);
+   const meaning=natalInterpretations[section.id][f.lordHouse-1];
    paragraphs.push(p(placement+' '+meaning,refs));
    if(section.id==='career')paragraphs.push(p(`${bodyName(f.lord,'hi')} के स्वभाव से काम करने की यह प्रवृत्ति जुड़ती है — ${workStyle[f.lord]}।`,refs));
   }
@@ -94,6 +93,7 @@ export function publicNatalSections(snapshot,sections,topics,findings){
   else if(section.id==='future'){
    const periods=snapshot.periods.flatMap(m=>m.subperiods.map(a=>({major:m.lord,minor:a.lord,start:a.start,end:a.end}))).filter(a=>Date.parse(a.end)>Date.parse(snapshot.at)).slice(0,3);
    let previous=null;
+   let priorEvidence=new Set();
    for(const [i,period]of periods.entries()){
     const ranked=focusPeriodTopics(snapshot,topics,period),focus=ranked.map(t=>t.topic),id='period:'+i;
     if(!findings.some(f=>f.id===id))continue;
@@ -106,10 +106,12 @@ export function publicNatalSections(snapshot,sections,topics,findings){
      for(const topic of ranked.filter(item=>added.includes(item.topic)))lines.push(explainPeriodTopic(topic,period.minor));
     }else{
      lines.push(periodNarrative(focus,previous,'hi',label));
-     if(ranked.length)lines.push(explainPeriodTopic(ranked[0],period.minor));
+     const changed=ranked.find(topic=>topic.connections.some(c=>c.body===period.minor)&&!priorEvidence.has(explainPeriodTopic(topic,period.minor)));
+     if(changed)lines.push(explainPeriodTopic(changed,period.minor));
     }
     paragraphs.push(p(lines.join(' '),[id]));
     previous=focus;
+    priorEvidence=new Set(ranked.map(topic=>explainPeriodTopic(topic,period.minor)));
    }
   }
   return {...section,publicTitle:topicTitles[section.id]||section.title,publicParagraphs:paragraphs};
@@ -187,6 +189,48 @@ export function publicRashiSections(sections,findings,view='today'){
 }
 // Indexed by the natal house occupied by the topic's ruler, from 1 through 12.
 const natalInterpretations={
+ learning:[
+  'पढ़ाई की दिशा अपनी जिज्ञासा से तय हो सकती है। किसी सवाल को खुद आज़माकर देखना सीखने का सहज तरीका हो सकता है।',
+  'परिवार से मिले ज्ञान को अपनी भाषा में समझाने या बोलकर याद करने में रुचि हो सकती है।',
+  'लिखने, दोहराने और हाथ से अभ्यास करने पर कोई नया हुनर धीरे-धीरे खुल सकता है।',
+  'घर का माहौल और शुरुआती शिक्षा आपकी पढ़ने की आदतों पर गहरी छाप छोड़ सकते हैं।',
+  'किसी विचार के साथ प्रयोग करना, सवाल बनाना और अपनी रचना में उसे आज़माना पढ़ाई का मजबूत पक्ष हो सकता है।',
+  'सीखी हुई बात की समझ किसी व्यावहारिक समस्या को सुलझाते समय अधिक साफ हो सकती है।',
+  'किसी सहपाठी से बहस करने या एक-दूसरे को समझाने से विषय के नए पहलू खुल सकते हैं।',
+  'सतह पर दिख रहे उत्तर से आगे जाकर कारण खोजना शोध की ओर रुचि ले जा सकता है।',
+  'एक विषय में शुरुआती रुचि आगे चलकर गहरी पढ़ाई का रूप ले सकती है। किसी शिक्षक या मार्गदर्शक का इसमें खास असर हो सकता है।',
+  'पढ़ाई का रुख उस हुनर की ओर जा सकता है जिसे आप पेशे में इस्तेमाल करना चाहते हैं।',
+  'साथ पढ़ने वाले लोगों या किसी अध्ययन समूह से नई सामग्री और विचार मिलने की संभावना रहती है।',
+  'शांत माहौल में अकेले पढ़ना या दूर से किसी विषय का अध्ययन करना अधिक अनुकूल लग सकता है।'
+ ],
+ home:[
+  'कहाँ और किस तरह रहना है, इसमें अपनी पसंद और स्वतंत्रता का महत्व अधिक रह सकता है।',
+  'घर की व्यवस्था में परिवार की जमा पूँजी या पीढ़ियों से चली आ रही चीज़ों की भूमिका हो सकती है।',
+  'आस-पड़ोस, भाई-बहनों की निकटता और रोज़ की छोटी यात्राएँ रहने की जगह के चुनाव पर असर डाल सकती हैं।',
+  'परिचित जगह और अपने घर से लगाव गहरा हो सकता है। घर सँवारने में आप व्यक्तिगत रुचि ले सकते हैं।',
+  'घर का कोई हिस्सा बच्चों की पढ़ाई या अपनी रचनात्मक रुचियों के लिए खास महत्व रख सकता है।',
+  'घर की सुविधा का प्रश्न मरम्मत, रखरखाव या रोज़ के कामों की व्यवस्था से जुड़ सकता है।',
+  'रहने की जगह चुनने में साथी की सुविधा और आप दोनों की पसंद अहम हो सकती है।',
+  'घर से जुड़े बदलाव में साझा संपत्ति या पुरानी पारिवारिक व्यवस्था का प्रश्न उभर सकता है।',
+  'पढ़ाई या प्रशिक्षण के लिए कहाँ रहना सुविधाजनक होगा, यह घरेलू फैसलों में महत्व पा सकता है। इससे अपने आप स्थान-परिवर्तन तय नहीं होता।',
+  'कार्यस्थल की दूरी और काम के समय का असर इस बात पर पड़ सकता है कि घर कहाँ बसाना सुविधाजनक लगे।',
+  'किसी परिचित के पास रहना या आसपास सहारा मिलना घर चुनने की प्राथमिकता बन सकता है।',
+  'मूल निवास से दूर भी अपने लिए निजी और परिचित जगह बनाने की जरूरत महसूस हो सकती है।'
+ ],
+ spirituality:[
+  'अपने अनुभव से परखकर कोई विचार अपनाने की प्रवृत्ति हो सकती है।',
+  'जीवन-मूल्यों की शुरुआती समझ परिवार की कहानियों, भाषा और रीति-रिवाजों से बन सकती है।',
+  'लिखते समय या दूसरों से सवाल-जवाब करते हुए अपनी मान्यताओं को नए सिरे से समझ सकते हैं।',
+  'घर की परंपराएँ और बचपन की स्मृतियाँ आपके लिए आस्था का सहज आधार हो सकती हैं।',
+  'दर्शन या परंपरा के किसी विचार को पढ़ने और उसका अपना अर्थ निकालने में रुचि हो सकती है।',
+  'सेवा या दैनिक अभ्यास के अनुभव से यह स्पष्ट हो सकता है कि कौन-से मूल्य आपके लिए सबसे अहम हैं।',
+  'साथी या किसी करीबी व्यक्ति से गहरी बातचीत आपकी पुरानी मान्यताओं को नया संदर्भ दे सकती है।',
+  'जीवन में बदलाव के समय अर्थ, परंपरा और आस्था से जुड़े सवाल अधिक गहरे हो सकते हैं।',
+  'एक परंपरा या विचारधारा का लंबे समय तक अध्ययन करने और जानकार लोगों से सीखने की रुचि बन सकती है।',
+  'पेशे में लिए गए फैसले आपके आदर्शों को व्यवहार में उतारने का माध्यम बन सकते हैं।',
+  'समान रुचि वाले लोगों के बीच चर्चा से आपकी वैचारिक रुचियों को विस्तार मिल सकता है।',
+  'एकांत, ध्यान या निजी अध्ययन में जीवन के बड़े सवालों पर विचार करना सहज लग सकता है।'
+ ],
  career:[
   'काम में अपनी पहल और व्यक्तिगत पहचान की भूमिका अधिक रह सकती है।',
   'पेशे में बोलने की कला, संचित ज्ञान या पारिवारिक संसाधनों का उपयोग हो सकता है।',

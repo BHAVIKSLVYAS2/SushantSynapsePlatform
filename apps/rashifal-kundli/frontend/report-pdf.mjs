@@ -4,12 +4,21 @@ export async function reportPdf(markup){
  const doc=new DOMParser().parseFromString(markup,'text/html'),pages=[];
  const width=1240,height=1754,margin=72,bottom=height-margin;
  let canvas,ctx,y;
- function page(){canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;ctx=canvas.getContext('2d');ctx.fillStyle='white';ctx.fillRect(0,0,width,height);ctx.fillStyle='#17232d';y=margin;pages.push(canvas);}
+ function page(){canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;ctx=canvas.getContext('2d');ctx.fillStyle='white';ctx.fillRect(0,0,width,height);ctx.fillStyle='#17232d';y=margin;pages.push({canvas,runs:[]});}
+ function paintText(value,x,baseline,size){
+  ctx.fillText(value,x,baseline);
+  let offset=0;
+  for(const match of value.matchAll(/\S+\s*/gu)){
+   const end=ctx.measureText(value.slice(0,match.index+match[0].length)).width;
+   pages[pages.length-1].runs.push({value:match[0],x:x+offset,baseline,size,width:end-offset});
+   offset=end;
+  }
+ }
  function room(h){if(y+h>bottom)page();}
  function lines(text,w,size){ctx.font=`${size}px system-ui, sans-serif`;const out=[];let line='';for(const word of text.trim().split(/\s+/)){if(ctx.measureText(line+(line?' ':'')+word).width>w&&line){out.push(line);line='';}if(ctx.measureText(word).width>w){for(const ch of word){if(ctx.measureText(line+ch).width>w&&line){out.push(line);line='';}line+=ch;}}else line+=(line?' ':'')+word;}if(line)out.push(line);return out;}
- function text(value,size=21,bold=false){const wrapped=lines(value,width-2*margin,size),lineHeight=size*1.5;room(Math.min(wrapped.length,2)*lineHeight);for(const line of wrapped){room(lineHeight);ctx.font=`${bold?'bold ':''}${size}px system-ui, sans-serif`;ctx.fillStyle='#17232d';ctx.fillText(line,margin,y+size);y+=lineHeight;}y+=12;}
+ function text(value,size=21,bold=false){const wrapped=lines(value,width-2*margin,size),lineHeight=size*1.5;room(Math.min(wrapped.length,2)*lineHeight);for(const line of wrapped){room(lineHeight);ctx.font=`${bold?'bold ':''}${size}px system-ui, sans-serif`;ctx.fillStyle='#17232d';paintText(line,margin,y+size,size);y+=lineHeight;}y+=12;}
  function table(node){const rows=[...node.rows],n=rows[0]?.cells.length;if(!n)return;const compact=node.classList.contains('report-house-table');const available=width-2*margin,weights=compact?[.075,.32,.605]:[...rows[0].cells].map(c=>c.classList.contains('report-house-column')?.075:(1-([...rows[0].cells].filter(c=>c.classList.contains('report-house-column')).length*.075))/(n-[...rows[0].cells].filter(c=>c.classList.contains('report-house-column')).length)),sizes=weights.map(w=>w*available);let header;
-  function row(r){const cells=[...r.cells],wrapped=cells.map((c,i)=>lines(c.textContent,sizes[i]-20,19)),h=Math.max(...wrapped.map(a=>a.length))*29+20;room(h);let x=margin;cells.forEach((c,i)=>{ctx.fillStyle=r.parentElement.tagName==='THEAD'?'#eef2f4':'white';ctx.fillRect(x,y,sizes[i],h);ctx.strokeStyle='#9aa8b2';ctx.strokeRect(x,y,sizes[i],h);ctx.fillStyle='#17232d';ctx.font=`${c.tagName==='TH'?'bold ':''}19px system-ui, sans-serif`;wrapped[i].forEach((s,j)=>ctx.fillText(s,x+10,y+30+j*29));x+=sizes[i];});y+=h;}
+  function row(r){const cells=[...r.cells],wrapped=cells.map((c,i)=>lines(c.textContent,sizes[i]-20,19)),h=Math.max(...wrapped.map(a=>a.length))*29+20;room(h);let x=margin;cells.forEach((c,i)=>{ctx.fillStyle=r.parentElement.tagName==='THEAD'?'#eef2f4':'white';ctx.fillRect(x,y,sizes[i],h);ctx.strokeStyle='#9aa8b2';ctx.strokeRect(x,y,sizes[i],h);ctx.fillStyle='#17232d';ctx.font=`${c.tagName==='TH'?'bold ':''}19px system-ui, sans-serif`;wrapped[i].forEach((s,j)=>paintText(s,x+10,y+30+j*29,19));x+=sizes[i];});y+=h;}
   const rowHeight=r=>Math.max(...[...r.cells].map((c,i)=>lines(c.textContent,sizes[i]-20,19).length))*29+20;
   const captionHeight=node.caption?lines(node.caption.textContent,width-2*margin,23).length*34.5+12:0;
   room(captionHeight+rows.slice(0,2).reduce((sum,r)=>sum+rowHeight(r),0));
@@ -38,4 +47,82 @@ export async function reportPdf(markup){
  page();await walk(doc.body);return encodePages(pages);
 }
 
-function encodePages(pages){const encoder=new TextEncoder(),chunks=[],offsets=[0];let length=0;const add=v=>{const b=typeof v==='string'?encoder.encode(v):v;chunks.push(b);length+=b.length;},obj=(id,s)=>{offsets[id]=length;add(`${id} 0 obj\n${s}\nendobj\n`);};add('%PDF-1.4\n');obj(1,'<< /Type /Catalog /Pages 2 0 R >>');obj(2,`<< /Type /Pages /Kids [${pages.map((_,i)=>`${3+i*3} 0 R`).join(' ')}] /Count ${pages.length} >>`);pages.forEach((c,i)=>{const id=3+i*3,jpeg=Uint8Array.from(atob(c.toDataURL('image/jpeg',.94).split(',')[1]),x=>x.charCodeAt(0));obj(id,`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /XObject << /Im0 ${id+1} 0 R >> >> /Contents ${id+2} 0 R >>`);offsets[id+1]=length;add(`${id+1} 0 obj\n<< /Type /XObject /Subtype /Image /Width ${c.width} /Height ${c.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpeg.length} >>\nstream\n`);add(jpeg);add('\nendstream\nendobj\n');const commands='q\n595.28 0 0 841.89 0 0 cm\n/Im0 Do\nQ\n';obj(id+2,`<< /Length ${commands.length} >>\nstream\n${commands}endstream`);});const start=length,count=3+pages.length*3;add(`xref\n0 ${count}\n0000000000 65535 f \n`);for(let i=1;i<count;i++)add(`${String(offsets[i]).padStart(10,'0')} 00000 n \n`);add(`trailer\n<< /Size ${count} /Root 1 0 R >>\nstartxref\n${start}\n%%EOF\n`);return new Blob(chunks,{type:'application/pdf'});}
+// The bitmap preserves the browser's Indic shaping. A parallel Unicode layer
+// uses the same baselines for selection, search and extraction.
+function encodePages(pages){
+ const encoder=new TextEncoder(),chunks=[],offsets=[0];
+ let length=0;
+ function add(value){
+  const bytes=typeof value==='string'?encoder.encode(value):value;
+  chunks.push(bytes);length+=bytes.length;
+ }
+ function object(id,body){
+  offsets[id]=length;add(`${id} 0 obj\n${body}\nendobj\n`);
+ }
+ function stream(id,data,attributes=''){
+  offsets[id]=length;add(`${id} 0 obj\n<< /Length ${data.length} ${attributes} >>\nstream\n`);
+  add(data);add('\nendstream\nendobj\n');
+ }
+ const segmenter=typeof Intl.Segmenter==='function'?new Intl.Segmenter(undefined,{granularity:'grapheme'}):null;
+ const words=new Map();
+ function glyphs(value){
+  if(!words.has(value))words.set(value,segmenter?Array.from(segmenter.segment(value),item=>item.segment):value.match(/\P{M}\p{M}*|\p{M}+/gu));
+  return words.get(value);
+ }
+ const characters=new Map();
+ for(const page of pages)for(const run of page.runs)for(const ch of glyphs(run.value)){
+  if(!characters.has(ch))characters.set(ch,characters.size);
+ }
+ const alphabet=[...characters.keys()],fontCount=Math.ceil(alphabet.length/250);
+ const glyphId=3+pages.length*3,firstFont=glyphId+1;
+ const hex=(value,length)=>value.toString(16).padStart(length,'0');
+ const fontRefs=Array.from({length:fontCount},(_,i)=>`/F${i} ${firstFont+2*i} 0 R`).join(' ');
+ add('%PDF-1.4\n');
+ object(1,'<< /Type /Catalog /Pages 2 0 R >>');
+ object(2,`<< /Type /Pages /Kids [${pages.map((_,i)=>`${3+i*3} 0 R`).join(' ')}] /Count ${pages.length} >>`);
+ stream(glyphId,'1000 0 d0');
+ for(let f=0;f<fontCount;f++){
+  const set=alphabet.slice(f*250,(f+1)*250),id=firstFont+2*f;
+  const mappings=set.map((ch,i)=>{
+   const utf16=ch.split('').map(unit=>hex(unit.charCodeAt(0),4)).join('');
+   return `<${hex(i+1,2)}> <${utf16}>`;
+  });
+  let cmap='/CIDInit /ProcSet findresource begin\n12 dict begin\nbegincmap\n/CIDSystemInfo << /Registry (Adobe) /Ordering (UCS) /Supplement 0 >> def\n/CMapName /ReadingUnicode def\n/CMapType 2 def\n1 begincodespacerange\n<01> <FA>\nendcodespacerange\n';
+  for(let j=0;j<mappings.length;j+=100){
+   const group=mappings.slice(j,j+100);
+   cmap+=`${group.length} beginbfchar\n${group.join('\n')}\nendbfchar\n`;
+  }
+  stream(id+1,cmap+'endcmap\nCMapName currentdict /CMap defineresource pop\nend\nend');
+  const names=set.map((_,i)=>'/g'+(i+1));
+  object(id,`<< /Type /Font /Subtype /Type3 /FontBBox [0 -250 1000 1000] /FontMatrix [.001 0 0 .001 0 0] /CharProcs << ${names.map(n=>n+' '+glyphId+' 0 R').join(' ')} >> /Encoding << /Type /Encoding /Differences [1 ${names.join(' ')}] >> /FirstChar 1 /LastChar ${set.length} /Widths [${set.map(()=>1000).join(' ')}] /Resources << >> /ToUnicode ${id+1} 0 R >>`);
+ }
+ pages.forEach(({canvas,runs},i)=>{
+  const id=3+i*3;
+  object(id,`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << ${fontRefs} >> /XObject << /Im0 ${id+1} 0 R >> >> /Contents ${id+2} 0 R >>`);
+  const jpeg=Uint8Array.from(atob(canvas.toDataURL('image/jpeg',.94).split(',')[1]),ch=>ch.charCodeAt(0));
+  stream(id+1,jpeg,`/Type /XObject /Subtype /Image /Width ${canvas.width} /Height ${canvas.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode`);
+  const sx=595.28/canvas.width,sy=841.89/canvas.height;
+  let commands='q\n595.28 0 0 841.89 0 0 cm\n/Im0 Do\nQ\nBT\n3 Tr\n';
+  for(const run of runs){
+   const chars=glyphs(run.value);
+   if(!chars.length||!run.width)continue;
+   commands+=`1 0 0 1 ${(run.x*sx).toFixed(3)} ${(841.89-run.baseline*sy).toFixed(3)} Tm\n${(100*run.width*sx/(chars.length*run.size*sy)).toFixed(4)} Tz\n`;
+   let font=-1,encoded='';
+   for(const ch of chars){
+    const index=characters.get(ch),next=Math.floor(index/250);
+    if(next!==font){
+     if(encoded)commands+=`<${encoded}> Tj\n`;
+     commands+=`/F${next} ${(run.size*sy).toFixed(4)} Tf\n`;encoded='';font=next;
+    }
+    encoded+=hex(index%250+1,2);
+   }
+   commands+=`<${encoded}> Tj\n`;
+  }
+  stream(id+2,commands+'ET\n');
+ });
+ const start=length,count=offsets.length;
+ add(`xref\n0 ${count}\n0000000000 65535 f \n`);
+ for(let id=1;id<count;id++)add(`${String(offsets[id]).padStart(10,'0')} 00000 n \n`);
+ add(`trailer\n<< /Size ${count} /Root 1 0 R >>\nstartxref\n${start}\n%%EOF\n`);
+ return new Blob(chunks,{type:'application/pdf'});
+}

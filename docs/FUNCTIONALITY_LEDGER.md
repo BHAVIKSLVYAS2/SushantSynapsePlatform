@@ -12858,3 +12858,10 @@ Commits 638ef97a and 01bc8544 deployed, final Worker
 a5d9195d-b0a2-48bb-888e-85971ff03946. Verified 31 model checks, four browser
 workflows, a further Hindi PDF check after the table fix, and a live 18-page
 Dungarpur download with the previously split table starting together on page 4.
+
+Hindi learning, home and life-outlook chapters now have separate interpretations
+for each of the twelve natal ruler placements. Continuing dasha subjects repeat
+their explanation only for a newly evidenced subperiod connection. Downloaded
+reports retain browser-shaped graphics and carry a positioned Unicode text
+layer for narrative, captions and tables. Verified Hindi and Gujarati search
+and selection with an independent PDF reader; PDF/UA has not been audited.
