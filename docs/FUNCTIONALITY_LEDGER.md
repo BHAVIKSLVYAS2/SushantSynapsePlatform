@@ -1,3 +1,5 @@
+Settings density (2026-11-28 IST). Language choices are visible on opening Settings, with the active choice highlighted and exposed through aria-pressed. Home layout edit and reset share one row. Local Chrome checked selection and row alignment at 320 and 1080 pixels. Layout editing and shared settings workflows passed.
+
 Home header correction (2026-11-28 IST). Home view now lives inside Settings alongside Edit layout. The Home app switcher has a visible Apps label. Local Chrome verified the controls and captured screenshots at 320, 390 and 1080 pixels before release.
 
 Shared header settings (2026-11-28 IST, deployed). The settings gear groups theme and interface language. Home also exposes the layout editor and reset in Settings. The mobile app selector uses available width and wraps its name. Two isolated Chrome workflows passed: theme and Hindi selection at 320px, and layout editing, pinning, reordering, persistence and reset. Both workflows also passed on the live deployment of fe4787b8, Worker 050c2478-d9f2-48fe-a17e-48416ea65bff. Five local Tournament Lite browser workflows passed. No D1 migration ran.

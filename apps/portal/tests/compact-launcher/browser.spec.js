@@ -88,7 +88,8 @@ test('shared settings exposes theme and language beside a readable mobile app na
  await page.locator('.settings-theme [data-theme-toggle]').click();
  await page.locator('[data-theme-choice=dark]').click();
  await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
- await page.locator('.platform-language>summary').click();
+ await expect(page.locator('.platform-language [data-interface-language=en]')).toHaveAttribute('aria-pressed','true');
  await page.locator('.platform-language [data-interface-language=hi]').click();
  await expect(page.locator('html')).toHaveAttribute('lang','hi');
+ await expect(page.locator('.platform-language [data-interface-language=hi]')).toHaveAttribute('aria-pressed','true');
 });

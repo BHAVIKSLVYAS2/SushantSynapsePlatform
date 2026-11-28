@@ -76,11 +76,10 @@ import {localizePublicMessage} from './public-interface-templates.mjs';
   if(!actions)return;
   if(!control){control=document.createElement('div');control.className='synapse-language';control.dataset.languageControl='';control.setAttribute('role','group');control.setAttribute('aria-label','Interface language / भाषा');control.innerHTML='<span>Language / भाषा</span><button type="button" lang="en" data-interface-language="en" aria-label="English">EN</button><button type="button" lang="hi" data-interface-language="hi">हिन्दी</button><small data-language-help hidden></small>';}
   let menu=document.querySelector('.platform-language');
-  if(!menu){menu=document.createElement('details');menu.className='platform-language';const summary=document.createElement('summary');summary.setAttribute('aria-label','Interface language / \u092d\u093e\u0937\u093e');menu.append(summary);actions.prepend(menu);}
+  if(!menu){menu=document.createElement('div');menu.className='platform-language';actions.prepend(menu);}
   if(control.parentElement!==menu)menu.append(control);
   for(const duplicate of document.querySelectorAll('[data-language-control]'))if(duplicate!==control){duplicate.removeAttribute('data-language-control');duplicate.querySelectorAll('[data-interface-language]').forEach(button=>button.remove());duplicate.hidden=true;duplicate.dataset.interfaceLanguageSource='';}
   if(!control.querySelector('[data-interface-language=gu]')){const button=document.createElement('button');button.type='button';button.lang='gu';button.dataset.interfaceLanguage='gu';button.textContent='ગુજરાતી';(control.querySelector('.synapse-language-toggle')||control).append(button);}
-  const label=({en:'EN',hi:'हिन्दी',gu:'ગુજરાતી'})[language];if(menu.firstElementChild.textContent!==label)menu.firstElementChild.textContent=label;
   const select=native();if(select){const wrapper=select.closest('label')||select;wrapper.hidden=true;wrapper.dataset.interfaceLanguageSource="";}
  }
  function refresh(roots){
@@ -107,8 +106,10 @@ import {localizePublicMessage} from './public-interface-templates.mjs';
   if(!valid(value))return;const control=native();if(bridge&&control?.disabled)return;
   remember(value);if(!adapter&&bridge&&control){const effective=[...control.options].some(o=>o.value===value)?value:'en';if(control.value!==effective){syncing=true;try{control.value=effective;control.dispatchEvent(new Event('change',{bubbles:true}));}finally{syncing=false;}}}refresh();
  }
- document.addEventListener('click',event=>{const button=event.target.closest('[data-interface-language]');if(button&&!button.disabled){choose(button.dataset.interfaceLanguage);button.closest('.platform-language')?.removeAttribute('open');}else if(!event.target.closest('.platform-language'))document.querySelector('.platform-language')?.removeAttribute('open');});
- document.addEventListener('keydown',event=>{if(event.key==='Escape'){const menu=document.querySelector('.platform-language[open]');if(menu){menu.removeAttribute('open');menu.querySelector('summary').focus();}}});
+ document.addEventListener('click',event=>{
+  const button=event.target.closest('[data-interface-language]');
+  if(button&&!button.disabled)choose(button.dataset.interfaceLanguage);
+ });
  document.addEventListener('change',event=>{if(!syncing&&(event.target===native()||adapter&&event.target.matches(adapter.controls)))choose(event.target.value,false);});
  window.SynapseLanguage={get:()=>language,set:choose,text:localize,register(config){
   if(!config||typeof config.apply!=='function'||typeof config.controls!=='string'||!Array.isArray(config.languages)||!config.languages.includes('en')||config.languages.some(value=>!valid(value)))throw new TypeError('Check language adapter.');
