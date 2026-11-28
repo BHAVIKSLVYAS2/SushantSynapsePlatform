@@ -1,5 +1,7 @@
 const {expect}=require('@playwright/test');
 async function setTheme(page,value){
+ const settings=page.locator('.platform-settings');
+ if(await settings.count() && !(await settings.evaluate(menu=>menu.open)))await settings.locator(':scope > summary').click();
  const button=page.locator('[data-theme-toggle]:visible');
  await expect(button).toBeVisible();
  await button.click();
