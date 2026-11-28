@@ -72,7 +72,7 @@ import {localizePublicMessage} from './public-interface-templates.mjs';
   }
  }
  function mountControl(){
-  let control=document.querySelector('.platform-language [data-language-control]')||document.querySelector('.synapse-legal-footer [data-language-control]')||document.querySelector('[data-language-control]');const actions=document.querySelector('.platform-shell-actions');
+  let control=document.querySelector('.platform-language [data-language-control]')||document.querySelector('.synapse-legal-footer [data-language-control]')||document.querySelector('[data-language-control]');const actions=document.querySelector('.platform-settings-panel');
   if(!actions)return;
   if(!control){control=document.createElement('div');control.className='synapse-language';control.dataset.languageControl='';control.setAttribute('role','group');control.setAttribute('aria-label','Interface language / भाषा');control.innerHTML='<span>Language / भाषा</span><button type="button" lang="en" data-interface-language="en" aria-label="English">EN</button><button type="button" lang="hi" data-interface-language="hi">हिन्दी</button><small data-language-help hidden></small>';}
   let menu=document.querySelector('.platform-language');

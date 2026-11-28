@@ -18,16 +18,16 @@ test('Ask Nishi is opt-in, local, keyboard accessible and leaves the catalogue u
  await page.keyboard.press('Escape');await expect(dialog).not.toBeVisible();await expect(trigger).toBeFocused();expect(await ids()).toEqual(before);await trigger.click();await expect(page.locator('#ask-sushant-question')).toHaveValue('');await expect(dialog.locator('.ask-sushant-answer')).toBeHidden();
  await page.locator('#ask-sushant-question').fill('zzzzzz unmatched');await dialog.locator('form').evaluate(f=>f.requestSubmit());await expect(dialog).toContainText('No matching app found');await page.locator('#ask-sushant-question').fill('<img src=x onerror=alert(1)>');await dialog.locator('form').evaluate(f=>f.requestSubmit());await expect(dialog.locator('img')).toHaveCount(0);await page.locator('#ask-sushant-question').fill('Chambers');await dialog.locator('form').evaluate(f=>f.requestSubmit());await expect(dialog.locator('a[href="/signin?next=advocate"]')).toBeVisible();
  for(const language of ['en','hi','gu'])for(const theme of ['light','dark','deep'])for(const width of [320,390,768]){await page.setViewportSize({width,height:740});await page.evaluate(({language,theme})=>{SynapseLanguage.set(language);SynapseTheme.write(theme,true);},{language,theme});expect(await dialog.evaluate(e=>{const r=e.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth&&r.top>=0&&r.bottom<=innerHeight})).toBe(true);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
- await page.evaluate(()=>SynapseLanguage.set('en'));await dialog.locator('.ask-sushant-close').click();await page.locator('#home-search-input').fill('QR');await expect(page.locator('.public-app:not([hidden])')).toHaveCount(1);await page.locator('#home-search-input').press('Escape');await page.locator('.home-view-switch summary').click();await page.locator('.home-layout-edit').click();await page.locator('.home-layout-done').click();await page.evaluate(()=>window.dispatchEvent(new Event('synapse-catalogue-change')));await expect(trigger).toHaveCount(1);await expect(dialog).toHaveCount(1);expect(errors).toEqual([]);
+ await page.evaluate(()=>SynapseLanguage.set('en'));await dialog.locator('.ask-sushant-close').click();await page.locator('#home-search-input').fill('QR');await expect(page.locator('.public-app:not([hidden])')).toHaveCount(1);await page.locator('#home-search-input').press('Escape');await page.locator('.platform-settings>summary').click();await page.locator('.home-layout-edit').click();await page.locator('.home-layout-done').click();await page.evaluate(()=>window.dispatchEvent(new Event('synapse-catalogue-change')));await expect(trigger).toHaveCount(1);await expect(dialog).toHaveCount(1);expect(errors).toEqual([]);
  await page.setViewportSize({width:390,height:850});await trigger.click();await page.screenshot({path:test.info().outputPath('ask-sushant-mobile.png')});
 });
 test('layout editor tolerates blocked storage and translates its controls',async({page})=>{
- await page.addInitScript(()=>{Storage.prototype.getItem=()=>{throw Error('Blocked');};Storage.prototype.setItem=()=>{throw Error('Blocked');};});await page.goto(base+'/');await page.getByRole('button',{name:'Edit layout',exact:true}).click();await page.locator('.public-apps [data-app-id=qr-maker] [data-layout-action=pin]').count();await page.locator('.public-apps>.catalogue-item[data-app-id=qr-maker] [data-layout-action=pin]').click();await expect(page.locator('.home-layout-toolbar [role=status]')).toContainText('Storage unavailable');await page.evaluate(()=>SynapseLanguage.set('hi'));await expect(page.locator('.home-layout-edit')).toHaveText('हो गया');await page.evaluate(()=>SynapseLanguage.set('gu'));await expect(page.locator('.home-layout-edit')).toHaveText('પૂર્ણ');await page.reload();await expect(page.locator('.public-apps>.catalogue-item').nth(3)).toHaveAttribute('data-app-id','japseva');
+ await page.addInitScript(()=>{Storage.prototype.getItem=()=>{throw Error('Blocked');};Storage.prototype.setItem=()=>{throw Error('Blocked');};});await page.goto(base+'/');await page.locator('.platform-settings>summary').click();await page.getByRole('button',{name:'Edit layout',exact:true}).click();await page.locator('.public-apps [data-app-id=qr-maker] [data-layout-action=pin]').count();await page.locator('.public-apps>.catalogue-item[data-app-id=qr-maker] [data-layout-action=pin]').click();await expect(page.locator('.home-layout-toolbar [role=status]')).toContainText('Storage unavailable');await page.evaluate(()=>SynapseLanguage.set('hi'));await expect(page.locator('.home-layout-edit')).toHaveText('हो गया');await page.evaluate(()=>SynapseLanguage.set('gu'));await expect(page.locator('.home-layout-edit')).toHaveText('પૂર્ણ');await page.reload();await expect(page.locator('.public-apps>.catalogue-item').nth(3)).toHaveAttribute('data-app-id','japseva');
 });
 test('personal layout supports pinning, buttons, dragging, reload and reset without duplicate apps',async({page})=>{
  await page.setViewportSize({width:390,height:850});await page.goto(base+'/');
  const ids=()=>page.locator('.public-apps>.catalogue-item').evaluateAll(rows=>rows.map(r=>r.dataset.appId));
- const viewMenu=page.locator('.home-view-switch>summary');
+ const viewMenu=page.locator('.platform-settings>summary');
  const editLayout=async()=>{await viewMenu.click();await page.getByRole('button',{name:'Edit layout',exact:true}).click();};
  const original=await ids();expect(original[3]).toBe('japseva');expect(original[original.indexOf('kiraya-saathi')+1]).toBe('batchfee-lite');
  await editLayout();
@@ -76,4 +76,19 @@ test('launcher delivery preserves compact cards, themes, shared languages and na
  }
  await page.setViewportSize({width:390,height:900});await page.locator('.public-apps').screenshot({path:test.info().outputPath('launcher-mobile-dark.png')});await expect(page.locator('.platform-shell')).toHaveCount(1);await expect(page.locator('.home-mobile-dock')).toBeVisible();await expect(page.locator('.public-app p,.public-app-arrow,.public-app-category,.workspace-card p')).toHaveCount(0);
  await page.locator('#home-search-input').fill('QR');await expect(page.locator('.public-app:not([hidden])')).toHaveCount(1);await page.locator('#home-search-input').press('Escape');await expect(page.locator('.public-app:not([hidden])')).toHaveCount(12);await page.locator('.public-app[data-app-id=qr-maker]').click();await expect(page).toHaveURL(base+'/qr-maker');expect(errors).toEqual([]);
+});
+
+test('shared settings exposes theme and language beside a readable mobile app name',async({page})=>{
+ await page.setViewportSize({width:320,height:740});
+ await page.goto(base+'/ritual-assist');
+ const gear=page.locator('.platform-settings>summary');
+ const title=page.locator('.platform-switch>span');
+ expect(await title.evaluate(el=>el.scrollWidth<=el.clientWidth && el.clientWidth>0)).toBe(true);
+ await gear.click();
+ await page.locator('.settings-theme [data-theme-toggle]').click();
+ await page.locator('[data-theme-choice=dark]').click();
+ await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+ await page.locator('.platform-language>summary').click();
+ await page.locator('.platform-language [data-interface-language=hi]').click();
+ await expect(page.locator('html')).toHaveAttribute('lang','hi');
 });

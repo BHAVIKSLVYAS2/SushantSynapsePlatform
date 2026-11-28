@@ -157,3 +157,19 @@ body.has-platform-shell :is(.theme-control,.theme-picker):not(.platform-shell *)
   body.has-platform-shell .platform-switcher-heading{gap:12px}
  }
 }
+
+@media screen {
+ .platform-settings{position:relative;color:var(--shell-ink)}
+ .platform-settings>summary{display:grid;place-items:center;list-style:none;width:44px;height:44px;font:26px/1 system-ui;cursor:pointer;border:1px solid var(--shell-line);border-radius:12px;background:var(--shell-surface)}
+ .platform-settings>summary::-webkit-details-marker{display:none}
+ .platform-settings-panel{position:absolute;inset-inline-end:0;top:calc(100% + 8px);display:grid;gap:8px;width:230px;padding:12px;border:1px solid var(--shell-line);border-radius:14px;background:var(--shell-surface);box-shadow:var(--ui-shadow)}
+ .settings-theme,.platform-settings-panel .platform-language>summary{display:flex;align-items:center;justify-content:space-between}
+ .platform-settings-panel .platform-language>summary::before{content:attr(aria-label)}
+ .platform-shell .platform-settings-panel .platform-language .synapse-language{position:static;width:100%;margin-top:4px}
+ .platform-settings-panel>button{min-height:44px;border:1px solid var(--shell-line);border-radius:10px;background:var(--shell-bg);color:var(--shell-ink);cursor:pointer}
+}
+@media screen and (max-width:759px){
+ body[data-ui-app] .platform-shell .platform-switch{flex:1 1 auto;max-width:none;min-width:0}
+ body[data-ui-app] .platform-shell .platform-switch>span{white-space:normal;line-height:1.15;text-align:start}
+ .platform-settings-panel{position:fixed;top:calc(var(--shell-height) + 6px);inset-inline-end:8px;max-width:calc(100vw - 16px)}
+}

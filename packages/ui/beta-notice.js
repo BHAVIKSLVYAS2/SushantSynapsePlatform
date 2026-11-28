@@ -31,7 +31,7 @@
  document.body.append(dialog);
  // Temporarily host the very same shared menu inside the modal, where it is
  // keyboard-accessible. Restore it to the header on close; no second owner/UI.
- function placeLanguage(){const menu=document.querySelector('.platform-language'),destination=dialog.open?dialog:document.querySelector('.platform-shell-actions');if(menu&&destination&&menu.parentElement!==destination)destination.prepend(menu);}
+ function placeLanguage(){const menu=document.querySelector('.platform-language'),destination=dialog.open?dialog:document.querySelector('.platform-settings-panel');if(menu&&destination&&menu.parentElement!==destination)destination.prepend(menu);}
  window.SynapseUI?.observe(placeLanguage);
  const checkbox=dialog.querySelector('input'),submit=dialog.querySelector('[data-beta-continue]');
  const whatsapp=note.querySelector('a[target="_blank"]').href;dialog.querySelector('[data-beta-contact]').href=whatsapp;

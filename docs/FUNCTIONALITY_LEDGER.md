@@ -1,3 +1,5 @@
+Shared header settings (2026-11-28 IST, local). The settings gear groups theme and interface language. Home also exposes the layout editor and reset in Settings. The mobile app selector uses available width and wraps its name. Two isolated Chrome workflows passed: theme and Hindi selection at 320px, and layout editing, pinning, reordering, persistence and reset. Production deployment is pending.
+
 Hindi Kundali future reading (2026-11-26 IST, deployed). Public readings now use
 distinct tense for current and upcoming antardashas and present continuing
 and new topics in context. Each newly ranked subject gets its own explanation

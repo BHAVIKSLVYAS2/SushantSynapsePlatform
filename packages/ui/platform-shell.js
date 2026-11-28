@@ -10,7 +10,16 @@
  const names={'/':'Curio','/signin':'Sign in','/support':'Support','/showcase':'Demos','/contact':'Contact','/privacy':'Privacy','/terms':'Usage terms','/legal':'Legal information','/legal/third-party-notices':'Third-party notices'};
  names['/feedback']='Feedback';
  const header=document.createElement('header');header.className='platform-shell';header.setAttribute('aria-label','Sushant Synapse platform');
- header.innerHTML=`<a class="platform-shell-brand" href="/" aria-label="Sushant Synapse home"><img src="/logo-adaptive-192.png" width="32" height="32" alt=""><span translate="no">Curio<small>by Sushant Synapse</small></span></a><span class="platform-shell-divider" aria-hidden="true"></span><button class="platform-switch" type="button" aria-haspopup="dialog" aria-controls="platform-switcher"><span>${current?.[0]||names[path]||'All apps'}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></button><div class="platform-shell-actions">${window.SynapseTheme?.control()||''}<a class="platform-account" href="/signin?section=profile" aria-label="Sign in">Sign in</a></div>`;
+ header.innerHTML=`<a class="platform-shell-brand" href="/" aria-label="Sushant Synapse home"><img src="/logo-adaptive-192.png" width="32" height="32" alt=""><span translate="no">Curio<small>by Sushant Synapse</small></span></a><span class="platform-shell-divider" aria-hidden="true"></span><button class="platform-switch" type="button" aria-haspopup="dialog" aria-controls="platform-switcher"><span>${current?.[0]||names[path]||'All apps'}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></button><div class="platform-shell-actions"><details class="platform-settings"><summary aria-label="Settings" title="Settings">&#9881;</summary><div class="platform-settings-panel"><div class="settings-theme"><span>Theme</span>${window.SynapseTheme?.control()||''}</div></div></details><a class="platform-account" href="/signin?section=profile" aria-label="Sign in">Sign in</a></div>`;
+ const settings=header.querySelector('.platform-settings');
+ document.addEventListener('click',event=>{
+  if(!settings.contains(event.target)&&!event.target.closest('.synapse-theme-picker'))settings.open=false;
+ });
+ settings.addEventListener('keydown',event=>{
+  if(event.key==='Escape'&&!settings.querySelector('.platform-language[open]')){
+   settings.open=false;settings.querySelector('summary').focus();event.stopPropagation();
+  }
+ });
  const back=document.createElement('button');back.type='button';back.className='platform-back';back.hidden=path==='/';back.setAttribute('data-language-preserve','');back.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6M8 12h12"/></svg>';header.prepend(back);
  const translateBack=()=>{const language=window.SynapseLanguage?.get()||'en',label=({en:'Back',hi:'वापस',gu:'પાછા'})[language]||'Back';back.setAttribute('aria-label',label);back.title=label;};translateBack();window.addEventListener('synapse-language-change',translateBack);
  back.onclick=()=>{

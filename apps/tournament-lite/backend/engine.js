@@ -26,4 +26,68 @@ function apply(t,type,b){if(type==='participants'){check(!t.matches.length,'Part
  else if(type==='publish'){check(typeof b.published==='boolean','Invalid publication state');t.published=b.published;}
  else throw Error('Unknown command');return t;}
 function view(t){const v=structuredClone(t);v.tables=t.groups?Object.fromEntries(Object.keys(t.groups).map(g=>[g,standings(t,g)])):{All:standings(t)};const final=t.matches.filter(x=>x.stage==='knockout').at(-1),complete=t.matches.length&&t.matches.every(x=>x.result);v.champion=complete?(final?.result.winner||standings(t)[0]?.id):null;v.runnerUp=complete?(final?(final.a===v.champion?final.b:final.a):standings(t)[1]?.id):null;v.status=complete?'Completed':t.matches.some(x=>x.result&&!x.result.bye||x.status==='live')?'Active':'Upcoming';return v;}
-module.exports={create,apply,view,standings,formats};
+function restoreEvent(event){
+ const idPattern=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+ const valid=(condition)=>check(condition,'Invalid tournament backup.');
+ valid(idPattern.test(event?.id)&&Number.isSafeInteger(event.revision)&&event.revision>0);
+ const data=event.data,t=create(data);
+ valid(Array.isArray(data.participants)&&data.participants.length<=64&&Array.isArray(data.matches)&&data.matches.length<=2048);
+ apply(t,'participants',data);
+ const players=new Set();
+ for(const [index,player] of t.participants.entries()){
+  player.id=data.participants[index].id;
+  valid(idPattern.test(player.id)&&!players.has(player.id));players.add(player.id);
+ }
+ if(data.groups!==undefined){
+  valid(t.format==='Group Stage + Knockout'&&data.groups&&typeof data.groups==='object'&&!Array.isArray(data.groups));
+  const groups=Object.entries(data.groups),assigned=new Set();
+  valid(groups.length===t.groupCount);
+  t.groups={};
+  for(const [group,members] of groups){
+   valid(/^[A-H]$/.test(group)&&Array.isArray(members)&&members.length>=2&&members.length<=64);
+   for(const id of members){valid(players.has(id)&&!assigned.has(id));assigned.add(id);}
+   t.groups[group]=members;
+  }
+  valid(assigned.size===players.size);
+ }
+ if(data.qualified!==undefined){
+  valid(t.format.includes('+')&&Array.isArray(data.qualified)&&data.qualified.length===t.qualifiers&&new Set(data.qualified).size===t.qualifiers&&data.qualified.every(id=>players.has(id)));
+  t.qualified=data.qualified;
+ }
+ const fixtures=new Map();
+ for(const entry of data.matches){
+  const {id,stage,round,a,b,group,sources,status,when,location,duration}=entry;
+  valid(idPattern.test(id)&&!fixtures.has(id)&&['league','knockout'].includes(stage)&&Number.isInteger(round)&&round>=1&&round<=64);
+  valid((a===null||players.has(a))&&(b===null||players.has(b))&&(!a||a!==b));
+  if(stage==='league'){
+   valid(t.format!=='Knockout'&&a&&b&&sources===null&&(t.groups?t.groups[group]?.includes(a)&&t.groups[group].includes(b):group===''));
+  }else{
+   valid(group===''&&t.format!=='League / Round Robin');
+   if(sources===null)valid(round===1&&(a||b));
+   else{
+    valid(Array.isArray(sources)&&sources.length===2&&sources[0]!==sources[1]);
+    for(const [index,side] of [a,b].entries()){
+     const source=fixtures.get(sources[index]);
+     valid(source?.stage==='knockout'&&source.round===round-1&&(source.result?.winner||null)===side);
+    }
+   }
+  }
+  valid(['upcoming','live','completed'].includes(status)&&typeof when==='string');
+  if(when)valid(/^\d{4}-\d{2}-\d{2}T(?:[01]\d|2[0-3]):[0-5]\d$/.test(when)&&date(when.slice(0,10)));
+  const match={id,stage,round,a,b,group,sources,status,when,location:text(location),result:null};
+  if(duration!==undefined)match.duration=integer(duration,5,480);
+  if(entry.result?.bye===true){
+   valid(stage==='knockout'&&sources===null&&(!a||!b));
+   match.result={winner:a||b,bye:true};
+  }else if(entry.result)match.result=score(t,match,entry.result);
+  if(entry.score){
+   valid(!match.result&&status==='live');
+   match.score=score(t,match,entry.score,true);
+   valid(!match.score.winner);
+  }
+  valid((status==='completed')===!!match.result);
+  fixtures.set(id,match);t.matches.push(match);
+ }
+ return {id:event.id,revision:event.revision,data:t};
+}
+module.exports={create,apply,view,standings,formats,restoreEvent};
