@@ -63,7 +63,7 @@
   const tools=document.createElement('div');tools.className='home-layout-toolbar';tools.setAttribute('translate','no');
   const edit=document.createElement('button'),reset=document.createElement('button'),hint=document.createElement('p'),notice=document.createElement('p');
   edit.type=reset.type='button';edit.className='home-layout-edit';reset.className='home-layout-reset';hint.className='home-layout-hint';notice.className='sr-only';notice.setAttribute('role','status');
-  const menu=document.querySelector('.platform-settings')||home.querySelector('.home-view-switch'),choices=menu.querySelector('.platform-settings-panel,.home-view-options'),done=document.createElement('button');done.type='button';done.className='home-layout-done';choices.append(edit,reset);tools.append(done,hint,notice);home.querySelector('.home-discovery-toolbar').after(tools);done.onclick=()=>{editing=false;paint();menu.querySelector('summary').focus();};
+  const menu=document.querySelector('.platform-settings'),choices=menu.querySelector('.platform-settings-panel,.home-view-options'),done=document.createElement('button');done.type='button';done.className='home-layout-done';choices.append(edit,reset);tools.append(done,hint,notice);home.querySelector('.home-discovery-toolbar').after(tools);done.onclick=()=>{editing=false;paint();menu.querySelector('summary').focus();};
   const controls=new Map();
   for(const card of cards()){
    const row=document.createElement('div');row.className='home-layout-controls';row.setAttribute('translate','no');

@@ -40,10 +40,7 @@
  @media(max-width:768px) {
   html body[data-ui-app=portal]:has(.public-home) {--shell-height:72px}
   body[data-ui-app=portal]:has(.public-home) .platform-shell {display:flex;gap:8px;padding:0 12px}
-  body:has(.public-home) .platform-switch {order:-1;width:48px;max-width:none;min-width:48px;justify-content:center;padding:0}
-  body:has(.public-home) .platform-switch::before {content:'☰';font-size:23px}
-  body:has(.public-home) .platform-switch span {position:absolute;clip-path:inset(50%);width:1px;height:1px;overflow:hidden}
-  body:has(.public-home) .platform-switch svg,body:has(.public-home) .platform-shell-divider {display:none}
+  body[data-ui-app=portal]:has(.public-home) .platform-shell .platform-switch {order:0;flex:0 0 auto;min-width:44px;width:auto;padding:0 7px;gap:3px}
   body:has(.public-home) .platform-shell-brand {flex:1;min-width:0;font-size:12px;gap:6px}
   body:has(.public-home) .platform-shell-brand span {display:block!important;max-width:105px;white-space:normal!important;line-height:1.15}
   body:has(.public-home) .platform-shell-brand img {width:32px;height:32px}
@@ -549,7 +546,7 @@ html:not([data-home-view=compact]) body[data-ui-app=portal] .public-home .comfor
 html:not([data-home-view=compact]) body[data-ui-app=portal] .public-home :is(#free-apps,#workspace-apps) .compact-app .launcher-status{display:block;position:static;order:4;width:auto;height:auto;clip-path:none;overflow:visible;padding:4px 8px;border-radius:8px;background:var(--ss-bg-secondary);color:var(--ss-text-secondary)}
 
 /* Icon-only discovery controls retain spoken labels and generous touch targets. */
-.home-filter-label,.home-view-label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.home-filter-label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 body[data-ui-app=portal] .public-home :is(.home-filter-menu,.home-view-switch)>summary{position:relative;box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:44px;height:44px;min-width:44px;padding:0;gap:0}
 body[data-ui-app=portal] .public-home .home-filter-menu[data-active=true]>summary:after{content:'';position:absolute;top:6px;inset-inline-end:5px;width:7px;height:7px;border-radius:50%;background:var(--ss-primary);box-shadow:0 0 0 2px var(--ss-surface,var(--ss-bg-secondary))}
 body[data-ui-app=portal] .public-home .home-filter-menu>summary:focus-visible{outline:2px solid var(--ss-primary);outline-offset:1px}
@@ -717,3 +714,9 @@ body[data-ui-app=portal] .public-home .home-filter-menu>summary:focus-visible{ou
 #ask-sushant-dialog .ask-sushant-composer button svg{width:21px;height:21px}
 #ask-sushant-dialog [hidden]{display:none!important}
 @media(max-width:600px){#ask-sushant-dialog[open]{inset:auto 0 0;width:100%;max-width:100%;height:min(720px,94dvh);border-radius:22px 22px 0 0}#ask-sushant-dialog .nishi-conversation{padding:16px}}
+
+.platform-settings-panel .home-view-switch{margin:0}
+.platform-settings-panel .home-view-switch>summary{justify-content:space-between;padding:0 12px;border:1px solid var(--shell-line);color:var(--shell-ink)}
+.platform-settings-panel .home-view-switch>summary::after{content:'';width:7px;height:7px;border:solid currentColor;border-width:0 1.5px 1.5px 0;transform:rotate(45deg)}
+.platform-settings-panel .home-view-icon{display:none}
+.platform-settings-panel .home-view-options{position:static;width:100%;box-shadow:none}
