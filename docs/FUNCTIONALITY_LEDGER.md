@@ -12886,3 +12886,9 @@ Production Worker 6a05d4d7-1679-4f30-961e-d90e7cb18e9d serves 6f21362b.
 The live Dungarpur download passed the same structure audit. Chrome's PDF
 reader accessibility tree exposed Hindi chapter and period text. This is
 a programmatic check, separate from listening with a screen reader.
+
+2026-11-28: portable NVDA 2026.3.1 processed the live Dungarpur download in
+Chrome. Its own browse-mode Say All formatter produced 448 speech strings in
+the full-buffer check, including unique text from each of the 18 pages. This
+tests NVDA's speech text; pronunciation, listening comfort and independent
+human interpretation review have not been evaluated. No production change.
